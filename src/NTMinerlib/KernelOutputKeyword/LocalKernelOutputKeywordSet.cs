@@ -12,7 +12,7 @@ namespace NTMiner.KernelOutputKeyword {
 
         public LocalKernelOutputKeywordSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.BuildCmdPath<AddKernelOutputKeywordCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<SetKernelOutputKeywordCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -21,12 +21,12 @@ namespace NTMiner.KernelOutputKeyword {
                     return;
                 }
                 if (string.IsNullOrEmpty(message.Input.MessageType)) {
-                    throw new ValidationException("WorkerMessageType can't be null or empty");
+                    throw new ValidationException("MessageType can't be null or empty");
                 }
                 if (string.IsNullOrEmpty(message.Input.Keyword)) {
                     throw new ValidationException("Keyword can't be null or empty");
                 }
-                if (_dicById.Values.Any(a => a.Keyword == message.Input.Keyword && a.Id != message.Input.GetId())) {
+                if (_dicById.Values.Any(a => a.KernelOutputId == message.Input.KernelOutputId && a.Keyword == message.Input.Keyword && a.Id != message.Input.GetId())) {
                     throw new ValidationException($"关键字{message.Input.Keyword}已存在");
                 }
                 KernelOutputKeywordData entity = new KernelOutputKeywordData().Update(message.Input);
@@ -36,36 +36,7 @@ namespace NTMiner.KernelOutputKeyword {
                     col.Upsert(entity);
                 }
 
-                VirtualRoot.RaiseEvent(new KernelOutputKeywordAddedEvent(entity));
-            });
-            VirtualRoot.BuildCmdPath<UpdateKernelOutputKeywordCommand>(action: (message) => {
-                InitOnece();
-                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                    throw new ArgumentNullException();
-                }
-                if (string.IsNullOrEmpty(message.Input.MessageType)) {
-                    throw new ValidationException("WorkerMessageType can't be null or empty");
-                }
-                if (string.IsNullOrEmpty(message.Input.Keyword)) {
-                    throw new ValidationException("Keyword can't be null or empty");
-                }
-                if (!_dicById.ContainsKey(message.Input.GetId())) {
-                    return;
-                }
-                if (_dicById.Values.Any(a => a.Keyword == message.Input.Keyword && a.Id != message.Input.GetId())) {
-                    throw new ValidationException($"关键字{message.Input.Keyword}已存在");
-                }
-                KernelOutputKeywordData entity = _dicById[message.Input.GetId()];
-                if (ReferenceEquals(entity, message.Input)) {
-                    return;
-                }
-                entity.Update(message.Input);
-                using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                    var col = db.GetCollection<KernelOutputKeywordData>();
-                    col.Update(entity);
-                }
-
-                VirtualRoot.RaiseEvent(new KernelOutputKeywordUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new KernelOutputKeyworSetedEvent(entity));
             });
             VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(action: (message) => {
                 InitOnece();

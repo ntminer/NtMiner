@@ -1,14 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NTMiner.Core;
+﻿using NTMiner.Core;
 using NTMiner.MinerServer;
+using System;
+using System.Collections.Generic;
+using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class KernelOutputKeywordController : ApiControllerBase, IKernelOutputKeywordController {
+        [HttpPost]
         public string GetVersion() {
-            throw new NotImplementedException();
+            string version = string.Empty;
+            try {
+                if (!HostRoot.Instance.AppSettingSet.TryGetAppSetting(NTKeyword.KernelOutputKeywordVersionAppSettingKey, out IAppSetting data) || data.Value == null) {
+                    version = string.Empty;
+                }
+                else {
+                    version = data.Value.ToString();
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+            return version;
         }
 
         public DataResponse<List<KernelOutputKeywordData>> KernelOutputKeywords(KernelOutputKeywordsRequest request) {
@@ -16,7 +28,24 @@ namespace NTMiner.Controllers {
         }
 
         public ResponseBase SetKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request) {
-            throw new NotImplementedException();
+            if (request == null || request.Data == null) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            try {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
+                    return response;
+                }
+                VirtualRoot.Execute(new SetKernelOutputKeywordCommand(request.Data));
+                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
+                    Key = NTKeyword.KernelOutputKeywordVersionAppSettingKey,
+                    Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+                }));
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError(e.Message);
+            }
         }
     }
 }

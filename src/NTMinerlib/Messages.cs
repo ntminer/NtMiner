@@ -108,16 +108,13 @@ namespace NTMiner {
     }
 
     #region KernelOutputKeyword Messages
-    [MessageType(description: "添加内核输出关键字")]
-    public class AddKernelOutputKeywordCommand : AddEntityCommand<IKernelOutputKeyword> {
-        public AddKernelOutputKeywordCommand(IKernelOutputKeyword input) : base(input) {
+    [MessageType(description: "添加或修改内核输出关键字")]
+    public class SetKernelOutputKeywordCommand : Cmd {
+        public SetKernelOutputKeywordCommand(IKernelOutputKeyword input) {
+            this.Input = input;
         }
-    }
 
-    [MessageType(description: "更新内核输出关键字")]
-    public class UpdateKernelOutputKeywordCommand : UpdateEntityCommand<IKernelOutputKeyword> {
-        public UpdateKernelOutputKeywordCommand(IKernelOutputKeyword input) : base(input) {
-        }
+        public IKernelOutputKeyword Input { get; private set; }
     }
 
     [MessageType(description: "移除内核输出关键字")]
@@ -126,15 +123,9 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "添加了内核输出关键字后")]
-    public class KernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeywordAddedEvent(IKernelOutputKeyword source) : base(source) {
-        }
-    }
-
-    [MessageType(description: "更新了内核输出关键字后")]
-    public class KernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeywordUpdatedEvent(IKernelOutputKeyword source) : base(source) {
+    [MessageType(description: "添加或修改内核输出关键字后")]
+    public class KernelOutputKeyworSetedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeyworSetedEvent(IKernelOutputKeyword source) : base(source) {
         }
     }
 
