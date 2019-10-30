@@ -11,17 +11,17 @@ namespace NTMiner.Native {
     [SuppressUnmanagedCodeSecurity]
     internal static class UnsafeNativeMethods {
         /// <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/aa969518%28v=vs.85%29.aspx</devdoc>
-        [DllImport("dwmapi", PreserveSig = false, CallingConvention = CallingConvention.Winapi)]
+        [DllImport(DllName.DwmapiDll, PreserveSig = false, CallingConvention = CallingConvention.Winapi)]
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool DwmIsCompositionEnabled();
 
         /// <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/aa969512%28v=vs.85%29.aspx</devdoc>
-        [DllImport("dwmapi", PreserveSig = true, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+        [DllImport(DllName.DwmapiDll, PreserveSig = true, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
         [return: MarshalAs(UnmanagedType.Error)]
         internal static extern int DwmExtendFrameIntoClientArea(IntPtr hWnd, [In] ref MARGINS pMarInset);
 
         /// <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/aa969524%28v=vs.85%29.aspx</devdoc>
-        [DllImport("dwmapi", PreserveSig = true, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
+        [DllImport(DllName.DwmapiDll, PreserveSig = true, CallingConvention = CallingConvention.Winapi, ExactSpelling = true)]
         internal static extern int DwmSetWindowAttribute([In] IntPtr hwnd, [In] int attr, [In] ref int attrValue, [In] int attrSize);
 
         /// <devdoc>http://msdn.microsoft.com/en-us/library/windows/desktop/ms633572%28v=vs.85%29.aspx</devdoc>
@@ -206,7 +206,7 @@ namespace NTMiner.Native {
         internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [Obsolete("Use NativeMethods.SHAppBarMessage instead.")]
-        [DllImport("shell32.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(DllName.Shell32Dll, CallingConvention = CallingConvention.StdCall)]
         public static extern int SHAppBarMessage(int dwMessage, ref APPBARDATA pData);
 
         [DllImport(DllName.User32Dll)]

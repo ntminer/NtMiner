@@ -2437,7 +2437,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static extern CombineRgnResult CombineRgn(IntPtr hrgnDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, RGN fnCombineMode);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", EntryPoint = "CommandLineToArgvW", CharSet = CharSet.Unicode)]
+        [DllImport(DllName.Shell32Dll, EntryPoint = "CommandLineToArgvW", CharSet = CharSet.Unicode)]
         private static extern IntPtr _CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string cmdLine, out int numArgs);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2599,11 +2599,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static extern bool IsWindow(IntPtr hwnd);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll", PreserveSig = false)]
+        [DllImport(DllName.DwmapiDll, PreserveSig = false)]
         public static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS pMarInset);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll", EntryPoint = "DwmGetColorizationColor", PreserveSig = true)]
+        [DllImport(DllName.DwmapiDll, EntryPoint = "DwmGetColorizationColor", PreserveSig = true)]
         private static extern HRESULT _DwmGetColorizationColor(out uint pcrColorization, [Out, MarshalAs(UnmanagedType.Bool)] out bool pfOpaqueBlend);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2628,7 +2628,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         //#define DWM_SIT_DISPLAYFRAME    0x00000001  // Display a window frame around the provided bitmap
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll", EntryPoint = "DwmGetCompositionTimingInfo")]
+        [DllImport(DllName.DwmapiDll, EntryPoint = "DwmGetCompositionTimingInfo")]
         private static extern HRESULT _DwmGetCompositionTimingInfo(IntPtr hwnd, ref DWM_TIMING_INFO pTimingInfo);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2650,7 +2650,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll", EntryPoint = "DwmIsCompositionEnabled", PreserveSig = false)]
+        [DllImport(DllName.DwmapiDll, EntryPoint = "DwmIsCompositionEnabled", PreserveSig = false)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool _DwmIsCompositionEnabled();
 
@@ -2664,12 +2664,12 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll")]
+        [DllImport(DllName.DwmapiDll)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DwmDefWindowProc(IntPtr hwnd, WM msg, IntPtr wParam, IntPtr lParam, out IntPtr plResult);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll", EntryPoint = "DwmSetWindowAttribute")]
+        [DllImport(DllName.DwmapiDll, EntryPoint = "DwmSetWindowAttribute")]
         private static extern void _DwmSetWindowAttribute(IntPtr hwnd, DWMWA dwAttribute, ref int pvAttribute, int cbAttribute);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2768,7 +2768,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("uxtheme.dll", EntryPoint = "GetCurrentThemeName", CharSet = CharSet.Unicode)]
+        [DllImport(DllName.UxthemeDll, EntryPoint = "GetCurrentThemeName", CharSet = CharSet.Unicode)]
         private static extern HRESULT _GetCurrentThemeName(
             StringBuilder pszThemeFileName,
             int dwMaxNameChars,
@@ -2796,7 +2796,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("uxtheme.dll")]
+        [DllImport(DllName.UxthemeDll)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool IsThemeActive();
 
@@ -2957,7 +2957,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         /// Specifies the size, in bytes, of the data pointed to by pvAttribute.
         /// </param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("uxtheme.dll", PreserveSig = false)]
+        [DllImport(DllName.UxthemeDll, PreserveSig = false)]
         public static extern void SetWindowThemeAttribute([In] IntPtr hwnd, [In] WINDOWTHEMEATTRIBUTETYPE eAttribute, [In] ref WTA_OPTIONS pvAttribute, [In] uint cbAttribute);
 
         [SuppressMessage("Microsoft.Interoperability", "CA1400:PInvokeEntryPointsShouldExist")]
@@ -2999,31 +2999,31 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdiplus.dll")]
+        [DllImport(DllName.GdiplusDll)]
         public static extern Status GdipCreateBitmapFromStream(IStream stream, out IntPtr bitmap);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdiplus.dll")]
+        [DllImport(DllName.GdiplusDll)]
         public static extern Status GdipCreateHBITMAPFromBitmap(IntPtr bitmap, out IntPtr hbmReturn, Int32 background);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdiplus.dll")]
+        [DllImport(DllName.GdiplusDll)]
         public static extern Status GdipCreateHICONFromBitmap(IntPtr bitmap, out IntPtr hbmReturn);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdiplus.dll")]
+        [DllImport(DllName.GdiplusDll)]
         public static extern Status GdipDisposeImage(IntPtr image);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdiplus.dll")]
+        [DllImport(DllName.GdiplusDll)]
         public static extern Status GdipImageForceValidation(IntPtr image);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdiplus.dll")]
+        [DllImport(DllName.GdiplusDll)]
         public static extern Status GdiplusStartup(out IntPtr token, StartupInput input, out StartupOutput output);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdiplus.dll")]
+        [DllImport(DllName.GdiplusDll)]
         public static extern Status GdiplusShutdown(IntPtr token);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -3179,7 +3179,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", SetLastError = false)]
+        [DllImport(DllName.Shell32Dll, SetLastError = false)]
         public static extern Win32Error SHFileOperation(ref SHFILEOPSTRUCT lpFileOp);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -3379,7 +3379,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static extern HRESULT CreateStreamOnHGlobal(IntPtr hGlobal, [MarshalAs(UnmanagedType.Bool)] bool fDeleteOnRelease, out IStream ppstm);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("urlmon.dll")]
+        [DllImport(DllName.UrlmonDll)]
         public static extern HRESULT CopyStgMedium(ref STGMEDIUM pcstgmedSrc, ref STGMEDIUM pstgmedDest);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -3387,7 +3387,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", CallingConvention = CallingConvention.StdCall)]
+        [DllImport(DllName.Shell32Dll, CallingConvention = CallingConvention.StdCall)]
         public static extern uint SHAppBarMessage(int dwMessage, ref APPBARDATA pData);
 
         #region Win7 declarations
@@ -3395,33 +3395,33 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         //#define DWM_SIT_DISPLAYFRAME    0x00000001  // Display a window frame around the provided bitmap
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll", PreserveSig = false)]
+        [DllImport(DllName.DwmapiDll, PreserveSig = false)]
         public static extern void DwmInvalidateIconicBitmaps(IntPtr hwnd);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll", PreserveSig = false)]
+        [DllImport(DllName.DwmapiDll, PreserveSig = false)]
         public static extern void DwmSetIconicThumbnail(IntPtr hwnd, IntPtr hbmp, DWM_SIT dwSITFlags);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("dwmapi.dll", PreserveSig = false)]
+        [DllImport(DllName.DwmapiDll, PreserveSig = false)]
         public static extern void DwmSetIconicLivePreviewBitmap(IntPtr hwnd, IntPtr hbmp, RefPOINT pptClient, DWM_SIT dwSITFlags);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", PreserveSig = false)]
+        [DllImport(DllName.Shell32Dll, PreserveSig = false)]
         public static extern void SHGetItemFromDataObject(IDataObject pdtobj, DOGIF dwFlags, [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out object ppv);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", PreserveSig = false, EntryPoint = "SHAddToRecentDocs")]
+        [DllImport(DllName.Shell32Dll, PreserveSig = false, EntryPoint = "SHAddToRecentDocs")]
         private static extern void _SHAddToRecentDocsObj(SHARD uFlags, object pv);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", EntryPoint = "SHAddToRecentDocs")]
+        [DllImport(DllName.Shell32Dll, EntryPoint = "SHAddToRecentDocs")]
         private static extern void _SHAddToRecentDocs_String(SHARD uFlags, [MarshalAs(UnmanagedType.LPWStr)] string pv);
 
         // This overload is required.  There's a cast in the Shell code that causes the wrong vtbl to be used
         // if we let the marshaller convert the parameter to an IUnknown.
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", EntryPoint = "SHAddToRecentDocs")]
+        [DllImport(DllName.Shell32Dll, EntryPoint = "SHAddToRecentDocs")]
         private static extern void _SHAddToRecentDocs_ShellLink(SHARD uFlags, IShellLinkW pv);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -3446,11 +3446,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", PreserveSig = false)]
+        [DllImport(DllName.Shell32Dll, PreserveSig = false)]
         public static extern HRESULT SHCreateItemFromParsingName([MarshalAs(UnmanagedType.LPWStr)] string pszPath, IBindCtx pbc, [In] ref Guid riid, [Out, MarshalAs(UnmanagedType.Interface)] out object ppv);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll")]
+        [DllImport(DllName.Shell32Dll)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool Shell_NotifyIcon(NIM dwMessage, [In] NOTIFYICONDATA lpdata);
 
@@ -3459,7 +3459,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         /// </summary>
         /// <param name="AppID"></param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll", PreserveSig = false)]
+        [DllImport(DllName.Shell32Dll, PreserveSig = false)]
         public static extern void SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string AppID);
 
         /// <summary>
@@ -3467,7 +3467,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         /// </summary>
         /// <param name="AppID"></param>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("shell32.dll")]
+        [DllImport(DllName.Shell32Dll)]
         public static extern HRESULT GetCurrentProcessExplicitAppUserModelID([Out, MarshalAs(UnmanagedType.LPWStr)] out string AppID);
 
         #endregion
