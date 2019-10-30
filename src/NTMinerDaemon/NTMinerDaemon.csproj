@@ -95,6 +95,9 @@
     <Compile Include="..\NTMinerlib\Messages.Timing.cs">
       <Link>Messages.Timing.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\NTKeyword.cs">
+      <Link>NTKeyword.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
@@ -115,9 +118,6 @@
     </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Common.cs">
       <Link>VirtualRoot.partials.Common.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Consts.cs">
-      <Link>VirtualRoot.partials.Consts.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>

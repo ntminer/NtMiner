@@ -98,10 +98,10 @@ namespace NTMiner.Vms {
         public string ParameterNames {
             get {
                 return string.Join("、", new string[] {
-                    VirtualRoot.MainCoinParameterName, VirtualRoot.WalletParameterName,
-                    VirtualRoot.UserNameParameterName, VirtualRoot.PasswordParameterName,
-                    VirtualRoot.HostParameterName, VirtualRoot.PortParameterName,
-                    VirtualRoot.PoolParameterName, VirtualRoot.WorkerParameterName
+                    NTKeyword.MainCoinParameterName, NTKeyword.WalletParameterName,
+                    NTKeyword.UserNameParameterName, NTKeyword.PasswordParameterName,
+                    NTKeyword.HostParameterName, NTKeyword.PortParameterName,
+                    NTKeyword.PoolParameterName, NTKeyword.WorkerParameterName
                 });
             }
         }
@@ -109,10 +109,10 @@ namespace NTMiner.Vms {
         public string DualParameterNames {
             get {
                 return string.Join("、", new string[] {
-                    VirtualRoot.DualCoinParameterName, VirtualRoot.DualWalletParameterName,
-                    VirtualRoot.DualUserNameParameterName, VirtualRoot.DualPasswordParameterName,
-                    VirtualRoot.DualHostParameterName, VirtualRoot.DualPortParameterName,
-                    VirtualRoot.DualPoolParameterName
+                    NTKeyword.DualCoinParameterName, NTKeyword.DualWalletParameterName,
+                    NTKeyword.DualUserNameParameterName, NTKeyword.DualPasswordParameterName,
+                    NTKeyword.DualHostParameterName, NTKeyword.DualPortParameterName,
+                    NTKeyword.DualPoolParameterName
                 });
             }
         }

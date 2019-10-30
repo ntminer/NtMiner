@@ -19,12 +19,12 @@ namespace UnitTests {
         public void BenchmarkTest() {
             File.Delete(VirtualRoot.WorkerMessageDbFileFullName);
             int times = 2000;
-            Assert.IsTrue(times > VirtualRoot.WorkerMessageSetCapacity);
+            Assert.IsTrue(times > NTKeyword.WorkerMessageSetCapacity);
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
                 VirtualRoot.ThisWorkerInfo(nameof(WorkerMessageTests), content);
             }
-            Assert.IsTrue(VirtualRoot.WorkerMessages.Count == VirtualRoot.WorkerMessageSetCapacity);
+            Assert.IsTrue(VirtualRoot.WorkerMessages.Count == NTKeyword.WorkerMessageSetCapacity);
         }
     }
 }

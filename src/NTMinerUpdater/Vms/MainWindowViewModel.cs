@@ -88,13 +88,13 @@ namespace NTMiner.Vms {
                                 }
                                 try {
                                     if (File.Exists(location)) {
-                                        Guid kernelBrandId = VirtualRoot.GetBrandId(location, VirtualRoot.KernelBrandId);
+                                        Guid kernelBrandId = VirtualRoot.GetBrandId(location, NTKeyword.KernelBrandId);
                                         if (kernelBrandId != Guid.Empty) {
-                                            VirtualRoot.TagBrandId(VirtualRoot.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
+                                            VirtualRoot.TagBrandId(NTKeyword.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
                                         }
-                                        Guid poolBrandId = VirtualRoot.GetBrandId(location, VirtualRoot.PoolBrandId);
+                                        Guid poolBrandId = VirtualRoot.GetBrandId(location, NTKeyword.PoolBrandId);
                                         if (poolBrandId != Guid.Empty) {
-                                            VirtualRoot.TagBrandId(VirtualRoot.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
+                                            VirtualRoot.TagBrandId(NTKeyword.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
                                         }
                                     }
                                 }

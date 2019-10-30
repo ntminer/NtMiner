@@ -84,14 +84,14 @@ namespace UnitTests {
             Regex regex = VirtualRoot.GetRegex(@"(Share accepted)|(GPU\s?(?<gpu>\d+).+\nShare accepted)");
             var match = regex.Match(line);
             Assert.IsTrue(match.Success);
-            string gpuText = match.Groups[VirtualRoot.GpuIndexGroupName].Value;
+            string gpuText = match.Groups[NTKeyword.GpuIndexGroupName].Value;
             Assert.AreEqual("", gpuText);
 
             line = "GPU 1: this is a test\nShare accepted";
             regex = VirtualRoot.GetRegex(@"(Share accepted)|(GPU\s?(?<gpu>\d+).+\nShare accepted)");
             match = regex.Match(line);
             Assert.IsTrue(match.Success);
-            gpuText = match.Groups[VirtualRoot.GpuIndexGroupName].Value;
+            gpuText = match.Groups[NTKeyword.GpuIndexGroupName].Value;
             Assert.AreEqual("1", gpuText);
         }
 
@@ -101,7 +101,7 @@ namespace UnitTests {
             Regex regex = VirtualRoot.GetRegex(@"{""result"":true,""id"":1(?<gpu>\d+)}");
             var match = regex.Match(line);
             Assert.IsTrue(match.Success);
-            string gpuText = match.Groups[VirtualRoot.GpuIndexGroupName].Value;
+            string gpuText = match.Groups[NTKeyword.GpuIndexGroupName].Value;
             Assert.AreEqual("7", gpuText);
             Assert.IsTrue(string.IsNullOrEmpty(match.Groups["aaa"].Value));
         }

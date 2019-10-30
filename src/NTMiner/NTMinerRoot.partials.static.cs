@@ -66,7 +66,7 @@ namespace NTMiner {
         public static Guid KernelBrandId {
             get {
                 if (!kernelBrandId.HasValue) {
-                    kernelBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, VirtualRoot.KernelBrandId);
+                    kernelBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, NTKeyword.KernelBrandId);
                 }
                 return kernelBrandId.Value;
             }
@@ -82,7 +82,7 @@ namespace NTMiner {
         public static Guid PoolBrandId {
             get {
                 if (!poolBrandId.HasValue) {
-                    poolBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, VirtualRoot.PoolBrandId);
+                    poolBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, NTKeyword.PoolBrandId);
                 }
                 return poolBrandId.Value;
             }

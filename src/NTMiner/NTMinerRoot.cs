@@ -214,7 +214,7 @@ namespace NTMiner {
 
         public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
-            if (LocalAppSettingSet.TryGetAppSetting(VirtualRoot.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
             }
             return serverJsonVersion;
@@ -222,7 +222,7 @@ namespace NTMiner {
 
         private void SetServerJsonVersion(string serverJsonVersion) {
             AppSettingData appSettingData = new AppSettingData() {
-                Key = VirtualRoot.ServerJsonVersionAppSettingKey,
+                Key = NTKeyword.ServerJsonVersionAppSettingKey,
                 Value = serverJsonVersion
             };
             string oldVersion = GetServerJsonVersion();

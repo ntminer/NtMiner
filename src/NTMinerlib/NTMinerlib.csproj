@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
     <Compile Include="WorkerMessage.cs" />
     <Compile Include="Ip\ILocalIpSet.cs" />
@@ -72,7 +73,6 @@
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="VirtualRoot.partials.Common.cs" />
-    <Compile Include="VirtualRoot.partials.Consts.cs" />
     <Compile Include="VirtualRoot.partials.Bus.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\WinRegistry.cs" />

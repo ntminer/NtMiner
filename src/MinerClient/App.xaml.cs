@@ -118,7 +118,7 @@ namespace NTMiner {
                         #endregion
                         Task.Factory.StartNew(() => {
                             try {
-                                HttpServer.Start($"http://localhost:{VirtualRoot.MinerClientPort}");
+                                HttpServer.Start($"http://localhost:{NTKeyword.MinerClientPort}");
                                 Daemon.DaemonUtil.RunNTMinerDaemon();
                             }
                             catch (Exception ex) {

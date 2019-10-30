@@ -1,5 +1,5 @@
 ﻿namespace NTMiner {
-    public static partial class VirtualRoot {
+    public static class NTKeyword {
         public const string HomeDirParameterName = "{家目录}";
         public const string TempDirParameterName = "{临时目录}";
         public const int MinerClientPort = 3336;
@@ -9,16 +9,19 @@
 
         public const int WorkerMessageSetCapacity = 1000;
 
-        #region AppSettingKey
+        #region LocalAppSettingKey
         public const string UseDevicesAppSettingKey = "UseDevices";
         public const string UpdaterVersionAppSettingKey = "UpdaterVersion";
+        public const string ServerJsonVersionAppSettingKey = "ServerJsonVersion";
+        #endregion
+
+        #region ServerAppSettingKey
         public const string ColumnsShowIdAppSettingKey = "ColumnsShowId";
         public const string FrozenColumnCountAppSettingKey = "FrozenColumnCount";
         public const string MaxTempAppSettingKey = "MaxTemp";
         public const string MinTempAppSettingKey = "MinTemp";
         public const string RejectPercentAppSettingKey = "RejectPercent";
         public const string NTMinerUpdaterFileNameAppSettingKey = "NTMinerUpdaterFileName";
-        public const string ServerJsonVersionAppSettingKey = "ServerJsonVersion";
         #endregion
 
         #region 系统字典编码
@@ -73,16 +76,5 @@
         public const string DualPortParameterName = "dualPort";
         public const string DualPoolParameterName = "dualPool";
         #endregion
-
-        // 因为界面上输入框不好体现输入的空格，所以这里对空格进行转义
-        public const string SpaceKeyword = "space";
-        // 如果没有使用分隔符分割序号的话无法表达两位数的序号，此时这种情况基本都是用ABCDEFGH……表达的后续的两位数
-        private static readonly string[] IndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n" };
-        public static string GetIndexChar(int index, string separator) {
-            if (index <= 9 || !string.IsNullOrEmpty(separator)) {
-                return index.ToString();
-            }
-            return IndexChars[index - 10];
-        }
     }
 }

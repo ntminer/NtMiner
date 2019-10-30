@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
                 string outFileName = Path.GetFileNameWithoutExtension(VirtualRoot.AppFileFullName) + $"_{brandItem.Value}.exe";
                 string outDir = Path.GetDirectoryName(VirtualRoot.AppFileFullName);
                 string outFileFullName = Path.Combine(outDir, outFileName);
-                VirtualRoot.TagBrandId(VirtualRoot.KernelBrandId, brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
+                VirtualRoot.TagBrandId(NTKeyword.KernelBrandId, brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
                 VirtualRoot.Out.ShowSuccess($"打码成功:{outFileName}");
                 Process.Start(outDir);
             }, brandItem => brandItem != SysDicItemViewModel.PleaseSelect);
@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
                 string outFileName = Path.GetFileNameWithoutExtension(VirtualRoot.AppFileFullName) + $"_{brandItem.Value}.exe";
                 string outDir = Path.GetDirectoryName(VirtualRoot.AppFileFullName);
                 string outFileFullName = Path.Combine(outDir, outFileName);
-                VirtualRoot.TagBrandId(VirtualRoot.PoolBrandId, brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
+                VirtualRoot.TagBrandId(NTKeyword.PoolBrandId, brandItem.GetId(), VirtualRoot.AppFileFullName, outFileFullName);
                 VirtualRoot.Out.ShowSuccess($"打码成功:{outFileName}");
                 Process.Start(outDir);
             }, brandItem => brandItem != SysDicItemViewModel.PleaseSelect);
