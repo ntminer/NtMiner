@@ -17,6 +17,21 @@ namespace NTMiner {
     public static class AppStatic {
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
 
+        private static string GetUpdaterVersion() {
+            string updaterVersion = string.Empty;
+            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(NTKeyword.UpdaterVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+                updaterVersion = setting.Value.ToString();
+            }
+            return updaterVersion;
+        }
+
+        private static void SetUpdaterVersion(string value) {
+            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
+                Key = NTKeyword.UpdaterVersionAppSettingKey,
+                Value = value
+            }));
+        }
+
         #region Upgrade
         public static void Upgrade(string fileName, Action callback) {
             try {
@@ -31,28 +46,22 @@ namespace NTMiner {
                         }
                         if (string.IsNullOrEmpty(downloadFileUrl)) {
                             if (File.Exists(SpecialPath.UpdaterFileFullName)) {
-                                NTMiner.Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
+                                Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
                             }
                             callback?.Invoke();
                             return;
                         }
                         Uri uri = new Uri(downloadFileUrl);
-                        string updaterVersion = string.Empty;
-                        if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(NTKeyword.UpdaterVersionAppSettingKey, out IAppSetting appSetting) && appSetting.Value != null) {
-                            updaterVersion = appSetting.Value.ToString();
-                        }
+                        string updaterVersion = GetUpdaterVersion();
                         if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(SpecialPath.UpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
                             VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                                 try {
                                     if (isSuccess) {
                                         File.Copy(saveFileFullName, SpecialPath.UpdaterFileFullName, overwrite: true);
                                         File.Delete(saveFileFullName);
-                                        VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
-                                            Key = NTKeyword.UpdaterVersionAppSettingKey,
-                                            Value = uri.AbsolutePath
-                                        }));
+                                        SetUpdaterVersion(uri.AbsolutePath);
                                         window?.Close();
-                                        NTMiner.Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
+                                        Windows.Cmd.RunClose(SpecialPath.UpdaterFileFullName, argument);
                                         callback?.Invoke();
                                     }
                                     else {

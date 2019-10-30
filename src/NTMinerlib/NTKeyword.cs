@@ -59,6 +59,7 @@
         public const string UseDevicesAppSettingKey = "UseDevices";
         public const string UpdaterVersionAppSettingKey = "UpdaterVersion";
         public const string ServerJsonVersionAppSettingKey = "ServerJsonVersion";
+        public const string ServerChannelTimestampAppSettingKey = "ServerChannelTimestamp";
         #endregion
 
         #region ServerAppSettingKey
