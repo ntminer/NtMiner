@@ -2,6 +2,7 @@
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -23,10 +24,19 @@ namespace NTMiner.Controllers {
             return version;
         }
 
+        [HttpPost]
         public DataResponse<List<KernelOutputKeywordData>> KernelOutputKeywords(KernelOutputKeywordsRequest request) {
-            throw new NotImplementedException();
+            try {
+                var data = HostRoot.Instance.KernelOutputKeywordSet;
+                return DataResponse<List<KernelOutputKeywordData>>.Ok(data.Select(a => KernelOutputKeywordData.Create(a)).ToList());
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError<DataResponse<List<KernelOutputKeywordData>>>(e.Message);
+            }
         }
 
+        [HttpPost]
         public ResponseBase SetKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
