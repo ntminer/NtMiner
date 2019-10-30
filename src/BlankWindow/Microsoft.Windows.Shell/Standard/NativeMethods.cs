@@ -1349,15 +1349,15 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
 
             // Weird legacy function, documentation is unclear about how to use it...
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            [DllImport("gdi32.dll", CharSet = CharSet.Unicode)]
+            [DllImport(DllName.Gdi32Dll, CharSet = CharSet.Unicode)]
             public static extern SafeDC CreateDC([MarshalAs(UnmanagedType.LPWStr)] string lpszDriver, [MarshalAs(UnmanagedType.LPWStr)] string lpszDevice, IntPtr lpszOutput, IntPtr lpInitData);
 
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            [DllImport("gdi32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+            [DllImport(DllName.Gdi32Dll, CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern SafeDC CreateCompatibleDC(IntPtr hdc);
 
             [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-            [DllImport("gdi32.dll")]
+            [DllImport(DllName.Gdi32Dll)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool DeleteDC(IntPtr hdc);
         }
@@ -1729,7 +1729,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
     [StructLayout(LayoutKind.Explicit)]
     internal class PROPVARIANT : IDisposable {
         private static class SafeNativeMethods {
-            [DllImport("ole32.dll")]
+            [DllImport(DllName.Ole32Dll)]
             internal static extern HRESULT PropVariantClear(PROPVARIANT pvar);
         }
 
@@ -2433,7 +2433,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static extern bool ClientToScreen(IntPtr hWnd, ref POINT point);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll")]
+        [DllImport(DllName.Gdi32Dll)]
         public static extern CombineRgnResult CombineRgn(IntPtr hrgnDest, IntPtr hrgnSrc1, IntPtr hrgnSrc2, RGN fnCombineMode);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2468,11 +2468,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll", EntryPoint = "CreateDIBSection", SetLastError = true)]
+        [DllImport(DllName.Gdi32Dll, EntryPoint = "CreateDIBSection", SetLastError = true)]
         private static extern SafeHBITMAP _CreateDIBSection(SafeDC hdc, [In] ref BITMAPINFO bitmapInfo, int iUsage, [Out] out IntPtr ppvBits, IntPtr hSection, int dwOffset);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll", EntryPoint = "CreateDIBSection", SetLastError = true)]
+        [DllImport(DllName.Gdi32Dll, EntryPoint = "CreateDIBSection", SetLastError = true)]
         private static extern SafeHBITMAP _CreateDIBSectionIntPtr(IntPtr hdc, [In] ref BITMAPINFO bitmapInfo, int iUsage, [Out] out IntPtr ppvBits, IntPtr hSection, int dwOffset);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2494,7 +2494,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll", EntryPoint = "CreateRoundRectRgn", SetLastError = true)]
+        [DllImport(DllName.Gdi32Dll, EntryPoint = "CreateRoundRectRgn", SetLastError = true)]
         private static extern IntPtr _CreateRoundRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect, int nWidthEllipse, int nHeightEllipse);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2507,7 +2507,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll", EntryPoint = "CreateRectRgn", SetLastError = true)]
+        [DllImport(DllName.Gdi32Dll, EntryPoint = "CreateRectRgn", SetLastError = true)]
         private static extern IntPtr _CreateRectRgn(int nLeftRect, int nTopRect, int nRightRect, int nBottomRect);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2520,7 +2520,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll", EntryPoint = "CreateRectRgnIndirect", SetLastError = true)]
+        [DllImport(DllName.Gdi32Dll, EntryPoint = "CreateRectRgnIndirect", SetLastError = true)]
         private static extern IntPtr _CreateRectRgnIndirect([In] ref RECT lprc);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2533,7 +2533,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll")]
+        [DllImport(DllName.Gdi32Dll)]
         public static extern IntPtr CreateSolidBrush(int crColor);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2579,7 +2579,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static extern IntPtr DefWindowProc(IntPtr hWnd, WM Msg, IntPtr wParam, IntPtr lParam);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll")]
+        [DllImport(DllName.Gdi32Dll)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool DeleteObject(IntPtr hObject);
 
@@ -2805,7 +2805,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static void GetDC() { }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll")]
+        [DllImport(DllName.Gdi32Dll)]
         public static extern int GetDeviceCaps(SafeDC hdc, DeviceCap nIndex);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -2875,7 +2875,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll", EntryPoint = "GetStockObject", SetLastError = true)]
+        [DllImport(DllName.Gdi32Dll, EntryPoint = "GetStockObject", SetLastError = true)]
         private static extern IntPtr _GetStockObject(StockObject fnObject);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -3238,7 +3238,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static extern uint TrackPopupMenuEx(IntPtr hmenu, uint fuFlags, int x, int y, IntPtr hwnd, IntPtr lptpm);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll", EntryPoint = "SelectObject", SetLastError = true)]
+        [DllImport(DllName.Gdi32Dll, EntryPoint = "SelectObject", SetLastError = true)]
         private static extern IntPtr _SelectObject(SafeDC hdc, IntPtr hgdiobj);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -3251,7 +3251,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("gdi32.dll", EntryPoint = "SelectObject", SetLastError = true)]
+        [DllImport(DllName.Gdi32Dll, EntryPoint = "SelectObject", SetLastError = true)]
         private static extern IntPtr _SelectObjectSafeHBITMAP(SafeDC hdc, SafeHBITMAP hgdiobj);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
@@ -3371,11 +3371,11 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("ole32.dll")]
+        [DllImport(DllName.Ole32Dll)]
         public static extern void ReleaseStgMedium(ref STGMEDIUM pmedium);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        [DllImport("ole32.dll")]
+        [DllImport(DllName.Ole32Dll)]
         public static extern HRESULT CreateStreamOnHGlobal(IntPtr hGlobal, [MarshalAs(UnmanagedType.Bool)] bool fDeleteOnRelease, out IStream ppstm);
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]

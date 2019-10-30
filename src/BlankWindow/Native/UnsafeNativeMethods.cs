@@ -94,10 +94,10 @@ namespace NTMiner.Native {
         [DllImport(DllName.User32Dll)]
         internal static extern IntPtr GetClassLongPtr(IntPtr hWnd, int nIndex);
 
-        [DllImport("gdi32.dll")]
+        [DllImport(DllName.Gdi32Dll)]
         internal static extern IntPtr CreateSolidBrush(int crColor);
 
-        [DllImport("gdi32.dll")]
+        [DllImport(DllName.Gdi32Dll)]
         internal static extern bool DeleteObject(IntPtr hObject);
 
         /// <summary>
