@@ -62,17 +62,17 @@ namespace NTMiner.Views {
             }
             #endregion
 
-            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            [DllImport(DllName.User32Dll, CharSet = CharSet.Auto)]
             internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-            [DllImport("user32.dll")]
+            [DllImport(DllName.User32Dll)]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool GetCursorPos(out POINT lpPoint);
 
-            [DllImport("User32")]
+            [DllImport(DllName.User32Dll)]
             internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
-            [DllImport("user32.dll")]
+            [DllImport(DllName.User32Dll)]
             internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
         }
 

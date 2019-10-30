@@ -5,7 +5,7 @@ using System.Text;
 
 namespace NTMiner.Gpus.Nvml {
     internal static class NvmlNativeMethods {
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(DllName.Kernel32Dll, CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern bool SetDllDirectory(string lpPathName);
 
         private const string NVML_API_DLL_NAME = "nvml";

@@ -18,7 +18,7 @@ namespace NTMiner {
             internal static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint mode);
             [DllImport(Kernel32DllName, SetLastError = true)]
             internal static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint mode);
-            [DllImport("user32.dll", SetLastError = true)]
+            [DllImport(DllName.User32Dll, SetLastError = true)]
             internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
         }
 
@@ -29,8 +29,7 @@ namespace NTMiner {
             const uint ENABLE_INSERT_MODE = 0x0020;
 
             IntPtr hStdin = SafeNativeMethods.GetStdHandle(STD_INPUT_HANDLE);
-            uint mode;
-            SafeNativeMethods.GetConsoleMode(hStdin, out mode);
+            SafeNativeMethods.GetConsoleMode(hStdin, out uint mode);
             mode &= ~ENABLE_PROCESSED_INPUT;//禁用ctrl+c
             mode &= ~ENABLE_QUICK_EDIT_MODE;//移除快速编辑模式
             mode &= ~ENABLE_INSERT_MODE;    //移除插入模式

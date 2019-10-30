@@ -426,13 +426,13 @@ namespace NTMiner {
                 public bool bInheritHandle;
             }
 
-            [DllImport("kernel32.dll")]
+            [DllImport(DllName.Kernel32Dll)]
             private static extern int CloseHandle(IntPtr hObject);
 
-            [DllImport("kernel32.dll")]
+            [DllImport(DllName.Kernel32Dll)]
             private static extern bool CreatePipe(out IntPtr phReadPipe, out IntPtr phWritePipe, IntPtr lpPipeAttributes, uint nSize);
 
-            [DllImport("kernel32.dll", SetLastError = true)]
+            [DllImport(DllName.Kernel32Dll, SetLastError = true)]
             private static extern unsafe bool ReadFile(
                 IntPtr hfile,
                 void* pBuffer,
@@ -460,7 +460,7 @@ namespace NTMiner {
             /// uses a sorted environment), and put them into the environment block.Typically, they will go at the front of the environment block, due to the environment block sort order
             /// </param>
             /// <returns></returns>
-            [DllImport("kernel32.dll")]
+            [DllImport(DllName.Kernel32Dll)]
             private static extern bool CreateProcess(
                 string lpApplicationName,
                 StringBuilder lpCommandLine,
@@ -473,7 +473,7 @@ namespace NTMiner {
                 ref STARTUPINFO lpStartupInfo,
                 out PROCESS_INFORMATION lpProcessInformation);
 
-            [DllImport("kernel32.dll")]
+            [DllImport(DllName.Kernel32Dll)]
             private static extern bool SetHandleInformation(IntPtr hObject, int dwMask, uint dwFlags);
 
             private static unsafe int Read(byte[] buffer, int index, int count, IntPtr hStdOut) {

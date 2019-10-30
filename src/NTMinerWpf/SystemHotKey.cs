@@ -13,7 +13,7 @@ namespace NTMiner {
         /// <param name="fsModifiers">标识热键是否在按Alt、Ctrl、Shift、Windows等键时才会生效</param>
         /// <param name="vk">定义热键的内容</param>
         /// <returns></returns>
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(DllName.User32Dll, SetLastError = true)]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, KeyModifiers fsModifiers, Keys vk);
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace NTMiner {
         /// <param name="hWnd">要取消热键的窗口的句柄</param>
         /// <param name="id">要取消热键的ID</param>
         /// <returns></returns>
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(DllName.User32Dll, SetLastError = true)]
         private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
 
         /// <summary>

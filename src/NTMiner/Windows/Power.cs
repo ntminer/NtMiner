@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner.Windows {
     public static class Power {
-        [DllImport("kernel32.dll")]
+        [DllImport(DllName.Kernel32Dll)]
         private static extern uint SetThreadExecutionState(ExecutionFlag flags);
         [Flags]
         internal enum ExecutionFlag : uint {

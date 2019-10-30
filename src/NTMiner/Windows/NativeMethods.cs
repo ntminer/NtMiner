@@ -5,10 +5,10 @@ using static NTMiner.Windows.Ram;
 namespace NTMiner.Windows {
     internal static partial class SafeNativeMethods {
         [return: MarshalAs(UnmanagedType.Bool)]
-        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        [DllImport(DllName.Kernel32Dll, CharSet = CharSet.Unicode, SetLastError = true)]
         internal static extern bool GlobalMemoryStatusEx([In, Out]MemoryStatusEx lpBuffer);
 
-        [DllImport("kernel32.dll")]
+        [DllImport(DllName.Kernel32Dll)]
         internal static extern void GetSystemInfo([MarshalAs(UnmanagedType.Struct)] ref SystemInfo lpSystemInfo);
 
         #region Structs
