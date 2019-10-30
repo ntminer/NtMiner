@@ -349,7 +349,7 @@ namespace NTMiner {
             this.KernelOutputSet = new KernelOutputSet(this);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
-            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this);
+            this.KernelOutputKeywordSet = new LocalKernelOutputKeywordSet(this);
         }
 
         private void Link() {

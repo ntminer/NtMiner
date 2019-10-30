@@ -1,15 +1,14 @@
-﻿using NTMiner.MinerClient;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class KernelOutputKeywordSet : IKernelOutputKeywordSet {
+    public class LocalKernelOutputKeywordSet : IKernelOutputKeywordSet {
         private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
 
-        public KernelOutputKeywordSet(INTMinerRoot root) {
+        public LocalKernelOutputKeywordSet(INTMinerRoot root) {
             _root = root;
             _root.ServerContextCmdPath<AddKernelOutputKeywordCommand>("添加内核输出关键字", LogEnum.DevConsole,
                 action: (message) => {

@@ -90,9 +90,9 @@
     <Compile Include="MinerServer\NTMinerWalletsRequest.cs" />
     <Compile Include="WorkerMessageChannel.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
-    <Compile Include="MinerClient\IKernelOutputKeyword.cs" />
+    <Compile Include="Core\IKernelOutputKeyword.cs" />
     <Compile Include="MinerClient\IWorkerMessage.cs" />
-    <Compile Include="MinerClient\KernelOutputKeywordData.cs" />
+    <Compile Include="Core\KernelOutputKeywordData.cs" />
     <Compile Include="MinerClient\WorkerMessageData.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
     <Compile Include="MinerClient\IGpuStaticData.cs" />

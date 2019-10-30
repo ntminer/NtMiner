@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.MinerClient {
+namespace NTMiner.Core {
     public interface IKernelOutputKeyword : IDbEntity<Guid> {
         Guid KernelOutputId { get; }
         string MessageType { get; }

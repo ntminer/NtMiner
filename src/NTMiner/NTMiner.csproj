@@ -94,7 +94,7 @@
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\ICoinGroupSet.cs" />
     <Compile Include="Core\IKernelOutputKeywordSet.cs" />
-    <Compile Include="Core\Impl\KernelOutputKeywordSet.cs" />
+    <Compile Include="Core\Impl\LocalKernelOutputKeywordSet.cs" />
     <Compile Include="Core\IFileWriterSet.cs" />
     <Compile Include="Core\IFragmentWriterSet.cs" />
     <Compile Include="Core\IGroupSet.cs" />

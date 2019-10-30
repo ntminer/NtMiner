@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.MinerClient {
+namespace NTMiner.Core {
     public class KernelOutputKeywordData : IKernelOutputKeyword, IDbEntity<Guid> {
         public KernelOutputKeywordData() { }
 
