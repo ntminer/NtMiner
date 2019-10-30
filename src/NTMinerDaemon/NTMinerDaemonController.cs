@@ -151,7 +151,7 @@ namespace NTMiner {
                 }
                 else {
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string arguments = "--AutoStart";
+                        string arguments = NTKeyword.AutoStartCmdParameterName;
                         if (request.WorkId != Guid.Empty) {
                             arguments += " --work";
                         }
@@ -265,7 +265,7 @@ namespace NTMiner {
                 try {
                     string location = NTMinerRegistry.GetLocation();
                     if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string arguments = "upgrade=" + request.NTMinerFileName;
+                        string arguments = NTKeyword.UpgradeCmdParameterName + request.NTMinerFileName;
                         Windows.Cmd.RunClose(location, arguments);
                     }
                 }

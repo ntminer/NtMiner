@@ -7,8 +7,8 @@ namespace NTMiner {
         public static readonly string Upgrade;
 
         static CommandLineArgs() {
-            IsAutoStart = s_commandLineArgs.Contains("--AutoStart", StringComparer.OrdinalIgnoreCase);
-            Upgrade = PickArgument("upgrade=");
+            IsAutoStart = s_commandLineArgs.Contains(NTKeyword.AutoStartCmdParameterName, StringComparer.OrdinalIgnoreCase);
+            Upgrade = PickArgument(NTKeyword.UpgradeCmdParameterName);
         }
     }
 }

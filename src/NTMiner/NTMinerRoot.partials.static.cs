@@ -33,12 +33,10 @@ namespace NTMiner {
             private set { _isJsonLocal = value; }
         }
 
-        // 矿工名中不可以包含的字符
-        private static readonly char[] InvalidChars = { '.', ' ', '-', '_' };
         public static string ThisPcName {
             get {
                 string value = Environment.MachineName;
-                value = new string(value.ToCharArray().Where(a => !InvalidChars.Contains(a)).ToArray());
+                value = new string(value.ToCharArray().Where(a => !NTKeyword.InvalidMinerNameChars.Contains(a)).ToArray());
                 return value;
             }
         }

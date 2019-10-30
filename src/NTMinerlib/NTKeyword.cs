@@ -22,8 +22,12 @@
         public const string MinerStudioCmdParameterName = "--minerstudio";
         public const string EnableInnerIpCmdParameterName = "--enableInnerIp";
         public const string NotOfficialCmdParameterName = "--notofficial";
+        public const string AutoStartCmdParameterName = "--AutoStart";
+        public const string UpgradeCmdParameterName = "upgrade=";
 
         public const int WorkerMessageSetCapacity = 1000;
+        // 矿工名中不可以包含的字符
+        public static readonly char[] InvalidMinerNameChars = { '.', ' ', '-', '_' };
 
         #region 目录名
         public const string DaemonDirName = "Daemon";
@@ -92,6 +96,8 @@
         public const string GpuSpeedUnitGroupName = "gpuSpeedUnit";
         public const string PoolDelayGroupName = "poolDelay";
         #endregion
+
+        public const string LogFileParameterName = "{logfile}";
 
         #region 上下文变量名
         public const string MainCoinParameterName = "mainCoin";
