@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public static class SignExtensions {
-        private static readonly bool _isInnerIpEnabled = Environment.CommandLine.Contains("--enableInnerIp");
+        private static readonly bool _isInnerIpEnabled = Environment.CommandLine.Contains(NTKeyword.EnableInnerIpCmdParameterName);
 
         public static bool IsValid<TResponse>(this IGetSignData data, IUser user, string sign, ulong timestamp, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
             if (clientIp == "localhost" || clientIp == "127.0.0.1") {

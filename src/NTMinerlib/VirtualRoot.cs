@@ -24,10 +24,10 @@ namespace NTMiner {
         public static string WorkerMessageDbFileFullName {
             get {
                 if (IsMinerClient) {
-                    return Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
+                    return Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.WorkerMessageDb);
                 }
                 if (IsMinerStudio) {
-                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerMessage.litedb");
+                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.WorkerMessageDb);
                 }
                 return string.Empty;
             }
@@ -54,7 +54,7 @@ namespace NTMiner {
                     }
                     else {
                         // 基于约定
-                        _isMinerClient = assembly.GetManifestResourceInfo("NTMiner.Daemon.NTMinerDaemon.exe") != null;
+                        _isMinerClient = assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null;
                     }
                     _isMinerClientDetected = true;
                 }
@@ -76,7 +76,7 @@ namespace NTMiner {
                     if (_isMinerStudioDetected) {
                         return _isMinerStudio;
                     }
-                    if (Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1) {
+                    if (Environment.CommandLine.IndexOf(NTKeyword.MinerStudioCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1) {
                         _isMinerStudio = true;
                     }
                     else {
@@ -86,7 +86,7 @@ namespace NTMiner {
                         if (assembly == null) {
                             return false;
                         }
-                        _isMinerStudio = assembly.GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
+                        _isMinerStudio = assembly.GetManifestResourceInfo(NTKeyword.NTMinerServicesKey) != null;
                     }
                     _isMinerStudioDetected = true;
                 }

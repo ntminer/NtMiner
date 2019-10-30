@@ -11,8 +11,8 @@ using System.Threading;
 namespace NTMiner {
     public class HostRoot : IHostRoot {
         private static EventWaitHandle WaitHandle = new AutoResetEvent(false);
-        public static readonly bool IsNotOfficial = Environment.CommandLine.IndexOf("--notofficial", StringComparison.OrdinalIgnoreCase) != -1;
-        public static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf("--enableInnerIp", StringComparison.OrdinalIgnoreCase) != -1;
+        public static readonly bool IsNotOfficial = Environment.CommandLine.IndexOf(NTKeyword.NotOfficialCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1;
+        public static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf(NTKeyword.EnableInnerIpCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1;
         private static Mutex _sMutexApp;
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]

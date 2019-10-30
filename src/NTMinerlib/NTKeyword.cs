@@ -6,8 +6,28 @@
         public const int NTMinerDaemonPort = 3337;
         public const int MinerStudioPort = 3338;
         public const int ControlCenterPort = 3339;
+        public const string WorkerMessageDb = "workerMessage.litedb";
+        public const string NTMinerDaemonKey = "NTMiner.Daemon.NTMinerDaemon.exe";
+        public const string NTMinerServicesKey = "NTMiner.NTMinerServices.NTMinerServices.exe";
+        public const string MinerStudioCmdParameterName = "--minerstudio";
+        public const string EnableInnerIpCmdParameterName = "--enableInnerIp";
+        public const string NotOfficialCmdParameterName = "--notofficial";
 
         public const int WorkerMessageSetCapacity = 1000;
+
+        #region 注册表
+        public const string MinerNameRegistryKey = "MinerName";
+        public const string ClientIdRegistryKey = "ClientId";
+        public const string DaemonActiveOnRegistryKey = "DaemonActiveOn";
+        public const string DaemonVersionRegistryKey = "DaemonVersion";
+        public const string ControlCenterHostsRegistryKey = "ControlCenterHosts";
+        public const string ControlCenterHostRegistryKey = "ControlCenterHost";
+        public const string CurrentVersionTagRegistryKey = "CurrentVersionTag";
+        public const string CurrentVersionRegistryKey = "CurrentVersion";
+        public const string ArgumentsRegistryKey = "Arguments";
+        public const string IsLastIsWorkRegistryKey = "IsLastIsWork";
+        public const string LocationRegistryKey = "Location";
+        #endregion
 
         #region LocalAppSettingKey
         public const string UseDevicesAppSettingKey = "UseDevices";

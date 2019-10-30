@@ -51,7 +51,7 @@ namespace NTMiner {
                     if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(GpuProfilesJsonFileFullName)) {
                         File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
                     }
-                    string shareWorkerMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
+                    string shareWorkerMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.WorkerMessageDb);
                     if (File.Exists(shareWorkerMessageDbFileFullName) && !File.Exists(VirtualRoot.WorkerMessageDbFileFullName)) {
                         File.Copy(shareWorkerMessageDbFileFullName, VirtualRoot.WorkerMessageDbFileFullName);
                     }
