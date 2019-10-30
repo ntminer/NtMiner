@@ -212,6 +212,28 @@ namespace NTMiner {
             }
         }
 
+        public DateTime GetServerChannelTimestamp() {
+            string serverChannelTimestamp = string.Empty;
+            if (LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerChannelTimestampAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+                serverChannelTimestamp = setting.Value.ToString();
+            }
+            if (string.IsNullOrEmpty(serverChannelTimestamp)) {
+                return DateTime.MinValue;
+            }
+            if (DateTime.TryParse(serverChannelTimestamp, out DateTime timestamp)) {
+                return timestamp;
+            }
+            return DateTime.MinValue;
+        }
+
+        private void SetServerChannelTimeStamp(DateTime timestamp) {
+            AppSettingData appSettingData = new AppSettingData() {
+                Key = NTKeyword.ServerChannelTimestampAppSettingKey,
+                Value = timestamp
+            };
+            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+        }
+
         public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
             if (LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
