@@ -27,7 +27,7 @@ namespace NTMiner {
                 _homeDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
             }
             NTMinerLocalJsonFileFullName = Path.Combine(_homeDirFullName, NTKeyword.LocalJsonFileName);
-            NTMinerServerJsonFileFullName = Path.Combine(_homeDirFullName, "server.json");
+            NTMinerServerJsonFileFullName = Path.Combine(_homeDirFullName, NTKeyword.ServerJsonFileName);
             GpuProfilesJsonFileFullName = Path.Combine(_homeDirFullName, NTKeyword.GpuProfilesFileName);
         }
 

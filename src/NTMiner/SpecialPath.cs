@@ -8,11 +8,11 @@ namespace NTMiner {
             if (!Directory.Exists(daemonDirFullName)) {
                 Directory.CreateDirectory(daemonDirFullName);
             }
-            DaemonFileFullName = Path.Combine(daemonDirFullName, "NTMinerDaemon.exe");
-            DevConsoleFileFullName = Path.Combine(daemonDirFullName, "DevConsole.exe");
+            DaemonFileFullName = Path.Combine(daemonDirFullName, NTKeyword.NTMinerDaemonFileName);
+            DevConsoleFileFullName = Path.Combine(daemonDirFullName, NTKeyword.DevConsoleFileName);
 
-            ServerDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "server.litedb");
-            ServerJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, "server.json");
+            ServerDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.ServerDbFileName);
+            ServerJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.ServerJsonFileName);
 
             LocalDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
             LocalJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalJsonFileName);
@@ -30,12 +30,12 @@ namespace NTMiner {
                         }
                     }
                     if (DevMode.IsDevMode) {
-                        string shareServerDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "server.litedb");
+                        string shareServerDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.ServerDbFileName);
                         if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
                             File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
                         }
                     }
-                    string shareServerJsonFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, "server.json");
+                    string shareServerJsonFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.ServerJsonFileName);
                     if (File.Exists(shareServerJsonFileFullName) && !File.Exists(ServerJsonFileFullName)) {
                         File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName);
                     }

@@ -12,6 +12,10 @@
         public const string GpuProfilesFileName = "gpuProfiles.json";
         public const string LocalJsonFileName = "local.json";
         public const string LocalDbFileName = "local.litedb";
+        public const string ServerJsonFileName = "server.json";
+        public const string ServerDbFileName = "server.litedb";
+        public const string DevConsoleFileName = "DevConsole.exe";
+        public const string NTMinerDaemonFileName = "NTMinerDaemon.exe";
 
         public const string NTMinerDaemonKey = "NTMiner.Daemon.NTMinerDaemon.exe";
         public const string NTMinerServicesKey = "NTMiner.NTMinerServices.NTMinerServices.exe";
