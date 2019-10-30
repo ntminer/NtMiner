@@ -1,9 +1,9 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public interface IKernelOutputKeyword : ILevelEntity<Guid> {
+    public interface IKernelOutputKeyword : IDbEntity<Guid> {
         Guid KernelOutputId { get; }
-        string WorkerMessageType { get; }
+        string MessageType { get; }
         string Keyword { get; }
     }
 }

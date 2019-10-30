@@ -20,7 +20,7 @@ namespace NTMiner.Core.Impl {
                     if (_dicById.ContainsKey(message.Input.GetId())) {
                         return;
                     }
-                    if (string.IsNullOrEmpty(message.Input.WorkerMessageType)) {
+                    if (string.IsNullOrEmpty(message.Input.MessageType)) {
                         throw new ValidationException("WorkerMessageType can't be null or empty");
                     }
                     if (string.IsNullOrEmpty(message.Input.Keyword)) {
@@ -31,7 +31,7 @@ namespace NTMiner.Core.Impl {
                     }
                     KernelOutputKeywordData entity = new KernelOutputKeywordData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
+                    var repository = NTMinerRoot.CreateLocalRepository<KernelOutputKeywordData>();
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new KernelOutputKeywordAddedEvent(entity));
@@ -42,7 +42,7 @@ namespace NTMiner.Core.Impl {
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (string.IsNullOrEmpty(message.Input.WorkerMessageType)) {
+                    if (string.IsNullOrEmpty(message.Input.MessageType)) {
                         throw new ValidationException("WorkerMessageType can't be null or empty");
                     }
                     if (string.IsNullOrEmpty(message.Input.Keyword)) {
@@ -59,7 +59,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
+                    var repository = NTMinerRoot.CreateLocalRepository<KernelOutputKeywordData>();
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new KernelOutputKeywordUpdatedEvent(entity));
@@ -75,7 +75,7 @@ namespace NTMiner.Core.Impl {
                     }
                     KernelOutputKeywordData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
+                    var repository = NTMinerRoot.CreateLocalRepository<KernelOutputKeywordData>();
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.RaiseEvent(new KernelOutputKeywordRemovedEvent(entity));
@@ -95,7 +95,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<KernelOutputKeywordData>();
+                    var repository = NTMinerRoot.CreateLocalRepository<KernelOutputKeywordData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

@@ -8,17 +8,10 @@ namespace NTMiner.MinerClient {
             return this.Id;
         }
 
-        [LiteDB.BsonIgnore]
-        public DataLevel DataLevel { get; set; }
-
-        public void SetDataLevel(DataLevel dataLevel) {
-            this.DataLevel = dataLevel;
-        }
-
         public Guid Id { get; set; }
         public Guid KernelOutputId { get; set; }
 
-        public string WorkerMessageType { get; set; }
+        public string MessageType { get; set; }
 
         public string Keyword { get; set; }
     }
