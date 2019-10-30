@@ -10,8 +10,20 @@ namespace NTMiner.Ip.Impl {
         private List<LocalIpData> _localIps = new List<LocalIpData>();
         public LocalIpSet() {
             NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
+                var old = _localIps;
                 Refresh();
-                VirtualRoot.ThisWorkerWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
+                var localIps = _localIps;
+                if (old.Count != localIps.Count) {
+                    VirtualRoot.ThisWorkerWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
+                }
+                else {
+                    for (int i = 0; i < old.Count; i++) {
+                        if (old[i] != localIps[i]) {
+                            VirtualRoot.ThisWorkerWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
+                            break;
+                        }
+                    }
+                }
             };
             NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
                 if (e.IsAvailable) {
