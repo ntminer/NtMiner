@@ -33,9 +33,15 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
             });
             this.WindowsAutoLogon = new DelegateCommand(() => {
+                if (IsAutoAdminLogon) {
+                    return;
+                }
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
             });
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
+                if (IsRemoteDesktopEnabled) {
+                    return;
+                }
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
             _localIps = GetLocalIps();
