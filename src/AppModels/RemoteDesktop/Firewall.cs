@@ -9,6 +9,7 @@ namespace NTMiner.RemoteDesktop {
         Private = 0x0002,
         Public = 0x0004
     }
+
     public enum FirewallStatus {
         Enabled = 1,
         Disabled = 0
@@ -18,7 +19,15 @@ namespace NTMiner.RemoteDesktop {
         private const int RdpTcpPort = 3389;
         private const int RdpUdpPort = 3389;
         private const int RdpScope = 1;
-        private const string FirewallRuleName = "RDPEnabler";
+        private const string RdpRuleName = "RDPEnabler";
+
+        private const int MinerClientTcpPort = NTKeyword.MinerClientPort;
+        private const int MinerClientUdpPort = NTKeyword.MinerClientPort;
+        private const int NTMinerDaemonTcpPort = NTKeyword.NTMinerDaemonPort;
+        private const int NTMinerDaemonUdpPort = NTKeyword.NTMinerDaemonPort;
+        private const int MinerClientScope = 1;
+        private const string MinerClientRuleName = "MinerClient";
+        private const string NTMinerDaemonRuleName = "NTMinerDaemon";
 
         #region DisableFirewall
         public static bool DisableFirewall() {
@@ -66,9 +75,37 @@ namespace NTMiner.RemoteDesktop {
             return FirewallStatus(domain);
         }
 
+        public static void AddMinerClientRule() {
+            OpenPort($"{MinerClientRuleName}_TCP", MinerClientTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)MinerClientScope);
+            OpenPort($"{MinerClientRuleName}_UDP", MinerClientUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)MinerClientScope);
+
+            OpenPort($"{NTMinerDaemonRuleName}_TCP", NTMinerDaemonTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)MinerClientScope);
+            OpenPort($"{NTMinerDaemonRuleName}_UDP", NTMinerDaemonUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)MinerClientScope);
+        }
+
+        public static void RemoveMinerClientRule() {
+            INetFwOpenPorts openPorts = GetOpenPorts();
+            openPorts.Remove(MinerClientTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+            openPorts.Remove(MinerClientUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
+
+            openPorts.Remove(NTMinerDaemonTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+            openPorts.Remove(NTMinerDaemonUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
+
+            INetFwPolicy2 policyManager = GetPolicyManager();
+            policyManager.Rules.Remove(MinerClientRuleName);
+            policyManager.Rules.Remove(NTMinerDaemonRuleName);
+        }
+
+        public static bool IsMinerClientRuleExists() {
+            INetFwPolicy2 policyManager = GetPolicyManager();
+            return 
+                policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(MinerClientRuleName)) &&
+                policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(NTMinerDaemonRuleName));
+        }
+
         public static void AddRdpRule() {
-            OpenPort($"{FirewallRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)RdpScope);
-            OpenPort($"{FirewallRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)RdpScope);
+            OpenPort($"{RdpRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)RdpScope);
+            OpenPort($"{RdpRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)RdpScope);
         }
 
         public static void RemoveRdpRule() {
@@ -77,12 +114,12 @@ namespace NTMiner.RemoteDesktop {
             openPorts.Remove(RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
 
             INetFwPolicy2 policyManager = GetPolicyManager();
-            policyManager.Rules.Remove(FirewallRuleName);
+            policyManager.Rules.Remove(RdpRuleName);
         }
 
         public static bool IsRdpRuleExists() {
             INetFwPolicy2 policyManager = GetPolicyManager();
-            return policyManager.Rules.OfType<INetFwRule>().Where(x => x.Name.StartsWith(FirewallRuleName)).Count() > 0;
+            return policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(RdpRuleName));
         }
 
         #region private methods

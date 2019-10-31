@@ -120,6 +120,7 @@ namespace NTMiner {
                             if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall) {
                                 Firewall.DisableFirewall();
                             }
+                            Firewall.AddMinerClientRule();
                             try {
                                 HttpServer.Start($"http://localhost:{NTKeyword.MinerClientPort}");
                                 Daemon.DaemonUtil.RunNTMinerDaemon();

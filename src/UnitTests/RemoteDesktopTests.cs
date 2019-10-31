@@ -44,5 +44,16 @@ namespace UnitTests {
             Firewall.RemoveRdpRule();
             Assert.IsFalse(Firewall.IsRdpRuleExists());
         }
+
+        [TestMethod]
+        public void MinerClientRuleTest() {
+            Firewall.EnableFirewall();
+            Firewall.AddMinerClientRule();
+            Assert.IsTrue(Firewall.IsMinerClientRuleExists());
+            Firewall.DisableFirewall();
+            Assert.IsTrue(Firewall.IsMinerClientRuleExists());
+            Firewall.RemoveMinerClientRule();
+            Assert.IsFalse(Firewall.IsMinerClientRuleExists());
+        }
     }
 }
