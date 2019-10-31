@@ -1,7 +1,17 @@
 ﻿using Microsoft.Win32;
 
 namespace NTMiner.RemoteDesktopEnabler {
-    internal class Rdp {
+    public class Rdp {
+        public static bool SetRdpEnabled(bool enabled, bool forceChange = false) {
+            if (enabled) {
+                return SetRdpRegistryValue(0, forceChange);
+            }
+            else {
+                return SetRdpRegistryValue(1, forceChange);
+            }
+        }
+
+        #region private SetRdpRegistryValue
         private static bool SetRdpRegistryValue(int value, bool forceChange) {
             RegistryKey rdpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Default).OpenSubKey(@"SYSTEM\CurrentControlSet\Control\Terminal Server", true);
             int currentValue;
@@ -27,14 +37,6 @@ namespace NTMiner.RemoteDesktopEnabler {
 
             return true;
         }
-
-        internal static bool SetRdpEnabled(bool enabled, bool forceChange = false) {
-            if (enabled) {
-                return SetRdpRegistryValue(0, forceChange);
-            }
-            else {
-                return SetRdpRegistryValue(1, forceChange);
-            }
-        }
+        #endregion
     }
 }

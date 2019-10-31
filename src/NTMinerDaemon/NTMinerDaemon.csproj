@@ -80,14 +80,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
-      <Link>HttpServer.cs</Link>
-    </Compile>
-    <Compile Include="..\MinerClient\RemoteDesktopEnabler\Firewall.cs">
+    <Compile Include="..\AppModels\RemoteDesktopEnabler\Firewall.cs">
       <Link>RemoteDesktopEnabler\Firewall.cs</Link>
     </Compile>
-    <Compile Include="..\MinerClient\RemoteDesktopEnabler\Rdp.cs">
+    <Compile Include="..\AppModels\RemoteDesktopEnabler\Rdp.cs">
       <Link>RemoteDesktopEnabler\Rdp.cs</Link>
+    </Compile>
+    <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
+      <Link>HttpServer.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\EnumExtension.cs">
       <Link>EnumExtension.cs</Link>
