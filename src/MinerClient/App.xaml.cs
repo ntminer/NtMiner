@@ -239,7 +239,7 @@ namespace NTMiner {
                     title: "确认",
                     onYes: () => {
                         Rdp.SetRdpEnabled(true);
-                        Firewall.AddRemoteDesktopRule();
+                        Firewall.AddRdpRule();
                     }));
             });
             #endregion

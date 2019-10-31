@@ -18,7 +18,7 @@ namespace NTMiner {
             try {
                 Logger.InfoDebugLine("启用Windows远程桌面");
                 Rdp.SetRdpEnabled(true);
-                Firewall.AddRemoteDesktopRule();
+                Firewall.AddRdpRule();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

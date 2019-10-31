@@ -39,12 +39,12 @@ namespace NTMiner.RemoteDesktop {
             return FirewallStatus(domain);
         }
 
-        public static void AddRemoteDesktopRule() {
+        public static void AddRdpRule() {
             OpenPort($"{FirewallRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)RdpScope);
             OpenPort($"{FirewallRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)RdpScope);
         }
 
-        public static void RemoveRemoteDesktopRule() {
+        public static void RemoveRdpRule() {
             INetFwOpenPorts openPorts = GetOpenPorts();
             openPorts.Remove(RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
             openPorts.Remove(RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
@@ -53,7 +53,7 @@ namespace NTMiner.RemoteDesktop {
             policyManager.Rules.Remove(FirewallRuleName);
         }
 
-        public static bool IsRemoteDesktopRuleExists() {
+        public static bool IsRdpRuleExists() {
             INetFwPolicy2 policyManager = GetPolicyManager();
             return policyManager.Rules.OfType<INetFwRule>().Where(x => x.Name.StartsWith(FirewallRuleName)).Count() > 0;
         }
