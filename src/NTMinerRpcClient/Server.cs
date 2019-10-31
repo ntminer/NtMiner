@@ -8,7 +8,6 @@ namespace NTMiner {
     public static partial class Server {
         public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
         public static readonly AppSettingServiceFace AppSettingService = AppSettingServiceFace.Instance;
-        public static readonly KernelOutputKeywordServiceFace KernelOutputKeywordService = KernelOutputKeywordServiceFace.Instance;
         public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
         public static readonly WrapperMinerClientServiceFace MinerClientService = WrapperMinerClientServiceFace.Instance;
 

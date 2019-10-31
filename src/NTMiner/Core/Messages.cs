@@ -300,6 +300,12 @@ namespace NTMiner.Core {
         public NTMinerWalletSetInitedEvent() {
         }
     }
+
+    [MessageType(description: "内核输出关键字集初始化后")]
+    public class KernelOutputKeywordSetInitedEvent : EventBase {
+        public KernelOutputKeywordSetInitedEvent() {
+        }
+    }
     #endregion
 
     #region ColumnsShow Messages

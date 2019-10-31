@@ -74,7 +74,6 @@ namespace NTMiner.Core.MinerServer.Impl {
         }
 
         private bool _isInited = false;
-        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {

@@ -37,6 +37,24 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
+        public ResponseBase RemoveKernelOutputKeyword(DataRequest<Guid> request) {
+            if (request == null || request.Data == Guid.Empty) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            try {
+                if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
+                    return response;
+                }
+                VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(request.Data));
+                return ResponseBase.Ok();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return ResponseBase.ServerError(e.Message);
+            }
+        }
+
+        [HttpPost]
         public ResponseBase SetKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");

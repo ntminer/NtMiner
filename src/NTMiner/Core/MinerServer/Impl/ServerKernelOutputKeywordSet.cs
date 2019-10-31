@@ -26,7 +26,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     oldValue = null;
                     _dicById.Add(message.Input.GetId(), entity);
                 }
-                Server.KernelOutputKeywordService.SetKernelOutputKeywordAsync(entity, (response, exception) => {
+                OfficialServer.KernelOutputKeywordService.SetKernelOutputKeywordAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         if (oldValue == null) {
                             _dicById.Remove(message.Input.GetId());
@@ -42,7 +42,22 @@ namespace NTMiner.Core.MinerServer.Impl {
                 VirtualRoot.RaiseEvent(new KernelOutputKeyworSetedEvent(entity));
             });
             VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(action: message => {
-
+                if (message == null || message.EntityId == Guid.Empty) {
+                    throw new ArgumentNullException();
+                }
+                if (!_dicById.ContainsKey(message.EntityId)) {
+                    return;
+                }
+                KernelOutputKeywordData entity = _dicById[message.EntityId];
+                OfficialServer.KernelOutputKeywordService.RemoveKernelOutputKeyword(entity.Id, (response, e) => {
+                    if (response.IsSuccess()) {
+                        _dicById.Remove(entity.Id);
+                        VirtualRoot.RaiseEvent(new KernelOutputKeywordRemovedEvent(entity));
+                    }
+                    else {
+                        Write.UserFail(response.ReadMessage(e));
+                    }
+                });
             });
         }
 
@@ -69,7 +84,6 @@ namespace NTMiner.Core.MinerServer.Impl {
         }
 
         private bool _isInited = false;
-        private readonly object _locker = new object();
 
         private void InitOnece() {
             if (_isInited) {
@@ -79,15 +93,20 @@ namespace NTMiner.Core.MinerServer.Impl {
         }
 
         private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var list = Server.KernelOutputKeywordService.GetKernelOutputKeywords();
-                    foreach (var item in list) {
-                        _dicById.Add(item.Id, item);
-                    }
-                    _isInited = true;
-                }
+            if (_isInited) {
+                return;
             }
+            _isInited = true;
+            OfficialServer.KernelOutputKeywordService.GetKernelOutputKeywords((response, e) => {
+                if (response.IsSuccess()) {
+                    foreach (var item in response.Data) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
+                        }
+                    }
+                }
+                VirtualRoot.RaiseEvent(new KernelOutputKeywordSetInitedEvent());
+            });
         }
 
         public bool Contains(Guid kernelOutputId, string keyword) {
