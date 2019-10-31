@@ -41,6 +41,9 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.RaiseEvent(new KernelOutputKeyworSetedEvent(entity));
             });
+            VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(action: message => {
+
+            });
         }
 
         public DateTime GetServerChannelTimestamp() {
