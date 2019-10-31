@@ -1,4 +1,5 @@
-﻿using NTMiner.View;
+﻿using NTMiner.RemoteDesktopEnabler;
+using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
@@ -110,7 +111,7 @@ namespace NTMiner {
                 });
                 #endregion
                 HttpServer.Start($"http://localhost:{NTKeyword.MinerStudioPort}");
-                AppContext.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
+                Rdp.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
             });
         }
 

@@ -1,4 +1,5 @@
 ﻿using AxMSTSCLib;
+using NTMiner.RemoteDesktopEnabler;
 using System;
 using System.Collections.Generic;
 using System.Drawing;

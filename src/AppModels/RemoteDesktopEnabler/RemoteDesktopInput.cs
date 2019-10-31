@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner {
+namespace NTMiner.RemoteDesktopEnabler {
     public class RemoteDesktopInput {
         public RemoteDesktopInput(string serverIp, string userName, string password, string description, Action<string> onDisconnected) {
             this.ServerIp = serverIp;
