@@ -33,5 +33,12 @@ namespace UnitTests {
             state = Firewall.Status(FirewallDomain.Public);
             Assert.AreEqual(FirewallStatus.Disabled, state);
         }
+
+        [TestMethod]
+        public void RdpRuleTest() {
+            Firewall.EnableFirewall();
+            Firewall.AddRdpRule();
+            Assert.IsTrue(Firewall.IsRdpRuleExists());
+        }
     }
 }

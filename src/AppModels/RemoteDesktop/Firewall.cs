@@ -20,6 +20,7 @@ namespace NTMiner.RemoteDesktop {
         private const int RdpScope = 1;
         private const string FirewallRuleName = "RDPEnabler";
 
+        #region DisableFirewall
         public static bool DisableFirewall() {
             try {
                 int exitcode = -1;
@@ -38,7 +39,9 @@ namespace NTMiner.RemoteDesktop {
                 return false;
             }
         }
+        #endregion
 
+        #region EnableFirewall
         public static bool EnableFirewall() {
             try {
                 int exitcode = -1;
@@ -57,21 +60,7 @@ namespace NTMiner.RemoteDesktop {
                 return false;
             }
         }
-
-        private static FirewallStatus FirewallStatus(FirewallDomain? domain) {
-            // Gets the current firewall profile (domain, public, private, etc.)
-            NET_FW_PROFILE_TYPE2_ fwCurrentProfileTypes;
-
-            INetFwPolicy2 policyManager = GetPolicyManager();
-            if (domain.HasValue) {
-                fwCurrentProfileTypes = (NET_FW_PROFILE_TYPE2_)domain;
-            }
-            else {
-                fwCurrentProfileTypes = (NET_FW_PROFILE_TYPE2_)policyManager.CurrentProfileTypes;
-            }
-
-            return (FirewallStatus)Convert.ToInt32(policyManager.get_FirewallEnabled(fwCurrentProfileTypes));
-        }
+        #endregion
 
         public static FirewallStatus Status(FirewallDomain? domain = null) {
             return FirewallStatus(domain);
@@ -97,6 +86,21 @@ namespace NTMiner.RemoteDesktop {
         }
 
         #region private methods
+        private static FirewallStatus FirewallStatus(FirewallDomain? domain) {
+            // Gets the current firewall profile (domain, public, private, etc.)
+            NET_FW_PROFILE_TYPE2_ fwCurrentProfileTypes;
+
+            INetFwPolicy2 policyManager = GetPolicyManager();
+            if (domain.HasValue) {
+                fwCurrentProfileTypes = (NET_FW_PROFILE_TYPE2_)domain;
+            }
+            else {
+                fwCurrentProfileTypes = (NET_FW_PROFILE_TYPE2_)policyManager.CurrentProfileTypes;
+            }
+
+            return (FirewallStatus)Convert.ToInt32(policyManager.get_FirewallEnabled(fwCurrentProfileTypes));
+        }
+
         private static void OpenPort(string name, int port, NET_FW_IP_PROTOCOL_ protocol, NET_FW_SCOPE_ scope) {
             INetFwOpenPorts openPorts = GetOpenPorts();
             if (openPorts.OfType<INetFwOpenPort>().Where(x => x.Name == name).Count() == 0) {
