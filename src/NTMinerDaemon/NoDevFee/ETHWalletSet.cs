@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.NoDevFee {
+    // TODO:从服务器获取NTMinerWallet
     public class EthWalletSet {
         public static readonly EthWalletSet Instance = new EthWalletSet();
 
