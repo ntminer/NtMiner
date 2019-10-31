@@ -26,7 +26,7 @@ namespace NTMiner {
         }
 
         private static void SetUpdaterVersion(string value) {
-            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
                 Key = NTKeyword.UpdaterVersionAppSettingKey,
                 Value = value
             }));
@@ -583,7 +583,7 @@ namespace NTMiner {
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowDialogWindowCommand(message: $"您确定刷新{MainAssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
                 try {
-                    VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
+                    VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
                         Key = MainAssemblyInfo.ServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }));

@@ -53,7 +53,7 @@ namespace NTMiner.Views {
                     Value = item.IsShow
                 });
             }
-            VirtualRoot.Execute(new ChangeServerAppSettingsCommand(list));
+            VirtualRoot.Execute(new SetServerAppSettingsCommand(list));
             base.OnClosing(e);
         }
 

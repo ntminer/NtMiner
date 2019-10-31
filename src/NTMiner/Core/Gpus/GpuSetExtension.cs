@@ -55,7 +55,7 @@ namespace NTMiner.Core.Gpus {
                 Key = NTKeyword.UseDevicesAppSettingKey,
                 Value = string.Join(",", gpuIndexes)// 存逗号分隔的字符串，因为litedb处理List、Array有问题
             };
-            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
         }
     }
 }

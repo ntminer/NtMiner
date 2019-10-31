@@ -9,7 +9,7 @@ namespace NTMiner.Core.MinerServer.Impl {
     public class ServerAppSettingSet : IAppSettingSet {
         private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
         public ServerAppSettingSet() {
-            VirtualRoot.BuildCmdPath<ChangeServerAppSettingCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<SetServerAppSettingCommand>(action: message => {
                 if (message.AppSetting == null) {
                     return;
                 }
@@ -35,12 +35,12 @@ namespace NTMiner.Core.MinerServer.Impl {
                             entity.Value = oldValue.Value;
                         }
                         Write.UserFail(response.ReadMessage(exception));
-                        VirtualRoot.RaiseEvent(new ServerAppSettingChangedEvent(entity));
+                        VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(entity));
                     }
                 });
-                VirtualRoot.RaiseEvent(new ServerAppSettingChangedEvent(entity));
+                VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(entity));
             });
-            VirtualRoot.BuildCmdPath<ChangeServerAppSettingsCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<SetServerAppSettingsCommand>(action: message => {
                 if (message.AppSettings == null) {
                     return;
                 }
@@ -58,7 +58,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         oldValue = null;
                         _dicByKey.Add(item.Key, entity);
                     }
-                    VirtualRoot.RaiseEvent(new ServerAppSettingChangedEvent(entity));
+                    VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(entity));
                 }
                 Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a => AppSettingData.Create(a)).ToList(), (response, exception) => {
                 });

@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(this.FileName)) {
                         this.FileName = NTKeyword.NTMinerUpdaterFileName;
                     }
-                    VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
+                    VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
                         Key = NTKeyword.NTMinerUpdaterFileNameAppSettingKey,
                         Value = this.FileName
                     }));

@@ -437,7 +437,7 @@ namespace NTMiner.Vms {
                 if (_columnsShow != value && value != null) {
                     _columnsShow = value;
                     OnPropertyChanged(nameof(ColumnsShow));
-                    VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
+                    VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
                         Key = NTKeyword.ColumnsShowIdAppSettingKey,
                         Value = value.Id
                     }));

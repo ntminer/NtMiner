@@ -46,7 +46,7 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 VirtualRoot.Execute(new SetKernelOutputKeywordCommand(request.Data));
-                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(new AppSettingData {
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
                     Key = NTKeyword.KernelOutputKeywordVersionAppSettingKey,
                     Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
                 }));

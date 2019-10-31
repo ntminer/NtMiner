@@ -11,6 +11,36 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly INTMinerRoot _root;
         public ServerKernelOutputKeywordSet(INTMinerRoot root) {
             _root = root;
+            VirtualRoot.BuildCmdPath<SetKernelOutputKeywordCommand>(action: message => {
+                if (message.Input == null) {
+                    return;
+                }
+                KernelOutputKeywordData oldValue;
+                if (_dicById.TryGetValue(message.Input.GetId(), out KernelOutputKeywordData entity)) {
+                    oldValue = KernelOutputKeywordData.Create(entity);
+                    entity.Keyword = message.Input.Keyword;
+                    entity.MessageType = message.Input.MessageType;
+                }
+                else {
+                    entity = KernelOutputKeywordData.Create(message.Input);
+                    oldValue = null;
+                    _dicById.Add(message.Input.GetId(), entity);
+                }
+                Server.KernelOutputKeywordService.SetKernelOutputKeywordAsync(entity, (response, exception) => {
+                    if (!response.IsSuccess()) {
+                        if (oldValue == null) {
+                            _dicById.Remove(message.Input.GetId());
+                        }
+                        else {
+                            entity.Keyword = oldValue.Keyword;
+                            entity.MessageType = oldValue.MessageType;
+                        }
+                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.RaiseEvent(new KernelOutputKeyworSetedEvent(entity));
+                    }
+                });
+                VirtualRoot.RaiseEvent(new KernelOutputKeyworSetedEvent(entity));
+            });
         }
 
         public DateTime GetServerChannelTimestamp() {
@@ -32,7 +62,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Key = NTKeyword.ServerChannelTimestampAppSettingKey,
                 Value = timestamp
             };
-            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
         }
 
         private bool _isInited = false;

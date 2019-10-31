@@ -227,7 +227,7 @@ namespace NTMiner {
                 Value = serverJsonVersion
             };
             string oldVersion = GetServerJsonVersion();
-            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
             VirtualRoot.RaiseEvent(new ServerJsonVersionChangedEvent(oldVersion, serverJsonVersion));
         }
 

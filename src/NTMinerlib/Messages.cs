@@ -41,8 +41,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "设置ServerAppSetting")]
-    public class ChangeServerAppSettingCommand : Cmd {
-        public ChangeServerAppSettingCommand(IAppSetting appSetting) {
+    public class SetServerAppSettingCommand : Cmd {
+        public SetServerAppSettingCommand(IAppSetting appSetting) {
             this.AppSetting = appSetting;
         }
 
@@ -52,8 +52,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "设置ServerAppSetting")]
-    public class ChangeServerAppSettingsCommand : Cmd {
-        public ChangeServerAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
+    public class SetServerAppSettingsCommand : Cmd {
+        public SetServerAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
             this.AppSettings = appSettings;
         }
 
@@ -63,14 +63,14 @@ namespace NTMiner {
     }
 
     [MessageType(description: "ServerAppSetting变更后")]
-    public class ServerAppSettingChangedEvent : DomainEvent<IAppSetting> {
-        public ServerAppSettingChangedEvent(IAppSetting source) : base(source) {
+    public class ServerAppSettingSetedEvent : DomainEvent<IAppSetting> {
+        public ServerAppSettingSetedEvent(IAppSetting source) : base(source) {
         }
     }
 
     [MessageType(description: "设置LocalAppSetting")]
-    public class ChangeLocalAppSettingCommand : Cmd {
-        public ChangeLocalAppSettingCommand(IAppSetting appSetting) {
+    public class SetLocalAppSettingCommand : Cmd {
+        public SetLocalAppSettingCommand(IAppSetting appSetting) {
             this.AppSetting = appSetting;
         }
 
@@ -80,8 +80,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "设置LocalAppSetting")]
-    public class ChangeLocalAppSettingsCommand : Cmd {
-        public ChangeLocalAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
+    public class SetLocalAppSettingsCommand : Cmd {
+        public SetLocalAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
             this.AppSettings = appSettings;
         }
 

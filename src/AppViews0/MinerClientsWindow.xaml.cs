@@ -57,7 +57,7 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosing(CancelEventArgs e) {
-            VirtualRoot.Execute(new ChangeServerAppSettingsCommand(
+            VirtualRoot.Execute(new SetServerAppSettingsCommand(
                 new AppSettingData[]{
                         new AppSettingData {
                             Key = NTKeyword.FrozenColumnCountAppSettingKey,
