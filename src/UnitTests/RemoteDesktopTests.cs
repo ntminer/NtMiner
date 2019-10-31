@@ -13,7 +13,7 @@ namespace UnitTests {
         }
 
         [TestMethod]
-        public void FirewallTest() {
+        public void EnableFirewallTest() {
             Firewall.EnableFirewall();
             FirewallStatus state = Firewall.Status(FirewallDomain.Domain);
             Assert.AreEqual(FirewallStatus.Enabled, state);
@@ -24,7 +24,7 @@ namespace UnitTests {
         }
 
         [TestMethod]
-        public void FirewallTest1() {
+        public void DisableFirewallTest() {
             Firewall.DisableFirewall();
             FirewallStatus state = Firewall.Status(FirewallDomain.Domain);
             Assert.AreEqual(FirewallStatus.Disabled, state);
