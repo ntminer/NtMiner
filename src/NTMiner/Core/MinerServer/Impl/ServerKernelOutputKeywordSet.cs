@@ -3,6 +3,7 @@ using NTMiner.MinerServer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core.MinerServer.Impl {
     public class ServerKernelOutputKeywordSet : IKernelOutputKeywordSet {
@@ -110,23 +111,30 @@ namespace NTMiner.Core.MinerServer.Impl {
         }
 
         public bool Contains(Guid kernelOutputId, string keyword) {
-            throw new NotImplementedException();
+            InitOnece();
+            return _dicById.Values.Any(a => a.KernelOutputId == kernelOutputId && a.Keyword == keyword);
         }
 
         public IEnumerable<IKernelOutputKeyword> GetKeywords(Guid kernelOutputId) {
-            throw new NotImplementedException();
+            InitOnece();
+            return _dicById.Values.Where(a => a.KernelOutputId == kernelOutputId);
         }
 
         public bool TryGetKernelOutputKeyword(Guid id, out IKernelOutputKeyword keyword) {
-            throw new NotImplementedException();
+            InitOnece();
+            var result = _dicById.TryGetValue(id, out KernelOutputKeywordData data);
+            keyword = data;
+            return result;
         }
 
         public IEnumerator<IKernelOutputKeyword> GetEnumerator() {
-            throw new NotImplementedException();
+            InitOnece();
+            return _dicById.Values.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
-            throw new NotImplementedException();
+            InitOnece();
+            return _dicById.Values.GetEnumerator();
         }
     }
 }
