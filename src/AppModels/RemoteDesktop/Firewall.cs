@@ -1,4 +1,5 @@
 ﻿using NetFwTypeLib;
+using NTMiner.Windows;
 using System;
 using System.Linq;
 
@@ -6,8 +7,7 @@ namespace NTMiner.RemoteDesktop {
     public enum FirewallDomain {
         Domain = 0x0001,
         Private = 0x0002,
-        Public = 0x0004,
-        All = 0x7FFFFFFF
+        Public = 0x0004
     }
     public enum FirewallStatus {
         Enabled = 1,
@@ -19,6 +19,25 @@ namespace NTMiner.RemoteDesktop {
         private const int RdpUdpPort = 3389;
         private const int RdpScope = 1;
         private const string FirewallRuleName = "RDPEnabler";
+
+        public static bool DisableFirewall() {
+            try {
+                int exitcode = -1;
+                Cmd.RunClose("netsh", "advfirewall set allprofiles state off", ref exitcode);
+                bool r = exitcode == 0;
+                if (r) {
+                    Logger.OkDebugLine("disable firewall ok");
+                }
+                else {
+                    Logger.WarnDebugLine("disable firewall failed, exitcode=" + exitcode);
+                }
+                return r;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine("disable firewall failed，因为异常", e);
+                return false;
+            }
+        }
 
         private static FirewallStatus FirewallStatus(FirewallDomain? domain) {
             // Gets the current firewall profile (domain, public, private, etc.)

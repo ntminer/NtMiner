@@ -117,6 +117,9 @@ namespace NTMiner {
                         });
                         #endregion
                         Task.Factory.StartNew(() => {
+                            if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall) {
+                                Firewall.DisableFirewall();
+                            }
                             try {
                                 HttpServer.Start($"http://localhost:{NTKeyword.MinerClientPort}");
                                 Daemon.DaemonUtil.RunNTMinerDaemon();

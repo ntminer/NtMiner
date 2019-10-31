@@ -192,7 +192,6 @@
     <Compile Include="Windows\Defender.cs" />
     <Compile Include="Windows\NativeMethods.cs" />
     <Compile Include="Windows\Error.cs" />
-    <Compile Include="Windows\Firewall.cs" />
     <Compile Include="Windows\Power.cs" />
     <Compile Include="Windows\UAC.cs" />
     <Compile Include="Windows\WAU.cs" />

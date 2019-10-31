@@ -11,5 +11,16 @@ namespace UnitTests {
             Rdp.SetRdpEnabled(false);
             Assert.IsFalse(Rdp.GetRdpEnabled());
         }
+
+        [TestMethod]
+        public void FirewallTest() {
+            Firewall.DisableFirewall();
+            FirewallStatus state = Firewall.Status(FirewallDomain.Domain);
+            Assert.AreEqual(FirewallStatus.Disabled, state);
+            state = Firewall.Status(FirewallDomain.Private);
+            Assert.AreEqual(FirewallStatus.Disabled, state);
+            state = Firewall.Status(FirewallDomain.Public);
+            Assert.AreEqual(FirewallStatus.Disabled, state);
+        }
     }
 }
