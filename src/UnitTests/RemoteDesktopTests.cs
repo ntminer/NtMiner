@@ -39,6 +39,10 @@ namespace UnitTests {
             Firewall.EnableFirewall();
             Firewall.AddRdpRule();
             Assert.IsTrue(Firewall.IsRdpRuleExists());
+            Firewall.DisableFirewall();
+            Assert.IsTrue(Firewall.IsRdpRuleExists());
+            Firewall.RemoveRdpRule();
+            Assert.IsFalse(Firewall.IsRdpRuleExists());
         }
     }
 }
