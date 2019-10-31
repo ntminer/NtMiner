@@ -6,10 +6,8 @@ using System.Collections.Generic;
 namespace NTMiner.Core.MinerServer.Impl {
     public class NTMinerWalletSet : INTMinerWalletSet {
         private readonly Dictionary<Guid, NTMinerWalletData> _dicById = new Dictionary<Guid, NTMinerWalletData>();
-        private readonly INTMinerRoot _root;
 
-        public NTMinerWalletSet(INTMinerRoot root) {
-            _root = root;
+        public NTMinerWalletSet() {
             VirtualRoot.BuildCmdPath<AddNTMinerWalletCommand>(action: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();

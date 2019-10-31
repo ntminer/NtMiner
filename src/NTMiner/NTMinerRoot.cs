@@ -245,7 +245,7 @@ namespace NTMiner {
             this.CoinShareSet = new CoinShareSet(this);
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
-            this.NTMinerWalletSet = new NTMinerWalletSet(this);
+            this.NTMinerWalletSet = new NTMinerWalletSet();
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             // 作业和在群控客户端管理作业时
