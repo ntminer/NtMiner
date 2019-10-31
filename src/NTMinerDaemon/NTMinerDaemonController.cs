@@ -17,7 +17,7 @@ namespace NTMiner {
         public ResponseBase EnableWindowsRemoteDesktop() {
             try {
                 Logger.InfoDebugLine("启用Windows远程桌面");
-                Rdp.SetRdpEnabled(true, true);
+                Rdp.SetRdpEnabled(true);
                 Firewall.AddRemoteDesktopRule();
                 return ResponseBase.Ok();
             }

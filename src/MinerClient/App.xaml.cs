@@ -238,7 +238,7 @@ namespace NTMiner {
                     message: msg,
                     title: "确认",
                     onYes: () => {
-                        Rdp.SetRdpEnabled(true, true);
+                        Rdp.SetRdpEnabled(true);
                         Firewall.AddRemoteDesktopRule();
                     }));
             });
