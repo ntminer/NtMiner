@@ -39,6 +39,25 @@ namespace NTMiner.RemoteDesktop {
             }
         }
 
+        public static bool EnableFirewall() {
+            try {
+                int exitcode = -1;
+                Cmd.RunClose("netsh", "advfirewall set allprofiles state on", ref exitcode);
+                bool r = exitcode == 0;
+                if (r) {
+                    Logger.OkDebugLine("enable firewall ok");
+                }
+                else {
+                    Logger.WarnDebugLine("enable firewall failed, exitcode=" + exitcode);
+                }
+                return r;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine("enable firewall failed，因为异常", e);
+                return false;
+            }
+        }
+
         private static FirewallStatus FirewallStatus(FirewallDomain? domain) {
             // Gets the current firewall profile (domain, public, private, etc.)
             NET_FW_PROFILE_TYPE2_ fwCurrentProfileTypes;
