@@ -8,9 +8,7 @@ using System.Linq;
 namespace NTMiner.Core.MinerServer.Impl {
     public class ServerAppSettingSet : IAppSettingSet {
         private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
-        private readonly INTMinerRoot _root;
-        public ServerAppSettingSet(INTMinerRoot root) {
-            _root = root;
+        public ServerAppSettingSet() {
             VirtualRoot.BuildCmdPath<ChangeServerAppSettingCommand>(action: message => {
                 if (message.AppSetting == null) {
                     return;
