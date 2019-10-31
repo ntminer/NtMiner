@@ -14,28 +14,17 @@ namespace NTMiner.RemoteDesktopEnabler {
         Disabled = 0
     }
 
-    internal class Firewall {
+    internal static class Firewall {
         private const int RdpTcpPort = 3389;
         private const int RdpUdpPort = 3389;
         private const int RdpScope = 1;
         private const string FirewallRuleName = "RDPEnabler";
 
-        readonly INetFwPolicy2 policyManager;
-        INetFwMgr manager;
-        INetFwProfile profile;
-        INetFwOpenPorts openPorts;
-
-        public Firewall() {
-            policyManager = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
-            manager = (INetFwMgr)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwMgr"));
-            profile = manager.LocalPolicy.CurrentProfile;
-            openPorts = profile.GloballyOpenPorts;
-        }
-
-        private FirewallStatus FirewallStatus(FirewallDomain? domain) {
+        private static FirewallStatus FirewallStatus(FirewallDomain? domain) {
             // Gets the current firewall profile (domain, public, private, etc.)
             NET_FW_PROFILE_TYPE2_ fwCurrentProfileTypes;
 
+            INetFwPolicy2 policyManager = GetPolicyManager();
             if (domain.HasValue) {
                 fwCurrentProfileTypes = (NET_FW_PROFILE_TYPE2_)domain;
             }
@@ -44,17 +33,14 @@ namespace NTMiner.RemoteDesktopEnabler {
             }
 
             return (FirewallStatus)Convert.ToInt32(policyManager.get_FirewallEnabled(fwCurrentProfileTypes));
-
         }
+
         internal static FirewallStatus Status(FirewallDomain? domain = null) {
-            return new Firewall().FirewallStatus(domain);
+            return FirewallStatus(domain);
         }
 
-        private bool RemoteDesktopFirewallRuleExists() {
-            return policyManager.Rules.OfType<INetFwRule>().Where(x => x.Name.StartsWith(FirewallRuleName)).Count() > 0;
-        }
-
-        private void OpenPort(string name, int port, NET_FW_IP_PROTOCOL_ protocol, NET_FW_SCOPE_ scope) {
+        private static void OpenPort(string name, int port, NET_FW_IP_PROTOCOL_ protocol, NET_FW_SCOPE_ scope) {
+            INetFwOpenPorts openPorts = GetOpenPorts();
             if (openPorts.OfType<INetFwOpenPort>().Where(x => x.Name == name).Count() == 0) {
                 INetFwOpenPort openPort = (INetFwOpenPort)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwOpenPort"));
                 openPort.Port = port;
@@ -66,28 +52,35 @@ namespace NTMiner.RemoteDesktopEnabler {
             }
         }
 
-        private void AddCustomRemoteDesktopRule() {
+        public static void AddRemoteDesktopRule() {
             OpenPort($"{FirewallRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)RdpScope);
             OpenPort($"{FirewallRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)RdpScope);
         }
 
-        public static void AddRemoteDesktopRule() {
-            new Firewall().AddCustomRemoteDesktopRule();
-        }
-
-        private void RemoveCustomRemoteDesktopRule() {
+        public static void RemoveRemoteDesktopRule() {
+            INetFwOpenPorts openPorts = GetOpenPorts();
             openPorts.Remove(RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
             openPorts.Remove(RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
 
+            INetFwPolicy2 policyManager = GetPolicyManager();
             policyManager.Rules.Remove(FirewallRuleName);
         }
 
-        public static void RemoveRemoteDesktopRule() {
-            new Firewall().RemoveCustomRemoteDesktopRule();
+        public static bool RemoteDesktopRuleExists() {
+            INetFwPolicy2 policyManager = GetPolicyManager();
+            return policyManager.Rules.OfType<INetFwRule>().Where(x => x.Name.StartsWith(FirewallRuleName)).Count() > 0;
         }
 
-        public static bool RemoteDesktopRuleExists() {
-            return new Firewall().RemoteDesktopFirewallRuleExists();
+        private static INetFwPolicy2 GetPolicyManager() {
+            INetFwPolicy2 policyManager = (INetFwPolicy2)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwPolicy2"));
+            return policyManager;
+        }
+
+        private static INetFwOpenPorts GetOpenPorts() {
+            INetFwMgr manager = (INetFwMgr)Activator.CreateInstance(Type.GetTypeFromProgID("HNetCfg.FwMgr"));
+            INetFwProfile profile = manager.LocalPolicy.CurrentProfile;
+            INetFwOpenPorts openPorts = profile.GloballyOpenPorts;
+            return openPorts;
         }
     }
 }
