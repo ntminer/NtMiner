@@ -18,14 +18,14 @@ namespace NTMiner.RemoteDesktop {
     public static class Firewall {
         private const int RdpTcpPort = 3389;
         private const int RdpUdpPort = 3389;
-        private const int RdpScope = 1;
+        private const NET_FW_SCOPE_ RdpScope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
         private const string RdpRuleName = "RDPEnabler";
 
         private const int MinerClientTcpPort = NTKeyword.MinerClientPort;
         private const int MinerClientUdpPort = NTKeyword.MinerClientPort;
         private const int NTMinerDaemonTcpPort = NTKeyword.NTMinerDaemonPort;
         private const int NTMinerDaemonUdpPort = NTKeyword.NTMinerDaemonPort;
-        private const int MinerClientScope = 1;
+        private const NET_FW_SCOPE_ MinerClientScope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
         private const string MinerClientRuleName = "MinerClient";
         private const string NTMinerDaemonRuleName = "NTMinerDaemon";
 
@@ -76,11 +76,11 @@ namespace NTMiner.RemoteDesktop {
         }
 
         public static void AddMinerClientRule() {
-            OpenPort($"{MinerClientRuleName}_TCP", MinerClientTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)MinerClientScope);
-            OpenPort($"{MinerClientRuleName}_UDP", MinerClientUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)MinerClientScope);
+            OpenPort($"{MinerClientRuleName}_TCP", MinerClientTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
+            OpenPort($"{MinerClientRuleName}_UDP", MinerClientUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
 
-            OpenPort($"{NTMinerDaemonRuleName}_TCP", NTMinerDaemonTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)MinerClientScope);
-            OpenPort($"{NTMinerDaemonRuleName}_UDP", NTMinerDaemonUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)MinerClientScope);
+            OpenPort($"{NTMinerDaemonRuleName}_TCP", NTMinerDaemonTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
+            OpenPort($"{NTMinerDaemonRuleName}_UDP", NTMinerDaemonUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
         }
 
         public static void RemoveMinerClientRule() {
@@ -104,8 +104,8 @@ namespace NTMiner.RemoteDesktop {
         }
 
         public static void AddRdpRule() {
-            OpenPort($"{RdpRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, (NET_FW_SCOPE_)RdpScope);
-            OpenPort($"{RdpRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, (NET_FW_SCOPE_)RdpScope);
+            OpenPort($"{RdpRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, RdpScope);
+            OpenPort($"{RdpRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, RdpScope);
         }
 
         public static void RemoveRdpRule() {
