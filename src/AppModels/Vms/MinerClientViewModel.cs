@@ -1,7 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
-using NTMiner.RemoteDesktopEnabler;
+using NTMiner.RemoteDesktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -78,14 +78,14 @@ namespace NTMiner.Vms {
                         OnOk = vm => {
                             this.WindowsLoginName = vm.LoginName;
                             this.WindowsPassword = vm.Password;
-                            Rdp.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                            Rdp.RemoteDesktop?.Invoke(new RdpInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
                                 VirtualRoot.Out.ShowError(message, 4);
                             }));
                         }
                     }));
                 }
                 else {
-                    Rdp.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                    Rdp.RemoteDesktop?.Invoke(new RdpInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
                         VirtualRoot.Out.ShowError(message, 4);
                     }));
                 }

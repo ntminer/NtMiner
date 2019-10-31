@@ -1,6 +1,6 @@
 ﻿using Microsoft.Win32;
 
-namespace NTMiner.RemoteDesktopEnabler {
+namespace NTMiner.RemoteDesktop {
     public static partial class Rdp {
         public static bool SetRdpEnabled(bool enabled, bool forceChange = false) {
             if (enabled) {

@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace NTMiner.RemoteDesktopEnabler {
+namespace NTMiner.RemoteDesktop {
     public enum FirewallDomain {
         Domain = 0x0001,
         Private = 0x0002,

@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
-using NTMiner.RemoteDesktopEnabler;
+using NTMiner.RemoteDesktop;
 using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;

@@ -80,11 +80,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\AppModels\RemoteDesktopEnabler\Firewall.cs">
-      <Link>RemoteDesktopEnabler\Firewall.cs</Link>
+    <Compile Include="..\AppModels\RemoteDesktop\Firewall.cs">
+      <Link>RemoteDesktop\Firewall.cs</Link>
     </Compile>
-    <Compile Include="..\AppModels\RemoteDesktopEnabler\Rdp.cs">
-      <Link>RemoteDesktopEnabler\Rdp.cs</Link>
+    <Compile Include="..\AppModels\RemoteDesktop\Rdp.cs">
+      <Link>RemoteDesktop\Rdp.cs</Link>
     </Compile>
     <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
@@ -179,6 +179,7 @@
   <ItemGroup>
     <EmbeddedResource Include="logo.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(TargetName) --sha1</PostBuildEvent>

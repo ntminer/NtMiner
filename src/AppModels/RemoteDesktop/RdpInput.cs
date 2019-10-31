@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace NTMiner.RemoteDesktopEnabler {
-    public class RemoteDesktopInput {
-        public RemoteDesktopInput(string serverIp, string userName, string password, string description, Action<string> onDisconnected) {
+namespace NTMiner.RemoteDesktop {
+    public class RdpInput {
+        public RdpInput(string serverIp, string userName, string password, string description, Action<string> onDisconnected) {
             this.ServerIp = serverIp;
-            this.UserName = UserName;
+            this.UserName = userName;
             this.Password = password;
             this.Description = description;
             this.OnDisconnected = onDisconnected;

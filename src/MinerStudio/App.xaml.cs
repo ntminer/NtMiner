@@ -1,4 +1,4 @@
-﻿using NTMiner.RemoteDesktopEnabler;
+﻿using NTMiner.RemoteDesktop;
 using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -24,7 +24,7 @@ namespace NTMiner {
 
         private bool createdNew;
         private Mutex appMutex;
-        private static string s_appPipName = "ntminercontrol";
+        private static readonly string s_appPipName = "ntminercontrol";
 
         protected override void OnExit(ExitEventArgs e) {
             AppContext.NotifyIcon?.Dispose();

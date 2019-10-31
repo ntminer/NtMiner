@@ -87,10 +87,10 @@
     <Compile Include="ExtendedNotifyIcon.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoteDesktopEnabler\Firewall.cs" />
-    <Compile Include="RemoteDesktopEnabler\Rdp.partial.cs" />
-    <Compile Include="RemoteDesktopEnabler\Rdp.cs" />
-    <Compile Include="RemoteDesktopEnabler\RemoteDesktopInput.cs" />
+    <Compile Include="RemoteDesktop\Firewall.cs" />
+    <Compile Include="RemoteDesktop\Rdp.partial.cs" />
+    <Compile Include="RemoteDesktop\Rdp.cs" />
+    <Compile Include="RemoteDesktop\RdpInput.cs" />
     <Compile Include="View\AbstractAppViewFactory.cs" />
     <Compile Include="View\IAppViewFactory.cs" />
     <Compile Include="View\ISplashWindow.cs" />
