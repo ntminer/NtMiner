@@ -110,6 +110,7 @@
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
+    <Compile Include="Vms\KernelOutputKeywordViewModel.cs" />
     <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletViewModel.cs" />
