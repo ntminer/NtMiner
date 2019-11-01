@@ -124,8 +124,8 @@ namespace NTMiner.Core.Impl {
                         }
                         else {
                             _poolDelayById.Add(message.PoolId, new PoolDelay {
-                                MainCoinPoolDelayText = message.IsDual ? string.Empty : message.PoolDelayText,
-                                DualCoinPoolDelayText = message.IsDual ? message.PoolDelayText : string.Empty
+                                MainCoinPoolDelayText = string.Empty,
+                                DualCoinPoolDelayText = message.PoolDelayText
                             });
                         }
                     }
@@ -135,8 +135,8 @@ namespace NTMiner.Core.Impl {
                         }
                         else {
                             _poolDelayById.Add(message.PoolId, new PoolDelay {
-                                MainCoinPoolDelayText = message.IsDual ? string.Empty : message.PoolDelayText,
-                                DualCoinPoolDelayText = message.IsDual ? message.PoolDelayText : string.Empty
+                                MainCoinPoolDelayText = message.PoolDelayText,
+                                DualCoinPoolDelayText = string.Empty
                             });
                         }
                     }
