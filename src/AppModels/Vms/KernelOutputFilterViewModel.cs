@@ -26,7 +26,6 @@ namespace NTMiner.Vms {
         public KernelOutputFilterViewModel(IKernelOutputFilter data) : this(data.GetId()) {
             _kernelOutputId = data.KernelOutputId;
             _regexPattern = data.RegexPattern;
-            _id = data.GetId();
         }
 
         public KernelOutputFilterViewModel(Guid id) {
