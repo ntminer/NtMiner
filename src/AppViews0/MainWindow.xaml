@@ -76,8 +76,8 @@
                                 CommandParameter="{x:Static app:AppStatic.HomeDir}">
                                 <MenuItem.Icon>
                                     <Path
-						                Width="14"
-						                Height="14"
+						                Width="16"
+						                Height="16"
 						                Data="{StaticResource Icon_Home}"
 						                Fill="{StaticResource IconFillColor}"
 						                Stretch="Fill" />
@@ -89,11 +89,21 @@
                                 CommandParameter="{x:Static app:AppStatic.TempDir}">
                                 <MenuItem.Icon>
                                     <Path
-						                Width="14"
-						                Height="14"
+						                Width="16"
+						                Height="16"
 						                Data="{StaticResource Icon_Dir}"
 						                Fill="{StaticResource IconFillColor}"
 						                Stretch="Fill" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                            <MenuItem Header="图标" Command="{x:Static app:AppStatic.ShowIcons}">
+                                <MenuItem.Icon>
+                                    <Path
+							            Width="16"
+							            Height="16"
+							            Data="{StaticResource Icon_Icon}"
+							            Fill="{StaticResource IconFillColor}"
+							            Stretch="Fill" />
                                 </MenuItem.Icon>
                             </MenuItem>
                             <MenuItem 
@@ -102,8 +112,8 @@
                                 Visibility="{x:Static app:AppStatic.IsBrandSpecifiedCollapsed}">
                                 <MenuItem.Icon>
                                     <Path
-						                Width="14"
-						                Height="14"
+						                Width="16"
+						                Height="16"
 						                Data="{StaticResource Icon_Brand}"
 						                Fill="{StaticResource IconFillColor}"
 						                Stretch="Fill" />
