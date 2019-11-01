@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
         }
 
         public int Port {
-            get { return VirtualRoot.ControlCenterPort; }
+            get { return NTKeyword.ControlCenterPort; }
         }
 
         public Visibility IsPasswordAgainVisible {

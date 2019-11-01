@@ -11,6 +11,7 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
+using NTMiner.KernelOutputKeyword;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
@@ -214,7 +215,7 @@ namespace NTMiner {
 
         public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
-            if (LocalAppSettingSet.TryGetAppSetting(VirtualRoot.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
             }
             return serverJsonVersion;
@@ -222,17 +223,17 @@ namespace NTMiner {
 
         private void SetServerJsonVersion(string serverJsonVersion) {
             AppSettingData appSettingData = new AppSettingData() {
-                Key = VirtualRoot.ServerJsonVersionAppSettingKey,
+                Key = NTKeyword.ServerJsonVersionAppSettingKey,
                 Value = serverJsonVersion
             };
             string oldVersion = GetServerJsonVersion();
-            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
             VirtualRoot.RaiseEvent(new ServerJsonVersionChangedEvent(oldVersion, serverJsonVersion));
         }
 
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
-            this.ServerAppSettingSet = new ServerAppSettingSet(this);
+            this.ServerAppSettingSet = new ServerAppSettingSet();
             this.CalcConfigSet = new CalcConfigSet(this);
 
             ServerContextInit(isWork);
@@ -244,7 +245,7 @@ namespace NTMiner {
             this.CoinShareSet = new CoinShareSet(this);
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);
-            this.NTMinerWalletSet = new NTMinerWalletSet(this);
+            this.NTMinerWalletSet = new NTMinerWalletSet();
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             // 作业和在群控客户端管理作业时
@@ -274,9 +275,6 @@ namespace NTMiner {
                 // 因为这里耗时500毫秒左右
                 Task.Factory.StartNew(() => {
                     Windows.Error.DisableWindowsErrorUI();
-                    if (MinerProfile.IsAutoDisableWindowsFirewall) {
-                        Windows.Firewall.DisableFirewall();
-                    }
                     Windows.UAC.DisableUAC();
                     Windows.WAU.DisableWAUAsync();
                     Windows.Defender.DisableAntiSpyware();
@@ -327,7 +325,6 @@ namespace NTMiner {
             this.KernelOutputSet = new KernelOutputSet(this);
             this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
-            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(this);
         }
 
         private void Link() {
@@ -498,7 +495,7 @@ namespace NTMiner {
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
                 VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "挖矿停止", toConsole: true);
-                VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext));
+                VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext, stopReason));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -806,6 +803,24 @@ namespace NTMiner {
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
-        public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
+        private IKernelOutputKeywordSet _localKernelOutputKeywordSet;
+        public IKernelOutputKeywordSet LocalKernelOutputKeywordSet {
+            get {
+                if (_localKernelOutputKeywordSet == null) {
+                    _localKernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+                }
+                return _localKernelOutputKeywordSet;
+            }
+        }
+
+        private IKernelOutputKeywordSet _serverKernelOutputKeywordSet;
+        public IKernelOutputKeywordSet ServerKernelOutputKeywordSet {
+            get {
+                if (_serverKernelOutputKeywordSet == null) {
+                    _serverKernelOutputKeywordSet = new ServerKernelOutputKeywordSet(this);
+                }
+                return _serverKernelOutputKeywordSet;
+            }
+        }
     }
 }

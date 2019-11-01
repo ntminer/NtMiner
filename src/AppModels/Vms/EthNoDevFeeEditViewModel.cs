@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
                     Key = nameof(EthNoDevFeeWallet),
                     Value = EthNoDevFeeWallet
                 };
-                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
                 CloseWindow?.Invoke();
             });
         }

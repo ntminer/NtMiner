@@ -172,7 +172,7 @@
                     Key = nameof(IsErrorChecked),
                     Value = value
                 };
-                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
                 OnPropertyChanged(nameof(IsErrorChecked));
                 RefreshQueryResults();
             }
@@ -190,7 +190,7 @@
                     Key = nameof(IsWarnChecked),
                     Value = value
                 };
-                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
                 OnPropertyChanged(nameof(IsWarnChecked));
                 RefreshQueryResults();
             }
@@ -208,7 +208,7 @@
                     Key = nameof(IsInfoChecked),
                     Value = value
                 };
-                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
                 OnPropertyChanged(nameof(IsInfoChecked));
                 RefreshQueryResults();
             }

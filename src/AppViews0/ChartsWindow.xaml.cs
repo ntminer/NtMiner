@@ -53,7 +53,7 @@ namespace NTMiner.Views {
                     Value = item.IsShow
                 });
             }
-            VirtualRoot.Execute(new ChangeServerAppSettingsCommand(list));
+            VirtualRoot.Execute(new SetServerAppSettingsCommand(list));
             base.OnClosing(e);
         }
 
@@ -212,7 +212,7 @@ namespace NTMiner.Views {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        private void IsShowCheckBox_Changed(object sender, RoutedEventArgs e) {
+        private void IsShowCheckBox_Click(object sender, RoutedEventArgs e) {
             Vm.OnPropertyChanged(nameof(Vm.IsShowAll));
         }
     }

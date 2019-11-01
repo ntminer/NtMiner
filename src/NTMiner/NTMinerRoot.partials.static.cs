@@ -33,12 +33,10 @@ namespace NTMiner {
             private set { _isJsonLocal = value; }
         }
 
-        // 矿工名中不可以包含的字符
-        private static readonly char[] InvalidChars = { '.', ' ', '-', '_' };
         public static string ThisPcName {
             get {
                 string value = Environment.MachineName;
-                value = new string(value.ToCharArray().Where(a => !InvalidChars.Contains(a)).ToArray());
+                value = new string(value.ToCharArray().Where(a => !NTKeyword.InvalidMinerNameChars.Contains(a)).ToArray());
                 return value;
             }
         }
@@ -66,7 +64,7 @@ namespace NTMiner {
         public static Guid KernelBrandId {
             get {
                 if (!kernelBrandId.HasValue) {
-                    kernelBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, VirtualRoot.KernelBrandId);
+                    kernelBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, NTKeyword.KernelBrandId);
                 }
                 return kernelBrandId.Value;
             }
@@ -82,7 +80,7 @@ namespace NTMiner {
         public static Guid PoolBrandId {
             get {
                 if (!poolBrandId.HasValue) {
-                    poolBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, VirtualRoot.PoolBrandId);
+                    poolBrandId = VirtualRoot.GetBrandId(VirtualRoot.AppFileFullName, NTKeyword.PoolBrandId);
                 }
                 return poolBrandId.Value;
             }

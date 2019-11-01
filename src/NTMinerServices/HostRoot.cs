@@ -3,6 +3,7 @@ using LiteDB;
 using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
+using NTMiner.KernelOutputKeyword;
 using NTMiner.User;
 using System;
 using System.IO;
@@ -11,8 +12,8 @@ using System.Threading;
 namespace NTMiner {
     public class HostRoot : IHostRoot {
         private static EventWaitHandle WaitHandle = new AutoResetEvent(false);
-        public static readonly bool IsNotOfficial = Environment.CommandLine.IndexOf("--notofficial", StringComparison.OrdinalIgnoreCase) != -1;
-        public static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf("--enableInnerIp", StringComparison.OrdinalIgnoreCase) != -1;
+        public static readonly bool IsNotOfficial = Environment.CommandLine.IndexOf(NTKeyword.NotOfficialCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1;
+        public static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf(NTKeyword.EnableInnerIpCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1;
         private static Mutex _sMutexApp;
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]
@@ -56,7 +57,7 @@ namespace NTMiner {
 
         private static void Run() {
             try {
-                string baseAddress = $"http://localhost:{VirtualRoot.ControlCenterPort}";
+                string baseAddress = $"http://localhost:{NTKeyword.ControlCenterPort}";
                 HttpServer.Start(baseAddress);
                 Windows.ConsoleHandler.Register(Close);
                 WaitHandle.WaitOne();
@@ -143,6 +144,7 @@ namespace NTMiner {
             this.PoolSet = new PoolSet(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
+            this.KernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
         }
 
         public IUserSet UserSet { get; private set; }
@@ -172,5 +174,7 @@ namespace NTMiner {
         public IHostConfig HostConfig { get; private set; }
 
         public IOverClockDataSet OverClockDataSet { get; private set; }
+
+        public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
     }
 }

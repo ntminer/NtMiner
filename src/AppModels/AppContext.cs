@@ -8,7 +8,6 @@ namespace NTMiner {
         public static readonly AppContext Instance = new AppContext();
 
         public static ExtendedNotifyIcon NotifyIcon;
-        public static Action<RemoteDesktopInput> RemoteDesktop;
 
         private static readonly List<IMessagePathId> _contextHandlers = new List<IMessagePathId>();
 

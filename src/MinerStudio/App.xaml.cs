@@ -1,4 +1,5 @@
-﻿using NTMiner.View;
+﻿using NTMiner.RemoteDesktop;
+using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
@@ -23,7 +24,7 @@ namespace NTMiner {
 
         private bool createdNew;
         private Mutex appMutex;
-        private static string s_appPipName = "ntminercontrol";
+        private static readonly string s_appPipName = "ntminercontrol";
 
         protected override void OnExit(ExitEventArgs e) {
             AppContext.NotifyIcon?.Dispose();
@@ -109,8 +110,8 @@ namespace NTMiner {
                     VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
                 });
                 #endregion
-                HttpServer.Start($"http://localhost:{VirtualRoot.MinerStudioPort}");
-                AppContext.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
+                HttpServer.Start($"http://localhost:{NTKeyword.MinerStudioPort}");
+                Rdp.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
             });
         }
 

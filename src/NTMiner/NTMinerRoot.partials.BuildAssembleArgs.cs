@@ -42,15 +42,15 @@ namespace NTMiner {
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = coinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs ?? string.Empty;
-            parameters.Add(VirtualRoot.MainCoinParameterName, mainCoin.Code);
+            parameters.Add(NTKeyword.MainCoinParameterName, mainCoin.Code);
             string userName = string.Empty;
-            string password = VirtualRoot.PasswordDefaultValue;
+            string password = NTKeyword.PasswordDefaultValue;
             string wallet = coinProfile.Wallet;
             if (mainCoinPool.IsUserMode) {
                 IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
                 password = poolProfile.Password;
                 if (string.IsNullOrEmpty(password)) {
-                    password = VirtualRoot.PasswordDefaultValue;
+                    password = NTKeyword.PasswordDefaultValue;
                 }
                 userName = poolProfile.UserName;
                 wallet = poolProfile.UserName;
@@ -58,31 +58,31 @@ namespace NTMiner {
             else {
                 userName = wallet;
             }
-            parameters.Add(VirtualRoot.UserNameParameterName, userName);
-            parameters.Add(VirtualRoot.PasswordParameterName, password);
-            parameters.Add(VirtualRoot.WalletParameterName, wallet);
-            parameters.Add(VirtualRoot.HostParameterName, mainCoinPool.GetHost());
-            parameters.Add(VirtualRoot.PortParameterName, mainCoinPool.GetPort().ToString());
-            parameters.Add(VirtualRoot.PoolParameterName, mainCoinPool.Server);
+            parameters.Add(NTKeyword.UserNameParameterName, userName);
+            parameters.Add(NTKeyword.PasswordParameterName, password);
+            parameters.Add(NTKeyword.WalletParameterName, wallet);
+            parameters.Add(NTKeyword.HostParameterName, mainCoinPool.GetHost());
+            parameters.Add(NTKeyword.PortParameterName, mainCoinPool.GetPort().ToString());
+            parameters.Add(NTKeyword.PoolParameterName, mainCoinPool.Server);
             string minerName = $"{mainCoinPool.MinerNamePrefix}{this.MinerProfile.MinerName}{mainCoinPool.MinerNamePostfix}";
-            parameters.Add(VirtualRoot.WorkerParameterName, minerName);
+            parameters.Add(NTKeyword.WorkerParameterName, minerName);
             if (coinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
-                parameters.Add(VirtualRoot.Worker1ParameterName, minerName);
+                parameters.Add(NTKeyword.Worker1ParameterName, minerName);
                 if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
-                    parameters.Add(VirtualRoot.Host1ParameterName, mainCoinPool1.GetHost());
-                    parameters.Add(VirtualRoot.Port1ParameterName, mainCoinPool1.GetPort().ToString());
-                    parameters.Add(VirtualRoot.Pool1ParameterName, mainCoinPool1.Server);
+                    parameters.Add(NTKeyword.Host1ParameterName, mainCoinPool1.GetHost());
+                    parameters.Add(NTKeyword.Port1ParameterName, mainCoinPool1.GetPort().ToString());
+                    parameters.Add(NTKeyword.Pool1ParameterName, mainCoinPool1.Server);
                     if (mainCoinPool1.IsUserMode) {
                         IPoolProfile poolProfile1 = MinerProfile.GetPoolProfile(mainCoinPool1.GetId());
                         string password1 = poolProfile1.Password;
                         if (string.IsNullOrEmpty(password1)) {
-                            password1 = VirtualRoot.PasswordDefaultValue;
+                            password1 = NTKeyword.PasswordDefaultValue;
                         }
-                        parameters.Add(VirtualRoot.UserName1ParameterName, poolProfile1.UserName);
-                        parameters.Add(VirtualRoot.Password1ParameterName, password1);
+                        parameters.Add(NTKeyword.UserName1ParameterName, poolProfile1.UserName);
+                        parameters.Add(NTKeyword.Password1ParameterName, password1);
                     }
                     else {
-                        parameters.Add(VirtualRoot.Wallet1ParameterName, coinProfile.Wallet);
+                        parameters.Add(NTKeyword.Wallet1ParameterName, coinProfile.Wallet);
                     }
                 }
             }
@@ -95,14 +95,14 @@ namespace NTMiner {
                         ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
                         if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                             string dualUserName = string.Empty;
-                            string dualPassword = VirtualRoot.PasswordDefaultValue;
+                            string dualPassword = NTKeyword.PasswordDefaultValue;
                             string dualWallet = dualCoinProfile.DualCoinWallet;
-                            parameters.Add(VirtualRoot.DualCoinParameterName, dualCoin.Code);
+                            parameters.Add(NTKeyword.DualCoinParameterName, dualCoin.Code);
                             if (dualCoinPool.IsUserMode) {
                                 IPoolProfile dualPoolProfile = MinerProfile.GetPoolProfile(dualCoinPool.GetId());
                                 dualPassword = dualPoolProfile.Password;
                                 if (string.IsNullOrEmpty(dualPassword)) {
-                                    dualPassword = VirtualRoot.PasswordDefaultValue;
+                                    dualPassword = NTKeyword.PasswordDefaultValue;
                                 }
                                 dualUserName = dualPoolProfile.UserName;
                                 dualWallet = dualPoolProfile.UserName;
@@ -110,12 +110,12 @@ namespace NTMiner {
                             else {
                                 dualUserName = dualWallet;
                             }
-                            parameters.Add(VirtualRoot.DualUserNameParameterName, dualUserName);
-                            parameters.Add(VirtualRoot.DualPasswordParameterName, dualPassword);
-                            parameters.Add(VirtualRoot.DualWalletParameterName, dualWallet);
-                            parameters.Add(VirtualRoot.DualHostParameterName, dualCoinPool.GetHost());
-                            parameters.Add(VirtualRoot.DualPortParameterName, dualCoinPool.GetPort().ToString());
-                            parameters.Add(VirtualRoot.DualPoolParameterName, dualCoinPool.Server);
+                            parameters.Add(NTKeyword.DualUserNameParameterName, dualUserName);
+                            parameters.Add(NTKeyword.DualPasswordParameterName, dualPassword);
+                            parameters.Add(NTKeyword.DualWalletParameterName, dualWallet);
+                            parameters.Add(NTKeyword.DualHostParameterName, dualCoinPool.GetHost());
+                            parameters.Add(NTKeyword.DualPortParameterName, dualCoinPool.GetPort().ToString());
+                            parameters.Add(NTKeyword.DualPoolParameterName, dualCoinPool.Server);
 
                             kernelArgs = coinKernel.DualFullArgs;
                             AssembleArgs(parameters, ref kernelArgs, isDual: true);
@@ -226,28 +226,28 @@ namespace NTMiner {
                 args = string.Empty;
                 return;
             }
-            args = args.Replace("{" + VirtualRoot.MainCoinParameterName + "}", prms[VirtualRoot.MainCoinParameterName]);
-            if (prms.ContainsKey(VirtualRoot.WalletParameterName)) {
-                args = args.Replace("{" + VirtualRoot.WalletParameterName + "}", prms[VirtualRoot.WalletParameterName]);
+            args = args.Replace("{" + NTKeyword.MainCoinParameterName + "}", prms[NTKeyword.MainCoinParameterName]);
+            if (prms.ContainsKey(NTKeyword.WalletParameterName)) {
+                args = args.Replace("{" + NTKeyword.WalletParameterName + "}", prms[NTKeyword.WalletParameterName]);
             }
-            if (prms.ContainsKey(VirtualRoot.UserNameParameterName)) {
-                args = args.Replace("{" + VirtualRoot.UserNameParameterName + "}", prms[VirtualRoot.UserNameParameterName]);
+            if (prms.ContainsKey(NTKeyword.UserNameParameterName)) {
+                args = args.Replace("{" + NTKeyword.UserNameParameterName + "}", prms[NTKeyword.UserNameParameterName]);
             }
-            if (prms.ContainsKey(VirtualRoot.PasswordParameterName)) {
-                args = args.Replace("{" + VirtualRoot.PasswordParameterName + "}", prms[VirtualRoot.PasswordParameterName]);
+            if (prms.ContainsKey(NTKeyword.PasswordParameterName)) {
+                args = args.Replace("{" + NTKeyword.PasswordParameterName + "}", prms[NTKeyword.PasswordParameterName]);
             }
-            args = args.Replace("{" + VirtualRoot.HostParameterName + "}", prms[VirtualRoot.HostParameterName]);
-            args = args.Replace("{" + VirtualRoot.PortParameterName + "}", prms[VirtualRoot.PortParameterName]);
-            args = args.Replace("{" + VirtualRoot.PoolParameterName + "}", prms[VirtualRoot.PoolParameterName]);
-            args = args.Replace("{" + VirtualRoot.WorkerParameterName + "}", prms[VirtualRoot.WorkerParameterName]);
+            args = args.Replace("{" + NTKeyword.HostParameterName + "}", prms[NTKeyword.HostParameterName]);
+            args = args.Replace("{" + NTKeyword.PortParameterName + "}", prms[NTKeyword.PortParameterName]);
+            args = args.Replace("{" + NTKeyword.PoolParameterName + "}", prms[NTKeyword.PoolParameterName]);
+            args = args.Replace("{" + NTKeyword.WorkerParameterName + "}", prms[NTKeyword.WorkerParameterName]);
             if (isDual) {
-                args = args.Replace("{" + VirtualRoot.DualCoinParameterName + "}", prms[VirtualRoot.DualCoinParameterName]);
-                args = args.Replace("{" + VirtualRoot.DualWalletParameterName + "}", prms[VirtualRoot.DualWalletParameterName]);
-                args = args.Replace("{" + VirtualRoot.DualUserNameParameterName + "}", prms[VirtualRoot.DualUserNameParameterName]);
-                args = args.Replace("{" + VirtualRoot.DualPasswordParameterName + "}", prms[VirtualRoot.DualPasswordParameterName]);
-                args = args.Replace("{" + VirtualRoot.DualHostParameterName + "}", prms[VirtualRoot.DualHostParameterName]);
-                args = args.Replace("{" + VirtualRoot.DualPortParameterName + "}", prms[VirtualRoot.DualPortParameterName]);
-                args = args.Replace("{" + VirtualRoot.DualPoolParameterName + "}", prms[VirtualRoot.DualPoolParameterName]);
+                args = args.Replace("{" + NTKeyword.DualCoinParameterName + "}", prms[NTKeyword.DualCoinParameterName]);
+                args = args.Replace("{" + NTKeyword.DualWalletParameterName + "}", prms[NTKeyword.DualWalletParameterName]);
+                args = args.Replace("{" + NTKeyword.DualUserNameParameterName + "}", prms[NTKeyword.DualUserNameParameterName]);
+                args = args.Replace("{" + NTKeyword.DualPasswordParameterName + "}", prms[NTKeyword.DualPasswordParameterName]);
+                args = args.Replace("{" + NTKeyword.DualHostParameterName + "}", prms[NTKeyword.DualHostParameterName]);
+                args = args.Replace("{" + NTKeyword.DualPortParameterName + "}", prms[NTKeyword.DualPortParameterName]);
+                args = args.Replace("{" + NTKeyword.DualPoolParameterName + "}", prms[NTKeyword.DualPoolParameterName]);
             }
             // 这里不要考虑{logfile}，{logfile}往后推迟
         }

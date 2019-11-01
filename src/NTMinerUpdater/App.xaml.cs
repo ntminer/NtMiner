@@ -14,10 +14,10 @@ using System.Windows.Threading;
 namespace NTMiner {
     public partial class App : Application, IDisposable {
         private static class SafeNativeMethods {
-            [DllImport("User32.dll")]
+            [DllImport(DllName.User32Dll)]
             public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
 
-            [DllImport("User32.dll")]
+            [DllImport(DllName.User32Dll)]
             public static extern bool SetForegroundWindow(IntPtr hWnd);
         }
 

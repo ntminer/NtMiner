@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Notifications;
-using NTMiner.RemoteDesktopEnabler;
+using NTMiner.RemoteDesktop;
 using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -117,8 +117,14 @@ namespace NTMiner {
                         });
                         #endregion
                         Task.Factory.StartNew(() => {
+                            if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall) {
+                                Firewall.DisableFirewall();
+                            }
+                            if (!Firewall.IsMinerClientRuleExists()) {
+                                Firewall.AddMinerClientRule();
+                            }
                             try {
-                                HttpServer.Start($"http://localhost:{VirtualRoot.MinerClientPort}");
+                                HttpServer.Start($"http://localhost:{NTKeyword.MinerClientPort}");
                                 Daemon.DaemonUtil.RunNTMinerDaemon();
                             }
                             catch (Exception ex) {
@@ -238,8 +244,8 @@ namespace NTMiner {
                     message: msg,
                     title: "确认",
                     onYes: () => {
-                        Rdp.SetRdpEnabled(true, true);
-                        Firewall.AddRemoteDesktopRule();
+                        Rdp.SetRdpEnabled(true);
+                        Firewall.AddRdpRule();
                     }));
             });
             #endregion

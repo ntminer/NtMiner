@@ -26,7 +26,7 @@ namespace NTMiner.Core.Gpus {
 
         public static int[] GetUseDevices(this IGpuSet gpuSet) {
             List<int> list = new List<int>();
-            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(VirtualRoot.UseDevicesAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(NTKeyword.UseDevicesAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 string[] parts = setting.Value.ToString().Split(',');
                 foreach (var part in parts) {
                     if (int.TryParse(part, out int index)) {
@@ -52,10 +52,10 @@ namespace NTMiner.Core.Gpus {
                 gpuIndexes = new List<int>();
             }
             AppSettingData appSettingData = new AppSettingData() {
-                Key = VirtualRoot.UseDevicesAppSettingKey,
+                Key = NTKeyword.UseDevicesAppSettingKey,
                 Value = string.Join(",", gpuIndexes)// 存逗号分隔的字符串，因为litedb处理List、Array有问题
             };
-            VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
         }
     }
 }

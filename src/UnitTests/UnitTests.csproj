@@ -60,6 +60,7 @@
     <Compile Include="JsonTests.cs" />
     <Compile Include="RegexTests.cs" />
     <Compile Include="TimingTests.cs" />
+    <Compile Include="RemoteDesktopTests.cs" />
     <Compile Include="WorkerMessageTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
@@ -68,6 +69,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AppModels\AppModels.csproj">
+      <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
+      <Name>AppModels</Name>
+    </ProjectReference>
     <ProjectReference Include="..\HardwareProviders.CPU\HardwareProviders.CPU.csproj">
       <Project>{7de56519-4fc8-4a72-a143-098acc4de53c}</Project>
       <Name>HardwareProviders.CPU</Name>

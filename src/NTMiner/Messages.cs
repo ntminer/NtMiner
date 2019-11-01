@@ -94,10 +94,12 @@ namespace NTMiner {
 
     [MessageType(description: "挖矿停止事件")]
     public class MineStopedEvent : EventBase {
-        public MineStopedEvent(IMineContext mineContext) {
+        public MineStopedEvent(IMineContext mineContext, StopMineReason stopReason) {
             this.MineContext = mineContext;
+            this.StopReason = stopReason;
         }
         public IMineContext MineContext { get; private set; }
+        public StopMineReason StopReason { get; private set; }
     }
 
     [MessageType(description: "关闭NTMiner客户端")]

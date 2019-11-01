@@ -15,10 +15,10 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 try {
                     if (string.IsNullOrEmpty(this.FileName)) {
-                        this.FileName = "NTMinerUpdater.exe";
+                        this.FileName = NTKeyword.NTMinerUpdaterFileName;
                     }
-                    VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
-                        Key = VirtualRoot.NTMinerUpdaterFileNameAppSettingKey,
+                    VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
+                        Key = NTKeyword.NTMinerUpdaterFileNameAppSettingKey,
                         Value = this.FileName
                     }));
                     CloseWindow?.Invoke();
@@ -27,11 +27,11 @@ namespace NTMiner.Vms {
                     Logger.ErrorDebugLine(e);
                 }
             });
-            if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting(VirtualRoot.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting appSetting) && appSetting.Value != null) {
+            if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting appSetting) && appSetting.Value != null) {
                 _fileName = appSetting.Value.ToString();
             }
             else {
-                _fileName = "NTMinerUpdater.exe";
+                _fileName = NTKeyword.NTMinerUpdaterFileName;
             }
         }
 

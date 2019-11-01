@@ -35,9 +35,9 @@ namespace NTMiner {
         private const string MinerStudio = "MinerStudio";
         #region Location
         public static string GetLocation() {
-            string valueName = "Location";
+            string valueName = NTKeyword.LocationRegistryKey;
             if (VirtualRoot.IsMinerStudio) {
-                valueName = MinerStudio + "Location";
+                valueName = MinerStudio + NTKeyword.LocationRegistryKey;
             }
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
             if (value != null) {
@@ -47,9 +47,9 @@ namespace NTMiner {
         }
 
         public static void SetLocation(string location) {
-            string valueName = "Location";
+            string valueName = NTKeyword.LocationRegistryKey;
             if (VirtualRoot.IsMinerStudio) {
-                valueName = MinerStudio + "Location";
+                valueName = MinerStudio + NTKeyword.LocationRegistryKey;
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, location);
         }
@@ -57,20 +57,20 @@ namespace NTMiner {
 
         #region IsLastIsWork
         public static bool GetIsLastIsWork() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsLastIsWork");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.IsLastIsWorkRegistryKey);
             return value != null && value.ToString() == "True";
         }
 
         public static void SetIsLastIsWork(bool value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsLastIsWork", value);
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.IsLastIsWorkRegistryKey, value);
         }
         #endregion
 
         #region Arguments
         public static string GetArguments() {
-            string valueName = "Arguments";
+            string valueName = NTKeyword.ArgumentsRegistryKey;
             if (VirtualRoot.IsMinerStudio) {
-                valueName = MinerStudio + "Arguments";
+                valueName = MinerStudio + NTKeyword.ArgumentsRegistryKey;
             }
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
             if (value != null) {
@@ -80,9 +80,9 @@ namespace NTMiner {
         }
 
         public static void SetArguments(string arguments) {
-            string valueName = "Arguments";
+            string valueName = NTKeyword.ArgumentsRegistryKey;
             if (VirtualRoot.IsMinerStudio) {
-                valueName = MinerStudio + "Arguments";
+                valueName = MinerStudio + NTKeyword.ArgumentsRegistryKey;
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, arguments);
         }
@@ -90,9 +90,9 @@ namespace NTMiner {
 
         #region CurrentVersion
         public static string GetCurrentVersion() {
-            string valueName = "CurrentVersion";
+            string valueName = NTKeyword.CurrentVersionRegistryKey;
             if (VirtualRoot.IsMinerStudio) {
-                valueName = MinerStudio + "CurrentVersion";
+                valueName = MinerStudio + NTKeyword.CurrentVersionRegistryKey;
             }
             string currentVersion = "1.0.0.0";
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
@@ -106,9 +106,9 @@ namespace NTMiner {
         }
 
         public static void SetCurrentVersion(string version) {
-            string valueName = "CurrentVersion";
+            string valueName = NTKeyword.CurrentVersionRegistryKey;
             if (VirtualRoot.IsMinerStudio) {
-                valueName = MinerStudio + "CurrentVersion";
+                valueName = MinerStudio + NTKeyword.CurrentVersionRegistryKey;
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, version);
         }
@@ -116,9 +116,9 @@ namespace NTMiner {
 
         #region CurrentVersionTag
         public static string GetCurrentVersionTag() {
-            string valueName = "CurrentVersionTag";
+            string valueName = NTKeyword.CurrentVersionTagRegistryKey;
             if (VirtualRoot.IsMinerStudio) {
-                valueName = MinerStudio + "CurrentVersionTag";
+                valueName = MinerStudio + NTKeyword.CurrentVersionTagRegistryKey;
             }
             string currentVersionTag = string.Empty;
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, valueName);
@@ -129,9 +129,9 @@ namespace NTMiner {
         }
 
         public static void SetCurrentVersionTag(string versionTag) {
-            string valueName = "CurrentVersionTag";
+            string valueName = NTKeyword.CurrentVersionTagRegistryKey;
             if (VirtualRoot.IsMinerStudio) {
-                valueName = MinerStudio + "CurrentVersionTag";
+                valueName = MinerStudio + NTKeyword.CurrentVersionTagRegistryKey;
             }
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, valueName, versionTag);
         }
@@ -140,7 +140,7 @@ namespace NTMiner {
         #region ControlCenterHost
         public const string DefaultControlCenterHost = "localhost";
         public static string GetControlCenterHost() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterHostRegistryKey);
             if (value == null) {
                 return DefaultControlCenterHost;
             }
@@ -151,13 +151,13 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(host)) {
                 host = DefaultControlCenterHost;
             }
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHost", host);
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterHostRegistryKey, host);
         }
         #endregion
 
         #region ControlCenterHosts
         public static List<string> GetControlCenterHosts() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterHostsRegistryKey);
             if (value == null) {
                 return new List<string>();
             }
@@ -169,13 +169,13 @@ namespace NTMiner {
             if (hosts != null) {
                 value = string.Join(",", hosts);
             }
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ControlCenterHosts", value);
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterHostsRegistryKey, value);
         }
         #endregion
 
         #region DaemonVersion
         public static string GetDaemonVersion() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.DaemonVersionRegistryKey);
             if (value == null) {
                 return string.Empty;
             }
@@ -186,13 +186,13 @@ namespace NTMiner {
             if (version == null) {
                 version = string.Empty;
             }
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonVersion", version);
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.DaemonVersionRegistryKey, version);
         }
         #endregion
 
         #region DaemonActiveOn
         public static DateTime GetDaemonActiveOn() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.DaemonActiveOnRegistryKey);
             if (value == null) {
                 return DateTime.MinValue;
             }
@@ -204,21 +204,21 @@ namespace NTMiner {
         }
 
         public static void SetDaemonActiveOn(DateTime version) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "DaemonActiveOn", version.ToString());
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.DaemonActiveOnRegistryKey, version.ToString());
         }
         #endregion
 
         #region GetClientId
         public static Guid GetClientId() {
             Guid id;
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "ClientId");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ClientIdRegistryKey);
             if (value == null) {
                 id = Guid.NewGuid();
-                Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ClientId", id.ToString());
+                Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ClientIdRegistryKey, id.ToString());
             }
             else if (!Guid.TryParse((string)value, out id)) {
                 id = Guid.NewGuid();
-                Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "ClientId", id.ToString());
+                Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ClientIdRegistryKey, id.ToString());
             }
             return id;
         }
@@ -226,12 +226,12 @@ namespace NTMiner {
 
         #region MinerName 非群控模式时将矿工名交换到注册表从而作为群控模式时未指定矿工名的缺省矿工名
         public static string GetMinerName() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName");
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.MinerNameRegistryKey);
             return (value ?? string.Empty).ToString();
         }
 
         public static void SetMinerName(string value) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, "MinerName", value);
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.MinerNameRegistryKey, value);
         }
         #endregion
 

@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
 
         public int ControlCenterPort {
             get {
-                return VirtualRoot.ControlCenterPort;
+                return NTKeyword.ControlCenterPort;
             }
         }
     }

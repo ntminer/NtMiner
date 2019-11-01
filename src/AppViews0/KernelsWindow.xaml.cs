@@ -34,10 +34,25 @@ namespace NTMiner.Views {
             if (DevMode.IsDevMode) {
                 this.Width += 600;
             }
+            this.WindowContextEventPath<MineStopedEvent>("当内核宝库窗口开着时如果是本地手动停止的挖矿则引发UserActionEvent事件", LogEnum.DevConsole,
+                action: message => {
+                    if (message.StopReason == StopMineReason.LocalUserAction) {
+                        VirtualRoot.RaiseEvent(new UserActionEvent());
+                    }
+                });
+            this.WindowContextEventPath<ServerContextVmsReInitedEvent>("ServerContext的Vm集刷新后刷新内核宝库", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Vm.OnPropertyChanged(nameof(Vm.QueryResults));
+                    });
+                });
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
             this.Activated += (object sender, EventArgs e) => {
                 NotiCenterWindow.Instance.SwitchOwner(this);
             };
+            if (!Vm.MinerProfile.IsMining) {
+                VirtualRoot.RaiseEvent(new UserActionEvent());
+            }
         }
 
         protected override void OnClosed(EventArgs e) {
@@ -60,6 +75,53 @@ namespace NTMiner.Views {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
             }
+        }
+
+        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            WpfUtil.DataGrid_MouseDoubleClick<KernelViewModel>(sender, e);
+        }
+
+        private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {
+            double offset = CoinsScrollView.ContentHorizontalOffset - CoinsScrollView.ViewportWidth;
+            CoinsScrollView.ScrollToHorizontalOffset(offset);
+            ButtonLeftCoin.IsEnabled = offset > 0;
+            ButtonRightCoin.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
+        }
+
+        private void ButtonRightCoin_Click(object sender, RoutedEventArgs e) {
+            double offset = CoinsScrollView.ContentHorizontalOffset + CoinsScrollView.ViewportWidth;
+            CoinsScrollView.ScrollToHorizontalOffset(offset);
+            ButtonLeftCoin.IsEnabled = offset > 0;
+            ButtonRightCoin.IsEnabled = offset < CoinsScrollView.ScrollableWidth;
+        }
+
+        private void CoinsScrollView_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void ListBox_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                Window window = Window.GetWindow(this);
+                window.DragMove();
+            }
+        }
+
+        private void ButtonLeftBrand_Click(object sender, RoutedEventArgs e) {
+            double offset = BrandsScrollView.ContentHorizontalOffset - BrandsScrollView.ViewportWidth;
+            BrandsScrollView.ScrollToHorizontalOffset(offset);
+            ButtonLeftBrand.IsEnabled = offset > 0;
+            ButtonRightBrand.IsEnabled = offset < BrandsScrollView.ScrollableWidth;
+        }
+
+        private void ButtonRightBrand_Click(object sender, RoutedEventArgs e) {
+            double offset = BrandsScrollView.ContentHorizontalOffset + BrandsScrollView.ViewportWidth;
+            BrandsScrollView.ScrollToHorizontalOffset(offset);
+            ButtonLeftBrand.IsEnabled = offset > 0;
+            ButtonRightBrand.IsEnabled = offset < BrandsScrollView.ScrollableWidth;
+        }
+
+        private void BrandsScrollView_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

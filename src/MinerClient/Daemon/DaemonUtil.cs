@@ -67,7 +67,7 @@ namespace NTMiner.Daemon {
 
         private static void ExtractRunNTMinerDaemonAsync() {
             Task.Factory.StartNew(() => {
-                string[] names = new string[] { "NTMinerDaemon.exe" };
+                string[] names = new string[] { NTKeyword.NTMinerDaemonFileName };
                 foreach (var name in names) {
                     ExtractResource(name);
                 }
@@ -83,13 +83,13 @@ namespace NTMiner.Daemon {
             }
             Task.Factory.StartNew(() => {
                 if (!File.Exists(SpecialPath.DevConsoleFileFullName)) {
-                    string name = "DevConsole.exe";
+                    string name = NTKeyword.DevConsoleFileName;
                     ExtractResource(name);
                     Logger.OkDebugLine("DevConsole解压成功");
                 }
                 else if (HashUtil.Sha1(File.ReadAllBytes(SpecialPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
                     Windows.TaskKill.Kill("DevConsole", waitForExit: true);
-                    string name = "DevConsole.exe";
+                    string name = NTKeyword.DevConsoleFileName;
                     ExtractResource(name);
                     Logger.OkDebugLine("发现新版DevConsole，更新成功");
                 }
@@ -116,7 +116,7 @@ namespace NTMiner.Daemon {
             get {
                 if (s_thisDevConsoleFileVersion == null) {
                     try {
-                        string name = "DevConsole.exe";
+                        string name = NTKeyword.DevConsoleFileName;
                         Type type = typeof(DaemonUtil);
                         Assembly assembly = type.Assembly;
                         using (var stream = assembly.GetManifestResourceStream(type, name)) {

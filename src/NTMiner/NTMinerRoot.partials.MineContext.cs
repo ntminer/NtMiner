@@ -41,7 +41,7 @@ namespace NTMiner {
                 this.KernelInput = kernelInput;
                 this.KernelOutput = kernelOutput;
                 string logFileName;
-                if (this.CommandLine.Contains("{logfile}")) {
+                if (this.CommandLine.Contains(NTKeyword.LogFileParameterName)) {
                     this.KernelProcessType = KernelProcessType.Logfile;
                     logFileName = $"{this.Kernel.Code}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss_fff")}.log";
                 }

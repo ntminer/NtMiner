@@ -24,10 +24,10 @@ namespace NTMiner {
         public static string WorkerMessageDbFileFullName {
             get {
                 if (IsMinerClient) {
-                    return Path.Combine(MainAssemblyInfo.TempDirFullName, "workerMessage.litedb");
+                    return Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.WorkerMessageDbFileName);
                 }
                 if (IsMinerStudio) {
-                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, "workerMessage.litedb");
+                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.WorkerMessageDbFileName);
                 }
                 return string.Empty;
             }
@@ -54,7 +54,7 @@ namespace NTMiner {
                     }
                     else {
                         // 基于约定
-                        _isMinerClient = assembly.GetManifestResourceInfo("NTMiner.Daemon.NTMinerDaemon.exe") != null;
+                        _isMinerClient = assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null;
                     }
                     _isMinerClientDetected = true;
                 }
@@ -76,7 +76,7 @@ namespace NTMiner {
                     if (_isMinerStudioDetected) {
                         return _isMinerStudio;
                     }
-                    if (Environment.CommandLine.IndexOf("--minerstudio", StringComparison.OrdinalIgnoreCase) != -1) {
+                    if (Environment.CommandLine.IndexOf(NTKeyword.MinerStudioCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1) {
                         _isMinerStudio = true;
                     }
                     else {
@@ -86,7 +86,7 @@ namespace NTMiner {
                         if (assembly == null) {
                             return false;
                         }
-                        _isMinerStudio = assembly.GetManifestResourceInfo("NTMiner.NTMinerServices.NTMinerServices.exe") != null;
+                        _isMinerStudio = assembly.GetManifestResourceInfo(NTKeyword.NTMinerServicesKey) != null;
                     }
                     _isMinerStudioDetected = true;
                 }
@@ -257,10 +257,6 @@ namespace NTMiner {
             WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ServerWorkerInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Server, provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
         public static void ThisWorkerWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
             WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
@@ -269,20 +265,12 @@ namespace NTMiner {
             WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ServerWorkerWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Server, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
         public static void ThisWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
             WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
         public static void KernelWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
             WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
-        public static void ServerWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Server, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
         private static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
@@ -346,6 +334,17 @@ namespace NTMiner {
             return new NTMinerWebClient(timeoutSeconds);
         }
 
+        // 因为界面上输入框不好体现输入的空格，所以这里对空格进行转义
+        public const string SpaceKeyword = "space";
+        // 如果没有使用分隔符分割序号的话无法表达两位数的序号，此时这种情况基本都是用ABCDEFGH……表达的后续的两位数
+        private static readonly string[] IndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n" };
+        public static string GetIndexChar(int index, string separator) {
+            if (index <= 9 || !string.IsNullOrEmpty(separator)) {
+                return index.ToString();
+            }
+            return IndexChars[index - 10];
+        }
+
         #region 内部类
         public class WorkerMessageSet : IEnumerable<IWorkerMessage> {
             private readonly string _connectionString;
@@ -381,7 +380,7 @@ namespace NTMiner {
                 List<IWorkerMessage> removes = new List<IWorkerMessage>();
                 lock (_locker) {
                     _records.AddFirst(data);
-                    while (_records.Count > WorkerMessageSetCapacity) {
+                    while (_records.Count > NTKeyword.WorkerMessageSetCapacity) {
                         var toRemove = _records.Last;
                         removes.Add(toRemove.Value);
                         _records.RemoveLast();
@@ -430,7 +429,7 @@ namespace NTMiner {
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<WorkerMessageData>();
                             foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                                if (_records.Count < WorkerMessageSetCapacity) {
+                                if (_records.Count < NTKeyword.WorkerMessageSetCapacity) {
                                     _records.AddFirst(item);
                                 }
                                 else {

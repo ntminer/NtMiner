@@ -4,6 +4,7 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
+    // TODO:返回服务器最新消息的时间戳，挖矿端根据时间戳判断服务器是否有新消息
     public class ReportController : ApiControllerBase, IReportController {
         [HttpPost]
         public void ReportSpeed([FromBody]SpeedData speedData) {

@@ -12,10 +12,10 @@ namespace NTMiner {
     }
 
     internal class SafeNativeMethods {
-        [DllImport("user32.dll")]
+        [DllImport(DllName.User32Dll)]
         internal static extern IntPtr GetForegroundWindow();
 
-        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        [DllImport(DllName.User32Dll, CharSet = CharSet.Auto)]
         internal static extern bool GetCursorPos(out POINT pt);
     }
 }

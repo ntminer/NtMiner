@@ -7,11 +7,11 @@ namespace NTMiner.Views {
     internal class SafeNativeMethods {
         internal const int GWL_STYLE = -16;
         internal const int WS_VISIBLE = 0x10000000;
-        [DllImport("user32.dll")]
+        [DllImport(DllName.User32Dll)]
         internal static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(DllName.User32Dll, SetLastError = true)]
         internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, ExactSpelling = true, SetLastError = true)]
+        [DllImport(DllName.User32Dll, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, ExactSpelling = true, SetLastError = true)]
         internal static extern void MoveWindow(IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     }
 

@@ -1,6 +1,7 @@
 ﻿using Aliyun.OSS;
 using NTMiner.AppSetting;
 using NTMiner.Data;
+using NTMiner.KernelOutputKeyword;
 using NTMiner.User;
 using System;
 
@@ -25,5 +26,6 @@ namespace NTMiner {
         IWalletSet WalletSet { get; }
         INTMinerFileSet NTMinerFileSet { get; }
         IOverClockDataSet OverClockDataSet { get; }
+        IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
     }
 }

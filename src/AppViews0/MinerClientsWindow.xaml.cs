@@ -57,19 +57,19 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosing(CancelEventArgs e) {
-            VirtualRoot.Execute(new ChangeServerAppSettingsCommand(
+            VirtualRoot.Execute(new SetServerAppSettingsCommand(
                 new AppSettingData[]{
                         new AppSettingData {
-                            Key = VirtualRoot.FrozenColumnCountAppSettingKey,
+                            Key = NTKeyword.FrozenColumnCountAppSettingKey,
                             Value = Vm.FrozenColumnCount
                         },new AppSettingData {
-                            Key = VirtualRoot.MaxTempAppSettingKey,
+                            Key = NTKeyword.MaxTempAppSettingKey,
                             Value = Vm.MaxTemp
                         },new AppSettingData {
-                            Key = VirtualRoot.MinTempAppSettingKey,
+                            Key = NTKeyword.MinTempAppSettingKey,
                             Value = Vm.MinTemp
                         },new AppSettingData {
-                            Key = VirtualRoot.RejectPercentAppSettingKey,
+                            Key = NTKeyword.RejectPercentAppSettingKey,
                             Value = Vm.RejectPercent
                         }
             }));

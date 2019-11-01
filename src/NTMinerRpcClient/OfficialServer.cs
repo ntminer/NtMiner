@@ -14,6 +14,7 @@ namespace NTMiner {
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
         public static readonly NTMinerWalletServiceFace NTMinerWalletService = NTMinerWalletServiceFace.Instance;
+        public static readonly KernelOutputKeywordServiceFace KernelOutputKeywordService = KernelOutputKeywordServiceFace.Instance;
         public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
 
         public static string SignatureSafeUrl(Uri uri) {
@@ -41,7 +42,7 @@ namespace NTMiner {
                         if (query != null && query.Count != 0) {
                             queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                         }
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{VirtualRoot.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
+                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -61,7 +62,7 @@ namespace NTMiner {
                             queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));
                         }
 
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{VirtualRoot.ControlCenterPort}/api/{controller}/{action}{queryString}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
