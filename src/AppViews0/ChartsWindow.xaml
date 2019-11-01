@@ -37,7 +37,7 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<WrapPanel Grid.Column="0" Margin="4" VerticalAlignment="Center">
-				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+                <Image Width="20" Height="20" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 				</Image>
 				<TextBlock
 					VerticalAlignment="Center"
@@ -65,6 +65,8 @@
 							Stretch="Fill" />
 					</controls:KbButton>
 					<controls:KbButton 
+                        Width="20"
+                        Height="20"
 						ToolTip="矿机列表"
 						Command="{x:Static app:AppStatic.ShowMinerClients}" 
 						Background="Transparent" 
