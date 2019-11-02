@@ -30,6 +30,7 @@ namespace UnitTests {
             using (StreamReader sr = new StreamReader(fs)) {
                 Assert.IsTrue(sr.EndOfStream);
             }
+            File.Delete(tempFile);
         }
 
         [TestMethod]
@@ -48,6 +49,9 @@ namespace UnitTests {
             Assert.AreEqual(ip, Hosts.GetIp(host, out r, hostsPath));
             Assert.IsTrue(r >= 0);
             File.Delete(hostsPath);
+            Hosts.SetHost("test.com", "111.111.111.111", hostsPath);
+            Hosts.SetHost(host, ip, hostsPath);
+            Assert.AreEqual(ip, Hosts.GetIp(host, out r, hostsPath));
         }
     }
 }

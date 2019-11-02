@@ -38,7 +38,7 @@ namespace NTMiner {
         }
 
         public static void SetHost(string host, string ip, string hostsPath = null) {
-            GetIp(host, out long position);
+            GetIp(host, out long position, hostsPath);
             if (position == -2) {
                 File.WriteAllText(hostsPath, $"{ip} {host}");
                 return;
@@ -59,15 +59,20 @@ namespace NTMiner {
                     }
                 }
                 else {
+                    bool writed = false;
                     while (!sr.EndOfStream) {
                         if (sr.BaseStream.Position == position) {
                             if (!string.IsNullOrEmpty(ip)) {
                                 sw.WriteLine($"{ip} {host}");
                             }
+                            writed = true;
                         }
                         else {
                             sw.WriteLine(sr.ReadLine());
                         }
+                    }
+                    if (!writed) {
+                        sw.WriteLine($"{ip} {host}");
                     }
                 }
                 sw.Flush();
