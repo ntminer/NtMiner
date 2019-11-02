@@ -66,6 +66,7 @@
     <Compile Include="AppContext.partials.GpuViewModels.cs" />
     <Compile Include="AppContext.partials.GroupViewModels.cs" />
     <Compile Include="AppContext.partials.KernelInputViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputKeywordViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputFilterViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputTranslaterViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputViewModels.cs" />

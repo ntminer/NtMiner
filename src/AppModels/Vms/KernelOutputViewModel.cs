@@ -141,6 +141,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public List<KernelOutputKeywordViewModel> KernelOutputKeywords {
+            get {
+                return new List<KernelOutputKeywordViewModel>(AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.Id));
+            }
+        }
+
         public string TranslaterKeyword {
             get { return _translaterKeyword; }
             set {
