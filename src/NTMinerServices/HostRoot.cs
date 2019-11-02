@@ -20,17 +20,17 @@ namespace NTMiner {
         static void Main(string[] args) {
             VirtualRoot.StartTimer();
             try {
-                Console.Title = "NTControlCenterServices";
+                Console.Title = "NTMinerServices";
                 bool mutexCreated;
                 try {
-                    _sMutexApp = new Mutex(true, "NTControlCenterServicesMutex", out mutexCreated);
+                    _sMutexApp = new Mutex(true, "NTMinerServicesMutex", out mutexCreated);
                 }
                 catch {
                     mutexCreated = false;
                 }
                 if (mutexCreated) {
                     if (!EnableInnerIp) {
-                        NTMinerRegistry.SetAutoBoot("NTControlCenterServices", true);
+                        NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
                     }
                     Type thisType = typeof(HostRoot);
                     Run();

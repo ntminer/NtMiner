@@ -17,7 +17,7 @@ namespace NTMiner {
             }
 
             public void GetServicesVersionAsync(Action<string, Exception> callback) {
-                Process[] processes = Process.GetProcessesByName("NTControlCenterServices");
+                Process[] processes = Process.GetProcessesByName("NTMinerServices");
                 if (processes.Length == 0) {
                     callback?.Invoke(string.Empty, null);
                 }
@@ -37,7 +37,7 @@ namespace NTMiner {
 
             public void CloseServices() {
                 try {
-                    Process[] processes = Process.GetProcessesByName("NTControlCenterServices");
+                    Process[] processes = Process.GetProcessesByName("NTMinerServices");
                     if (processes.Length == 0) {
                         return;
                     }

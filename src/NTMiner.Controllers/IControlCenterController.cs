@@ -4,12 +4,9 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
-    public interface IReadonlyControlCenterController {
+    public interface IControlCenterController {
         DataResponse<List<CalcConfigData>> CalcConfigs(CalcConfigsRequest request);
         ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request);
-    }
-
-    public interface IControlCenterController : IReadonlyControlCenterController {
         string GetServicesVersion();
         void CloseServices();
         ResponseBase ActiveControlCenterAdmin(string password);

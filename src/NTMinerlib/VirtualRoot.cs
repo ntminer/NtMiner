@@ -86,7 +86,7 @@ namespace NTMiner {
                         if (assembly == null) {
                             return false;
                         }
-                        _isMinerStudio = assembly.GetManifestResourceInfo(NTKeyword.NTControlCenterServicesKey) != null;
+                        _isMinerStudio = assembly.GetManifestResourceInfo(NTKeyword.NTMinerServicesKey) != null;
                     }
                     _isMinerStudioDetected = true;
                 }

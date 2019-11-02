@@ -62,7 +62,7 @@ namespace NTMiner {
                 if (result.HasValue && result.Value) {
                     bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
                     if (isInnerIp) {
-                        NTControlCenterServices.NTControlCenterServicesUtil.RunNTControlCenterServices(() => {
+                        NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(() => {
                             Init();
                         });
                     }

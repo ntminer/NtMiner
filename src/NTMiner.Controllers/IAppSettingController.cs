@@ -3,12 +3,9 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
-    public interface IReadonlyAppSettingController {
+    public interface IAppSettingController {
         DateTime GetTime();
         string GetJsonFileVersion(AppSettingRequest request);
-    }
-
-    public interface IAppSettingController : IReadonlyAppSettingController {
         DataResponse<AppSettingData> AppSetting(AppSettingRequest request);
         DataResponse<List<AppSettingData>> AppSettings(AppSettingsRequest request);
         ResponseBase SetAppSetting(DataRequest<AppSettingData> request);

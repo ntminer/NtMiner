@@ -8,24 +8,24 @@ using System.Reflection;
 /// 注意不要挪动这里的命名空间也不要挪动该代码文件所处的程序集
 /// 嵌入的资源的位置和命名空间有关契约关系
 /// </summary>
-namespace NTMiner.NTControlCenterServices {
-    public static class NTControlCenterServicesUtil {
-        static NTControlCenterServicesUtil() {
+namespace NTMiner.NTMinerServices {
+    public static class NTMinerServicesUtil {
+        static NTMinerServicesUtil() {
         }
 
-        public static void RunNTControlCenterServices(Action callback) {
-            string processName = "NTControlCenterServices";
+        public static void RunNTMinerServices(Action callback) {
+            string processName = "NTMinerServices";
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
                 Server.ControlCenterService.GetServicesVersionAsync((thatVersion, exception) => {
                     try {
-                        string thisVersion = ThisNTControlCenterServicesFileVersion;
+                        string thisVersion = ThisNTMinerServicesFileVersion;
                         if (thatVersion != thisVersion) {
-                            Logger.InfoDebugLine($"发现新版NTControlCenterServices：{thatVersion}->{thisVersion}");
+                            Logger.InfoDebugLine($"发现新版NTMinerServices：{thatVersion}->{thisVersion}");
                             Server.ControlCenterService.CloseServices();
                             System.Threading.Thread.Sleep(1000);
                             Windows.TaskKill.Kill(processName, waitForExit: true);
-                            ExtractRunNTControlCenterServicesAsync(callback);
+                            ExtractRunNTMinerServicesAsync(callback);
                         }
                         else {
                             callback?.Invoke();
@@ -33,17 +33,17 @@ namespace NTMiner.NTControlCenterServices {
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
-                        VirtualRoot.ThisWorkerError(nameof(NTControlCenterServicesUtil), "启动失败，请重试，如果问题一直持续请联系开发者解决问题", toConsole: true);
+                        VirtualRoot.ThisWorkerError(nameof(NTMinerServicesUtil), "启动失败，请重试，如果问题一直持续请联系开发者解决问题", toConsole: true);
                     }
                 });
             }
             else {
-                ExtractRunNTControlCenterServicesAsync(callback);
+                ExtractRunNTMinerServicesAsync(callback);
             }
         }
 
-        private static void ExtractRunNTControlCenterServicesAsync(Action callback) {
-            string[] names = new string[] { NTKeyword.NTControlCenterServicesFileName };
+        private static void ExtractRunNTMinerServicesAsync(Action callback) {
+            string[] names = new string[] { NTKeyword.NTMinerServicesFileName };
             foreach (var name in names) {
                 ExtractResource(name);
             }
@@ -54,7 +54,7 @@ namespace NTMiner.NTControlCenterServices {
 
         private static void ExtractResource(string name) {
             try {
-                Type type = typeof(NTControlCenterServicesUtil);
+                Type type = typeof(NTMinerServicesUtil);
                 Assembly assembly = type.Assembly;
                 string dir = Path.GetDirectoryName(SpecialPath.ServicesFileFullName);
                 assembly.ExtractManifestResource(type, name, Path.Combine(dir, name));
@@ -64,26 +64,26 @@ namespace NTMiner.NTControlCenterServices {
             }
         }
 
-        private static string s_thisNTControlCenterServicesFileVersion;
-        private static string ThisNTControlCenterServicesFileVersion {
+        private static string s_thisNTMinerServicesFileVersion;
+        private static string ThisNTMinerServicesFileVersion {
             get {
-                if (s_thisNTControlCenterServicesFileVersion == null) {
+                if (s_thisNTMinerServicesFileVersion == null) {
                     try {
-                        string name = NTKeyword.NTControlCenterServicesFileName;
-                        Type type = typeof(NTControlCenterServicesUtil);
+                        string name = NTKeyword.NTMinerServicesFileName;
+                        Type type = typeof(NTMinerServicesUtil);
                         Assembly assembly = type.Assembly;
                         using (var stream = assembly.GetManifestResourceStream(type, name)) {
                             byte[] data = new byte[stream.Length];
                             stream.Read(data, 0, data.Length);
-                            s_thisNTControlCenterServicesFileVersion = HashUtil.Sha1(data);
+                            s_thisNTMinerServicesFileVersion = HashUtil.Sha1(data);
                         }
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
-                        s_thisNTControlCenterServicesFileVersion = string.Empty;
+                        s_thisNTMinerServicesFileVersion = string.Empty;
                     }
                 }
-                return s_thisNTControlCenterServicesFileVersion;
+                return s_thisNTMinerServicesFileVersion;
             }
         }
     }

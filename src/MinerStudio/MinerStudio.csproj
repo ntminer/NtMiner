@@ -107,7 +107,7 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
     <Compile Include="MsRdpRemoteDesktop.cs" />
-    <Compile Include="NTControlCenterServices\NTControlCenterServicesUtil.cs" />
+    <Compile Include="NTMinerServices\NTMinerServicesUtil.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -191,7 +191,7 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NTControlCenterServices\NTControlCenterServices.exe" />
+    <EmbeddedResource Include="NTMinerServices\NTMinerServices.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />
