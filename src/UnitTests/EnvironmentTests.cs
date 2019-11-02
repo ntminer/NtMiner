@@ -36,11 +36,17 @@ namespace UnitTests {
         public void HostsTest() {
             string hostsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "hosts");
             File.Delete(hostsPath);
-            long r = Hosts.GetHost("server.ntminer.com", hostsPath);
+            string host = "server.ntminer.com";
+            string ip = "127.0.0.1";
+            Hosts.GetIp(host, out long r, hostsPath);
             Assert.AreEqual(-2, r);
             File.Create(hostsPath).Close(); 
-            r = Hosts.GetHost("server.ntminer.com", hostsPath);
+            Hosts.GetIp(host, out r, hostsPath);
             Assert.AreEqual(-1, r);
+            File.Delete(hostsPath);
+            Hosts.SetHost(host, ip, hostsPath);
+            Assert.AreEqual(ip, Hosts.GetIp(host, out r, hostsPath));
+            Assert.IsTrue(r >= 0);
             File.Delete(hostsPath);
         }
     }
