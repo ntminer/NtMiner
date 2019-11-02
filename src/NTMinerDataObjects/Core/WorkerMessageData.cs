@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.MinerClient {
+namespace NTMiner.Core {
     public class WorkerMessageData : IWorkerMessage, IDbEntity<Guid> {
         public WorkerMessageData() { }
 

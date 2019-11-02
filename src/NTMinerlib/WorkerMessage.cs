@@ -1,5 +1,5 @@
 ﻿using NTMiner.Bus;
-using NTMiner.MinerClient;
+using NTMiner.Core;
 using System.Collections.Generic;
 
 namespace NTMiner {

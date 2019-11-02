@@ -1,4 +1,5 @@
 ﻿namespace NTMiner.Vms {
+    using NTMiner.Core;
     using NTMiner.MinerServer;
     using System.Collections.ObjectModel;
     using System.Linq;
