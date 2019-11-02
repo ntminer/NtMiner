@@ -1,9 +1,8 @@
-﻿using System;
+﻿using NTMiner.Core;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace NTMiner.Controllers {
     public interface IWorkerMessageController {
+        DataResponse<List<WorkerMessageData>> WorkerMessages(WorkerMessagesRequest request);
     }
 }

@@ -74,6 +74,7 @@
     <Compile Include="Core\SupportedGpu.cs" />
     <Compile Include="Core\SysDicData.cs" />
     <Compile Include="Core\SysDicItemData.cs" />
+    <Compile Include="Core\WorkerMessagesRequest.cs" />
     <Compile Include="Daemon\SetWalletRequest.cs" />
     <Compile Include="DataLevel.cs" />
     <Compile Include="DoubleExtension.cs" />

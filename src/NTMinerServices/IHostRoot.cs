@@ -27,5 +27,6 @@ namespace NTMiner {
         INTMinerFileSet NTMinerFileSet { get; }
         IOverClockDataSet OverClockDataSet { get; }
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
+        IWorkerMessageSet WorkerMessageSet { get; }
     }
 }
