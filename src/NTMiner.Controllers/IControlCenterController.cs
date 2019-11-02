@@ -4,7 +4,12 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
-    public interface IControlCenterController {
+    public interface IReadonlyControlCenterController {
+        DataResponse<List<CalcConfigData>> CalcConfigs(CalcConfigsRequest request);
+        ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request);
+    }
+
+    public interface IControlCenterController : IReadonlyControlCenterController {
         string GetServicesVersion();
         void CloseServices();
         ResponseBase ActiveControlCenterAdmin(string password);
@@ -35,8 +40,6 @@ namespace NTMiner.Controllers {
         DataResponse<List<PoolData>> Pools(SignRequest request);
         ResponseBase AddOrUpdatePool(DataRequest<PoolData> request);
         ResponseBase RemovePool(DataRequest<Guid> request);
-        DataResponse<List<CalcConfigData>> CalcConfigs(CalcConfigsRequest request);
-        ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request);
         DataResponse<List<ColumnsShowData>> ColumnsShows(SignRequest request);
         ResponseBase AddOrUpdateColumnsShow(DataRequest<ColumnsShowData> request);
         ResponseBase RemoveColumnsShow(DataRequest<Guid> request);
