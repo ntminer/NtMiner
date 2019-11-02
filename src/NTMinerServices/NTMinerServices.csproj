@@ -115,13 +115,11 @@
     <Compile Include="Data\Impl\PoolSet.cs" />
     <Compile Include="Data\Impl\UserSet.cs" />
     <Compile Include="Data\Impl\WalletSet.cs" />
-    <Compile Include="Data\Impl\WorkerMessageSet.cs" />
     <Compile Include="Data\INTMinerFileSet.cs" />
     <Compile Include="Data\INTMinerWalletSet.cs" />
     <Compile Include="Data\IOverClockDataSet.cs" />
     <Compile Include="Data\IPoolSet.cs" />
     <Compile Include="Data\IWalletSet.cs" />
-    <Compile Include="Data\IWorkerMessageSet.cs" />
     <Compile Include="HostRoot.cs" />
     <Compile Include="HttpRequestMessageExtension.cs" />
     <Compile Include="IHostConfig.cs" />
