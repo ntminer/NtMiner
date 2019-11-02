@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
+    <Compile Include="Core\AddOrUpdateWorkerMessageRequest.cs" />
     <Compile Include="Core\CoinData.cs" />
     <Compile Include="Core\CoinGroupData.cs" />
     <Compile Include="Core\CoinKernelData.cs" />
