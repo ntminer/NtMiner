@@ -17,7 +17,7 @@
 			<TextBlock Width="120" VerticalAlignment="Center" TextAlignment="Right">群控服务器地址：</TextBlock>
 			<TextBox Width="150" Text="{Binding ControlCenterHost, ValidatesOnExceptions=True}" VerticalAlignment="Center" ToolTip="主机名或IP地址"></TextBox>
 			<TextBlock Margin="4 0 0 0" VerticalAlignment="Center">端口：</TextBlock>
-			<TextBlock Width="40" Text="{Binding ControlCenterPort}" VerticalAlignment="Center" ToolTip="端口号固定"></TextBlock>
+            <TextBlock Width="40" Text="{Binding MinerServerPort}" VerticalAlignment="Center" ToolTip="端口号固定"></TextBlock>
 		</WrapPanel>
         <TextBlock Margin="0 4 0 0" Foreground="Red" HorizontalAlignment="Center">如果该服务器需要登录，则需要退出群控客户端重新登录。</TextBlock>
 		<controls:KbButton

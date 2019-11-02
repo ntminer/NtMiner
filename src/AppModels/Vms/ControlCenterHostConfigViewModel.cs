@@ -33,9 +33,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int ControlCenterPort {
+        public int MinerServerPort {
             get {
-                return NTKeyword.ControlCenterPort;
+                return NTKeyword.MinerServerPort;
             }
         }
     }

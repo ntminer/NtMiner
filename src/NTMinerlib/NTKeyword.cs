@@ -5,7 +5,7 @@
         public const int MinerClientPort = 3336;
         public const int NTMinerDaemonPort = 3337;
         public const int MinerStudioPort = 3338;
-        public const int ControlCenterPort = 3339;
+        public const int MinerServerPort = 3339;
         public const string WorkerMessageDbFileName = "workerMessage.litedb";
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
         public const string NTMinerServicesFileName = "NTMinerServices.exe";

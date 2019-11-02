@@ -57,7 +57,7 @@ namespace NTMiner {
 
         private static void Run() {
             try {
-                string baseAddress = $"http://localhost:{NTKeyword.ControlCenterPort}";
+                string baseAddress = $"http://localhost:{NTKeyword.MinerServerPort}";
                 HttpServer.Start(baseAddress);
                 Windows.ConsoleHandler.Register(Close);
                 WaitHandle.WaitOne();
