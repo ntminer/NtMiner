@@ -4,6 +4,13 @@ using System.Text;
 
 namespace NTMiner {
     public static class Hosts {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="position">-2表示hosts文件不存在，-1表示对应的host记录不存在，非负数表示对应的host记录的字节位置</param>
+        /// <param name="hostsPath">测试用</param>
+        /// <returns></returns>
         public static string GetIp(string host, out long position, string hostsPath = null) {
             if (string.IsNullOrEmpty(hostsPath)) {
                 hostsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers\\etc\\hosts");
@@ -14,7 +21,7 @@ namespace NTMiner {
             }
             using (FileStream fs = new FileStream(hostsPath, FileMode.Open))
             using (StreamReader sr = new StreamReader(fs, Encoding.UTF8)) {
-                while (!sr.EndOfStream) {
+                while (true) {
                     long p = sr.BaseStream.Position;
                     string line = sr.ReadLine();
                     if (!string.IsNullOrWhiteSpace(line)) {
@@ -31,12 +38,21 @@ namespace NTMiner {
                             return tuple[0];
                         }
                     }
+                    if (sr.EndOfStream) {
+                        break;
+                    }
                 }
             }
             position = -1;
             return string.Empty;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="ip">空值表示删除对应的host记录</param>
+        /// <param name="hostsPath">测试用</param>
         public static void SetHost(string host, string ip, string hostsPath = null) {
             GetIp(host, out long position, hostsPath);
             if (position == -2) {
@@ -51,29 +67,27 @@ namespace NTMiner {
             byte[] buffer = new byte[]{ };
             using (MemoryStream ms = new MemoryStream())
             using (StreamWriter sw = new StreamWriter(ms))
-            using (FileStream fs = new FileStream(hostsPath, FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream(hostsPath, FileMode.OpenOrCreate, FileAccess.Read))
             using (StreamReader sr = new StreamReader(fs)) {
-                if (sr.EndOfStream) {
-                    if (!string.IsNullOrEmpty(ip)) {
-                        sw.WriteLine($"{ip} {host}");
+                bool writed = false;
+                while (true) {
+                    long p = sr.BaseStream.Position;
+                    string line = sr.ReadLine();
+                    if (p == position) {
+                        if (!string.IsNullOrEmpty(ip)) {
+                            sw.WriteLine($"{ip} {host}");
+                        }
+                        writed = true;
+                    }
+                    else {
+                        sw.WriteLine(line);
+                    }
+                    if (sr.EndOfStream) {
+                        break;
                     }
                 }
-                else {
-                    bool writed = false;
-                    while (!sr.EndOfStream) {
-                        if (sr.BaseStream.Position == position) {
-                            if (!string.IsNullOrEmpty(ip)) {
-                                sw.WriteLine($"{ip} {host}");
-                            }
-                            writed = true;
-                        }
-                        else {
-                            sw.WriteLine(sr.ReadLine());
-                        }
-                    }
-                    if (!writed) {
-                        sw.WriteLine($"{ip} {host}");
-                    }
+                if (!writed) {
+                    sw.WriteLine($"{ip} {host}");
                 }
                 sw.Flush();
                 buffer = ms.ToArray();

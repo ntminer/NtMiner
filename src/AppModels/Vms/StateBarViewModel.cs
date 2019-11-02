@@ -18,7 +18,10 @@ namespace NTMiner.Vms {
         private DateTime _now = DateTime.MinValue;
         private string _cpuPerformanceText = "0 %";
         private string _cpuTemperatureText = "0 ℃";
+        private bool _isLocalServerNTminerCom;
+        private string _btnSetServerNTMinerComHostName;
 
+        public ICommand SetServerNTminerComHost { get; private set; }
 
         public ICommand ConfigControlCenterHost { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
@@ -29,6 +32,18 @@ namespace NTMiner.Vms {
                 return;
             }
             UpdateDateTime();
+            this.SetServerNTminerComHost = new DelegateCommand(() => {
+                string ip = Hosts.GetIp("server.ntminer.com", out long _);
+                if (!string.IsNullOrEmpty(ip)) {
+                    Hosts.SetHost("server.ntminer.com", string.Empty);
+                }
+                else {
+                    Hosts.SetHost("server.ntminer.com", "127.0.0.1");
+                }
+                InitHost();
+                OnPropertyChanged(nameof(IsLocalServerNTminerCom));
+                OnPropertyChanged(nameof(BtnSetServerNTMinerComHostName));
+            });
             this.ConfigControlCenterHost = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
             });
@@ -46,6 +61,33 @@ namespace NTMiner.Vms {
             });
             _localIps = GetLocalIps();
             SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
+            InitHost();
+        }
+
+        private void InitHost() {
+            _isLocalServerNTminerCom = !string.IsNullOrEmpty(Hosts.GetIp("server.ntminer.com", out long _));
+            if (_isLocalServerNTminerCom) {
+                _btnSetServerNTMinerComHostName = "清除测试Host";
+            }
+            else {
+                _btnSetServerNTMinerComHostName = "设置测试Host";
+            }
+        }
+
+        public bool IsLocalServerNTminerCom {
+            get => _isLocalServerNTminerCom;
+            set {
+                _isLocalServerNTminerCom = value;
+                OnPropertyChanged(nameof(IsLocalServerNTminerCom));
+            }
+        }
+
+        public string BtnSetServerNTMinerComHostName {
+            get => _btnSetServerNTMinerComHostName;
+            set {
+                _btnSetServerNTMinerComHostName = value;
+                OnPropertyChanged(nameof(BtnSetServerNTMinerComHostName));
+            }
         }
 
         public bool IsAutoAdminLogon {

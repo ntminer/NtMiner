@@ -317,6 +317,7 @@ namespace NTMiner {
         }
         #endregion
 
+        #region MainWindowHeight MainWindowWidth
         public static double MainWindowHeight {
             get {
                 if (SystemParameters.WorkArea.Size.Height >= 620) {
@@ -346,7 +347,9 @@ namespace NTMiner {
                 return 640;
             }
         }
+        #endregion
 
+        #region EnumItems
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
                 return NTMinerRoot.SupportedGpuEnumItems;
@@ -376,6 +379,7 @@ namespace NTMiner {
                 return NTMinerRoot.WorkerMessageChannelEnumItems;
             }
         }
+        #endregion
 
         public static string AppName {
             get {
