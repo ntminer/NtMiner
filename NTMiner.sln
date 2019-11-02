@@ -42,7 +42,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinerStudio", "src\MinerStu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinerStudioSelfHost", "src\MinerStudioSelfHost\MinerStudioSelfHost.csproj", "{526C022A-3C86-4998-A8F1-F5860F183C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerServices", "src\NTMinerServices\NTMinerServices.csproj", "{E7B88637-7704-4701-98E0-7875BB6E8C98}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTControlCenterServices", "src\NTMinerServices\NTControlCenterServices.csproj", "{E7B88637-7704-4701-98E0-7875BB6E8C98}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MinerClient", "src\MinerClient\MinerClient.csproj", "{128B59A2-FA1A-479C-9136-7EB866B96FB4}"
 	ProjectSection(ProjectDependencies) = postProject

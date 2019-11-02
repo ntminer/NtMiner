@@ -9,7 +9,7 @@
         public const int ControlCenterPort = 3340;
         public const string WorkerMessageDbFileName = "workerMessage.litedb";
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
-        public const string NTMinerServicesFileName = "NTMinerServices.exe";
+        public const string NTControlCenterServicesFileName = "NTControlCenterServices.exe";
         public const string GpuProfilesFileName = "gpuProfiles.json";
         public const string LocalJsonFileName = "local.json";
         public const string LocalDbFileName = "local.litedb";
@@ -19,7 +19,7 @@
         public const string NTMinerDaemonFileName = "NTMinerDaemon.exe";
 
         public const string NTMinerDaemonKey = "NTMiner.Daemon.NTMinerDaemon.exe";
-        public const string NTMinerServicesKey = "NTMiner.NTMinerServices.NTMinerServices.exe";
+        public const string NTControlCenterServicesKey = "NTMiner.NTControlCenterServices.NTControlCenterServices.exe";
         public const string MinerStudioCmdParameterName = "--minerstudio";
         public const string EnableInnerIpCmdParameterName = "--enableInnerIp";
         public const string NotOfficialCmdParameterName = "--notofficial";

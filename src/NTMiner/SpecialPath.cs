@@ -245,7 +245,7 @@ namespace NTMiner {
 
         public static string ServicesFileFullName {
             get {
-                return Path.Combine(ServicesDirFullName, NTKeyword.NTMinerServicesFileName);
+                return Path.Combine(ServicesDirFullName, NTKeyword.NTControlCenterServicesFileName);
             }
         }
     }
