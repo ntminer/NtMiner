@@ -51,6 +51,12 @@ namespace NTMiner.Vms {
             });
         }
 
+        public DataLevel DataLevel { get; set; }
+
+        public void SetDataLevel(DataLevel dataLevel) {
+            this.DataLevel = dataLevel;
+        }
+
         public Guid GetId() {
             throw new NotImplementedException();
         }
