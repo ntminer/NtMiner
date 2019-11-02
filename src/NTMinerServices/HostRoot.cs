@@ -179,6 +179,6 @@ namespace NTMiner {
 
         public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
 
-        public WorkerMessageSet WorkerMessageSet { get; private set; }
+        public IWorkerMessageSet WorkerMessageSet { get; private set; }
     }
 }

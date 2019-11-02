@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.WorkerMessage {
-    public class WorkerMessageSet : IEnumerable<IWorkerMessage> {
+    public class WorkerMessageSet : IWorkerMessageSet {
         private readonly string _connectionString;
         private readonly LinkedList<WorkerMessageData> _records = new LinkedList<WorkerMessageData>();
 

@@ -98,7 +98,7 @@ namespace NTMiner {
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
-        public static readonly WorkerMessageSet WorkerMessages;
+        public static readonly IWorkerMessageSet WorkerMessages;
         #region Out
         private static IOut _out;
         /// <summary>
