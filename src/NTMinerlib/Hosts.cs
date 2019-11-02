@@ -46,6 +46,8 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(hostsPath)) {
                 hostsPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "drivers\\etc\\hosts");
             }
+            //通常情况下这个文件是只读的，所以写入之前要取消只读
+            File.SetAttributes(hostsPath, File.GetAttributes(hostsPath) & (~FileAttributes.ReadOnly));
             byte[] buffer = new byte[]{ };
             using (MemoryStream ms = new MemoryStream())
             using (StreamWriter sw = new StreamWriter(ms))
