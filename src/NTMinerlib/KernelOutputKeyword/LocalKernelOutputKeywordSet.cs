@@ -74,6 +74,7 @@ namespace NTMiner.KernelOutputKeyword {
                         var col = db.GetCollection<KernelOutputKeywordData>();
                         foreach (var item in col.FindAll()) {
                             if (!_dicById.ContainsKey(item.GetId())) {
+                                item.SetDataLevel(DataLevel.Profile);
                                 _dicById.Add(item.GetId(), item);
                             }
                         }
