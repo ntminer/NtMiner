@@ -381,6 +381,7 @@ namespace NTMiner {
         }
         #endregion
 
+        #region AppName CurrentVersion VersionTag VersionFullName
         public static string AppName {
             get {
                 Assembly mainAssembly = Assembly.GetEntryAssembly();
@@ -405,19 +406,9 @@ namespace NTMiner {
                 return $"v{MainAssemblyInfo.CurrentVersion}({VersionTag})";
             }
         }
+        #endregion
 
-        public static string QQGroup {
-            get {
-                if (Design.IsInDesignMode) {
-                    return string.Empty;
-                }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "QQGroup", out ISysDicItem dicItem)) {
-                    return dicItem.Value;
-                }
-                return "863725136";
-            }
-        }
-
+        #region Gpu
         public static Version MinAmdDriverVersion {
             get {
                 if (Design.IsInDesignMode) {
@@ -443,40 +434,6 @@ namespace NTMiner {
                     }
                 }
                 return new Version(399, 24);
-            }
-        }
-
-        private static readonly string _windowsEdition = Windows.OS.Instance.WindowsEdition?.Replace("Windows ", "Win");
-        public static string WindowsEdition {
-            get {
-                return _windowsEdition;
-            }
-        }
-
-        public const string LowWinMessage = "Windows版本较低，建议使用Win10系统";
-        public static string WindowsEditionToolTip {
-            get {
-                // Win7下WinDivert.sys文件签名问题
-                if (VirtualRoot.IsLTWin10) {
-                    return LowWinMessage;
-                }
-                return "操作系统";
-            }
-        }
-
-        public static SolidColorBrush WindowsEditionColor {
-            get {
-                // Win7下WinDivert.sys文件签名问题
-                if (VirtualRoot.IsLTWin10) {
-                    return WpfUtil.RedBrush;
-                }
-                return (SolidColorBrush)Application.Current.Resources["LableColor"];
-            }
-        }
-
-        public static string TotalVirtualMemoryGbText {
-            get {
-                return AppContext.Instance.VirtualMemorySetVm.TotalVirtualMemoryGbText;
             }
         }
 
@@ -540,6 +497,51 @@ namespace NTMiner {
                 return "显卡驱动版本";
             }
         }
+        #endregion
+
+        #region Windows
+        private static readonly string _windowsEdition = Windows.OS.Instance.WindowsEdition?.Replace("Windows ", "Win");
+        public static string WindowsEdition {
+            get {
+                return _windowsEdition;
+            }
+        }
+
+        public const string LowWinMessage = "Windows版本较低，建议使用Win10系统";
+        public static string WindowsEditionToolTip {
+            get {
+                // Win7下WinDivert.sys文件签名问题
+                if (VirtualRoot.IsLTWin10) {
+                    return LowWinMessage;
+                }
+                return "操作系统";
+            }
+        }
+
+        public static SolidColorBrush WindowsEditionColor {
+            get {
+                // Win7下WinDivert.sys文件签名问题
+                if (VirtualRoot.IsLTWin10) {
+                    return WpfUtil.RedBrush;
+                }
+                return (SolidColorBrush)Application.Current.Resources["LableColor"];
+            }
+        }
+
+        public static string TotalVirtualMemoryGbText {
+            get {
+                return AppContext.Instance.VirtualMemorySetVm.TotalVirtualMemoryGbText;
+            }
+        }
+        #endregion
+
+        public static ICommand ShowServerWorkerMessages { get; private set; } = new DelegateCommand(() => {
+
+        });
+
+        public static ICommand ShowServerKernelOutputKeywords { get; private set; } = new DelegateCommand(() => {
+
+        });
 
         public static ICommand ShowIcons { get; private set; } = new DelegateCommand(() => {
             Views.Ucs.Icons.ShowWindow();
@@ -718,6 +720,7 @@ namespace NTMiner {
             OpenLiteDb(SpecialPath.ServerDbFileFullName);
         });
 
+        #region private method OpenLiteDb
         private static void OpenLiteDb(string dbFileFullName) {
             string liteDbExplorerDir = Path.Combine(SpecialPath.ToolsDirFullName, "LiteDBExplorerPortable");
             string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
@@ -743,6 +746,7 @@ namespace NTMiner {
                 Windows.Cmd.RunClose(liteDbExplorerFileFullName, dbFileFullName);
             }
         }
+        #endregion
 
         public static ICommand OpenLogfile { get; private set; } = new DelegateCommand<string>((logfileFullName) => {
             OpenTxtFile(logfileFullName);
@@ -760,6 +764,7 @@ namespace NTMiner {
             }
         }
 
+        #region private method OpenTxtFile
         private static void OpenTxtFile(string fileFullName) {
             string nppDir = Path.Combine(SpecialPath.ToolsDirFullName, "Npp");
             string nppFileFullName = Path.Combine(nppDir, "notepad++.exe");
@@ -780,6 +785,7 @@ namespace NTMiner {
                 Windows.Cmd.RunClose(nppFileFullName, fileFullName);
             }
         }
+        #endregion
 
         public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCalcCommand(coinVm));
@@ -800,6 +806,18 @@ namespace NTMiner {
             }
             Process.Start(url);
         });
+
+        public static string QQGroup {
+            get {
+                if (Design.IsInDesignMode) {
+                    return string.Empty;
+                }
+                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "QQGroup", out ISysDicItem dicItem)) {
+                    return dicItem.Value;
+                }
+                return "863725136";
+            }
+        }
 
         public static string OfficialSiteName {
             get {

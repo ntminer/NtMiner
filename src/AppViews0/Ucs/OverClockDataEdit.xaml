@@ -10,7 +10,7 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=/Design/OverClockDataViewModel.xaml}"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
-        d:DesignWidth="220"
+        d:DesignWidth="250"
         Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
