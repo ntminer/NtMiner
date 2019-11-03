@@ -16,15 +16,10 @@ namespace NTMiner {
         public static readonly string ServerJsonFileName;
         public static readonly string ServerVersionJsonFileFullName;
 
-        public static string OfficialServerHost { get; private set; } = "server.ntminer.com";
         public static string HomeDirFullName { get; private set; } = TempDirFullName;
         public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.lock");
         public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.config");
         public static readonly bool IsLocalHome;
-
-        public static void SetOfficialServerHost(string host) {
-            OfficialServerHost = host;
-        }
 
         public static void SetHomeDirFullName(string dirFullName) {
             HomeDirFullName = dirFullName;

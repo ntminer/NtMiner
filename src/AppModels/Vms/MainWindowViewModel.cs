@@ -31,6 +31,21 @@ namespace NTMiner.Vms {
             });
         }
 
+        public bool IsTestHost {
+            get {
+                return !string.IsNullOrEmpty(Hosts.GetIp(NTKeyword.ServerHost, out long _));
+            }
+            set {
+                if (value) {
+                    Hosts.SetHost(NTKeyword.ServerHost, "127.0.0.1");
+                }
+                else {
+                    Hosts.SetHost(NTKeyword.ServerHost, string.Empty);
+                }
+                OnPropertyChanged(nameof(IsTestHost));
+            }
+        }
+
         public string BrandTitle {
             get {
                 if (NTMinerRoot.KernelBrandId == Guid.Empty && NTMinerRoot.PoolBrandId == Guid.Empty) {

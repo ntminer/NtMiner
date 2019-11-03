@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public class Program {
-        static void Main(string[] args) {
+        static void Main() {
             VirtualRoot.StartTimer();
             try {
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
-                MainAssemblyInfo.SetOfficialServerHost("localhost");
+                NTKeyword.SetOfficialServerHost("localhost");
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
                 VirtualRoot.BuildEventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
                     action: message => {
@@ -185,12 +185,10 @@ namespace NTMiner {
                 result.SpeedUnit = match.Groups["speedUnit"].Value + "h/s";
                 string netSpeedText = match.Groups["netSpeed"].Value;
                 result.NetSpeedUnit = match.Groups["netSpeedUnit"].Value + "h/s";
-                double incomeCoin;
-                if (double.TryParse(incomeCoinText, out incomeCoin)) {
+                if (double.TryParse(incomeCoinText, out double incomeCoin)) {
                     result.IncomeCoin = incomeCoin;
                 }
-                double netSpeed;
-                if (double.TryParse(netSpeedText, out netSpeed)) {
+                if (double.TryParse(netSpeedText, out double netSpeed)) {
                     result.NetSpeed = netSpeed;
                 }
             }
@@ -199,8 +197,7 @@ namespace NTMiner {
             match = regex.Match(vdsZtHtml);
             if (match.Success) {
                 string incomeCnyText = match.Groups["incomeCny"].Value;
-                double incomeCny;
-                if (double.TryParse(incomeCnyText, out incomeCny)) {
+                if (double.TryParse(incomeCnyText, out double incomeCny)) {
                     result.IncomeCny = incomeCny * result.IncomeCoin;
                     result.IncomeUsd = result.IncomeCny / usdCny;
                 }

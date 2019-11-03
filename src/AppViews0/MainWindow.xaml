@@ -174,6 +174,16 @@
                 <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <CheckBox 
                         Margin="0 0 12 0"
+						Background="Transparent"
+                        VerticalAlignment="Center"
+                        Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+                        IsChecked="{Binding IsTestHost}"
+						Foreground="{StaticResource ThemeForeground}"
+						Command="{Binding SetServerNTminerComHost}"
+                        Content="TestHost">
+                    </CheckBox>
+                    <CheckBox 
+                        Margin="0 0 12 0"
 						FocusVisualStyle="{x:Null}"
 						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 						VerticalAlignment="Center"

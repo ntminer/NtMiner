@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
         private string _timeText;
         private string _dateText;
         private string _localIps;
-        private DateTime _now = DateTime.MinValue;
+        private readonly DateTime _bootTime = DateTime.MinValue;
         private string _cpuPerformanceText = "0 %";
         private string _cpuTemperatureText = "0 ℃";
 
@@ -45,21 +45,6 @@ namespace NTMiner.Vms {
             });
             _localIps = GetLocalIps();
             SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
-        }
-
-        public bool IsTestHost {
-            get {
-                return !string.IsNullOrEmpty(Hosts.GetIp("server.ntminer.com", out long _));
-            }
-            set {
-                if (value) {
-                    Hosts.SetHost("server.ntminer.com", "127.0.0.1");
-                }
-                else {
-                    Hosts.SetHost("server.ntminer.com", string.Empty);
-                }
-                OnPropertyChanged(nameof(IsTestHost));
-            }
         }
 
         public bool IsAutoAdminLogon {
@@ -107,10 +92,10 @@ namespace NTMiner.Vms {
 
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
-            if (_now.Minute != now.Minute || _now == DateTime.MinValue) {
+            if (_bootTime.Minute != now.Minute || _bootTime == DateTime.MinValue) {
                 this.TimeText = now.ToString("H:mm");
             }
-            if (_now.Hour != now.Hour || _now == DateTime.MinValue) {
+            if (_bootTime.Hour != now.Hour || _bootTime == DateTime.MinValue) {
                 this.DateText = now.ToString("yyyy/M/d");
             }
         }
