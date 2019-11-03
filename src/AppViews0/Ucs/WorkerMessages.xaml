@@ -22,92 +22,98 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <WrapPanel>
-            <ListBox 
-                Margin="0 0 10 0"
-			    Background="Transparent"
-			    ItemsSource="{x:Static app:AppStatic.WorkerMessageChannelEnumItems}"
-			    SelectedItem="{Binding SelectedChannel}"
-			    MouseDown="ListBox_MouseDown"
-			    ItemContainerStyle="{StaticResource ListBoxBarItem}"
-			    BorderThickness="0">
-                <ListBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel>
-                        </WrapPanel>
-                    </ItemsPanelTemplate>
-                </ListBox.ItemsPanel>
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Padding="10 2" Text="{Binding Description}">
-                        </TextBlock>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <ItemsControl
-                Margin="0 0 10 0"
-                VerticalAlignment="Center"
-				ItemsSource="{Binding MessageTypeItems}"
-				BorderThickness="0">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel>
-                        </WrapPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsChecked}" Visibility="{Binding IsVisible}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <WrapPanel>
+                <ListBox 
+                    Margin="0 0 10 0"
+			        Background="Transparent"
+			        ItemsSource="{x:Static app:AppStatic.WorkerMessageChannelEnumItems}"
+			        SelectedItem="{Binding SelectedChannel}"
+			        MouseDown="ListBox_MouseDown"
+			        ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			        BorderThickness="0">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
                             <WrapPanel>
-                                <Path
-						            Width="14"
-						            Height="14"
-						            Data="{Binding Icon}"
-						            Fill="{Binding IconFill}"
-						            Stretch="Fill" />
-                                <TextBlock Text="{Binding DisplayText}"></TextBlock>
-                                <TextBlock Margin="4 0 0 0" Text="{Binding Count}"></TextBlock>
                             </WrapPanel>
-                        </CheckBox>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-            <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
-                <Path 
-				    Width="12"
-				    Height="12"
-				    Fill="{StaticResource IconFillColor}"
-				    Stretch="Fill"
-				    Data="{StaticResource Icon_Serach}"></Path>
-                <controls:KbTextBox 
-                    Margin="4 0 0 0"
-				    x:Name="TbKeyword" 
-                    Width="134" 
-                    Height="22"
-				    Text="{Binding Keyword, UpdateSourceTrigger=LostFocus}" 
-				    VerticalContentAlignment="Center"
-				    Hint="请输入关键字"
-				    BorderBrush="{StaticResource LineColor}"
-				    BorderThickness="1"
-				    Background="White"
-				    SelectedColor="#409EFF" />
-                <controls:KbButton 
-				    Height="20"
-				    Background="Transparent" 
-				    BorderThickness="0"
-				    Command="{Binding ClearKeyword}"
-				    Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-				    Margin="-14 0 0 0" 
-				    HorizontalAlignment="Left">
-                    <Path
-					    Width="8"
-					    Height="8"
-					    Data="{StaticResource Icon_Close}"
-					    Fill="{StaticResource IconFillColor}"
-					    Stretch="Fill" />
-                </controls:KbButton>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Padding="10 2" Text="{Binding Description}">
+                            </TextBlock>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <ItemsControl
+                    Margin="0 0 10 0"
+                    VerticalAlignment="Center"
+				    ItemsSource="{Binding MessageTypeItems}"
+				    BorderThickness="0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel>
+                            </WrapPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsChecked}" Visibility="{Binding IsVisible}">
+                                <WrapPanel>
+                                    <Path
+						                Width="14"
+						                Height="14"
+						                Data="{Binding Icon}"
+						                Fill="{Binding IconFill}"
+						                Stretch="Fill" />
+                                    <TextBlock Text="{Binding DisplayText}"></TextBlock>
+                                    <TextBlock Margin="4 0 0 0" Text="{Binding Count}"></TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
+                    <Path 
+				        Width="12"
+				        Height="12"
+				        Fill="{StaticResource IconFillColor}"
+				        Stretch="Fill"
+				        Data="{StaticResource Icon_Serach}"></Path>
+                    <controls:KbTextBox 
+                        Margin="4 0 0 0"
+				        x:Name="TbKeyword" 
+                        Width="134" 
+                        Height="22"
+				        Text="{Binding Keyword, UpdateSourceTrigger=LostFocus}" 
+				        VerticalContentAlignment="Center"
+				        Hint="请输入关键字"
+				        BorderBrush="{StaticResource LineColor}"
+				        BorderThickness="1"
+				        Background="White"
+				        SelectedColor="#409EFF" />
+                    <controls:KbButton 
+				        Height="20"
+				        Background="Transparent" 
+				        BorderThickness="0"
+				        Command="{Binding ClearKeyword}"
+				        Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+				        Margin="-14 0 0 0" 
+				        HorizontalAlignment="Left">
+                        <Path
+					        Width="8"
+					        Height="8"
+					        Data="{StaticResource Icon_Close}"
+					        Fill="{StaticResource IconFillColor}"
+					        Stretch="Fill" />
+                    </controls:KbButton>
+                </WrapPanel>
             </WrapPanel>
-            <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
+            <WrapPanel Grid.Column="1"  Margin="0 2 10 0" VerticalAlignment="Top">
                 <controls:KbButton
                     Height="20"
 			        Padding="2"
@@ -150,7 +156,7 @@
                     </WrapPanel>
                 </controls:KbButton>
             </WrapPanel>
-        </WrapPanel>
+        </Grid>
         <DataGrid 
             Grid.Row="1"
 			ItemsSource="{Binding QueryResults}" 
