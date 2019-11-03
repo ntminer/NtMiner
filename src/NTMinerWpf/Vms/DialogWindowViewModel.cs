@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
 
         public Visibility BtnOkVisible {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
                 if (_onYes != null || _onNo != null) {
@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
 
         public Visibility BtnYesNoVisible {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
                 if (_onYes == null && _onNo == null) {
@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
         }
 
         public DialogWindowViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -129,7 +129,7 @@ namespace NTMiner.Vms {
         }
         public string HelpUrl {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return "https://ntminer.com/";
                 }
                 return _helpUrl;

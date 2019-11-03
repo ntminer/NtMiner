@@ -1,6 +1,7 @@
 ﻿using NTMiner.Views;
 using NTMiner.Vms;
 using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -11,6 +12,16 @@ using System.Windows.Media;
 
 namespace NTMiner {
     public static class WpfUtil {
+        public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
+        public static bool IsDevMode {
+            get {
+                if (IsInDesignMode || DevMode.IsDevMode) {
+                    return true;
+                }
+                return false;
+            }
+        }
+
         public static Window GetTopWindow() {
             IntPtr hwnd = SafeNativeMethods.GetForegroundWindow();
             if (hwnd == IntPtr.Zero)

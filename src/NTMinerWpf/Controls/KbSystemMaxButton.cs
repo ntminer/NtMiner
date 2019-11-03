@@ -20,7 +20,7 @@ namespace NTMiner.Controls {
 
         protected override void OnRender(DrawingContext drawingContext) {
             base.OnRender(drawingContext);
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             if (window == null) {

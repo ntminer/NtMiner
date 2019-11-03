@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
 
         public StateBarViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             UpdateDateTime();

@@ -93,7 +93,6 @@
     <Compile Include="Converters\VisibilityInvertConverter.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DelegateCommand`1.cs" />
-    <Compile Include="Design.cs" />
     <Compile Include="HotKeyUtil.cs" />
     <Compile Include="SystemHotKey.cs" />
     <Compile Include="UIThread.cs" />

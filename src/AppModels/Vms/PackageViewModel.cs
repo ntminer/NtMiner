@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
         public ICommand BrowsePackage { get; private set; }
 
         public PackageViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

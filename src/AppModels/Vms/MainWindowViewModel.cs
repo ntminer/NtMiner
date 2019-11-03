@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
         public ICommand CloseMainWindow { get; private set; }
 
         public MainWindowViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             RefreshDaemonStateBrush();

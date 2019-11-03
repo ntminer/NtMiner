@@ -19,7 +19,7 @@ namespace NTMiner.Views.Ucs {
 
         public Property() {
             InitializeComponent();
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
         }

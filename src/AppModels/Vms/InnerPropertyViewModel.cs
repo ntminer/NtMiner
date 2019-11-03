@@ -3,7 +3,7 @@
         private string _serverJsonVersion;
 
         public InnerPropertyViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             _serverJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();

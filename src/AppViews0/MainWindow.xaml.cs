@@ -151,7 +151,7 @@ namespace NTMiner.Views {
             };
             _borderBrush = this.BorderBrush;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             ToogleLeft();

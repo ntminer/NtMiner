@@ -93,7 +93,7 @@ namespace NTMiner {
         // 因为是上下文路径，无需返回路径标识
         public static void WindowContextCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             if (window.Resources == null) {
@@ -112,7 +112,7 @@ namespace NTMiner {
         // 因为是上下文路径，无需返回路径标识
         public static void WindowContextEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             if (window.Resources == null) {

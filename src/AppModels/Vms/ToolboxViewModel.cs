@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         public ICommand WindowsAutoLogon { get; private set; }
 
         public ToolboxViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.SwitchRadeonGpu = new DelegateCommand(() => {

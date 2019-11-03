@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
         private readonly ClientData _data;
         #region ctor
         public MinerClientViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

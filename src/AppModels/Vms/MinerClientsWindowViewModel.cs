@@ -63,7 +63,7 @@ namespace NTMiner.Vms {
 
         #region ctor
         public MinerClientsWindowViewModel(bool isInDesignMode = true) {
-            if (Design.IsInDesignMode || isInDesignMode) {
+            if (WpfUtil.IsInDesignMode || isInDesignMode) {
                 return;
             }
             var appSettings = NTMinerRoot.Instance.ServerAppSettingSet;

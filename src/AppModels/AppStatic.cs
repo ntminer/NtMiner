@@ -191,7 +191,7 @@ namespace NTMiner {
 
         public static Visibility IsMinerClientVisible {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
                 if (VirtualRoot.IsMinerClient) {
@@ -207,7 +207,7 @@ namespace NTMiner {
 
         public static Visibility IsMinerStudioVisible {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
                 if (VirtualRoot.IsMinerStudio) {
@@ -219,7 +219,7 @@ namespace NTMiner {
 
         public static Visibility IsMinerStudioDevVisible {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
                 if (!DevMode.IsDevMode) {
@@ -236,15 +236,15 @@ namespace NTMiner {
         #region IsDev
         public static bool IsDevMode {
             get {
-                return Design.IsDevMode;
+                return WpfUtil.IsDevMode;
             }
         }
 
-        public static bool IsNotDevMode => !Design.IsDevMode;
+        public static bool IsNotDevMode => !WpfUtil.IsDevMode;
 
         public static Visibility IsDevModeVisible {
             get {
-                if (Design.IsDevMode) {
+                if (WpfUtil.IsDevMode) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
@@ -411,7 +411,7 @@ namespace NTMiner {
         #region Gpu
         public static Version MinAmdDriverVersion {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return new Version();
                 }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinAmdDriverVersion", out ISysDicItem dicItem)) {
@@ -425,7 +425,7 @@ namespace NTMiner {
 
         public static Version MinNvidiaDriverVersion {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return new Version();
                 }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinNvidiaDriverVersion", out ISysDicItem dicItem)) {
@@ -754,7 +754,7 @@ namespace NTMiner {
 
         public static string NppPackageUrl {
             get {
-                if (Design.IsDevMode) {
+                if (WpfUtil.IsDevMode) {
                     return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
                 }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("Tool", "npp", out ISysDicItem dicItem)) {
@@ -809,7 +809,7 @@ namespace NTMiner {
 
         public static string QQGroup {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return string.Empty;
                 }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "QQGroup", out ISysDicItem dicItem)) {
@@ -821,7 +821,7 @@ namespace NTMiner {
 
         public static string OfficialSiteName {
             get {
-                if (Design.IsDevMode) {
+                if (WpfUtil.IsDevMode) {
                     return "NTMiner.com";
                 }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
@@ -838,7 +838,7 @@ namespace NTMiner {
 
         public static string AppMinerName {
             get {
-                if (Design.IsDevMode) {
+                if (WpfUtil.IsDevMode) {
                     return "开源矿工";
                 }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
@@ -850,7 +850,7 @@ namespace NTMiner {
 
         public static string AppMinerDescription {
             get {
-                if (Design.IsDevMode) {
+                if (WpfUtil.IsDevMode) {
                     return " - 做最好的矿工";
                 }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
@@ -862,7 +862,7 @@ namespace NTMiner {
 
         public static string AppMinerIntro {
             get {
-                if (Design.IsDevMode) {
+                if (WpfUtil.IsDevMode) {
                     return "开源、开放、安全、专业、最高收益。QQ群863725136";
                 }
                 if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerIntro", out ISysDicItem dicItem)) {

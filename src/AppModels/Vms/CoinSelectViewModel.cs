@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         public ICommand HideView { get; set; }
 
         public CoinSelectViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

@@ -55,7 +55,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public KernelOutputViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

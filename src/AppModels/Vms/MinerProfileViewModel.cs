@@ -67,7 +67,7 @@ namespace NTMiner.Vms {
 #if DEBUG
             Write.Stopwatch.Restart();
 #endif
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             if (Instance != null) {

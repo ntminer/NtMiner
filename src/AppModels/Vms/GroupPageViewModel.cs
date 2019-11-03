@@ -3,7 +3,7 @@
 namespace NTMiner.Vms {
     public class GroupPageViewModel : ViewModelBase {
         public GroupPageViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this._currentGroup = GroupVms.List.FirstOrDefault();

@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
 
         public StateBar() {
             InitializeComponent();
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.RunOneceOnLoaded((window) => {

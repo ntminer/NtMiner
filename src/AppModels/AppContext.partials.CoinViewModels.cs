@@ -16,7 +16,7 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Restart();
 #endif
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return;
                 }
                 VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,

@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
         public ICommand ClearKeyword { get; private set; }
 
         public IconsViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             foreach (var dic in Application.Current.Resources.MergedDictionaries) {

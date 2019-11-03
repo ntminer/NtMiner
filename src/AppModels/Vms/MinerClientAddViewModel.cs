@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public MinerClientAddViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Save = new DelegateCommand(() => {
