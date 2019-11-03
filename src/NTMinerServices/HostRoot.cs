@@ -4,6 +4,7 @@ using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.KernelOutputKeyword;
+using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
 using System.IO;
@@ -145,6 +146,7 @@ namespace NTMiner {
             this.NTMinerFileSet = new NTMinerFileSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.KernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+            this.ServerMessageSet = new LocalServerMessageSet(SpecialPath.LocalDbFileFullName);
         }
 
         public IUserSet UserSet { get; private set; }
@@ -176,5 +178,7 @@ namespace NTMiner {
         public IOverClockDataSet OverClockDataSet { get; private set; }
 
         public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
+
+        public IServerMessageSet ServerMessageSet { get; private set; }
     }
 }
