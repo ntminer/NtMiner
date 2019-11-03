@@ -31,7 +31,7 @@
                 <ListBox 
                     Margin="0 0 10 0"
 			        Background="Transparent"
-			        ItemsSource="{x:Static app:AppStatic.WorkerMessageChannelEnumItems}"
+			        ItemsSource="{Binding WorkerMessageChannelEnumItems}"
 			        SelectedItem="{Binding SelectedChannel}"
 			        MouseDown="ListBox_MouseDown"
 			        ItemContainerStyle="{StaticResource ListBoxBarItem}"
@@ -62,7 +62,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsChecked}" Visibility="{Binding IsVisible}">
+                            <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsChecked}">
                                 <WrapPanel>
                                     <Path
 						                Width="14"
@@ -208,7 +208,7 @@
                 <DataGridTemplateColumn MinWidth="100" Width="200" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="来源"></TextBlock>
+                            <TextBlock Text="演员"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>

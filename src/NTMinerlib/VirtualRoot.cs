@@ -276,8 +276,6 @@ namespace NTMiner {
                     break;
                 case OutEnum.Auto:
                     switch (messageType) {
-                        case WorkerMessageType.Undefined:
-                            break;
                         case WorkerMessageType.Info:
                             Out.ShowInfo(content);
                             break;
@@ -296,8 +294,6 @@ namespace NTMiner {
             }
             if (toConsole) {
                 switch (messageType) {
-                    case WorkerMessageType.Undefined:
-                        break;
                     case WorkerMessageType.Info:
                         Write.UserInfo(content);
                         break;

@@ -9,13 +9,11 @@ namespace NTMiner.Vms {
         private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Warn"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
-        private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
+        private static readonly SolidColorBrush InfoColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
         private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
 
         public static StreamGeometry GetIcon(WorkerMessageType messageType) {
             switch (messageType) {
-                case WorkerMessageType.Undefined:
-                    return null;
                 case WorkerMessageType.Info:
                     return InfoIcon;
                 case WorkerMessageType.Warn:
@@ -29,10 +27,8 @@ namespace NTMiner.Vms {
 
         public static SolidColorBrush GetIconFill(WorkerMessageType messageType) {
             switch (messageType) {
-                case WorkerMessageType.Undefined:
-                    return WpfUtil.BlackBrush;
                 case WorkerMessageType.Info:
-                    return IconFillColor;
+                    return InfoColor;
                 case WorkerMessageType.Warn:
                     return WarnColor;
                 case WorkerMessageType.Error:
@@ -104,10 +100,7 @@ namespace NTMiner.Vms {
 
         public string MessageTypeText {
             get {
-                if (_messageType != WorkerMessageType.Undefined) {
-                    return _messageType.GetDescription();
-                }
-                return "未知";
+                return _messageType.GetDescription();
             }
         }
 

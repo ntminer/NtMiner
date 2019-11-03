@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Windows;
     using System.Windows.Input;
     using System.Windows.Media;
 
@@ -59,15 +58,6 @@
                 set {
                     _count = value;
                     OnPropertyChanged(nameof(Count));
-                    OnPropertyChanged(nameof(IsVisible));
-                }
-            }
-            public Visibility IsVisible {
-                get {
-                    if (Count > 0) {
-                        return Visibility.Visible;
-                    }
-                    return Visibility.Collapsed;
                 }
             }
         }
@@ -83,6 +73,13 @@
             var dic = _count[channelAll];
             foreach (var key in dic.Keys) {
                 dic[key].Count = _count.Where(a => a.Key != channelAll).Sum(a => a.Value[key].Count);
+            }
+        }
+
+
+        public IEnumerable<EnumItem<WorkerMessageChannel>> WorkerMessageChannelEnumItems {
+            get {
+                return WorkerMessageChannel.Unspecified.GetEnumItems();
             }
         }
 
@@ -102,7 +99,7 @@
             }
             foreach (var messageChannel in WorkerMessageChannel.Unspecified.GetEnumItems()) {
                 var values = new Dictionary<WorkerMessageType, MessageTypeItem>();
-                foreach (var messageType in WorkerMessageType.Undefined.GetEnumItems()) {
+                foreach (var messageType in WorkerMessageType.Info.GetEnumItems()) {
                     values.Add(messageType.Value, new MessageTypeItem(messageType, RefreshQueryResults));
                 }
                 _count.Add(messageChannel, values);

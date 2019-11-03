@@ -57,11 +57,6 @@ namespace NTMiner.WorkerMessage {
             VirtualRoot.RaiseEvent(new WorkerMessageAddedEvent(data, removes));
         }
 
-        public List<WorkerMessageData> GetWorkerMessages(DateTime timestamp) {
-            InitOnece();
-            return _records.Where(a => a.Timestamp >= timestamp).ToList();
-        }
-
         public void Clear() {
             if (string.IsNullOrEmpty(_connectionString)) {
                 return;

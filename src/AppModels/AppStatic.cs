@@ -374,12 +374,6 @@ namespace NTMiner {
                 return NTMinerRoot.MineStatusEnumItems;
             }
         }
-
-        public static IEnumerable<EnumItem<WorkerMessageChannel>> WorkerMessageChannelEnumItems {
-            get {
-                return NTMinerRoot.WorkerMessageChannelEnumItems;
-            }
-        }
         #endregion
 
         #region AppName CurrentVersion VersionTag VersionFullName
