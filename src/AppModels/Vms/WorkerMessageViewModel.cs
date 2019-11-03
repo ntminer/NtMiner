@@ -81,37 +81,45 @@ namespace NTMiner.Vms {
             }
         }
 
+        public static StreamGeometry GetIcon(WorkerMessageType messageType) {
+            switch (messageType) {
+                case WorkerMessageType.Undefined:
+                    return null;
+                case WorkerMessageType.Info:
+                    return InfoIcon;
+                case WorkerMessageType.Warn:
+                    return WarnIcon;
+                case WorkerMessageType.Error:
+                    return ErrorIcon;
+                default:
+                    return null;
+            }
+        }
+
         public StreamGeometry MessageTypeIcon {
             get {
-                switch (_messageType) {
-                    case WorkerMessageType.Undefined:
-                        return null;
-                    case WorkerMessageType.Info:
-                        return InfoIcon;
-                    case WorkerMessageType.Warn:
-                        return WarnIcon;
-                    case WorkerMessageType.Error:
-                        return ErrorIcon;
-                    default:
-                        return null;
-                }
+                return GetIcon(_messageType);
+            }
+        }
+
+        public static SolidColorBrush GetIconFill(WorkerMessageType messageType) {
+            switch (messageType) {
+                case WorkerMessageType.Undefined:
+                    return WpfUtil.BlackBrush;
+                case WorkerMessageType.Info:
+                    return IconFillColor;
+                case WorkerMessageType.Warn:
+                    return WarnColor;
+                case WorkerMessageType.Error:
+                    return WpfUtil.RedBrush;
+                default:
+                    return WpfUtil.BlackBrush;
             }
         }
 
         public SolidColorBrush IconFill {
             get {
-                switch (_messageType) {
-                    case WorkerMessageType.Undefined:
-                        return WpfUtil.BlackBrush;
-                    case WorkerMessageType.Info:
-                        return IconFillColor;
-                    case WorkerMessageType.Warn:
-                        return WarnColor;
-                    case WorkerMessageType.Error:
-                        return WpfUtil.RedBrush;
-                    default:
-                        return WpfUtil.BlackBrush;
-                }
+                return GetIconFill(_messageType);
             }
         }
 

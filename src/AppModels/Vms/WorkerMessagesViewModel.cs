@@ -1,23 +1,32 @@
 ﻿namespace NTMiner.Vms {
     using NTMiner.Core;
     using NTMiner.MinerServer;
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
     using System.Windows;
     using System.Windows.Input;
+    using System.Windows.Media;
 
     public class WorkerMessagesViewModel : ViewModelBase {
         public class MessageTypeItem : ViewModelBase {
             private int _count;
+            private readonly Action OnIsCheckedChanged;
 
-            public MessageTypeItem(EnumItem<WorkerMessageType> messageType) {
+            public MessageTypeItem(EnumItem<WorkerMessageType> messageType, Action onIsCheckedChanged) {
                 this.MessageType = messageType;
+                this.OnIsCheckedChanged = onIsCheckedChanged;
             }
             public EnumItem<WorkerMessageType> MessageType { get; private set; }
-            public string Icon {
+            public StreamGeometry Icon {
                 get {
-                    return $"Icon_{MessageType.Name}";
+                    return WorkerMessageViewModel.GetIcon(MessageType.Value);
+                }
+            }
+            public SolidColorBrush IconFill {
+                get {
+                    return WorkerMessageViewModel.GetIconFill(MessageType.Value);
                 }
             }
             public string DisplayText {
@@ -41,6 +50,7 @@
                     };
                     VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
                     OnPropertyChanged(nameof(IsChecked));
+                    OnIsCheckedChanged?.Invoke();
                 }
             }
 
@@ -85,7 +95,7 @@
             foreach (var messageChannel in WorkerMessageChannel.Unspecified.GetEnumItems()) {
                 var values = new Dictionary<WorkerMessageType, MessageTypeItem>();
                 foreach (var messageType in WorkerMessageType.Undefined.GetEnumItems()) {
-                    values.Add(messageType.Value, new MessageTypeItem(messageType));
+                    values.Add(messageType.Value, new MessageTypeItem(messageType, RefreshQueryResults));
                 }
                 _count.Add(messageChannel, values);
             }
@@ -116,7 +126,7 @@
                                 item[key].Count = 0;
                             }
                         }
-                        CountChanged();
+                        OnPropertyChanged(nameof(MessageTypeItems));
                     });
                 });
             VirtualRoot.BuildEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
@@ -172,113 +182,8 @@
                     _selectedChannel = value;
                     OnPropertyChanged(nameof(SelectedChannel));
                     RefreshQueryResults();
-                    CountChanged();
+                    OnPropertyChanged(nameof(MessageTypeItems));
                 }
-            }
-        }
-
-        private void CountChanged() {
-            OnPropertyChanged(nameof(ErrorCount));
-            OnPropertyChanged(nameof(WarnCount));
-            OnPropertyChanged(nameof(InfoCount));
-            OnPropertyChanged(nameof(IsErrorCountVisible));
-            OnPropertyChanged(nameof(IsWarnCountVisible));
-            OnPropertyChanged(nameof(IsInfoCountVisible));
-        }
-
-        public bool IsErrorChecked {
-            get {
-                return GetIsChecked(nameof(IsErrorChecked));
-            }
-            set {
-                SetIsChecked(nameof(IsErrorChecked), value);
-                OnPropertyChanged(nameof(IsErrorChecked));
-                RefreshQueryResults();
-            }
-        }
-        public bool IsWarnChecked {
-            get {
-                return GetIsChecked(nameof(IsWarnChecked));
-            }
-            set {
-                SetIsChecked(nameof(IsWarnChecked), value);
-                OnPropertyChanged(nameof(IsWarnChecked));
-                RefreshQueryResults();
-            }
-        }
-        public bool IsInfoChecked {
-            get {
-                return GetIsChecked(nameof(IsInfoChecked));
-            }
-            set {
-                SetIsChecked(nameof(IsInfoChecked), value);
-                OnPropertyChanged(nameof(IsInfoChecked));
-                RefreshQueryResults();
-            }
-        }
-
-        private bool GetIsChecked(string key) {
-            bool value = true; ;
-            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(key, out IAppSetting setting) && setting.Value != null) {
-                value = (bool)setting.Value;
-            }
-            return value;
-        }
-
-        private void SetIsChecked(string key, bool value) {
-            AppSettingData appSettingData = new AppSettingData() {
-                Key = key,
-                Value = value
-            };
-            VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
-        }
-
-        public int ErrorCount {
-            get {
-                if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Error].Count);
-                }
-                return _count[SelectedChannel][WorkerMessageType.Error].Count;
-            }
-        }
-        public Visibility IsErrorCountVisible {
-            get {
-                if (ErrorCount > 0) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-        public int WarnCount {
-            get {
-                if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Warn].Count);
-                }
-                return _count[SelectedChannel][WorkerMessageType.Warn].Count;
-            }
-        }
-        public Visibility IsWarnCountVisible {
-            get {
-                if (WarnCount > 0) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-        public int InfoCount {
-            get {
-                if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Info].Count);
-                }
-                return _count[SelectedChannel][WorkerMessageType.Info].Count;
-            }
-        }
-        public Visibility IsInfoCountVisible {
-            get {
-                if (InfoCount > 0) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
             }
         }
 
@@ -288,14 +193,9 @@
             }
         }
 
-        private bool IsCheckedAllMessageType {
-            get {
-                return IsErrorChecked && IsWarnChecked && IsInfoChecked;
-            }
-        }
-
         private void RefreshQueryResults() {
-            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && IsCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
+            bool isCheckedAllMessageType = _count[SelectedChannel].Values.All(a => a.IsChecked);
+            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
                 _queyResults = _workerMessageVms;
                 OnPropertyChanged(nameof(QueryResults));
                 return;
@@ -304,11 +204,8 @@
             if (SelectedChannel.Value != WorkerMessageChannel.Unspecified) {
                 query = query.Where(a => a.Channel == SelectedChannel.Value.GetName());
             }
-            if (!IsCheckedAllMessageType) {
-                query = query.Where(a => a.MessageTypeEnum == WorkerMessageType.Undefined
-                    || (a.MessageTypeEnum == WorkerMessageType.Error && IsErrorChecked)
-                    || (a.MessageTypeEnum == WorkerMessageType.Warn && IsWarnChecked)
-                    || (a.MessageTypeEnum == WorkerMessageType.Info && IsInfoChecked));
+            if (!isCheckedAllMessageType) {
+                query = query.Where(a => _count[SelectedChannel][a.MessageTypeEnum].IsChecked);
             }
             if (!string.IsNullOrEmpty(Keyword)) {
                 query = query.Where(a => a.Content != null && a.Content.Contains(Keyword));

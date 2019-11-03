@@ -44,44 +44,34 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
-                <CheckBox Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsErrorChecked}" Visibility="{Binding IsErrorCountVisible}">
-                    <WrapPanel>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Error}"
-						    Fill="Red"
-						    Stretch="Fill" />
-                        <TextBlock>错误</TextBlock>
-                        <TextBlock Margin="4 0 0 0" Text="{Binding ErrorCount}"></TextBlock>
-                    </WrapPanel>
-                </CheckBox>
-                <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsWarnChecked}" Visibility="{Binding IsWarnCountVisible}">
-                    <WrapPanel>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Warn}"
-						    Fill="{StaticResource WarnColor}"
-						    Stretch="Fill" />
-                        <TextBlock>警告</TextBlock>
-                        <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
-                    </WrapPanel>
-                </CheckBox>
-                <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsInfoChecked}" Visibility="{Binding IsInfoCountVisible}">
-                    <WrapPanel>
-                        <Path
-						    Width="14"
-						    Height="14"
-						    Data="{StaticResource Icon_Info}"
-						    Fill="{StaticResource IconFillColor}"
-						    Stretch="Fill" />
-                        <TextBlock>信息</TextBlock>
-                        <TextBlock Margin="4 0 0 0" Text="{Binding InfoCount}"></TextBlock>
-                    </WrapPanel>
-                </CheckBox>
-            </WrapPanel>
+            <ItemsControl
+                Margin="0 0 10 0"
+                VerticalAlignment="Center"
+				ItemsSource="{Binding MessageTypeItems}"
+				BorderThickness="0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsChecked}" Visibility="{Binding IsVisible}">
+                            <WrapPanel>
+                                <Path
+						            Width="14"
+						            Height="14"
+						            Data="{Binding Icon}"
+						            Fill="{Binding IconFill}"
+						            Stretch="Fill" />
+                                <TextBlock Text="{Binding DisplayText}"></TextBlock>
+                                <TextBlock Margin="4 0 0 0" Text="{Binding Count}"></TextBlock>
+                            </WrapPanel>
+                        </CheckBox>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
             <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
                 <Path 
 				    Width="12"
