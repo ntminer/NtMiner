@@ -12,6 +12,51 @@ namespace NTMiner.Vms {
         private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["IconFillColor"];
         private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
 
+        public static StreamGeometry GetIcon(WorkerMessageType messageType) {
+            switch (messageType) {
+                case WorkerMessageType.Undefined:
+                    return null;
+                case WorkerMessageType.Info:
+                    return InfoIcon;
+                case WorkerMessageType.Warn:
+                    return WarnIcon;
+                case WorkerMessageType.Error:
+                    return ErrorIcon;
+                default:
+                    return null;
+            }
+        }
+
+        public static SolidColorBrush GetIconFill(WorkerMessageType messageType) {
+            switch (messageType) {
+                case WorkerMessageType.Undefined:
+                    return WpfUtil.BlackBrush;
+                case WorkerMessageType.Info:
+                    return IconFillColor;
+                case WorkerMessageType.Warn:
+                    return WarnColor;
+                case WorkerMessageType.Error:
+                    return WpfUtil.RedBrush;
+                default:
+                    return WpfUtil.BlackBrush;
+            }
+        }
+
+        public static SolidColorBrush GetForeground(WorkerMessageType messageType) {
+            switch (messageType) {
+                case WorkerMessageType.Undefined:
+                    return WpfUtil.BlackBrush;
+                case WorkerMessageType.Info:
+                    return WpfUtil.BlackBrush;
+                case WorkerMessageType.Warn:
+                    return WarnColor;
+                case WorkerMessageType.Error:
+                    return WpfUtil.RedBrush;
+                default:
+                    return WpfUtil.BlackBrush;
+            }
+        }
+
         private readonly IWorkerMessage _data;
         private readonly WorkerMessageChannel _channel;
         private readonly WorkerMessageType _messageType;
@@ -81,39 +126,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public static StreamGeometry GetIcon(WorkerMessageType messageType) {
-            switch (messageType) {
-                case WorkerMessageType.Undefined:
-                    return null;
-                case WorkerMessageType.Info:
-                    return InfoIcon;
-                case WorkerMessageType.Warn:
-                    return WarnIcon;
-                case WorkerMessageType.Error:
-                    return ErrorIcon;
-                default:
-                    return null;
-            }
-        }
-
         public StreamGeometry MessageTypeIcon {
             get {
                 return GetIcon(_messageType);
-            }
-        }
-
-        public static SolidColorBrush GetIconFill(WorkerMessageType messageType) {
-            switch (messageType) {
-                case WorkerMessageType.Undefined:
-                    return WpfUtil.BlackBrush;
-                case WorkerMessageType.Info:
-                    return IconFillColor;
-                case WorkerMessageType.Warn:
-                    return WarnColor;
-                case WorkerMessageType.Error:
-                    return WpfUtil.RedBrush;
-                default:
-                    return WpfUtil.BlackBrush;
             }
         }
 
@@ -125,18 +140,7 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush Foreground {
             get {
-                switch (_messageType) {
-                    case WorkerMessageType.Undefined:
-                        return WpfUtil.BlackBrush;
-                    case WorkerMessageType.Info:
-                        return WpfUtil.BlackBrush;
-                    case WorkerMessageType.Warn:
-                        return WarnColor;
-                    case WorkerMessageType.Error:
-                        return WpfUtil.RedBrush;
-                    default:
-                        return WpfUtil.BlackBrush;
-                }
+                return GetForeground(_messageType);
             }
         }
 
