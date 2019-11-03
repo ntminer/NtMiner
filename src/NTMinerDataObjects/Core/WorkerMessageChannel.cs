@@ -9,14 +9,14 @@ namespace NTMiner.Core {
         [Description("全频道")]
         Unspecified,
         /// <summary>
-        /// 壳频道
+        /// 我的频道
         /// </summary>
-        [Description("壳频道")]
+        [Description("我的频道")]
         This,
         /// <summary>
         /// 基于内核输出和关键字提取的事件
         /// </summary>
-        [Description("核频道")]
+        [Description("内核频道")]
         Kernel,
         /// <summary>
         /// 服务端事件，比如服务端升级了内核版本时会通知群控客户端（如果挖矿端接收事件也通知挖矿端）
