@@ -40,7 +40,7 @@
         private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
         private ObservableCollection<WorkerMessageViewModel> _queyResults;
         private EnumItem<WorkerMessageChannel> _selectedChannel;
-        private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, int>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, int>>();
+        private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem>>();
         private string _keyword;
 
         public ICommand ClearKeyword { get; private set; }
@@ -51,16 +51,16 @@
                 return;
             }
             foreach (var messageChannel in WorkerMessageChannel.Unspecified.GetEnumItems()) {
-                var values = new Dictionary<WorkerMessageType, int>();
+                var values = new Dictionary<WorkerMessageType, MessageTypeItem>();
                 foreach (var messageType in WorkerMessageType.Undefined.GetEnumItems()) {
-                    values.Add(messageType.Value, 0);
+                    values.Add(messageType.Value, new MessageTypeItem($"Icon_{messageType.Name}", messageType.Description));
                 }
                 _count.Add(messageChannel, values);
             }
             var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
             _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>(data);
             foreach (var item in _workerMessageVms) {
-                _count[item.ChannelEnum.GetEnumItem()][item.MessageTypeEnum]++;
+                _count[item.ChannelEnum.GetEnumItem()][item.MessageTypeEnum].Count++;
             }
             _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
             RefreshQueryResults();
@@ -81,7 +81,7 @@
                         OnPropertyChanged(nameof(QueryResults));
                         foreach (var item in _count.Values) {
                             foreach (var key in item.Keys) {
-                                item[key] = 0;
+                                item[key].Count = 0;
                             }
                         }
                         CountChanged();
@@ -100,7 +100,7 @@
                         }
                         int removedCount = message.Removes.Count(a => a.MessageType == vm.MessageTypeEnum.GetName());
                         if (removedCount != 1) {
-                            _count[vm.ChannelEnum.GetEnumItem()][vm.MessageTypeEnum] += 1 - removedCount;
+                            _count[vm.ChannelEnum.GetEnumItem()][vm.MessageTypeEnum].Count += 1 - removedCount;
                             OnPropertyChanged($"{vm.MessageTypeEnum.GetName()}Count");
                             OnPropertyChanged($"Is{vm.MessageTypeEnum.GetName()}CountVisible");
                         }
@@ -204,9 +204,9 @@
         public int ErrorCount {
             get {
                 if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Error]);
+                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Error].Count);
                 }
-                return _count[SelectedChannel][WorkerMessageType.Error];
+                return _count[SelectedChannel][WorkerMessageType.Error].Count;
             }
         }
         public Visibility IsErrorCountVisible {
@@ -220,9 +220,9 @@
         public int WarnCount {
             get {
                 if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Warn]);
+                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Warn].Count);
                 }
-                return _count[SelectedChannel][WorkerMessageType.Warn];
+                return _count[SelectedChannel][WorkerMessageType.Warn].Count;
             }
         }
         public Visibility IsWarnCountVisible {
@@ -236,9 +236,9 @@
         public int InfoCount {
             get {
                 if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Info]);
+                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Info].Count);
                 }
-                return _count[SelectedChannel][WorkerMessageType.Info];
+                return _count[SelectedChannel][WorkerMessageType.Info].Count;
             }
         }
         public Visibility IsInfoCountVisible {

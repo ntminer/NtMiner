@@ -62,7 +62,7 @@
                         <Path
 						    Width="14"
 						    Height="14"
-						    Data="{StaticResource Icon_Waring}"
+						    Data="{StaticResource Icon_Warn}"
 						    Fill="{StaticResource WarnColor}"
 						    Stretch="Fill" />
                         <TextBlock>警告</TextBlock>
