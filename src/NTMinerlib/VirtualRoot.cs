@@ -247,18 +247,18 @@ namespace NTMiner {
 
         #region WorkerMessage
         public static void ThisWorkerInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
+            ThisWorkerMessage(provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
         }
 
         public static void ThisWorkerWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
+            ThisWorkerMessage(provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
 
         public static void ThisWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
+            ThisWorkerMessage(provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        private static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
+        private static void ThisWorkerMessage(string provider, WorkerMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
             switch (outEnum) {
                 case OutEnum.None:
                     break;
@@ -279,6 +279,7 @@ namespace NTMiner {
                         case WorkerMessageType.Undefined:
                             break;
                         case WorkerMessageType.Info:
+                        case WorkerMessageType.NewVersion:
                             Out.ShowInfo(content);
                             break;
                         case WorkerMessageType.Warn:
@@ -299,6 +300,7 @@ namespace NTMiner {
                     case WorkerMessageType.Undefined:
                         break;
                     case WorkerMessageType.Info:
+                    case WorkerMessageType.NewVersion:
                         Write.UserInfo(content);
                         break;
                     case WorkerMessageType.Warn:
@@ -311,7 +313,7 @@ namespace NTMiner {
                         break;
                 }
             }
-            WorkerMessages.Add(channel.GetName(), provider, messageType.GetName(), content);
+            WorkerMessages.Add(WorkerMessageChannel.This.GetName(), provider, messageType.GetName(), content);
         }
         #endregion
 
