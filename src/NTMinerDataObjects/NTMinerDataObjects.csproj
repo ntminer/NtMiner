@@ -86,10 +86,13 @@
     <Compile Include="MinerClient\ILocalIp.cs" />
     <Compile Include="MinerClient\LocalIpData.cs" />
     <Compile Include="MinerServer\INTMinerWallet.cs" />
+    <Compile Include="MinerServer\IServerMessage.cs" />
     <Compile Include="MinerServer\KernelOutputKeywordsRequest.cs" />
     <Compile Include="MinerServer\NTMinerWalletData.cs" />
     <Compile Include="MinerServer\NTMinerWalletsRequest.cs" />
     <Compile Include="MinerClient\WorkerMessageChannel.cs" />
+    <Compile Include="MinerServer\ServerMessageData.cs" />
+    <Compile Include="MinerServer\ServerMessageType.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
     <Compile Include="Core\IKernelOutputKeyword.cs" />
     <Compile Include="MinerClient\IWorkerMessage.cs" />
