@@ -3,6 +3,7 @@
     using NTMiner.MinerServer;
     using System.Collections.ObjectModel;
     using System.Linq;
+    using System.Windows;
     using System.Windows.Input;
 
     public class WorkerMessagesViewModel : ViewModelBase {
@@ -221,7 +222,16 @@
                 if (_errorCount != value) {
                     _errorCount = value;
                     OnPropertyChanged(nameof(ErrorCount));
+                    OnPropertyChanged(nameof(IsErrorCountVisible));
                 }
+            }
+        }
+        public Visibility IsErrorCountVisible {
+            get {
+                if (ErrorCount > 0) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
             }
         }
         public int WarnCount {
@@ -230,7 +240,16 @@
                 if (_warnCount != value) {
                     _warnCount = value;
                     OnPropertyChanged(nameof(WarnCount));
+                    OnPropertyChanged(nameof(IsWarnCountVisible));
                 }
+            }
+        }
+        public Visibility IsWarnCountVisible {
+            get {
+                if (WarnCount > 0) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
             }
         }
         public int InfoCount {
@@ -239,7 +258,16 @@
                 if (_infoCount != value) {
                     _infoCount = value;
                     OnPropertyChanged(nameof(InfoCount));
+                    OnPropertyChanged(nameof(IsInfoCountVisible));
                 }
+            }
+        }
+        public Visibility IsInfoCountVisible {
+            get {
+                if (InfoCount > 0) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
             }
         }
 

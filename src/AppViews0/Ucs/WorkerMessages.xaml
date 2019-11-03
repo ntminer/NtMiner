@@ -45,7 +45,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <WrapPanel Margin="0 0 10 0" VerticalAlignment="Center">
-                <CheckBox Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsErrorChecked}">
+                <CheckBox Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsErrorChecked}" Visibility="{Binding IsErrorCountVisible}">
                     <WrapPanel>
                         <Path
 						    Width="14"
@@ -57,7 +57,7 @@
                         <TextBlock Margin="4 0 0 0" Text="{Binding ErrorCount}"></TextBlock>
                     </WrapPanel>
                 </CheckBox>
-                <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsWarnChecked}">
+                <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsWarnChecked}" Visibility="{Binding IsWarnCountVisible}">
                     <WrapPanel>
                         <Path
 						    Width="14"
@@ -69,7 +69,7 @@
                         <TextBlock Margin="4 0 0 0" Text="{Binding WarnCount}"></TextBlock>
                     </WrapPanel>
                 </CheckBox>
-                <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsInfoChecked}">
+                <CheckBox Margin="6 0 0 0" Style="{StaticResource ButtonCkb}" IsChecked="{Binding IsInfoChecked}" Visibility="{Binding IsInfoCountVisible}">
                     <WrapPanel>
                         <Path
 						    Width="14"
