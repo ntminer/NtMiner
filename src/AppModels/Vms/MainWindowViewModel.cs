@@ -30,9 +30,7 @@ namespace NTMiner.Vms {
                     MinerProfile.MinerName = thisPcName;
                 }));
             });
-            if (DevMode.IsDevMode) {
-                _serverJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
-            }
+            _serverJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
         }
 
         public string BrandTitle {

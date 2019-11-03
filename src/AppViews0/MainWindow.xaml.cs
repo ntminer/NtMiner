@@ -217,14 +217,12 @@ namespace NTMiner.Views {
                     VirtualRoot.Out.ShowSuccess(message.Message, "开源矿工");
                 });
             });
-            if (DevMode.IsDevMode) {
-                this.WindowContextEventPath<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
-                    action: message => {
-                        UIThread.Execute(() => {
-                            Vm.ServerJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
-                        });
+            this.WindowContextEventPath<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => {
+                        Vm.ServerJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
                     });
-            }
+                });
             this.WindowContextEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {

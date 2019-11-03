@@ -174,7 +174,6 @@
                 <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top">
                     <TextBlock 
 						VerticalAlignment="Center"
-						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 						ToolTip="ServerJsonVersion"
 						Text="{Binding ServerJsonVersion}" 
 						Foreground="{StaticResource ThemeForeground}"></TextBlock>
