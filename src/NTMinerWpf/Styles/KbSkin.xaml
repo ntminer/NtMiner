@@ -25,6 +25,7 @@
 
 	<SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
     <SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
+    <SolidColorBrush x:Key="InfoColor">#9D7321</SolidColorBrush>
     <SolidColorBrush x:Key="WarnColor">#ECB443</SolidColorBrush>
     <SolidColorBrush x:Key="NewVersion">#4991AF</SolidColorBrush>
     <SolidColorBrush x:Key="TransparentColor">#00FFFFFF</SolidColorBrush>

@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Warn"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
         private static readonly StreamGeometry NewVersionIcon = (StreamGeometry)Application.Current.Resources["Icon_NewVersion"];
-        private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["IconFillColor"];
+        private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
         private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
         private static readonly SolidColorBrush NewVersionColor = (SolidColorBrush)Application.Current.Resources["NewVersion"];
 
