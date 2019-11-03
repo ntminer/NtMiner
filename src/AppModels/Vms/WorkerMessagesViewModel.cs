@@ -11,30 +11,23 @@
         private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
         private ObservableCollection<WorkerMessageViewModel> _queyResults;
         private EnumItem<WorkerMessageChannel> _selectedChannel;
-        private Dictionary<EnumItem<WorkerMessageChannel>, int> _errorCount = new Dictionary<EnumItem<WorkerMessageChannel>, int> {
-            {WorkerMessageChannel.Unspecified.GetEnumItem(), 0 },
-            {WorkerMessageChannel.This.GetEnumItem(), 0 },
-            {WorkerMessageChannel.Kernel.GetEnumItem(), 0 },
-            {WorkerMessageChannel.Server.GetEnumItem(), 0 }
-        };
-        private Dictionary<EnumItem<WorkerMessageChannel>, int> _warnCount = new Dictionary<EnumItem<WorkerMessageChannel>, int> {
-            {WorkerMessageChannel.Unspecified.GetEnumItem(), 0 },
-            {WorkerMessageChannel.This.GetEnumItem(), 0 },
-            {WorkerMessageChannel.Kernel.GetEnumItem(), 0 },
-            {WorkerMessageChannel.Server.GetEnumItem(), 0 }
-        };
-        private Dictionary<EnumItem<WorkerMessageChannel>, int> _infoCount = new Dictionary<EnumItem<WorkerMessageChannel>, int> {
-            {WorkerMessageChannel.Unspecified.GetEnumItem(), 0 },
-            {WorkerMessageChannel.This.GetEnumItem(), 0 },
-            {WorkerMessageChannel.Kernel.GetEnumItem(), 0 },
-            {WorkerMessageChannel.Server.GetEnumItem(), 0 }
-        };
+        private Dictionary<EnumItem<WorkerMessageChannel>, int> _errorCount = new Dictionary<EnumItem<WorkerMessageChannel>, int>();
+        private Dictionary<EnumItem<WorkerMessageChannel>, int> _warnCount = new Dictionary<EnumItem<WorkerMessageChannel>, int>();
+        private Dictionary<EnumItem<WorkerMessageChannel>, int> _infoCount = new Dictionary<EnumItem<WorkerMessageChannel>, int>();
         private string _keyword;
 
         public ICommand ClearKeyword { get; private set; }
         public ICommand Clear { get; private set; }
 
         public WorkerMessagesViewModel() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+            foreach (var item in WorkerMessageChannel.Unspecified.GetEnumItems()) {
+                _errorCount.Add(item, 0);
+                _warnCount.Add(item, 0);
+                _infoCount.Add(item, 0);
+            }
             var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
             _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>(data);
             foreach (var item in _workerMessageVms) {
