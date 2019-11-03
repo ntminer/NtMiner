@@ -11,13 +11,38 @@
         public class MessageTypeItem : ViewModelBase {
             private int _count;
 
-            public MessageTypeItem(string icon, string displayText) {
-                this.Icon = icon;
-                this.DisplayText = displayText;
+            public MessageTypeItem(EnumItem<WorkerMessageType> messageType) {
+                this.MessageType = messageType;
+            }
+            public EnumItem<WorkerMessageType> MessageType { get; private set; }
+            public string Icon {
+                get {
+                    return $"Icon_{MessageType.Name}";
+                }
+            }
+            public string DisplayText {
+                get {
+                    return MessageType.Description;
+                }
             }
 
-            public string Icon { get; set; }
-            public string DisplayText { get; set; }
+            public bool IsChecked {
+                get {
+                    bool value = true; ;
+                    if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting($"Is{MessageType.Name}Checked", out IAppSetting setting) && setting.Value != null) {
+                        value = (bool)setting.Value;
+                    }
+                    return value;
+                }
+                set {
+                    AppSettingData appSettingData = new AppSettingData() {
+                        Key = $"Is{MessageType.Name}Checked",
+                        Value = value
+                    };
+                    VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
+                    OnPropertyChanged(nameof(IsChecked));
+                }
+            }
 
             public int Count {
                 get => _count;
@@ -53,7 +78,7 @@
             foreach (var messageChannel in WorkerMessageChannel.Unspecified.GetEnumItems()) {
                 var values = new Dictionary<WorkerMessageType, MessageTypeItem>();
                 foreach (var messageType in WorkerMessageType.Undefined.GetEnumItems()) {
-                    values.Add(messageType.Value, new MessageTypeItem($"Icon_{messageType.Name}", messageType.Description));
+                    values.Add(messageType.Value, new MessageTypeItem(messageType));
                 }
                 _count.Add(messageChannel, values);
             }
