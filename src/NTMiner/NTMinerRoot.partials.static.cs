@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.JsonDb;
+using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;

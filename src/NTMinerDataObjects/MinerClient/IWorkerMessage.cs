@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Core {
+namespace NTMiner.MinerClient {
     public interface IWorkerMessage : IEntity<Guid> {
         Guid Id { get; }
         /// <summary>

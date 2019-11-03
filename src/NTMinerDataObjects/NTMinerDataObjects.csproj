@@ -89,12 +89,12 @@
     <Compile Include="MinerServer\KernelOutputKeywordsRequest.cs" />
     <Compile Include="MinerServer\NTMinerWalletData.cs" />
     <Compile Include="MinerServer\NTMinerWalletsRequest.cs" />
-    <Compile Include="Core\WorkerMessageChannel.cs" />
+    <Compile Include="MinerClient\WorkerMessageChannel.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
     <Compile Include="Core\IKernelOutputKeyword.cs" />
-    <Compile Include="Core\IWorkerMessage.cs" />
+    <Compile Include="MinerClient\IWorkerMessage.cs" />
     <Compile Include="Core\KernelOutputKeywordData.cs" />
-    <Compile Include="Core\WorkerMessageData.cs" />
+    <Compile Include="MinerClient\WorkerMessageData.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
     <Compile Include="MinerClient\IGpuStaticData.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
@@ -183,7 +183,7 @@
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="Core\WalletData.cs" />
-    <Compile Include="Core\WorkerMessageType.cs" />
+    <Compile Include="MinerClient\WorkerMessageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

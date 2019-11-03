@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;

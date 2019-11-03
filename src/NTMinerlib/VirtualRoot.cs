@@ -1,8 +1,8 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
-using NTMiner.Core;
 using NTMiner.Ip;
 using NTMiner.Ip.Impl;
+using NTMiner.MinerClient;
 using NTMiner.Serialization;
 using NTMiner.WorkerMessage;
 using System;
