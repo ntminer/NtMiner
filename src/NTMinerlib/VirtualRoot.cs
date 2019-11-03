@@ -279,7 +279,6 @@ namespace NTMiner {
                         case WorkerMessageType.Undefined:
                             break;
                         case WorkerMessageType.Info:
-                        case WorkerMessageType.NewVersion:
                             Out.ShowInfo(content);
                             break;
                         case WorkerMessageType.Warn:
@@ -300,7 +299,6 @@ namespace NTMiner {
                     case WorkerMessageType.Undefined:
                         break;
                     case WorkerMessageType.Info:
-                    case WorkerMessageType.NewVersion:
                         Write.UserInfo(content);
                         break;
                     case WorkerMessageType.Warn:

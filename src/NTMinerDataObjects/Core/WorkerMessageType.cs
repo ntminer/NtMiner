@@ -10,8 +10,6 @@ namespace NTMiner.Core {
         [Description("警告")]
         Warn,
         [Description("错误")]
-        Error,
-        [Description("新版本")]
-        NewVersion
+        Error
     }
 }

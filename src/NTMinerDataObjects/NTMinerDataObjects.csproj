@@ -39,7 +39,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ChangePasswordRequest.cs" />
-    <Compile Include="Core\AddOrUpdateWorkerMessageRequest.cs" />
     <Compile Include="Core\CoinData.cs" />
     <Compile Include="Core\CoinGroupData.cs" />
     <Compile Include="Core\CoinKernelData.cs" />
@@ -75,7 +74,6 @@
     <Compile Include="Core\SupportedGpu.cs" />
     <Compile Include="Core\SysDicData.cs" />
     <Compile Include="Core\SysDicItemData.cs" />
-    <Compile Include="Core\WorkerMessagesRequest.cs" />
     <Compile Include="Daemon\SetWalletRequest.cs" />
     <Compile Include="DataLevel.cs" />
     <Compile Include="DoubleExtension.cs" />

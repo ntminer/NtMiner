@@ -44,7 +44,6 @@
     <Compile Include="INTMinerWalletController.cs" />
     <Compile Include="IOverClockDataController.cs" />
     <Compile Include="IReportController.cs" />
-    <Compile Include="IWorkerMessageController.cs" />
     <Compile Include="IWrapperMinerClientController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

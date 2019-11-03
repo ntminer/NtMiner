@@ -9,10 +9,8 @@ namespace NTMiner.Vms {
         private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Warn"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
-        private static readonly StreamGeometry NewVersionIcon = (StreamGeometry)Application.Current.Resources["Icon_NewVersion"];
         private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
         private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
-        private static readonly SolidColorBrush NewVersionColor = (SolidColorBrush)Application.Current.Resources["NewVersion"];
 
         public static StreamGeometry GetIcon(WorkerMessageType messageType) {
             switch (messageType) {
@@ -24,8 +22,6 @@ namespace NTMiner.Vms {
                     return WarnIcon;
                 case WorkerMessageType.Error:
                     return ErrorIcon;
-                case WorkerMessageType.NewVersion:
-                    return NewVersionIcon;
                 default:
                     return null;
             }
@@ -41,8 +37,6 @@ namespace NTMiner.Vms {
                     return WarnColor;
                 case WorkerMessageType.Error:
                     return WpfUtil.RedBrush;
-                case WorkerMessageType.NewVersion:
-                    return NewVersionColor;
                 default:
                     return WpfUtil.BlackBrush;
             }

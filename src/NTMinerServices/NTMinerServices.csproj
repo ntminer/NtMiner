@@ -91,7 +91,6 @@
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\KernelOutputKeywordController.cs" />
     <Compile Include="Controllers\NTMinerWalletController.cs" />
-    <Compile Include="Controllers\WorkerMessageController.cs" />
     <Compile Include="Controllers\WrapperMinerClientController.cs" />
     <Compile Include="Controllers\OverClockDataController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
