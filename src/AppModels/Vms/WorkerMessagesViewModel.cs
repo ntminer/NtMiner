@@ -68,6 +68,13 @@
         private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem>>();
         private string _keyword;
 
+        public IEnumerable<MessageTypeItem> MessageTypeItems {
+            get {
+                Dictionary<WorkerMessageType, MessageTypeItem> values = _count[SelectedChannel];
+                return values.Values;
+            }
+        }
+
         public ICommand ClearKeyword { get; private set; }
         public ICommand Clear { get; private set; }
 
