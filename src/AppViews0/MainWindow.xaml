@@ -172,11 +172,6 @@
                     PreviewMouseLeftButtonUp="RctHeader_PreviewMouseLeftButtonUp" 
                     PreviewMouseMove="RctHeader_PreviewMouseMove"></Border>
                 <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Top">
-                    <TextBlock 
-						VerticalAlignment="Center"
-						ToolTip="ServerJsonVersion"
-						Text="{Binding ServerJsonVersion}" 
-						Foreground="{StaticResource ThemeForeground}"></TextBlock>
                     <CheckBox 
                         Margin="0 0 12 0"
 						FocusVisualStyle="{x:Null}"

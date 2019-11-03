@@ -5,7 +5,6 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        private string _serverJsonVersion;
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
         private SolidColorBrush _daemonStateBrush;
 
@@ -30,7 +29,6 @@ namespace NTMiner.Vms {
                     MinerProfile.MinerName = thisPcName;
                 }));
             });
-            _serverJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
         }
 
         public string BrandTitle {
@@ -69,16 +67,6 @@ namespace NTMiner.Vms {
         public MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Instance.MinerProfileVm;
-            }
-        }
-
-        public string ServerJsonVersion {
-            get => _serverJsonVersion;
-            set {
-                if (_serverJsonVersion != value) {
-                    _serverJsonVersion = value;
-                    OnPropertyChanged(nameof(ServerJsonVersion));
-                }
             }
         }
 
