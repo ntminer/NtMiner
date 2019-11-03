@@ -8,6 +8,35 @@
     using System.Windows.Input;
 
     public class WorkerMessagesViewModel : ViewModelBase {
+        public class MessageTypeItem : ViewModelBase {
+            private int _count;
+
+            public MessageTypeItem(string icon, string displayText) {
+                this.Icon = icon;
+                this.DisplayText = displayText;
+            }
+
+            public string Icon { get; set; }
+            public string DisplayText { get; set; }
+
+            public int Count {
+                get => _count;
+                set {
+                    _count = value;
+                    OnPropertyChanged(nameof(Count));
+                    OnPropertyChanged(nameof(IsVisible));
+                }
+            }
+            public Visibility IsVisible {
+                get {
+                    if (Count > 0) {
+                        return Visibility.Visible;
+                    }
+                    return Visibility.Collapsed;
+                }
+            }
+        }
+
         private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
         private ObservableCollection<WorkerMessageViewModel> _queyResults;
         private EnumItem<WorkerMessageChannel> _selectedChannel;
