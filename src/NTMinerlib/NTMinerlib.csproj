@@ -49,7 +49,7 @@
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
     <Compile Include="ServerMessage\IServerMessageSet.cs" />
-    <Compile Include="WorkerMessage.cs" />
+    <Compile Include="ServerMessage\LocalServerMessageSet.cs" />
     <Compile Include="Ip\ILocalIpSet.cs" />
     <Compile Include="Ip\Impl\LocalIpSet.cs" />
     <Compile Include="Ip\Util.cs" />

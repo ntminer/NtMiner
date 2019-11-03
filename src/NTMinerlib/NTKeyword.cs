@@ -32,6 +32,7 @@
         public const string UpgradeCmdParameterName = "upgrade=";
 
         public const int WorkerMessageSetCapacity = 1000;
+        public const int ServerMessageSetCapacity = 1000;
         // 矿工名中不可以包含的字符
         public static readonly char[] InvalidMinerNameChars = { '.', ' ', '-', '_' };
 
