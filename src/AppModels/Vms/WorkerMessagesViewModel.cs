@@ -78,6 +78,14 @@
         private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem>>();
         private string _keyword;
 
+        private void UpdateChannelAll() {
+            var channelAll = WorkerMessageChannel.Unspecified.GetEnumItem();
+            var dic = _count[channelAll];
+            foreach (var key in dic.Keys) {
+                dic[key].Count = _count.Where(a => a.Key != channelAll).Sum(a => a.Value[key].Count);
+            }
+        }
+
         public IEnumerable<MessageTypeItem> MessageTypeItems {
             get {
                 Dictionary<WorkerMessageType, MessageTypeItem> values = _count[SelectedChannel];
@@ -106,6 +114,7 @@
             }
             _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
             RefreshQueryResults();
+            UpdateChannelAll();
 
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
@@ -143,6 +152,7 @@
                         int removedCount = message.Removes.Count(a => a.MessageType == vm.MessageTypeEnum.GetName());
                         if (removedCount != 1) {
                             _count[vm.ChannelEnum.GetEnumItem()][vm.MessageTypeEnum].Count += 1 - removedCount;
+                            UpdateChannelAll();
                             OnPropertyChanged($"{vm.MessageTypeEnum.GetName()}Count");
                             OnPropertyChanged($"Is{vm.MessageTypeEnum.GetName()}CountVisible");
                         }
