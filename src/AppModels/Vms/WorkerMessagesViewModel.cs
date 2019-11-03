@@ -78,12 +78,7 @@
                         foreach (var key in _infoCount.Keys) {
                             _infoCount[key] = 0;
                         }
-                        OnPropertyChanged(nameof(ErrorCount));
-                        OnPropertyChanged(nameof(WarnCount));
-                        OnPropertyChanged(nameof(InfoCount));
-                        OnPropertyChanged(nameof(IsErrorCountVisible));
-                        OnPropertyChanged(nameof(IsWarnCountVisible));
-                        OnPropertyChanged(nameof(IsInfoCountVisible));
+                        CountChanged();
                     });
                 });
             VirtualRoot.BuildEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
@@ -191,75 +186,71 @@
                     _selectedChannel = value;
                     OnPropertyChanged(nameof(SelectedChannel));
                     RefreshQueryResults();
-                    OnPropertyChanged(nameof(ErrorCount));
-                    OnPropertyChanged(nameof(WarnCount));
-                    OnPropertyChanged(nameof(InfoCount));
-                    OnPropertyChanged(nameof(IsErrorCountVisible));
-                    OnPropertyChanged(nameof(IsWarnCountVisible));
-                    OnPropertyChanged(nameof(IsInfoCountVisible));
+                    CountChanged();
                 }
             }
         }
 
+        private void CountChanged() {
+            OnPropertyChanged(nameof(ErrorCount));
+            OnPropertyChanged(nameof(WarnCount));
+            OnPropertyChanged(nameof(InfoCount));
+            OnPropertyChanged(nameof(IsErrorCountVisible));
+            OnPropertyChanged(nameof(IsWarnCountVisible));
+            OnPropertyChanged(nameof(IsInfoCountVisible));
+        }
+
         public bool IsErrorChecked {
             get {
-                bool value = true; ;
-                if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(nameof(IsErrorChecked), out IAppSetting setting) && setting.Value != null) {
-                    value = (bool)setting.Value;
-                }
-                return value;
+                return GetIsChecked(nameof(IsErrorChecked));
             }
             set {
-                AppSettingData appSettingData = new AppSettingData() {
-                    Key = nameof(IsErrorChecked),
-                    Value = value
-                };
-                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
+                SetIsChecked(nameof(IsErrorChecked), value);
                 OnPropertyChanged(nameof(IsErrorChecked));
                 RefreshQueryResults();
             }
         }
         public bool IsWarnChecked {
             get {
-                bool value = true; ;
-                if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(nameof(IsWarnChecked), out IAppSetting setting) && setting.Value != null) {
-                    value = (bool)setting.Value;
-                }
-                return value;
+                return GetIsChecked(nameof(IsWarnChecked));
             }
             set {
-                AppSettingData appSettingData = new AppSettingData() {
-                    Key = nameof(IsWarnChecked),
-                    Value = value
-                };
-                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
+                SetIsChecked(nameof(IsWarnChecked), value);
                 OnPropertyChanged(nameof(IsWarnChecked));
                 RefreshQueryResults();
             }
         }
         public bool IsInfoChecked {
             get {
-                bool value = true; ;
-                if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(nameof(IsInfoChecked), out IAppSetting setting) && setting.Value != null) {
-                    value = (bool)setting.Value;
-                }
-                return value;
+                return GetIsChecked(nameof(IsInfoChecked));
             }
             set {
-                AppSettingData appSettingData = new AppSettingData() {
-                    Key = nameof(IsInfoChecked),
-                    Value = value
-                };
-                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
+                SetIsChecked(nameof(IsInfoChecked), value);
                 OnPropertyChanged(nameof(IsInfoChecked));
                 RefreshQueryResults();
             }
         }
 
+        private bool GetIsChecked(string key) {
+            bool value = true; ;
+            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(key, out IAppSetting setting) && setting.Value != null) {
+                value = (bool)setting.Value;
+            }
+            return value;
+        }
+
+        private void SetIsChecked(string key, bool value) {
+            AppSettingData appSettingData = new AppSettingData() {
+                Key = key,
+                Value = value
+            };
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
+        }
+
         public int ErrorCount {
             get {
                 if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _errorCount.Where(a=>a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value);
+                    return _errorCount.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value);
                 }
                 return _errorCount[SelectedChannel];
             }
@@ -311,18 +302,23 @@
             }
         }
 
+        private bool IsCheckedAllMessageType {
+            get {
+                return IsErrorChecked && IsWarnChecked && IsInfoChecked;
+            }
+        }
+
         private void RefreshQueryResults() {
-            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && IsErrorChecked && IsWarnChecked && IsInfoChecked && string.IsNullOrEmpty(Keyword)) {
+            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && IsCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
                 _queyResults = _workerMessageVms;
                 OnPropertyChanged(nameof(QueryResults));
                 return;
             }
             var query = _workerMessageVms.AsQueryable();
             if (SelectedChannel.Value != WorkerMessageChannel.Unspecified) {
-                string channel = SelectedChannel.Value.GetName();
-                query = query.Where(a => a.Channel == channel);
+                query = query.Where(a => a.Channel == SelectedChannel.Value.GetName());
             }
-            if (!IsErrorChecked || !IsWarnChecked || !IsInfoChecked) {
+            if (!IsCheckedAllMessageType) {
                 query = query.Where(a => a.MessageTypeEnum == WorkerMessageType.Undefined
                     || (a.MessageTypeEnum == WorkerMessageType.Error && IsErrorChecked)
                     || (a.MessageTypeEnum == WorkerMessageType.Warn && IsWarnChecked)
