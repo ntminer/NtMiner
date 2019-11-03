@@ -11,9 +11,7 @@
         private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
         private ObservableCollection<WorkerMessageViewModel> _queyResults;
         private EnumItem<WorkerMessageChannel> _selectedChannel;
-        private Dictionary<EnumItem<WorkerMessageChannel>, int> _errorCount = new Dictionary<EnumItem<WorkerMessageChannel>, int>();
-        private Dictionary<EnumItem<WorkerMessageChannel>, int> _warnCount = new Dictionary<EnumItem<WorkerMessageChannel>, int>();
-        private Dictionary<EnumItem<WorkerMessageChannel>, int> _infoCount = new Dictionary<EnumItem<WorkerMessageChannel>, int>();
+        private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, int>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, int>>();
         private string _keyword;
 
         public ICommand ClearKeyword { get; private set; }
@@ -23,27 +21,17 @@
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            foreach (var item in WorkerMessageChannel.Unspecified.GetEnumItems()) {
-                _errorCount.Add(item, 0);
-                _warnCount.Add(item, 0);
-                _infoCount.Add(item, 0);
+            foreach (var messageChannel in WorkerMessageChannel.Unspecified.GetEnumItems()) {
+                var values = new Dictionary<WorkerMessageType, int>();
+                foreach (var messageType in WorkerMessageType.Undefined.GetEnumItems()) {
+                    values.Add(messageType.Value, 0);
+                }
+                _count.Add(messageChannel, values);
             }
             var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
             _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>(data);
             foreach (var item in _workerMessageVms) {
-                switch (item.MessageTypeEnum) {
-                    case WorkerMessageType.Error:
-                        _errorCount[item.ChannelEnum.GetEnumItem()]++;
-                        break;
-                    case WorkerMessageType.Warn:
-                        _warnCount[item.ChannelEnum.GetEnumItem()]++;
-                        break;
-                    case WorkerMessageType.Info:
-                        _infoCount[item.ChannelEnum.GetEnumItem()]++;
-                        break;
-                    default:
-                        break;
-                }
+                _count[item.ChannelEnum.GetEnumItem()][item.MessageTypeEnum]++;
             }
             _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
             RefreshQueryResults();
@@ -62,14 +50,10 @@
                         _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>();
                         _queyResults = new ObservableCollection<WorkerMessageViewModel>();
                         OnPropertyChanged(nameof(QueryResults));
-                        foreach (var key in _errorCount.Keys) {
-                            _errorCount[key] = 0;
-                        }
-                        foreach (var key in _warnCount.Keys) {
-                            _warnCount[key] = 0;
-                        }
-                        foreach (var key in _infoCount.Keys) {
-                            _infoCount[key] = 0;
+                        foreach (var item in _count.Values) {
+                            foreach (var key in item.Keys) {
+                                item[key] = 0;
+                            }
                         }
                         CountChanged();
                     });
@@ -85,74 +69,22 @@
                                 _workerMessageVms.Remove(toRemove);
                             }
                         }
-                        int removedCount = 0;
-                        switch (vm.MessageTypeEnum) {
-                            case WorkerMessageType.Error:
-                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Error.GetName());
-                                if (removedCount != 1) {
-                                    _errorCount[vm.ChannelEnum.GetEnumItem()] += 1 - removedCount;
-                                    OnPropertyChanged(nameof(ErrorCount));
-                                    OnPropertyChanged(nameof(IsErrorCountVisible));
-                                }
-                                break;
-                            case WorkerMessageType.Warn:
-                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Warn.GetName());
-                                if (removedCount != 1) {
-                                    _warnCount[vm.ChannelEnum.GetEnumItem()] += 1 - removedCount;
-                                    OnPropertyChanged(nameof(WarnCount));
-                                    OnPropertyChanged(nameof(IsWarnCountVisible));
-                                }
-                                break;
-                            case WorkerMessageType.Info:
-                                removedCount = message.Removes.Count(a => a.MessageType == WorkerMessageType.Info.GetName());
-                                if (removedCount != 1) {
-                                    _infoCount[vm.ChannelEnum.GetEnumItem()] += 1 - removedCount;
-                                    OnPropertyChanged(nameof(InfoCount));
-                                    OnPropertyChanged(nameof(IsInfoCountVisible));
-                                }
-                                break;
-                            default:
-                                break;
+                        int removedCount = message.Removes.Count(a => a.MessageType == vm.MessageTypeEnum.GetName());
+                        if (removedCount != 1) {
+                            _count[vm.ChannelEnum.GetEnumItem()][vm.MessageTypeEnum] += 1 - removedCount;
+                            OnPropertyChanged($"{vm.MessageTypeEnum.GetName()}Count");
+                            OnPropertyChanged($"Is{vm.MessageTypeEnum.GetName()}CountVisible");
                         }
 
                         if (_queyResults != _workerMessageVms) {
                             #region 更新QueryResults
-                            bool isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Unspecified;
-                            bool isMessageTypeChecked = IsErrorChecked && IsWarnChecked && IsInfoChecked;
-                            if (!isCurrentChannel) {
-                                switch (vm.ChannelEnum) {
-                                    case WorkerMessageChannel.Kernel:
-                                        isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Kernel;
-                                        break;
-                                    case WorkerMessageChannel.Server:
-                                        isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.Server;
-                                        break;
-                                    case WorkerMessageChannel.This:
-                                        isCurrentChannel = SelectedChannel.Value == WorkerMessageChannel.This;
-                                        break;
-                                    case WorkerMessageChannel.Unspecified:
-                                        isCurrentChannel = true;
-                                        break;
-                                    default:
-                                        break;
-                                }
+                            bool isSelectedChannel = SelectedChannel.Value == vm.ChannelEnum;
+                            bool isMessageTypeChecked = false;
+                            var isCheckedProperty = this.GetType().GetProperty($"Is{vm.MessageTypeEnum.GetName()}Checked");
+                            if (isCheckedProperty != null) {
+                                isMessageTypeChecked = (bool)isCheckedProperty.GetValue(this, null);
                             }
-                            if (!isMessageTypeChecked) {
-                                switch (vm.MessageTypeEnum) {
-                                    case WorkerMessageType.Error:
-                                        isMessageTypeChecked = IsErrorChecked;
-                                        break;
-                                    case WorkerMessageType.Warn:
-                                        isMessageTypeChecked = IsWarnChecked;
-                                        break;
-                                    case WorkerMessageType.Info:
-                                        isMessageTypeChecked = IsInfoChecked;
-                                        break;
-                                    default:
-                                        break;
-                                }
-                            }
-                            if (isCurrentChannel && isMessageTypeChecked) {
+                            if (isSelectedChannel && isMessageTypeChecked) {
                                 _queyResults.Insert(0, vm);
                             }
                             #endregion
@@ -243,9 +175,9 @@
         public int ErrorCount {
             get {
                 if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _errorCount.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value);
+                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Error]);
                 }
-                return _errorCount[SelectedChannel];
+                return _count[SelectedChannel][WorkerMessageType.Error];
             }
         }
         public Visibility IsErrorCountVisible {
@@ -259,9 +191,9 @@
         public int WarnCount {
             get {
                 if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _warnCount.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value);
+                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Warn]);
                 }
-                return _warnCount[SelectedChannel];
+                return _count[SelectedChannel][WorkerMessageType.Warn];
             }
         }
         public Visibility IsWarnCountVisible {
@@ -275,9 +207,9 @@
         public int InfoCount {
             get {
                 if (SelectedChannel.Value == WorkerMessageChannel.Unspecified) {
-                    return _infoCount.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value);
+                    return _count.Where(a => a.Key.Value != WorkerMessageChannel.Unspecified).Sum(a => a.Value[WorkerMessageType.Info]);
                 }
-                return _infoCount[SelectedChannel];
+                return _count[SelectedChannel][WorkerMessageType.Info];
             }
         }
         public Visibility IsInfoCountVisible {
