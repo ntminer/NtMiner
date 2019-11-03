@@ -303,14 +303,15 @@
                     </WrapPanel>
                 </controls:KbButton>
                 <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 70 0">
-                    <controls:KbButton 
+                    <CheckBox 
 						Background="Transparent"
                         VerticalAlignment="Center"
                         Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+                        IsChecked="{Binding IsTestHost}"
+                        Foreground="{Binding IsTestHost,Converter={StaticResource BoolToBrushInvertConverter}}"
 						Command="{Binding SetServerNTminerComHost}"
-                        Content="{Binding BtnSetServerNTMinerComHostName}"
-						CornerRadius="2">
-                    </controls:KbButton>
+                        Content="TestHost">
+                    </CheckBox>
                     <TextBlock Margin="4 0 0 0" Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="{x:Static app:AppStatic.WindowsEditionToolTip}" Foreground="{x:Static app:AppStatic.WindowsEditionColor}"></TextBlock>
 					<controls:KbButton 
 						Background="Transparent"

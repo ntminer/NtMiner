@@ -47,6 +47,7 @@
     <Compile Include="Controls\IpAddressControl.xaml.cs">
       <DependentUpon>IpAddressControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolToBrushInvertConverter.cs" />
     <Compile Include="Converters\BoolToStreamGeometryConverter.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="ViewModelExtension.cs" />
