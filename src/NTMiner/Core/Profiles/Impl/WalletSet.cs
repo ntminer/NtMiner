@@ -69,7 +69,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         private void AddWallet(WalletData entity) {
             if (VirtualRoot.IsMinerStudio) {
-                Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
+                Server.WalletService.AddOrUpdateWalletAsync(entity, null);
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
@@ -79,7 +79,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         private void UpdateWallet(WalletData entity) {
             if (VirtualRoot.IsMinerStudio) {
-                Server.ControlCenterService.AddOrUpdateWalletAsync(entity, null);
+                Server.WalletService.AddOrUpdateWalletAsync(entity, null);
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
@@ -89,7 +89,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         private void RemoveWallet(Guid id) {
             if (VirtualRoot.IsMinerStudio) {
-                Server.ControlCenterService.RemoveWalletAsync(id, null);
+                Server.WalletService.RemoveWalletAsync(id, null);
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
@@ -117,7 +117,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (VirtualRoot.IsMinerStudio) {
                     lock (_locker) {
                         if (!_isInited) {
-                            var response = Server.ControlCenterService.GetWallets();
+                            var response = Server.WalletService.GetWallets();
                             if (response != null) {
                                 foreach (var item in response.Data) {
                                     if (!_dicById.ContainsKey(item.Id)) {
@@ -147,8 +147,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         public bool TryGetWallet(Guid walletId, out IWallet wallet) {
             InitOnece();
-            WalletData wlt;
-            bool r = _dicById.TryGetValue(walletId, out wlt);
+            bool r = _dicById.TryGetValue(walletId, out WalletData wlt);
             wallet = wlt;
             return r;
         }

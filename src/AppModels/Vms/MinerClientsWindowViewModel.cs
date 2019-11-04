@@ -124,7 +124,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new ShowMinerNamesSeterCommand(vm));
                 if (vm.IsOk) {
                     this.CountDown = 10;
-                    Server.ControlCenterService.UpdateClientsAsync(nameof(MinerClientViewModel.MinerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
+                    Server.ClientService.UpdateClientsAsync(nameof(MinerClientViewModel.MinerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -196,7 +196,7 @@ namespace NTMiner.Vms {
                 else {
                     this.ShowDialog(new DialogWindowViewModel(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
                         this.CountDown = 10;
-                        Server.ControlCenterService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
+                        Server.ClientService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
                                 Write.UserFail(response.ReadMessage(e));
                             }
@@ -212,7 +212,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    Server.ControlCenterService.RefreshClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
+                    Server.ClientService.RefreshClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -287,7 +287,7 @@ namespace NTMiner.Vms {
                                 Write.UserFail($"{item.MinerIp} {response.ReadMessage(e)}");
                             }
                         });
-                        Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                        Server.ClientService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                     }
                 }
             }, CanCommand);
@@ -304,7 +304,7 @@ namespace NTMiner.Vms {
                                     Write.UserFail($"{item.MinerIp} {response.ReadMessage(e)}");
                                 }
                             });
-                            Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                            Server.ClientService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                         }
                     }));
                 }
@@ -555,7 +555,7 @@ namespace NTMiner.Vms {
                     wallet = this.Wallet;
                 }
             }
-            Server.ControlCenterService.QueryClientsAsync(
+            Server.ClientService.QueryClientsAsync(
                 this.MinerClientPageIndex,
                 this.MinerClientPageSize,
                 groupId,

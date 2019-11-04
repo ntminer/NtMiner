@@ -35,7 +35,7 @@ namespace NTMiner.Core.Impl {
                     _dicById.Add(entity.Id, entity);
 
                     if (VirtualRoot.IsMinerStudio) {
-                        Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
+                        Server.PoolService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
@@ -82,7 +82,7 @@ namespace NTMiner.Core.Impl {
                     }
                     entity.Update(message.Input);
                     if (VirtualRoot.IsMinerStudio) {
-                        Server.ControlCenterService.AddOrUpdatePoolAsync(entity, callback: null);
+                        Server.PoolService.AddOrUpdatePoolAsync(entity, callback: null);
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
@@ -104,7 +104,7 @@ namespace NTMiner.Core.Impl {
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
                     if (VirtualRoot.IsMinerStudio) {
-                        Server.ControlCenterService.RemovePoolAsync(entity.Id, callback: null);
+                        Server.PoolService.RemovePoolAsync(entity.Id, callback: null);
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
@@ -159,7 +159,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                     List<PoolData> data = repository.GetAll().ToList();
                     if (VirtualRoot.IsMinerStudio) {
-                        foreach (var item in Server.ControlCenterService.GetPools()) {
+                        foreach (var item in Server.PoolService.GetPools()) {
                             data.Add(item);
                         }
                     }

@@ -243,8 +243,8 @@ namespace NTMiner {
             this.KernelProfileSet = new KernelProfileSet(this);
             this.GpusSpeed = new GpusSpeed(this);
             this.CoinShareSet = new CoinShareSet(this);
-            this.MineWorkSet = new MineWorkSet(this);
-            this.MinerGroupSet = new MinerGroupSet(this);
+            this.MineWorkSet = new MineWorkSet();
+            this.MinerGroupSet = new MinerGroupSet();
             this.NTMinerWalletSet = new NTMinerWalletSet();
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
