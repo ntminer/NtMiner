@@ -18,6 +18,17 @@ namespace NTMiner {
         public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
         public static readonly ServerMessageServiceFace ServerMessageService = ServerMessageServiceFace.Instance;
 
+        public static void LoadServerMessages() {
+            ServerMessageService.GetServerMessagesAsync(VirtualRoot.LocalServerMessageSet.Timestamp, (response, e) => {
+                if (response.IsSuccess() && response.Data.Count > 0) {
+                    foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
+                        VirtualRoot.LocalServerMessageSet.AddOrUpdate(item);
+                    }
+                    VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent());
+                }
+            });
+        }
+
         public static string SignatureSafeUrl(Uri uri) {
             // https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=
             // Signature的值长度是28
