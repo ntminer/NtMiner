@@ -4,6 +4,7 @@ using NTMiner.Ip;
 using NTMiner.Ip.Impl;
 using NTMiner.MinerClient;
 using NTMiner.Serialization;
+using NTMiner.ServerMessage;
 using NTMiner.WorkerMessage;
 using System;
 using System.Diagnostics;
@@ -99,6 +100,7 @@ namespace NTMiner {
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
         public static readonly IWorkerMessageSet WorkerMessages;
+        public static readonly IServerMessageSet LocalServerMessageSet;
         #region Out
         private static IOut _out;
         /// <summary>
@@ -147,6 +149,7 @@ namespace NTMiner {
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
             WorkerMessages = new WorkerMessageSet(WorkerMessageDbFileFullName);
+            LocalServerMessageSet = new LocalServerMessageSet(WorkerMessageDbFileFullName);
         }
 
         #region ConvertToGuid

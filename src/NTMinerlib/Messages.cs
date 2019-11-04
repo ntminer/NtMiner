@@ -165,4 +165,9 @@ namespace NTMiner {
     public class ServerMessageClearedEvent : EventBase {
         public ServerMessageClearedEvent() { }
     }
+
+    [MessageType(description: "从服务器获取到新的服务器消息后")]
+    public class NewServerMessageLoadedEvent : EventBase {
+        public NewServerMessageLoadedEvent() { }
+    }
 }

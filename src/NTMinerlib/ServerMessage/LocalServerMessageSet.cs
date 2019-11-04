@@ -9,6 +9,7 @@ namespace NTMiner.ServerMessage {
     public class LocalServerMessageSet : IServerMessageSet {
         private readonly string _connectionString;
         private readonly LinkedList<ServerMessageData> _records = new LinkedList<ServerMessageData>();
+        private DateTime _timestamp = NTMiner.Timestamp.UnixBaseTime;
 
         public LocalServerMessageSet(string dbFileFullName) {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
@@ -20,6 +21,13 @@ namespace NTMiner.ServerMessage {
             get {
                 InitOnece();
                 return _records.Count;
+            }
+        }
+
+        public DateTime Timestamp {
+            get {
+                InitOnece();
+                return _timestamp;
             }
         }
 
@@ -51,6 +59,9 @@ namespace NTMiner.ServerMessage {
             List<IServerMessage> removes = new List<IServerMessage>();
             lock (_locker) {
                 _records.AddFirst(data);
+                if (data.Timestamp > _timestamp) {
+                    _timestamp = data.Timestamp;
+                }
                 while (_records.Count > NTKeyword.ServerMessageSetCapacity) {
                     var toRemove = _records.Last;
                     removes.Add(toRemove.Value);
@@ -77,9 +88,14 @@ namespace NTMiner.ServerMessage {
                 Add(entity.Id, entity.Provider, entity.MessageType, entity.Content, entity.Timestamp);
                 return;
             }
-            ServerMessageData exist = _records.FirstOrDefault(a => a.Id == entity.Id);
+            ServerMessageData exist;
+            lock (_locker) {
+                exist = _records.FirstOrDefault(a => a.Id == entity.Id);
+                if (exist != null) {
+                    exist.Update(entity);
+                }
+            }
             if (exist != null) {
-                exist.Update(entity);
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     var col = db.GetCollection<ServerMessageData>();
                     col.Upsert(exist);
@@ -95,14 +111,26 @@ namespace NTMiner.ServerMessage {
                 return;
             }
             InitOnece();
-            ServerMessageData exist = _records.FirstOrDefault(a => a.Id == id);
+            ServerMessageData exist = null;
+            lock (_locker) {
+                exist = _records.FirstOrDefault(a => a.Id == id);
+                if (exist != null) {
+                    _records.Remove(exist);
+                }
+            }
             if (exist != null) {
-                _records.Remove(exist);
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<ServerMessageData>();
+                    col.Delete(id);
+                }
             }
         }
 
         public void Clear() {
             if (string.IsNullOrEmpty(_connectionString)) {
+                return;
+            }
+            if (_records.Count == 0) {
                 return;
             }
             using (LiteDatabase db = new LiteDatabase(_connectionString)) {
@@ -111,6 +139,7 @@ namespace NTMiner.ServerMessage {
                 }
                 db.DropCollection(nameof(ServerMessageData));
             }
+            Add(Guid.NewGuid(), nameof(LocalServerMessageSet), ServerMessageType.Info.GetName(), "清空消息", _timestamp);
             VirtualRoot.RaiseEvent(new ServerMessageClearedEvent());
         }
 
@@ -135,9 +164,12 @@ namespace NTMiner.ServerMessage {
                         foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
                             if (_records.Count < NTKeyword.ServerMessageSetCapacity) {
                                 _records.AddFirst(item);
+                                if (item.Timestamp > _timestamp) {
+                                    _timestamp = item.Timestamp;
+                                }
                             }
                             else {
-                                col.Delete(item.Id);
+                                col.Delete(_records.Last.Value.Id);
                             }
                         }
                     }
