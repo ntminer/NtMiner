@@ -10,11 +10,19 @@ namespace NTMiner.Core.MinerServer.Impl {
     public class ServerServerMessageSet : IServerMessageSet {
         public int Count => throw new NotImplementedException();
 
+        public List<IServerMessage> GetServerMessages(DateTime timeStamp) {
+            throw new NotImplementedException();
+        }
+
         public void Add(string provider, string messageType, string content) {
             throw new NotImplementedException();
         }
 
-        public List<IServerMessage> GetServerMessages(DateTime timeStamp) {
+        public void AddOrUpdate(IServerMessage entity) {
+            throw new NotImplementedException();
+        }
+
+        public void Remove(Guid id) {
             throw new NotImplementedException();
         }
 

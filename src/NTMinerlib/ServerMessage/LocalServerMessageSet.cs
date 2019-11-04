@@ -8,7 +8,7 @@ using System.Linq;
 namespace NTMiner.ServerMessage {
     public class LocalServerMessageSet : IServerMessageSet {
         private readonly string _connectionString;
-        private readonly LinkedList<IServerMessage> _records = new LinkedList<IServerMessage>();
+        private readonly LinkedList<ServerMessageData> _records = new LinkedList<ServerMessageData>();
 
         public LocalServerMessageSet(string dbFileFullName) {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
@@ -23,17 +23,29 @@ namespace NTMiner.ServerMessage {
             }
         }
 
+        public List<IServerMessage> GetServerMessages(DateTime timeStamp) {
+            if (string.IsNullOrEmpty(_connectionString)) {
+                return new List<IServerMessage>();
+            }
+            InitOnece();
+            return _records.Where(a => a.Timestamp >= timeStamp).Cast<IServerMessage>().ToList();
+        }
+
         public void Add(string provider, string messageType, string content) {
+            Add(Guid.Empty, provider, messageType, content, DateTime.MinValue);
+        }
+
+        private void Add(Guid id, string provider, string messageType, string content, DateTime timestamp) {
             if (string.IsNullOrEmpty(_connectionString)) {
                 return;
             }
             InitOnece();
             var data = new ServerMessageData {
-                Id = Guid.NewGuid(),
+                Id = id == Guid.Empty ? Guid.NewGuid() : id,
                 Provider = provider,
                 MessageType = messageType,
                 Content = content,
-                Timestamp = DateTime.Now
+                Timestamp = timestamp == DateTime.MinValue ? DateTime.Now : timestamp
             };
             // TODO:批量持久化，异步持久化
             List<IServerMessage> removes = new List<IServerMessage>();
@@ -56,12 +68,34 @@ namespace NTMiner.ServerMessage {
             VirtualRoot.RaiseEvent(new ServerMessageAddedEvent(data, removes));
         }
 
-        public List<IServerMessage> GetServerMessages(DateTime timeStamp) {
+        public void AddOrUpdate(IServerMessage entity) {
             if (string.IsNullOrEmpty(_connectionString)) {
-                return new List<IServerMessage>();
+                return;
             }
             InitOnece();
-            return _records.Where(a => a.Timestamp >= timeStamp).ToList();
+            if (entity.Id == Guid.Empty) {
+                Add(entity.Id, entity.Provider, entity.MessageType, entity.Content, entity.Timestamp);
+                return;
+            }
+            ServerMessageData exist = _records.FirstOrDefault(a => a.Id == entity.Id);
+            if (exist != null) {
+                exist.Update(entity);
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<ServerMessageData>();
+                    col.Upsert(exist);
+                }
+            }
+            else {
+                Add(entity.Id, entity.Provider, entity.MessageType, entity.Content, entity.Timestamp);
+            }
+        }
+
+        public void Remove(Guid id) {
+            if (string.IsNullOrEmpty(_connectionString)) {
+                return;
+            }
+            InitOnece();
+            throw new NotImplementedException();
         }
 
         public void Clear() {
