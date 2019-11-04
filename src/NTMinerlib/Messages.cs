@@ -168,6 +168,10 @@ namespace NTMiner {
 
     [MessageType(description: "从服务器获取到新的服务器消息后")]
     public class NewServerMessageLoadedEvent : EventBase {
-        public NewServerMessageLoadedEvent() { }
+        public NewServerMessageLoadedEvent(LinkedList<IServerMessage> data) {
+            this.Data = data;
+        }
+
+        public LinkedList<IServerMessage> Data { get; }
     }
 }

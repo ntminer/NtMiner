@@ -21,10 +21,12 @@ namespace NTMiner {
         public static void LoadServerMessages() {
             ServerMessageService.GetServerMessagesAsync(VirtualRoot.LocalServerMessageSet.Timestamp, (response, e) => {
                 if (response.IsSuccess() && response.Data.Count > 0) {
+                    LinkedList<IServerMessage> data = new LinkedList<IServerMessage>();
                     foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
+                        data.AddLast(item);
                         VirtualRoot.LocalServerMessageSet.AddOrUpdate(item);
                     }
-                    VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent());
+                    VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
                 }
             });
         }

@@ -9,6 +9,7 @@
     using System.Windows.Media;
 
     public class WorkerMessagesViewModel : ViewModelBase {
+        #region MessageTypeItem class
         public class MessageTypeItem : ViewModelBase {
             private int _count;
             private readonly Action OnIsCheckedChanged;
@@ -61,6 +62,7 @@
                 }
             }
         }
+        #endregion
 
         private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
         private ObservableCollection<WorkerMessageViewModel> _queyResults;
