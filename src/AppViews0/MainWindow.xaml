@@ -585,6 +585,7 @@
                                     <uc:WorkerMessages>
                                     </uc:WorkerMessages>
                                     <uc:ServerMessages Grid.Row="1"></uc:ServerMessages>
+                                    <GridSplitter Grid.Row="1" Height="6" Background="Transparent" VerticalAlignment="Top" HorizontalAlignment="Stretch"></GridSplitter>
                                 </Grid>
                             </TabItem>
                             <TabItem x:Name="TabItemMinerProfileOption">

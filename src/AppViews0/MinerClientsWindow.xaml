@@ -2361,7 +2361,7 @@
 					</WrapPanel>
 				</controls:KbButton>
 			</WrapPanel>
-			<GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 24"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
+			<GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 24" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
 			<Grid Grid.Row="0" VerticalAlignment="Bottom">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"></ColumnDefinition>
