@@ -323,7 +323,6 @@ namespace NTMiner {
             this.PackageSet = new PackageSet(this);
             this.KernelInputSet = new KernelInputSet(this);
             this.KernelOutputSet = new KernelOutputSet(this);
-            this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
         }
 
@@ -798,8 +797,6 @@ namespace NTMiner {
         public IKernelInputSet KernelInputSet { get; private set; }
 
         public IKernelOutputSet KernelOutputSet { get; private set; }
-
-        public IKernelOutputFilterSet KernelOutputFilterSet { get; private set; }
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 

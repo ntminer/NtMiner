@@ -287,17 +287,6 @@ namespace NTMiner {
         public KernelInputViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开内核输出过滤器编辑界面")]
-    public class KernelOutputFilterEditCommand : Cmd {
-        public KernelOutputFilterEditCommand(FormType formType, KernelOutputFilterViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
-        }
-
-        public FormType FormType { get; private set; }
-        public KernelOutputFilterViewModel Source { get; private set; }
-    }
-
     [MessageType(description: "打开内核输出关键字编辑界面")]
     public class KernelOutputKeywordEditCommand : Cmd {
         public KernelOutputKeywordEditCommand(FormType formType, KernelOutputKeywordViewModel source) {

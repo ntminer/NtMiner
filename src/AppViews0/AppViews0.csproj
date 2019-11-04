@@ -287,9 +287,6 @@
     <Compile Include="Ucs\KernelOutputTranslaterEdit.xaml.cs">
       <DependentUpon>KernelOutputTranslaterEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\KernelOutputFilterEdit.xaml.cs">
-      <DependentUpon>KernelOutputFilterEdit.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\RestartWindows.xaml.cs">
       <DependentUpon>RestartWindows.xaml</DependentUpon>
     </Compile>
@@ -407,10 +404,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\KernelOutputSelectViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Design\KernelOutputFilterViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -783,10 +776,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelOutputTranslaterEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\KernelOutputFilterEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

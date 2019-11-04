@@ -8,7 +8,6 @@ namespace NTMiner.JsonDb {
         CoinData[] Coins { get; }
         GroupData[] Groups { get; }
         KernelInputData[] KernelInputs { get; }
-        KernelOutputFilterData[] KernelOutputFilters { get; }
         KernelOutputData[] KernelOutputs { get; }
         KernelOutputTranslaterData[] KernelOutputTranslaters { get; }
         List<KernelData> Kernels { get; }

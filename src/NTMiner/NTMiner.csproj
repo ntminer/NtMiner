@@ -158,13 +158,11 @@
     <Compile Include="Core\Gpus\Impl\NVIDIAGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\GpuSpeed.cs" />
     <Compile Include="Core\Gpus\Impl\GpusSpeed.cs" />
-    <Compile Include="Core\Kernels\Impl\KernelOutputFilterSet.cs" />
     <Compile Include="Core\Kernels\Impl\KernelOutputTranslaterSet.cs" />
     <Compile Include="Core\Profiles\MinerProfile.cs" />
     <Compile Include="Core\Impl\SysDicItemSet.cs" />
     <Compile Include="Core\Impl\SysDicSet.cs" />
     <Compile Include="Core\Impl\Speed.cs" />
-    <Compile Include="Core\Kernels\IKernelOutputFilterSet.cs" />
     <Compile Include="Core\Kernels\IKernelOutputTranslaterSet.cs" />
     <Compile Include="Core\ISysDicItemSet.cs" />
     <Compile Include="Core\ISysDicSet.cs" />

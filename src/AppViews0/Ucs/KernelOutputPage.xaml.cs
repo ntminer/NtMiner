@@ -33,10 +33,6 @@ namespace NTMiner.Views.Ucs {
             WpfUtil.DataGrid_MouseDoubleClick<KernelOutputViewModel>(sender, e);
         }
 
-        private void KernelOutputFilterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<KernelOutputFilterViewModel>(sender, e);
-        }
-
         private void KernelOutputTranslaterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             WpfUtil.DataGrid_MouseDoubleClick<KernelOutputTranslaterViewModel>(sender, e);
         }

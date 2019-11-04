@@ -67,7 +67,6 @@
     <Compile Include="AppContext.partials.GroupViewModels.cs" />
     <Compile Include="AppContext.partials.KernelInputViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputKeywordViewModels.cs" />
-    <Compile Include="AppContext.partials.KernelOutputFilterViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputTranslaterViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputViewModels.cs" />
     <Compile Include="AppContext.partials.KernelViewModels.cs" />
@@ -156,7 +155,6 @@
     <Compile Include="Vms\KernelInputPageViewModel.cs" />
     <Compile Include="Vms\KernelInputViewModel.cs" />
     <Compile Include="Vms\KernelMenu.cs" />
-    <Compile Include="Vms\KernelOutputFilterViewModel.cs" />
     <Compile Include="Vms\KernelOutputPageViewModel.cs" />
     <Compile Include="Vms\KernelOutputTranslaterViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModel.cs" />

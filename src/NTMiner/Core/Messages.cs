@@ -1043,44 +1043,6 @@ namespace NTMiner.Core {
     }
     #endregion
 
-    #region KernelOutputFilter Messages
-    [MessageType(description: "添加内核输出过滤器")]
-    public class AddKernelOutputFilterCommand : AddEntityCommand<IKernelOutputFilter> {
-        public AddKernelOutputFilterCommand(IKernelOutputFilter input) : base(input) {
-        }
-    }
-
-    [MessageType(description: "更新内核输出过滤器")]
-    public class UpdateKernelOutputFilterCommand : UpdateEntityCommand<IKernelOutputFilter> {
-        public UpdateKernelOutputFilterCommand(IKernelOutputFilter input) : base(input) {
-        }
-    }
-
-    [MessageType(description: "移除内核输出过滤器")]
-    public class RemoveKernelOutputFilterCommand : RemoveEntityCommand {
-        public RemoveKernelOutputFilterCommand(Guid entityId) : base(entityId) {
-        }
-    }
-
-    [MessageType(description: "添加了内核输出过滤器后")]
-    public class KernelOutputFilterAddedEvent : DomainEvent<IKernelOutputFilter> {
-        public KernelOutputFilterAddedEvent(IKernelOutputFilter source) : base(source) {
-        }
-    }
-
-    [MessageType(description: "更新了内核输出过滤器后")]
-    public class KernelOutputFilterUpdatedEvent : DomainEvent<IKernelOutputFilter> {
-        public KernelOutputFilterUpdatedEvent(IKernelOutputFilter source) : base(source) {
-        }
-    }
-
-    [MessageType(description: "移除了内核输出过滤器后")]
-    public class KernelOutputFilterRemovedEvent : DomainEvent<IKernelOutputFilter> {
-        public KernelOutputFilterRemovedEvent(IKernelOutputFilter source) : base(source) {
-        }
-    }
-    #endregion
-
     #region KernelOutputTranslater Messages
     [MessageType(description: "添加内核输出翻译器")]
     public class AddKernelOutputTranslaterCommand : AddEntityCommand<IKernelOutputTranslater> {

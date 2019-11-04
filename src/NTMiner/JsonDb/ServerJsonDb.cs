@@ -16,7 +16,6 @@ namespace NTMiner.JsonDb {
             this.Packages = new List<PackageData>();
             this.KernelInputs = new KernelInputData[0];
             this.KernelOutputs = new KernelOutputData[0];
-            this.KernelOutputFilters = new KernelOutputFilterData[0];
             this.KernelOutputTranslaters = new KernelOutputTranslaterData[0];
             this.Pools = new List<PoolData>();
             this.PoolKernels = new List<PoolKernelData>();
@@ -37,7 +36,6 @@ namespace NTMiner.JsonDb {
             CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray();
             KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray();
             KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray();
-            KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().ToArray();
             KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray();
             Kernels = root.KernelSet.Cast<KernelData>().ToList();
             Packages = root.PackageSet.Cast<PackageData>().ToList();
@@ -109,7 +107,6 @@ namespace NTMiner.JsonDb {
             Groups = root.GroupSet.Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();
             KernelInputs = root.KernelInputSet.Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray();
             KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
-            KernelOutputFilters = root.KernelOutputFilterSet.Cast<KernelOutputFilterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
             KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
             Kernels = new List<KernelData> { (KernelData)kernel };
             Packages = root.PackageSet.Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
@@ -155,8 +152,6 @@ namespace NTMiner.JsonDb {
                     return this.KernelOutputs.Cast<T>();
                 case nameof(KernelOutputTranslaterData):
                     return this.KernelOutputTranslaters.Cast<T>();
-                case nameof(KernelOutputFilterData):
-                    return this.KernelOutputFilters.Cast<T>();
                 case nameof(PoolData):
                     return this.Pools.Cast<T>();
                 case nameof(PoolKernelData):
@@ -183,8 +178,6 @@ namespace NTMiner.JsonDb {
         public KernelOutputData[] KernelOutputs { get; set; }
 
         public KernelOutputTranslaterData[] KernelOutputTranslaters { get; set; }
-
-        public KernelOutputFilterData[] KernelOutputFilters { get; set; }
 
         public List<KernelData> Kernels { get; set; }
 

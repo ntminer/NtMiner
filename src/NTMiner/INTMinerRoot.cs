@@ -96,8 +96,6 @@ namespace NTMiner {
 
         IKernelOutputSet KernelOutputSet { get; }
 
-        IKernelOutputFilterSet KernelOutputFilterSet { get; }
-
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 
         IKernelOutputKeywordSet LocalKernelOutputKeywordSet { get; }
