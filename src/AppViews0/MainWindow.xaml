@@ -320,8 +320,13 @@
                 </StackPanel>
                 <Grid Grid.Column="1" Grid.IsSharedSizeScope="True">
                     <Grid x:Name="mainLayer">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="_mainLayerColumn0" Width="332" SharedSizeGroup="column0"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
                         <TabControl
                             x:Name="MainArea"
+                            Grid.Column="1"
 				            Padding="0"
                             Background="Transparent"
                             BorderThickness="0">

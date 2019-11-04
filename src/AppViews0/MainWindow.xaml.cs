@@ -109,10 +109,6 @@ namespace NTMiner.Views {
         }
 
         private bool mRestoreIfMove = false;
-        private readonly ColumnDefinition _mainLayerColumn0 = new ColumnDefinition {
-            SharedSizeGroup = "column0",
-            Width = new GridLength(332)
-        };
 
         private MainWindowViewModel Vm {
             get {
@@ -422,7 +418,9 @@ namespace NTMiner.Views {
                 BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
                 PinRotateTransform.Angle = 0;
 
-                mainLayer.ColumnDefinitions.Insert(0, _mainLayerColumn0);
+                if (!mainLayer.ColumnDefinitions.Contains(_mainLayerColumn0)) {
+                    mainLayer.ColumnDefinitions.Insert(0, _mainLayerColumn0);
+                }
                 MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
             }
         }
