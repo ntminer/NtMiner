@@ -565,7 +565,7 @@
                                 <uc:SpeedTable x:Name="SpeedTable">
                                 </uc:SpeedTable>
                             </TabItem>
-                            <TabItem>
+                            <TabItem x:Name="TabItemMessage">
                                 <TabItem.Header>
                                     <WrapPanel>
                                         <Path 
@@ -577,8 +577,15 @@
                                         <TextBlock Text="消息" Padding="2 0 0 1" FontSize="15"></TextBlock>
                                     </WrapPanel>
                                 </TabItem.Header>
-                                <uc:WorkerMessages>
-                                </uc:WorkerMessages>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*"></RowDefinition>
+                                        <RowDefinition Height="*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <uc:WorkerMessages>
+                                    </uc:WorkerMessages>
+                                    <uc:ServerMessages Grid.Row="1"></uc:ServerMessages>
+                                </Grid>
                             </TabItem>
                             <TabItem x:Name="TabItemMinerProfileOption">
                                 <TabItem.Header>

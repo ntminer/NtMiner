@@ -80,5 +80,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock Visibility="{Binding ServerMessageVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有消息</TextBlock>
     </Grid>
 </UserControl>
