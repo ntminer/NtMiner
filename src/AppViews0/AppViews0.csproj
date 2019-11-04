@@ -146,6 +146,9 @@
     <Compile Include="Ucs\MessagePathIds.xaml.cs">
       <DependentUpon>MessagePathIds.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\ServerMessages.xaml.cs">
+      <DependentUpon>ServerMessages.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\WorkerMessages.xaml.cs">
       <DependentUpon>WorkerMessages.xaml</DependentUpon>
     </Compile>
@@ -355,6 +358,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Design\WorkerMessagesViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\ServerMessagesViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Design\RemoteDesktopLoginViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -532,6 +543,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\MessagePathIds.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\ServerMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

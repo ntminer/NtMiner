@@ -40,13 +40,13 @@ namespace NTMiner.Vms {
 
         private readonly IWorkerMessage _data;
         private readonly WorkerMessageChannel _channel;
-        private readonly WorkerMessageType _messageType;
+        private readonly WorkerMessageType _messageTypeEnum;
 
         public ICommand ViewDetails { get; private set; }
 
         public WorkerMessageViewModel(IWorkerMessage data) {
             _data = data;
-            _data.MessageType.TryParse(out _messageType);
+            _data.MessageType.TryParse(out _messageTypeEnum);
             _data.Channel.TryParse(out _channel);
             this.ViewDetails = new DelegateCommand(() => {
 
@@ -58,7 +58,7 @@ namespace NTMiner.Vms {
         }
 
         public WorkerMessageType MessageTypeEnum {
-            get { return _messageType; }
+            get { return _messageTypeEnum; }
         }
 
         public Guid GetId() {
@@ -100,19 +100,19 @@ namespace NTMiner.Vms {
 
         public string MessageTypeText {
             get {
-                return _messageType.GetDescription();
+                return _messageTypeEnum.GetDescription();
             }
         }
 
         public StreamGeometry MessageTypeIcon {
             get {
-                return GetIcon(_messageType);
+                return GetIcon(_messageTypeEnum);
             }
         }
 
         public SolidColorBrush IconFill {
             get {
-                return GetIconFill(_messageType);
+                return GetIconFill(_messageTypeEnum);
             }
         }
 
@@ -130,16 +130,16 @@ namespace NTMiner.Vms {
 
         public string TimestampText {
             get {
-                int offDay = (DateTime.Now.Date - _data.Timestamp.Date).Days;
+                int offDay = (DateTime.Now.Date - Timestamp.Date).Days;
                 switch (offDay) {
                     case 0:
-                        return $"今天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"今天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 1:
-                        return $"昨天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"昨天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 2:
-                        return $"前天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"前天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     default:
-                        return _data.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
+                        return Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
                 }
             }
         }

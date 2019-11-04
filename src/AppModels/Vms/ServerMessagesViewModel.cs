@@ -17,5 +17,11 @@ namespace NTMiner.Vms {
                 });
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(VirtualRoot.LocalServerMessageSet.Select(a => new ServerMessageViewModel(a)));
         }
+
+        public ObservableCollection<ServerMessageViewModel> ServerMessageVms {
+            get {
+                return _serverMessageVms;
+            }
+        }
     }
 }
