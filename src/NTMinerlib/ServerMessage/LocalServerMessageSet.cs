@@ -40,6 +40,7 @@ namespace NTMiner.ServerMessage {
         }
 
         public void Add(string provider, string messageType, string content) {
+            InitOnece();
             Add(Guid.Empty, provider, messageType, content, DateTime.MinValue);
         }
 
@@ -128,9 +129,6 @@ namespace NTMiner.ServerMessage {
 
         public void Clear() {
             if (string.IsNullOrEmpty(_connectionString)) {
-                return;
-            }
-            if (_records.Count == 0) {
                 return;
             }
             using (LiteDatabase db = new LiteDatabase(_connectionString)) {
