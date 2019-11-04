@@ -406,7 +406,7 @@ namespace NTMiner.Views {
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
 
-            mainLayer.ColumnDefinitions.Remove(_mainLayerColumn0);
+            mainLayer.ColumnDefinitions.Remove(MinerProfileColumn);
             MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
@@ -418,8 +418,8 @@ namespace NTMiner.Views {
                 BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
                 PinRotateTransform.Angle = 0;
 
-                if (!mainLayer.ColumnDefinitions.Contains(_mainLayerColumn0)) {
-                    mainLayer.ColumnDefinitions.Insert(0, _mainLayerColumn0);
+                if (!mainLayer.ColumnDefinitions.Contains(MinerProfileColumn)) {
+                    mainLayer.ColumnDefinitions.Insert(0, MinerProfileColumn);
                 }
                 MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
             }

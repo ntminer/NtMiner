@@ -321,7 +321,7 @@
                 <Grid Grid.Column="1" Grid.IsSharedSizeScope="True">
                     <Grid x:Name="mainLayer">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition x:Name="_mainLayerColumn0" Width="Auto" SharedSizeGroup="column0"></ColumnDefinition>
+                            <ColumnDefinition x:Name="MinerProfileColumn" Width="Auto" SharedSizeGroup="column0"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
                         <TabControl
