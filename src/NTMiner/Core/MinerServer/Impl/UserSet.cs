@@ -11,7 +11,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         public UserSet() {
             VirtualRoot.BuildCmdPath<AddUserCommand>(action: message => {
                 if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
-                    Server.ControlCenterService.AddUserAsync(new UserData {
+                    Server.UserService.AddUserAsync(new UserData {
                         LoginName = message.User.LoginName,
                         Password = message.User.Password,
                         IsEnabled = message.User.IsEnabled,
@@ -33,7 +33,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     UserData entity = _dicByLoginName[message.User.LoginName];
                     UserData oldValue = new UserData(entity);
                     entity.Update(message.User);
-                    Server.ControlCenterService.UpdateUserAsync(new UserData {
+                    Server.UserService.UpdateUserAsync(new UserData {
                         LoginName = message.User.LoginName,
                         Password = message.User.Password,
                         IsEnabled = message.User.IsEnabled,
@@ -51,7 +51,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             VirtualRoot.BuildCmdPath<RemoveUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.LoginName)) {
                     UserData entity = _dicByLoginName[message.LoginName];
-                    Server.ControlCenterService.RemoveUserAsync(message.LoginName, (response, exception) => {
+                    Server.UserService.RemoveUserAsync(message.LoginName, (response, exception) => {
                         if (response.IsSuccess()) {
                             _dicByLoginName.Remove(entity.LoginName);
                             VirtualRoot.RaiseEvent(new UserRemovedEvent(entity));
@@ -76,7 +76,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (!VirtualRoot.IsMinerStudio) {
                             clientId = VirtualRoot.Id;
                         }
-                        var result = Server.ControlCenterService.GetUsers(clientId);
+                        var result = Server.UserService.GetUsers(clientId);
                         _dicByLoginName = result.ToDictionary(a => a.LoginName, a => a);
                         _isInited = true;
                     }
@@ -91,8 +91,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public IUser GetUser(string loginName) {
             InitOnece();
-            UserData userData;
-            if (_dicByLoginName.TryGetValue(loginName, out userData)) {
+            if (_dicByLoginName.TryGetValue(loginName, out UserData userData)) {
                 return userData;
             }
             return null;

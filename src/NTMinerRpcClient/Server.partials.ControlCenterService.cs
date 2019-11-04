@@ -65,58 +65,6 @@ namespace NTMiner {
             }
             #endregion
 
-            #region GetUsers
-            // TODO:异步化
-            /// <summary>
-            /// 同步方法
-            /// </summary>
-            /// <param name="clientId"></param>
-            /// <returns></returns>
-            public List<UserData> GetUsers(Guid? clientId) {
-                try {
-                    DataRequest<Guid?> request = new DataRequest<Guid?> {
-                        Data = clientId
-                    };
-                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IControlCenterController.Users), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
-                    if (response != null && response.Data != null) {
-                        return response.Data;
-                    }
-                    return new List<UserData>();
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                    return new List<UserData>();
-                }
-            }
-            #endregion
-
-            #region AddUserAsync
-            public void AddUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
-                DataRequest<UserData> request = new DataRequest<UserData>() {
-                    Data = userData
-                };
-                PostAsync(SControllerName, nameof(IControlCenterController.AddUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
-            }
-            #endregion
-
-            #region UpdateUserAsync
-            public void UpdateUserAsync(UserData userData, Action<ResponseBase, Exception> callback) {
-                DataRequest<UserData> request = new DataRequest<UserData>() {
-                    Data = userData
-                };
-                PostAsync(SControllerName, nameof(IControlCenterController.UpdateUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
-            }
-            #endregion
-
-            #region RemoveUserAsync
-            public void RemoveUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
-                DataRequest<String> request = new DataRequest<String>() {
-                    Data = loginName
-                };
-                PostAsync(SControllerName, nameof(IControlCenterController.RemoveUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
-            }
-            #endregion
-
             #region GetLatestSnapshotsAsync
             public void GetLatestSnapshotsAsync(
                 int limit,

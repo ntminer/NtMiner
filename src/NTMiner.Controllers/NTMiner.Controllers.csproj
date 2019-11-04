@@ -45,6 +45,7 @@
     <Compile Include="IOverClockDataController.cs" />
     <Compile Include="IReportController.cs" />
     <Compile Include="IServerMessageController.cs" />
+    <Compile Include="IUserController.cs" />
     <Compile Include="IWrapperMinerClientController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

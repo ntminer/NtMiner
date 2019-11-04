@@ -11,11 +11,6 @@ namespace NTMiner.Controllers {
         void CloseServices();
         ResponseBase ActiveControlCenterAdmin(string password);
         ResponseBase LoginControlCenter(SignRequest request);
-        DataResponse<List<UserData>> Users(DataRequest<Guid?> request);
-        ResponseBase AddUser(DataRequest<UserData> request);
-        ResponseBase UpdateUser(DataRequest<UserData> request);
-        ResponseBase RemoveUser(DataRequest<string> request);
-        ResponseBase ChangePassword(ChangePasswordRequest request);
         QueryClientsResponse QueryClients(QueryClientsRequest request);
         GetCoinSnapshotsResponse LatestSnapshots(GetCoinSnapshotsRequest request);
         ResponseBase AddClients(AddClientRequest request);
