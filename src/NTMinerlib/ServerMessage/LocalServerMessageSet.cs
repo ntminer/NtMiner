@@ -95,7 +95,10 @@ namespace NTMiner.ServerMessage {
                 return;
             }
             InitOnece();
-            throw new NotImplementedException();
+            ServerMessageData exist = _records.FirstOrDefault(a => a.Id == id);
+            if (exist != null) {
+                _records.Remove(exist);
+            }
         }
 
         public void Clear() {
