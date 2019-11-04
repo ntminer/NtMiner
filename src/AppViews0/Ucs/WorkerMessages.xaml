@@ -230,29 +230,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="30" Width="30" IsReadOnly="True">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <controls:KbButton 
-								Margin="2 0"
-                                Visibility="Collapsed"
-								Command="{Binding ViewDetails}" 
-                                Background="Transparent" 
-                                BorderThickness="0"
-								CornerRadius="2" 
-                                ToolTip="详情">
-                                <WrapPanel>
-                                    <Path
-									    Width="18"
-									    Height="18"
-									    Data="{StaticResource Icon_Details}"
-									    Fill="{StaticResource IconFillColor}"
-									    Stretch="Fill" />
-                                </WrapPanel>
-                            </controls:KbButton>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

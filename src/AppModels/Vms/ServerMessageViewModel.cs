@@ -45,6 +45,7 @@ namespace NTMiner.Vms {
             _messageType = data.MessageType;
             _content = data.Content;
             _timestamp = data.Timestamp;
+            data.MessageType.TryParse(out _messageTypeEnum);
         }
 
         public Guid GetId() {

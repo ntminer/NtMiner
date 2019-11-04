@@ -320,9 +320,6 @@
                 </StackPanel>
                 <Grid Grid.Column="1" Grid.IsSharedSizeScope="True">
                     <Grid x:Name="mainLayer">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
                         <TabControl
                             x:Name="MainArea"
 				            Padding="0"

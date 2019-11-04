@@ -1,7 +1,6 @@
 ﻿using NTMiner.MinerClient;
 using System;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -42,15 +41,10 @@ namespace NTMiner.Vms {
         private readonly WorkerMessageChannel _channel;
         private readonly WorkerMessageType _messageTypeEnum;
 
-        public ICommand ViewDetails { get; private set; }
-
         public WorkerMessageViewModel(IWorkerMessage data) {
             _data = data;
-            _data.MessageType.TryParse(out _messageTypeEnum);
-            _data.Channel.TryParse(out _channel);
-            this.ViewDetails = new DelegateCommand(() => {
-
-            });
+            data.MessageType.TryParse(out _messageTypeEnum);
+            data.Channel.TryParse(out _channel);
         }
 
         public WorkerMessageChannel ChannelEnum {
