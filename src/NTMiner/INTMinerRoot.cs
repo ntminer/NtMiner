@@ -19,6 +19,8 @@ namespace NTMiner {
 
         string GetServerJsonVersion();
 
+        void LoadServerMessages();
+
         IUserSet UserSet { get; }
 
         DateTime CreatedOn { get; }

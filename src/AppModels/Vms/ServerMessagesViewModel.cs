@@ -54,6 +54,7 @@ namespace NTMiner.Vms {
                                 _queyResults.Add(item);
                             }
                         }
+                        OnPropertyChanged(nameof(QueryResults));
                     }
                 });
             VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,

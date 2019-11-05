@@ -9,25 +9,10 @@ namespace NTMiner.ServerMessage {
     public class LocalServerMessageSet : IServerMessageSet {
         private readonly string _connectionString;
         private readonly LinkedList<ServerMessageData> _records = new LinkedList<ServerMessageData>();
-        private DateTime _timestamp = NTMiner.Timestamp.UnixBaseTime;
 
         public LocalServerMessageSet(string dbFileFullName) {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
                 _connectionString = $"filename={dbFileFullName};journal=false";
-            }
-        }
-
-        public int Count {
-            get {
-                InitOnece();
-                return _records.Count;
-            }
-        }
-
-        public DateTime Timestamp {
-            get {
-                InitOnece();
-                return _timestamp;
             }
         }
 
@@ -60,9 +45,6 @@ namespace NTMiner.ServerMessage {
             List<IServerMessage> removes = new List<IServerMessage>();
             lock (_locker) {
                 _records.AddFirst(data);
-                if (data.Timestamp > _timestamp) {
-                    _timestamp = data.Timestamp;
-                }
                 while (_records.Count > NTKeyword.ServerMessageSetCapacity) {
                     var toRemove = _records.Last;
                     removes.Add(toRemove.Value);
@@ -137,7 +119,6 @@ namespace NTMiner.ServerMessage {
                 }
                 db.DropCollection(nameof(ServerMessageData));
             }
-            Add(Guid.NewGuid(), nameof(LocalServerMessageSet), ServerMessageType.Info.GetName(), "清空消息", _timestamp);
             VirtualRoot.RaiseEvent(new ServerMessageClearedEvent());
         }
 
@@ -162,9 +143,6 @@ namespace NTMiner.ServerMessage {
                         foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
                             if (_records.Count < NTKeyword.ServerMessageSetCapacity) {
                                 _records.AddFirst(item);
-                                if (item.Timestamp > _timestamp) {
-                                    _timestamp = item.Timestamp;
-                                }
                             }
                             else {
                                 col.Delete(_records.Last.Value.Id);

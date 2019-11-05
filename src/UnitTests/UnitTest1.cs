@@ -14,6 +14,14 @@ namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void NullTest() {
+            object o = null;
+            Assert.IsFalse(o is DateTime);
+            o = DateTime.Now;
+            Assert.IsTrue(o is DateTime);
+        }
+
+        [TestMethod]
         public void NameofTest() {
             Assert.AreEqual("T", GetNameofT<int>());
             Assert.AreNotEqual("int", GetNameofT<int>());

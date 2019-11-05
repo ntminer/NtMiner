@@ -458,6 +458,41 @@ namespace NTMiner {
         }
         #endregion
 
+        #region LoadServerMessages
+        private DateTime LocalServerMessageSetTimestamp {
+            get {
+                if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
+                    return value;
+                }
+                return Timestamp.UnixBaseTime;
+            }
+            set {
+                AppSettingData appSetting = new AppSettingData {
+                    Key = nameof(LocalServerMessageSetTimestamp),
+                    Value = value
+                };
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSetting));
+            }
+        }
+
+        public void LoadServerMessages() {
+            OfficialServer.ServerMessageService.GetServerMessagesAsync(LocalServerMessageSetTimestamp, (response, e) => {
+                if (response.IsSuccess() && response.Data.Count > 0) {
+                    DateTime dateTime = LocalServerMessageSetTimestamp;
+                    LinkedList<IServerMessage> data = new LinkedList<IServerMessage>();
+                    foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
+                        if (item.Timestamp > dateTime) {
+                            LocalServerMessageSetTimestamp = item.Timestamp;
+                        }
+                        data.AddLast(item);
+                        VirtualRoot.LocalServerMessageSet.AddOrUpdate(item);
+                    }
+                    VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
+                }
+            });
+        }
+        #endregion
+
         #region Exit
         public void Exit() {
             if (_currentMineContext != null) {
