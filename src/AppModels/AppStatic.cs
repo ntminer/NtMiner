@@ -374,6 +374,12 @@ namespace NTMiner {
                 return NTMinerRoot.MineStatusEnumItems;
             }
         }
+
+        public static IEnumerable<EnumItem<ServerMessageType>> ServerMessageTypeEnumItems {
+            get {
+                return NTMinerRoot.ServerMessageTypeEnumItems;
+            }
+        }
         #endregion
 
         #region AppName CurrentVersion VersionTag VersionFullName

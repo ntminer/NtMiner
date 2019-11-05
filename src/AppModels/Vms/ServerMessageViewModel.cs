@@ -38,7 +38,22 @@ namespace NTMiner.Vms {
         private string _messageType;
         private string _content;
         private DateTime _timestamp;
-        private readonly ServerMessageType _messageTypeEnum;
+        private ServerMessageType _messageTypeEnum;
+
+        public EnumItem<ServerMessageType> ServerMessageTypeEnumItem {
+            get {
+                return _messageTypeEnum.GetEnumItem();
+            }
+            set {
+                _messageTypeEnum = value.Value;
+                _messageType = _messageTypeEnum.GetName();
+                OnPropertyChanged(nameof(MessageType));
+                OnPropertyChanged(nameof(ServerMessageTypeEnumItem));
+                OnPropertyChanged(nameof(MessageTypeText));
+                OnPropertyChanged(nameof(MessageTypeIcon));
+                OnPropertyChanged(nameof(IconFill));
+            }
+        }
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }

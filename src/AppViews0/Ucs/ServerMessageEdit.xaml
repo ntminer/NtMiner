@@ -9,7 +9,7 @@
 		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
         mc:Ignorable="d"
-        d:DesignWidth="500"
+        d:DesignWidth="540"
         d:DataContext="{d:DesignData Source=/Design/ServerMessageViewModel.xaml}"
         Background="White">
 	<UserControl.Resources>
@@ -26,10 +26,31 @@
             <TextBlock Style="{StaticResource LblTb}">演员</TextBlock>
             <TextBox Width="120" Style="{StaticResource TextBox}" Text="{Binding Provider, ValidatesOnExceptions=True}">
             </TextBox>
+            <TextBlock Style="{StaticResource LblTb}">类型</TextBlock>
+            <ListBox 
+				Background="Transparent"
+				ItemsSource="{x:Static app:AppStatic.ServerMessageTypeEnumItems}"
+				SelectedItem="{Binding ServerMessageTypeEnumItem}"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				ScrollViewer.VerticalScrollBarVisibility="Disabled"
+				ItemContainerStyle="{StaticResource ListBoxBarItem}"
+				BorderThickness="0">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Padding="10 2" Text="{Binding Description}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <TextBlock Style="{StaticResource LblTb}">内容</TextBlock>
-            <TextBox Width="400" Style="{StaticResource TextBox}" Text="{Binding Content, ValidatesOnExceptions=True}">
+            <TextBox Width="440" Style="{StaticResource TextBox}" Text="{Binding Content, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
     </StackPanel>
