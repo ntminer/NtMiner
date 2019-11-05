@@ -13,8 +13,9 @@
         public class MessageTypeItem<T> : ViewModelBase {
             private int _count;
             private readonly Action OnIsCheckedChanged;
-
+            private readonly string _messageTypeName;
             public MessageTypeItem(EnumItem<T> messageType, Func<T, StreamGeometry> getIcon, Func<T, SolidColorBrush> getIconFill, Action onIsCheckedChanged) {
+                _messageTypeName = typeof(T).Name;
                 this.MessageType = messageType;
                 this.OnIsCheckedChanged = onIsCheckedChanged;
                 this.Icon = getIcon(messageType.Value);
@@ -32,14 +33,14 @@
             public bool IsChecked {
                 get {
                     bool value = true;
-                    if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting($"Is{nameof(T)}{MessageType.Name}Checked", out IAppSetting setting) && setting.Value != null) {
+                    if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting($"Is{_messageTypeName}{MessageType.Name}Checked", out IAppSetting setting) && setting.Value != null) {
                         value = (bool)setting.Value;
                     }
                     return value;
                 }
                 set {
                     AppSettingData appSettingData = new AppSettingData() {
-                        Key = $"Is{nameof(T)}{MessageType.Name}Checked",
+                        Key = $"Is{_messageTypeName}{MessageType.Name}Checked",
                         Value = value
                     };
                     VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
