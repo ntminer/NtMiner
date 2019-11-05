@@ -10,25 +10,19 @@
 
     public class WorkerMessagesViewModel : ViewModelBase {
         #region MessageTypeItem class
-        public class MessageTypeItem : ViewModelBase {
+        public class MessageTypeItem<T> : ViewModelBase {
             private int _count;
             private readonly Action OnIsCheckedChanged;
 
-            public MessageTypeItem(EnumItem<WorkerMessageType> messageType, Action onIsCheckedChanged) {
+            public MessageTypeItem(EnumItem<T> messageType, Func<T, StreamGeometry> getIcon, Func<T, SolidColorBrush> getIconFill, Action onIsCheckedChanged) {
                 this.MessageType = messageType;
                 this.OnIsCheckedChanged = onIsCheckedChanged;
+                this.Icon = getIcon(messageType.Value);
+                this.IconFill = getIconFill(messageType.Value);
             }
-            public EnumItem<WorkerMessageType> MessageType { get; private set; }
-            public StreamGeometry Icon {
-                get {
-                    return WorkerMessageViewModel.GetIcon(MessageType.Value);
-                }
-            }
-            public SolidColorBrush IconFill {
-                get {
-                    return WorkerMessageViewModel.GetIconFill(MessageType.Value);
-                }
-            }
+            public EnumItem<T> MessageType { get; private set; }
+            public StreamGeometry Icon { get; private set; }
+            public SolidColorBrush IconFill { get; private set; }
             public string DisplayText {
                 get {
                     return MessageType.Description;
@@ -38,14 +32,14 @@
             public bool IsChecked {
                 get {
                     bool value = true;
-                    if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting($"Is{MessageType.Name}Checked", out IAppSetting setting) && setting.Value != null) {
+                    if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting($"Is{nameof(T)}{MessageType.Name}Checked", out IAppSetting setting) && setting.Value != null) {
                         value = (bool)setting.Value;
                     }
                     return value;
                 }
                 set {
                     AppSettingData appSettingData = new AppSettingData() {
-                        Key = $"Is{MessageType.Name}Checked",
+                        Key = $"Is{nameof(T)}{MessageType.Name}Checked",
                         Value = value
                     };
                     VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
@@ -67,7 +61,7 @@
         private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
         private ObservableCollection<WorkerMessageViewModel> _queyResults;
         private EnumItem<WorkerMessageChannel> _selectedChannel;
-        private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem>>();
+        private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>>();
         private string _keyword;
 
         private void UpdateChannelAll() {
@@ -85,9 +79,9 @@
             }
         }
 
-        public IEnumerable<MessageTypeItem> MessageTypeItems {
+        public IEnumerable<MessageTypeItem<WorkerMessageType>> MessageTypeItems {
             get {
-                Dictionary<WorkerMessageType, MessageTypeItem> values = _count[SelectedChannel];
+                Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>> values = _count[SelectedChannel];
                 return values.Values;
             }
         }
@@ -100,9 +94,9 @@
                 return;
             }
             foreach (var messageChannel in WorkerMessageChannel.Unspecified.GetEnumItems()) {
-                var values = new Dictionary<WorkerMessageType, MessageTypeItem>();
+                var values = new Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>();
                 foreach (var messageType in WorkerMessageType.Info.GetEnumItems()) {
-                    values.Add(messageType.Value, new MessageTypeItem(messageType, RefreshQueryResults));
+                    values.Add(messageType.Value, new MessageTypeItem<WorkerMessageType>(messageType, WorkerMessageViewModel.GetIcon, WorkerMessageViewModel.GetIconFill, RefreshQueryResults));
                 }
                 _count.Add(messageChannel, values);
             }
