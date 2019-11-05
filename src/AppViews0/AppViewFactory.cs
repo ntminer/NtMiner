@@ -207,6 +207,11 @@ namespace NTMiner.Views {
                     GroupEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
+            VirtualRoot.BuildCmdPath<ServerMessageEditCommand>(action: message => {
+                UIThread.Execute(() => {
+                    ServerMessageEdit.ShowWindow(message.FormType, message.Source);
+                });
+            });
             VirtualRoot.BuildCmdPath<KernelInputEditCommand>(action: message => {
                 UIThread.Execute(() => {
                     KernelInputEdit.ShowWindow(message.FormType, message.Source);

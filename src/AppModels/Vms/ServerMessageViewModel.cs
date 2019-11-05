@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerServer;
 using System;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -39,6 +40,18 @@ namespace NTMiner.Vms {
         private DateTime _timestamp;
         private readonly ServerMessageType _messageTypeEnum;
 
+        public ICommand Remove { get; private set; }
+        public ICommand Edit { get; private set; }
+        public ICommand Save { get; private set; }
+
+        public Action CloseWindow { get; set; }
+
+        public ServerMessageViewModel() {
+            if (!WpfUtil.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
+
         public ServerMessageViewModel(IServerMessage data) {
             _id = data.Id;
             _provider = data.Provider;
@@ -46,6 +59,16 @@ namespace NTMiner.Vms {
             _content = data.Content;
             _timestamp = data.Timestamp;
             data.MessageType.TryParse(out _messageTypeEnum);
+            this.Edit = new DelegateCommand<FormType?>((formType) => {
+                VirtualRoot.Execute(new ServerMessageEditCommand(formType ?? FormType.Edit, this));
+            });
+            this.Remove = new DelegateCommand(() => {
+
+            });
+            this.Save = new DelegateCommand(() => {
+
+                CloseWindow?.Invoke();
+            });
         }
 
         public Guid GetId() {
