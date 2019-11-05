@@ -47,11 +47,27 @@ namespace NTMiner.Views {
 
         public void SwitchOwner(Window window) {
             if (Owner != window) {
+                bool isOwnerIsTopMost = window.Topmost;
+                if (isOwnerIsTopMost) {
+                    window.Topmost = false;
+                }
                 Owner = window;
                 Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
                 Instance.Top = window.Top + 10;
-                // 因为挖矿端的MainWindow也是TopMost的，所以需要激活一下通知窗口从而让通知窗口在父窗口的上面
-                this.Activate();
+                if (isOwnerIsTopMost) {
+                    window.Topmost = true;
+                    this.Topmost = true;
+                    Owner.Activate();
+                }
+                else {
+                    this.Activate();
+                }
+            }
+            else {
+                bool isOwnerIsTopMost = window.Topmost;
+                if (isOwnerIsTopMost) {
+                    Owner.Activate();
+                }
             }
         }
 

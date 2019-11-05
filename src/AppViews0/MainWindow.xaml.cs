@@ -128,10 +128,18 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.Stopwatch.Restart();
 #endif
-            UIThread.StartTimer();
-            ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             this.Owner = ConsoleWindow.Instance;
             InitializeComponent();
+
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+
+            UIThread.StartTimer();
+            ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
+            _borderBrush = this.BorderBrush;
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
+
             this.MainArea.SelectionChanged += (sender, e) => {
                 var selectedItem = MainArea.SelectedItem;
                 if (selectedItem == TabItemToolbox) {
@@ -145,12 +153,6 @@ namespace NTMiner.Views {
                     }
                 }
             };
-            _borderBrush = this.BorderBrush;
-            NTMinerRoot.RefreshArgsAssembly.Invoke();
-            if (WpfUtil.IsInDesignMode) {
-                return;
-            }
-            ToogleLeft();
             this.IsVisibleChanged += (sender, e) => {
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
@@ -196,8 +198,18 @@ namespace NTMiner.Views {
             };
             EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
             this.Activated += (sender, e) => {
+                // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                if (!Topmost) {
+                    Topmost = true;
+                }
                 changeNotiCenterWindowLocation(sender, e);
                 NotiCenterWindow.Instance.SwitchOwner(this);
+            };
+            this.Deactivated += (sender, e) => {
+                // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                if (Topmost) {
+                    Topmost = false;
+                }
             };
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
@@ -604,20 +616,6 @@ namespace NTMiner.Views {
                 Top = lMousePosition.Y - targetVertical;
 
                 DragMove();
-            }
-        }
-        #endregion
-
-        #region 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-        private void Window_Activated(object sender, EventArgs e) {
-            if (!Topmost) {
-                Topmost = true;
-            }
-        }
-
-        private void Window_Deactivated(object sender, EventArgs e) {
-            if (Topmost) {
-                Topmost = false;
             }
         }
         #endregion
