@@ -15,7 +15,22 @@
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="60"></Setter>
-		</Style>
-	</UserControl.Resources>
-    <StackPanel Margin="10"></StackPanel>
+        </Style>
+        <Style x:Key="TextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Margin="10">
+        <WrapPanel Margin="0 2">
+            <TextBlock Style="{StaticResource LblTb}">演员</TextBlock>
+            <TextBox Width="120" Style="{StaticResource TextBox}" Text="{Binding Provider, ValidatesOnExceptions=True}">
+            </TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 2">
+            <TextBlock Style="{StaticResource LblTb}">内容</TextBlock>
+            <TextBox Width="400" Style="{StaticResource TextBox}" Text="{Binding Content, ValidatesOnExceptions=True}">
+            </TextBox>
+        </WrapPanel>
+    </StackPanel>
 </UserControl>

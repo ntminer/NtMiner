@@ -19,12 +19,6 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private ServerMessageViewModel Vm {
-            get {
-                return (ServerMessageViewModel)this.DataContext;
-            }
-        }
-
         public ServerMessageEdit(ServerMessageViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
