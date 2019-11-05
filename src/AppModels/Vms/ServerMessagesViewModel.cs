@@ -76,6 +76,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        public IEnumerable<MessageTypeItem<ServerMessageType>> MessageTypeItems {
+            get {
+                return _count.Values;
+            }
+        }
+
         public string Keyword {
             get => _keyword;
             set {
