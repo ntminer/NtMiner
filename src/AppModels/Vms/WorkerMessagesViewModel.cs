@@ -37,7 +37,7 @@
 
             public bool IsChecked {
                 get {
-                    bool value = true; ;
+                    bool value = true;
                     if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting($"Is{MessageType.Name}Checked", out IAppSetting setting) && setting.Value != null) {
                         value = (bool)setting.Value;
                     }
