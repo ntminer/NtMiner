@@ -9,8 +9,8 @@
         private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
         private ObservableCollection<WorkerMessageViewModel> _queyResults;
         private EnumItem<WorkerMessageChannel> _selectedChannel;
-        private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>>();
         private string _keyword;
+        private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>>();
 
         private void UpdateChannelAll() {
             var channelAll = WorkerMessageChannel.Unspecified.GetEnumItem();

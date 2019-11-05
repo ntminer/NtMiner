@@ -86,6 +86,12 @@ namespace NTMiner.Vms {
             });
         }
 
+        public ServerMessageType MessageTypeEnum {
+            get {
+                return _messageTypeEnum;
+            }
+        }
+
         public Guid GetId() {
             return this.Id;
         }

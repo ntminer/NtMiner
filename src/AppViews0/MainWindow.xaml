@@ -579,8 +579,8 @@
                                 </TabItem.Header>
                                 <Grid>
                                     <Grid.RowDefinitions>
+                                        <RowDefinition Height="3*"></RowDefinition>
                                         <RowDefinition Height="2*"></RowDefinition>
-                                        <RowDefinition Height="*"></RowDefinition>
                                     </Grid.RowDefinitions>
                                     <uc:WorkerMessages>
                                     </uc:WorkerMessages>
