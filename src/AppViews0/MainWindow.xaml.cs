@@ -131,6 +131,7 @@ namespace NTMiner.Views {
             this.Owner = ConsoleWindow.Instance;
             InitializeComponent();
 
+            BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
