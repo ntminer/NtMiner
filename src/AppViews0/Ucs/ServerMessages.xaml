@@ -118,7 +118,7 @@
         </Grid>
         <DataGrid 
             Grid.Row="1"
-			ItemsSource="{Binding ServerMessageVms}" 
+			ItemsSource="{Binding QueryResults}" 
             EnableRowVirtualization="True"
 			Background="Transparent" 
 			ColumnHeaderHeight="34"
@@ -178,6 +178,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="1" Visibility="{Binding ServerMessageVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有消息</TextBlock>
+        <TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有消息</TextBlock>
     </Grid>
 </UserControl>

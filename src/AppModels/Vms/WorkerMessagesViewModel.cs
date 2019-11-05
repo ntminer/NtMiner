@@ -69,14 +69,12 @@
                 action: message => {
                     UIThread.Execute(() => {
                         _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>();
-                        _queyResults = new ObservableCollection<WorkerMessageViewModel>();
-                        OnPropertyChanged(nameof(QueryResults));
                         foreach (var item in _count.Values) {
                             foreach (var key in item.Keys) {
                                 item[key].Count = 0;
                             }
                         }
-                        OnPropertyChanged(nameof(MessageTypeItems));
+                        RefreshQueryResults();
                     });
                 });
             VirtualRoot.BuildEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
