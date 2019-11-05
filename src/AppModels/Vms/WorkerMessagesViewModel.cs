@@ -10,7 +10,7 @@
 
     public class WorkerMessagesViewModel : ViewModelBase {
         #region MessageTypeItem class
-        public class MessageTypeItem<T> : ViewModelBase {
+        public class MessageTypeItem<T> : ViewModelBase where T : struct {
             private int _count;
             private readonly Action OnIsCheckedChanged;
             private readonly string _messageTypeName;
@@ -76,7 +76,7 @@
 
         public IEnumerable<EnumItem<WorkerMessageChannel>> WorkerMessageChannelEnumItems {
             get {
-                return WorkerMessageChannel.Unspecified.GetEnumItems();
+                return EnumItem<WorkerMessageChannel>.GetEnumItems();
             }
         }
 
@@ -94,9 +94,9 @@
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            foreach (var messageChannel in WorkerMessageChannel.Unspecified.GetEnumItems()) {
+            foreach (var messageChannel in EnumItem<WorkerMessageChannel>.GetEnumItems()) {
                 var values = new Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>();
-                foreach (var messageType in WorkerMessageType.Info.GetEnumItems()) {
+                foreach (var messageType in EnumItem<WorkerMessageType>.GetEnumItems()) {
                     values.Add(messageType.Value, new MessageTypeItem<WorkerMessageType>(messageType, WorkerMessageViewModel.GetIcon, WorkerMessageViewModel.GetIconFill, RefreshQueryResults));
                 }
                 _count.Add(messageChannel, values);
