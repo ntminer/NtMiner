@@ -24,8 +24,8 @@ namespace NTMiner {
                             Write.DevDebug($"{nameof(ReportSpeedAsync)} {getHttpResponse.Result.ReasonPhrase}");
                         }
                     }
-                    catch {
-                        // 吞掉异常，以免用户恐慌
+                    catch (Exception e) {
+                        Write.DevException(e);
                     }
                 });
             }
@@ -44,8 +44,8 @@ namespace NTMiner {
                             Write.DevDebug($"{nameof(ReportStateAsync)} {getHttpResponse.Result.ReasonPhrase}");
                         }
                     }
-                    catch {
-                        // 吞掉异常，以免用户恐慌
+                    catch (Exception e) {
+                        Write.DevException(e);
                     }
                 });
             }

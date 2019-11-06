@@ -21,8 +21,8 @@ namespace NTMiner {
                         Write.DevDebug($"{nameof(CloseDaemon)} {getHttpResponse.Result.ReasonPhrase}");
                     }
                 }
-                catch {
-                    // 吞掉异常，以免用户恐慌
+                catch(Exception e) {
+                    Write.DevException(e);
                 }
             }
 
