@@ -59,8 +59,8 @@ namespace NTMiner {
                 SpecialPath.SaveGpuProfilesJsonFile(json);
                 if (IsNTMinerOpened()) {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/OverClock", null);
-                        Write.DevDebug($"{nameof(SaveGpuProfilesJson)} {message.Result.ReasonPhrase}");
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/OverClock", null);
+                        Write.DevDebug($"{nameof(SaveGpuProfilesJson)} {getHttpResponse.Result.ReasonPhrase}");
                     }
                 }
             }
@@ -76,8 +76,8 @@ namespace NTMiner {
             MinerProfileUtil.SetAutoStart(autoBoot, autoStart);
             if (IsNTMinerOpened()) {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/RefreshAutoBootStart", null);
-                    Write.DevDebug($"{nameof(SetAutoBootStart)} {message.Result.ReasonPhrase}");
+                    Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/RefreshAutoBootStart", null);
+                    Write.DevDebug($"{nameof(SetAutoBootStart)} {getHttpResponse.Result.ReasonPhrase}");
                 }
             }
         }
@@ -144,8 +144,8 @@ namespace NTMiner {
                         WorkRequest innerRequest = new WorkRequest {
                             WorkId = request.WorkId
                         };
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/StartMine", innerRequest);
-                        response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/StartMine", innerRequest);
+                        response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         return response;
                     }
                 }
@@ -180,8 +180,8 @@ namespace NTMiner {
                 }
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/StopMine", request);
-                        response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/StopMine", request);
+                        response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         return response;
                     }
                 }
@@ -233,8 +233,8 @@ namespace NTMiner {
             bool isClosed = false;
             try {
                 using (HttpClient client = new HttpClient()) {
-                    Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignRequest { });
-                    ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort}/api/MinerClient/CloseNTMiner", new SignRequest { });
+                    ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();
                 }
             }
