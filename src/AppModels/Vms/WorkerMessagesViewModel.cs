@@ -14,6 +14,9 @@
 
         private void UpdateChannelAll() {
             var channelAll = WorkerMessageChannel.Unspecified.GetEnumItem();
+            if (!_count.ContainsKey(channelAll)) {
+                return;
+            }
             var dic = _count[channelAll];
             foreach (var key in dic.Keys) {
                 dic[key].Count = _count.Where(a => a.Key != channelAll).Sum(a => a.Value[key].Count);
@@ -23,7 +26,15 @@
 
         public IEnumerable<EnumItem<WorkerMessageChannel>> WorkerMessageChannelEnumItems {
             get {
-                return EnumItem<WorkerMessageChannel>.GetEnumItems();
+                // 只有挖矿端有This和Kernel两个频道
+                if (VirtualRoot.IsMinerClient) {
+                    foreach (var item in EnumItem<WorkerMessageChannel>.GetEnumItems()) {
+                        yield return item;
+                    }
+                }
+                else {
+                    yield return WorkerMessageChannel.This.GetEnumItem();
+                }
             }
         }
 
@@ -41,7 +52,7 @@
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            foreach (var messageChannel in EnumItem<WorkerMessageChannel>.GetEnumItems()) {
+            foreach (var messageChannel in WorkerMessageChannelEnumItems) {
                 var values = new Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>();
                 foreach (var messageType in EnumItem<WorkerMessageType>.GetEnumItems()) {
                     values.Add(messageType.Value, new MessageTypeItem<WorkerMessageType>(messageType, WorkerMessageViewModel.GetIcon, WorkerMessageViewModel.GetIconFill, RefreshQueryResults));
