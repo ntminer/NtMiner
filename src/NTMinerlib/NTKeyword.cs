@@ -12,7 +12,7 @@
             OfficialServerHost = host;
         }
 
-        public const string WorkerMessageDbFileName = "workerMessage.litedb";
+        public const string WorkerMessageDbFileName = "localMessage.litedb";
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
         public const string NTMinerServicesFileName = "NTMinerServices.exe";
         public const string GpuProfilesFileName = "gpuProfiles.json";
