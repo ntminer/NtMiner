@@ -15,17 +15,16 @@ namespace NTMiner.Vms {
         private string _timeText;
         private string _dateText;
         private string _localIps;
-        private DateTime _now = DateTime.MinValue;
+        private readonly DateTime _bootTime = DateTime.MinValue;
         private string _cpuPerformanceText = "0 %";
         private string _cpuTemperatureText = "0 ℃";
-
 
         public ICommand ConfigControlCenterHost { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
 
         public StateBarViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             UpdateDateTime();
@@ -93,10 +92,10 @@ namespace NTMiner.Vms {
 
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
-            if (_now.Minute != now.Minute || _now == DateTime.MinValue) {
+            if (_bootTime.Minute != now.Minute || _bootTime == DateTime.MinValue) {
                 this.TimeText = now.ToString("H:mm");
             }
-            if (_now.Hour != now.Hour || _now == DateTime.MinValue) {
+            if (_bootTime.Hour != now.Hour || _bootTime == DateTime.MinValue) {
                 this.DateText = now.ToString("yyyy/M/d");
             }
         }

@@ -19,6 +19,8 @@ namespace NTMiner {
 
         string GetServerJsonVersion();
 
+        void LoadServerMessages();
+
         IUserSet UserSet { get; }
 
         DateTime CreatedOn { get; }
@@ -95,8 +97,6 @@ namespace NTMiner {
         IKernelInputSet KernelInputSet { get; }
 
         IKernelOutputSet KernelOutputSet { get; }
-
-        IKernelOutputFilterSet KernelOutputFilterSet { get; }
 
         IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 

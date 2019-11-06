@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class OfficialServer {
-        public class CalcConfigServiceFace {
-            public static readonly CalcConfigServiceFace Instance = new CalcConfigServiceFace();
+        public class ControlCenterServiceFace {
+            public static readonly ControlCenterServiceFace Instance = new ControlCenterServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IControlCenterController>();
 
-            private CalcConfigServiceFace() { }
+            private ControlCenterServiceFace() { }
 
             #region GetCalcConfigsAsync
             public void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {

@@ -5,7 +5,7 @@ namespace NTMiner.Vms {
         private CoinViewModel _currentCoin;
 
         public NTMinerWalletPageViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             _currentCoin = CoinVms.MainCoins.FirstOrDefault();

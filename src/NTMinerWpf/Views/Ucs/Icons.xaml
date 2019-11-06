@@ -63,6 +63,7 @@
             <ItemsControl 
 		        Background="Transparent"
 		        ItemsSource="{Binding Icons}"
+				MouseDown="MetroWindow_MouseDown"
 		        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 		        ScrollViewer.VerticalScrollBarVisibility="Auto"
 		        BorderThickness="0">
@@ -83,10 +84,9 @@
                             <StackPanel>
                                 <Path 
 					                Height="40"
-					                Width="40"
 					                Data="{Binding Data}"
 					                Fill="{StaticResource IconFillColor}"
-					                Stretch="Fill" />
+					                Stretch="Uniform" />
                                 <TextBox 
                                     HorizontalAlignment="Center" 
                                     Margin="0 4 0 0" 

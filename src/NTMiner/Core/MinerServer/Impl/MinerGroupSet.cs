@@ -6,10 +6,8 @@ using System.Collections.Generic;
 namespace NTMiner.Core.MinerServer.Impl {
     public class MinerGroupSet : IMinerGroupSet {
         private readonly Dictionary<Guid, MinerGroupData> _dicById = new Dictionary<Guid, MinerGroupData>();
-        private readonly INTMinerRoot _root;
 
-        public MinerGroupSet(INTMinerRoot root) {
-            _root = root;
+        public MinerGroupSet() {
             VirtualRoot.BuildCmdPath<AddMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -22,7 +20,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 MinerGroupData entity = new MinerGroupData().Update(message.Input);
-                Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
+                Server.MinerGroupService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
                         VirtualRoot.RaiseEvent(new MinerGroupAddedEvent(entity));
@@ -46,7 +44,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 MinerGroupData entity = _dicById[message.Input.GetId()];
                 MinerGroupData oldValue = new MinerGroupData().Update(entity);
                 entity.Update(message.Input);
-                Server.ControlCenterService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
+                Server.MinerGroupService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
                         VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(entity));
@@ -64,7 +62,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 MinerGroupData entity = _dicById[message.EntityId];
-                Server.ControlCenterService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
+                Server.MinerGroupService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
                         VirtualRoot.RaiseEvent(new MinerGroupRemovedEvent(entity));
@@ -90,7 +88,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        var result = Server.ControlCenterService.GetMinerGroups();
+                        var result = Server.MinerGroupService.GetMinerGroups();
                         foreach (var item in result) {
                             if (!_dicById.ContainsKey(item.GetId())) {
                                 _dicById.Add(item.GetId(), item);

@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
         private int _maxTemp;
 
         public GpuSpeedDataViewModels() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

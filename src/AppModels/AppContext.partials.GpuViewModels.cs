@@ -20,7 +20,7 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Restart();
 #endif
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return;
                 }
                 foreach (var gpu in NTMinerRoot.Instance.GpuSet) {

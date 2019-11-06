@@ -7,9 +7,7 @@ namespace NTMiner.Core.MinerServer.Impl {
     public class MineWorkSet : IMineWorkSet {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
 
-        private readonly INTMinerRoot _root;
-        public MineWorkSet(INTMinerRoot root) {
-            _root = root;
+        public MineWorkSet() {
             VirtualRoot.BuildCmdPath<AddMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -19,7 +17,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 MineWorkData entity = new MineWorkData().Update(message.Input);
-                var response = Server.ControlCenterService.AddOrUpdateMineWork(entity);
+                var response = Server.MineWorkService.AddOrUpdateMineWork(entity);
                 if (response.IsSuccess()) {
                     _dicById.Add(entity.Id, entity);
                     VirtualRoot.RaiseEvent(new MineWorkAddedEvent(entity));
@@ -39,7 +37,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 MineWorkData entity = _dicById[message.Input.GetId()];
                 MineWorkData oldValue = new MineWorkData().Update(entity);
                 entity.Update(message.Input);
-                Server.ControlCenterService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
+                Server.MineWorkService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
                         VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(entity));
@@ -57,7 +55,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 MineWorkData entity = _dicById[message.EntityId];
-                Server.ControlCenterService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
+                Server.MineWorkService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
                         VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(entity));
@@ -82,7 +80,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var result = Server.ControlCenterService.GetMineWorks();
+                    var result = Server.MineWorkService.GetMineWorks();
                     foreach (var item in result) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

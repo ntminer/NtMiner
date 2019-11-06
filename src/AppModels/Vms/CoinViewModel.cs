@@ -81,7 +81,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public CoinViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -696,7 +696,7 @@ namespace NTMiner.Vms {
 
         public List<WalletViewModel> Wallets {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return new List<WalletViewModel>();
                 }
                 return GetWallets().ToList();

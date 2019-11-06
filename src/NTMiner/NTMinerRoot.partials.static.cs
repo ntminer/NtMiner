@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.JsonDb;
+using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
@@ -92,15 +93,15 @@ namespace NTMiner {
             }
         }
 
-        public static readonly IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems = SupportedGpu.AMD.GetEnumItems();
+        public static readonly IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems = EnumItem<SupportedGpu>.GetEnumItems();
 
-        public static readonly IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems = GpuType.AMD.GetEnumItems();
+        public static readonly IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems = EnumItem<GpuType>.GetEnumItems();
 
-        public static readonly IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems = PublishStatus.Published.GetEnumItems();
+        public static readonly IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems = EnumItem<PublishStatus>.GetEnumItems();
 
-        public static readonly IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems = MineStatus.All.GetEnumItems();
+        public static readonly IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems = EnumItem<MineStatus>.GetEnumItems();
 
-        public static readonly IEnumerable<EnumItem<WorkerMessageChannel>> WorkerMessageChannelEnumItems = WorkerMessageChannel.Unspecified.GetEnumItems();
+        public static readonly IEnumerable<EnumItem<ServerMessageType>> ServerMessageTypeEnumItems = EnumItem<ServerMessageType>.GetEnumItems();
 
         private static LocalJsonDb _localJson;
         public static ILocalJsonDb LocalJson {

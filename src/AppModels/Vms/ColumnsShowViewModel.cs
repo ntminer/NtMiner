@@ -117,7 +117,7 @@ namespace NTMiner.Vms {
             if (item != null) {
                 item.OnPropertyChanged(nameof(item.IsChecked));
             }
-            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
+            Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
                 if (!response.IsSuccess()) {
                     Write.UserFail(response.ReadMessage(exception));
                 }
@@ -133,7 +133,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public ColumnsShowViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

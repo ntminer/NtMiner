@@ -8,12 +8,29 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Web;
 using System.Windows;
 
 namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
+        [TestMethod]
+        public void NullTest() {
+            object o = null;
+            Assert.IsFalse(o is DateTime);
+            o = DateTime.Now;
+            Assert.IsTrue(o is DateTime);
+        }
+
+        [TestMethod]
+        public void NameofTest() {
+            Assert.AreEqual("T", GetNameofT<int>());
+            Assert.AreNotEqual("int", GetNameofT<int>());
+        }
+
+        private string GetNameofT<T>() {
+            return nameof(T);
+        }
+
         [TestMethod]
         public void DictionarySetTest() {
             var dic = new Dictionary<string, string>();

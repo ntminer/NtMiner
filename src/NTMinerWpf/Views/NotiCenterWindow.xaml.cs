@@ -7,21 +7,40 @@ using System.Windows.Interop;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
-        private static NotiCenterWindow _instance;
-        public static NotiCenterWindow Instance {
-            get {
-                if (_instance == null) {
-                    _instance = new NotiCenterWindow();
-                }
-                return _instance;
-            }
+        private static readonly NotiCenterWindow _instance = new NotiCenterWindow();
+
+        public static void ShowWindow() {
+            _instance.Show();
         }
 
-        public static EventHandler CreateNotiCenterWindowLocationManager(Window window) {
-            return (sender, e) => {
-                Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
-                Instance.Top = window.Top + 10;
+        public static void Bind(Window owner, bool ownerIsTopMost = false) {
+            EventHandler handler = (sender, e) => {
+                _instance.Left = owner.Left + (owner.Width - _instance.Width) / 2;
+                _instance.Top = owner.Top + 10;
             };
+            if (ownerIsTopMost) {
+                owner.Activated += (sender, e) => {
+                    // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                    if (!owner.Topmost) {
+                        owner.Topmost = true;
+                    }
+                    handler(sender, e);
+                    _instance.SwitchOwner(owner);
+                };
+                owner.Deactivated += (sender, e) => {
+                    // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                    if (owner.Topmost) {
+                        owner.Topmost = false;
+                    }
+                };
+            }
+            else {
+                owner.Activated += (sender, e) => {
+                    handler(sender, e);
+                    _instance.SwitchOwner(owner);
+                };
+            }
+            owner.LocationChanged += handler;
         }
 
         public NotiCenterWindowViewModel Vm {
@@ -47,11 +66,50 @@ namespace NTMiner.Views {
 
         public void SwitchOwner(Window window) {
             if (Owner != window) {
+                bool isOwnerIsTopMost = window.Topmost;
+                if (isOwnerIsTopMost) {
+                    window.Topmost = false;
+                }
+                if (window != null) {
+                    window.IsVisibleChanged -= Owner_IsVisibleChanged;
+                    window.StateChanged -= Owner_StateChanged;
+                }
                 Owner = window;
-                Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
-                Instance.Top = window.Top + 10;
-                // 因为挖矿端的MainWindow也是TopMost的，所以需要激活一下通知窗口从而让通知窗口在父窗口的上面
-                this.Activate();
+                Owner.IsVisibleChanged += Owner_IsVisibleChanged;
+                Owner.StateChanged += Owner_StateChanged;
+                _instance.Left = window.Left + (window.Width - _instance.Width) / 2;
+                _instance.Top = window.Top + 10;
+                if (isOwnerIsTopMost) {
+                    window.Topmost = true;
+                    this.Topmost = true;
+                    Owner.Activate();
+                }
+                else {
+                    this.Activate();
+                }
+            }
+            else {
+                bool isOwnerIsTopMost = window.Topmost;
+                if (isOwnerIsTopMost) {
+                    Owner.Activate();
+                }
+            }
+        }
+
+        private void Owner_StateChanged(object sender, EventArgs e) {
+            Window owner = (Window)sender;
+            if (this.Owner == owner && owner.WindowState == WindowState.Minimized) {
+                this.Owner = null;
+                if (!this.IsVisible) {
+                    this.Show();
+                }
+            }
+        }
+
+        private void Owner_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            Window owner = (Window)sender;
+            if (this.Owner == owner && !owner.IsVisible) {
+                this.Owner = null;
             }
         }
 

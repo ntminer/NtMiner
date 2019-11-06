@@ -163,9 +163,9 @@ namespace NTMiner {
             }
         }
 
-        public KernelOutputFilterViewModels KernelOutputFilterVms {
+        public KernelOutputKeywordViewModels KernelOutputKeywordVms {
             get {
-                return KernelOutputFilterViewModels.Instance;
+                return KernelOutputKeywordViewModels.Instance;
             }
         }
 

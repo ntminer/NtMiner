@@ -71,7 +71,7 @@ namespace NTMiner {
 
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     ConsoleWindow.Instance.Show();
-                    NotiCenterWindow.Instance.Show();
+                    NotiCenterWindow.ShowWindow();
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()

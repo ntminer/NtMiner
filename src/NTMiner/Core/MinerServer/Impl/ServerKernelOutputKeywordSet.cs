@@ -102,6 +102,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 if (response.IsSuccess()) {
                     foreach (var item in response.Data) {
                         if (!_dicById.ContainsKey(item.GetId())) {
+                            item.SetDataLevel(DataLevel.Global);
                             _dicById.Add(item.GetId(), item);
                         }
                     }

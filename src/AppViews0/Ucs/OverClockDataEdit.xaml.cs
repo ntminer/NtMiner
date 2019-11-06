@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "超频菜谱",
                 FormType = formType,
                 IsDialogWindow = true,
-                Width = 220,
+                Width = 250,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_OverClock"
             }, ucFactory: (window) => {

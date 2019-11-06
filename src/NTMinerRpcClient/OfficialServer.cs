@@ -15,7 +15,8 @@ namespace NTMiner {
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
         public static readonly NTMinerWalletServiceFace NTMinerWalletService = NTMinerWalletServiceFace.Instance;
         public static readonly KernelOutputKeywordServiceFace KernelOutputKeywordService = KernelOutputKeywordServiceFace.Instance;
-        public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
+        public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
+        public static readonly ServerMessageServiceFace ServerMessageService = ServerMessageServiceFace.Instance;
 
         public static string SignatureSafeUrl(Uri uri) {
             // https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=
@@ -42,8 +43,8 @@ namespace NTMiner {
                         if (query != null && query.Count != 0) {
                             queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                         }
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
-                        T response = message.Result.Content.ReadAsAsync<T>().Result;
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
+                        T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
                 }
@@ -62,13 +63,13 @@ namespace NTMiner {
                             queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));
                         }
 
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}");
-                        T response = message.Result.Content.ReadAsAsync<T>().Result;
+                        Task<HttpResponseMessage> getHttpResponse = client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}");
+                        T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
                 }
                 catch (Exception e) {
-                    callback?.Invoke(default(T), e);
+                    callback?.Invoke(default, e);
                 }
             });
         }

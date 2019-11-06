@@ -232,7 +232,6 @@ namespace NTMiner {
                                     if (mineContext.KernelOutput != null) {
                                         kernelOutputId = mineContext.KernelOutput.GetId();
                                     }
-                                    Instance.KernelOutputFilterSet.Filter(kernelOutputId, ref input);
                                     ConsoleColor color = ConsoleColor.White;
                                     // 前译
                                     Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: true);

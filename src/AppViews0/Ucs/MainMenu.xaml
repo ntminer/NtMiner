@@ -26,7 +26,7 @@
                         <Path
 							Width="14"
 							Height="14"
-							Data="{StaticResource Icon_Message}"
+							Data="{StaticResource Icon_Info}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
                     </MenuItem.Icon>
@@ -161,6 +161,16 @@
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="内核输出关键字" Command="{x:Static app:AppStatic.ShowServerKernelOutputKeywords}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_KernelOutput}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="收益计算器设置" Command="{x:Static app:AppStatic.ShowCalcConfig}">
 					<MenuItem.Icon>
 						<Path
@@ -266,16 +276,6 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="图标" Command="{x:Static app:AppStatic.ShowIcons}">
-                    <MenuItem.Icon>
-                        <Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Icon}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
                 <MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
@@ -372,16 +372,6 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="图标" Command="{x:Static app:AppStatic.ShowIcons}">
-                    <MenuItem.Icon>
-                        <Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Icon}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
                 <MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
@@ -411,8 +401,18 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="退出" Command="{x:Static app:AppStatic.AppExit}">
+                </MenuItem>
+                <MenuItem Header="消息" Command="{x:Static app:AppStatic.ShowServerWorkerMessages}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Info}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="退出" Command="{x:Static app:AppStatic.AppExit}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

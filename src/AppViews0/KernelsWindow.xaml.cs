@@ -47,9 +47,7 @@ namespace NTMiner.Views {
                     });
                 });
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
-            this.Activated += (object sender, EventArgs e) => {
-                NotiCenterWindow.Instance.SwitchOwner(this);
-            };
+            NotiCenterWindow.Bind(this);
             if (!Vm.MinerProfile.IsMining) {
                 VirtualRoot.RaiseEvent(new UserActionEvent());
             }

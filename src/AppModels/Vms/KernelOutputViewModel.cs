@@ -46,8 +46,6 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public ICommand AddKernelOutputFilter { get; private set; }
-
         public ICommand AddKernelOutputTranslater { get; private set; }
 
         public ICommand ClearTranslaterKeyword { get; private set; }
@@ -55,7 +53,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public KernelOutputViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -118,11 +116,6 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new RemoveKernelOutputCommand(this.Id));
                 }));
             });
-            this.AddKernelOutputFilter = new DelegateCommand(() => {
-                new KernelOutputFilterViewModel(Guid.NewGuid()) {
-                    KernelOutputId = this.Id
-                }.Edit.Execute(FormType.Add);
-            });
             this.AddKernelOutputTranslater = new DelegateCommand(() => {
                 int sortNumber = this.KernelOutputTranslaters.Count == 0 ? 1 : this.KernelOutputTranslaters.Count + 1;
                 new KernelOutputTranslaterViewModel(Guid.NewGuid()) {
@@ -135,9 +128,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        public List<KernelOutputFilterViewModel> KernelOutputFilters {
+        public List<KernelOutputKeywordViewModel> KernelOutputKeywords {
             get {
-                return new List<KernelOutputFilterViewModel>(AppContext.Instance.KernelOutputFilterVms.GetListByKernelId(this.Id));
+                return new List<KernelOutputKeywordViewModel>(AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.Id));
             }
         }
 

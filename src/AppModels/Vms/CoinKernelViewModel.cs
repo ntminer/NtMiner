@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public CoinKernelViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

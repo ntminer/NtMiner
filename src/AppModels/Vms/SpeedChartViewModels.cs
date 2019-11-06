@@ -6,7 +6,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<int, SpeedChartViewModel> _dicByGpuIndex = new Dictionary<int, SpeedChartViewModel>();
 
         public SpeedChartViewModels() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             if (AppContext.Instance.MinerProfileVm.CoinVm != null) {

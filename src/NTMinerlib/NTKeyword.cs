@@ -6,6 +6,12 @@
         public const int NTMinerDaemonPort = 3337;
         public const int MinerStudioPort = 3338;
         public const int ControlCenterPort = 3339;
+        public const string ServerHost = "server.ntminer.com";
+        public static string OfficialServerHost { get; private set; } = ServerHost;
+        public static void SetOfficialServerHost(string host) {
+            OfficialServerHost = host;
+        }
+
         public const string WorkerMessageDbFileName = "workerMessage.litedb";
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
         public const string NTMinerServicesFileName = "NTMinerServices.exe";
@@ -26,6 +32,7 @@
         public const string UpgradeCmdParameterName = "upgrade=";
 
         public const int WorkerMessageSetCapacity = 1000;
+        public const int ServerMessageSetCapacity = 1000;
         // 矿工名中不可以包含的字符
         public static readonly char[] InvalidMinerNameChars = { '.', ' ', '-', '_' };
 

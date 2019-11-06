@@ -101,6 +101,9 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\ServerMessageEdit.xaml.cs">
+      <DependentUpon>ServerMessageEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\RemoteDesktopLogin.xaml.cs">
       <DependentUpon>RemoteDesktopLogin.xaml</DependentUpon>
     </Compile>
@@ -145,6 +148,9 @@
     </Compile>
     <Compile Include="Ucs\MessagePathIds.xaml.cs">
       <DependentUpon>MessagePathIds.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\ServerMessages.xaml.cs">
+      <DependentUpon>ServerMessages.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\WorkerMessages.xaml.cs">
       <DependentUpon>WorkerMessages.xaml</DependentUpon>
@@ -287,9 +293,6 @@
     <Compile Include="Ucs\KernelOutputTranslaterEdit.xaml.cs">
       <DependentUpon>KernelOutputTranslaterEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\KernelOutputFilterEdit.xaml.cs">
-      <DependentUpon>KernelOutputFilterEdit.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\RestartWindows.xaml.cs">
       <DependentUpon>RestartWindows.xaml</DependentUpon>
     </Compile>
@@ -358,6 +361,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Design\ServerMessageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\WorkerMessagesViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\ServerMessagesViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Design\RemoteDesktopLoginViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -407,10 +422,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\KernelOutputSelectViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Design\KernelOutputFilterViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -482,6 +493,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Ucs\ServerMessageEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ucs\RemoteDesktopLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -539,6 +554,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\MessagePathIds.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\ServerMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -783,10 +802,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelOutputTranslaterEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\KernelOutputFilterEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

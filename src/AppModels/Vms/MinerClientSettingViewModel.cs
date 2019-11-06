@@ -11,7 +11,7 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
 
         public MinerClientSettingViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

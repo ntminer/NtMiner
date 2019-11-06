@@ -66,7 +66,7 @@
     <Compile Include="AppContext.partials.GpuViewModels.cs" />
     <Compile Include="AppContext.partials.GroupViewModels.cs" />
     <Compile Include="AppContext.partials.KernelInputViewModels.cs" />
-    <Compile Include="AppContext.partials.KernelOutputFilterViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputKeywordViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputTranslaterViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputViewModels.cs" />
     <Compile Include="AppContext.partials.KernelViewModels.cs" />
@@ -110,10 +110,15 @@
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
+    <Compile Include="Vms\InnerPropertyViewModel.cs" />
+    <Compile Include="Vms\KernelOutputKeywordViewModel.cs" />
     <Compile Include="Vms\MessagePathIdsViewModel.cs" />
+    <Compile Include="Vms\MessageTypeItem`1.cs" />
     <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletViewModel.cs" />
     <Compile Include="Vms\RemoteDesktopLoginViewModel.cs" />
+    <Compile Include="Vms\ServerMessageViewModel.cs" />
+    <Compile Include="Vms\ServerMessagesViewModel.cs" />
     <Compile Include="Vms\WorkerMessagesViewModel.cs" />
     <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
@@ -153,7 +158,6 @@
     <Compile Include="Vms\KernelInputPageViewModel.cs" />
     <Compile Include="Vms\KernelInputViewModel.cs" />
     <Compile Include="Vms\KernelMenu.cs" />
-    <Compile Include="Vms\KernelOutputFilterViewModel.cs" />
     <Compile Include="Vms\KernelOutputPageViewModel.cs" />
     <Compile Include="Vms\KernelOutputTranslaterViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModel.cs" />

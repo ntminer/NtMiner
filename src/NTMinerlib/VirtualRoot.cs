@@ -1,16 +1,14 @@
-﻿using LiteDB;
-using NTMiner.Bus;
+﻿using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
 using NTMiner.Ip;
 using NTMiner.Ip.Impl;
 using NTMiner.MinerClient;
 using NTMiner.Serialization;
+using NTMiner.ServerMessage;
+using NTMiner.WorkerMessage;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -101,7 +99,8 @@ namespace NTMiner {
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
-        public static readonly WorkerMessageSet WorkerMessages;
+        public static readonly IWorkerMessageSet WorkerMessages;
+        public static readonly IServerMessageSet LocalServerMessageSet;
         #region Out
         private static IOut _out;
         /// <summary>
@@ -149,7 +148,8 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
-            WorkerMessages = new WorkerMessageSet();
+            WorkerMessages = new WorkerMessageSet(WorkerMessageDbFileFullName);
+            LocalServerMessageSet = new LocalServerMessageSet(WorkerMessageDbFileFullName);
         }
 
         #region ConvertToGuid
@@ -250,30 +250,18 @@ namespace NTMiner {
 
         #region WorkerMessage
         public static void ThisWorkerInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
-        public static void KernelWorkerInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
+            ThisWorkerMessage(provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
         }
 
         public static void ThisWorkerWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
-        public static void KernelWorkerWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
+            ThisWorkerMessage(provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
 
         public static void ThisWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.This, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
+            ThisWorkerMessage(provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void KernelWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            WorkerMessage(WorkerMessageChannel.Kernel, provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
-        private static void WorkerMessage(WorkerMessageChannel channel, string provider, WorkerMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
+        private static void ThisWorkerMessage(string provider, WorkerMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
             switch (outEnum) {
                 case OutEnum.None:
                     break;
@@ -291,8 +279,6 @@ namespace NTMiner {
                     break;
                 case OutEnum.Auto:
                     switch (messageType) {
-                        case WorkerMessageType.Undefined:
-                            break;
                         case WorkerMessageType.Info:
                             Out.ShowInfo(content);
                             break;
@@ -311,8 +297,6 @@ namespace NTMiner {
             }
             if (toConsole) {
                 switch (messageType) {
-                    case WorkerMessageType.Undefined:
-                        break;
                     case WorkerMessageType.Info:
                         Write.UserInfo(content);
                         break;
@@ -326,7 +310,7 @@ namespace NTMiner {
                         break;
                 }
             }
-            WorkerMessages.Add(channel.GetName(), provider, messageType.GetName(), content);
+            WorkerMessages.Add(WorkerMessageChannel.This.GetName(), provider, messageType.GetName(), content);
         }
         #endregion
 
@@ -346,113 +330,6 @@ namespace NTMiner {
         }
 
         #region 内部类
-        public class WorkerMessageSet : IEnumerable<IWorkerMessage> {
-            private readonly string _connectionString;
-            private readonly LinkedList<WorkerMessageData> _records = new LinkedList<WorkerMessageData>();
-
-            internal WorkerMessageSet() {
-                if (!string.IsNullOrEmpty(WorkerMessageDbFileFullName)) {
-                    _connectionString = $"filename={WorkerMessageDbFileFullName};journal=false";
-                }
-            }
-
-            public int Count {
-                get {
-                    InitOnece();
-                    return _records.Count;
-                }
-            }
-
-            public void Add(string channel, string provider, string messageType, string content) {
-                if (string.IsNullOrEmpty(_connectionString)) {
-                    return;
-                }
-                InitOnece();
-                var data = new WorkerMessageData {
-                    Id = Guid.NewGuid(),
-                    Channel = channel,
-                    Provider = provider,
-                    MessageType = messageType,
-                    Content = content,
-                    Timestamp = DateTime.Now
-                };
-                // TODO:批量持久化，异步持久化
-                List<IWorkerMessage> removes = new List<IWorkerMessage>();
-                lock (_locker) {
-                    _records.AddFirst(data);
-                    while (_records.Count > NTKeyword.WorkerMessageSetCapacity) {
-                        var toRemove = _records.Last;
-                        removes.Add(toRemove.Value);
-                        _records.RemoveLast();
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<WorkerMessageData>();
-                            col.Delete(toRemove.Value.Id);
-                        }
-                    }
-                }
-                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    var col = db.GetCollection<WorkerMessageData>();
-                    col.Insert(data);
-                }
-                RaiseEvent(new WorkerMessageAddedEvent(data, removes));
-            }
-
-            public void Clear() {
-                if (string.IsNullOrEmpty(_connectionString)) {
-                    return;
-                }
-                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    lock (_locker) {
-                        _records.Clear();
-                    }
-                    db.DropCollection(nameof(WorkerMessageData));
-                }
-                RaiseEvent(new WorkerMessageClearedEvent());
-            }
-
-            private bool _isInited = false;
-            private readonly object _locker = new object();
-
-            private void InitOnece() {
-                if (_isInited) {
-                    return;
-                }
-                Init();
-            }
-
-            private void Init() {
-                lock (_locker) {
-                    if (!_isInited) {
-                        if (string.IsNullOrEmpty(_connectionString)) {
-                            return;
-                        }
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<WorkerMessageData>();
-                            foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                                if (_records.Count < NTKeyword.WorkerMessageSetCapacity) {
-                                    _records.AddFirst(item);
-                                }
-                                else {
-                                    col.Delete(item.Id);
-                                }
-                            }
-                        }
-                        _isInited = true;
-                    }
-                }
-            }
-
-            public IEnumerator<IWorkerMessage> GetEnumerator() {
-                InitOnece();
-                return _records.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-                InitOnece();
-                return _records.GetEnumerator();
-            }
-        }
-
         private class NTMinerWebClient : WebClient {
             /// <summary>
             /// 单位秒，默认60秒

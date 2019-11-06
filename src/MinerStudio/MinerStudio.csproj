@@ -184,14 +184,14 @@
     <Resource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NTMinerServices\NTMinerServices.exe" />
-  </ItemGroup>
-  <ItemGroup>
     <ApplicationDefinition Include="..\MinerClient\App.xaml">
       <Link>App.xaml</Link>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="NTMinerServices\NTMinerServices.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />

@@ -26,7 +26,7 @@
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="360"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 		<!--上标题栏-->
@@ -37,7 +37,7 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<WrapPanel Grid.Column="0" Margin="4" VerticalAlignment="Center">
-				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+                <Image Width="20" Height="20" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 				</Image>
 				<TextBlock
 					VerticalAlignment="Center"
@@ -65,6 +65,8 @@
 							Stretch="Fill" />
 					</controls:KbButton>
 					<controls:KbButton 
+                        Width="20"
+                        Height="20"
 						ToolTip="矿机列表"
 						Command="{x:Static app:AppStatic.ShowMinerClients}" 
 						Background="Transparent" 
@@ -125,7 +127,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Width="80" Binding="{Binding CoinVm.Code}" IsReadOnly="True">
+                    <DataGridTextColumn Width="50" Binding="{Binding CoinVm.Code}" IsReadOnly="True">
                     </DataGridTextColumn>
                     <DataGridTemplateColumn Width="50" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
@@ -148,7 +150,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn Width="50" IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
                             <TextBlock Text="{Binding Data.TotalOnlineCount,Source={StaticResource proxy}}" ToolTip="总在线数"></TextBlock>
                         </DataGridTemplateColumn.Header>
@@ -187,7 +189,7 @@
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<Viewbox Stretch="Uniform" VerticalAlignment="Top">
 				<ItemsControl
-					Width="1080"
+					Width="1140"
 					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
 					MouseDown="MetroWindow_MouseDown"
@@ -200,7 +202,7 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<Border Height="160" Width="540" Background="White" Visibility="{Binding IsShow, Converter={StaticResource BoolToVisibilityConverter}}">
+							<Border Height="170" Width="570" Background="White" Visibility="{Binding IsShow, Converter={StaticResource BoolToVisibilityConverter}}">
 								<Border.ContextMenu>
 									<ContextMenu>
 										<MenuItem Header="不展示" Command="{Binding Hide}">

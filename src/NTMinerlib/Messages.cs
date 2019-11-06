@@ -1,5 +1,7 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core;
+using NTMiner.MinerClient;
+using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 
@@ -135,4 +137,41 @@ namespace NTMiner {
         }
     }
     #endregion
+
+    [MessageType(description: "记录了矿机事件后")]
+    public class WorkerMessageAddedEvent : DomainEvent<IWorkerMessage> {
+        public WorkerMessageAddedEvent(IWorkerMessage source, List<IWorkerMessage> removes) : base(source) {
+            this.Removes = removes ?? new List<IWorkerMessage>();
+        }
+
+        public List<IWorkerMessage> Removes { get; private set; }
+    }
+
+    [MessageType(description: "挖矿消息集清空后")]
+    public class WorkerMessageClearedEvent : EventBase {
+        public WorkerMessageClearedEvent() { }
+    }
+
+    [MessageType(description: "记录了服务器事件后")]
+    public class ServerMessageAddedEvent : DomainEvent<IServerMessage> {
+        public ServerMessageAddedEvent(IServerMessage source, List<IServerMessage> removes) : base(source) {
+            this.Removes = removes ?? new List<IServerMessage>();
+        }
+
+        public List<IServerMessage> Removes { get; private set; }
+    }
+
+    [MessageType(description: "服务器消息集清空后")]
+    public class ServerMessageClearedEvent : EventBase {
+        public ServerMessageClearedEvent() { }
+    }
+
+    [MessageType(description: "从服务器获取到新的服务器消息后")]
+    public class NewServerMessageLoadedEvent : EventBase {
+        public NewServerMessageLoadedEvent(LinkedList<IServerMessage> data) {
+            this.Data = data;
+        }
+
+        public LinkedList<IServerMessage> Data { get; }
+    }
 }

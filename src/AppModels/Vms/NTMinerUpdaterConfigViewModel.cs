@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
 using System;
 using System.Windows.Input;
 
@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public NTMinerUpdaterConfigViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Save = new DelegateCommand(() => {

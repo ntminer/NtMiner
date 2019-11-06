@@ -1,5 +1,7 @@
 ﻿using NTMiner.Vms;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class Icons : UserControl {
@@ -25,8 +27,15 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
         }
 
-        private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                var window = Window.GetWindow(this);
+                window.DragMove();
+            }
         }
     }
 }

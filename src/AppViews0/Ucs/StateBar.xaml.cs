@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
 
         public StateBar() {
             InitializeComponent();
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.RunOneceOnLoaded((window) => {
@@ -28,16 +28,20 @@ namespace NTMiner.Views.Ucs {
                     });
                 window.WindowContextEventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
                     action: message => {
-                        Vm.UpdateDateTime();
+                        UIThread.Execute(() => {
+                            Vm.UpdateDateTime();
+                        });
                     });
                 window.WindowContextEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
-                        DateTime now = DateTime.Now;
-                        Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
-                        var mineContext = NTMinerRoot.Instance.CurrentMineContext;
-                        if (mineContext != null) {
-                            Vm.UpdateMineTimeSpan(now - mineContext.CreatedOn);
-                        }
+                        UIThread.Execute(() => {
+                            DateTime now = DateTime.Now;
+                            Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
+                            var mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                            if (mineContext != null) {
+                                Vm.UpdateMineTimeSpan(now - mineContext.CreatedOn);
+                            }
+                        });
                     });
                 window.WindowContextEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {

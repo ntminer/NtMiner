@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
         public Action<RemoteDesktopLoginViewModel> OnOk;
 
         public RemoteDesktopLoginViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Ok = new DelegateCommand(() => {

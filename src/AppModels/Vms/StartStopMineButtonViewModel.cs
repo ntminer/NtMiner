@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
         public ICommand StopMine { get; private set; }
 
         private StartStopMineButtonViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
 #if DEBUG

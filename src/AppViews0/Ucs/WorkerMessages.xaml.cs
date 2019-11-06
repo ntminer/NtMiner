@@ -21,11 +21,5 @@ namespace NTMiner.Views.Ucs {
                 window.DragMove();
             }
         }
-
-        private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                Window.GetWindow(this).DragMove();
-            }
-        }
     }
 }

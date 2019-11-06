@@ -109,10 +109,6 @@ namespace NTMiner.Views {
         }
 
         private bool mRestoreIfMove = false;
-        private readonly ColumnDefinition _mainLayerColumn0 = new ColumnDefinition {
-            SharedSizeGroup = "column0",
-            Width = new GridLength(332)
-        };
 
         private MainWindowViewModel Vm {
             get {
@@ -132,10 +128,19 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.Stopwatch.Restart();
 #endif
-            UIThread.StartTimer();
-            ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             this.Owner = ConsoleWindow.Instance;
             InitializeComponent();
+
+            BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+
+            UIThread.StartTimer();
+            ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
+            _borderBrush = this.BorderBrush;
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
+
             this.MainArea.SelectionChanged += (sender, e) => {
                 var selectedItem = MainArea.SelectedItem;
                 if (selectedItem == TabItemToolbox) {
@@ -149,12 +154,6 @@ namespace NTMiner.Views {
                     }
                 }
             };
-            _borderBrush = this.BorderBrush;
-            NTMinerRoot.RefreshArgsAssembly.Invoke();
-            if (Design.IsInDesignMode) {
-                return;
-            }
-            ToogleLeft();
             this.IsVisibleChanged += (sender, e) => {
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
@@ -198,14 +197,9 @@ namespace NTMiner.Views {
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += (sender, e) => {
-                changeNotiCenterWindowLocation(sender, e);
-                NotiCenterWindow.Instance.SwitchOwner(this);
-            };
+            NotiCenterWindow.Bind(this, ownerIsTopMost: true);
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
-                changeNotiCenterWindowLocation(sender, e);
             };
             VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
@@ -217,14 +211,6 @@ namespace NTMiner.Views {
                     VirtualRoot.Out.ShowSuccess(message.Message, "开源矿工");
                 });
             });
-            if (DevMode.IsDevMode) {
-                this.WindowContextEventPath<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
-                    action: message => {
-                        UIThread.Execute(() => {
-                            Vm.ServerJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
-                        });
-                    });
-            }
             this.WindowContextEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -418,7 +404,7 @@ namespace NTMiner.Views {
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
 
-            mainLayer.ColumnDefinitions.Remove(_mainLayerColumn0);
+            mainLayer.ColumnDefinitions.Remove(MinerProfileColumn);
             MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
@@ -430,7 +416,9 @@ namespace NTMiner.Views {
                 BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
                 PinRotateTransform.Angle = 0;
 
-                mainLayer.ColumnDefinitions.Insert(0, _mainLayerColumn0);
+                if (!mainLayer.ColumnDefinitions.Contains(MinerProfileColumn)) {
+                    mainLayer.ColumnDefinitions.Insert(0, MinerProfileColumn);
+                }
                 MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
             }
         }
@@ -614,20 +602,6 @@ namespace NTMiner.Views {
                 Top = lMousePosition.Y - targetVertical;
 
                 DragMove();
-            }
-        }
-        #endregion
-
-        #region 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-        private void Window_Activated(object sender, EventArgs e) {
-            if (!Topmost) {
-                Topmost = true;
-            }
-        }
-
-        private void Window_Deactivated(object sender, EventArgs e) {
-            if (Topmost) {
-                Topmost = false;
             }
         }
         #endregion

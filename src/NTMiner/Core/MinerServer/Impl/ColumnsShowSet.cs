@@ -19,7 +19,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 ColumnsShowData entity = new ColumnsShowData().Update(message.Input);
-                Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
+                Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
                         VirtualRoot.RaiseEvent(new ColumnsShowAddedEvent(entity));
@@ -40,7 +40,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 ColumnsShowData entity = _dicById[message.Input.GetId()];
                 ColumnsShowData oldValue = new ColumnsShowData().Update(entity);
                 entity.Update(message.Input);
-                Server.ControlCenterService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
+                Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
                         VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(entity));
@@ -58,7 +58,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 ColumnsShowData entity = _dicById[message.EntityId];
-                Server.ControlCenterService.RemoveColumnsShowAsync(entity.Id, (response, exception) => {
+                Server.ColumnsShowService.RemoveColumnsShowAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
                         VirtualRoot.RaiseEvent(new ColumnsShowRemovedEvent(entity));
@@ -84,7 +84,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        var result = Server.ControlCenterService.GetColumnsShows();
+                        var result = Server.ColumnsShowService.GetColumnsShows();
                         foreach (var item in result) {
                             if (!_dicById.ContainsKey(item.GetId())) {
                                 _dicById.Add(item.GetId(), item);
@@ -92,7 +92,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                         if (!_dicById.ContainsKey(ColumnsShowData.PleaseSelect.Id)) {
                             _dicById.Add(ColumnsShowData.PleaseSelect.Id, ColumnsShowData.PleaseSelect);
-                            Server.ControlCenterService.AddOrUpdateColumnsShowAsync(ColumnsShowData.PleaseSelect, (response, exception) => {
+                            Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(ColumnsShowData.PleaseSelect, (response, exception) => {
                                 if (!response.IsSuccess()) {
                                     Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + response.ReadMessage(exception));
                                 }

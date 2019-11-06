@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Core {
-    public interface IKernelOutputKeyword : IDbEntity<Guid> {
+    public interface IKernelOutputKeyword : ILevelEntity<Guid> {
         Guid KernelOutputId { get; }
         string MessageType { get; }
         string Keyword { get; }

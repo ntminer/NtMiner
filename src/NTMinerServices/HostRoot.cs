@@ -4,6 +4,7 @@ using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.KernelOutputKeyword;
+using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
 using System.IO;
@@ -11,13 +12,13 @@ using System.Threading;
 
 namespace NTMiner {
     public class HostRoot : IHostRoot {
-        private static EventWaitHandle WaitHandle = new AutoResetEvent(false);
+        private static readonly EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static readonly bool IsNotOfficial = Environment.CommandLine.IndexOf(NTKeyword.NotOfficialCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1;
         public static readonly bool EnableInnerIp = Environment.CommandLine.IndexOf(NTKeyword.EnableInnerIpCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1;
         private static Mutex _sMutexApp;
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]
-        static void Main(string[] args) {
+        static void Main() {
             VirtualRoot.StartTimer();
             try {
                 Console.Title = "NTMinerServices";
@@ -145,6 +146,7 @@ namespace NTMiner {
             this.NTMinerFileSet = new NTMinerFileSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.KernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+            this.ServerMessageSet = new LocalServerMessageSet(SpecialPath.LocalDbFileFullName);
         }
 
         public IUserSet UserSet { get; private set; }
@@ -176,5 +178,7 @@ namespace NTMiner {
         public IOverClockDataSet OverClockDataSet { get; private set; }
 
         public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
+
+        public IServerMessageSet ServerMessageSet { get; private set; }
     }
 }

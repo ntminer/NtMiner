@@ -276,6 +276,17 @@ namespace NTMiner {
         public FragmentWriterViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开服务器消息编辑界面")]
+    public class ServerMessageEditCommand : Cmd {
+        public ServerMessageEditCommand(FormType formType, ServerMessageViewModel source) {
+            this.FormType = formType;
+            this.Source = source;
+        }
+
+        public FormType FormType { get; private set; }
+        public ServerMessageViewModel Source { get; private set; }
+    }
+
     [MessageType(description: "打开内核输入编辑界面")]
     public class KernelInputEditCommand : Cmd {
         public KernelInputEditCommand(FormType formType, KernelInputViewModel source) {
@@ -287,15 +298,15 @@ namespace NTMiner {
         public KernelInputViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开内核输出过滤器编辑界面")]
-    public class KernelOutputFilterEditCommand : Cmd {
-        public KernelOutputFilterEditCommand(FormType formType, KernelOutputFilterViewModel source) {
+    [MessageType(description: "打开内核输出关键字编辑界面")]
+    public class KernelOutputKeywordEditCommand : Cmd {
+        public KernelOutputKeywordEditCommand(FormType formType, KernelOutputKeywordViewModel source) {
             this.FormType = formType;
             this.Source = source;
         }
 
         public FormType FormType { get; private set; }
-        public KernelOutputFilterViewModel Source { get; private set; }
+        public KernelOutputKeywordViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开内核输出翻译器编辑界面")]

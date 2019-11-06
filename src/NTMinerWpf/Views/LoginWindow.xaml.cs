@@ -12,10 +12,8 @@ namespace NTMiner.Views {
         }
 
         public LoginWindow() {
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += changeNotiCenterWindowLocation;
             InitializeComponent();
+            NotiCenterWindow.Bind(this);
             this.PbPassword.Focus();
         }
 

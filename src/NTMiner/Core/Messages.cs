@@ -1,6 +1,5 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core.Gpus;
-using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using System;
@@ -300,10 +299,48 @@ namespace NTMiner.Core {
         public NTMinerWalletSetInitedEvent() {
         }
     }
+    #endregion
 
+    #region KernelOutputKeyword Messages
     [MessageType(description: "内核输出关键字集初始化后")]
     public class KernelOutputKeywordSetInitedEvent : EventBase {
         public KernelOutputKeywordSetInitedEvent() {
+        }
+    }
+
+    [MessageType(description: "添加内核输出关键字")]
+    public class AddKernelOutputKeywordCommand : AddEntityCommand<IKernelOutputKeyword> {
+        public AddKernelOutputKeywordCommand(IKernelOutputKeyword input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新内核输出关键字")]
+    public class UpdateKernelOutputKeywordCommand : UpdateEntityCommand<IKernelOutputKeyword> {
+        public UpdateKernelOutputKeywordCommand(IKernelOutputKeyword input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "移除内核输出关键字")]
+    public class RemoveKernelOutputKeywordCommand : RemoveEntityCommand {
+        public RemoveKernelOutputKeywordCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "添加了内核输出关键字后")]
+    public class KernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordAddedEvent(IKernelOutputKeyword source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了内核输出关键字后")]
+    public class KernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordUpdatedEvent(IKernelOutputKeyword source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "移除了内核输出关键字后")]
+    public class KernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordRemovedEvent(IKernelOutputKeyword source) : base(source) {
         }
     }
     #endregion
@@ -1002,44 +1039,6 @@ namespace NTMiner.Core {
     [MessageType(description: "移除了内核输出组后")]
     public class KernelOutputRemovedEvent : DomainEvent<IKernelOutput> {
         public KernelOutputRemovedEvent(IKernelOutput source) : base(source) {
-        }
-    }
-    #endregion
-
-    #region KernelOutputFilter Messages
-    [MessageType(description: "添加内核输出过滤器")]
-    public class AddKernelOutputFilterCommand : AddEntityCommand<IKernelOutputFilter> {
-        public AddKernelOutputFilterCommand(IKernelOutputFilter input) : base(input) {
-        }
-    }
-
-    [MessageType(description: "更新内核输出过滤器")]
-    public class UpdateKernelOutputFilterCommand : UpdateEntityCommand<IKernelOutputFilter> {
-        public UpdateKernelOutputFilterCommand(IKernelOutputFilter input) : base(input) {
-        }
-    }
-
-    [MessageType(description: "移除内核输出过滤器")]
-    public class RemoveKernelOutputFilterCommand : RemoveEntityCommand {
-        public RemoveKernelOutputFilterCommand(Guid entityId) : base(entityId) {
-        }
-    }
-
-    [MessageType(description: "添加了内核输出过滤器后")]
-    public class KernelOutputFilterAddedEvent : DomainEvent<IKernelOutputFilter> {
-        public KernelOutputFilterAddedEvent(IKernelOutputFilter source) : base(source) {
-        }
-    }
-
-    [MessageType(description: "更新了内核输出过滤器后")]
-    public class KernelOutputFilterUpdatedEvent : DomainEvent<IKernelOutputFilter> {
-        public KernelOutputFilterUpdatedEvent(IKernelOutputFilter source) : base(source) {
-        }
-    }
-
-    [MessageType(description: "移除了内核输出过滤器后")]
-    public class KernelOutputFilterRemovedEvent : DomainEvent<IKernelOutputFilter> {
-        public KernelOutputFilterRemovedEvent(IKernelOutputFilter source) : base(source) {
         }
     }
     #endregion

@@ -63,7 +63,7 @@ namespace NTMiner.Vms {
         #region ctor
         // 供设计视图使用
         public KernelViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -83,7 +83,7 @@ namespace NTMiner.Vms {
 
         public KernelViewModel(Guid id) {
             _id = id;
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Save = new DelegateCommand(() => {

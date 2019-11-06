@@ -243,8 +243,8 @@ namespace NTMiner {
             this.KernelProfileSet = new KernelProfileSet(this);
             this.GpusSpeed = new GpusSpeed(this);
             this.CoinShareSet = new CoinShareSet(this);
-            this.MineWorkSet = new MineWorkSet(this);
-            this.MinerGroupSet = new MinerGroupSet(this);
+            this.MineWorkSet = new MineWorkSet();
+            this.MinerGroupSet = new MinerGroupSet();
             this.NTMinerWalletSet = new NTMinerWalletSet();
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
@@ -323,7 +323,6 @@ namespace NTMiner {
             this.PackageSet = new PackageSet(this);
             this.KernelInputSet = new KernelInputSet(this);
             this.KernelOutputSet = new KernelOutputSet(this);
-            this.KernelOutputFilterSet = new KernelOutputFilterSet(this);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
         }
 
@@ -456,6 +455,41 @@ namespace NTMiner {
             Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
             Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
             Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+        }
+        #endregion
+
+        #region LoadServerMessages
+        private DateTime LocalServerMessageSetTimestamp {
+            get {
+                if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
+                    return value;
+                }
+                return Timestamp.UnixBaseTime;
+            }
+            set {
+                AppSettingData appSetting = new AppSettingData {
+                    Key = nameof(LocalServerMessageSetTimestamp),
+                    Value = value
+                };
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSetting));
+            }
+        }
+
+        public void LoadServerMessages() {
+            OfficialServer.ServerMessageService.GetServerMessagesAsync(LocalServerMessageSetTimestamp, (response, e) => {
+                if (response.IsSuccess() && response.Data.Count > 0) {
+                    DateTime dateTime = LocalServerMessageSetTimestamp;
+                    LinkedList<IServerMessage> data = new LinkedList<IServerMessage>();
+                    foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
+                        if (item.Timestamp > dateTime) {
+                            LocalServerMessageSetTimestamp = item.Timestamp;
+                        }
+                        data.AddLast(item);
+                        VirtualRoot.LocalServerMessageSet.AddOrUpdate(item);
+                    }
+                    VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
+                }
+            });
         }
         #endregion
 
@@ -798,8 +832,6 @@ namespace NTMiner {
         public IKernelInputSet KernelInputSet { get; private set; }
 
         public IKernelOutputSet KernelOutputSet { get; private set; }
-
-        public IKernelOutputFilterSet KernelOutputFilterSet { get; private set; }
 
         public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 

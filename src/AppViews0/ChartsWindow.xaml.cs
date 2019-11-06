@@ -1,4 +1,5 @@
 ﻿using LiveCharts;
+using NTMiner.Core;
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
@@ -32,9 +33,7 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += changeNotiCenterWindowLocation;
+            NotiCenterWindow.Bind(this);
             #region 总算力
             this.WindowContextEventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
                 action: message => {

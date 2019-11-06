@@ -1,30 +1,50 @@
 ﻿using NTMiner.MinerClient;
 using System;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class WorkerMessageViewModel : ViewModelBase, IWorkerMessage {
         private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
-        private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Waring"];
+        private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Warn"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
-        private static readonly SolidColorBrush IconFillColor = (SolidColorBrush)Application.Current.Resources["IconFillColor"];
+        private static readonly SolidColorBrush InfoColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
         private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
+
+        public static StreamGeometry GetIcon(WorkerMessageType messageType) {
+            switch (messageType) {
+                case WorkerMessageType.Info:
+                    return InfoIcon;
+                case WorkerMessageType.Warn:
+                    return WarnIcon;
+                case WorkerMessageType.Error:
+                    return ErrorIcon;
+                default:
+                    return null;
+            }
+        }
+
+        public static SolidColorBrush GetIconFill(WorkerMessageType messageType) {
+            switch (messageType) {
+                case WorkerMessageType.Info:
+                    return InfoColor;
+                case WorkerMessageType.Warn:
+                    return WarnColor;
+                case WorkerMessageType.Error:
+                    return WpfUtil.RedBrush;
+                default:
+                    return WpfUtil.BlackBrush;
+            }
+        }
 
         private readonly IWorkerMessage _data;
         private readonly WorkerMessageChannel _channel;
-        private readonly WorkerMessageType _messageType;
-
-        public ICommand ViewDetails { get; private set; }
+        private readonly WorkerMessageType _messageTypeEnum;
 
         public WorkerMessageViewModel(IWorkerMessage data) {
             _data = data;
-            _data.MessageType.TryParse(out _messageType);
-            _data.Channel.TryParse(out _channel);
-            this.ViewDetails = new DelegateCommand(() => {
-
-            });
+            data.MessageType.TryParse(out _messageTypeEnum);
+            data.Channel.TryParse(out _channel);
         }
 
         public WorkerMessageChannel ChannelEnum {
@@ -32,7 +52,7 @@ namespace NTMiner.Vms {
         }
 
         public WorkerMessageType MessageTypeEnum {
-            get { return _messageType; }
+            get { return _messageTypeEnum; }
         }
 
         public Guid GetId() {
@@ -74,61 +94,19 @@ namespace NTMiner.Vms {
 
         public string MessageTypeText {
             get {
-                if (_messageType != WorkerMessageType.Undefined) {
-                    return _messageType.GetDescription();
-                }
-                return "未知";
+                return _messageTypeEnum.GetDescription();
             }
         }
 
         public StreamGeometry MessageTypeIcon {
             get {
-                switch (_messageType) {
-                    case WorkerMessageType.Undefined:
-                        return null;
-                    case WorkerMessageType.Info:
-                        return InfoIcon;
-                    case WorkerMessageType.Warn:
-                        return WarnIcon;
-                    case WorkerMessageType.Error:
-                        return ErrorIcon;
-                    default:
-                        return null;
-                }
+                return GetIcon(_messageTypeEnum);
             }
         }
 
         public SolidColorBrush IconFill {
             get {
-                switch (_messageType) {
-                    case WorkerMessageType.Undefined:
-                        return WpfUtil.BlackBrush;
-                    case WorkerMessageType.Info:
-                        return IconFillColor;
-                    case WorkerMessageType.Warn:
-                        return WarnColor;
-                    case WorkerMessageType.Error:
-                        return WpfUtil.RedBrush;
-                    default:
-                        return WpfUtil.BlackBrush;
-                }
-            }
-        }
-
-        public SolidColorBrush Foreground {
-            get {
-                switch (_messageType) {
-                    case WorkerMessageType.Undefined:
-                        return WpfUtil.BlackBrush;
-                    case WorkerMessageType.Info:
-                        return WpfUtil.BlackBrush;
-                    case WorkerMessageType.Warn:
-                        return WarnColor;
-                    case WorkerMessageType.Error:
-                        return WpfUtil.RedBrush;
-                    default:
-                        return WpfUtil.BlackBrush;
-                }
+                return GetIconFill(_messageTypeEnum);
             }
         }
 
@@ -146,16 +124,16 @@ namespace NTMiner.Vms {
 
         public string TimestampText {
             get {
-                int offDay = (DateTime.Now.Date - _data.Timestamp.Date).Days;
+                int offDay = (DateTime.Now.Date - Timestamp.Date).Days;
                 switch (offDay) {
                     case 0:
-                        return $"今天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"今天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 1:
-                        return $"昨天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"昨天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     case 2:
-                        return $"前天 {_data.Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
+                        return $"前天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
                     default:
-                        return _data.Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
+                        return Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
                 }
             }
         }

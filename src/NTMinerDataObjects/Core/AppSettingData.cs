@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTMiner.MinerServer {
+namespace NTMiner.Core {
     public class AppSettingData : IAppSetting, IGetSignData {
         public AppSettingData() { }
 

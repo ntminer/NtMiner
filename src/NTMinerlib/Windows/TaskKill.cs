@@ -12,7 +12,10 @@ namespace NTMiner.Windows {
                 if (string.IsNullOrEmpty(processName)) {
                     return;
                 }
-                string args = $"/F /T /IM {processName}.exe";
+                if (!processName.EndsWith(".exe")) {
+                    processName += ".exe";
+                }
+                string args = $"/F /T /IM {processName}";
                 Cmd.RunClose("taskkill", args, waitForExit);
                 Write.DevDebug(args);
             }

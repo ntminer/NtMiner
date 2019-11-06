@@ -43,11 +43,13 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="Hosts.cs" />
     <Compile Include="KernelOutputKeyword\IKernelOutputKeywordSet.cs" />
     <Compile Include="KernelOutputKeyword\LocalKernelOutputKeywordSet.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
-    <Compile Include="WorkerMessage.cs" />
+    <Compile Include="ServerMessage\IServerMessageSet.cs" />
+    <Compile Include="ServerMessage\LocalServerMessageSet.cs" />
     <Compile Include="Ip\ILocalIpSet.cs" />
     <Compile Include="Ip\Impl\LocalIpSet.cs" />
     <Compile Include="Ip\Util.cs" />
@@ -81,6 +83,8 @@
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
     <Compile Include="Windows\TaskKill.cs" />
+    <Compile Include="WorkerMessage\IWorkerMessageSet.cs" />
+    <Compile Include="WorkerMessage\WorkerMessageSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

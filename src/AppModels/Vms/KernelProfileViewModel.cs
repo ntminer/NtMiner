@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
         public KernelProfileViewModel(KernelViewModel kernelVm, IKernelProfile kernelProfile) {
             _kernelVm = kernelVm;
             _kernelProfile = kernelProfile;
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.CancelDownload = new DelegateCommand(() => {

@@ -56,7 +56,6 @@
     <Compile Include="Core\IKernelInput.cs" />
     <Compile Include="Core\IInputSegment.cs" />
     <Compile Include="Core\IKernelOutput.cs" />
-    <Compile Include="Core\IKernelOutputFilter.cs" />
     <Compile Include="Core\IKernelOutputTranslater.cs" />
     <Compile Include="Core\IPackage.cs" />
     <Compile Include="Core\IPoolKernel.cs" />
@@ -67,7 +66,6 @@
     <Compile Include="Core\KernelInputData.cs" />
     <Compile Include="Core\InputSegment.cs" />
     <Compile Include="Core\KernelOutputData.cs" />
-    <Compile Include="Core\KernelOutputFilterData.cs" />
     <Compile Include="Core\KernelOutputTranslaterData.cs" />
     <Compile Include="Core\PackageData.cs" />
     <Compile Include="Core\PoolKernelData.cs" />
@@ -86,10 +84,14 @@
     <Compile Include="MinerClient\ILocalIp.cs" />
     <Compile Include="MinerClient\LocalIpData.cs" />
     <Compile Include="MinerServer\INTMinerWallet.cs" />
+    <Compile Include="MinerServer\IServerMessage.cs" />
     <Compile Include="MinerServer\KernelOutputKeywordsRequest.cs" />
     <Compile Include="MinerServer\NTMinerWalletData.cs" />
     <Compile Include="MinerServer\NTMinerWalletsRequest.cs" />
-    <Compile Include="WorkerMessageChannel.cs" />
+    <Compile Include="MinerClient\WorkerMessageChannel.cs" />
+    <Compile Include="MinerServer\ServerMessageData.cs" />
+    <Compile Include="MinerServer\ServerMessagesRequest.cs" />
+    <Compile Include="MinerServer\ServerMessageType.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
     <Compile Include="Core\IKernelOutputKeyword.cs" />
     <Compile Include="MinerClient\IWorkerMessage.cs" />
@@ -112,7 +114,7 @@
     <Compile Include="IShowMainWindow.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="DataRequest`1.cs" />
-    <Compile Include="MinerServer\AppSettingData.cs" />
+    <Compile Include="Core\AppSettingData.cs" />
     <Compile Include="MinerServer\AppSettingRequest.cs" />
     <Compile Include="MinerServer\AppSettingsRequest.cs" />
     <Compile Include="MinerServer\ExportMineWorkRequest.cs" />
@@ -183,7 +185,7 @@
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="Core\WalletData.cs" />
-    <Compile Include="WorkerMessageType.cs" />
+    <Compile Include="MinerClient\WorkerMessageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
