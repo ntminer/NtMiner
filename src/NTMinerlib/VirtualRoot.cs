@@ -12,6 +12,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Linq;
 
 namespace NTMiner {
     /// <summary>
@@ -150,6 +151,29 @@ namespace NTMiner {
             SEventBus = new DirectEventBus(SMessageDispatcher);
             LocalMessages = new LocalMessageSet(LocalMessageDbFileFullName);
             LocalServerMessageSet = new LocalServerMessageSet(LocalMessageDbFileFullName);
+        }
+
+        private static string _appName = null;
+        public static string AppName {
+            get {
+                if (_appName != null) {
+                    return _appName;
+                }
+                Assembly mainAssembly = Assembly.GetEntryAssembly();
+                if (mainAssembly == null) {
+                    _appName = "未说明";
+                }
+                else {
+                    var attr = mainAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), inherit: false).FirstOrDefault();
+                    if (attr != null) {
+                        _appName = ((AssemblyTitleAttribute)attr).Title;
+                    }
+                    else {
+                        _appName = "未说明";
+                    }
+                }
+                return _appName;
+            }
         }
 
         #region ConvertToGuid

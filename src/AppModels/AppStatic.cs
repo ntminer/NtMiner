@@ -385,8 +385,7 @@ namespace NTMiner {
         #region AppName CurrentVersion VersionTag VersionFullName
         public static string AppName {
             get {
-                Assembly mainAssembly = Assembly.GetEntryAssembly();
-                return ((AssemblyTitleAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), inherit: false).First()).Title;
+                return VirtualRoot.AppName;
             }
         }
 

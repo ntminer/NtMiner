@@ -121,7 +121,7 @@ namespace NTMiner {
                         #endregion
                     }
                 }
-                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "启动");
+                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"启动{VirtualRoot.AppName}");
             });
         }
 
@@ -498,7 +498,7 @@ namespace NTMiner {
             if (_currentMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }
-            VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "退出");
+            VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");
         }
         #endregion
 
