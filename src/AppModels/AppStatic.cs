@@ -66,7 +66,7 @@ namespace NTMiner {
                                         callback?.Invoke();
                                     }
                                     else {
-                                        VirtualRoot.ThisWorkerError(nameof(AppStatic), message, toConsole: true);
+                                        VirtualRoot.ThisLocalError(nameof(AppStatic), message, toConsole: true);
                                         callback?.Invoke();
                                     }
                                 }
@@ -536,7 +536,7 @@ namespace NTMiner {
         }
         #endregion
 
-        public static ICommand ShowServerWorkerMessages { get; private set; } = new DelegateCommand(() => {
+        public static ICommand ShowServerMessages { get; private set; } = new DelegateCommand(() => {
 
         });
 

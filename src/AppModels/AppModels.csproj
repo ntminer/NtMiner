@@ -119,7 +119,7 @@
     <Compile Include="Vms\RemoteDesktopLoginViewModel.cs" />
     <Compile Include="Vms\ServerMessageViewModel.cs" />
     <Compile Include="Vms\ServerMessagesViewModel.cs" />
-    <Compile Include="Vms\WorkerMessagesViewModel.cs" />
+    <Compile Include="Vms\LocalMessagesViewModel.cs" />
     <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
@@ -204,7 +204,7 @@
     <Compile Include="Vms\VirtualMemoryViewModel.cs" />
     <Compile Include="Vms\WalletSelectViewModel.cs" />
     <Compile Include="Vms\WalletViewModel.cs" />
-    <Compile Include="Vms\WorkerMessageViewModel.cs" />
+    <Compile Include="Vms\LocalMessageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">

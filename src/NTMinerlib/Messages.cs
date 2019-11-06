@@ -138,18 +138,18 @@ namespace NTMiner {
     }
     #endregion
 
-    [MessageType(description: "记录了矿机事件后")]
-    public class WorkerMessageAddedEvent : DomainEvent<IWorkerMessage> {
-        public WorkerMessageAddedEvent(IWorkerMessage source, List<IWorkerMessage> removes) : base(source) {
-            this.Removes = removes ?? new List<IWorkerMessage>();
+    [MessageType(description: "记录了本地事件后")]
+    public class LocalMessageAddedEvent : DomainEvent<ILocalMessage> {
+        public LocalMessageAddedEvent(ILocalMessage source, List<ILocalMessage> removes) : base(source) {
+            this.Removes = removes ?? new List<ILocalMessage>();
         }
 
-        public List<IWorkerMessage> Removes { get; private set; }
+        public List<ILocalMessage> Removes { get; private set; }
     }
 
-    [MessageType(description: "挖矿消息集清空后")]
-    public class WorkerMessageClearedEvent : EventBase {
-        public WorkerMessageClearedEvent() { }
+    [MessageType(description: "本地消息集清空后")]
+    public class LocalMessageClearedEvent : EventBase {
+        public LocalMessageClearedEvent() { }
     }
 
     [MessageType(description: "记录了服务器事件后")]

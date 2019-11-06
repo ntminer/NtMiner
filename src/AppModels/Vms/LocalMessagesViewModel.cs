@@ -5,15 +5,15 @@
     using System.Linq;
     using System.Windows.Input;
 
-    public class WorkerMessagesViewModel : ViewModelBase {
-        private ObservableCollection<WorkerMessageViewModel> _workerMessageVms;
-        private ObservableCollection<WorkerMessageViewModel> _queyResults;
-        private EnumItem<WorkerMessageChannel> _selectedChannel;
+    public class LocalMessagesViewModel : ViewModelBase {
+        private ObservableCollection<LocalMessageViewModel> _localMessageVms;
+        private ObservableCollection<LocalMessageViewModel> _queyResults;
+        private EnumItem<LocalMessageChannel> _selectedChannel;
         private string _keyword;
-        private readonly Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>> _count = new Dictionary<EnumItem<WorkerMessageChannel>, Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>>();
+        private readonly Dictionary<EnumItem<LocalMessageChannel>, Dictionary<LocalMessageType, MessageTypeItem<LocalMessageType>>> _count = new Dictionary<EnumItem<LocalMessageChannel>, Dictionary<LocalMessageType, MessageTypeItem<LocalMessageType>>>();
 
         private void UpdateChannelAll() {
-            var channelAll = WorkerMessageChannel.Unspecified.GetEnumItem();
+            var channelAll = LocalMessageChannel.Unspecified.GetEnumItem();
             if (!_count.ContainsKey(channelAll)) {
                 return;
             }
@@ -24,23 +24,23 @@
         }
 
 
-        public IEnumerable<EnumItem<WorkerMessageChannel>> WorkerMessageChannelEnumItems {
+        public IEnumerable<EnumItem<LocalMessageChannel>> LocalMessageChannelEnumItems {
             get {
                 // 只有挖矿端有This和Kernel两个频道
                 if (VirtualRoot.IsMinerClient) {
-                    foreach (var item in EnumItem<WorkerMessageChannel>.GetEnumItems()) {
+                    foreach (var item in EnumItem<LocalMessageChannel>.GetEnumItems()) {
                         yield return item;
                     }
                 }
                 else {
-                    yield return WorkerMessageChannel.This.GetEnumItem();
+                    yield return LocalMessageChannel.This.GetEnumItem();
                 }
             }
         }
 
-        public IEnumerable<MessageTypeItem<WorkerMessageType>> MessageTypeItems {
+        public IEnumerable<MessageTypeItem<LocalMessageType>> MessageTypeItems {
             get {
-                Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>> values = _count[SelectedChannel];
+                Dictionary<LocalMessageType, MessageTypeItem<LocalMessageType>> values = _count[SelectedChannel];
                 return values.Values;
             }
         }
@@ -48,23 +48,23 @@
         public ICommand ClearKeyword { get; private set; }
         public ICommand Clear { get; private set; }
 
-        public WorkerMessagesViewModel() {
+        public LocalMessagesViewModel() {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            foreach (var messageChannel in WorkerMessageChannelEnumItems) {
-                var values = new Dictionary<WorkerMessageType, MessageTypeItem<WorkerMessageType>>();
-                foreach (var messageType in EnumItem<WorkerMessageType>.GetEnumItems()) {
-                    values.Add(messageType.Value, new MessageTypeItem<WorkerMessageType>(messageType, WorkerMessageViewModel.GetIcon, WorkerMessageViewModel.GetIconFill, RefreshQueryResults));
+            foreach (var messageChannel in LocalMessageChannelEnumItems) {
+                var values = new Dictionary<LocalMessageType, MessageTypeItem<LocalMessageType>>();
+                foreach (var messageType in EnumItem<LocalMessageType>.GetEnumItems()) {
+                    values.Add(messageType.Value, new MessageTypeItem<LocalMessageType>(messageType, LocalMessageViewModel.GetIcon, LocalMessageViewModel.GetIconFill, RefreshQueryResults));
                 }
                 _count.Add(messageChannel, values);
             }
-            var data = VirtualRoot.WorkerMessages.Select(a => new WorkerMessageViewModel(a));
-            _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>(data);
-            foreach (var item in _workerMessageVms) {
+            var data = VirtualRoot.LocalMessages.Select(a => new LocalMessageViewModel(a));
+            _localMessageVms = new ObservableCollection<LocalMessageViewModel>(data);
+            foreach (var item in _localMessageVms) {
                 _count[item.ChannelEnum.GetEnumItem()][item.MessageTypeEnum].Count++;
             }
-            _selectedChannel = WorkerMessageChannelEnumItems.FirstOrDefault();
+            _selectedChannel = LocalMessageChannelEnumItems.FirstOrDefault();
             RefreshQueryResults();
             UpdateChannelAll();
 
@@ -73,13 +73,13 @@
             });
             this.Clear = new DelegateCommand(() => {
                 this.ShowDialog(new DialogWindowViewModel(message: "确定清空吗？", title: "确认", onYes: () => {
-                    VirtualRoot.WorkerMessages.Clear();
+                    VirtualRoot.LocalMessages.Clear();
                 }));
             });
-            VirtualRoot.BuildEventPath<WorkerMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<LocalMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        _workerMessageVms = new ObservableCollection<WorkerMessageViewModel>();
+                        _localMessageVms = new ObservableCollection<LocalMessageViewModel>();
                         foreach (var item in _count.Values) {
                             foreach (var key in item.Keys) {
                                 item[key].Count = 0;
@@ -88,15 +88,15 @@
                         RefreshQueryResults();
                     });
                 });
-            VirtualRoot.BuildEventPath<WorkerMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        var vm = new WorkerMessageViewModel(message.Source);
-                        _workerMessageVms.Insert(0, vm);
+                        var vm = new LocalMessageViewModel(message.Source);
+                        _localMessageVms.Insert(0, vm);
                         foreach (var item in message.Removes) {
-                            var toRemove = _workerMessageVms.FirstOrDefault(a => a.Id == item.Id);
+                            var toRemove = _localMessageVms.FirstOrDefault(a => a.Id == item.Id);
                             if (toRemove != null) {
-                                _workerMessageVms.Remove(toRemove);
+                                _localMessageVms.Remove(toRemove);
                             }
                         }
                         int removedCount = message.Removes.Count(a => a.MessageType == vm.MessageTypeEnum.GetName());
@@ -107,7 +107,7 @@
                             OnPropertyChanged($"Is{vm.MessageTypeEnum.GetName()}CountVisible");
                         }
 
-                        if (_queyResults != _workerMessageVms) {
+                        if (_queyResults != _localMessageVms) {
                             #region 更新QueryResults
                             bool isSelectedChannel = SelectedChannel.Value == vm.ChannelEnum;
                             bool isMessageTypeChecked = false;
@@ -135,7 +135,7 @@
             }
         }
 
-        public EnumItem<WorkerMessageChannel> SelectedChannel {
+        public EnumItem<LocalMessageChannel> SelectedChannel {
             get => _selectedChannel;
             set {
                 if (_selectedChannel != value) {
@@ -147,7 +147,7 @@
             }
         }
 
-        public ObservableCollection<WorkerMessageViewModel> QueryResults {
+        public ObservableCollection<LocalMessageViewModel> QueryResults {
             get {
                 return _queyResults;
             }
@@ -155,13 +155,13 @@
 
         private void RefreshQueryResults() {
             bool isCheckedAllMessageType = _count[SelectedChannel].Values.All(a => a.IsChecked);
-            if (SelectedChannel.Value == WorkerMessageChannel.Unspecified && isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
-                _queyResults = _workerMessageVms;
+            if (SelectedChannel.Value == LocalMessageChannel.Unspecified && isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
+                _queyResults = _localMessageVms;
                 OnPropertyChanged(nameof(QueryResults));
                 return;
             }
-            var query = _workerMessageVms.AsQueryable();
-            if (SelectedChannel.Value != WorkerMessageChannel.Unspecified) {
+            var query = _localMessageVms.AsQueryable();
+            if (SelectedChannel.Value != LocalMessageChannel.Unspecified) {
                 query = query.Where(a => a.Channel == SelectedChannel.Value.GetName());
             }
             if (!isCheckedAllMessageType) {
@@ -170,7 +170,7 @@
             if (!string.IsNullOrEmpty(Keyword)) {
                 query = query.Where(a => a.Content != null && a.Content.Contains(Keyword));
             }
-            _queyResults = new ObservableCollection<WorkerMessageViewModel>(query);
+            _queyResults = new ObservableCollection<LocalMessageViewModel>(query);
             OnPropertyChanged(nameof(QueryResults));
         }
     }

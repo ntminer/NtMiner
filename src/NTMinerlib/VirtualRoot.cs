@@ -5,7 +5,7 @@ using NTMiner.Ip.Impl;
 using NTMiner.MinerClient;
 using NTMiner.Serialization;
 using NTMiner.ServerMessage;
-using NTMiner.WorkerMessage;
+using NTMiner.LocalMessage;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -19,13 +19,13 @@ namespace NTMiner {
     /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
-        public static string WorkerMessageDbFileFullName {
+        public static string LocalMessageDbFileFullName {
             get {
                 if (IsMinerClient) {
-                    return Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.WorkerMessageDbFileName);
+                    return Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalMessageDbFileName);
                 }
                 if (IsMinerStudio) {
-                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.WorkerMessageDbFileName);
+                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalMessageDbFileName);
                 }
                 return string.Empty;
             }
@@ -99,7 +99,7 @@ namespace NTMiner {
         public static readonly IMessageDispatcher SMessageDispatcher;
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
-        public static readonly IWorkerMessageSet WorkerMessages;
+        public static readonly ILocalMessageSet LocalMessages;
         public static readonly IServerMessageSet LocalServerMessageSet;
         #region Out
         private static IOut _out;
@@ -148,8 +148,8 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
-            WorkerMessages = new WorkerMessageSet(WorkerMessageDbFileFullName);
-            LocalServerMessageSet = new LocalServerMessageSet(WorkerMessageDbFileFullName);
+            LocalMessages = new LocalMessageSet(LocalMessageDbFileFullName);
+            LocalServerMessageSet = new LocalServerMessageSet(LocalMessageDbFileFullName);
         }
 
         #region ConvertToGuid
@@ -248,20 +248,20 @@ namespace NTMiner {
         }
         #endregion
 
-        #region WorkerMessage
-        public static void ThisWorkerInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisWorkerMessage(provider, WorkerMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
+        #region LocalMessage
+        public static void ThisLocalInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            ThisLocalMessage(provider, LocalMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ThisWorkerWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisWorkerMessage(provider, WorkerMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
+        public static void ThisLocalWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            ThisLocalMessage(provider, LocalMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ThisWorkerError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisWorkerMessage(provider, WorkerMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
+        public static void ThisLocalError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            ThisLocalMessage(provider, LocalMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        private static void ThisWorkerMessage(string provider, WorkerMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
+        private static void ThisLocalMessage(string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
             switch (outEnum) {
                 case OutEnum.None:
                     break;
@@ -279,13 +279,13 @@ namespace NTMiner {
                     break;
                 case OutEnum.Auto:
                     switch (messageType) {
-                        case WorkerMessageType.Info:
+                        case LocalMessageType.Info:
                             Out.ShowInfo(content);
                             break;
-                        case WorkerMessageType.Warn:
+                        case LocalMessageType.Warn:
                             Out.ShowWarn(content, delaySeconds: 4);
                             break;
-                        case WorkerMessageType.Error:
+                        case LocalMessageType.Error:
                             Out.ShowError(content, delaySeconds: 4);
                             break;
                         default:
@@ -297,20 +297,20 @@ namespace NTMiner {
             }
             if (toConsole) {
                 switch (messageType) {
-                    case WorkerMessageType.Info:
+                    case LocalMessageType.Info:
                         Write.UserInfo(content);
                         break;
-                    case WorkerMessageType.Warn:
+                    case LocalMessageType.Warn:
                         Write.UserWarn(content);
                         break;
-                    case WorkerMessageType.Error:
+                    case LocalMessageType.Error:
                         Write.UserError(content);
                         break;
                     default:
                         break;
                 }
             }
-            WorkerMessages.Add(WorkerMessageChannel.This.GetName(), provider, messageType.GetName(), content);
+            LocalMessages.Add(LocalMessageChannel.This.GetName(), provider, messageType.GetName(), content);
         }
         #endregion
 

@@ -152,8 +152,8 @@
     <Compile Include="Ucs\ServerMessages.xaml.cs">
       <DependentUpon>ServerMessages.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\WorkerMessages.xaml.cs">
-      <DependentUpon>WorkerMessages.xaml</DependentUpon>
+    <Compile Include="Ucs\LocalMessages.xaml.cs">
+      <DependentUpon>LocalMessages.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
       <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
@@ -362,7 +362,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\WorkerMessagesViewModel.xaml">
+    <Page Include="Design\LocalMessagesViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -558,7 +558,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\WorkerMessages.xaml">
+    <Page Include="Ucs\LocalMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

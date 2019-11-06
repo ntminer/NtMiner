@@ -91,13 +91,13 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (VirtualRoot.IsLTWin10) {
-                            VirtualRoot.ThisWorkerWarn(nameof(App), AppStatic.LowWinMessage, toConsole: true);
+                            VirtualRoot.ThisLocalWarn(nameof(App), AppStatic.LowWinMessage, toConsole: true);
                         }
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                            VirtualRoot.ThisWorkerError(nameof(App), "没有矿卡或矿卡未驱动。", toConsole: true);
+                            VirtualRoot.ThisLocalError(nameof(App), "没有矿卡或矿卡未驱动。", toConsole: true);
                         }
                         if (NTMinerRoot.Instance.CoinSet.Count == 0) {
-                            VirtualRoot.ThisWorkerError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
+                            VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
@@ -263,10 +263,10 @@ namespace NTMiner {
             SwitchRadeonGpu.SwitchRadeonGpu.Run(on, (isSuccess, e) => {
                 if (isSuccess) {
                     if (on) {
-                        VirtualRoot.ThisWorkerInfo(nameof(App), "开启A卡计算模式成功", OutEnum.Success);
+                        VirtualRoot.ThisLocalInfo(nameof(App), "开启A卡计算模式成功", OutEnum.Success);
                     }
                     else {
-                        VirtualRoot.ThisWorkerInfo(nameof(App), "关闭A卡计算模式成功", OutEnum.Success);
+                        VirtualRoot.ThisLocalInfo(nameof(App), "关闭A卡计算模式成功", OutEnum.Success);
                     }
                 }
                 else if (e != null) {
@@ -274,10 +274,10 @@ namespace NTMiner {
                 }
                 else {
                     if (on) {
-                        VirtualRoot.ThisWorkerError(nameof(App), "开启A卡计算模式失败", OutEnum.Warn);
+                        VirtualRoot.ThisLocalError(nameof(App), "开启A卡计算模式失败", OutEnum.Warn);
                     }
                     else {
-                        VirtualRoot.ThisWorkerError(nameof(App), "关闭A卡计算模式失败", OutEnum.Warn);
+                        VirtualRoot.ThisLocalError(nameof(App), "关闭A卡计算模式失败", OutEnum.Warn);
                     }
                 }
             });

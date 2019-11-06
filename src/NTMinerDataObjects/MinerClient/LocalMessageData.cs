@@ -1,8 +1,8 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public class WorkerMessageData : IWorkerMessage, IDbEntity<Guid> {
-        public WorkerMessageData() { }
+    public class LocalMessageData : ILocalMessage, IDbEntity<Guid> {
+        public LocalMessageData() { }
 
         public Guid GetId() {
             return this.Id;

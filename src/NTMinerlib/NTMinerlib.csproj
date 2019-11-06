@@ -83,8 +83,8 @@
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
     <Compile Include="Windows\TaskKill.cs" />
-    <Compile Include="WorkerMessage\IWorkerMessageSet.cs" />
-    <Compile Include="WorkerMessage\WorkerMessageSet.cs" />
+    <Compile Include="LocalMessage\ILocalMessageSet.cs" />
+    <Compile Include="LocalMessage\LocalMessageSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
