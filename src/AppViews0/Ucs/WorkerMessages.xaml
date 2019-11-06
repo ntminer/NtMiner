@@ -140,6 +140,7 @@
                     Margin="4 0 0 0"
                     Height="20"
 			        Padding="2"
+                    Visibility="{x:Static app:AppStatic.IsMinerClientVisible}"
                     Background="Transparent"
                     Cursor="Hand"
 			        CornerRadius="2">

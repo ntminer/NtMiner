@@ -200,9 +200,6 @@
     <Compile Include="Ucs\CoinKernelSelect.xaml.cs">
       <DependentUpon>CoinKernelSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\MessageCenter.xaml.cs">
-      <DependentUpon>MessageCenter.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\MinerClientSetting.xaml.cs">
       <DependentUpon>MinerClientSetting.xaml</DependentUpon>
     </Compile>
@@ -626,10 +623,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\CoinKernelSelect.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MessageCenter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -2548,7 +2548,16 @@
                         <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
                         <ColumnDefinition Width="1000"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <uc:MessageCenter Grid.Column="0"></uc:MessageCenter>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"></RowDefinition>
+                            <RowDefinition Height="2*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <uc:WorkerMessages>
+                        </uc:WorkerMessages>
+                        <GridSplitter Grid.Row="0" Height="6" BorderThickness="0 1 0 1" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
+                        <uc:ServerMessages Grid.Row="1"></uc:ServerMessages>
+                    </Grid>
                     <ScrollViewer 
                         Grid.Column="1" 
                         Style="{StaticResource LeftBarScroolView}"
