@@ -53,7 +53,7 @@
             foreach (var item in _workerMessageVms) {
                 _count[item.ChannelEnum.GetEnumItem()][item.MessageTypeEnum].Count++;
             }
-            _selectedChannel = WorkerMessageChannel.Unspecified.GetEnumItem();
+            _selectedChannel = WorkerMessageChannelEnumItems.FirstOrDefault();
             RefreshQueryResults();
             UpdateChannelAll();
 
