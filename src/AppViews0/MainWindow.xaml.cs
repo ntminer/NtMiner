@@ -197,24 +197,9 @@ namespace NTMiner.Views {
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += (sender, e) => {
-                // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-                if (!Topmost) {
-                    Topmost = true;
-                }
-                changeNotiCenterWindowLocation(sender, e);
-                NotiCenterWindow.Instance.SwitchOwner(this);
-            };
-            this.Deactivated += (sender, e) => {
-                // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-                if (Topmost) {
-                    Topmost = false;
-                }
-            };
+            NotiCenterWindow.Bind(this, ownerIsTopMost: true);
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
-                changeNotiCenterWindowLocation(sender, e);
             };
             VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {

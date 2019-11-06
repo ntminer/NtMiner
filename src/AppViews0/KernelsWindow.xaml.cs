@@ -47,14 +47,7 @@ namespace NTMiner.Views {
                     });
                 });
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += (object sender, EventArgs e) => {
-                changeNotiCenterWindowLocation(sender, e);
-                NotiCenterWindow.Instance.SwitchOwner(this);
-            };
-            this.LocationChanged += (sender, e) => {
-                changeNotiCenterWindowLocation(sender, e);
-            };
+            NotiCenterWindow.Bind(this);
             if (!Vm.MinerProfile.IsMining) {
                 VirtualRoot.RaiseEvent(new UserActionEvent());
             }

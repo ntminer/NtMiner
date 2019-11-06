@@ -48,9 +48,7 @@ namespace NTMiner.Views {
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                 });
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += changeNotiCenterWindowLocation;
+            NotiCenterWindow.Bind(this);
             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
             Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow);
         }

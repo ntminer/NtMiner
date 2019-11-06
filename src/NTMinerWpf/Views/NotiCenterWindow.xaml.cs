@@ -18,11 +18,34 @@ namespace NTMiner.Views {
             }
         }
 
-        public static EventHandler CreateNotiCenterWindowLocationManager(Window window) {
-            return (sender, e) => {
-                Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
-                Instance.Top = window.Top + 10;
+        public static void Bind(Window owner, bool ownerIsTopMost = false) {
+            EventHandler handler = (sender, e) => {
+                Instance.Left = owner.Left + (owner.Width - Instance.Width) / 2;
+                Instance.Top = owner.Top + 10;
             };
+            if (ownerIsTopMost) {
+                owner.Activated += (sender, e) => {
+                    // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                    if (!owner.Topmost) {
+                        owner.Topmost = true;
+                    }
+                    handler(sender, e);
+                    Instance.SwitchOwner(owner);
+                };
+                owner.Deactivated += (sender, e) => {
+                    // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                    if (owner.Topmost) {
+                        owner.Topmost = false;
+                    }
+                };
+            }
+            else {
+                owner.Activated += (sender, e) => {
+                    handler(sender, e);
+                    Instance.SwitchOwner(owner);
+                };
+            }
+            owner.LocationChanged += handler;
         }
 
         public NotiCenterWindowViewModel Vm {
