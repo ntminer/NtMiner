@@ -1,6 +1,7 @@
 ﻿using NTMiner.Notifications;
 using NTMiner.Vms;
 using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -51,7 +52,13 @@ namespace NTMiner.Views {
                 if (isOwnerIsTopMost) {
                     window.Topmost = false;
                 }
+                if (window != null) {
+                    window.IsVisibleChanged -= Owner_IsVisibleChanged;
+                    window.StateChanged -= Owner_StateChanged;
+                }
                 Owner = window;
+                Owner.IsVisibleChanged += Owner_IsVisibleChanged;
+                Owner.StateChanged += Owner_StateChanged;
                 Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
                 Instance.Top = window.Top + 10;
                 if (isOwnerIsTopMost) {
@@ -68,6 +75,23 @@ namespace NTMiner.Views {
                 if (isOwnerIsTopMost) {
                     Owner.Activate();
                 }
+            }
+        }
+
+        private void Owner_StateChanged(object sender, EventArgs e) {
+            Window owner = (Window)sender;
+            if (this.Owner == owner && owner.WindowState == WindowState.Minimized) {
+                this.Owner = null;
+                if (!this.IsVisible) {
+                    this.Show();
+                }
+            }
+        }
+
+        private void Owner_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            Window owner = (Window)sender;
+            if (this.Owner == owner && !owner.IsVisible) {
+                this.Owner = null;
             }
         }
 

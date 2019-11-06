@@ -11,7 +11,7 @@ namespace UnitTests {
                 return 1;
             });
             int r = await task;
-            Assert.AreEqual(1, r);
+            Assert.AreEqual(1, r); 
         }
     }
 }
