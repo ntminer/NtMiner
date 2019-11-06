@@ -56,7 +56,7 @@ namespace NTMiner {
 
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                NotiCenterWindow.Instance.Show();
+                NotiCenterWindow.ShowWindow();
                 LoginWindow loginWindow = new LoginWindow();
                 var result = loginWindow.ShowDialog();
                 if (result.HasValue && result.Value) {

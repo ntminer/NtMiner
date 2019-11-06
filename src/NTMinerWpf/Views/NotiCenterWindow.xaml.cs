@@ -1,27 +1,22 @@
 ﻿using NTMiner.Notifications;
 using NTMiner.Vms;
 using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
-        private static NotiCenterWindow _instance;
-        public static NotiCenterWindow Instance {
-            get {
-                if (_instance == null) {
-                    _instance = new NotiCenterWindow();
-                }
-                return _instance;
-            }
+        private static readonly NotiCenterWindow _instance = new NotiCenterWindow();
+
+        public static void ShowWindow() {
+            _instance.Show();
         }
 
         public static void Bind(Window owner, bool ownerIsTopMost = false) {
             EventHandler handler = (sender, e) => {
-                Instance.Left = owner.Left + (owner.Width - Instance.Width) / 2;
-                Instance.Top = owner.Top + 10;
+                _instance.Left = owner.Left + (owner.Width - _instance.Width) / 2;
+                _instance.Top = owner.Top + 10;
             };
             if (ownerIsTopMost) {
                 owner.Activated += (sender, e) => {
@@ -30,7 +25,7 @@ namespace NTMiner.Views {
                         owner.Topmost = true;
                     }
                     handler(sender, e);
-                    Instance.SwitchOwner(owner);
+                    _instance.SwitchOwner(owner);
                 };
                 owner.Deactivated += (sender, e) => {
                     // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
@@ -42,7 +37,7 @@ namespace NTMiner.Views {
             else {
                 owner.Activated += (sender, e) => {
                     handler(sender, e);
-                    Instance.SwitchOwner(owner);
+                    _instance.SwitchOwner(owner);
                 };
             }
             owner.LocationChanged += handler;
@@ -82,8 +77,8 @@ namespace NTMiner.Views {
                 Owner = window;
                 Owner.IsVisibleChanged += Owner_IsVisibleChanged;
                 Owner.StateChanged += Owner_StateChanged;
-                Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
-                Instance.Top = window.Top + 10;
+                _instance.Left = window.Left + (window.Width - _instance.Width) / 2;
+                _instance.Top = window.Top + 10;
                 if (isOwnerIsTopMost) {
                     window.Topmost = true;
                     this.Topmost = true;

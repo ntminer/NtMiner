@@ -92,10 +92,9 @@ namespace NTMiner {
 
             base.OnStartup(e);
 
-            NotiCenterWindow.Instance.Show();
+            NotiCenterWindow.ShowWindow();
             this.MainWindow = new MainWindow();
             this.MainWindow.Show();
-            NotiCenterWindow.Instance.SwitchOwner(this.MainWindow);
         }
 
         public void Dispose() {
