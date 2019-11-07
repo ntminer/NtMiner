@@ -59,10 +59,8 @@
                 }
                 _count.Add(messageChannel, values);
             }
-            Init();
             _selectedChannel = LocalMessageChannelEnumItems.FirstOrDefault();
-            RefreshQueryResults();
-            UpdateChannelAll();
+            Init();
 
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
@@ -75,14 +73,7 @@
             VirtualRoot.BuildEventPath<LocalMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        bool needInitQueryResuts = _queyResults != _localMessageVms;
                         Init();
-                        if (needInitQueryResuts) {
-                            RefreshQueryResults();
-                        }
-                        else {
-                            OnPropertyChanged(nameof(IsNoRecord));
-                        }
                     });
                 });
             VirtualRoot.BuildEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
@@ -123,6 +114,8 @@
             foreach (var item in _localMessageVms) {
                 _count[item.ChannelEnum.GetEnumItem()][item.MessageTypeEnum].Count++;
             }
+            RefreshQueryResults();
+            UpdateChannelAll();
         }
 
         public string Keyword {
@@ -175,6 +168,7 @@
             if (SelectedChannel.Value == LocalMessageChannel.Unspecified && isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
                 if (_queyResults != _localMessageVms) {
                     _queyResults = _localMessageVms;
+                    OnPropertyChanged(nameof(IsNoRecord));
                     OnPropertyChanged(nameof(QueryResults));
                 }
                 return;

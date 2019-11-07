@@ -25,7 +25,6 @@ namespace NTMiner.Vms {
                 _count.Add(messageType.Value, new MessageTypeItem<ServerMessageType>(messageType, ServerMessageViewModel.GetIcon, ServerMessageViewModel.GetIconFill, RefreshQueryResults));
             }
             Init();
-            RefreshQueryResults();
             this.Add = new DelegateCommand(() => {
                 new ServerMessageViewModel(new ServerMessageData {
                     Id = Guid.NewGuid(),
@@ -46,14 +45,7 @@ namespace NTMiner.Vms {
             VirtualRoot.BuildEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        bool needInitQueryResuts = _queyResults != _serverMessageVms;
                         Init();
-                        if (needInitQueryResuts) {
-                            RefreshQueryResults();
-                        }
-                        else {
-                            OnPropertyChanged(nameof(IsNoRecord));
-                        }
                     });
                 });
             VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
@@ -81,6 +73,7 @@ namespace NTMiner.Vms {
             foreach (var item in _serverMessageVms) {
                 _count[item.MessageTypeEnum].Count++;
             }
+            RefreshQueryResults();
         }
 
         public IEnumerable<MessageTypeItem<ServerMessageType>> MessageTypeItems {
@@ -127,6 +120,7 @@ namespace NTMiner.Vms {
             if (isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
                 if (_queyResults != _serverMessageVms) {
                     _queyResults = _serverMessageVms;
+                    OnPropertyChanged(nameof(IsNoRecord));
                     OnPropertyChanged(nameof(QueryResults));
                 }
                 return;
