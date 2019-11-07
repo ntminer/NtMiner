@@ -6,7 +6,8 @@ namespace NTMiner.Controllers {
     public class ServerMessageController : ApiControllerBase, IServerMessageController {
         public DataResponse<List<ServerMessageData>> ServerMessages(ServerMessagesRequest request) {
             try {
-                var data = HostRoot.Instance.ServerMessageSet.GetServerMessages(NTMiner.Timestamp.FromTimestamp(request.Timestamp));
+                DateTime timestamp = NTMiner.Timestamp.FromTimestamp(request.Timestamp + 1);
+                var data = HostRoot.Instance.ServerMessageSet.GetServerMessages(timestamp);
                 return DataResponse<List<ServerMessageData>>.Ok(data);
             }
             catch (Exception e) {
