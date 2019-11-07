@@ -92,7 +92,8 @@ namespace NTMiner {
                 DateTime serverTime = DateTime.Now;
                 DateTime serverMessageTime = Timestamp.UnixBaseTime;
                 if (!string.IsNullOrEmpty(text)) {
-                    string[] parts = text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    text = text.Trim();
+                    string[] parts = text.Split(new char[] { '|' });
                     if (parts.Length > 0) {
                         jsonFileVersion = parts[0];
                     }
