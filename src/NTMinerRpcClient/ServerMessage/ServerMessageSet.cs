@@ -164,7 +164,7 @@ namespace NTMiner.ServerMessage {
                 return new List<ServerMessageData>();
             }
             InitOnece();
-            return _linkedList.Where(a => a.Timestamp >= timeStamp).ToList();
+            return _linkedList.Where(a => a.Timestamp > timeStamp).ToList();
         }
 
         private bool _isInited = false;
