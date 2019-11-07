@@ -24,13 +24,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                var entity = HostRoot.Instance.ServerMessageSet.FirstOrDefault(a => a.Id == request.Data.Id);
-                if (entity != null) {
-                    VirtualRoot.Execute(new UpdateServerMessageCommand(request.Data));
-                }
-                else {
-                    VirtualRoot.Execute(new AddServerMessageCommand(request.Data));
-                }
+                VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(request.Data));
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

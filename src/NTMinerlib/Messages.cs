@@ -179,15 +179,9 @@ namespace NTMiner {
         public LinkedList<ServerMessageData> Data { get; }
     }
 
-    [MessageType(description: "添加服务器消息")]
-    public class AddServerMessageCommand : AddEntityCommand<IServerMessage> {
-        public AddServerMessageCommand(IServerMessage input) : base(input) {
-        }
-    }
-
-    [MessageType(description: "更新服务器消息")]
-    public class UpdateServerMessageCommand : UpdateEntityCommand<IServerMessage> {
-        public UpdateServerMessageCommand(IServerMessage input) : base(input) {
+    [MessageType(description: "添加或修改服务器消息")]
+    public class AddOrUpdateServerMessageCommand : AddEntityCommand<IServerMessage> {
+        public AddOrUpdateServerMessageCommand(IServerMessage input) : base(input) {
         }
     }
 

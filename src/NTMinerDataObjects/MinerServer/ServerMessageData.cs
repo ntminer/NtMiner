@@ -4,6 +4,15 @@ namespace NTMiner.MinerServer {
     public class ServerMessageData : IServerMessage {
         public ServerMessageData() { }
 
+        public ServerMessageData(IServerMessage data) {
+            Id = data.Id == Guid.Empty ? Guid.NewGuid() : data.Id;
+            Provider = data.Provider;
+            MessageType = data.MessageType;
+            Content = data.Content;
+            Timestamp = data.Timestamp == DateTime.MinValue ? DateTime.Now : data.Timestamp;
+            IsDeleted = false;
+        }
+
         public Guid GetId() {
             return this.Id;
         }

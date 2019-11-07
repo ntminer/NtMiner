@@ -28,64 +28,44 @@ namespace NTMiner.ServerMessage {
                         }
                     });
             }
-            VirtualRoot.BuildCmdPath<AddServerMessageCommand>(action: message => {
-                if (string.IsNullOrEmpty(_connectionString)) {
-                    return;
-                }
-                InitOnece();
-                var data = new ServerMessageData {
-                    Id = message.Input.Id == Guid.Empty ? Guid.NewGuid() : message.Input.Id,
-                    Provider = message.Input.Provider,
-                    MessageType = message.Input.MessageType,
-                    Content = message.Input.Content,
-                    Timestamp = message.Input.Timestamp == DateTime.MinValue ? DateTime.Now : message.Input.Timestamp,
-                    IsDeleted = false
-                };
-                if (_isServer) {
-                    List<ServerMessageData> toRemoves = new List<ServerMessageData>();
-                    lock (_locker) {
-                        _linkedList.AddFirst(data);
-                        while (_linkedList.Count > NTKeyword.ServerMessageSetCapacity) {
-                            var toRemove = _linkedList.Last;
-                            _linkedList.RemoveLast();
-                            toRemoves.Add(toRemove.Value);
-                        }
-                    }
-                    if (toRemoves.Count != 0) {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<ServerMessageData>();
-                            foreach (var item in toRemoves) {
-                                col.Delete(item.Id);
-                            }
-                        }
-                    }
-                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        var col = db.GetCollection<ServerMessageData>();
-                        col.Insert(data);
-                    }
-                }
-                else {
-
-                    VirtualRoot.Execute(new LoadNewServerMessageCommand());
-                }
-            });
-            VirtualRoot.BuildCmdPath<UpdateServerMessageCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {
                     return;
                 }
                 InitOnece();
                 if (_isServer) {
                     ServerMessageData exist;
+                    List<ServerMessageData> toRemoves = new List<ServerMessageData>();
+                    ServerMessageData data = null;
                     lock (_locker) {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.Input.Id);
                         if (exist != null) {
                             exist.Update(message.Input);
                         }
+                        else {
+                            data = new ServerMessageData(message.Input);
+                            _linkedList.AddFirst(data);
+                            while (_linkedList.Count > NTKeyword.ServerMessageSetCapacity) {
+                                toRemoves.Add(_linkedList.Last.Value);
+                                _linkedList.RemoveLast();
+                            }
+                        }
                     }
                     if (exist != null) {
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<ServerMessageData>();
-                            col.Upsert(exist);
+                            col.Update(exist);
+                        }
+                    }
+                    else {
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<ServerMessageData>();
+                            if (toRemoves.Count != 0) {
+                                foreach (var item in toRemoves) {
+                                    col.Delete(item.Id);
+                                }
+                            }
+                            col.Insert(data);
                         }
                     }
                 }
@@ -104,13 +84,13 @@ namespace NTMiner.ServerMessage {
                     lock (_locker) {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.EntityId);
                         if (exist != null) {
-                            _linkedList.Remove(exist);
+                            exist.IsDeleted = true;
                         }
                     }
                     if (exist != null) {
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<ServerMessageData>();
-                            col.Delete(message.EntityId);
+                            col.Update(exist);
                         }
                     }
                 }
