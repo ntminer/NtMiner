@@ -194,6 +194,7 @@ namespace NTMiner.ServerMessage {
                             }
                         }
                     }
+                    VirtualRoot.Execute(new LoadNewServerMessageCommand());
                     _isInited = true;
                 }
             }
