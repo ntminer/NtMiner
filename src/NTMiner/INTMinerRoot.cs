@@ -6,6 +6,7 @@ using NTMiner.Core.Kernels;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.KernelOutputKeyword;
+using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
@@ -98,6 +99,7 @@ namespace NTMiner {
 
         IKernelOutputKeywordSet LocalKernelOutputKeywordSet { get; }
         IKernelOutputKeywordSet ServerKernelOutputKeywordSet { get; }
+        IServerMessageSet LocalServerMessageSet { get; }
         string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }
 }

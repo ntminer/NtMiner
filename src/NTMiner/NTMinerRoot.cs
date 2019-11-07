@@ -13,6 +13,7 @@ using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.KernelOutputKeyword;
 using NTMiner.Profile;
+using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
@@ -806,6 +807,16 @@ namespace NTMiner {
                     _serverKernelOutputKeywordSet = new ServerKernelOutputKeywordSet();
                 }
                 return _serverKernelOutputKeywordSet;
+            }
+        }
+
+        private IServerMessageSet _localServerMessageSet;
+        public IServerMessageSet LocalServerMessageSet {
+            get {
+                if (_localServerMessageSet == null) {
+                    _localServerMessageSet = new ServerMessageSet(VirtualRoot.LocalMessageDbFileFullName, isServer: false);
+                }
+                return _localServerMessageSet;
             }
         }
     }

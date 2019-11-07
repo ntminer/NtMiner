@@ -1,19 +1,18 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.AppSetting;
+using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
 using NTMiner.Ip;
 using NTMiner.Ip.Impl;
+using NTMiner.LocalMessage;
 using NTMiner.MinerClient;
 using NTMiner.Serialization;
-using NTMiner.ServerMessage;
-using NTMiner.LocalMessage;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using System.Linq;
-using NTMiner.AppSetting;
 
 namespace NTMiner {
     /// <summary>
@@ -107,7 +106,6 @@ namespace NTMiner {
         private static readonly ICmdBus SCommandBus;
         private static readonly IEventBus SEventBus;
         public static readonly ILocalMessageSet LocalMessages;
-        public static readonly IServerMessageSet LocalServerMessageSet;
         #region Out
         private static IOut _out;
         /// <summary>
@@ -156,7 +154,6 @@ namespace NTMiner {
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
             LocalMessages = new LocalMessageSet(LocalMessageDbFileFullName);
-            LocalServerMessageSet = new ServerMessageSet(LocalMessageDbFileFullName, isServer: false);
         }
 
         private static IAppSettingSet _appSettingSet;

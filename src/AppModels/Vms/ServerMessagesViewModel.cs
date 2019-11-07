@@ -63,11 +63,11 @@ namespace NTMiner.Vms {
                         _serverMessageVms.Add(new ServerMessageViewModel(item));
                     }
                 });
-            _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(VirtualRoot.LocalServerMessageSet.Select(a => new ServerMessageViewModel(a)));
+            _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(NTMinerRoot.Instance.LocalServerMessageSet.Select(a => new ServerMessageViewModel(a)));
         }
 
         private void Init() {
-            var data = VirtualRoot.LocalServerMessageSet.Select(a => new ServerMessageViewModel(a));
+            var data = NTMinerRoot.Instance.LocalServerMessageSet.Select(a => new ServerMessageViewModel(a));
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(data);
             foreach (var key in _count.Keys) {
                 _count[key].Count = 0;
