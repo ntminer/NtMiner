@@ -45,27 +45,25 @@ namespace NTMiner.Vms {
             });
             VirtualRoot.BuildEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    bool needInitQueryResuts = _queyResults != _serverMessageVms;
-                    Init();
-                    if (needInitQueryResuts) {
-                        _queyResults = new ObservableCollection<ServerMessageViewModel>();
-                        foreach (var item in _serverMessageVms) {
-                            if (_count[item.MessageTypeEnum].IsChecked) {
-                                _queyResults.Add(item);
-                            }
+                    UIThread.Execute(() => {
+                        bool needInitQueryResuts = _queyResults != _serverMessageVms;
+                        Init();
+                        if (needInitQueryResuts) {
+                            RefreshQueryResults();
                         }
-                        OnPropertyChanged(nameof(QueryResults));
-                    }
+                    });
                 });
             VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    foreach (var item in message.Data) {
-                        var vm = new ServerMessageViewModel(item);
-                        _serverMessageVms.Insert(0, vm);
-                        if (IsSatisfyQuery(vm)) {
-                            _queyResults.Insert(0, vm);
+                    UIThread.Execute(() => {
+                        foreach (var item in message.Data) {
+                            var vm = new ServerMessageViewModel(item);
+                            _serverMessageVms.Insert(0, vm);
+                            if (IsSatisfyQuery(vm)) {
+                                _queyResults.Insert(0, vm);
+                            }
                         }
-                    }
+                    });
                 });
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a)));
         }

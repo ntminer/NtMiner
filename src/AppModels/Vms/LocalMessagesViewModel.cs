@@ -59,11 +59,7 @@
                 }
                 _count.Add(messageChannel, values);
             }
-            var data = VirtualRoot.LocalMessages.Select(a => new LocalMessageViewModel(a));
-            _localMessageVms = new ObservableCollection<LocalMessageViewModel>(data);
-            foreach (var item in _localMessageVms) {
-                _count[item.ChannelEnum.GetEnumItem()][item.MessageTypeEnum].Count++;
-            }
+            Init();
             _selectedChannel = LocalMessageChannelEnumItems.FirstOrDefault();
             RefreshQueryResults();
             UpdateChannelAll();
@@ -79,13 +75,11 @@
             VirtualRoot.BuildEventPath<LocalMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        _localMessageVms = new ObservableCollection<LocalMessageViewModel>();
-                        foreach (var item in _count.Values) {
-                            foreach (var key in item.Keys) {
-                                item[key].Count = 0;
-                            }
+                        bool needInitQueryResuts = _queyResults != _localMessageVms;
+                        Init();
+                        if (needInitQueryResuts) {
+                            RefreshQueryResults();
                         }
-                        RefreshQueryResults();
                     });
                 });
             VirtualRoot.BuildEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
@@ -112,6 +106,19 @@
                         }
                     });
                 });
+        }
+
+        private void Init() {
+            var data = VirtualRoot.LocalMessages.Select(a => new LocalMessageViewModel(a));
+            _localMessageVms = new ObservableCollection<LocalMessageViewModel>(data);
+            foreach (var dic in _count.Values) {
+                foreach (var key in dic.Keys) {
+                    dic[key].Count = 0;
+                }
+            }
+            foreach (var item in _localMessageVms) {
+                _count[item.ChannelEnum.GetEnumItem()][item.MessageTypeEnum].Count++;
+            }
         }
 
         public string Keyword {
