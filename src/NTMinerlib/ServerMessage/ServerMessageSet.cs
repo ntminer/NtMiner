@@ -8,7 +8,7 @@ using System.Linq;
 namespace NTMiner.ServerMessage {
     public class ServerMessageSet : IServerMessageSet {
         private readonly string _connectionString;
-        private readonly LinkedList<ServerMessageData> _records = new LinkedList<ServerMessageData>();
+        private readonly LinkedList<ServerMessageData> _linkedList = new LinkedList<ServerMessageData>();
 
         private readonly bool _isServer;
         public ServerMessageSet(string dbFileFullName, bool isServer) {
@@ -19,8 +19,12 @@ namespace NTMiner.ServerMessage {
             if (!_isServer) {
                 VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("加载到新服务器消息后叠入服务器消息栈内存", LogEnum.DevConsole,
                     action: message => {
-                        foreach (var item in message.Data) {
-                            _records.AddFirst(item);
+                        if (message.Data.Count != 0) {
+                            lock (_locker) {
+                                foreach (var item in message.Data) {
+                                    _linkedList.AddFirst(item);
+                                }
+                            }
                         }
                     });
             }
@@ -38,15 +42,20 @@ namespace NTMiner.ServerMessage {
                     IsDeleted = false
                 };
                 if (_isServer) {
-                    // TODO:批量持久化，异步持久化
+                    List<ServerMessageData> toRemoves = new List<ServerMessageData>();
                     lock (_locker) {
-                        _records.AddFirst(data);
-                        while (_records.Count > NTKeyword.ServerMessageSetCapacity) {
-                            var toRemove = _records.Last;
-                            _records.RemoveLast();
-                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                                var col = db.GetCollection<ServerMessageData>();
-                                col.Delete(toRemove.Value.Id);
+                        _linkedList.AddFirst(data);
+                        while (_linkedList.Count > NTKeyword.ServerMessageSetCapacity) {
+                            var toRemove = _linkedList.Last;
+                            _linkedList.RemoveLast();
+                            toRemoves.Add(toRemove.Value);
+                        }
+                    }
+                    if (toRemoves.Count != 0) {
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<ServerMessageData>();
+                            foreach (var item in toRemoves) {
+                                col.Delete(item.Id);
                             }
                         }
                     }
@@ -68,7 +77,7 @@ namespace NTMiner.ServerMessage {
                 if (_isServer) {
                     ServerMessageData exist;
                     lock (_locker) {
-                        exist = _records.FirstOrDefault(a => a.Id == message.Input.Id);
+                        exist = _linkedList.FirstOrDefault(a => a.Id == message.Input.Id);
                         if (exist != null) {
                             exist.Update(message.Input);
                         }
@@ -93,9 +102,9 @@ namespace NTMiner.ServerMessage {
                 if (_isServer) {
                     ServerMessageData exist = null;
                     lock (_locker) {
-                        exist = _records.FirstOrDefault(a => a.Id == message.EntityId);
+                        exist = _linkedList.FirstOrDefault(a => a.Id == message.EntityId);
                         if (exist != null) {
-                            _records.Remove(exist);
+                            _linkedList.Remove(exist);
                         }
                     }
                     if (exist != null) {
@@ -121,7 +130,7 @@ namespace NTMiner.ServerMessage {
                 }
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     lock (_locker) {
-                        _records.Clear();
+                        _linkedList.Clear();
                     }
                     db.DropCollection(nameof(ServerMessageData));
                 }
@@ -134,7 +143,7 @@ namespace NTMiner.ServerMessage {
                 return new List<IServerMessage>();
             }
             InitOnece();
-            return _records.Where(a => a.Timestamp >= timeStamp).Cast<IServerMessage>().ToList();
+            return _linkedList.Where(a => a.Timestamp >= timeStamp).Cast<IServerMessage>().ToList();
         }
 
         private bool _isInited = false;
@@ -156,11 +165,11 @@ namespace NTMiner.ServerMessage {
                     using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<ServerMessageData>();
                         foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                            if (_records.Count < NTKeyword.ServerMessageSetCapacity) {
-                                _records.AddFirst(item);
+                            if (_linkedList.Count < NTKeyword.ServerMessageSetCapacity) {
+                                _linkedList.AddFirst(item);
                             }
                             else {
-                                col.Delete(_records.Last.Value.Id);
+                                col.Delete(_linkedList.Last.Value.Id);
                             }
                         }
                     }
@@ -171,12 +180,12 @@ namespace NTMiner.ServerMessage {
 
         public IEnumerator<IServerMessage> GetEnumerator() {
             InitOnece();
-            return _records.GetEnumerator();
+            return _linkedList.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() {
             InitOnece();
-            return _records.GetEnumerator();
+            return _linkedList.GetEnumerator();
         }
     }
 }
