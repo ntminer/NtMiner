@@ -33,7 +33,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        public ResponseBase RemoveServerMessage(DataRequest<Guid> request) {
+        public ResponseBase MarkDeleteServerMessage(DataRequest<Guid> request) {
             if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput("参数错误");
             }

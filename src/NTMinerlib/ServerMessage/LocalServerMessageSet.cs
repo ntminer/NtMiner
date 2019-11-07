@@ -22,8 +22,7 @@ namespace NTMiner.ServerMessage {
 
                 VirtualRoot.Execute(new LoadNewServerMessageCommand());
             });
-            // 标记删除
-            VirtualRoot.BuildCmdPath<DeleteServerMessageCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(action: message => {
 
                 VirtualRoot.Execute(new LoadNewServerMessageCommand());
             });

@@ -81,7 +81,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 this.ShowDialog(new DialogWindowViewModel(message: $"您确定标记删除'{this.Content}'这条消息吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new DeleteServerMessageCommand(this.Id));
+                    VirtualRoot.Execute(new MarkDeleteServerMessageCommand(this.Id));
                 }));
             });
             this.Save = new DelegateCommand(() => {

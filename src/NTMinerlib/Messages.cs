@@ -194,8 +194,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "标记删除服务器消息")]
-    public class DeleteServerMessageCommand : RemoveEntityCommand {
-        public DeleteServerMessageCommand(Guid id) : base(id) {
+    public class MarkDeleteServerMessageCommand : RemoveEntityCommand {
+        public MarkDeleteServerMessageCommand(Guid id) : base(id) {
 
         }
     }
