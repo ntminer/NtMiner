@@ -60,7 +60,11 @@ namespace NTMiner.Vms {
             VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     foreach (var item in message.Data) {
-                        _serverMessageVms.Add(new ServerMessageViewModel(item));
+                        var vm = new ServerMessageViewModel(item);
+                        _serverMessageVms.Insert(0, vm);
+                        if (IsSatisfyQuery(vm)) {
+                            _queyResults.Insert(0, vm);
+                        }
                     }
                 });
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a)));
@@ -94,22 +98,29 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ObservableCollection<ServerMessageViewModel> ServerMessageVms {
-            get {
-                return _serverMessageVms;
-            }
-        }
         public ObservableCollection<ServerMessageViewModel> QueryResults {
             get {
                 return _queyResults;
             }
         }
 
+        private bool IsSatisfyQuery(ServerMessageViewModel vm) {
+            if (_queyResults == _serverMessageVms) {
+                return false;
+            }
+            if (_count[vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.Contains(Keyword))) {
+                return true;
+            }
+            return false;
+        }
+
         private void RefreshQueryResults() {
             bool isCheckedAllMessageType = _count.Values.All(a => a.IsChecked);
             if (isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
-                _queyResults = _serverMessageVms;
-                OnPropertyChanged(nameof(QueryResults));
+                if (_queyResults != _serverMessageVms) {
+                    _queyResults = _serverMessageVms;
+                    OnPropertyChanged(nameof(QueryResults));
+                }
                 return;
             }
             var query = _serverMessageVms.AsQueryable();

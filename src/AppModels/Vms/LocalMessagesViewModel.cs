@@ -93,32 +93,22 @@
                     UIThread.Execute(() => {
                         var vm = new LocalMessageViewModel(message.Source);
                         _localMessageVms.Insert(0, vm);
+                        if (IsSatisfyQuery(vm)) {
+                            _queyResults.Insert(0, vm);
+                        }
                         foreach (var item in message.Removes) {
                             var toRemove = _localMessageVms.FirstOrDefault(a => a.Id == item.Id);
                             if (toRemove != null) {
                                 _localMessageVms.Remove(toRemove);
+                                if (IsSatisfyQuery(toRemove)) {
+                                    _queyResults.Remove(toRemove);
+                                }
                             }
                         }
                         int removedCount = message.Removes.Count(a => a.MessageType == vm.MessageTypeEnum.GetName());
                         if (removedCount != 1) {
                             _count[vm.ChannelEnum.GetEnumItem()][vm.MessageTypeEnum].Count += 1 - removedCount;
                             UpdateChannelAll();
-                            OnPropertyChanged($"{vm.MessageTypeEnum.GetName()}Count");
-                            OnPropertyChanged($"Is{vm.MessageTypeEnum.GetName()}CountVisible");
-                        }
-
-                        if (_queyResults != _localMessageVms) {
-                            #region 更新QueryResults
-                            bool isSelectedChannel = SelectedChannel.Value == vm.ChannelEnum;
-                            bool isMessageTypeChecked = false;
-                            var isCheckedProperty = this.GetType().GetProperty($"Is{vm.MessageTypeEnum.GetName()}Checked");
-                            if (isCheckedProperty != null) {
-                                isMessageTypeChecked = (bool)isCheckedProperty.GetValue(this, null);
-                            }
-                            if (isSelectedChannel && isMessageTypeChecked) {
-                                _queyResults.Insert(0, vm);
-                            }
-                            #endregion
                         }
                     });
                 });
@@ -153,11 +143,23 @@
             }
         }
 
+        private bool IsSatisfyQuery(LocalMessageViewModel vm) {
+            if (_queyResults == _localMessageVms) {
+                return false;
+            }
+            if (_count[SelectedChannel][vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.Contains(Keyword))) {
+                return true;
+            }
+            return false;
+        }
+
         private void RefreshQueryResults() {
             bool isCheckedAllMessageType = _count[SelectedChannel].Values.All(a => a.IsChecked);
             if (SelectedChannel.Value == LocalMessageChannel.Unspecified && isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
-                _queyResults = _localMessageVms;
-                OnPropertyChanged(nameof(QueryResults));
+                if (_queyResults != _localMessageVms) {
+                    _queyResults = _localMessageVms;
+                    OnPropertyChanged(nameof(QueryResults));
+                }
                 return;
             }
             var query = _localMessageVms.AsQueryable();

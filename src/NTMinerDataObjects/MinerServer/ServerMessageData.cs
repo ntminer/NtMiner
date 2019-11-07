@@ -2,6 +2,8 @@
 
 namespace NTMiner.MinerServer {
     public class ServerMessageData : IServerMessage {
+        private string _content;
+
         public ServerMessageData() { }
 
         public ServerMessageData(IServerMessage data) {
@@ -23,7 +25,12 @@ namespace NTMiner.MinerServer {
 
         public string MessageType { get; set; }
 
-        public string Content { get; set; }
+        public string Content {
+            get => _content ?? string.Empty;
+            set {
+                _content = value ?? string.Empty;
+            }
+        }
 
         public DateTime Timestamp { get; set; }
 
