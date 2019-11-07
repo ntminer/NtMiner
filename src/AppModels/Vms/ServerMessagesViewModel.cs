@@ -51,6 +51,9 @@ namespace NTMiner.Vms {
                         if (needInitQueryResuts) {
                             RefreshQueryResults();
                         }
+                        else {
+                            OnPropertyChanged(nameof(IsNoRecord));
+                        }
                     });
                 });
             VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
@@ -63,6 +66,7 @@ namespace NTMiner.Vms {
                                 _queyResults.Insert(0, vm);
                             }
                         }
+                        OnPropertyChanged(nameof(IsNoRecord));
                     });
                 });
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a)));
@@ -112,6 +116,12 @@ namespace NTMiner.Vms {
             return false;
         }
 
+        public bool IsNoRecord {
+            get {
+                return _queyResults.Count == 0;
+            }
+        }
+
         private void RefreshQueryResults() {
             bool isCheckedAllMessageType = _count.Values.All(a => a.IsChecked);
             if (isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
@@ -129,6 +139,7 @@ namespace NTMiner.Vms {
                 query = query.Where(a => a.Content != null && a.Content.Contains(Keyword));
             }
             _queyResults = new ObservableCollection<ServerMessageViewModel>(query);
+            OnPropertyChanged(nameof(IsNoRecord));
             OnPropertyChanged(nameof(QueryResults));
         }
     }

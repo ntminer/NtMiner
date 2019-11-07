@@ -80,6 +80,9 @@
                         if (needInitQueryResuts) {
                             RefreshQueryResults();
                         }
+                        else {
+                            OnPropertyChanged(nameof(IsNoRecord));
+                        }
                     });
                 });
             VirtualRoot.BuildEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
@@ -104,6 +107,7 @@
                             _count[vm.ChannelEnum.GetEnumItem()][vm.MessageTypeEnum].Count += 1 - removedCount;
                             UpdateChannelAll();
                         }
+                        OnPropertyChanged(nameof(IsNoRecord));
                     });
                 });
         }
@@ -160,6 +164,12 @@
             return false;
         }
 
+        public bool IsNoRecord {
+            get {
+                return _queyResults.Count == 0;
+            }
+        }
+
         private void RefreshQueryResults() {
             bool isCheckedAllMessageType = _count[SelectedChannel].Values.All(a => a.IsChecked);
             if (SelectedChannel.Value == LocalMessageChannel.Unspecified && isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
@@ -180,6 +190,7 @@
                 query = query.Where(a => a.Content != null && a.Content.Contains(Keyword));
             }
             _queyResults = new ObservableCollection<LocalMessageViewModel>(query);
+            OnPropertyChanged(nameof(IsNoRecord));
             OnPropertyChanged(nameof(QueryResults));
         }
     }

@@ -238,6 +238,7 @@ namespace NTMiner {
             this.NTMinerWalletSet = new NTMinerWalletSet();
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
+            this.ServerMessageSet = new ServerMessageSet(VirtualRoot.LocalMessageDbFileFullName, isServer: false);
             // 作业和在群控客户端管理作业时
             IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
             this._minerProfile = new MinerProfile(this);
@@ -810,14 +811,6 @@ namespace NTMiner {
             }
         }
 
-        private IServerMessageSet _localServerMessageSet;
-        public IServerMessageSet ServerMessageSet {
-            get {
-                if (_localServerMessageSet == null) {
-                    _localServerMessageSet = new ServerMessageSet(VirtualRoot.LocalMessageDbFileFullName, isServer: false);
-                }
-                return _localServerMessageSet;
-            }
-        }
+        public IServerMessageSet ServerMessageSet { get; private set; }
     }
 }

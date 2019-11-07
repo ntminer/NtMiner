@@ -1,9 +1,7 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Core;
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner {
     public static partial class OfficialServer {
@@ -12,40 +10,7 @@ namespace NTMiner {
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IServerMessageController>();
 
             private ServerMessageServiceFace() {
-                VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
-                    GetServerMessagesAsync(LocalServerMessageSetTimestamp, (response, e) => {
-                        if (response.IsSuccess() && response.Data.Count > 0) {
-                            DateTime dateTime = LocalServerMessageSetTimestamp;
-                            LinkedList<ServerMessageData> data = new LinkedList<ServerMessageData>();
-                            foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
-                                if (item.Timestamp > dateTime) {
-                                    LocalServerMessageSetTimestamp = item.Timestamp;
-                                }
-                                data.AddLast(item);
-                            }
-                            VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
-                        }
-                    });
-                });
             }
-
-            #region LocalServerMessageSetTimestamp
-            private DateTime LocalServerMessageSetTimestamp {
-                get {
-                    if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
-                        return value;
-                    }
-                    return Timestamp.UnixBaseTime;
-                }
-                set {
-                    AppSettingData appSetting = new AppSettingData {
-                        Key = nameof(LocalServerMessageSetTimestamp),
-                        Value = value
-                    };
-                    VirtualRoot.Execute(new SetLocalAppSettingCommand(appSetting));
-                }
-            }
-            #endregion
 
             #region GetServerMessagesAsync
             public void GetServerMessagesAsync(DateTime timestamp, Action<DataResponse<List<ServerMessageData>>, Exception> callback) {

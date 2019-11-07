@@ -85,7 +85,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.Save = new DelegateCommand(() => {
-
+                VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(this));
                 CloseWindow?.Invoke();
             });
         }

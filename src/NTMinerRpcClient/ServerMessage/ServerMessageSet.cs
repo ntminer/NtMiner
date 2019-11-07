@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using NTMiner.Core;
 using NTMiner.MinerServer;
 using System;
 using System.Collections;
@@ -17,16 +18,24 @@ namespace NTMiner.ServerMessage {
             }
             _isServer = isServer;
             if (!_isServer) {
-                VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("加载到新服务器消息后叠入服务器消息栈内存", LogEnum.DevConsole,
-                    action: message => {
-                        if (message.Data.Count != 0) {
+                VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
+                    OfficialServer.ServerMessageService.GetServerMessagesAsync(LocalServerMessageSetTimestamp, (response, e) => {
+                        if (response.IsSuccess() && response.Data.Count > 0) {
+                            DateTime dateTime = LocalServerMessageSetTimestamp;
+                            LinkedList<ServerMessageData> data = new LinkedList<ServerMessageData>();
                             lock (_locker) {
-                                foreach (var item in message.Data) {
+                                foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
+                                    if (item.Timestamp > dateTime) {
+                                        LocalServerMessageSetTimestamp = item.Timestamp;
+                                    }
+                                    data.AddLast(item);
                                     _linkedList.AddFirst(item);
                                 }
                             }
+                            VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
                         }
                     });
+                });
             }
             VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {
@@ -131,6 +140,24 @@ namespace NTMiner.ServerMessage {
                 VirtualRoot.RaiseEvent(new ServerMessagesClearedEvent());
             });
         }
+
+        #region LocalServerMessageSetTimestamp
+        private DateTime LocalServerMessageSetTimestamp {
+            get {
+                if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
+                    return value;
+                }
+                return Timestamp.UnixBaseTime;
+            }
+            set {
+                AppSettingData appSetting = new AppSettingData {
+                    Key = nameof(LocalServerMessageSetTimestamp),
+                    Value = value
+                };
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSetting));
+            }
+        }
+        #endregion
 
         public List<ServerMessageData> GetServerMessages(DateTime timeStamp) {
             if (string.IsNullOrEmpty(_connectionString)) {
