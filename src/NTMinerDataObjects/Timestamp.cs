@@ -10,7 +10,11 @@ namespace NTMiner {
         }
 
         public static ulong GetTimestamp(DateTime dateTime) {
-            return (ulong)(dateTime.ToUniversalTime() - UnixBaseTime).TotalSeconds;
+            var span = (dateTime.ToUniversalTime() - UnixBaseTime).TotalSeconds;
+            if (span < 0) {
+                return 0;
+            }
+            return (ulong)span;
         }
 
         public static DateTime FromTimestamp(ulong timestamp) {

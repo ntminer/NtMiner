@@ -12,6 +12,7 @@ namespace NTMiner.ServerMessage {
         private readonly LinkedList<ServerMessageData> _linkedList = new LinkedList<ServerMessageData>();
 
         private readonly bool _isServer;
+
         public ServerMessageSet(string dbFileFullName, bool isServer) {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
                 _connectionString = $"filename={dbFileFullName};journal=false";
@@ -19,17 +20,21 @@ namespace NTMiner.ServerMessage {
             _isServer = isServer;
             if (!_isServer) {
                 VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
-                    OfficialServer.ServerMessageService.GetServerMessagesAsync(LocalServerMessageSetTimestamp, (response, e) => {
+                    OfficialServer.ServerMessageService.GetServerMessagesAsync(VirtualRoot.LocalServerMessageSetTimestamp, (response, e) => {
                         if (response.IsSuccess() && response.Data.Count > 0) {
-                            DateTime dateTime = LocalServerMessageSetTimestamp;
                             LinkedList<ServerMessageData> data = new LinkedList<ServerMessageData>();
                             lock (_locker) {
+                                DateTime dateTime = VirtualRoot.LocalServerMessageSetTimestamp;
+                                DateTime maxTime = dateTime;
                                 foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
-                                    if (item.Timestamp > dateTime) {
-                                        LocalServerMessageSetTimestamp = item.Timestamp;
+                                    if (item.Timestamp > maxTime) {
+                                        maxTime = item.Timestamp;
                                     }
                                     data.AddLast(item);
                                     _linkedList.AddFirst(item);
+                                }
+                                if (maxTime != dateTime) {
+                                    VirtualRoot.LocalServerMessageSetTimestamp = maxTime;
                                 }
                             }
                             VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
@@ -140,24 +145,6 @@ namespace NTMiner.ServerMessage {
                 VirtualRoot.RaiseEvent(new ServerMessagesClearedEvent());
             });
         }
-
-        #region LocalServerMessageSetTimestamp
-        private DateTime LocalServerMessageSetTimestamp {
-            get {
-                if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
-                    return value;
-                }
-                return Timestamp.UnixBaseTime;
-            }
-            set {
-                AppSettingData appSetting = new AppSettingData {
-                    Key = nameof(LocalServerMessageSetTimestamp),
-                    Value = value
-                };
-                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSetting));
-            }
-        }
-        #endregion
 
         public List<ServerMessageData> GetServerMessages(DateTime timeStamp) {
             if (string.IsNullOrEmpty(_connectionString)) {

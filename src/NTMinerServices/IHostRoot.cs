@@ -29,5 +29,7 @@ namespace NTMiner {
         IOverClockDataSet OverClockDataSet { get; }
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
+        DateTime ServerMessageTimestamp { get; }
+        void UpdateServerMessageTimestamp();
     }
 }

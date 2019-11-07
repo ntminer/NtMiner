@@ -1,6 +1,7 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.Bus;
 using NTMiner.Bus.DirectBus;
+using NTMiner.Core;
 using NTMiner.Ip;
 using NTMiner.Ip.Impl;
 using NTMiner.LocalMessage;
@@ -155,6 +156,24 @@ namespace NTMiner {
             SEventBus = new DirectEventBus(SMessageDispatcher);
             LocalMessages = new LocalMessageSet(LocalMessageDbFileFullName);
         }
+
+        #region LocalServerMessageSetTimestamp
+        public static DateTime LocalServerMessageSetTimestamp {
+            get {
+                if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
+                    return value;
+                }
+                return Timestamp.UnixBaseTime;
+            }
+            set {
+                AppSettingData appSetting = new AppSettingData {
+                    Key = nameof(LocalServerMessageSetTimestamp),
+                    Value = value
+                };
+                Execute(new SetLocalAppSettingCommand(appSetting));
+            }
+        }
+        #endregion
 
         private static IAppSettingSet _appSettingSet;
         public static IAppSettingSet LocalAppSettingSet {

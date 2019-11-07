@@ -82,13 +82,15 @@ namespace NTMiner {
         }
 
         #region GetJsonFileVersionAsync
-        public static void GetJsonFileVersionAsync(string key, Action<string, string> callback) {
+        public static void GetJsonFileVersionAsync(string key, Action<string/*jsonFileVersion*/, string/*minerClientVersion*/, DateTime/*serverTime*/, DateTime/*serverMessageTime*/> callback) {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
             PostAsync("AppSetting", nameof(IAppSettingController.GetJsonFileVersion), null, request, (string text, Exception e) => {
                 string jsonFileVersion = string.Empty;
                 string minerClientVersion = string.Empty;
+                DateTime serverTime = DateTime.Now;
+                DateTime serverMessageTime = Timestamp.UnixBaseTime;
                 if (!string.IsNullOrEmpty(text)) {
                     string[] parts = text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
                     if (parts.Length > 0) {
@@ -97,8 +99,18 @@ namespace NTMiner {
                     if (parts.Length > 1) {
                         minerClientVersion = parts[1];
                     }
+                    if (parts.Length > 2) {
+                        if (ulong.TryParse(parts[2], out ulong timestamp)) {
+                            serverTime = Timestamp.FromTimestamp(timestamp);
+                        }
+                    }
+                    if (parts.Length > 3) {
+                        if (ulong.TryParse(parts[3], out ulong timestamp)) {
+                            serverMessageTime = Timestamp.FromTimestamp(timestamp);
+                        }
+                    }
                 }
-                callback?.Invoke(jsonFileVersion, minerClientVersion);
+                callback?.Invoke(jsonFileVersion, minerClientVersion, serverTime, serverMessageTime);
             }, timeountMilliseconds: 10 * 1000);
         }
         #endregion

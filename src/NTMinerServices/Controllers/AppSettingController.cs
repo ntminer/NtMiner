@@ -28,7 +28,7 @@ namespace NTMiner.Controllers {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
-            return $"{jsonVersion}|{minerClientVersion}";
+            return $"{jsonVersion}|{minerClientVersion}|{NTMiner.Timestamp.GetTimestamp()}|{NTMiner.Timestamp.GetTimestamp(HostRoot.Instance.ServerMessageTimestamp)}";
         }
 
         [HttpPost]
