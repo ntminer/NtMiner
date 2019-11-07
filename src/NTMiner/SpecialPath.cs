@@ -14,7 +14,6 @@ namespace NTMiner {
             ServerDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.ServerDbFileName);
             ServerJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.ServerJsonFileName);
 
-            LocalDbFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
             LocalJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalJsonFileName);
             GpuProfilesJsonFileFullName = Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.GpuProfilesFileName);           
             if (MainAssemblyInfo.IsLocalHome && !File.Exists(MainAssemblyInfo.RootLockFileFullName)) {
@@ -40,8 +39,8 @@ namespace NTMiner {
                         File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName);
                     }
                     string shareLocalDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
-                    if (File.Exists(shareLocalDbFileFullName) && !File.Exists(LocalDbFileFullName)) {
-                        File.Copy(shareLocalDbFileFullName, LocalDbFileFullName);
+                    if (File.Exists(shareLocalDbFileFullName) && !File.Exists(VirtualRoot.LocalDbFileFullName)) {
+                        File.Copy(shareLocalDbFileFullName, VirtualRoot.LocalDbFileFullName);
                     }
                     string shareLocalJsonFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalJsonFileName);
                     if (File.Exists(shareLocalJsonFileFullName) && !File.Exists(LocalJsonFileFullName)) {
@@ -105,7 +104,6 @@ namespace NTMiner {
             File.WriteAllText(GpuProfilesJsonFileFullName, json);
         }
 
-        public static readonly string LocalDbFileFullName;
         public static readonly string LocalJsonFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
 

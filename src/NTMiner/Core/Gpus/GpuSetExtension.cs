@@ -26,7 +26,7 @@ namespace NTMiner.Core.Gpus {
 
         public static int[] GetUseDevices(this IGpuSet gpuSet) {
             List<int> list = new List<int>();
-            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(NTKeyword.UseDevicesAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.UseDevicesAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 string[] parts = setting.Value.ToString().Split(',');
                 foreach (var part in parts) {
                     if (int.TryParse(part, out int index)) {

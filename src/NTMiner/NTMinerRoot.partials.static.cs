@@ -138,7 +138,7 @@ namespace NTMiner {
                             _localJson = new LocalJsonDb();
                         }
                         // 因为是群控作业，将开机启动和自动挖矿设置为true
-                        var repository = new LiteDbReadWriteRepository<MinerProfileData>(SpecialPath.LocalDbFileFullName);
+                        var repository = new LiteDbReadWriteRepository<MinerProfileData>(VirtualRoot.LocalDbFileFullName);
                         MinerProfileData localProfile = repository.GetByKey(MinerProfileData.DefaultId);
                         if (localProfile != null) {
                             if (localProfile.IsAutoStart == false || localProfile.IsAutoBoot == false) {
@@ -272,7 +272,7 @@ namespace NTMiner {
 
         public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
             if (!IsJsonLocal) {
-                return new LiteDbReadWriteRepository<T>(SpecialPath.LocalDbFileFullName);
+                return new LiteDbReadWriteRepository<T>(VirtualRoot.LocalDbFileFullName);
             }
             else {
                 return new JsonReadOnlyRepository<T>(LocalJson);

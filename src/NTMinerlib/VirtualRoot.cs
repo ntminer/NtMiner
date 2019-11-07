@@ -13,6 +13,7 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Linq;
+using NTMiner.AppSetting;
 
 namespace NTMiner {
     /// <summary>
@@ -29,6 +30,11 @@ namespace NTMiner {
                     return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalMessageDbFileName);
                 }
                 return string.Empty;
+            }
+        }
+        public static string LocalDbFileFullName {
+            get {
+                return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
             }
         }
         public static Guid Id { get; private set; }
@@ -151,6 +157,16 @@ namespace NTMiner {
             SEventBus = new DirectEventBus(SMessageDispatcher);
             LocalMessages = new LocalMessageSet(LocalMessageDbFileFullName);
             LocalServerMessageSet = new LocalServerMessageSet(LocalMessageDbFileFullName);
+        }
+
+        private static IAppSettingSet _appSettingSet;
+        public static IAppSettingSet LocalAppSettingSet {
+            get {
+                if (_appSettingSet == null) {
+                    _appSettingSet = new LocalAppSettingSet(LocalDbFileFullName);
+                }
+                return _appSettingSet;
+            }
         }
 
         private static string _appName = null;

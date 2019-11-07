@@ -38,6 +38,7 @@ namespace NTMiner.Vms {
         private string _messageType;
         private string _content;
         private DateTime _timestamp;
+        private bool _isDeleted;
         private ServerMessageType _messageTypeEnum;
 
         public EnumItem<ServerMessageType> ServerMessageTypeEnumItem {
@@ -67,23 +68,35 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ServerMessageViewModel(IServerMessage data) {
-            _id = data.Id;
-            _provider = data.Provider;
-            _messageType = data.MessageType;
-            _content = data.Content;
-            _timestamp = data.Timestamp;
-            data.MessageType.TryParse(out _messageTypeEnum);
+        public ServerMessageViewModel(Guid id) {
+            _id = id;
             this.Edit = new DelegateCommand<FormType?>((formType) => {
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
                 VirtualRoot.Execute(new ServerMessageEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
-
+                if (this.Id == Guid.Empty) {
+                    return;
+                }
+                this.ShowDialog(new DialogWindowViewModel(message: $"您确定标记删除'{this.Content}'这条消息吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new DeleteServerMessageCommand(this.Id));
+                }));
             });
             this.Save = new DelegateCommand(() => {
 
                 CloseWindow?.Invoke();
             });
+        }
+
+        public ServerMessageViewModel(IServerMessage data) : this(data.Id) {
+            _provider = data.Provider;
+            _messageType = data.MessageType;
+            _content = data.Content;
+            _timestamp = data.Timestamp;
+            _isDeleted = data.IsDeleted;
+            data.MessageType.TryParse(out _messageTypeEnum);
         }
 
         public ServerMessageType MessageTypeEnum {
@@ -167,6 +180,16 @@ namespace NTMiner.Vms {
                     default:
                         return Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
                 }
+            }
+        }
+
+        public bool IsDeleted {
+            get {
+                return _isDeleted;
+            }
+            set {
+                _isDeleted = value;
+                OnPropertyChanged(nameof(IsDeleted));
             }
         }
     }

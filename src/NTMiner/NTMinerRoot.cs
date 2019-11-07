@@ -12,7 +12,6 @@ using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.KernelOutputKeyword;
-using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.User;
 using System;
@@ -52,16 +51,6 @@ namespace NTMiner {
         public DateTime CreatedOn { get; private set; }
 
         public IAppSettingSet ServerAppSettingSet { get; private set; }
-
-        private IAppSettingSet _appSettingSet;
-        public IAppSettingSet LocalAppSettingSet {
-            get {
-                if (_appSettingSet == null) {
-                    _appSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
-                }
-                return _appSettingSet;
-            }
-        }
 
         #region cotr
         private NTMinerRoot() {
@@ -215,7 +204,7 @@ namespace NTMiner {
 
         public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
-            if (LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
             }
             return serverJsonVersion;
@@ -455,41 +444,6 @@ namespace NTMiner {
             Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
             Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
             Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
-        }
-        #endregion
-
-        #region LoadServerMessages
-        private DateTime LocalServerMessageSetTimestamp {
-            get {
-                if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
-                    return value;
-                }
-                return Timestamp.UnixBaseTime;
-            }
-            set {
-                AppSettingData appSetting = new AppSettingData {
-                    Key = nameof(LocalServerMessageSetTimestamp),
-                    Value = value
-                };
-                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSetting));
-            }
-        }
-
-        public void LoadServerMessages() {
-            OfficialServer.ServerMessageService.GetServerMessagesAsync(LocalServerMessageSetTimestamp, (response, e) => {
-                if (response.IsSuccess() && response.Data.Count > 0) {
-                    DateTime dateTime = LocalServerMessageSetTimestamp;
-                    LinkedList<IServerMessage> data = new LinkedList<IServerMessage>();
-                    foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
-                        if (item.Timestamp > dateTime) {
-                            LocalServerMessageSetTimestamp = item.Timestamp;
-                        }
-                        data.AddLast(item);
-                        VirtualRoot.LocalServerMessageSet.AddOrUpdate(item);
-                    }
-                    VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
-                }
-            });
         }
         #endregion
 
@@ -839,7 +793,7 @@ namespace NTMiner {
         public IKernelOutputKeywordSet LocalKernelOutputKeywordSet {
             get {
                 if (_localKernelOutputKeywordSet == null) {
-                    _localKernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+                    _localKernelOutputKeywordSet = new LocalKernelOutputKeywordSet(VirtualRoot.LocalDbFileFullName);
                 }
                 return _localKernelOutputKeywordSet;
             }
@@ -849,7 +803,7 @@ namespace NTMiner {
         public IKernelOutputKeywordSet ServerKernelOutputKeywordSet {
             get {
                 if (_serverKernelOutputKeywordSet == null) {
-                    _serverKernelOutputKeywordSet = new ServerKernelOutputKeywordSet(this);
+                    _serverKernelOutputKeywordSet = new ServerKernelOutputKeywordSet();
                 }
                 return _serverKernelOutputKeywordSet;
             }

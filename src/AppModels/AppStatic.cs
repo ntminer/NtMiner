@@ -20,7 +20,7 @@ namespace NTMiner {
 
         private static string GetUpdaterVersion() {
             string updaterVersion = string.Empty;
-            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(NTKeyword.UpdaterVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.UpdaterVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 updaterVersion = setting.Value.ToString();
             }
             return updaterVersion;
@@ -135,7 +135,7 @@ namespace NTMiner {
             }
         }
         public static string LocalDbFileFullName {
-            get => SpecialPath.LocalDbFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
+            get => VirtualRoot.LocalDbFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
         }
 
         public static string ServerJsonFileFullName {
@@ -714,7 +714,7 @@ namespace NTMiner {
             Process.Start(MainAssemblyInfo.HomeDirFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
-            OpenLiteDb(SpecialPath.LocalDbFileFullName);
+            OpenLiteDb(VirtualRoot.LocalDbFileFullName);
         });
         public static ICommand OpenServerLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(SpecialPath.ServerDbFileFullName);

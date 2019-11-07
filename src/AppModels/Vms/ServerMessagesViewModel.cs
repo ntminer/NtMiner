@@ -27,13 +27,13 @@ namespace NTMiner.Vms {
             Init();
             RefreshQueryResults();
             this.Add = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ServerMessageEditCommand(FormType.Add, new ServerMessageViewModel(new ServerMessageData {
+                new ServerMessageViewModel(new ServerMessageData {
                     Id = Guid.NewGuid(),
                     MessageType = ServerMessageType.Info.GetName(),
                     Provider = "admin",
                     Content = string.Empty,
                     Timestamp = DateTime.MinValue
-                })));
+                }).Edit.Execute(FormType.Add);
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;

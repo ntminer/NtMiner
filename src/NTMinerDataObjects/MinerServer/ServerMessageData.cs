@@ -17,5 +17,7 @@ namespace NTMiner.MinerServer {
         public string Content { get; set; }
 
         public DateTime Timestamp { get; set; }
+
+        public bool IsDeleted { get; set; }
     }
 }

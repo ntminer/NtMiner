@@ -166,6 +166,12 @@ namespace NTMiner {
         public ServerMessageClearedEvent() { }
     }
 
+    #region ServerMessage
+    [MessageType(description: "从服务器获取新的服务器消息")]
+    public class LoadNewServerMessageCommand : Cmd {
+        public LoadNewServerMessageCommand() { }
+    }
+
     [MessageType(description: "从服务器获取到新的服务器消息后")]
     public class NewServerMessageLoadedEvent : EventBase {
         public NewServerMessageLoadedEvent(LinkedList<IServerMessage> data) {
@@ -174,4 +180,24 @@ namespace NTMiner {
 
         public LinkedList<IServerMessage> Data { get; }
     }
+
+    [MessageType(description: "添加服务器消息")]
+    public class AddServerMessageCommand : AddEntityCommand<IServerMessage> {
+        public AddServerMessageCommand(IServerMessage input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "更新服务器消息")]
+    public class UpdateServerMessageCommand : UpdateEntityCommand<IServerMessage> {
+        public UpdateServerMessageCommand(IServerMessage input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "标记删除服务器消息")]
+    public class DeleteServerMessageCommand : RemoveEntityCommand {
+        public DeleteServerMessageCommand(Guid id) : base(id) {
+
+        }
+    }
+    #endregion
 }

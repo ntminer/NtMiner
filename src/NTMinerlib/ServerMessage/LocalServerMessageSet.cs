@@ -14,6 +14,19 @@ namespace NTMiner.ServerMessage {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
                 _connectionString = $"filename={dbFileFullName};journal=false";
             }
+            VirtualRoot.BuildCmdPath<AddServerMessageCommand>(action: message => {
+
+                VirtualRoot.Execute(new LoadNewServerMessageCommand());
+            });
+            VirtualRoot.BuildCmdPath<UpdateServerMessageCommand>(action: message => {
+
+                VirtualRoot.Execute(new LoadNewServerMessageCommand());
+            });
+            // 标记删除
+            VirtualRoot.BuildCmdPath<DeleteServerMessageCommand>(action: message => {
+
+                VirtualRoot.Execute(new LoadNewServerMessageCommand());
+            });
         }
 
         public List<IServerMessage> GetServerMessages(DateTime timeStamp) {

@@ -19,15 +19,11 @@ namespace NTMiner {
 
         string GetServerJsonVersion();
 
-        void LoadServerMessages();
-
         IUserSet UserSet { get; }
 
         DateTime CreatedOn { get; }
 
         IAppSettingSet ServerAppSettingSet { get; }
-
-        IAppSettingSet LocalAppSettingSet { get; }
 
         void Init(Action callback);
 
