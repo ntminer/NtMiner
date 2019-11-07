@@ -97,9 +97,7 @@ namespace NTMiner {
                                     else {
                                         Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{serverTime}");
                                     }
-                                    if (serverMessageTime > VirtualRoot.LocalServerMessageSetTimestamp) {
-                                        VirtualRoot.Execute(new LoadNewServerMessageCommand());
-                                    }
+                                    VirtualRoot.Execute(new LoadNewServerMessageCommand(serverMessageTime));
                                 });
                             }
                             else {
@@ -154,9 +152,7 @@ namespace NTMiner {
                 else {
                     Write.DevDebug("server.json没有新版本");
                 }
-                if (serverMessageTime > VirtualRoot.LocalServerMessageSetTimestamp) {
-                    VirtualRoot.Execute(new LoadNewServerMessageCommand());
-                }
+                VirtualRoot.Execute(new LoadNewServerMessageCommand(serverMessageTime));
             });
         }
 

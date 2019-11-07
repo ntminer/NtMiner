@@ -20,11 +20,15 @@ namespace NTMiner.ServerMessage {
             _isServer = isServer;
             if (!_isServer) {
                 VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
-                    OfficialServer.ServerMessageService.GetServerMessagesAsync(VirtualRoot.LocalServerMessageSetTimestamp, (response, e) => {
+                    DateTime dateTime = VirtualRoot.LocalServerMessageSetTimestamp;
+                    // 如果已知服务器端最新消息的时间戳不比本地已加载的最新消息新就不用加载了
+                    if (message.KnowServerMessageTimestamp <= dateTime) {
+                        return;
+                    }
+                    OfficialServer.ServerMessageService.GetServerMessagesAsync(dateTime, (response, e) => {
                         if (response.IsSuccess() && response.Data.Count > 0) {
                             LinkedList<ServerMessageData> data = new LinkedList<ServerMessageData>();
                             lock (_locker) {
-                                DateTime dateTime = VirtualRoot.LocalServerMessageSetTimestamp;
                                 DateTime maxTime = dateTime;
                                 foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
                                     if (item.Timestamp > maxTime) {
@@ -93,7 +97,7 @@ namespace NTMiner.ServerMessage {
                 else {
                     OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData(message.Input), (response, ex) => {
                         if (response.IsSuccess()) {
-                            VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                            VirtualRoot.Execute(new LoadNewServerMessageCommand(DateTime.MaxValue));
                         }
                     });
                 }
@@ -123,7 +127,7 @@ namespace NTMiner.ServerMessage {
                 }
                 else {
                     OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
-                        VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                        VirtualRoot.Execute(new LoadNewServerMessageCommand(DateTime.MaxValue));
                     });
                 }
             });
@@ -181,7 +185,6 @@ namespace NTMiner.ServerMessage {
                             }
                         }
                     }
-                    VirtualRoot.Execute(new LoadNewServerMessageCommand());
                     _isInited = true;
                 }
             }

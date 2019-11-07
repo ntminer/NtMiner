@@ -167,7 +167,11 @@ namespace NTMiner {
 
     [MessageType(description: "从服务器获取新的服务器消息")]
     public class LoadNewServerMessageCommand : Cmd {
-        public LoadNewServerMessageCommand() { }
+        public LoadNewServerMessageCommand(DateTime knowServerMessageTimestamp) {
+            this.KnowServerMessageTimestamp = knowServerMessageTimestamp;
+        }
+
+        public DateTime KnowServerMessageTimestamp { get; private set; }
     }
 
     [MessageType(description: "从服务器获取到新的服务器消息后")]
