@@ -811,7 +811,7 @@ namespace NTMiner {
         }
 
         private IServerMessageSet _localServerMessageSet;
-        public IServerMessageSet LocalServerMessageSet {
+        public IServerMessageSet ServerMessageSet {
             get {
                 if (_localServerMessageSet == null) {
                     _localServerMessageSet = new ServerMessageSet(VirtualRoot.LocalMessageDbFileFullName, isServer: false);

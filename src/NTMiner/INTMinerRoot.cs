@@ -99,7 +99,7 @@ namespace NTMiner {
 
         IKernelOutputKeywordSet LocalKernelOutputKeywordSet { get; }
         IKernelOutputKeywordSet ServerKernelOutputKeywordSet { get; }
-        IServerMessageSet LocalServerMessageSet { get; }
+        IServerMessageSet ServerMessageSet { get; }
         string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }
 }
