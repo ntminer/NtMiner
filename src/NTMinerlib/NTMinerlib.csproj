@@ -48,8 +48,6 @@
     <Compile Include="KernelOutputKeyword\LocalKernelOutputKeywordSet.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
-    <Compile Include="ServerMessage\IServerMessageSet.cs" />
-    <Compile Include="ServerMessage\ServerMessageSet.cs" />
     <Compile Include="Ip\ILocalIpSet.cs" />
     <Compile Include="Ip\Impl\LocalIpSet.cs" />
     <Compile Include="Ip\Util.cs" />
