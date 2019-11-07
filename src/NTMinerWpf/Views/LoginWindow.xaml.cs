@@ -13,7 +13,7 @@ namespace NTMiner.Views {
 
         public LoginWindow() {
             InitializeComponent();
-            NotiCenterWindow.Bind(this);
+            NotiCenterWindow.Bind(this, isNoOtherWindow: true);
             this.PbPassword.Focus();
         }
 
