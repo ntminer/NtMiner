@@ -1,14 +1,13 @@
 ﻿using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner.Controllers {
     public class ServerMessageController : ApiControllerBase, IServerMessageController {
         public DataResponse<List<ServerMessageData>> ServerMessages(ServerMessagesRequest request) {
             try {
-                var data = HostRoot.Instance.ServerMessageSet.GetServerMessages(NTMiner.Timestamp.FromTimestamp(request.Timestamp)).Cast<ServerMessageData>();
-                return DataResponse<List<ServerMessageData>>.Ok(data.ToList());
+                var data = HostRoot.Instance.ServerMessageSet.GetServerMessages(NTMiner.Timestamp.FromTimestamp(request.Timestamp));
+                return DataResponse<List<ServerMessageData>>.Ok(data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

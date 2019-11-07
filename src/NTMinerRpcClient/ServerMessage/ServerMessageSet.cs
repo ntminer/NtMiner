@@ -132,12 +132,12 @@ namespace NTMiner.ServerMessage {
             });
         }
 
-        public List<IServerMessage> GetServerMessages(DateTime timeStamp) {
+        public List<ServerMessageData> GetServerMessages(DateTime timeStamp) {
             if (string.IsNullOrEmpty(_connectionString)) {
-                return new List<IServerMessage>();
+                return new List<ServerMessageData>();
             }
             InitOnece();
-            return _linkedList.Where(a => a.Timestamp >= timeStamp).Cast<IServerMessage>().ToList();
+            return _linkedList.Where(a => a.Timestamp >= timeStamp).ToList();
         }
 
         private bool _isInited = false;
