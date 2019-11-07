@@ -34,6 +34,7 @@ namespace NTMiner.ServerMessage {
                 }
                 InitOnece();
                 if (_isServer) {
+                    #region Server
                     ServerMessageData exist;
                     List<ServerMessageData> toRemoves = new List<ServerMessageData>();
                     ServerMessageData data = null;
@@ -73,10 +74,14 @@ namespace NTMiner.ServerMessage {
                             col.Insert(data);
                         }
                     }
+                    #endregion
                 }
                 else {
-
-                    VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                    OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData(message.Input), (response, ex) => {
+                        if (response.IsSuccess()) {
+                            VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                        }
+                    });
                 }
             });
             VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(action: message => {
@@ -85,6 +90,7 @@ namespace NTMiner.ServerMessage {
                 }
                 InitOnece();
                 if (_isServer) {
+                    #region Server
                     ServerMessageData exist = null;
                     lock (_locker) {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.EntityId);
@@ -99,10 +105,12 @@ namespace NTMiner.ServerMessage {
                             col.Update(exist);
                         }
                     }
+                    #endregion
                 }
                 else {
-
-                    VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                    OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
+                        VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                    });
                 }
             });
             VirtualRoot.BuildCmdPath<ClearServerMessages>(action: message => {

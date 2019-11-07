@@ -65,8 +65,8 @@ namespace NTMiner {
             }
             #endregion
 
-            #region RemoveServerMessageAsync
-            public void RemoveServerMessageAsync(Guid id, Action<ResponseBase, Exception> callback) {
+            #region MarkDeleteServerMessageAsync
+            public void MarkDeleteServerMessageAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
