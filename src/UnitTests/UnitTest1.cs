@@ -14,6 +14,16 @@ namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void TimestampTest() {
+            Assert.AreEqual(0ul, Timestamp.GetTimestamp(Timestamp.UnixBaseTime));
+            // 因为有时区
+            Assert.AreNotEqual(0ul, Timestamp.GetTimestamp(new DateTime(1970, 1, 1)));
+            DateTime n = DateTime.Now;
+            DateTime now = new DateTime(n.Year, n.Month, n.Day, n.Hour, n.Minute, n.Second);
+            Assert.AreEqual(now, Timestamp.FromTimestamp(Timestamp.GetTimestamp(now)));
+        }
+
+        [TestMethod]
         public void NullTest() {
             object o = null;
             Assert.IsFalse(o is DateTime);
