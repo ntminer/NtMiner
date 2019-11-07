@@ -40,7 +40,12 @@ namespace NTMiner.ServerMessage {
                     lock (_locker) {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.Input.Id);
                         if (exist != null) {
+                            DateTime timestamp = exist.Timestamp;
                             exist.Update(message.Input);
+                            // 如果更新前后时间戳没有变化则自动变更时间戳
+                            if (timestamp == exist.Timestamp) {
+                                exist.Timestamp = DateTime.Now;
+                            }
                         }
                         else {
                             data = new ServerMessageData(message.Input);
@@ -85,6 +90,7 @@ namespace NTMiner.ServerMessage {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.EntityId);
                         if (exist != null) {
                             exist.IsDeleted = true;
+                            exist.Timestamp = DateTime.Now;
                         }
                     }
                     if (exist != null) {
