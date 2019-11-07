@@ -146,7 +146,7 @@ namespace NTMiner {
             this.NTMinerFileSet = new NTMinerFileSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.KernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
-            this.ServerMessageSet = new LocalServerMessageSet(SpecialPath.LocalDbFileFullName);
+            this.ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName, isServer: true);
         }
 
         public IUserSet UserSet { get; private set; }

@@ -16,13 +16,12 @@ namespace NTMiner {
                     GetServerMessagesAsync(LocalServerMessageSetTimestamp, (response, e) => {
                         if (response.IsSuccess() && response.Data.Count > 0) {
                             DateTime dateTime = LocalServerMessageSetTimestamp;
-                            LinkedList<IServerMessage> data = new LinkedList<IServerMessage>();
+                            LinkedList<ServerMessageData> data = new LinkedList<ServerMessageData>();
                             foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
                                 if (item.Timestamp > dateTime) {
                                     LocalServerMessageSetTimestamp = item.Timestamp;
                                 }
                                 data.AddLast(item);
-                                VirtualRoot.LocalServerMessageSet.AddOrUpdate(item);
                             }
                             VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
                         }

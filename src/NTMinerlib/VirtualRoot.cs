@@ -156,7 +156,7 @@ namespace NTMiner {
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
             LocalMessages = new LocalMessageSet(LocalMessageDbFileFullName);
-            LocalServerMessageSet = new LocalServerMessageSet(LocalMessageDbFileFullName);
+            LocalServerMessageSet = new ServerMessageSet(LocalMessageDbFileFullName, isServer: false);
         }
 
         private static IAppSettingSet _appSettingSet;

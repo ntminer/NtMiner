@@ -138,6 +138,7 @@ namespace NTMiner {
     }
     #endregion
 
+    #region LocalMessage
     [MessageType(description: "记录了本地事件后")]
     public class LocalMessageAddedEvent : DomainEvent<ILocalMessage> {
         public LocalMessageAddedEvent(ILocalMessage source, List<ILocalMessage> removes) : base(source) {
@@ -151,22 +152,19 @@ namespace NTMiner {
     public class LocalMessageClearedEvent : EventBase {
         public LocalMessageClearedEvent() { }
     }
+    #endregion
 
-    [MessageType(description: "记录了服务器事件后")]
-    public class ServerMessageAddedEvent : DomainEvent<IServerMessage> {
-        public ServerMessageAddedEvent(IServerMessage source, List<IServerMessage> removes) : base(source) {
-            this.Removes = removes ?? new List<IServerMessage>();
-        }
-
-        public List<IServerMessage> Removes { get; private set; }
+    #region ServerMessage
+    [MessageType(description: "清空服务器消息集")]
+    public class ClearServerMessages : Cmd {
+        public ClearServerMessages() { }
     }
 
     [MessageType(description: "服务器消息集清空后")]
-    public class ServerMessageClearedEvent : EventBase {
-        public ServerMessageClearedEvent() { }
+    public class ServerMessagesClearedEvent : EventBase {
+        public ServerMessagesClearedEvent() { }
     }
 
-    #region ServerMessage
     [MessageType(description: "从服务器获取新的服务器消息")]
     public class LoadNewServerMessageCommand : Cmd {
         public LoadNewServerMessageCommand() { }
@@ -174,11 +172,11 @@ namespace NTMiner {
 
     [MessageType(description: "从服务器获取到新的服务器消息后")]
     public class NewServerMessageLoadedEvent : EventBase {
-        public NewServerMessageLoadedEvent(LinkedList<IServerMessage> data) {
+        public NewServerMessageLoadedEvent(LinkedList<ServerMessageData> data) {
             this.Data = data;
         }
 
-        public LinkedList<IServerMessage> Data { get; }
+        public LinkedList<ServerMessageData> Data { get; }
     }
 
     [MessageType(description: "添加服务器消息")]

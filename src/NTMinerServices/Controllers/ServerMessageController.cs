@@ -24,7 +24,13 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                HostRoot.Instance.ServerMessageSet.AddOrUpdate(request.Data);
+                var entity = HostRoot.Instance.ServerMessageSet.FirstOrDefault(a => a.Id == request.Data.Id);
+                if (entity != null) {
+                    VirtualRoot.Execute(new UpdateServerMessageCommand(request.Data));
+                }
+                else {
+                    VirtualRoot.Execute(new AddServerMessageCommand(request.Data));
+                }
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -41,7 +47,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                HostRoot.Instance.ServerMessageSet.Remove(request.Data);
+                VirtualRoot.Execute(new MarkDeleteServerMessageCommand(request.Data));
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
