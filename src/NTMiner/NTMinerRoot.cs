@@ -95,7 +95,7 @@ namespace NTMiner {
                                         Logger.OkDebugLine("时间同步");
                                     }
                                     else {
-                                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{serverState.GetTime()}");
+                                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{Timestamp.FromTimestamp(serverState.Time)}");
                                     }
                                     VirtualRoot.Execute(new LoadNewServerMessageCommand(serverState.MessageTimestamp));
                                 });
