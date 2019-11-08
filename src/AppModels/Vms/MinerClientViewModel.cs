@@ -984,6 +984,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public DateTime CreatedOn {
+            get { return _data.CreatedOn; }
+            set {
+                if (_data.CreatedOn != value) {
+                    _data.CreatedOn = value;
+                    OnPropertyChanged(nameof(CreatedOn));
+                }
+            }
+        }
+
         private GpuSpeedDataViewModels _gpuTableVm;
         public GpuSpeedDataViewModels GpuTableVm {
             get {

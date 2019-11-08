@@ -15,5 +15,6 @@ namespace NTMiner.MinerServer {
         string WindowsLoginName { get; }
 
         string WindowsPassword { get; }
+        DateTime CreatedOn { get; }
     }
 }
