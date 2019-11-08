@@ -4,54 +4,54 @@ using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class WorkerMessageViewModel : ViewModelBase, IWorkerMessage {
+    public class LocalMessageViewModel : ViewModelBase, ILocalMessage {
         private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
         private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Warn"];
         private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
         private static readonly SolidColorBrush InfoColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
         private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
 
-        public static StreamGeometry GetIcon(WorkerMessageType messageType) {
+        public static StreamGeometry GetIcon(LocalMessageType messageType) {
             switch (messageType) {
-                case WorkerMessageType.Info:
+                case LocalMessageType.Info:
                     return InfoIcon;
-                case WorkerMessageType.Warn:
+                case LocalMessageType.Warn:
                     return WarnIcon;
-                case WorkerMessageType.Error:
+                case LocalMessageType.Error:
                     return ErrorIcon;
                 default:
                     return null;
             }
         }
 
-        public static SolidColorBrush GetIconFill(WorkerMessageType messageType) {
+        public static SolidColorBrush GetIconFill(LocalMessageType messageType) {
             switch (messageType) {
-                case WorkerMessageType.Info:
+                case LocalMessageType.Info:
                     return InfoColor;
-                case WorkerMessageType.Warn:
+                case LocalMessageType.Warn:
                     return WarnColor;
-                case WorkerMessageType.Error:
+                case LocalMessageType.Error:
                     return WpfUtil.RedBrush;
                 default:
                     return WpfUtil.BlackBrush;
             }
         }
 
-        private readonly IWorkerMessage _data;
-        private readonly WorkerMessageChannel _channel;
-        private readonly WorkerMessageType _messageTypeEnum;
+        private readonly ILocalMessage _data;
+        private readonly LocalMessageChannel _channel;
+        private readonly LocalMessageType _messageTypeEnum;
 
-        public WorkerMessageViewModel(IWorkerMessage data) {
+        public LocalMessageViewModel(ILocalMessage data) {
             _data = data;
             data.MessageType.TryParse(out _messageTypeEnum);
             data.Channel.TryParse(out _channel);
         }
 
-        public WorkerMessageChannel ChannelEnum {
+        public LocalMessageChannel ChannelEnum {
             get { return _channel; }
         }
 
-        public WorkerMessageType MessageTypeEnum {
+        public LocalMessageType MessageTypeEnum {
             get { return _messageTypeEnum; }
         }
 
@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
 
         public string ChannelText {
             get {
-                if (_channel != WorkerMessageChannel.Unspecified) {
+                if (_channel != LocalMessageChannel.Unspecified) {
                     return _channel.GetDescription();
                 }
                 return "未知";

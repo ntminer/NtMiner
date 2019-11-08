@@ -178,6 +178,24 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有消息</TextBlock>
+        <TextBlock Grid.Row="1" Visibility="{Binding IsNoRecord,Converter={StaticResource BoolToVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有消息</TextBlock>
+        <WrapPanel Grid.Row="1" Visibility="{x:Static app:AppStatic.IsMinerStudioDevVisible}" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <controls:KbButton
+				Margin="2 8 2 0"
+				Command="{Binding Add}" 
+				Background="Transparent" 
+                BorderThickness="0"
+				CornerRadius="2" 
+                ToolTip="添加">
+                <WrapPanel>
+                    <Path
+						Width="18"
+						Height="18"
+						Data="{StaticResource Icon_Add}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+        </WrapPanel>
     </Grid>
 </UserControl>

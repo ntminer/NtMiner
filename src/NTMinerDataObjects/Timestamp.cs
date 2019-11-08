@@ -3,14 +3,18 @@
 namespace NTMiner {
     public static class Timestamp {
         public const int DesyncSeconds = 180;
-        public static readonly DateTime UnixBaseTime = new DateTime(1970, 1, 1);
+        public static readonly DateTime UnixBaseTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         public static ulong GetTimestamp() {
-            return GetTimestamp(DateTime.Now.ToUniversalTime());
+            return GetTimestamp(DateTime.Now);
         }
 
         public static ulong GetTimestamp(DateTime dateTime) {
-            return (ulong)(dateTime.ToUniversalTime() - UnixBaseTime).TotalSeconds;
+            var span = (dateTime.ToUniversalTime() - UnixBaseTime).TotalSeconds;
+            if (span < 0) {
+                return 0;
+            }
+            return (ulong)span;
         }
 
         public static DateTime FromTimestamp(ulong timestamp) {

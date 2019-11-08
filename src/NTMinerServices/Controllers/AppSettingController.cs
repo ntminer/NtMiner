@@ -13,22 +13,8 @@ namespace NTMiner.Controllers {
 
         [HttpPost]
         public string GetJsonFileVersion(AppSettingRequest request) {
-            string jsonVersion = string.Empty;
-            string minerClientVersion = string.Empty;
-            try {
-                var fileData = HostRoot.Instance.NTMinerFileSet.LatestMinerClientFile;
-                minerClientVersion = fileData != null ? fileData.Version : string.Empty;
-                if (!HostRoot.Instance.AppSettingSet.TryGetAppSetting(request.Key, out IAppSetting data) || data.Value == null) {
-                    jsonVersion = string.Empty;
-                }
-                else {
-                    jsonVersion = data.Value.ToString();
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
-            return $"{jsonVersion}|{minerClientVersion}";
+            ServerState serverState = HostRoot.GetServerState(request.Key);
+            return $"{serverState.JsonFileVersion}|{serverState.MinerClientVersion}|{serverState.Time}|{serverState.MessageTimestamp}";
         }
 
         [HttpPost]

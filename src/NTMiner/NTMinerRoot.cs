@@ -12,8 +12,8 @@ using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.KernelOutputKeyword;
-using NTMiner.MinerServer;
 using NTMiner.Profile;
+using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
@@ -53,16 +53,6 @@ namespace NTMiner {
 
         public IAppSettingSet ServerAppSettingSet { get; private set; }
 
-        private IAppSettingSet _appSettingSet;
-        public IAppSettingSet LocalAppSettingSet {
-            get {
-                if (_appSettingSet == null) {
-                    _appSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
-                }
-                return _appSettingSet;
-            }
-        }
-
         #region cotr
         private NTMinerRoot() {
             CreatedOn = DateTime.Now;
@@ -98,17 +88,27 @@ namespace NTMiner {
                                 if (!string.IsNullOrEmpty(serverJson)) {
                                     SpecialPath.WriteServerJsonFile(serverJson);
                                 }
-                                OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
-                                    SetServerJsonVersion(serverJsonFileVersion);
-                                    AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
+                                OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, serverState => {
+                                    SetServerJsonVersion(serverState.JsonFileVersion);
+                                    AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion); 
+                                    if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) < Timestamp.DesyncSeconds) {
+                                        Logger.OkDebugLine("时间同步");
+                                    }
+                                    else {
+                                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{Timestamp.FromTimestamp(serverState.Time)}");
+                                    }
+                                    // 因为挖矿端上报算力时会触发加载服务端消息的逻辑所以这里就不加载了
+                                    if (VirtualRoot.IsMinerStudio) {
+                                        VirtualRoot.Execute(new LoadNewServerMessageCommand(serverState.MessageTimestamp));
+                                    }
                                 });
                             }
                             else {
                                 if (!File.Exists(SpecialPath.ServerJsonFileFullName)) {
-                                    VirtualRoot.ThisWorkerError(nameof(NTMinerRoot), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", OutEnum.Warn);
+                                    VirtualRoot.ThisLocalError(nameof(NTMinerRoot), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", OutEnum.Warn);
                                 }
                                 else {
-                                    VirtualRoot.ThisWorkerWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最后一次成功下载的配置文件", OutEnum.Warn);
+                                    VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最后一次成功下载的配置文件", OutEnum.Warn);
                                 }
                             }
                             DoInit(isWork, callback);
@@ -121,7 +121,7 @@ namespace NTMiner {
                         #endregion
                     }
                 }
-                VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "启动");
+                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"启动{VirtualRoot.AppName}");
             });
         }
 
@@ -138,18 +138,18 @@ namespace NTMiner {
         }
 
         private void RefreshServerJsonFile() {
-            OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion) => {
-                AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
+            OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, serverState => {
+                AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
-                if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
+                if (!string.IsNullOrEmpty(serverState.JsonFileVersion) && localServerJsonFileVersion != serverState.JsonFileVersion) {
                     GetAliyunServerJson((data) => {
                         string rawJson = Encoding.UTF8.GetString(data);
                         SpecialPath.WriteServerJsonFile(rawJson);
-                        SetServerJsonVersion(serverJsonFileVersion);
+                        SetServerJsonVersion(serverState.JsonFileVersion);
                         ReInitServerJson();
                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                         ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                        VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), $"刷新server.json配置", toConsole: true);
+                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"刷新server.json配置", toConsole: true);
                     });
                 }
                 else {
@@ -215,7 +215,7 @@ namespace NTMiner {
 
         public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
-            if (LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 serverJsonVersion = setting.Value.ToString();
             }
             return serverJsonVersion;
@@ -248,6 +248,7 @@ namespace NTMiner {
             this.NTMinerWalletSet = new NTMinerWalletSet();
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
+            this.ServerMessageSet = new ServerMessageSet(VirtualRoot.LocalDbFileFullName, isServer: false);
             // 作业和在群控客户端管理作业时
             IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
             this._minerProfile = new MinerProfile(this);
@@ -259,15 +260,6 @@ namespace NTMiner {
             NTMinerRegistry.SetCurrentVersionTag(MainAssemblyInfo.CurrentVersionTag);
 
             if (VirtualRoot.IsMinerClient) {
-                OfficialServer.GetTimeAsync((remoteTime) => {
-                    if (Math.Abs((DateTime.Now - remoteTime).TotalSeconds) < Timestamp.DesyncSeconds) {
-                        Logger.OkDebugLine("时间同步");
-                    }
-                    else {
-                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{remoteTime}");
-                    }
-                });
-
                 Report.Init();
                 Link();
                 // 当显卡温度变更时守卫温度防线
@@ -329,11 +321,11 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    RegCmdHere(); VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", OutEnum.Success);
+                    RegCmdHere(); VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", OutEnum.Success);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    RegCmdHere(); VirtualRoot.ThisWorkerError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
+                    RegCmdHere(); VirtualRoot.ThisLocalError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
                 }
             });
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
@@ -458,47 +450,12 @@ namespace NTMiner {
         }
         #endregion
 
-        #region LoadServerMessages
-        private DateTime LocalServerMessageSetTimestamp {
-            get {
-                if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
-                    return value;
-                }
-                return Timestamp.UnixBaseTime;
-            }
-            set {
-                AppSettingData appSetting = new AppSettingData {
-                    Key = nameof(LocalServerMessageSetTimestamp),
-                    Value = value
-                };
-                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSetting));
-            }
-        }
-
-        public void LoadServerMessages() {
-            OfficialServer.ServerMessageService.GetServerMessagesAsync(LocalServerMessageSetTimestamp, (response, e) => {
-                if (response.IsSuccess() && response.Data.Count > 0) {
-                    DateTime dateTime = LocalServerMessageSetTimestamp;
-                    LinkedList<IServerMessage> data = new LinkedList<IServerMessage>();
-                    foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
-                        if (item.Timestamp > dateTime) {
-                            LocalServerMessageSetTimestamp = item.Timestamp;
-                        }
-                        data.AddLast(item);
-                        VirtualRoot.LocalServerMessageSet.AddOrUpdate(item);
-                    }
-                    VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
-                }
-            });
-        }
-        #endregion
-
         #region Exit
         public void Exit() {
             if (_currentMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }
-            VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "退出");
+            VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");
         }
         #endregion
 
@@ -528,7 +485,7 @@ namespace NTMiner {
                 }
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
-                VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "挖矿停止", toConsole: true);
+                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "挖矿停止", toConsole: true);
                 VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext, stopReason));
             }
             catch (Exception e) {
@@ -639,7 +596,7 @@ namespace NTMiner {
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
+                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine(isRestart);
@@ -671,9 +628,9 @@ namespace NTMiner {
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
-                    VirtualRoot.ThisWorkerInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
+                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
                     if (mineContext.UseDevices.Length != GpuSet.Count) {
-                        VirtualRoot.ThisWorkerWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
+                        VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
                     }
                 }
             }
@@ -839,7 +796,7 @@ namespace NTMiner {
         public IKernelOutputKeywordSet LocalKernelOutputKeywordSet {
             get {
                 if (_localKernelOutputKeywordSet == null) {
-                    _localKernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+                    _localKernelOutputKeywordSet = new LocalKernelOutputKeywordSet(VirtualRoot.LocalDbFileFullName);
                 }
                 return _localKernelOutputKeywordSet;
             }
@@ -849,10 +806,12 @@ namespace NTMiner {
         public IKernelOutputKeywordSet ServerKernelOutputKeywordSet {
             get {
                 if (_serverKernelOutputKeywordSet == null) {
-                    _serverKernelOutputKeywordSet = new ServerKernelOutputKeywordSet(this);
+                    _serverKernelOutputKeywordSet = new ServerKernelOutputKeywordSet();
                 }
                 return _serverKernelOutputKeywordSet;
             }
         }
+
+        public IServerMessageSet ServerMessageSet { get; private set; }
     }
 }

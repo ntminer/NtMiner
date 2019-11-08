@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.MinerServer {
+namespace NTMiner.MinerClient {
     public class ReportState {
         public ReportState() { }
         public Guid ClientId { get; set; }

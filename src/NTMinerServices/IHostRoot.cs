@@ -2,6 +2,7 @@
 using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.KernelOutputKeyword;
+using NTMiner.MinerServer;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
@@ -29,5 +30,7 @@ namespace NTMiner {
         IOverClockDataSet OverClockDataSet { get; }
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
+        DateTime ServerMessageTimestamp { get; }
+        void UpdateServerMessageTimestamp();
     }
 }

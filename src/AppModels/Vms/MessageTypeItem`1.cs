@@ -26,7 +26,7 @@ namespace NTMiner.Vms {
         public bool IsChecked {
             get {
                 bool value = true;
-                if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting($"Is{_messageTypeName}{MessageType.Name}Checked", out IAppSetting setting) && setting.Value != null) {
+                if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting($"Is{_messageTypeName}{MessageType.Name}Checked", out IAppSetting setting) && setting.Value != null) {
                     value = (bool)setting.Value;
                 }
                 return value;

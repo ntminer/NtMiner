@@ -63,7 +63,7 @@
     <Compile Include="RegexTests.cs" />
     <Compile Include="TimingTests.cs" />
     <Compile Include="RemoteDesktopTests.cs" />
-    <Compile Include="WorkerMessageTests.cs" />
+    <Compile Include="LocalMessageTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>

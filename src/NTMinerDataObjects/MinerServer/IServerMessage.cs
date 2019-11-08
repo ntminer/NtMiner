@@ -7,5 +7,6 @@ namespace NTMiner.MinerServer {
         string MessageType { get; }
         string Content { get; }
         DateTime Timestamp { get; }
+        bool IsDeleted { get; }
     }
 }

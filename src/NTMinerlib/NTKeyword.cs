@@ -12,7 +12,6 @@
             OfficialServerHost = host;
         }
 
-        public const string WorkerMessageDbFileName = "workerMessage.litedb";
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
         public const string NTMinerServicesFileName = "NTMinerServices.exe";
         public const string GpuProfilesFileName = "gpuProfiles.json";
@@ -31,7 +30,7 @@
         public const string AutoStartCmdParameterName = "--AutoStart";
         public const string UpgradeCmdParameterName = "upgrade=";
 
-        public const int WorkerMessageSetCapacity = 1000;
+        public const int LocalMessageSetCapacity = 1000;
         public const int ServerMessageSetCapacity = 1000;
         // 矿工名中不可以包含的字符
         public static readonly char[] InvalidMinerNameChars = { '.', ' ', '-', '_' };

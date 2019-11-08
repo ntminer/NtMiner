@@ -20,6 +20,14 @@
             };
         }
 
+        public static T Ok<T>(string message = null) where T : ResponseBase, new() {
+            return new T() {
+                StateCode = 200,
+                ReasonPhrase = "Ok",
+                Description = message ?? "成功"
+            };
+        }
+
         public static ResponseBase ServerError(string description) {
             return ServerError<ResponseBase>(description);
         }

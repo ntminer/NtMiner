@@ -1,5 +1,4 @@
 ﻿using NTMiner.KernelOutputKeyword;
-using NTMiner.MinerServer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,9 +8,7 @@ namespace NTMiner.Core.MinerServer.Impl {
     public class ServerKernelOutputKeywordSet : IKernelOutputKeywordSet {
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
 
-        private readonly INTMinerRoot _root;
-        public ServerKernelOutputKeywordSet(INTMinerRoot root) {
-            _root = root;
+        public ServerKernelOutputKeywordSet() {
             VirtualRoot.BuildCmdPath<SetKernelOutputKeywordCommand>(action: message => {
                 if (message.Input == null) {
                     return;
@@ -64,7 +61,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public DateTime GetServerChannelTimestamp() {
             string serverChannelTimestamp = string.Empty;
-            if (_root.LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerChannelTimestampAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerChannelTimestampAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 serverChannelTimestamp = setting.Value.ToString();
             }
             if (string.IsNullOrEmpty(serverChannelTimestamp)) {

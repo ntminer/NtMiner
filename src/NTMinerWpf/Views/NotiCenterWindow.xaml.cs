@@ -13,32 +13,44 @@ namespace NTMiner.Views {
             _instance.Show();
         }
 
-        public static void Bind(Window owner, bool ownerIsTopMost = false) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="ownerIsTopMost"></param>
+        /// <param name="isNoOtherWindow">如果没有其它窗口就不需要响应窗口激活和非激活状态变更事件了</param>
+        public static void Bind(Window owner, bool ownerIsTopMost = false, bool isNoOtherWindow = false) {
             EventHandler handler = (sender, e) => {
                 _instance.Left = owner.Left + (owner.Width - _instance.Width) / 2;
                 _instance.Top = owner.Top + 10;
             };
             if (ownerIsTopMost) {
-                owner.Activated += (sender, e) => {
-                    // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-                    if (!owner.Topmost) {
-                        owner.Topmost = true;
-                    }
-                    handler(sender, e);
-                    _instance.SwitchOwner(owner);
-                };
-                owner.Deactivated += (sender, e) => {
-                    // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-                    if (owner.Topmost) {
-                        owner.Topmost = false;
-                    }
-                };
+                if (!isNoOtherWindow) {
+                    owner.Activated += (sender, e) => {
+                        // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                        if (!owner.Topmost) {
+                            owner.Topmost = true;
+                        }
+                        handler(sender, e);
+                        _instance.SwitchOwner(owner);
+                    };
+                }
+                if (!isNoOtherWindow) {
+                    owner.Deactivated += (sender, e) => {
+                        // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                        if (owner.Topmost) {
+                            owner.Topmost = false;
+                        }
+                    };
+                }
             }
             else {
-                owner.Activated += (sender, e) => {
-                    handler(sender, e);
-                    _instance.SwitchOwner(owner);
-                };
+                if (!isNoOtherWindow) {
+                    owner.Activated += (sender, e) => {
+                        handler(sender, e);
+                        _instance.SwitchOwner(owner);
+                    };
+                }
             }
             owner.LocationChanged += handler;
         }
@@ -57,7 +69,7 @@ namespace NTMiner.Views {
                         return false;
                     }
                     else {
-                        VirtualRoot.ThisWorkerInfo(nameof(NotiCenterWindow), $"热键Ctrl + Alt + {key.ToString()} 设置成功", OutEnum.Success);
+                        VirtualRoot.ThisLocalInfo(nameof(NotiCenterWindow), $"热键Ctrl + Alt + {key.ToString()} 设置成功", OutEnum.Success);
                         return true;
                     }
                 };

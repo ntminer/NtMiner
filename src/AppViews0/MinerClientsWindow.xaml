@@ -2540,15 +2540,26 @@
             </Grid>
             <ScrollViewer 
                 Grid.Row="1" Margin="0 6 0 0"
-				Background="#EEEEF2"
+				Background="White"
 				VerticalScrollBarVisibility="Disabled"
                 HorizontalScrollBarVisibility="Auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
-                        <ColumnDefinition Width="1000"></ColumnDefinition>
+                        <ColumnDefinition Width="930"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <uc:MessageCenter Grid.Column="0"></uc:MessageCenter>
+                    <Border BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*"></RowDefinition>
+                                <RowDefinition Height="2*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <uc:LocalMessages>
+                            </uc:LocalMessages>
+                            <GridSplitter Grid.Row="0" Height="6" BorderThickness="0 1 0 1" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
+                            <uc:ServerMessages Grid.Row="1"></uc:ServerMessages>
+                        </Grid>
+                    </Border>
                     <ScrollViewer 
                         Grid.Column="1" 
                         Style="{StaticResource LeftBarScroolView}"

@@ -402,7 +402,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="消息" Command="{x:Static app:AppStatic.ShowServerWorkerMessages}">
+                <MenuItem Header="消息" Command="{x:Static app:AppStatic.ShowServerMessages}">
                     <MenuItem.Icon>
                         <Path
 							Width="16"

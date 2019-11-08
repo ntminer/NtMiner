@@ -1,14 +1,14 @@
 ﻿using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner.Controllers {
     public class ServerMessageController : ApiControllerBase, IServerMessageController {
         public DataResponse<List<ServerMessageData>> ServerMessages(ServerMessagesRequest request) {
             try {
-                var data = HostRoot.Instance.ServerMessageSet.GetServerMessages(NTMiner.Timestamp.FromTimestamp(request.Timestamp)).Cast<ServerMessageData>();
-                return DataResponse<List<ServerMessageData>>.Ok(data.ToList());
+                DateTime timestamp = NTMiner.Timestamp.FromTimestamp(request.Timestamp + 1);
+                var data = HostRoot.Instance.ServerMessageSet.GetServerMessages(timestamp);
+                return DataResponse<List<ServerMessageData>>.Ok(data);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -24,7 +24,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                HostRoot.Instance.ServerMessageSet.AddOrUpdate(request.Data);
+                VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(request.Data));
+                HostRoot.Instance.UpdateServerMessageTimestamp();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -33,7 +34,7 @@ namespace NTMiner.Controllers {
             }
         }
 
-        public ResponseBase RemoveServerMessage(DataRequest<Guid> request) {
+        public ResponseBase MarkDeleteServerMessage(DataRequest<Guid> request) {
             if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -41,7 +42,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                HostRoot.Instance.ServerMessageSet.Remove(request.Data);
+                VirtualRoot.Execute(new MarkDeleteServerMessageCommand(request.Data));
+                HostRoot.Instance.UpdateServerMessageTimestamp();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

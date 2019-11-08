@@ -9,7 +9,8 @@ namespace NTMiner {
             public static readonly ServerMessageServiceFace Instance = new ServerMessageServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IServerMessageController>();
 
-            private ServerMessageServiceFace() { }
+            private ServerMessageServiceFace() {
+            }
 
             #region GetServerMessagesAsync
             public void GetServerMessagesAsync(DateTime timestamp, Action<DataResponse<List<ServerMessageData>>, Exception> callback) {
@@ -29,12 +30,12 @@ namespace NTMiner {
             }
             #endregion
 
-            #region RemoveServerMessageAsync
-            public void RemoveServerMessageAsync(Guid id, Action<ResponseBase, Exception> callback) {
+            #region MarkDeleteServerMessageAsync
+            public void MarkDeleteServerMessageAsync(Guid id, Action<ResponseBase, Exception> callback) {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IServerMessageController.RemoveServerMessage), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IServerMessageController.MarkDeleteServerMessage), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
         }

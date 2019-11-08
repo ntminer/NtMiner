@@ -75,6 +75,10 @@ namespace NTMiner {
             Console.ForegroundColor = oldColor;
         }
 
+        public static void DevException(Exception e) {
+            DevLine(e.GetInnerMessage() + e.StackTrace, MessageType.Error);
+        }
+
         public static void DevError(string text) {
             DevLine(text, MessageType.Error);
         }

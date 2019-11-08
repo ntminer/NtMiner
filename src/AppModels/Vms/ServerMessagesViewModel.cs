@@ -25,49 +25,47 @@ namespace NTMiner.Vms {
                 _count.Add(messageType.Value, new MessageTypeItem<ServerMessageType>(messageType, ServerMessageViewModel.GetIcon, ServerMessageViewModel.GetIconFill, RefreshQueryResults));
             }
             Init();
-            RefreshQueryResults();
             this.Add = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ServerMessageEditCommand(FormType.Add, new ServerMessageViewModel(new ServerMessageData {
+                new ServerMessageViewModel(new ServerMessageData {
                     Id = Guid.NewGuid(),
                     MessageType = ServerMessageType.Info.GetName(),
                     Provider = "admin",
                     Content = string.Empty,
                     Timestamp = DateTime.MinValue
-                })));
+                }).Edit.Execute(FormType.Add);
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 this.Keyword = string.Empty;
             });
             this.Clear = new DelegateCommand(() => {
                 this.ShowDialog(new DialogWindowViewModel(message: "确定清空吗？", title: "确认", onYes: () => {
-                    VirtualRoot.LocalServerMessageSet.Clear();
+                    VirtualRoot.Execute(new ClearServerMessages());
                 }));
             });
-            VirtualRoot.BuildEventPath<ServerMessageClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    bool needInitQueryResuts = _queyResults != _serverMessageVms;
-                    Init();
-                    if (needInitQueryResuts) {
-                        _queyResults = new ObservableCollection<ServerMessageViewModel>();
-                        foreach (var item in _serverMessageVms) {
-                            if (_count[item.MessageTypeEnum].IsChecked) {
-                                _queyResults.Add(item);
-                            }
-                        }
-                        OnPropertyChanged(nameof(QueryResults));
-                    }
+                    UIThread.Execute(() => {
+                        Init();
+                    });
                 });
             VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    foreach (var item in message.Data) {
-                        _serverMessageVms.Add(new ServerMessageViewModel(item));
-                    }
+                    UIThread.Execute(() => {
+                        foreach (var item in message.Data) {
+                            var vm = new ServerMessageViewModel(item);
+                            _serverMessageVms.Insert(0, vm);
+                            if (IsSatisfyQuery(vm)) {
+                                _queyResults.Insert(0, vm);
+                            }
+                        }
+                        OnPropertyChanged(nameof(IsNoRecord));
+                    });
                 });
-            _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(VirtualRoot.LocalServerMessageSet.Select(a => new ServerMessageViewModel(a)));
+            _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a)));
         }
 
         private void Init() {
-            var data = VirtualRoot.LocalServerMessageSet.Select(a => new ServerMessageViewModel(a));
+            var data = NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a));
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(data);
             foreach (var key in _count.Keys) {
                 _count[key].Count = 0;
@@ -75,6 +73,7 @@ namespace NTMiner.Vms {
             foreach (var item in _serverMessageVms) {
                 _count[item.MessageTypeEnum].Count++;
             }
+            RefreshQueryResults();
         }
 
         public IEnumerable<MessageTypeItem<ServerMessageType>> MessageTypeItems {
@@ -94,22 +93,36 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ObservableCollection<ServerMessageViewModel> ServerMessageVms {
-            get {
-                return _serverMessageVms;
-            }
-        }
         public ObservableCollection<ServerMessageViewModel> QueryResults {
             get {
                 return _queyResults;
             }
         }
 
+        private bool IsSatisfyQuery(ServerMessageViewModel vm) {
+            if (_queyResults == _serverMessageVms) {
+                return false;
+            }
+            if (_count[vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.Contains(Keyword))) {
+                return true;
+            }
+            return false;
+        }
+
+        public bool IsNoRecord {
+            get {
+                return _queyResults.Count == 0;
+            }
+        }
+
         private void RefreshQueryResults() {
             bool isCheckedAllMessageType = _count.Values.All(a => a.IsChecked);
             if (isCheckedAllMessageType && string.IsNullOrEmpty(Keyword)) {
-                _queyResults = _serverMessageVms;
-                OnPropertyChanged(nameof(QueryResults));
+                if (_queyResults != _serverMessageVms) {
+                    _queyResults = _serverMessageVms;
+                    OnPropertyChanged(nameof(IsNoRecord));
+                    OnPropertyChanged(nameof(QueryResults));
+                }
                 return;
             }
             var query = _serverMessageVms.AsQueryable();
@@ -120,6 +133,7 @@ namespace NTMiner.Vms {
                 query = query.Where(a => a.Content != null && a.Content.Contains(Keyword));
             }
             _queyResults = new ObservableCollection<ServerMessageViewModel>(query);
+            OnPropertyChanged(nameof(IsNoRecord));
             OnPropertyChanged(nameof(QueryResults));
         }
     }

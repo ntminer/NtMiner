@@ -4,14 +4,14 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
-    public partial class WorkerMessages : UserControl {
-        private WorkerMessagesViewModel Vm {
+    public partial class LocalMessages : UserControl {
+        private LocalMessagesViewModel Vm {
             get {
-                return (WorkerMessagesViewModel)this.DataContext;
+                return (LocalMessagesViewModel)this.DataContext;
             }
         }
 
-        public WorkerMessages() {
+        public LocalMessages() {
             InitializeComponent();
         }
 

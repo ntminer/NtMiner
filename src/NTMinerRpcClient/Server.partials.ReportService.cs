@@ -13,7 +13,7 @@ namespace NTMiner {
 
             private ReportServiceFace() { }
 
-            public void ReportSpeedAsync(string host, SpeedData data) {
+            public void ReportSpeedAsync(string host, SpeedData data, Action<ReportResponse> callback) {
                 Task.Factory.StartNew(() => {
                     TimeSpan timeSpan = TimeSpan.FromSeconds(3);
                     try {
@@ -21,11 +21,12 @@ namespace NTMiner {
                             // 可能超过3秒钟，查查原因。因为我的网络不稳经常断线。
                             client.Timeout = timeSpan;
                             Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort}/api/{SControllerName}/{nameof(IReportController.ReportSpeed)}", data);
-                            Write.DevDebug($"{nameof(ReportSpeedAsync)} {getHttpResponse.Result.ReasonPhrase}");
+                            ReportResponse response = getHttpResponse.Result.Content.ReadAsAsync<ReportResponse>().Result;
+                            callback?.Invoke(response);
                         }
                     }
-                    catch {
-                        // 吞掉异常，以免用户恐慌
+                    catch (Exception e) {
+                        Write.DevException(e);
                     }
                 });
             }
@@ -44,8 +45,8 @@ namespace NTMiner {
                             Write.DevDebug($"{nameof(ReportStateAsync)} {getHttpResponse.Result.ReasonPhrase}");
                         }
                     }
-                    catch {
-                        // 吞掉异常，以免用户恐慌
+                    catch (Exception e) {
+                        Write.DevException(e);
                     }
                 });
             }

@@ -35,6 +35,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -75,6 +78,8 @@
     <Compile Include="OfficialServer.cs" />
     <Compile Include="Server.partials.WrapperMinerClientService.cs" />
     <Compile Include="Server.partials.ReportService.cs" />
+    <Compile Include="ServerMessage\IServerMessageSet.cs" />
+    <Compile Include="ServerMessage\ServerMessageSet.cs" />
     <Compile Include="SingleUser.cs" />
   </ItemGroup>
   <ItemGroup>
