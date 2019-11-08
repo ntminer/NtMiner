@@ -98,6 +98,7 @@ namespace NTMiner.MinerServer {
         int PeriodicRestartKernelHours { get; }
         int PeriodicRestartKernelMinutes { get; }
         bool IsPeriodicRestartComputer { get; }
+        bool IsNoShareRestartComputer { get; }
         int NoShareRestartComputerMinutes { get; }
         int PeriodicRestartComputerHours { get; }
         int PeriodicRestartComputerMinutes { get; }
