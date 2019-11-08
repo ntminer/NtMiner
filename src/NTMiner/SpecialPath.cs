@@ -50,10 +50,6 @@ namespace NTMiner {
                     if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(GpuProfilesJsonFileFullName)) {
                         File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
                     }
-                    string shareLocalMessageDbFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalMessageDbFileName);
-                    if (File.Exists(shareLocalMessageDbFileFullName) && !File.Exists(VirtualRoot.LocalMessageDbFileFullName)) {
-                        File.Copy(shareLocalMessageDbFileFullName, VirtualRoot.LocalMessageDbFileFullName);
-                    }
                     string shareUpdaterFileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.UpdaterDirName, NTKeyword.NTMinerUpdaterFileName);
                     if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {
                         File.Copy(shareUpdaterFileFullName, UpdaterFileFullName);

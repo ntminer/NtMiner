@@ -1,13 +1,12 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
-using System.IO;
 
 namespace UnitTests {
     [TestClass]
     public class LocalMessageTests {
         [TestMethod]
         public void BenchmarkTest() {
-            File.Delete(VirtualRoot.LocalMessageDbFileFullName);
+            VirtualRoot.LocalMessages.Clear();
             int times = 2000;
             Assert.IsTrue(times > NTKeyword.LocalMessageSetCapacity);
             string content = "this is a test";

@@ -40,6 +40,12 @@ namespace NTMiner.ServerMessage {
                                     VirtualRoot.LocalServerMessageSetTimestamp = maxTime;
                                 }
                             }
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                var col = db.GetCollection<ServerMessageData>();
+                                foreach (var item in data) {
+                                    col.Insert(item);
+                                }
+                            }
                             VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
                         }
                     });

@@ -21,17 +21,6 @@ namespace NTMiner {
     /// </summary>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
-        public static string LocalMessageDbFileFullName {
-            get {
-                if (IsMinerClient) {
-                    return Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalMessageDbFileName);
-                }
-                if (IsMinerStudio) {
-                    return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalMessageDbFileName);
-                }
-                return string.Empty;
-            }
-        }
         public static string LocalDbFileFullName {
             get {
                 return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
@@ -154,7 +143,7 @@ namespace NTMiner {
             SMessageDispatcher = new MessageDispatcher();
             SCommandBus = new DirectCommandBus(SMessageDispatcher);
             SEventBus = new DirectEventBus(SMessageDispatcher);
-            LocalMessages = new LocalMessageSet(LocalMessageDbFileFullName);
+            LocalMessages = new LocalMessageSet(LocalDbFileFullName);
         }
 
         #region LocalServerMessageSetTimestamp
