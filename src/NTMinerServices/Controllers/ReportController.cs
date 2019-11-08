@@ -7,11 +7,12 @@ namespace NTMiner.Controllers {
     public class ReportController : ApiControllerBase, IReportController {
         [HttpPost]
         public ReportResponse ReportSpeed([FromBody]SpeedData speedData) {
+            ReportResponse response;
             try {
                 if (speedData == null) {
-                    return new ReportResponse {
-                        ServerState = ServerState.Empty
-                    };
+                    response = ResponseBase.InvalidInput<ReportResponse>();
+                    response.ServerState = ServerState.Empty;
+                    return response;
                 }
                 ClientData clientData = HostRoot.Instance.ClientSet.GetByClientId(speedData.ClientId);
                 if (clientData == null) {
@@ -23,18 +24,17 @@ namespace NTMiner.Controllers {
                 }
                 if (Version.TryParse(speedData.Version, out Version version)) {
                     string jsonVersionKey = MainAssemblyInfo.GetServerJsonVersion(version);
-
-                    return new ReportResponse {
-                        ServerState = HostRoot.GetServerState(jsonVersionKey)
-                    };
+                    response = ResponseBase.Ok<ReportResponse>();
+                    response.ServerState = HostRoot.GetServerState(jsonVersionKey);
+                    return response;
                 }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
-            return new ReportResponse {
-                ServerState = ServerState.Empty
-            };
+            response = ResponseBase.InvalidInput<ReportResponse>();
+            response.ServerState = ServerState.Empty;
+            return response;
         }
 
         [HttpPost]
