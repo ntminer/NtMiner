@@ -79,7 +79,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                IClientData clientData = HostRoot.Instance.ClientSet.GetByObjectId(request.ObjectId);
+                IMinerData clientData = HostRoot.Instance.ClientSet.GetByObjectId(request.ObjectId);
                 if (clientData == null) {
                     return ResponseBase.ClientError("给定标识的矿机不存在");
                 }
@@ -115,7 +115,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                IClientData clientData = HostRoot.Instance.ClientSet.GetByObjectId(request.ObjectId);
+                IMinerData clientData = HostRoot.Instance.ClientSet.GetByObjectId(request.ObjectId);
                 if (clientData == null) {
                     return ResponseBase.ClientError("给定标识的矿机不存在");
                 }
