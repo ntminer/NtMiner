@@ -3,7 +3,7 @@ using NTMiner.MinerClient;
 using System;
 
 namespace NTMiner.MinerServer {
-    public class ClientData : SpeedData, IClientData, IDbEntity<string>, ITimestampEntity<string> {
+    public class ClientData : SpeedData, IMinerData, ISpeedData, IDbEntity<string>, ITimestampEntity<string> {
         public ClientData() : base() {
         }
 

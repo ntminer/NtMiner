@@ -148,7 +148,6 @@
     <Compile Include="HashUtil.cs" />
     <Compile Include="IAppSetting.cs" />
     <Compile Include="MinerServer\ICalcConfig.cs" />
-    <Compile Include="MinerServer\IClientData.cs" />
     <Compile Include="Profile\ICoinKernelProfile.cs" />
     <Compile Include="Profile\ICoinProfile.cs" />
     <Compile Include="IEntity`1.cs" />
