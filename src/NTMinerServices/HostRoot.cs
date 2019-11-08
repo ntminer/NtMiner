@@ -164,7 +164,7 @@ namespace NTMiner {
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             this.NTMinerWalletSet = new NTMinerWalletSet(this);
-            this.ClientSet = new ClientSet(this);
+            this.ClientSet = new ClientSet();
             this.CoinSnapshotSet = new CoinSnapshotSet(this);
             this.MineWorkSet = new MineWorkSet(this);
             this.MinerGroupSet = new MinerGroupSet(this);

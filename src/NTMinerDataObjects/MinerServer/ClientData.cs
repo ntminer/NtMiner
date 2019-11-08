@@ -11,7 +11,7 @@ namespace NTMiner.MinerServer {
             return this.Id;
         }
 
-        public static ClientData CreateClientData(MinerData data) {
+        public static ClientData CreateClientData(IMinerData data) {
             return new ClientData() {
                 ClientId = data.ClientId,
                 MinerIp = data.MinerIp,
@@ -84,7 +84,7 @@ namespace NTMiner.MinerServer {
             };
         }
 
-        public static ClientData Create(SpeedData speedData, string minerIp) {
+        public static ClientData Create(ISpeedData speedData, string minerIp) {
             return new ClientData() {
                 Id = ObjectId.NewObjectId().ToString(),
                 ClientId = speedData.ClientId,
@@ -165,12 +165,12 @@ namespace NTMiner.MinerServer {
         private string _preMainCoin;
         private string _preDualCoin;
 
-        public void Update(SpeedData speedData, string minerIp) {
+        public void Update(ISpeedData speedData, string minerIp) {
             this.MinerIp = minerIp;
             Update(speedData);
         }
 
-        public void Update(SpeedData speedData) {
+        public void Update(ISpeedData speedData) {
             if (speedData == null) {
                 return;
             }
@@ -178,8 +178,6 @@ namespace NTMiner.MinerServer {
             if (_preMainCoin != this.MainCoinCode) {
                 _preMainCoinShare = 0;
                 _preMainCoinRejectShare = 0;
-                speedData.MainCoinTotalShare = 0;
-                speedData.MainCoinRejectShare = 0;
             }
             else {
                 _preMainCoinShare = this.MainCoinTotalShare;
@@ -189,8 +187,6 @@ namespace NTMiner.MinerServer {
             if (_preDualCoin != this.DualCoinCode) {
                 _preDualCoinShare = 0;
                 _preDualCoinRejectShare = 0;
-                speedData.DualCoinTotalShare = 0;
-                speedData.DualCoinRejectShare = 0;
             }
             else {
                 _preDualCoinShare = this.DualCoinTotalShare;
