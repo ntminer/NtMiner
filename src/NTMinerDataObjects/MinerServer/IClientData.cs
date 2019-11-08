@@ -24,8 +24,14 @@ namespace NTMiner.MinerServer {
 
         DateTime? MineStartedOn { get; }
 
+        /// <summary>
+        /// 群控名矿机名
+        /// </summary>
         string MinerName { get; }
 
+        /// <summary>
+        /// 矿机名
+        /// </summary>
         string ClientName { get; }
 
         Guid GroupId { get; }

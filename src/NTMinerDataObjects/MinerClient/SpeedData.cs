@@ -54,6 +54,9 @@ namespace NTMiner.MinerClient {
 
         public string MineWorkName { get; set; }
 
+        /// <summary>
+        /// 注意：该属性对应服务端的ClientName，而服务端的MinerName是群控矿工名。
+        /// </summary>
         public string MinerName { get; set; }
 
         public string MainCoinCode { get; set; }
