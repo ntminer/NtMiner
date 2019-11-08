@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.MinerServer {
-    public class MinerData {
+    public class MinerData : IMinerData {
         public MinerData() { }
 
         public string Id { get; set; }

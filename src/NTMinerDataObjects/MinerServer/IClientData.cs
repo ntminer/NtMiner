@@ -3,6 +3,8 @@ using System;
 
 namespace NTMiner.MinerServer {
     public interface IClientData : ISpeedData, IEntity<string> {
+        string Id { get; }
+
         Guid WorkId { get; }
 
         /// <summary>

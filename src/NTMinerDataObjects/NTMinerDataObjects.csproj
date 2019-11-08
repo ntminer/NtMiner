@@ -84,6 +84,7 @@
     <Compile Include="MinerClient\ILocalIp.cs" />
     <Compile Include="MinerClient\ISpeedData.cs" />
     <Compile Include="MinerClient\LocalIpData.cs" />
+    <Compile Include="MinerServer\IMinerData.cs" />
     <Compile Include="MinerServer\INTMinerWallet.cs" />
     <Compile Include="MinerServer\IServerMessage.cs" />
     <Compile Include="MinerServer\KernelOutputKeywordsRequest.cs" />
