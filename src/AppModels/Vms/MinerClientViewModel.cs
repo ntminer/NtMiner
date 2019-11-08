@@ -1171,6 +1171,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int KernelSelfRestartCount {
+            get { return _data.KernelSelfRestartCount; }
+            set {
+                _data.KernelSelfRestartCount = value;
+                OnPropertyChanged(nameof(KernelSelfRestartCount));
+            }
+        }
+
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
             if (GpuTableVm == null) {
                 return;
