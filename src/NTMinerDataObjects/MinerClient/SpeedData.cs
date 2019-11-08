@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.MinerClient {
-    public class SpeedData {
+    public class SpeedData : ISpeedData {
         public SpeedData() {
             GpuTable = new GpuSpeedData[0];
         }
@@ -59,7 +59,11 @@ namespace NTMiner.MinerClient {
         /// </summary>
         public string MinerName { get; set; }
 
-        public string MainCoinCode { get; set; }
+        private string _mainCoinCode;
+        public string MainCoinCode {
+            get => _mainCoinCode ?? string.Empty;
+            set => _mainCoinCode = value;
+        }
 
         public string MainCoinPool { get; set; }
 
@@ -69,7 +73,11 @@ namespace NTMiner.MinerClient {
 
         public string Kernel { get; set; }
 
-        public string DualCoinCode { get; set; }
+        private string _dualCoinCode;
+        public string DualCoinCode {
+            get => _dualCoinCode ?? string.Empty;
+            set => _dualCoinCode = value;
+        }
 
         public string DualCoinPool { get; set; }
 
