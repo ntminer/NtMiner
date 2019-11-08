@@ -4,13 +4,14 @@ using System;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    // TODO:返回服务器最新消息的时间戳，挖矿端根据时间戳判断服务器是否有新消息
     public class ReportController : ApiControllerBase, IReportController {
         [HttpPost]
-        public void ReportSpeed([FromBody]SpeedData speedData) {
+        public ReportResponse ReportSpeed([FromBody]SpeedData speedData) {
             try {
                 if (speedData == null) {
-                    return;
+                    return new ReportResponse {
+                        ServerState = ServerState.Empty
+                    };
                 }
                 ClientData clientData = HostRoot.Instance.ClientSet.GetByClientId(speedData.ClientId);
                 if (clientData == null) {
@@ -20,10 +21,20 @@ namespace NTMiner.Controllers {
                 else {
                     clientData.Update(speedData, ClientIp);
                 }
+                if (Version.TryParse(speedData.Version, out Version version)) {
+                    string jsonVersionKey = MainAssemblyInfo.GetServerJsonVersion(version);
+
+                    return new ReportResponse {
+                        ServerState = HostRoot.GetServerState(jsonVersionKey)
+                    };
+                }
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
+            return new ReportResponse {
+                ServerState = ServerState.Empty
+            };
         }
 
         [HttpPost]

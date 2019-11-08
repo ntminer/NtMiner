@@ -4,6 +4,7 @@ using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.KernelOutputKeyword;
+using NTMiner.MinerServer;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
@@ -130,6 +131,30 @@ namespace NTMiner {
         public static LiteDatabase CreateReportDb() {
             string dbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"report{DateTime.Now.ToString("yyyy-MM-dd")}.litedb");
             return new LiteDatabase($"filename={dbFileFullName};journal=false");
+        }
+
+        public static ServerState GetServerState(string jsonVersionKey) {
+            string jsonVersion = string.Empty;
+            string minerClientVersion = string.Empty;
+            try {
+                var fileData = Instance.NTMinerFileSet.LatestMinerClientFile;
+                minerClientVersion = fileData != null ? fileData.Version : string.Empty;
+                if (!Instance.AppSettingSet.TryGetAppSetting(jsonVersionKey, out IAppSetting data) || data.Value == null) {
+                    jsonVersion = string.Empty;
+                }
+                else {
+                    jsonVersion = data.Value.ToString();
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+            return new ServerState {
+                JsonFileVersion = jsonVersion,
+                MinerClientVersion = minerClientVersion,
+                Time = Timestamp.GetTimestamp(),
+                MessageTimestamp = Timestamp.GetTimestamp(HostRoot.Instance.ServerMessageTimestamp)
+            };
         }
 
         private HostRoot() {
