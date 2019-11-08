@@ -88,16 +88,16 @@ namespace NTMiner {
                                 if (!string.IsNullOrEmpty(serverJson)) {
                                     SpecialPath.WriteServerJsonFile(serverJson);
                                 }
-                                OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion, serverTime, serverMessageTime) => {
-                                    SetServerJsonVersion(serverJsonFileVersion);
-                                    AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion); 
-                                    if (Math.Abs((DateTime.Now - serverTime).TotalSeconds) < Timestamp.DesyncSeconds) {
+                                OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, serverState => {
+                                    SetServerJsonVersion(serverState.JsonFileVersion);
+                                    AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion); 
+                                    if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) < Timestamp.DesyncSeconds) {
                                         Logger.OkDebugLine("时间同步");
                                     }
                                     else {
-                                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{serverTime}");
+                                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{serverState.GetTime()}");
                                     }
-                                    VirtualRoot.Execute(new LoadNewServerMessageCommand(serverMessageTime));
+                                    VirtualRoot.Execute(new LoadNewServerMessageCommand(serverState.MessageTimestamp));
                                 });
                             }
                             else {
@@ -135,14 +135,14 @@ namespace NTMiner {
         }
 
         private void RefreshServerJsonFile() {
-            OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, (serverJsonFileVersion, minerClientVersion, serverTime, serverMessageTime) => {
-                AppVersionChangedEvent.PublishIfNewVersion(minerClientVersion);
+            OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, serverState => {
+                AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
-                if (!string.IsNullOrEmpty(serverJsonFileVersion) && localServerJsonFileVersion != serverJsonFileVersion) {
+                if (!string.IsNullOrEmpty(serverState.JsonFileVersion) && localServerJsonFileVersion != serverState.JsonFileVersion) {
                     GetAliyunServerJson((data) => {
                         string rawJson = Encoding.UTF8.GetString(data);
                         SpecialPath.WriteServerJsonFile(rawJson);
-                        SetServerJsonVersion(serverJsonFileVersion);
+                        SetServerJsonVersion(serverState.JsonFileVersion);
                         ReInitServerJson();
                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                         ContextReInit(isWork: VirtualRoot.IsMinerStudio);
@@ -152,7 +152,7 @@ namespace NTMiner {
                 else {
                     Write.DevDebug("server.json没有新版本");
                 }
-                VirtualRoot.Execute(new LoadNewServerMessageCommand(serverMessageTime));
+                VirtualRoot.Execute(new LoadNewServerMessageCommand(serverState.MessageTimestamp));
             });
         }
 
