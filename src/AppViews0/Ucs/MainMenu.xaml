@@ -402,16 +402,6 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="消息" Command="{x:Static app:AppStatic.ShowServerMessages}">
-                    <MenuItem.Icon>
-                        <Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Info}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
                 <MenuItem Header="退出" Command="{x:Static app:AppStatic.AppExit}">
 					<MenuItem.Icon>
 						<Path

@@ -535,10 +535,6 @@ namespace NTMiner {
         }
         #endregion
 
-        public static ICommand ShowServerMessages { get; private set; } = new DelegateCommand(() => {
-
-        });
-
         public static ICommand ShowServerKernelOutputKeywords { get; private set; } = new DelegateCommand(() => {
 
         });
