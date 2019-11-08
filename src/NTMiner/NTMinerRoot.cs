@@ -97,6 +97,10 @@ namespace NTMiner {
                                     else {
                                         Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{Timestamp.FromTimestamp(serverState.Time)}");
                                     }
+                                    // 因为挖矿端上报算力时会触发加载服务端消息的逻辑所以这里就不加载了
+                                    if (VirtualRoot.IsMinerStudio) {
+                                        VirtualRoot.Execute(new LoadNewServerMessageCommand(serverState.MessageTimestamp));
+                                    }
                                 });
                             }
                             else {
