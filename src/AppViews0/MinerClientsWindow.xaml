@@ -2557,7 +2557,7 @@
                             <uc:LocalMessages>
                             </uc:LocalMessages>
                             <GridSplitter Grid.Row="0" Height="6" BorderThickness="0 1 0 1" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
-                            <uc:ServerMessages Grid.Row="1"></uc:ServerMessages>
+                            <uc:ServerMessages Grid.Row="1" x:Name="ServerMessagesUc"></uc:ServerMessages>
                         </Grid>
                     </Border>
                     <ScrollViewer 

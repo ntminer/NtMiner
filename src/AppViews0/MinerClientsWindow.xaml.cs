@@ -34,6 +34,16 @@ namespace NTMiner.Views {
             this.DataContext = Vm;
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
+            DateTime lastGetServerMessageOn = DateTime.MinValue;
+            this.ServerMessagesUc.IsVisibleChanged += (sender, e)=> {
+                VirtualRoot.SetIsServerMessagesVisible(this.ServerMessagesUc.IsVisible);
+                if (this.ServerMessagesUc.IsVisible) {
+                    if (lastGetServerMessageOn.AddSeconds(10) < DateTime.Now) {
+                        lastGetServerMessageOn = DateTime.Now;
+                        VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                    }
+                }
+            };
             this.WindowContextEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
