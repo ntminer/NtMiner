@@ -340,21 +340,6 @@ namespace NTMiner {
                 case OutEnum.Success:
                     Out.ShowSuccess(content);
                     break;
-                case OutEnum.Auto:
-                    switch (messageType) {
-                        case LocalMessageType.Info:
-                            Out.ShowInfo(content);
-                            break;
-                        case LocalMessageType.Warn:
-                            Out.ShowWarn(content, delaySeconds: 4);
-                            break;
-                        case LocalMessageType.Error:
-                            Out.ShowError(content, delaySeconds: 4);
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
                 default:
                     break;
             }
