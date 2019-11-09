@@ -198,10 +198,15 @@ namespace NTMiner {
         private static void ReportSpeed() {
             try {
                 SpeedData data = CreateSpeedData();
-                Server.ReportService.ReportSpeedAsync(NTKeyword.OfficialServerHost, data, response=> {
+                Server.ReportService.ReportSpeedAsync(NTKeyword.OfficialServerHost, data, response => {
                     if (response.IsSuccess()) {
                         AppVersionChangedEvent.PublishIfNewVersion(response.ServerState.MinerClientVersion);
-                        VirtualRoot.Execute(new LoadNewServerMessageCommand(response.ServerState.MessageTimestamp));
+                        if (response.NewServerMessages.Count != 0) {
+                            VirtualRoot.Execute(new ReceiveServerMessageCommand(response.NewServerMessages));
+                        }
+                        else {
+                            VirtualRoot.Execute(new LoadNewServerMessageCommand(response.ServerState.MessageTimestamp));
+                        }
                     }
                 });
             }

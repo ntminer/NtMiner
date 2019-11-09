@@ -165,6 +165,15 @@ namespace NTMiner {
         public ServerMessagesClearedEvent() { }
     }
 
+    [MessageType(description: "接收从服务器得到的服务器消息")]
+    public class ReceiveServerMessageCommand : Cmd {
+        public ReceiveServerMessageCommand(List<ServerMessageData> data) {
+            this.Data = data;
+        }
+
+        public List<ServerMessageData> Data { get; private set; }
+    }
+
     [MessageType(description: "从服务器获取新的服务器消息")]
     public class LoadNewServerMessageCommand : Cmd {
         public LoadNewServerMessageCommand() {
