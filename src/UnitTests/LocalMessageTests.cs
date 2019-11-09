@@ -7,7 +7,7 @@ namespace UnitTests {
     public class LocalMessageTests {
         [TestMethod]
         public void BenchmarkTest() {
-            VirtualRoot.LocalMessages.Clear();
+            VirtualRoot.Execute(new ClearLocalMessageSetCommand());
             int times = 2000;
             Assert.IsTrue(times > NTKeyword.LocalMessageSetCapacity);
             string content = "this is a test";

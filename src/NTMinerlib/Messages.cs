@@ -153,9 +153,14 @@ namespace NTMiner {
         public List<ILocalMessage> Removes { get; private set; }
     }
 
+    [MessageType(description: "清空本地消息集")]
+    public class ClearLocalMessageSetCommand : Cmd {
+        public ClearLocalMessageSetCommand() { }
+    }
+
     [MessageType(description: "本地消息集清空后")]
-    public class LocalMessageClearedEvent : EventBase {
-        public LocalMessageClearedEvent() { }
+    public class LocalMessageSetClearedEvent : EventBase {
+        public LocalMessageSetClearedEvent() { }
     }
     #endregion
 

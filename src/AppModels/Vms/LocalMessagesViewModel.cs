@@ -67,10 +67,10 @@
             });
             this.Clear = new DelegateCommand(() => {
                 this.ShowDialog(new DialogWindowViewModel(message: "确定清空吗？", title: "确认", onYes: () => {
-                    VirtualRoot.LocalMessages.Clear();
+                    VirtualRoot.Execute(new ClearLocalMessageSetCommand());
                 }));
             });
-            VirtualRoot.BuildEventPath<LocalMessageClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
+            VirtualRoot.BuildEventPath<LocalMessageSetClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Init();

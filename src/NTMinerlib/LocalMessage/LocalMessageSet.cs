@@ -39,19 +39,18 @@ namespace NTMiner.LocalMessage {
                 }
                 VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(data, removes));
             });
-        }
-
-        public void Clear() {
-            if (string.IsNullOrEmpty(_connectionString)) {
-                return;
-            }
-            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+            VirtualRoot.BuildCmdPath<ClearLocalMessageSetCommand>(action: message => {
+                if (string.IsNullOrEmpty(_connectionString)) {
+                    return;
+                }
                 lock (_locker) {
                     _records.Clear();
                 }
-                db.DropCollection(nameof(LocalMessageData));
-            }
-            VirtualRoot.RaiseEvent(new LocalMessageClearedEvent());
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    db.DropCollection(nameof(LocalMessageData));
+                }
+                VirtualRoot.RaiseEvent(new LocalMessageSetClearedEvent());
+            });
         }
 
         private bool _isInited = false;
