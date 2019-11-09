@@ -19,7 +19,12 @@ namespace NTMiner.Windows {
         private Cpu() { }
 
         public double GetPerformance() {
-            return _cpuPerformanceCounter.NextValue();
+            try {
+                return _cpuPerformanceCounter.NextValue();
+            }
+            catch {
+                return 0.0;
+            }
         }
 
         public float GetTemperature() {

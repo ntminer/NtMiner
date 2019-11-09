@@ -1189,6 +1189,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public DateTime LocalServerMessageTimestamp {
+            get { return _data.LocalServerMessageTimestamp; }
+            set {
+                _data.LocalServerMessageTimestamp = value;
+                OnPropertyChanged(nameof(LocalServerMessageTimestamp));
+            }
+        }
+
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
             if (GpuTableVm == null) {
                 return;

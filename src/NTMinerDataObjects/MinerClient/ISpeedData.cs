@@ -2,6 +2,7 @@
 
 namespace NTMiner.MinerClient {
     public interface ISpeedData {
+        DateTime LocalServerMessageTimestamp { get; }
         int AutoRestartKernelTimes { get; }
         int AutoStartDelaySeconds { get; }
         DateTime BootOn { get; }

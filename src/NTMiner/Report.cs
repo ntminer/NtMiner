@@ -37,6 +37,7 @@ namespace NTMiner {
             INTMinerRoot root = NTMinerRoot.Instance;
             IWorkProfile workProfile = root.MinerProfile;
             SpeedData data = new SpeedData {
+                LocalServerMessageTimestamp = VirtualRoot.LocalServerMessageSetTimestamp,
                 KernelSelfRestartCount = 0,
                 IsAutoBoot = workProfile.IsAutoBoot,
                 IsAutoStart = workProfile.IsAutoStart,
