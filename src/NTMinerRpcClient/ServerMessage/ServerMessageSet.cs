@@ -159,11 +159,21 @@ namespace NTMiner.ServerMessage {
         }
 
         public List<ServerMessageData> GetServerMessages(DateTime timeStamp) {
+            var list = new List<ServerMessageData>();
             if (string.IsNullOrEmpty(_connectionString)) {
-                return new List<ServerMessageData>();
+                return list;
             }
             InitOnece();
-            return _linkedList.Where(a => a.Timestamp >= timeStamp).ToList();
+            foreach (var item in _linkedList) {
+                if (item.Timestamp >= timeStamp) {
+                    list.Add(item);
+                }
+                else {
+                    // 这是个链表，最新的消息在前
+                    break;
+                }
+            }
+            return list;
         }
 
         private bool _isInited = false;
