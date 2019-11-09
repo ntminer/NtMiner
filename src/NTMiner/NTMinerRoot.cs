@@ -451,7 +451,6 @@ namespace NTMiner {
             if (_currentMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }
-            VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");
         }
         #endregion
 

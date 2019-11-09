@@ -173,6 +173,7 @@ namespace NTMiner {
 
         private void Link() {
             VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
+                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");
                 UIThread.Execute(() => {
                     try {
                         Shutdown();
