@@ -16,7 +16,7 @@ namespace NTMiner {
             private DateTime _lastGetServerMessageOn;
             public void GetServerMessagesAsync(DateTime timestamp, Action<DataResponse<List<ServerMessageData>>, Exception> callback) {
                 // 一种防御，简化消费者逻辑
-                if (_lastGetServerMessageOn.AddSeconds(1) >= DateTime.Now) {
+                if (_lastGetServerMessageOn.AddSeconds(10) >= DateTime.Now) {
                     callback?.Invoke(new DataResponse<List<ServerMessageData>>(), null);
                     return;
                 }

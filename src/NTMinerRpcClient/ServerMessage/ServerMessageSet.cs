@@ -19,6 +19,9 @@ namespace NTMiner.ServerMessage {
             _isServer = isServer;
             if (!_isServer) {
                 VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
+                    if (!VirtualRoot.IsServerMessagesVisible) {
+                        return;
+                    }
                     DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
                     // 如果已知服务器端最新消息的时间戳不比本地已加载的最新消息新就不用加载了
                     if (message.KnowServerMessageTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {

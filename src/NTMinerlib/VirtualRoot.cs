@@ -47,7 +47,7 @@ namespace NTMiner {
                         _isMinerClient = true;
                     }
                     else {
-                        // 基于约定
+                        // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是挖矿客户端
                         _isMinerClient = assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null;
                     }
                     _isMinerClientDetected = true;
@@ -74,7 +74,7 @@ namespace NTMiner {
                         _isMinerStudio = true;
                     }
                     else {
-                        // 基于约定
+                        // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是群控客户端
                         var assembly = Assembly.GetEntryAssembly();
                         // 单元测试时assembly为null
                         if (assembly == null) {
@@ -88,6 +88,16 @@ namespace NTMiner {
             }
         }
         #endregion
+
+        private static bool _isServerMessagesVisible = false;
+        public static bool IsServerMessagesVisible {
+            get { return _isServerMessagesVisible; }
+        }
+
+        // 独立一个方法是为了方便编程工具走查代码，这算是个模式吧，不只出现这一次。编程的用户有三个：1，人；2，编程工具；3，运行时；
+        public static void SetIsServerMessagesVisible(bool value) {
+            _isServerMessagesVisible = value;
+        }
 
         public static ILocalIpSet LocalIpSet { get; private set; }
         public static IObjectSerializer JsonSerializer { get; private set; }
@@ -147,6 +157,10 @@ namespace NTMiner {
         }
 
         #region LocalServerMessageSetTimestamp
+        /// <summary>
+        /// 从服务器已加载到本地的最新服务器消息时间戳
+        /// </summary>
+        /// <remarks>因为RPC使用的UnixBase时间戳，所以这个时间只精确到秒</remarks>
         public static DateTime LocalServerMessageSetTimestamp {
             get {
                 if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
@@ -164,6 +178,7 @@ namespace NTMiner {
         }
         #endregion
 
+        #region LocalAppSettingSet
         private static IAppSettingSet _appSettingSet;
         public static IAppSettingSet LocalAppSettingSet {
             get {
@@ -173,7 +188,9 @@ namespace NTMiner {
                 return _appSettingSet;
             }
         }
+        #endregion
 
+        #region AppName
         private static string _appName = null;
         public static string AppName {
             get {
@@ -196,6 +213,7 @@ namespace NTMiner {
                 return _appName;
             }
         }
+        #endregion
 
         #region ConvertToGuid
         public static Guid ConvertToGuid(object obj) {

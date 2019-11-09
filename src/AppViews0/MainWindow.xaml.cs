@@ -140,7 +140,7 @@ namespace NTMiner.Views {
             ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             _borderBrush = this.BorderBrush;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
-
+            // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
                 var selectedItem = MainArea.SelectedItem;
                 if (selectedItem == TabItemToolbox) {
@@ -153,6 +153,8 @@ namespace NTMiner.Views {
                         MinerProfileOptionContainer.Child = new MinerProfileOption();
                     }
                 }
+                VirtualRoot.SetIsServerMessagesVisible(selectedItem == TabItemMessage);
+                VirtualRoot.Execute(new LoadNewServerMessageCommand());
             };
             this.IsVisibleChanged += (sender, e) => {
                 if (this.IsVisible) {
