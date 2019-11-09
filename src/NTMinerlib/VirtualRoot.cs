@@ -358,7 +358,14 @@ namespace NTMiner {
                         break;
                 }
             }
-            LocalMessages.Add(LocalMessageChannel.This.GetName(), provider, messageType.GetName(), content);
+            Execute(new AddLocalMessageCommand(new LocalMessageData {
+                Id = Guid.NewGuid(),
+                Channel = LocalMessageChannel.This.GetName(),
+                Provider = provider,
+                MessageType = messageType.GetName(),
+                Content = content,
+                Timestamp = DateTime.Now
+            }));
         }
         #endregion
 
