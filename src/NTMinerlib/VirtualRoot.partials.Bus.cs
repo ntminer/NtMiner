@@ -27,7 +27,7 @@ namespace NTMiner {
 
         public static IMessagePathId BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
-            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(typeof(TCmd));
+            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
             return BuildPath(description, logType, action);
         }

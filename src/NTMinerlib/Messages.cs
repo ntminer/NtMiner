@@ -139,6 +139,11 @@ namespace NTMiner {
     #endregion
 
     #region LocalMessage
+    [MessageType(description: "添加本地消息")]
+    public class AddLocalMessageCommand : AddEntityCommand<ILocalMessage> {
+        public AddLocalMessageCommand(ILocalMessage input) : base(input) { }
+    }
+
     [MessageType(description: "记录了本地事件后")]
     public class LocalMessageAddedEvent : DomainEvent<ILocalMessage> {
         public LocalMessageAddedEvent(ILocalMessage source, List<ILocalMessage> removes) : base(source) {

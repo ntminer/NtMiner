@@ -26,7 +26,7 @@
                 throw new ArgumentNullException(nameof(message));
             }
             var messageType = typeof(TMessage);
-            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(messageType);
+            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(messageType);
             if (_handlers.ContainsKey(messageType)) {
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {

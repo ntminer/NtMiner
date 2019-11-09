@@ -5,22 +5,22 @@ using System.Linq;
 namespace NTMiner.Bus {
     [AttributeUsage(AttributeTargets.Class)]
     public class MessageTypeAttribute : Attribute {
-        private static readonly Dictionary<Type, MessageTypeAttribute> SMessageTypeDescriptionDic = new Dictionary<Type, MessageTypeAttribute>();
-        public static MessageTypeAttribute GetMessageTypeDescription(Type messageType) {
-            if (SMessageTypeDescriptionDic.ContainsKey(messageType)) {
-                return SMessageTypeDescriptionDic[messageType];
+        private static readonly Dictionary<Type, MessageTypeAttribute> _messageTypeAttributeDic = new Dictionary<Type, MessageTypeAttribute>();
+        public static MessageTypeAttribute GetMessageTypeAttribute(Type messageType) {
+            if (_messageTypeAttributeDic.ContainsKey(messageType)) {
+                return _messageTypeAttributeDic[messageType];
             }
             object atrrObj = messageType.GetCustomAttributes(typeof(MessageTypeAttribute), false).FirstOrDefault();
-            MessageTypeAttribute messageTypeDescription;
+            MessageTypeAttribute attr;
             if (atrrObj == null) {
-                messageTypeDescription = new MessageTypeAttribute(messageType.Name);
+                attr = new MessageTypeAttribute(messageType.Name);
             }
             else {
-                messageTypeDescription = (MessageTypeAttribute)atrrObj;
+                attr = (MessageTypeAttribute)atrrObj;
             }
-            SMessageTypeDescriptionDic.Add(messageType, messageTypeDescription);
+            _messageTypeAttributeDic.Add(messageType, attr);
 
-            return messageTypeDescription;
+            return attr;
         }
 
         public MessageTypeAttribute(string description, bool isCanNoHandler = false) {
