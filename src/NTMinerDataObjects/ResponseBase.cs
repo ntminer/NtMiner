@@ -12,19 +12,11 @@
             return InvalidInput<ResponseBase>(description);
         }
 
-        public static ResponseBase Ok(string message = null) {
+        public static ResponseBase Ok() {
             return new ResponseBase() {
                 StateCode = 200,
                 ReasonPhrase = "Ok",
-                Description = message ?? "成功"
-            };
-        }
-
-        public static T Ok<T>(string message = null) where T : ResponseBase, new() {
-            return new T() {
-                StateCode = 200,
-                ReasonPhrase = "Ok",
-                Description = message ?? "成功"
+                Description = "成功"
             };
         }
 

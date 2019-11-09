@@ -24,8 +24,7 @@ namespace NTMiner.Controllers {
                 }
                 if (Version.TryParse(speedData.Version, out Version version)) {
                     string jsonVersionKey = MainAssemblyInfo.GetServerJsonVersion(version);
-                    response = ResponseBase.Ok<ReportResponse>();
-                    response.ServerState = HostRoot.GetServerState(jsonVersionKey);
+                    response = ReportResponse.Ok(HostRoot.GetServerState(jsonVersionKey));
                     return response;
                 }
             }
