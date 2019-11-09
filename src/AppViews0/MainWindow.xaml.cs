@@ -139,6 +139,7 @@ namespace NTMiner.Views {
             UIThread.StartTimer();
             ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             _borderBrush = this.BorderBrush;
+            DateTime lastGetServerMessageOn = DateTime.MinValue;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
@@ -154,7 +155,12 @@ namespace NTMiner.Views {
                     }
                 }
                 VirtualRoot.SetIsServerMessagesVisible(selectedItem == TabItemMessage);
-                VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                if (selectedItem == TabItemMessage) {
+                    if (lastGetServerMessageOn.AddSeconds(10) < DateTime.Now) {
+                        lastGetServerMessageOn = DateTime.Now;
+                        VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                    }
+                }
             };
             this.IsVisibleChanged += (sender, e) => {
                 if (this.IsVisible) {
