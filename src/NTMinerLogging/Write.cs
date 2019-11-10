@@ -3,6 +3,7 @@ using System.Diagnostics;
 
 namespace NTMiner {
     public static class Write {
+        // TODO:基于栈的Stopwatch，Stopwatch对象应放在线程上下文中。
         public static readonly Stopwatch Stopwatch = new Stopwatch();
 
         private static readonly Action<string, ConsoleColor> _consoleUserLineMethod = (line, color) => {
