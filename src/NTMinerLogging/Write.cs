@@ -1,10 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading;
 
 namespace NTMiner {
     public static class Write {
-        // TODO:基于栈的Stopwatch，Stopwatch对象应放在线程上下文中。
-        public static readonly Stopwatch Stopwatch = new Stopwatch();
+        private static readonly ThreadLocal<Stopwatch> _stopwatch = new ThreadLocal<Stopwatch>(() => {
+            return new Stopwatch();
+        });
+        // TODO:基于栈的Stopwatch
+        public static Stopwatch Stopwatch {
+            get {
+                return _stopwatch.Value;
+            }
+        }
 
         private static readonly Action<string, ConsoleColor> _consoleUserLineMethod = (line, color) => {
             InitOnece();
