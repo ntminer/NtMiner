@@ -26,7 +26,7 @@
             <TextBlock Style="{StaticResource LblTb}">演员</TextBlock>
             <TextBox Width="120" Style="{StaticResource TextBox}" Text="{Binding Provider, ValidatesOnExceptions=True}">
             </TextBox>
-            <TextBlock Style="{StaticResource LblTb}">类型</TextBlock>
+            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
             <ListBox 
 				Background="Transparent"
 				ItemsSource="{x:Static app:AppStatic.ServerMessageTypeEnumItems}"
