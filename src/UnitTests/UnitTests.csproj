@@ -64,6 +64,7 @@
     <Compile Include="TimingTests.cs" />
     <Compile Include="RemoteDesktopTests.cs" />
     <Compile Include="LocalMessageTests.cs" />
+    <Compile Include="StopwatchTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
