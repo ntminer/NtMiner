@@ -139,6 +139,11 @@ namespace NTMiner {
     #endregion
 
     #region LocalMessage
+    [MessageType(description: "添加本地消息")]
+    public class AddLocalMessageCommand : AddEntityCommand<ILocalMessage> {
+        public AddLocalMessageCommand(ILocalMessage input) : base(input) { }
+    }
+
     [MessageType(description: "记录了本地事件后")]
     public class LocalMessageAddedEvent : DomainEvent<ILocalMessage> {
         public LocalMessageAddedEvent(ILocalMessage source, List<ILocalMessage> removes) : base(source) {
@@ -148,9 +153,14 @@ namespace NTMiner {
         public List<ILocalMessage> Removes { get; private set; }
     }
 
+    [MessageType(description: "清空本地消息集")]
+    public class ClearLocalMessageSetCommand : Cmd {
+        public ClearLocalMessageSetCommand() { }
+    }
+
     [MessageType(description: "本地消息集清空后")]
-    public class LocalMessageClearedEvent : EventBase {
-        public LocalMessageClearedEvent() { }
+    public class LocalMessageSetClearedEvent : EventBase {
+        public LocalMessageSetClearedEvent() { }
     }
     #endregion
 
@@ -163,6 +173,15 @@ namespace NTMiner {
     [MessageType(description: "服务器消息集清空后")]
     public class ServerMessagesClearedEvent : EventBase {
         public ServerMessagesClearedEvent() { }
+    }
+
+    [MessageType(description: "接收从服务器得到的服务器消息")]
+    public class ReceiveServerMessageCommand : Cmd {
+        public ReceiveServerMessageCommand(List<ServerMessageData> data) {
+            this.Data = data;
+        }
+
+        public List<ServerMessageData> Data { get; private set; }
     }
 
     [MessageType(description: "从服务器获取新的服务器消息")]

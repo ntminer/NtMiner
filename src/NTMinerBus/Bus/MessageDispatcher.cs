@@ -26,7 +26,6 @@
                 throw new ArgumentNullException(nameof(message));
             }
             var messageType = typeof(TMessage);
-            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(messageType);
             if (_handlers.ContainsKey(messageType)) {
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
@@ -50,8 +49,11 @@
                     tMessageHandler.Run(message);
                 }
             }
-            else if (!messageTypeDescription.IsCanNoHandler) {
-                Write.DevWarn(messageType.FullName + "类型的消息没有对应的处理器");
+            else {
+                MessageTypeAttribute messageTypeAttr = MessageTypeAttribute.GetMessageTypeAttribute(messageType);
+                if (!messageTypeAttr.IsCanNoHandler) {
+                    Write.DevWarn(messageType.FullName + "类型的消息没有对应的处理器");
+                }
             }
         }
 

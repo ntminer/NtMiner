@@ -19,6 +19,9 @@ namespace NTMiner.ServerMessage {
             _isServer = isServer;
             if (!_isServer) {
                 VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
+                    if (!VirtualRoot.IsServerMessagesVisible) {
+                        return;
+                    }
                     DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
                     // 如果已知服务器端最新消息的时间戳不比本地已加载的最新消息新就不用加载了
                     if (message.KnowServerMessageTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
@@ -26,29 +29,12 @@ namespace NTMiner.ServerMessage {
                     }
                     OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
                         if (response.IsSuccess() && response.Data.Count > 0) {
-                            LinkedList<ServerMessageData> data = new LinkedList<ServerMessageData>();
-                            lock (_locker) {
-                                DateTime maxTime = localTimestamp;
-                                foreach (var item in response.Data.OrderBy(a => a.Timestamp)) {
-                                    if (item.Timestamp > maxTime) {
-                                        maxTime = item.Timestamp;
-                                    }
-                                    data.AddLast(item);
-                                    _linkedList.AddFirst(item);
-                                }
-                                if (maxTime != localTimestamp) {
-                                    VirtualRoot.LocalServerMessageSetTimestamp = maxTime;
-                                }
-                            }
-                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                                var col = db.GetCollection<ServerMessageData>();
-                                foreach (var item in data) {
-                                    col.Insert(item);
-                                }
-                            }
-                            VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(data));
+                            ReceiveServerMessage(response.Data);
                         }
                     });
+                });
+                VirtualRoot.BuildCmdPath<ReceiveServerMessageCommand>(action: message => {
+                    ReceiveServerMessage(message.Data);
                 });
             }
             VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
@@ -155,12 +141,50 @@ namespace NTMiner.ServerMessage {
             });
         }
 
+        private void ReceiveServerMessage(List<ServerMessageData> data) {
+            if (data == null) {
+                return;
+            }
+            DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
+            LinkedList<ServerMessageData> linkedList = new LinkedList<ServerMessageData>();
+            lock (_locker) {
+                DateTime maxTime = localTimestamp;
+                foreach (var item in data.OrderBy(a => a.Timestamp)) {
+                    if (item.Timestamp > maxTime) {
+                        maxTime = item.Timestamp;
+                    }
+                    linkedList.AddLast(item);
+                    _linkedList.AddFirst(item);
+                }
+                if (maxTime != localTimestamp) {
+                    VirtualRoot.LocalServerMessageSetTimestamp = maxTime;
+                }
+            }
+            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                var col = db.GetCollection<ServerMessageData>();
+                foreach (var item in linkedList) {
+                    col.Insert(item);
+                }
+            }
+            VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(linkedList));
+        }
+
         public List<ServerMessageData> GetServerMessages(DateTime timeStamp) {
+            var list = new List<ServerMessageData>();
             if (string.IsNullOrEmpty(_connectionString)) {
-                return new List<ServerMessageData>();
+                return list;
             }
             InitOnece();
-            return _linkedList.Where(a => a.Timestamp >= timeStamp).ToList();
+            foreach (var item in _linkedList) {
+                if (item.Timestamp >= timeStamp) {
+                    list.Add(item);
+                }
+                else {
+                    // 这是个链表，最新的消息在前
+                    break;
+                }
+            }
+            return list;
         }
 
         private bool _isInited = false;

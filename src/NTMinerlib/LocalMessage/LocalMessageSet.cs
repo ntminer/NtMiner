@@ -1,6 +1,5 @@
 ﻿using LiteDB;
 using NTMiner.MinerClient;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,60 +13,44 @@ namespace NTMiner.LocalMessage {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
                 _connectionString = $"filename={dbFileFullName};journal=false";
             }
-        }
-
-        public int Count {
-            get {
+            VirtualRoot.BuildCmdPath<AddLocalMessageCommand>(action: message => {
+                if (string.IsNullOrEmpty(_connectionString)) {
+                    return;
+                }
                 InitOnece();
-                return _records.Count;
-            }
-        }
-
-        public void Add(string channel, string provider, string messageType, string content) {
-            if (string.IsNullOrEmpty(_connectionString)) {
-                return;
-            }
-            InitOnece();
-            var data = new LocalMessageData {
-                Id = Guid.NewGuid(),
-                Channel = channel,
-                Provider = provider,
-                MessageType = messageType,
-                Content = content,
-                Timestamp = DateTime.Now
-            };
-            // TODO:批量持久化，异步持久化
-            List<ILocalMessage> removes = new List<ILocalMessage>();
-            lock (_locker) {
-                _records.AddFirst(data);
-                while (_records.Count > NTKeyword.LocalMessageSetCapacity) {
-                    var toRemove = _records.Last;
-                    removes.Add(toRemove.Value);
-                    _records.RemoveLast();
-                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        var col = db.GetCollection<LocalMessageData>();
-                        col.Delete(toRemove.Value.Id);
+                var data = LocalMessageData.Create(message.Input);
+                // TODO:批量持久化，异步持久化
+                List<ILocalMessage> removes = new List<ILocalMessage>();
+                lock (_locker) {
+                    _records.AddFirst(data);
+                    while (_records.Count > NTKeyword.LocalMessageSetCapacity) {
+                        var toRemove = _records.Last;
+                        removes.Add(toRemove.Value);
+                        _records.RemoveLast();
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<LocalMessageData>();
+                            col.Delete(toRemove.Value.Id);
+                        }
                     }
                 }
-            }
-            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                var col = db.GetCollection<LocalMessageData>();
-                col.Insert(data);
-            }
-            VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(data, removes));
-        }
-
-        public void Clear() {
-            if (string.IsNullOrEmpty(_connectionString)) {
-                return;
-            }
-            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<LocalMessageData>();
+                    col.Insert(data);
+                }
+                VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(data, removes));
+            });
+            VirtualRoot.BuildCmdPath<ClearLocalMessageSetCommand>(action: message => {
+                if (string.IsNullOrEmpty(_connectionString)) {
+                    return;
+                }
                 lock (_locker) {
                     _records.Clear();
                 }
-                db.DropCollection(nameof(LocalMessageData));
-            }
-            VirtualRoot.RaiseEvent(new LocalMessageClearedEvent());
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    db.DropCollection(nameof(LocalMessageData));
+                }
+                VirtualRoot.RaiseEvent(new LocalMessageSetClearedEvent());
+            });
         }
 
         private bool _isInited = false;

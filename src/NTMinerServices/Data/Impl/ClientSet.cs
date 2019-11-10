@@ -13,9 +13,7 @@ namespace NTMiner.Data.Impl {
         private readonly Dictionary<Guid, ClientData> _dicByClientId = new Dictionary<Guid, ClientData>();
 
         private DateTime _getSpeedOn = DateTime.Now;
-        private readonly IHostRoot _root;
-        internal ClientSet(IHostRoot root) {
-            _root = root;
+        internal ClientSet() {
             GetSpeed();
             VirtualRoot.BuildEventPath<Per20SecondEvent>("周期性将内存中3分钟内活跃的ClientData列表刷入磁盘", LogEnum.DevConsole,
                 action: message => {

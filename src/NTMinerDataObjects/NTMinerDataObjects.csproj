@@ -82,7 +82,9 @@
     <Compile Include="JsonDb\IJsonDb.cs" />
     <Compile Include="MinerClient\IGpuSpeedData.cs" />
     <Compile Include="MinerClient\ILocalIp.cs" />
+    <Compile Include="MinerClient\ISpeedData.cs" />
     <Compile Include="MinerClient\LocalIpData.cs" />
+    <Compile Include="MinerServer\IMinerData.cs" />
     <Compile Include="MinerServer\INTMinerWallet.cs" />
     <Compile Include="MinerServer\IServerMessage.cs" />
     <Compile Include="MinerServer\KernelOutputKeywordsRequest.cs" />
@@ -146,7 +148,6 @@
     <Compile Include="HashUtil.cs" />
     <Compile Include="IAppSetting.cs" />
     <Compile Include="MinerServer\ICalcConfig.cs" />
-    <Compile Include="MinerServer\IClientData.cs" />
     <Compile Include="Profile\ICoinKernelProfile.cs" />
     <Compile Include="Profile\ICoinProfile.cs" />
     <Compile Include="IEntity`1.cs" />

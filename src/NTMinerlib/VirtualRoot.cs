@@ -19,6 +19,7 @@ namespace NTMiner {
     /// <summary>
     /// 虚拟根是0，是纯静态的，是先天地而存在的。
     /// </summary>
+    /// <remarks>开源矿工代码较多，文档较少。程序员需要在脑子里构建系统的影像，面向这棵树的空间造型和运动景象编程。</remarks>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static string LocalDbFileFullName {
@@ -26,12 +27,19 @@ namespace NTMiner {
                 return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
             }
         }
+
+        /// <summary>
+        /// 矿机的唯一的持久的标识。持久在注册表。
+        /// </summary>
         public static Guid Id { get; private set; }
         
         #region IsMinerClient
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;
         private static readonly object _isMinerClientLocker = new object();
+        /// <summary>
+        /// 表示是否是挖矿端。true表示是挖矿端，否则不是。
+        /// </summary>
         public static bool IsMinerClient {
             get {
                 if (_isMinerClientDetected) {
@@ -47,7 +55,7 @@ namespace NTMiner {
                         _isMinerClient = true;
                     }
                     else {
-                        // 基于约定
+                        // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是挖矿客户端
                         _isMinerClient = assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null;
                     }
                     _isMinerClientDetected = true;
@@ -61,6 +69,9 @@ namespace NTMiner {
         private static bool _isMinerStudio;
         private static bool _isMinerStudioDetected = false;
         private static readonly object _isMinerStudioLocker = new object();
+        /// <summary>
+        /// 表示是否是群控客户端。true表示是群控客户端，否则不是。
+        /// </summary>
         public static bool IsMinerStudio {
             get {
                 if (_isMinerStudioDetected) {
@@ -74,7 +85,7 @@ namespace NTMiner {
                         _isMinerStudio = true;
                     }
                     else {
-                        // 基于约定
+                        // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是群控客户端
                         var assembly = Assembly.GetEntryAssembly();
                         // 单元测试时assembly为null
                         if (assembly == null) {
@@ -89,13 +100,32 @@ namespace NTMiner {
         }
         #endregion
 
+        private static bool _isServerMessagesVisible = false;
+        /// <summary>
+        /// 表示服务器消息在界面上当前是否是可见的。true表示是可见的，反之不是。
+        /// </summary>
+        /// <remarks>本地会根据服务器消息在界面山是否可见优化网络传输，不可见的时候不从服务器加载消息。</remarks>
+        public static bool IsServerMessagesVisible {
+            get { return _isServerMessagesVisible; }
+        }
+
+        // 独立一个方法是为了方便编程工具走查代码，这算是个模式吧，不只出现这一次。编程的用户有三个：1，人；2，编程工具；3，运行时；
+        public static void SetIsServerMessagesVisible(bool value) {
+            _isServerMessagesVisible = value;
+        }
+
         public static ILocalIpSet LocalIpSet { get; private set; }
         public static IObjectSerializer JsonSerializer { get; private set; }
 
-        public static readonly IMessageDispatcher SMessageDispatcher;
-        private static readonly ICmdBus SCommandBus;
-        private static readonly IEventBus SEventBus;
+        // 视图层有个界面提供给开发者观察系统的消息路径情况所以是public的。
+        // 系统根上的一些状态集的构造时最好都放在MessageDispatcher初始化之后，因为状态集的构造
+        // 函数中可能会建造消息路径，所以这里保证在访问MessageDispatcher之前一定完成了构造。
+        public static readonly IMessageDispatcher MessageDispatcher = new MessageDispatcher();
         public static readonly ILocalMessageSet LocalMessages;
+
+        private static readonly ICmdBus _commandBus = new DirectCommandBus(MessageDispatcher);
+        private static readonly IEventBus _eventBus = new DirectEventBus(MessageDispatcher);
+
         #region Out
         private static IOut _out;
         /// <summary>
@@ -140,13 +170,15 @@ namespace NTMiner {
             Id = NTMinerRegistry.GetClientId();
             LocalIpSet = new LocalIpSet();
             JsonSerializer = new ObjectJsonSerializer();
-            SMessageDispatcher = new MessageDispatcher();
-            SCommandBus = new DirectCommandBus(SMessageDispatcher);
-            SEventBus = new DirectEventBus(SMessageDispatcher);
+            // 构造函数中会建造消息路径
             LocalMessages = new LocalMessageSet(LocalDbFileFullName);
         }
 
         #region LocalServerMessageSetTimestamp
+        /// <summary>
+        /// 从服务器已加载到本地的最新服务器消息时间戳
+        /// </summary>
+        /// <remarks>因为RPC使用的UnixBase时间戳，所以这个时间只精确到秒</remarks>
         public static DateTime LocalServerMessageSetTimestamp {
             get {
                 if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalServerMessageSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
@@ -164,6 +196,7 @@ namespace NTMiner {
         }
         #endregion
 
+        #region LocalAppSettingSet
         private static IAppSettingSet _appSettingSet;
         public static IAppSettingSet LocalAppSettingSet {
             get {
@@ -173,7 +206,9 @@ namespace NTMiner {
                 return _appSettingSet;
             }
         }
+        #endregion
 
+        #region AppName
         private static string _appName = null;
         public static string AppName {
             get {
@@ -196,6 +231,7 @@ namespace NTMiner {
                 return _appName;
             }
         }
+        #endregion
 
         #region ConvertToGuid
         public static Guid ConvertToGuid(object obj) {
@@ -322,21 +358,6 @@ namespace NTMiner {
                 case OutEnum.Success:
                     Out.ShowSuccess(content);
                     break;
-                case OutEnum.Auto:
-                    switch (messageType) {
-                        case LocalMessageType.Info:
-                            Out.ShowInfo(content);
-                            break;
-                        case LocalMessageType.Warn:
-                            Out.ShowWarn(content, delaySeconds: 4);
-                            break;
-                        case LocalMessageType.Error:
-                            Out.ShowError(content, delaySeconds: 4);
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
                 default:
                     break;
             }
@@ -355,7 +376,14 @@ namespace NTMiner {
                         break;
                 }
             }
-            LocalMessages.Add(LocalMessageChannel.This.GetName(), provider, messageType.GetName(), content);
+            Execute(new AddLocalMessageCommand(new LocalMessageData {
+                Id = Guid.NewGuid(),
+                Channel = LocalMessageChannel.This.GetName(),
+                Provider = provider,
+                MessageType = messageType.GetName(),
+                Content = content,
+                Timestamp = DateTime.Now
+            }));
         }
         #endregion
 

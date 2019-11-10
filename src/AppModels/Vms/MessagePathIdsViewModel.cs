@@ -6,7 +6,7 @@ namespace NTMiner.Vms {
         private readonly ObservableCollection<IMessagePathId> _pathIds;
 
         public MessagePathIdsViewModel() {
-            _pathIds = new ObservableCollection<IMessagePathId>(VirtualRoot.SMessageDispatcher.GetAllPaths());
+            _pathIds = new ObservableCollection<IMessagePathId>(VirtualRoot.MessageDispatcher.GetAllPaths());
         }
 
         public ObservableCollection<IMessagePathId> PathIds {

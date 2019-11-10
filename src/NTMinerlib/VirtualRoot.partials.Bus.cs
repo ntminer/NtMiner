@@ -8,13 +8,13 @@ using System.Timers;
 namespace NTMiner {
     public static partial class VirtualRoot {
         public static void RaiseEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent {
-            SEventBus.Publish(evnt);
-            SEventBus.Commit();
+            _eventBus.Publish(evnt);
+            _eventBus.Commit();
         }
 
         public static void Execute(ICmd command) {
-            SCommandBus.Publish(command);
-            SCommandBus.Commit();
+            _commandBus.Publish(command);
+            _commandBus.Commit();
         }
 
         // 修建消息（命令或事件）的运动路径
@@ -22,12 +22,12 @@ namespace NTMiner {
             StackTrace ss = new StackTrace(false);
             // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(SMessageDispatcher, location, description, logType, action);
+            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action);
         }
 
         public static IMessagePathId BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
-            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeDescription(typeof(TCmd));
+            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
             return BuildPath(description, logType, action);
         }
@@ -41,7 +41,7 @@ namespace NTMiner {
             if (handler == null) {
                 return;
             }
-            SMessageDispatcher.Disconnect(handler);
+            MessageDispatcher.Disconnect(handler);
         }
 
         private static readonly Dictionary<string, Regex> _regexDic = new Dictionary<string, Regex>();

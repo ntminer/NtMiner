@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class MinerClientViewModel : ViewModelBase, IClientData {
+    public class MinerClientViewModel : ViewModelBase, IMinerData, ISpeedData, IEntity<string> {
         public static readonly SolidColorBrush Blue = new SolidColorBrush(Colors.Blue);
         public static readonly SolidColorBrush DefaultForeground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5A, 0x5A, 0x5A));
 
@@ -141,7 +141,7 @@ namespace NTMiner.Vms {
         #endregion
 
         // 便于工具追踪代码
-        public void Update(IClientData data) {
+        public void Update(ClientData data) {
             EntityExtensions.Update(this, data);
         }
 
@@ -984,6 +984,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public DateTime CreatedOn {
+            get { return _data.CreatedOn; }
+            set {
+                if (_data.CreatedOn != value) {
+                    _data.CreatedOn = value;
+                    OnPropertyChanged(nameof(CreatedOn));
+                }
+            }
+        }
+
         private GpuSpeedDataViewModels _gpuTableVm;
         public GpuSpeedDataViewModels GpuTableVm {
             get {
@@ -1168,6 +1178,22 @@ namespace NTMiner.Vms {
             set {
                 _data.CpuStartTemperature = value;
                 OnPropertyChanged(nameof(CpuStartTemperature));
+            }
+        }
+
+        public int KernelSelfRestartCount {
+            get { return _data.KernelSelfRestartCount; }
+            set {
+                _data.KernelSelfRestartCount = value;
+                OnPropertyChanged(nameof(KernelSelfRestartCount));
+            }
+        }
+
+        public DateTime LocalServerMessageTimestamp {
+            get { return _data.LocalServerMessageTimestamp; }
+            set {
+                _data.LocalServerMessageTimestamp = value;
+                OnPropertyChanged(nameof(LocalServerMessageTimestamp));
             }
         }
 
