@@ -26,12 +26,19 @@ namespace NTMiner {
                 return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
             }
         }
+
+        /// <summary>
+        /// 矿机的唯一的持久的标识。持久在注册表。
+        /// </summary>
         public static Guid Id { get; private set; }
         
         #region IsMinerClient
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;
         private static readonly object _isMinerClientLocker = new object();
+        /// <summary>
+        /// 表示是否是挖矿端。true表示是挖矿端，否则不是。
+        /// </summary>
         public static bool IsMinerClient {
             get {
                 if (_isMinerClientDetected) {
@@ -61,6 +68,9 @@ namespace NTMiner {
         private static bool _isMinerStudio;
         private static bool _isMinerStudioDetected = false;
         private static readonly object _isMinerStudioLocker = new object();
+        /// <summary>
+        /// 表示是否是群控客户端。true表示是群控客户端，否则不是。
+        /// </summary>
         public static bool IsMinerStudio {
             get {
                 if (_isMinerStudioDetected) {
@@ -90,6 +100,10 @@ namespace NTMiner {
         #endregion
 
         private static bool _isServerMessagesVisible = false;
+        /// <summary>
+        /// 表示服务器消息在界面上当前是否是可见的。true表示是可见的，反之不是。
+        /// </summary>
+        /// <remarks>本地会根据服务器消息在界面山是否可见优化网络传输，不可见的时候不从服务器加载消息。</remarks>
         public static bool IsServerMessagesVisible {
             get { return _isServerMessagesVisible; }
         }
