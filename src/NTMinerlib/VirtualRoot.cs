@@ -102,10 +102,15 @@ namespace NTMiner {
         public static ILocalIpSet LocalIpSet { get; private set; }
         public static IObjectSerializer JsonSerializer { get; private set; }
 
-        public static readonly IMessageDispatcher SMessageDispatcher;
-        private static readonly ICmdBus SCommandBus;
-        private static readonly IEventBus SEventBus;
+        // 视图层有个界面提供给开发者观察系统的消息路径情况所以是public的。
+        // 系统根上的一些状态集的构造时最好都放在MessageDispatcher初始化之后，因为状态集的构造
+        // 函数中可能会建造消息路径，所以这里保证在访问MessageDispatcher之前一定完成了构造。
+        public static readonly IMessageDispatcher MessageDispatcher = new MessageDispatcher();
         public static readonly ILocalMessageSet LocalMessages;
+
+        private static readonly ICmdBus _commandBus = new DirectCommandBus(MessageDispatcher);
+        private static readonly IEventBus _eventBus = new DirectEventBus(MessageDispatcher);
+
         #region Out
         private static IOut _out;
         /// <summary>
@@ -150,9 +155,7 @@ namespace NTMiner {
             Id = NTMinerRegistry.GetClientId();
             LocalIpSet = new LocalIpSet();
             JsonSerializer = new ObjectJsonSerializer();
-            SMessageDispatcher = new MessageDispatcher();
-            SCommandBus = new DirectCommandBus(SMessageDispatcher);
-            SEventBus = new DirectEventBus(SMessageDispatcher);
+            // 构造函数中会建造消息路径
             LocalMessages = new LocalMessageSet(LocalDbFileFullName);
         }
 

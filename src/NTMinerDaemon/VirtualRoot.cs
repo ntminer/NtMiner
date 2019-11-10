@@ -7,14 +7,14 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static bool IsMinerStudio = false;
 
-        public static readonly IMessageDispatcher SMessageDispatcher;
-        private static readonly ICmdBus SCommandBus;
-        private static readonly IEventBus SEventBus;
+        public static readonly IMessageDispatcher MessageDispatcher;
+        private static readonly ICmdBus _commandBus;
+        private static readonly IEventBus _eventBus;
 
         static VirtualRoot() {
-            SMessageDispatcher = new MessageDispatcher();
-            SCommandBus = new DirectCommandBus(SMessageDispatcher);
-            SEventBus = new DirectEventBus(SMessageDispatcher);
+            MessageDispatcher = new MessageDispatcher();
+            _commandBus = new DirectCommandBus(MessageDispatcher);
+            _eventBus = new DirectEventBus(MessageDispatcher);
         }
     }
 }
