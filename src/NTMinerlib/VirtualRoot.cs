@@ -19,6 +19,7 @@ namespace NTMiner {
     /// <summary>
     /// 虚拟根是0，是纯静态的，是先天地而存在的。
     /// </summary>
+    /// <remarks>开源矿工代码较多，文档较少。程序员需要在脑子里构建系统的影像，面向这棵树的空间造型和运动景象编程。</remarks>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static string LocalDbFileFullName {
