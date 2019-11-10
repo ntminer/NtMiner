@@ -53,8 +53,16 @@ namespace NTMiner.Vms {
                     UIThread.Execute(() => {
                         foreach (var item in message.Data) {
                             var vm = new ServerMessageViewModel(item);
+                            var exist = _serverMessageVms.FirstOrDefault(a => a.Id == item.Id);
+                            if (exist != null) {
+                                _serverMessageVms.Remove(exist);
+                            }
                             _serverMessageVms.Insert(0, vm);
                             if (IsSatisfyQuery(vm)) {
+                                exist = _queyResults.FirstOrDefault(a => a.Id == item.Id);
+                                if (exist != null) {
+                                    _queyResults.Remove(exist);
+                                }
                                 _queyResults.Insert(0, vm);
                             }
                         }
