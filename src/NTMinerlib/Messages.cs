@@ -109,6 +109,17 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "设置本机Ip")]
+    public class SetLocalIpCommand : Cmd {
+        public SetLocalIpCommand(ILocalIp input, bool isAutoDNSServer) {
+            this.Input = input;
+            this.IsAutoDNSServer = isAutoDNSServer;
+        }
+
+        public ILocalIp Input { get; private set; }
+        public bool IsAutoDNSServer { get; private set; }
+    }
+
     #region KernelOutputKeyword Messages
     [MessageType(description: "添加或修改内核输出关键字")]
     public class SetKernelOutputKeywordCommand : Cmd {

@@ -7,87 +7,7 @@ using System.Net.NetworkInformation;
 
 namespace NTMiner.Ip.Impl {
     public class LocalIpSet : ILocalIpSet {
-        private List<LocalIpData> _localIps = new List<LocalIpData>();
-        public LocalIpSet() {
-            NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
-                var old = _localIps;
-                Refresh();
-                var localIps = _localIps;
-                if (old.Count != localIps.Count) {
-                    VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
-                }
-                else {
-                    for (int i = 0; i < old.Count; i++) {
-                        if (old[i] != localIps[i]) {
-                            VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
-                            break;
-                        }
-                    }
-                }
-            };
-            NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
-                if (e.IsAvailable) {
-                    VirtualRoot.ThisLocalInfo(nameof(LocalIpSet), $"网络可用", toConsole: true);
-                }
-                else {
-                    VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), $"网络不可用", toConsole: true);
-                }
-            };
-        }
-
-        private void Refresh() {
-            _isInited = false;
-            VirtualRoot.RaiseEvent(new LocalIpSetRefreshedEvent());
-        }
-
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    _localIps = GetLocalIps();
-                    _isInited = true;
-                }
-            }
-        }
-
-        public void SetIp(ILocalIp data, bool isAutoDNSServer) {
-            ManagementObject mo = GetManagementObject(data.SettingID);
-            if (mo != null) {
-                if (data.DHCPEnabled) {
-                    mo.InvokeMethod("EnableStatic", null);
-                    mo.InvokeMethod("SetGateways", null);
-                    mo.InvokeMethod("EnableDHCP", null);
-                }
-                else {
-                    ManagementBaseObject inPar = mo.GetMethodParameters("EnableStatic");
-                    inPar["IPAddress"] = new string[] { data.IPAddress };
-                    inPar["SubnetMask"] = new string[] { data.IPSubnet };
-                    mo.InvokeMethod("EnableStatic", inPar, null);
-                    inPar = mo.GetMethodParameters("SetGateways");
-                    inPar["DefaultIPGateway"] = new string[] { data.DefaultIPGateway };
-                    mo.InvokeMethod("SetGateways", inPar, null);
-                }
-
-                if (isAutoDNSServer) {
-                    mo.InvokeMethod("SetDNSServerSearchOrder", null);
-                }
-                else {
-                    ManagementBaseObject inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
-                    inPar["DNSServerSearchOrder"] = new string[] { data.DNSServer0, data.DNSServer1 };
-                    mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
-                }
-            }
-        }
-
+        #region private static method GetManagementObject
         private static ManagementObject GetManagementObject(string settingId) {
             using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
                 ManagementObjectCollection moc = mc.GetInstances();
@@ -99,7 +19,9 @@ namespace NTMiner.Ip.Impl {
             }
             return null;
         }
+        #endregion
 
+        #region private static method GetLocalIps
         private static List<LocalIpData> GetLocalIps() {
             List<LocalIpData> list = new List<LocalIpData>();
             try {
@@ -157,6 +79,87 @@ namespace NTMiner.Ip.Impl {
                 Logger.ErrorDebugLine(e);
             }
             return list;
+        }
+        #endregion
+
+        private List<LocalIpData> _localIps = new List<LocalIpData>();
+        public LocalIpSet() {
+            NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
+                var old = _localIps;
+                Refresh();
+                var localIps = _localIps;
+                if (old.Count != localIps.Count) {
+                    VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
+                }
+                else {
+                    for (int i = 0; i < old.Count; i++) {
+                        if (old[i] != localIps[i]) {
+                            VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
+                            break;
+                        }
+                    }
+                }
+            };
+            NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
+                if (e.IsAvailable) {
+                    VirtualRoot.ThisLocalInfo(nameof(LocalIpSet), $"网络可用", toConsole: true);
+                }
+                else {
+                    VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), $"网络不可用", toConsole: true);
+                }
+            };
+            VirtualRoot.BuildCmdPath<SetLocalIpCommand>(action: message => {
+                ManagementObject mo = GetManagementObject(message.Input.SettingID);
+                if (mo != null) {
+                    if (message.Input.DHCPEnabled) {
+                        mo.InvokeMethod("EnableStatic", null);
+                        mo.InvokeMethod("SetGateways", null);
+                        mo.InvokeMethod("EnableDHCP", null);
+                    }
+                    else {
+                        ManagementBaseObject inPar = mo.GetMethodParameters("EnableStatic");
+                        inPar["IPAddress"] = new string[] { message.Input.IPAddress };
+                        inPar["SubnetMask"] = new string[] { message.Input.IPSubnet };
+                        mo.InvokeMethod("EnableStatic", inPar, null);
+                        inPar = mo.GetMethodParameters("SetGateways");
+                        inPar["DefaultIPGateway"] = new string[] { message.Input.DefaultIPGateway };
+                        mo.InvokeMethod("SetGateways", inPar, null);
+                    }
+
+                    if (message.IsAutoDNSServer) {
+                        mo.InvokeMethod("SetDNSServerSearchOrder", null);
+                    }
+                    else {
+                        ManagementBaseObject inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
+                        inPar["DNSServerSearchOrder"] = new string[] { message.Input.DNSServer0, message.Input.DNSServer1 };
+                        mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
+                    }
+                }
+            });
+        }
+
+        private void Refresh() {
+            _isInited = false;
+            VirtualRoot.RaiseEvent(new LocalIpSetRefreshedEvent());
+        }
+
+        private bool _isInited = false;
+        private readonly object _locker = new object();
+
+        private void InitOnece() {
+            if (_isInited) {
+                return;
+            }
+            Init();
+        }
+
+        private void Init() {
+            lock (_locker) {
+                if (!_isInited) {
+                    _localIps = GetLocalIps();
+                    _isInited = true;
+                }
+            }
         }
 
         private static void FillNames(List<LocalIpData> list) {
