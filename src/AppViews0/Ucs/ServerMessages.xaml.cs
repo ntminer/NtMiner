@@ -12,5 +12,9 @@ namespace NTMiner.Views.Ucs {
         public ServerMessages() {
             InitializeComponent();
         }
+
+        private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            WpfUtil.DataGrid_MouseDoubleClick<ServerMessageViewModel>(sender, e);
+        }
     }
 }
