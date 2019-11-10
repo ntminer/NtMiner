@@ -209,7 +209,13 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Content}" ToolTip="{Binding Content}" Foreground="{Binding IconFill}"></TextBlock>
+                            <Grid>
+                                <TextBlock 
+                                    Text="{Binding Content}" 
+                                    ToolTip="{Binding Content}" 
+                                    Foreground="{Binding IconFill}"></TextBlock>
+                                <Border Height="1" BorderThickness="1" BorderBrush="Red" Visibility="{Binding IsDeleted,Converter={StaticResource BoolToVisibilityConverter}}"></Border>
+                            </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
