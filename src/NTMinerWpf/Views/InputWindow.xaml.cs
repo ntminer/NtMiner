@@ -12,6 +12,7 @@ namespace NTMiner.Views {
             string text, 
             Func<string, string> check,
             Action<string> onOk) {
+            this.Title = title;
             InitializeComponent();
             TbTitle.Text = title;
             TbText.Text = text;

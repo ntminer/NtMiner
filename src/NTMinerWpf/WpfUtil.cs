@@ -24,8 +24,9 @@ namespace NTMiner {
 
         public static Window GetTopWindow() {
             IntPtr hwnd = SafeNativeMethods.GetForegroundWindow();
-            if (hwnd == IntPtr.Zero)
+            if (hwnd == IntPtr.Zero) {
                 return null;
+            }
 
             return GetWindowFromHwnd(hwnd);
         }
