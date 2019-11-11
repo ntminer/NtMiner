@@ -297,11 +297,6 @@ namespace NTMiner.Views {
                     PoolEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
-            VirtualRoot.BuildCmdPath<ShowControlCenterHostConfigCommand>(action: message => {
-                UIThread.Execute(() => {
-                    ControlCenterHostConfig.ShowWindow();
-                });
-            });
             VirtualRoot.BuildCmdPath<SysDicItemEditCommand>(action: message => {
                 UIThread.Execute(() => {
                     SysDicItemEdit.ShowWindow(message.FormType, message.Source);

@@ -560,10 +560,6 @@ namespace NTMiner {
             Process.Start(url);
         });
 
-        public static ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
-        });
-
         public static string ExportServerJsonMenuName {
             get {
                 return "导出" + MainAssemblyInfo.ServerJsonFileName;

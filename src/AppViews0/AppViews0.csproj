@@ -275,9 +275,6 @@
     <Compile Include="Ucs\KernelDownloading.xaml.cs">
       <DependentUpon>KernelDownloading.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\ControlCenterHostConfig.xaml.cs">
-      <DependentUpon>ControlCenterHostConfig.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\MineWorkEdit.xaml.cs">
       <DependentUpon>MineWorkEdit.xaml</DependentUpon>
     </Compile>
@@ -771,10 +768,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelDownloading.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\ControlCenterHostConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

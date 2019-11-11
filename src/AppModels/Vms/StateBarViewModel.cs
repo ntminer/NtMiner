@@ -19,7 +19,6 @@ namespace NTMiner.Vms {
         private string _cpuPerformanceText = "0 %";
         private string _cpuTemperatureText = "0 ℃";
 
-        public ICommand ConfigControlCenterHost { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
 
@@ -28,9 +27,6 @@ namespace NTMiner.Vms {
                 return;
             }
             UpdateDateTime();
-            this.ConfigControlCenterHost = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
-            });
             this.WindowsAutoLogon = new DelegateCommand(() => {
                 if (IsAutoAdminLogon) {
                     return;
