@@ -27,7 +27,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChangeds();
                     });
-                AppContextEventPath<FileWriterAddedEvent>("添加了文件书写器后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<FileWriterAddedEvent>("添加了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             FileWriterViewModel groupVm = new FileWriterViewModel(message.Source);
@@ -35,14 +35,14 @@ namespace NTMiner {
                             OnPropertyChangeds();
                         }
                     });
-                AppContextEventPath<FileWriterUpdatedEvent>("更新了文件书写器后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<FileWriterUpdatedEvent>("更新了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             FileWriterViewModel entity = _dicById[message.Source.GetId()];
                             entity.Update(message.Source);
                         }
                     });
-                AppContextEventPath<FileWriterRemovedEvent>("删除了文件书写器后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<FileWriterRemovedEvent>("删除了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();

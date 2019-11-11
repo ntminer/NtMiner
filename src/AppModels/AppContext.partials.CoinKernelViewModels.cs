@@ -23,7 +23,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChanged(nameof(AllCoinKernels));
                     });
-                AppContextEventPath<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         var coinKernelVm = new CoinKernelViewModel(message.Source);
                         _dicById.Add(message.Source.GetId(), coinKernelVm);
@@ -41,7 +41,7 @@ namespace NTMiner {
                             kernelVm.OnPropertyChanged(nameof(kernelVm.SupportedCoins));
                         }
                     });
-                AppContextEventPath<CoinKernelUpdatedEvent>("更新了币种内核后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinKernelUpdatedEvent>("更新了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         CoinKernelViewModel entity = _dicById[message.Source.GetId()];
                         var supportedGpu = entity.SupportedGpu;
@@ -59,7 +59,7 @@ namespace NTMiner {
                             kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));
                         }
                     });
-                AppContextEventPath<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out CoinKernelViewModel coinKernelVm)) {
                             _dicById.Remove(message.Source.GetId());

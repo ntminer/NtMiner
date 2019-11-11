@@ -13,7 +13,7 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                AppContextEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         ShareViewModel shareVm;
                         if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {

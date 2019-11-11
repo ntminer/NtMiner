@@ -44,7 +44,7 @@ namespace NTMiner.Views {
                     }
                 }
             };
-            this.WindowContextEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+            this.BuildEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
@@ -54,7 +54,7 @@ namespace NTMiner.Views {
                         }
                     }
                 });
-            this.WindowContextEventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
+            this.BuildEventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                 });

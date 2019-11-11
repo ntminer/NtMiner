@@ -91,7 +91,7 @@ namespace NTMiner {
         private const string messagePathIdsResourceKey = "messagePathIds";
 
         // 因为是上下文路径，无需返回路径标识
-        public static void WindowContextCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
+        public static void BuildCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -110,7 +110,7 @@ namespace NTMiner {
         }
 
         // 因为是上下文路径，无需返回路径标识
-        public static void WindowContextEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
+        public static void BuildEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
             if (WpfUtil.IsInDesignMode) {
                 return;

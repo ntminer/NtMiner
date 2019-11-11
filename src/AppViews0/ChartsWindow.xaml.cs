@@ -35,7 +35,7 @@ namespace NTMiner.Views {
             InitializeComponent();
             NotiCenterWindow.Bind(this);
             #region 总算力
-            this.WindowContextEventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
+            this.BuildEventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
                 });

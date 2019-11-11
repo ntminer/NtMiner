@@ -18,7 +18,7 @@ namespace NTMiner {
                         _dicById.Clear();
                         Init();
                     });
-                AppContextEventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                         OnPropertyChanged(nameof(WalletList));
@@ -29,7 +29,7 @@ namespace NTMiner {
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
                     });
-                AppContextEventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(WalletList));
@@ -41,7 +41,7 @@ namespace NTMiner {
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
                     });
-                AppContextEventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     });

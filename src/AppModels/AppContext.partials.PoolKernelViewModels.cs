@@ -14,7 +14,7 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                AppContextEventPath<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
+                BuildEventPath<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             PoolViewModel poolVm;
@@ -24,7 +24,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                AppContextEventPath<PoolKernelRemovedEvent>("移除了币种内核后刷新矿池内核VM内存", LogEnum.DevConsole,
+                BuildEventPath<PoolKernelRemovedEvent>("移除了币种内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var vm = _dicById[message.Source.GetId()];
@@ -35,7 +35,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                AppContextEventPath<PoolKernelUpdatedEvent>("更新了矿池内核后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<PoolKernelUpdatedEvent>("更新了矿池内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById[message.Source.GetId()].Update(message.Source);

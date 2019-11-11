@@ -29,7 +29,7 @@ namespace NTMiner {
                             VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id));
                         }
                     });
-                AppContextEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
                             List<GpuProfileViewModel> list;

@@ -15,13 +15,13 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                AppContextEventPath<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
                             _coinKernelProfileDicById[message.CoinKernelId].OnPropertyChanged(message.PropertyName);
                         }
                     });
-                AppContextEventPath<CoinProfilePropertyChangedEvent>("币种设置变更后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinProfilePropertyChangedEvent>("币种设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_coinProfileDicById.ContainsKey(message.CoinId)) {
                             _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);

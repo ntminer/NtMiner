@@ -52,7 +52,7 @@ namespace NTMiner {
                     this._list.Add(new GpuSpeedViewModel(item));
                 }
                 _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
-                AppContextEventPath<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CheckReset();
                         int index = message.Source.Gpu.Index;
@@ -63,7 +63,7 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
                         }
                     });
-                AppContextEventPath<FoundShareIncreasedEvent>("找到一个份额后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<FoundShareIncreasedEvent>("找到一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CheckReset();
                         int index = message.Source.Gpu.Index;
@@ -72,7 +72,7 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.FoundShare = message.Source.MainCoinSpeed.FoundShare;
                         }
                     });
-                AppContextEventPath<AcceptShareIncreasedEvent>("接受一个份额后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<AcceptShareIncreasedEvent>("接受一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CheckReset();
                         int index = message.Source.Gpu.Index;
@@ -81,7 +81,7 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
                         }
                     });
-                AppContextEventPath<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CheckReset();
                         int index = message.Source.Gpu.Index;
@@ -90,7 +90,7 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
                         }
                     });
-                AppContextEventPath<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CheckReset();
                         int index = message.Source.Gpu.Index;
@@ -99,7 +99,7 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Source.MainCoinSpeed.IncorrectShare;
                         }
                     });
-                AppContextEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         CheckReset();
                         int index = message.Source.Gpu.Index;
@@ -142,7 +142,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                AppContextEventPath<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None,
+                BuildEventPath<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None,
                     action: message => {
                         TotalSpeedVm.MainCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
