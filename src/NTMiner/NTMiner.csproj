@@ -147,6 +147,7 @@
     <Compile Include="Core\PoolExtensions.cs" />
     <Compile Include="Core\IDualMineContext.cs" />
     <Compile Include="Core\IMineContext.cs" />
+    <Compile Include="IServerContext.cs" />
     <Compile Include="JsonDb\ILocalJsonDb.cs" />
     <Compile Include="JsonDb\IServerJsonDb.cs" />
     <Compile Include="JsonDb\LocalJsonDb.cs" />

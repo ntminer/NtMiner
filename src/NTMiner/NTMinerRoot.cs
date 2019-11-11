@@ -27,6 +27,58 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
+        #region ServerContext Class
+        public class ServerContext : IServerContext {
+            public ServerContext(INTMinerRoot root) {
+                this.CoinGroupSet = new CoinGroupSet(root);
+                this.CoinSet = new CoinSet(root);
+                this.FileWriterSet = new FileWriterSet(root);
+                this.FragmentWriterSet = new FragmentWriterSet(root);
+                this.GroupSet = new GroupSet(root);
+                this.PoolSet = new PoolSet(root);
+                this.SysDicItemSet = new SysDicItemSet(root);
+                this.SysDicSet = new SysDicSet(root);
+                this.CoinKernelSet = new CoinKernelSet(root);
+                this.KernelInputSet = new KernelInputSet(root);
+                this.KernelOutputSet = new KernelOutputSet(root);
+                this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(root);
+                this.KernelSet = new KernelSet(root);
+                this.PackageSet = new PackageSet(root);
+                this.PoolKernelSet = new PoolKernelSet(root);
+            }
+
+            public ICoinGroupSet CoinGroupSet { get; private set; }
+
+            public ICoinSet CoinSet { get; private set; }
+
+            public IFileWriterSet FileWriterSet { get; private set; }
+
+            public IFragmentWriterSet FragmentWriterSet { get; private set; }
+
+            public IGroupSet GroupSet { get; private set; }
+
+            public IPoolSet PoolSet { get; private set; }
+
+            public ISysDicItemSet SysDicItemSet { get; private set; }
+
+            public ISysDicSet SysDicSet { get; private set; }
+
+            public ICoinKernelSet CoinKernelSet { get; private set; }
+
+            public IKernelInputSet KernelInputSet { get; private set; }
+
+            public IKernelOutputSet KernelOutputSet { get; private set; }
+
+            public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
+
+            public IKernelSet KernelSet { get; private set; }
+
+            public IPackageSet PackageSet { get; private set; }
+
+            public IPoolKernelSet PoolKernelSet { get; private set; }
+        }
+        #endregion
+
         private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
 
         /// <summary>
@@ -297,21 +349,21 @@ namespace NTMiner {
         // ServerContext对应server.json
         private void ServerContextInit(bool isWork) {
             IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
-            this.SysDicSet = new SysDicSet(this);
-            this.SysDicItemSet = new SysDicItemSet(this);
-            this.CoinSet = new CoinSet(this);
-            this.GroupSet = new GroupSet(this);
             this.CoinGroupSet = new CoinGroupSet(this);
-            this.PoolSet = new PoolSet(this);
-            this.CoinKernelSet = new CoinKernelSet(this);
-            this.PoolKernelSet = new PoolKernelSet(this);
-            this.KernelSet = new KernelSet(this);
+            this.CoinSet = new CoinSet(this);
             this.FileWriterSet = new FileWriterSet(this);
             this.FragmentWriterSet = new FragmentWriterSet(this);
-            this.PackageSet = new PackageSet(this);
+            this.GroupSet = new GroupSet(this);
+            this.PoolSet = new PoolSet(this);
+            this.SysDicItemSet = new SysDicItemSet(this);
+            this.SysDicSet = new SysDicSet(this);
+            this.CoinKernelSet = new CoinKernelSet(this);
             this.KernelInputSet = new KernelInputSet(this);
             this.KernelOutputSet = new KernelOutputSet(this);
             this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
+            this.KernelSet = new KernelSet(this);
+            this.PackageSet = new PackageSet(this);
+            this.PoolKernelSet = new PoolKernelSet(this);
         }
 
         private void Link() {
