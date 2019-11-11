@@ -1,5 +1,4 @@
 ﻿using NTMiner.AppSetting;
-using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.MinerServer;
@@ -12,9 +11,6 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public interface INTMinerRoot {
-        void ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action) where TCmd : ICmd;
-        void ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action) where TEvent : IEvent;
-        
         void ReInitMinerProfile();
 
         string GetServerJsonVersion();

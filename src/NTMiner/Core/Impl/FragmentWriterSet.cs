@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
 
         public FragmentWriterSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextCmdPath<AddFragmentWriterCommand>("添加命令行片段书写器", LogEnum.DevConsole,
+            _root.ServerContext.BuildCmdPath<AddFragmentWriterCommand>("添加命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new FragmentWriterAddedEvent(entity));
                 });
-            _root.ServerContextCmdPath<UpdateFragmentWriterCommand>("更新命令行片段书写器", LogEnum.DevConsole,
+            _root.ServerContext.BuildCmdPath<UpdateFragmentWriterCommand>("更新命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new FragmentWriterUpdatedEvent(entity));
                 });
-            _root.ServerContextCmdPath<RemoveFragmentWriterCommand>("移除组", LogEnum.DevConsole,
+            _root.ServerContext.BuildCmdPath<RemoveFragmentWriterCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

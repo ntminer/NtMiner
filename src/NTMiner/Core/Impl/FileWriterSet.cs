@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
 
         public FileWriterSet(INTMinerRoot root) {
             _root = root;
-            _root.ServerContextCmdPath<AddFileWriterCommand>("添加文件书写器", LogEnum.DevConsole,
+            _root.ServerContext.BuildCmdPath<AddFileWriterCommand>("添加文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new FileWriterAddedEvent(entity));
                 });
-            _root.ServerContextCmdPath<UpdateFileWriterCommand>("更新文件书写器", LogEnum.DevConsole,
+            _root.ServerContext.BuildCmdPath<UpdateFileWriterCommand>("更新文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new FileWriterUpdatedEvent(entity));
                 });
-            _root.ServerContextCmdPath<RemoveFileWriterCommand>("移除文件书写器", LogEnum.DevConsole,
+            _root.ServerContext.BuildCmdPath<RemoveFileWriterCommand>("移除文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

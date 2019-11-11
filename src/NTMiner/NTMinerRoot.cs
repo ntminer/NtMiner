@@ -29,22 +29,52 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         #region ServerContext Class
         public class ServerContextImpl : IServerContext {
+            private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
+
+            private readonly INTMinerRoot _root;
             public ServerContextImpl(INTMinerRoot root) {
-                this.CoinGroupSet = new CoinGroupSet(root);
-                this.CoinSet = new CoinSet(root);
-                this.FileWriterSet = new FileWriterSet(root);
-                this.FragmentWriterSet = new FragmentWriterSet(root);
-                this.GroupSet = new GroupSet(root);
-                this.PoolSet = new PoolSet(root);
-                this.SysDicItemSet = new SysDicItemSet(root);
-                this.SysDicSet = new SysDicSet(root);
-                this.CoinKernelSet = new CoinKernelSet(root);
-                this.KernelInputSet = new KernelInputSet(root);
-                this.KernelOutputSet = new KernelOutputSet(root);
-                this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(root);
-                this.KernelSet = new KernelSet(root);
-                this.PackageSet = new PackageSet(root);
-                this.PoolKernelSet = new PoolKernelSet(root);
+                _root = root;
+                ReInit();
+            }
+
+            public void ReInit() {
+                foreach (var handler in _serverContextHandlers) {
+                    VirtualRoot.DeletePath(handler);
+                }
+                _serverContextHandlers.Clear();
+                this.CoinGroupSet = new CoinGroupSet(_root);
+                this.CoinSet = new CoinSet(_root);
+                this.FileWriterSet = new FileWriterSet(_root);
+                this.FragmentWriterSet = new FragmentWriterSet(_root);
+                this.GroupSet = new GroupSet(_root);
+                this.PoolSet = new PoolSet(_root);
+                this.SysDicItemSet = new SysDicItemSet(_root);
+                this.SysDicSet = new SysDicSet(_root);
+                this.CoinKernelSet = new CoinKernelSet(_root);
+                this.KernelInputSet = new KernelInputSet(_root);
+                this.KernelOutputSet = new KernelOutputSet(_root);
+                this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(_root);
+                this.KernelSet = new KernelSet(_root);
+                this.PackageSet = new PackageSet(_root);
+                this.PoolKernelSet = new PoolKernelSet(_root);
+            }
+
+            /// <summary>
+            /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
+            /// </summary>
+            public void BuildCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+                where TCmd : ICmd {
+                var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+                _serverContextHandlers.Add(messagePathId);
+            }
+
+            /// <summary>
+            /// 事件响应
+            /// </summary>
+            public void BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+                where TEvent : IEvent {
+                var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+                _serverContextHandlers.Add(messagePathId);
             }
 
             public ICoinGroupSet CoinGroupSet { get; private set; }
@@ -78,26 +108,6 @@ namespace NTMiner {
             public IPoolKernelSet PoolKernelSet { get; private set; }
         }
         #endregion
-
-        private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
-
-        /// <summary>
-        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
-        /// </summary>
-        public void ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
-            where TCmd : ICmd {
-            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
-            _serverContextHandlers.Add(messagePathId);
-        }
-
-        /// <summary>
-        /// 事件响应
-        /// </summary>
-        public void ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
-            where TEvent : IEvent {
-            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
-            _serverContextHandlers.Add(messagePathId);
-        }
 
         public IUserSet UserSet { get; private set; }
 
@@ -142,7 +152,7 @@ namespace NTMiner {
                                 }
                                 OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, serverState => {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
-                                    AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion); 
+                                    AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) < Timestamp.DesyncSeconds) {
                                         Logger.OkDebugLine("时间同步");
                                     }
@@ -281,11 +291,10 @@ namespace NTMiner {
 
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
+            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.ServerAppSettingSet = new ServerAppSettingSet();
             this.CalcConfigSet = new CalcConfigSet(this);
-
-            ServerContextInit(isWork);
-
+            this.ServerContext = new ServerContextImpl(this);
             this.GpuProfileSet = new GpuProfileSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
@@ -327,14 +336,11 @@ namespace NTMiner {
         }
 
         private void ContextReInit(bool isWork) {
-            foreach (var handler in _serverContextHandlers) {
-                VirtualRoot.DeletePath(handler);
-            }
-            _serverContextHandlers.Clear();
             if (isWork) {
                 ReInitServerJson();
             }
-            ServerContextInit(isWork);
+            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
+            this.ServerContext.ReInit();
             // CoreContext的视图模型集此时刷新
             VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
@@ -344,12 +350,6 @@ namespace NTMiner {
                 IsJsonLocal = true;
                 ReInitMinerProfile();
             }
-        }
-
-        // ServerContext对应server.json
-        private void ServerContextInit(bool isWork) {
-            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
-            this.ServerContext = new ServerContextImpl(this);
         }
 
         private void Link() {
