@@ -1,17 +1,16 @@
-﻿using NTMiner.Repositories;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Kernels.Impl {
     internal class KernelSet : IKernelSet {
-        private readonly INTMinerRoot _root;
+        private readonly IServerContext _context;
         private readonly Dictionary<Guid, KernelData> _dicById = new Dictionary<Guid, KernelData>();
 
-        public KernelSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContext.BuildCmdPath<AddKernelCommand>("添加内核", LogEnum.DevConsole,
+        public KernelSet(IServerContext context) {
+            _context = context;
+            _context.BuildCmdPath<AddKernelCommand>("添加内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -30,7 +29,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelAddedEvent(entity));
                 });
-            _root.ServerContext.BuildCmdPath<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
+            _context.BuildCmdPath<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -52,7 +51,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelUpdatedEvent(entity));
                 });
-            _root.ServerContext.BuildCmdPath<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
+            _context.BuildCmdPath<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -62,7 +61,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     KernelData entity = _dicById[message.EntityId];
-                    List<Guid> coinKernelIds = root.ServerContext.CoinKernelSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
+                    List<Guid> coinKernelIds = context.CoinKernelSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var coinKernelId in coinKernelIds) {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(coinKernelId));
                     }
@@ -112,8 +111,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public bool TryGetKernel(Guid kernelId, out IKernel package) {
             InitOnece();
-            KernelData pkg;
-            var r = _dicById.TryGetValue(kernelId, out pkg);
+            var r = _dicById.TryGetValue(kernelId, out KernelData pkg);
             package = pkg;
             return r;
         }

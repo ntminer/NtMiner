@@ -10,19 +10,19 @@ namespace NTMiner.Core.Impl {
             public string DualCoinPoolDelayText;
         }
 
-        private readonly INTMinerRoot _root;
+        private readonly IServerContext _context;
         private readonly Dictionary<Guid, PoolData> _dicById = new Dictionary<Guid, PoolData>();
         private readonly Dictionary<Guid, PoolDelay> _poolDelayById = new Dictionary<Guid, PoolDelay>();
 
-        public PoolSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContext.BuildCmdPath<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
+        public PoolSet(IServerContext context) {
+            _context = context;
+            _context.BuildCmdPath<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!_context.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id " + message.Input.CoinId);
                     }
                     if (string.IsNullOrEmpty(message.Input.Server)) {
@@ -44,8 +44,8 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new PoolAddedEvent(entity));
 
-                    if (root.ServerContext.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
-                        ICoinKernel[] coinKernels = root.ServerContext.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                    if (context.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
+                        ICoinKernel[] coinKernels = context.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (ICoinKernel coinKernel in coinKernels) {
                             Guid poolKernelId = Guid.NewGuid();
                             var poolKernel = new PoolKernelData() {
@@ -58,13 +58,13 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            _root.ServerContext.BuildCmdPath<UpdatePoolCommand>("更新矿池", LogEnum.DevConsole,
+            _context.BuildCmdPath<UpdatePoolCommand>("更新矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!_context.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id " + message.Input.CoinId);
                     }
                     if (string.IsNullOrEmpty(message.Input.Server)) {
@@ -91,7 +91,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new PoolUpdatedEvent(entity));
                 });
-            _root.ServerContext.BuildCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
+            _context.BuildCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -111,7 +111,7 @@ namespace NTMiner.Core.Impl {
                         repository.Remove(message.EntityId);
                     }
                     VirtualRoot.RaiseEvent(new PoolRemovedEvent(entity));
-                    Guid[] toRemoves = root.ServerContext.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
+                    Guid[] toRemoves = context.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }

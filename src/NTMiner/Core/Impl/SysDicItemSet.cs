@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     internal class SysDicItemSet : ISysDicItemSet {
-        private readonly INTMinerRoot _root;
+        private readonly IServerContext _context;
         private readonly Dictionary<Guid, Dictionary<string, SysDicItemData>> _dicByDicId = new Dictionary<Guid, Dictionary<string, SysDicItemData>>();
         private readonly Dictionary<Guid, SysDicItemData> _dicById = new Dictionary<Guid, SysDicItemData>();
 
-        public SysDicItemSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContext.BuildCmdPath<AddSysDicItemCommand>("添加系统字典项", LogEnum.DevConsole,
+        public SysDicItemSet(IServerContext context) {
+            _context = context;
+            _context.BuildCmdPath<AddSysDicItemCommand>("添加系统字典项", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -37,7 +37,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new SysDicItemAddedEvent(entity));
                 });
-            _root.ServerContext.BuildCmdPath<UpdateSysDicItemCommand>("更新系统字典项", LogEnum.DevConsole,
+            _context.BuildCmdPath<UpdateSysDicItemCommand>("更新系统字典项", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -65,7 +65,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new SysDicItemUpdatedEvent(entity));
                 });
-            _root.ServerContext.BuildCmdPath<RemoveSysDicItemCommand>("移除系统字典项", LogEnum.DevConsole,
+            _context.BuildCmdPath<RemoveSysDicItemCommand>("移除系统字典项", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -143,7 +143,7 @@ namespace NTMiner.Core.Impl {
 
         public bool ContainsKey(string dicCode, string dicItemCode) {
             InitOnece();
-            if (!_root.ServerContext.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
+            if (!_context.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 return false;
             }
             if (!_dicByDicId.ContainsKey(sysDic.GetId())) {
@@ -161,7 +161,7 @@ namespace NTMiner.Core.Impl {
 
         public bool TryGetDicItem(string dicCode, string dicItemCode, out ISysDicItem dicItem) {
             InitOnece();
-            if (!_root.ServerContext.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
+            if (!_context.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 dicItem = null;
                 return false;
             }
@@ -187,7 +187,7 @@ namespace NTMiner.Core.Impl {
 
         public IEnumerable<ISysDicItem> GetSysDicItems(string dicCode) {
             InitOnece();
-            if (!_root.ServerContext.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
+            if (!_context.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 return new List<ISysDicItem>();
             }
             return _dicByDicId[sysDic.GetId()].Values.ToList();

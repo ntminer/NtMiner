@@ -7,10 +7,10 @@ namespace NTMiner.Core.Impl {
     public class CoinGroupSet : ICoinGroupSet {
         private readonly Dictionary<Guid, CoinGroupData> _dicById = new Dictionary<Guid, CoinGroupData>();
 
-        private readonly INTMinerRoot _root;
-        public CoinGroupSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContext.BuildCmdPath<AddCoinGroupCommand>("添加币组", LogEnum.DevConsole,
+        private readonly IServerContext _context;
+        public CoinGroupSet(IServerContext context) {
+            _context = context;
+            _context.BuildCmdPath<AddCoinGroupCommand>("添加币组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinGroupAddedEvent(entity));
                 });
-            _root.ServerContext.BuildCmdPath<RemoveCoinGroupCommand>("移除币组", LogEnum.DevConsole,
+            _context.BuildCmdPath<RemoveCoinGroupCommand>("移除币组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

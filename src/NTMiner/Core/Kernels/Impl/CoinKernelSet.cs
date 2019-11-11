@@ -5,18 +5,18 @@ using System.Linq;
 
 namespace NTMiner.Core.Kernels.Impl {
     internal class CoinKernelSet : ICoinKernelSet {
-        private readonly INTMinerRoot _root;
+        private readonly IServerContext _context;
         private readonly Dictionary<Guid, CoinKernelData> _dicById = new Dictionary<Guid, CoinKernelData>();
 
-        public CoinKernelSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContext.BuildCmdPath<AddCoinKernelCommand>("添加币种内核", LogEnum.DevConsole,
+        public CoinKernelSet(IServerContext context) {
+            _context = context;
+            _context.BuildCmdPath<AddCoinKernelCommand>("添加币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!_context.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id" + message.Input.CoinId);
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
@@ -33,8 +33,8 @@ namespace NTMiner.Core.Kernels.Impl {
                     VirtualRoot.RaiseEvent(new CoinKernelAddedEvent(entity));
 
                     ICoin coin;
-                    if (root.ServerContext.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
-                        IPool[] pools = root.ServerContext.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                    if (context.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
+                        IPool[] pools = context.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (IPool pool in pools) {
                             Guid poolKernelId = Guid.NewGuid();
                             var poolKernel = new PoolKernelData() {
@@ -47,13 +47,13 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 });
-            _root.ServerContext.BuildCmdPath<UpdateCoinKernelCommand>("更新币种内核", LogEnum.DevConsole,
+            _context.BuildCmdPath<UpdateCoinKernelCommand>("更新币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!_context.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id" + message.Input.CoinId);
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
@@ -69,7 +69,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(entity));
                 });
-            _root.ServerContext.BuildCmdPath<RemoveCoinKernelCommand>("移除币种内核", LogEnum.DevConsole,
+            _context.BuildCmdPath<RemoveCoinKernelCommand>("移除币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -85,11 +85,11 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinKernelRemovedEvent(entity));
                     ICoin coin;
-                    if (root.ServerContext.CoinSet.TryGetCoin(entity.CoinId, out coin)) {
+                    if (context.CoinSet.TryGetCoin(entity.CoinId, out coin)) {
                         List<Guid> toRemoves = new List<Guid>();
-                        IPool[] pools = root.ServerContext.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        IPool[] pools = context.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (IPool pool in pools) {
-                            foreach (PoolKernelData poolKernel in root.ServerContext.PoolKernelSet.Where(a => a.PoolId == pool.GetId() && a.KernelId == entity.KernelId)) {
+                            foreach (PoolKernelData poolKernel in context.PoolKernelSet.Where(a => a.PoolId == pool.GetId() && a.KernelId == entity.KernelId)) {
                                 toRemoves.Add(poolKernel.Id);
                             }
                         }
@@ -98,7 +98,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         }
                     }
                 });
-            _root.ServerContext.BuildEventPath<FileWriterRemovedEvent>("移除文件书写器后移除引用关系", LogEnum.DevConsole,
+            _context.BuildEventPath<FileWriterRemovedEvent>("移除文件书写器后移除引用关系", LogEnum.DevConsole,
                 action: message => {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     var entities = _dicById.Values.Where(a => a.FileWriterIds.Contains(message.Source.GetId())).ToArray();
@@ -108,7 +108,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(entity));
                     }
                 });
-            _root.ServerContext.BuildEventPath<FragmentWriterRemovedEvent>("移除命令行片段书写器后移除引用关系", LogEnum.DevConsole,
+            _context.BuildEventPath<FragmentWriterRemovedEvent>("移除命令行片段书写器后移除引用关系", LogEnum.DevConsole,
                 action: message => {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
                     var entities = _dicById.Values.Where(a => a.FragmentWriterIds.Contains(message.Source.GetId())).ToArray();

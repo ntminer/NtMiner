@@ -31,9 +31,7 @@ namespace NTMiner {
         public class ServerContextImpl : IServerContext {
             private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
 
-            private readonly INTMinerRoot _root;
-            public ServerContextImpl(INTMinerRoot root) {
-                _root = root;
+            public ServerContextImpl() {
                 ReInit();
             }
 
@@ -42,21 +40,21 @@ namespace NTMiner {
                     VirtualRoot.DeletePath(handler);
                 }
                 _serverContextHandlers.Clear();
-                this.CoinGroupSet = new CoinGroupSet(_root);
-                this.CoinSet = new CoinSet(_root);
-                this.FileWriterSet = new FileWriterSet(_root);
-                this.FragmentWriterSet = new FragmentWriterSet(_root);
-                this.GroupSet = new GroupSet(_root);
-                this.PoolSet = new PoolSet(_root);
-                this.SysDicItemSet = new SysDicItemSet(_root);
-                this.SysDicSet = new SysDicSet(_root);
-                this.CoinKernelSet = new CoinKernelSet(_root);
-                this.KernelInputSet = new KernelInputSet(_root);
-                this.KernelOutputSet = new KernelOutputSet(_root);
-                this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(_root);
-                this.KernelSet = new KernelSet(_root);
-                this.PackageSet = new PackageSet(_root);
-                this.PoolKernelSet = new PoolKernelSet(_root);
+                this.CoinGroupSet = new CoinGroupSet(this);
+                this.CoinSet = new CoinSet(this);
+                this.FileWriterSet = new FileWriterSet(this);
+                this.FragmentWriterSet = new FragmentWriterSet(this);
+                this.GroupSet = new GroupSet(this);
+                this.PoolSet = new PoolSet(this);
+                this.SysDicItemSet = new SysDicItemSet(this);
+                this.SysDicSet = new SysDicSet(this);
+                this.CoinKernelSet = new CoinKernelSet(this);
+                this.KernelInputSet = new KernelInputSet(this);
+                this.KernelOutputSet = new KernelOutputSet(this);
+                this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
+                this.KernelSet = new KernelSet(this);
+                this.PackageSet = new PackageSet(this);
+                this.PoolKernelSet = new PoolKernelSet(this);
             }
 
             /// <summary>
@@ -294,7 +292,7 @@ namespace NTMiner {
             IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.ServerAppSettingSet = new ServerAppSettingSet();
             this.CalcConfigSet = new CalcConfigSet(this);
-            this.ServerContext = new ServerContextImpl(this);
+            this.ServerContext = new ServerContextImpl();
             this.GpuProfileSet = new GpuProfileSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);

@@ -5,13 +5,13 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     internal class CoinSet : ICoinSet {
-        private readonly INTMinerRoot _root;
+        private readonly IServerContext _context;
         private readonly Dictionary<string, CoinData> _dicByCode = new Dictionary<string, CoinData>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, CoinData> _dicById = new Dictionary<Guid, CoinData>();
 
-        public CoinSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContext.BuildCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
+        public CoinSet(IServerContext context) {
+            _context = context;
+            _context.BuildCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinAddedEvent(entity));
                 });
-            _root.ServerContext.BuildCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
+            _context.BuildCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -56,7 +56,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinUpdatedEvent(message.Input));
                 });
-            _root.ServerContext.BuildCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
+            _context.BuildCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -66,19 +66,19 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     CoinData entity = _dicById[message.EntityId];
-                    Guid[] toRemoves = root.ServerContext.PoolSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    Guid[] toRemoves = context.PoolSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolCommand(id));
                     }
-                    toRemoves = root.ServerContext.CoinKernelSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    toRemoves = context.CoinKernelSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(id));
                     }
-                    toRemoves = root.MinerProfile.GetWallets().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    toRemoves = NTMinerRoot.Instance.MinerProfile.GetWallets().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveWalletCommand(id));
                     }
-                    toRemoves = root.ServerContext.CoinGroupSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    toRemoves = context.CoinGroupSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
                     }
