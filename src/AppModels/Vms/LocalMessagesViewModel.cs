@@ -101,6 +101,21 @@
                         OnPropertyChanged(nameof(IsNoRecord));
                     });
                 });
+            VirtualRoot.BuildEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole,
+                action: message => {
+                    if (QueryResults == null) {
+                        return;
+                    }
+                    foreach (var item in QueryResults) {
+                        if (item.Timestamp.Date.AddDays(3) >= message.Timestamp.Date) {
+                            item.OnPropertyChanged(nameof(item.TimestampText));
+                        }
+                        else {
+                            // 因为是按照时间倒叙排列的，所以可以break
+                            break;
+                        }
+                    }
+                });
         }
 
         private void Init() {
