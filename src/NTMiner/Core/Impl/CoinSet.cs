@@ -5,13 +5,11 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     internal class CoinSet : ICoinSet {
-        private readonly IServerContext _context;
         private readonly Dictionary<string, CoinData> _dicByCode = new Dictionary<string, CoinData>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, CoinData> _dicById = new Dictionary<Guid, CoinData>();
 
         public CoinSet(IServerContext context) {
-            _context = context;
-            _context.BuildCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
+            context.BuildCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -34,7 +32,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinAddedEvent(entity));
                 });
-            _context.BuildCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -56,7 +54,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinUpdatedEvent(message.Input));
                 });
-            _context.BuildCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
+            context.BuildCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

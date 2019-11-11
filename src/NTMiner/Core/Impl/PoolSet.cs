@@ -10,19 +10,17 @@ namespace NTMiner.Core.Impl {
             public string DualCoinPoolDelayText;
         }
 
-        private readonly IServerContext _context;
         private readonly Dictionary<Guid, PoolData> _dicById = new Dictionary<Guid, PoolData>();
         private readonly Dictionary<Guid, PoolDelay> _poolDelayById = new Dictionary<Guid, PoolDelay>();
 
         public PoolSet(IServerContext context) {
-            _context = context;
-            _context.BuildCmdPath<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
+            context.BuildCmdPath<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_context.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!context.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id " + message.Input.CoinId);
                     }
                     if (string.IsNullOrEmpty(message.Input.Server)) {
@@ -58,13 +56,13 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            _context.BuildCmdPath<UpdatePoolCommand>("更新矿池", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdatePoolCommand>("更新矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_context.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!context.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id " + message.Input.CoinId);
                     }
                     if (string.IsNullOrEmpty(message.Input.Server)) {
@@ -91,7 +89,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new PoolUpdatedEvent(entity));
                 });
-            _context.BuildCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
+            context.BuildCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

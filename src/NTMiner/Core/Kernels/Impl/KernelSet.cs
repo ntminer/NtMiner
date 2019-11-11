@@ -5,12 +5,10 @@ using System.Linq;
 
 namespace NTMiner.Core.Kernels.Impl {
     internal class KernelSet : IKernelSet {
-        private readonly IServerContext _context;
         private readonly Dictionary<Guid, KernelData> _dicById = new Dictionary<Guid, KernelData>();
 
         public KernelSet(IServerContext context) {
-            _context = context;
-            _context.BuildCmdPath<AddKernelCommand>("添加内核", LogEnum.DevConsole,
+            context.BuildCmdPath<AddKernelCommand>("添加内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +27,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelAddedEvent(entity));
                 });
-            _context.BuildCmdPath<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +49,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelUpdatedEvent(entity));
                 });
-            _context.BuildCmdPath<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
+            context.BuildCmdPath<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

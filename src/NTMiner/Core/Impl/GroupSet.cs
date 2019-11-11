@@ -6,10 +6,8 @@ namespace NTMiner.Core.Impl {
     public class GroupSet : IGroupSet {
         private readonly Dictionary<Guid, GroupData> _dicById = new Dictionary<Guid, GroupData>();
 
-        private readonly IServerContext _context;
         public GroupSet(IServerContext context) {
-            _context = context;
-            _context.BuildCmdPath<AddGroupCommand>("添加组", LogEnum.DevConsole,
+            context.BuildCmdPath<AddGroupCommand>("添加组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -28,7 +26,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new GroupAddedEvent(entity));
                 });
-            _context.BuildCmdPath<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -50,7 +48,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new GroupUpdatedEvent(entity));
                 });
-            _context.BuildCmdPath<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
+            context.BuildCmdPath<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
