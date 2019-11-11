@@ -69,7 +69,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.KernelSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.KernelSet) {
                     _dicById.Add(item.GetId(), new KernelViewModel(item));
                 }
             }

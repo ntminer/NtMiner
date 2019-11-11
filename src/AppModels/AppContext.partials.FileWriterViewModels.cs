@@ -55,7 +55,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.FileWriterSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.FileWriterSet) {
                     FileWriterViewModel groupVm = new FileWriterViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

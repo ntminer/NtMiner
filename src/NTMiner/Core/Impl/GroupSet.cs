@@ -60,7 +60,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     GroupData entity = _dicById[message.EntityId];
-                    Guid[] toRemoves = root.CoinGroupSet.GetGroupCoinIds(entity.Id).ToArray();
+                    Guid[] toRemoves = root.ServerContext.CoinGroupSet.GetGroupCoinIds(entity.Id).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
                     }

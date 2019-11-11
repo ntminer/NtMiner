@@ -14,28 +14,28 @@ namespace NTMiner {
             parameters = new Dictionary<string, string>();
             fileWriters = new Dictionary<Guid, string>();
             fragments = new Dictionary<Guid, string>();
-            if (!CoinSet.TryGetCoin(this.MinerProfile.CoinId, out ICoin mainCoin)) {
+            if (!ServerContext.CoinSet.TryGetCoin(this.MinerProfile.CoinId, out ICoin mainCoin)) {
                 return string.Empty;
             }
             ICoinProfile coinProfile = this.MinerProfile.GetCoinProfile(mainCoin.GetId());
-            if (!PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
+            if (!ServerContext.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                 return string.Empty;
             }
-            if (!CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
+            if (!ServerContext.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
                 return string.Empty;
             }
-            if (!KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
+            if (!ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                 return string.Empty;
             }
             if (!kernel.IsSupported(mainCoin)) {
                 return string.Empty;
             }
-            if (!KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
+            if (!ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
                 return string.Empty;
             }
             ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
             string poolKernelArgs = string.Empty;
-            IPoolKernel poolKernel = PoolKernelSet.FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
+            IPoolKernel poolKernel = ServerContext.PoolKernelSet.FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
             if (poolKernel != null) {
                 poolKernelArgs = poolKernel.Args;
             }
@@ -68,7 +68,7 @@ namespace NTMiner {
             parameters.Add(NTKeyword.WorkerParameterName, minerName);
             if (coinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
                 parameters.Add(NTKeyword.Worker1ParameterName, minerName);
-                if (PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
+                if (ServerContext.PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add(NTKeyword.Host1ParameterName, mainCoinPool1.GetHost());
                     parameters.Add(NTKeyword.Port1ParameterName, mainCoinPool1.GetPort().ToString());
                     parameters.Add(NTKeyword.Pool1ParameterName, mainCoinPool1.Server);
@@ -91,9 +91,9 @@ namespace NTMiner {
             if (coinKernelProfile.IsDualCoinEnabled && kernelInput.IsSupportDualMine) {
                 Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
                 if (dualCoinGroupId != Guid.Empty) {
-                    if (this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
+                    if (this.ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                         ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
-                        if (PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
+                        if (ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                             string dualUserName = string.Empty;
                             string dualPassword = NTKeyword.PasswordDefaultValue;
                             string dualWallet = dualCoinProfile.DualCoinWallet;
@@ -258,14 +258,14 @@ namespace NTMiner {
             try {
                 if (coinKernel.FragmentWriterIds != null && coinKernel.FragmentWriterIds.Count != 0) {
                     foreach (var writerId in coinKernel.FragmentWriterIds) {
-                        if (FragmentWriterSet.TryGetFragmentWriter(writerId, out IFragmentWriter writer)) {
+                        if (ServerContext.FragmentWriterSet.TryGetFragmentWriter(writerId, out IFragmentWriter writer)) {
                             BuildFragment(parameters, fileWriters, fragments, writer);
                         }
                     }
                 }
                 if (coinKernel.FileWriterIds != null && coinKernel.FileWriterIds.Count != 0) {
                     foreach (var writerId in coinKernel.FileWriterIds) {
-                        if (FileWriterSet.TryGetFileWriter(writerId, out IFileWriter writer)) {
+                        if (ServerContext.FileWriterSet.TryGetFileWriter(writerId, out IFileWriter writer)) {
                             BuildFragment(parameters, fileWriters, fragments, writer);
                         }
                     }

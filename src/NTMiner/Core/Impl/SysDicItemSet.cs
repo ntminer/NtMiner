@@ -143,7 +143,7 @@ namespace NTMiner.Core.Impl {
 
         public bool ContainsKey(string dicCode, string dicItemCode) {
             InitOnece();
-            if (!_root.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
+            if (!_root.ServerContext.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 return false;
             }
             if (!_dicByDicId.ContainsKey(sysDic.GetId())) {
@@ -161,7 +161,7 @@ namespace NTMiner.Core.Impl {
 
         public bool TryGetDicItem(string dicCode, string dicItemCode, out ISysDicItem dicItem) {
             InitOnece();
-            if (!_root.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
+            if (!_root.ServerContext.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 dicItem = null;
                 return false;
             }
@@ -187,7 +187,7 @@ namespace NTMiner.Core.Impl {
 
         public IEnumerable<ISysDicItem> GetSysDicItems(string dicCode) {
             InitOnece();
-            if (!_root.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
+            if (!_root.ServerContext.SysDicSet.TryGetSysDic(dicCode, out ISysDic sysDic)) {
                 return new List<ISysDicItem>();
             }
             return _dicByDicId[sysDic.GetId()].Values.ToList();

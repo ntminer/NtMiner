@@ -22,7 +22,7 @@ namespace NTMiner.Core.Impl {
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id " + message.Input.CoinId);
                     }
                     if (string.IsNullOrEmpty(message.Input.Server)) {
@@ -44,8 +44,8 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new PoolAddedEvent(entity));
 
-                    if (root.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
-                        ICoinKernel[] coinKernels = root.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                    if (root.ServerContext.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
+                        ICoinKernel[] coinKernels = root.ServerContext.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (ICoinKernel coinKernel in coinKernels) {
                             Guid poolKernelId = Guid.NewGuid();
                             var poolKernel = new PoolKernelData() {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Impl {
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id " + message.Input.CoinId);
                     }
                     if (string.IsNullOrEmpty(message.Input.Server)) {
@@ -111,7 +111,7 @@ namespace NTMiner.Core.Impl {
                         repository.Remove(message.EntityId);
                     }
                     VirtualRoot.RaiseEvent(new PoolRemovedEvent(entity));
-                    Guid[] toRemoves = root.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
+                    Guid[] toRemoves = root.ServerContext.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }

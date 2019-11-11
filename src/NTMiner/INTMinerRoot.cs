@@ -2,7 +2,6 @@
 using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Core.Gpus;
-using NTMiner.Core.Kernels;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.KernelOutputKeyword;
@@ -41,6 +40,8 @@ namespace NTMiner {
 
         bool IsMining { get; }
 
+        IServerContext ServerContext { get; }
+
         IGpuProfileSet GpuProfileSet { get; }
 
         IWorkProfile MinerProfile { get; }
@@ -59,43 +60,13 @@ namespace NTMiner {
 
         IGpuSet GpuSet { get; }
 
-        ISysDicSet SysDicSet { get; }
-
-        ISysDicItemSet SysDicItemSet { get; }
-
-        ICoinSet CoinSet { get; }
-
-        IGroupSet GroupSet { get; }
-
-        ICoinGroupSet CoinGroupSet { get; }
-
         ICalcConfigSet CalcConfigSet { get; }
-
-        IPoolSet PoolSet { get; }
-
-        ICoinKernelSet CoinKernelSet { get; }
-
-        IPoolKernelSet PoolKernelSet { get; }
-
-        IKernelSet KernelSet { get; }
-
-        IFileWriterSet FileWriterSet { get; }
-
-        IFragmentWriterSet FragmentWriterSet { get; }
-
-        IPackageSet PackageSet { get; }
 
         IKernelProfileSet KernelProfileSet { get; }
 
         IGpusSpeed GpusSpeed { get; }
 
         ICoinShareSet CoinShareSet { get; }
-
-        IKernelInputSet KernelInputSet { get; }
-
-        IKernelOutputSet KernelOutputSet { get; }
-
-        IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; }
 
         IKernelOutputKeywordSet LocalKernelOutputKeywordSet { get; }
         IKernelOutputKeywordSet ServerKernelOutputKeywordSet { get; }

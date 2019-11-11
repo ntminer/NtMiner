@@ -154,7 +154,7 @@ namespace NTMiner.Vms {
 
         public string CoinCode {
             get {
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin.Code;
                 }
                 return string.Empty;
@@ -163,7 +163,7 @@ namespace NTMiner.Vms {
 
         public ICoin Coin {
             get {
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin;
                 }
                 return CoinViewModel.Empty;

@@ -202,7 +202,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.CoinSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
                 }
                 else {
@@ -314,7 +314,7 @@ namespace NTMiner.Vms {
                 if (this == PleaseSelect || NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
-                foreach (var coinKernel in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
+                foreach (var coinKernel in NTMinerRoot.Instance.ServerContext.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
                     if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
                         return true;
                     }
@@ -621,7 +621,7 @@ namespace NTMiner.Vms {
 
         public CoinProfileViewModel CoinProfile {
             get {
-                if (!NTMinerRoot.Instance.CoinSet.Contains(this.Id)) {
+                if (!NTMinerRoot.Instance.ServerContext.CoinSet.Contains(this.Id)) {
                     return null;
                 }
                 return AppContext.Instance.CoinProfileVms.GetOrCreateCoinProfile(this.Id);

@@ -55,7 +55,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.KernelOutputSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.KernelOutputSet) {
                     _dicById.Add(item.GetId(), new KernelOutputViewModel(item));
                 }
             }

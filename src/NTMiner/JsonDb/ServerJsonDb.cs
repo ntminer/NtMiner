@@ -25,27 +25,27 @@ namespace NTMiner.JsonDb {
         }
 
         public ServerJsonDb(INTMinerRoot root) {
-            Coins = root.CoinSet.Cast<CoinData>().ToArray();
+            Coins = root.ServerContext.CoinSet.Cast<CoinData>().ToArray();
             // json向后兼容
             foreach (var coin in Coins) {
-                if (root.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
+                if (root.ServerContext.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
                     coin.Algo = dicItem.Value;
                 }
             }
-            Groups = root.GroupSet.Cast<GroupData>().ToArray();
-            CoinGroups = root.CoinGroupSet.Cast<CoinGroupData>().ToArray();
-            KernelInputs = root.KernelInputSet.Cast<KernelInputData>().ToArray();
-            KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().ToArray();
-            KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray();
-            Kernels = root.KernelSet.Cast<KernelData>().ToList();
-            Packages = root.PackageSet.Cast<PackageData>().ToList();
-            CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().ToList();
-            FileWriters = root.FileWriterSet.Cast<FileWriterData>().ToList();
-            FragmentWriters = root.FragmentWriterSet.Cast<FragmentWriterData>().ToList();
-            PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
-            Pools = root.PoolSet.Cast<PoolData>().ToList();
-            SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
-            SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
+            Groups = root.ServerContext.GroupSet.Cast<GroupData>().ToArray();
+            CoinGroups = root.ServerContext.CoinGroupSet.Cast<CoinGroupData>().ToArray();
+            KernelInputs = root.ServerContext.KernelInputSet.Cast<KernelInputData>().ToArray();
+            KernelOutputs = root.ServerContext.KernelOutputSet.Cast<KernelOutputData>().ToArray();
+            KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray();
+            Kernels = root.ServerContext.KernelSet.Cast<KernelData>().ToList();
+            Packages = root.ServerContext.PackageSet.Cast<PackageData>().ToList();
+            CoinKernels = root.ServerContext.CoinKernelSet.Cast<CoinKernelData>().ToList();
+            FileWriters = root.ServerContext.FileWriterSet.Cast<FileWriterData>().ToList();
+            FragmentWriters = root.ServerContext.FragmentWriterSet.Cast<FragmentWriterData>().ToList();
+            PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
+            Pools = root.ServerContext.PoolSet.Cast<PoolData>().ToList();
+            SysDicItems = root.ServerContext.SysDicItemSet.Cast<SysDicItemData>().ToArray();
+            SysDics = root.ServerContext.SysDicSet.Cast<SysDicData>().ToArray();
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
@@ -89,33 +89,33 @@ namespace NTMiner.JsonDb {
         public ServerJsonDb(INTMinerRoot root, LocalJsonDb localJsonObj) {
             var minerProfile = root.MinerProfile;
             var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
-            root.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel coinKernel);
-            root.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
-            var coins = root.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
-            var coinGroups = root.CoinGroupSet.Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
-            var pools = root.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
+            root.ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel coinKernel);
+            root.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
+            var coins = root.ServerContext.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
+            var coinGroups = root.ServerContext.CoinGroupSet.Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
+            var pools = root.ServerContext.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
 
             Coins = coins;
             // json向后兼容
             foreach (var coin in Coins) {
-                if (root.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
+                if (root.ServerContext.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
                     coin.Algo = dicItem.Value;
                 }
             }
             CoinGroups = coinGroups;
             Pools = pools;
-            Groups = root.GroupSet.Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();
-            KernelInputs = root.KernelInputSet.Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray();
-            KernelOutputs = root.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
-            KernelOutputTranslaters = root.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
+            Groups = root.ServerContext.GroupSet.Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();
+            KernelInputs = root.ServerContext.KernelInputSet.Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray();
+            KernelOutputs = root.ServerContext.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
+            KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
             Kernels = new List<KernelData> { (KernelData)kernel };
-            Packages = root.PackageSet.Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
-            CoinKernels = root.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
-            FileWriters = root.FileWriterSet.Cast<FileWriterData>().ToList();// 这个数据没几条就不精简了
-            FragmentWriters = root.FragmentWriterSet.Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
-            PoolKernels = root.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
-            SysDicItems = root.SysDicItemSet.Cast<SysDicItemData>().ToArray();
-            SysDics = root.SysDicSet.Cast<SysDicData>().ToArray();
+            Packages = root.ServerContext.PackageSet.Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
+            CoinKernels = root.ServerContext.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
+            FileWriters = root.ServerContext.FileWriterSet.Cast<FileWriterData>().ToList();// 这个数据没几条就不精简了
+            FragmentWriters = root.ServerContext.FragmentWriterSet.Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
+            PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
+            SysDicItems = root.ServerContext.SysDicItemSet.Cast<SysDicItemData>().ToArray();
+            SysDics = root.ServerContext.SysDicSet.Cast<SysDicData>().ToArray();
             TimeStamp = NTMinerRoot.ServerJson.TimeStamp;
         }
 

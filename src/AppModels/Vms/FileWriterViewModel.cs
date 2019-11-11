@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.FileWriterSet.TryGetFileWriter(this.Id, out IFileWriter writer)) {
+                if (NTMinerRoot.Instance.ServerContext.FileWriterSet.TryGetFileWriter(this.Id, out IFileWriter writer)) {
                     VirtualRoot.Execute(new UpdateFileWriterCommand(this));
                 }
                 else {

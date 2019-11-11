@@ -16,7 +16,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id" + message.Input.CoinId);
                     }
                     if (_dicById.ContainsKey(message.Input.GetId())) {
@@ -33,8 +33,8 @@ namespace NTMiner.Core.Kernels.Impl {
                     VirtualRoot.RaiseEvent(new CoinKernelAddedEvent(entity));
 
                     ICoin coin;
-                    if (root.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
-                        IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                    if (root.ServerContext.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
+                        IPool[] pools = root.ServerContext.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (IPool pool in pools) {
                             Guid poolKernelId = Guid.NewGuid();
                             var poolKernel = new PoolKernelData() {
@@ -53,7 +53,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.CoinSet.Contains(message.Input.CoinId)) {
+                    if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
                         throw new ValidationException("there is no coin with id" + message.Input.CoinId);
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
@@ -85,11 +85,11 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinKernelRemovedEvent(entity));
                     ICoin coin;
-                    if (root.CoinSet.TryGetCoin(entity.CoinId, out coin)) {
+                    if (root.ServerContext.CoinSet.TryGetCoin(entity.CoinId, out coin)) {
                         List<Guid> toRemoves = new List<Guid>();
-                        IPool[] pools = root.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        IPool[] pools = root.ServerContext.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (IPool pool in pools) {
-                            foreach (PoolKernelData poolKernel in root.PoolKernelSet.Where(a => a.PoolId == pool.GetId() && a.KernelId == entity.KernelId)) {
+                            foreach (PoolKernelData poolKernel in root.ServerContext.PoolKernelSet.Where(a => a.PoolId == pool.GetId() && a.KernelId == entity.KernelId)) {
                                 toRemoves.Add(poolKernel.Id);
                             }
                         }

@@ -92,7 +92,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 });
             _root.ServerContextEventPath<SysDicItemUpdatedEvent>($"{NTKeyword.LogColorSysDicCode}字典项更新后刷新翻译器内存", LogEnum.DevConsole,
                 action: message => {
-                    if (!_root.SysDicSet.TryGetSysDic(NTKeyword.LogColorSysDicCode, out ISysDic dic)) {
+                    if (!_root.ServerContext.SysDicSet.TryGetSysDic(NTKeyword.LogColorSysDicCode, out ISysDic dic)) {
                         return;
                     }
                     if (message.Source.DicId != dic.GetId()) {
@@ -169,10 +169,10 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values.GetEnumerator();
         }
 
-        private Dictionary<IKernelOutputTranslater, ConsoleColor> _colorDic = new Dictionary<IKernelOutputTranslater, ConsoleColor>();
+        private readonly Dictionary<IKernelOutputTranslater, ConsoleColor> _colorDic = new Dictionary<IKernelOutputTranslater, ConsoleColor>();
         private ConsoleColor GetColor(IKernelOutputTranslater consoleTranslater) {
             if (!_colorDic.ContainsKey(consoleTranslater)) {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.LogColorSysDicCode, consoleTranslater.Color, out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.LogColorSysDicCode, consoleTranslater.Color, out ISysDicItem dicItem)) {
                     _colorDic.Add(consoleTranslater, GetColor(dicItem.Value));
                 }
                 else {

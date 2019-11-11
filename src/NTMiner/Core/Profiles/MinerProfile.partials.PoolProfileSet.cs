@@ -46,7 +46,7 @@ namespace NTMiner.Core.Profiles {
                 private static readonly PoolProfile Empty = new PoolProfile(new PoolProfileData());
 
                 public static PoolProfile Create(INTMinerRoot root, Guid poolIdId) {
-                    if (root.PoolSet.TryGetPool(poolIdId, out IPool pool)) {
+                    if (root.ServerContext.PoolSet.TryGetPool(poolIdId, out IPool pool)) {
                         var data = GetPoolProfileData(root, pool.GetId());
                         if (data == null) {
                             data = PoolProfileData.CreateDefaultData(pool);
@@ -60,13 +60,13 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
-                private PoolProfileData _data;
+                private readonly PoolProfileData _data;
 
                 private static PoolProfileData GetPoolProfileData(INTMinerRoot root, Guid poolId) {
                     var repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
                     var result = repository.GetByKey(poolId);
                     if (result == null) {
-                        if (root.PoolSet.TryGetPool(poolId, out IPool pool)) {
+                        if (root.ServerContext.PoolSet.TryGetPool(poolId, out IPool pool)) {
                             // 如果本地未设置用户名密码则使用默认的测试用户名密码
                             result = PoolProfileData.CreateDefaultData(pool);
                         }

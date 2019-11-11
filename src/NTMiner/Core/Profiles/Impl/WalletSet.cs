@@ -13,7 +13,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
-                if (!_root.CoinSet.Contains(message.Input.CoinId)) {
+                if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
                     throw new ValidationException("there is not coin with id " + message.Input.CoinId);
                 }
                 if (string.IsNullOrEmpty(message.Input.Address)) {
@@ -33,7 +33,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
-                if (!_root.CoinSet.Contains(message.Input.CoinId)) {
+                if (!_root.ServerContext.CoinSet.Contains(message.Input.CoinId)) {
                     throw new ValidationException("there is not coin with id " + message.Input.CoinId);
                 }
                 if (string.IsNullOrEmpty(message.Input.Address)) {

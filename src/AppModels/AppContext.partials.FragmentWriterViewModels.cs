@@ -55,7 +55,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.FragmentWriterSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.FragmentWriterSet) {
                     FragmentWriterViewModel groupVm = new FragmentWriterViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

@@ -40,7 +40,7 @@ namespace NTMiner {
             /// </summary>
             private void ClearPackages() {
                 HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                foreach (var kernel in NTMinerRoot.Instance.KernelSet) {
+                foreach (var kernel in NTMinerRoot.Instance.ServerContext.KernelSet) {
                     if (!string.IsNullOrEmpty(kernel.Package)) {
                         packageFileNames.Add(kernel.Package);
                     }
@@ -75,7 +75,7 @@ namespace NTMiner {
             /// </summary>
             private void CleanKernels() {
                 try {
-                    foreach (var kernelProcessName in NTMinerRoot.Instance.KernelSet.GetAllKernelProcessNames()) {
+                    foreach (var kernelProcessName in NTMinerRoot.Instance.ServerContext.KernelSet.GetAllKernelProcessNames()) {
                         if (NTMinerRoot.Instance.CurrentMineContext == null || NTMinerRoot.Instance.CurrentMineContext.Kernel.GetProcessName() != kernelProcessName) {
                             Windows.TaskKill.Kill(kernelProcessName, waitForExit: true);
                         }

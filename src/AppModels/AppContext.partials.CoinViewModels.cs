@@ -94,7 +94,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.CoinSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinSet) {
                     _dicById.Add(item.GetId(), new CoinViewModel(item));
                 }
                 foreach (var coinVm in _dicById.Values) {
@@ -108,7 +108,7 @@ namespace NTMiner {
 
             public bool TryGetCoinVm(string coinCode, out CoinViewModel coinVm) {
                 ICoin coin;
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(coinCode, out coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(coinCode, out coin)) {
                     return TryGetCoinVm(coin.GetId(), out coinVm);
                 }
                 coinVm = CoinViewModel.Empty;

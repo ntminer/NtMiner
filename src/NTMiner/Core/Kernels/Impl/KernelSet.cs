@@ -62,7 +62,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     KernelData entity = _dicById[message.EntityId];
-                    List<Guid> coinKernelIds = root.CoinKernelSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
+                    List<Guid> coinKernelIds = root.ServerContext.CoinKernelSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var coinKernelId in coinKernelIds) {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(coinKernelId));
                     }

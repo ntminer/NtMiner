@@ -52,7 +52,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.CoinGroupSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinGroupSet) {
                     CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                     if (!_listByGroupId.ContainsKey(item.GroupId)) {

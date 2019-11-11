@@ -36,7 +36,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_root.PoolSet.Contains(message.Input.PoolId)) {
+                    if (!_root.ServerContext.PoolSet.Contains(message.Input.PoolId)) {
                         throw new ValidationException("there is no pool with id" + message.Input.PoolId);
                     }
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
@@ -76,8 +76,8 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     List<PoolKernelData> list = repository.GetAll().ToList();
-                    foreach (IPool pool in _root.PoolSet) {
-                        foreach (ICoinKernel coinKernel in _root.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
+                    foreach (IPool pool in _root.ServerContext.PoolSet) {
+                        foreach (ICoinKernel coinKernel in _root.ServerContext.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
                             PoolKernelData poolKernel = list.FirstOrDefault(a => a.PoolId == pool.GetId() && a.KernelId == coinKernel.KernelId);
                             if (poolKernel != null) {
                                 _dicById.Add(poolKernel.GetId(), poolKernel);
@@ -105,8 +105,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public bool TryGetPoolKernel(Guid kernelId, out IPoolKernel kernel) {
             InitOnece();
-            PoolKernelData k;
-            var r = _dicById.TryGetValue(kernelId, out k);
+            var r = _dicById.TryGetValue(kernelId, out PoolKernelData k);
             kernel = k;
             return r;
         }

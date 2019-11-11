@@ -45,7 +45,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.ContainsKey(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.ContainsKey(this.Id)) {
                     VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                 }
                 else {

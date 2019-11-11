@@ -49,7 +49,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (IPoolKernel item in NTMinerRoot.Instance.PoolKernelSet) {
+                foreach (IPoolKernel item in NTMinerRoot.Instance.ServerContext.PoolKernelSet) {
                     _dicById.Add(item.GetId(), new PoolKernelViewModel(item));
                 }
             }

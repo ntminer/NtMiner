@@ -28,8 +28,7 @@ namespace NTMiner {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
                             OnPropertyChangeds();
-                            SysDicViewModel sysDicVm;
-                            if (AppContext.Instance.SysDicVms.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
+                            if (AppContext.Instance.SysDicVms.TryGetSysDicVm(message.Source.DicId, out SysDicViewModel sysDicVm)) {
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                             }
@@ -42,8 +41,7 @@ namespace NTMiner {
                             int sortNumber = entity.SortNumber;
                             entity.Update(message.Source);
                             if (sortNumber != entity.SortNumber) {
-                                SysDicViewModel sysDicVm;
-                                if (AppContext.Instance.SysDicVms.TryGetSysDicVm(entity.DicId, out sysDicVm)) {
+                                if (AppContext.Instance.SysDicVms.TryGetSysDicVm(entity.DicId, out SysDicViewModel sysDicVm)) {
                                     sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                                     sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                                 }
@@ -54,8 +52,7 @@ namespace NTMiner {
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
-                        SysDicViewModel sysDicVm;
-                        if (AppContext.Instance.SysDicVms.TryGetSysDicVm(message.Source.DicId, out sysDicVm)) {
+                        if (AppContext.Instance.SysDicVms.TryGetSysDicVm(message.Source.DicId, out SysDicViewModel sysDicVm)) {
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                         }
@@ -68,7 +65,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.SysDicItemSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.SysDicItemSet) {
                     _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
                 }
             }
@@ -85,8 +82,7 @@ namespace NTMiner {
             public List<SysDicItemViewModel> KernelBrandItems {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
-                    SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.KernelBrandSysDicCode, out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.KernelBrandSysDicCode, out SysDicViewModel sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -98,8 +94,7 @@ namespace NTMiner {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel> {
                         SysDicItemViewModel.PleaseSelect
                     };
-                    SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.KernelBrandSysDicCode, out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.KernelBrandSysDicCode, out SysDicViewModel sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -109,8 +104,7 @@ namespace NTMiner {
             public List<SysDicItemViewModel> PoolBrandItems {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
-                    SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.PoolBrandSysDicCode, out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.PoolBrandSysDicCode, out SysDicViewModel sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;
@@ -120,8 +114,7 @@ namespace NTMiner {
             public List<SysDicItemViewModel> AlgoItems {
                 get {
                     List<SysDicItemViewModel> list = new List<SysDicItemViewModel>();
-                    SysDicViewModel sysDic;
-                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.AlgoSysDicCode, out sysDic)) {
+                    if (AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.AlgoSysDicCode, out SysDicViewModel sysDic)) {
                         list.AddRange(List.Where(a => a.DicId == sysDic.Id).OrderBy(a => a.SortNumber));
                     }
                     return list;

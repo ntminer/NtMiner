@@ -84,7 +84,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.CoinKernelSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinKernelSet) {
                     _dicById.Add(item.GetId(), new CoinKernelViewModel(item));
                 }
             }

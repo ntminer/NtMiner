@@ -8,7 +8,7 @@ namespace NTMiner.Core {
             try {
                 // 执行文件书写器
                 foreach (var fileWriterId in mineContext.CoinKernel.FileWriterIds) {
-                    if (NTMinerRoot.Instance.FileWriterSet.TryGetFileWriter(fileWriterId, out IFileWriter fileWriter)) {
+                    if (NTMinerRoot.Instance.ServerContext.FileWriterSet.TryGetFileWriter(fileWriterId, out IFileWriter fileWriter)) {
                         Execute(mineContext, fileWriter);
                     }
                 }

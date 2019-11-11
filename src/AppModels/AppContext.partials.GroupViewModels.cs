@@ -62,7 +62,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.GroupSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.GroupSet) {
                     GroupViewModel groupVm = new GroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

@@ -25,7 +25,7 @@ namespace NTMiner.Core.Kernels {
                 if (kernel == null || kernel.KernelInputId == Guid.Empty) {
                     return string.Empty;
                 }
-                NTMinerRoot.Instance.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput);
+                NTMinerRoot.Instance.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput);
                 if (kernelInput == null) {
                     Write.UserError("意外！没有正确配置内核输入，请QQ群联系小编解决。");
                     return string.Empty;
@@ -80,7 +80,7 @@ namespace NTMiner.Core.Kernels {
             if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                 return true;
             }
-            foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {
+            foreach (var item in NTMinerRoot.Instance.ServerContext.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {
                 if (item.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
                     return true;
                 }

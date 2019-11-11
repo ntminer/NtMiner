@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 _algoIds = this.AlgoSelectItems.Where(a => a.IsChecked).Select(a => a.SysDicItemVm.Id).ToList();
-                if (NTMinerRoot.Instance.PackageSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.PackageSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePackageCommand(this));
                 }
                 else {

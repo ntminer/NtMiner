@@ -66,7 +66,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     SysDicData entity = _dicById[message.EntityId];
-                    List<Guid> toRemoves = root.SysDicItemSet.GetSysDicItems(entity.Code).Select(a => a.GetId()).ToList();
+                    List<Guid> toRemoves = root.ServerContext.SysDicItemSet.GetSysDicItems(entity.Code).Select(a => a.GetId()).ToList();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveSysDicItemCommand(id));
                     }
