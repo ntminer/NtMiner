@@ -13,7 +13,7 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
             private GroupViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
                 this.Add = new DelegateCommand(() => {
                     new GroupViewModel(Guid.NewGuid()) {
@@ -56,7 +56,8 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

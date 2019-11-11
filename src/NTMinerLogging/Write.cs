@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading;
 
 namespace NTMiner {
     public static class Write {
-        private static readonly ThreadLocal<Stopwatch> _stopwatch = new ThreadLocal<Stopwatch>(() => {
-            return new Stopwatch();
+        private static readonly ThreadLocal<NTStopwatch> _stopwatch = new ThreadLocal<NTStopwatch>(() => {
+            return new NTStopwatch();
         });
-        // TODO:基于栈的Stopwatch
-        public static Stopwatch Stopwatch {
+        public static NTStopwatch Stopwatch {
             get {
                 return _stopwatch.Value;
             }

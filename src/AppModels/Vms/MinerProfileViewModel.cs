@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
 
         public MinerProfileViewModel() {
 #if DEBUG
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
 #endif
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -242,7 +242,8 @@ namespace NTMiner.Vms {
                     }
                 });
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 

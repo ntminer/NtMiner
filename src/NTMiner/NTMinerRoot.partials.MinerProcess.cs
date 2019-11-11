@@ -21,12 +21,13 @@ namespace NTMiner {
                     lock (_locker) {
                         try {
 #if DEBUG
-                            Write.Stopwatch.Restart();
+                            Write.Stopwatch.Start();
 #endif
                             // 清理除当前外的Temp/Kernel
                             Cleaner.Instance.Clear();
 #if DEBUG
-                            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
+                            var elapsedMilliseconds = Write.Stopwatch.Stop();
+                            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
 #endif
                             Write.UserOk("场地打扫完毕");
                             // 应用超频

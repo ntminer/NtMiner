@@ -13,7 +13,7 @@ namespace NTMiner {
 
             private KernelOutputTranslaterViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
                 VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -27,8 +27,7 @@ namespace NTMiner {
                     });
                 AppContextEventPath<KernelOutputTranslaterAddedEvent>("添加了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        KernelOutputViewModel kernelOutputVm;
-                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
+                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                             if (!_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
                                 _dicByKernelOutputId.Add(message.Source.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
                             }
@@ -58,14 +57,14 @@ namespace NTMiner {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Remove(message.Source.GetId());
                         }
-                        KernelOutputViewModel kernelOutputVm;
-                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
+                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                             kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                         }
                     });
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

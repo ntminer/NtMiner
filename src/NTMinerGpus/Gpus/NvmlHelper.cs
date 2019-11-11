@@ -40,7 +40,7 @@ namespace NTMiner.Gpus {
                 }
                 try {
 #if DEBUG
-                    Write.Stopwatch.Restart();
+                    Write.Stopwatch.Start();
 #endif
                     if (!Directory.Exists(_nvsmiDir)) {
                         Directory.CreateDirectory(_nvsmiDir);
@@ -53,7 +53,8 @@ namespace NTMiner.Gpus {
                     NvmlNativeMethods.SetDllDirectory(null);
                     _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
-                        Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
+                    var elapsedMilliseconds = Write.Stopwatch.Stop();
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
 #endif
                     return _isNvmlInited;
                 }
@@ -130,7 +131,7 @@ namespace NTMiner.Gpus {
             return true;
         }
 
-        private HashSet<int> _nvmlDeviceGetPowerUsageNotSupporteds = new HashSet<int>();
+        private readonly HashSet<int> _nvmlDeviceGetPowerUsageNotSupporteds = new HashSet<int>();
         public uint GetPowerUsage(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
                 return 0;
@@ -170,7 +171,7 @@ namespace NTMiner.Gpus {
             return temp;
         }
 
-        private HashSet<int> _nvmlDeviceGetFanSpeedNotSupporteds = new HashSet<int>();
+        private readonly HashSet<int> _nvmlDeviceGetFanSpeedNotSupporteds = new HashSet<int>();
         public uint GetFanSpeed(int gpuIndex) {
             if (!NvmlInit() || !TryGetNvmlDevice(gpuIndex, out nvmlDevice nvmlDevice)) {
                 return 0;

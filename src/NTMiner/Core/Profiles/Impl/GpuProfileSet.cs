@@ -145,7 +145,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         private void OverClock(INTMinerRoot root, IGpuProfile data) {
 #if DEBUG
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
 #endif
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
                 IOverClock overClock = root.GpuSet.OverClock;
@@ -167,7 +167,8 @@ namespace NTMiner.Core.Profiles.Impl {
                 });
             }
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.OverClock");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.OverClock");
 #endif
         }
 
