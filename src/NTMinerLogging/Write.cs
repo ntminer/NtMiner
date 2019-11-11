@@ -1,9 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Threading;
 
 namespace NTMiner {
     public static class Write {
-        public static readonly Stopwatch Stopwatch = new Stopwatch();
+        private static readonly ThreadLocal<NTStopwatch> _stopwatch = new ThreadLocal<NTStopwatch>(() => {
+            return new NTStopwatch();
+        });
+        public static NTStopwatch Stopwatch {
+            get {
+                return _stopwatch.Value;
+            }
+        }
 
         private static readonly Action<string, ConsoleColor> _consoleUserLineMethod = (line, color) => {
             InitOnece();

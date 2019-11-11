@@ -2,7 +2,6 @@
 using NTMiner.Views;
 using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -26,7 +25,7 @@ namespace NTMiner.Vms {
             _id = Guid.NewGuid();
             _publishOn = DateTime.Now;
             this.Save = new DelegateCommand(() => {
-                if (Login()) {
+                LoginWindow.Login(() => {
                     OfficialServer.FileUrlService.AddOrUpdateNTMinerFileAsync(new NTMinerFileData().Update(this), (response, e) => {
                         if (response.IsSuccess()) {
                             MainWindowViewModel.Instance.Refresh();
@@ -38,14 +37,14 @@ namespace NTMiner.Vms {
                             Logger.ErrorDebugLine($"AddOrUpdateNTMinerFileAsync失败");
                         }
                     });
-                }
+                });
             });
             this.Edit = new DelegateCommand(() => {
                 NTMinerFileEdit window = new NTMinerFileEdit("Icon_Edit", new NTMinerFileViewModel(this));
                 window.ShowDialogEx();
             });
             this.Remove = new DelegateCommand(() => {
-                if (Login()) {
+                LoginWindow.Login(() => {
                     this.ShowDialog(new DialogWindowViewModel(message: $"确定删除{this.Version}({this.VersionTag})吗？", title: "确认", onYes: () => {
                         OfficialServer.FileUrlService.RemoveNTMinerFileAsync(this.Id, (response, e) => {
                             MainWindowViewModel.Instance.SelectedNTMinerFile = MainWindowViewModel.Instance.NTMinerFiles.FirstOrDefault();
@@ -56,20 +55,8 @@ namespace NTMiner.Vms {
                             MainWindowViewModel.Instance.Refresh();
                         });
                     }));
-                }
+                });
             });
-        }
-
-        private bool Login() {
-            if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
-                LoginWindow window = new LoginWindow() {
-                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                    Owner = WpfUtil.GetTopWindow()
-                };
-                var result = window.ShowDialogEx();
-                return result.HasValue && result.Value;
-            }
-            return true;
         }
 
         public NTMinerFileViewModel(INTMinerFile data) : this() {

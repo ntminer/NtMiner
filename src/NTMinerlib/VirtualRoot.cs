@@ -283,7 +283,7 @@ namespace NTMiner {
         #region GetBrandId
         public static Guid GetBrandId(string fileFullName, string keyword) {
 #if DEBUG
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
 #endif
             Guid guid = Guid.Empty;
             int LEN = keyword.Length;
@@ -323,7 +323,8 @@ namespace NTMiner {
                 Guid.TryParse(guidString, out guid);
             }
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
 #endif
             return guid;
         }

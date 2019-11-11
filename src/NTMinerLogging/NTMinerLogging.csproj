@@ -49,6 +49,7 @@
     <Compile Include="Impl\Log4NetLoggingService.cs" />
     <Compile Include="LogDir.cs" />
     <Compile Include="MessageType.cs" />
+    <Compile Include="NTStopwatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Write.cs" />
   </ItemGroup>

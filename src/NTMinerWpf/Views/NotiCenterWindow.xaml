@@ -19,7 +19,7 @@
 		StateChanged="Window_StateChanged"
 		Width="400"
 		SizeToContent="Height"
-		Title="通知中心"
+		Title="通知窗口"
 		MouseDown="MetroWindow_MouseDown">
     <notification:NotificationMessageContainer Manager="{Binding Manager}" />
 </Window>

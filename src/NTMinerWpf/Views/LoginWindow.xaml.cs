@@ -5,13 +5,30 @@ using System.Windows;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : BlankWindow {
+        public static void Login(Action onLoginSuccess) {
+            if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
+                UIThread.Execute(() => {
+                    var topWindow = WpfUtil.GetTopWindow();
+                    LoginWindow window = new LoginWindow();
+                    if (topWindow != null && topWindow.GetType() != typeof(NotiCenterWindow)) {
+                        window.Owner = topWindow;
+                        window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    }
+                    var result = window.ShowDialogEx();
+                    if (result.HasValue && result.Value) {
+                        onLoginSuccess?.Invoke();
+                    }
+                });
+            }
+        }
+
         private LoginWindowViewModel Vm {
             get {
                 return (LoginWindowViewModel)this.DataContext;
             }
         }
 
-        public LoginWindow() {
+        private LoginWindow() {
             InitializeComponent();
             NotiCenterWindow.Bind(this, isNoOtherWindow: true);
             this.PbPassword.Focus();

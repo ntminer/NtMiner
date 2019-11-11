@@ -126,7 +126,7 @@ namespace NTMiner.Views {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
 #if DEBUG
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
 #endif
             this.Owner = ConsoleWindow.Instance;
             InitializeComponent();
@@ -255,7 +255,8 @@ namespace NTMiner.Views {
                 });
             RefreshCpu();
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 
@@ -327,13 +328,14 @@ namespace NTMiner.Views {
                 _isFirstRefreshCpu = false;
                 Task.Factory.StartNew(() => {
 #if DEBUG
-                    Write.Stopwatch.Restart();
+                    Write.Stopwatch.Start();
 #endif
                     int performance = (int)Windows.Cpu.Instance.GetPerformance();
                     // 因为初始化费时间
                     int temperature = (int)Windows.Cpu.Instance.GetTemperature();
 #if DEBUG
-                    Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.RefreshCpu");
+                    var elapsedMilliseconds = Write.Stopwatch.Stop();
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.RefreshCpu");
 #endif
                     UIThread.Execute(() => {
                         UpdateCpuView(performance, temperature);

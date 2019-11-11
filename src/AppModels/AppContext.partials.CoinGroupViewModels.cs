@@ -13,7 +13,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
             private CoinGroupViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
                 VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -46,7 +46,8 @@ namespace NTMiner {
                     });
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 
@@ -62,8 +63,7 @@ namespace NTMiner {
             }
 
             private void OnGroupPropertyChanged(Guid groupId) {
-                GroupViewModel groupVm;
-                if (AppContext.Instance.GroupVms.TryGetGroupVm(groupId, out groupVm)) {
+                if (AppContext.Instance.GroupVms.TryGetGroupVm(groupId, out GroupViewModel groupVm)) {
                     groupVm.OnPropertyChanged(nameof(groupVm.CoinVms));
                     groupVm.OnPropertyChanged(nameof(groupVm.DualCoinVms));
                     groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));

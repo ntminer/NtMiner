@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                         vm.DNSServer1Vm.SetAddress("114.114.114.115");
                     }
                 }
-                VirtualRoot.LocalIpSet.SetIp(vm, vm.IsAutoDNSServer);
+                VirtualRoot.Execute(new SetLocalIpCommand(vm, vm.IsAutoDNSServer));
                 if (_localIpVms.Count == 1) {
                     CloseWindow?.Invoke();
                 }

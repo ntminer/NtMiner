@@ -20,6 +20,7 @@ namespace NTMiner.Views {
 
         private DialogWindow(DialogWindowViewModel vm) {
             this.DataContext = vm;
+            this.Title = vm.Title;
             InitializeComponent();
             if (!string.IsNullOrEmpty(vm.Icon) && Application.Current.Resources.Contains(vm.Icon)) {
                 this.Resources["Icon"] = Application.Current.Resources[vm.Icon];

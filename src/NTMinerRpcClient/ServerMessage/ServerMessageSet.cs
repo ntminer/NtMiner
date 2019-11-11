@@ -154,6 +154,10 @@ namespace NTMiner.ServerMessage {
                         maxTime = item.Timestamp;
                     }
                     linkedList.AddLast(item);
+                    var exist = _linkedList.FirstOrDefault(a => a.Id == item.Id);
+                    if (exist != null) {
+                        _linkedList.Remove(exist);
+                    }
                     _linkedList.AddFirst(item);
                 }
                 if (maxTime != localTimestamp) {
@@ -163,7 +167,7 @@ namespace NTMiner.ServerMessage {
             using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                 var col = db.GetCollection<ServerMessageData>();
                 foreach (var item in linkedList) {
-                    col.Insert(item);
+                    col.Upsert(item);
                 }
             }
             VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(linkedList));

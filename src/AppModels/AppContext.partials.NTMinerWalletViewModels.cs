@@ -15,7 +15,7 @@ namespace NTMiner {
 
             private NTMinerWalletViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
                 if (WpfUtil.IsInDesignMode) {
                     return;
@@ -32,8 +32,7 @@ namespace NTMiner {
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new NTMinerWalletViewModel(message.Source));
-                            CoinViewModel coinVm;
-                            if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                            if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.NTMinerWallets));
                             }
                         }
@@ -45,13 +44,13 @@ namespace NTMiner {
                 AppContextEventPath<NTMinerWalletRemovedEvent>("删除NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
-                        CoinViewModel coinVm;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.NTMinerWallets));
                         }
                     });
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
             }
 

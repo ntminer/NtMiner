@@ -14,7 +14,7 @@
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="MetroWindow_MouseDown"
-		Title="NTMinerFileEdit" SizeToContent="WidthAndHeight">
+		Title="登录" SizeToContent="WidthAndHeight">
 	<blankWindow:BlankWindow.DataContext>
 		<vm:LoginWindowViewModel></vm:LoginWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>

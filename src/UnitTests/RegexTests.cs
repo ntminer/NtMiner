@@ -9,7 +9,7 @@ namespace UnitTests {
         [TestMethod]
         public void RegexPerfomanceTest() {
             string text = @"11:55:42:201	384	ETH: GPU0 14.015 Mh/s, GPU1 21.048 Mh/s";
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
             for (int i = 0; i < 100; i++) {
                 Regex regex = new Regex(@"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)");
                 MatchCollection matches = regex.Matches(text);
@@ -20,14 +20,14 @@ namespace UnitTests {
                     var d = match.Groups["notexit"];
                 }
             }
-            Write.Stopwatch.Stop();
-            Console.WriteLine($"非编译：耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒");
+            long elapsedMilliseconds = Write.Stopwatch.Stop();
+            Console.WriteLine($"非编译：耗时{elapsedMilliseconds}毫秒");
 
             string pattern= @"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)";
             for (int i = 0; i < 1000; i++) {
                 VirtualRoot.GetRegex(Guid.NewGuid().ToString());
             }
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
             for (int i = 0; i < 100; i++) {
                 MatchCollection matches = VirtualRoot.GetRegex(pattern).Matches(text);
                 foreach (Match match in matches) {
@@ -37,8 +37,8 @@ namespace UnitTests {
                     var d = match.Groups["notexit"];
                 }
             }
-            Write.Stopwatch.Stop();
-            Console.WriteLine($"编译 ：耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒");
+            elapsedMilliseconds = Write.Stopwatch.Stop();
+            Console.WriteLine($"编译 ：耗时{elapsedMilliseconds}毫秒");
         }
 
         [TestMethod]
@@ -71,9 +71,8 @@ namespace UnitTests {
             MatchCollection matches = regex.Matches(line);
             for (int gpuId = 0; gpuId < matches.Count; gpuId++) {
                 Match match = matches[gpuId];
-                double gpuSpeed;
                 string gpuSpeedUnit = match.Groups["gpuSpeedUnit"].Value;
-                double.TryParse(match.Groups["gpuSpeed"].Value, out gpuSpeed);
+                double.TryParse(match.Groups["gpuSpeed"].Value, out double gpuSpeed);
                 Console.WriteLine($"GPU{gpuId} {gpuSpeed} {gpuSpeedUnit}");
             }
         }

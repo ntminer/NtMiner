@@ -57,9 +57,7 @@ namespace NTMiner {
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 NotiCenterWindow.ShowWindow();
-                LoginWindow loginWindow = new LoginWindow();
-                var result = loginWindow.ShowDialog();
-                if (result.HasValue && result.Value) {
+                LoginWindow.Login(() => {
                     bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
                     if (isInnerIp) {
                         NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(() => {
@@ -69,7 +67,7 @@ namespace NTMiner {
                     else {
                         Init();
                     }
-                }
+                });
                 VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
                     // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");

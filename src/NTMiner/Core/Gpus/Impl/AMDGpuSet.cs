@@ -28,7 +28,7 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly AdlHelper adlHelper = new AdlHelper();
         public AMDGpuSet(INTMinerRoot root) : this() {
 #if DEBUG
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
 #endif
             _root = root;
             adlHelper.Init();
@@ -76,19 +76,21 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
 #endif
         }
 
         public void LoadGpuState() {
 #if DEBUG
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
 #endif
             for (int i = 0; i < Count; i++) {
                 LoadGpuState(i);
             }
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.{nameof(LoadGpuState)}");
 #endif
         }
 

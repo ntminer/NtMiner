@@ -15,7 +15,7 @@
 		d:DataContext="{d:DesignData Source=Design/NTMinerFileViewModel.xaml}"
 		WindowStartupLocation="CenterOwner"
 		MouseDown="MetroWindow_MouseDown"
-		Title="NTMinerFileEdit" SizeToContent="Height" Width="400">
+		Title="编辑版本" SizeToContent="Height" Width="400">
 	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>
 			<sys:Double x:Key="LblWidth">80</sys:Double>
