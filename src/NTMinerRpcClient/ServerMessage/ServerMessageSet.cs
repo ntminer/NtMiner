@@ -56,6 +56,8 @@ namespace NTMiner.ServerMessage {
                             if (timestamp == exist.Timestamp) {
                                 exist.Timestamp = DateTime.Now;
                             }
+                            _linkedList.Remove(exist);
+                            _linkedList.AddFirst(exist);
                         }
                         else {
                             data = new ServerMessageData(message.Input);
@@ -106,6 +108,8 @@ namespace NTMiner.ServerMessage {
                         if (exist != null) {
                             exist.IsDeleted = true;
                             exist.Timestamp = DateTime.Now;
+                            _linkedList.Remove(exist);
+                            _linkedList.AddFirst(exist);
                         }
                     }
                     if (exist != null) {
