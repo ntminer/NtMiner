@@ -148,6 +148,7 @@ namespace NTMiner.ServerMessage {
             if (data == null) {
                 return;
             }
+            InitOnece();
             DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
             LinkedList<ServerMessageData> newDatas = new LinkedList<ServerMessageData>();
             lock (_locker) {
@@ -162,9 +163,6 @@ namespace NTMiner.ServerMessage {
                         _linkedList.Remove(exist);
                     }
                     if (!item.IsDeleted) {
-                        if (exist != null) {
-                            _linkedList.Remove(exist);
-                        }
                         _linkedList.AddFirst(item);
                     }
                 }
@@ -175,7 +173,12 @@ namespace NTMiner.ServerMessage {
             using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                 var col = db.GetCollection<ServerMessageData>();
                 foreach (var item in newDatas) {
-                    col.Upsert(item);
+                    if (item.IsDeleted) {
+                        col.Delete(item.Id);
+                    }
+                    else {
+                        col.Upsert(item);
+                    }
                 }
             }
             VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(newDatas));

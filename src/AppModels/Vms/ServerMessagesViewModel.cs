@@ -88,11 +88,10 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a)));
         }
 
         private void Init() {
-            var data = NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a));
+            var data = NTMinerRoot.Instance.ServerMessageSet.Where(a => !a.IsDeleted).Select(a => new ServerMessageViewModel(a));
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(data);
             foreach (var key in _count.Keys) {
                 _count[key].Count = 0;
