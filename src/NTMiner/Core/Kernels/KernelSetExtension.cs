@@ -18,7 +18,7 @@ namespace NTMiner.Core.Kernels {
             }
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {nameof(KernelSetExtension)}.{nameof(GetAllKernelProcessNames)}()");
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(KernelSetExtension)}.{nameof(GetAllKernelProcessNames)}()");
 #endif
             return hashSet;
         }

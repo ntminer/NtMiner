@@ -256,7 +256,7 @@ namespace NTMiner.Views {
             RefreshCpu();
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
 #endif
         }
 
@@ -335,7 +335,7 @@ namespace NTMiner.Views {
                     int temperature = (int)Windows.Cpu.Instance.GetTemperature();
 #if DEBUG
                     var elapsedMilliseconds = Write.Stopwatch.Stop();
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.RefreshCpu");
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.RefreshCpu");
 #endif
                     UIThread.Execute(() => {
                         UpdateCpuView(performance, temperature);

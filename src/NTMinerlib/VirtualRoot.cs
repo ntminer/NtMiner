@@ -325,7 +325,7 @@ namespace NTMiner {
             }
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {typeof(VirtualRoot).Name}.GetBrandId");
 #endif
             return guid;
         }

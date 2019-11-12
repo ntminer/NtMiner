@@ -168,7 +168,7 @@ namespace NTMiner.Core.Profiles.Impl {
             }
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.OverClock");
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.OverClock");
 #endif
         }
 
