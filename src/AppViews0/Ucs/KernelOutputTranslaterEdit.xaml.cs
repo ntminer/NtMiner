@@ -30,29 +30,5 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = vm;
             InitializeComponent();
         }
-
-        private void KbButtonLogColor_Clicked(object sender, System.Windows.RoutedEventArgs e) {
-            OpenLogColorPopup();
-            e.Handled = true;
-        }
-
-        private void OpenLogColorPopup() {
-            var popup = PopupLogColor;
-            popup.IsOpen = true;
-            var selected = Vm.SelectedColor;
-            popup.Child = new SysDicItemSelect(
-                new SysDicItemSelectViewModel(Vm.LogColorDicVm.SysDicItemsSelect, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (Vm.SelectedColor != selectedResult) {
-                            Vm.SelectedColor = selectedResult;
-                        }
-                        popup.IsOpen = false;
-                    }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
-        }
     }
 }

@@ -36,37 +36,6 @@
             <TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Replacement}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 		</WrapPanel>
-		<WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}">颜色:</TextBlock>
-            <WrapPanel IsEnabled="{x:Static app:AppStatic.IsDevMode}">
-				<controls:KbButton 
-					x:Name="ButtonLogColor"
-					Padding="4 0"
-					BorderThickness="1"
-					BorderBrush="{StaticResource LineColor}"
-					Height="26"
-					IsEnabled="{Binding ElementName=PopupLogColor,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-					Background="Transparent"
-					Click="KbButtonLogColor_Clicked">
-					<WrapPanel>
-						<TextBlock Width="138" Padding="0 0 10 0" Foreground="Black" Text="{Binding SelectedColor.Description}"></TextBlock>
-						<Path
-							Margin="0 2 0 0"
-							Width="12"
-							Height="8"
-							Data="{StaticResource Icon_ComboBoxToogle}"
-							Fill="Black"
-							Stretch="Fill" />
-					</WrapPanel>
-				</controls:KbButton>
-			</WrapPanel>
-			<Popup 
-				x:Name="PopupLogColor" 
-				PopupAnimation="Slide" 
-				PlacementTarget="{Binding ElementName=ButtonLogColor}" 
-				Placement="Bottom" 
-				StaysOpen="False"></Popup>
-		</WrapPanel>
 		<controls:KbButton
             Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 			Command="{Binding Save}" 

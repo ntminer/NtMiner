@@ -58,11 +58,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     string regexPattern = entity.RegexPattern;
-                    string color = entity.Color;
                     entity.Update(message.Input);
-                    if (entity.Color != color) {
-                        _colorDic.Remove(entity);
-                    }
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Update(entity);
@@ -81,7 +77,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     KernelOutputTranslaterData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
                     _dicByKernelOutputId[entity.KernelOutputId].Remove(entity);
-                    _colorDic.Remove(entity);
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Remove(entity.Id);
@@ -95,11 +90,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     if (message.Source.DicId != dic.GetId()) {
                         return;
-                    }
-                    foreach (var entity in _dicById.Values) {
-                        if (entity.Color == message.Source.Code) {
-                            _colorDic.Remove(entity);
-                        }
                     }
                 });
         }
@@ -167,34 +157,7 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values.GetEnumerator();
         }
 
-        private readonly Dictionary<IKernelOutputTranslater, ConsoleColor> _colorDic = new Dictionary<IKernelOutputTranslater, ConsoleColor>();
-        private ConsoleColor GetColor(IKernelOutputTranslater consoleTranslater) {
-            if (!_colorDic.ContainsKey(consoleTranslater)) {
-                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.LogColorSysDicCode, consoleTranslater.Color, out ISysDicItem dicItem)) {
-                    _colorDic.Add(consoleTranslater, GetColor(dicItem.Value));
-                }
-                else {
-                    _colorDic.Add(consoleTranslater, GetColor(consoleTranslater.Color));
-                }
-            }
-            return _colorDic[consoleTranslater];
-        }
-
-        public static ConsoleColor GetColor(string color) {
-            if (string.IsNullOrEmpty(color)) {
-                return ConsoleColor.White;
-            }
-            color = color.Trim();
-            if (string.IsNullOrEmpty(color)) {
-                return ConsoleColor.White;
-            }
-            if (color.TryParse(out ConsoleColor consoleColor)) {
-                return consoleColor;
-            }
-            return ConsoleColor.White;
-        }
-
-        public void Translate(Guid kernelOutputId, ref string input, ref ConsoleColor color, bool isPre = false) {
+        public void Translate(Guid kernelOutputId, ref string input, bool isPre = false) {
             try {
                 InitOnece();
                 if (string.IsNullOrEmpty(input) || !_dicByKernelOutputId.TryGetValue(kernelOutputId, out List<KernelOutputTranslaterData> translaters)) {
@@ -212,9 +175,6 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (match.Success) {
                         string replacement = consoleTranslater.Replacement ?? string.Empty;
                         input = regex.Replace(input, replacement);
-                        if (!string.IsNullOrEmpty(consoleTranslater.Color)) {
-                            color = GetColor(consoleTranslater);
-                        }
                     }
                 }
             }
