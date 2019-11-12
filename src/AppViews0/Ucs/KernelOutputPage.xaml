@@ -284,7 +284,7 @@
 									</DataGridTemplateColumn.Header>
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
-											<TextBlock Text="{Binding Replacement}" Foreground="{Binding ColorBrush}"></TextBlock>
+											<TextBlock Text="{Binding Replacement}"></TextBlock>
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
@@ -294,7 +294,7 @@
 									</DataGridTemplateColumn.Header>
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
-											<TextBlock Text="{Binding ColorDescription}" Foreground="{Binding ColorBrush}"></TextBlock>
+											<TextBlock Text="{Binding ColorDescription}"></TextBlock>
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>

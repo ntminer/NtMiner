@@ -8,6 +8,7 @@ namespace NTMiner.Vms {
         private Guid _kernelOutputId;
         private string _messageType;
         private string _keyword;
+        private string _description;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -25,6 +26,7 @@ namespace NTMiner.Vms {
             _kernelOutputId = data.KernelOutputId;
             _messageType = data.MessageType;
             _keyword = data.Keyword;
+            _description = data.Description;
         }
 
         public KernelOutputKeywordViewModel(Guid id) {
@@ -90,6 +92,14 @@ namespace NTMiner.Vms {
             set {
                 _keyword = value;
                 OnPropertyChanged(nameof(Keyword));
+            }
+        }
+
+        public string Description {
+            get { return _description; }
+            set {
+                _description = value;
+                OnPropertyChanged(nameof(Description));
             }
         }
     }
