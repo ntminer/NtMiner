@@ -594,6 +594,10 @@ namespace NTMiner {
             }));
         });
 
+        public static ICommand ShowLocalMessagesConfig { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowLocalMessagesConfigCommand());
+        });
+
         public static ICommand ShowMessagePathIds { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowMessagePathIdsCommand());
         });

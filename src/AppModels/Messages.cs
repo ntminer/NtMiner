@@ -559,6 +559,12 @@ namespace NTMiner {
         public SysDicViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开本地消息设置页")]
+    public class ShowLocalMessagesConfigCommand : Cmd {
+        public ShowLocalMessagesConfigCommand() {
+        }
+    }
+
     [MessageType(description: "打开用户编辑界面")]
     public class UserEditCommand : Cmd {
         public UserEditCommand(FormType formType, UserViewModel source) {

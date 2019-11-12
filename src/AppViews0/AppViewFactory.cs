@@ -307,6 +307,11 @@ namespace NTMiner.Views {
                     SysDicEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
+            VirtualRoot.BuildCmdPath<ShowLocalMessagesConfigCommand>(action: message => {
+                UIThread.Execute(() => {
+                    LocalMessagesConfig.ShowWindow();
+                });
+            });
             VirtualRoot.BuildCmdPath<UserEditCommand>(action: message => {
                 UIThread.Execute(() => {
                     UserEdit.ShowWindow(message.FormType, message.Source);

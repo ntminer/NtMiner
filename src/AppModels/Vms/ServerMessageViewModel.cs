@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class ServerMessageViewModel : ViewModelBase, IServerMessage, IEditableViewModel {
-        private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
+        private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Message"];
         private static readonly SolidColorBrush InfoColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
         private static readonly StreamGeometry NewVersionIcon = (StreamGeometry)Application.Current.Resources["Icon_NewVersion"];
         private static readonly SolidColorBrush NewVersionColor = (SolidColorBrush)Application.Current.Resources["NewVersionColor"];

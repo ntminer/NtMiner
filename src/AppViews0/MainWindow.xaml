@@ -569,7 +569,7 @@
                                         <Path 
 								            Width="18"
 								            Height="15"
-								            Data="{StaticResource Icon_Info}"
+								            Data="{StaticResource Icon_Message}"
 								            Fill="Black"
 								            Stretch="Fill" />
                                         <TextBlock Text="消息" Padding="2 0 0 1" FontSize="15"></TextBlock>
