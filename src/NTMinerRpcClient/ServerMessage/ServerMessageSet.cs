@@ -105,6 +105,7 @@ namespace NTMiner.ServerMessage {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.EntityId);
                         if (exist != null) {
                             exist.IsDeleted = true;
+                            exist.Content = string.Empty;
                             exist.Timestamp = DateTime.Now;
                             _linkedList.Remove(exist);
                             _linkedList.AddFirst(exist);
@@ -148,19 +149,24 @@ namespace NTMiner.ServerMessage {
                 return;
             }
             DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
-            LinkedList<ServerMessageData> linkedList = new LinkedList<ServerMessageData>();
+            LinkedList<ServerMessageData> newDatas = new LinkedList<ServerMessageData>();
             lock (_locker) {
                 DateTime maxTime = localTimestamp;
                 foreach (var item in data.OrderBy(a => a.Timestamp)) {
                     if (item.Timestamp > maxTime) {
                         maxTime = item.Timestamp;
                     }
-                    linkedList.AddLast(item);
+                    newDatas.AddLast(item);
                     var exist = _linkedList.FirstOrDefault(a => a.Id == item.Id);
                     if (exist != null) {
                         _linkedList.Remove(exist);
                     }
-                    _linkedList.AddFirst(item);
+                    if (!item.IsDeleted) {
+                        if (exist != null) {
+                            _linkedList.Remove(exist);
+                        }
+                        _linkedList.AddFirst(item);
+                    }
                 }
                 if (maxTime != localTimestamp) {
                     VirtualRoot.LocalServerMessageSetTimestamp = maxTime;
@@ -168,11 +174,11 @@ namespace NTMiner.ServerMessage {
             }
             using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                 var col = db.GetCollection<ServerMessageData>();
-                foreach (var item in linkedList) {
+                foreach (var item in newDatas) {
                     col.Upsert(item);
                 }
             }
-            VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(linkedList));
+            VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(newDatas));
         }
 
         public List<ServerMessageData> GetServerMessages(DateTime timeStamp) {
