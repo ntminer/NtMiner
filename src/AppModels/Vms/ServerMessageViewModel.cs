@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerServer;
+using NTMiner.Views;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -85,8 +86,10 @@ namespace NTMiner.Vms {
                 }));
             });
             this.Save = new DelegateCommand(() => {
-                VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(this));
-                CloseWindow?.Invoke();
+                LoginWindow.Login(() => {
+                    VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(this));
+                    CloseWindow?.Invoke();
+                });
             });
         }
 
