@@ -159,4 +159,9 @@ namespace NTMiner {
         public readonly int Seconds = 86400;
         public Per24HourEvent() { }
     }
+
+    [MessageType(description: "新的一天到来了（刚过24点，0点0分1秒的时候）", isCanNoHandler: true)]
+    public class NewDayEvent : EventBase {
+        public NewDayEvent() { }
+    }
 }

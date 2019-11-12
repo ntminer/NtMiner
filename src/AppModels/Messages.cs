@@ -537,12 +537,6 @@ namespace NTMiner {
         public PoolViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开群控服务地址设置界面")]
-    public class ShowControlCenterHostConfigCommand : Cmd {
-        public ShowControlCenterHostConfigCommand() {
-        }
-    }
-
     [MessageType(description: "打开字典项编辑界面")]
     public class SysDicItemEditCommand : Cmd {
         public SysDicItemEditCommand(FormType formType, SysDicItemViewModel source) {

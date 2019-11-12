@@ -25,7 +25,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChanged(nameof(AllKernelOutputTranslaterVms));
                     });
-                AppContextEventPath<KernelOutputTranslaterAddedEvent>("添加了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<KernelOutputTranslaterAddedEvent>("添加了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                             if (!_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
@@ -37,7 +37,7 @@ namespace NTMiner {
                             kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                         }
                     });
-                AppContextEventPath<KernelOutputTranslaterUpdatedEvent>("更新了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<KernelOutputTranslaterUpdatedEvent>("更新了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
                             var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
@@ -46,7 +46,7 @@ namespace NTMiner {
                             }
                         }
                     });
-                AppContextEventPath<KernelOutputTranslaterRemovedEvent>("移除了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<KernelOutputTranslaterRemovedEvent>("移除了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
                             var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
@@ -69,7 +69,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.KernelOutputTranslaterSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.KernelOutputTranslaterSet) {
                     if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                         _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
                     }

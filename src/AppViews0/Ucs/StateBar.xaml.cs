@@ -22,17 +22,17 @@ namespace NTMiner.Views.Ucs {
                     Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
                     Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
                 };
-                window.WindowContextEventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                window.BuildEventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(()=> Vm.RefreshLocalIps());
                     });
-                window.WindowContextEventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
+                window.BuildEventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
                     action: message => {
                         UIThread.Execute(() => {
                             Vm.UpdateDateTime();
                         });
                     });
-                window.WindowContextEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
+                window.BuildEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
                         UIThread.Execute(() => {
                             DateTime now = DateTime.Now;
@@ -43,19 +43,19 @@ namespace NTMiner.Views.Ucs {
                             }
                         });
                     });
-                window.WindowContextEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
+                window.BuildEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             Vm.SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
                         });
                     });
-                window.WindowContextEventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
+                window.BuildEventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                         });
                     });
-                window.WindowContextEventPath<MineStartedEvent>("挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
+                window.BuildEventPath<MineStartedEvent>("挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));

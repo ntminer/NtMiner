@@ -27,25 +27,85 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
+        #region ServerContext Class
+        public class ServerContextImpl : IServerContext {
+            private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
 
-        /// <summary>
-        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
-        /// </summary>
-        public void ServerContextCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
-            where TCmd : ICmd {
-            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
-            _serverContextHandlers.Add(messagePathId);
-        }
+            public ServerContextImpl() {
+                ReInit();
+            }
 
-        /// <summary>
-        /// 事件响应
-        /// </summary>
-        public void ServerContextEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
-            where TEvent : IEvent {
-            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
-            _serverContextHandlers.Add(messagePathId);
+            public void ReInit() {
+                foreach (var handler in _serverContextHandlers) {
+                    VirtualRoot.DeletePath(handler);
+                }
+                _serverContextHandlers.Clear();
+                this.CoinGroupSet = new CoinGroupSet(this);
+                this.CoinSet = new CoinSet(this);
+                this.FileWriterSet = new FileWriterSet(this);
+                this.FragmentWriterSet = new FragmentWriterSet(this);
+                this.GroupSet = new GroupSet(this);
+                this.PoolSet = new PoolSet(this);
+                this.SysDicItemSet = new SysDicItemSet(this);
+                this.SysDicSet = new SysDicSet(this);
+                this.CoinKernelSet = new CoinKernelSet(this);
+                this.KernelInputSet = new KernelInputSet(this);
+                this.KernelOutputSet = new KernelOutputSet(this);
+                this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
+                this.KernelSet = new KernelSet(this);
+                this.PackageSet = new PackageSet(this);
+                this.PoolKernelSet = new PoolKernelSet(this);
+            }
+
+            /// <summary>
+            /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
+            /// </summary>
+            public void BuildCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+                where TCmd : ICmd {
+                var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+                _serverContextHandlers.Add(messagePathId);
+            }
+
+            /// <summary>
+            /// 事件响应
+            /// </summary>
+            public void BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+                where TEvent : IEvent {
+                var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+                _serverContextHandlers.Add(messagePathId);
+            }
+
+            public ICoinGroupSet CoinGroupSet { get; private set; }
+
+            public ICoinSet CoinSet { get; private set; }
+
+            public IFileWriterSet FileWriterSet { get; private set; }
+
+            public IFragmentWriterSet FragmentWriterSet { get; private set; }
+
+            public IGroupSet GroupSet { get; private set; }
+
+            public IPoolSet PoolSet { get; private set; }
+
+            public ISysDicItemSet SysDicItemSet { get; private set; }
+
+            public ISysDicSet SysDicSet { get; private set; }
+
+            public ICoinKernelSet CoinKernelSet { get; private set; }
+
+            public IKernelInputSet KernelInputSet { get; private set; }
+
+            public IKernelOutputSet KernelOutputSet { get; private set; }
+
+            public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
+
+            public IKernelSet KernelSet { get; private set; }
+
+            public IPackageSet PackageSet { get; private set; }
+
+            public IPoolKernelSet PoolKernelSet { get; private set; }
         }
+        #endregion
 
         public IUserSet UserSet { get; private set; }
 
@@ -90,7 +150,7 @@ namespace NTMiner {
                                 }
                                 OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, serverState => {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
-                                    AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion); 
+                                    AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) < Timestamp.DesyncSeconds) {
                                         Logger.OkDebugLine("时间同步");
                                     }
@@ -229,11 +289,10 @@ namespace NTMiner {
 
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
+            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.ServerAppSettingSet = new ServerAppSettingSet();
             this.CalcConfigSet = new CalcConfigSet(this);
-
-            ServerContextInit(isWork);
-
+            this.ServerContext = new ServerContextImpl();
             this.GpuProfileSet = new GpuProfileSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);
@@ -275,14 +334,11 @@ namespace NTMiner {
         }
 
         private void ContextReInit(bool isWork) {
-            foreach (var handler in _serverContextHandlers) {
-                VirtualRoot.DeletePath(handler);
-            }
-            _serverContextHandlers.Clear();
             if (isWork) {
                 ReInitServerJson();
             }
-            ServerContextInit(isWork);
+            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
+            this.ServerContext.ReInit();
             // CoreContext的视图模型集此时刷新
             VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
@@ -292,26 +348,6 @@ namespace NTMiner {
                 IsJsonLocal = true;
                 ReInitMinerProfile();
             }
-        }
-
-        // ServerContext对应server.json
-        private void ServerContextInit(bool isWork) {
-            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
-            this.SysDicSet = new SysDicSet(this);
-            this.SysDicItemSet = new SysDicItemSet(this);
-            this.CoinSet = new CoinSet(this);
-            this.GroupSet = new GroupSet(this);
-            this.CoinGroupSet = new CoinGroupSet(this);
-            this.PoolSet = new PoolSet(this);
-            this.CoinKernelSet = new CoinKernelSet(this);
-            this.PoolKernelSet = new PoolKernelSet(this);
-            this.KernelSet = new KernelSet(this);
-            this.FileWriterSet = new FileWriterSet(this);
-            this.FragmentWriterSet = new FragmentWriterSet(this);
-            this.PackageSet = new PackageSet(this);
-            this.KernelInputSet = new KernelInputSet(this);
-            this.KernelOutputSet = new KernelOutputSet(this);
-            this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
         }
 
         private void Link() {
@@ -513,20 +549,20 @@ namespace NTMiner {
         public void StartMine(bool isRestart = false) {
             try {
                 IWorkProfile minerProfile = this.MinerProfile;
-                if (!this.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
+                if (!ServerContext.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主挖币种。"));
                     return;
                 }
                 ICoinProfile coinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
-                if (!this.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
+                if (!ServerContext.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主币矿池。"));
                     return;
                 }
-                if (!this.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
+                if (!ServerContext.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择挖矿内核。"));
                     return;
                 }
-                if (!this.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
+                if (!ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent("无效的挖矿内核。"));
                     return;
                 }
@@ -534,11 +570,11 @@ namespace NTMiner {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
                     return;
                 }
-                if (!this.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
+                if (!ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent("未设置内核输入。"));
                     return;
                 }
-                if (!this.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
+                if (!ServerContext.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent("未设置内核输出。"));
                     return;
                 }
@@ -561,12 +597,12 @@ namespace NTMiner {
                 ICoin dualCoin = null;
                 IPool dualCoinPool = null;
                 if (coinKernelProfile.IsDualCoinEnabled) {
-                    if (!this.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
+                    if (!ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
                         VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖币种。"));
                         return;
                     }
                     coinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
-                    if (!this.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
+                    if (!ServerContext.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
                         VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖矿池。"));
                         return;
                     }
@@ -648,6 +684,8 @@ namespace NTMiner {
             }
         }
 
+        public IServerContext ServerContext { get; private set; }
+
         public IGpuProfileSet GpuProfileSet { get; private set; }
 
         public IWorkProfile MinerProfile {
@@ -663,12 +701,6 @@ namespace NTMiner {
         public IColumnsShowSet ColumnsShowSet { get; private set; }
 
         public IOverClockDataSet OverClockDataSet { get; private set; }
-
-        public ICoinSet CoinSet { get; private set; }
-
-        public IGroupSet GroupSet { get; private set; }
-
-        public ICoinGroupSet CoinGroupSet { get; private set; }
 
         public ICalcConfigSet CalcConfigSet { get; private set; }
 
@@ -757,35 +789,11 @@ namespace NTMiner {
         }
         #endregion
 
-        public ISysDicSet SysDicSet { get; private set; }
-
-        public ISysDicItemSet SysDicItemSet { get; private set; }
-
-        public IPoolSet PoolSet { get; private set; }
-
-        public ICoinKernelSet CoinKernelSet { get; private set; }
-
-        public IPoolKernelSet PoolKernelSet { get; private set; }
-
-        public IKernelSet KernelSet { get; private set; }
-
-        public IFileWriterSet FileWriterSet { get; private set; }
-
-        public IFragmentWriterSet FragmentWriterSet { get; private set; }
-
-        public IPackageSet PackageSet { get; private set; }
-
         public IKernelProfileSet KernelProfileSet { get; private set; }
 
         public IGpusSpeed GpusSpeed { get; private set; }
 
         public ICoinShareSet CoinShareSet { get; private set; }
-
-        public IKernelInputSet KernelInputSet { get; private set; }
-
-        public IKernelOutputSet KernelOutputSet { get; private set; }
-
-        public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
 
         private IKernelOutputKeywordSet _localKernelOutputKeywordSet;
         public IKernelOutputKeywordSet LocalKernelOutputKeywordSet {

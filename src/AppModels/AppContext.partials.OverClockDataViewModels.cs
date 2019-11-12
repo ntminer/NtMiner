@@ -18,11 +18,11 @@ namespace NTMiner {
                     return;
                 }
                 Init(refresh: false);
-                AppContextEventPath<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
+                BuildEventPath<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
                     action: message => {
                         Init(refresh: true);
                     });
-                AppContextEventPath<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
@@ -32,11 +32,11 @@ namespace NTMiner {
                             }
                         }
                     });
-                AppContextEventPath<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Source.GetId()].Update(message.Source);
                     });
-                AppContextEventPath<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         CoinViewModel coinVm;

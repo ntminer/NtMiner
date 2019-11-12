@@ -414,7 +414,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return new Version();
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinAmdDriverVersion", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinAmdDriverVersion", out ISysDicItem dicItem)) {
                     if (Version.TryParse(dicItem.Value, out Version version)) {
                         return version;
                     }
@@ -428,7 +428,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return new Version();
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinNvidiaDriverVersion", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinNvidiaDriverVersion", out ISysDicItem dicItem)) {
                     if (Version.TryParse(dicItem.Value, out Version version)) {
                         return version;
                     }
@@ -560,10 +560,6 @@ namespace NTMiner {
             Process.Start(url);
         });
 
-        public static ICommand ConfigControlCenterHost { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
-        });
-
         public static string ExportServerJsonMenuName {
             get {
                 return "导出" + MainAssemblyInfo.ServerJsonFileName;
@@ -624,7 +620,7 @@ namespace NTMiner {
 
         public static ICommand JoinQQGroup { get; private set; } = new DelegateCommand(() => {
             string url = "https://jq.qq.com/?_wv=1027&k=5ZPsuCk";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "QQGroupJoinUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "QQGroupJoinUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -695,7 +691,7 @@ namespace NTMiner {
         });
         public static ICommand ShowHelp { get; private set; } = new DelegateCommand(() => {
             string url = "http://ntminer.com/";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HelpUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HelpUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -753,7 +749,7 @@ namespace NTMiner {
                 if (WpfUtil.IsDevMode) {
                     return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem("Tool", "npp", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem("Tool", "npp", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
                 return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
@@ -797,7 +793,7 @@ namespace NTMiner {
 
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
             string url = "http://ntminer.com/";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -808,7 +804,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return string.Empty;
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "QQGroup", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "QQGroup", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
                 return "863725136";
@@ -820,7 +816,7 @@ namespace NTMiner {
                 if (WpfUtil.IsDevMode) {
                     return "NTMiner.com";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
                     if (dicItem.Value.StartsWith("https://")) {
                         return dicItem.Value.Substring("https://".Length);
                     }
@@ -837,7 +833,7 @@ namespace NTMiner {
                 if (WpfUtil.IsDevMode) {
                     return "开源矿工";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
                 return "开源矿工";
@@ -849,7 +845,7 @@ namespace NTMiner {
                 if (WpfUtil.IsDevMode) {
                     return " - 做最好的矿工";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
                     return " - " + dicItem.Description;
                 }
                 return " - 做最好的矿工";
@@ -861,7 +857,7 @@ namespace NTMiner {
                 if (WpfUtil.IsDevMode) {
                     return "开源、开放、安全、专业、最高收益。QQ群863725136";
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerIntro", out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerIntro", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
                 return "开源、开放、安全、专业、最高收益。QQ群863725136";
@@ -870,7 +866,7 @@ namespace NTMiner {
 
         public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
             string url = "https://www.loserhub.cn/posts/details/52";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "BusinessModelUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "BusinessModelUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -878,7 +874,7 @@ namespace NTMiner {
 
         public static ICommand OpenGithub { get; private set; } = new DelegateCommand(() => {
             string url = "https://github.com/ntminer/ntminer";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "GithubUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "GithubUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);
@@ -886,7 +882,7 @@ namespace NTMiner {
 
         public static ICommand OpenDiscussSite { get; private set; } = new DelegateCommand(() => {
             string url = "https://github.com/ntminer/ntminer/issues";
-            if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "DiscussUrl", out ISysDicItem dicItem)) {
+            if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "DiscussUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
             Process.Start(url);

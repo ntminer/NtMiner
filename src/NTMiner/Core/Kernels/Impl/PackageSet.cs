@@ -1,17 +1,14 @@
-﻿using NTMiner.Repositories;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Kernels.Impl {
     public class PackageSet : IPackageSet {
-        private readonly INTMinerRoot _root;
         private readonly Dictionary<Guid, PackageData> _dicById = new Dictionary<Guid, PackageData>();
 
-        public PackageSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContextCmdPath<AddPackageCommand>("添加包", LogEnum.DevConsole,
+        public PackageSet(IServerContext context) {
+            context.BuildCmdPath<AddPackageCommand>("添加包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -33,7 +30,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new PackageAddedEvent(entity));
                 });
-            _root.ServerContextCmdPath<UpdatePackageCommand>("更新包", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdatePackageCommand>("更新包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -58,7 +55,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new PackageUpdatedEvent(entity));
                 });
-            _root.ServerContextCmdPath<RemovePackageCommand>("移除包", LogEnum.DevConsole,
+            context.BuildCmdPath<RemovePackageCommand>("移除包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -114,8 +111,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public bool TryGetPackage(Guid packageId, out IPackage package) {
             InitOnece();
-            PackageData pkg;
-            var r = _dicById.TryGetValue(packageId, out pkg);
+            var r = _dicById.TryGetValue(packageId, out PackageData pkg);
             package = pkg;
             return r;
         }

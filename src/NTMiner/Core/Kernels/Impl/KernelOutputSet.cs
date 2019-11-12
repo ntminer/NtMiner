@@ -9,11 +9,9 @@ namespace NTMiner.Core.Kernels.Impl {
     public class KernelOutputSet : IKernelOutputSet {
         private readonly Dictionary<Guid, KernelOutputData> _dicById = new Dictionary<Guid, KernelOutputData>();
 
-        private readonly INTMinerRoot _root;
-        public KernelOutputSet(INTMinerRoot root) {
-            _root = root;
+        public KernelOutputSet(IServerContext context) {
             #region 接线
-            _root.ServerContextCmdPath<AddKernelOutputCommand>("添加内核输出组", LogEnum.DevConsole,
+            context.BuildCmdPath<AddKernelOutputCommand>("添加内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +27,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(entity));
                 });
-            _root.ServerContextCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +49,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(entity));
                 });
-            _root.ServerContextCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
+            context.BuildCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -60,12 +58,12 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    IKernel[] outputUsers = root.KernelSet.Where(a => a.KernelOutputId == message.EntityId).ToArray();
+                    IKernel[] outputUsers = context.KernelSet.Where(a => a.KernelOutputId == message.EntityId).ToArray();
                     if (outputUsers.Length != 0) {
                         throw new ValidationException($"这些内核在使用该内核输出组，删除前请先解除使用：{string.Join(",", outputUsers.Select(a => a.GetFullName()))}");
                     }
                     KernelOutputData entity = _dicById[message.EntityId];
-                    List<Guid> kernelOutputTranslaterIds = root.KernelOutputTranslaterSet.Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
+                    List<Guid> kernelOutputTranslaterIds = context.KernelOutputTranslaterSet.Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var kernelOutputTranslaterId in kernelOutputTranslaterIds) {
                         VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
                     }
@@ -150,33 +148,34 @@ namespace NTMiner.Core.Kernels.Impl {
                     coin = dualMineContext.DualCoin;
                     poolId = dualMineContext.DualCoinPool.GetId();
                 }
+                INTMinerRoot root = NTMinerRoot.Instance;
                 // 这些方法输出的是事件消息
-                PickTotalSpeed(_root, line, mineContext.KernelOutput, isDual);
-                PickGpuSpeed(_root, mineContext, line, mineContext.KernelOutput, isDual);
-                PickTotalShare(_root, line, mineContext.KernelOutput, coin, isDual);
-                PickAcceptShare(_root, line, mineContext.KernelOutput, coin, isDual);
-                PickAcceptOneShare(_root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
-                PickRejectPattern(_root, line, mineContext.KernelOutput, coin, isDual);
-                PickRejectOneShare(_root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
-                PickRejectPercent(_root, line, mineContext.KernelOutput, coin, isDual);
+                PickTotalSpeed(root, line, mineContext.KernelOutput, isDual);
+                PickGpuSpeed(root, mineContext, line, mineContext.KernelOutput, isDual);
+                PickTotalShare(root, line, mineContext.KernelOutput, coin, isDual);
+                PickAcceptShare(root, line, mineContext.KernelOutput, coin, isDual);
+                PickAcceptOneShare(root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
+                PickRejectPattern(root, line, mineContext.KernelOutput, coin, isDual);
+                PickRejectOneShare(root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
+                PickRejectPercent(root, line, mineContext.KernelOutput, coin, isDual);
                 PickPoolDelay(line, mineContext.KernelOutput, isDual, poolId);
                 if (!isDual) {
                     // 决定不支持双挖的单卡份额统计
-                    PicFoundOneShare(_root, mineContext, line, _preline, mineContext.KernelOutput);
-                    PicGotOneIncorrectShare(_root, mineContext, line, _preline, mineContext.KernelOutput);
+                    PicFoundOneShare(root, mineContext, line, _preline, mineContext.KernelOutput);
+                    PicGotOneIncorrectShare(root, mineContext, line, _preline, mineContext.KernelOutput);
                 }
                 // 如果是像BMiner那样的主币和双挖币的输出在同一行那样的模式则一行输出既要视为主币又要视为双挖币
                 if (isDual && mineContext.KernelOutput.IsDualInSameLine) {
                     coin = mineContext.MainCoin;
                     isDual = false;
-                    PickTotalSpeed(_root, line, mineContext.KernelOutput, isDual);
-                    PickGpuSpeed(_root, mineContext, line, mineContext.KernelOutput, isDual);
-                    PickTotalShare(_root, line, mineContext.KernelOutput, coin, isDual);
-                    PickAcceptShare(_root, line, mineContext.KernelOutput, coin, isDual);
-                    PickAcceptOneShare(_root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
-                    PickRejectPattern(_root, line, mineContext.KernelOutput, coin, isDual);
-                    PickRejectOneShare(_root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
-                    PickRejectPercent(_root, line, mineContext.KernelOutput, coin, isDual);
+                    PickTotalSpeed(root, line, mineContext.KernelOutput, isDual);
+                    PickGpuSpeed(root, mineContext, line, mineContext.KernelOutput, isDual);
+                    PickTotalShare(root, line, mineContext.KernelOutput, coin, isDual);
+                    PickAcceptShare(root, line, mineContext.KernelOutput, coin, isDual);
+                    PickAcceptOneShare(root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
+                    PickRejectPattern(root, line, mineContext.KernelOutput, coin, isDual);
+                    PickRejectOneShare(root, mineContext, line, _preline, mineContext.KernelOutput, coin, isDual);
+                    PickRejectPercent(root, line, mineContext.KernelOutput, coin, isDual);
                     PickPoolDelay(line, mineContext.KernelOutput, isDual, poolId);
                 }
                 _preline = line;

@@ -82,6 +82,10 @@ namespace NTMiner {
             _secondCount++;
             const int daySecond = 24 * 60 * 60;
             DateTime now = DateTime.Now;
+            if (_dateTime.Date != now.Date) {
+                RaiseEvent(new NewDayEvent());
+            }
+            // 如果日期部分不等，分钟一定也是不等的，所以_dateTime = now一定会执行
             if (now.Minute != _dateTime.Minute) {
                 _dateTime = now;
                 RaiseEvent(new MinutePartChangedEvent());

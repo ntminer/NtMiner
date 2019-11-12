@@ -129,7 +129,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                 }
                 CloseWindow?.Invoke();

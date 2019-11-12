@@ -19,7 +19,7 @@ namespace NTMiner.Views.Ucs {
             this.PopupMainCoin.Closed += Popup_Closed;
             this.PopupMainCoinWallet.Closed += Popup_Closed;
             this.RunOneceOnLoaded((window)=> {
-                window.WindowContextEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+                window.BuildEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (Vm.MinerProfile.MineWork != null) {

@@ -12,7 +12,7 @@ namespace NTMiner.Core.Impl {
         }
 
         public ICoinShare GetOrCreate(Guid coinId) {
-            if (!_root.CoinSet.Contains(coinId)) {
+            if (!_root.ServerContext.CoinSet.Contains(coinId)) {
                 return new CoinShare() {
                     CoinId = coinId,
                     RejectShareCount = 0,

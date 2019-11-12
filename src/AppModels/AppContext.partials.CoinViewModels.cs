@@ -28,19 +28,19 @@ namespace NTMiner {
                     action: message => {
                         AllPropertyChanged();
                     });
-                AppContextEventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                         AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     });
-                AppContextEventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     });
-                AppContextEventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         CoinViewModel coinVm = _dicById[message.Source.GetId()];
                         bool justAsDualCoin = coinVm.JustAsDualCoin;
@@ -61,7 +61,7 @@ namespace NTMiner {
                             OnPropertyChanged(nameof(MainCoins));
                         }
                     });
-                AppContextEventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
+                BuildEventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
                     action: message => {
                         try {
                             if (string.IsNullOrEmpty(message.Source.Icon)) {
@@ -94,7 +94,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.CoinSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinSet) {
                     _dicById.Add(item.GetId(), new CoinViewModel(item));
                 }
                 foreach (var coinVm in _dicById.Values) {
@@ -108,7 +108,7 @@ namespace NTMiner {
 
             public bool TryGetCoinVm(string coinCode, out CoinViewModel coinVm) {
                 ICoin coin;
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(coinCode, out coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(coinCode, out coin)) {
                     return TryGetCoinVm(coin.GetId(), out coinVm);
                 }
                 coinVm = CoinViewModel.Empty;

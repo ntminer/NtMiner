@@ -60,11 +60,11 @@ namespace NTMiner.Vms {
         public bool IsAutoDualWeight {
             get {
                 ICoinKernel coinKernel;
-                if (NTMinerRoot.Instance.CoinKernelSet.TryGetCoinKernel(this.CoinKernelId, out coinKernel)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinKernelSet.TryGetCoinKernel(this.CoinKernelId, out coinKernel)) {
                     IKernel kernel;
-                    if (NTMinerRoot.Instance.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
+                    if (NTMinerRoot.Instance.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
                         IKernelInput kernelInput;
-                        if (NTMinerRoot.Instance.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                        if (NTMinerRoot.Instance.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
                             if (!kernelInput.IsAutoDualWeight) {
                                 return false;
                             }

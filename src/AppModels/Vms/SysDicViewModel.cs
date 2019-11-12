@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
         public SysDicViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Instance.SysDicSet.ContainsKey(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicSet.ContainsKey(this.Id)) {
                     VirtualRoot.Execute(new UpdateSysDicCommand(this));
                 }
                 else {

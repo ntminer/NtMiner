@@ -6,11 +6,8 @@ namespace NTMiner.Core.Impl {
     public class FragmentWriterSet : IFragmentWriterSet {
         private readonly Dictionary<Guid, FragmentWriterData> _dicById = new Dictionary<Guid, FragmentWriterData>();
 
-        private readonly INTMinerRoot _root;
-
-        public FragmentWriterSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContextCmdPath<AddFragmentWriterCommand>("添加命令行片段书写器", LogEnum.DevConsole,
+        public FragmentWriterSet(IServerContext context) {
+            context.BuildCmdPath<AddFragmentWriterCommand>("添加命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +26,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new FragmentWriterAddedEvent(entity));
                 });
-            _root.ServerContextCmdPath<UpdateFragmentWriterCommand>("更新命令行片段书写器", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdateFragmentWriterCommand>("更新命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +48,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new FragmentWriterUpdatedEvent(entity));
                 });
-            _root.ServerContextCmdPath<RemoveFragmentWriterCommand>("移除组", LogEnum.DevConsole,
+            context.BuildCmdPath<RemoveFragmentWriterCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

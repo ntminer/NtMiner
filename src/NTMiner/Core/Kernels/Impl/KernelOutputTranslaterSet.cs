@@ -17,10 +17,8 @@ namespace NTMiner.Core.Kernels.Impl {
 
         private readonly Dictionary<Guid, KernelOutputTranslaterData> _dicById = new Dictionary<Guid, KernelOutputTranslaterData>();
         private readonly Dictionary<Guid, List<KernelOutputTranslaterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputTranslaterData>>();
-        private readonly INTMinerRoot _root;
-        public KernelOutputTranslaterSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContextCmdPath<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
+        public KernelOutputTranslaterSet(IServerContext context) {
+            context.BuildCmdPath<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -43,7 +41,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputTranslaterAddedEvent(entity));
                 });
-            _root.ServerContextCmdPath<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -71,7 +69,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputTranslaterUpdatedEvent(entity));
                 });
-            _root.ServerContextCmdPath<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
+            context.BuildCmdPath<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -90,9 +88,9 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputTranslaterRemovedEvent(entity));
                 });
-            _root.ServerContextEventPath<SysDicItemUpdatedEvent>($"{NTKeyword.LogColorSysDicCode}字典项更新后刷新翻译器内存", LogEnum.DevConsole,
+            context.BuildEventPath<SysDicItemUpdatedEvent>($"{NTKeyword.LogColorSysDicCode}字典项更新后刷新翻译器内存", LogEnum.DevConsole,
                 action: message => {
-                    if (!_root.SysDicSet.TryGetSysDic(NTKeyword.LogColorSysDicCode, out ISysDic dic)) {
+                    if (!context.SysDicSet.TryGetSysDic(NTKeyword.LogColorSysDicCode, out ISysDic dic)) {
                         return;
                     }
                     if (message.Source.DicId != dic.GetId()) {
@@ -169,10 +167,10 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values.GetEnumerator();
         }
 
-        private Dictionary<IKernelOutputTranslater, ConsoleColor> _colorDic = new Dictionary<IKernelOutputTranslater, ConsoleColor>();
+        private readonly Dictionary<IKernelOutputTranslater, ConsoleColor> _colorDic = new Dictionary<IKernelOutputTranslater, ConsoleColor>();
         private ConsoleColor GetColor(IKernelOutputTranslater consoleTranslater) {
             if (!_colorDic.ContainsKey(consoleTranslater)) {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(NTKeyword.LogColorSysDicCode, consoleTranslater.Color, out ISysDicItem dicItem)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.LogColorSysDicCode, consoleTranslater.Color, out ISysDicItem dicItem)) {
                     _colorDic.Add(consoleTranslater, GetColor(dicItem.Value));
                 }
                 else {

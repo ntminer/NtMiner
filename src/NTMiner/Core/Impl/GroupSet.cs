@@ -6,10 +6,8 @@ namespace NTMiner.Core.Impl {
     public class GroupSet : IGroupSet {
         private readonly Dictionary<Guid, GroupData> _dicById = new Dictionary<Guid, GroupData>();
 
-        private readonly INTMinerRoot _root;
-        public GroupSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContextCmdPath<AddGroupCommand>("添加组", LogEnum.DevConsole,
+        public GroupSet(IServerContext context) {
+            context.BuildCmdPath<AddGroupCommand>("添加组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -28,7 +26,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new GroupAddedEvent(entity));
                 });
-            _root.ServerContextCmdPath<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -50,7 +48,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new GroupUpdatedEvent(entity));
                 });
-            _root.ServerContextCmdPath<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
+            context.BuildCmdPath<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -60,7 +58,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     GroupData entity = _dicById[message.EntityId];
-                    Guid[] toRemoves = root.CoinGroupSet.GetGroupCoinIds(entity.Id).ToArray();
+                    Guid[] toRemoves = context.CoinGroupSet.GetGroupCoinIds(entity.Id).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
                     }

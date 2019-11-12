@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.FragmentWriterSet.TryGetFragmentWriter(this.Id, out IFragmentWriter writer)) {
+                if (NTMinerRoot.Instance.ServerContext.FragmentWriterSet.TryGetFragmentWriter(this.Id, out IFragmentWriter writer)) {
                     VirtualRoot.Execute(new UpdateFragmentWriterCommand(this));
                 }
                 else {

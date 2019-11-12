@@ -25,21 +25,21 @@ namespace NTMiner {
                     }
                     new UserViewModel().Edit.Execute(FormType.Add);
                 });
-                AppContextEventPath<UserAddedEvent>("添加了用户后", LogEnum.DevConsole,
+                BuildEventPath<UserAddedEvent>("添加了用户后", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicByLoginName.ContainsKey(message.Source.LoginName)) {
                             _dicByLoginName.Add(message.Source.LoginName, new UserViewModel(message.Source));
                             OnPropertyChanged(nameof(List));
                         }
                     });
-                AppContextEventPath<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
+                BuildEventPath<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
                     action: message => {
                         UserViewModel vm;
                         if (_dicByLoginName.TryGetValue(message.Source.LoginName, out vm)) {
                             vm.Update(message.Source);
                         }
                     });
-                AppContextEventPath<UserRemovedEvent>("移除了用户后", LogEnum.DevConsole,
+                BuildEventPath<UserRemovedEvent>("移除了用户后", LogEnum.DevConsole,
                     action: message => {
                         _dicByLoginName.Remove(message.Source.LoginName);
                         OnPropertyChanged(nameof(List));

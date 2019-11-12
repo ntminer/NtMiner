@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                 if (_ethNoDevFeeWallet != value) {
                     _ethNoDevFeeWallet = value;
                     OnPropertyChanged(nameof(EthNoDevFeeWallet));
-                    if (NTMinerRoot.Instance.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
+                    if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
                         if (!string.IsNullOrEmpty(coin.WalletRegexPattern)) {
                             Regex regex = VirtualRoot.GetRegex(coin.WalletRegexPattern);
                             if (!regex.IsMatch(value)) {

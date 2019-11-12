@@ -235,14 +235,14 @@ namespace NTMiner {
                                     }
                                     ConsoleColor color = ConsoleColor.White;
                                     // 前译
-                                    Instance.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: true);
+                                    Instance.ServerContext.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, ref color, isPre: true);
                                     // 使用Claymore挖其非ETH币种时它也打印ETH，所以这里需要纠正它
                                     if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
                                         if (mineContext.MainCoin.Code != "ETH" && input.Contains("ETH")) {
                                             input = input.Replace("ETH", mineContext.MainCoin.Code);
                                         }
                                     }
-                                    Instance.KernelOutputSet.Pick(ref input, mineContext);
+                                    Instance.ServerContext.KernelOutputSet.Pick(ref input, mineContext);
                                     if (isWriteToConsole) {
                                         if (!string.IsNullOrEmpty(input)) {
                                             Write.UserLine(input, ConsoleColor.White);

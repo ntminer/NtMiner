@@ -38,7 +38,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 _nvmlHelper.GetVersion(out _driverVersion, out string nvmlVersion);
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", _driverVersion));
                 try {
-                    var item = root.SysDicItemSet.GetSysDicItems(NTKeyword.CudaVersionSysDicCode)
+                    var item = root.ServerContext.SysDicItemSet.GetSysDicItems(NTKeyword.CudaVersionSysDicCode)
                         .Select(a => new { Version = double.Parse(a.Value), a })
                         .OrderByDescending(a => a.Version)
                         .FirstOrDefault(a => _driverVersion.Major >= a.Version);

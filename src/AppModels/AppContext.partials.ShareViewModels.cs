@@ -13,10 +13,9 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                AppContextEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        ShareViewModel shareVm;
-                        if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {
+                        if (_dicByCoinId.TryGetValue(message.Source.CoinId, out ShareViewModel shareVm)) {
                             shareVm.Update(message.Source);
                         }
                     });
@@ -28,11 +27,10 @@ namespace NTMiner {
 
             private readonly object _locker = new object();
             public ShareViewModel GetOrCreate(Guid coinId) {
-                if (!NTMinerRoot.Instance.CoinSet.Contains(coinId)) {
+                if (!NTMinerRoot.Instance.ServerContext.CoinSet.Contains(coinId)) {
                     return new ShareViewModel(coinId);
                 }
-                ShareViewModel shareVm;
-                if (!_dicByCoinId.TryGetValue(coinId, out shareVm)) {
+                if (!_dicByCoinId.TryGetValue(coinId, out ShareViewModel shareVm)) {
                     lock (_locker) {
                         if (!_dicByCoinId.TryGetValue(coinId, out shareVm)) {
                             shareVm = new ShareViewModel(coinId);

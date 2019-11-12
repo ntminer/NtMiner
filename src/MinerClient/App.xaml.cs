@@ -96,7 +96,7 @@ namespace NTMiner {
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
                             VirtualRoot.ThisLocalError(nameof(App), "没有矿卡或矿卡未驱动。", toConsole: true);
                         }
-                        if (NTMinerRoot.Instance.CoinSet.Count == 0) {
+                        if (NTMinerRoot.Instance.ServerContext.CoinSet.Count == 0) {
                             VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
                         UIThread.Execute(() => {

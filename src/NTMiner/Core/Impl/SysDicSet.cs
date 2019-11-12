@@ -5,13 +5,11 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     internal class SysDicSet : ISysDicSet {
-        private readonly INTMinerRoot _root;
         private readonly Dictionary<string, SysDicData> _dicByCode = new Dictionary<string, SysDicData>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, SysDicData> _dicById = new Dictionary<Guid, SysDicData>();
 
-        public SysDicSet(INTMinerRoot root) {
-            _root = root;
-            _root.ServerContextCmdPath<AddSysDicCommand>("添加系统字典", LogEnum.DevConsole,
+        public SysDicSet(IServerContext context) {
+            context.BuildCmdPath<AddSysDicCommand>("添加系统字典", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -34,7 +32,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new SysDicAddedEvent(entity));
                 });
-            _root.ServerContextCmdPath<UpdateSysDicCommand>("更新系统字典", LogEnum.DevConsole,
+            context.BuildCmdPath<UpdateSysDicCommand>("更新系统字典", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -56,7 +54,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new SysDicUpdatedEvent(entity));
                 });
-            _root.ServerContextCmdPath<RemoveSysDicCommand>("移除系统字典", LogEnum.DevConsole,
+            context.BuildCmdPath<RemoveSysDicCommand>("移除系统字典", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -66,7 +64,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     SysDicData entity = _dicById[message.EntityId];
-                    List<Guid> toRemoves = root.SysDicItemSet.GetSysDicItems(entity.Code).Select(a => a.GetId()).ToList();
+                    List<Guid> toRemoves = context.SysDicItemSet.GetSysDicItems(entity.Code).Select(a => a.GetId()).ToList();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveSysDicItemCommand(id));
                     }

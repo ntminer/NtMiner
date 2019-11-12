@@ -27,7 +27,7 @@ namespace NTMiner {
                     action: message => {
                         OnPropertyChangeds();
                     });
-                AppContextEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             FragmentWriterViewModel groupVm = new FragmentWriterViewModel(message.Source);
@@ -35,14 +35,14 @@ namespace NTMiner {
                             OnPropertyChangeds();
                         }
                     });
-                AppContextEventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             FragmentWriterViewModel entity = _dicById[message.Source.GetId()];
                             entity.Update(message.Source);
                         }
                     });
-                AppContextEventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                BuildEventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
@@ -55,7 +55,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.FragmentWriterSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.FragmentWriterSet) {
                     FragmentWriterViewModel groupVm = new FragmentWriterViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

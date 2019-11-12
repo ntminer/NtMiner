@@ -44,10 +44,10 @@ namespace NTMiner.Daemon {
         private static string GetEthNoDevFeeWallet() {
             string wallet = Vms.EthNoDevFeeEditViewModel.GetEthNoDevFeeWallet();
             if (string.IsNullOrEmpty(wallet)) {
-                if (NTMinerRoot.Instance.CoinSet == null) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet == null) {
                     return wallet;
                 }
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
                     wallet = coin.TestWallet;
                 }
             }

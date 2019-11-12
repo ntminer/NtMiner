@@ -102,14 +102,14 @@ namespace NTMiner {
                 data.MineWorkName = workProfile.MineWork.Name;
             }
             #region 当前选中的币种是什么
-            if (root.CoinSet.TryGetCoin(workProfile.CoinId, out ICoin mainCoin)) {
+            if (root.ServerContext.CoinSet.TryGetCoin(workProfile.CoinId, out ICoin mainCoin)) {
                 data.MainCoinCode = mainCoin.Code;
                 ICoinProfile coinProfile = workProfile.GetCoinProfile(mainCoin.GetId());
                 data.MainCoinWallet = coinProfile.Wallet;
-                if (root.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
+                if (root.ServerContext.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
                     data.MainCoinPool = mainCoinPool.Server;
                     if (root.IsMining) {
-                        data.MainCoinPoolDelay = root.PoolSet.GetPoolDelayText(mainCoinPool.GetId(), isDual: false);
+                        data.MainCoinPoolDelay = root.ServerContext.PoolSet.GetPoolDelayText(mainCoinPool.GetId(), isDual: false);
                     }
                     if (mainCoinPool.IsUserMode) {
                         IPoolProfile mainCoinPoolProfile = workProfile.GetPoolProfile(coinProfile.PoolId);
@@ -119,10 +119,10 @@ namespace NTMiner {
                 else {
                     data.MainCoinPool = string.Empty;
                 }
-                if (root.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
-                    if (root.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
+                if (root.ServerContext.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
+                    if (root.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
                         data.Kernel = kernel.GetFullName();
-                        if (root.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
+                        if (root.ServerContext.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
                             data.IsFoundOneGpuShare = !string.IsNullOrEmpty(kernelOutput.FoundOneShare);
                             data.IsGotOneIncorrectGpuShare = !string.IsNullOrEmpty(kernelOutput.GpuGotOneIncorrectShare);
                             data.IsRejectOneGpuShare = !string.IsNullOrEmpty(kernelOutput.RejectOneShare);
@@ -130,14 +130,14 @@ namespace NTMiner {
                         ICoinKernelProfile coinKernelProfile = workProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
                         data.IsDualCoinEnabled = coinKernelProfile.IsDualCoinEnabled;
                         if (coinKernelProfile.IsDualCoinEnabled) {
-                            if (root.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
+                            if (root.ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                                 data.DualCoinCode = dualCoin.Code;
                                 ICoinProfile dualCoinProfile = workProfile.GetCoinProfile(dualCoin.GetId());
                                 data.DualCoinWallet = dualCoinProfile.DualCoinWallet;
-                                if (root.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
+                                if (root.ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out IPool dualCoinPool)) {
                                     data.DualCoinPool = dualCoinPool.Server;
                                     if (root.IsMining) {
-                                        data.DualCoinPoolDelay = root.PoolSet.GetPoolDelayText(dualCoinPool.GetId(), isDual: true);
+                                        data.DualCoinPoolDelay = root.ServerContext.PoolSet.GetPoolDelayText(dualCoinPool.GetId(), isDual: true);
                                     }
                                     if (dualCoinPool.IsUserMode) {
                                         IPoolProfile dualCoinPoolProfile = workProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId);

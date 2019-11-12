@@ -33,7 +33,7 @@ namespace NTMiner.Views.Ucs {
         private Calc() {
             InitializeComponent();
             this.RunOneceOnLoaded((window) => {
-                window.WindowContextEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                window.BuildEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             foreach (var coinVm in Vm.CoinVms.AllCoins) {
@@ -41,7 +41,7 @@ namespace NTMiner.Views.Ucs {
                             }
                         });
                     });
-                window.WindowContextEventPath<Per1MinuteEvent>("当收益计算器页面打开着的时候周期刷新", LogEnum.None,
+                window.BuildEventPath<Per1MinuteEvent>("当收益计算器页面打开着的时候周期刷新", LogEnum.None,
                     action: message => {
                         if (Vm.CoinVms.AllCoins.Count == 0) {
                             return;

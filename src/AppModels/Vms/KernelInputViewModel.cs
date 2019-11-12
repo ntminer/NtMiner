@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.KernelInputSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.KernelInputSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelInputCommand(this));
                 }
                 else {

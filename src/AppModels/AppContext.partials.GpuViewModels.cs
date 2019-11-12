@@ -32,27 +32,27 @@ namespace NTMiner {
                 else {
                     _gpuAllVm = new GpuViewModel(Gpu.GpuAll);
                 }
-                AppContextEventPath<EPriceChangedEvent>("电价变更后更新电费显示", LogEnum.DevConsole,
+                BuildEventPath<EPriceChangedEvent>("电价变更后更新电费显示", LogEnum.DevConsole,
                     action: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.EChargeText));
                         }
                         AppContext.Instance.GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
                     });
-                AppContextEventPath<MaxTempChangedEvent>("高温红色阈值变更后更新显卡温度颜色", LogEnum.DevConsole,
+                BuildEventPath<MaxTempChangedEvent>("高温红色阈值变更后更新显卡温度颜色", LogEnum.DevConsole,
                     action: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.TemperatureForeground));
                         }
                     });
-                AppContextEventPath<PowerAppendChangedEvent>("功耗补偿变更后更新功耗显示", LogEnum.DevConsole,
+                BuildEventPath<PowerAppendChangedEvent>("功耗补偿变更后更新功耗显示", LogEnum.DevConsole,
                     action: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.PowerUsageWText));
                         }
                         AppContext.Instance.GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
                     });
-                AppContextEventPath<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
+                BuildEventPath<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
                     action: message => {
                         if (_gpuVms.ContainsKey(message.Source.Index)) {
                             GpuViewModel vm = _gpuVms[message.Source.Index];

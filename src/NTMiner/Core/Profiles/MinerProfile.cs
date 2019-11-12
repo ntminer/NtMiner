@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core.Profiles.Impl;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
-using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +34,7 @@ namespace NTMiner.Core.Profiles {
             MineWork = mineWorkRepository.GetAll().FirstOrDefault();
             if (_data == null) {
                 Guid coinId = Guid.Empty;
-                ICoin coin = root.CoinSet.OrderBy(a => a.Code).FirstOrDefault();
+                ICoin coin = root.ServerContext.CoinSet.OrderBy(a => a.Code).FirstOrDefault();
                 if (coin != null) {
                     coinId = coin.GetId();
                 }
@@ -74,7 +73,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetCoinKernelProfileProperty(Guid coinKernelId, string propertyName, object value) {
-            if (_root.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
+            if (_root.ServerContext.CoinKernelSet.TryGetCoinKernel(coinKernelId, out _)) {
                 _coinKernelProfileSet.SetCoinKernelProfileProperty(coinKernelId, propertyName, value);
             }
         }
@@ -84,7 +83,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetCoinProfileProperty(Guid coinId, string propertyName, object value) {
-            if (_root.CoinSet.TryGetCoin(coinId, out ICoin _)) {
+            if (_root.ServerContext.CoinSet.TryGetCoin(coinId, out ICoin _)) {
                 _coinProfileSet.SetCoinProfileProperty(coinId, propertyName, value);
             }
         }
@@ -94,7 +93,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public void SetPoolProfileProperty(Guid poolId, string propertyName, object value) {
-            if (_root.PoolSet.TryGetPool(poolId, out IPool pool)) {
+            if (_root.ServerContext.PoolSet.TryGetPool(poolId, out IPool pool)) {
                 if (!pool.IsUserMode) {
                     Write.UserError($"{pool.Name}不是用户名密码模式的矿池");
                     return;
@@ -120,7 +119,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public List<IPool> GetPools() {
-            return _root.PoolSet.ToList();
+            return _root.ServerContext.PoolSet.ToList();
         }
 
         public List<IPoolProfile> GetPoolProfiles() {

@@ -46,7 +46,7 @@ namespace NTMiner.Core.Profiles.Impl {
             public IKernel Kernel {
                 get {
                     if (_kernel == null) {
-                        NTMinerRoot.Instance.KernelSet.TryGetKernel(this.KernelId, out _kernel);
+                        NTMinerRoot.Instance.ServerContext.KernelSet.TryGetKernel(this.KernelId, out _kernel);
                     }
                     return _kernel;
                 }

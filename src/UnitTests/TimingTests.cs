@@ -6,6 +6,12 @@ namespace UnitTests {
     [TestClass]
     public class TimingTests {
         [TestMethod]
+        public void NewDayEventTest() {
+            DateTime t = new DateTime(2019, 11, 11);
+            Assert.IsTrue(t.TimeOfDay.TotalSeconds == 0);
+        }
+
+        [TestMethod]
         public void TestMethod1() {
             int secondCount = 1000000;
             Write.Stopwatch.Start();

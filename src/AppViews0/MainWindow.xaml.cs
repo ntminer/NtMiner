@@ -219,7 +219,7 @@ namespace NTMiner.Views {
                     VirtualRoot.Out.ShowSuccess(message.Message, "开源矿工");
                 });
             });
-            this.WindowContextEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
+            this.BuildEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (message.IsDual) {
@@ -230,21 +230,21 @@ namespace NTMiner.Views {
                         }
                     });
                 });
-            this.WindowContextEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
+            this.BuildEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
                 });
-            this.WindowContextEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
+            this.BuildEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
                 });
-            this.WindowContextEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式 和 守护进程状态显示", LogEnum.DevConsole,
+            this.BuildEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式 和 守护进程状态显示", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
                         if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.Timestamp) {
@@ -340,7 +340,7 @@ namespace NTMiner.Views {
                     UIThread.Execute(() => {
                         UpdateCpuView(performance, temperature);
                     });
-                    this.WindowContextEventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
+                    this.BuildEventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
                         action: message => {
                             RefreshCpu();
                         });

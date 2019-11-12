@@ -138,7 +138,6 @@
     <Compile Include="Vms\CoinViewModel.cs" />
     <Compile Include="Vms\ColumnsShowPageViewModel.cs" />
     <Compile Include="Vms\ColumnsShowViewModel.cs" />
-    <Compile Include="Vms\ControlCenterHostConfigViewModel.cs" />
     <Compile Include="Vms\DriveViewModel.cs" />
     <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\FileDownloaderViewModel.cs" />
