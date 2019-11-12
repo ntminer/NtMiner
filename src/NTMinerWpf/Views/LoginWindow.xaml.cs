@@ -20,6 +20,9 @@ namespace NTMiner.Views {
                     }
                 });
             }
+            else {
+                onLoginSuccess?.Invoke();
+            }
         }
 
         private LoginWindowViewModel Vm {
