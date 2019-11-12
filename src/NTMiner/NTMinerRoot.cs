@@ -383,7 +383,7 @@ namespace NTMiner {
                     try {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
-                                Logger.WarnWriteLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑");
+                                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑", toConsole: true);
                                 Windows.Power.Restart(60);
                                 VirtualRoot.Execute(new CloseNTMinerCommand());
                                 return;// 退出
@@ -399,7 +399,7 @@ namespace NTMiner {
                     try {
                         if (IsMining && MinerProfile.IsPeriodicRestartKernel) {
                             if ((DateTime.Now - CurrentMineContext.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
-                                Logger.WarnWriteLine($"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartKernelMinutes}分钟重启内核");
+                                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartKernelMinutes}分钟重启内核", toConsole: true);
                                 RestartMine();
                                 return;// 退出
                             }
@@ -429,14 +429,14 @@ namespace NTMiner {
                                         if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
                                             VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                         }
-                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartComputerMinutes}分钟无份额重启电脑");
+                                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"{MinerProfile.NoShareRestartComputerMinutes}分钟无份额重启电脑", toConsole: true);
                                         Windows.Power.Restart(60);
                                         VirtualRoot.Execute(new CloseNTMinerCommand());
                                         return;// 退出
                                     }
                                     // 产生过份额或者已经两倍重启内核时间了
                                     if (restartKernel && (totalShare > 0 || (DateTime.Now - shareOn).TotalMinutes > 2 * MinerProfile.NoShareRestartKernelMinutes)) {
-                                        Logger.WarnWriteLine($"{MinerProfile.NoShareRestartKernelMinutes}分钟无份额重启内核");
+                                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"{MinerProfile.NoShareRestartKernelMinutes}分钟无份额重启内核", toConsole: true);
                                         RestartMine();
                                         return;// 退出
                                     }
