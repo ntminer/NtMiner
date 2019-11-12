@@ -50,17 +50,15 @@ namespace NTMiner.ServerMessage {
                     lock (_locker) {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.Input.Id);
                         if (exist != null) {
-                            DateTime timestamp = exist.Timestamp;
                             exist.Update(message.Input);
-                            // 如果更新前后时间戳没有变化则自动变更时间戳
-                            if (timestamp == exist.Timestamp) {
-                                exist.Timestamp = DateTime.Now;
-                            }
+                            exist.Timestamp = DateTime.Now;
                             _linkedList.Remove(exist);
                             _linkedList.AddFirst(exist);
                         }
                         else {
-                            data = new ServerMessageData(message.Input);
+                            data = new ServerMessageData(message.Input) {
+                                Timestamp = DateTime.Now
+                            };
                             _linkedList.AddFirst(data);
                             while (_linkedList.Count > NTKeyword.ServerMessageSetCapacity) {
                                 toRemoves.Add(_linkedList.Last.Value);
