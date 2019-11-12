@@ -15,5 +15,8 @@ namespace NTMiner.JsonDb {
         List<PoolData> Pools { get; }
         SysDicItemData[] SysDicItems { get; }
         SysDicData[] SysDics { get; }
+        List<FileWriterData> FileWriters { get; }
+        List<FragmentWriterData> FragmentWriters { get; }
+        List<PackageData> Packages { get; }
     }
 }
