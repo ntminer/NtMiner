@@ -165,6 +165,8 @@ namespace NTMiner.JsonDb {
             }
         }
 
+        // List<T>类型暗示系统可能会根据内核品牌或矿池品牌或作业做过滤
+
         public ulong TimeStamp { get; set; }
 
         public CoinData[] Coins { get; set; }
