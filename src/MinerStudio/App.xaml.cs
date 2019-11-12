@@ -70,7 +70,7 @@ namespace NTMiner {
                 });
                 VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
                     // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
-                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");
+                    VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");
                     UIThread.Execute(() => {
                         try {
                             Shutdown();

@@ -332,19 +332,19 @@ namespace NTMiner {
         #endregion
 
         #region LocalMessage
-        public static void ThisLocalInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisLocalMessage(provider, LocalMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
+        public static void LocalInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            LocalMessage(provider, LocalMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ThisLocalWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisLocalMessage(provider, LocalMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
+        public static void LocalWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            LocalMessage(provider, LocalMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ThisLocalError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisLocalMessage(provider, LocalMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
+        public static void LocalError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            LocalMessage(provider, LocalMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        private static void ThisLocalMessage(string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
+        private static void LocalMessage(string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
             switch (outEnum) {
                 case OutEnum.None:
                     break;

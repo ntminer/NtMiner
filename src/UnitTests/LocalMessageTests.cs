@@ -12,7 +12,7 @@ namespace UnitTests {
             Assert.IsTrue(times > NTKeyword.LocalMessageSetCapacity);
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
-                VirtualRoot.ThisLocalInfo(nameof(LocalMessageTests), content);
+                VirtualRoot.LocalInfo(nameof(LocalMessageTests), content);
             }
             Assert.IsTrue(VirtualRoot.LocalMessages.Count() == NTKeyword.LocalMessageSetCapacity);
         }

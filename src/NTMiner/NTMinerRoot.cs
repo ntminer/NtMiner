@@ -161,10 +161,10 @@ namespace NTMiner {
                             }
                             else {
                                 if (!File.Exists(SpecialPath.ServerJsonFileFullName)) {
-                                    VirtualRoot.ThisLocalError(nameof(NTMinerRoot), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", OutEnum.Warn);
+                                    VirtualRoot.LocalError(nameof(NTMinerRoot), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", OutEnum.Warn);
                                 }
                                 else {
-                                    VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最后一次成功下载的配置文件", OutEnum.Warn);
+                                    VirtualRoot.LocalWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最后一次成功下载的配置文件", OutEnum.Warn);
                                 }
                             }
                             DoInit(isWork, callback);
@@ -177,7 +177,7 @@ namespace NTMiner {
                         #endregion
                     }
                 }
-                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"启动{VirtualRoot.AppName}");
+                VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"启动{VirtualRoot.AppName}");
             });
         }
 
@@ -205,7 +205,7 @@ namespace NTMiner {
                         ReInitServerJson();
                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                         ContextReInit(isWork: VirtualRoot.IsMinerStudio);
-                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"刷新server.json配置", toConsole: true);
+                        VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"刷新server.json配置", toConsole: true);
                     });
                 }
                 else {
@@ -353,11 +353,11 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    RegCmdHere(); VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", OutEnum.Success);
+                    RegCmdHere(); VirtualRoot.LocalInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", OutEnum.Success);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    RegCmdHere(); VirtualRoot.ThisLocalError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
+                    RegCmdHere(); VirtualRoot.LocalError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
                 }
             });
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
@@ -383,7 +383,7 @@ namespace NTMiner {
                     try {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
-                                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑", toConsole: true);
+                                VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑", toConsole: true);
                                 Windows.Power.Restart(60);
                                 VirtualRoot.Execute(new CloseNTMinerCommand());
                                 return;// 退出
@@ -399,7 +399,7 @@ namespace NTMiner {
                     try {
                         if (IsMining && MinerProfile.IsPeriodicRestartKernel) {
                             if ((DateTime.Now - CurrentMineContext.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
-                                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartKernelMinutes}分钟重启内核", toConsole: true);
+                                VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartKernelMinutes}分钟重启内核", toConsole: true);
                                 RestartMine();
                                 return;// 退出
                             }
@@ -429,14 +429,14 @@ namespace NTMiner {
                                         if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
                                             VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                         }
-                                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"{MinerProfile.NoShareRestartComputerMinutes}分钟无份额重启电脑", toConsole: true);
+                                        VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"{MinerProfile.NoShareRestartComputerMinutes}分钟无份额重启电脑", toConsole: true);
                                         Windows.Power.Restart(60);
                                         VirtualRoot.Execute(new CloseNTMinerCommand());
                                         return;// 退出
                                     }
                                     // 产生过份额或者已经两倍重启内核时间了
                                     if (restartKernel && (totalShare > 0 || (DateTime.Now - shareOn).TotalMinutes > 2 * MinerProfile.NoShareRestartKernelMinutes)) {
-                                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"{MinerProfile.NoShareRestartKernelMinutes}分钟无份额重启内核", toConsole: true);
+                                        VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"{MinerProfile.NoShareRestartKernelMinutes}分钟无份额重启内核", toConsole: true);
                                         RestartMine();
                                         return;// 退出
                                     }
@@ -516,7 +516,7 @@ namespace NTMiner {
                 }
                 var mineContext = _currentMineContext;
                 _currentMineContext = null;
-                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "挖矿停止", toConsole: true);
+                VirtualRoot.LocalInfo(nameof(NTMinerRoot), "挖矿停止", toConsole: true);
                 VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext, stopReason));
             }
             catch (Exception e) {
@@ -627,7 +627,7 @@ namespace NTMiner {
                 }
                 string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                 if (!File.Exists(packageZipFileFullName)) {
-                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
+                    VirtualRoot.LocalInfo(nameof(NTMinerRoot), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
                     VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                         if (isSuccess) {
                             StartMine(isRestart);
@@ -659,9 +659,9 @@ namespace NTMiner {
                     }
                     _currentMineContext = mineContext;
                     MinerProcess.CreateProcessAsync(mineContext);
-                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
+                    VirtualRoot.LocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
                     if (mineContext.UseDevices.Length != GpuSet.Count) {
-                        VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
+                        VirtualRoot.LocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
                     }
                 }
             }
