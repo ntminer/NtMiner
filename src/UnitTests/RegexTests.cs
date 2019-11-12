@@ -20,7 +20,7 @@ namespace UnitTests {
                     var d = match.Groups["notexit"];
                 }
             }
-            long elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
             Console.WriteLine($"非编译：耗时{elapsedMilliseconds}毫秒");
 
             string pattern= @"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)";

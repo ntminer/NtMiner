@@ -49,12 +49,11 @@ namespace NTMiner {
                     if (_isMinerClientDetected) {
                         return _isMinerClient;
                     }
-                    var assembly = Assembly.GetEntryAssembly();
-                    // 单元测试时assembly为null
-                    if (assembly == null) { 
+                    if (DevMode.IsInUnitTest) { 
                         _isMinerClient = true;
                     }
                     else {
+                        var assembly = Assembly.GetEntryAssembly();
                         // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是挖矿客户端
                         _isMinerClient = assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null;
                     }
@@ -86,11 +85,10 @@ namespace NTMiner {
                     }
                     else {
                         // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是群控客户端
-                        var assembly = Assembly.GetEntryAssembly();
-                        // 单元测试时assembly为null
-                        if (assembly == null) {
+                        if (DevMode.IsInUnitTest) {
                             return false;
                         }
+                        var assembly = Assembly.GetEntryAssembly();
                         _isMinerStudio = assembly.GetManifestResourceInfo(NTKeyword.NTMinerServicesKey) != null;
                     }
                     _isMinerStudioDetected = true;
@@ -215,11 +213,11 @@ namespace NTMiner {
                 if (_appName != null) {
                     return _appName;
                 }
-                Assembly mainAssembly = Assembly.GetEntryAssembly();
-                if (mainAssembly == null) {
+                if (DevMode.IsInUnitTest) {
                     _appName = "未说明";
                 }
                 else {
+                    Assembly mainAssembly = Assembly.GetEntryAssembly();
                     var attr = mainAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), inherit: false).FirstOrDefault();
                     if (attr != null) {
                         _appName = ((AssemblyTitleAttribute)attr).Title;
@@ -282,6 +280,9 @@ namespace NTMiner {
 
         #region GetBrandId
         public static Guid GetBrandId(string fileFullName, string keyword) {
+            if (DevMode.IsInUnitTest) {
+                throw new InvalidProgramException("不支持单元测试这个方法，因为该方法的逻辑依赖于主程序集而单元测试时主程序集是null");
+            }
 #if DEBUG
             Write.Stopwatch.Start();
 #endif
