@@ -115,7 +115,6 @@
     <Compile Include="Core\IPool.cs" />
     <Compile Include="ISortable.cs" />
     <Compile Include="MinerClient\GpuSpeedData.cs" />
-    <Compile Include="IShowMainWindow.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="DataRequest`1.cs" />
     <Compile Include="Core\AppSettingData.cs" />

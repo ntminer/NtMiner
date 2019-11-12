@@ -2,7 +2,8 @@
 using NTMiner.MinerClient;
 
 namespace NTMiner.Controllers {
-    public interface IMinerClientController : IShowMainWindow {
+    public interface IMinerClientController {
+        bool ShowMainWindow();
         ResponseBase CloseNTMiner(SignRequest request);
         ResponseBase StartMine(WorkRequest request);
         ResponseBase StopMine(SignRequest request);

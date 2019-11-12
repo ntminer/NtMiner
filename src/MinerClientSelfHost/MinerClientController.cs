@@ -8,7 +8,7 @@ namespace NTMiner {
     /// <summary>
     /// 端口号：<see cref="Consts.MinerClientPort"/>
     /// </summary>
-    public class MinerClientController : ApiController, IMinerClientController, IShowMainWindow {
+    public class MinerClientController : ApiController, IMinerClientController {
         [HttpPost]
         public bool ShowMainWindow() {
             try {
