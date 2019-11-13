@@ -4,6 +4,7 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.KernelOutputKeyword;
+using NTMiner.Profile;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
@@ -67,6 +68,7 @@ namespace NTMiner {
         IKernelOutputKeywordSet LocalKernelOutputKeywordSet { get; }
         IKernelOutputKeywordSet ServerKernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
+        bool TryGetProfileKernel(out IKernel kernel);
         string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
     }
 }

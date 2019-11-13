@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.Core;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Vms {
     public class LocalMessagesConfigViewModel : ViewModelBase {
@@ -9,7 +11,10 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputKeywordViewModel> KernelOutputKeywordVms {
             get {
-                throw new System.NotImplementedException();
+                if (NTMinerRoot.Instance.TryGetProfileKernel(out IKernel kernel)) {
+                    return AppContext.KernelOutputKeywordViewModels.Instance.GetListByKernelId(kernel.KernelOutputId).ToList();
+                }
+                return new List<KernelOutputKeywordViewModel>();
             }
         }
     }

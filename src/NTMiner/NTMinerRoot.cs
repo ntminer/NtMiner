@@ -545,7 +545,23 @@ namespace NTMiner {
         }
         #endregion
 
-        public bool GetProfileData(
+        public bool TryGetProfileKernel(out IKernel kernel) {
+            kernel = null;
+            IWorkProfile minerProfile = this.MinerProfile;
+            if (!ServerContext.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
+                return false;
+            }
+            var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
+            if (!ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel mainCoinKernel)) {
+                return false;
+            }
+            if (!ServerContext.KernelSet.TryGetKernel(mainCoinKernel.KernelId, out kernel)) {
+                return false;
+            }
+            return true;
+        }
+
+        private bool GetProfileData(
             out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel, 
             out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg) {
             mainCoinProfile = null;

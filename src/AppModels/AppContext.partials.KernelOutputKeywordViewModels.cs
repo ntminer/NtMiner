@@ -72,9 +72,9 @@ namespace NTMiner {
                 }
             }
 
-            public IEnumerable<KernelOutputKeywordViewModel> GetListByKernelId(Guid kernelId) {
-                if (_dicByKernelOutputId.ContainsKey(kernelId)) {
-                    return _dicByKernelOutputId[kernelId];
+            public IEnumerable<KernelOutputKeywordViewModel> GetListByKernelId(Guid kernelOutputId) {
+                if (_dicByKernelOutputId.ContainsKey(kernelOutputId)) {
+                    return _dicByKernelOutputId[kernelOutputId];
                 }
                 return new List<KernelOutputKeywordViewModel>();
             }
