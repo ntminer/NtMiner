@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.KernelOutputKeyword {
-    public class LocalKernelOutputKeywordSet : IKernelOutputKeywordSet {
+    public class KernelOutputKeywordSet : IKernelOutputKeywordSet {
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
         private readonly string _dbFileFullName;
+        private readonly bool _isServer;
 
-        public LocalKernelOutputKeywordSet(string dbFileFullName) {
+        public KernelOutputKeywordSet(string dbFileFullName, bool isServer) {
             _dbFileFullName = dbFileFullName;
+            _isServer = isServer;
             VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {

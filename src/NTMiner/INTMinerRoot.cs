@@ -67,8 +67,7 @@ namespace NTMiner {
 
         ICoinShareSet CoinShareSet { get; }
 
-        IKernelOutputKeywordSet LocalKernelOutputKeywordSet { get; }
-        IKernelOutputKeywordSet ServerKernelOutputKeywordSet { get; }
+        IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
         IMineContext CreateMineContext();
     }

@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
         public KernelOutputKeywordViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Instance.LocalKernelOutputKeywordSet.Contains(this.KernelOutputId, this.Keyword)) {
+                if (NTMinerRoot.Instance.KernelOutputKeywordSet.Contains(this.KernelOutputId, this.Keyword)) {
                     VirtualRoot.Execute(new UpdateKernelOutputKeywordCommand(this));
                 }
                 else {

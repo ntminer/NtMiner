@@ -58,13 +58,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.ServerKernelOutputKeywordSet) {
-                    if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
-                        _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputKeywordViewModel>());
-                    }
-                    _dicByKernelOutputId[item.KernelOutputId].Add(new KernelOutputKeywordViewModel(item));
-                }
-                foreach (var item in NTMinerRoot.Instance.LocalKernelOutputKeywordSet) {
+                foreach (var item in NTMinerRoot.Instance.KernelOutputKeywordSet) {
                     if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                         _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputKeywordViewModel>());
                     }

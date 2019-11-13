@@ -729,23 +729,13 @@ namespace NTMiner {
 
         public ICoinShareSet CoinShareSet { get; private set; }
 
-        private IKernelOutputKeywordSet _localKernelOutputKeywordSet;
-        public IKernelOutputKeywordSet LocalKernelOutputKeywordSet {
+        private IKernelOutputKeywordSet _kernelOutputKeywordSet;
+        public IKernelOutputKeywordSet KernelOutputKeywordSet {
             get {
-                if (_localKernelOutputKeywordSet == null) {
-                    _localKernelOutputKeywordSet = new LocalKernelOutputKeywordSet(VirtualRoot.LocalDbFileFullName);
+                if (_kernelOutputKeywordSet == null) {
+                    _kernelOutputKeywordSet = new KernelOutputKeywordSet(VirtualRoot.LocalDbFileFullName, isServer: false);
                 }
-                return _localKernelOutputKeywordSet;
-            }
-        }
-
-        private IKernelOutputKeywordSet _serverKernelOutputKeywordSet;
-        public IKernelOutputKeywordSet ServerKernelOutputKeywordSet {
-            get {
-                if (_serverKernelOutputKeywordSet == null) {
-                    _serverKernelOutputKeywordSet = new ServerKernelOutputKeywordSet();
-                }
-                return _serverKernelOutputKeywordSet;
+                return _kernelOutputKeywordSet;
             }
         }
 

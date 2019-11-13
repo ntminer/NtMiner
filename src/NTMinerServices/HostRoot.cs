@@ -172,7 +172,7 @@ namespace NTMiner {
             this.PoolSet = new PoolSet(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
-            this.KernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.UpdateServerMessageTimestamp();
         }
