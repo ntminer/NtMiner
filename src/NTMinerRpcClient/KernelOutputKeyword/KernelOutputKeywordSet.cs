@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace NTMiner.KernelOutputKeyword {
     public class KernelOutputKeywordSet : IKernelOutputKeywordSet {
@@ -43,7 +44,7 @@ namespace NTMiner.KernelOutputKeyword {
                                 if (maxTime != localTimestamp) {
                                     VirtualRoot.LocalKernelOutputKeywordSetTimestamp = maxTime;
                                 }
-                                string json = VirtualRoot.JsonSerializer.Serialize(response.Data);
+                                CacheServerKernelOutputKeywords(response.Data);
                                 VirtualRoot.RaiseEvent(new KernelOutputKeywordLoadedEvent(response.Data));
                             }
                         }
@@ -97,6 +98,33 @@ namespace NTMiner.KernelOutputKeyword {
             });
         }
 
+        private const string fileName = "ServerKernelOutputKeywords.json";
+        private void CacheServerKernelOutputKeywords(List<KernelOutputKeywordData> data) {
+            string json = VirtualRoot.JsonSerializer.Serialize(data);
+            string fileId = $"$/cache/{fileName}";
+            using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json))) {
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    db.FileStorage.Upload(fileId, fileName, ms);
+                }
+            }
+        }
+
+        private List<KernelOutputKeywordData> GetServerKernelOutputKeywordsFromCache() {
+            try {
+                using (LiteDatabase db = new LiteDatabase(_connectionString))
+                using (MemoryStream ms = new MemoryStream()) {
+                    string fileId = $"$/cache/{fileName}";
+                    db.FileStorage.Download(fileId, ms);
+                    var json = Encoding.UTF8.GetString(ms.ToArray());
+                    return VirtualRoot.JsonSerializer.Deserialize<List<KernelOutputKeywordData>>(json);
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return new List<KernelOutputKeywordData>();
+            }
+        }
+
         private bool _isInited = false;
         private readonly object _locker = new object();
 
@@ -110,6 +138,12 @@ namespace NTMiner.KernelOutputKeyword {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
+                    foreach (var item in GetServerKernelOutputKeywordsFromCache()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            item.SetDataLevel(DataLevel.Global);
+                            _dicById.Add(item.GetId(), item);
+                        }
+                    }
                     using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<KernelOutputKeywordData>();
                         foreach (var item in col.FindAll()) {
