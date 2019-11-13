@@ -7,7 +7,7 @@ namespace NTMiner.Controllers {
     public interface IKernelOutputKeywordController {
         string GetVersion();
         DataResponse<List<KernelOutputKeywordData>> KernelOutputKeywords(KernelOutputKeywordsRequest request);
-        ResponseBase SetKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request);
+        ResponseBase AddOrUpdateKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request);
         ResponseBase RemoveKernelOutputKeyword(DataRequest<Guid> request);
     }
 }

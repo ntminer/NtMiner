@@ -43,7 +43,7 @@ namespace NTMiner {
                 DataRequest<KernelOutputKeywordData> request = new DataRequest<KernelOutputKeywordData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.SetKernelOutputKeyword), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 

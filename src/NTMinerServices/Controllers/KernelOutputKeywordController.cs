@@ -55,7 +55,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase SetKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request) {
+        public ResponseBase AddOrUpdateKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
