@@ -167,12 +167,14 @@ namespace NTMiner.KernelOutputKeyword {
                             }
                         }
                     }
-                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        var col = db.GetCollection<KernelOutputKeywordData>();
-                        foreach (var item in col.FindAll()) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                item.SetDataLevel(DataLevel.Profile);
-                                _dicById.Add(item.GetId(), item);
+                    if (_isServer || !DevMode.IsDevMode) {
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<KernelOutputKeywordData>();
+                            foreach (var item in col.FindAll()) {
+                                if (!_dicById.ContainsKey(item.GetId())) {
+                                    item.SetDataLevel(DataLevel.Profile);
+                                    _dicById.Add(item.GetId(), item);
+                                }
                             }
                         }
                     }

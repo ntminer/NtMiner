@@ -25,6 +25,18 @@ namespace NTMiner {
                                 kv.Value.Remove(toRemove);
                             }
                         }
+                        if (message.Data != null && message.Data.Count != 0) {
+                            foreach (var item in message.Data) {
+                                var vm = new KernelOutputKeywordViewModel(item);
+                                if (!_dicById.ContainsKey(item.Id)) {
+                                    _dicById.Add(item.Id, vm);
+                                }
+                                if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                                    _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputKeywordViewModel>());
+                                }
+                                _dicByKernelOutputId[item.KernelOutputId].Add(vm);
+                            }
+                        }
                         if (NTMinerRoot.Instance.CurrentMineContext != null) {
                             if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(NTMinerRoot.Instance.CurrentMineContext.KernelOutput.GetId(), out KernelOutputViewModel kernelOutputVm)) {
                                 kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputKeywords));
@@ -70,10 +82,14 @@ namespace NTMiner {
 
             private void Init() {
                 foreach (var item in NTMinerRoot.Instance.KernelOutputKeywordSet) {
+                    var vm = new KernelOutputKeywordViewModel(item);
+                    if (!_dicById.ContainsKey(item.GetId())) {
+                        _dicById.Add(item.GetId(), vm);
+                    }
                     if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                         _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputKeywordViewModel>());
                     }
-                    _dicByKernelOutputId[item.KernelOutputId].Add(new KernelOutputKeywordViewModel(item));
+                    _dicByKernelOutputId[item.KernelOutputId].Add(vm);
                 }
             }
 
