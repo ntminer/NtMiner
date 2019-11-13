@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        private readonly LocalMessageType _messageTypeEnum;
+        private LocalMessageType _messageTypeEnum;
         public KernelOutputKeywordViewModel(IKernelOutputKeyword data) : this(data.GetId()) {
             this.DataLevel = data.DataLevel;
             _kernelOutputId = data.KernelOutputId;
@@ -70,6 +70,21 @@ namespace NTMiner.Vms {
 
         public LocalMessageType MessageTypeEnum {
             get { return _messageTypeEnum; }
+        }
+
+        public EnumItem<LocalMessageType> MessageTypeEnumItem {
+            get {
+                return _messageTypeEnum.GetEnumItem();
+            }
+            set {
+                _messageTypeEnum = value.Value;
+                _messageType = _messageTypeEnum.GetName();
+                OnPropertyChanged(nameof(MessageType));
+                OnPropertyChanged(nameof(MessageTypeEnumItem));
+                OnPropertyChanged(nameof(MessageTypeText));
+                OnPropertyChanged(nameof(MessageTypeIcon));
+                OnPropertyChanged(nameof(IconFill));
+            }
         }
 
         public StreamGeometry MessageTypeIcon {
@@ -121,6 +136,12 @@ namespace NTMiner.Vms {
             set {
                 _messageType = value;
                 OnPropertyChanged(nameof(MessageType));
+            }
+        }
+
+        public string MessageTypeText {
+            get {
+                return _messageTypeEnum.GetDescription();
             }
         }
 

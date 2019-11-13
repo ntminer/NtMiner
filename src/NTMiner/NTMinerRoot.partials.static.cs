@@ -102,6 +102,8 @@ namespace NTMiner {
 
         public static readonly IEnumerable<EnumItem<ServerMessageType>> ServerMessageTypeEnumItems = EnumItem<ServerMessageType>.GetEnumItems();
 
+        public static readonly IEnumerable<EnumItem<LocalMessageType>> LocalMessageTypeEnumItems = EnumItem<LocalMessageType>.GetEnumItems();
+
         private static LocalJsonDb _localJson;
         public static ILocalJsonDb LocalJson {
             get {

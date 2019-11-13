@@ -380,6 +380,10 @@ namespace NTMiner {
                 return NTMinerRoot.ServerMessageTypeEnumItems;
             }
         }
+
+        public static IEnumerable<EnumItem<LocalMessageType>> LocalMessageTypeEnumItems {
+            get { return NTMinerRoot.LocalMessageTypeEnumItems; }
+        }
         #endregion
 
         #region AppName CurrentVersion VersionTag VersionFullName

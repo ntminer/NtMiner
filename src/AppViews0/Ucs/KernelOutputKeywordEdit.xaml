@@ -26,8 +26,8 @@
             <TextBlock Style="{StaticResource LblTb}"></TextBlock>
             <ListBox 
 				Background="Transparent"
-				ItemsSource="{x:Static app:AppStatic.ServerMessageTypeEnumItems}"
-				SelectedItem="{Binding ServerMessageTypeEnumItem}"
+				ItemsSource="{x:Static app:AppStatic.LocalMessageTypeEnumItems}"
+				SelectedItem="{Binding MessageTypeEnumItem}"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 				ScrollViewer.VerticalScrollBarVisibility="Disabled"
 				ItemContainerStyle="{StaticResource ListBoxBarItem}"
