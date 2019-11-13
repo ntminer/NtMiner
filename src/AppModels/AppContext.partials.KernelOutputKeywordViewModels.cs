@@ -1,6 +1,7 @@
 ﻿using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -15,7 +16,20 @@ namespace NTMiner {
 #endif
                 BuildEventPath<KernelOutputKeywordLoadedEvent>("从服务器加载了内核输入关键字后刷新Vm集", LogEnum.DevConsole,
                     action: message => {
-
+                        KernelOutputKeywordViewModel[] toRemoves = _dicById.Where(a => a.Value.DataLevel == DataLevel.Global).Select(a => a.Value).ToArray();
+                        foreach (var item in toRemoves) {
+                            _dicById.Remove(item.Id);
+                        }
+                        foreach (var kv in _dicByKernelOutputId) {
+                            foreach (var toRemove in toRemoves.Where(a=>a.KernelOutputId == kv.Key)) {
+                                kv.Value.Remove(toRemove);
+                            }
+                        }
+                        if (NTMinerRoot.Instance.CurrentMineContext != null) {
+                            if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(NTMinerRoot.Instance.CurrentMineContext.KernelOutput.GetId(), out KernelOutputViewModel kernelOutputVm)) {
+                                kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputKeywords));
+                            }
+                        }
                     });
                 BuildEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
