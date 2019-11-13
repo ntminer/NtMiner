@@ -594,7 +594,16 @@ namespace NTMiner {
         }
         #endregion
 
-        public IMineContext CurrentMineContext { get; set; }
+        private IMineContext _currentMineContext;
+        public IMineContext CurrentMineContext {
+            get { return _currentMineContext; }
+            set {
+                if (_currentMineContext != value) {
+                    _currentMineContext = value;
+                    VirtualRoot.RaiseEvent(new CurrentMineContextChangedEvent());
+                }
+            }
+        }
 
         private IMineContext _lockedMineContext;
         public IMineContext LockedMineContext {

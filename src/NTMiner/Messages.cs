@@ -92,6 +92,11 @@ namespace NTMiner {
         public IMineContext MineContext { get; private set; }
     }
 
+    [MessageType(description: "挖矿上下文发生了变更")]
+    public class CurrentMineContextChangedEvent : EventBase {
+        public CurrentMineContextChangedEvent() { }
+    }
+
     [MessageType(description: "挖矿停止事件")]
     public class MineStopedEvent : EventBase {
         public MineStopedEvent(IMineContext mineContext, StopMineReason stopReason) {
