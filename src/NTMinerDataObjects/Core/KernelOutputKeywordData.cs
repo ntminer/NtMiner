@@ -15,8 +15,7 @@ namespace NTMiner.Core {
                 MessageType = data.MessageType,
                 Keyword = data.Keyword,
                 DataLevel = data.DataLevel,
-                Description = data.Description,
-                Timestamp = data.Timestamp
+                Description = data.Description
             };
         }
 
@@ -41,7 +40,5 @@ namespace NTMiner.Core {
         public string Keyword { get; set; }
 
         public string Description { get; set; }
-
-        public DateTime Timestamp { get; set; }
     }
 }

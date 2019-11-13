@@ -88,6 +88,7 @@
     <Compile Include="MinerServer\INTMinerWallet.cs" />
     <Compile Include="MinerServer\IServerMessage.cs" />
     <Compile Include="MinerServer\KernelOutputKeywordsRequest.cs" />
+    <Compile Include="MinerServer\KernelOutputKeywordsResponse.cs" />
     <Compile Include="MinerServer\NTMinerWalletData.cs" />
     <Compile Include="MinerServer\NTMinerWalletsRequest.cs" />
     <Compile Include="MinerClient\LocalMessageChannel.cs" />

@@ -32,6 +32,7 @@ namespace NTMiner.Vms {
         }
 
         public SysDicItemViewModel(ISysDicItem data) : this(data.GetId()) {
+            _dataLevel = data.DataLevel;
             _dicId = data.DicId;
             _code = data.Code;
             _value = data.Value;

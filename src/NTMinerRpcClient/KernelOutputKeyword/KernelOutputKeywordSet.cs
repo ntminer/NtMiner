@@ -33,17 +33,13 @@ namespace NTMiner.KernelOutputKeyword {
                             foreach (var id in toRemoves) {
                                 _dicById.Remove(id);
                             }
-                            DateTime maxTime = localTimestamp;
                             if (response.Data.Count != 0) {
                                 foreach (var item in response.Data) {
-                                    if (item.Timestamp > maxTime) {
-                                        maxTime = item.Timestamp;
-                                    }
                                     item.SetDataLevel(DataLevel.Global);
                                     _dicById.Add(item.Id, item);
                                 }
-                                if (maxTime != localTimestamp) {
-                                    VirtualRoot.LocalKernelOutputKeywordSetTimestamp = maxTime;
+                                if (response.Timestamp != Timestamp.GetTimestamp(localTimestamp)) {
+                                    VirtualRoot.LocalKernelOutputKeywordSetTimestamp = Timestamp.FromTimestamp(response.Timestamp);
                                 }
                                 CacheServerKernelOutputKeywords(response.Data);
                                 VirtualRoot.RaiseEvent(new KernelOutputKeywordLoadedEvent(response.Data));

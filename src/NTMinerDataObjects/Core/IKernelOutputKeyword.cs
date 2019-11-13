@@ -9,6 +9,5 @@ namespace NTMiner.Core {
         /// 大意
         /// </summary>
         string Description { get; }
-        DateTime Timestamp { get; }
     }
 }

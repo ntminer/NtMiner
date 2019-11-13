@@ -13,7 +13,7 @@ namespace NTMiner {
             private KernelOutputKeywordServiceFace() { }
 
             #region GetKernelOutputKeywords
-            public void GetKernelOutputKeywords(Action<DataResponse<List<KernelOutputKeywordData>>, Exception> callback) {
+            public void GetKernelOutputKeywords(Action<KernelOutputKeywordsResponse, Exception> callback) {
                 try {
                     KernelOutputKeywordsRequest request = new KernelOutputKeywordsRequest {
                     };

@@ -1,21 +1,20 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class KernelOutputKeywordController : ApiControllerBase, IKernelOutputKeywordController {
         [HttpPost]
-        public DataResponse<List<KernelOutputKeywordData>> KernelOutputKeywords(KernelOutputKeywordsRequest request) {
+        public KernelOutputKeywordsResponse KernelOutputKeywords(KernelOutputKeywordsRequest request) {
             try {
                 var data = HostRoot.Instance.KernelOutputKeywordSet;
-                return DataResponse<List<KernelOutputKeywordData>>.Ok(data.Select(a => KernelOutputKeywordData.Create(a)).ToList());
+                return KernelOutputKeywordsResponse.Ok(data.Select(a => KernelOutputKeywordData.Create(a)).ToList(), NTMiner.Timestamp.GetTimestamp(HostRoot.Instance.KernelOutputKeywordTimestamp));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError<DataResponse<List<KernelOutputKeywordData>>>(e.Message);
+                return ResponseBase.ServerError<KernelOutputKeywordsResponse>(e.Message);
             }
         }
 

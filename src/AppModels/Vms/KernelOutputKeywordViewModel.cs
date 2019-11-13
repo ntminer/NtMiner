@@ -9,7 +9,6 @@ namespace NTMiner.Vms {
         private string _messageType;
         private string _keyword;
         private string _description;
-        private DateTime _timestamp;
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
@@ -24,11 +23,11 @@ namespace NTMiner.Vms {
         }
 
         public KernelOutputKeywordViewModel(IKernelOutputKeyword data) : this(data.GetId()) {
+            this.DataLevel = data.DataLevel;
             _kernelOutputId = data.KernelOutputId;
             _messageType = data.MessageType;
             _keyword = data.Keyword;
             _description = data.Description;
-            _timestamp = data.Timestamp;
         }
 
         public KernelOutputKeywordViewModel(Guid id) {
@@ -102,14 +101,6 @@ namespace NTMiner.Vms {
             set {
                 _description = value;
                 OnPropertyChanged(nameof(Description));
-            }
-        }
-
-        public DateTime Timestamp {
-            get { return _timestamp; }
-            set {
-                _timestamp = value;
-                OnPropertyChanged(nameof(Timestamp));
             }
         }
     }
