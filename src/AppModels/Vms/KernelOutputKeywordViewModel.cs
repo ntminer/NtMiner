@@ -37,6 +37,10 @@ namespace NTMiner.Vms {
         public KernelOutputKeywordViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
+                if (string.IsNullOrEmpty(this.Keyword)) {
+                    VirtualRoot.Out.ShowError("关键字不能为空", delaySeconds: 4);
+                    return;
+                }
                 if (NTMinerRoot.Instance.KernelOutputKeywordSet.Contains(this.KernelOutputId, this.Keyword)) {
                     VirtualRoot.Execute(new UpdateKernelOutputKeywordCommand(this));
                 }
@@ -46,10 +50,16 @@ namespace NTMiner.Vms {
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
+                if (this.IsReadOnly) {
+                    return;
+                }
                 VirtualRoot.Execute(new KernelOutputKeywordEditCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
+                    return;
+                }
+                if (this.IsReadOnly) {
                     return;
                 }
                 this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.Keyword}内核输出关键字吗？", title: "确认", onYes: () => {
@@ -75,6 +85,12 @@ namespace NTMiner.Vms {
         }
 
         public DataLevel DataLevel { get; set; }
+
+        public bool IsReadOnly {
+            get {
+                return !DevMode.IsDevMode && DataLevel == DataLevel.Global;
+            }
+        }
 
         public void SetDataLevel(DataLevel dataLevel) {
             this.DataLevel = dataLevel;
@@ -113,6 +129,9 @@ namespace NTMiner.Vms {
             set {
                 _keyword = value;
                 OnPropertyChanged(nameof(Keyword));
+                if (string.IsNullOrEmpty(value)) {
+                    throw new ValidationException("关键字不能为空");
+                }
             }
         }
 

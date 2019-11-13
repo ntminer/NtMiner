@@ -217,6 +217,11 @@ namespace NTMiner.Views {
                     KernelInputEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
+            VirtualRoot.BuildCmdPath<KernelOutputKeywordEditCommand>(action: message => {
+                UIThread.Execute(() => {
+                    KernelOutputKeywordEdit.ShowWindow(message.FormType, message.Source);
+                });
+            });
             VirtualRoot.BuildCmdPath<KernelOutputTranslaterEditCommand>(action: message => {
                 UIThread.Execute(() => {
                     KernelOutputTranslaterEdit.ShowWindow(message.FormType, message.Source);

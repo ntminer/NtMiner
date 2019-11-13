@@ -21,6 +21,42 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="1" ItemsSource="{Binding KernelOutputVm.KernelOutputKeywords}">
             <DataGrid.Columns>
+                <DataGridTemplateColumn IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+                                <controls:KbButton 
+                                    IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}"
+									Margin="2 0"
+									Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+									CornerRadius="2" ToolTip="编辑">
+                                    <WrapPanel>
+                                        <Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Edit}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                                <controls:KbButton 
+                                    IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}"
+									Margin="2 0"
+									Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+									CornerRadius="2" ToolTip="删除">
+                                    <WrapPanel>
+                                        <Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Delete}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn MinWidth="20" Width="20" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

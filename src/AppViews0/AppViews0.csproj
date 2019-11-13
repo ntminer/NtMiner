@@ -104,6 +104,9 @@
     <Compile Include="Ucs\LocalMessagesConfig.xaml.cs">
       <DependentUpon>LocalMessagesConfig.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\KernelOutputKeywordEdit.xaml.cs">
+      <DependentUpon>KernelOutputKeywordEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\ServerMessageEdit.xaml.cs">
       <DependentUpon>ServerMessageEdit.xaml</DependentUpon>
     </Compile>
@@ -358,6 +361,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Design\KernelOutputKeywordViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Design\LocalMessagesConfigViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -495,6 +502,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\LocalMessagesConfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\KernelOutputKeywordEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
