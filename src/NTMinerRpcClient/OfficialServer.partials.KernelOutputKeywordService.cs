@@ -26,8 +26,8 @@ namespace NTMiner {
             }
             #endregion
 
-            #region SetKernelOutputKeywordAsync
-            public void SetKernelOutputKeywordAsync(KernelOutputKeywordData entity, Action<ResponseBase, Exception> callback) {
+            #region AddOrUpdateKernelOutputKeywordAsync
+            public void AddOrUpdateKernelOutputKeywordAsync(KernelOutputKeywordData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<KernelOutputKeywordData> request = new DataRequest<KernelOutputKeywordData>() {
                     Data = entity
                 };

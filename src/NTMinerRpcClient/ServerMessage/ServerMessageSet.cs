@@ -113,7 +113,9 @@ namespace NTMiner.ServerMessage {
                 }
                 else {
                     OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
-                        VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                        if (response.IsSuccess()) {
+                            VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                        }
                     });
                 }
             });

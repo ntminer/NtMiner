@@ -56,7 +56,9 @@ namespace NTMiner.KernelOutputKeyword {
                             var col = db.GetCollection<KernelOutputKeywordData>();
                             col.Update(exist);
                         }
-                        VirtualRoot.RaiseEvent(new KernelOutputKeywordUpdatedEvent(exist));
+                        if (!isServer) {
+                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordUpdatedEvent(exist));
+                        }
                     }
                     else {
                         KernelOutputKeywordData entity = new KernelOutputKeywordData().Update(message.Input);
@@ -66,11 +68,17 @@ namespace NTMiner.KernelOutputKeyword {
                             var col = db.GetCollection<KernelOutputKeywordData>();
                             col.Insert(entity);
                         }
-                        VirtualRoot.RaiseEvent(new KernelOutputKeywordAddedEvent(exist));
+                        if (!isServer) {
+                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordAddedEvent(exist));
+                        }
                     }
                 }
                 else if (DevMode.IsDevMode) {
-                    // TODO:
+                    OfficialServer.KernelOutputKeywordService.AddOrUpdateKernelOutputKeywordAsync(KernelOutputKeywordData.Create(message.Input), (response, e) => {
+                        if (response.IsSuccess()) {
+                            VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
+                        }
+                    });
                 }
             });
             VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(action: (message) => {
@@ -88,10 +96,16 @@ namespace NTMiner.KernelOutputKeyword {
                         var col = db.GetCollection<KernelOutputKeywordData>();
                         col.Delete(message.EntityId);
                     }
-                    VirtualRoot.RaiseEvent(new KernelOutputKeywordRemovedEvent(entity));
+                    if (!isServer) {
+                        VirtualRoot.RaiseEvent(new UserKernelOutputKeywordRemovedEvent(entity));
+                    }
                 }
                 else if (DevMode.IsDevMode) {
-                    // TODO:
+                    OfficialServer.KernelOutputKeywordService.RemoveKernelOutputKeyword(message.EntityId, (response, e) => {
+                        if (response.IsSuccess()) {
+                            VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
+                        }
+                    });
                 }
             });
         }

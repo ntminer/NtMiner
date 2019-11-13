@@ -130,15 +130,15 @@ namespace NTMiner {
         public IKernelOutputKeyword Input { get; private set; }
     }
 
-    [MessageType(description: "添加了内核输出关键字后")]
-    public class KernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeywordAddedEvent(IKernelOutputKeyword source) : base(source) {
+    [MessageType(description: "添加了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordAddedEvent(IKernelOutputKeyword source) : base(source) {
         }
     }
 
-    [MessageType(description: "更新了内核输出关键字后")]
-    public class KernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeywordUpdatedEvent(IKernelOutputKeyword source) : base(source) {
+    [MessageType(description: "更新了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordUpdatedEvent(IKernelOutputKeyword source) : base(source) {
         }
     }
 
@@ -148,9 +148,9 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "移除了内核输出关键字后")]
-    public class KernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeywordRemovedEvent(IKernelOutputKeyword source) : base(source) {
+    [MessageType(description: "移除了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordRemovedEvent(IKernelOutputKeyword source) : base(source) {
 
         }
     }
