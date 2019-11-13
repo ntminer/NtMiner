@@ -1,6 +1,8 @@
 ﻿using NTMiner.Core;
+using NTMiner.MinerClient;
 using System;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class KernelOutputKeywordViewModel : ViewModelBase, IKernelOutputKeyword {
@@ -22,10 +24,12 @@ namespace NTMiner.Vms {
             }
         }
 
+        private readonly LocalMessageType _messageTypeEnum;
         public KernelOutputKeywordViewModel(IKernelOutputKeyword data) : this(data.GetId()) {
             this.DataLevel = data.DataLevel;
             _kernelOutputId = data.KernelOutputId;
             _messageType = data.MessageType;
+            data.MessageType.TryParse(out _messageTypeEnum);
             _keyword = data.Keyword;
             _description = data.Description;
         }
@@ -52,6 +56,22 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(this.Id));
                 }));
             });
+        }
+
+        public LocalMessageType MessageTypeEnum {
+            get { return _messageTypeEnum; }
+        }
+
+        public StreamGeometry MessageTypeIcon {
+            get {
+                return LocalMessageViewModel.GetIcon(_messageTypeEnum);
+            }
+        }
+
+        public SolidColorBrush IconFill {
+            get {
+                return LocalMessageViewModel.GetIconFill(_messageTypeEnum);
+            }
         }
 
         public DataLevel DataLevel { get; set; }

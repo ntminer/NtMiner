@@ -21,7 +21,18 @@
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="1" ItemsSource="{Binding KernelOutputVm.KernelOutputKeywords}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="类型" Binding="{Binding MessageType}"></DataGridTextColumn>
+                <DataGridTemplateColumn MinWidth="20" Width="20" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Path
+						        Width="14"
+						        Height="14"
+						        Data="{Binding MessageTypeIcon}"
+						        Fill="{Binding IconFill}"
+						        Stretch="Fill" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Header="关键字" Binding="{Binding Keyword}"></DataGridTextColumn>
                 <DataGridTextColumn Header="大意" Binding="{Binding Description}"></DataGridTextColumn>
             </DataGrid.Columns>
