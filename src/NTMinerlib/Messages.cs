@@ -130,9 +130,28 @@ namespace NTMiner {
         public IKernelOutputKeyword Input { get; private set; }
     }
 
+    [MessageType(description: "添加了内核输出关键字后")]
+    public class KernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordAddedEvent(IKernelOutputKeyword source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了内核输出关键字后")]
+    public class KernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordUpdatedEvent(IKernelOutputKeyword source) : base(source) {
+        }
+    }
+
     [MessageType(description: "移除内核输出关键字")]
     public class RemoveKernelOutputKeywordCommand : RemoveEntityCommand {
         public RemoveKernelOutputKeywordCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "移除了内核输出关键字后")]
+    public class KernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
+        public KernelOutputKeywordRemovedEvent(IKernelOutputKeyword source) : base(source) {
+
         }
     }
     #endregion

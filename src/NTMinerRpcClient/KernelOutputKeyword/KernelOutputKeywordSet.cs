@@ -47,47 +47,51 @@ namespace NTMiner.KernelOutputKeyword {
             }
             VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(action: (message) => {
                 InitOnece();
-                if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
-                    throw new ArgumentNullException();
-                }
-                if (string.IsNullOrEmpty(message.Input.MessageType)) {
-                    throw new ValidationException("MessageType can't be null or empty");
-                }
-                if (string.IsNullOrEmpty(message.Input.Keyword)) {
-                    throw new ValidationException("Keyword can't be null or empty");
-                }
-                if (_dicById.Values.Any(a => a.KernelOutputId == message.Input.KernelOutputId && a.Keyword == message.Input.Keyword && a.Id != message.Input.GetId())) {
-                    throw new ValidationException($"关键字{message.Input.Keyword}已存在");
-                }
-                if (_dicById.TryGetValue(message.Input.GetId(), out KernelOutputKeywordData exist)) {
-                    exist.Update(message.Input);
-                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        var col = db.GetCollection<KernelOutputKeywordData>();
-                        col.Update(exist);
+                if (isServer || !DevMode.IsDevMode) {
+                    DataLevel dataLevel = isServer ? DataLevel.Global : DataLevel.Profile;
+                    if (_dicById.TryGetValue(message.Input.GetId(), out KernelOutputKeywordData exist)) {
+                        exist.Update(message.Input);
+                        exist.SetDataLevel(dataLevel);
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<KernelOutputKeywordData>();
+                            col.Update(exist);
+                        }
+                        VirtualRoot.RaiseEvent(new KernelOutputKeywordUpdatedEvent(exist));
+                    }
+                    else {
+                        KernelOutputKeywordData entity = new KernelOutputKeywordData().Update(message.Input);
+                        entity.SetDataLevel(dataLevel);
+                        _dicById.Add(entity.Id, entity);
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<KernelOutputKeywordData>();
+                            col.Insert(entity);
+                        }
+                        VirtualRoot.RaiseEvent(new KernelOutputKeywordAddedEvent(exist));
                     }
                 }
-                else {
-                    KernelOutputKeywordData entity = new KernelOutputKeywordData().Update(message.Input);
-                    _dicById.Add(entity.Id, entity);
-                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        var col = db.GetCollection<KernelOutputKeywordData>();
-                        col.Insert(entity);
-                    }
+                else if (DevMode.IsDevMode) {
+                    // TODO:
                 }
             });
             VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(action: (message) => {
                 InitOnece();
-                if (message == null || message.EntityId == Guid.Empty) {
-                    throw new ArgumentNullException();
+                if (isServer || !DevMode.IsDevMode) {
+                    if (message == null || message.EntityId == Guid.Empty) {
+                        return;
+                    }
+                    if (!_dicById.ContainsKey(message.EntityId)) {
+                        return;
+                    }
+                    KernelOutputKeywordData entity = _dicById[message.EntityId];
+                    _dicById.Remove(entity.GetId());
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                        var col = db.GetCollection<KernelOutputKeywordData>();
+                        col.Delete(message.EntityId);
+                    }
+                    VirtualRoot.RaiseEvent(new KernelOutputKeywordRemovedEvent(entity));
                 }
-                if (!_dicById.ContainsKey(message.EntityId)) {
-                    return;
-                }
-                KernelOutputKeywordData entity = _dicById[message.EntityId];
-                _dicById.Remove(entity.GetId());
-                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    var col = db.GetCollection<KernelOutputKeywordData>();
-                    col.Delete(message.EntityId);
+                else if (DevMode.IsDevMode) {
+                    // TODO:
                 }
             });
         }
