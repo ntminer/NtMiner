@@ -51,7 +51,6 @@ namespace NTMiner {
 
         public static bool IsUseDevConsole = false;
         public static int OSVirtualMemoryMb;
-        public static string UserKernelCommandLine;
 
         public static bool IsAutoStartCanceled = false;
 

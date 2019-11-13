@@ -69,7 +69,7 @@ namespace NTMiner {
                 GpuDriver = root.GpuSet.DriverVersion.ToString(),
                 GpuType = root.GpuSet.GpuType,
                 OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
-                KernelCommandLine = NTMinerRoot.UserKernelCommandLine,
+                KernelCommandLine = string.Empty,
                 DiskSpace = NTMinerRoot.DiskSpace,
                 IsAutoRestartKernel = workProfile.IsAutoRestartKernel,
                 AutoRestartKernelTimes = workProfile.AutoRestartKernelTimes,

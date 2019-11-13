@@ -548,9 +548,6 @@ namespace NTMiner {
         public bool TryGetProfileKernel(out IKernel kernel) {
             kernel = null;
             IWorkProfile minerProfile = this.MinerProfile;
-            if (!ServerContext.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
-                return false;
-            }
             var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
             if (!ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel mainCoinKernel)) {
                 return false;
@@ -674,29 +671,14 @@ namespace NTMiner {
                     }));
                 }
                 else {
-                    string commandLine = BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments);
-                    if (commandLine != UserKernelCommandLine) {
-                        Logger.WarnDebugLine("意外：MineContext.CommandLine和UserKernelCommandLine不等了");
-                        Logger.WarnDebugLine("UserKernelCommandLine  :" + UserKernelCommandLine);
-                        Logger.WarnDebugLine("MineContext.CommandLine:" + commandLine);
+                    _currentMineContext = CreateMineContext();
+                    if (_currentMineContext == null) {
+                        return;
                     }
-                    IMineContext mineContext = new MineContext(
-                        isRestart,
-                        this.MinerProfile.MinerName, mainCoin,
-                        mainCoinPool, kernel, kernelInput, kernelOutput, mainCoinKernel,
-                        mainCoinProfile.Wallet, commandLine,
-                        parameters, fragments, fileWriters, GpuSet.GetUseDevices());
-                    if (coinKernelProfile.IsDualCoinEnabled && mainCoinKernel.GetIsSupportDualMine()) {
-                        mineContext = new DualMineContext(
-                            mineContext, dualCoin, dualCoinPool,
-                            dualCoinProfile.DualCoinWallet,
-                            coinKernelProfile.DualCoinWeight,
-                            parameters, fragments, fileWriters, GpuSet.GetUseDevices());
-                    }
-                    _currentMineContext = mineContext;
-                    MinerProcess.CreateProcessAsync(mineContext);
+                    _currentMineContext.IsRestart = isRestart;
+                    MinerProcess.CreateProcessAsync(_currentMineContext);
                     VirtualRoot.LocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
-                    if (mineContext.UseDevices.Length != GpuSet.Count) {
+                    if (_currentMineContext.UseDevices.Length != GpuSet.Count) {
                         VirtualRoot.LocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
                     }
                 }

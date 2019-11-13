@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace NTMiner.Core {
     public interface IMineContext {
         Guid Id { get; }
-        bool IsRestart { get; }
+        bool IsRestart { get; set; }
         string MinerName { get; }
         ICoin MainCoin { get; }
         IPool MainCoinPool { get; }
@@ -15,7 +15,6 @@ namespace NTMiner.Core {
         int KernelSelfRestartCount { get; set; }
         string LogFileFullName { get; }
         KernelProcessType KernelProcessType { get; }
-        string CommandLine { get; }
 
         DateTime CreatedOn { get; }
         Dictionary<string, string> Parameters { get; }
@@ -24,5 +23,6 @@ namespace NTMiner.Core {
         int[] UseDevices { get; }
         IKernelInput KernelInput { get; }
         IKernelOutput KernelOutput { get; }
+        string CommandLine { get; }
     }
 }

@@ -10,17 +10,13 @@ using System.Text.RegularExpressions;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        // TODO:在这个方法里输出MineContext
-        public string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments) {
-            parameters = new Dictionary<string, string>();
-            fileWriters = new Dictionary<Guid, string>();
-            fragments = new Dictionary<Guid, string>();
+        public IMineContext CreateMineContext() {
             if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel,
-                out IKernelInput kernelInput, out IKernelOutput _, out string _)) {
-                return string.Empty;
+                out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string _)) {
+                return null;
             }
             if (!kernel.IsSupported(mainCoin)) {
-                return string.Empty;
+                return null;
             }
             ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
             string poolKernelArgs = string.Empty;
@@ -31,6 +27,9 @@ namespace NTMiner {
             string kernelArgs = kernelInput.Args;
             string coinKernelArgs = mainCoinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs ?? string.Empty;
+            var parameters = new Dictionary<string, string>();
+            var fileWriters = new Dictionary<Guid, string>();
+            var fragments = new Dictionary<Guid, string>();
             parameters.Add(NTKeyword.MainCoinParameterName, mainCoin.Code);
             string userName = string.Empty;
             string password = NTKeyword.PasswordDefaultValue;
@@ -143,7 +142,29 @@ namespace NTMiner {
                             }
 
                             // 注意：这里退出
-                            return dualSb.ToString();
+                            return new DualMineContext(
+                                new MineContext(
+                                    this.MinerProfile.MinerName,
+                                    mainCoin,
+                                    mainCoinPool,
+                                    kernel,
+                                    kernelInput,
+                                    kernelOutput,
+                                    mainCoinKernel,
+                                    wallet,
+                                    dualSb.ToString(),
+                                    parameters,
+                                    fragments,
+                                    fileWriters,
+                                    GpuSet.GetUseDevices()), 
+                                dualCoin, 
+                                dualCoinPool,
+                                dualWallet,
+                                coinKernelProfile.DualCoinWeight,
+                                parameters, 
+                                fragments, 
+                                fileWriters, 
+                                GpuSet.GetUseDevices());
                         }
                     }
                 }
@@ -171,7 +192,20 @@ namespace NTMiner {
                 sb.Append(" ").Append(customArgs);
             }
 
-            return sb.ToString();
+            return new MineContext(
+                this.MinerProfile.MinerName, 
+                mainCoin,
+                mainCoinPool, 
+                kernel, 
+                kernelInput, 
+                kernelOutput, 
+                mainCoinKernel,
+                wallet,
+                sb.ToString(),
+                parameters, 
+                fragments, 
+                fileWriters, 
+                GpuSet.GetUseDevices());
         }
 
         private string GetDevicesArgs(IKernelInput kernelInput) {

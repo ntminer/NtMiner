@@ -212,7 +212,13 @@ namespace NTMiner.Vms {
                         }
                     }
                 }
-                this.ArgsAssembly = NTMinerRoot.Instance.BuildAssembleArgs(out _, out _, out _);
+                var mineContext = NTMinerRoot.Instance.CreateMineContext();
+                if (mineContext != null) {
+                    this.ArgsAssembly = mineContext.CommandLine;
+                }
+                else {
+                    this.ArgsAssembly = string.Empty;
+                }
             });
             VirtualRoot.BuildEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                 action: message => {
@@ -392,7 +398,6 @@ namespace NTMiner.Vms {
             set {
                 _argsAssembly = value;
                 OnPropertyChanged(nameof(ArgsAssembly));
-                NTMinerRoot.UserKernelCommandLine = value;
             }
         }
 
