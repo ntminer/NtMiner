@@ -10,6 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
+        // TODO:在这个方法里输出MineContext
         public string BuildAssembleArgs(out Dictionary<string, string> parameters, out Dictionary<Guid, string> fileWriters, out Dictionary<Guid, string> fragments) {
             parameters = new Dictionary<string, string>();
             fileWriters = new Dictionary<Guid, string>();
