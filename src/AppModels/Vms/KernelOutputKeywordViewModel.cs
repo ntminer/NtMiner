@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerClient;
+using NTMiner.Views;
 using System;
 using System.Linq;
 using System.Windows.Input;
@@ -45,7 +46,14 @@ namespace NTMiner.Vms {
                 if (AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.KernelOutputId).Any(a => a.Id != this.Id && a.Keyword == this.Keyword)) {
                     throw new ValidationException($"关键字 {this.Keyword} 已经存在");
                 }
-                VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
+                if (DevMode.IsDevMode) {
+                    LoginWindow.Login(() => {
+                        VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
+                    });
+                }
+                else {
+                    VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
+                }
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
@@ -62,7 +70,14 @@ namespace NTMiner.Vms {
                     return;
                 }
                 this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.Keyword}内核输出关键字吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(this.Id));
+                    if (DevMode.IsDevMode) {
+                        LoginWindow.Login(() => {
+                            VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(this.Id));
+                        });
+                    }
+                    else {
+                        VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(this.Id));
+                    }
                 }));
             });
         }
