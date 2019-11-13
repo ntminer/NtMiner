@@ -12,11 +12,13 @@ namespace NTMiner.KernelOutputKeyword {
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
         private readonly string _connectionString;
 
+        private readonly bool _isServer;
         public KernelOutputKeywordSet(string dbFileFullName, bool isServer) {
             if (string.IsNullOrEmpty(dbFileFullName)) {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
             _connectionString = $"filename={dbFileFullName};journal=false";
+            _isServer = isServer;
             if (!isServer) {
                 VirtualRoot.BuildCmdPath<LoadKernelOutputKeywordCommand>(action: message => {
                     DateTime localTimestamp = VirtualRoot.LocalKernelOutputKeywordSetTimestamp;
@@ -151,10 +153,12 @@ namespace NTMiner.KernelOutputKeyword {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    foreach (var item in GetServerKernelOutputKeywordsFromCache()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            item.SetDataLevel(DataLevel.Global);
-                            _dicById.Add(item.GetId(), item);
+                    if (!_isServer) {
+                        foreach (var item in GetServerKernelOutputKeywordsFromCache()) {
+                            if (!_dicById.ContainsKey(item.GetId())) {
+                                item.SetDataLevel(DataLevel.Global);
+                                _dicById.Add(item.GetId(), item);
+                            }
                         }
                     }
                     using (LiteDatabase db = new LiteDatabase(_connectionString)) {
