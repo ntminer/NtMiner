@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 
@@ -14,11 +13,9 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<KernelOutputKeywordLoadedEvent>("从服务器加载了内核输入关键字后刷新Vm集", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Clear();
-                        _dicByKernelOutputId.Clear();
-                        Init();
+
                     });
                 BuildEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {

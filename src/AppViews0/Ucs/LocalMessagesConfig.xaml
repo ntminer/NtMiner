@@ -19,13 +19,13 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding KernelOutputKeywordVms}">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding KernelOutputVm.KernelOutputKeywords}">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="类型" Binding="{Binding MessageType}"></DataGridTextColumn>
                 <DataGridTextColumn Header="关键字" Binding="{Binding Keyword}"></DataGridTextColumn>
                 <DataGridTextColumn Header="大意" Binding="{Binding Description}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputKeywordVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
+        <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVm.KernelOutputKeywords, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
     </Grid>
 </UserControl>
