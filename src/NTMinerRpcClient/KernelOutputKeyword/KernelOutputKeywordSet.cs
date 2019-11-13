@@ -13,9 +13,10 @@ namespace NTMiner.KernelOutputKeyword {
         private readonly string _connectionString;
 
         public KernelOutputKeywordSet(string dbFileFullName, bool isServer) {
-            if (!string.IsNullOrEmpty(dbFileFullName)) {
-                _connectionString = $"filename={dbFileFullName};journal=false";
+            if (string.IsNullOrEmpty(dbFileFullName)) {
+                throw new ArgumentNullException(nameof(dbFileFullName));
             }
+            _connectionString = $"filename={dbFileFullName};journal=false";
             if (!isServer) {
                 VirtualRoot.BuildCmdPath<LoadKernelOutputKeywordCommand>(action: message => {
                     if (!VirtualRoot.IsKernelOutputKeywordVisible) {

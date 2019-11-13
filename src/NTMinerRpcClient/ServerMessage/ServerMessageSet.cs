@@ -11,9 +11,10 @@ namespace NTMiner.ServerMessage {
         private readonly LinkedList<ServerMessageData> _linkedList = new LinkedList<ServerMessageData>();
 
         public ServerMessageSet(string dbFileFullName, bool isServer) {
-            if (!string.IsNullOrEmpty(dbFileFullName)) {
-                _connectionString = $"filename={dbFileFullName};journal=false";
+            if (string.IsNullOrEmpty(dbFileFullName)) {
+                throw new ArgumentNullException(nameof(dbFileFullName));
             }
+            _connectionString = $"filename={dbFileFullName};journal=false";
             if (!isServer) {
                 VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
                     if (!VirtualRoot.IsServerMessagesVisible) {
@@ -35,9 +36,6 @@ namespace NTMiner.ServerMessage {
                 });
             }
             VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
-                if (string.IsNullOrEmpty(_connectionString)) {
-                    return;
-                }
                 InitOnece();
                 if (isServer) {
                     #region Server
@@ -91,9 +89,6 @@ namespace NTMiner.ServerMessage {
                 }
             });
             VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(action: message => {
-                if (string.IsNullOrEmpty(_connectionString)) {
-                    return;
-                }
                 InitOnece();
                 if (isServer) {
                     #region Server
@@ -123,9 +118,6 @@ namespace NTMiner.ServerMessage {
                 }
             });
             VirtualRoot.BuildCmdPath<ClearServerMessages>(action: message => {
-                if (string.IsNullOrEmpty(_connectionString)) {
-                    return;
-                }
                 InitOnece();
                 // 服务端不应有清空消息的功能
                 if (isServer) {
@@ -182,11 +174,8 @@ namespace NTMiner.ServerMessage {
         }
 
         public List<ServerMessageData> GetServerMessages(DateTime timeStamp) {
-            var list = new List<ServerMessageData>();
-            if (string.IsNullOrEmpty(_connectionString)) {
-                return list;
-            }
             InitOnece();
+            var list = new List<ServerMessageData>();
             foreach (var item in _linkedList) {
                 if (item.Timestamp >= timeStamp) {
                     list.Add(item);
@@ -212,9 +201,6 @@ namespace NTMiner.ServerMessage {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    if (string.IsNullOrEmpty(_connectionString)) {
-                        return;
-                    }
                     using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<ServerMessageData>();
                         foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
