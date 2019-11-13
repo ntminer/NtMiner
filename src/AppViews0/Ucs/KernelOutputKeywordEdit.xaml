@@ -23,7 +23,7 @@
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
-            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
+            <TextBlock Style="{StaticResource LblTb}">消息类型</TextBlock>
             <ListBox 
 				Background="Transparent"
 				ItemsSource="{x:Static app:AppStatic.LocalMessageTypeEnumItems}"
