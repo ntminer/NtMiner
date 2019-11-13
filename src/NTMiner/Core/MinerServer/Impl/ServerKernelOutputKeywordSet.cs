@@ -9,7 +9,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
 
         public ServerKernelOutputKeywordSet() {
-            VirtualRoot.BuildCmdPath<SetKernelOutputKeywordCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(action: message => {
                 if (message.Input == null) {
                     return;
                 }
@@ -34,10 +34,8 @@ namespace NTMiner.Core.MinerServer.Impl {
                             entity.MessageType = oldValue.MessageType;
                         }
                         Write.UserFail(response.ReadMessage(exception));
-                        VirtualRoot.RaiseEvent(new KernelOutputKeyworSetedEvent(entity));
                     }
                 });
-                VirtualRoot.RaiseEvent(new KernelOutputKeyworSetedEvent(entity));
             });
             VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(action: message => {
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -57,28 +55,6 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
             });
-        }
-
-        public DateTime GetServerChannelTimestamp() {
-            string serverChannelTimestamp = string.Empty;
-            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerChannelTimestampAppSettingKey, out IAppSetting setting) && setting.Value != null) {
-                serverChannelTimestamp = setting.Value.ToString();
-            }
-            if (string.IsNullOrEmpty(serverChannelTimestamp)) {
-                return DateTime.MinValue;
-            }
-            if (DateTime.TryParse(serverChannelTimestamp, out DateTime timestamp)) {
-                return timestamp;
-            }
-            return DateTime.MinValue;
-        }
-
-        private void SetServerChannelTimeStamp(DateTime timestamp) {
-            AppSettingData appSettingData = new AppSettingData() {
-                Key = NTKeyword.ServerChannelTimestampAppSettingKey,
-                Value = timestamp
-            };
-            VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
         }
 
         private bool _isInited = false;

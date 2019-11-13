@@ -63,7 +63,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                VirtualRoot.Execute(new SetKernelOutputKeywordCommand(request.Data));
+                VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(request.Data));
                 VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
                     Key = NTKeyword.KernelOutputKeywordVersionAppSettingKey,
                     Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")

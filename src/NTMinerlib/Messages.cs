@@ -122,8 +122,8 @@ namespace NTMiner {
 
     #region KernelOutputKeyword Messages
     [MessageType(description: "添加或修改内核输出关键字")]
-    public class SetKernelOutputKeywordCommand : Cmd {
-        public SetKernelOutputKeywordCommand(IKernelOutputKeyword input) {
+    public class AddOrUpdateKernelOutputKeywordCommand : Cmd {
+        public AddOrUpdateKernelOutputKeywordCommand(IKernelOutputKeyword input) {
             this.Input = input;
         }
 
@@ -133,18 +133,6 @@ namespace NTMiner {
     [MessageType(description: "移除内核输出关键字")]
     public class RemoveKernelOutputKeywordCommand : RemoveEntityCommand {
         public RemoveKernelOutputKeywordCommand(Guid entityId) : base(entityId) {
-        }
-    }
-
-    [MessageType(description: "添加或修改内核输出关键字后")]
-    public class KernelOutputKeyworSetedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeyworSetedEvent(IKernelOutputKeyword source) : base(source) {
-        }
-    }
-
-    [MessageType(description: "移除了内核输出关键字后")]
-    public class KernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeywordRemovedEvent(IKernelOutputKeyword source) : base(source) {
         }
     }
     #endregion
