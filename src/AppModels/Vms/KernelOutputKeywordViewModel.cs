@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerClient;
 using System;
+using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -41,12 +42,10 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowError("关键字不能为空", delaySeconds: 4);
                     return;
                 }
-                if (NTMinerRoot.Instance.KernelOutputKeywordSet.Contains(this.KernelOutputId, this.Keyword)) {
-                    VirtualRoot.Execute(new UpdateKernelOutputKeywordCommand(this));
+                if (AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.KernelOutputId).Any(a => a.Id != this.Id && a.Keyword == this.Keyword)) {
+                    throw new ValidationException($"关键字 {this.Keyword} 已经存在");
                 }
-                else {
-                    VirtualRoot.Execute(new AddKernelOutputKeywordCommand(this));
-                }
+                VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
                 CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
