@@ -8,12 +8,49 @@ using System.Linq;
 namespace NTMiner.KernelOutputKeyword {
     public class KernelOutputKeywordSet : IKernelOutputKeywordSet {
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
-        private readonly string _dbFileFullName;
+        private readonly string _connectionString;
         private readonly bool _isServer;
 
         public KernelOutputKeywordSet(string dbFileFullName, bool isServer) {
-            _dbFileFullName = dbFileFullName;
+            if (!string.IsNullOrEmpty(dbFileFullName)) {
+                _connectionString = $"filename={dbFileFullName};journal=false";
+            }
             _isServer = isServer;
+            if (!isServer) {
+                VirtualRoot.BuildCmdPath<LoadKernelOutputKeywordCommand>(action: message => {
+                    if (!VirtualRoot.IsKernelOutputKeywordVisible) {
+                        return;
+                    }
+                    DateTime localTimestamp = VirtualRoot.LocalKernelOutputKeywordSetTimestamp;
+                    // 如果已知服务器端最新内核输出关键字时间戳不比本地已加载的最新内核输出关键字时间戳新就不用加载了
+                    if (message.KnowKernelOutputKeywordTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
+                        return;
+                    }
+                    OfficialServer.KernelOutputKeywordService.GetKernelOutputKeywords((response, e) => {
+                        if (response.IsSuccess()) {
+                            Guid[] toRemoves = _dicById.Where(a => a.Value.DataLevel == DataLevel.Global).Select(a => a.Key).ToArray();
+                            foreach (var id in toRemoves) {
+                                _dicById.Remove(id);
+                            }
+                            DateTime maxTime = localTimestamp;
+                            if (response.Data.Count != 0) {
+                                var orderedData = response.Data.OrderBy(a => a.Keyword).ToArray();
+                                foreach (var item in orderedData) {
+                                    if (item.Timestamp > maxTime) {
+                                        maxTime = item.Timestamp;
+                                    }
+                                    item.SetDataLevel(DataLevel.Global);
+                                    _dicById.Add(item.Id, item);
+                                }
+                                if (maxTime != localTimestamp) {
+                                    VirtualRoot.LocalKernelOutputKeywordSetTimestamp = maxTime;
+                                }
+                                VirtualRoot.RaiseEvent(new KernelOutputKeywordLoadedEvent(orderedData));
+                            }
+                        }
+                    });
+                });
+            }
             VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -30,7 +67,7 @@ namespace NTMiner.KernelOutputKeyword {
                 }
                 if (_dicById.TryGetValue(message.Input.GetId(), out KernelOutputKeywordData exist)) {
                     exist.Update(message.Input);
-                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<KernelOutputKeywordData>();
                         col.Update(exist);
                     }
@@ -38,7 +75,7 @@ namespace NTMiner.KernelOutputKeyword {
                 else {
                     KernelOutputKeywordData entity = new KernelOutputKeywordData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<KernelOutputKeywordData>();
                         col.Insert(entity);
                     }
@@ -54,7 +91,7 @@ namespace NTMiner.KernelOutputKeyword {
                 }
                 KernelOutputKeywordData entity = _dicById[message.EntityId];
                 _dicById.Remove(entity.GetId());
-                using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                     var col = db.GetCollection<KernelOutputKeywordData>();
                     col.Delete(message.EntityId);
                 }
@@ -74,7 +111,7 @@ namespace NTMiner.KernelOutputKeyword {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<KernelOutputKeywordData>();
                         foreach (var item in col.FindAll()) {
                             if (!_dicById.ContainsKey(item.GetId())) {

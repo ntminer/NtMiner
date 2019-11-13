@@ -112,6 +112,15 @@ namespace NTMiner {
             _isServerMessagesVisible = value;
         }
 
+        private static bool _isKernelOutputKeywordVisible = false;
+        public static bool IsKernelOutputKeywordVisible {
+            get { return _isKernelOutputKeywordVisible; }
+        }
+
+        public static void SetIsKernelOutputKeywordVisible(bool value) {
+            _isKernelOutputKeywordVisible = value;
+        }
+
         public static ILocalIpSet LocalIpSet { get; private set; }
         public static IObjectSerializer JsonSerializer { get; private set; }
 
@@ -187,6 +196,24 @@ namespace NTMiner {
             set {
                 AppSettingData appSetting = new AppSettingData {
                     Key = nameof(LocalServerMessageSetTimestamp),
+                    Value = value
+                };
+                Execute(new SetLocalAppSettingCommand(appSetting));
+            }
+        }
+        #endregion
+
+        #region LocalKernelOutputKeywordSetTimestamp
+        public static DateTime LocalKernelOutputKeywordSetTimestamp {
+            get {
+                if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalKernelOutputKeywordSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
+                    return value;
+                }
+                return Timestamp.UnixBaseTime;
+            }
+            set {
+                AppSettingData appSetting = new AppSettingData {
+                    Key = nameof(LocalKernelOutputKeywordSetTimestamp),
                     Value = value
                 };
                 Execute(new SetLocalAppSettingCommand(appSetting));

@@ -196,13 +196,34 @@ namespace NTMiner {
         public ulong KnowServerMessageTimestamp { get; private set; }
     }
 
+    [MessageType(description: "从服务器获取内核输出关键字")]
+    public class LoadKernelOutputKeywordCommand : Cmd {
+        public LoadKernelOutputKeywordCommand() {
+            this.KnowKernelOutputKeywordTimestamp = Timestamp.GetTimestamp();
+        }
+        public LoadKernelOutputKeywordCommand(ulong knowKernelOutputKeywordTimestamp) {
+            this.KnowKernelOutputKeywordTimestamp = knowKernelOutputKeywordTimestamp;
+        }
+
+        public ulong KnowKernelOutputKeywordTimestamp { get; private set; }
+    }
+
     [MessageType(description: "从服务器获取到新的服务器消息后")]
     public class NewServerMessageLoadedEvent : EventBase {
         public NewServerMessageLoadedEvent(LinkedList<ServerMessageData> data) {
             this.Data = data;
         }
 
-        public LinkedList<ServerMessageData> Data { get; }
+        public LinkedList<ServerMessageData> Data { get; private set; }
+    }
+
+    [MessageType(description: "从服务器获取了内核输出关键字后")]
+    public class KernelOutputKeywordLoadedEvent : EventBase {
+        public KernelOutputKeywordLoadedEvent(KernelOutputKeywordData[] data) {
+            this.Data = data;
+        }
+
+        public KernelOutputKeywordData[] Data { get; private set; }
     }
 
     [MessageType(description: "添加或修改服务器消息")]

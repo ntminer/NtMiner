@@ -27,7 +27,7 @@ namespace NTMiner {
             #region GetKernelOutputKeywords
             public void GetKernelOutputKeywords(Action<DataResponse<List<KernelOutputKeywordData>>, Exception> callback) {
                 try {
-                    AppSettingsRequest request = new AppSettingsRequest {
+                    KernelOutputKeywordsRequest request = new KernelOutputKeywordsRequest {
                     };
                     PostAsync(SControllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), null, request, callback);
                 }

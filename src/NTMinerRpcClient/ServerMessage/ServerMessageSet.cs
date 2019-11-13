@@ -17,7 +17,7 @@ namespace NTMiner.ServerMessage {
                 _connectionString = $"filename={dbFileFullName};journal=false";
             }
             _isServer = isServer;
-            if (!_isServer) {
+            if (!isServer) {
                 VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
                     if (!VirtualRoot.IsServerMessagesVisible) {
                         return;
