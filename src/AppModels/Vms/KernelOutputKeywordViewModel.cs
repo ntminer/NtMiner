@@ -97,7 +97,7 @@ namespace NTMiner.Vms {
         }
 
         public Guid GetId() {
-            throw new NotImplementedException();
+            return this.Id;
         }
 
         public Guid Id {
