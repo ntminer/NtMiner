@@ -1,9 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace NTMiner.Vms {
     public class LocalMessagesConfigViewModel : ViewModelBase {
+
+        public LocalMessagesConfigViewModel() {
+
+        }
+
+        public List<KernelOutputKeywordViewModel> KernelOutputKeywordVms {
+            get {
+                throw new System.NotImplementedException();
+            }
+        }
     }
 }

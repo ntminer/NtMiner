@@ -7,8 +7,8 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "消息配置",
                 IconName = "Icon_Message",
-                Width = 520,
-                Height = 320,
+                Width = 600,
+                Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) => new LocalMessagesConfig(), fixedSize: true);
