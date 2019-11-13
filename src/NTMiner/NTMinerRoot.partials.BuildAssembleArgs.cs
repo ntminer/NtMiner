@@ -14,38 +14,26 @@ namespace NTMiner {
             parameters = new Dictionary<string, string>();
             fileWriters = new Dictionary<Guid, string>();
             fragments = new Dictionary<Guid, string>();
-            if (!ServerContext.CoinSet.TryGetCoin(this.MinerProfile.CoinId, out ICoin mainCoin)) {
-                return string.Empty;
-            }
-            ICoinProfile coinProfile = this.MinerProfile.GetCoinProfile(mainCoin.GetId());
-            if (!ServerContext.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
-                return string.Empty;
-            }
-            if (!ServerContext.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
-                return string.Empty;
-            }
-            if (!ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
+            if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel,
+                out IKernelInput kernelInput, out IKernelOutput _, out string _)) {
                 return string.Empty;
             }
             if (!kernel.IsSupported(mainCoin)) {
                 return string.Empty;
             }
-            if (!ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
-                return string.Empty;
-            }
-            ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(coinProfile.CoinKernelId);
+            ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
             string poolKernelArgs = string.Empty;
             IPoolKernel poolKernel = ServerContext.PoolKernelSet.FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
             if (poolKernel != null) {
                 poolKernelArgs = poolKernel.Args;
             }
             string kernelArgs = kernelInput.Args;
-            string coinKernelArgs = coinKernel.Args;
+            string coinKernelArgs = mainCoinKernel.Args;
             string customArgs = coinKernelProfile.CustomArgs ?? string.Empty;
             parameters.Add(NTKeyword.MainCoinParameterName, mainCoin.Code);
             string userName = string.Empty;
             string password = NTKeyword.PasswordDefaultValue;
-            string wallet = coinProfile.Wallet;
+            string wallet = mainCoinProfile.Wallet;
             if (mainCoinPool.IsUserMode) {
                 IPoolProfile poolProfile = MinerProfile.GetPoolProfile(mainCoinPool.GetId());
                 password = poolProfile.Password;
@@ -66,9 +54,9 @@ namespace NTMiner {
             parameters.Add(NTKeyword.PoolParameterName, mainCoinPool.Server);
             string minerName = $"{mainCoinPool.MinerNamePrefix}{this.MinerProfile.MinerName}{mainCoinPool.MinerNamePostfix}";
             parameters.Add(NTKeyword.WorkerParameterName, minerName);
-            if (coinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
+            if (mainCoinKernel.IsSupportPool1 && !mainCoinPool.NoPool1) {
                 parameters.Add(NTKeyword.Worker1ParameterName, minerName);
-                if (ServerContext.PoolSet.TryGetPool(coinProfile.PoolId1, out IPool mainCoinPool1)) {
+                if (ServerContext.PoolSet.TryGetPool(mainCoinProfile.PoolId1, out IPool mainCoinPool1)) {
                     parameters.Add(NTKeyword.Host1ParameterName, mainCoinPool1.GetHost());
                     parameters.Add(NTKeyword.Port1ParameterName, mainCoinPool1.GetPort().ToString());
                     parameters.Add(NTKeyword.Pool1ParameterName, mainCoinPool1.Server);
@@ -82,14 +70,14 @@ namespace NTMiner {
                         parameters.Add(NTKeyword.Password1ParameterName, password1);
                     }
                     else {
-                        parameters.Add(NTKeyword.Wallet1ParameterName, coinProfile.Wallet);
+                        parameters.Add(NTKeyword.Wallet1ParameterName, mainCoinProfile.Wallet);
                     }
                 }
             }
             string devicesArgs = GetDevicesArgs(kernelInput);
             // 这里不要考虑{logfile}，{logfile}往后推迟
             if (coinKernelProfile.IsDualCoinEnabled && kernelInput.IsSupportDualMine) {
-                Guid dualCoinGroupId = coinKernel.DualCoinGroupId;
+                Guid dualCoinGroupId = mainCoinKernel.DualCoinGroupId;
                 if (dualCoinGroupId != Guid.Empty) {
                     if (this.ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out ICoin dualCoin)) {
                         ICoinProfile dualCoinProfile = this.MinerProfile.GetCoinProfile(dualCoin.GetId());
@@ -117,7 +105,7 @@ namespace NTMiner {
                             parameters.Add(NTKeyword.DualPortParameterName, dualCoinPool.GetPort().ToString());
                             parameters.Add(NTKeyword.DualPoolParameterName, dualCoinPool.Server);
 
-                            kernelArgs = coinKernel.DualFullArgs;
+                            kernelArgs = mainCoinKernel.DualFullArgs;
                             AssembleArgs(parameters, ref kernelArgs, isDual: true);
                             AssembleArgs(parameters, ref poolKernelArgs, isDual: true);
                             AssembleArgs(parameters, ref customArgs, isDual: true);
@@ -142,7 +130,7 @@ namespace NTMiner {
                             if (!string.IsNullOrEmpty(poolKernelArgs)) {
                                 dualSb.Append(" ").Append(poolKernelArgs);
                             }
-                            BuildFragments(coinKernel, parameters, out fileWriters, out fragments);
+                            BuildFragments(mainCoinKernel, parameters, out fileWriters, out fragments);
                             foreach (var fragment in fragments.Values) {
                                 dualSb.Append(" ").Append(fragment);
                             }
@@ -174,7 +162,7 @@ namespace NTMiner {
             if (!string.IsNullOrEmpty(devicesArgs)) {
                 sb.Append(" ").Append(devicesArgs);
             }
-            BuildFragments(coinKernel, parameters, out fileWriters, out fragments);
+            BuildFragments(mainCoinKernel, parameters, out fileWriters, out fragments);
             foreach (var fragment in fragments.Values) {
                 sb.Append(" ").Append(fragment);
             }
