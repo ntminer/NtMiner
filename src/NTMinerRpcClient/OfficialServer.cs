@@ -91,6 +91,7 @@ namespace NTMiner {
                 string minerClientVersion = string.Empty;
                 ulong time = Timestamp.GetTimestamp();
                 ulong messageTimestamp = 0;
+                ulong kernelOutputKeywordTimestamp = 0;
                 if (!string.IsNullOrEmpty(text)) {
                     text = text.Trim();
                     string[] parts = text.Split(new char[] { '|' });
@@ -106,12 +107,16 @@ namespace NTMiner {
                     if (parts.Length > 3) {
                         ulong.TryParse(parts[3], out messageTimestamp);
                     }
+                    if (parts.Length > 4) {
+                        ulong.TryParse(parts[4], out kernelOutputKeywordTimestamp);
+                    }
                 }
                 callback?.Invoke(new ServerState {
                     JsonFileVersion = jsonFileVersion,
                     MinerClientVersion = minerClientVersion,
+                    Time = time,
                     MessageTimestamp = messageTimestamp,
-                    Time = time
+                    OutputKeywordTimestamp = kernelOutputKeywordTimestamp
                 });
             }, timeountMilliseconds: 10 * 1000);
         }

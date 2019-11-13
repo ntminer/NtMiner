@@ -207,6 +207,7 @@ namespace NTMiner {
                         else {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand(response.ServerState.MessageTimestamp));
                         }
+                        VirtualRoot.Execute(new LoadKernelOutputKeywordCommand(response.ServerState.OutputKeywordTimestamp));
                     }
                 });
             }

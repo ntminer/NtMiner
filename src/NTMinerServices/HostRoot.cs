@@ -153,7 +153,8 @@ namespace NTMiner {
                 JsonFileVersion = jsonVersion,
                 MinerClientVersion = minerClientVersion,
                 Time = Timestamp.GetTimestamp(),
-                MessageTimestamp = Timestamp.GetTimestamp(HostRoot.Instance.ServerMessageTimestamp)
+                MessageTimestamp = Timestamp.GetTimestamp(Instance.ServerMessageTimestamp),
+                OutputKeywordTimestamp = Timestamp.GetTimestamp(Instance.KernelOutputKeywordTimestamp)
             };
         }
 
@@ -175,19 +176,8 @@ namespace NTMiner {
             this.KernelOutputKeywordSet = new KernelOutputKeywordSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.UpdateServerMessageTimestamp();
+            this.UpdateKernelOutputKeywordTimestamp();
         }
-
-        public void UpdateServerMessageTimestamp() {
-            var first = this.ServerMessageSet.FirstOrDefault();
-            if (first == null) {
-                this.ServerMessageTimestamp = DateTime.MinValue;
-            }
-            else {
-                this.ServerMessageTimestamp = first.Timestamp;
-            }
-        }
-
-        public DateTime ServerMessageTimestamp { get; set; }
 
         public IUserSet UserSet { get; private set; }
 
@@ -220,5 +210,29 @@ namespace NTMiner {
         public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
 
         public IServerMessageSet ServerMessageSet { get; private set; }
+
+        public DateTime ServerMessageTimestamp { get; set; }
+
+        public DateTime KernelOutputKeywordTimestamp { get; private set; }
+
+        public void UpdateServerMessageTimestamp() {
+            var first = this.ServerMessageSet.OrderByDescending(a => a.Timestamp).FirstOrDefault();
+            if (first == null) {
+                this.ServerMessageTimestamp = DateTime.MinValue;
+            }
+            else {
+                this.ServerMessageTimestamp = first.Timestamp;
+            }
+        }
+
+        public void UpdateKernelOutputKeywordTimestamp() {
+            var first = this.KernelOutputKeywordSet.OrderByDescending(a => a.Timestamp).FirstOrDefault();
+            if (first == null) {
+                this.KernelOutputKeywordTimestamp = DateTime.MinValue;
+            }
+            else {
+                this.KernelOutputKeywordTimestamp = first.Timestamp;
+            }
+        }
     }
 }

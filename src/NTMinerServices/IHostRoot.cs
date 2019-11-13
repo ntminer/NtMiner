@@ -30,6 +30,7 @@ namespace NTMiner {
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
         DateTime ServerMessageTimestamp { get; }
+        DateTime KernelOutputKeywordTimestamp { get; }
         void UpdateServerMessageTimestamp();
     }
 }
