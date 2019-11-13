@@ -212,9 +212,9 @@ namespace NTMiner.Vms {
                         }
                     }
                 }
-                var mineContext = NTMinerRoot.Instance.CreateMineContext();
-                if (mineContext != null) {
-                    this.ArgsAssembly = mineContext.CommandLine;
+                NTMinerRoot.Instance.CurrentMineContext = NTMinerRoot.Instance.CreateMineContext();
+                if (NTMinerRoot.Instance.CurrentMineContext != null) {
+                    this.ArgsAssembly = NTMinerRoot.Instance.CurrentMineContext.CommandLine;
                 }
                 else {
                     this.ArgsAssembly = string.Empty;

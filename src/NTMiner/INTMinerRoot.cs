@@ -31,7 +31,11 @@ namespace NTMiner {
         StopMineReason StopReason { get; }
         void StopMineAsync(StopMineReason stopReason, Action callback = null);
 
-        IMineContext CurrentMineContext { get; }
+        IMineContext CurrentMineContext { get; set; }
+        /// <summary>
+        /// 开始挖矿时锁定的挖矿上下文
+        /// </summary>
+        IMineContext LockedMineContext { get; }
 
         bool IsMining { get; }
 
@@ -66,7 +70,6 @@ namespace NTMiner {
         IKernelOutputKeywordSet LocalKernelOutputKeywordSet { get; }
         IKernelOutputKeywordSet ServerKernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
-        bool TryGetProfileKernel(out IKernel kernel);
         IMineContext CreateMineContext();
     }
 }

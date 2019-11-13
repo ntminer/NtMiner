@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
@@ -11,8 +10,8 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputKeywordViewModel> KernelOutputKeywordVms {
             get {
-                if (NTMinerRoot.Instance.TryGetProfileKernel(out IKernel kernel)) {
-                    return AppContext.KernelOutputKeywordViewModels.Instance.GetListByKernelId(kernel.KernelOutputId).ToList();
+                if (NTMinerRoot.Instance.CurrentMineContext != null) {
+                    return AppContext.KernelOutputKeywordViewModels.Instance.GetListByKernelId(NTMinerRoot.Instance.CurrentMineContext.Kernel.KernelOutputId).ToList();
                 }
                 return new List<KernelOutputKeywordViewModel>();
             }

@@ -37,7 +37,7 @@ namespace NTMiner.Views.Ucs {
                         UIThread.Execute(() => {
                             DateTime now = DateTime.Now;
                             Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
-                            var mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                            var mineContext = NTMinerRoot.Instance.LockedMineContext;
                             if (mineContext != null) {
                                 Vm.UpdateMineTimeSpan(now - mineContext.CreatedOn);
                             }

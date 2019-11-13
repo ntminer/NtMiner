@@ -398,7 +398,7 @@ namespace NTMiner {
                     #region 周期重启内核
                     try {
                         if (IsMining && MinerProfile.IsPeriodicRestartKernel) {
-                            if ((DateTime.Now - CurrentMineContext.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
+                            if ((DateTime.Now - LockedMineContext.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
                                 VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartKernelMinutes}分钟重启内核", toConsole: true);
                                 RestartMine();
                                 return;// 退出
@@ -412,14 +412,14 @@ namespace NTMiner {
 
                     #region 无份额重启内核
                     try {
-                        if (IsMining && this.CurrentMineContext.MainCoin != null) {
+                        if (IsMining && this.LockedMineContext.MainCoin != null) {
                             int totalShare = 0;
                             bool restartComputer = MinerProfile.IsNoShareRestartComputer && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
                             bool restartKernel = MinerProfile.IsNoShareRestartKernel && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
                             if (restartComputer || restartKernel) {
-                                ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.CurrentMineContext.MainCoin.GetId());
+                                ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.LockedMineContext.MainCoin.GetId());
                                 totalShare = mainCoinShare.TotalShareCount;
-                                if ((this.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
+                                if ((this.LockedMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
                                     ICoinShare dualCoinShare = this.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
                                     totalShare += dualCoinShare.TotalShareCount;
                                 }
@@ -484,7 +484,7 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
-            if (_currentMineContext != null) {
+            if (_lockedMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }
         }
@@ -508,14 +508,14 @@ namespace NTMiner {
                 return;
             }
             try {
-                if (_currentMineContext != null && _currentMineContext.Kernel != null) {
-                    string processName = _currentMineContext.Kernel.GetProcessName();
+                if (_lockedMineContext != null && _lockedMineContext.Kernel != null) {
+                    string processName = _lockedMineContext.Kernel.GetProcessName();
                     Task.Factory.StartNew(() => {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
                     });
                 }
-                var mineContext = _currentMineContext;
-                _currentMineContext = null;
+                var mineContext = _lockedMineContext;
+                _lockedMineContext = null;
                 VirtualRoot.LocalInfo(nameof(NTMinerRoot), "挖矿停止", toConsole: true);
                 VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext, stopReason));
             }
@@ -544,19 +544,6 @@ namespace NTMiner {
             NTMinerRegistry.SetIsLastIsWork(isWork);
         }
         #endregion
-
-        public bool TryGetProfileKernel(out IKernel kernel) {
-            kernel = null;
-            IWorkProfile minerProfile = this.MinerProfile;
-            var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
-            if (!ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel mainCoinKernel)) {
-                return false;
-            }
-            if (!ServerContext.KernelSet.TryGetKernel(mainCoinKernel.KernelId, out kernel)) {
-                return false;
-            }
-            return true;
-        }
 
         private bool GetProfileData(
             out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel, 
@@ -671,14 +658,17 @@ namespace NTMiner {
                     }));
                 }
                 else {
-                    _currentMineContext = CreateMineContext();
-                    if (_currentMineContext == null) {
+                    _lockedMineContext = CreateMineContext();
+                    if (CurrentMineContext == null) {
+                        CurrentMineContext = _lockedMineContext;
+                    }
+                    if (_lockedMineContext == null) {
                         return;
                     }
-                    _currentMineContext.IsRestart = isRestart;
-                    MinerProcess.CreateProcessAsync(_currentMineContext);
+                    _lockedMineContext.IsRestart = isRestart;
+                    MinerProcess.CreateProcessAsync(_lockedMineContext);
                     VirtualRoot.LocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
-                    if (_currentMineContext.UseDevices.Length != GpuSet.Count) {
+                    if (_lockedMineContext.UseDevices.Length != GpuSet.Count) {
                         VirtualRoot.LocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
                     }
                 }
@@ -689,16 +679,18 @@ namespace NTMiner {
         }
         #endregion
 
-        private IMineContext _currentMineContext;
-        public IMineContext CurrentMineContext {
+        public IMineContext CurrentMineContext { get; set; }
+
+        private IMineContext _lockedMineContext;
+        public IMineContext LockedMineContext {
             get {
-                return _currentMineContext;
+                return _lockedMineContext;
             }
         }
 
         public bool IsMining {
             get {
-                return CurrentMineContext != null;
+                return LockedMineContext != null;
             }
         }
 

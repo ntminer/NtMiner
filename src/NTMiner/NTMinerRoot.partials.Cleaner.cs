@@ -76,12 +76,12 @@ namespace NTMiner {
             private void CleanKernels() {
                 try {
                     foreach (var kernelProcessName in NTMinerRoot.Instance.ServerContext.KernelSet.GetAllKernelProcessNames()) {
-                        if (NTMinerRoot.Instance.CurrentMineContext == null || NTMinerRoot.Instance.CurrentMineContext.Kernel.GetProcessName() != kernelProcessName) {
+                        if (NTMinerRoot.Instance.LockedMineContext == null || NTMinerRoot.Instance.LockedMineContext.Kernel.GetProcessName() != kernelProcessName) {
                             Windows.TaskKill.Kill(kernelProcessName, waitForExit: true);
                         }
                     }
                     string currentKernelDir = string.Empty;
-                    var currentMineContext = NTMinerRoot.Instance.CurrentMineContext;
+                    var currentMineContext = NTMinerRoot.Instance.LockedMineContext;
                     if (currentMineContext != null && currentMineContext.Kernel != null) {
                         currentKernelDir = currentMineContext.Kernel.GetKernelDirFullName();
                     }

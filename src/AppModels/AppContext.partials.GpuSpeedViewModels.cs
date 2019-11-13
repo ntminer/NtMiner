@@ -115,7 +115,7 @@ namespace NTMiner {
                             }
                         }
                         if (index == _totalSpeedVm.GpuVm.Index) {
-                            IMineContext mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                            IMineContext mineContext = NTMinerRoot.Instance.LockedMineContext;
                             if (mineContext == null) {
                                 IncomeMainCoinPerDay = 0;
                                 IncomeMainCoinUsdPerDay = 0;

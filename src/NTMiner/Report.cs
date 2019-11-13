@@ -155,16 +155,16 @@ namespace NTMiner {
             #endregion
 
             if (root.IsMining) {
-                var mineContext = root.CurrentMineContext;
+                var mineContext = root.LockedMineContext;
                 if (mineContext != null) {
                     data.KernelSelfRestartCount = mineContext.KernelSelfRestartCount;
                     data.MineStartedOn = mineContext.CreatedOn;
                     data.KernelCommandLine = mineContext.CommandLine;
                 }
                 // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
-                if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == root.CurrentMineContext.MainCoin) {
-                    _sLastSpeedMainCoin = root.CurrentMineContext.MainCoin;
-                    Guid coinId = root.CurrentMineContext.MainCoin.GetId();
+                if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == root.LockedMineContext.MainCoin) {
+                    _sLastSpeedMainCoin = root.LockedMineContext.MainCoin;
+                    Guid coinId = root.LockedMineContext.MainCoin.GetId();
                     IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
                     IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
                     data.MainCoinSpeed = totalSpeed.MainCoinSpeed.Value;
@@ -173,9 +173,9 @@ namespace NTMiner {
                     data.MainCoinRejectShare = share.RejectShareCount;
                 }
                 else {
-                    _sLastSpeedMainCoin = root.CurrentMineContext.MainCoin;
+                    _sLastSpeedMainCoin = root.LockedMineContext.MainCoin;
                 }
-                if (root.CurrentMineContext is IDualMineContext dualMineContext) {
+                if (root.LockedMineContext is IDualMineContext dualMineContext) {
                     // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力
                     if (_sLastSpeedDualCoin == null || _sLastSpeedDualCoin == dualMineContext.DualCoin) {
                         _sLastSpeedDualCoin = dualMineContext.DualCoin;

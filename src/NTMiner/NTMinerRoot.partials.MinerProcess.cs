@@ -38,7 +38,7 @@ namespace NTMiner {
                                 IMessagePathId callback = null;
                                 callback = VirtualRoot.BuildEventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
-                                        if (mineContext != Instance.CurrentMineContext) {
+                                        if (mineContext != Instance.LockedMineContext) {
                                             VirtualRoot.DeletePath(callback);
                                         }
                                         else if (message.CmdId == cmd.Id) {
@@ -62,7 +62,7 @@ namespace NTMiner {
 
             private static void ContinueCreateProcess(IMineContext mineContext) {
                 Thread.Sleep(1000);
-                if (mineContext != Instance.CurrentMineContext) {
+                if (mineContext != Instance.LockedMineContext) {
                     Write.UserWarn("挖矿停止");
                     return;
                 }
@@ -88,7 +88,7 @@ namespace NTMiner {
                 }
                 Write.UserOk($"\"{kernelExeFileFullName}\" {arguments}");
                 Write.UserInfo($"有请内核上场：{mineContext.KernelProcessType}");
-                if (mineContext != Instance.CurrentMineContext) {
+                if (mineContext != Instance.LockedMineContext) {
                     Write.UserWarn("挖矿停止");
                     return;
                 }
@@ -134,7 +134,7 @@ namespace NTMiner {
                 string processName = mineContext.Kernel.GetProcessName();
                 _kernelProcessDaemon = VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
-                        if (mineContext == Instance.CurrentMineContext) {
+                        if (mineContext == Instance.LockedMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
                                 Process[] processes = Process.GetProcessesByName(processName);
                                 if (processes.Length == 0) {
@@ -143,7 +143,7 @@ namespace NTMiner {
                                     if (Instance.MinerProfile.IsAutoRestartKernel && mineContext.AutoRestartKernelCount <= Instance.MinerProfile.AutoRestartKernelTimes) {
                                         VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"尝试第{mineContext.AutoRestartKernelCount}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes}次", toConsole: true);
                                         Instance.RestartMine();
-                                        Instance.CurrentMineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount;
+                                        Instance.LockedMineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount;
                                     }
                                     else {
                                         Instance.StopMineAsync(StopMineReason.KernelProcessLost);
@@ -211,7 +211,7 @@ namespace NTMiner {
                         if (n == 0) {
                             Write.UserInfo("等待内核出场");
                         }
-                        if (mineContext != Instance.CurrentMineContext) {
+                        if (mineContext != Instance.LockedMineContext) {
                             Write.UserWarn("结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
@@ -222,7 +222,7 @@ namespace NTMiner {
                         StreamReader sreader = null;
                         try {
                             sreader = new StreamReader(File.Open(mineContext.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
-                            while (mineContext == Instance.CurrentMineContext) {
+                            while (mineContext == Instance.LockedMineContext) {
                                 string outline = sreader.ReadLine();
                                 if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
                                     Thread.Sleep(1000);

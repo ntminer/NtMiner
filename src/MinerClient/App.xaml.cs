@@ -156,13 +156,13 @@ namespace NTMiner {
                 _appViewFactory.ShowMainWindow(isToggle);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {
-                    var mainCoin = NTMinerRoot.Instance.CurrentMineContext.MainCoin;
+                    var mainCoin = NTMinerRoot.Instance.LockedMineContext.MainCoin;
                     if (mainCoin == null) {
                         return;
                     }
                     var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
                     VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
-                    if ((NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
+                    if ((NTMinerRoot.Instance.LockedMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
                         coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
                         VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
                     }
