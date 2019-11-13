@@ -112,15 +112,6 @@ namespace NTMiner {
             _isServerMessagesVisible = value;
         }
 
-        private static bool _isKernelOutputKeywordVisible = false;
-        public static bool IsKernelOutputKeywordVisible {
-            get { return _isKernelOutputKeywordVisible; }
-        }
-
-        public static void SetIsKernelOutputKeywordVisible(bool value) {
-            _isKernelOutputKeywordVisible = value;
-        }
-
         public static ILocalIpSet LocalIpSet { get; private set; }
         public static IObjectSerializer JsonSerializer { get; private set; }
 

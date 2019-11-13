@@ -19,9 +19,6 @@ namespace NTMiner.KernelOutputKeyword {
             _connectionString = $"filename={dbFileFullName};journal=false";
             if (!isServer) {
                 VirtualRoot.BuildCmdPath<LoadKernelOutputKeywordCommand>(action: message => {
-                    if (!VirtualRoot.IsKernelOutputKeywordVisible) {
-                        return;
-                    }
                     DateTime localTimestamp = VirtualRoot.LocalKernelOutputKeywordSetTimestamp;
                     // 如果已知服务器端最新内核输出关键字时间戳不比本地已加载的最新内核输出关键字时间戳新就不用加载了
                     if (message.KnowKernelOutputKeywordTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {

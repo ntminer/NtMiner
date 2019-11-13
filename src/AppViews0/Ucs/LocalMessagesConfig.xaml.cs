@@ -22,6 +22,7 @@ namespace NTMiner.Views.Ucs {
 
         public LocalMessagesConfig() {
             InitializeComponent();
+            VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
         }
     }
 }
