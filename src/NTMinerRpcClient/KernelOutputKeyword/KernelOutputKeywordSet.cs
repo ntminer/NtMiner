@@ -3,6 +3,7 @@ using NTMiner.Core;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace NTMiner.KernelOutputKeyword {
@@ -42,6 +43,7 @@ namespace NTMiner.KernelOutputKeyword {
                                 if (maxTime != localTimestamp) {
                                     VirtualRoot.LocalKernelOutputKeywordSetTimestamp = maxTime;
                                 }
+                                string json = VirtualRoot.JsonSerializer.Serialize(response.Data);
                                 VirtualRoot.RaiseEvent(new KernelOutputKeywordLoadedEvent(response.Data));
                             }
                         }
