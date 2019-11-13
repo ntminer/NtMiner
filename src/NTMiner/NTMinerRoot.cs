@@ -545,41 +545,60 @@ namespace NTMiner {
         }
         #endregion
 
+        public bool GetProfileData(
+            out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel, 
+            out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg) {
+            mainCoinProfile = null;
+            mainCoinPool = null;
+            mainCoinKernel = null;
+            kernel = null;
+            kernelInput = null;
+            kernelOutput = null;
+            errorMsg = string.Empty;
+            IWorkProfile minerProfile = this.MinerProfile;
+            if (!ServerContext.CoinSet.TryGetCoin(minerProfile.CoinId, out mainCoin)) {
+                errorMsg = "没有选择主挖币种。";
+                return false;
+            }
+            mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
+            if (!ServerContext.PoolSet.TryGetPool(mainCoinProfile.PoolId, out mainCoinPool)) {
+                errorMsg = "没有选择主币矿池。";
+                return false;
+            }
+            if (!ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out mainCoinKernel)) {
+                errorMsg = "没有选择挖矿内核。";
+                return false;
+            }
+            if (!ServerContext.KernelSet.TryGetKernel(mainCoinKernel.KernelId, out kernel)) {
+                errorMsg = "无效的挖矿内核。";
+                return false;
+            }
+            if (!ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                errorMsg = "未设置内核输入。";
+                return false;
+            }
+            if (!ServerContext.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out kernelOutput)) {
+                errorMsg = "未设置内核输出。";
+                return false;
+            }
+            return true;
+        }
+
         #region StartMine
         public void StartMine(bool isRestart = false) {
             try {
                 IWorkProfile minerProfile = this.MinerProfile;
-                if (!ServerContext.CoinSet.TryGetCoin(minerProfile.CoinId, out ICoin mainCoin)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主挖币种。"));
-                    return;
-                }
-                ICoinProfile coinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
-                if (!ServerContext.PoolSet.TryGetPool(coinProfile.PoolId, out IPool mainCoinPool)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择主币矿池。"));
-                    return;
-                }
-                if (!ServerContext.CoinKernelSet.TryGetCoinKernel(coinProfile.CoinKernelId, out ICoinKernel coinKernel)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择挖矿内核。"));
-                    return;
-                }
-                if (!ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("无效的挖矿内核。"));
+                if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, 
+                    out IKernel kernel, out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg)) {
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent(errorMsg));
                     return;
                 }
                 if (!kernel.IsSupported(mainCoin)) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
                     return;
                 }
-                if (!ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("未设置内核输入。"));
-                    return;
-                }
-                if (!ServerContext.KernelOutputSet.TryGetKernelOutput(kernel.KernelOutputId, out IKernelOutput kernelOutput)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("未设置内核输出。"));
-                    return;
-                }
-                if (string.IsNullOrEmpty(coinProfile.Wallet)) {
-                    MinerProfile.SetCoinProfileProperty(mainCoin.GetId(), nameof(coinProfile.Wallet), mainCoin.TestWallet);
+                if (string.IsNullOrEmpty(mainCoinProfile.Wallet)) {
+                    MinerProfile.SetCoinProfileProperty(mainCoin.GetId(), nameof(mainCoinProfile.Wallet), mainCoin.TestWallet);
                 }
                 if (mainCoinPool.IsUserMode) {
                     IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
@@ -589,27 +608,28 @@ namespace NTMiner {
                         return;
                     }
                 }
-                if (string.IsNullOrEmpty(coinProfile.Wallet) && !mainCoinPool.IsUserMode) {
+                if (string.IsNullOrEmpty(mainCoinProfile.Wallet) && !mainCoinPool.IsUserMode) {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写钱包地址。"));
                     return;
                 }
-                ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(coinKernel.GetId());
+                ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(mainCoinKernel.GetId());
                 ICoin dualCoin = null;
                 IPool dualCoinPool = null;
+                ICoinProfile dualCoinProfile = null;
                 if (coinKernelProfile.IsDualCoinEnabled) {
                     if (!ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
                         VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖币种。"));
                         return;
                     }
-                    coinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
-                    if (!ServerContext.PoolSet.TryGetPool(coinProfile.DualCoinPoolId, out dualCoinPool)) {
+                    dualCoinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
+                    if (!ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
                         VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖矿池。"));
                         return;
                     }
-                    if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
-                        MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(coinProfile.DualCoinWallet), dualCoin.TestWallet);
+                    if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
+                        MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(dualCoinProfile.DualCoinWallet), dualCoin.TestWallet);
                     }
-                    if (string.IsNullOrEmpty(coinProfile.DualCoinWallet)) {
+                    if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
                         VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写双挖钱包。"));
                         return;
                     }
@@ -647,13 +667,13 @@ namespace NTMiner {
                     IMineContext mineContext = new MineContext(
                         isRestart,
                         this.MinerProfile.MinerName, mainCoin,
-                        mainCoinPool, kernel, kernelInput, kernelOutput, coinKernel,
-                        coinProfile.Wallet, commandLine,
+                        mainCoinPool, kernel, kernelInput, kernelOutput, mainCoinKernel,
+                        mainCoinProfile.Wallet, commandLine,
                         parameters, fragments, fileWriters, GpuSet.GetUseDevices());
-                    if (coinKernelProfile.IsDualCoinEnabled && coinKernel.GetIsSupportDualMine()) {
+                    if (coinKernelProfile.IsDualCoinEnabled && mainCoinKernel.GetIsSupportDualMine()) {
                         mineContext = new DualMineContext(
                             mineContext, dualCoin, dualCoinPool,
-                            coinProfile.DualCoinWallet,
+                            dualCoinProfile.DualCoinWallet,
                             coinKernelProfile.DualCoinWeight,
                             parameters, fragments, fileWriters, GpuSet.GetUseDevices());
                     }
