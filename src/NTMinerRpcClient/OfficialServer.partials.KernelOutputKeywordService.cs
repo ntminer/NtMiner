@@ -12,18 +12,6 @@ namespace NTMiner {
 
             private KernelOutputKeywordServiceFace() { }
 
-            #region GetVersion
-            public void GetVersion(Action<string, Exception> callback) {
-                try {
-                    PostAsync(SControllerName, nameof(IKernelOutputKeywordController.GetVersion), null, null, callback);
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                    callback?.Invoke(string.Empty, e);
-                }
-            }
-            #endregion
-
             #region GetKernelOutputKeywords
             public void GetKernelOutputKeywords(Action<DataResponse<List<KernelOutputKeywordData>>, Exception> callback) {
                 try {

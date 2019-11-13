@@ -74,7 +74,6 @@
         public const string MinTempAppSettingKey = "MinTemp";
         public const string RejectPercentAppSettingKey = "RejectPercent";
         public const string NTMinerUpdaterFileNameAppSettingKey = "NTMinerUpdaterFileName";
-        public const string KernelOutputKeywordVersionAppSettingKey = "KernelOutputKeywordVersion";
         #endregion
 
         #region 系统字典编码

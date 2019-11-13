@@ -20,7 +20,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public DataResponse<AppSettingData> AppSetting([FromBody]AppSettingRequest request) {
             try {
-                if (!HostRoot.Instance.AppSettingSet.TryGetAppSetting(request.Key, out IAppSetting data)) {
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(request.Key, out IAppSetting data)) {
                     data = null;
                 }
                 return DataResponse<AppSettingData>.Ok(AppSettingData.Create(data));
@@ -34,7 +34,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public DataResponse<List<AppSettingData>> AppSettings([FromBody]AppSettingsRequest request) {
             try {
-                var data = HostRoot.Instance.AppSettingSet;
+                var data = VirtualRoot.LocalAppSettingSet;
                 return DataResponse<List<AppSettingData>>.Ok(data.Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {

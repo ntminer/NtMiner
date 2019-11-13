@@ -1,6 +1,7 @@
 ﻿using Aliyun.OSS;
 using LiteDB;
 using NTMiner.AppSetting;
+using NTMiner.Core;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.KernelOutputKeyword;
@@ -139,7 +140,7 @@ namespace NTMiner {
             try {
                 var fileData = Instance.NTMinerFileSet.LatestMinerClientFile;
                 minerClientVersion = fileData != null ? fileData.Version : string.Empty;
-                if (!Instance.AppSettingSet.TryGetAppSetting(jsonVersionKey, out IAppSetting data) || data.Value == null) {
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(jsonVersionKey, out IAppSetting data) || data.Value == null) {
                     jsonVersion = string.Empty;
                 }
                 else {
@@ -161,7 +162,6 @@ namespace NTMiner {
         private HostRoot() {
             OssClientInit();
             this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
-            this.AppSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             this.NTMinerWalletSet = new NTMinerWalletSet(this);
@@ -176,12 +176,15 @@ namespace NTMiner {
             this.KernelOutputKeywordSet = new KernelOutputKeywordSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.UpdateServerMessageTimestamp();
-            this.UpdateKernelOutputKeywordTimestamp();
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(KernelOutputKeywordTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
+                this.KernelOutputKeywordTimestamp = value;
+            }
+            else {
+                this.KernelOutputKeywordTimestamp = Timestamp.UnixBaseTime;
+            }
         }
 
         public IUserSet UserSet { get; private set; }
-
-        public IAppSettingSet AppSettingSet { get; private set; }
 
         public ICalcConfigSet CalcConfigSet { get; private set; }
 
@@ -225,14 +228,12 @@ namespace NTMiner {
             }
         }
 
-        public void UpdateKernelOutputKeywordTimestamp() {
-            var first = this.KernelOutputKeywordSet.OrderByDescending(a => a.Timestamp).FirstOrDefault();
-            if (first == null) {
-                this.KernelOutputKeywordTimestamp = DateTime.MinValue;
-            }
-            else {
-                this.KernelOutputKeywordTimestamp = first.Timestamp;
-            }
+        public void UpdateKernelOutputKeywordTimestamp(DateTime timestamp) {
+            this.KernelOutputKeywordTimestamp = timestamp;
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                Key = nameof(KernelOutputKeywordTimestamp),
+                Value = timestamp
+            }));
         }
     }
 }
