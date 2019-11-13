@@ -38,5 +38,22 @@
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVm.KernelOutputKeywords, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
+        <controls:KbButton
+            Grid.Row="1" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left" VerticalAlignment="Top"
+			Margin="2 8 2 0"
+			Command="{Binding Add}" 
+			Background="Transparent" 
+            BorderThickness="0"
+			CornerRadius="2" 
+            ToolTip="添加">
+            <WrapPanel>
+                <Path
+					Width="18"
+					Height="18"
+					Data="{StaticResource Icon_Add}"
+					Fill="{StaticResource IconFillColor}"
+					Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
     </Grid>
 </UserControl>
