@@ -10,8 +10,9 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputKeywordViewModel> KernelOutputKeywordVms {
             get {
-                if (NTMinerRoot.Instance.CurrentMineContext != null) {
-                    return AppContext.KernelOutputKeywordViewModels.Instance.GetListByKernelId(NTMinerRoot.Instance.CurrentMineContext.Kernel.KernelOutputId).ToList();
+                IMineContext mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                if (mineContext != null) {
+                    return AppContext.KernelOutputKeywordViewModels.Instance.GetListByKernelId(mineContext.Kernel.KernelOutputId).ToList();
                 }
                 return new List<KernelOutputKeywordViewModel>();
             }

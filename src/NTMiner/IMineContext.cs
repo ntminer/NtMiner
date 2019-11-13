@@ -1,7 +1,8 @@
-﻿using System;
+﻿using NTMiner.Core;
+using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Core {
+namespace NTMiner {
     public interface IMineContext {
         Guid Id { get; }
         bool IsRestart { get; set; }

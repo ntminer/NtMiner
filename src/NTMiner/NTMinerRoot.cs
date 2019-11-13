@@ -1,12 +1,10 @@
 ﻿using Microsoft.Win32;
 using NTMiner.AppSetting;
-using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
-using NTMiner.Core.Kernels.Impl;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
@@ -16,7 +14,6 @@ using NTMiner.Profile;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -27,97 +24,15 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
-        #region ServerContext Class
-        public class ServerContextImpl : IServerContext {
-            private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
-
-            public ServerContextImpl() {
-                ReInit();
-            }
-
-            public void ReInit() {
-                foreach (var handler in _serverContextHandlers) {
-                    VirtualRoot.DeletePath(handler);
-                }
-                _serverContextHandlers.Clear();
-                this.CoinGroupSet = new CoinGroupSet(this);
-                this.CoinSet = new CoinSet(this);
-                this.FileWriterSet = new FileWriterSet(this);
-                this.FragmentWriterSet = new FragmentWriterSet(this);
-                this.GroupSet = new GroupSet(this);
-                this.PoolSet = new PoolSet(this);
-                this.SysDicItemSet = new SysDicItemSet(this);
-                this.SysDicSet = new SysDicSet(this);
-                this.CoinKernelSet = new CoinKernelSet(this);
-                this.KernelInputSet = new KernelInputSet(this);
-                this.KernelOutputSet = new KernelOutputSet(this);
-                this.KernelOutputTranslaterSet = new KernelOutputTranslaterSet(this);
-                this.KernelSet = new KernelSet(this);
-                this.PackageSet = new PackageSet(this);
-                this.PoolKernelSet = new PoolKernelSet(this);
-            }
-
-            /// <summary>
-            /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
-            /// </summary>
-            public void BuildCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
-                where TCmd : ICmd {
-                var messagePathId = VirtualRoot.BuildPath(description, logType, action);
-                _serverContextHandlers.Add(messagePathId);
-            }
-
-            /// <summary>
-            /// 事件响应
-            /// </summary>
-            public void BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
-                where TEvent : IEvent {
-                var messagePathId = VirtualRoot.BuildPath(description, logType, action);
-                _serverContextHandlers.Add(messagePathId);
-            }
-
-            public ICoinGroupSet CoinGroupSet { get; private set; }
-
-            public ICoinSet CoinSet { get; private set; }
-
-            public IFileWriterSet FileWriterSet { get; private set; }
-
-            public IFragmentWriterSet FragmentWriterSet { get; private set; }
-
-            public IGroupSet GroupSet { get; private set; }
-
-            public IPoolSet PoolSet { get; private set; }
-
-            public ISysDicItemSet SysDicItemSet { get; private set; }
-
-            public ISysDicSet SysDicSet { get; private set; }
-
-            public ICoinKernelSet CoinKernelSet { get; private set; }
-
-            public IKernelInputSet KernelInputSet { get; private set; }
-
-            public IKernelOutputSet KernelOutputSet { get; private set; }
-
-            public IKernelOutputTranslaterSet KernelOutputTranslaterSet { get; private set; }
-
-            public IKernelSet KernelSet { get; private set; }
-
-            public IPackageSet PackageSet { get; private set; }
-
-            public IPoolKernelSet PoolKernelSet { get; private set; }
-        }
-        #endregion
-
         public IUserSet UserSet { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
 
         public IAppSettingSet ServerAppSettingSet { get; private set; }
 
-        #region cotr
         private NTMinerRoot() {
             CreatedOn = DateTime.Now;
         }
-        #endregion
 
         #region Init
         public void Init(Action callback) {
@@ -292,7 +207,7 @@ namespace NTMiner {
             IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.ServerAppSettingSet = new ServerAppSettingSet();
             this.CalcConfigSet = new CalcConfigSet(this);
-            this.ServerContext = new ServerContextImpl();
+            this.ServerContext = new ServerContext();
             this.GpuProfileSet = new GpuProfileSet(this);
             this.UserSet = new UserSet();
             this.KernelProfileSet = new KernelProfileSet(this);

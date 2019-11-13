@@ -1,4 +1,6 @@
-﻿namespace NTMiner.Core {
+﻿using NTMiner.Core;
+
+namespace NTMiner {
     public interface IDualMineContext : IMineContext {
         ICoin DualCoin { get; }
         IPool DualCoinPool { get; }
