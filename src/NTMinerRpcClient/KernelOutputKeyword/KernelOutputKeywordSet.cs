@@ -9,13 +9,11 @@ namespace NTMiner.KernelOutputKeyword {
     public class KernelOutputKeywordSet : IKernelOutputKeywordSet {
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
         private readonly string _connectionString;
-        private readonly bool _isServer;
 
         public KernelOutputKeywordSet(string dbFileFullName, bool isServer) {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
                 _connectionString = $"filename={dbFileFullName};journal=false";
             }
-            _isServer = isServer;
             if (!isServer) {
                 VirtualRoot.BuildCmdPath<LoadKernelOutputKeywordCommand>(action: message => {
                     if (!VirtualRoot.IsKernelOutputKeywordVisible) {
@@ -34,8 +32,7 @@ namespace NTMiner.KernelOutputKeyword {
                             }
                             DateTime maxTime = localTimestamp;
                             if (response.Data.Count != 0) {
-                                var orderedData = response.Data.OrderBy(a => a.Keyword).ToArray();
-                                foreach (var item in orderedData) {
+                                foreach (var item in response.Data) {
                                     if (item.Timestamp > maxTime) {
                                         maxTime = item.Timestamp;
                                     }
@@ -45,7 +42,7 @@ namespace NTMiner.KernelOutputKeyword {
                                 if (maxTime != localTimestamp) {
                                     VirtualRoot.LocalKernelOutputKeywordSetTimestamp = maxTime;
                                 }
-                                VirtualRoot.RaiseEvent(new KernelOutputKeywordLoadedEvent(orderedData));
+                                VirtualRoot.RaiseEvent(new KernelOutputKeywordLoadedEvent(response.Data));
                             }
                         }
                     });

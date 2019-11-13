@@ -10,13 +10,10 @@ namespace NTMiner.ServerMessage {
         private readonly string _connectionString;
         private readonly LinkedList<ServerMessageData> _linkedList = new LinkedList<ServerMessageData>();
 
-        private readonly bool _isServer;
-
         public ServerMessageSet(string dbFileFullName, bool isServer) {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
                 _connectionString = $"filename={dbFileFullName};journal=false";
             }
-            _isServer = isServer;
             if (!isServer) {
                 VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
                     if (!VirtualRoot.IsServerMessagesVisible) {
@@ -42,7 +39,7 @@ namespace NTMiner.ServerMessage {
                     return;
                 }
                 InitOnece();
-                if (_isServer) {
+                if (isServer) {
                     #region Server
                     ServerMessageData exist;
                     List<ServerMessageData> toRemoves = new List<ServerMessageData>();
@@ -98,7 +95,7 @@ namespace NTMiner.ServerMessage {
                     return;
                 }
                 InitOnece();
-                if (_isServer) {
+                if (isServer) {
                     #region Server
                     ServerMessageData exist = null;
                     lock (_locker) {
@@ -131,7 +128,7 @@ namespace NTMiner.ServerMessage {
                 }
                 InitOnece();
                 // 服务端不应有清空消息的功能
-                if (_isServer) {
+                if (isServer) {
                     return;
                 }
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
