@@ -111,12 +111,14 @@ namespace NTMiner.KernelOutputKeyword {
         }
 
         private const string fileName = "ServerKernelOutputKeywords.json";
+        private static readonly Func<string> GetFileId = () => {
+            return $"$/cache/{fileName}";
+        };
         private void CacheServerKernelOutputKeywords(List<KernelOutputKeywordData> data) {
             string json = VirtualRoot.JsonSerializer.Serialize(data);
-            string fileId = $"$/cache/{fileName}";
             using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(json))) {
                 using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    db.FileStorage.Upload(fileId, fileName, ms);
+                    db.FileStorage.Upload(GetFileId(), fileName, ms);
                 }
             }
         }
@@ -125,8 +127,7 @@ namespace NTMiner.KernelOutputKeyword {
             try {
                 using (LiteDatabase db = new LiteDatabase(_connectionString))
                 using (MemoryStream ms = new MemoryStream()) {
-                    string fileId = $"$/cache/{fileName}";
-                    db.FileStorage.Download(fileId, ms);
+                    db.FileStorage.Download(GetFileId(), ms);
                     var json = Encoding.UTF8.GetString(ms.ToArray());
                     return VirtualRoot.JsonSerializer.Deserialize<List<KernelOutputKeywordData>>(json);
                 }
