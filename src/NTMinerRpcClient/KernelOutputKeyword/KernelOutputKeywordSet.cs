@@ -127,11 +127,17 @@ namespace NTMiner.KernelOutputKeyword {
 
         private List<KernelOutputKeywordData> GetServerKernelOutputKeywordsFromCache() {
             try {
-                using (LiteDatabase db = new LiteDatabase(_connectionString))
-                using (MemoryStream ms = new MemoryStream()) {
-                    db.FileStorage.Download(GetFileId(), ms);
-                    var json = Encoding.UTF8.GetString(ms.ToArray());
-                    return VirtualRoot.JsonSerializer.Deserialize<List<KernelOutputKeywordData>>(json);
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    if (db.FileStorage.Exists(GetFileId())) {
+                        using (MemoryStream ms = new MemoryStream()) {
+                            db.FileStorage.Download(GetFileId(), ms);
+                            var json = Encoding.UTF8.GetString(ms.ToArray());
+                            return VirtualRoot.JsonSerializer.Deserialize<List<KernelOutputKeywordData>>(json);
+                        }
+                    }
+                    else {
+                        return new List<KernelOutputKeywordData>();
+                    }
                 }
             }
             catch (Exception e) {
