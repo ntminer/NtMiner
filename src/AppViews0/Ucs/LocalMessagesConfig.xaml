@@ -75,7 +75,9 @@
         </DataGrid>
         <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVm.KernelOutputKeywords, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
         <controls:KbButton
-            Grid.Row="1" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left" VerticalAlignment="Top"
+            Grid.Row="1"
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top"
 			Margin="2 8 2 0"
 			Command="{Binding Add}" 
 			Background="Transparent" 
