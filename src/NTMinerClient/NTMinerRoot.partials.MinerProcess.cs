@@ -106,6 +106,8 @@ namespace NTMiner {
             }
             #endregion
 
+            #region private methods
+
             #region GetCmdNameAndArguments
             private static void GetCmdNameAndArguments(IMineContext mineContext, out string kernelExeFileFullName, out string arguments) {
                 var kernel = mineContext.Kernel;
@@ -192,82 +194,6 @@ namespace NTMiner {
                 _kernelProcess.Start();
                 ReadPrintLoopLogFileAsync(mineContext, isWriteToConsole: false);
                 KernelProcessDaemon(mineContext, null);
-            }
-            #endregion
-
-            #region ReadPrintLoopLogFile
-            private static void ReadPrintLoopLogFileAsync(IMineContext mineContext, bool isWriteToConsole) {
-                Task.Factory.StartNew(() => {
-                    bool isLogFileCreated = true;
-                    int n = 0;
-                    while (!File.Exists(mineContext.LogFileFullName)) {
-                        if (n >= 20) {
-                            // 20秒钟都没有建立日志文件，不可能
-                            isLogFileCreated = false;
-                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出。常见原因：1.挖矿内核被杀毒软件删除; 2.没有磁盘空间了; 3.反馈给开发人员");
-                            break;
-                        }
-                        Thread.Sleep(1000);
-                        if (n == 0) {
-                            Write.UserInfo("等待内核出场");
-                        }
-                        if (mineContext != Instance.LockedMineContext) {
-                            Write.UserWarn("结束内核输出等待。");
-                            isLogFileCreated = false;
-                            break;
-                        }
-                        n++;
-                    }
-                    if (isLogFileCreated) {
-                        StreamReader sreader = null;
-                        try {
-                            sreader = new StreamReader(File.Open(mineContext.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
-                            while (mineContext == Instance.LockedMineContext) {
-                                string outline = sreader.ReadLine();
-                                if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
-                                    Thread.Sleep(1000);
-                                }
-                                else {
-                                    string input = outline;
-                                    Guid kernelOutputId = Guid.Empty;
-                                    if (mineContext.KernelOutput != null) {
-                                        kernelOutputId = mineContext.KernelOutput.GetId();
-                                    }
-                                    // 前译
-                                    Instance.ServerContext.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, isPre: true);
-                                    // 使用Claymore挖其非ETH币种时它也打印ETH，所以这里需要纠正它
-                                    if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
-                                        if (mineContext.MainCoin.Code != "ETH" && input.Contains("ETH")) {
-                                            input = input.Replace("ETH", mineContext.MainCoin.Code);
-                                        }
-                                    }
-                                    Instance.ServerContext.KernelOutputSet.Pick(ref input, mineContext);
-                                    if (isWriteToConsole) {
-                                        if (!string.IsNullOrEmpty(input)) {
-                                            Write.UserLine(input, ConsoleColor.White);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                        catch (Exception e) {
-                            Logger.ErrorDebugLine(e);
-                        }
-                        finally {
-                            sreader?.Close();
-                            sreader?.Dispose();
-                        }
-                        Write.UserWarn("内核表演结束");
-                    }
-                    if (_kernelProcess != null) {
-                        lock (_kernelProcessLocker) {
-                            if (_kernelProcess != null) {
-                                _kernelProcess.Dispose();
-                                _kernelProcess = null;
-                            }
-                        }
-                    }
-                }, TaskCreationOptions.LongRunning);
             }
             #endregion
 
@@ -483,6 +409,84 @@ namespace NTMiner {
                 }
                 return n;
             }
+            #endregion
+
+            #region ReadPrintLoopLogFile
+            private static void ReadPrintLoopLogFileAsync(IMineContext mineContext, bool isWriteToConsole) {
+                Task.Factory.StartNew(() => {
+                    bool isLogFileCreated = true;
+                    int n = 0;
+                    while (!File.Exists(mineContext.LogFileFullName)) {
+                        if (n >= 20) {
+                            // 20秒钟都没有建立日志文件，不可能
+                            isLogFileCreated = false;
+                            Write.UserFail("呃！意外，竟然20秒钟未产生内核输出。常见原因：1.挖矿内核被杀毒软件删除; 2.没有磁盘空间了; 3.反馈给开发人员");
+                            break;
+                        }
+                        Thread.Sleep(1000);
+                        if (n == 0) {
+                            Write.UserInfo("等待内核出场");
+                        }
+                        if (mineContext != Instance.LockedMineContext) {
+                            Write.UserWarn("结束内核输出等待。");
+                            isLogFileCreated = false;
+                            break;
+                        }
+                        n++;
+                    }
+                    if (isLogFileCreated) {
+                        StreamReader sreader = null;
+                        try {
+                            sreader = new StreamReader(File.Open(mineContext.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
+                            while (mineContext == Instance.LockedMineContext) {
+                                string outline = sreader.ReadLine();
+                                if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
+                                    Thread.Sleep(1000);
+                                }
+                                else {
+                                    string input = outline;
+                                    Guid kernelOutputId = Guid.Empty;
+                                    if (mineContext.KernelOutput != null) {
+                                        kernelOutputId = mineContext.KernelOutput.GetId();
+                                    }
+                                    // 前译
+                                    Instance.ServerContext.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, isPre: true);
+                                    // 使用Claymore挖其非ETH币种时它也打印ETH，所以这里需要纠正它
+                                    if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
+                                        if (mineContext.MainCoin.Code != "ETH" && input.Contains("ETH")) {
+                                            input = input.Replace("ETH", mineContext.MainCoin.Code);
+                                        }
+                                    }
+                                    Instance.ServerContext.KernelOutputSet.Pick(ref input, mineContext);
+                                    if (isWriteToConsole) {
+                                        if (!string.IsNullOrEmpty(input)) {
+                                            Write.UserLine(input, ConsoleColor.White);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
+                        }
+                        finally {
+                            sreader?.Close();
+                            sreader?.Dispose();
+                        }
+                        Write.UserWarn("内核表演结束");
+                    }
+                    if (_kernelProcess != null) {
+                        lock (_kernelProcessLocker) {
+                            if (_kernelProcess != null) {
+                                _kernelProcess.Dispose();
+                                _kernelProcess = null;
+                            }
+                        }
+                    }
+                }, TaskCreationOptions.LongRunning);
+            }
+            #endregion
+
             #endregion
         }
     }
