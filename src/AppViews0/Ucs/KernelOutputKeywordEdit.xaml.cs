@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(data) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new KernelOutputKeywordEdit(vm);
             }, fixedSize: true);

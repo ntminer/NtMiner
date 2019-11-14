@@ -85,7 +85,7 @@ namespace NTMiner.KernelOutputKeyword {
                             col.Insert(entity);
                         }
                         if (!isServer) {
-                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordAddedEvent(exist));
+                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordAddedEvent(entity));
                         }
                     }
                 }
