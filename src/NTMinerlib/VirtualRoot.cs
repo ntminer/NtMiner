@@ -362,7 +362,7 @@ namespace NTMiner {
             LocalMessage(provider, LocalMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        private static void LocalMessage(string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
+        public static void LocalMessage(string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
             switch (outEnum) {
                 case OutEnum.None:
                     break;

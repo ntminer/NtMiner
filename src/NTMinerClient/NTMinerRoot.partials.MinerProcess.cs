@@ -1,6 +1,7 @@
 ﻿using NTMiner.Bus;
 using NTMiner.Core;
 using NTMiner.Core.Kernels;
+using NTMiner.MinerClient;
 using System;
 using System.Collections;
 using System.Diagnostics;
@@ -214,7 +215,7 @@ namespace NTMiner {
                 IntPtr mypointer = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(STARTUPINFO)));
                 Marshal.StructureToPtr(saAttr, mypointer, true);
                 var bret = CreatePipe(out var hReadOut, out var hWriteOut, mypointer, 0);
-                
+
                 const uint STARTF_USESHOWWINDOW = 0x00000001;
                 const uint STARTF_USESTDHANDLES = 0x00000100;
                 const uint NORMAL_PRIORITY_CLASS = 0x00000020;
@@ -454,7 +455,17 @@ namespace NTMiner {
                                     Instance.ServerContext.KernelOutputSet.Pick(ref input, mineContext);
                                     var kernelOutputKeywords = Instance.KernelOutputKeywordSet.GetKeywords(mineContext.KernelOutput.GetId());
                                     if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {
-                                        // TODO:
+                                        foreach (var keyword in kernelOutputKeywords) {
+                                            if (input.Contains(keyword.Keyword)) {
+                                                if (keyword.MessageType.TryParse(out LocalMessageType messageType)) {
+                                                    string content = input;
+                                                    if (!string.IsNullOrEmpty(keyword.Description)) {
+                                                        content += $"大意：{keyword.Description}";
+                                                    }
+                                                    VirtualRoot.LocalMessage(nameof(MinerProcess), messageType, content, OutEnum.None, toConsole: false);
+                                                }
+                                            }
+                                        }
                                     }
                                     if (isWriteToConsole) {
                                         if (!string.IsNullOrEmpty(input)) {
