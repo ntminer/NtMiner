@@ -452,6 +452,10 @@ namespace NTMiner {
                                     // 前译
                                     Instance.ServerContext.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, isPre: true);
                                     Instance.ServerContext.KernelOutputSet.Pick(ref input, mineContext);
+                                    var kernelOutputKeywords = Instance.KernelOutputKeywordSet.GetKeywords(mineContext.KernelOutput.GetId());
+                                    if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {
+                                        // TODO:
+                                    }
                                     if (isWriteToConsole) {
                                         if (!string.IsNullOrEmpty(input)) {
                                             Write.UserLine(input, ConsoleColor.White);

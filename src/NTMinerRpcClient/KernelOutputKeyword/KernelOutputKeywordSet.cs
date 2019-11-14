@@ -10,6 +10,7 @@ using System.Text;
 namespace NTMiner.KernelOutputKeyword {
     public class KernelOutputKeywordSet : IKernelOutputKeywordSet {
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
+        private readonly Dictionary<Guid, List<IKernelOutputKeyword>> _dicByKernelOutputId = new Dictionary<Guid, List<IKernelOutputKeyword>>();
         private readonly string _connectionString;
 
         private readonly bool _isServer;
@@ -28,14 +29,22 @@ namespace NTMiner.KernelOutputKeyword {
                     }
                     OfficialServer.KernelOutputKeywordService.GetKernelOutputKeywords((response, e) => {
                         if (response.IsSuccess()) {
-                            Guid[] toRemoves = _dicById.Where(a => a.Value.DataLevel == DataLevel.Global).Select(a => a.Key).ToArray();
-                            foreach (var id in toRemoves) {
-                                _dicById.Remove(id);
+                            KernelOutputKeywordData[] toRemoves = _dicById.Where(a => a.Value.DataLevel == DataLevel.Global).Select(a => a.Value).ToArray();
+                            foreach (var item in toRemoves) {
+                                _dicById.Remove(item.Id);
+                                if (_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {
+                                    list.Remove(item);
+                                }
                             }
                             if (response.Data.Count != 0) {
                                 foreach (var item in response.Data) {
                                     item.SetDataLevel(DataLevel.Global);
                                     _dicById.Add(item.Id, item);
+                                    if (!_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {
+                                        list = new List<IKernelOutputKeyword>();
+                                        _dicByKernelOutputId.Add(item.KernelOutputId, list);
+                                    }
+                                    list.Add(item);
                                 }
                                 if (response.Timestamp != Timestamp.GetTimestamp(localTimestamp)) {
                                     VirtualRoot.LocalKernelOutputKeywordSetTimestamp = Timestamp.FromTimestamp(response.Timestamp);
@@ -66,6 +75,11 @@ namespace NTMiner.KernelOutputKeyword {
                         KernelOutputKeywordData entity = new KernelOutputKeywordData().Update(message.Input);
                         entity.SetDataLevel(dataLevel);
                         _dicById.Add(entity.Id, entity);
+                        if (!_dicByKernelOutputId.TryGetValue(entity.KernelOutputId, out List<IKernelOutputKeyword> list)) {
+                            list = new List<IKernelOutputKeyword>();
+                            _dicByKernelOutputId.Add(entity.KernelOutputId, list);
+                        }
+                        list.Add(entity);
                         using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                             var col = db.GetCollection<KernelOutputKeywordData>();
                             col.Insert(entity);
@@ -94,6 +108,9 @@ namespace NTMiner.KernelOutputKeyword {
                     }
                     KernelOutputKeywordData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
+                    if (_dicByKernelOutputId.TryGetValue(entity.KernelOutputId, out List<IKernelOutputKeyword> list)) {
+                        list.Remove(entity);
+                    }
                     using (LiteDatabase db = new LiteDatabase(_connectionString)) {
                         var col = db.GetCollection<KernelOutputKeywordData>();
                         col.Delete(message.EntityId);
@@ -164,6 +181,11 @@ namespace NTMiner.KernelOutputKeyword {
                             if (!_dicById.ContainsKey(item.GetId())) {
                                 item.SetDataLevel(DataLevel.Global);
                                 _dicById.Add(item.GetId(), item);
+                                if (!_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {
+                                    list = new List<IKernelOutputKeyword>();
+                                    _dicByKernelOutputId.Add(item.KernelOutputId, list);
+                                }
+                                list.Add(item);
                             }
                         }
                     }
@@ -174,6 +196,11 @@ namespace NTMiner.KernelOutputKeyword {
                                 if (!_dicById.ContainsKey(item.GetId())) {
                                     item.SetDataLevel(DataLevel.Profile);
                                     _dicById.Add(item.GetId(), item);
+                                    if (!_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {
+                                        list = new List<IKernelOutputKeyword>();
+                                        _dicByKernelOutputId.Add(item.KernelOutputId, list);
+                                    }
+                                    list.Add(item);
                                 }
                             }
                         }
@@ -183,21 +210,12 @@ namespace NTMiner.KernelOutputKeyword {
             }
         }
 
-        public IEnumerable<IKernelOutputKeyword> GetKeywords(Guid kernelOutputId) {
+        public List<IKernelOutputKeyword> GetKeywords(Guid kernelOutputId) {
             InitOnece();
-            return _dicById.Values.Where(a => a.KernelOutputId == kernelOutputId);
-        }
-
-        public bool Contains(Guid kernelOutputId, string keyword) {
-            InitOnece();
-            return _dicById.Values.Any(a => a.KernelOutputId == kernelOutputId && a.Keyword == keyword);
-        }
-
-        public bool TryGetKernelOutputKeyword(Guid id, out IKernelOutputKeyword keyword) {
-            InitOnece();
-            var result = _dicById.TryGetValue(id, out KernelOutputKeywordData data);
-            keyword = data;
-            return result;
+            if (_dicByKernelOutputId.TryGetValue(kernelOutputId, out List<IKernelOutputKeyword> list)) {
+                return list;
+            }
+            return new List<IKernelOutputKeyword>();
         }
 
         public IEnumerator<IKernelOutputKeyword> GetEnumerator() {
