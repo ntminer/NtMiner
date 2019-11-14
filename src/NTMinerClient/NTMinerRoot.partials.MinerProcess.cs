@@ -460,7 +460,7 @@ namespace NTMiner {
                                                 if (keyword.MessageType.TryParse(out LocalMessageType messageType)) {
                                                     string content = input;
                                                     if (!string.IsNullOrEmpty(keyword.Description)) {
-                                                        content += $"大意：{keyword.Description}";
+                                                        content += $" 大意：{keyword.Description}";
                                                     }
                                                     VirtualRoot.LocalMessage(LocalMessageChannel.Kernel, nameof(MinerProcess), messageType, content, OutEnum.None, toConsole: false);
                                                 }
