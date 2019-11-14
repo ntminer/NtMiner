@@ -211,6 +211,10 @@
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
       <Name>NTMinerBus</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NTMinerClient\NTMinerClient.csproj">
+      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
+      <Name>NTMinerClient</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
@@ -230,10 +234,6 @@
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NTMiner\NTMinerClient.csproj">
-      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMinerClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

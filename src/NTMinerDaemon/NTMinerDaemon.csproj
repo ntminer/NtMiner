@@ -89,6 +89,12 @@
     <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerClient\Windows\Power.cs">
+      <Link>Windows\Power.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerClient\Windows\WMI.cs">
+      <Link>Windows\WMI.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\EnumExtension.cs">
       <Link>EnumExtension.cs</Link>
     </Compile>
@@ -130,12 +136,6 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
       <Link>Windows\WinRegistry.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMiner\Windows\Power.cs">
-      <Link>Windows\Power.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMiner\Windows\WMI.cs">
-      <Link>Windows\WMI.cs</Link>
     </Compile>
     <Compile Include="HostRoot.cs" />
     <Compile Include="IHostRoot.cs" />
