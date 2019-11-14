@@ -55,7 +55,7 @@
         </WrapPanel>
         <controls:KbButton
 			Command="{Binding Save}" 
-			Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+            IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
 			HorizontalAlignment="Center"
 			Margin="0 10 0 0"
 			Padding="15 2"

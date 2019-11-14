@@ -66,7 +66,7 @@ namespace NTMiner {
                                         callback?.Invoke();
                                     }
                                     else {
-                                        VirtualRoot.LocalError(nameof(AppStatic), message, toConsole: true);
+                                        VirtualRoot.ThisLocalError(nameof(AppStatic), message, toConsole: true);
                                         callback?.Invoke();
                                     }
                                 }

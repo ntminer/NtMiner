@@ -89,12 +89,12 @@ namespace NTMiner.Ip.Impl {
                 Refresh();
                 var localIps = _localIps;
                 if (old.Count != localIps.Count) {
-                    VirtualRoot.LocalWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
+                    VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
                 }
                 else {
                     for (int i = 0; i < old.Count; i++) {
                         if (old[i] != localIps[i]) {
-                            VirtualRoot.LocalWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
+                            VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络接口的 IP 地址发生了更改", toConsole: true);
                             break;
                         }
                     }
@@ -102,10 +102,10 @@ namespace NTMiner.Ip.Impl {
             };
             NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
                 if (e.IsAvailable) {
-                    VirtualRoot.LocalInfo(nameof(LocalIpSet), $"网络可用", toConsole: true);
+                    VirtualRoot.ThisLocalInfo(nameof(LocalIpSet), $"网络可用", toConsole: true);
                 }
                 else {
-                    VirtualRoot.LocalWarn(nameof(LocalIpSet), $"网络不可用", toConsole: true);
+                    VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), $"网络不可用", toConsole: true);
                 }
             };
             VirtualRoot.BuildCmdPath<SetLocalIpCommand>(action: message => {

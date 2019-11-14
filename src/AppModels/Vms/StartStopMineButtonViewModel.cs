@@ -16,13 +16,13 @@ namespace NTMiner.Vms {
                 Write.Stopwatch.Start();
 #endif
             this.StartMine = new DelegateCommand(() => {
-                VirtualRoot.LocalInfo(nameof(StartStopMineButtonViewModel), $"手动开始挖矿", toConsole: true);
+                VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"手动开始挖矿", toConsole: true);
                 this.MinerProfile.IsMining = true;
                 NTMinerRoot.Instance.StartMine();
                 BtnStopText = "正在挖矿";
             });
             this.StopMine = new DelegateCommand(() => {
-                VirtualRoot.LocalInfo(nameof(StartStopMineButtonViewModel), $"手动停止挖矿", toConsole: true);
+                VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"手动停止挖矿", toConsole: true);
                 if (!NTMinerRoot.Instance.IsMining) {
                     this.MinerProfile.IsMining = false;
                 }
@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
                         if (!NTMinerRoot.IsAutoStartCanceled) {
                             BtnStopText = "正在挖矿";
                             MinerProfile.IsMining = true;
-                            VirtualRoot.LocalInfo(nameof(StartStopMineButtonViewModel), $"自动开始挖矿", toConsole: true);
+                            VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"自动开始挖矿", toConsole: true);
                             NTMinerRoot.Instance.StartMine();
                         }
                     }

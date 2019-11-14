@@ -200,7 +200,7 @@ namespace NTMiner.Vms {
                     UIThread.Execute(() => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
-                            VirtualRoot.LocalInfo(nameof(KernelProfileViewModel), package + "下载成功", toConsole: true);
+                            VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), package + "下载成功", toConsole: true);
                         }
                         string message = "下载成功";
                         if (e.Error != null) {
@@ -219,10 +219,10 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(packageUrl)) {
                         string msg = $"未获取到{package}内核包下载地址";
                         downloadComplete?.Invoke(false, msg, saveFileFullName);
-                        VirtualRoot.LocalError(nameof(KernelProfileViewModel), msg, toConsole: true);
+                        VirtualRoot.ThisLocalError(nameof(KernelProfileViewModel), msg, toConsole: true);
                     }
                     else {
-                        VirtualRoot.LocalInfo(nameof(KernelProfileViewModel), "下载：" + package, toConsole: true);
+                        VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), "下载：" + package, toConsole: true);
                         webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
                     }
                 });

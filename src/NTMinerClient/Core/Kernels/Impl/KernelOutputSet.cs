@@ -132,6 +132,12 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (string.IsNullOrEmpty(line)) {
                     return;
                 }
+                // 使用Claymore挖非ETH币种时它也打印ETH，所以这里需要纠正它
+                if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
+                    if (mineContext.MainCoin.Code != "ETH" && line.Contains("ETH")) {
+                        line = line.Replace("ETH", mineContext.MainCoin.Code);
+                    }
+                }
                 if (!string.IsNullOrEmpty(mineContext.KernelOutput.KernelRestartKeyword) && line.Contains(mineContext.KernelOutput.KernelRestartKeyword)) {
                     if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
                         mineContext.KernelSelfRestartCount = mineContext.KernelSelfRestartCount + 1;
