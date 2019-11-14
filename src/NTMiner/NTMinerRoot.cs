@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using NTMiner.AppSetting;
+﻿using NTMiner.AppSetting;
 using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
@@ -15,10 +14,8 @@ using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Management;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -54,11 +51,11 @@ namespace NTMiner {
                         DoInit(isWork: false, callback: callback);
                     }
                     else {
-                        Logger.InfoDebugLine("开始下载server.json");
+                        Logger.InfoDebugLine(nameof(GetAliyunServerJson));
                         GetAliyunServerJson((data) => {
                             // 如果server.json未下载成功则不覆写本地server.json
                             if (data != null && data.Length != 0) {
-                                Logger.InfoDebugLine("GetAliyunServerJson下载成功");
+                                Logger.InfoDebugLine($"{nameof(GetAliyunServerJson)}成功");
                                 var serverJson = Encoding.UTF8.GetString(data);
                                 if (!string.IsNullOrEmpty(serverJson)) {
                                     SpecialPath.WriteServerJsonFile(serverJson);
@@ -67,10 +64,10 @@ namespace NTMiner {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) < Timestamp.DesyncSeconds) {
-                                        Logger.OkDebugLine("时间同步");
+                                        Logger.OkDebugLine($"本机和服务器时间一致或相差不超过 {Timestamp.DesyncSeconds} 秒");
                                     }
                                     else {
-                                        Write.UserWarn($"本机时间和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{Timestamp.FromTimestamp(serverState.Time)}");
+                                        Write.UserWarn($"本机和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{Timestamp.FromTimestamp(serverState.Time)}。此问题不影响挖矿。");
                                     }
                                 });
                             }
@@ -79,7 +76,7 @@ namespace NTMiner {
                                     VirtualRoot.LocalError(nameof(NTMinerRoot), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", OutEnum.Warn);
                                 }
                                 else {
-                                    VirtualRoot.LocalWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最后一次成功下载的配置文件", OutEnum.Warn);
+                                    VirtualRoot.LocalWarn(nameof(NTMinerRoot), "配置文件下载失败，使用最近一次成功下载的配置文件", OutEnum.Warn);
                                 }
                             }
                             DoInit(isWork, callback);
@@ -131,59 +128,6 @@ namespace NTMiner {
 
         #endregion
 
-        #region private methods
-        private static void GetAliyunServerJson(Action<byte[]> callback) {
-            string serverJsonFileUrl = $"{OfficialServer.MinerJsonBucket}{MainAssemblyInfo.ServerJsonFileName}";
-            string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
-            Task.Factory.StartNew(() => {
-                try {
-                    var webRequest = WebRequest.Create(fileUrl);
-                    webRequest.Timeout = 20 * 1000;
-                    webRequest.Method = "GET";
-                    webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
-                    var response = webRequest.GetResponse();
-                    using (MemoryStream ms = new MemoryStream())
-                    using (Stream stream = response.GetResponseStream()) {
-                        byte[] buffer = new byte[1024];
-                        int n = stream.Read(buffer, 0, buffer.Length);
-                        while (n > 0) {
-                            ms.Write(buffer, 0, n);
-                            n = stream.Read(buffer, 0, buffer.Length);
-                        }
-                        byte[] data = new byte[ms.Length];
-                        ms.Position = 0;
-                        ms.Read(data, 0, data.Length);
-                        data = ZipDecompress(data);
-                        callback?.Invoke(data);
-                    }
-                    Logger.InfoDebugLine($"下载完成：{fileUrl}");
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                    callback?.Invoke(new byte[0]);
-                }
-            });
-        }
-
-        private static byte[] ZipDecompress(byte[] zippedData) {
-            MemoryStream ms = new MemoryStream(zippedData);
-            GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
-            using (MemoryStream outBuffer = new MemoryStream()) {
-                byte[] block = new byte[1024];
-                while (true) {
-                    int bytesRead = compressedzipStream.Read(block, 0, block.Length);
-                    if (bytesRead <= 0) {
-                        break;
-                    }
-                    else {
-                        outBuffer.Write(block, 0, bytesRead);
-                    }
-                }
-                compressedzipStream.Close();
-                return outBuffer.ToArray();
-            }
-        }
-
         public string GetServerJsonVersion() {
             string serverJsonVersion = string.Empty;
             if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.ServerJsonVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
@@ -201,6 +145,8 @@ namespace NTMiner {
             VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
             VirtualRoot.RaiseEvent(new ServerJsonVersionChangedEvent(oldVersion, serverJsonVersion));
         }
+
+        #region private methods
 
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
@@ -268,11 +214,12 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    RegCmdHere(); VirtualRoot.LocalInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", OutEnum.Success);
+                    Windows.Cmd.RegCmdHere(); 
+                    VirtualRoot.LocalInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", OutEnum.Success);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    RegCmdHere(); VirtualRoot.LocalError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
+                    VirtualRoot.LocalError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
                 }
             });
             VirtualRoot.BuildEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
@@ -376,24 +323,6 @@ namespace NTMiner {
                         GpuSet.LoadGpuState();
                     });
                 });
-        }
-
-        // 在Windows右键上下文菜单中添加“命令行”菜单
-        private static void RegCmdHere() {
-            string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
-            string cmdHereCommand = cmdHere + "\\command";
-            string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
-            string cmdPromptCommand = cmdPrompt + "\\command";
-            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
-            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
-            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPrompt, "", "命令行");
-            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
-            cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
-            cmdHereCommand = cmdHere + "\\command";
-            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
-            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-            Windows.WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
         }
         #endregion
 

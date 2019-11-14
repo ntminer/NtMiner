@@ -1,9 +1,30 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Diagnostics;
 using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {
+        /// <summary>
+        /// 在Windows右键上下文菜单中添加“命令行”菜单
+        /// </summary>
+        public static void RegCmdHere() {
+            string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
+            string cmdHereCommand = cmdHere + "\\command";
+            string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
+            string cmdPromptCommand = cmdPrompt + "\\command";
+            WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
+            WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+            WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+            WinRegistry.SetValue(Registry.LocalMachine, cmdPrompt, "", "命令行");
+            WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
+            cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
+            cmdHereCommand = cmdHere + "\\command";
+            WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
+            WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
+            WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+        }
+
         const string cmdMsg = "注意cmdName参数中不能带参数，参数必须放在args中";
         /// <summary>
         /// 注意cmdName参数中不能带参数，参数必须放在args中

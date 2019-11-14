@@ -153,6 +153,7 @@
     <Compile Include="JsonDb\LocalJsonDb.cs" />
     <Compile Include="JsonDb\ServerJsonDb.cs" />
     <Compile Include="NTMinerRoot.partials.Cleaner.cs" />
+    <Compile Include="NTMinerRoot.partials.GetAliyunServerJson.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
     <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
     <Compile Include="Report.cs" />

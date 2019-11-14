@@ -92,17 +92,43 @@ namespace NTMiner {
             }
         }
 
-        public static readonly IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems = EnumItem<SupportedGpu>.GetEnumItems();
+        #region 枚举数据集
+        public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
+            get {
+                return EnumItem<SupportedGpu>.GetEnumItems();
+            }
+        }
 
-        public static readonly IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems = EnumItem<GpuType>.GetEnumItems();
+        public static IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems {
+            get {
+                return EnumItem<GpuType>.GetEnumItems();
+            }
+        }
 
-        public static readonly IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems = EnumItem<PublishStatus>.GetEnumItems();
+        public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
+            get {
+                return EnumItem<PublishStatus>.GetEnumItems();
+            }
+        }
 
-        public static readonly IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems = EnumItem<MineStatus>.GetEnumItems();
+        public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
+            get {
+                return EnumItem<MineStatus>.GetEnumItems();
+            }
+        }
 
-        public static readonly IEnumerable<EnumItem<ServerMessageType>> ServerMessageTypeEnumItems = EnumItem<ServerMessageType>.GetEnumItems();
+        public static IEnumerable<EnumItem<ServerMessageType>> ServerMessageTypeEnumItems {
+            get {
+                return EnumItem<ServerMessageType>.GetEnumItems();
+            }
+        }
 
-        public static readonly IEnumerable<EnumItem<LocalMessageType>> LocalMessageTypeEnumItems = EnumItem<LocalMessageType>.GetEnumItems();
+        public static IEnumerable<EnumItem<LocalMessageType>> LocalMessageTypeEnumItems {
+            get {
+                return EnumItem<LocalMessageType>.GetEnumItems();
+            }
+        }
+        #endregion
 
         private static LocalJsonDb _localJson;
         public static ILocalJsonDb LocalJson {
