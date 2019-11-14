@@ -1,15 +1,12 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Linq;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater, IEditableViewModel {
         private string _regexPattern;
         private Guid _id;
         private string _replacement;
-        private string _color;
         private int _sortNumber;
         private bool _isPre;
 
@@ -36,7 +33,6 @@ namespace NTMiner.Vms {
             _regexPattern = data.RegexPattern;
             _id = data.GetId();
             _replacement = data.Replacement;
-            _color = data.Color;
             _sortNumber = data.SortNumber;
             _isPre = data.IsPre;
         }
@@ -140,53 +136,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string Color {
-            get => _color;
-            set {
-                if (_color != value) {
-                    _color = value;
-                    OnPropertyChanged(nameof(Color));
-                    OnPropertyChanged(nameof(ColorBrush));
-                    OnPropertyChanged(nameof(ColorDicItem));
-                    OnPropertyChanged(nameof(ColorDescription));
-                }
-            }
-        }
-
-        public SolidColorBrush ColorBrush {
-            get {
-                if (string.IsNullOrEmpty(this.Color)) {
-                    return WpfUtil.WhiteBrush;
-                }
-                if (ColorDicItem != null && ColorDicItem.Value.TryParse(out ConsoleColor consoleColor)) {
-                    return new SolidColorBrush(consoleColor.ToMediaColor());
-                }
-                return WpfUtil.WhiteBrush;
-            }
-        }
-
-        private SysDicItemViewModel _colorDicItem;
-        public SysDicItemViewModel ColorDicItem {
-            get {
-                if (_colorDicItem == null || this.Color != _colorDicItem.Code) {
-                    _colorDicItem = LogColorDicVm.SysDicItems.FirstOrDefault(a => a.Code == this.Color);
-                }
-                return _colorDicItem;
-            }
-        }
-
-        public string ColorDescription {
-            get {
-                SysDicViewModel colorDic = LogColorDicVm;
-                if (colorDic != null) {
-                    if (ColorDicItem != null) {
-                        return ColorDicItem.Description;
-                    }
-                }
-                return "默认";
-            }
-        }
-
         private SysDicViewModel _clorDic;
 
         public SysDicViewModel LogColorDicVm {
@@ -225,25 +174,6 @@ namespace NTMiner.Vms {
                     return "是";
                 }
                 return "否";
-            }
-        }
-
-        public SysDicItemViewModel SelectedColor {
-            get {
-                if (string.IsNullOrEmpty(this.Color)) {
-                    return SysDicItemViewModel.PleaseSelect;
-                }
-                SysDicItemViewModel vm = LogColorDicVm.SysDicItemsSelect.FirstOrDefault(a => a.Code == this.Color);
-                if (vm != null) {
-                    return vm;
-                }
-                return SysDicItemViewModel.PleaseSelect;
-            }
-            set {
-                if (this.Color != value.Code) {
-                    this.Color = value.Code;
-                    OnPropertyChanged(nameof(SelectedColor));
-                }
             }
         }
     }

@@ -141,6 +141,7 @@
                     Height="20"
 			        Padding="2"
                     Visibility="{x:Static app:AppStatic.IsMinerClientVisible}"
+                    Command="{x:Static app:AppStatic.ShowLocalMessagesConfig}"
                     Background="Transparent"
                     Cursor="Hand"
 			        CornerRadius="2">

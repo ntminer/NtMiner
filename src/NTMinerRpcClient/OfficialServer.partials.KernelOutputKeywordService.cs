@@ -12,22 +12,10 @@ namespace NTMiner {
 
             private KernelOutputKeywordServiceFace() { }
 
-            #region GetVersion
-            public void GetVersion(Action<string, Exception> callback) {
-                try {
-                    PostAsync(SControllerName, nameof(IKernelOutputKeywordController.GetVersion), null, null, callback);
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                    callback?.Invoke(string.Empty, e);
-                }
-            }
-            #endregion
-
             #region GetKernelOutputKeywords
-            public void GetKernelOutputKeywords(Action<DataResponse<List<KernelOutputKeywordData>>, Exception> callback) {
+            public void GetKernelOutputKeywords(Action<KernelOutputKeywordsResponse, Exception> callback) {
                 try {
-                    AppSettingsRequest request = new AppSettingsRequest {
+                    KernelOutputKeywordsRequest request = new KernelOutputKeywordsRequest {
                     };
                     PostAsync(SControllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), null, request, callback);
                 }
@@ -38,12 +26,12 @@ namespace NTMiner {
             }
             #endregion
 
-            #region SetKernelOutputKeywordAsync
-            public void SetKernelOutputKeywordAsync(KernelOutputKeywordData entity, Action<ResponseBase, Exception> callback) {
+            #region AddOrUpdateKernelOutputKeywordAsync
+            public void AddOrUpdateKernelOutputKeywordAsync(KernelOutputKeywordData entity, Action<ResponseBase, Exception> callback) {
                 DataRequest<KernelOutputKeywordData> request = new DataRequest<KernelOutputKeywordData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.SetKernelOutputKeyword), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
 

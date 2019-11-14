@@ -15,13 +15,11 @@ namespace UnitTests {
         public void TestMethod1() {
             int secondCount = 1000000;
             Write.Stopwatch.Start();
-            int count1;
-            Method1(secondCount, out count1);
+            Method1(secondCount, out int count1);
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             Console.WriteLine("Method1 " + elapsedMilliseconds);
             Write.Stopwatch.Start();
-            int count2;
-            Method2(secondCount, out count2);
+            Method2(secondCount, out int count2);
             elapsedMilliseconds = Write.Stopwatch.Stop();
             Console.WriteLine("Method2 " + elapsedMilliseconds);
             Assert.AreEqual(count1, count2);
@@ -31,13 +29,11 @@ namespace UnitTests {
         public void TestMethod2() {
             int secondCount = 1000000;
             Write.Stopwatch.Start();
-            int count1;
-            A(secondCount, out count1);
+            A(secondCount, out int count1);
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             Console.WriteLine("A " + elapsedMilliseconds);
             Write.Stopwatch.Start();
-            int count2;
-            B(secondCount, out count2);
+            B(secondCount, out int count2);
             elapsedMilliseconds = Write.Stopwatch.Stop();
             Console.WriteLine("B " + elapsedMilliseconds);
             Assert.AreEqual(count1, count2);

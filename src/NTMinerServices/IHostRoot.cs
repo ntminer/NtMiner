@@ -1,8 +1,6 @@
 ﻿using Aliyun.OSS;
-using NTMiner.AppSetting;
 using NTMiner.Data;
 using NTMiner.KernelOutputKeyword;
-using NTMiner.MinerServer;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
@@ -16,7 +14,6 @@ namespace NTMiner {
         OssClient OssClient { get; }
 
         IUserSet UserSet { get; }
-        IAppSettingSet AppSettingSet { get; }
         ICalcConfigSet CalcConfigSet { get; }
         IColumnsShowSet ColumnsShowSet { get; }
         INTMinerWalletSet NTMinerWalletSet { get; }
@@ -31,6 +28,8 @@ namespace NTMiner {
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
         DateTime ServerMessageTimestamp { get; }
+        DateTime KernelOutputKeywordTimestamp { get; }
         void UpdateServerMessageTimestamp();
+        void UpdateKernelOutputKeywordTimestamp(DateTime timestamp);
     }
 }

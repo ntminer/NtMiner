@@ -1,6 +1,7 @@
 ﻿using Aliyun.OSS;
 using LiteDB;
 using NTMiner.AppSetting;
+using NTMiner.Core;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.KernelOutputKeyword;
@@ -139,7 +140,7 @@ namespace NTMiner {
             try {
                 var fileData = Instance.NTMinerFileSet.LatestMinerClientFile;
                 minerClientVersion = fileData != null ? fileData.Version : string.Empty;
-                if (!Instance.AppSettingSet.TryGetAppSetting(jsonVersionKey, out IAppSetting data) || data.Value == null) {
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(jsonVersionKey, out IAppSetting data) || data.Value == null) {
                     jsonVersion = string.Empty;
                 }
                 else {
@@ -153,14 +154,14 @@ namespace NTMiner {
                 JsonFileVersion = jsonVersion,
                 MinerClientVersion = minerClientVersion,
                 Time = Timestamp.GetTimestamp(),
-                MessageTimestamp = Timestamp.GetTimestamp(HostRoot.Instance.ServerMessageTimestamp)
+                MessageTimestamp = Timestamp.GetTimestamp(Instance.ServerMessageTimestamp),
+                OutputKeywordTimestamp = Timestamp.GetTimestamp(Instance.KernelOutputKeywordTimestamp)
             };
         }
 
         private HostRoot() {
             OssClientInit();
             this.UserSet = new UserSet(SpecialPath.LocalDbFileFullName);
-            this.AppSettingSet = new LocalAppSettingSet(SpecialPath.LocalDbFileFullName);
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ColumnsShowSet = new ColumnsShowSet(this);
             this.NTMinerWalletSet = new NTMinerWalletSet(this);
@@ -172,26 +173,18 @@ namespace NTMiner {
             this.PoolSet = new PoolSet(this);
             this.NTMinerFileSet = new NTMinerFileSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
-            this.KernelOutputKeywordSet = new LocalKernelOutputKeywordSet(SpecialPath.LocalDbFileFullName);
+            this.KernelOutputKeywordSet = new KernelOutputKeywordSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.UpdateServerMessageTimestamp();
-        }
-
-        public void UpdateServerMessageTimestamp() {
-            var first = this.ServerMessageSet.FirstOrDefault();
-            if (first == null) {
-                this.ServerMessageTimestamp = DateTime.MinValue;
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(KernelOutputKeywordTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
+                this.KernelOutputKeywordTimestamp = value;
             }
             else {
-                this.ServerMessageTimestamp = first.Timestamp;
+                this.KernelOutputKeywordTimestamp = Timestamp.UnixBaseTime;
             }
         }
 
-        public DateTime ServerMessageTimestamp { get; set; }
-
         public IUserSet UserSet { get; private set; }
-
-        public IAppSettingSet AppSettingSet { get; private set; }
 
         public ICalcConfigSet CalcConfigSet { get; private set; }
 
@@ -220,5 +213,27 @@ namespace NTMiner {
         public IKernelOutputKeywordSet KernelOutputKeywordSet { get; private set; }
 
         public IServerMessageSet ServerMessageSet { get; private set; }
+
+        public DateTime ServerMessageTimestamp { get; set; }
+
+        public DateTime KernelOutputKeywordTimestamp { get; private set; }
+
+        public void UpdateServerMessageTimestamp() {
+            var first = this.ServerMessageSet.OrderByDescending(a => a.Timestamp).FirstOrDefault();
+            if (first == null) {
+                this.ServerMessageTimestamp = DateTime.MinValue;
+            }
+            else {
+                this.ServerMessageTimestamp = first.Timestamp;
+            }
+        }
+
+        public void UpdateKernelOutputKeywordTimestamp(DateTime timestamp) {
+            this.KernelOutputKeywordTimestamp = timestamp;
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                Key = nameof(KernelOutputKeywordTimestamp),
+                Value = timestamp
+            }));
+        }
     }
 }

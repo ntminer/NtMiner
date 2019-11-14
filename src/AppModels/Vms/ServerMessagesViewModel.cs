@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            foreach (var messageType in EnumItem<ServerMessageType>.GetEnumItems()) {
+            foreach (var messageType in NTMinerRoot.ServerMessageTypeEnumItems) {
                 _count.Add(messageType.Value, new MessageTypeItem<ServerMessageType>(messageType, ServerMessageViewModel.GetIcon, ServerMessageViewModel.GetIconFill, RefreshQueryResults));
             }
             Init();
@@ -57,13 +57,17 @@ namespace NTMiner.Vms {
                             if (exist != null) {
                                 _serverMessageVms.Remove(exist);
                             }
-                            _serverMessageVms.Insert(0, vm);
+                            if (!vm.IsDeleted) {
+                                _serverMessageVms.Insert(0, vm);
+                            }
                             if (IsSatisfyQuery(vm)) {
                                 exist = _queyResults.FirstOrDefault(a => a.Id == item.Id);
                                 if (exist != null) {
                                     _queyResults.Remove(exist);
                                 }
-                                _queyResults.Insert(0, vm);
+                                if (!vm.IsDeleted) {
+                                    _queyResults.Insert(0, vm);
+                                }
                             }
                         }
                         OnPropertyChanged(nameof(IsNoRecord));
@@ -84,11 +88,10 @@ namespace NTMiner.Vms {
                         }
                     }
                 });
-            _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a)));
         }
 
         private void Init() {
-            var data = NTMinerRoot.Instance.ServerMessageSet.Select(a => new ServerMessageViewModel(a));
+            var data = NTMinerRoot.Instance.ServerMessageSet.Where(a => !a.IsDeleted).Select(a => new ServerMessageViewModel(a));
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(data);
             foreach (var key in _count.Keys) {
                 _count[key].Count = 0;

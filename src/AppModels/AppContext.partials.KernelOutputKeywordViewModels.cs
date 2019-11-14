@@ -1,7 +1,7 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -14,13 +14,36 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<KernelOutputKeywordLoadedEvent>("从服务器加载了内核输入关键字后刷新Vm集", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Clear();
-                        _dicByKernelOutputId.Clear();
-                        Init();
+                        KernelOutputKeywordViewModel[] toRemoves = _dicById.Where(a => a.Value.DataLevel == DataLevel.Global).Select(a => a.Value).ToArray();
+                        foreach (var item in toRemoves) {
+                            _dicById.Remove(item.Id);
+                        }
+                        foreach (var kv in _dicByKernelOutputId) {
+                            foreach (var toRemove in toRemoves.Where(a=>a.KernelOutputId == kv.Key)) {
+                                kv.Value.Remove(toRemove);
+                            }
+                        }
+                        if (message.Data != null && message.Data.Count != 0) {
+                            foreach (var item in message.Data) {
+                                var vm = new KernelOutputKeywordViewModel(item);
+                                if (!_dicById.ContainsKey(item.Id)) {
+                                    _dicById.Add(item.Id, vm);
+                                }
+                                if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                                    _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputKeywordViewModel>());
+                                }
+                                _dicByKernelOutputId[item.KernelOutputId].Add(vm);
+                            }
+                        }
+                        if (NTMinerRoot.Instance.CurrentMineContext != null) {
+                            if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(NTMinerRoot.Instance.CurrentMineContext.KernelOutput.GetId(), out KernelOutputViewModel kernelOutputVm)) {
+                                kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputKeywords));
+                            }
+                        }
                     });
-                BuildEventPath<KernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(message.Source);
@@ -34,13 +57,13 @@ namespace NTMiner {
                             }
                         }
                     });
-                BuildEventPath<KernelOutputKeywordUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<UserKernelOutputKeywordUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
                             vm.Update(message.Source);
                         }
                     });
-                BuildEventPath<KernelOutputKeywordRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                BuildEventPath<UserKernelOutputKeywordRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
                             _dicById.Remove(vm.Id);
@@ -53,28 +76,26 @@ namespace NTMiner {
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();
-                Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.ServerKernelOutputKeywordSet) {
+                foreach (var item in NTMinerRoot.Instance.KernelOutputKeywordSet) {
+                    var vm = new KernelOutputKeywordViewModel(item);
+                    if (!_dicById.ContainsKey(item.GetId())) {
+                        _dicById.Add(item.GetId(), vm);
+                    }
                     if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                         _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputKeywordViewModel>());
                     }
-                    _dicByKernelOutputId[item.KernelOutputId].Add(new KernelOutputKeywordViewModel(item));
-                }
-                foreach (var item in NTMinerRoot.Instance.LocalKernelOutputKeywordSet) {
-                    if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
-                        _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputKeywordViewModel>());
-                    }
-                    _dicByKernelOutputId[item.KernelOutputId].Add(new KernelOutputKeywordViewModel(item));
+                    _dicByKernelOutputId[item.KernelOutputId].Add(vm);
                 }
             }
 
-            public IEnumerable<KernelOutputKeywordViewModel> GetListByKernelId(Guid kernelId) {
-                if (_dicByKernelOutputId.ContainsKey(kernelId)) {
-                    return _dicByKernelOutputId[kernelId];
+            public IEnumerable<KernelOutputKeywordViewModel> GetListByKernelId(Guid kernelOutputId) {
+                if (_dicByKernelOutputId.ContainsKey(kernelOutputId)) {
+                    return _dicByKernelOutputId[kernelOutputId];
                 }
                 return new List<KernelOutputKeywordViewModel>();
             }

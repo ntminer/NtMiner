@@ -151,7 +151,7 @@
                                 <controls:KbButton 
 									Margin="2 0"
 									Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
-									CornerRadius="2" ToolTip="标记删除">
+									CornerRadius="2" ToolTip="删除">
                                     <WrapPanel>
                                         <Path
 											Width="18"
@@ -209,13 +209,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Grid>
-                                <TextBlock 
-                                    Text="{Binding Content}" 
-                                    ToolTip="{Binding Content}" 
-                                    Foreground="{Binding IconFill}"></TextBlock>
-                                <Border Height="1" BorderThickness="1" BorderBrush="Red" Visibility="{Binding IsDeleted,Converter={StaticResource BoolToVisibilityConverter}}"></Border>
-                            </Grid>
+                            <TextBlock Text="{Binding Content}" ToolTip="{Binding Content}" Foreground="{Binding IconFill}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

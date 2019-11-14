@@ -217,6 +217,11 @@ namespace NTMiner.Views {
                     KernelInputEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
+            VirtualRoot.BuildCmdPath<KernelOutputKeywordEditCommand>(action: message => {
+                UIThread.Execute(() => {
+                    KernelOutputKeywordEdit.ShowWindow(message.FormType, message.Source);
+                });
+            });
             VirtualRoot.BuildCmdPath<KernelOutputTranslaterEditCommand>(action: message => {
                 UIThread.Execute(() => {
                     KernelOutputTranslaterEdit.ShowWindow(message.FormType, message.Source);
@@ -305,6 +310,11 @@ namespace NTMiner.Views {
             VirtualRoot.BuildCmdPath<SysDicEditCommand>(action: message => {
                 UIThread.Execute(() => {
                     SysDicEdit.ShowWindow(message.FormType, message.Source);
+                });
+            });
+            VirtualRoot.BuildCmdPath<ShowLocalMessagesConfigCommand>(action: message => {
+                UIThread.Execute(() => {
+                    LocalMessagesConfig.ShowWindow();
                 });
             });
             VirtualRoot.BuildCmdPath<UserEditCommand>(action: message => {

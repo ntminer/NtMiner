@@ -80,7 +80,7 @@ namespace NTMiner.Controllers {
         public string NTMinerUpdaterUrl() {
             try {
                 string ntminerUpdaterFileName;
-                if (!HostRoot.Instance.AppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting ntminerUpdaterFileNameSetting)) {
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting ntminerUpdaterFileNameSetting)) {
                     ntminerUpdaterFileName = NTKeyword.NTMinerUpdaterFileName;
                 }
                 else {

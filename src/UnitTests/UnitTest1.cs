@@ -14,6 +14,11 @@ namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void IsInUnitTestTest() {
+            Assert.IsTrue(DevMode.IsInUnitTest);
+        }
+
+        [TestMethod]
         public void TimestampTest() {
             Assert.AreEqual(0ul, Timestamp.GetTimestamp(Timestamp.UnixBaseTime));
             // 因为有时区

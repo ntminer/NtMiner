@@ -122,12 +122,24 @@ namespace NTMiner {
 
     #region KernelOutputKeyword Messages
     [MessageType(description: "添加或修改内核输出关键字")]
-    public class SetKernelOutputKeywordCommand : Cmd {
-        public SetKernelOutputKeywordCommand(IKernelOutputKeyword input) {
+    public class AddOrUpdateKernelOutputKeywordCommand : Cmd {
+        public AddOrUpdateKernelOutputKeywordCommand(IKernelOutputKeyword input) {
             this.Input = input;
         }
 
         public IKernelOutputKeyword Input { get; private set; }
+    }
+
+    [MessageType(description: "添加了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordAddedEvent(IKernelOutputKeyword source) : base(source) {
+        }
+    }
+
+    [MessageType(description: "更新了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordUpdatedEvent(IKernelOutputKeyword source) : base(source) {
+        }
     }
 
     [MessageType(description: "移除内核输出关键字")]
@@ -136,15 +148,10 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "添加或修改内核输出关键字后")]
-    public class KernelOutputKeyworSetedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeyworSetedEvent(IKernelOutputKeyword source) : base(source) {
-        }
-    }
+    [MessageType(description: "移除了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordRemovedEvent(IKernelOutputKeyword source) : base(source) {
 
-    [MessageType(description: "移除了内核输出关键字后")]
-    public class KernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
-        public KernelOutputKeywordRemovedEvent(IKernelOutputKeyword source) : base(source) {
         }
     }
     #endregion
@@ -208,13 +215,34 @@ namespace NTMiner {
         public ulong KnowServerMessageTimestamp { get; private set; }
     }
 
+    [MessageType(description: "从服务器获取内核输出关键字")]
+    public class LoadKernelOutputKeywordCommand : Cmd {
+        public LoadKernelOutputKeywordCommand() {
+            this.KnowKernelOutputKeywordTimestamp = Timestamp.GetTimestamp();
+        }
+        public LoadKernelOutputKeywordCommand(ulong knowKernelOutputKeywordTimestamp) {
+            this.KnowKernelOutputKeywordTimestamp = knowKernelOutputKeywordTimestamp;
+        }
+
+        public ulong KnowKernelOutputKeywordTimestamp { get; private set; }
+    }
+
     [MessageType(description: "从服务器获取到新的服务器消息后")]
     public class NewServerMessageLoadedEvent : EventBase {
         public NewServerMessageLoadedEvent(LinkedList<ServerMessageData> data) {
             this.Data = data;
         }
 
-        public LinkedList<ServerMessageData> Data { get; }
+        public LinkedList<ServerMessageData> Data { get; private set; }
+    }
+
+    [MessageType(description: "从服务器获取了内核输出关键字后")]
+    public class KernelOutputKeywordLoadedEvent : EventBase {
+        public KernelOutputKeywordLoadedEvent(List<KernelOutputKeywordData> data) {
+            this.Data = data;
+        }
+
+        public List<KernelOutputKeywordData> Data { get; private set; }
     }
 
     [MessageType(description: "添加或修改服务器消息")]

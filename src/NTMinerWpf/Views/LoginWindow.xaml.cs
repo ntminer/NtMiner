@@ -4,7 +4,7 @@ using System;
 using System.Windows;
 
 namespace NTMiner.Views {
-    public partial class LoginWindow : BlankWindow {
+    public partial class LoginWindow : Window {
         public static void Login(Action onLoginSuccess) {
             if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
                 UIThread.Execute(() => {
@@ -19,6 +19,9 @@ namespace NTMiner.Views {
                         onLoginSuccess?.Invoke();
                     }
                 });
+            }
+            else {
+                onLoginSuccess?.Invoke();
             }
         }
 
@@ -42,7 +45,8 @@ namespace NTMiner.Views {
 
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
-            if ((!this.DialogResult.HasValue || !this.DialogResult.Value) && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {
+            bool isNoOwnerWindow = this.Owner == null || this.Owner.GetType() == typeof(NotiCenterWindow);
+            if (isNoOwnerWindow && (!this.DialogResult.HasValue || !this.DialogResult.Value) && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {
                 Application.Current.Shutdown();
             }
         }

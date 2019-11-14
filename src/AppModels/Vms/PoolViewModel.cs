@@ -17,7 +17,6 @@ namespace NTMiner.Vms {
             _coinId = Guid.Empty,
             _name = "不指定"
         };
-        private DataLevel _dataLevel = DataLevel.UnDefined;
         private Guid _id;
         private Guid _brandId;
         private string _name;
@@ -58,8 +57,8 @@ namespace NTMiner.Vms {
         }
 
         public PoolViewModel(IPool data) : this(data.GetId()) {
+            this.DataLevel = data.DataLevel;
             _brandId = data.BrandId;
-            _dataLevel = data.DataLevel;
             _name = data.Name;
             _coinId = data.CoinId;
             _server = data.Server;
@@ -167,17 +166,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public DataLevel DataLevel {
-            get { return _dataLevel; }
-            set {
-                if (_dataLevel != value) {
-                    _dataLevel = value;
-                    OnPropertyChanged(nameof(DataLevel));
-                    OnPropertyChanged(nameof(DataLevelText));
-                    OnPropertyChanged(nameof(IsReadOnly));
-                }
-            }
-        }
+        public DataLevel DataLevel { get; set; }
 
         public bool IsReadOnly {
             get {

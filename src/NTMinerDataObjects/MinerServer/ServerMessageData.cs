@@ -12,7 +12,7 @@ namespace NTMiner.MinerServer {
             MessageType = data.MessageType;
             Content = data.Content;
             Timestamp = data.Timestamp == DateTime.MinValue ? DateTime.Now : data.Timestamp;
-            IsDeleted = false;
+            IsDeleted = data.IsDeleted;
         }
 
         public Guid GetId() {

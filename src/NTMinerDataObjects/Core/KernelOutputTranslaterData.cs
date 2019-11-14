@@ -16,8 +16,6 @@ namespace NTMiner.Core {
 
         public string Replacement { get; set; }
 
-        public string Color { get; set; }
-
         public int SortNumber { get; set; }
 
         public bool IsPre { get; set; }

@@ -18,7 +18,6 @@ namespace NTMiner.Vms {
         private string _value;
         private string _description;
         private int _sortNumber;
-        private DataLevel _dataLevel;
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand SortUp { get; private set; }
@@ -32,6 +31,7 @@ namespace NTMiner.Vms {
         }
 
         public SysDicItemViewModel(ISysDicItem data) : this(data.GetId()) {
+            this.DataLevel = data.DataLevel;
             _dicId = data.DicId;
             _code = data.Code;
             _value = data.Value;
@@ -97,17 +97,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        public DataLevel DataLevel {
-            get { return _dataLevel; }
-            set {
-                if (_dataLevel != value) {
-                    _dataLevel = value;
-                    OnPropertyChanged(nameof(DataLevel));
-                    OnPropertyChanged(nameof(DataLevelText));
-                    OnPropertyChanged(nameof(IsReadOnly));
-                }
-            }
-        }
+        public DataLevel DataLevel { get; set; }
 
         public bool IsReadOnly {
             get {

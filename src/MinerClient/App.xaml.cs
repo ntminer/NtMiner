@@ -91,13 +91,13 @@ namespace NTMiner {
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (VirtualRoot.IsLTWin10) {
-                            VirtualRoot.ThisLocalWarn(nameof(App), AppStatic.LowWinMessage, toConsole: true);
+                            VirtualRoot.LocalWarn(nameof(App), AppStatic.LowWinMessage, toConsole: true);
                         }
                         if (NTMinerRoot.Instance.GpuSet.Count == 0) {
-                            VirtualRoot.ThisLocalError(nameof(App), "没有矿卡或矿卡未驱动。", toConsole: true);
+                            VirtualRoot.LocalError(nameof(App), "没有矿卡或矿卡未驱动。", toConsole: true);
                         }
                         if (NTMinerRoot.Instance.ServerContext.CoinSet.Count == 0) {
-                            VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
+                            VirtualRoot.LocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
                         UIThread.Execute(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
@@ -156,13 +156,13 @@ namespace NTMiner {
                 _appViewFactory.ShowMainWindow(isToggle);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {
-                    var mainCoin = NTMinerRoot.Instance.CurrentMineContext.MainCoin;
+                    var mainCoin = NTMinerRoot.Instance.LockedMineContext.MainCoin;
                     if (mainCoin == null) {
                         return;
                     }
                     var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
                     VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
-                    if ((NTMinerRoot.Instance.CurrentMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
+                    if ((NTMinerRoot.Instance.LockedMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
                         coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
                         VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
                     }
@@ -174,7 +174,7 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
                 // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
-                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");
+                VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}");
                 UIThread.Execute(() => {
                     try {
                         Shutdown();
@@ -265,10 +265,10 @@ namespace NTMiner {
             SwitchRadeonGpu.SwitchRadeonGpu.Run(on, (isSuccess, e) => {
                 if (isSuccess) {
                     if (on) {
-                        VirtualRoot.ThisLocalInfo(nameof(App), "开启A卡计算模式成功", OutEnum.Success);
+                        VirtualRoot.LocalInfo(nameof(App), "开启A卡计算模式成功", OutEnum.Success);
                     }
                     else {
-                        VirtualRoot.ThisLocalInfo(nameof(App), "关闭A卡计算模式成功", OutEnum.Success);
+                        VirtualRoot.LocalInfo(nameof(App), "关闭A卡计算模式成功", OutEnum.Success);
                     }
                 }
                 else if (e != null) {
@@ -276,10 +276,10 @@ namespace NTMiner {
                 }
                 else {
                     if (on) {
-                        VirtualRoot.ThisLocalError(nameof(App), "开启A卡计算模式失败", OutEnum.Warn);
+                        VirtualRoot.LocalError(nameof(App), "开启A卡计算模式失败", OutEnum.Warn);
                     }
                     else {
-                        VirtualRoot.ThisLocalError(nameof(App), "关闭A卡计算模式失败", OutEnum.Warn);
+                        VirtualRoot.LocalError(nameof(App), "关闭A卡计算模式失败", OutEnum.Warn);
                     }
                 }
             });

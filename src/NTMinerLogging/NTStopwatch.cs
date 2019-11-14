@@ -3,19 +3,35 @@ using System.Diagnostics;
 
 namespace NTMiner {
     public class NTStopwatch {
+        public struct ElapsedValue {
+            public long ElapsedMilliseconds;
+            public int StackHeight;
+
+            public override string ToString() {
+                return $"[{StackHeight}]{ElapsedMilliseconds} 毫秒";
+            }
+        }
+
         private readonly Stopwatch _stopwatch = new Stopwatch();
-        private readonly Stack<long> _elapsedMilliseconds = new Stack<long>();
+        private readonly Stack<long> _stack = new Stack<long>();
 
         public NTStopwatch() {
-            _stopwatch.Start();
+            if (DevMode.IsDevMode || DevMode.IsInUnitTest) {
+                _stopwatch.Start();
+            }
         }
 
+        // 注意比对Start和Stop的引用计数是否相等，由于用using裹住太难看这里就不借助using保持Start和Stop的相等了
         public void Start() {
-            _elapsedMilliseconds.Push(_stopwatch.ElapsedMilliseconds);
+            _stack.Push(_stopwatch.ElapsedMilliseconds);
         }
 
-        public long Stop() {
-            return _stopwatch.ElapsedMilliseconds - _elapsedMilliseconds.Pop();
+        public ElapsedValue Stop() {
+            var value = _stopwatch.ElapsedMilliseconds - _stack.Pop();
+            return new ElapsedValue {
+                ElapsedMilliseconds = value,
+                StackHeight = _stack.Count
+            };
         }
     }
 }

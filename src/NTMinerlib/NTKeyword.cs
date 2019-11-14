@@ -65,7 +65,6 @@
         public const string UseDevicesAppSettingKey = "UseDevices";
         public const string UpdaterVersionAppSettingKey = "UpdaterVersion";
         public const string ServerJsonVersionAppSettingKey = "ServerJsonVersion";
-        public const string ServerChannelTimestampAppSettingKey = "ServerChannelTimestamp";
         #endregion
 
         #region ServerAppSettingKey
@@ -75,7 +74,6 @@
         public const string MinTempAppSettingKey = "MinTemp";
         public const string RejectPercentAppSettingKey = "RejectPercent";
         public const string NTMinerUpdaterFileNameAppSettingKey = "NTMinerUpdaterFileName";
-        public const string KernelOutputKeywordVersionAppSettingKey = "KernelOutputKeywordVersion";
         #endregion
 
         #region 系统字典编码

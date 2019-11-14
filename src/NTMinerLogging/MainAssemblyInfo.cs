@@ -30,9 +30,8 @@ namespace NTMiner {
         }
 
         static MainAssemblyInfo() {
-            Assembly mainAssembly = Assembly.GetEntryAssembly();
-            // 单元测试时为null
-            if (mainAssembly != null) {
+            if (!DevMode.IsInUnitTest) {
+                Assembly mainAssembly = Assembly.GetEntryAssembly();
                 CurrentVersion = mainAssembly.GetName().Version;
                 var description = (AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).FirstOrDefault();
                 CurrentVersionTag = description?.Description;

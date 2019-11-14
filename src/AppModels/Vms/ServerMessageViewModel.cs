@@ -1,4 +1,5 @@
 ﻿using NTMiner.MinerServer;
+using NTMiner.Views;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -6,7 +7,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class ServerMessageViewModel : ViewModelBase, IServerMessage, IEditableViewModel {
-        private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Info"];
+        private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Message"];
         private static readonly SolidColorBrush InfoColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
         private static readonly StreamGeometry NewVersionIcon = (StreamGeometry)Application.Current.Resources["Icon_NewVersion"];
         private static readonly SolidColorBrush NewVersionColor = (SolidColorBrush)Application.Current.Resources["NewVersionColor"];
@@ -81,12 +82,16 @@ namespace NTMiner.Vms {
                     return;
                 }
                 this.ShowDialog(new DialogWindowViewModel(message: $"您确定标记删除'{this.Content}'这条消息吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new MarkDeleteServerMessageCommand(this.Id));
+                    LoginWindow.Login(() => {
+                        VirtualRoot.Execute(new MarkDeleteServerMessageCommand(this.Id));
+                    });
                 }));
             });
             this.Save = new DelegateCommand(() => {
-                VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(this));
-                CloseWindow?.Invoke();
+                LoginWindow.Login(() => {
+                    VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(this));
+                    CloseWindow?.Invoke();
+                });
             });
         }
 

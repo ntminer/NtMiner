@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace NTMiner {
     public static class DevMode {
@@ -10,6 +11,7 @@ namespace NTMiner {
 
         public static bool IsDebugMode { get; private set; }
         public static bool IsDevMode { get; private set; }
+        public static bool IsInUnitTest { get; private set; }
 
         public static void SetDevMode() {
             IsDebugMode = true;
@@ -28,6 +30,9 @@ namespace NTMiner {
             IsDevMode = IsDebugMode;
             if (!IsDevMode && _commandLineArgs.Contains(AppDevParamName, StringComparer.OrdinalIgnoreCase)) {
                 IsDevMode = true;
+            }
+            if (Assembly.GetEntryAssembly() == null) {
+                IsInUnitTest = true;
             }
         }
     }

@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
             get {
                 if (_consoleColorItems == null) {
                     _consoleColorItems = new List<ConsoleColorItem>();
-                    foreach (var item in EnumItem<ConsoleColor>.GetEnumItems()) {
+                    foreach (var item in NTMinerRoot.ConsoleColorEnumItems) {
                         _consoleColorItems.Add(new ConsoleColorItem(item.Name, item.Value));
                     }
                 }

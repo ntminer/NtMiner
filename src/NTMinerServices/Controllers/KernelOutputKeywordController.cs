@@ -1,38 +1,20 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerServer;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class KernelOutputKeywordController : ApiControllerBase, IKernelOutputKeywordController {
         [HttpPost]
-        public string GetVersion() {
-            string version = string.Empty;
-            try {
-                if (!HostRoot.Instance.AppSettingSet.TryGetAppSetting(NTKeyword.KernelOutputKeywordVersionAppSettingKey, out IAppSetting data) || data.Value == null) {
-                    version = string.Empty;
-                }
-                else {
-                    version = data.Value.ToString();
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
-            return version;
-        }
-
-        [HttpPost]
-        public DataResponse<List<KernelOutputKeywordData>> KernelOutputKeywords(KernelOutputKeywordsRequest request) {
+        public KernelOutputKeywordsResponse KernelOutputKeywords(KernelOutputKeywordsRequest request) {
             try {
                 var data = HostRoot.Instance.KernelOutputKeywordSet;
-                return DataResponse<List<KernelOutputKeywordData>>.Ok(data.Select(a => KernelOutputKeywordData.Create(a)).ToList());
+                return KernelOutputKeywordsResponse.Ok(data.Select(a => KernelOutputKeywordData.Create(a)).ToList(), NTMiner.Timestamp.GetTimestamp(HostRoot.Instance.KernelOutputKeywordTimestamp));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError<DataResponse<List<KernelOutputKeywordData>>>(e.Message);
+                return ResponseBase.ServerError<KernelOutputKeywordsResponse>(e.Message);
             }
         }
 
@@ -46,6 +28,7 @@ namespace NTMiner.Controllers {
                     return response;
                 }
                 VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(request.Data));
+                HostRoot.Instance.UpdateKernelOutputKeywordTimestamp(DateTime.Now);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -55,7 +38,7 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ResponseBase SetKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request) {
+        public ResponseBase AddOrUpdateKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -63,11 +46,8 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                VirtualRoot.Execute(new SetKernelOutputKeywordCommand(request.Data));
-                VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
-                    Key = NTKeyword.KernelOutputKeywordVersionAppSettingKey,
-                    Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-                }));
+                VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(request.Data));
+                HostRoot.Instance.UpdateKernelOutputKeywordTimestamp(DateTime.Now);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

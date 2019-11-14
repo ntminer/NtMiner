@@ -49,12 +49,11 @@ namespace NTMiner {
                     if (_isMinerClientDetected) {
                         return _isMinerClient;
                     }
-                    var assembly = Assembly.GetEntryAssembly();
-                    // 单元测试时assembly为null
-                    if (assembly == null) { 
+                    if (DevMode.IsInUnitTest) { 
                         _isMinerClient = true;
                     }
                     else {
+                        var assembly = Assembly.GetEntryAssembly();
                         // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是挖矿客户端
                         _isMinerClient = assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null;
                     }
@@ -86,11 +85,10 @@ namespace NTMiner {
                     }
                     else {
                         // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是群控客户端
-                        var assembly = Assembly.GetEntryAssembly();
-                        // 单元测试时assembly为null
-                        if (assembly == null) {
+                        if (DevMode.IsInUnitTest) {
                             return false;
                         }
+                        var assembly = Assembly.GetEntryAssembly();
                         _isMinerStudio = assembly.GetManifestResourceInfo(NTKeyword.NTMinerServicesKey) != null;
                     }
                     _isMinerStudioDetected = true;
@@ -196,6 +194,24 @@ namespace NTMiner {
         }
         #endregion
 
+        #region LocalKernelOutputKeywordSetTimestamp
+        public static DateTime LocalKernelOutputKeywordSetTimestamp {
+            get {
+                if (LocalAppSettingSet.TryGetAppSetting(nameof(LocalKernelOutputKeywordSetTimestamp), out IAppSetting appSetting) && appSetting.Value is DateTime value) {
+                    return value;
+                }
+                return Timestamp.UnixBaseTime;
+            }
+            set {
+                AppSettingData appSetting = new AppSettingData {
+                    Key = nameof(LocalKernelOutputKeywordSetTimestamp),
+                    Value = value
+                };
+                Execute(new SetLocalAppSettingCommand(appSetting));
+            }
+        }
+        #endregion
+
         #region LocalAppSettingSet
         private static IAppSettingSet _appSettingSet;
         public static IAppSettingSet LocalAppSettingSet {
@@ -215,11 +231,11 @@ namespace NTMiner {
                 if (_appName != null) {
                     return _appName;
                 }
-                Assembly mainAssembly = Assembly.GetEntryAssembly();
-                if (mainAssembly == null) {
+                if (DevMode.IsInUnitTest) {
                     _appName = "未说明";
                 }
                 else {
+                    Assembly mainAssembly = Assembly.GetEntryAssembly();
                     var attr = mainAssembly.GetCustomAttributes(typeof(AssemblyTitleAttribute), inherit: false).FirstOrDefault();
                     if (attr != null) {
                         _appName = ((AssemblyTitleAttribute)attr).Title;
@@ -282,6 +298,9 @@ namespace NTMiner {
 
         #region GetBrandId
         public static Guid GetBrandId(string fileFullName, string keyword) {
+            if (DevMode.IsInUnitTest) {
+                throw new InvalidProgramException("不支持单元测试这个方法，因为该方法的逻辑依赖于主程序集而单元测试时主程序集是null");
+            }
 #if DEBUG
             Write.Stopwatch.Start();
 #endif
@@ -324,26 +343,26 @@ namespace NTMiner {
             }
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds}毫秒 {typeof(VirtualRoot).Name}.GetBrandId");
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {typeof(VirtualRoot).Name}.GetBrandId");
 #endif
             return guid;
         }
         #endregion
 
         #region LocalMessage
-        public static void ThisLocalInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisLocalMessage(provider, LocalMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
+        public static void LocalInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            LocalMessage(provider, LocalMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ThisLocalWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisLocalMessage(provider, LocalMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
+        public static void LocalWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            LocalMessage(provider, LocalMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        public static void ThisLocalError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            ThisLocalMessage(provider, LocalMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
+        public static void LocalError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
+            LocalMessage(provider, LocalMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
         }
 
-        private static void ThisLocalMessage(string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
+        private static void LocalMessage(string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
             switch (outEnum) {
                 case OutEnum.None:
                     break;

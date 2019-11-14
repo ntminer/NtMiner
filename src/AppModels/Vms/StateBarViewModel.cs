@@ -153,7 +153,7 @@ namespace NTMiner.Vms {
 
         public string KernelSelfRestartCountText {
             get {
-                var mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                var mineContext = NTMinerRoot.Instance.LockedMineContext;
                 if (mineContext == null || mineContext.KernelSelfRestartCount <= 0) {
                     return string.Empty;
                 }

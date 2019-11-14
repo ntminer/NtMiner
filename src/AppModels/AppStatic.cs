@@ -66,7 +66,7 @@ namespace NTMiner {
                                         callback?.Invoke();
                                     }
                                     else {
-                                        VirtualRoot.ThisLocalError(nameof(AppStatic), message, toConsole: true);
+                                        VirtualRoot.LocalError(nameof(AppStatic), message, toConsole: true);
                                         callback?.Invoke();
                                     }
                                 }
@@ -380,6 +380,10 @@ namespace NTMiner {
                 return NTMinerRoot.ServerMessageTypeEnumItems;
             }
         }
+
+        public static IEnumerable<EnumItem<LocalMessageType>> LocalMessageTypeEnumItems {
+            get { return NTMinerRoot.LocalMessageTypeEnumItems; }
+        }
         #endregion
 
         #region AppName CurrentVersion VersionTag VersionFullName
@@ -592,6 +596,10 @@ namespace NTMiner {
                     VirtualRoot.Out.ShowError($"刷新失败");
                 }
             }));
+        });
+
+        public static ICommand ShowLocalMessagesConfig { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowLocalMessagesConfigCommand());
         });
 
         public static ICommand ShowMessagePathIds { get; private set; } = new DelegateCommand(() => {

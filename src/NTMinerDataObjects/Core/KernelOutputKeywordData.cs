@@ -14,7 +14,8 @@ namespace NTMiner.Core {
                 KernelOutputId = data.KernelOutputId,
                 MessageType = data.MessageType,
                 Keyword = data.Keyword,
-                DataLevel = data.DataLevel
+                DataLevel = data.DataLevel,
+                Description = data.Description
             };
         }
 
@@ -37,5 +38,7 @@ namespace NTMiner.Core {
         public string MessageType { get; set; }
 
         public string Keyword { get; set; }
+
+        public string Description { get; set; }
     }
 }
