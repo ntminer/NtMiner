@@ -86,7 +86,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardwareProviders", "src\Ha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HardwareProviders.CPU", "src\HardwareProviders.CPU\HardwareProviders.CPU.csproj", "{7DE56519-4FC8-4A72-A143-098ACC4DE53C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMiner", "src\NTMiner\NTMiner.csproj", "{85D052AB-44B8-46F3-9D7B-F624C24FD8BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerClient", "src\NTMiner\NTMinerClient.csproj", "{85D052AB-44B8-46F3-9D7B-F624C24FD8BA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTWebSocket", "src\NTWebSocket\NTWebSocket.csproj", "{4B589378-679A-4FC6-A5D7-99B29AF67163}"
 EndProject

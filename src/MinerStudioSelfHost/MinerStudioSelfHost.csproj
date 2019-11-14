@@ -79,9 +79,9 @@
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMiner\NTMiner.csproj">
+    <ProjectReference Include="..\NTMiner\NTMinerClient.csproj">
       <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMiner</Name>
+      <Name>NTMinerClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

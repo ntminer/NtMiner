@@ -231,9 +231,9 @@
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMiner\NTMiner.csproj">
+    <ProjectReference Include="..\NTMiner\NTMinerClient.csproj">
       <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMiner</Name>
+      <Name>NTMinerClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
