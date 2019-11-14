@@ -142,9 +142,9 @@ namespace NTMiner {
                                 Process[] processes = Process.GetProcessesByName(processName);
                                 if (processes.Length == 0) {
                                     mineContext.AutoRestartKernelCount += 1;
-                                    VirtualRoot.LocalWarn(nameof(NTMinerRoot), processName + $"挖矿内核进程消失", toConsole: true);
+                                    VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), processName + $"挖矿内核进程消失", toConsole: true);
                                     if (Instance.MinerProfile.IsAutoRestartKernel && mineContext.AutoRestartKernelCount <= Instance.MinerProfile.AutoRestartKernelTimes) {
-                                        VirtualRoot.LocalInfo(nameof(NTMinerRoot), $"尝试第{mineContext.AutoRestartKernelCount}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes}次", toConsole: true);
+                                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"尝试第{mineContext.AutoRestartKernelCount}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes}次", toConsole: true);
                                         Instance.RestartMine();
                                         Instance.LockedMineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount;
                                     }
@@ -462,7 +462,7 @@ namespace NTMiner {
                                                     if (!string.IsNullOrEmpty(keyword.Description)) {
                                                         content += $"大意：{keyword.Description}";
                                                     }
-                                                    VirtualRoot.LocalMessage(nameof(MinerProcess), messageType, content, OutEnum.None, toConsole: false);
+                                                    VirtualRoot.LocalMessage(LocalMessageChannel.Kernel, nameof(MinerProcess), messageType, content, OutEnum.None, toConsole: false);
                                                 }
                                             }
                                         }
