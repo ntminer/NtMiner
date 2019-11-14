@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            foreach (var messageType in EnumItem<ServerMessageType>.GetEnumItems()) {
+            foreach (var messageType in NTMinerRoot.ServerMessageTypeEnumItems) {
                 _count.Add(messageType.Value, new MessageTypeItem<ServerMessageType>(messageType, ServerMessageViewModel.GetIcon, ServerMessageViewModel.GetIconFill, RefreshQueryResults));
             }
             Init();

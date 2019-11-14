@@ -93,6 +93,12 @@ namespace NTMiner {
         }
 
         #region 枚举数据集
+        public static IEnumerable<EnumItem<LocalMessageChannel>> LocalMessageChannelEnumItems {
+            get { 
+                return EnumItem<LocalMessageChannel>.GetEnumItems(); 
+            }
+        }
+
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
                 return EnumItem<SupportedGpu>.GetEnumItems();
