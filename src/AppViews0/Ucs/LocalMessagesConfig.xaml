@@ -19,7 +19,10 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="1" ItemsSource="{Binding KernelOutputVm.KernelOutputKeywords}">
+        <DataGrid 
+            Grid.Row="1" 
+            ItemsSource="{Binding KernelOutputVm.KernelOutputKeywords}"
+			MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTemplateColumn IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
