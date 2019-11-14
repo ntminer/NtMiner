@@ -99,6 +99,12 @@ namespace NTMiner {
             }
         }
 
+        public static IEnumerable<EnumItem<ConsoleColor>> ConsoleColorEnumItems {
+            get {
+                return EnumItem<ConsoleColor>.GetEnumItems();
+            }
+        }
+
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
                 return EnumItem<SupportedGpu>.GetEnumItems();
