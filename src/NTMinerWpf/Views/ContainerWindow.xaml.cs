@@ -130,7 +130,6 @@ namespace NTMiner.Views {
                     this.ResizeMode = ResizeMode.NoResize;
                 }
                 else {
-                    // 如果不是对话窗口则不能改变窗口尺寸但可以最小化
                     this.ResizeMode = ResizeMode.CanMinimize;
                 }
                 vm.MaxVisible = Visibility.Collapsed;
