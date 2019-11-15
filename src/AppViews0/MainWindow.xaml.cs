@@ -337,9 +337,6 @@ namespace NTMiner.Views {
                     var elapsedMilliseconds = Write.Stopwatch.Stop();
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.RefreshCpu");
 #endif
-                    UIThread.Execute(() => {
-                        UpdateCpuView(performance, temperature);
-                    });
                     this.BuildEventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
                         action: message => {
                             RefreshCpu();
