@@ -88,7 +88,6 @@ namespace NTMiner.Views {
             Func<ContainerWindow, UserControl> ucFactory,
             bool fixedSize = false,
             bool dragMove = true) {
-            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed, Save_Enabled));
             _uc = ucFactory(this);
             vm.UcResourceDic = _uc.Resources;
             _vm = vm;
@@ -144,20 +143,7 @@ namespace NTMiner.Views {
             this.Container.Children.Add(_uc);
         }
 
-        private void Save_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (_vm.OnOk == null) {
-                return;
-            }
-            if (_vm.OnOk.Invoke(_uc)) {
-                this.Close();
-            }
-        }
-
-        private void Save_Enabled(object sender, CanExecuteRoutedEventArgs e) {
-            e.CanExecute = true;
-        }
-
-        public void ShowWindow<TUc>(Action<ContainerWindow, TUc> beforeShow = null) where TUc : UserControl {
+        private void ShowWindow<TUc>(Action<ContainerWindow, TUc> beforeShow = null) where TUc : UserControl {
             beforeShow?.Invoke(this, (TUc)_uc);
             if (Vm.IsDialogWindow) {
                 var owner = WpfUtil.GetTopWindow();
@@ -185,7 +171,6 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosed(EventArgs e) {
-            Vm.OnClose?.Invoke(_uc);
             Type ucType = _uc.GetType();
             if (s_windowDicByType.ContainsKey(ucType)) {
                 if (s_windowLeftDic.ContainsKey(ucType)) {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -23,9 +22,6 @@ namespace NTMiner.Vms {
         private string _title;
         private string _iconName;
         private string _iconImage;
-
-        public Func<UserControl, bool> OnOk;
-        public Action<UserControl> OnClose;
 
         public ContainerWindowViewModel() {
         }

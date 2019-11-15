@@ -11,14 +11,12 @@ namespace NTMiner.Views.Ucs {
                 Width = 900,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                IconName = "Icon_MineWork",
-                OnClose = (uc) => {
-                    MineWorkViewModel vm = (MineWorkViewModel)uc.DataContext;
-                    vm.Save.Execute(null);
-                }
-            }, ucFactory: (window) =>
-            {
+                IconName = "Icon_MineWork"
+            }, ucFactory: (window) => {
                 MineWorkViewModel vm = new MineWorkViewModel(source);
+                window.Closed += (sender, e) => {
+                    vm.Save.Execute(null);
+                };
                 return new MineWorkEdit(vm);
             }, fixedSize: true);
         }
