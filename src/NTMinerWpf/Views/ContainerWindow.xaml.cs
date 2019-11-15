@@ -23,13 +23,6 @@ namespace NTMiner.Views {
             return s_windowDic[vm];
         }
 
-        private bool _isNew = true;
-        public bool IsNew {
-            get {
-                return _isNew;
-            }
-        }
-
         public static ContainerWindow ShowWindow<TUc>(
             ContainerWindowViewModel vm,
             Func<ContainerWindow, TUc> ucFactory,
@@ -50,7 +43,6 @@ namespace NTMiner.Views {
             Type ucType = typeof(TUc);
             if (s_windowDicByType.ContainsKey(ucType)) {
                 window = s_windowDicByType[ucType];
-                window._isNew = false;
             }
             else {
                 s_windowDic.Add(vm, window);
@@ -83,7 +75,7 @@ namespace NTMiner.Views {
             }
         }
 
-        public ContainerWindow(
+        private ContainerWindow(
             ContainerWindowViewModel vm,
             Func<ContainerWindow, UserControl> ucFactory,
             bool fixedSize = false,
