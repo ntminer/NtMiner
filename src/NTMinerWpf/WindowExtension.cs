@@ -70,6 +70,9 @@ namespace NTMiner {
                         window.Owner.IsEnabled = true;
                     };
                 }
+                window.Closed += (sender, e) => {
+                    window.Owner.Activate();
+                };
             }
             window.Show();
         }
