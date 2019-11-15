@@ -40,6 +40,7 @@ namespace NTMiner.Views {
         }
 
         private int _marginLeft, _marginTop, _height, _width;
+
         public void MoveWindow(int marginLeft, int marginTop, int height) {
             if (!_isSplashed) {
                 return;

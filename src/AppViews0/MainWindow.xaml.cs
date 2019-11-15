@@ -137,7 +137,16 @@ namespace NTMiner.Views {
             }
 
             UIThread.StartTimer();
-            ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
+            bool isSplashed = false;
+            ConsoleWindow.Instance.OnSplashHided = ()=> {
+                if (!isSplashed) {
+                    isSplashed = true;
+                    ConsoleWindow.Instance.MouseDown += (sender, e) => {
+                        MoveConsoleWindow();
+                    };
+                }
+                MoveConsoleWindow();
+            };
             _borderBrush = this.BorderBrush;
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
