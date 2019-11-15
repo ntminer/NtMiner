@@ -171,12 +171,6 @@ namespace NTMiner.Views {
                     ColumnsShowEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
-            VirtualRoot.BuildCmdPath<ShowContainerWindowCommand>(action: message => {
-                UIThread.Execute(() => {
-                    ContainerWindow window = ContainerWindow.GetWindow(message.Vm);
-                    window?.ShowWindow();
-                });
-            });
             VirtualRoot.BuildCmdPath<ShowSpeedChartsCommand>(action: message => {
                 UIThread.Execute(() => {
                     SpeedCharts.ShowWindow(message.GpuSpeedVm);

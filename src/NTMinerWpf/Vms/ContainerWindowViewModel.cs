@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -25,16 +24,11 @@ namespace NTMiner.Vms {
         private string _title;
         private string _iconName;
         private string _iconImage;
-        private bool _hasOwner;
 
         public Func<UserControl, bool> OnOk;
         public Action<UserControl> OnClose;
-        public ICommand ShowWindow { get; private set; }
 
         public ContainerWindowViewModel() {
-            this.ShowWindow = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ShowContainerWindowCommand(this));
-            });
         }
 
         public double MaxWidth {
@@ -72,11 +66,6 @@ namespace NTMiner.Vms {
                     _isDialogWindow = value;
                 }
             }
-        }
-
-        public bool HasOwner {
-            get => _hasOwner || IsDialogWindow;
-            set => _hasOwner = value;
         }
 
         public FormType FormType {
@@ -200,11 +189,6 @@ namespace NTMiner.Vms {
             set {
                 _minHeight = value;
                 OnPropertyChanged(nameof(MinHeight));
-            }
-        }
-        public Visibility MinVisible {
-            get {
-                return HasOwner ? Visibility.Collapsed : Visibility.Visible;
             }
         }
         public Visibility MaxVisible {

@@ -33,7 +33,7 @@ namespace NTMiner.Views {
         public static ContainerWindow ShowWindow<TUc>(
             ContainerWindowViewModel vm,
             Func<ContainerWindow, TUc> ucFactory,
-            Action<UserControl> beforeShow = null,
+            Action<ContainerWindow, TUc> beforeShow = null,
             Action afterClose = null,
             bool fixedSize = false) where TUc : UserControl {
             if (vm == null) {
@@ -158,16 +158,18 @@ namespace NTMiner.Views {
             e.CanExecute = true;
         }
 
-        public void ShowWindow(Action<UserControl> beforeShow = null) {
-            beforeShow?.Invoke(_uc);
-            if (Vm.IsDialogWindow || Vm.HasOwner) {
+        public void ShowWindow<TUc>(Action<ContainerWindow, TUc> beforeShow = null) where TUc : UserControl {
+            beforeShow?.Invoke(this, (TUc)_uc);
+            if (Vm.IsDialogWindow) {
                 var owner = WpfUtil.GetTopWindow();
                 if (this != owner) {
                     this.Owner = owner;
                 }
             }
-            if (Vm.IsDialogWindow || Vm.HasOwner || Vm.HeaderVisible == Visibility.Collapsed) {
+            bool hasOwner = this.Owner != null;
+            if (Vm.IsDialogWindow || hasOwner || Vm.HeaderVisible == Visibility.Collapsed) {
                 this.ShowInTaskbar = false;
+                this.BtnMin.Visibility = Visibility.Collapsed;
             }
             if (Vm.IsDialogWindow) {
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;

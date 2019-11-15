@@ -9,7 +9,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedCharts : UserControl {
@@ -24,7 +23,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => {
                 SpeedCharts uc = new SpeedCharts();
                 return uc;
-            }, beforeShow: (uc) => {
+            }, beforeShow: (window, uc) => {
                 if (gpuSpeedVm != null) {
                     SpeedChartsViewModel vm = (SpeedChartsViewModel)uc.DataContext;
                     SpeedChartViewModel item = vm.SpeedChartVms.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);

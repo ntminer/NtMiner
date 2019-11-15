@@ -49,7 +49,6 @@
     </Compile>
     <Compile Include="Converters\BoolToBrushInvertConverter.cs" />
     <Compile Include="Converters\BoolToStreamGeometryConverter.cs" />
-    <Compile Include="Messages.cs" />
     <Compile Include="ViewModelExtension.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>

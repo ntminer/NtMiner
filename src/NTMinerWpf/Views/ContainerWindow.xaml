@@ -64,7 +64,7 @@
 				DockPanel.Dock="Right" 
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
-				<controls:KbSystemMinButton Height="30" Visibility="{Binding MinVisible}" />
+				<controls:KbSystemMinButton Height="30" x:Name="BtnMin" />
 				<controls:KbSystemMaxButton Height="30" Visibility="{Binding MaxVisible}" />
 				<controls:KbSystemCloseButton Height="30" Visibility="{Binding CloseVisible}" />
 			</WrapPanel>

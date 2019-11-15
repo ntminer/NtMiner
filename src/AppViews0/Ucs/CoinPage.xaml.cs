@@ -16,7 +16,7 @@ namespace NTMiner.Views.Ucs {
                 Height = 520
             },
             ucFactory: (window) => new CoinPage(),
-            beforeShow: uc => {
+            beforeShow: (window, uc) => {
                 if (currentCoin != null) {
                     CoinPageViewModel vm = (CoinPageViewModel)uc.DataContext;
                     switch (tabType) {
