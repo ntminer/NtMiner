@@ -7,7 +7,6 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class ContainerWindowViewModel : ViewModelBase {
-        private Visibility _minVisible = Visibility.Visible;
         private Visibility _maxVisible = Visibility.Visible;
         private Visibility _closeVisible = Visibility.Visible;
         private Visibility _headerVisible = Visibility.Visible;
@@ -24,6 +23,9 @@ namespace NTMiner.Vms {
         private FormType _formType;
         private string _footerText;
         private string _title;
+        private string _iconName;
+        private string _iconImage;
+        private bool _hasOwner;
 
         public Func<UserControl, bool> OnOk;
         public Action<UserControl> OnClose;
@@ -72,7 +74,10 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool HasOwner { get; set; }
+        public bool HasOwner {
+            get => _hasOwner || IsDialogWindow;
+            set => _hasOwner = value;
+        }
 
         public FormType FormType {
             get => _formType;
@@ -103,9 +108,6 @@ namespace NTMiner.Vms {
                 return _isIconAddVisible;
             }
         }
-
-        private string _iconName;
-        private string _iconImage;
 
         public string IconName {
             get { return _iconName; }
@@ -201,12 +203,8 @@ namespace NTMiner.Vms {
             }
         }
         public Visibility MinVisible {
-            get => _minVisible;
-            set {
-                if (_minVisible != value) {
-                    _minVisible = value;
-                    OnPropertyChanged(nameof(MinVisible));
-                }
+            get {
+                return HasOwner ? Visibility.Collapsed : Visibility.Visible;
             }
         }
         public Visibility MaxVisible {
