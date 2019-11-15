@@ -167,7 +167,7 @@ namespace NTMiner.Views {
                 }
             }
             bool hasOwner = this.Owner != null;
-            if (Vm.IsDialogWindow || hasOwner || Vm.HeaderVisible == Visibility.Collapsed) {
+            if (Vm.IsDialogWindow || hasOwner) {
                 this.ShowInTaskbar = false;
                 this.BtnMin.Visibility = Visibility.Collapsed;
             }
