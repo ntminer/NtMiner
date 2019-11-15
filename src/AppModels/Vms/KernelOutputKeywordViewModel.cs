@@ -49,12 +49,13 @@ namespace NTMiner.Vms {
                 if (DevMode.IsDevMode) {
                     LoginWindow.Login(() => {
                         VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
+                        CloseWindow?.Invoke();
                     });
                 }
                 else {
                     VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
+                    CloseWindow?.Invoke();
                 }
-                CloseWindow?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.IsReadOnly) {

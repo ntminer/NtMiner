@@ -18,6 +18,9 @@ namespace NTMiner.Views {
                     window.ShowSoftDialog();
                 });
             }
+            else {
+                onLoginSuccess?.Invoke();
+            }
         }
 
         private static bool IsLogined() {
