@@ -98,6 +98,7 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
     <Compile Include="AtikmdagPatcher\AtikmdagPatcherUtil.cs" />
+    <Compile Include="Splash\NTMinerSplash.cs" />
     <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
     <Compile Include="Windows\WindowsUtil.cs" />
   </ItemGroup>

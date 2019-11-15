@@ -128,7 +128,14 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.Stopwatch.Start();
 #endif
-            this.Owner = ConsoleWindow.Instance;
+            this.Loaded += (sender, e) => {
+                ConsoleWindow.Instance.Show();
+                this.Owner = ConsoleWindow.Instance;
+                hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+                hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
+                hwndSource.AddHook(new HwndSourceHook(WindowProc));
+                hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
+            };
             InitializeComponent();
 
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
@@ -267,13 +274,6 @@ namespace NTMiner.Views {
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
 #endif
-        }
-
-        private void Window_SourceInitialized(object sender, EventArgs e) {
-            hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-            hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
-            hwndSource.AddHook(new HwndSourceHook(WindowProc));
-            hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
         }
 
         #region 改变下面的控制台窗口的尺寸和位置

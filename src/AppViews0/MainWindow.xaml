@@ -22,7 +22,6 @@
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="Window_MouseDown"
-        SourceInitialized="Window_SourceInitialized"
 		TextOptions.TextFormattingMode="Display">
     <Window.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
