@@ -9,12 +9,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedCharts : UserControl {
         public static void ShowWindow(GpuSpeedViewModel gpuSpeedVm = null) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel() {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "算力图",
                 IconName = "Icon_Speed",
                 Width = 760,
@@ -24,12 +23,11 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => {
                 SpeedCharts uc = new SpeedCharts();
                 return uc;
-            }, beforeShow: (uc) => {
+            }, beforeShow: (window, uc) => {
                 if (gpuSpeedVm != null) {
-                    SpeedChartsViewModel vm = (SpeedChartsViewModel)uc.DataContext;
-                    SpeedChartViewModel item = vm.SpeedChartVms.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);
+                    SpeedChartViewModel item = uc.Vm.SpeedChartVms.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);
                     if (item != null) {
-                        vm.CurrentSpeedChartVm = item;
+                        uc.Vm.CurrentSpeedChartVm = item;
                     }
                 }
             }, fixedSize: false);

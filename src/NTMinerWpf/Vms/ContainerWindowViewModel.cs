@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class ContainerWindowViewModel : ViewModelBase {
-        private Visibility _minVisible = Visibility.Visible;
         private Visibility _maxVisible = Visibility.Visible;
         private Visibility _closeVisible = Visibility.Visible;
-        private Visibility _headerVisible = Visibility.Visible;
         private Visibility _footerVisible = Visibility.Visible;
         private Visibility _isIconEditVisible = Visibility.Collapsed;
         private Visibility _isIconAddVisible = Visibility.Collapsed;
@@ -23,17 +19,11 @@ namespace NTMiner.Vms {
         private double _minWidth;
         private FormType _formType;
         private string _footerText;
-        private bool _isTopMost;
         private string _title;
-
-        public Func<UserControl, bool> OnOk;
-        public Action<UserControl> OnClose;
-        public ICommand ShowWindow { get; private set; }
+        private string _iconName;
+        private string _iconImage;
 
         public ContainerWindowViewModel() {
-            this.ShowWindow = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ShowContainerWindowCommand(this));
-            });
         }
 
         public double MaxWidth {
@@ -73,15 +63,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsTopMost {
-            get => _isTopMost;
-            set {
-                _isTopMost = value;
-            }
-        }
-
-        public bool HasOwner { get; set; }
-
         public FormType FormType {
             get => _formType;
             set {
@@ -111,9 +92,6 @@ namespace NTMiner.Vms {
                 return _isIconAddVisible;
             }
         }
-
-        private string _iconName;
-        private string _iconImage;
 
         public string IconName {
             get { return _iconName; }
@@ -208,31 +186,12 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(MinHeight));
             }
         }
-        public Visibility MinVisible {
-            get => _minVisible;
-            set {
-                if (_minVisible != value) {
-                    _minVisible = value;
-                    OnPropertyChanged(nameof(MinVisible));
-                }
-            }
-        }
         public Visibility MaxVisible {
             get => _maxVisible;
             set {
                 if (_maxVisible != value) {
                     _maxVisible = value;
                     OnPropertyChanged(nameof(MaxVisible));
-                }
-            }
-        }
-
-        public Visibility HeaderVisible {
-            get { return _headerVisible; }
-            set {
-                if (_headerVisible != value) {
-                    _headerVisible = value;
-                    OnPropertyChanged(nameof(HeaderVisible));
                 }
             }
         }

@@ -41,8 +41,11 @@ namespace NTMiner {
             }
         }
 
-        public static bool? ShowDialogEx(this Window window) {
-            bool? result;
+        /// <summary>
+        /// 打开为软对话框，非模态对话框。效果是打开时遮罩和禁用父窗口，关闭时复原父窗口。
+        /// </summary>
+        /// <param name="window"></param>
+        public static void ShowSoftDialog(this Window window) {
             if (window.Owner == null) {
                 var owner = WpfUtil.GetTopWindow();
                 if (owner != window) {
@@ -52,20 +55,26 @@ namespace NTMiner {
             if (window.Owner != null) {
                 if (window.Owner is IMaskWindow maskWindow) {
                     maskWindow.ShowMask();
-                    result = window.ShowDialog();
-                    maskWindow.HideMask();
+                    window.Owner.IsEnabled = false;
+                    window.Closing += (sender, e) => {
+                        maskWindow.HideMask();
+                        window.Owner.IsEnabled = true;
+                    };
                 }
                 else {
                     double ownerOpacity = window.Owner.Opacity;
                     window.Owner.Opacity = 0.6;
-                    result = window.ShowDialog();
-                    window.Owner.Opacity = ownerOpacity;
+                    window.Owner.IsEnabled = false;
+                    window.Closing += (sender, e) => {
+                        window.Owner.Opacity = ownerOpacity;
+                        window.Owner.IsEnabled = true;
+                    };
                 }
+                window.Closed += (sender, e) => {
+                    window.Owner.Activate();
+                };
             }
-            else {
-                result = window.ShowDialog();
-            }
-            return result;
+            window.Show();
         }
 
         public static void ShowWindow(this Window window, bool isToggle) {

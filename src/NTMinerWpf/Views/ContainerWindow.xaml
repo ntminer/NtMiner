@@ -19,7 +19,7 @@
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
 		<!--上标题栏-->
-		<DockPanel Height="30" Visibility="{Binding HeaderVisible}">
+		<DockPanel Height="30">
 			<WrapPanel DockPanel.Dock="Left" VerticalAlignment="Top" Margin="0 2 0 0">
 				<WrapPanel Margin="4 4 0 0" MouseDown="WindowIcon_MouseDoubleClick">
 					<Image
@@ -64,7 +64,7 @@
 				DockPanel.Dock="Right" 
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
-				<controls:KbSystemMinButton Height="30" Visibility="{Binding MinVisible}" />
+				<controls:KbSystemMinButton Height="30" x:Name="BtnMin" />
 				<controls:KbSystemMaxButton Height="30" Visibility="{Binding MaxVisible}" />
 				<controls:KbSystemCloseButton Height="30" Visibility="{Binding CloseVisible}" />
 			</WrapPanel>

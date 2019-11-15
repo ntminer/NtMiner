@@ -23,17 +23,10 @@ namespace NTMiner.Views {
             return s_windowDic[vm];
         }
 
-        private bool _isNew = true;
-        public bool IsNew {
-            get {
-                return _isNew;
-            }
-        }
-
         public static ContainerWindow ShowWindow<TUc>(
             ContainerWindowViewModel vm,
             Func<ContainerWindow, TUc> ucFactory,
-            Action<UserControl> beforeShow = null,
+            Action<ContainerWindow, TUc> beforeShow = null,
             Action afterClose = null,
             bool fixedSize = false) where TUc : UserControl {
             if (vm == null) {
@@ -50,7 +43,6 @@ namespace NTMiner.Views {
             Type ucType = typeof(TUc);
             if (s_windowDicByType.ContainsKey(ucType)) {
                 window = s_windowDicByType[ucType];
-                window._isNew = false;
             }
             else {
                 s_windowDic.Add(vm, window);
@@ -83,12 +75,11 @@ namespace NTMiner.Views {
             }
         }
 
-        public ContainerWindow(
+        private ContainerWindow(
             ContainerWindowViewModel vm,
             Func<ContainerWindow, UserControl> ucFactory,
             bool fixedSize = false,
             bool dragMove = true) {
-            this.CommandBindings.Add(new CommandBinding(ApplicationCommands.Save, Save_Executed, Save_Enabled));
             _uc = ucFactory(this);
             vm.UcResourceDic = _uc.Resources;
             _vm = vm;
@@ -126,12 +117,11 @@ namespace NTMiner.Views {
             InitializeComponent();
 
             if (fixedSize) {
-                if (!vm.IsDialogWindow) {
-                    this.ResizeMode = ResizeMode.CanMinimize;
+                if (vm.IsDialogWindow) {
+                    this.ResizeMode = ResizeMode.NoResize;
                 }
                 else {
-                    this.ResizeMode = ResizeMode.NoResize;
-                    vm.MinVisible = Visibility.Collapsed;
+                    this.ResizeMode = ResizeMode.CanMinimize;
                 }
                 vm.MaxVisible = Visibility.Collapsed;
             }
@@ -145,36 +135,24 @@ namespace NTMiner.Views {
             this.Container.Children.Add(_uc);
         }
 
-        private void Save_Executed(object sender, ExecutedRoutedEventArgs e) {
-            if (_vm.OnOk == null) {
-                return;
-            }
-            if (_vm.OnOk.Invoke(_uc)) {
-                this.Close();
-            }
-        }
-
-        private void Save_Enabled(object sender, CanExecuteRoutedEventArgs e) {
-            e.CanExecute = true;
-        }
-
-        public void ShowWindow(Action<UserControl> beforeShow = null) {
-            beforeShow?.Invoke(_uc);
-            if (Vm.IsDialogWindow || Vm.HasOwner) {
+        private void ShowWindow<TUc>(Action<ContainerWindow, TUc> beforeShow = null) where TUc : UserControl {
+            beforeShow?.Invoke(this, (TUc)_uc);
+            if (Vm.IsDialogWindow) {
                 var owner = WpfUtil.GetTopWindow();
                 if (this != owner) {
                     this.Owner = owner;
                 }
             }
-            if (Vm.IsDialogWindow || Vm.HasOwner || Vm.HeaderVisible == Visibility.Collapsed) {
+            bool hasOwner = this.Owner != null;
+            if (Vm.IsDialogWindow || hasOwner) {
                 this.ShowInTaskbar = false;
+                this.BtnMin.Visibility = Visibility.Collapsed;
             }
             if (Vm.IsDialogWindow) {
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                this.ShowDialogEx();
+                this.ShowSoftDialog();
             }
             else {
-                this.Topmost = Vm.IsTopMost;
                 this.ShowActivated = true;
                 this.Show();
                 if (this.WindowState == WindowState.Minimized) {
@@ -185,7 +163,6 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosed(EventArgs e) {
-            Vm.OnClose?.Invoke(_uc);
             Type ucType = _uc.GetType();
             if (s_windowDicByType.ContainsKey(ucType)) {
                 if (s_windowLeftDic.ContainsKey(ucType)) {

@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_User"
             }, ucFactory: (window) => {
                 UserViewModel vm = new UserViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new UserEdit(vm);
             }, fixedSize: true);

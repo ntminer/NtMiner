@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 FragmentWriterViewModel vm = new FragmentWriterViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new FragmentWriterEdit(vm);
             }, fixedSize: true);

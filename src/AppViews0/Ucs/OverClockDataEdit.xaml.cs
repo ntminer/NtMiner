@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_OverClock"
             }, ucFactory: (window) => {
                 OverClockDataViewModel vm = new OverClockDataViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new OverClockDataEdit(vm);
             }, fixedSize: true);

@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 SysDicItemViewModel vm = new SysDicItemViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new SysDicItemEdit(vm);
             }, fixedSize: true);

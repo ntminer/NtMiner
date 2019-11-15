@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 PackageViewModel vm = new PackageViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new PackageEdit(vm);
             }, fixedSize: false);

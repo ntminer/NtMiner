@@ -45,7 +45,7 @@
                 </ListBox.ItemTemplate>
             </ListBox>
             <TextBlock Style="{StaticResource LblTb}">关键字</TextBlock>
-            <TextBox Width="120" Style="{StaticResource TextBox}" Text="{Binding Keyword, ValidatesOnExceptions=True}">
+            <TextBox Width="244" Style="{StaticResource TextBox}" Text="{Binding Keyword, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">

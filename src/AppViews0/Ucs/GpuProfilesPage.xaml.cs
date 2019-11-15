@@ -14,18 +14,15 @@ namespace NTMiner.Views.Ucs {
             var minerClientVm = minerClientsWindowVm.SelectedMinerClients[0];
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = $"超频 - 基于矿机{minerClientVm.MinerName}({minerClientVm.MinerIp})",
-                HasOwner = true,
-                IsTopMost = true,
                 IconName = "Icon_OverClock",
                 Width = 800,
                 Height = 700,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
+                window.Owner = WpfUtil.GetTopWindow();
                 var vm = new GpuProfilesPageViewModel(minerClientsWindowVm) {
-                    CloseWindow = () => {
-                        window.Close();
-                    }
+                    CloseWindow = window.Close
                 };
                 var uc = new GpuProfilesPage(vm);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];

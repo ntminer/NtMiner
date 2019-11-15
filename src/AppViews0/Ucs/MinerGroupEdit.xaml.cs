@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_MinerGroup"
             }, ucFactory: (window) => {
                 MinerGroupViewModel vm = new MinerGroupViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new MinerGroupEdit(vm);
             }, fixedSize: true);

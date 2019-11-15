@@ -15,7 +15,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 CoinViewModel vm = new CoinViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new CoinEdit(vm);
             }, fixedSize: true);

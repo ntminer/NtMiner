@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
             Window window = new MinerClientAdd(vm);
             vm.CloseWindow = () => window.Close();
             window.MousePosition();
-            window.ShowDialogEx();
+            window.ShowSoftDialog();
         }
 
         public MinerClientAdd(MinerClientAddViewModel vm) {

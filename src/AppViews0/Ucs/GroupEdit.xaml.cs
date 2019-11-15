@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 GroupViewModel vm = new GroupViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new GroupEdit(vm);
             }, fixedSize: true);

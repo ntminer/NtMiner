@@ -146,7 +146,7 @@ namespace NTMiner.Vms {
                 NTMinerFileEdit window = new NTMinerFileEdit("Icon_Add", new NTMinerFileViewModel() {
                     AppType = App.AppType
                 });
-                window.ShowDialogEx();
+                window.ShowSoftDialog();
             });
         }
 

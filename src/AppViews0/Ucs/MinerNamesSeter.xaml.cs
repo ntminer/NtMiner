@@ -11,7 +11,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_MinerName"
             }, ucFactory: (window) => {
-                vm.CloseWindow = () => window.Close();
+                vm.CloseWindow = window.Close;
                 return new MinerNamesSeter(vm);
             }, fixedSize: true);
         }

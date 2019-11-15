@@ -56,7 +56,7 @@ namespace NTMiner {
             Action<string> onOk) {
             Window window = new InputWindow(title, text, check, onOk);
             window.MousePosition();
-            window.ShowDialogEx();
+            window.ShowSoftDialog();
         }
 
         public static void RunAsAdministrator() {

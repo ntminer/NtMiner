@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 ServerMessageViewModel vm = new ServerMessageViewModel(data) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new ServerMessageEdit(vm);
             }, fixedSize: true);
