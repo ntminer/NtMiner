@@ -52,14 +52,18 @@ namespace NTMiner {
             if (window.Owner != null) {
                 if (window.Owner is IMaskWindow maskWindow) {
                     maskWindow.ShowMask();
+                    window.Closing += (sender, e) => {
+                        maskWindow.HideMask();
+                    };
                     result = window.ShowDialog();
-                    maskWindow.HideMask();
                 }
                 else {
                     double ownerOpacity = window.Owner.Opacity;
                     window.Owner.Opacity = 0.6;
+                    window.Closing += (sender, e) => {
+                        window.Owner.Opacity = ownerOpacity;
+                    };
                     result = window.ShowDialog();
-                    window.Owner.Opacity = ownerOpacity;
                 }
             }
             else {
