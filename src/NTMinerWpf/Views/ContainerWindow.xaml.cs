@@ -126,12 +126,13 @@ namespace NTMiner.Views {
             InitializeComponent();
 
             if (fixedSize) {
-                if (!vm.IsDialogWindow) {
-                    this.ResizeMode = ResizeMode.CanMinimize;
-                }
-                else {
+                if (vm.IsDialogWindow) {
                     this.ResizeMode = ResizeMode.NoResize;
                     vm.MinVisible = Visibility.Collapsed;
+                }
+                else {
+                    // 如果不是对话窗口则不能改变窗口尺寸但可以最小化
+                    this.ResizeMode = ResizeMode.CanMinimize;
                 }
                 vm.MaxVisible = Visibility.Collapsed;
             }
