@@ -151,6 +151,10 @@ namespace NTMiner.Vms {
             set {
                 _messageType = value;
                 OnPropertyChanged(nameof(MessageType));
+                value.TryParse(out _messageTypeEnum);
+                OnPropertyChanged(nameof(MessageTypeIcon));
+                OnPropertyChanged(nameof(IconFill));
+                OnPropertyChanged(nameof(MessageTypeText));
             }
         }
 
