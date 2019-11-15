@@ -159,10 +159,16 @@ namespace NTMiner.Views {
             NTMinerRoot.RefreshArgsAssembly.Invoke();
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
+                // 延迟创建，以加快主界面的启动
                 var selectedItem = MainArea.SelectedItem;
                 if (selectedItem == TabItemSpeedTable) {
                     if (SpeedTableContainer.Child == null) {
                         SpeedTableContainer.Child = GetSpeedTable();
+                    }
+                }
+                else if (selectedItem == TabItemMessage) {
+                    if (MessagesContainer.Child == null) {
+                        MessagesContainer.Child = new Messages();
                     }
                 }
                 else if (selectedItem == TabItemToolbox) {
