@@ -174,7 +174,6 @@ namespace NTMiner.Views {
                 this.ShowDialogEx();
             }
             else {
-                this.Topmost = Vm.IsTopMost;
                 this.ShowActivated = true;
                 this.Show();
                 if (this.WindowState == WindowState.Minimized) {

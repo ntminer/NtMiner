@@ -23,7 +23,6 @@ namespace NTMiner.Vms {
         private double _minWidth;
         private FormType _formType;
         private string _footerText;
-        private bool _isTopMost;
         private string _title;
 
         public Func<UserControl, bool> OnOk;
@@ -70,13 +69,6 @@ namespace NTMiner.Vms {
                 if (_isDialogWindow != value) {
                     _isDialogWindow = value;
                 }
-            }
-        }
-
-        public bool IsTopMost {
-            get => _isTopMost;
-            set {
-                _isTopMost = value;
             }
         }
 

@@ -15,7 +15,6 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = $"超频 - 基于矿机{minerClientVm.MinerName}({minerClientVm.MinerIp})",
                 HasOwner = true,
-                IsTopMost = true,
                 IconName = "Icon_OverClock",
                 Width = 800,
                 Height = 700,
