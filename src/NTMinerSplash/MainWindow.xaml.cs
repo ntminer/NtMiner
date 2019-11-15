@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner {
@@ -14,6 +15,12 @@ namespace NTMiner {
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e) {
+            try {
+                Process parentProcess = Process.GetProcessById(CommandLineArgs.ParentProcessId);
+                parentProcess.Kill();
+            }
+            catch {
+            }
             this.Close();
         }
     }
