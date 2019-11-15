@@ -137,19 +137,13 @@ namespace NTMiner.Views {
             }
 
             UIThread.StartTimer();
-            bool isSplashed = false;
-            ConsoleWindow.Instance.OnSplashHided = ()=> {
-                if (!isSplashed) {
-                    isSplashed = true;
-                    ConsoleWindow.Instance.MouseDown += (sender, e) => {
-                        MoveConsoleWindow();
-                    };
-                }
-                MoveConsoleWindow();
-            };
+            ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
             _borderBrush = this.BorderBrush;
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
+            this.Activated += (sender, e) => {
+                MoveConsoleWindow();
+            };
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
                 var selectedItem = MainArea.SelectedItem;
