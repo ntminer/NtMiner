@@ -1,28 +1,27 @@
 ﻿using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
+using System.ComponentModel;
 using System.Windows;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : Window {
         public static void Login(Action onLoginSuccess) {
-            if (string.IsNullOrEmpty(SingleUser.LoginName) || string.IsNullOrEmpty(SingleUser.PasswordSha1)) {
+            if (!IsLogined()) {
                 UIThread.Execute(() => {
                     var topWindow = WpfUtil.GetTopWindow();
-                    LoginWindow window = new LoginWindow();
+                    LoginWindow window = new LoginWindow(onLoginSuccess);
                     if (topWindow != null && topWindow.GetType() != typeof(NotiCenterWindow)) {
                         window.Owner = topWindow;
                         window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                     }
-                    var result = window.ShowDialogEx();
-                    if (result.HasValue && result.Value) {
-                        onLoginSuccess?.Invoke();
-                    }
+                    window.ShowDialogEx();
                 });
             }
-            else {
-                onLoginSuccess?.Invoke();
-            }
+        }
+
+        private static bool IsLogined() {
+            return !string.IsNullOrEmpty(SingleUser.LoginName) && !string.IsNullOrEmpty(SingleUser.PasswordSha1);
         }
 
         private LoginWindowViewModel Vm {
@@ -31,7 +30,9 @@ namespace NTMiner.Views {
             }
         }
 
-        private LoginWindow() {
+        private readonly Action _onLoginSuccess;
+        private LoginWindow(Action onLoginSuccess) {
+            _onLoginSuccess = onLoginSuccess;
             InitializeComponent();
             NotiCenterWindow.Bind(this, isNoOtherWindow: true);
             this.PbPassword.Focus();
@@ -43,10 +44,17 @@ namespace NTMiner.Views {
             }
         }
 
+        protected override void OnClosing(CancelEventArgs e) {
+            if (IsLogined()) {
+                _onLoginSuccess?.Invoke();
+            }
+            base.OnClosing(e);
+        }
+
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
             bool isNoOwnerWindow = this.Owner == null || this.Owner.GetType() == typeof(NotiCenterWindow);
-            if (isNoOwnerWindow && (!this.DialogResult.HasValue || !this.DialogResult.Value) && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {
+            if (isNoOwnerWindow && !IsLogined() && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {
                 Application.Current.Shutdown();
             }
         }
@@ -64,7 +72,8 @@ namespace NTMiner.Views {
             }
             NTMinerRegistry.SetControlCenterHosts(list);
             if (Ip.Util.IsInnerIp(Vm.ServerHost)) {
-                this.DialogResult = true;
+                SingleUser.LoginName = "localhost";
+                SingleUser.SetPasswordSha1("localhost");
                 this.Close();
                 return;
             }
@@ -77,7 +86,6 @@ namespace NTMiner.Views {
                     if (response.IsSuccess()) {
                         SingleUser.LoginName = Vm.LoginName;
                         SingleUser.SetPasswordSha1(passwordSha1);
-                        this.DialogResult = true;
                         this.Close();
                     }
                     else if (Vm.LoginName == "admin" && response.StateCode == 404) {

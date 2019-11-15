@@ -41,8 +41,7 @@ namespace NTMiner {
             }
         }
 
-        public static bool? ShowDialogEx(this Window window) {
-            bool? result;
+        public static void ShowDialogEx(this Window window) {
             if (window.Owner == null) {
                 var owner = WpfUtil.GetTopWindow();
                 if (owner != window) {
@@ -52,24 +51,23 @@ namespace NTMiner {
             if (window.Owner != null) {
                 if (window.Owner is IMaskWindow maskWindow) {
                     maskWindow.ShowMask();
+                    window.Owner.IsEnabled = false;
                     window.Closing += (sender, e) => {
                         maskWindow.HideMask();
+                        window.Owner.IsEnabled = true;
                     };
-                    result = window.ShowDialog();
                 }
                 else {
                     double ownerOpacity = window.Owner.Opacity;
                     window.Owner.Opacity = 0.6;
+                    window.Owner.IsEnabled = false;
                     window.Closing += (sender, e) => {
                         window.Owner.Opacity = ownerOpacity;
+                        window.Owner.IsEnabled = true;
                     };
-                    result = window.ShowDialog();
                 }
             }
-            else {
-                result = window.ShowDialog();
-            }
-            return result;
+            window.Show();
         }
 
         public static void ShowWindow(this Window window, bool isToggle) {
