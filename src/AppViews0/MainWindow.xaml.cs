@@ -136,9 +136,9 @@ namespace NTMiner.Views {
                 return;
             }
 
-            UIThread.StartTimer();
+            UIThread.StartTimer(); 
             bool isSplashed = false;
-            ConsoleWindow.Instance.OnSplashHided = ()=> {
+            ConsoleWindow.Instance.OnSplashHided = () => {
                 if (!isSplashed) {
                     isSplashed = true;
                     ConsoleWindow.Instance.MouseDown += (sender, e) => {

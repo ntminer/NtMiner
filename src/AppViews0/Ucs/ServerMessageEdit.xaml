@@ -24,9 +24,8 @@
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
             <TextBlock Style="{StaticResource LblTb}">演员</TextBlock>
-            <TextBox Width="120" Style="{StaticResource TextBox}" Text="{Binding Provider, ValidatesOnExceptions=True}">
+            <TextBox Width="160" Style="{StaticResource TextBox}" Text="{Binding Provider, ValidatesOnExceptions=True}">
             </TextBox>
-            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
             <ListBox 
 				Background="Transparent"
 				ItemsSource="{x:Static app:AppStatic.ServerMessageTypeEnumItems}"
