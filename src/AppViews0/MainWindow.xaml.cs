@@ -160,7 +160,12 @@ namespace NTMiner.Views {
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
                 var selectedItem = MainArea.SelectedItem;
-                if (selectedItem == TabItemToolbox) {
+                if (selectedItem == TabItemSpeedTable) {
+                    if (SpeedTableContainer.Child == null) {
+                        SpeedTableContainer.Child = GetSpeedTable();
+                    }
+                }
+                else if (selectedItem == TabItemToolbox) {
                     if (ToolboxContainer.Child == null) {
                         ToolboxContainer.Child = new Toolbox();
                     }
@@ -466,7 +471,7 @@ namespace NTMiner.Views {
         }
 
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
-            var speedTableUc = this.SpeedTable;
+            var speedTableUc = this.GetSpeedTable();
             if (MainArea.SelectedItem == TabItemSpeedTable) {
                 speedTableUc.ShowOrHideOverClock(isShow: speedTableUc.IsOverClockVisible == Visibility.Collapsed);
             }
@@ -474,6 +479,14 @@ namespace NTMiner.Views {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
             }
             MainArea.SelectedItem = TabItemSpeedTable;
+        }
+
+        private SpeedTable _speedTable;
+        private SpeedTable GetSpeedTable() {
+            if (_speedTable == null) {
+                _speedTable = new SpeedTable();
+            }
+            return _speedTable;
         }
 
         #region 拖动窗口边缘改变窗口尺寸

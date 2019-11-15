@@ -559,8 +559,7 @@
                                         <TextBlock Text="算力" Padding="2 0 0 1" FontSize="15"></TextBlock>
                                     </WrapPanel>
                                 </TabItem.Header>
-                                <uc:SpeedTable x:Name="SpeedTable">
-                                </uc:SpeedTable>
+                                <Border x:Name="SpeedTableContainer"></Border>
                             </TabItem>
                             <TabItem x:Name="TabItemMessage">
                                 <TabItem.Header>
