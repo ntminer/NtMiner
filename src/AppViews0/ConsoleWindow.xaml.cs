@@ -19,6 +19,8 @@ namespace NTMiner.Views {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
         public Action OnSplashHided;
         private ConsoleWindow() {
+            this.Width = AppStatic.MainWindowWidth;
+            this.Height = AppStatic.MainWindowHeight;
             InitializeComponent();
         }
 

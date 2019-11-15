@@ -9,8 +9,6 @@
     ResizeMode="NoResize"
     Background="Black"
     WindowStyle="None"
-    Height="260" 
-    Width="520"
     WindowStartupLocation="CenterScreen"
     Title="原版内核控制台窗口">
     <Rectangle 
