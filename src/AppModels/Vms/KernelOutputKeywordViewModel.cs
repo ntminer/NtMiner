@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class KernelOutputKeywordViewModel : ViewModelBase, IKernelOutputKeyword {
+    public class KernelOutputKeywordViewModel : ViewModelBase, IKernelOutputKeyword, IEditableViewModel {
         private Guid _id;
         private Guid _kernelOutputId;
         private string _messageType;

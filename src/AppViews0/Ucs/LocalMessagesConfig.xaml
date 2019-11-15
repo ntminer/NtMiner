@@ -72,8 +72,8 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="关键字" Binding="{Binding Keyword}"></DataGridTextColumn>
-                <DataGridTextColumn Header="大意" Binding="{Binding Description}"></DataGridTextColumn>
+                <DataGridTextColumn Header="关键字" Width="100" Binding="{Binding Keyword}"></DataGridTextColumn>
+                <DataGridTextColumn Header="大意" Width="*" Binding="{Binding Description}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
         <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVm.KernelOutputKeywords, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
