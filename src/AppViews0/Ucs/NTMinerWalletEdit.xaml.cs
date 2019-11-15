@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Wallet"
             }, ucFactory: (window) => {
                 NTMinerWalletViewModel vm = new NTMinerWalletViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new NTMinerWalletEdit(vm);
             }, fixedSize: true);

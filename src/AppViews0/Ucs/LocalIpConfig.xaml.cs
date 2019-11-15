@@ -15,8 +15,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new LocalIpConfig();
-                LocalIpConfigViewModel vm = (LocalIpConfigViewModel)uc.DataContext;
-                vm.CloseWindow = window.Close;
+                uc.Vm.CloseWindow = window.Close;
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();
@@ -24,7 +23,7 @@ namespace NTMiner.Views.Ucs {
                 };
                 window.BuildEventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(()=> vm.Refresh());
+                        UIThread.Execute(()=> uc.Vm.Refresh());
                     });
                 return uc;
             }, fixedSize: true);

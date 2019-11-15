@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 InputSegmentEditViewModel vm = new InputSegmentEditViewModel(coinKernelVm, segment) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new InputSegmentEdit(vm);
             }, fixedSize: true);

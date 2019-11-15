@@ -14,9 +14,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Restart"
             }, ucFactory: (window) => {
                 RestartWindows uc = new RestartWindows {
-                    CloseWindow = () => {
-                        window.Close();
-                    }
+                    CloseWindow = window.Close
                 };
                 return uc;
             }, fixedSize: true);

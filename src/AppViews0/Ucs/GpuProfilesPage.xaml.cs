@@ -22,9 +22,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => {
                 window.Owner = WpfUtil.GetTopWindow();
                 var vm = new GpuProfilesPageViewModel(minerClientsWindowVm) {
-                    CloseWindow = () => {
-                        window.Close();
-                    }
+                    CloseWindow = window.Close
                 };
                 var uc = new GpuProfilesPage(vm);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];

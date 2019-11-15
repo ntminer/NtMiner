@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
 using System;
-using System.Linq;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -18,23 +17,22 @@ namespace NTMiner.Views.Ucs {
             ucFactory: (window) => new CoinPage(),
             beforeShow: (window, uc) => {
                 if (currentCoin != null) {
-                    CoinPageViewModel vm = (CoinPageViewModel)uc.DataContext;
                     switch (tabType) {
                         case NTKeyword.PoolParameterName:
-                            vm.IsPoolTabSelected = true;
+                            uc.Vm.IsPoolTabSelected = true;
                             break;
                         case NTKeyword.WalletParameterName:
-                            vm.IsWalletTabSelected = true;
+                            uc.Vm.IsWalletTabSelected = true;
                             break;
                         default:
                             break;
                     }
-                    vm.CurrentCoin = currentCoin;
+                    uc.Vm.CurrentCoin = currentCoin;
                 }
             });
         }
 
-        private CoinPageViewModel Vm {
+        public CoinPageViewModel Vm {
             get {
                 return (CoinPageViewModel)this.DataContext;
             }

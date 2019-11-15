@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_SysDic"
             }, ucFactory: (window) => {
                 SysDicViewModel vm = new SysDicViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new SysDicEdit(vm);
             }, fixedSize: true);

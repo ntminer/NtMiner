@@ -15,8 +15,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();
-                CalcConfigViewModels vm = (CalcConfigViewModels)uc.DataContext;
-                vm.CloseWindow = () => window.Close();
+                uc.Vm.CloseWindow = window.Close;
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();

@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 ColumnsShowViewModel vm = new ColumnsShowViewModel(source) {
-                    CloseWindow = () => window.Close()
+                    CloseWindow = window.Close
                 };
                 return new ColumnsShowEdit(vm);
             }, fixedSize: true);
