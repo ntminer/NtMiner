@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 FormType = formType,
                 Width = 520,
                 IconName = "Icon_Wallet",
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {

@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "系统字典",
                 FormType = formType,
                 Width = 500,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_SysDic"
             }, ucFactory: (window) => {

@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 FormType = formType,
                 IconName = "Icon_KernelInput",
                 Width = 660,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 KernelInputViewModel vm = new KernelInputViewModel(source) {

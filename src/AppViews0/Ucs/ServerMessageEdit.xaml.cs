@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow(FormType formType, ServerMessageViewModel data) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "服务器消息",
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 540,
                 FormType = formType,
                 CloseVisible = System.Windows.Visibility.Visible

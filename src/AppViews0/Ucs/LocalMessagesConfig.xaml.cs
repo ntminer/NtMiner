@@ -11,7 +11,10 @@ namespace NTMiner.Views.Ucs {
                 Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
-            }, ucFactory: (window) => new LocalMessagesConfig(), fixedSize: true);
+            }, ucFactory: (window) => {
+                window.Owner = WpfUtil.GetTopWindow();
+                return new LocalMessagesConfig();
+            }, fixedSize: true);
         }
 
         public LocalMessagesConfigViewModel Vm {

@@ -10,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "管理本机 IP",
                 IconName = "Icon_Ip",
                 Width = 450,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 FooterVisible = Visibility.Collapsed,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {

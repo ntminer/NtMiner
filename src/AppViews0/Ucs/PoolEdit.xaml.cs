@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "矿池",
                 FormType = formType,
                 IconName = "Icon_Pool",
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 540,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) =>

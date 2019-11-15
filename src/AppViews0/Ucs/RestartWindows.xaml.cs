@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "重启电脑",
                 Width = 400,
                 Height = 200,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_Restart"
             }, ucFactory: (window) => {
