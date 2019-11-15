@@ -1,7 +1,6 @@
 ﻿using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
-using System.ComponentModel;
 using System.Windows;
 
 namespace NTMiner.Views {
@@ -15,6 +14,11 @@ namespace NTMiner.Views {
                         window.Owner = topWindow;
                         window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                     }
+                    window.Closing += (sender, e) => {
+                        if (IsLogined()) {
+                            onLoginSuccess?.Invoke();
+                        }
+                    };
                     window.ShowSoftDialog();
                 });
             }
@@ -45,13 +49,6 @@ namespace NTMiner.Views {
             if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
                 this.DragMove();
             }
-        }
-
-        protected override void OnClosing(CancelEventArgs e) {
-            if (IsLogined()) {
-                _onLoginSuccess?.Invoke();
-            }
-            base.OnClosing(e);
         }
 
         protected override void OnClosed(EventArgs e) {
