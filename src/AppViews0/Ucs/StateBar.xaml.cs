@@ -11,6 +11,9 @@ namespace NTMiner.Views.Ucs {
         }
 
         public StateBar() {
+#if DEBUG
+            Write.Stopwatch.Start();
+#endif
             InitializeComponent();
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -67,6 +70,10 @@ namespace NTMiner.Views.Ucs {
             if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
                 BtnShowVirtualMemory.Foreground = WpfUtil.RedBrush;
             }
+#if DEBUG
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+#endif
         }
     }
 }

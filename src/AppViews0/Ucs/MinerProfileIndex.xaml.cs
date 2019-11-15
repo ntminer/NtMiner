@@ -13,6 +13,9 @@ namespace NTMiner.Views.Ucs {
         }
 
         public MinerProfileIndex() {
+#if DEBUG
+            Write.Stopwatch.Start();
+#endif
             InitializeComponent();
             this.PopupKernel.Closed += Popup_Closed;
             this.PopupMainCoinPool.Closed += Popup_Closed;
@@ -48,6 +51,10 @@ namespace NTMiner.Views.Ucs {
                     });
                 });
             });
+#if DEBUG
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+#endif
         }
 
         private void Popup_Closed(object sender, System.EventArgs e) {
