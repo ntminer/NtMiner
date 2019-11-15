@@ -267,6 +267,7 @@ NTMinerServices.exe.config
 NTMinerServices.exe
 NTMinerDaemon.exe
 DevConsole.exe
+NTMinerSplash.exe
 sha1
 AppViews0.dll
 AppViews1.dll
