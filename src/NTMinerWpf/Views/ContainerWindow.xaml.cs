@@ -137,9 +137,9 @@ namespace NTMiner.Views {
 
         private void ShowWindow<TUc>(Action<ContainerWindow, TUc> beforeShow = null) where TUc : UserControl {
             beforeShow?.Invoke(this, (TUc)_uc);
-            if (Vm.IsMaskTheParent) {
+            if (Vm.IsMaskTheParent && this.Owner == null) {
                 var owner = WpfUtil.GetTopWindow();
-                if (this != owner) {
+                if (owner != null && this != owner) {
                     this.Owner = owner;
                 }
             }
