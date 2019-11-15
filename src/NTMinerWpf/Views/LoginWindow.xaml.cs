@@ -15,7 +15,7 @@ namespace NTMiner.Views {
                         window.Owner = topWindow;
                         window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                     }
-                    window.ShowDialogEx();
+                    window.ShowSoftDialog();
                 });
             }
         }

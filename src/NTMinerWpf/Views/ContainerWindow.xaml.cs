@@ -150,7 +150,7 @@ namespace NTMiner.Views {
             }
             if (Vm.IsDialogWindow) {
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                this.ShowDialogEx();
+                this.ShowSoftDialog();
             }
             else {
                 this.ShowActivated = true;

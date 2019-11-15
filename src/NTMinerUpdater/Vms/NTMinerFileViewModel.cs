@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
             });
             this.Edit = new DelegateCommand(() => {
                 NTMinerFileEdit window = new NTMinerFileEdit("Icon_Edit", new NTMinerFileViewModel(this));
-                window.ShowDialogEx();
+                window.ShowSoftDialog();
             });
             this.Remove = new DelegateCommand(() => {
                 LoginWindow.Login(() => {

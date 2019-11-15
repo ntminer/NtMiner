@@ -9,7 +9,7 @@ namespace NTMiner.Views {
         public static void ShowDialog(DialogWindowViewModel vm) {
             Window window = new DialogWindow(vm);
             window.MousePosition();
-            window.ShowDialogEx();
+            window.ShowSoftDialog();
         }
 
         public DialogWindowViewModel Vm {

@@ -41,7 +41,11 @@ namespace NTMiner {
             }
         }
 
-        public static void ShowDialogEx(this Window window) {
+        /// <summary>
+        /// 打开为软对话框，非模态对话框。效果是打开时遮罩和禁用父窗口，关闭时复原父窗口。
+        /// </summary>
+        /// <param name="window"></param>
+        public static void ShowSoftDialog(this Window window) {
             if (window.Owner == null) {
                 var owner = WpfUtil.GetTopWindow();
                 if (owner != window) {
