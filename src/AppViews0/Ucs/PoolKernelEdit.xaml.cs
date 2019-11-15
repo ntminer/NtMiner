@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "矿池级参数",
                 FormType = formType,
                 Width = 550,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 IconName = "Icon_Kernel",
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>

@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "内核",
                 FormType = formType,
                 IconName = "Icon_Kernel",
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 620,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {

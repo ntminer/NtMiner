@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
     public partial class KernelDownloading : UserControl {
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Title = "下载挖矿内核",
                 IconName = "Icon_Download",
                 Width = 294,

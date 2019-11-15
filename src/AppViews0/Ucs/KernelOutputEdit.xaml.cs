@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核输出",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 900,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_KernelOutput"

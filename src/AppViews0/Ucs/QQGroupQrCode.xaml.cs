@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 IconImage = "Icon_QQ",
                 Width = 280,
                 Height = 320,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible,
             }, ucFactory: (window) => new QQGroupQrCode(), fixedSize: true);
         }

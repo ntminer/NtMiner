@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "用户",
                 FormType = formType,
                 Width = 520,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_User"
             }, ucFactory: (window) => {

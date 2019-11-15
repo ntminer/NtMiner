@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
         private double _width = 0;
         private double _height = 0;
         private Geometry _icon;
-        private bool _isDialogWindow;
+        private bool _isMaskTheParent;
         private ImageSource _iconImageSource = null;
         private double _minHeight;
         private double _minWidth;
@@ -52,13 +52,16 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool IsDialogWindow {
+        /// <summary>
+        /// 是否遮罩住父窗口
+        /// </summary>
+        public bool IsMaskTheParent {
             get {
-                return _isDialogWindow;
+                return _isMaskTheParent;
             }
             set {
-                if (_isDialogWindow != value) {
-                    _isDialogWindow = value;
+                if (_isMaskTheParent != value) {
+                    _isMaskTheParent = value;
                 }
             }
         }

@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "超频菜谱",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 250,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_OverClock"

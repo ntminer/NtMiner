@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "文件书写器",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 950,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_FileWriter"

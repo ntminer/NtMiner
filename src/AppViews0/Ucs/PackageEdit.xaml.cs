@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "内核包",
                 FormType = formType,
                 IconName = "Icon_Package",
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 860,
                 Height = 300,
                 CloseVisible = System.Windows.Visibility.Visible

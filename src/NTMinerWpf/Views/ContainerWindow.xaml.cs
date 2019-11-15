@@ -36,7 +36,7 @@ namespace NTMiner.Views {
                 throw new ArgumentNullException(nameof(ucFactory));
             }
             ContainerWindow window = new ContainerWindow(vm, ucFactory, fixedSize);
-            if (vm.IsDialogWindow) {
+            if (vm.IsMaskTheParent) {
                 window.ShowWindow(beforeShow);
                 return window;
             }
@@ -117,7 +117,7 @@ namespace NTMiner.Views {
             InitializeComponent();
 
             if (fixedSize) {
-                if (vm.IsDialogWindow) {
+                if (vm.IsMaskTheParent) {
                     this.ResizeMode = ResizeMode.NoResize;
                 }
                 else {
@@ -137,18 +137,17 @@ namespace NTMiner.Views {
 
         private void ShowWindow<TUc>(Action<ContainerWindow, TUc> beforeShow = null) where TUc : UserControl {
             beforeShow?.Invoke(this, (TUc)_uc);
-            if (Vm.IsDialogWindow) {
+            if (Vm.IsMaskTheParent) {
                 var owner = WpfUtil.GetTopWindow();
                 if (this != owner) {
                     this.Owner = owner;
                 }
             }
-            bool hasOwner = this.Owner != null;
-            if (Vm.IsDialogWindow || hasOwner) {
+            if (Vm.IsMaskTheParent || this.Owner != null) {
                 this.ShowInTaskbar = false;
                 this.BtnMin.Visibility = Visibility.Collapsed;
             }
-            if (Vm.IsDialogWindow) {
+            if (Vm.IsMaskTheParent) {
                 this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 this.ShowSoftDialog();
             }

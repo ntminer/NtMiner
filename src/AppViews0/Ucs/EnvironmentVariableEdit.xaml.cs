@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow(CoinKernelViewModel coinKernelVm, EnvironmentVariable environmentVariable) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "环境变量",
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 500,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>

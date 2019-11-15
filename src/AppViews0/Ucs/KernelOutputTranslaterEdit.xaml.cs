@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核输出翻译器",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 520,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Coin"
