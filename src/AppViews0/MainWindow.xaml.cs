@@ -130,11 +130,15 @@ namespace NTMiner.Views {
 #endif
             this.Loaded += (sender, e) => {
                 ConsoleWindow.Instance.Show();
+                ConsoleWindow.Instance.MouseDown += (ss, ee) => {
+                    MoveConsoleWindow();
+                };
                 this.Owner = ConsoleWindow.Instance;
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(WindowProc));
                 hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
+                MoveConsoleWindow();
             };
             InitializeComponent();
 
@@ -144,16 +148,6 @@ namespace NTMiner.Views {
             }
 
             UIThread.StartTimer();
-            bool isSplashed = false;
-            ConsoleWindow.Instance.OnSplashHided = () => {
-                if (!isSplashed) {
-                    isSplashed = true;
-                    ConsoleWindow.Instance.MouseDown += (sender, e) => {
-                        MoveConsoleWindow();
-                    };
-                }
-                MoveConsoleWindow();
-            };
             _borderBrush = this.BorderBrush;
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             NTMinerRoot.RefreshArgsAssembly.Invoke();

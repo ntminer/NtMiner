@@ -70,7 +70,8 @@ namespace NTMiner {
                     }
 
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
-                    SplashApp.NTMinerSplash.Run();
+                    SplashWindow splashWindow = new SplashWindow();
+                    splashWindow.Show();
                     //ConsoleWindow.Instance.Show();
                     NotiCenterWindow.ShowWindow();
                     if (!NTMiner.Windows.Role.IsAdministrator) {
@@ -108,10 +109,9 @@ namespace NTMiner {
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
-                            SplashApp.NTMinerSplash.Kill();
+                            splashWindow.Close();
                             StartStopMineButtonViewModel.Instance.AutoStart();
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
-                            ConsoleWindow.Instance.HideSplash();
                             NTMinerRoot.Instance.CpuPackage.Start();
                         });
                         #region 处理显示主界面命令
