@@ -101,8 +101,11 @@
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\LocalMessagesConfig.xaml.cs">
-      <DependentUpon>LocalMessagesConfig.xaml</DependentUpon>
+    <Compile Include="SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\KernelOutputKeywords.xaml.cs">
+      <DependentUpon>KernelOutputKeywords.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\KernelOutputKeywordEdit.xaml.cs">
       <DependentUpon>KernelOutputKeywordEdit.xaml</DependentUpon>
@@ -275,9 +278,6 @@
     <Compile Include="Ucs\KernelSelect.xaml.cs">
       <DependentUpon>KernelSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\LogColor.xaml.cs">
-      <DependentUpon>LogColor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\FileDownloader.xaml.cs">
       <DependentUpon>FileDownloader.xaml</DependentUpon>
     </Compile>
@@ -368,7 +368,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\LocalMessagesConfigViewModel.xaml">
+    <Page Include="Design\KernelOutputKeywordsViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -504,7 +504,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\LocalMessagesConfig.xaml">
+    <Page Include="SplashWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\KernelOutputKeywords.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -785,10 +789,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelSelect.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\LogColor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

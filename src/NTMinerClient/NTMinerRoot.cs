@@ -1,5 +1,7 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.Core;
+using NTMiner.Core.Cpus;
+using NTMiner.Core.Cpus.Impl;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
@@ -168,6 +170,7 @@ namespace NTMiner {
             // 作业和在群控客户端管理作业时
             IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
             this._minerProfile = new MinerProfile(this);
+            this.CpuPackage = new CpuPackage(_minerProfile);
 
             // 这几个注册表内部区分挖矿端和群控客户端
             NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
@@ -651,6 +654,8 @@ namespace NTMiner {
             }
         }
         #endregion
+
+        public ICpuPackage CpuPackage { get; private set; }
 
         public IKernelProfileSet KernelProfileSet { get; private set; }
 

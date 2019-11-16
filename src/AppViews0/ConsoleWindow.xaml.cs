@@ -17,21 +17,16 @@ namespace NTMiner.Views {
 
     public partial class ConsoleWindow : Window {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
-        public Action OnSplashHided;
         private ConsoleWindow() {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
             InitializeComponent();
-        }
-
-        private bool _isSplashed = false;
-        public void HideSplash() {
-            IntPtr parent = new WindowInteropHelper(this).Handle;
-            IntPtr console = NTMinerConsole.Alloc();
-            SafeNativeMethods.SetParent(console, parent);
-            SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
-            _isSplashed = true;
-            OnSplashHided?.Invoke();
+            this.Loaded += (sender, e) => {
+                IntPtr parent = new WindowInteropHelper(this).Handle;
+                IntPtr console = NTMinerConsole.Alloc();
+                SafeNativeMethods.SetParent(console, parent);
+                SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
+            };
         }
 
         protected override void OnClosed(EventArgs e) {
@@ -42,7 +37,7 @@ namespace NTMiner.Views {
         private int _marginLeft, _marginTop, _height, _width;
 
         public void MoveWindow(int marginLeft, int marginTop, int height) {
-            if (!_isSplashed) {
+            if (!this.IsLoaded) {
                 return;
             }
             const int paddingLeft = 4;

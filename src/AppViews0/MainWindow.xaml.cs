@@ -130,11 +130,15 @@ namespace NTMiner.Views {
 #endif
             this.Loaded += (sender, e) => {
                 ConsoleWindow.Instance.Show();
+                ConsoleWindow.Instance.MouseDown += (ss, ee) => {
+                    MoveConsoleWindow();
+                };
                 this.Owner = ConsoleWindow.Instance;
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(WindowProc));
                 hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
+                MoveConsoleWindow();
             };
             InitializeComponent();
 
@@ -143,17 +147,7 @@ namespace NTMiner.Views {
                 return;
             }
 
-            UIThread.StartTimer(); 
-            bool isSplashed = false;
-            ConsoleWindow.Instance.OnSplashHided = () => {
-                if (!isSplashed) {
-                    isSplashed = true;
-                    ConsoleWindow.Instance.MouseDown += (sender, e) => {
-                        MoveConsoleWindow();
-                    };
-                }
-                MoveConsoleWindow();
-            };
+            UIThread.StartTimer();
             _borderBrush = this.BorderBrush;
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
@@ -280,7 +274,10 @@ namespace NTMiner.Views {
                     }
                     Vm.RefreshDaemonStateBrush();
                 });
-            RefreshCpu();
+            this.BuildEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
+                action: message => {
+                    UIThread.Execute(UpdateCpuView);
+                });
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
@@ -329,7 +326,9 @@ namespace NTMiner.Views {
         #region 更新状态栏展示的CPU使用率和温度
         private int _cpuPerformance = 0;
         private int _cpuTemperature = 0;
-        private void UpdateCpuView(int performance, int temperature) {
+        private void UpdateCpuView() {
+            int performance = NTMinerRoot.Instance.CpuPackage.Performance;
+            int temperature = NTMinerRoot.Instance.CpuPackage.Temperature;
             if (temperature < 0) {
                 temperature = 0;
             }
@@ -342,68 +341,10 @@ namespace NTMiner.Views {
                 Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
             }
         }
-        private bool _isFirstRefreshCpu = true;
-        private void RefreshCpu() {
-            if (_isFirstRefreshCpu) {
-                _isFirstRefreshCpu = false;
-                Task.Factory.StartNew(() => {
-#if DEBUG
-                    Write.Stopwatch.Start();
-#endif
-                    int performance = (int)Windows.Cpu.Instance.GetPerformance();
-                    // 因为初始化费时间
-                    int temperature = (int)Windows.Cpu.Instance.GetTemperature();
-#if DEBUG
-                    var elapsedMilliseconds = Write.Stopwatch.Stop();
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.RefreshCpu");
-#endif
-                    this.BuildEventPath<Per2SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
-                        action: message => {
-                            RefreshCpu();
-                        });
-                });
-            }
-            else {
-                int performance = (int)Windows.Cpu.Instance.GetPerformance();
-                int temperature = (int)Windows.Cpu.Instance.GetTemperature();
-                UpdateCpuView(performance, temperature);
-                if (Vm.MinerProfile.IsAutoStopByCpu) {
-                    if (NTMinerRoot.Instance.IsMining) {
-                        Vm.MinerProfile.LowTemperatureCount = 0;
-                        if (temperature >= Vm.MinerProfile.CpuStopTemperature) {
-                            Vm.MinerProfile.HighTemperatureCount++;
-                        }
-                        else {
-                            Vm.MinerProfile.HighTemperatureCount = 0;
-                        }
-                        if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
-                            Vm.MinerProfile.HighTemperatureCount = 0;
-                            NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
-                            VirtualRoot.ThisLocalInfo(nameof(MainWindow), $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃", toConsole: true);
-                        }
-                    }
-                    else {
-                        Vm.MinerProfile.HighTemperatureCount = 0;
-                        if (Vm.MinerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
-                            if (temperature <= Vm.MinerProfile.CpuStartTemperature) {
-                                Vm.MinerProfile.LowTemperatureCount++;
-                            }
-                            else {
-                                Vm.MinerProfile.LowTemperatureCount = 0;
-                            }
-                            if (Vm.MinerProfile.LowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
-                                Vm.MinerProfile.LowTemperatureCount = 0;
-                                VirtualRoot.ThisLocalInfo(nameof(MainWindow), $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃", toConsole: true);
-                                NTMinerRoot.Instance.StartMine();
-                            }
-                        }
-                    }
-                }
-            }
-        }
         #endregion
 
         #region 显示或隐藏半透明遮罩层
+        // 因为挖矿端主界面是透明的，遮罩方法和普通窗口不同，如果按照通用的方法遮罩的话会导致能透过窗口看见windows桌面或者下面的窗口。
         public void ShowMask() {
             if (this.WindowState != WindowState.Maximized) {
                 this.BorderBrush = WpfUtil.TransparentBrush;
@@ -485,6 +426,7 @@ namespace NTMiner.Views {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
             }
             MainArea.SelectedItem = TabItemSpeedTable;
+            IconOverClockEyeClosed.Visibility = speedTableUc.IsOverClockVisible == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private SpeedTable _speedTable;
@@ -513,7 +455,7 @@ namespace NTMiner.Views {
         private void ResizeWindow(SafeNativeMethods.ResizeDirection direction) {
             SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
         }
-        
+
         private void ResizeWindow(object sender) {
             Rectangle clickedRectangle = sender as Rectangle;
 

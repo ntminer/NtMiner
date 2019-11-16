@@ -112,6 +112,12 @@ namespace NTMiner.MinerClient {
 
         public int CpuTemperature { get; set; }
 
+        public bool IsRaiseHighCpuEvent { get; set; }
+
+        public int HighCpuPercent { get; set; }
+
+        public int HighCpuSeconds { get; set; }
+
         public GpuSpeedData[] GpuTable { get; set; }
     }
 }

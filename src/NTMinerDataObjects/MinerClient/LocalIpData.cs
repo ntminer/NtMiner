@@ -23,7 +23,7 @@
             if (ReferenceEquals(left, right)) {
                 return true;
             }
-            if (ReferenceEquals(left, null)) {
+            if (((object)left == null) || ((object)right == null)) {
                 return false;
             }
             return left.Equals(right);
@@ -34,16 +34,24 @@
         }
 
         public override bool Equals(object obj) {
-            if (ReferenceEquals(this, obj)) {
-                return true;
-            }
             if (obj == null) {
                 return false;
             }
-            if (!(obj is LocalIpData data)) {
+
+            LocalIpData data = obj as LocalIpData;
+            if ((object)data == null) {
                 return false;
             }
+
             return this.ToString() == data.ToString();
+        }
+
+        public bool Equals(LocalIpData obj) {
+            if ((object)obj == null) {
+                return false;
+            }
+
+            return this.ToString() == obj.ToString();
         }
 
         public override int GetHashCode() {

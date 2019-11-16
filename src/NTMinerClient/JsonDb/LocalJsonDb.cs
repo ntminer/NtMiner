@@ -37,9 +37,8 @@ namespace NTMiner.JsonDb {
                 poolProfiles.Add(dualCoinPoolProfile);
             }
 
-            MinerProfile = new MinerProfileData(minerProfile) {
-                MinerName = "{{MinerName}}"
-            };
+            MinerProfile = MinerProfileData.Create(minerProfile);
+            MinerProfile.MinerName = "{{MinerName}}";
             MineWork = mineWorkData;
             CoinProfiles = coinProfiles.ToArray();
             CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };

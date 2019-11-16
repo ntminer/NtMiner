@@ -93,7 +93,6 @@
     <Compile Include="RemoteDesktop\RdpInput.cs" />
     <Compile Include="View\AbstractAppViewFactory.cs" />
     <Compile Include="View\IAppViewFactory.cs" />
-    <Compile Include="View\ISplashWindow.cs" />
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\BrandTagViewModel.cs" />
@@ -112,7 +111,7 @@
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
     <Compile Include="Vms\InnerPropertyViewModel.cs" />
     <Compile Include="Vms\KernelOutputKeywordViewModel.cs" />
-    <Compile Include="Vms\LocalMessagesConfigViewModel.cs" />
+    <Compile Include="Vms\KernelOutputKeywordsViewModel.cs" />
     <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\MessageTypeItem`1.cs" />
     <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
@@ -165,7 +164,6 @@
     <Compile Include="Vms\KernelSelectViewModel.cs" />
     <Compile Include="Vms\KernelsWindowViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
-    <Compile Include="Vms\LogColorViewModel.cs" />
     <Compile Include="Vms\MainWindowViewModel.cs" />
     <Compile Include="Vms\MeasureModel.cs" />
     <Compile Include="Vms\MinerClientAddViewModel.cs" />

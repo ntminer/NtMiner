@@ -236,11 +236,6 @@ namespace NTMiner.Views {
                     KernelEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
-            VirtualRoot.BuildCmdPath<ShowLogColorCommand>(action: message => {
-                UIThread.Execute(() => {
-                    LogColor.ShowWindow();
-                });
-            });
             VirtualRoot.BuildCmdPath<ShowMinerClientSettingCommand>(action: message => {
                 UIThread.Execute(() => {
                     MinerClientSetting.ShowWindow(message.Vm);
@@ -306,9 +301,9 @@ namespace NTMiner.Views {
                     SysDicEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
-            VirtualRoot.BuildCmdPath<ShowLocalMessagesConfigCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ShowKernelOutputKeywordsCommand>(action: message => {
                 UIThread.Execute(() => {
-                    LocalMessagesConfig.ShowWindow();
+                    KernelOutputKeywords.ShowWindow();
                 });
             });
             VirtualRoot.BuildCmdPath<UserEditCommand>(action: message => {

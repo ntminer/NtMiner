@@ -81,6 +81,8 @@ namespace NTMiner {
                 PeriodicRestartComputerHours = workProfile.PeriodicRestartComputerHours,
                 IsPeriodicRestartKernel = workProfile.IsPeriodicRestartKernel,
                 PeriodicRestartKernelHours = workProfile.PeriodicRestartKernelHours,
+                PeriodicRestartComputerMinutes = workProfile.PeriodicRestartComputerMinutes,
+                PeriodicRestartKernelMinutes = workProfile.PeriodicRestartKernelMinutes,
                 IsAutoStartByCpu = workProfile.IsAutoStartByCpu,
                 IsAutoStopByCpu = workProfile.IsAutoStopByCpu,
                 CpuGETemperatureSeconds = workProfile.CpuGETemperatureSeconds,
@@ -93,8 +95,11 @@ namespace NTMiner {
                 IsFoundOneGpuShare = false,
                 IsGotOneIncorrectGpuShare = false,
                 IsRejectOneGpuShare = false,
-                CpuPerformance = (int)Windows.Cpu.Instance.GetPerformance(),
-                CpuTemperature = (int)Windows.Cpu.Instance.GetTemperature(),
+                CpuPerformance = root.CpuPackage.Performance,
+                CpuTemperature = root.CpuPackage.Temperature,
+                IsRaiseHighCpuEvent = workProfile.IsRaiseHighCpuEvent,
+                HighCpuPercent = workProfile.HighCpuPercent,
+                HighCpuSeconds = workProfile.HighCpuSeconds,
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             if (workProfile.MineWork != null) {

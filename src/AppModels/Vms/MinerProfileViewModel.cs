@@ -13,9 +13,6 @@ namespace NTMiner.Vms {
         private readonly string _linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "开源矿工.lnk");
         private readonly string _linkFileDescription = "开源矿工 - 做最好的矿工 https://ntminer.com";
 
-        public int HighTemperatureCount = 0;
-        public int LowTemperatureCount = 0;
-
         public ICommand AutoStartDelaySecondsUp { get; private set; }
         public ICommand AutoStartDelaySecondsDown { get; private set; }
 
@@ -62,6 +59,12 @@ namespace NTMiner.Vms {
 
         public ICommand AutoNoUiMinutesUp { get; private set; }
         public ICommand AutoNoUiMinutesDown { get; private set; }
+
+        public ICommand HighCpuPercentUp { get; private set; }
+        public ICommand HighCpuPercentDown { get; private set; }
+
+        public ICommand HighCpuSecondsUp { get; private set; }
+        public ICommand HighCpuSecondsDown { get; private set; }
 
         public MinerProfileViewModel() {
 #if DEBUG
@@ -194,6 +197,22 @@ namespace NTMiner.Vms {
             this.AutoNoUiMinutesDown = new DelegateCommand(() => {
                 if (this.AutoNoUiMinutes > 0) {
                     this.AutoNoUiMinutes--;
+                }
+            });
+            this.HighCpuPercentUp = new DelegateCommand(() => {
+                this.HighCpuPercent++;
+            });
+            this.HighCpuPercentDown = new DelegateCommand(() => {
+                if (this.HighCpuPercent > 0) {
+                    this.HighCpuPercent--;
+                }
+            });
+            this.HighCpuSecondsUp = new DelegateCommand(() => {
+                this.HighCpuSeconds++;
+            });
+            this.HighCpuSecondsDown = new DelegateCommand(() => {
+                if (this.HighCpuSeconds > 0) {
+                    this.HighCpuSeconds--;
                 }
             });
             NTMinerRoot.SetRefreshArgsAssembly(() => {
@@ -706,7 +725,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStopTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStopTemperature != value) {
-                    HighTemperatureCount = 0;
+                    NTMinerRoot.HighTemperatureCount = 0;
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStopTemperature), value);
                     OnPropertyChanged(nameof(CpuStopTemperature));
                 }
@@ -737,7 +756,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStartTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStartTemperature != value) {
-                    LowTemperatureCount = 0;
+                    NTMinerRoot.LowTemperatureCount = 0;
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStartTemperature), value);
                     OnPropertyChanged(nameof(CpuStartTemperature));
                 }
@@ -750,6 +769,36 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds != value) {
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuLETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+                }
+            }
+        }
+
+        public bool IsRaiseHighCpuEvent {
+            get => NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsRaiseHighCpuEvent), value);
+                    OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
+                }
+            }
+        }
+
+        public int HighCpuPercent {
+            get => NTMinerRoot.Instance.MinerProfile.HighCpuPercent;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.HighCpuPercent != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuPercent), value);
+                    OnPropertyChanged(nameof(HighCpuPercent));
+                }
+            }
+        }
+
+        public int HighCpuSeconds {
+            get => NTMinerRoot.Instance.MinerProfile.HighCpuSeconds;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.HighCpuSeconds != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuSeconds), value);
+                    OnPropertyChanged(nameof(HighCpuSeconds));
                 }
             }
         }

@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Cpus;
+using NTMiner.Core.Cpus.Impl;
 using NTMiner.JsonDb;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
@@ -20,6 +22,9 @@ namespace NTMiner {
         public const int GpuAllId = -1;
         private static readonly NTMinerRoot S_Instance = new NTMinerRoot();
         public static readonly INTMinerRoot Instance = S_Instance;
+
+        public static int HighTemperatureCount = 0;
+        public static int LowTemperatureCount = 0;
 
         public static Version ServerVersion;
         private static bool _isJsonServer;

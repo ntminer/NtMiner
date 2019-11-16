@@ -13,6 +13,7 @@ namespace NTMiner.MinerServer {
 
         public static ClientData CreateClientData(IMinerData data) {
             return new ClientData() {
+                Id = data.Id,
                 ClientId = data.ClientId,
                 MinerIp = data.MinerIp,
                 MinerName = data.MinerName,
@@ -20,11 +21,10 @@ namespace NTMiner.MinerServer {
                 CreatedOn = data.CreatedOn,
                 GroupId = data.GroupId,
                 WorkId = data.WorkId,
-                MineWorkId = Guid.Empty,
-                MineWorkName = string.Empty,
                 WindowsLoginName = data.WindowsLoginName,
                 WindowsPassword = data.WindowsPassword,
-                Id = data.Id,
+                MineWorkId = Guid.Empty,
+                MineWorkName = string.Empty,
                 IsAutoBoot = false,
                 IsAutoStart = false,
                 AutoStartDelaySeconds = 15,
@@ -80,6 +80,10 @@ namespace NTMiner.MinerServer {
                 CpuPerformance = 0,
                 CpuTemperature = 0,
                 KernelSelfRestartCount = 0,
+                IsRaiseHighCpuEvent = false,
+                HighCpuPercent = 80,
+                HighCpuSeconds = 10,
+                LocalServerMessageTimestamp = Timestamp.UnixBaseTime,
                 GpuTable = new GpuSpeedData[0]
             };
         }
@@ -87,6 +91,14 @@ namespace NTMiner.MinerServer {
         public static ClientData Create(ISpeedData speedData, string minerIp) {
             return new ClientData() {
                 Id = ObjectId.NewObjectId().ToString(),
+                MinerName = string.Empty,
+                MinerIp = minerIp,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                GroupId = Guid.Empty,
+                WorkId = Guid.Empty,
+                WindowsLoginName = string.Empty,
+                WindowsPassword = string.Empty,
                 ClientId = speedData.ClientId,
                 IsAutoBoot = speedData.IsAutoBoot,
                 IsAutoStart = speedData.IsAutoStart,
@@ -109,7 +121,6 @@ namespace NTMiner.MinerServer {
                 CpuStartTemperature = speedData.CpuStartTemperature,
                 CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds,
                 CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds,
-                MinerName = string.Empty,
                 GpuDriver = speedData.GpuDriver,
                 GpuType = speedData.GpuType,
                 OSName = speedData.OSName,
@@ -119,9 +130,6 @@ namespace NTMiner.MinerServer {
                 IsMining = speedData.IsMining,
                 BootOn = speedData.BootOn,
                 MineStartedOn = speedData.MineStartedOn,
-                MinerIp = minerIp,
-                CreatedOn = DateTime.Now,
-                ModifiedOn = DateTime.Now,
                 MainCoinCode = speedData.MainCoinCode,
                 MainCoinTotalShare = speedData.MainCoinTotalShare,
                 MainCoinRejectShare = speedData.MainCoinRejectShare,
@@ -138,12 +146,8 @@ namespace NTMiner.MinerServer {
                 DualCoinSpeed = speedData.DualCoinSpeed,
                 KernelCommandLine = speedData.KernelCommandLine,
                 GpuTable = speedData.GpuTable,
-                GroupId = Guid.Empty,
-                WorkId = Guid.Empty,
                 MineWorkId = speedData.MineWorkId,
                 MineWorkName = speedData.MineWorkName,
-                WindowsLoginName = string.Empty,
-                WindowsPassword = string.Empty,
                 ClientName = speedData.MinerName,
                 DiskSpace = speedData.DiskSpace,
                 MainCoinPoolDelay = speedData.MainCoinPoolDelay,
@@ -153,7 +157,11 @@ namespace NTMiner.MinerServer {
                 IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare,
                 CpuTemperature = speedData.CpuTemperature,
                 CpuPerformance = speedData.CpuPerformance,
-                KernelSelfRestartCount = speedData.KernelSelfRestartCount
+                KernelSelfRestartCount = speedData.KernelSelfRestartCount,
+                LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp,
+                IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent,
+                HighCpuPercent = speedData.HighCpuPercent,
+                HighCpuSeconds = speedData.HighCpuSeconds
             };
         }
 
@@ -255,6 +263,10 @@ namespace NTMiner.MinerServer {
             this.MineWorkId = speedData.MineWorkId;
             this.MineWorkName = speedData.MineWorkName;
             this.KernelSelfRestartCount = speedData.KernelSelfRestartCount;
+            this.LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp;
+            this.IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent;
+            this.HighCpuPercent = speedData.HighCpuPercent;
+            this.HighCpuSeconds = speedData.HighCpuSeconds;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {

@@ -11,88 +11,97 @@ namespace NTMiner.Profile {
             };
         }
 
-        public MinerProfileData() {
-            this.MinerName = string.Empty;
-            this.IsAutoRestartKernel = true;
-            this.AutoRestartKernelTimes = 10;
-            this.IsNoShareRestartKernel = false;
-            this.NoShareRestartKernelMinutes = 15;
-            this.IsNoShareRestartComputer = false;
-            this.NoShareRestartComputerMinutes = 30;
-            this.IsPeriodicRestartKernel = false;
-            this.PeriodicRestartKernelHours = 12;
-            this.PeriodicRestartKernelMinutes = 0;
-            this.IsPeriodicRestartComputer = false;
-            this.PeriodicRestartComputerHours = 24;
-            this.PeriodicRestartComputerMinutes = 0;
-            this.IsSpeedDownRestartComputer = false;
-            this.RestartComputerSpeedDownPercent = 0;
-            this.IsEChargeEnabled = true;
-            this.EPrice = 0.3;
-            this.IsPowerAppend = false;
-            this.PowerAppend = 0;
-            this.MaxTemp = 80;
-            this.AutoStartDelaySeconds = 15;
-            this.IsAutoDisableWindowsFirewall = true;
-            this.IsShowInTaskbar = true;
-            this.IsNoUi = false;
-            this.IsAutoNoUi = false;
-            this.AutoNoUiMinutes = 10;
-            this.IsShowNotifyIcon = true;
-            this.IsCloseMeanExit = false;
-            this.IsShowCommandLine = false;
-            this.IsAutoBoot = true;
-            this.IsAutoStart = true;
-            this.IsCreateShortcut = true;
-            this.IsAutoStopByCpu = false;
-            this.IsAutoStartByCpu = false;
-            this.CpuGETemperatureSeconds = 60;
-            this.CpuLETemperatureSeconds = 60;
-            this.CpuStartTemperature = 40;
-            this.CpuStopTemperature = 65;
+        public static MinerProfileData Create(IMinerProfile data) {
+            return new MinerProfileData {
+                Id = data.CoinId,
+                MinerName = data.MinerName,
+                CoinId = data.CoinId,
+                IsAutoRestartKernel = data.IsAutoRestartKernel,
+                AutoRestartKernelTimes = data.AutoRestartKernelTimes,
+                IsNoShareRestartKernel = data.IsNoShareRestartKernel,
+                NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes,
+                IsNoShareRestartComputer = data.IsNoShareRestartComputer,
+                NoShareRestartComputerMinutes = data.NoShareRestartComputerMinutes,
+                IsPeriodicRestartKernel = data.IsPeriodicRestartKernel,
+                PeriodicRestartKernelHours = data.PeriodicRestartKernelHours,
+                PeriodicRestartKernelMinutes = data.PeriodicRestartKernelMinutes,
+                IsPeriodicRestartComputer = data.IsPeriodicRestartComputer,
+                PeriodicRestartComputerHours = data.PeriodicRestartComputerHours,
+                PeriodicRestartComputerMinutes = data.PeriodicRestartComputerMinutes,
+                IsSpeedDownRestartComputer = data.IsSpeedDownRestartComputer,
+                RestartComputerSpeedDownPercent = data.RestartComputerSpeedDownPercent,
+                IsEChargeEnabled = data.IsEChargeEnabled,
+                EPrice = data.EPrice,
+                IsPowerAppend = data.IsPowerAppend,
+                PowerAppend = data.PowerAppend,
+                MaxTemp = data.MaxTemp,
+                AutoStartDelaySeconds = data.AutoStartDelaySeconds,
+                IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall,
+                IsShowInTaskbar = data.IsShowInTaskbar,
+                IsNoUi = data.IsNoUi,
+                IsAutoNoUi = data.IsAutoNoUi,
+                AutoNoUiMinutes = data.AutoNoUiMinutes,
+                IsShowNotifyIcon = data.IsShowNotifyIcon,
+                IsCloseMeanExit = data.IsCloseMeanExit,
+                IsShowCommandLine = data.IsShowCommandLine,
+                IsAutoBoot = data.IsAutoBoot,
+                IsAutoStart = data.IsAutoStart,
+                IsCreateShortcut = data.IsCreateShortcut,
+                IsAutoStopByCpu = data.IsAutoStopByCpu,
+                IsAutoStartByCpu = data.IsAutoStartByCpu,
+                CpuGETemperatureSeconds = data.CpuGETemperatureSeconds,
+                CpuLETemperatureSeconds = data.CpuLETemperatureSeconds,
+                CpuStartTemperature = data.CpuStartTemperature,
+                CpuStopTemperature = data.CpuStopTemperature,
+                IsRaiseHighCpuEvent = data.IsRaiseHighCpuEvent,
+                HighCpuPercent = data.HighCpuPercent,
+                HighCpuSeconds = data.HighCpuSeconds
+            };
         }
 
-        public MinerProfileData(IMinerProfile data) {
-            this.Id = data.CoinId;
-            this.MinerName = data.MinerName;
-            this.CoinId = data.CoinId;
-            this.IsAutoRestartKernel = data.IsAutoRestartKernel;
-            this.AutoRestartKernelTimes = data.AutoRestartKernelTimes;
-            this.IsNoShareRestartKernel = data.IsNoShareRestartKernel;
-            this.NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes;
-            this.IsNoShareRestartComputer = data.IsNoShareRestartComputer;
-            this.NoShareRestartComputerMinutes = data.NoShareRestartComputerMinutes;
-            this.IsPeriodicRestartKernel = data.IsPeriodicRestartKernel;
-            this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
-            this.PeriodicRestartKernelHours = data.PeriodicRestartKernelHours;
-            this.IsPeriodicRestartComputer = data.IsPeriodicRestartComputer;
-            this.PeriodicRestartComputerHours = data.PeriodicRestartComputerHours;
-            this.PeriodicRestartComputerMinutes = data.PeriodicRestartComputerMinutes;
-            this.IsSpeedDownRestartComputer = data.IsSpeedDownRestartComputer;
-            this.RestartComputerSpeedDownPercent = data.RestartComputerSpeedDownPercent;
-            this.IsEChargeEnabled = data.IsEChargeEnabled;
-            this.EPrice = data.EPrice;
-            this.IsPowerAppend = data.IsPowerAppend;
-            this.PowerAppend = data.PowerAppend;
-            this.MaxTemp = data.MaxTemp;
-            this.AutoStartDelaySeconds = data.AutoStartDelaySeconds;
-            this.IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall;
-            this.IsShowInTaskbar = data.IsShowInTaskbar;
-            this.IsNoUi = data.IsNoUi;
-            this.IsAutoNoUi = data.IsAutoNoUi;
-            this.AutoNoUiMinutes = data.AutoNoUiMinutes;
-            this.IsShowNotifyIcon = data.IsShowNotifyIcon;
-            this.IsCloseMeanExit = data.IsCloseMeanExit;
-            this.IsShowCommandLine = data.IsShowCommandLine;
-            this.IsAutoBoot = data.IsAutoBoot;
-            this.IsAutoStart = data.IsAutoStart;
-            this.IsCreateShortcut = data.IsCreateShortcut;
-            this.IsAutoStopByCpu = data.IsAutoStopByCpu;
-            this.IsAutoStartByCpu = data.IsAutoStartByCpu;
-            this.CpuGETemperatureSeconds = data.CpuGETemperatureSeconds;
-            this.CpuLETemperatureSeconds = data.CpuLETemperatureSeconds;
-            this.CpuStartTemperature = data.CpuStartTemperature;
-            this.CpuStopTemperature = data.CpuStopTemperature;
+        public MinerProfileData() {
+            // 这些赋值的意义是为模型新增的属性提供默认值，因为新增的属性在数据库中没有值
+            MinerName = string.Empty;
+            IsAutoRestartKernel = true;
+            AutoRestartKernelTimes = 10;
+            IsNoShareRestartKernel = false;
+            NoShareRestartKernelMinutes = 15;
+            IsNoShareRestartComputer = false;
+            NoShareRestartComputerMinutes = 30;
+            IsPeriodicRestartKernel = false;
+            PeriodicRestartKernelHours = 12;
+            PeriodicRestartKernelMinutes = 0;
+            IsPeriodicRestartComputer = false;
+            PeriodicRestartComputerHours = 24;
+            PeriodicRestartComputerMinutes = 0;
+            IsSpeedDownRestartComputer = false;
+            RestartComputerSpeedDownPercent = 0;
+            IsEChargeEnabled = true;
+            EPrice = 0.3;
+            IsPowerAppend = false;
+            PowerAppend = 0;
+            MaxTemp = 80;
+            AutoStartDelaySeconds = 15;
+            IsAutoDisableWindowsFirewall = true;
+            IsShowInTaskbar = true;
+            IsNoUi = false;
+            IsAutoNoUi = false;
+            AutoNoUiMinutes = 10;
+            IsShowNotifyIcon = true;
+            IsCloseMeanExit = false;
+            IsShowCommandLine = false;
+            IsAutoBoot = true;
+            IsAutoStart = true;
+            IsCreateShortcut = true;
+            IsAutoStopByCpu = false;
+            IsAutoStartByCpu = false;
+            CpuGETemperatureSeconds = 60;
+            CpuLETemperatureSeconds = 60;
+            CpuStartTemperature = 40;
+            CpuStopTemperature = 65;
+            IsRaiseHighCpuEvent = true;
+            HighCpuPercent = 80;
+            HighCpuSeconds = 10;
         }
 
         public Guid GetId() {
@@ -165,6 +174,12 @@ namespace NTMiner.Profile {
         public int CpuStartTemperature { get; set; }
 
         public int CpuLETemperatureSeconds { get; set; }
+
+        public bool IsRaiseHighCpuEvent { get; set; }
+
+        public int HighCpuPercent { get; set; }
+
+        public int HighCpuSeconds { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

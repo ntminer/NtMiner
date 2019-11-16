@@ -136,17 +136,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private SysDicViewModel _clorDic;
-
-        public SysDicViewModel LogColorDicVm {
-            get {
-                if (_clorDic == null) {
-                    AppContext.Instance.SysDicVms.TryGetSysDicVm(NTKeyword.LogColorSysDicCode, out _clorDic);
-                }
-                return _clorDic;
-            }
-        }
-
         public int SortNumber {
             get => _sortNumber;
             set {

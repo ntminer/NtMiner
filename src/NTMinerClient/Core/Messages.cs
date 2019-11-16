@@ -53,6 +53,12 @@ namespace NTMiner.Core {
         public string PoolDelayText { get; private set; }
     }
 
+    [MessageType(description: "CPU包的状态发生了变更")]
+    public class CpuPackageStateChangedEvent : EventBase {
+        public CpuPackageStateChangedEvent() {
+        }
+    }
+
     #region toolbox
     [MessageType(description: "禁用win10系统更新")]
     public class BlockWAUCommand : Cmd {

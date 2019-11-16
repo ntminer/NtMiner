@@ -1,10 +1,9 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
 
-namespace NTMiner {
-    public partial class MainWindow : Window {
-        public MainWindow() {
+namespace NTMiner.Views {
+    public partial class SplashWindow : Window {
+        public SplashWindow() {
             InitializeComponent();
         }
 
@@ -15,13 +14,7 @@ namespace NTMiner {
         }
 
         private void BtnClose_Click(object sender, RoutedEventArgs e) {
-            try {
-                Process parentProcess = Process.GetProcessById(CommandLineArgs.ParentProcessId);
-                parentProcess.Kill();
-            }
-            catch {
-            }
-            this.Close();
+            Application.Current.Shutdown();
         }
     }
 }

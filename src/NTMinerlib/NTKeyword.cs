@@ -80,7 +80,6 @@
         public const string KernelBrandSysDicCode = "KernelBrand";
         public const string PoolBrandSysDicCode = "PoolBrand";
         public const string AlgoSysDicCode = "Algo";
-        public const string LogColorSysDicCode = "LogColor";
         public const string CudaVersionSysDicCode = "CudaVersion";
         public const string ThisSystemSysDicCode = "ThisSystem";
         #endregion
