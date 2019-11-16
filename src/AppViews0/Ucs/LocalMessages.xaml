@@ -155,7 +155,7 @@
                         <TextBlock
 					        Padding="2 0"
 					        VerticalAlignment="Center"
-					        Text="配置" />
+					        Text="内核频道设置" />
                     </WrapPanel>
                 </controls:KbButton>
             </WrapPanel>
