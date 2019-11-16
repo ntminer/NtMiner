@@ -153,7 +153,8 @@ namespace NTMiner.MinerServer {
                 IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare,
                 CpuTemperature = speedData.CpuTemperature,
                 CpuPerformance = speedData.CpuPerformance,
-                KernelSelfRestartCount = speedData.KernelSelfRestartCount
+                KernelSelfRestartCount = speedData.KernelSelfRestartCount,
+                LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp
             };
         }
 
@@ -255,6 +256,7 @@ namespace NTMiner.MinerServer {
             this.MineWorkId = speedData.MineWorkId;
             this.MineWorkName = speedData.MineWorkName;
             this.KernelSelfRestartCount = speedData.KernelSelfRestartCount;
+            this.LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
