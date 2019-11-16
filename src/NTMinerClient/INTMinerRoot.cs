@@ -64,7 +64,7 @@ namespace NTMiner {
 
         IGpuSet GpuSet { get; }
 
-        ICpuAll CpuAll { get; }
+        ICpuPackage CpuPackage { get; }
 
         ICalcConfigSet CalcConfigSet { get; }
 

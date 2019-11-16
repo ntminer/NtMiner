@@ -81,8 +81,8 @@
     <Compile Include="CommandLineArgs.partial.cs" />
     <Compile Include="Core\AverageSpeed.cs" />
     <Compile Include="Core\CoinExtensions.cs" />
-    <Compile Include="Core\Cpus\ICpuAll.cs" />
-    <Compile Include="Core\Cpus\Impl\CpuAll.cs" />
+    <Compile Include="Core\Cpus\ICpuPackage.cs" />
+    <Compile Include="Core\Cpus\Impl\CpuPackage.cs" />
     <Compile Include="Core\Gpus\GpuSetExtension.cs" />
     <Compile Include="Core\Gpus\EmptyGpuSet.cs" />
     <Compile Include="Core\Gpus\IGpu.cs" />

@@ -154,7 +154,6 @@ namespace NTMiner {
         private void DoInit(bool isWork, Action callback) {
             IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.ServerAppSettingSet = new ServerAppSettingSet();
-            this.CpuAll = new CpuAll();
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ServerContext = new ServerContext();
             this.GpuProfileSet = new GpuProfileSet(this);
@@ -171,6 +170,7 @@ namespace NTMiner {
             // 作业和在群控客户端管理作业时
             IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
             this._minerProfile = new MinerProfile(this);
+            this.CpuPackage = new CpuPackage(_minerProfile);
 
             // 这几个注册表内部区分挖矿端和群控客户端
             NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
@@ -655,7 +655,7 @@ namespace NTMiner {
         }
         #endregion
 
-        public ICpuAll CpuAll { get; private set; }
+        public ICpuPackage CpuPackage { get; private set; }
 
         public IKernelProfileSet KernelProfileSet { get; private set; }
 

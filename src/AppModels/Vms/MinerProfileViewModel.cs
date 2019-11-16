@@ -13,9 +13,6 @@ namespace NTMiner.Vms {
         private readonly string _linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "开源矿工.lnk");
         private readonly string _linkFileDescription = "开源矿工 - 做最好的矿工 https://ntminer.com";
 
-        public int HighTemperatureCount = 0;
-        public int LowTemperatureCount = 0;
-
         public ICommand AutoStartDelaySecondsUp { get; private set; }
         public ICommand AutoStartDelaySecondsDown { get; private set; }
 
@@ -728,7 +725,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStopTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStopTemperature != value) {
-                    HighTemperatureCount = 0;
+                    NTMinerRoot.HighTemperatureCount = 0;
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStopTemperature), value);
                     OnPropertyChanged(nameof(CpuStopTemperature));
                 }
@@ -759,7 +756,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStartTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStartTemperature != value) {
-                    LowTemperatureCount = 0;
+                    NTMinerRoot.LowTemperatureCount = 0;
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStartTemperature), value);
                     OnPropertyChanged(nameof(CpuStartTemperature));
                 }

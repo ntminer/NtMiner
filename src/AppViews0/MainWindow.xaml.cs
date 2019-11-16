@@ -280,7 +280,10 @@ namespace NTMiner.Views {
                     }
                     Vm.RefreshDaemonStateBrush();
                 });
-            RefreshCpu();
+            this.BuildEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
+                action: message => {
+                    UpdateCpuView(NTMinerRoot.Instance.CpuPackage.HighCpuPercent, NTMinerRoot.Instance.CpuPackage.Temperature);
+                });
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
@@ -340,65 +343,6 @@ namespace NTMiner.Views {
             if (_cpuTemperature != temperature) {
                 _cpuTemperature = temperature;
                 Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
-            }
-        }
-        private bool _isFirstRefreshCpu = true;
-        private void RefreshCpu() {
-            if (_isFirstRefreshCpu) {
-                _isFirstRefreshCpu = false;
-                Task.Factory.StartNew(() => {
-#if DEBUG
-                    Write.Stopwatch.Start();
-#endif
-                    int performance = (int)Windows.Cpu.Instance.GetPerformance();
-                    // 因为初始化费时间
-                    int temperature = (int)Windows.Cpu.Instance.GetTemperature();
-#if DEBUG
-                    var elapsedMilliseconds = Write.Stopwatch.Stop();
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.RefreshCpu");
-#endif
-                    this.BuildEventPath<Per2SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
-                        action: message => {
-                            RefreshCpu();
-                        });
-                });
-            }
-            else {
-                int performance = (int)Windows.Cpu.Instance.GetPerformance();
-                int temperature = (int)Windows.Cpu.Instance.GetTemperature();
-                UpdateCpuView(performance, temperature);
-                if (Vm.MinerProfile.IsAutoStopByCpu) {
-                    if (NTMinerRoot.Instance.IsMining) {
-                        Vm.MinerProfile.LowTemperatureCount = 0;
-                        if (temperature >= Vm.MinerProfile.CpuStopTemperature) {
-                            Vm.MinerProfile.HighTemperatureCount++;
-                        }
-                        else {
-                            Vm.MinerProfile.HighTemperatureCount = 0;
-                        }
-                        if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
-                            Vm.MinerProfile.HighTemperatureCount = 0;
-                            NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
-                            VirtualRoot.ThisLocalInfo(nameof(MainWindow), $"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃", toConsole: true);
-                        }
-                    }
-                    else {
-                        Vm.MinerProfile.HighTemperatureCount = 0;
-                        if (Vm.MinerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
-                            if (temperature <= Vm.MinerProfile.CpuStartTemperature) {
-                                Vm.MinerProfile.LowTemperatureCount++;
-                            }
-                            else {
-                                Vm.MinerProfile.LowTemperatureCount = 0;
-                            }
-                            if (Vm.MinerProfile.LowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
-                                Vm.MinerProfile.LowTemperatureCount = 0;
-                                VirtualRoot.ThisLocalInfo(nameof(MainWindow), $"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃", toConsole: true);
-                                NTMinerRoot.Instance.StartMine();
-                            }
-                        }
-                    }
-                }
             }
         }
         #endregion
