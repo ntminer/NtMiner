@@ -93,7 +93,6 @@
     <Compile Include="RemoteDesktop\RdpInput.cs" />
     <Compile Include="View\AbstractAppViewFactory.cs" />
     <Compile Include="View\IAppViewFactory.cs" />
-    <Compile Include="View\ISplashWindow.cs" />
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\BrandTagViewModel.cs" />

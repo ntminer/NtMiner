@@ -53,6 +53,7 @@ namespace NTMiner {
                 }
             }
             if (window.Owner != null) {
+                // 因为挖矿端主界面是透明的，遮罩方法和普通窗口不同，如果按照通用的方法遮罩的话会导致能透过窗口看见windows桌面或者下面的窗口。
                 if (window.Owner is IMaskWindow maskWindow) {
                     maskWindow.ShowMask();
                     window.Owner.IsEnabled = false;

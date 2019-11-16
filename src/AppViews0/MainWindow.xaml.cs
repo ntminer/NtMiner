@@ -404,6 +404,7 @@ namespace NTMiner.Views {
         #endregion
 
         #region 显示或隐藏半透明遮罩层
+        // 因为挖矿端主界面是透明的，遮罩方法和普通窗口不同，如果按照通用的方法遮罩的话会导致能透过窗口看见windows桌面或者下面的窗口。
         public void ShowMask() {
             if (this.WindowState != WindowState.Maximized) {
                 this.BorderBrush = WpfUtil.TransparentBrush;
