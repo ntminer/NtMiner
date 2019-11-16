@@ -83,15 +83,6 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputTranslaterRemovedEvent(entity));
                 });
-            context.BuildEventPath<SysDicItemUpdatedEvent>($"{NTKeyword.LogColorSysDicCode}字典项更新后刷新翻译器内存", LogEnum.DevConsole,
-                action: message => {
-                    if (!context.SysDicSet.TryGetSysDic(NTKeyword.LogColorSysDicCode, out ISysDic dic)) {
-                        return;
-                    }
-                    if (message.Source.DicId != dic.GetId()) {
-                        return;
-                    }
-                });
         }
 
         private bool _isInited = false;

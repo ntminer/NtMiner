@@ -348,12 +348,6 @@ namespace NTMiner {
         public KernelViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开内核日志颜色配置器界面")]
-    public class ShowLogColorCommand : Cmd {
-        public ShowLogColorCommand() {
-        }
-    }
-
     [MessageType(description: "打开挖矿端远程设置界面")]
     public class ShowMinerClientSettingCommand : Cmd {
         public ShowMinerClientSettingCommand(MinerClientSettingViewModel vm) {

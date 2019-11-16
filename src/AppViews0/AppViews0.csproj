@@ -275,9 +275,6 @@
     <Compile Include="Ucs\KernelSelect.xaml.cs">
       <DependentUpon>KernelSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\LogColor.xaml.cs">
-      <DependentUpon>LogColor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\FileDownloader.xaml.cs">
       <DependentUpon>FileDownloader.xaml</DependentUpon>
     </Compile>
@@ -785,10 +782,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelSelect.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\LogColor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

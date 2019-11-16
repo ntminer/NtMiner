@@ -404,20 +404,6 @@
 									            Width="16"
 									            ToolTip="显示命令行"
 									            IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
-                                            <controls:KbButton 
-									            Margin="4 0 0 0"
-									            Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-									            ToolTip="自定义主题"
-									            Background="Transparent" 
-									            BorderThickness="0"
-									            Command="{Binding CustomTheme}">
-                                                <Path
-										            Width="12"
-										            Height="12"
-										            Data="{StaticResource Icon_Theme}"
-										            Fill="{StaticResource IconFillColor}"
-										            Stretch="Fill" />
-                                            </controls:KbButton>
                                         </WrapPanel>
                                         <Grid Grid.Row="1" Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <TextBlock Foreground="LightGray" VerticalAlignment="Top">></TextBlock>

@@ -236,11 +236,6 @@ namespace NTMiner.Views {
                     KernelEdit.ShowWindow(message.FormType, message.Source);
                 });
             });
-            VirtualRoot.BuildCmdPath<ShowLogColorCommand>(action: message => {
-                UIThread.Execute(() => {
-                    LogColor.ShowWindow();
-                });
-            });
             VirtualRoot.BuildCmdPath<ShowMinerClientSettingCommand>(action: message => {
                 UIThread.Execute(() => {
                     MinerClientSetting.ShowWindow(message.Vm);
