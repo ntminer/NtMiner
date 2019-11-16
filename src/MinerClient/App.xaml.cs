@@ -112,6 +112,7 @@ namespace NTMiner {
                             StartStopMineButtonViewModel.Instance.AutoStart();
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             ConsoleWindow.Instance.HideSplash();
+                            NTMinerRoot.Instance.CpuPackage.Start();
                         });
                         #region 处理显示主界面命令
                         VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {

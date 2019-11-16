@@ -282,7 +282,7 @@ namespace NTMiner.Views {
                 });
             this.BuildEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
                 action: message => {
-                    UpdateCpuView(NTMinerRoot.Instance.CpuPackage.HighCpuPercent, NTMinerRoot.Instance.CpuPackage.Temperature);
+                    UIThread.Execute(UpdateCpuView);
                 });
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
@@ -332,7 +332,9 @@ namespace NTMiner.Views {
         #region 更新状态栏展示的CPU使用率和温度
         private int _cpuPerformance = 0;
         private int _cpuTemperature = 0;
-        private void UpdateCpuView(int performance, int temperature) {
+        private void UpdateCpuView() {
+            int performance = NTMinerRoot.Instance.CpuPackage.Performance;
+            int temperature = NTMinerRoot.Instance.CpuPackage.Temperature;
             if (temperature < 0) {
                 temperature = 0;
             }

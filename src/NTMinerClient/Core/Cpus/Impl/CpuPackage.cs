@@ -5,7 +5,12 @@ using System.Threading.Tasks;
 namespace NTMiner.Core.Cpus.Impl {
     public class CpuPackage : ICpuPackage {
         private bool _isFirst = true;
+        private readonly IMinerProfile _minerProfile;
         public CpuPackage(IMinerProfile minerProfile) {
+            _minerProfile = minerProfile;
+        }
+
+        public void Start() {
             VirtualRoot.BuildEventPath<Per1SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
                 action: message => {
                     if (_isFirst) {
@@ -17,33 +22,33 @@ namespace NTMiner.Core.Cpus.Impl {
                     }
                     else {
                         Update((int)Windows.Cpu.Instance.GetPerformance(), (int)Windows.Cpu.Instance.GetTemperature());
-                        if (minerProfile.IsAutoStopByCpu) {
+                        if (_minerProfile.IsAutoStopByCpu) {
                             if (NTMinerRoot.Instance.IsMining) {
                                 NTMinerRoot.LowTemperatureCount = 0;
-                                if (this.Temperature >= minerProfile.CpuStopTemperature) {
+                                if (this.Temperature >= _minerProfile.CpuStopTemperature) {
                                     NTMinerRoot.HighTemperatureCount++;
                                 }
                                 else {
                                     NTMinerRoot.HighTemperatureCount = 0;
                                 }
-                                if (NTMinerRoot.HighTemperatureCount >= minerProfile.CpuGETemperatureSeconds) {
+                                if (NTMinerRoot.HighTemperatureCount >= _minerProfile.CpuGETemperatureSeconds) {
                                     NTMinerRoot.HighTemperatureCount = 0;
                                     NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
-                                    VirtualRoot.ThisLocalInfo(nameof(CpuPackage), $"自动停止挖矿，因为 CPU 温度连续{minerProfile.CpuGETemperatureSeconds}秒不低于{minerProfile.CpuStopTemperature}℃", toConsole: true);
+                                    VirtualRoot.ThisLocalInfo(nameof(CpuPackage), $"自动停止挖矿，因为 CPU 温度连续{_minerProfile.CpuGETemperatureSeconds}秒不低于{_minerProfile.CpuStopTemperature}℃", toConsole: true);
                                 }
                             }
                             else {
                                 NTMinerRoot.HighTemperatureCount = 0;
-                                if (minerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
-                                    if (this.Temperature <= minerProfile.CpuStartTemperature) {
+                                if (_minerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
+                                    if (this.Temperature <= _minerProfile.CpuStartTemperature) {
                                         NTMinerRoot.LowTemperatureCount++;
                                     }
                                     else {
                                         NTMinerRoot.LowTemperatureCount = 0;
                                     }
-                                    if (NTMinerRoot.LowTemperatureCount >= minerProfile.CpuLETemperatureSeconds) {
+                                    if (NTMinerRoot.LowTemperatureCount >= _minerProfile.CpuLETemperatureSeconds) {
                                         NTMinerRoot.LowTemperatureCount = 0;
-                                        VirtualRoot.ThisLocalInfo(nameof(CpuPackage), $"自动开始挖矿，因为 CPU 温度连续{minerProfile.CpuLETemperatureSeconds}秒不高于{minerProfile.CpuStartTemperature}℃", toConsole: true);
+                                        VirtualRoot.ThisLocalInfo(nameof(CpuPackage), $"自动开始挖矿，因为 CPU 温度连续{_minerProfile.CpuLETemperatureSeconds}秒不高于{_minerProfile.CpuStartTemperature}℃", toConsole: true);
                                         NTMinerRoot.Instance.StartMine();
                                     }
                                 }

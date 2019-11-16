@@ -5,6 +5,7 @@ namespace NTMiner.Core.Cpus {
     /// 指的是整个CPU包，而不是单个CPU核。
     /// </summary>
     public interface ICpuPackage {
+        void Start();
         int Performance { get; }
         int Temperature { get; }
 
