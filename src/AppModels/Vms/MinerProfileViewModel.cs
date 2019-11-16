@@ -63,6 +63,12 @@ namespace NTMiner.Vms {
         public ICommand AutoNoUiMinutesUp { get; private set; }
         public ICommand AutoNoUiMinutesDown { get; private set; }
 
+        public ICommand HighCpuPercentUp { get; private set; }
+        public ICommand HighCpuPercentDown { get; private set; }
+
+        public ICommand HighCpuSecondsUp { get; private set; }
+        public ICommand HighCpuSecondsDown { get; private set; }
+
         public MinerProfileViewModel() {
 #if DEBUG
             Write.Stopwatch.Start();
@@ -194,6 +200,22 @@ namespace NTMiner.Vms {
             this.AutoNoUiMinutesDown = new DelegateCommand(() => {
                 if (this.AutoNoUiMinutes > 0) {
                     this.AutoNoUiMinutes--;
+                }
+            });
+            this.HighCpuPercentUp = new DelegateCommand(() => {
+                this.HighCpuPercent++;
+            });
+            this.HighCpuPercentDown = new DelegateCommand(() => {
+                if (this.HighCpuPercent > 0) {
+                    this.HighCpuPercent--;
+                }
+            });
+            this.HighCpuSecondsUp = new DelegateCommand(() => {
+                this.HighCpuSeconds++;
+            });
+            this.HighCpuSecondsDown = new DelegateCommand(() => {
+                if (this.HighCpuSeconds > 0) {
+                    this.HighCpuSeconds--;
                 }
             });
             NTMinerRoot.SetRefreshArgsAssembly(() => {

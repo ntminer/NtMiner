@@ -315,6 +315,45 @@
                                 </WrapPanel>
                             </CheckBox>
                         </WrapPanel>
+                        <WrapPanel Margin="0 2">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsRaiseHighCpuEvent}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">CPU 使用率持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding HighCpuSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding HighCpuSecondsUp}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding HighCpuSecondsDown}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒达到</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding HighCpuPercent,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding HighCpuPercentUp}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding HighCpuPercentDown}">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">% 产生告警消息</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
                     </StackPanel>
 				</GroupBox>
 				<Border

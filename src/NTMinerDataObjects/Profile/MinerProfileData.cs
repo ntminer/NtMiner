@@ -7,48 +7,7 @@ namespace NTMiner.Profile {
         public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
                 Id = DefaultId,
-                CoinId = coinId,
-                MinerName = string.Empty,
-                IsAutoRestartKernel = true,
-                AutoRestartKernelTimes = 10,
-                IsNoShareRestartKernel = false,
-                NoShareRestartKernelMinutes = 15,
-                IsNoShareRestartComputer = false,
-                NoShareRestartComputerMinutes = 30,
-                IsPeriodicRestartKernel = false,
-                PeriodicRestartKernelHours = 12,
-                PeriodicRestartKernelMinutes = 0,
-                IsPeriodicRestartComputer = false,
-                PeriodicRestartComputerHours = 24,
-                PeriodicRestartComputerMinutes = 0,
-                IsSpeedDownRestartComputer = false,
-                RestartComputerSpeedDownPercent = 0,
-                IsEChargeEnabled = true,
-                EPrice = 0.3,
-                IsPowerAppend = false,
-                PowerAppend = 0,
-                MaxTemp = 80,
-                AutoStartDelaySeconds = 15,
-                IsAutoDisableWindowsFirewall = true,
-                IsShowInTaskbar = true,
-                IsNoUi = false,
-                IsAutoNoUi = false,
-                AutoNoUiMinutes = 10,
-                IsShowNotifyIcon = true,
-                IsCloseMeanExit = false,
-                IsShowCommandLine = false,
-                IsAutoBoot = true,
-                IsAutoStart = true,
-                IsCreateShortcut = true,
-                IsAutoStopByCpu = false,
-                IsAutoStartByCpu = false,
-                CpuGETemperatureSeconds = 60,
-                CpuLETemperatureSeconds = 60,
-                CpuStartTemperature = 40,
-                CpuStopTemperature = 65,
-                IsRaiseHighCpuEvent = true,
-                HighCpuPercent = 80,
-                HighCpuSeconds = 10
+                CoinId = coinId
             };
         }
 
@@ -101,6 +60,48 @@ namespace NTMiner.Profile {
         }
 
         public MinerProfileData() {
+            // 这些赋值的意义是为模型新增的属性提供默认值，因为新增的属性在数据库中没有值
+            MinerName = string.Empty;
+            IsAutoRestartKernel = true;
+            AutoRestartKernelTimes = 10;
+            IsNoShareRestartKernel = false;
+            NoShareRestartKernelMinutes = 15;
+            IsNoShareRestartComputer = false;
+            NoShareRestartComputerMinutes = 30;
+            IsPeriodicRestartKernel = false;
+            PeriodicRestartKernelHours = 12;
+            PeriodicRestartKernelMinutes = 0;
+            IsPeriodicRestartComputer = false;
+            PeriodicRestartComputerHours = 24;
+            PeriodicRestartComputerMinutes = 0;
+            IsSpeedDownRestartComputer = false;
+            RestartComputerSpeedDownPercent = 0;
+            IsEChargeEnabled = true;
+            EPrice = 0.3;
+            IsPowerAppend = false;
+            PowerAppend = 0;
+            MaxTemp = 80;
+            AutoStartDelaySeconds = 15;
+            IsAutoDisableWindowsFirewall = true;
+            IsShowInTaskbar = true;
+            IsNoUi = false;
+            IsAutoNoUi = false;
+            AutoNoUiMinutes = 10;
+            IsShowNotifyIcon = true;
+            IsCloseMeanExit = false;
+            IsShowCommandLine = false;
+            IsAutoBoot = true;
+            IsAutoStart = true;
+            IsCreateShortcut = true;
+            IsAutoStopByCpu = false;
+            IsAutoStartByCpu = false;
+            CpuGETemperatureSeconds = 60;
+            CpuLETemperatureSeconds = 60;
+            CpuStartTemperature = 40;
+            CpuStopTemperature = 65;
+            IsRaiseHighCpuEvent = true;
+            HighCpuPercent = 80;
+            HighCpuSeconds = 10;
         }
 
         public Guid GetId() {
