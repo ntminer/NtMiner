@@ -20,17 +20,13 @@
         public string DNSServer1 { get; set; }
 
         public static bool operator==(LocalIpData left, LocalIpData right) {
-            if (left == null) {
-                if (right == null) {
-                    return true;
-                }
-                else {
-                    return false;
-                }
+            if (ReferenceEquals(left, right)) {
+                return true;
             }
-            else {
-                return left.Equals(right);
+            if (ReferenceEquals(left, null)) {
+                return false;
             }
+            return left.Equals(right);
         }
 
         public static bool operator !=(LocalIpData left, LocalIpData right) {
@@ -38,6 +34,9 @@
         }
 
         public override bool Equals(object obj) {
+            if (ReferenceEquals(this, obj)) {
+                return true;
+            }
             if (obj == null) {
                 return false;
             }
