@@ -61,7 +61,7 @@ namespace NTMiner.Windows {
         }
 
         /// <summary>
-        /// 注意cmd参数中不能带参数，参数必须放在args中
+        /// 注意cmdName参数中不能带参数，参数必须放在args中
         /// </summary>
         public static void RunClose(string cmdName, string args, ref int exitCode) {
             if (string.IsNullOrEmpty(cmdName)) {
@@ -94,7 +94,7 @@ namespace NTMiner.Windows {
         }
 
         /// <summary>
-        /// 注意cmd参数中不能带参数，参数必须放在args中
+        /// 注意cmdName参数中不能带参数，参数必须放在args中
         /// </summary>
         public static void RunClose(string cmdName, string args, ref int exitCode, out string output) {
             if (string.IsNullOrEmpty(cmdName)) {

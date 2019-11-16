@@ -16,12 +16,33 @@ namespace NTMiner {
 
         private void BtnClose_Click(object sender, RoutedEventArgs e) {
             try {
-                Process parentProcess = Process.GetProcessById(CommandLineArgs.ParentProcessId);
-                parentProcess.Kill();
+                Kill(CommandLineArgs.ParentProcessId);
             }
             catch {
             }
             this.Close();
+        }
+
+
+        /// <summary>
+        /// 不会抛出异常，因为吞掉了异常
+        /// </summary>
+        private static void Kill(int pid) {
+            try {
+                if (pid <= 0) {
+                    return;
+                }
+                string args = $"/F /T /PID {pid}";
+                using (Process proc = new Process()) {
+                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.UseShellExecute = false;
+                    proc.StartInfo.FileName = "cmd.exe";
+                    proc.StartInfo.Arguments = $"/C taskkill {args}";
+                    proc.Start();
+                }
+            }
+            catch {
+            }
         }
     }
 }
