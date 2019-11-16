@@ -65,6 +65,9 @@ namespace NTMiner.MinerClient {
         int PeriodicRestartComputerMinutes { get; }
         int PeriodicRestartKernelHours { get; }
         int PeriodicRestartKernelMinutes { get; }
+        bool IsRaiseHighCpuEvent { get; }
+        int HighCpuPercent { get; }
+        int HighCpuSeconds { get; }
         string Version { get; }
     }
 }

@@ -1197,6 +1197,30 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsRaiseHighCpuEvent {
+            get { return _data.IsRaiseHighCpuEvent; }
+            set {
+                _data.IsRaiseHighCpuEvent = value;
+                OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
+            }
+        }
+
+        public int HighCpuPercent {
+            get { return _data.HighCpuPercent; }
+            set {
+                _data.HighCpuPercent = value;
+                OnPropertyChanged(nameof(HighCpuPercent));
+            }
+        }
+
+        public int HighCpuSeconds {
+            get { return _data.HighCpuSeconds; }
+            set {
+                _data.HighCpuSeconds = value;
+                OnPropertyChanged(nameof(HighCpuSeconds));
+            }
+        }
+
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
             if (GpuTableVm == null) {
                 return;
