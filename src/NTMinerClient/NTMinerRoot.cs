@@ -1,5 +1,7 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.Core;
+using NTMiner.Core.Cpus;
+using NTMiner.Core.Cpus.Impl;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
@@ -152,6 +154,7 @@ namespace NTMiner {
         private void DoInit(bool isWork, Action callback) {
             IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
             this.ServerAppSettingSet = new ServerAppSettingSet();
+            this.CpuAll = new CpuAll();
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ServerContext = new ServerContext();
             this.GpuProfileSet = new GpuProfileSet(this);
@@ -651,6 +654,8 @@ namespace NTMiner {
             }
         }
         #endregion
+
+        public ICpuAll CpuAll { get; private set; }
 
         public IKernelProfileSet KernelProfileSet { get; private set; }
 

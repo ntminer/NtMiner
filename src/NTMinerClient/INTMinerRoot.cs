@@ -1,5 +1,6 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.Core;
+using NTMiner.Core.Cpus;
 using NTMiner.Core.Gpus;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
@@ -62,6 +63,8 @@ namespace NTMiner {
         string GpuSetInfo { get; }
 
         IGpuSet GpuSet { get; }
+
+        ICpuAll CpuAll { get; }
 
         ICalcConfigSet CalcConfigSet { get; }
 
