@@ -754,6 +754,36 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsRaiseHighCpuEvent {
+            get => NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsRaiseHighCpuEvent), value);
+                    OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
+                }
+            }
+        }
+
+        public int HighCpuPercent {
+            get => NTMinerRoot.Instance.MinerProfile.HighCpuPercent;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.HighCpuPercent != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuPercent), value);
+                    OnPropertyChanged(nameof(HighCpuPercent));
+                }
+            }
+        }
+
+        public int HighCpuSeconds {
+            get => NTMinerRoot.Instance.MinerProfile.HighCpuSeconds;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.HighCpuSeconds != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuSeconds), value);
+                    OnPropertyChanged(nameof(HighCpuSeconds));
+                }
+            }
+        }
+
         public CoinViewModel CoinVm {
             get {
                 if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm) || !coinVm.IsSupported) {

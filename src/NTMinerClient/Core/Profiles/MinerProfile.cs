@@ -454,6 +454,27 @@ namespace NTMiner.Core.Profiles {
                 _data.CpuLETemperatureSeconds = value;
             }
         }
+
+        public bool IsRaiseHighCpuEvent {
+            get => _data.IsRaiseHighCpuEvent;
+            private set {
+                _data.IsRaiseHighCpuEvent = value;
+            }
+        }
+
+        public int HighCpuPercent {
+            get => _data.HighCpuPercent;
+            private set {
+                _data.HighCpuPercent = value;
+            }
+        }
+
+        public int HighCpuSeconds {
+            get => _data.HighCpuSeconds;
+            private set {
+                _data.HighCpuSeconds = value;
+            }
+        }
         #endregion
 
         private static Dictionary<string, PropertyInfo> s_properties;
