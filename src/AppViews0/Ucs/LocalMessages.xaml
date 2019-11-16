@@ -120,7 +120,7 @@
 			        Padding="2"
                     Command="{Binding Clear}"
                     Background="Transparent"
-                    ToolTip="清空日志"
+                    ToolTip="清空所有频道的消息"
                     Cursor="Hand"
 			        CornerRadius="2">
                     <WrapPanel>

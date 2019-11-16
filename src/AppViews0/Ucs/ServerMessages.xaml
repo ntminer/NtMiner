@@ -29,6 +29,7 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <WrapPanel VerticalAlignment="Center">
+                <TextBlock VerticalAlignment="Center" Margin="4 0 0 0" Foreground="{StaticResource LableColor}">从服务器收到的消息</TextBlock>
                 <ItemsControl
                     Margin="0 0 10 0"
 				    ItemsSource="{Binding MessageTypeItems}"
@@ -98,7 +99,7 @@
 			        Padding="2"
                     Command="{Binding Clear}"
                     Background="Transparent"
-                    ToolTip="清空日志"
+                    ToolTip="清空从服务器收到的消息"
                     Cursor="Hand"
 			        CornerRadius="2">
                     <WrapPanel>
