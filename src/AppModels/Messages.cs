@@ -559,9 +559,9 @@ namespace NTMiner {
         public SysDicViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开本地消息设置页")]
-    public class ShowLocalMessagesConfigCommand : Cmd {
-        public ShowLocalMessagesConfigCommand() {
+    [MessageType(description: "打开内核输出关键字列表页")]
+    public class ShowKernelOutputKeywordsCommand : Cmd {
+        public ShowKernelOutputKeywordsCommand() {
         }
     }
 

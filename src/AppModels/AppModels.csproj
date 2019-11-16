@@ -112,7 +112,7 @@
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
     <Compile Include="Vms\InnerPropertyViewModel.cs" />
     <Compile Include="Vms\KernelOutputKeywordViewModel.cs" />
-    <Compile Include="Vms\LocalMessagesConfigViewModel.cs" />
+    <Compile Include="Vms\KernelOutputKeywordsViewModel.cs" />
     <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\MessageTypeItem`1.cs" />
     <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />

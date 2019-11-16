@@ -599,7 +599,7 @@ namespace NTMiner {
         });
 
         public static ICommand ShowLocalMessagesConfig { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowLocalMessagesConfigCommand());
+            VirtualRoot.Execute(new ShowKernelOutputKeywordsCommand());
         });
 
         public static ICommand ShowMessagePathIds { get; private set; } = new DelegateCommand(() => {

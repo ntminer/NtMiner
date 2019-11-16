@@ -4,11 +4,11 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class LocalMessagesConfigViewModel : ViewModelBase {
+    public class KernelOutputKeywordsViewModel : ViewModelBase {
 
         public ICommand Add { get; private set; }
 
-        public LocalMessagesConfigViewModel() {
+        public KernelOutputKeywordsViewModel() {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }

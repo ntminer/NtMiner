@@ -2,10 +2,10 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class LocalMessagesConfig : UserControl {
+    public partial class KernelOutputKeywords : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "消息配置",
+                Title = "消息配置：基于关键字从内核输出中订阅消息",
                 IconName = "Icon_Message",
                 Width = 600,
                 Height = 400,
@@ -13,17 +13,17 @@ namespace NTMiner.Views.Ucs {
                 FooterVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) => {
                 window.Owner = WpfUtil.GetTopWindow();
-                return new LocalMessagesConfig();
+                return new KernelOutputKeywords();
             }, fixedSize: true);
         }
 
-        public LocalMessagesConfigViewModel Vm {
+        public KernelOutputKeywordsViewModel Vm {
             get {
-                return (LocalMessagesConfigViewModel)this.DataContext;
+                return (KernelOutputKeywordsViewModel)this.DataContext;
             }
         }
 
-        public LocalMessagesConfig() {
+        public KernelOutputKeywords() {
             InitializeComponent();
             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
         }
