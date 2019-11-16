@@ -761,15 +761,15 @@
 				    CornerRadius="2 2 0 0">
                     <WrapPanel>
                         <Path
+                            x:Name="IconOverClockEyeClosed"
                             Margin="0 1 0 0"
-						    Visibility="{Binding ElementName=SpeedTable,Path=IsOverClockVisible,Converter={StaticResource VisibilityInvertConverter}}"
 						    Width="16"
 						    Height="8"
 						    Data="{StaticResource Icon_CloseEye}"
 						    Fill="{StaticResource IconFillColor}"
 						    Stretch="Fill" />
                         <Path
-						    Visibility="{Binding ElementName=SpeedTable,Path=IsOverClockVisible}"
+						    Visibility="{Binding ElementName=IconOverClockEyeClosed,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}"
 						    Width="16"
 						    Height="12"
 						    Data="{StaticResource Icon_OpenEye}"

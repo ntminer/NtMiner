@@ -297,7 +297,7 @@
 									</DataTemplate>
 								</DataGridTemplateColumn.CellTemplate>
 							</DataGridTemplateColumn>
-							<DataGridTemplateColumn IsReadOnly="True">
+							<DataGridTemplateColumn Width="*" IsReadOnly="True">
 								<DataGridTemplateColumn.Header>
 									<TextBlock Text="币种级参数"></TextBlock>
 								</DataGridTemplateColumn.Header>

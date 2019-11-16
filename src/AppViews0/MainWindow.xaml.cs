@@ -143,7 +143,7 @@ namespace NTMiner.Views {
                 return;
             }
 
-            UIThread.StartTimer(); 
+            UIThread.StartTimer();
             bool isSplashed = false;
             ConsoleWindow.Instance.OnSplashHided = () => {
                 if (!isSplashed) {
@@ -486,6 +486,7 @@ namespace NTMiner.Views {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
             }
             MainArea.SelectedItem = TabItemSpeedTable;
+            IconOverClockEyeClosed.Visibility = speedTableUc.IsOverClockVisible == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private SpeedTable _speedTable;
@@ -514,7 +515,7 @@ namespace NTMiner.Views {
         private void ResizeWindow(SafeNativeMethods.ResizeDirection direction) {
             SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
         }
-        
+
         private void ResizeWindow(object sender) {
             Rectangle clickedRectangle = sender as Rectangle;
 
