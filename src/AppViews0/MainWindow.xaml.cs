@@ -128,7 +128,14 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.Stopwatch.Start();
 #endif
-            this.Owner = ConsoleWindow.Instance;
+            this.Loaded += (sender, e) => {
+                ConsoleWindow.Instance.Show();
+                this.Owner = ConsoleWindow.Instance;
+                hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+                hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
+                hwndSource.AddHook(new HwndSourceHook(WindowProc));
+                hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
+            };
             InitializeComponent();
 
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
@@ -152,8 +159,19 @@ namespace NTMiner.Views {
             NTMinerRoot.RefreshArgsAssembly.Invoke();
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
+                // 延迟创建，以加快主界面的启动
                 var selectedItem = MainArea.SelectedItem;
-                if (selectedItem == TabItemToolbox) {
+                if (selectedItem == TabItemSpeedTable) {
+                    if (SpeedTableContainer.Child == null) {
+                        SpeedTableContainer.Child = GetSpeedTable();
+                    }
+                }
+                else if (selectedItem == TabItemMessage) {
+                    if (MessagesContainer.Child == null) {
+                        MessagesContainer.Child = new Messages();
+                    }
+                }
+                else if (selectedItem == TabItemToolbox) {
                     if (ToolboxContainer.Child == null) {
                         ToolboxContainer.Child = new Toolbox();
                     }
@@ -269,13 +287,6 @@ namespace NTMiner.Views {
 #endif
         }
 
-        private void Window_SourceInitialized(object sender, EventArgs e) {
-            hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-            hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
-            hwndSource.AddHook(new HwndSourceHook(WindowProc));
-            hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
-        }
-
         #region 改变下面的控制台窗口的尺寸和位置
         private void MoveConsoleWindow() {
             if (!this.IsLoaded) {
@@ -346,7 +357,7 @@ namespace NTMiner.Views {
                     var elapsedMilliseconds = Write.Stopwatch.Stop();
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.RefreshCpu");
 #endif
-                    this.BuildEventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
+                    this.BuildEventPath<Per2SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
                         action: message => {
                             RefreshCpu();
                         });
@@ -466,7 +477,7 @@ namespace NTMiner.Views {
         }
 
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
-            var speedTableUc = this.SpeedTable;
+            var speedTableUc = this.GetSpeedTable();
             if (MainArea.SelectedItem == TabItemSpeedTable) {
                 speedTableUc.ShowOrHideOverClock(isShow: speedTableUc.IsOverClockVisible == Visibility.Collapsed);
             }
@@ -474,6 +485,14 @@ namespace NTMiner.Views {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
             }
             MainArea.SelectedItem = TabItemSpeedTable;
+        }
+
+        private SpeedTable _speedTable;
+        private SpeedTable GetSpeedTable() {
+            if (_speedTable == null) {
+                _speedTable = new SpeedTable();
+            }
+            return _speedTable;
         }
 
         #region 拖动窗口边缘改变窗口尺寸

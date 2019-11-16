@@ -107,6 +107,9 @@
     <Compile Include="Ucs\KernelOutputKeywordEdit.xaml.cs">
       <DependentUpon>KernelOutputKeywordEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\Messages.xaml.cs">
+      <DependentUpon>Messages.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\ServerMessageEdit.xaml.cs">
       <DependentUpon>ServerMessageEdit.xaml</DependentUpon>
     </Compile>
@@ -506,6 +509,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelOutputKeywordEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\Messages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

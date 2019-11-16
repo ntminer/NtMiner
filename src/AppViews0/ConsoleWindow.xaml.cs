@@ -19,13 +19,13 @@ namespace NTMiner.Views {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
         public Action OnSplashHided;
         private ConsoleWindow() {
+            this.Width = AppStatic.MainWindowWidth;
+            this.Height = AppStatic.MainWindowHeight;
             InitializeComponent();
         }
 
         private bool _isSplashed = false;
         public void HideSplash() {
-            Splash.Visibility = Visibility.Collapsed;
-            this.ShowInTaskbar = false;
             IntPtr parent = new WindowInteropHelper(this).Handle;
             IntPtr console = NTMinerConsole.Alloc();
             SafeNativeMethods.SetParent(console, parent);
