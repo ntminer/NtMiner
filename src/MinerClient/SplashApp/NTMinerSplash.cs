@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 /// 注意不要挪动这里的命名空间也不要挪动该代码文件所处的程序集
 /// 嵌入的资源的位置和命名空间有关契约关系
 /// </summary>
-namespace NTMiner.Splash {
+namespace NTMiner.SplashApp {
     public static class NTMinerSplash {
         public static void Run() {
             try {

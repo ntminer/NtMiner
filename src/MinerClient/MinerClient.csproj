@@ -98,7 +98,7 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
     <Compile Include="AtikmdagPatcher\AtikmdagPatcherUtil.cs" />
-    <Compile Include="Splash\NTMinerSplash.cs" />
+    <Compile Include="SplashApp\NTMinerSplash.cs" />
     <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
     <Compile Include="Windows\WindowsUtil.cs" />
   </ItemGroup>
@@ -138,6 +138,7 @@
     <None Include="home.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SplashApp\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AppModels\AppModels.csproj">
@@ -209,7 +210,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Splash\NTMinerSplash.exe" />
+    <EmbeddedResource Include="SplashApp\NTMinerSplash.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />

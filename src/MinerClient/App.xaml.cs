@@ -70,7 +70,7 @@ namespace NTMiner {
                     }
 
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
-                    Splash.NTMinerSplash.Run();
+                    SplashApp.NTMinerSplash.Run();
                     //ConsoleWindow.Instance.Show();
                     NotiCenterWindow.ShowWindow();
                     if (!NTMiner.Windows.Role.IsAdministrator) {
@@ -108,7 +108,7 @@ namespace NTMiner {
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
-                            Splash.NTMinerSplash.Kill();
+                            SplashApp.NTMinerSplash.Kill();
                             StartStopMineButtonViewModel.Instance.AutoStart();
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             ConsoleWindow.Instance.HideSplash();
