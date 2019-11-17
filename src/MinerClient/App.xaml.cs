@@ -72,6 +72,7 @@ namespace NTMiner {
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = null;
                     // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
+                    // 注意：必须确保SplashWindow没有用到任何其它界面用到的依赖对象
                     ShowWindowAsync<SplashWindow>(window => {
                         splashWindow = window;
                     });
