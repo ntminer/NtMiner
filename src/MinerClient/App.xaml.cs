@@ -70,8 +70,10 @@ namespace NTMiner {
                     }
 
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
-                    SplashWindow splashWindow = new SplashWindow();
-                    splashWindow.Show();
+                    SplashWindow splashWindow = null;
+                    ShowWindowAsync<SplashWindow>(window => {
+                        splashWindow = window;
+                    });
                     //ConsoleWindow.Instance.Show();
                     NotiCenterWindow.ShowWindow();
                     if (!NTMiner.Windows.Role.IsAdministrator) {
@@ -109,7 +111,9 @@ namespace NTMiner {
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
-                            splashWindow.Close();
+                            splashWindow?.Dispatcher.Invoke((Action)delegate () {
+                                splashWindow?.Close();
+                            });
                             StartStopMineButtonViewModel.Instance.AutoStart();
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             NTMinerRoot.Instance.CpuPackage.Start();
@@ -152,6 +156,20 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
+        }
+
+        private void ShowWindowAsync<TWindow>(Action<TWindow> callback) where TWindow : Window, new() {
+            Thread t = new Thread(() => {
+                TWindow win = new TWindow();
+                win.Closed += (d, k) => {
+                    System.Windows.Threading.Dispatcher.ExitAllFrames();
+                };
+                win.Show();
+                callback?.Invoke(win);
+                System.Windows.Threading.Dispatcher.Run();
+            });
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();
         }
 
         private void ShowMainWindow(bool isToggle) {
