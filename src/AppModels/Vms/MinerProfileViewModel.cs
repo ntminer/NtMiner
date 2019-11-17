@@ -200,11 +200,11 @@ namespace NTMiner.Vms {
                 }
             });
             this.HighCpuPercentUp = new DelegateCommand(() => {
-                this.HighCpuPercent++;
+                this.HighCpuBaseline++;
             });
             this.HighCpuPercentDown = new DelegateCommand(() => {
-                if (this.HighCpuPercent > 0) {
-                    this.HighCpuPercent--;
+                if (this.HighCpuBaseline > 0) {
+                    this.HighCpuBaseline--;
                 }
             });
             this.HighCpuSecondsUp = new DelegateCommand(() => {
@@ -783,12 +783,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int HighCpuPercent {
-            get => NTMinerRoot.Instance.MinerProfile.HighCpuPercent;
+        public int HighCpuBaseline {
+            get => NTMinerRoot.Instance.MinerProfile.HighCpuBaseline;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.HighCpuPercent != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuPercent), value);
-                    OnPropertyChanged(nameof(HighCpuPercent));
+                if (NTMinerRoot.Instance.MinerProfile.HighCpuBaseline != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuBaseline), value);
+                    OnPropertyChanged(nameof(HighCpuBaseline));
                 }
             }
         }

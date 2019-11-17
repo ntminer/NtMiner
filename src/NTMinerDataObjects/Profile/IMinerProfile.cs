@@ -51,7 +51,7 @@ namespace NTMiner.Profile {
         int CpuStartTemperature { get; }
         int CpuLETemperatureSeconds { get; }
         bool IsRaiseHighCpuEvent { get; }
-        int HighCpuPercent { get; }
+        int HighCpuBaseline { get; }
         int HighCpuSeconds { get; }
     }
 }

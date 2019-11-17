@@ -77,17 +77,7 @@ namespace NTMiner.Core.Cpus.Impl {
 
         public int Temperature { get; set; }
 
-        public int HighCpuPercent { get; set; }
-
-        public int HighCpuSeconds { get; set; }
-
-        public DateTime LowCpuOn { get; set; }
-
-        public void ResetCpu(int highCpuPercent, int highCpuSeconds) {
-            this.HighCpuPercent = highCpuPercent;
-            this.HighCpuSeconds = highCpuSeconds;
-            this.LowCpuOn = DateTime.Now;
-        }
+        public DateTime LowPerformanceOn { get; set; }
 
         public DateTime HighTemperatureOn { get; set; }
         public DateTime LowTemperatureOn { get; set; }
