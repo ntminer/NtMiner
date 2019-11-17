@@ -24,30 +24,30 @@ namespace NTMiner.Core.Cpus.Impl {
                         Update((int)Windows.Cpu.Instance.GetPerformance(), (int)Windows.Cpu.Instance.GetTemperature());
                         if (_minerProfile.IsAutoStopByCpu) {
                             if (NTMinerRoot.Instance.IsMining) {
-                                NTMinerRoot.LowTemperatureCount = 0;
+                                LowTemperatureCount = 0;
                                 if (this.Temperature >= _minerProfile.CpuStopTemperature) {
-                                    NTMinerRoot.HighTemperatureCount++;
+                                    HighTemperatureCount++;
                                 }
                                 else {
-                                    NTMinerRoot.HighTemperatureCount = 0;
+                                    HighTemperatureCount = 0;
                                 }
-                                if (NTMinerRoot.HighTemperatureCount >= _minerProfile.CpuGETemperatureSeconds) {
-                                    NTMinerRoot.HighTemperatureCount = 0;
+                                if (HighTemperatureCount >= _minerProfile.CpuGETemperatureSeconds) {
+                                    HighTemperatureCount = 0;
                                     NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
                                     VirtualRoot.ThisLocalInfo(nameof(CpuPackage), $"自动停止挖矿，因为 CPU 温度连续{_minerProfile.CpuGETemperatureSeconds}秒不低于{_minerProfile.CpuStopTemperature}℃", toConsole: true);
                                 }
                             }
                             else {
-                                NTMinerRoot.HighTemperatureCount = 0;
+                                HighTemperatureCount = 0;
                                 if (_minerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
                                     if (this.Temperature <= _minerProfile.CpuStartTemperature) {
-                                        NTMinerRoot.LowTemperatureCount++;
+                                        LowTemperatureCount++;
                                     }
                                     else {
-                                        NTMinerRoot.LowTemperatureCount = 0;
+                                        LowTemperatureCount = 0;
                                     }
-                                    if (NTMinerRoot.LowTemperatureCount >= _minerProfile.CpuLETemperatureSeconds) {
-                                        NTMinerRoot.LowTemperatureCount = 0;
+                                    if (LowTemperatureCount >= _minerProfile.CpuLETemperatureSeconds) {
+                                        LowTemperatureCount = 0;
                                         VirtualRoot.ThisLocalInfo(nameof(CpuPackage), $"自动开始挖矿，因为 CPU 温度连续{_minerProfile.CpuLETemperatureSeconds}秒不高于{_minerProfile.CpuStartTemperature}℃", toConsole: true);
                                         NTMinerRoot.Instance.StartMine();
                                     }
@@ -88,5 +88,8 @@ namespace NTMiner.Core.Cpus.Impl {
             this.HighCpuSeconds = highCpuSeconds;
             this.LastLowCpuOn = DateTime.Now;
         }
+
+        public int HighTemperatureCount { get; set; }
+        public int LowTemperatureCount { get; set; }
     }
 }
