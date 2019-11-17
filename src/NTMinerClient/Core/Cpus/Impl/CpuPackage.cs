@@ -73,6 +73,12 @@ namespace NTMiner.Core.Cpus.Impl {
             }
         }
 
+        public void Reset() {
+            this.LowTemperatureOn = DateTime.MinValue;
+            this.LowPerformanceOn = DateTime.MinValue;
+            this.HighTemperatureOn = DateTime.MinValue;
+        }
+
         public int Performance { get; set; }
 
         public int Temperature { get; set; }

@@ -715,6 +715,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStopByCpu), value);
                     OnPropertyChanged(nameof(IsAutoStopByCpu));
                 }
@@ -725,7 +726,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStopTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStopTemperature != value) {
-                    NTMinerRoot.Instance.CpuPackage.HighTemperatureOn = DateTime.MinValue;
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStopTemperature), value);
                     OnPropertyChanged(nameof(CpuStopTemperature));
                 }
@@ -736,6 +737,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuGETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuGETemperatureSeconds));
                 }
@@ -746,6 +748,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStartByCpu), value);
                     OnPropertyChanged(nameof(IsAutoStartByCpu));
                 }
@@ -756,7 +759,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStartTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStartTemperature != value) {
-                    NTMinerRoot.Instance.CpuPackage.LowTemperatureOn = DateTime.MinValue;
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStartTemperature), value);
                     OnPropertyChanged(nameof(CpuStartTemperature));
                 }
@@ -767,6 +770,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuLETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuLETemperatureSeconds));
                 }
@@ -777,6 +781,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsRaiseHighCpuEvent), value);
                     OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
                 }
@@ -787,6 +792,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.HighCpuBaseline;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.HighCpuBaseline != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuBaseline), value);
                     OnPropertyChanged(nameof(HighCpuBaseline));
                 }
@@ -797,6 +803,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.HighCpuSeconds;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.HighCpuSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuSeconds), value);
                     OnPropertyChanged(nameof(HighCpuSeconds));
                 }

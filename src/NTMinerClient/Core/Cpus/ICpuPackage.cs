@@ -12,9 +12,11 @@ namespace NTMiner.Core.Cpus {
         int Performance { get; }
         int Temperature { get; }
 
-        DateTime LowPerformanceOn { get; set; }
+        DateTime LowPerformanceOn { get; }
 
-        DateTime HighTemperatureOn { get; set; }
-        DateTime LowTemperatureOn { get; set; }
+        DateTime HighTemperatureOn { get; }
+        DateTime LowTemperatureOn { get; }
+
+        void Reset();
     }
 }
