@@ -337,14 +337,14 @@
                                         </Button>
                                     </StackPanel>
                                     <TextBlock VerticalAlignment="Center">秒达到</TextBlock>
-                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding HighCpuPercent,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding HighCpuBaseline,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
                                     <StackPanel Margin="0 0 2 0">
-                                        <Button Height="12" Command="{Binding HighCpuPercentUp}">
+                                        <Button Height="12" Command="{Binding HighCpuBaselineUp}">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Height="12" Command="{Binding HighCpuPercentDown}">
+                                        <Button Height="12" Command="{Binding HighCpuBaselineDown}">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
                                             </Button.Content>

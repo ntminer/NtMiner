@@ -60,8 +60,8 @@ namespace NTMiner.Vms {
         public ICommand AutoNoUiMinutesUp { get; private set; }
         public ICommand AutoNoUiMinutesDown { get; private set; }
 
-        public ICommand HighCpuPercentUp { get; private set; }
-        public ICommand HighCpuPercentDown { get; private set; }
+        public ICommand HighCpuBaselineUp { get; private set; }
+        public ICommand HighCpuBaselineDown { get; private set; }
 
         public ICommand HighCpuSecondsUp { get; private set; }
         public ICommand HighCpuSecondsDown { get; private set; }
@@ -199,10 +199,10 @@ namespace NTMiner.Vms {
                     this.AutoNoUiMinutes--;
                 }
             });
-            this.HighCpuPercentUp = new DelegateCommand(() => {
+            this.HighCpuBaselineUp = new DelegateCommand(() => {
                 this.HighCpuBaseline++;
             });
-            this.HighCpuPercentDown = new DelegateCommand(() => {
+            this.HighCpuBaselineDown = new DelegateCommand(() => {
                 if (this.HighCpuBaseline > 0) {
                     this.HighCpuBaseline--;
                 }
