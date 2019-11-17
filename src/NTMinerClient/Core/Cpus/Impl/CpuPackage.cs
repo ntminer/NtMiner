@@ -8,6 +8,7 @@ namespace NTMiner.Core.Cpus.Impl {
         private readonly IMinerProfile _minerProfile;
         public CpuPackage(IMinerProfile minerProfile) {
             _minerProfile = minerProfile;
+            Reset();
         }
 
         public void Start() {
@@ -27,12 +28,12 @@ namespace NTMiner.Core.Cpus.Impl {
                             if (NTMinerRoot.Instance.IsMining) {
                                 /* 挖矿中时周期更新最后一次温度低于挖矿停止温度的时刻，然后检查最后一次低于
                                  * 挖矿停止温度的时刻距离现在是否已经超过了设定的时常，如果超过了则自动停止挖矿*/
-                                HighTemperatureOn = DateTime.MinValue;
+                                HighTemperatureOn = message.Timestamp;
                                 // 如果当前温度低于挖矿停止温度则更新记录的低温时刻
                                 if (this.Temperature < _minerProfile.CpuStopTemperature) {
                                     LowTemperatureOn = message.Timestamp;
                                 }
-                                if (LowTemperatureOn != DateTime.MinValue && (message.Timestamp - LowTemperatureOn).TotalSeconds >= _minerProfile.CpuGETemperatureSeconds) {
+                                if ((message.Timestamp - LowTemperatureOn).TotalSeconds >= _minerProfile.CpuGETemperatureSeconds) {
                                     LowTemperatureOn = message.Timestamp;
                                     NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
                                     VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动停止挖矿，因为 CPU 温度连续{_minerProfile.CpuGETemperatureSeconds}秒不低于{_minerProfile.CpuStopTemperature}℃", toConsole: true);
@@ -41,13 +42,13 @@ namespace NTMiner.Core.Cpus.Impl {
                             else {
                                 /* 高温停止挖矿后周期更新最后一次温度高于挖矿停止温度的时刻，然后检查最后一次高于
                                  * 挖矿停止温度的时刻距离现在是否已经超过了设定的时常，如果超过了则自动开始挖矿*/
-                                LowTemperatureOn = DateTime.MinValue;
+                                LowTemperatureOn = message.Timestamp;
                                 if (_minerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
                                     // 当前温度高于挖矿停止温度则更新记录的高温时刻
                                     if (this.Temperature > _minerProfile.CpuStartTemperature) {
                                         HighTemperatureOn = message.Timestamp;
                                     }
-                                    if (HighTemperatureOn != DateTime.MinValue && (message.Timestamp - HighTemperatureOn).TotalSeconds >= _minerProfile.CpuLETemperatureSeconds) {
+                                    if ((message.Timestamp - HighTemperatureOn).TotalSeconds >= _minerProfile.CpuLETemperatureSeconds) {
                                         HighTemperatureOn = message.Timestamp;
                                         VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动开始挖矿，因为 CPU 温度连续{_minerProfile.CpuLETemperatureSeconds}秒不高于{_minerProfile.CpuStartTemperature}℃", toConsole: true);
                                         NTMinerRoot.Instance.StartMine();
@@ -60,7 +61,7 @@ namespace NTMiner.Core.Cpus.Impl {
                             if (this.Performance < _minerProfile.HighCpuBaseline) {
                                 LowPerformanceOn = message.Timestamp;
                             }
-                            if (LowPerformanceOn != DateTime.MinValue && (message.Timestamp - LowPerformanceOn).TotalSeconds >= _minerProfile.HighCpuSeconds) {
+                            if ((message.Timestamp - LowPerformanceOn).TotalSeconds >= _minerProfile.HighCpuSeconds) {
                                 LowPerformanceOn = message.Timestamp;
                                 VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"CPU使用率过高：连续{_minerProfile.HighCpuSeconds}秒不低于{_minerProfile.HighCpuBaseline}%");
                             }
@@ -85,9 +86,10 @@ namespace NTMiner.Core.Cpus.Impl {
         }
 
         public void Reset() {
-            this.LowTemperatureOn = DateTime.MinValue;
-            this.LowPerformanceOn = DateTime.MinValue;
-            this.HighTemperatureOn = DateTime.MinValue;
+            DateTime now = DateTime.Now;
+            this.LowTemperatureOn = DateTime.Now;
+            this.LowPerformanceOn = now;
+            this.HighTemperatureOn = now;
         }
 
         public int Performance { get; set; }
