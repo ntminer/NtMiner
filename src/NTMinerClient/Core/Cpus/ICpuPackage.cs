@@ -11,10 +11,10 @@ namespace NTMiner.Core.Cpus {
 
         int HighCpuPercent { get; }
         int HighCpuSeconds { get; }
-        DateTime LastLowCpuOn { get; }
+        DateTime LowCpuOn { get; }
         void ResetCpu(int highCpuPercent, int highCpuSeconds);
 
-        int HighTemperatureCount { get; set; }
-        int LowTemperatureCount { get; set; }
+        DateTime HighTemperatureOn { get; set; }
+        DateTime LowTemperatureOn { get; set; }
     }
 }
