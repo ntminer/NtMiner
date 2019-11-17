@@ -6,12 +6,17 @@ namespace NTMiner.Core.Cpus {
     /// </summary>
     public interface ICpuPackage {
         void Start();
+        /// <summary>
+        /// CPU使用率百分比。百分号前面的部分
+        /// </summary>
         int Performance { get; }
         int Temperature { get; }
 
-        int HighCpuPercent { get; }
-        int HighCpuSeconds { get; }
-        DateTime LastLowCpuOn { get; }
-        void ResetCpu(int highCpuPercent, int highCpuSeconds);
+        DateTime LowPerformanceOn { get; }
+
+        DateTime HighTemperatureOn { get; }
+        DateTime LowTemperatureOn { get; }
+
+        void Reset();
     }
 }

@@ -60,8 +60,8 @@ namespace NTMiner.Vms {
         public ICommand AutoNoUiMinutesUp { get; private set; }
         public ICommand AutoNoUiMinutesDown { get; private set; }
 
-        public ICommand HighCpuPercentUp { get; private set; }
-        public ICommand HighCpuPercentDown { get; private set; }
+        public ICommand HighCpuBaselineUp { get; private set; }
+        public ICommand HighCpuBaselineDown { get; private set; }
 
         public ICommand HighCpuSecondsUp { get; private set; }
         public ICommand HighCpuSecondsDown { get; private set; }
@@ -199,12 +199,12 @@ namespace NTMiner.Vms {
                     this.AutoNoUiMinutes--;
                 }
             });
-            this.HighCpuPercentUp = new DelegateCommand(() => {
-                this.HighCpuPercent++;
+            this.HighCpuBaselineUp = new DelegateCommand(() => {
+                this.HighCpuBaseline++;
             });
-            this.HighCpuPercentDown = new DelegateCommand(() => {
-                if (this.HighCpuPercent > 0) {
-                    this.HighCpuPercent--;
+            this.HighCpuBaselineDown = new DelegateCommand(() => {
+                if (this.HighCpuBaseline > 0) {
+                    this.HighCpuBaseline--;
                 }
             });
             this.HighCpuSecondsUp = new DelegateCommand(() => {
@@ -715,6 +715,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStopByCpu), value);
                     OnPropertyChanged(nameof(IsAutoStopByCpu));
                 }
@@ -725,7 +726,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStopTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStopTemperature != value) {
-                    NTMinerRoot.HighTemperatureCount = 0;
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStopTemperature), value);
                     OnPropertyChanged(nameof(CpuStopTemperature));
                 }
@@ -736,6 +737,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuGETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuGETemperatureSeconds));
                 }
@@ -746,6 +748,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStartByCpu), value);
                     OnPropertyChanged(nameof(IsAutoStartByCpu));
                 }
@@ -756,7 +759,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStartTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStartTemperature != value) {
-                    NTMinerRoot.LowTemperatureCount = 0;
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStartTemperature), value);
                     OnPropertyChanged(nameof(CpuStartTemperature));
                 }
@@ -767,6 +770,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuLETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuLETemperatureSeconds));
                 }
@@ -777,18 +781,20 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsRaiseHighCpuEvent), value);
                     OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
                 }
             }
         }
 
-        public int HighCpuPercent {
-            get => NTMinerRoot.Instance.MinerProfile.HighCpuPercent;
+        public int HighCpuBaseline {
+            get => NTMinerRoot.Instance.MinerProfile.HighCpuBaseline;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.HighCpuPercent != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuPercent), value);
-                    OnPropertyChanged(nameof(HighCpuPercent));
+                if (NTMinerRoot.Instance.MinerProfile.HighCpuBaseline != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuBaseline), value);
+                    OnPropertyChanged(nameof(HighCpuBaseline));
                 }
             }
         }
@@ -797,6 +803,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.HighCpuSeconds;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.HighCpuSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuSeconds), value);
                     OnPropertyChanged(nameof(HighCpuSeconds));
                 }

@@ -54,7 +54,7 @@ namespace NTMiner.Profile {
                 CpuStartTemperature = data.CpuStartTemperature,
                 CpuStopTemperature = data.CpuStopTemperature,
                 IsRaiseHighCpuEvent = data.IsRaiseHighCpuEvent,
-                HighCpuPercent = data.HighCpuPercent,
+                HighCpuBaseline = data.HighCpuBaseline,
                 HighCpuSeconds = data.HighCpuSeconds
             };
         }
@@ -100,7 +100,7 @@ namespace NTMiner.Profile {
             CpuStartTemperature = 40;
             CpuStopTemperature = 65;
             IsRaiseHighCpuEvent = true;
-            HighCpuPercent = 80;
+            HighCpuBaseline = 80;
             HighCpuSeconds = 10;
         }
 
@@ -177,7 +177,7 @@ namespace NTMiner.Profile {
 
         public bool IsRaiseHighCpuEvent { get; set; }
 
-        public int HighCpuPercent { get; set; }
+        public int HighCpuBaseline { get; set; }
 
         public int HighCpuSeconds { get; set; }
 

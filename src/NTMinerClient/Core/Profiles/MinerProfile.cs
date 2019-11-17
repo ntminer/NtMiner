@@ -462,10 +462,10 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        public int HighCpuPercent {
-            get => _data.HighCpuPercent;
+        public int HighCpuBaseline {
+            get => _data.HighCpuBaseline;
             private set {
-                _data.HighCpuPercent = value;
+                _data.HighCpuBaseline = value;
             }
         }
 

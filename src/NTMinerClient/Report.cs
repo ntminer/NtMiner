@@ -98,7 +98,7 @@ namespace NTMiner {
                 CpuPerformance = root.CpuPackage.Performance,
                 CpuTemperature = root.CpuPackage.Temperature,
                 IsRaiseHighCpuEvent = workProfile.IsRaiseHighCpuEvent,
-                HighCpuPercent = workProfile.HighCpuPercent,
+                HighCpuPercent = workProfile.HighCpuBaseline,
                 HighCpuSeconds = workProfile.HighCpuSeconds,
                 GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
