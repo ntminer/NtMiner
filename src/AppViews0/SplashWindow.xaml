@@ -7,7 +7,7 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
     mc:Ignorable="d"
     ResizeMode="NoResize"
-    Background="Black"
+    Background="{StaticResource ThemeBackground}"
     Foreground="White"
     WindowStyle="None"
     Height="260" 
@@ -31,7 +31,7 @@
             Click="BtnClose_Click">
             <Button.Template>
                 <ControlTemplate>
-                    <Border x:Name="Bg" Height="26" Width="26" Background="Black">
+                    <Border x:Name="Bg" Height="26" Width="26" Background="Transparent">
                         <Path
                             Width="13"
                             Height="13"
