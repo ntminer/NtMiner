@@ -73,7 +73,7 @@ namespace NTMiner {
                     SplashWindow splashWindow = null;
                     // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
                     // 注意：必须确保SplashWindow没有用到任何其它界面用到的依赖对象
-                    ShowWindowAsync<SplashWindow>(window => {
+                    SplashWindow.ShowWindowAsync(window => {
                         splashWindow = window;
                     });
                     //ConsoleWindow.Instance.Show();
@@ -158,20 +158,6 @@ namespace NTMiner {
                 }
             }
             base.OnStartup(e);
-        }
-
-        private void ShowWindowAsync<TWindow>(Action<TWindow> callback) where TWindow : Window, new() {
-            Thread t = new Thread(() => {
-                TWindow win = new TWindow();
-                win.Closed += (d, k) => {
-                    System.Windows.Threading.Dispatcher.ExitAllFrames();
-                };
-                win.Show();
-                callback?.Invoke(win);
-                System.Windows.Threading.Dispatcher.Run();
-            });
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();
         }
 
         private void ShowMainWindow(bool isToggle) {
