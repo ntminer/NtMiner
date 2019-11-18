@@ -11,7 +11,7 @@
         Background="White"
         WindowStartupLocation="CenterScreen"
 		MouseDown="Window_MouseDown"
-        Title="发现运行着开源矿工挖矿端的矿机" Height="800" Width="600">
+        Title="扫描矿机 - 开源矿工" Height="800" Width="600">
     <Window.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
     </Window.DataContext>
