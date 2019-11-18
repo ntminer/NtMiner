@@ -1,0 +1,22 @@
+﻿<Window x:Class="MinerClientFinder.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MinerClientFinder"
+        mc:Ignorable="d"
+        Title="查找运行着开源矿工挖矿端的矿机IP" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock VerticalAlignment="Center">IP范围 从</TextBlock>
+            <TextBox FontSize="18" Width="200" Height="40"></TextBox>
+            <TextBlock VerticalAlignment="Center" Margin="4 0">到</TextBlock>
+            <TextBox FontSize="18" Width="200" Height="40"></TextBox>
+            <Button Margin="4 0 0 0" Padding="8 0">开始</Button>
+        </WrapPanel>
+    </Grid>
+</Window>
