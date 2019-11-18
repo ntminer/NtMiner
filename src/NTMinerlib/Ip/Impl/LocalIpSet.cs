@@ -97,7 +97,7 @@ namespace NTMiner.Ip.Impl {
                     }
                     else {
                         if (old.Count == 0) {
-                            VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络连接已连接", toConsole: true);
+                            VirtualRoot.ThisLocalInfo(nameof(LocalIpSet), "网络连接已连接", toConsole: true);
                         }
                         else {
                             bool isIpChanged = false;
