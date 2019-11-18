@@ -1,9 +1,12 @@
-﻿using System.Windows;
+﻿using NTMiner.Vms;
+using System.Windows;
 
 namespace NTMiner {
     public partial class App : Application {
         public App() {
-            UIThread.InitializeWithDispatcher();
+            VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
+            AppUtil.Init(this);
+            InitializeComponent();
         }
     }
 }

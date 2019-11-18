@@ -22,10 +22,10 @@
         </Grid.RowDefinitions>
         <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center">IP范围 从</TextBlock>
-            <TextBox FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding FromIp}"></TextBox>
+            <TextBox FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding FromIp, ValidatesOnExceptions=True}"></TextBox>
             <TextBlock VerticalAlignment="Center" Margin="4 0">到</TextBlock>
-            <TextBox FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding ToIp}"></TextBox>
-            <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding StartOrStop}" Content="开始"></Button>
+            <TextBox FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding ToIp, ValidatesOnExceptions=True}"></TextBox>
+            <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding Start}" Content="开始"></Button>
             <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
             <TextBlock Margin="2 0 0 0" VerticalAlignment="Center" Text="%"></TextBlock>
         </WrapPanel>

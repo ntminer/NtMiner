@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,10 +15,13 @@ namespace NTMiner.Vms {
         private readonly ObservableCollection<string> _results = new ObservableCollection<string>();
         private int _percent;
 
-        public ICommand StartOrStop { get; private set; }
+        public ICommand Start { get; private set; }
 
         public MainWindowViewModel() {
-            this.StartOrStop = new DelegateCommand(() => {
+            this.Start = new DelegateCommand(() => {
+                if (!IPAddress.TryParse(FromIp, out _) || !IPAddress.TryParse(ToIp, out _)) {
+                    throw new ValidationException("IP地址格式不正确");
+                }
                 List<string> ipList = new List<string>();
                 for (long i = Ip.Util.GetIpNum(FromIp); i <= Ip.Util.GetIpNum(ToIp); i++) {
                     ipList.Add(Ip.Util.GetIpString(i));
@@ -77,6 +81,9 @@ namespace NTMiner.Vms {
             set {
                 _fromIp = value;
                 OnPropertyChanged(nameof(FromIp));
+                if (!IPAddress.TryParse(value, out _)) {
+                    throw new ValidationException("IP地址格式错误");
+                }
             }
         }
         public string ToIp {
@@ -84,6 +91,9 @@ namespace NTMiner.Vms {
             set {
                 _toIp = value;
                 OnPropertyChanged(nameof(ToIp));
+                if (!IPAddress.TryParse(value, out _)) {
+                    throw new ValidationException("IP地址格式错误");
+                }
             }
         }
 
