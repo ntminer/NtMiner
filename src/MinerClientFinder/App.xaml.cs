@@ -12,6 +12,8 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             NotiCenterWindow.ShowWindow();
+            MainWindow = new MainWindow();
+            MainWindow.Show();
             base.OnStartup(e);
         }
     }

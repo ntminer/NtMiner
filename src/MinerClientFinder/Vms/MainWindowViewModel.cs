@@ -14,6 +14,8 @@ namespace NTMiner.Vms {
         private string _toIp;
         private readonly ObservableCollection<string> _results = new ObservableCollection<string>();
         private int _percent;
+        private int _count = 0;
+        private bool _isScanning;
 
         public ICommand Start { get; private set; }
 
@@ -43,8 +45,10 @@ namespace NTMiner.Vms {
             }
         }
 
-        private int _count = 0;
         private void Scan(string[] ipList) {
+            if (ipList.Length != 0) {
+                IsScanning = true;
+            }
             _count = 0;
             Percent = 0;
             foreach (var ip in ipList) {
@@ -63,8 +67,19 @@ namespace NTMiner.Vms {
                     finally {
                         Interlocked.Increment(ref _count);
                         Percent = _count * 100 / ipList.Length;
+                        if (_count == ipList.Length) {
+                            IsScanning = false;
+                        }
                     }
                 });
+            }
+        }
+
+        public bool IsScanning {
+            get => _isScanning;
+            set {
+                _isScanning = value;
+                OnPropertyChanged(nameof(IsScanning));
             }
         }
 

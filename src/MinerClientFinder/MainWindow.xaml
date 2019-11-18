@@ -36,7 +36,7 @@
             <TextBox Margin="4 0 0 0" Background="{StaticResource ThemeForeground}" FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding FromIp, ValidatesOnExceptions=True}"></TextBox>
             <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Margin="4 0">到</TextBlock>
             <TextBox Background="{StaticResource ThemeForeground}" FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding ToIp, ValidatesOnExceptions=True}"></TextBox>
-            <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding Start}" Content="开始"></Button>
+            <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding Start}" Content="开始" IsEnabled="{Binding IsScanning,Converter={StaticResource BoolInvertConverter}}"></Button>
             <TextBlock Foreground="{StaticResource ThemeForeground}" Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
             <TextBlock Foreground="{StaticResource ThemeForeground}" Margin="2 0 0 0" VerticalAlignment="Center" Text="%"></TextBlock>
         </WrapPanel>
