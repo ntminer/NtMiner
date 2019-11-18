@@ -16,9 +16,9 @@ namespace NTMiner {
         [Description("用户点击停止按钮")]
         LocalUserAction,
         /// <summary>
-        /// 开始挖矿时的防御性编程，真正开始挖矿前调用一次停止挖矿操作
+        /// 开始挖矿时前保障，真正开始挖矿前做一次停止挖矿操作
         /// </summary>
-        [Description("开始挖矿时的防御性编程，真正开始挖矿前调用一次停止挖矿操作")]
+        [Description("开始挖矿时前保障，真正开始挖矿前做一次停止挖矿操作")]
         InStartMine,
         /// <summary>
         /// CPU温度过高
@@ -36,9 +36,9 @@ namespace NTMiner {
         [Description("挖矿内核进程消失")]
         KernelProcessLost,
         /// <summary>
-        /// 重启挖矿时，开始挖矿前调用一次停止挖矿操作
+        /// 重启挖矿时，开始挖矿前做一次停止挖矿操作
         /// </summary>
-        [Description("重启挖矿时，开始挖矿前调用一次停止挖矿操作")]
+        [Description("重启挖矿时，开始挖矿前做一次停止挖矿操作")]
         RestartMine,
         /// <summary>
         /// 退出开源矿工
