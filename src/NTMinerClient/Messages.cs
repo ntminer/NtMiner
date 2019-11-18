@@ -110,7 +110,11 @@ namespace NTMiner {
     [MessageType(description: "关闭NTMiner客户端")]
     // ReSharper disable once InconsistentNaming
     public class CloseNTMinerCommand : Cmd {
-        public CloseNTMinerCommand() { }
+        public CloseNTMinerCommand(string reason) {
+            this.Reason = reason;
+        }
+
+        public string Reason { get; private set; }
     }
 
     [MessageType(description: "刷新开机启动和自动挖矿")]

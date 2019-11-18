@@ -27,9 +27,8 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.ThisLocalInfo(nameof(MinerClientController), $"退出挖矿端");
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith((t) => {
-                    VirtualRoot.Execute(new CloseNTMinerCommand());
+                    VirtualRoot.Execute(new CloseNTMinerCommand("挖矿端升级后关闭旧版挖矿端"));
                 });
                 return ResponseBase.Ok();
             }
