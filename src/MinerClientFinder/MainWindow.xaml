@@ -1,11 +1,19 @@
-﻿<Window x:Class="MinerClientFinder.MainWindow"
+﻿<Window x:Class="NTMiner.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:MinerClientFinder"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+        xmlns:local="clr-namespace:NTMiner"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
         mc:Ignorable="d"
-        Title="查找运行着开源矿工挖矿端的矿机IP" Height="450" Width="800">
+        d:DataContext="{d:DesignData Source=/Design/MainWindowViewModel.xaml}"
+        Background="White"
+		MouseDown="Window_MouseDown"
+        Title="查找运行着开源矿工挖矿端的矿机IP" Height="800" Width="600">
+    <Window.DataContext>
+        <vm:MainWindowViewModel></vm:MainWindowViewModel>
+    </Window.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"></RowDefinition>
@@ -13,10 +21,52 @@
         </Grid.RowDefinitions>
         <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock VerticalAlignment="Center">IP范围 从</TextBlock>
-            <TextBox FontSize="18" Width="200" Height="40"></TextBox>
+            <TextBox FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding FromIp}"></TextBox>
             <TextBlock VerticalAlignment="Center" Margin="4 0">到</TextBlock>
-            <TextBox FontSize="18" Width="200" Height="40"></TextBox>
-            <Button Margin="4 0 0 0" Padding="8 0">开始</Button>
+            <TextBox FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding ToIp}"></TextBox>
+            <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding Start}">开始</Button>
         </WrapPanel>
+        <DataGrid
+            Grid.Row="1"
+			ColumnHeaderHeight="34"
+            ItemsSource="{Binding Results}">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="150" Width="150" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="IP"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Ip}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="状态"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <Path
+                                    Width="12"
+                                    Height="12"
+                                    Data="{StaticResource Icon_Ok}"
+                                    Fill="Green"
+                                    Visibility="{Binding IsOnline,Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Stretch="Fill" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>

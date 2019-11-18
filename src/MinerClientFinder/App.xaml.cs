@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace MinerClientFinder {
+namespace NTMiner {
     public partial class App : Application {
     }
 }
