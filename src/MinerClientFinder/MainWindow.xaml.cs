@@ -2,7 +2,7 @@
 using System.Windows.Input;
 
 namespace NTMiner {
-    public partial class MainWindow : Window {
+    public partial class MainWindow : BlankWindow {
         public MainWindow() {
             InitializeComponent();
         }
