@@ -365,7 +365,7 @@ namespace NTMiner {
                 }
                 var mineContext = _lockedMineContext;
                 _lockedMineContext = null;
-                VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "挖矿停止", toConsole: true);
+                VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"挖矿停止。原因：{stopReason.GetDescription()}", toConsole: true);
                 VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext, stopReason));
             }
             catch (Exception e) {
