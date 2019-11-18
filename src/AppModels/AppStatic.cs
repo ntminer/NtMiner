@@ -641,7 +641,7 @@ namespace NTMiner {
         });
 
         public static ICommand AppExit { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new CloseNTMinerCommand());
+            VirtualRoot.Execute(new CloseNTMinerCommand("手动操作"));
         });
 
         public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(() => {

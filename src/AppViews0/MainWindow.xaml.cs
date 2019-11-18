@@ -4,7 +4,6 @@ using NTMiner.Vms;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -233,7 +232,7 @@ namespace NTMiner.Views {
             VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
                     if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
-                        VirtualRoot.Execute(new CloseNTMinerCommand());
+                        AppStatic.AppExit.Execute(null);
                         return;
                     }
                     this.Close();

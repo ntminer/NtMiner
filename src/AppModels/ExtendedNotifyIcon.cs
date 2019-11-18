@@ -30,7 +30,7 @@ namespace NTMiner {
                 }
             };
             _targetNotifyIcon.ContextMenuStrip.Items.Add("退出" + text, null, (sender, e)=> {
-                VirtualRoot.Execute(new CloseNTMinerCommand());
+                AppStatic.AppExit.Execute(null);
             });
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
                 if (e.Button == MouseButtons.Left) {

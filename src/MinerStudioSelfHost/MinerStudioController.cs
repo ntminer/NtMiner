@@ -25,9 +25,8 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                VirtualRoot.ThisLocalInfo(nameof(MinerStudioController), $"退出群控端");
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                    VirtualRoot.Execute(new CloseNTMinerCommand());
+                    VirtualRoot.Execute(new CloseNTMinerCommand("群控客户端升级成功后关闭旧版客户端"));
                 });
                 return ResponseBase.Ok();
             }

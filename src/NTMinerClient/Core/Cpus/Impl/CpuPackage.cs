@@ -35,8 +35,8 @@ namespace NTMiner.Core.Cpus.Impl {
                                 }
                                 if ((message.Timestamp - LowTemperatureOn).TotalSeconds >= _minerProfile.CpuGETemperatureSeconds) {
                                     LowTemperatureOn = message.Timestamp;
-                                    NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
                                     VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动停止挖矿，因为 CPU 温度连续{_minerProfile.CpuGETemperatureSeconds}秒不低于{_minerProfile.CpuStopTemperature}℃", toConsole: true);
+                                    NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
                                 }
                             }
                             else {
