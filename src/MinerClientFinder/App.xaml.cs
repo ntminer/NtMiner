@@ -1,4 +1,5 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Views;
+using NTMiner.Vms;
 using System.Windows;
 
 namespace NTMiner {
@@ -7,6 +8,11 @@ namespace NTMiner {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             AppUtil.Init(this);
             InitializeComponent();
+        }
+
+        protected override void OnStartup(StartupEventArgs e) {
+            NotiCenterWindow.ShowWindow();
+            base.OnStartup(e);
         }
     }
 }

@@ -21,6 +21,7 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <TextBlock DockPanel.Dock="Left" Margin="4 0 0 0" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}">扫描矿机 - 开源矿工</TextBlock>
@@ -42,12 +43,13 @@
         <DataGrid
             Grid.Row="2"
 			ColumnHeaderHeight="34"
+			MouseDoubleClick="DataGrid_MouseDoubleClick"
             ItemsSource="{Binding Results}">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn MinWidth="150" Width="150" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="150" Width="*" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="IP"></TextBlock>
@@ -55,7 +57,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Mode=OneWay}"></TextBox>
+                            <TextBlock Text="{Binding}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -80,5 +82,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <TextBlock Grid.Row="3" Margin="4 2" Foreground="{StaticResource ThemeForeground}">双击行复制</TextBlock>
     </Grid>
 </blankWindow:BlankWindow>
