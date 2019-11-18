@@ -86,35 +86,38 @@ namespace NTMiner.Ip.Impl {
         private List<LocalIpData> _localIps = new List<LocalIpData>();
         public LocalIpSet() {
             NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
-                var old = _localIps;
-                _isInited = false;
-                InitOnece();
-                var localIps = _localIps;
-                if (localIps.Count == 0) {
-                    VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络连接已断开", toConsole: true);
-                }
-                else {
-                    if (old.Count == 0) {
-                        VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络连接已连接", toConsole: true);
+                // 延迟获取网络信息以防止立即获取时获取不到
+                TimeSpan.FromSeconds(1).Delay().ContinueWith(t => {
+                    var old = _localIps;
+                    _isInited = false;
+                    InitOnece();
+                    var localIps = _localIps;
+                    if (localIps.Count == 0) {
+                        VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络连接已断开", toConsole: true);
                     }
                     else {
-                        bool isIpChanged = false;
-                        if (old.Count != localIps.Count) {
-                            isIpChanged = true;
+                        if (old.Count == 0) {
+                            VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络连接已连接", toConsole: true);
                         }
                         else {
-                            foreach (var item in localIps) {
-                                var oldItem = old.FirstOrDefault(a => a.SettingID == item.SettingID);
-                                if (item != oldItem) {
-                                    isIpChanged = true;
-                                    break;
+                            bool isIpChanged = false;
+                            if (old.Count != localIps.Count) {
+                                isIpChanged = true;
+                            }
+                            else {
+                                foreach (var item in localIps) {
+                                    var oldItem = old.FirstOrDefault(a => a.SettingID == item.SettingID);
+                                    if (item != oldItem) {
+                                        isIpChanged = true;
+                                        break;
+                                    }
                                 }
                             }
+                            VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), $"网络接口的 IP 地址发生了 {(isIpChanged ? "变更" : "刷新")}", toConsole: true);
                         }
-                        VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), $"网络接口的 IP 地址发生了 {(isIpChanged ? "变更" : "刷新")}", toConsole: true);
                     }
-                }
-                VirtualRoot.RaiseEvent(new LocalIpSetRefreshedEvent());
+                    VirtualRoot.RaiseEvent(new LocalIpSetRefreshedEvent());
+                });
             };
             NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
                 if (e.IsAvailable) {
