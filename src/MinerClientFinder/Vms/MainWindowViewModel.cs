@@ -1,47 +1,31 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        public class ResultItem : ViewModelBase {
-            private string _ip;
-            private bool _isOnline;
-
-            public ResultItem(string ip) {
-                _ip = ip;
-            }
-
-            public string Ip {
-                get => _ip;
-                set {
-                    _ip = value;
-                    OnPropertyChanged(nameof(Ip));
-                }
-            }
-
-            public bool IsOnline {
-                get => _isOnline;
-                set {
-                    _isOnline = value;
-                    OnPropertyChanged(nameof(IsOnline));
-                }
-            }
-        }
-
         private string _fromIp;
         private string _toIp;
-        private List<ResultItem> _results;
+        private readonly ObservableCollection<string> _results = new ObservableCollection<string>();
+        private int _percent;
 
-        public ICommand Start { get; private set; }
+        public ICommand StartOrStop { get; private set; }
 
         public MainWindowViewModel() {
-            this.Start = new DelegateCommand(() => {
-                List<ResultItem> items = new List<ResultItem>();
+            this.StartOrStop = new DelegateCommand(() => {
+                List<string> ipList = new List<string>();
                 for (long i = Ip.Util.GetIpNum(FromIp); i <= Ip.Util.GetIpNum(ToIp); i++) {
-                    items.Add(new ResultItem(Ip.Util.GetIpString(i)));
+                    ipList.Add(Ip.Util.GetIpString(i));
                 }
-                this.Results = items;
+                if (Results.Count != 0) {
+                    Results.Clear();
+                }
+                Scan(ipList.ToArray());
             });
             var localIp = VirtualRoot.LocalIpSet.FirstOrDefault();
             if (localIp != null) {
@@ -53,7 +37,39 @@ namespace NTMiner.Vms {
                     this._toIp = string.Join(".", parts);
                 }
             }
-            this._results = new List<ResultItem>();
+        }
+
+        private int _count = 0;
+        private void Scan(string[] ipList) {
+            _count = 0;
+            Percent = 0;
+            foreach (var ip in ipList) {
+                Task.Factory.StartNew(() => {
+                    try {
+                        using (TcpClient client = new TcpClient(ip, 3337)) {
+                            if (client.Connected) {
+                                UIThread.Execute(() => {
+                                    _results.Add(ip);
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception e) {
+                    }
+                    finally {
+                        Interlocked.Increment(ref _count);
+                        Percent = _count * 100 / ipList.Length;
+                    }
+                });
+            }
+        }
+
+        public int Percent {
+            get { return _percent; }
+            set {
+                _percent = value;
+                OnPropertyChanged(nameof(Percent));
+            }
         }
 
         public string FromIp {
@@ -71,12 +87,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        public List<ResultItem> Results {
+        public ObservableCollection<string> Results {
             get => _results;
-            set {
-                _results = value;
-                OnPropertyChanged(nameof(Results));
-            }
         }
     }
 }

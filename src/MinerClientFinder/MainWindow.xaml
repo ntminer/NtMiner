@@ -9,8 +9,9 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignData Source=/Design/MainWindowViewModel.xaml}"
         Background="White"
+        WindowStartupLocation="CenterScreen"
 		MouseDown="Window_MouseDown"
-        Title="查找运行着开源矿工挖矿端的矿机IP" Height="800" Width="600">
+        Title="发现运行着开源矿工挖矿端的矿机" Height="800" Width="600">
     <Window.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
     </Window.DataContext>
@@ -24,7 +25,9 @@
             <TextBox FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding FromIp}"></TextBox>
             <TextBlock VerticalAlignment="Center" Margin="4 0">到</TextBlock>
             <TextBox FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding ToIp}"></TextBox>
-            <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding Start}">开始</Button>
+            <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding StartOrStop}" Content="开始"></Button>
+            <TextBlock Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
+            <TextBlock Margin="2 0 0 0" VerticalAlignment="Center" Text="%"></TextBlock>
         </WrapPanel>
         <DataGrid
             Grid.Row="1"
@@ -42,7 +45,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Ip}"></TextBlock>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Mode=OneWay}"></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -60,7 +63,6 @@
                                     Height="12"
                                     Data="{StaticResource Icon_Ok}"
                                     Fill="Green"
-                                    Visibility="{Binding IsOnline,Converter={StaticResource BoolToVisibilityConverter}}"
                                     Stretch="Fill" />
                             </WrapPanel>
                         </DataTemplate>

@@ -2,5 +2,8 @@
 
 namespace NTMiner {
     public partial class App : Application {
+        public App() {
+            UIThread.InitializeWithDispatcher();
+        }
     }
 }
