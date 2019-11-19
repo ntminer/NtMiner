@@ -44,7 +44,7 @@ namespace NTMiner {
                         _dicByLoginName.Remove(message.Source.LoginName);
                         OnPropertyChanged(nameof(List));
                     });
-                foreach (var item in NTMinerRoot.Instance.UserSet) {
+                foreach (var item in NTMinerRoot.Instance.UserSet.AsEnumerable()) {
                     _dicByLoginName.Add(item.LoginName, new UserViewModel(item));
                 }
 #if DEBUG

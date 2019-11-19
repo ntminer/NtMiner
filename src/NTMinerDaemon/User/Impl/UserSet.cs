@@ -73,14 +73,9 @@ namespace NTMiner.User.Impl {
             return null;
         }
 
-        public IEnumerator<IUser> GetEnumerator() {
+        public IEnumerable<IUser> AsEnumerable() {
             InitOnece();
-            return _dicByLoginName.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicByLoginName.Values.GetEnumerator();
+            return _dicByLoginName.Values;
         }
     }
 }

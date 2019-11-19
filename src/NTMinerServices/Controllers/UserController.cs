@@ -19,7 +19,7 @@ namespace NTMiner.Controllers {
                         return response;
                     }
                 }
-                var data = HostRoot.Instance.UserSet.Cast<UserData>().ToList();
+                var data = HostRoot.Instance.UserSet.AsEnumerable().Cast<UserData>().ToList();
                 if (request.Data.HasValue) {
                     // request.Data是ClientId，挖矿端获取用户表无需验证身份但获取到的用户表的密码是加密的和群控客户端获取到的不同的
                     data = data.Select(a => new UserData(a)).ToList();

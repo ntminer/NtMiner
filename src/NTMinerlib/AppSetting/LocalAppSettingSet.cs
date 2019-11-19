@@ -1,7 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.AppSetting {
