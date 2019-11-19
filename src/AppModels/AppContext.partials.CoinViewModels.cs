@@ -71,8 +71,7 @@ namespace NTMiner {
                             if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
                                 return;
                             }
-                            CoinViewModel coinVm;
-                            if (_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
+                            if (_dicById.TryGetValue(message.Source.GetId(), out CoinViewModel coinVm)) {
                                 try {
                                     coinVm.IconImageSource = new Uri(iconFileFullName, UriKind.Absolute).ToString();
                                 }
@@ -107,8 +106,7 @@ namespace NTMiner {
             }
 
             public bool TryGetCoinVm(string coinCode, out CoinViewModel coinVm) {
-                ICoin coin;
-                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(coinCode, out coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(coinCode, out ICoin coin)) {
                     return TryGetCoinVm(coin.GetId(), out coinVm);
                 }
                 coinVm = CoinViewModel.Empty;
