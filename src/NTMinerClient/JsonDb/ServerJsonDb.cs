@@ -32,7 +32,7 @@ namespace NTMiner.JsonDb {
                     coin.Algo = dicItem.Value;
                 }
             }
-            Groups = root.ServerContext.GroupSet.Cast<GroupData>().ToArray();
+            Groups = root.ServerContext.GroupSet.AsEnumerable().Cast<GroupData>().ToArray();
             CoinGroups = root.ServerContext.CoinGroupSet.AsEnumerable().Cast<CoinGroupData>().ToArray();
             KernelInputs = root.ServerContext.KernelInputSet.Cast<KernelInputData>().ToArray();
             KernelOutputs = root.ServerContext.KernelOutputSet.Cast<KernelOutputData>().ToArray();
@@ -104,7 +104,7 @@ namespace NTMiner.JsonDb {
             }
             CoinGroups = coinGroups;
             Pools = pools;
-            Groups = root.ServerContext.GroupSet.Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();
+            Groups = root.ServerContext.GroupSet.AsEnumerable().Cast<GroupData>().Where(a => coinGroups.Any(b => b.GroupId == a.Id)).ToArray();
             KernelInputs = root.ServerContext.KernelInputSet.Cast<KernelInputData>().Where(a => a.Id == kernel.KernelInputId).ToArray();
             KernelOutputs = root.ServerContext.KernelOutputSet.Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
             KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
