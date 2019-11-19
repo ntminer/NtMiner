@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public partial class AppContext {
-        public class GpuViewModels : ViewModelBase, IEnumerable<GpuViewModel> {
+        public class GpuViewModels : ViewModelBase {
             public static readonly GpuViewModels Instance = new GpuViewModels();
 
             private readonly Dictionary<int, GpuViewModel> _gpuVms = new Dictionary<int, GpuViewModel>();
@@ -185,12 +185,10 @@ namespace NTMiner {
                 return _gpuVms.TryGetValue(index, out gpuVm);
             }
 
-            public IEnumerator<GpuViewModel> GetEnumerator() {
-                return _gpuVms.Values.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-                return _gpuVms.Values.GetEnumerator();
+            public IEnumerable<GpuViewModel> Items {
+                get {
+                    return _gpuVms.Values;
+                }
             }
         }
     }

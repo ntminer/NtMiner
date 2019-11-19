@@ -93,7 +93,7 @@ namespace NTMiner.Vms {
                         foreach (var inputSegmentVm in coinKernelVm.InputSegmentVms) {
                             inputSegmentVm.OnPropertyChanged(nameof(inputSegmentVm.IsChecked));
                         }
-                        foreach (var gpuVm in AppContext.Instance.GpuVms) {
+                        foreach (var gpuVm in AppContext.Instance.GpuVms.Items) {
                             if (gpuVm.Index == NTMinerRoot.GpuAllId) {
                                 continue;
                             }

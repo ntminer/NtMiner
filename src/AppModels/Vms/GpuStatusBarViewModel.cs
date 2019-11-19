@@ -9,7 +9,7 @@ namespace NTMiner.Vms {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-            this.GpuAllVm = AppContext.Instance.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
+            this.GpuAllVm = AppContext.Instance.GpuVms.Items.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");

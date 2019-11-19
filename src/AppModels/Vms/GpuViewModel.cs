@@ -275,7 +275,7 @@ namespace NTMiner.Vms {
         }
 
         private static long GetSumPower() {
-            var sum = AppContext.Instance.GpuVms.Sum(a => a.PowerUsage);
+            var sum = AppContext.Instance.GpuVms.Items.Sum(a => a.PowerUsage);
             if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
                 sum += AppContext.Instance.MinerProfileVm.PowerAppend * AppContext.Instance.GpuVms.Count;
                 if (sum <= 0) {
@@ -327,7 +327,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in AppContext.Instance.GpuVms) {
+                    foreach (var item in AppContext.Instance.GpuVms.Items) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -365,7 +365,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in AppContext.Instance.GpuVms) {
+                    foreach (var item in AppContext.Instance.GpuVms.Items) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -729,7 +729,7 @@ namespace NTMiner.Vms {
                 NTMinerRoot.Instance.GpuSet.SetIsUseDevice(this.Index, value);
                 if (refreshAllGpu) {
                     VirtualRoot.Out.ShowInfo("全不选等于全选");
-                    foreach (var gpuVm in AppContext.Instance.GpuVms) {
+                    foreach (var gpuVm in AppContext.Instance.GpuVms.Items) {
                         if (gpuVm.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
