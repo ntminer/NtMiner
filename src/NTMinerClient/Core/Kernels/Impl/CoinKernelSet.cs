@@ -30,9 +30,8 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinKernelAddedEvent(entity));
 
-                    ICoin coin;
-                    if (context.CoinSet.TryGetCoin(message.Input.CoinId, out coin)) {
-                        IPool[] pools = context.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                    if (context.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
+                        IPool[] pools = context.PoolSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (IPool pool in pools) {
                             Guid poolKernelId = Guid.NewGuid();
                             var poolKernel = new PoolKernelData() {
@@ -82,10 +81,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Remove(entity.Id);
 
                     VirtualRoot.RaiseEvent(new CoinKernelRemovedEvent(entity));
-                    ICoin coin;
-                    if (context.CoinSet.TryGetCoin(entity.CoinId, out coin)) {
+                    if (context.CoinSet.TryGetCoin(entity.CoinId, out ICoin coin)) {
                         List<Guid> toRemoves = new List<Guid>();
-                        IPool[] pools = context.PoolSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        IPool[] pools = context.PoolSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (IPool pool in pools) {
                             foreach (PoolKernelData poolKernel in context.PoolKernelSet.Where(a => a.PoolId == pool.GetId() && a.KernelId == entity.KernelId)) {
                                 toRemoves.Add(poolKernel.Id);
@@ -156,8 +154,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public bool TryGetCoinKernel(Guid kernelId, out ICoinKernel kernel) {
             InitOnece();
-            CoinKernelData k;
-            var r = _dicById.TryGetValue(kernelId, out k);
+            var r = _dicById.TryGetValue(kernelId, out CoinKernelData k);
             kernel = k;
             return r;
         }

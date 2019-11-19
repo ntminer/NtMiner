@@ -63,7 +63,7 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     CoinData entity = _dicById[message.EntityId];
-                    Guid[] toRemoves = context.PoolSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    Guid[] toRemoves = context.PoolSet.AsEnumerable().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolCommand(id));
                     }

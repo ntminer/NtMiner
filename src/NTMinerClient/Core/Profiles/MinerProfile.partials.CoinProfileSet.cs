@@ -49,7 +49,7 @@ namespace NTMiner.Core.Profiles {
                         var data = GetCoinProfileData(coin.GetId());
                         if (data == null) {
                             Guid poolId = Guid.Empty;
-                            IPool pool = root.ServerContext.PoolSet.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
+                            IPool pool = root.ServerContext.PoolSet.AsEnumerable().OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
                             if (pool != null) {
                                 poolId = pool.GetId();
                             }

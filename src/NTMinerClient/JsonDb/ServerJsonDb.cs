@@ -43,7 +43,7 @@ namespace NTMiner.JsonDb {
             FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();
             FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();
             PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
-            Pools = root.ServerContext.PoolSet.Cast<PoolData>().ToList();
+            Pools = root.ServerContext.PoolSet.AsEnumerable().Cast<PoolData>().ToList();
             SysDicItems = root.ServerContext.SysDicItemSet.Cast<SysDicItemData>().ToArray();
             SysDics = root.ServerContext.SysDicSet.Cast<SysDicData>().ToArray();
             this.TimeStamp = Timestamp.GetTimestamp();
@@ -93,7 +93,7 @@ namespace NTMiner.JsonDb {
             root.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
             var coins = root.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
             var coinGroups = root.ServerContext.CoinGroupSet.AsEnumerable().Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
-            var pools = root.ServerContext.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
+            var pools = root.ServerContext.PoolSet.AsEnumerable().Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
 
             Coins = coins;
             // json向后兼容

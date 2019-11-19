@@ -76,7 +76,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     List<PoolKernelData> list = repository.GetAll().ToList();
-                    foreach (IPool pool in _context.PoolSet) {
+                    foreach (IPool pool in _context.PoolSet.AsEnumerable()) {
                         foreach (ICoinKernel coinKernel in _context.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
                             PoolKernelData poolKernel = list.FirstOrDefault(a => a.PoolId == pool.GetId() && a.KernelId == coinKernel.KernelId);
                             if (poolKernel != null) {

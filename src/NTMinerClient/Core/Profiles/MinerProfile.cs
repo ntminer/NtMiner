@@ -119,7 +119,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public List<IPool> GetPools() {
-            return _root.ServerContext.PoolSet.ToList();
+            return _root.ServerContext.PoolSet.AsEnumerable().ToList();
         }
 
         public List<IPoolProfile> GetPoolProfiles() {
