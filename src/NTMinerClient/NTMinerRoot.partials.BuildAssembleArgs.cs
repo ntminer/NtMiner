@@ -20,7 +20,7 @@ namespace NTMiner {
             }
             ICoinKernelProfile coinKernelProfile = this.MinerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
             string poolKernelArgs = string.Empty;
-            IPoolKernel poolKernel = ServerContext.PoolKernelSet.FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
+            IPoolKernel poolKernel = ServerContext.PoolKernelSet.AsEnumerable().FirstOrDefault(a => a.PoolId == mainCoinPool.GetId() && a.KernelId == kernel.GetId());
             if (poolKernel != null) {
                 poolKernelArgs = poolKernel.Args;
             }

@@ -108,7 +108,7 @@ namespace NTMiner.Core.Impl {
                         repository.Remove(message.EntityId);
                     }
                     VirtualRoot.RaiseEvent(new PoolRemovedEvent(entity));
-                    Guid[] toRemoves = context.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
+                    Guid[] toRemoves = context.PoolKernelSet.AsEnumerable().Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
