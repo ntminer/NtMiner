@@ -38,7 +38,7 @@ namespace NTMiner.JsonDb {
             KernelOutputs = root.ServerContext.KernelOutputSet.AsEnumerable().Cast<KernelOutputData>().ToArray();
             KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.AsEnumerable().Cast<KernelOutputTranslaterData>().ToArray();
             Kernels = root.ServerContext.KernelSet.AsEnumerable().Cast<KernelData>().ToList();
-            Packages = root.ServerContext.PackageSet.Cast<PackageData>().ToList();
+            Packages = root.ServerContext.PackageSet.AsEnumerable().Cast<PackageData>().ToList();
             CoinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().ToList();
             FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();
             FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();
@@ -109,7 +109,7 @@ namespace NTMiner.JsonDb {
             KernelOutputs = root.ServerContext.KernelOutputSet.AsEnumerable().Cast<KernelOutputData>().Where(a => a.Id == kernel.KernelOutputId).ToArray();
             KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.AsEnumerable().Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
             Kernels = new List<KernelData> { (KernelData)kernel };
-            Packages = root.ServerContext.PackageSet.Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
+            Packages = root.ServerContext.PackageSet.AsEnumerable().Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
             CoinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
             FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();// 这个数据没几条就不精简了
             FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
