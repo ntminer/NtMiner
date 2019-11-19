@@ -56,7 +56,7 @@ namespace NTMiner {
 
             private void Init(bool refresh) {
                 _dicById.Clear();
-                foreach (var item in NTMinerRoot.Instance.NTMinerWalletSet) {
+                foreach (var item in NTMinerRoot.Instance.NTMinerWalletSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new NTMinerWalletViewModel(item));
                 }
                 if (refresh) {

@@ -26,8 +26,7 @@ namespace NTMiner {
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
-                            CoinViewModel coinVm;
-                            if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                            if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                             }
                         }
@@ -39,8 +38,7 @@ namespace NTMiner {
                 BuildEventPath<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
-                        CoinViewModel coinVm;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                         }
                     });
@@ -52,7 +50,7 @@ namespace NTMiner {
 
             private void Init(bool refresh) {
                 _dicById.Clear();
-                foreach (var item in NTMinerRoot.Instance.OverClockDataSet) {
+                foreach (var item in NTMinerRoot.Instance.OverClockDataSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new OverClockDataViewModel(item));
                 }
                 if (refresh) {

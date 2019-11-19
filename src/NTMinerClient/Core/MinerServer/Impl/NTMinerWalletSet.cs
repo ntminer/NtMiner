@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerServer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerServer.Impl {
@@ -104,14 +103,9 @@ namespace NTMiner.Core.MinerServer.Impl {
             return r;
         }
 
-        public IEnumerator<INTMinerWallet> GetEnumerator() {
+        public IEnumerable<INTMinerWallet> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }
