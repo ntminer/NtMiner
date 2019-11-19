@@ -16,7 +16,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
 
         public static void Start() {
             try {
-                if (NTMinerRoot.Instance.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
+                if (NTMinerRoot.Instance.GpuSet.AsEnumerable().Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
                     ExtractResource();
                     Process[] processes = Process.GetProcessesByName(s_processName);
                     if (processes == null || processes.Length == 0) {
@@ -45,7 +45,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
 
         public static void Stop() {
             try {
-                if (NTMinerRoot.Instance.GpuSet.Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
+                if (NTMinerRoot.Instance.GpuSet.AsEnumerable().Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
                     Task.Factory.StartNew(() => {
                         Windows.TaskKill.Kill(s_processName, waitForExit: true);
                         Logger.OkWriteLine("成功停止小药丸");

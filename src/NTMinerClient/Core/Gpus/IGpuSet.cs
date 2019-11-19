@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus {
-    public interface IGpuSet : IEnumerable<IGpu> {
+    public interface IGpuSet {
         GpuType GpuType { get; }
         /// <summary>
         /// NVIDIA的驱动版本号形如399.24，AMD的驱动版本号形如18.6.1
@@ -18,5 +18,7 @@ namespace NTMiner.Core.Gpus {
 
         void LoadGpuState();
         void LoadGpuState(int gpuIndex);
+
+        IEnumerable<IGpu> AsEnumerable();
     }
 }

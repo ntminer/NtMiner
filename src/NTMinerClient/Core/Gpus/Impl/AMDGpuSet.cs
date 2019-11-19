@@ -1,6 +1,5 @@
 ﻿using NTMiner.Gpus;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -132,12 +131,8 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public IOverClock OverClock { get; private set; }
 
-        public IEnumerator<IGpu> GetEnumerator() {
-            return _gpus.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return _gpus.Values.GetEnumerator();
+        public IEnumerable<IGpu> AsEnumerable() {
+            return _gpus.Values;
         }
     }
 }

@@ -23,7 +23,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetCoreClock(int gpuIndex, int value, int voltage) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
@@ -45,7 +45,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetMemoryClock(int gpuIndex, int value, int voltage) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 value = 100;
             }
             if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
@@ -92,7 +92,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void SetTempLimit(int gpuIndex, int value) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
@@ -115,7 +115,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public void SetFanSpeed(int gpuIndex, int value) {
             bool isAutoModel = value == 0;
             if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }
@@ -141,7 +141,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void RefreshGpuState(int gpuIndex) {
             if (gpuIndex == NTMinerRoot.GpuAllId) {
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }

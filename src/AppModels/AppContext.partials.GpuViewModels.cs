@@ -9,7 +9,7 @@ namespace NTMiner {
         public class GpuViewModels : ViewModelBase, IEnumerable<GpuViewModel> {
             public static readonly GpuViewModels Instance = new GpuViewModels();
 
-            private Dictionary<int, GpuViewModel> _gpuVms = new Dictionary<int, GpuViewModel>();
+            private readonly Dictionary<int, GpuViewModel> _gpuVms = new Dictionary<int, GpuViewModel>();
 
             private string _fanSpeedMinText = "0 %";
             private string _fanSpeedMaxText = "0 %";
@@ -23,7 +23,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     _gpuVms.Add(gpu.Index, new GpuViewModel(gpu));
                 }
                 if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {

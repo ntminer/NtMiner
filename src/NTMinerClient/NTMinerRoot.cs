@@ -579,7 +579,7 @@ namespace NTMiner {
                 if (_gpuSetInfo == null) {
                     StringBuilder sb = new StringBuilder();
                     int len = sb.Length;
-                    foreach (var g in GpuSet.Where(a => a.Index != GpuAllId).GroupBy(a => a.Name)) {
+                    foreach (var g in GpuSet.AsEnumerable().Where(a => a.Index != GpuAllId).GroupBy(a => a.Name)) {
                         if (sb.Length != len) {
                             sb.Append("/");
                         }
