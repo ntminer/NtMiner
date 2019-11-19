@@ -19,7 +19,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                foreach (var item in NTMinerRoot.Instance.MineWorkSet) {
+                foreach (var item in NTMinerRoot.Instance.MineWorkSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new MineWorkViewModel(item));
                 }
                 this.Add = new DelegateCommand(() => {

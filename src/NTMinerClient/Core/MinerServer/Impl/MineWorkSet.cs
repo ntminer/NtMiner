@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerServer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerServer.Impl {
@@ -96,8 +95,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public bool TryGetMineWork(Guid mineWorkId, out IMineWork mineWork) {
             InitOnece();
-            MineWorkData w;
-            var r = _dicById.TryGetValue(mineWorkId, out w);
+            var r = _dicById.TryGetValue(mineWorkId, out MineWorkData w);
             mineWork = w;
             return r;
         }
@@ -107,14 +105,9 @@ namespace NTMiner.Core.MinerServer.Impl {
             return _dicById.ContainsKey(mineWorkId);
         }
 
-        public IEnumerator<IMineWork> GetEnumerator() {
+        public IEnumerable<IMineWork> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }
