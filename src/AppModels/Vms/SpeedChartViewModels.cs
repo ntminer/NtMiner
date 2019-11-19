@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace NTMiner.Vms {
-    public class SpeedChartViewModels : IEnumerable<SpeedChartViewModel> {
+    public class SpeedChartViewModels {
         private readonly Dictionary<int, SpeedChartViewModel> _dicByGpuIndex = new Dictionary<int, SpeedChartViewModel>();
 
         public SpeedChartViewModels() {
@@ -29,12 +28,10 @@ namespace NTMiner.Vms {
             }
         }
 
-        public IEnumerator<SpeedChartViewModel> GetEnumerator() {
-            return _dicByGpuIndex.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return _dicByGpuIndex.Values.GetEnumerator();
+        public IEnumerable<SpeedChartViewModel> Items {
+            get {
+                return _dicByGpuIndex.Values;
+            }
         }
     }
 }
