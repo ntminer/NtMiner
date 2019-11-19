@@ -14,7 +14,7 @@ namespace UnitTests {
             for (int i = 0; i < times; i++) {
                 VirtualRoot.ThisLocalInfo(nameof(LocalMessageTests), content);
             }
-            Assert.IsTrue(VirtualRoot.LocalMessages.Count() == NTKeyword.LocalMessageSetCapacity);
+            Assert.IsTrue(VirtualRoot.LocalMessages.AsEnumerable().Count() == NTKeyword.LocalMessageSetCapacity);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using LiteDB;
 using NTMiner.MinerClient;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -85,14 +84,9 @@ namespace NTMiner.LocalMessage {
             }
         }
 
-        public IEnumerator<ILocalMessage> GetEnumerator() {
+        public IEnumerable<ILocalMessage> AsEnumerable() {
             InitOnece();
-            return _records.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _records.GetEnumerator();
+            return _records;
         }
     }
 }
