@@ -304,7 +304,7 @@
 			MinRowHeight="24"
 			IsReadOnly="True"
 			Background="Transparent"
-			ItemsSource="{Binding GpuTableVm}">
+			ItemsSource="{Binding GpuTableVm.Items}">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding GpuTableVm}" />
                 <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">10</sys:Double>
