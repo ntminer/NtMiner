@@ -31,7 +31,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private void Init(List<CalcConfigData> data) {
-            var list = _root.ServerContext.CoinSet.OrderBy(a => a.Code).Select(a => new CalcConfigData {
+            var list = _root.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).Select(a => new CalcConfigData {
                 CoinCode = a.Code,
                 CreatedOn = DateTime.Now,
                 IncomePerDay = 0,

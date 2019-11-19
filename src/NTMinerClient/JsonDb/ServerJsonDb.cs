@@ -25,7 +25,7 @@ namespace NTMiner.JsonDb {
         }
 
         public ServerJsonDb(INTMinerRoot root) {
-            Coins = root.ServerContext.CoinSet.Cast<CoinData>().ToArray();
+            Coins = root.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().ToArray();
             // json向后兼容
             foreach (var coin in Coins) {
                 if (root.ServerContext.SysDicItemSet.TryGetDicItem(coin.AlgoId, out ISysDicItem dicItem)) {
@@ -91,7 +91,7 @@ namespace NTMiner.JsonDb {
             var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
             root.ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel coinKernel);
             root.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
-            var coins = root.ServerContext.CoinSet.Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
+            var coins = root.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
             var coinGroups = root.ServerContext.CoinGroupSet.AsEnumerable().Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
             var pools = root.ServerContext.PoolSet.Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();
 
