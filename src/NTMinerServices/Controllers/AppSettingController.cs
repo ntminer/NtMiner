@@ -35,7 +35,7 @@ namespace NTMiner.Controllers {
         public DataResponse<List<AppSettingData>> AppSettings([FromBody]AppSettingsRequest request) {
             try {
                 var data = VirtualRoot.LocalAppSettingSet;
-                return DataResponse<List<AppSettingData>>.Ok(data.Select(a => AppSettingData.Create(a)).ToList());
+                return DataResponse<List<AppSettingData>>.Ok(data.AsEnumerable().Select(a => AppSettingData.Create(a)).ToList());
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
