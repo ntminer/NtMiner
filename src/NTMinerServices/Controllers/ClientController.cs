@@ -86,7 +86,7 @@ namespace NTMiner.Controllers {
                 }
 
                 foreach (var clientIp in request.ClientIps) {
-                    ClientData clientData = HostRoot.Instance.ClientSet.FirstOrDefault(a => a.MinerIp == clientIp);
+                    ClientData clientData = HostRoot.Instance.ClientSet.AsEnumerable().FirstOrDefault(a => a.MinerIp == clientIp);
                     if (clientData != null) {
                         continue;
                     }

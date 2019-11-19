@@ -1,7 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.MinerServer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -320,15 +319,11 @@ namespace NTMiner.Data.Impl {
             return _dicByObjectId.Values.Any(a => a.WorkId == workId);
         }
 
-        public IEnumerator<ClientData> GetEnumerator() {
+        public IEnumerable<ClientData> AsEnumerable() {
             InitOnece();
             foreach (var clientData in _dicByObjectId.Values) {
                 yield return clientData;
             }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
         }
     }
 }

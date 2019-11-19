@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Data {
-    public interface IClientSet : IEnumerable<ClientData> {
+    public interface IClientSet {
         void Add(ClientData clientData);
 
         void AddMiner(string minerIp);
@@ -39,5 +39,6 @@ namespace NTMiner.Data {
         bool IsAnyClientInGroup(Guid groupId);
 
         bool IsAnyClientInWork(Guid workId);
+        IEnumerable<ClientData> AsEnumerable();
     }
 }
