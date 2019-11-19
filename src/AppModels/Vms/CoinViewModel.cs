@@ -678,7 +678,7 @@ namespace NTMiner.Vms {
 
         public List<NTMinerWalletViewModel> NTMinerWallets {
             get {
-                return AppContext.Instance.NTMinerWalletVms.Where(a => a.CoinId == this.Id).ToList();
+                return AppContext.Instance.NTMinerWalletVms.Items.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 
