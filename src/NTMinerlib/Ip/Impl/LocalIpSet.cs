@@ -188,14 +188,9 @@ namespace NTMiner.Ip.Impl {
             }
         }
 
-        public IEnumerator<ILocalIp> GetEnumerator() {
+        public IEnumerable<ILocalIp> AsEnumerable() {
             InitOnece();
-            return _localIps.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _localIps.GetEnumerator();
+            return _localIps;
         }
     }
 }

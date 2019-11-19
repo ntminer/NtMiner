@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
                 }
                 Scan(ipList.ToArray());
             });
-            var localIp = VirtualRoot.LocalIpSet.FirstOrDefault();
+            var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
                 this._fromIp = localIp.DefaultIPGateway;
                 if (!string.IsNullOrEmpty(_fromIp)) {

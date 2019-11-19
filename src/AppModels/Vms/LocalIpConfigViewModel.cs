@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public LocalIpConfigViewModel() {
-            foreach (var localIp in VirtualRoot.LocalIpSet) {
+            foreach (var localIp in VirtualRoot.LocalIpSet.AsEnumerable()) {
                 _localIpVms.Add(new LocalIpViewModel(localIp));
             }
             this.Save = new DelegateCommand<LocalIpViewModel>((vm) => {
@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
 
         public void Refresh() {
             foreach (var item in _localIpVms) {
-                var data = VirtualRoot.LocalIpSet.FirstOrDefault(a => a.SettingID == item.SettingID);
+                var data = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault(a => a.SettingID == item.SettingID);
                 if (data != null) {
                     item.Update(data);
                 }

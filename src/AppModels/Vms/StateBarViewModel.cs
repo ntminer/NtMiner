@@ -119,7 +119,7 @@ namespace NTMiner.Vms {
         private string GetLocalIps() {
             StringBuilder sb = new StringBuilder();
             int len = sb.Length;
-            foreach (var localIp in VirtualRoot.LocalIpSet) {
+            foreach (var localIp in VirtualRoot.LocalIpSet.AsEnumerable()) {
                 if (len != sb.Length) {
                     sb.Append("，");
                 }

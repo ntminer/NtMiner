@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Ip {
-    public interface ILocalIpSet : IEnumerable<ILocalIp> {
+    public interface ILocalIpSet {
+        IEnumerable<ILocalIp> AsEnumerable();
     }
 }

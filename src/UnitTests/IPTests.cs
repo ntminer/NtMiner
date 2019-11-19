@@ -8,7 +8,7 @@ namespace UnitTests {
     public class IPTests {
         [TestMethod]
         public void GetLocalIpTest() {
-            foreach (ILocalIp item in VirtualRoot.LocalIpSet) {
+            foreach (ILocalIp item in VirtualRoot.LocalIpSet.AsEnumerable()) {
                 Console.WriteLine(item.ToString());
             }
         }
