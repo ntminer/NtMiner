@@ -81,7 +81,7 @@ namespace NTMiner {
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.KernelOutputKeywordSet) {
+                foreach (var item in NTMinerRoot.Instance.KernelOutputKeywordSet.AsEnumerable()) {
                     var vm = new KernelOutputKeywordViewModel(item);
                     if (!_dicById.ContainsKey(item.GetId())) {
                         _dicById.Add(item.GetId(), vm);

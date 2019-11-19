@@ -219,7 +219,7 @@ namespace NTMiner {
         public DateTime KernelOutputKeywordTimestamp { get; private set; }
 
         public void UpdateServerMessageTimestamp() {
-            var first = this.ServerMessageSet.OrderByDescending(a => a.Timestamp).FirstOrDefault();
+            var first = this.ServerMessageSet.AsEnumerable().OrderByDescending(a => a.Timestamp).FirstOrDefault();
             if (first == null) {
                 this.ServerMessageTimestamp = DateTime.MinValue;
             }
