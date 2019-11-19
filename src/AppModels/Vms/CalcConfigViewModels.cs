@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
 
         public void Refresh() {
             var list = new List<CalcConfigViewModel>();
-            foreach (var item in NTMinerRoot.Instance.CalcConfigSet) {
+            foreach (var item in NTMinerRoot.Instance.CalcConfigSet.AsEnumerable()) {
                 list.Add(new CalcConfigViewModel(item));
             }
             CalcConfigVms = list;

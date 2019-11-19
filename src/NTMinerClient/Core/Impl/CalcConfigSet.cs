@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerServer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -83,14 +82,9 @@ namespace NTMiner.Core.Impl {
             OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, null);
         }
 
-        public IEnumerator<CalcConfigData> GetEnumerator() {
+        public IEnumerable<CalcConfigData> AsEnumerable() {
             Init();
-            return _dicByCoinCode.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            Init();
-            return _dicByCoinCode.GetEnumerator();
+            return _dicByCoinCode.Values;
         }
     }
 }
