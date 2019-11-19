@@ -67,7 +67,7 @@ namespace NTMiner.Core.Impl {
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolCommand(id));
                     }
-                    toRemoves = context.CoinKernelSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    toRemoves = context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(id));
                     }

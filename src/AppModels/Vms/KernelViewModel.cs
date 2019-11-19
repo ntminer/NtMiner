@@ -369,7 +369,7 @@ namespace NTMiner.Vms {
         public List<CoinViewModel> SupportedCoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.KernelId == this.Id)) {
                     if (AppContext.Instance.CoinVms.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
                         list.Add(coin);
                     }

@@ -314,7 +314,7 @@ namespace NTMiner.Vms {
                 if (this == PleaseSelect || NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
-                foreach (var coinKernel in NTMinerRoot.Instance.ServerContext.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
+                foreach (var coinKernel in NTMinerRoot.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id)) {
                     if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
                         return true;
                     }

@@ -39,7 +39,7 @@ namespace NTMiner.JsonDb {
             KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().ToArray();
             Kernels = root.ServerContext.KernelSet.Cast<KernelData>().ToList();
             Packages = root.ServerContext.PackageSet.Cast<PackageData>().ToList();
-            CoinKernels = root.ServerContext.CoinKernelSet.Cast<CoinKernelData>().ToList();
+            CoinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().ToList();
             FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();
             FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();
             PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
@@ -110,7 +110,7 @@ namespace NTMiner.JsonDb {
             KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.Cast<KernelOutputTranslaterData>().Where(a => a.KernelOutputId == kernel.KernelOutputId).ToArray();
             Kernels = new List<KernelData> { (KernelData)kernel };
             Packages = root.ServerContext.PackageSet.Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
-            CoinKernels = root.ServerContext.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
+            CoinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
             FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();// 这个数据没几条就不精简了
             FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
             PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();

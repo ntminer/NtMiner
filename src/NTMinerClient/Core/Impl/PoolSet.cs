@@ -42,7 +42,7 @@ namespace NTMiner.Core.Impl {
                     VirtualRoot.RaiseEvent(new PoolAddedEvent(entity));
 
                     if (context.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
-                        ICoinKernel[] coinKernels = context.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        ICoinKernel[] coinKernels = context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (ICoinKernel coinKernel in coinKernels) {
                             Guid poolKernelId = Guid.NewGuid();
                             var poolKernel = new PoolKernelData() {
