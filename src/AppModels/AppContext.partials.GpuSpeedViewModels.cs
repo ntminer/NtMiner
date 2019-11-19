@@ -21,11 +21,10 @@ namespace NTMiner {
             private double _incomeDualCoinUsdPerDay;
             private double _incomeDualCoinCnyPerDay;
 
-            private void CheckReset() {
+            private void ResetIfMainCoinSwitched() {
                 Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
                 if (_mainCoinId != mainCoinId) {
                     _mainCoinId = mainCoinId;
-                    DateTime now = DateTime.Now;
                     foreach (var item in _list) {
                         item.MainCoinSpeed.Reset();
                         item.DualCoinSpeed.Reset();
@@ -48,13 +47,13 @@ namespace NTMiner {
                 }
                 this.GpuAllVm = AppContext.Instance.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
                 IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
-                foreach (var item in gpuSpeeds) {
+                foreach (var item in gpuSpeeds.AsEnumerable()) {
                     this._list.Add(new GpuSpeedViewModel(item));
                 }
                 _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
                 BuildEventPath<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
+                        ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
@@ -65,7 +64,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<FoundShareIncreasedEvent>("找到一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
+                        ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
@@ -74,7 +73,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<AcceptShareIncreasedEvent>("接受一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
+                        ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
@@ -83,7 +82,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
+                        ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
@@ -92,7 +91,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
+                        ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
@@ -101,7 +100,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        CheckReset();
+                        ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
@@ -155,7 +154,7 @@ namespace NTMiner {
 
             public void Refresh() {
                 foreach (var item in this._list) {
-                    var data = NTMinerRoot.Instance.GpusSpeed.FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
+                    var data = NTMinerRoot.Instance.GpusSpeed.AsEnumerable().FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
                     if (data != null) {
                         if (item.GpuVm.Index == NTMinerRoot.GpuAllId) {
                             TotalSpeedVm.MainCoinSpeed.UpdateSpeed(data.MainCoinSpeed.Value, data.MainCoinSpeed.SpeedOn);
