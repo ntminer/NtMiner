@@ -41,7 +41,7 @@ namespace NTMiner.JsonDb {
             Packages = root.ServerContext.PackageSet.Cast<PackageData>().ToList();
             CoinKernels = root.ServerContext.CoinKernelSet.Cast<CoinKernelData>().ToList();
             FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();
-            FragmentWriters = root.ServerContext.FragmentWriterSet.Cast<FragmentWriterData>().ToList();
+            FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();
             PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
             Pools = root.ServerContext.PoolSet.Cast<PoolData>().ToList();
             SysDicItems = root.ServerContext.SysDicItemSet.Cast<SysDicItemData>().ToArray();
@@ -112,7 +112,7 @@ namespace NTMiner.JsonDb {
             Packages = root.ServerContext.PackageSet.Cast<PackageData>().Where(a => a.Name == kernel.Package).ToList();
             CoinKernels = root.ServerContext.CoinKernelSet.Cast<CoinKernelData>().Where(a => localJsonObj.CoinKernelProfiles.Any(b => b.CoinKernelId == a.Id)).ToList();
             FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();// 这个数据没几条就不精简了
-            FragmentWriters = root.ServerContext.FragmentWriterSet.Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
+            FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
             PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
             SysDicItems = root.ServerContext.SysDicItemSet.Cast<SysDicItemData>().ToArray();
             SysDics = root.ServerContext.SysDicSet.Cast<SysDicData>().ToArray();
