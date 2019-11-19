@@ -40,7 +40,7 @@ namespace NTMiner {
             /// </summary>
             private void ClearPackages() {
                 HashSet<string> packageFileNames = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                foreach (var kernel in NTMinerRoot.Instance.ServerContext.KernelSet) {
+                foreach (var kernel in NTMinerRoot.Instance.ServerContext.KernelSet.AsEnumerable()) {
                     if (!string.IsNullOrEmpty(kernel.Package)) {
                         packageFileNames.Add(kernel.Package);
                     }

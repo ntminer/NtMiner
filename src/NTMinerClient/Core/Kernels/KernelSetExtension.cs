@@ -13,7 +13,7 @@ namespace NTMiner.Core.Kernels {
             Write.Stopwatch.Start();
 #endif
             HashSet<string> hashSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-            foreach (var kernel in kernelSet) {
+            foreach (var kernel in kernelSet.AsEnumerable()) {
                 hashSet.Add(kernel.GetProcessName());
             }
 #if DEBUG

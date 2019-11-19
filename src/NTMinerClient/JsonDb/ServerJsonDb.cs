@@ -37,7 +37,7 @@ namespace NTMiner.JsonDb {
             KernelInputs = root.ServerContext.KernelInputSet.AsEnumerable().Cast<KernelInputData>().ToArray();
             KernelOutputs = root.ServerContext.KernelOutputSet.AsEnumerable().Cast<KernelOutputData>().ToArray();
             KernelOutputTranslaters = root.ServerContext.KernelOutputTranslaterSet.AsEnumerable().Cast<KernelOutputTranslaterData>().ToArray();
-            Kernels = root.ServerContext.KernelSet.Cast<KernelData>().ToList();
+            Kernels = root.ServerContext.KernelSet.AsEnumerable().Cast<KernelData>().ToList();
             Packages = root.ServerContext.PackageSet.Cast<PackageData>().ToList();
             CoinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Cast<CoinKernelData>().ToList();
             FileWriters = root.ServerContext.FileWriterSet.AsEnumerable().Cast<FileWriterData>().ToList();

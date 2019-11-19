@@ -57,7 +57,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    IKernel[] outputUsers = context.KernelSet.Where(a => a.KernelOutputId == message.EntityId).ToArray();
+                    IKernel[] outputUsers = context.KernelSet.AsEnumerable().Where(a => a.KernelOutputId == message.EntityId).ToArray();
                     if (outputUsers.Length != 0) {
                         throw new ValidationException($"这些内核在使用该内核输出组，删除前请先解除使用：{string.Join(",", outputUsers.Select(a => a.GetFullName()))}");
                     }
