@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus {
-    public interface IGpusSpeed : IEnumerable<IGpuSpeed> {
+    public interface IGpusSpeed {
         void IncreaseFoundShare(int gpuIndex);
         void IncreaseAcceptShare(int gpuIndex);
         void IncreaseRejectShare(int gpuIndex);
@@ -12,5 +12,6 @@ namespace NTMiner.Core.Gpus {
         AverageSpeed GetAverageSpeed(int gpuIndex);
         List<IGpuSpeed> GetGpuSpeedHistory(int index);
         void SetCurrentSpeed(int gpuIndex, double speed, bool isDual, DateTime now);
+        IEnumerable<IGpuSpeed> AsEnumerable();
     }
 }

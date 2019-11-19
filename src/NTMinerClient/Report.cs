@@ -100,7 +100,7 @@ namespace NTMiner {
                 IsRaiseHighCpuEvent = workProfile.IsRaiseHighCpuEvent,
                 HighCpuPercent = workProfile.HighCpuBaseline,
                 HighCpuSeconds = workProfile.HighCpuSeconds,
-                GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
+                GpuTable = root.GpusSpeed.AsEnumerable().Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             if (workProfile.MineWork != null) {
                 data.MineWorkId = workProfile.MineWork.GetId();

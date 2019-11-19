@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.Impl;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -226,14 +225,9 @@ namespace NTMiner.Core.Gpus.Impl {
             return _gpuSpeedHistory[index];
         }
 
-        public IEnumerator<IGpuSpeed> GetEnumerator() {
+        public IEnumerable<IGpuSpeed> AsEnumerable() {
             InitOnece();
-            return _currentGpuSpeed.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _currentGpuSpeed.Values.GetEnumerator();
+            return _currentGpuSpeed.Values;
         }
     }
 }
