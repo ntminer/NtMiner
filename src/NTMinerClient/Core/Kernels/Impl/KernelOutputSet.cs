@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -113,14 +112,9 @@ namespace NTMiner.Core.Kernels.Impl {
             return result;
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
+        public IEnumerable<IKernelOutput> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        public IEnumerator<IKernelOutput> GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
 
         private DateTime _kernelRestartKeywordOn = DateTime.MinValue;
