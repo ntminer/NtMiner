@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -118,14 +117,9 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public IEnumerator<ISysDicItem> GetEnumerator() {
+        public IEnumerable<ISysDicItem> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
 
         public bool ContainsKey(Guid dicItemId) {
@@ -135,7 +129,7 @@ namespace NTMiner.Core.Impl {
 
         public bool ContainsKey(Guid dicId, string dicItemCode) {
             InitOnece();
-            if (!_dicByDicId.TryGetValue(dicId, out Dictionary<string, SysDicItemData> items)) {
+            if (!_dicByDicId.TryGetValue(dicId, out _)) {
                 return false;
             }
             return _dicByDicId[dicId].ContainsKey(dicItemCode);
