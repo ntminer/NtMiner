@@ -62,7 +62,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         throw new ValidationException($"这些内核在使用该内核输出组，删除前请先解除使用：{string.Join(",", outputUsers.Select(a => a.GetFullName()))}");
                     }
                     KernelOutputData entity = _dicById[message.EntityId];
-                    List<Guid> kernelOutputTranslaterIds = context.KernelOutputTranslaterSet.Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
+                    List<Guid> kernelOutputTranslaterIds = context.KernelOutputTranslaterSet.AsEnumerable().Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var kernelOutputTranslaterId in kernelOutputTranslaterIds) {
                         VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
                     }
