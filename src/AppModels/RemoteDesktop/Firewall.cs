@@ -21,10 +21,6 @@ namespace NTMiner.RemoteDesktop {
         private const NET_FW_SCOPE_ RdpScope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
         private const string RdpRuleName = "RDPEnabler";
 
-        private const int MinerClientTcpPort = NTKeyword.MinerClientPort;
-        private const int MinerClientUdpPort = NTKeyword.MinerClientPort;
-        private const int NTMinerDaemonTcpPort = NTKeyword.NTMinerDaemonPort;
-        private const int NTMinerDaemonUdpPort = NTKeyword.NTMinerDaemonPort;
         private const NET_FW_SCOPE_ MinerClientScope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
         private const string MinerClientRuleName = "MinerClient";
         private const string NTMinerDaemonRuleName = "NTMinerDaemon";
@@ -76,20 +72,20 @@ namespace NTMiner.RemoteDesktop {
         }
 
         public static void AddMinerClientRule() {
-            OpenPort($"{MinerClientRuleName}_TCP", MinerClientTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
-            OpenPort($"{MinerClientRuleName}_UDP", MinerClientUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
+            OpenPort($"{MinerClientRuleName}_TCP", NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
+            OpenPort($"{MinerClientRuleName}_UDP", NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
 
-            OpenPort($"{NTMinerDaemonRuleName}_TCP", NTMinerDaemonTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
-            OpenPort($"{NTMinerDaemonRuleName}_UDP", NTMinerDaemonUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
+            OpenPort($"{NTMinerDaemonRuleName}_TCP", NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
+            OpenPort($"{NTMinerDaemonRuleName}_UDP", NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
         }
 
         public static void RemoveMinerClientRule() {
             INetFwOpenPorts openPorts = GetOpenPorts();
-            openPorts.Remove(MinerClientTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
-            openPorts.Remove(MinerClientUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
+            openPorts.Remove(NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+            openPorts.Remove(NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
 
-            openPorts.Remove(NTMinerDaemonTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
-            openPorts.Remove(NTMinerDaemonUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
+            openPorts.Remove(NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+            openPorts.Remove(NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
 
             INetFwPolicy2 policyManager = GetPolicyManager();
             policyManager.Rules.Remove(MinerClientRuleName);
