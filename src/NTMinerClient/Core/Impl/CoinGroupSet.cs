@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -74,14 +73,9 @@ namespace NTMiner.Core.Impl {
             return _dicById.Values.Where(a => a.GroupId == groupId).Select(a => a.CoinId).ToList();
         }
 
-        public IEnumerator<ICoinGroup> GetEnumerator() {
+        public IEnumerable<ICoinGroup> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

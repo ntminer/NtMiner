@@ -76,7 +76,7 @@ namespace NTMiner.Core.Impl {
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveWalletCommand(id));
                     }
-                    toRemoves = context.CoinGroupSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    toRemoves = context.CoinGroupSet.AsEnumerable().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
                     }
@@ -137,16 +137,14 @@ namespace NTMiner.Core.Impl {
 
         public bool TryGetCoin(string coinCode, out ICoin coin) {
             InitOnece();
-            CoinData c;
-            var r = _dicByCode.TryGetValue(coinCode, out c);
+            var r = _dicByCode.TryGetValue(coinCode, out CoinData c);
             coin = c;
             return r;
         }
 
         public bool TryGetCoin(Guid coinId, out ICoin coin) {
             InitOnece();
-            CoinData c;
-            var r = _dicById.TryGetValue(coinId, out c);
+            var r = _dicById.TryGetValue(coinId, out CoinData c);
             coin = c;
             return r;
         }
