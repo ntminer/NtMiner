@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -130,14 +129,9 @@ namespace NTMiner.Core.Impl {
             return r;
         }
 
-        public IEnumerator<ISysDic> GetEnumerator() {
+        public IEnumerable<ISysDic> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

@@ -45,7 +45,7 @@ namespace NTMiner.JsonDb {
             PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args)).ToList();
             Pools = root.ServerContext.PoolSet.AsEnumerable().Cast<PoolData>().ToList();
             SysDicItems = root.ServerContext.SysDicItemSet.AsEnumerable().Cast<SysDicItemData>().ToArray();
-            SysDics = root.ServerContext.SysDicSet.Cast<SysDicData>().ToArray();
+            SysDics = root.ServerContext.SysDicSet.AsEnumerable().Cast<SysDicData>().ToArray();
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
@@ -115,7 +115,7 @@ namespace NTMiner.JsonDb {
             FragmentWriters = root.ServerContext.FragmentWriterSet.AsEnumerable().Cast<FragmentWriterData>().ToList();// 这个数据没几条就不精简了
             PoolKernels = root.ServerContext.PoolKernelSet.Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
             SysDicItems = root.ServerContext.SysDicItemSet.AsEnumerable().Cast<SysDicItemData>().ToArray();
-            SysDics = root.ServerContext.SysDicSet.Cast<SysDicData>().ToArray();
+            SysDics = root.ServerContext.SysDicSet.AsEnumerable().Cast<SysDicData>().ToArray();
             TimeStamp = NTMinerRoot.ServerJson.TimeStamp;
         }
 
