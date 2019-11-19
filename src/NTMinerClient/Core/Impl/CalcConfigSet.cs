@@ -82,7 +82,7 @@ namespace NTMiner.Core.Impl {
             OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, null);
         }
 
-        public IEnumerable<CalcConfigData> AsEnumerable() {
+        public IEnumerable<ICalcConfig> AsEnumerable() {
             Init();
             return _dicByCoinCode.Values;
         }

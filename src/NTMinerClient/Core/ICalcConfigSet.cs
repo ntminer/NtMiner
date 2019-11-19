@@ -7,6 +7,6 @@ namespace NTMiner.Core {
         bool TryGetCalcConfig(ICoin coin, out ICalcConfig calcConfig);
         IncomePerDay GetIncomePerHashPerDay(string coinCode);
         void SaveCalcConfigs(List<CalcConfigData> data);
-        IEnumerable<CalcConfigData> AsEnumerable();
+        IEnumerable<ICalcConfig> AsEnumerable();
     }
 }

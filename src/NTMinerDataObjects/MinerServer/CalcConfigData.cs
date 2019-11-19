@@ -4,23 +4,25 @@ using System.Text;
 
 namespace NTMiner.MinerServer {
     public class CalcConfigData : ICalcConfig, IGetSignData {
-        public CalcConfigData() { }
-
-        public CalcConfigData(ICalcConfig data) {
-            this.CoinCode = data.CoinCode;
-            this.Speed = data.Speed;
-            this.SpeedUnit = data.SpeedUnit;
-            this.NetSpeed = data.NetSpeed;
-            this.BaseNetSpeed = data.BaseNetSpeed;
-            this.BaseNetSpeedUnit = data.BaseNetSpeedUnit;
-            this.DayWave = data.DayWave;
-            this.NetSpeedUnit = data.NetSpeedUnit;
-            this.IncomePerDay = data.IncomePerDay;
-            this.IncomeUsdPerDay = data.IncomeUsdPerDay;
-            this.IncomeCnyPerDay = data.IncomeCnyPerDay;
-            this.CreatedOn = data.CreatedOn;
-            this.ModifiedOn = data.ModifiedOn;
+        public static CalcConfigData Create(ICalcConfig data) {
+            return new CalcConfigData {
+                CoinCode = data.CoinCode,
+                Speed = data.Speed,
+                SpeedUnit = data.SpeedUnit,
+                NetSpeed = data.NetSpeed,
+                BaseNetSpeed = data.BaseNetSpeed,
+                BaseNetSpeedUnit = data.BaseNetSpeedUnit,
+                DayWave = data.DayWave,
+                NetSpeedUnit = data.NetSpeedUnit,
+                IncomePerDay = data.IncomePerDay,
+                IncomeUsdPerDay = data.IncomeUsdPerDay,
+                IncomeCnyPerDay = data.IncomeCnyPerDay,
+                CreatedOn = data.CreatedOn,
+                ModifiedOn = data.ModifiedOn
+            };
         }
+
+        public CalcConfigData() { }
 
         public void Update(ICalcConfig data) {
             this.Speed = data.Speed;

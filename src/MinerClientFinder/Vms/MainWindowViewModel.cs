@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
@@ -62,7 +61,7 @@ namespace NTMiner.Vms {
                             }
                         }
                     }
-                    catch (Exception e) {
+                    catch {
                     }
                     finally {
                         Interlocked.Increment(ref _count);
