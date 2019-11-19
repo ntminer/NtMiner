@@ -672,7 +672,7 @@ namespace NTMiner.Vms {
 
         public List<OverClockDataViewModel> OverClockDatas {
             get {
-                return AppContext.Instance.OverClockDataVms.Where(a => a.CoinId == this.Id).ToList();
+                return AppContext.Instance.OverClockDataVms.Items.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 

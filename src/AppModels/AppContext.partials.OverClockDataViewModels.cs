@@ -1,12 +1,11 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner {
     public partial class AppContext {
-        public class OverClockDataViewModels : ViewModelBase, IEnumerable<OverClockDataViewModel> {
+        public class OverClockDataViewModels : ViewModelBase {
             public static readonly OverClockDataViewModels Instance = new OverClockDataViewModels();
             private readonly Dictionary<Guid, OverClockDataViewModel> _dicById = new Dictionary<Guid, OverClockDataViewModel>();
 
@@ -64,12 +63,10 @@ namespace NTMiner {
                 return _dicById.TryGetValue(id, out minerGroupVm);
             }
 
-            public IEnumerator<OverClockDataViewModel> GetEnumerator() {
-                return _dicById.Values.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-                return _dicById.Values.GetEnumerator();
+            public IEnumerable<OverClockDataViewModel> Items {
+                get {
+                    return _dicById.Values;
+                }
             }
         }
     }
