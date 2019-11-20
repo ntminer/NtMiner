@@ -321,9 +321,7 @@ namespace NTMiner.Data.Impl {
 
         public IEnumerable<ClientData> AsEnumerable() {
             InitOnece();
-            foreach (var clientData in _dicByObjectId.Values) {
-                yield return clientData;
-            }
+            return _dicByObjectId.Values;
         }
     }
 }

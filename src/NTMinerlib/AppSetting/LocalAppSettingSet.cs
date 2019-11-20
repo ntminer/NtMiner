@@ -62,9 +62,7 @@ namespace NTMiner.AppSetting {
 
         public IEnumerable<IAppSetting> AsEnumerable() {
             InitOnece();
-            foreach (var item in _dicByKey.Values) {
-                yield return item;
-            }
+            return _dicByKey.Values;
         }
     }
 }
