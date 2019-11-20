@@ -207,6 +207,7 @@
 						<TextBox 
 							Width="112"
                             Padding="0 0 20 0"
+                            ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice}"
 							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							IsReadOnly="{Binding MinerProfile.IsMining}"
 							VerticalContentAlignment="Center" 
@@ -259,6 +260,7 @@
                         <Grid>
                             <TextBox 
 							    Width="112"
+                                ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.Notice}"
 							    Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							    IsReadOnly="{Binding MinerProfile.IsMining}"
 							    VerticalContentAlignment="Center" 
