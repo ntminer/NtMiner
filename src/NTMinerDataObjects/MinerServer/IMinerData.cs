@@ -8,6 +8,7 @@ namespace NTMiner.MinerServer {
         DateTime CreatedOn { get; }
         Guid GroupId { get; }
         string MinerIp { get; }
+        string MACAddress { get; }
         string MinerName { get; }
         string WindowsLoginName { get; }
         string WindowsPassword { get; }
