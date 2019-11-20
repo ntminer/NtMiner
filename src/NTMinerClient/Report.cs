@@ -51,6 +51,7 @@ namespace NTMiner {
                 MinerName = workProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
                 ClientId = VirtualRoot.Id,
+                MACAddress = string.Join(",", VirtualRoot.LocalIpSet.AsEnumerable().Select(a => a.MACAddress)),
                 MainCoinCode = string.Empty,
                 MainCoinWallet = string.Empty,
                 MainCoinTotalShare = 0,

@@ -7,6 +7,7 @@ namespace NTMiner.MinerClient {
         int AutoStartDelaySeconds { get; }
         DateTime BootOn { get; }
         Guid ClientId { get; }
+        string MACAddress { get; }
         int CpuGETemperatureSeconds { get; }
         int CpuLETemperatureSeconds { get; }
         int CpuPerformance { get; }
