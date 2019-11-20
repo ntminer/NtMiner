@@ -32,11 +32,32 @@ namespace NTMiner.Vms {
         }
 
         public void Refresh() {
-            foreach (var item in _localIpVms) {
+            List<LocalIpViewModel> toRemoves = new List<LocalIpViewModel>();
+            for (int i = 0; i < _localIpVms.Count; i++) {
+                var item = _localIpVms[i];
                 var data = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault(a => a.SettingID == item.SettingID);
                 if (data != null) {
                     item.Update(data);
                 }
+                else {
+                    toRemoves.Add(item);
+                }
+            }
+            bool isAdded = false;
+            foreach (var item in VirtualRoot.LocalIpSet.AsEnumerable()) {
+                var exist = _localIpVms.FirstOrDefault(a => a.SettingID == item.SettingID);
+                if (exist == null) {
+                    _localIpVms.Add(new LocalIpViewModel(item));
+                    isAdded = true;
+                }
+            }
+            if (toRemoves.Count != 0) {
+                foreach (var item in toRemoves) {
+                    _localIpVms.Remove(item);
+                }
+            }
+            if (toRemoves.Count != 0 || isAdded) {
+                LocalIpVms = new List<LocalIpViewModel>(_localIpVms);
             }
         }
 
