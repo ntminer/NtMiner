@@ -71,7 +71,7 @@ namespace NTMiner.Views {
                 list.Insert(0, Vm.ServerHost);
             }
             NTMinerRegistry.SetControlCenterHosts(list);
-            if (Ip.Util.IsInnerIp(Vm.ServerHost)) {
+            if (Net.Util.IsInnerIp(Vm.ServerHost)) {
                 SingleUser.LoginName = "localhost";
                 SingleUser.SetPasswordSha1("localhost");
                 this.Close();

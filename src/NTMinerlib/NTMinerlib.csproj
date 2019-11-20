@@ -46,9 +46,9 @@
     <Compile Include="Hosts.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
-    <Compile Include="Ip\ILocalIpSet.cs" />
-    <Compile Include="Ip\LocalIpSet.cs" />
-    <Compile Include="Ip\Util.cs" />
+    <Compile Include="Net\ILocalIpSet.cs" />
+    <Compile Include="Net\LocalIpSet.cs" />
+    <Compile Include="Net\Util.cs" />
     <Compile Include="IOut.cs" />
     <Compile Include="Messages.Timing.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />

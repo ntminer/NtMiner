@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 using System.Net.NetworkInformation;
-using System.Threading.Tasks;
 
-namespace NTMiner.Ip {
+namespace NTMiner.Net {
     public class LocalIpSet : ILocalIpSet {
         public static IEnumerable<ManagementObject> GetNetCardInfo() {
             using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {

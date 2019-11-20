@@ -10,7 +10,7 @@ namespace NTMiner {
                 response = null;
                 return true;
             }
-            if (_isInnerIpEnabled && Ip.Util.IsInnerIp(clientIp)) {
+            if (_isInnerIpEnabled && Net.Util.IsInnerIp(clientIp)) {
                 response = null;
                 return true;
             }

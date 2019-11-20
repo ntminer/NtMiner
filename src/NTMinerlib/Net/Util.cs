@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.NetworkInformation;
 
-namespace NTMiner.Ip {
+namespace NTMiner.Net {
     public static class Util {
         public static bool Ping(string hostOrIp) {
             try {
