@@ -47,7 +47,7 @@
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
     <Compile Include="Ip\ILocalIpSet.cs" />
-    <Compile Include="Ip\Impl\LocalIpSet.cs" />
+    <Compile Include="Ip\LocalIpSet.cs" />
     <Compile Include="Ip\Util.cs" />
     <Compile Include="IOut.cs" />
     <Compile Include="Messages.Timing.cs" />

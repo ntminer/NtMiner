@@ -15,7 +15,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void PrintNetCardInfo() {
-            foreach (var item in NTMiner.Ip.Impl.LocalIpSet.GetNetCardInfo()) {
+            foreach (var item in NTMiner.Ip.LocalIpSet.GetNetCardInfo()) {
                 Console.WriteLine("-------------------start---------------------");
                 foreach (var kv in item.Properties) {
                     Console.WriteLine($"{kv.Name}: {kv.Value}");

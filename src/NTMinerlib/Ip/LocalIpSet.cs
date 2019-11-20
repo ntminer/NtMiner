@@ -5,7 +5,7 @@ using System.Linq;
 using System.Management;
 using System.Net.NetworkInformation;
 
-namespace NTMiner.Ip.Impl {
+namespace NTMiner.Ip {
     public class LocalIpSet : ILocalIpSet {
         public static IEnumerable<ManagementObject> GetNetCardInfo() {
             using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
@@ -69,7 +69,8 @@ namespace NTMiner.Ip.Impl {
                         IPSubnet = ipSubnet,
                         DNSServer0 = dNSServer0,
                         DNSServer1 = dNSServer1,
-                        IPAddress = ipAddress
+                        IPAddress = ipAddress,
+                        MACAddress = (string)mo["MACAddress"]
                     });
                     FillNames(list);
                 }

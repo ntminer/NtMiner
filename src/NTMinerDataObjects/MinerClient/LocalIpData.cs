@@ -13,6 +13,8 @@
 
         public string IPAddress { get; set; }
 
+        public string MACAddress { get; set; }
+
         public string IPSubnet { get; set; }
 
         public string DNSServer0 { get; set; }
@@ -23,7 +25,7 @@
             if (ReferenceEquals(left, right)) {
                 return true;
             }
-            if (((object)left == null) || ((object)right == null)) {
+            if ((left is null) || (right is null)) {
                 return false;
             }
             return left.Equals(right);
@@ -38,8 +40,7 @@
                 return false;
             }
 
-            LocalIpData data = obj as LocalIpData;
-            if ((object)data == null) {
+            if (!(obj is LocalIpData data)) {
                 return false;
             }
 
@@ -47,7 +48,7 @@
         }
 
         public bool Equals(LocalIpData obj) {
-            if ((object)obj == null) {
+            if (obj is null) {
                 return false;
             }
 
@@ -65,6 +66,7 @@ Name={Name}
 DefaultIPGateway={DefaultIPGateway}
 DHCPEnabled={DHCPEnabled}
 IPAddress={IPAddress}
+MACAddress={MACAddress}
 IPSubnet={IPSubnet}
 DNSServer0={DNSServer0}
 DNSServer1={DNSServer1}";
