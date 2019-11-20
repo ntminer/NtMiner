@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Management;
 using System.Net.NetworkInformation;
+using System.Threading.Tasks;
 
 namespace NTMiner.Ip {
     public class LocalIpSet : ILocalIpSet {
@@ -127,7 +128,6 @@ namespace NTMiner.Ip {
                             VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), $"网络接口的 IP 地址发生了 {(isIpChanged ? "变更" : "刷新")}", toConsole: true);
                         }
                     }
-                    VirtualRoot.RaiseEvent(new LocalIpSetRefreshedEvent());
                 });
             };
             NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
@@ -180,7 +180,7 @@ namespace NTMiner.Ip {
         private bool _isInited = false;
         private readonly object _locker = new object();
 
-        private void InitOnece() {
+        public void InitOnece() {
             if (_isInited) {
                 return;
             }
@@ -188,20 +188,23 @@ namespace NTMiner.Ip {
         }
 
         private void Init() {
-#if DEBUG
-            Write.Stopwatch.Start();
-#endif
             lock (_locker) {
                 if (!_isInited) {
-                    _localIps = GetLocalIps();
                     _isInited = true;
+                    Task.Factory.StartNew(() => {
+#if DEBUG
+                        Write.Stopwatch.Start();
+#endif
+                        _localIps = GetLocalIps();
+                        VirtualRoot.RaiseEvent(new LocalIpSetInitedEvent());
+#if DEBUG
+                        // 将近300毫秒
+                        var elapsedMilliseconds = Write.Stopwatch.Stop();
+                        Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
+#endif
+                    });
                 }
             }
-#if DEBUG
-            // 将近300毫秒
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
-#endif
         }
 
         public IEnumerable<ILocalIp> AsEnumerable() {

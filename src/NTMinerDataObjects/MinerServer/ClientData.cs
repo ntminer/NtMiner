@@ -205,7 +205,9 @@ namespace NTMiner.MinerServer {
             _preDualCoin = this.DualCoinCode;
 
             this.ClientId = speedData.ClientId;
-            this.MACAddress = speedData.MACAddress;
+            if (!string.IsNullOrEmpty(speedData.MACAddress)) {
+                this.MACAddress = speedData.MACAddress;
+            }
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
             this.AutoStartDelaySeconds = speedData.AutoStartDelaySeconds;

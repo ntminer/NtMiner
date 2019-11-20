@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
                     Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
                     Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
                 };
-                window.BuildEventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                window.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(()=> Vm.RefreshLocalIps());
                     });
@@ -70,6 +70,7 @@ namespace NTMiner.Views.Ucs {
             if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
                 BtnShowVirtualMemory.Foreground = WpfUtil.RedBrush;
             }
+            VirtualRoot.LocalIpSet.InitOnece();
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");

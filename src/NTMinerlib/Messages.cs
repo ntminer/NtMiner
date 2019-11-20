@@ -92,9 +92,9 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "本机IP集刷新后")]
-    public class LocalIpSetRefreshedEvent : EventBase {
-        public LocalIpSetRefreshedEvent() { }
+    [MessageType(description: "本机IP集初始化后")]
+    public class LocalIpSetInitedEvent : EventBase {
+        public LocalIpSetInitedEvent() { }
     }
 
     [MessageType(description: "LocalAppSetting变更后")]
