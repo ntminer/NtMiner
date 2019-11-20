@@ -123,7 +123,7 @@ namespace NTMiner.Vms {
                 if (len != sb.Length) {
                     sb.Append("，");
                 }
-                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(dhcp)" : "🔒");
+                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(动态)" : "🔒");
             }
             return sb.ToString();
         }
