@@ -80,6 +80,18 @@ namespace NTMiner.Ip {
             }
             return list;
         }
+        private static void FillNames(List<LocalIpData> list) {
+            //获取网卡
+            var items = NetworkInterface.GetAllNetworkInterfaces();
+            foreach (var item in list) {
+                foreach (NetworkInterface ni in items) {
+                    if (ni.Id == item.SettingID) {
+                        item.Name = ni.Name;
+                        break;
+                    }
+                }
+            }
+        }
         #endregion
 
         private List<LocalIpData> _localIps = new List<LocalIpData>();
@@ -176,25 +188,20 @@ namespace NTMiner.Ip {
         }
 
         private void Init() {
+#if DEBUG
+            Write.Stopwatch.Start();
+#endif
             lock (_locker) {
                 if (!_isInited) {
                     _localIps = GetLocalIps();
                     _isInited = true;
                 }
             }
-        }
-
-        private static void FillNames(List<LocalIpData> list) {
-            //获取网卡
-            var items = NetworkInterface.GetAllNetworkInterfaces();
-            foreach (var item in list) {
-                foreach (NetworkInterface ni in items) {
-                    if (ni.Id == item.SettingID) {
-                        item.Name = ni.Name;
-                        break;
-                    }
-                }
-            }
+#if DEBUG
+            // 将近300毫秒
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
+#endif
         }
 
         public IEnumerable<ILocalIp> AsEnumerable() {
