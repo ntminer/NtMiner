@@ -12,5 +12,16 @@ namespace UnitTests {
                 Console.WriteLine(item.ToString());
             }
         }
+
+        [TestMethod]
+        public void PrintNetCardInfo() {
+            foreach (var item in NTMiner.Ip.Impl.LocalIpSet.GetNetCardInfo()) {
+                Console.WriteLine("-------------------start---------------------");
+                foreach (var kv in item.Properties) {
+                    Console.WriteLine($"{kv.Name}: {kv.Value}");
+                }
+                Console.WriteLine("--------------------end----------------------");
+            }
+        }
     }
 }

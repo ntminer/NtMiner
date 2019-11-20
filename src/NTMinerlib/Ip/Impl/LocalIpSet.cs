@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerClient;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Management;
@@ -8,72 +7,71 @@ using System.Net.NetworkInformation;
 
 namespace NTMiner.Ip.Impl {
     public class LocalIpSet : ILocalIpSet {
-        #region private static method GetManagementObject
-        private static ManagementObject GetManagementObject(string settingId) {
+        public static IEnumerable<ManagementObject> GetNetCardInfo() {
             using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
                 ManagementObjectCollection moc = mc.GetInstances();
                 foreach (ManagementObject mo in moc) {
-                    if ((string)mo["SettingID"] == settingId) {
-                        return mo;
+                    if (!(bool)mo["IPEnabled"] || mo["DefaultIPGateway"] == null) {
+                        continue;
                     }
+                    string[] defaultIpGateways = (string[])mo["DefaultIPGateway"];
+                    if (defaultIpGateways.Length == 0) {
+                        continue;
+                    }
+                    yield return mo;
                 }
             }
-            return null;
         }
-        #endregion
 
         #region private static method GetLocalIps
         private static List<LocalIpData> GetLocalIps() {
             List<LocalIpData> list = new List<LocalIpData>();
             try {
-                using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
-                    ManagementObjectCollection moc = mc.GetInstances();
-                    foreach (ManagementObject mo in moc) {
-                        if (!(bool)mo["IPEnabled"] || mo["DefaultIPGateway"] == null) {
-                            continue;
-                        }
-                        string[] defaultIpGateways = (string[])mo["DefaultIPGateway"];
-                        if (defaultIpGateways.Length == 0) {
-                            continue;
-                        }
-                        string dNSServer0 = string.Empty;
-                        string dNSServer1 = string.Empty;
-                        if (mo["DNSServerSearchOrder"] != null) {
-                            string[] dNSServerSearchOrder = (string[])mo["DNSServerSearchOrder"];
-                            if (dNSServerSearchOrder.Length > 0) {
-                                if (dNSServerSearchOrder[0] != defaultIpGateways[0]) {
-                                    dNSServer0 = dNSServerSearchOrder[0];
-                                }
-                            }
-                            if (dNSServerSearchOrder.Length > 1) {
-                                dNSServer1 = dNSServerSearchOrder[1];
-                            }
-                        }
-                        string ipAddress = string.Empty;
-                        if (mo["IPAddress"] != null) {
-                            string[] items = (string[])mo["IPAddress"];
-                            if (items.Length != 0) {
-                                ipAddress = items[0];// 只取Ipv4
-                            }
-                        }
-                        string ipSubnet = string.Empty;
-                        if (mo["IPSubnet"] != null) {
-                            string[] items = (string[])mo["IPSubnet"];
-                            if (items.Length != 0) {
-                                ipSubnet = items[0];// 只取Ipv4
-                            }
-                        }
-                        list.Add(new LocalIpData {
-                            DefaultIPGateway = defaultIpGateways[0],
-                            DHCPEnabled = (bool)mo["DHCPEnabled"],
-                            SettingID = (string)mo["SettingID"],
-                            IPSubnet = ipSubnet,
-                            DNSServer0 = dNSServer0,
-                            DNSServer1 = dNSServer1,
-                            IPAddress = ipAddress
-                        });
-                        FillNames(list);
+                foreach (ManagementObject mo in GetNetCardInfo()) {
+                    if (!(bool)mo["IPEnabled"] || mo["DefaultIPGateway"] == null) {
+                        continue;
                     }
+                    string[] defaultIpGateways = (string[])mo["DefaultIPGateway"];
+                    if (defaultIpGateways.Length == 0) {
+                        continue;
+                    }
+                    string dNSServer0 = string.Empty;
+                    string dNSServer1 = string.Empty;
+                    if (mo["DNSServerSearchOrder"] != null) {
+                        string[] dNSServerSearchOrder = (string[])mo["DNSServerSearchOrder"];
+                        if (dNSServerSearchOrder.Length > 0) {
+                            if (dNSServerSearchOrder[0] != defaultIpGateways[0]) {
+                                dNSServer0 = dNSServerSearchOrder[0];
+                            }
+                        }
+                        if (dNSServerSearchOrder.Length > 1) {
+                            dNSServer1 = dNSServerSearchOrder[1];
+                        }
+                    }
+                    string ipAddress = string.Empty;
+                    if (mo["IPAddress"] != null) {
+                        string[] items = (string[])mo["IPAddress"];
+                        if (items.Length != 0) {
+                            ipAddress = items[0];// 只取Ipv4
+                        }
+                    }
+                    string ipSubnet = string.Empty;
+                    if (mo["IPSubnet"] != null) {
+                        string[] items = (string[])mo["IPSubnet"];
+                        if (items.Length != 0) {
+                            ipSubnet = items[0];// 只取Ipv4
+                        }
+                    }
+                    list.Add(new LocalIpData {
+                        DefaultIPGateway = defaultIpGateways[0],
+                        DHCPEnabled = (bool)mo["DHCPEnabled"],
+                        SettingID = (string)mo["SettingID"],
+                        IPSubnet = ipSubnet,
+                        DNSServer0 = dNSServer0,
+                        DNSServer1 = dNSServer1,
+                        IPAddress = ipAddress
+                    });
+                    FillNames(list);
                 }
             }
             catch (Exception e) {
@@ -128,7 +126,16 @@ namespace NTMiner.Ip.Impl {
                 }
             };
             VirtualRoot.BuildCmdPath<SetLocalIpCommand>(action: message => {
-                ManagementObject mo = GetManagementObject(message.Input.SettingID);
+                ManagementObject mo = null; 
+                using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
+                    ManagementObjectCollection moc = mc.GetInstances();
+                    foreach (ManagementObject item in moc) {
+                        if ((string)item["SettingID"] == message.Input.SettingID) {
+                            mo = item;
+                            break;
+                        }
+                    }
+                }
                 if (mo != null) {
                     if (message.Input.DHCPEnabled) {
                         mo.InvokeMethod("EnableStatic", null);
@@ -183,6 +190,7 @@ namespace NTMiner.Ip.Impl {
                 foreach (NetworkInterface ni in items) {
                     if (ni.Id == item.SettingID) {
                         item.Name = ni.Name;
+                        break;
                     }
                 }
             }
