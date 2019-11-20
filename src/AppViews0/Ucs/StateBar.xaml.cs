@@ -70,7 +70,6 @@ namespace NTMiner.Views.Ucs {
             if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
                 BtnShowVirtualMemory.Foreground = WpfUtil.RedBrush;
             }
-            VirtualRoot.LocalIpSet.InitOnece();
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");

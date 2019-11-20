@@ -179,6 +179,7 @@ namespace NTMiner {
             NTMinerRegistry.SetCurrentVersionTag(MainAssemblyInfo.CurrentVersionTag);
 
             if (VirtualRoot.IsMinerClient) {
+                VirtualRoot.LocalIpSet.InitOnece();
                 Report.Init();
                 Link();
                 // 当显卡温度变更时守卫温度防线

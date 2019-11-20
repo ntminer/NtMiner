@@ -188,23 +188,21 @@ namespace NTMiner.Ip {
         }
 
         private void Init() {
+#if DEBUG
+            Write.Stopwatch.Start();
+#endif
             lock (_locker) {
                 if (!_isInited) {
                     _isInited = true;
-                    Task.Factory.StartNew(() => {
-#if DEBUG
-                        Write.Stopwatch.Start();
-#endif
-                        _localIps = GetLocalIps();
-                        VirtualRoot.RaiseEvent(new LocalIpSetInitedEvent());
-#if DEBUG
-                        // 将近300毫秒
-                        var elapsedMilliseconds = Write.Stopwatch.Stop();
-                        Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
-#endif
-                    });
+                    _localIps = GetLocalIps();
+                    VirtualRoot.RaiseEvent(new LocalIpSetInitedEvent());
                 }
             }
+#if DEBUG
+            // 将近300毫秒
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
+#endif
         }
 
         public IEnumerable<ILocalIp> AsEnumerable() {
