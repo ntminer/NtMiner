@@ -10,8 +10,8 @@ namespace NTMiner.Impl {
         public Log4NetLoggingService() {
             string logFileName = $"root{MainAssemblyInfo.Version}.{MainAssemblyInfo.Build}.log";
             string logFile = $"logs\\{logFileName}";
-            if (!string.IsNullOrEmpty(LogDir.Dir)) {
-                logFile = Path.Combine(LogDir.Dir, logFileName);
+            if (!string.IsNullOrEmpty(Logger.Dir)) {
+                logFile = Path.Combine(Logger.Dir, logFileName);
             }
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(
 $@"<log4net>

@@ -1,11 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
-    public class VirtualMemorySetViewModel : ViewModelBase, IEnumerable<VirtualMemoryViewModel> {
+    public class VirtualMemorySetViewModel : ViewModelBase {
         public static readonly VirtualMemorySetViewModel Instance = new VirtualMemorySetViewModel();
 
         private readonly Dictionary<string, VirtualMemoryViewModel> _dic = new Dictionary<string, VirtualMemoryViewModel>(StringComparer.OrdinalIgnoreCase);
@@ -131,12 +130,10 @@ namespace NTMiner.Vms {
             return _dic.ContainsKey(driveName);
         }
 
-        public IEnumerator<VirtualMemoryViewModel> GetEnumerator() {
-            return _dic.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return _dic.Values.GetEnumerator();
+        public IEnumerable<VirtualMemoryViewModel> Items {
+            get {
+                return _dic.Values;
+            }
         }
     }
 }

@@ -49,7 +49,7 @@ namespace NTMiner.Core.Profiles {
                         var data = GetCoinProfileData(coin.GetId());
                         if (data == null) {
                             Guid poolId = Guid.Empty;
-                            IPool pool = root.ServerContext.PoolSet.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
+                            IPool pool = root.ServerContext.PoolSet.AsEnumerable().OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId);
                             if (pool != null) {
                                 poolId = pool.GetId();
                             }
@@ -85,10 +85,10 @@ namespace NTMiner.Core.Profiles {
                     }
                     List<ICoinKernel> coinKernels;
                     if (noneGpu) {
-                        coinKernels = root.ServerContext.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToList();
+                        coinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToList();
                     }
                     else {
-                        coinKernels = root.ServerContext.CoinKernelSet.Where(a => a.CoinId == coin.GetId() && a.SupportedGpu.IsSupportedGpu(root.GpuSet.GpuType)).ToList();
+                        coinKernels = root.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId() && a.SupportedGpu.IsSupportedGpu(root.GpuSet.GpuType)).ToList();
                     }
                     var items = new List<Tuple<Guid, IKernel>>(coinKernels.Count);
                     foreach (var item in coinKernels) {
@@ -107,7 +107,7 @@ namespace NTMiner.Core.Profiles {
                     return coinKernelId;
                 }
 
-                private CoinProfileData _data;
+                private readonly CoinProfileData _data;
 
                 private static CoinProfileData GetCoinProfileData(Guid coinId) {
                     var repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();

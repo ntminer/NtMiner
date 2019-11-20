@@ -10,7 +10,7 @@ namespace NTMiner.Controllers {
         public KernelOutputKeywordsResponse KernelOutputKeywords(KernelOutputKeywordsRequest request) {
             try {
                 var data = HostRoot.Instance.KernelOutputKeywordSet;
-                return KernelOutputKeywordsResponse.Ok(data.Select(a => KernelOutputKeywordData.Create(a)).ToList(), NTMiner.Timestamp.GetTimestamp(HostRoot.Instance.KernelOutputKeywordTimestamp));
+                return KernelOutputKeywordsResponse.Ok(data.AsEnumerable().Select(a => KernelOutputKeywordData.Create(a)).ToList(), NTMiner.Timestamp.GetTimestamp(HostRoot.Instance.KernelOutputKeywordTimestamp));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

@@ -10,6 +10,7 @@ namespace NTMiner.MinerServer {
         public string MinerName { get; set; }
         public Guid WorkId { get; set; }
         public string MinerIp { get; set; }
+        public string MACAddress { get; set; }
         public string WindowsLoginName { get; set; }
 
         public string WindowsPassword { get; set; }

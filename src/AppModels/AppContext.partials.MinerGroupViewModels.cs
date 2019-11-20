@@ -20,7 +20,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                foreach (var item in NTMinerRoot.Instance.MinerGroupSet) {
+                foreach (var item in NTMinerRoot.Instance.MinerGroupSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new MinerGroupViewModel(item));
                 }
                 this.Add = new DelegateCommand(() => {

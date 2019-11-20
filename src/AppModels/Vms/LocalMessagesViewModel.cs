@@ -119,7 +119,7 @@
         }
 
         private void Init() {
-            var data = VirtualRoot.LocalMessages.Select(a => new LocalMessageViewModel(a));
+            var data = VirtualRoot.LocalMessages.AsEnumerable().Select(a => new LocalMessageViewModel(a));
             _localMessageVms = new ObservableCollection<LocalMessageViewModel>(data);
             foreach (var dic in _count.Values) {
                 foreach (var key in dic.Keys) {

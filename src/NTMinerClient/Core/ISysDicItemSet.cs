@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core {
-    public interface ISysDicItemSet : IEnumerable<ISysDicItem> {
+    public interface ISysDicItemSet {
         bool ContainsKey(Guid dicItemId);
         bool ContainsKey(Guid dicId, string dicItemCode);
         bool ContainsKey(string dicCode, string dicItemCode);
@@ -10,5 +10,6 @@ namespace NTMiner.Core {
         bool TryGetDicItem(string dicCode, string dicItemCode, out ISysDicItem dicItem);
         bool TryGetDicItem(Guid dicId, string dicItemCode, out ISysDicItem dicItem);
         IEnumerable<ISysDicItem> GetSysDicItems(string dicCode);
+        IEnumerable<ISysDicItem> AsEnumerable();
     }
 }

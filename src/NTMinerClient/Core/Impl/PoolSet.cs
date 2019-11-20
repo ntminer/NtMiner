@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,7 +42,7 @@ namespace NTMiner.Core.Impl {
                     VirtualRoot.RaiseEvent(new PoolAddedEvent(entity));
 
                     if (context.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
-                        ICoinKernel[] coinKernels = context.CoinKernelSet.Where(a => a.CoinId == coin.GetId()).ToArray();
+                        ICoinKernel[] coinKernels = context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToArray();
                         foreach (ICoinKernel coinKernel in coinKernels) {
                             Guid poolKernelId = Guid.NewGuid();
                             var poolKernel = new PoolKernelData() {
@@ -109,7 +108,7 @@ namespace NTMiner.Core.Impl {
                         repository.Remove(message.EntityId);
                     }
                     VirtualRoot.RaiseEvent(new PoolRemovedEvent(entity));
-                    Guid[] toRemoves = context.PoolKernelSet.Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
+                    Guid[] toRemoves = context.PoolKernelSet.AsEnumerable().Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
@@ -219,14 +218,9 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public IEnumerator<IPool> GetEnumerator() {
+        public IEnumerable<IPool> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

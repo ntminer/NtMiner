@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public partial class AppContext {
-        public class GpuViewModels : ViewModelBase, IEnumerable<GpuViewModel> {
+        public class GpuViewModels : ViewModelBase {
             public static readonly GpuViewModels Instance = new GpuViewModels();
 
-            private Dictionary<int, GpuViewModel> _gpuVms = new Dictionary<int, GpuViewModel>();
+            private readonly Dictionary<int, GpuViewModel> _gpuVms = new Dictionary<int, GpuViewModel>();
 
             private string _fanSpeedMinText = "0 %";
             private string _fanSpeedMaxText = "0 %";
@@ -23,7 +23,7 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+                foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     _gpuVms.Add(gpu.Index, new GpuViewModel(gpu));
                 }
                 if (_gpuVms.ContainsKey(NTMinerRoot.GpuAllId)) {
@@ -185,12 +185,10 @@ namespace NTMiner {
                 return _gpuVms.TryGetValue(index, out gpuVm);
             }
 
-            public IEnumerator<GpuViewModel> GetEnumerator() {
-                return _gpuVms.Values.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-                return _gpuVms.Values.GetEnumerator();
+            public IEnumerable<GpuViewModel> Items {
+                get {
+                    return _gpuVms.Values;
+                }
             }
         }
     }

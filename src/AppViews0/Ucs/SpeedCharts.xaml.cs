@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
                 return uc;
             }, beforeShow: (window, uc) => {
                 if (gpuSpeedVm != null) {
-                    SpeedChartViewModel item = uc.Vm.SpeedChartVms.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);
+                    SpeedChartViewModel item = uc.Vm.SpeedChartVms.Items.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);
                     if (item != null) {
                         uc.Vm.CurrentSpeedChartVm = item;
                     }
@@ -52,7 +52,7 @@ namespace NTMiner.Views.Ucs {
                         UIThread.Execute(() => {
                             if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
                                 mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-                                foreach (var speedChartVm in Vm.SpeedChartVms) {
+                                foreach (var speedChartVm in Vm.SpeedChartVms.Items) {
                                     SeriesCollection series = speedChartVm.Series;
                                     SeriesCollection seriesShadow = speedChartVm.SeriesShadow;
                                     foreach (var item in series) {
@@ -144,11 +144,11 @@ namespace NTMiner.Views.Ucs {
                 }
             };
 
-            Vm.CurrentSpeedChartVm = Vm.SpeedChartVms.FirstOrDefault();
+            Vm.CurrentSpeedChartVm = Vm.SpeedChartVms.Items.FirstOrDefault();
 
             if (AppContext.Instance.MinerProfileVm.CoinVm != null) {
                 Guid coinId = AppContext.Instance.MinerProfileVm.CoinId;
-                foreach (var item in NTMinerRoot.Instance.GpuSet) {
+                foreach (var item in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     List<IGpuSpeed> gpuSpeedHistory = item.GetGpuSpeedHistory();
                     SpeedChartViewModel speedChartVm = Vm.SpeedChartVms[item.Index];
                     SeriesCollection series = speedChartVm.Series;

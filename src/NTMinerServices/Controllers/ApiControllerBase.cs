@@ -12,7 +12,7 @@ namespace NTMiner.Controllers {
 
         protected bool IsInnerIp {
             get {
-                return Ip.Util.IsInnerIp(ClientIp);
+                return Net.Util.IsInnerIp(ClientIp);
             }
         }
 

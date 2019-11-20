@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -44,11 +44,13 @@
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
     <Compile Include="Hosts.cs" />
+    <Compile Include="Net\ArpUtil.cs" />
+    <Compile Include="Net\DeviceScanner.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
-    <Compile Include="Ip\ILocalIpSet.cs" />
-    <Compile Include="Ip\Impl\LocalIpSet.cs" />
-    <Compile Include="Ip\Util.cs" />
+    <Compile Include="Net\ILocalIpSet.cs" />
+    <Compile Include="Net\LocalIpSet.cs" />
+    <Compile Include="Net\Util.cs" />
     <Compile Include="IOut.cs" />
     <Compile Include="Messages.Timing.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />

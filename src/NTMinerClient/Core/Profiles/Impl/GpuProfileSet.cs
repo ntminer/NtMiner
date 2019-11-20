@@ -102,7 +102,7 @@ namespace NTMiner.Core.Profiles.Impl {
         #region private methods
         private GpuData[] CreateGpus() {
             List<GpuData> list = new List<GpuData>();
-            foreach (var gpu in NTMinerRoot.Instance.GpuSet) {
+            foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                 list.Add(new GpuData {
                     Index = gpu.Index,
                     Name = gpu.Name,

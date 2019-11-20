@@ -224,6 +224,7 @@
 				<TextBox 
 					Width="112"
                     Padding="0 0 20 0"
+                    ToolTip="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Notice}"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 					IsReadOnly="{Binding IsMining}"
 					VerticalContentAlignment="Center" 

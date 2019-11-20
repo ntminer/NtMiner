@@ -165,7 +165,7 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet();
             this.NTMinerWalletSet = new NTMinerWalletSet();
             this.OverClockDataSet = new OverClockDataSet(this);
-            this.ColumnsShowSet = new ColumnsShowSet(this);
+            this.ColumnsShowSet = new ColumnsShowSet();
             this.ServerMessageSet = new ServerMessageSet(VirtualRoot.LocalDbFileFullName, isServer: false);
             // 作业和在群控客户端管理作业时
             IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
@@ -179,6 +179,7 @@ namespace NTMiner {
             NTMinerRegistry.SetCurrentVersionTag(MainAssemblyInfo.CurrentVersionTag);
 
             if (VirtualRoot.IsMinerClient) {
+                VirtualRoot.LocalIpSet.InitOnece();
                 Report.Init();
                 Link();
                 // 当显卡温度变更时守卫温度防线
@@ -579,7 +580,7 @@ namespace NTMiner {
                 if (_gpuSetInfo == null) {
                     StringBuilder sb = new StringBuilder();
                     int len = sb.Length;
-                    foreach (var g in GpuSet.Where(a => a.Index != GpuAllId).GroupBy(a => a.Name)) {
+                    foreach (var g in GpuSet.AsEnumerable().Where(a => a.Index != GpuAllId).GroupBy(a => a.Name)) {
                         if (sb.Length != len) {
                             sb.Append("/");
                         }

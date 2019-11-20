@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerServer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -32,7 +31,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private void Init(List<CalcConfigData> data) {
-            var list = _root.ServerContext.CoinSet.OrderBy(a => a.Code).Select(a => new CalcConfigData {
+            var list = _root.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).Select(a => new CalcConfigData {
                 CoinCode = a.Code,
                 CreatedOn = DateTime.Now,
                 IncomePerDay = 0,
@@ -83,14 +82,9 @@ namespace NTMiner.Core.Impl {
             OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, null);
         }
 
-        public IEnumerator<CalcConfigData> GetEnumerator() {
+        public IEnumerable<ICalcConfig> AsEnumerable() {
             Init();
-            return _dicByCoinCode.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            Init();
-            return _dicByCoinCode.GetEnumerator();
+            return _dicByCoinCode.Values;
         }
     }
 }

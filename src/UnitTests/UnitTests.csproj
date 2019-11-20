@@ -68,6 +68,7 @@
     <Compile Include="TimingTests.cs" />
     <Compile Include="RemoteDesktopTests.cs" />
     <Compile Include="LocalMessageTests.cs" />
+    <Compile Include="NetTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>

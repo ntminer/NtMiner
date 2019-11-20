@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.Gpus.Impl;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus {
@@ -54,12 +53,8 @@ namespace NTMiner.Core.Gpus {
             // nothing need todo
         }
 
-        public IEnumerator<IGpu> GetEnumerator() {
-            return _list.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return _list.GetEnumerator();
+        public IEnumerable<IGpu> AsEnumerable() {
+            return _list;
         }
     }
 }

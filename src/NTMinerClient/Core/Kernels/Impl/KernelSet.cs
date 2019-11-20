@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -59,7 +58,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         return;
                     }
                     KernelData entity = _dicById[message.EntityId];
-                    List<Guid> coinKernelIds = context.CoinKernelSet.Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
+                    List<Guid> coinKernelIds = context.CoinKernelSet.AsEnumerable().Where(a => a.KernelId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var coinKernelId in coinKernelIds) {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(coinKernelId));
                     }
@@ -114,14 +113,9 @@ namespace NTMiner.Core.Kernels.Impl {
             return r;
         }
 
-        public IEnumerator<IKernel> GetEnumerator() {
+        public IEnumerable<IKernel> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

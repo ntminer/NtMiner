@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.MinerClient;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 
@@ -276,9 +275,9 @@ namespace NTMiner.Vms {
         }
 
         private static long GetSumPower() {
-            var sum = AppContext.Instance.GpuVms.Sum(a => a.PowerUsage);
+            var sum = AppContext.Instance.GpuVms.Items.Sum(a => a.PowerUsage);
             if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
-                sum = sum + AppContext.Instance.MinerProfileVm.PowerAppend * AppContext.Instance.GpuVms.Count;
+                sum += AppContext.Instance.MinerProfileVm.PowerAppend * AppContext.Instance.GpuVms.Count;
                 if (sum <= 0) {
                     sum = 0;
                 }
@@ -328,7 +327,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in AppContext.Instance.GpuVms) {
+                    foreach (var item in AppContext.Instance.GpuVms.Items) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -366,7 +365,7 @@ namespace NTMiner.Vms {
                 }
                 if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in AppContext.Instance.GpuVms) {
+                    foreach (var item in AppContext.Instance.GpuVms.Items) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }
@@ -390,7 +389,7 @@ namespace NTMiner.Vms {
                         return $"{_gpuDatas.Max(a => a.CoreClockDeltaMin) / 1000}至{_gpuDatas.Min(a => a.CoreClockDeltaMax) / 1000}，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
                         if (query.Any()) {
                             return $"{query.Max(a => a.CoreClockDeltaMin) / 1000}至{query.Min(a => a.CoreClockDeltaMax) / 1000}，默认：0";
                         }
@@ -408,7 +407,7 @@ namespace NTMiner.Vms {
                         return $"{_gpuDatas.Max(a => a.MemoryClockDeltaMin) / 1000}至{_gpuDatas.Min(a => a.MemoryClockDeltaMax) / 1000}，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
                         if (query.Any()) {
                             return $"{query.Max(a => a.MemoryClockDeltaMin) / 1000}至{query.Min(a => a.MemoryClockDeltaMax) / 1000}，默认：0";
                         }
@@ -428,7 +427,7 @@ namespace NTMiner.Vms {
                         return $"{_gpuDatas.Max(a => a.CoolMin)} - {_gpuDatas.Min(a => a.CoolMax)}%，默认：0（表示驱动自控）";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
                         if (query.Any()) {
                             return $"{query.Max(a => a.CoolMin)} - {query.Min(a => a.CoolMax)}%，默认：0（表示驱动自控）";
                         }
@@ -446,7 +445,7 @@ namespace NTMiner.Vms {
                         return $"{Math.Ceiling(_gpuDatas.Max(a => a.PowerMin))} - {(int)_gpuDatas.Min(a => a.PowerMax)}%，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
                         if (query.Any()) {
                             return $"{Math.Ceiling(query.Max(a => a.PowerMin))} - {(int)query.Min(a => a.PowerMax)}%，默认：0";
                         }
@@ -464,7 +463,7 @@ namespace NTMiner.Vms {
                         return $"{_gpuDatas.Max(a => a.TempLimitMin)} - {_gpuDatas.Min(a => a.TempLimitMax)}℃，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
                         if (query.Any()) {
                             return $"{query.Max(a => a.TempLimitMin)} - {query.Min(a => a.TempLimitMax)}℃，默认：0";
                         }
@@ -482,7 +481,7 @@ namespace NTMiner.Vms {
                         return $"{_gpuDatas.Max(a => a.VoltMin)} - {_gpuDatas.Min(a => a.VoltMax)}，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
                         if (query.Any()) {
                             return $"{query.Max(a => a.VoltMin)} - {query.Min(a => a.VoltMax)}%，默认：0";
                         }
@@ -730,7 +729,7 @@ namespace NTMiner.Vms {
                 NTMinerRoot.Instance.GpuSet.SetIsUseDevice(this.Index, value);
                 if (refreshAllGpu) {
                     VirtualRoot.Out.ShowInfo("全不选等于全选");
-                    foreach (var gpuVm in AppContext.Instance.GpuVms) {
+                    foreach (var gpuVm in AppContext.Instance.GpuVms.Items) {
                         if (gpuVm.Index == NTMinerRoot.GpuAllId) {
                             continue;
                         }

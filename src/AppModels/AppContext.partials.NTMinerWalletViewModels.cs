@@ -1,13 +1,12 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Input;
 
 namespace NTMiner {
     public partial class AppContext {
-        public class NTMinerWalletViewModels : ViewModelBase, IEnumerable<NTMinerWalletViewModel> {
+        public class NTMinerWalletViewModels : ViewModelBase {
             public static readonly NTMinerWalletViewModels Instance = new NTMinerWalletViewModels();
             private readonly Dictionary<Guid, NTMinerWalletViewModel> _dicById = new Dictionary<Guid, NTMinerWalletViewModel>();
 
@@ -56,7 +55,7 @@ namespace NTMiner {
 
             private void Init(bool refresh) {
                 _dicById.Clear();
-                foreach (var item in NTMinerRoot.Instance.NTMinerWalletSet) {
+                foreach (var item in NTMinerRoot.Instance.NTMinerWalletSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new NTMinerWalletViewModel(item));
                 }
                 if (refresh) {
@@ -70,12 +69,10 @@ namespace NTMiner {
                 return _dicById.TryGetValue(id, out ntMinerWalletVm);
             }
 
-            public IEnumerator<NTMinerWalletViewModel> GetEnumerator() {
-                return _dicById.Values.GetEnumerator();
-            }
-
-            IEnumerator IEnumerable.GetEnumerator() {
-                return _dicById.Values.GetEnumerator();
+            public IEnumerable<NTMinerWalletViewModel> Items {
+                get {
+                    return _dicById.Values;
+                }
             }
         }
     }

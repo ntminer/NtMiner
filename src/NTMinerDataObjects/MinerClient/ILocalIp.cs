@@ -7,6 +7,7 @@ namespace NTMiner.MinerClient {
         string DefaultIPGateway { get; }
         bool DHCPEnabled { get; }
         string IPAddress { get; }
+        string MACAddress { get; }
         string IPSubnet { get; }
         string DNSServer0 { get; }
         string DNSServer1 { get; }

@@ -144,7 +144,7 @@ namespace NTMiner.Gpus {
         }
 
         public bool SetTempLimit(int busId, int value) {
-            value = value << 8;
+            value <<= 8;
             try {
                 if (!NvThermalPoliciesGetInfo(busId, out NvGpuThermalInfo info)) {
                     return false;
@@ -186,10 +186,8 @@ namespace NTMiner.Gpus {
         }
 
         public bool SetPowerValue(int busId, uint percentInt) {
-            uint minPower = 0, defPower = 0, maxPower = 0;
-
             try {
-                if (GetPowerPoliciesInfo(busId, out minPower, out defPower, out maxPower)) {
+                if (GetPowerPoliciesInfo(busId, out uint minPower, out uint defPower, out uint maxPower)) {
                     if (percentInt == 0) {
                         percentInt = defPower;
                     }
@@ -242,7 +240,7 @@ namespace NTMiner.Gpus {
         }
 
         public bool GetFanSpeed(int busId, out uint currCooler) {
-            if (GetCooler(busId, out uint minCooler, out currCooler, out uint maxCooler)) {
+            if (GetCooler(busId, out _, out currCooler, out _)) {
                 return true;
             }
             return false;
@@ -548,11 +546,7 @@ namespace NTMiner.Gpus {
         }
 
         private void SetDefaultTempLimit(int busId) {
-            int currValue = 0;
-            int minValue = 0;
-            int defValue = 0;
-            int maxValue = 0;
-            if (GetTempLimit(busId, out currValue, out minValue, out defValue, out maxValue)) {
+            if (GetTempLimit(busId, out _, out _, out int defValue, out _)) {
                 SetTempLimit(busId, defValue);
             }
         }
@@ -614,17 +608,13 @@ namespace NTMiner.Gpus {
         }
 
         private bool SetDefaultPowerLimit(int busId) {
-            uint currPower;
-            uint minPower;
-            uint defPower;
-            uint maxPower;
-            if (GetPowerLimit(busId, out currPower, out minPower, out defPower, out maxPower)) {
+            if (GetPowerLimit(busId, out _, out _, out uint defPower, out _)) {
                 return SetPowerValue(busId, defPower * 1000);
             }
             return false;
         }
 
-        private HashSet<int> _nvFanCoolersGetStatusNotSupporteds = new HashSet<int>();
+        private readonly HashSet<int> _nvFanCoolersGetStatusNotSupporteds = new HashSet<int>();
         private bool GetFanCoolersGetStatus(int busId, out PrivateFanCoolersStatusV1 info) {
             info = new PrivateFanCoolersStatusV1();
             if (NvapiNativeMethods.NvFanCoolersGetStatus == null) {
@@ -653,7 +643,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private HashSet<int> _nvGetCoolerSettingsNotSupporteds = new HashSet<int>();
+        private readonly HashSet<int> _nvGetCoolerSettingsNotSupporteds = new HashSet<int>();
         private bool GetCoolerSettings(int busId, out NvCoolerSettings info) {
             info = new NvCoolerSettings();
             if (NvapiNativeMethods.NvGetCoolerSettings == null) {

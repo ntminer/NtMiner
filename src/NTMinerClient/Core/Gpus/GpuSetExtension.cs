@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerServer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Gpus {
@@ -36,7 +35,7 @@ namespace NTMiner.Core.Gpus {
             }
             // 全不选等于全选
             if (list.Count == 0) {
-                foreach (var gpu in gpuSet) {
+                foreach (var gpu in gpuSet.AsEnumerable()) {
                     if (gpu.Index == NTMinerRoot.GpuAllId) {
                         continue;
                     }

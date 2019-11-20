@@ -34,7 +34,7 @@ namespace NTMiner.Core.Profiles {
             MineWork = mineWorkRepository.GetAll().FirstOrDefault();
             if (_data == null) {
                 Guid coinId = Guid.Empty;
-                ICoin coin = root.ServerContext.CoinSet.OrderBy(a => a.Code).FirstOrDefault();
+                ICoin coin = root.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).FirstOrDefault();
                 if (coin != null) {
                     coinId = coin.GetId();
                 }
@@ -119,7 +119,7 @@ namespace NTMiner.Core.Profiles {
         }
 
         public List<IPool> GetPools() {
-            return _root.ServerContext.PoolSet.ToList();
+            return _root.ServerContext.PoolSet.AsEnumerable().ToList();
         }
 
         public List<IPoolProfile> GetPoolProfiles() {

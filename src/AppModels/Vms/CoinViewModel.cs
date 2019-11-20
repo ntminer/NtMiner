@@ -314,7 +314,7 @@ namespace NTMiner.Vms {
                 if (this == PleaseSelect || NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
-                foreach (var coinKernel in NTMinerRoot.Instance.ServerContext.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
+                foreach (var coinKernel in NTMinerRoot.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id)) {
                     if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
                         return true;
                     }
@@ -672,13 +672,13 @@ namespace NTMiner.Vms {
 
         public List<OverClockDataViewModel> OverClockDatas {
             get {
-                return AppContext.Instance.OverClockDataVms.Where(a => a.CoinId == this.Id).ToList();
+                return AppContext.Instance.OverClockDataVms.Items.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 
         public List<NTMinerWalletViewModel> NTMinerWallets {
             get {
-                return AppContext.Instance.NTMinerWalletVms.Where(a => a.CoinId == this.Id).ToList();
+                return AppContext.Instance.NTMinerWalletVms.Items.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 

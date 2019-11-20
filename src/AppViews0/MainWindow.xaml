@@ -15,7 +15,7 @@
 		d:DesignHeight="630"
 		d:DesignWidth="1100"
         WindowStyle="None"
-        ResizeMode="NoResize"
+        ResizeMode="CanMinimize"
 		Background="Transparent"
         BorderThickness="1"
         BorderBrush="{StaticResource IconFillColor}"

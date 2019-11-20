@@ -32,8 +32,7 @@ namespace NTMiner {
                 BuildEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
-                            List<GpuProfileViewModel> list;
-                            if (_listByCoinId.TryGetValue(message.Source.CoinId, out list)) {
+                            if (_listByCoinId.TryGetValue(message.Source.CoinId, out List<GpuProfileViewModel> list)) {
                                 var vm = list.FirstOrDefault(a => a.Index == message.Source.Index);
                                 if (vm != null) {
                                     vm.Update(message.Source);
@@ -71,12 +70,10 @@ namespace NTMiner {
 
             private readonly object _locker = new object();
             public GpuProfileViewModel GpuAllVm(Guid coinId) {
-                GpuProfileViewModel result;
-                if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out result)) {
+                if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out GpuProfileViewModel result)) {
                     lock (_locker) {
                         if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out result)) {
-                            GpuViewModel gpuVm;
-                            AppContext.Instance.GpuVms.TryGetGpuVm(NTMinerRoot.GpuAllId, out gpuVm);
+                            AppContext.Instance.GpuVms.TryGetGpuVm(NTMinerRoot.GpuAllId, out GpuViewModel gpuVm);
                             result = GetGpuProfileVm(coinId, gpuVm);
                             _gpuAllVmDicByCoinId.Add(coinId, result);
                         }
@@ -86,12 +83,11 @@ namespace NTMiner {
             }
 
             public List<GpuProfileViewModel> List(Guid coinId) {
-                List<GpuProfileViewModel> list;
-                if (!_listByCoinId.TryGetValue(coinId, out list)) {
+                if (!_listByCoinId.TryGetValue(coinId, out List<GpuProfileViewModel> list)) {
                     lock (_locker) {
                         if (!_listByCoinId.TryGetValue(coinId, out list)) {
                             list = new List<GpuProfileViewModel>();
-                            foreach (var gpu in AppContext.Instance.GpuVms) {
+                            foreach (var gpu in AppContext.Instance.GpuVms.Items) {
                                 GpuProfileViewModel gpuProfileVm = GetGpuProfileVm(coinId, gpu);
                                 list.Add(gpuProfileVm);
                             }

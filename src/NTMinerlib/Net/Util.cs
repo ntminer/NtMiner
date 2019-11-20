@@ -2,16 +2,17 @@
 using System.Net;
 using System.Net.NetworkInformation;
 
-namespace NTMiner.Ip {
+namespace NTMiner.Net {
     public static class Util {
         public static bool Ping(string hostOrIp) {
             try {
-                Ping p1 = new Ping();
-                PingReply reply = p1.Send(hostOrIp);
-                if (reply == null) {
-                    return false;
+                using (Ping p1 = new Ping()) {
+                    PingReply reply = p1.Send(hostOrIp);
+                    if (reply == null) {
+                        return false;
+                    }
+                    return reply.Status == IPStatus.Success;
                 }
-                return reply.Status == IPStatus.Success;
             }
             catch {
                 return false;
@@ -72,8 +73,8 @@ namespace NTMiner.Ip {
         /// </summary>
         /// <param name="ipAddress">IP地址字符串</param>
         /// <returns></returns>
-        private static long GetIpNum(String ipAddress) {
-            String[] ip = ipAddress.Split('.');
+        public static long GetIpNum(string ipAddress) {
+            string[] ip = ipAddress.Split('.');
             long a = int.Parse(ip[0]);
             long b = int.Parse(ip[1]);
             long c = int.Parse(ip[2]);
@@ -81,6 +82,18 @@ namespace NTMiner.Ip {
 
             long ipNum = a * 256 * 256 * 256 + b * 256 * 256 + c * 256 + d;
             return ipNum;
+        }
+
+        public static string GetIpString(long ipValue) {
+            string hexStr = ipValue.ToString("X8");
+            int ip1 = Convert.ToInt32(hexStr.Substring(0, 2), 16);
+            int ip2 = Convert.ToInt32(hexStr.Substring(2, 2), 16);
+            int ip3 = Convert.ToInt32(hexStr.Substring(4, 2), 16);
+            int ip4 = Convert.ToInt32(hexStr.Substring(6, 2), 16);
+            if (BitConverter.IsLittleEndian) {
+                return ip1 + "." + ip2 + "." + ip3 + "." + ip4;
+            }
+            return ip4 + "." + ip3 + "." + ip2 + "." + ip1;
         }
 
         /// <summary>

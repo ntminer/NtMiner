@@ -65,7 +65,7 @@ namespace NTMiner.Data.Impl {
                 int onlineCount = 0;
                 int miningCount = 0;
                 Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
-                foreach (var clientData in _root.ClientSet) {
+                foreach (var clientData in _root.ClientSet.AsEnumerable()) {
                     if (HostRoot.Instance.HostConfig.IsPull) {
                         if (clientData.ModifiedOn.AddSeconds(15) < now) {
                             continue;

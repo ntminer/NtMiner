@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
 
         public List<GpuViewModel> GpuVms {
             get {
-                return AppContext.Instance.GpuVms.Where(a => a.Index != NTMinerRoot.GpuAllId).ToList();
+                return AppContext.Instance.GpuVms.Items.Where(a => a.Index != NTMinerRoot.GpuAllId).ToList();
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -64,11 +63,11 @@ namespace NTMiner.Core.Impl {
                         return;
                     }
                     CoinData entity = _dicById[message.EntityId];
-                    Guid[] toRemoves = context.PoolSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    Guid[] toRemoves = context.PoolSet.AsEnumerable().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolCommand(id));
                     }
-                    toRemoves = context.CoinKernelSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    toRemoves = context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(id));
                     }
@@ -76,7 +75,7 @@ namespace NTMiner.Core.Impl {
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveWalletCommand(id));
                     }
-                    toRemoves = context.CoinGroupSet.Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    toRemoves = context.CoinGroupSet.AsEnumerable().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
                     }
@@ -137,28 +136,21 @@ namespace NTMiner.Core.Impl {
 
         public bool TryGetCoin(string coinCode, out ICoin coin) {
             InitOnece();
-            CoinData c;
-            var r = _dicByCode.TryGetValue(coinCode, out c);
+            var r = _dicByCode.TryGetValue(coinCode, out CoinData c);
             coin = c;
             return r;
         }
 
         public bool TryGetCoin(Guid coinId, out ICoin coin) {
             InitOnece();
-            CoinData c;
-            var r = _dicById.TryGetValue(coinId, out c);
+            var r = _dicById.TryGetValue(coinId, out CoinData c);
             coin = c;
             return r;
         }
 
-        public IEnumerator<ICoin> GetEnumerator() {
+        public IEnumerable<ICoin> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

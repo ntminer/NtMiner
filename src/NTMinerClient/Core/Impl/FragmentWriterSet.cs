@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
@@ -92,20 +91,14 @@ namespace NTMiner.Core.Impl {
 
         public bool TryGetFragmentWriter(Guid writerId, out IFragmentWriter writer) {
             InitOnece();
-            FragmentWriterData g;
-            bool r = _dicById.TryGetValue(writerId, out g);
+            bool r = _dicById.TryGetValue(writerId, out FragmentWriterData g);
             writer = g;
             return r;
         }
 
-        public IEnumerator<IFragmentWriter> GetEnumerator() {
+        public IEnumerable<IFragmentWriter> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

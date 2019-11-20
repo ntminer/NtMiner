@@ -94,20 +94,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public bool TryGetKernelInput(Guid id, out IKernelInput kernelInput) {
             InitOnece();
-            KernelInputData data;
-            var result = _dicById.TryGetValue(id, out data);
+            var result = _dicById.TryGetValue(id, out KernelInputData data);
             kernelInput = data;
             return result;
         }
 
-        public IEnumerator<IKernelInput> GetEnumerator() {
+        public IEnumerable<IKernelInput> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

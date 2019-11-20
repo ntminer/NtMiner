@@ -1,0 +1,21 @@
+﻿<Application x:Class="NTMiner.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:NTMiner"
+             ShutdownMode="OnMainWindowClose">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;Component/Styles/KbSkin.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbIcons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbTextBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbComboBox.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/CheckBox.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/DataGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Notifications/Themes/Generic.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

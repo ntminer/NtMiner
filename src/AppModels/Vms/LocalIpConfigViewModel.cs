@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         public Action CloseWindow { get; set; }
 
         public LocalIpConfigViewModel() {
-            foreach (var localIp in VirtualRoot.LocalIpSet) {
+            foreach (var localIp in VirtualRoot.LocalIpSet.AsEnumerable()) {
                 _localIpVms.Add(new LocalIpViewModel(localIp));
             }
             this.Save = new DelegateCommand<LocalIpViewModel>((vm) => {
@@ -32,11 +32,32 @@ namespace NTMiner.Vms {
         }
 
         public void Refresh() {
-            foreach (var item in _localIpVms) {
-                var data = VirtualRoot.LocalIpSet.FirstOrDefault(a => a.SettingID == item.SettingID);
+            List<LocalIpViewModel> toRemoves = new List<LocalIpViewModel>();
+            for (int i = 0; i < _localIpVms.Count; i++) {
+                var item = _localIpVms[i];
+                var data = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault(a => a.SettingID == item.SettingID);
                 if (data != null) {
                     item.Update(data);
                 }
+                else {
+                    toRemoves.Add(item);
+                }
+            }
+            bool isAdded = false;
+            foreach (var item in VirtualRoot.LocalIpSet.AsEnumerable()) {
+                var exist = _localIpVms.FirstOrDefault(a => a.SettingID == item.SettingID);
+                if (exist == null) {
+                    _localIpVms.Add(new LocalIpViewModel(item));
+                    isAdded = true;
+                }
+            }
+            if (toRemoves.Count != 0) {
+                foreach (var item in toRemoves) {
+                    _localIpVms.Remove(item);
+                }
+            }
+            if (toRemoves.Count != 0 || isAdded) {
+                LocalIpVms = new List<LocalIpViewModel>(_localIpVms);
             }
         }
 

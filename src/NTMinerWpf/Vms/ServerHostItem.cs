@@ -5,8 +5,8 @@
                 throw new System.ArgumentNullException(nameof(ipOrHost));
             }
             this.IpOrHost = ipOrHost;
-            this.IsInnerIp = Ip.Util.IsInnerIp(ipOrHost);
-            this.IsLocalHost = Ip.Util.IsLocalHost(ipOrHost);
+            this.IsInnerIp = Net.Util.IsInnerIp(ipOrHost);
+            this.IsLocalHost = Net.Util.IsLocalHost(ipOrHost);
         }
 
         public string IpOrHost { get; set; }

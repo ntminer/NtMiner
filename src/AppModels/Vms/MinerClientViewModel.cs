@@ -177,6 +177,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string MACAddress {
+            get { return _data.MACAddress; }
+            set {
+                _data.MACAddress = value;
+                OnPropertyChanged(nameof(MACAddress));
+            }
+        }
+
         public bool IsAutoBoot {
             get { return _data.IsAutoBoot; }
             set {
@@ -345,7 +353,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        private readonly bool _isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
+        private readonly bool _isInnerIp = Net.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
         public bool IsOnline {
             get {
                 if (_isInnerIp) {

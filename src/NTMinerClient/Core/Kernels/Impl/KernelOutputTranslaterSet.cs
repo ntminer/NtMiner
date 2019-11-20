@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -138,14 +137,9 @@ namespace NTMiner.Core.Kernels.Impl {
             return r;
         }
 
-        public IEnumerator<IKernelOutputTranslater> GetEnumerator() {
+        public IEnumerable<IKernelOutputTranslater> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
 
         public void Translate(Guid kernelOutputId, ref string input, bool isPre = false) {

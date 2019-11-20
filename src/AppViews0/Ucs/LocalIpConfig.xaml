@@ -36,7 +36,15 @@
             </ItemsControl.Resources>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <GroupBox Header="{Binding Name}" BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 0" Margin="10 0 10 10">
+                    <GroupBox BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 0" Margin="10 0 10 10">
+                        <GroupBox.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding Name}"></TextBlock>
+                                <TextBlock Text="（"></TextBlock>
+                                <TextBox Height="18" IsReadOnly="True" BorderThickness="0" Text="{Binding MACAddress}"></TextBox>
+                                <TextBlock Text="）"></TextBlock>
+                            </WrapPanel>
+                        </GroupBox.Header>
                         <StackPanel>
                             <RadioButton GroupName="{Binding DHCPEnabledGroupName1}" Margin="9 2 0 4" IsChecked="{Binding DHCPEnabled}">自动获得 IP 地址</RadioButton>
                             <GroupBox>

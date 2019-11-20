@@ -15,7 +15,7 @@ namespace NTMiner {
         public App() {
             MainAssemblyInfo.SetHomeDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            LogDir.SetDir(SpecialPath.LogsDirFullName);
+            Logger.SetDir(SpecialPath.LogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -58,7 +58,7 @@ namespace NTMiner {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 NotiCenterWindow.ShowWindow();
                 LoginWindow.Login(() => {
-                    bool isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
+                    bool isInnerIp = Net.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
                     if (isInnerIp) {
                         NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(() => {
                             Init();

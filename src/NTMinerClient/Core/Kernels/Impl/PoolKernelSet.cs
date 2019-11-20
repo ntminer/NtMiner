@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -76,8 +75,8 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (!_isInited) {
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     List<PoolKernelData> list = repository.GetAll().ToList();
-                    foreach (IPool pool in _context.PoolSet) {
-                        foreach (ICoinKernel coinKernel in _context.CoinKernelSet.Where(a => a.CoinId == pool.CoinId)) {
+                    foreach (IPool pool in _context.PoolSet.AsEnumerable()) {
+                        foreach (ICoinKernel coinKernel in _context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == pool.CoinId)) {
                             PoolKernelData poolKernel = list.FirstOrDefault(a => a.PoolId == pool.GetId() && a.KernelId == coinKernel.KernelId);
                             if (poolKernel != null) {
                                 _dicById.Add(poolKernel.GetId(), poolKernel);
@@ -110,14 +109,9 @@ namespace NTMiner.Core.Kernels.Impl {
             return r;
         }
 
-        public IEnumerator<IPoolKernel> GetEnumerator() {
+        public IEnumerable<IPoolKernel> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

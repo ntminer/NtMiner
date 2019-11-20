@@ -15,6 +15,7 @@ namespace NTMiner.MinerServer {
             return new ClientData() {
                 Id = data.Id,
                 ClientId = data.ClientId,
+                MACAddress = string.Empty,
                 MinerIp = data.MinerIp,
                 MinerName = data.MinerName,
                 ClientName = data.ClientName,
@@ -99,6 +100,7 @@ namespace NTMiner.MinerServer {
                 WorkId = Guid.Empty,
                 WindowsLoginName = string.Empty,
                 WindowsPassword = string.Empty,
+                MACAddress = speedData.MACAddress,
                 ClientId = speedData.ClientId,
                 IsAutoBoot = speedData.IsAutoBoot,
                 IsAutoStart = speedData.IsAutoStart,
@@ -203,6 +205,9 @@ namespace NTMiner.MinerServer {
             _preDualCoin = this.DualCoinCode;
 
             this.ClientId = speedData.ClientId;
+            if (!string.IsNullOrEmpty(speedData.MACAddress)) {
+                this.MACAddress = speedData.MACAddress;
+            }
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
             this.AutoStartDelaySeconds = speedData.AutoStartDelaySeconds;

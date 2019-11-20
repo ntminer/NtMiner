@@ -1,15 +1,12 @@
 ﻿using NTMiner.MinerServer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerServer.Impl {
     public class ColumnsShowSet : IColumnsShowSet {
         private readonly Dictionary<Guid, ColumnsShowData> _dicById = new Dictionary<Guid, ColumnsShowData>();
 
-        private readonly INTMinerRoot _root;
-        public ColumnsShowSet(INTMinerRoot root) {
-            _root = root;
+        public ColumnsShowSet() {
             VirtualRoot.BuildCmdPath<AddColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty || message.Input.GetId() == ColumnsShowData.PleaseSelect.Id) {
@@ -116,14 +113,9 @@ namespace NTMiner.Core.MinerServer.Impl {
             return r;
         }
 
-        public IEnumerator<IColumnsShow> GetEnumerator() {
+        public IEnumerable<IColumnsShow> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

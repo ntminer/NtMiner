@@ -1,7 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -218,14 +217,9 @@ namespace NTMiner.KernelOutputKeyword {
             return new List<IKernelOutputKeyword>();
         }
 
-        public IEnumerator<IKernelOutputKeyword> GetEnumerator() {
+        public IEnumerable<IKernelOutputKeyword> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }

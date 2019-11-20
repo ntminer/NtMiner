@@ -1,7 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.Core;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner.AppSetting {
@@ -61,18 +60,9 @@ namespace NTMiner.AppSetting {
             return result;
         }
 
-        public IEnumerator<IAppSetting> GetEnumerator() {
+        public IEnumerable<IAppSetting> AsEnumerable() {
             InitOnece();
-            foreach (var item in _dicByKey.Values) {
-                yield return item;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            foreach (var item in _dicByKey.Values) {
-                yield return item;
-            }
+            return _dicByKey.Values;
         }
     }
 }

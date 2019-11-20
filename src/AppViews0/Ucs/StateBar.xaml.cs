@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
                     Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
                     Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
                 };
-                window.BuildEventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                window.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(()=> Vm.RefreshLocalIps());
                     });

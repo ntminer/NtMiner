@@ -51,6 +51,7 @@ namespace NTMiner {
                 MinerName = workProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
                 ClientId = VirtualRoot.Id,
+                MACAddress = string.Join(",", VirtualRoot.LocalIpSet.AsEnumerable().Select(a => a.MACAddress)),
                 MainCoinCode = string.Empty,
                 MainCoinWallet = string.Empty,
                 MainCoinTotalShare = 0,
@@ -100,7 +101,7 @@ namespace NTMiner {
                 IsRaiseHighCpuEvent = workProfile.IsRaiseHighCpuEvent,
                 HighCpuPercent = workProfile.HighCpuBaseline,
                 HighCpuSeconds = workProfile.HighCpuSeconds,
-                GpuTable = root.GpusSpeed.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
+                GpuTable = root.GpusSpeed.AsEnumerable().Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             if (workProfile.MineWork != null) {
                 data.MineWorkId = workProfile.MineWork.GetId();

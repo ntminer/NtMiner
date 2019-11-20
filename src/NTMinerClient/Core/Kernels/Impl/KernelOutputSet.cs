@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -58,12 +57,12 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    IKernel[] outputUsers = context.KernelSet.Where(a => a.KernelOutputId == message.EntityId).ToArray();
+                    IKernel[] outputUsers = context.KernelSet.AsEnumerable().Where(a => a.KernelOutputId == message.EntityId).ToArray();
                     if (outputUsers.Length != 0) {
                         throw new ValidationException($"这些内核在使用该内核输出组，删除前请先解除使用：{string.Join(",", outputUsers.Select(a => a.GetFullName()))}");
                     }
                     KernelOutputData entity = _dicById[message.EntityId];
-                    List<Guid> kernelOutputTranslaterIds = context.KernelOutputTranslaterSet.Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
+                    List<Guid> kernelOutputTranslaterIds = context.KernelOutputTranslaterSet.AsEnumerable().Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
                     foreach (var kernelOutputTranslaterId in kernelOutputTranslaterIds) {
                         VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
                     }
@@ -108,20 +107,14 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public bool TryGetKernelOutput(Guid id, out IKernelOutput kernelOutput) {
             InitOnece();
-            KernelOutputData data;
-            var result = _dicById.TryGetValue(id, out data);
+            var result = _dicById.TryGetValue(id, out KernelOutputData data);
             kernelOutput = data;
             return result;
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
+        public IEnumerable<IKernelOutput> AsEnumerable() {
             InitOnece();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        public IEnumerator<IKernelOutput> GetEnumerator() {
-            InitOnece();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
 
         private DateTime _kernelRestartKeywordOn = DateTime.MinValue;
@@ -140,7 +133,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
                 if (!string.IsNullOrEmpty(mineContext.KernelOutput.KernelRestartKeyword) && line.Contains(mineContext.KernelOutput.KernelRestartKeyword)) {
                     if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
-                        mineContext.KernelSelfRestartCount = mineContext.KernelSelfRestartCount + 1;
+                        mineContext.KernelSelfRestartCount += 1;
                         _kernelRestartKeywordOn = DateTime.Now;
                         VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
                     }
@@ -214,8 +207,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         totalSpeedUnit = kernelOutput.SpeedUnit;
                     }
                 }
-                double totalSpeed;
-                if (double.TryParse(totalSpeedText, out totalSpeed)) {
+                if (double.TryParse(totalSpeedText, out double totalSpeed)) {
                     double totalSpeedL = totalSpeed.FromUnitSpeed(totalSpeedUnit);
                     var now = DateTime.Now;
                     IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
@@ -227,7 +219,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (string.IsNullOrEmpty(gpuSpeedPattern) && root.GpuSet.Count != 0) {
                         // 平分总算力
                         double gpuSpeedL = totalSpeedL / root.GpuSet.Count;
-                        foreach (var item in gpuSpeeds) {
+                        foreach (var item in gpuSpeeds.AsEnumerable()) {
                             if (item.Gpu.Index != NTMinerRoot.GpuAllId) {
                                 gpuSpeeds.SetCurrentSpeed(item.Gpu.Index, gpuSpeedL, isDual, now);
                             }
@@ -290,7 +282,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             gpu = i;
                         }
                         else {
-                            gpu = gpu - kernelOutput.GpuBaseIndex;
+                            gpu -= kernelOutput.GpuBaseIndex;
                             if (gpu < 0) {
                                 continue;
                             }
@@ -312,8 +304,8 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
                 if (string.IsNullOrEmpty(totalSpeedPattern)) {
                     // 求和分算力
-                    double speed = isDual? gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.DualCoinSpeed.Value) 
-                                         : gpuSpeeds.Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.MainCoinSpeed.Value);
+                    double speed = isDual? gpuSpeeds.AsEnumerable().Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.DualCoinSpeed.Value) 
+                                         : gpuSpeeds.AsEnumerable().Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.MainCoinSpeed.Value);
                     gpuSpeeds.SetCurrentSpeed(NTMinerRoot.GpuAllId, speed, isDual, now);
                 }
             }
@@ -333,8 +325,7 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = regex.Match(input);
             if (match.Success) {
                 string totalShareText = match.Groups[NTKeyword.TotalShareGroupName].Value;
-                int totalShare;
-                if (int.TryParse(totalShareText, out totalShare)) {
+                if (int.TryParse(totalShareText, out int totalShare)) {
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
                     root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: totalShare - share.RejectShareCount, rejectShareCount: null, now: DateTime.Now);
                 }
@@ -355,8 +346,7 @@ namespace NTMiner.Core.Kernels.Impl {
             var match = regex.Match(input);
             if (match.Success) {
                 string acceptShareText = match.Groups[NTKeyword.AcceptShareGroupName].Value;
-                int acceptShare;
-                if (int.TryParse(acceptShareText, out acceptShare)) {
+                if (int.TryParse(acceptShareText, out int acceptShare)) {
                     root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: acceptShare, rejectShareCount: null, now: DateTime.Now);
                 }
             }
@@ -469,8 +459,7 @@ namespace NTMiner.Core.Kernels.Impl {
             if (match.Success) {
                 string rejectShareText = match.Groups[NTKeyword.RejectShareGroupName].Value;
 
-                int rejectShare;
-                if (int.TryParse(rejectShareText, out rejectShare)) {
+                if (int.TryParse(rejectShareText, out int rejectShare)) {
                     root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: null, rejectShareCount: rejectShare, now: DateTime.Now);
                 }
             }
@@ -527,8 +516,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(rejectPercentPattern);
             var match = regex.Match(input);
             string rejectPercentText = match.Groups[NTKeyword.RejectPercentGroupName].Value;
-            double rejectPercent;
-            if (double.TryParse(rejectPercentText, out rejectPercent)) {
+            if (double.TryParse(rejectPercentText, out double rejectPercent)) {
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
                 root.CoinShareSet.UpdateShare(coin.GetId(), acceptShareCount: null, rejectShareCount: (int)(share.TotalShareCount * rejectPercent), now: DateTime.Now);
             }

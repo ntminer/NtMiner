@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerServer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -106,14 +105,9 @@ namespace NTMiner.Core.MinerServer.Impl {
             return r;
         }
 
-        public IEnumerator<IOverClockData> GetEnumerator() {
+        public IEnumerable<IOverClockData> AsEnumerable() {
             Init();
-            return _dicById.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            Init();
-            return _dicById.Values.GetEnumerator();
+            return _dicById.Values;
         }
     }
 }
