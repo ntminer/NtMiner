@@ -44,6 +44,8 @@
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
     <Compile Include="Hosts.cs" />
+    <Compile Include="Net\ArpUtil.cs" />
+    <Compile Include="Net\DeviceScanner.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
     <Compile Include="Net\ILocalIpSet.cs" />

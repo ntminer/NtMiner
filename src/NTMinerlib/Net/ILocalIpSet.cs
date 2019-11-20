@@ -5,5 +5,6 @@ namespace NTMiner.Net {
     public interface ILocalIpSet {
         void InitOnece();
         IEnumerable<ILocalIp> AsEnumerable();
+        List<string> GetAllSubnetIps();
     }
 }

@@ -2,6 +2,7 @@
 using NTMiner;
 using NTMiner.MinerClient;
 using System;
+using System.Linq;
 
 namespace UnitTests {
     [TestClass]
@@ -22,6 +23,12 @@ namespace UnitTests {
                 }
                 Console.WriteLine("--------------------end----------------------");
             }
+        }
+
+        [TestMethod]
+        public void IPTableTest() {
+            var ip = NTMiner.Net.ArpUtil.GetIpByMac("60:EE:5C:86:AD:FC");
+            Assert.AreEqual("192.168.1.11", ip);
         }
     }
 }
