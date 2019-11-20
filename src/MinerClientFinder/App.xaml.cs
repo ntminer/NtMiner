@@ -5,6 +5,7 @@ using System.Windows;
 namespace NTMiner {
     public partial class App : Application {
         public App() {
+            Logger.Disable();
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             AppUtil.Init(this);
             InitializeComponent();
