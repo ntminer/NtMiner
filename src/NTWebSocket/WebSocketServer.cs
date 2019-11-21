@@ -53,10 +53,10 @@ namespace NTWebSocket {
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);
             Port = ((IPEndPoint)ListenerSocket.LocalEndPoint).Port;
-            NTMiner.Write.DevDebug(string.Format("Server started at {0} (actual port {1})", _location, Port));
+            NTMiner.Write.DevDebug($"Server started at {_location} (actual port {Port.ToString()})");
             if (_isSecure) {
                 if (Certificate == null) {
-                    NTMiner.Write.DevError("Scheme cannot be 'wss' without a Certificate");
+                    NTMiner.Write.DevError($"Scheme cannot be '{_scheme.ToString()}' without a Certificate");
                     return;
                 }
 
@@ -89,9 +89,11 @@ namespace NTWebSocket {
         }
 
         private void OnClientConnect(ISocket clientSocket) {
-            if (clientSocket == null) return; // socket closed
+            if (clientSocket == null) {
+                return; // socket closed
+            }
 
-            NTMiner.Write.DevDebug(String.Format("Client connected from {0}:{1}", clientSocket.RemoteIpAddress, clientSocket.RemotePort.ToString()));
+            NTMiner.Write.DevDebug($"Client connected from {clientSocket.RemoteIpAddress}:{clientSocket.RemotePort.ToString()}");
             ListenForClients();
 
             WebSocketConnection connection = null;
