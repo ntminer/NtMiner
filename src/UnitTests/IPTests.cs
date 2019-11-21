@@ -2,6 +2,8 @@
 using NTMiner;
 using NTMiner.MinerClient;
 using System;
+using System.Net;
+using System.Net.Sockets;
 
 namespace UnitTests {
     [TestClass]
@@ -22,6 +24,20 @@ namespace UnitTests {
                 }
                 Console.WriteLine("--------------------end----------------------");
             }
+        }
+
+        [TestMethod]
+        public void IpAddressTest() {
+            var ip = IPAddress.Parse("[::]");
+            Assert.AreEqual(AddressFamily.InterNetworkV6, ip.AddressFamily);
+            Assert.AreEqual("::", ip.ToString());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(FormatException))]
+        public void IpAddressTest2() {
+            var ip = IPAddress.Parse("localhost");
+            Assert.AreEqual("localhost", ip.ToString());
         }
     }
 }

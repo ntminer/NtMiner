@@ -15,26 +15,11 @@ namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
         private static class SafeNativeMethods {
             #region enum struct class
-            internal enum MonitorOptions : uint {
-                MONITOR_DEFAULTTONULL = 0x00000000,
-                MONITOR_DEFAULTTOPRIMARY = 0x00000001,
-                MONITOR_DEFAULTTONEAREST = 0x00000002
-            }
-
             [StructLayout(LayoutKind.Sequential)]
             public struct POINT {
                 public int X;
                 public int Y;
             }
-
-            [StructLayout(LayoutKind.Sequential)]
-            public struct MINMAXINFO {
-                public POINT ptReserved;
-                public POINT ptMaxSize;
-                public POINT ptMaxPosition;
-                public POINT ptMinTrackSize;
-                public POINT ptMaxTrackSize;
-            };
 
             [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
             public class MONITORINFO {
@@ -67,44 +52,6 @@ namespace NTMiner.Views {
             [DllImport(DllName.User32Dll)]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool GetCursorPos(out POINT lpPoint);
-
-            [DllImport(DllName.User32Dll)]
-            internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
-
-            [DllImport(DllName.User32Dll)]
-            internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
-        }
-
-        #region 最大化窗口时避免最大化到Windows任务栏
-        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
-            SafeNativeMethods.MINMAXINFO mmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
-
-            // Adjust the maximized size and position to fit the work area of the correct monitor
-            int MONITOR_DEFAULTTONEAREST = 0x00000002;
-            IntPtr monitor = SafeNativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-            if (monitor != IntPtr.Zero) {
-                SafeNativeMethods.MONITORINFO monitorInfo = new SafeNativeMethods.MONITORINFO();
-                SafeNativeMethods.GetMonitorInfo(monitor, monitorInfo);
-                SafeNativeMethods.RECT rcWorkArea = monitorInfo.rcWork;
-                SafeNativeMethods.RECT rcMonitorArea = monitorInfo.rcMonitor;
-                mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
-                mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
-                mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
-                mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
-            }
-
-            Marshal.StructureToPtr(mmi, lParam, true);
-        }
-        #endregion
-
-        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            switch (msg) {
-                case 0x0024:
-                    WmGetMinMaxInfo(hwnd, lParam);
-                    break;
-            }
-
-            return IntPtr.Zero;
         }
 
         private bool mRestoreIfMove = false;
@@ -117,7 +64,6 @@ namespace NTMiner.Views {
 
         private const int WM_SYSCOMMAND = 0x112;
         private HwndSource hwndSource;
-        private HwndSource hwndSourceBg;
         private readonly Brush _borderBrush;
         public MainWindow() {
             this.MinHeight = 430;
@@ -134,9 +80,7 @@ namespace NTMiner.Views {
                 };
                 this.Owner = ConsoleWindow.Instance;
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-                hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
-                hwndSource.AddHook(new HwndSourceHook(WindowProc));
-                hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
+                hwndSource.AddHook(new HwndSourceHook(Win32MessageProc.WindowProc));
                 MoveConsoleWindow();
             };
             InitializeComponent();
@@ -231,12 +175,7 @@ namespace NTMiner.Views {
             };
             VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
-                    if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
-                        AppStatic.AppExit.Execute(null);
-                        return;
-                    }
                     this.Close();
-                    VirtualRoot.Out.ShowSuccess(message.Message, "开源矿工");
                 });
             });
             this.BuildEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
@@ -268,7 +207,8 @@ namespace NTMiner.Views {
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
                         if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.Timestamp) {
-                            VirtualRoot.Execute(new CloseMainWindowCommand($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置"));
+                            VirtualRoot.Out.ShowSuccess($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置", "开源矿工");
+                            VirtualRoot.Execute(new CloseMainWindowCommand());
                         }
                     }
                     Vm.RefreshDaemonStateBrush();
@@ -401,9 +341,22 @@ namespace NTMiner.Views {
         #endregion
 
         protected override void OnClosing(CancelEventArgs e) {
-            e.Cancel = true;
-            AppContext.Disable();
-            this.Hide();
+            if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
+                AppStatic.AppExit.Execute(null);
+            }
+            else {
+                e.Cancel = true;
+                AppContext.Disable();
+                this.Hide();
+                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行");
+            }
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            hwndSource?.Dispose();
+            hwndSource = null;
+            base.OnClosed(e);
+            Application.Current.Shutdown();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) {

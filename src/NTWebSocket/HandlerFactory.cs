@@ -24,6 +24,7 @@ namespace NTWebSocket {
                     return FlashSocketPolicyRequestHandler.Create(request);
             }
 
+            NTMiner.Write.DevError("UnsupportedDataType:" + version);
             throw new WebSocketException(WebSocketStatusCodes.UnsupportedDataType);
         }
 

@@ -23,20 +23,17 @@ namespace NTMiner.Vms {
                 if (!IPAddress.TryParse(FromIp, out _) || !IPAddress.TryParse(ToIp, out _)) {
                     throw new ValidationException("IP地址格式不正确");
                 }
-                List<string> ipList = new List<string>();
-                for (long i = Net.Util.GetIpNum(FromIp); i <= Net.Util.GetIpNum(ToIp); i++) {
-                    ipList.Add(Net.Util.GetIpString(i));
-                }
                 if (Results.Count != 0) {
                     Results.Clear();
                 }
+                List<string> ipList = Net.Util.CreateIpRange(FromIp, ToIp);
                 Scan(ipList.ToArray());
             });
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
                 this._fromIp = localIp.DefaultIPGateway;
                 if (!string.IsNullOrEmpty(_fromIp)) {
-                    _fromIp = Net.Util.GetIpString(Net.Util.GetIpNum(_fromIp) + 1);
+                    _fromIp = Net.Util.ConvertToIpString(Net.Util.ConvertToIpNum(_fromIp) + 1);
                     string[] parts = _fromIp.Split('.');
                     parts[parts.Length - 1] = "255";
                     this._toIp = string.Join(".", parts);

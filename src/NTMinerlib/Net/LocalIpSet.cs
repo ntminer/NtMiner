@@ -211,22 +211,19 @@ namespace NTMiner.Net {
 
         public List<string> GetAllSubnetIps() {
             InitOnece();
-            List<string> ipList = new List<string>();
             var localIp = _localIps.FirstOrDefault();
             if (localIp != null) {
                 var fromIp = localIp.DefaultIPGateway;
                 if (!string.IsNullOrEmpty(fromIp)) {
-                    fromIp = Util.GetIpString(Util.GetIpNum(fromIp) + 1);
+                    fromIp = Util.ConvertToIpString(Util.ConvertToIpNum(fromIp) + 1);
                     string[] parts = fromIp.Split('.');
                     parts[parts.Length - 1] = "255";
                     var toIp = string.Join(".", parts);
-                    for (long i = Util.GetIpNum(fromIp); i <= Util.GetIpNum(toIp); i++) {
-                        ipList.Add(Util.GetIpString(i));
-                    }
+                    return Util.CreateIpRange(fromIp, toIp);
                 }
             }
 
-            return ipList;
+            return new List<string>();
         }
     }
 }

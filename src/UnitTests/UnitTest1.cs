@@ -19,6 +19,14 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void BoxTest() {
+            // 装箱了
+            Console.WriteLine(string.Format("{0}{1}{2}", 1, false, NTWebSocket.SchemeType.ws));
+            // 装箱了，和上面完全一样
+            Console.WriteLine($"{1}{false}{NTWebSocket.SchemeType.ws}");
+        }
+
+        [TestMethod]
         public void TimestampTest() {
             Assert.AreEqual(0ul, Timestamp.GetTimestamp(Timestamp.UnixBaseTime));
             // 因为有时区

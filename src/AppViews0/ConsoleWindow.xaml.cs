@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace NTMiner.Views {
     internal class SafeNativeMethods {
@@ -17,6 +18,8 @@ namespace NTMiner.Views {
 
     public partial class ConsoleWindow : Window {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
+
+        private HwndSource hwndSource;
         private ConsoleWindow() {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
@@ -26,10 +29,14 @@ namespace NTMiner.Views {
                 IntPtr console = NTMinerConsole.Alloc();
                 SafeNativeMethods.SetParent(console, parent);
                 SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
+                hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+                hwndSource.AddHook(new HwndSourceHook(Win32MessageProc.WindowProc));
             };
         }
 
         protected override void OnClosed(EventArgs e) {
+            hwndSource?.Dispose();
+            hwndSource = null;
             base.OnClosed(e);
             Application.Current.Shutdown();
         }

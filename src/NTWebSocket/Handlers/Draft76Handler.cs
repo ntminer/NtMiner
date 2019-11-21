@@ -55,14 +55,14 @@ namespace NTWebSocket.Handlers {
         }
 
         private static byte[] Handshake(WebSocketHttpRequest request, string subProtocol) {
-            NTWebSocketLog.Debug("Building Draft76 Response");
+            NTMiner.Write.DevDebug("Building Draft76 Response");
 
             var builder = new StringBuilder();
             builder.Append("HTTP/1.1 101 WebSocket Protocol Handshake\r\n");
             builder.Append("Upgrade: WebSocket\r\n");
             builder.Append("Connection: Upgrade\r\n");
             builder.AppendFormat("Sec-WebSocket-Origin: {0}\r\n", request["Origin"]);
-            builder.AppendFormat("Sec-WebSocket-Location: {0}://{1}{2}\r\n", request.Scheme, request["Host"], request.Path);
+            builder.AppendFormat("Sec-WebSocket-Location: {0}://{1}{2}\r\n", request.Scheme.ToString(), request["Host"], request.Path);
 
             if (subProtocol != null) {
                 builder.AppendFormat("Sec-WebSocket-Protocol: {0}\r\n", subProtocol);

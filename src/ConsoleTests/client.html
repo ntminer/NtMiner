@@ -3,19 +3,34 @@
 <head>
     <title>websocket client</title>
     <script type="text/javascript">
+        String.prototype.startWith = function (s) {
+            if (s == null || s == "" || this.length == 0 || s.length > this.length)
+                return false;
+            if (this.substr(0, s.length) == s)
+                return true;
+            else
+                return false;
+            return true;
+        }
         var start = function () {
             var inc = document.getElementById('incomming');
             var wsImpl = window.WebSocket || window.MozWebSocket;
             var form = document.getElementById('sendForm');
             var input = document.getElementById('sendText');
-            
+            var btnSend = document.getElementById('btnSend');
+
             inc.innerHTML += "connecting to server ..<br/>";
 
             // create a new websocket and connect
-            window.ws = new wsImpl('ws://localhost:8181/');
+            window.ws = new wsImpl('ws://server.ntminer.com:8088/');
 
+            var clientId;
             // when data is comming from the server, this metod is called
             ws.onmessage = function (evt) {
+                console.log(evt);
+                if (evt.data.startWith("clientId:")) {
+                    clientId = evt.data.substring("clientId:".length);
+                }
                 inc.innerHTML += evt.data + '<br/>';
             };
 
@@ -28,22 +43,28 @@
             ws.onclose = function () {
                 inc.innerHTML += '.. connection closed<br/>';
             }
-            
-			form.addEventListener('submit', function(e){
-				e.preventDefault();
-				var val = input.value;
-				ws.send(val);
-				input.value = "";
-			});
-            
+
+            function send(e) {
+                e.preventDefault();
+                if (!clientId) {
+                    return;
+                }
+                var val = input.value;
+                ws.send(clientId + ":" + val);
+                input.value = "";
+            }
+
+            form.addEventListener('submit', send);
+            btnSend.addEventListener("click", send);
         }
         window.onload = start;
     </script>
 </head>
 <body>
-	<form id="sendForm">
-		<input id="sendText" placeholder="Text to send" />
-	</form>
+    <form id="sendForm">
+        <input id="sendText" placeholder="Text to send" />
+        <input id="btnSend" type="button" value="send" />
+    </form>
     <pre id="incomming"></pre>
 </body>
 </html>

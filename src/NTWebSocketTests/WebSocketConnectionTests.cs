@@ -13,11 +13,12 @@ namespace NTWebSocket.Tests {
         public void Setup() {
             _socketMock = new Mock<ISocket>();
             _handlerMock = new Mock<IHandler>();
-            _connection = new WebSocketConnection(_socketMock.Object,
-                                                  connection => { },
-                                                  b => new WebSocketHttpRequest(),
-                                                  r => _handlerMock.Object,
-                                                  s => default(string));
+            _connection = new WebSocketConnection(
+                socket: _socketMock.Object,
+                initialize: connection => { },
+                parseRequest: b => new WebSocketHttpRequest(),
+                handlerFactory: r => _handlerMock.Object,
+                negotiateSubProtocol: s => default);
         }
 
         [Test]
@@ -57,11 +58,12 @@ namespace NTWebSocket.Tests {
         [Test]
         public void ShouldRaiseInitializeOnFirstRead() {
             bool initializeRaised = false;
-            var connection = new WebSocketConnection(_socketMock.Object,
-                                                  conn => { initializeRaised = true; },
-                                                  b => new WebSocketHttpRequest(),
-                                                  r => _handlerMock.Object,
-                                                  s => default(string));
+            var connection = new WebSocketConnection(
+                socket:_socketMock.Object,
+                initialize: conn => { initializeRaised = true; },
+                parseRequest: b => new WebSocketHttpRequest(),
+                handlerFactory: r => _handlerMock.Object,
+                negotiateSubProtocol: s => default);
 
             _socketMock.SetupGet(x => x.Connected).Returns(true);
             SetupReadLengths(1, 0);
@@ -73,11 +75,12 @@ namespace NTWebSocket.Tests {
         [Test]
         public void ShouldNotRaiseInitializeIfParseRequestReturnsNull() {
             bool initializeRaised = false;
-            var connection = new WebSocketConnection(_socketMock.Object,
-                                                  conn => { initializeRaised = true; },
-                                                  b => null,
-                                                  r => _handlerMock.Object,
-                                                  s => default(string));
+            var connection = new WebSocketConnection(
+                socket: _socketMock.Object,
+                initialize: conn => { initializeRaised = true; },
+                parseRequest: b => null,
+                handlerFactory: r => _handlerMock.Object,
+                negotiateSubProtocol: s => default);
 
             _socketMock.SetupGet(x => x.Connected).Returns(true);
             SetupReadLengths(1, 0);
@@ -89,11 +92,12 @@ namespace NTWebSocket.Tests {
         [Test]
         public void ShouldNotRaiseInitializeIfHandlerFactoryReturnsNull() {
             bool initializeRaised = false;
-            var connection = new WebSocketConnection(_socketMock.Object,
-                                                  conn => { initializeRaised = true; },
-                                                  b => new WebSocketHttpRequest(),
-                                                  r => null,
-                                                  s => null);
+            var connection = new WebSocketConnection(
+                socket: _socketMock.Object,
+                initialize: conn => { initializeRaised = true; },
+                parseRequest: b => new WebSocketHttpRequest(),
+                handlerFactory: r => null,
+                negotiateSubProtocol: s => null);
 
             _socketMock.SetupGet(x => x.Connected).Returns(true);
             SetupReadLengths(1, 0);

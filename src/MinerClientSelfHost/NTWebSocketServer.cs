@@ -5,19 +5,12 @@ using System.Linq;
 using System.Net;
 
 namespace NTMiner {
-    class Program {
-        static void Main(string[] args) {
-            DevMode.SetDevMode();
-
-            WebSocketTest();
-
-            Console.ReadKey();
-        }
-        
-        static void WebSocketTest() {
+    public static class NTWebSocketServer {
+        private static WebSocketServer _server;
+        public static void Start() {
             Dictionary<Guid, IWebSocketConnection> connDic = new Dictionary<Guid, IWebSocketConnection>();
-            var server = new WebSocketServer(SchemeType.ws, IPAddress.Parse("0.0.0.0"), 8088);
-            server.Start(socket => {
+            _server = new WebSocketServer(scheme: SchemeType.ws, ip: IPAddress.Parse("0.0.0.0"), port: NTKeyword.MinerClientPort + 1000);
+            _server.Start(socket => {
                 socket.OnOpen = () => {
                     string id = socket.ConnectionInfo.Id.ToString();
                     connDic.Add(socket.ConnectionInfo.Id, socket);
@@ -41,7 +34,9 @@ namespace NTMiner {
                     switch (command) {
                         case "getSpeed":
                             if (connDic.TryGetValue(clientId, out IWebSocketConnection conn)) {
-                                conn.Send("result of getSpeed:{'a':'this is a test'}");
+                                var speedData = Report.CreateSpeedData();
+                                string json = VirtualRoot.JsonSerializer.Serialize(speedData);
+                                conn.Send("result of getSpeed:" + json);
                             }
                             break;
                         default:
@@ -50,15 +45,10 @@ namespace NTMiner {
                     }
                 };
             });
+        }
 
-
-            var input = Console.ReadLine();
-            while (input != "exit") {
-                foreach (var socket in connDic.Values.ToList()) {
-                    socket.Send(input);
-                }
-                input = Console.ReadLine();
-            }
+        public static void Stop() {
+            _server?.Dispose();
         }
     }
 }

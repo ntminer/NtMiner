@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
 
@@ -19,12 +20,12 @@ namespace NTMiner.Net {
             }
         }
 
-        private static readonly long aBegin = GetIpNum("10.0.0.0");
-        private static readonly long aEnd = GetIpNum("10.255.255.255");
-        private static readonly long bBegin = GetIpNum("172.16.0.0");
-        private static readonly long bEnd = GetIpNum("172.31.255.255");
-        private static readonly long cBegin = GetIpNum("192.168.0.0");
-        private static readonly long cEnd = GetIpNum("192.168.255.255");
+        private static readonly long aBegin = ConvertToIpNum("10.0.0.0");
+        private static readonly long aEnd = ConvertToIpNum("10.255.255.255");
+        private static readonly long bBegin = ConvertToIpNum("172.16.0.0");
+        private static readonly long bEnd = ConvertToIpNum("172.31.255.255");
+        private static readonly long cBegin = ConvertToIpNum("192.168.0.0");
+        private static readonly long cEnd = ConvertToIpNum("192.168.255.255");
         /// <summary>
         /// 判断IP地址是否为内网IP地址
         /// </summary>
@@ -37,13 +38,13 @@ namespace NTMiner.Net {
             if (ipAddress == "localhost" || ipAddress == "127.0.0.1") {
                 return true;
             }
-            IPAddress address;
-            if (!IPAddress.TryParse(ipAddress, out address)) {
+
+            if (!IPAddress.TryParse(ipAddress, out _)) {
                 return false;
             }
             try {
                 bool isInnerIp = false;
-                long ipNum = GetIpNum(ipAddress);
+                long ipNum = ConvertToIpNum(ipAddress);
                 /**
                 私有IP：A类 10.0.0.0-10.255.255.255
                 B类 172.16.0.0-172.31.255.255
@@ -69,22 +70,71 @@ namespace NTMiner.Net {
         }
 
         /// <summary>
-        /// 把IP地址转换为Long型数字
+        /// 把IP地址转换为long整型。
         /// </summary>
         /// <param name="ipAddress">IP地址字符串</param>
         /// <returns></returns>
-        public static long GetIpNum(string ipAddress) {
-            string[] ip = ipAddress.Split('.');
-            long a = int.Parse(ip[0]);
-            long b = int.Parse(ip[1]);
-            long c = int.Parse(ip[2]);
-            long d = int.Parse(ip[3]);
+        public static uint ConvertToIpNum(string ipAddress) {
+            if (string.IsNullOrEmpty(ipAddress)) {
+                throw new ArgumentNullException(nameof(ipAddress));
+            }
+            string[] parts = ipAddress.Split('.');
+            if (parts.Length != 4) {
+                throw new FormatException("ipAddress格式不正确:" + ipAddress);
+            }
+            uint.TryParse(parts[0], out uint a);
+            if (a > 255) {
+                a = 0;
+            }
+            uint.TryParse(parts[1], out uint b);
+            if (b > 255) {
+                b = 0;
+            }
+            uint.TryParse(parts[2], out uint c);
+            if (c > 255) {
+                c = 0;
+            }
+            uint.TryParse(parts[3], out uint d);
+            if (d < 0 || d > 255) {
+                d = 0;
+            }
 
-            long ipNum = a * 256 * 256 * 256 + b * 256 * 256 + c * 256 + d;
-            return ipNum;
+            return a * 256 * 256 * 256 + b * 256 * 256 + c * 256 + d;
         }
 
-        public static string GetIpString(long ipValue) {
+        /// <summary>
+        /// 批量生成IP，包含头尾
+        /// </summary>
+        /// <param name="fromIp">包含头</param>
+        /// <param name="toIp">包含尾</param>
+        /// <returns></returns>
+        public static List<string> CreateIpRange(string fromIp, string toIp) {
+            List<string> list = new List<string>();
+            for (uint i = ConvertToIpNum(fromIp); i <= ConvertToIpNum(toIp); i++) {
+                list.Add(ConvertToIpString(i));
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 批量生成IP，包含头
+        /// </summary>
+        /// <param name="fromIp">包含头</param>
+        /// <param name="count"></param>
+        public static List<string> CreateIpRange(string fromIp, int count) {
+            List<string> list = new List<string>();
+            for (uint i = ConvertToIpNum(fromIp); i < count; i++) {
+                list.Add(ConvertToIpString(i));
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 将long转化为IP地址。
+        /// </summary>
+        /// <param name="ipValue"></param>
+        /// <returns></returns>
+        public static string ConvertToIpString(uint ipValue) {
             string hexStr = ipValue.ToString("X8");
             int ip1 = Convert.ToInt32(hexStr.Substring(0, 2), 16);
             int ip2 = Convert.ToInt32(hexStr.Substring(2, 2), 16);

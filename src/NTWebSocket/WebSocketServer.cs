@@ -7,20 +7,21 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace NTWebSocket {
     public sealed class WebSocketServer : IWebSocketServer {
-        private readonly string _scheme;
-        private readonly IPAddress _locationIP;
+        private readonly SchemeType _scheme;
+        private readonly IPAddress _ip;
         private Action<IWebSocketConnection> _config;
+        private readonly string _location;
+        private readonly bool _isSecure;
 
-        public WebSocketServer(string location, bool supportDualStack = true) {
-            var uri = new Uri(location);
-
-            Port = uri.Port;
-            Location = location;
+        public WebSocketServer(SchemeType scheme, IPAddress ip, int port, bool supportDualStack = true) {
+            _scheme = scheme;
+            _isSecure = scheme == SchemeType.wss;
+            _ip = ip;
+            Port = port;
+            _location = $"{scheme.ToString()}://{ip}:{port}";
             SupportDualStack = supportDualStack;
 
-            _locationIP = ParseIPAddress(uri);
-            _scheme = uri.Scheme;
-            var socket = new Socket(_locationIP.AddressFamily, SocketType.Stream, ProtocolType.IP);
+            var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
 
             if (SupportDualStack) {
                 socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
@@ -32,7 +33,6 @@ namespace NTWebSocket {
         }
 
         public ISocket ListenerSocket { get; set; }
-        public string Location { get; private set; }
         public bool SupportDualStack { get; }
         public int Port { get; private set; }
         public X509Certificate2 Certificate { get; set; }
@@ -41,47 +41,28 @@ namespace NTWebSocket {
         public bool RestartAfterListenError { get; set; }
 
         public bool IsSecure {
-            get { return _scheme == "wss" && Certificate != null; }
+            get { return _isSecure && Certificate != null; }
         }
 
         public void Dispose() {
             ListenerSocket.Dispose();
         }
 
-        private IPAddress ParseIPAddress(Uri uri) {
-            string ipStr = uri.Host;
-
-            if (ipStr == "0.0.0.0") {
-                return IPAddress.Any;
-            }
-            else if (ipStr == "[0000:0000:0000:0000:0000:0000:0000:0000]") {
-                return IPAddress.IPv6Any;
-            }
-            else {
-                try {
-                    return IPAddress.Parse(ipStr);
-                }
-                catch (Exception ex) {
-                    throw new FormatException("Failed to parse the IP address part of the location. Please make sure you specify a valid IP address. Use 0.0.0.0 or [::] to listen on all interfaces.", ex);
-                }
-            }
-        }
-
         public void Start(Action<IWebSocketConnection> config) {
-            var ipLocal = new IPEndPoint(_locationIP, Port);
+            var ipLocal = new IPEndPoint(_ip, Port);
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);
             Port = ((IPEndPoint)ListenerSocket.LocalEndPoint).Port;
-            NTWebSocketLog.Info(string.Format("Server started at {0} (actual port {1})", Location, Port));
-            if (_scheme == "wss") {
+            NTMiner.Write.DevDebug($"Server started at {_location} (actual port {Port.ToString()})");
+            if (_isSecure) {
                 if (Certificate == null) {
-                    NTWebSocketLog.Error("Scheme cannot be 'wss' without a Certificate");
+                    NTMiner.Write.DevError($"Scheme cannot be '{_scheme.ToString()}' without a Certificate");
                     return;
                 }
 
                 if (EnabledSslProtocols == SslProtocols.None) {
                     EnabledSslProtocols = SslProtocols.Tls;
-                    NTWebSocketLog.Debug("Using default TLS 1.0 security protocol.");
+                    NTMiner.Write.DevDebug("Using default TLS 1.0 security protocol.");
                 }
             }
             ListenForClients();
@@ -90,33 +71,35 @@ namespace NTWebSocket {
 
         private void ListenForClients() {
             ListenerSocket.Accept(OnClientConnect, e => {
-                NTWebSocketLog.Error("Listener socket is closed", e);
+                NTMiner.Write.DevException("Listener socket is closed", e);
                 if (RestartAfterListenError) {
-                    NTWebSocketLog.Info("Listener socket restarting");
+                    NTMiner.Write.DevDebug("Listener socket restarting");
                     try {
                         ListenerSocket.Dispose();
-                        var socket = new Socket(_locationIP.AddressFamily, SocketType.Stream, ProtocolType.IP);
+                        var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
                         ListenerSocket = new SocketWrapper(socket);
                         Start(_config);
-                        NTWebSocketLog.Info("Listener socket restarted");
+                        NTMiner.Write.DevDebug("Listener socket restarted");
                     }
                     catch (Exception ex) {
-                        NTWebSocketLog.Error("Listener could not be restarted", ex);
+                        NTMiner.Write.DevException("Listener could not be restarted", ex);
                     }
                 }
             });
         }
 
         private void OnClientConnect(ISocket clientSocket) {
-            if (clientSocket == null) return; // socket closed
+            if (clientSocket == null) {
+                return; // socket closed
+            }
 
-            NTWebSocketLog.Debug(String.Format("Client connected from {0}:{1}", clientSocket.RemoteIpAddress, clientSocket.RemotePort.ToString()));
+            NTMiner.Write.DevDebug($"Client connected from {clientSocket.RemoteIpAddress}:{clientSocket.RemotePort.ToString()}");
             ListenForClients();
 
             WebSocketConnection connection = null;
 
             connection = new WebSocketConnection(
-                clientSocket,
+                socket: clientSocket,
                 initialize: _config,
                 parseRequest: bytes => RequestParser.Parse(bytes, _scheme),
                 handlerFactory: r => HandlerFactory.BuildHandler(
@@ -129,12 +112,12 @@ namespace NTWebSocket {
                 negotiateSubProtocol: s => SubProtocolNegotiator.Negotiate(SupportedSubProtocols, s));
 
             if (IsSecure) {
-                NTWebSocketLog.Debug("Authenticating Secure Connection");
+                NTMiner.Write.DevDebug("Authenticating Secure Connection");
                 clientSocket
                     .Authenticate(Certificate,
                                   EnabledSslProtocols,
                                   connection.StartReceiving,
-                                  e => NTWebSocketLog.Warn("Failed to Authenticate", e));
+                                  e => NTMiner.Write.DevException("Failed to Authenticate", e));
             }
             else {
                 connection.StartReceiving();

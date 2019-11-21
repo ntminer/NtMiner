@@ -37,7 +37,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionNotAvailableException.cs" />
-    <Compile Include="NTWebSocketLog.cs" />
     <Compile Include="FrameType.cs" />
     <Compile Include="HandlerFactory.cs" />
     <Compile Include="Handlers\ComposableHandler.cs" />
@@ -61,8 +60,15 @@
     <Compile Include="WebSocketConnectionInfo.cs" />
     <Compile Include="WebSocketException.cs" />
     <Compile Include="WebSocketHttpRequest.cs" />
+    <Compile Include="SchemeType.cs" />
     <Compile Include="WebSocketServer.cs" />
     <Compile Include="WebSocketStatusCodes.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
+      <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
+      <Name>NTMinerLogging</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
