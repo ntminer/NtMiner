@@ -23,13 +23,10 @@ namespace NTMiner.Vms {
                 if (!IPAddress.TryParse(FromIp, out _) || !IPAddress.TryParse(ToIp, out _)) {
                     throw new ValidationException("IP地址格式不正确");
                 }
-                List<string> ipList = new List<string>();
-                for (long i = Net.Util.ConvertToIpNum(FromIp); i <= Net.Util.ConvertToIpNum(ToIp); i++) {
-                    ipList.Add(Net.Util.ConvertToIpString(i));
-                }
                 if (Results.Count != 0) {
                     Results.Clear();
                 }
+                List<string> ipList = Net.Util.CreateIpRange(FromIp, ToIp);
                 Scan(ipList.ToArray());
             });
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();

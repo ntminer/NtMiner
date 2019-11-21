@@ -211,7 +211,6 @@ namespace NTMiner.Net {
 
         public List<string> GetAllSubnetIps() {
             InitOnece();
-            List<string> ipList = new List<string>();
             var localIp = _localIps.FirstOrDefault();
             if (localIp != null) {
                 var fromIp = localIp.DefaultIPGateway;
@@ -220,13 +219,11 @@ namespace NTMiner.Net {
                     string[] parts = fromIp.Split('.');
                     parts[parts.Length - 1] = "255";
                     var toIp = string.Join(".", parts);
-                    for (long i = Util.ConvertToIpNum(fromIp); i <= Util.ConvertToIpNum(toIp); i++) {
-                        ipList.Add(Util.ConvertToIpString(i));
-                    }
+                    return Util.CreateIpRange(fromIp, toIp);
                 }
             }
 
-            return ipList;
+            return new List<string>();
         }
     }
 }

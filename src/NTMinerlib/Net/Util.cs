@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.NetworkInformation;
 
@@ -87,6 +88,33 @@ namespace NTMiner.Net {
             int.TryParse(parts[3], out int d);
 
             return (long)a * 256 * 256 * 256 + (long)b * 256 * 256 + (long)c * 256 + d;
+        }
+
+        /// <summary>
+        /// 批量生成IP，包含头尾
+        /// </summary>
+        /// <param name="fromIp">包含头</param>
+        /// <param name="toIp">包含尾</param>
+        /// <returns></returns>
+        public static List<string> CreateIpRange(string fromIp, string toIp) {
+            List<string> list = new List<string>();
+            for (long i = ConvertToIpNum(fromIp); i <= ConvertToIpNum(toIp); i++) {
+                list.Add(ConvertToIpString(i));
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// 批量生成IP，包含头
+        /// </summary>
+        /// <param name="fromIp">包含头</param>
+        /// <param name="count"></param>
+        public static List<string> CreateIpRange(string fromIp, int count) {
+            List<string> list = new List<string>();
+            for (long i = ConvertToIpNum(fromIp); i < count; i++) {
+                list.Add(ConvertToIpString(i));
+            }
+            return list;
         }
 
         /// <summary>
