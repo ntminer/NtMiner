@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using System.Windows;
 
 namespace NTMiner {
-    public class Win32MessageProc {
+    public static class Win32MessageProc {
         private static class SafeNativeMethods {
             #region enum struct class
             [StructLayout(LayoutKind.Sequential)]
@@ -43,12 +42,7 @@ namespace NTMiner {
             internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
         }
 
-        private readonly Window _window;
-        public Win32MessageProc(Window window) {
-            _window = window;
-        }
-
-        public IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+        public static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
             switch (msg) {
                 case 0x0024:
                     WmGetMinMaxInfo(hwnd, lParam);
@@ -59,7 +53,7 @@ namespace NTMiner {
         }
 
         #region 最大化窗口时避免最大化到Windows任务栏
-        private void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
+        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
             SafeNativeMethods.MINMAXINFO mmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
 
             // Adjust the maximized size and position to fit the work area of the correct monitor
@@ -79,6 +73,5 @@ namespace NTMiner {
             Marshal.StructureToPtr(mmi, lParam, true);
         }
         #endregion
-
     }
 }

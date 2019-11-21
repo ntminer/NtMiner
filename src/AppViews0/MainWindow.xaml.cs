@@ -64,7 +64,6 @@ namespace NTMiner.Views {
 
         private const int WM_SYSCOMMAND = 0x112;
         private HwndSource hwndSource;
-        private HwndSource hwndSourceBg;
         private readonly Brush _borderBrush;
         public MainWindow() {
             this.MinHeight = 430;
@@ -81,9 +80,7 @@ namespace NTMiner.Views {
                 };
                 this.Owner = ConsoleWindow.Instance;
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-                hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
-                hwndSource.AddHook(new HwndSourceHook(new Win32MessageProc(this).WindowProc));
-                hwndSourceBg.AddHook(new HwndSourceHook(new Win32MessageProc(ConsoleWindow.Instance).WindowProc));
+                hwndSource.AddHook(new HwndSourceHook(Win32MessageProc.WindowProc));
                 MoveConsoleWindow();
             };
             InitializeComponent();
@@ -353,6 +350,13 @@ namespace NTMiner.Views {
                 this.Hide();
                 VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行");
             }
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            hwndSource?.Dispose();
+            hwndSource = null;
+            base.OnClosed(e);
+            Application.Current.Shutdown();
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
