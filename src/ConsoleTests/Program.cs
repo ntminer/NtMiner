@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace NTMiner {
     class Program {
@@ -15,7 +16,7 @@ namespace NTMiner {
         
         static void WebSocketTest() {
             Dictionary<Guid, IWebSocketConnection> connDic = new Dictionary<Guid, IWebSocketConnection>();
-            var server = new WebSocketServer($"ws://0.0.0.0:8088");
+            var server = new WebSocketServer(WebSocketScheme.ws, IPAddress.Parse("0.0.0.0"), 8088);
             server.Start(socket => {
                 socket.OnOpen = () => {
                     string id = socket.ConnectionInfo.Id.ToString();

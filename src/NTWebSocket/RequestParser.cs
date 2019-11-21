@@ -13,10 +13,10 @@ namespace NTWebSocket {
         private static readonly Regex _FlashSocketPolicyRequestRegex = new Regex(FlashSocketPolicyRequestPattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
         public static WebSocketHttpRequest Parse(byte[] bytes) {
-            return Parse(bytes, "ws");
+            return Parse(bytes, WebSocketScheme.ws);
         }
 
-        public static WebSocketHttpRequest Parse(byte[] bytes, string scheme) {
+        public static WebSocketHttpRequest Parse(byte[] bytes, WebSocketScheme scheme) {
             // Check for websocket request header
             var body = Encoding.UTF8.GetString(bytes);
             Match match = _regex.Match(body);

@@ -7,19 +7,20 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace NTWebSocket {
     public sealed class WebSocketServer : IWebSocketServer {
-        private readonly string _scheme;
+        private readonly WebSocketScheme _scheme;
         private readonly IPAddress _locationIP;
         private Action<IWebSocketConnection> _config;
+        private readonly string _location;
+        private readonly bool _isSecure;
 
-        public WebSocketServer(string location, bool supportDualStack = true) {
-            var uri = new Uri(location);
-
-            Port = uri.Port;
-            Location = location;
+        public WebSocketServer(WebSocketScheme scheme, IPAddress ip, int port, bool supportDualStack = true) {
+            _scheme = scheme;
+            _isSecure = scheme == WebSocketScheme.wss;
+            _locationIP = ip;
+            Port = port;
+            _location = $"{scheme.ToString()}://{ip}:{port}";
             SupportDualStack = supportDualStack;
 
-            _locationIP = ParseIPAddress(uri);
-            _scheme = uri.Scheme;
             var socket = new Socket(_locationIP.AddressFamily, SocketType.Stream, ProtocolType.IP);
 
             if (SupportDualStack) {
@@ -32,7 +33,6 @@ namespace NTWebSocket {
         }
 
         public ISocket ListenerSocket { get; set; }
-        public string Location { get; private set; }
         public bool SupportDualStack { get; }
         public int Port { get; private set; }
         public X509Certificate2 Certificate { get; set; }
@@ -41,7 +41,7 @@ namespace NTWebSocket {
         public bool RestartAfterListenError { get; set; }
 
         public bool IsSecure {
-            get { return _scheme == "wss" && Certificate != null; }
+            get { return _isSecure && Certificate != null; }
         }
 
         public void Dispose() {
@@ -72,8 +72,8 @@ namespace NTWebSocket {
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);
             Port = ((IPEndPoint)ListenerSocket.LocalEndPoint).Port;
-            NTMiner.Write.DevDebug(string.Format("Server started at {0} (actual port {1})", Location, Port));
-            if (_scheme == "wss") {
+            NTMiner.Write.DevDebug(string.Format("Server started at {0} (actual port {1})", _location, Port));
+            if (_isSecure) {
                 if (Certificate == null) {
                     NTMiner.Write.DevError("Scheme cannot be 'wss' without a Certificate");
                     return;

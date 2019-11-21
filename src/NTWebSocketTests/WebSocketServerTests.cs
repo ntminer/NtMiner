@@ -21,7 +21,7 @@ namespace NTWebSocket.Tests {
         [SetUp]
         public void Setup() {
             _repository = new MockRepository(MockBehavior.Default);
-            _server = new WebSocketServer("ws://0.0.0.0:8000");
+            _server = new WebSocketServer(WebSocketScheme.ws, IPAddress.Parse("0.0.0.0"), 8000);
 
             _ipV4Address = IPAddress.Parse("127.0.0.1");
             _ipV6Address = IPAddress.Parse("::1");
@@ -45,33 +45,33 @@ namespace NTWebSocket.Tests {
         [Test]
         public void ShouldFailToParseIPAddressOfLocation() {
             Assert.Throws(typeof(FormatException), () => {
-                new WebSocketServer("ws://localhost:8000");
+                new WebSocketServer(WebSocketScheme.ws, IPAddress.Parse("localhost"), 8000);
             });
         }
 
         [Test]
         public void ShouldBeSecureWithWssAndCertificate() {
-            var server = new WebSocketServer("wss://0.0.0.0:8000");
+            var server = new WebSocketServer(WebSocketScheme.wss, IPAddress.Parse("0.0.0.0"), 8000);
             server.Certificate = new X509Certificate2();
             Assert.IsTrue(server.IsSecure);
         }
 
         [Test]
         public void ShouldDefaultToNoneWithWssAndCertificate() {
-            var server = new WebSocketServer("wss://0.0.0.0:8000");
+            var server = new WebSocketServer(WebSocketScheme.wss, IPAddress.Parse("0.0.0.0"), 8000);
             server.Certificate = new X509Certificate2();
             Assert.AreEqual(server.EnabledSslProtocols, SslProtocols.None);
         }
 
         [Test]
         public void ShouldNotBeSecureWithWssAndNoCertificate() {
-            var server = new WebSocketServer("wss://0.0.0.0:8000");
+            var server = new WebSocketServer(WebSocketScheme.wss, IPAddress.Parse("0.0.0.0"), 8000);
             Assert.IsFalse(server.IsSecure);
         }
 
         [Test]
         public void ShouldNotBeSecureWithoutWssAndCertificate() {
-            var server = new WebSocketServer("ws://0.0.0.0:8000");
+            var server = new WebSocketServer(WebSocketScheme.ws, IPAddress.Parse("0.0.0.0"), 8000);
             server.Certificate = new X509Certificate2();
             Assert.IsFalse(server.IsSecure);
         }
@@ -79,7 +79,7 @@ namespace NTWebSocket.Tests {
         [Test]
         [Ignore("Fails for an unknown release, does the test host need IPv6?")]
         public void ShouldSupportDualStackListenWhenServerV4All() {
-            _server = new WebSocketServer("ws://0.0.0.0:8000");
+            _server = new WebSocketServer(WebSocketScheme.ws, IPAddress.Parse("0.0.0.0"), 8000);
             _server.Start(connection => { });
             _ipV4Socket.Connect(_ipV4Address, 8000);
             _ipV6Socket.Connect(_ipV6Address, 8000);
@@ -91,7 +91,7 @@ namespace NTWebSocket.Tests {
 
         [Test]
         public void ShouldSupportDualStackListenWhenServerV6All() {
-            _server = new WebSocketServer("ws://[::]:8000");
+            _server = new WebSocketServer(WebSocketScheme.ws, IPAddress.Parse("[::]"), 8000);
             _server.Start(connection => { });
             _ipV4Socket.Connect(_ipV4Address, 8000);
             _ipV6Socket.Connect(_ipV6Address, 8000);

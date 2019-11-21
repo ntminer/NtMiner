@@ -13,7 +13,7 @@ namespace NTWebSocket {
 
         public string Body { get; set; }
 
-        public string Scheme { get; set; }
+        public WebSocketScheme Scheme { get; set; }
 
         public byte[] Bytes { get; set; }
 
