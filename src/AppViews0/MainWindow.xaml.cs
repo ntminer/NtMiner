@@ -15,26 +15,11 @@ namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
         private static class SafeNativeMethods {
             #region enum struct class
-            internal enum MonitorOptions : uint {
-                MONITOR_DEFAULTTONULL = 0x00000000,
-                MONITOR_DEFAULTTOPRIMARY = 0x00000001,
-                MONITOR_DEFAULTTONEAREST = 0x00000002
-            }
-
             [StructLayout(LayoutKind.Sequential)]
             public struct POINT {
                 public int X;
                 public int Y;
             }
-
-            [StructLayout(LayoutKind.Sequential)]
-            public struct MINMAXINFO {
-                public POINT ptReserved;
-                public POINT ptMaxSize;
-                public POINT ptMaxPosition;
-                public POINT ptMinTrackSize;
-                public POINT ptMaxTrackSize;
-            };
 
             [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
             public class MONITORINFO {
@@ -67,44 +52,6 @@ namespace NTMiner.Views {
             [DllImport(DllName.User32Dll)]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool GetCursorPos(out POINT lpPoint);
-
-            [DllImport(DllName.User32Dll)]
-            internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
-
-            [DllImport(DllName.User32Dll)]
-            internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
-        }
-
-        #region 最大化窗口时避免最大化到Windows任务栏
-        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
-            SafeNativeMethods.MINMAXINFO mmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
-
-            // Adjust the maximized size and position to fit the work area of the correct monitor
-            int MONITOR_DEFAULTTONEAREST = 0x00000002;
-            IntPtr monitor = SafeNativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-            if (monitor != IntPtr.Zero) {
-                SafeNativeMethods.MONITORINFO monitorInfo = new SafeNativeMethods.MONITORINFO();
-                SafeNativeMethods.GetMonitorInfo(monitor, monitorInfo);
-                SafeNativeMethods.RECT rcWorkArea = monitorInfo.rcWork;
-                SafeNativeMethods.RECT rcMonitorArea = monitorInfo.rcMonitor;
-                mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
-                mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
-                mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
-                mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
-            }
-
-            Marshal.StructureToPtr(mmi, lParam, true);
-        }
-        #endregion
-
-        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            switch (msg) {
-                case 0x0024:
-                    WmGetMinMaxInfo(hwnd, lParam);
-                    break;
-            }
-
-            return IntPtr.Zero;
         }
 
         private bool mRestoreIfMove = false;
@@ -135,8 +82,8 @@ namespace NTMiner.Views {
                 this.Owner = ConsoleWindow.Instance;
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSourceBg = PresentationSource.FromVisual(ConsoleWindow.Instance) as HwndSource;
-                hwndSource.AddHook(new HwndSourceHook(WindowProc));
-                hwndSourceBg.AddHook(new HwndSourceHook(WindowProc));
+                hwndSource.AddHook(new HwndSourceHook(new Win32MessageProc(this).WindowProc));
+                hwndSourceBg.AddHook(new HwndSourceHook(new Win32MessageProc(ConsoleWindow.Instance).WindowProc));
                 MoveConsoleWindow();
             };
             InitializeComponent();
