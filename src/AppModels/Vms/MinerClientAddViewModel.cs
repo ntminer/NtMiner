@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
@@ -75,6 +76,12 @@ namespace NTMiner.Vms {
                     });
                 }
             });
+            var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
+            if (localIp != null) {
+                long left = Net.Util.GetIpNum(localIp.DefaultIPGateway) + 1;
+                this._leftIp = Net.Util.GetIpString(left);
+                this._rightIp = Net.Util.GetIpString(left + 100);
+            }
         }
 
         public static uint IpToInt(string ipStr) {
