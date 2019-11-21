@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 namespace NTWebSocket {
     public sealed class WebSocketServer : IWebSocketServer {
         private readonly WebSocketScheme _scheme;
-        private readonly IPAddress _locationIP;
+        private readonly IPAddress _ip;
         private Action<IWebSocketConnection> _config;
         private readonly string _location;
         private readonly bool _isSecure;
@@ -16,12 +16,12 @@ namespace NTWebSocket {
         public WebSocketServer(WebSocketScheme scheme, IPAddress ip, int port, bool supportDualStack = true) {
             _scheme = scheme;
             _isSecure = scheme == WebSocketScheme.wss;
-            _locationIP = ip;
+            _ip = ip;
             Port = port;
             _location = $"{scheme.ToString()}://{ip}:{port}";
             SupportDualStack = supportDualStack;
 
-            var socket = new Socket(_locationIP.AddressFamily, SocketType.Stream, ProtocolType.IP);
+            var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
 
             if (SupportDualStack) {
                 socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
@@ -48,27 +48,8 @@ namespace NTWebSocket {
             ListenerSocket.Dispose();
         }
 
-        private IPAddress ParseIPAddress(Uri uri) {
-            string ipStr = uri.Host;
-
-            if (ipStr == "0.0.0.0") {
-                return IPAddress.Any;
-            }
-            else if (ipStr == "[0000:0000:0000:0000:0000:0000:0000:0000]") {
-                return IPAddress.IPv6Any;
-            }
-            else {
-                try {
-                    return IPAddress.Parse(ipStr);
-                }
-                catch (Exception ex) {
-                    throw new FormatException("Failed to parse the IP address part of the location. Please make sure you specify a valid IP address. Use 0.0.0.0 or [::] to listen on all interfaces.", ex);
-                }
-            }
-        }
-
         public void Start(Action<IWebSocketConnection> config) {
-            var ipLocal = new IPEndPoint(_locationIP, Port);
+            var ipLocal = new IPEndPoint(_ip, Port);
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);
             Port = ((IPEndPoint)ListenerSocket.LocalEndPoint).Port;
@@ -95,7 +76,7 @@ namespace NTWebSocket {
                     NTMiner.Write.DevDebug("Listener socket restarting");
                     try {
                         ListenerSocket.Dispose();
-                        var socket = new Socket(_locationIP.AddressFamily, SocketType.Stream, ProtocolType.IP);
+                        var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
                         ListenerSocket = new SocketWrapper(socket);
                         Start(_config);
                         NTMiner.Write.DevDebug("Listener socket restarted");
