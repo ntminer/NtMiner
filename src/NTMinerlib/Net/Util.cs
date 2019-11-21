@@ -38,8 +38,8 @@ namespace NTMiner.Net {
             if (ipAddress == "localhost" || ipAddress == "127.0.0.1") {
                 return true;
             }
-            IPAddress address;
-            if (!IPAddress.TryParse(ipAddress, out address)) {
+
+            if (!IPAddress.TryParse(ipAddress, out _)) {
                 return false;
             }
             try {
@@ -74,7 +74,7 @@ namespace NTMiner.Net {
         /// </summary>
         /// <param name="ipAddress">IP地址字符串</param>
         /// <returns></returns>
-        public static long ConvertToIpNum(string ipAddress) {
+        public static int ConvertToIpNum(string ipAddress) {
             if (string.IsNullOrEmpty(ipAddress)) {
                 throw new ArgumentNullException(nameof(ipAddress));
             }
@@ -83,11 +83,23 @@ namespace NTMiner.Net {
                 throw new FormatException("ipAddress格式不正确:" + ipAddress);
             }
             int.TryParse(parts[0], out int a);
+            if (a < 0 || a > 255) {
+                a = 0;
+            }
             int.TryParse(parts[1], out int b);
+            if (b < 0 || b > 255) {
+                b = 0;
+            }
             int.TryParse(parts[2], out int c);
+            if (c < 0 || c > 255) {
+                c = 0;
+            }
             int.TryParse(parts[3], out int d);
+            if (d < 0 || d > 255) {
+                d = 0;
+            }
 
-            return (long)a * 256 * 256 * 256 + (long)b * 256 * 256 + (long)c * 256 + d;
+            return a * 256 * 256 * 256 + b * 256 * 256 + c * 256 + d;
         }
 
         /// <summary>
@@ -98,7 +110,7 @@ namespace NTMiner.Net {
         /// <returns></returns>
         public static List<string> CreateIpRange(string fromIp, string toIp) {
             List<string> list = new List<string>();
-            for (long i = ConvertToIpNum(fromIp); i <= ConvertToIpNum(toIp); i++) {
+            for (int i = ConvertToIpNum(fromIp); i <= ConvertToIpNum(toIp); i++) {
                 list.Add(ConvertToIpString(i));
             }
             return list;
@@ -111,7 +123,7 @@ namespace NTMiner.Net {
         /// <param name="count"></param>
         public static List<string> CreateIpRange(string fromIp, int count) {
             List<string> list = new List<string>();
-            for (long i = ConvertToIpNum(fromIp); i < count; i++) {
+            for (int i = ConvertToIpNum(fromIp); i < count; i++) {
                 list.Add(ConvertToIpString(i));
             }
             return list;
@@ -122,7 +134,7 @@ namespace NTMiner.Net {
         /// </summary>
         /// <param name="ipValue"></param>
         /// <returns></returns>
-        public static string ConvertToIpString(long ipValue) {
+        public static string ConvertToIpString(int ipValue) {
             string hexStr = ipValue.ToString("X8");
             int ip1 = Convert.ToInt32(hexStr.Substring(0, 2), 16);
             int ip2 = Convert.ToInt32(hexStr.Substring(2, 2), 16);
