@@ -82,7 +82,7 @@ namespace NTWebSocket {
 
             if (!IsAvailable) {
                 const string errorMessage = "Data sent while closing or after close. Ignoring.";
-                NTWebSocketLog.Warn(errorMessage);
+                NTMiner.Write.DevWarn(errorMessage);
 
                 var taskForException = new TaskCompletionSource<object>();
                 taskForException.SetException(new ConnectionNotAvailableException(errorMessage));
@@ -143,11 +143,11 @@ namespace NTWebSocket {
 
             Socket.Receive(buffer, r => {
                 if (r <= 0) {
-                    NTWebSocketLog.Debug("0 bytes read. Closing.");
+                    NTMiner.Write.DevDebug("0 bytes read. Closing.");
                     CloseSocket();
                     return;
                 }
-                NTWebSocketLog.Debug(r + " bytes read");
+                NTMiner.Write.DevDebug(r + " bytes read");
                 var readBytes = buffer.Take(r);
                 if (Handler != null) {
                     Handler.Receive(readBytes);
@@ -170,41 +170,41 @@ namespace NTWebSocket {
             }
 
             if (e is ObjectDisposedException) {
-                NTWebSocketLog.Debug("Swallowing ObjectDisposedException", e);
+                NTMiner.Write.DevException("Swallowing ObjectDisposedException", e);
                 return;
             }
 
             OnError(e);
 
             if (e is WebSocketException) {
-                NTWebSocketLog.Debug("Error while reading", e);
+                NTMiner.Write.DevException("Error while reading", e);
                 Close(((WebSocketException)e).StatusCode);
             }
             else if (e is SubProtocolNegotiationFailureException) {
-                NTWebSocketLog.Debug(e.Message);
+                NTMiner.Write.DevDebug(e.Message);
                 Close(WebSocketStatusCodes.ProtocolError);
             }
             else if (e is IOException) {
-                NTWebSocketLog.Debug("Error while reading", e);
+                NTMiner.Write.DevException("Error while reading", e);
                 Close(WebSocketStatusCodes.AbnormalClosure);
             }
             else {
-                NTWebSocketLog.Error("Application Error", e);
+                NTMiner.Write.DevException("Application Error", e);
                 Close(WebSocketStatusCodes.InternalServerError);
             }
         }
 
         private Task SendBytes(byte[] bytes, Action callback = null) {
             return Socket.Send(bytes, () => {
-                NTWebSocketLog.Debug("Sent " + bytes.Length + " bytes");
+                NTMiner.Write.DevDebug("Sent " + bytes.Length + " bytes");
                 if (callback != null)
                     callback();
             },
             e => {
                 if (e is IOException)
-                    NTWebSocketLog.Debug("Failed to send. Disconnecting.", e);
+                    NTMiner.Write.DevException("Failed to send. Disconnecting.", e);
                 else
-                    NTWebSocketLog.Info("Failed to send. Disconnecting.", e);
+                    NTMiner.Write.DevException("Failed to send. Disconnecting.", e);
                 CloseSocket();
             });
         }

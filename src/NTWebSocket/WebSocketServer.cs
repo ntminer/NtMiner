@@ -72,16 +72,16 @@ namespace NTWebSocket {
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);
             Port = ((IPEndPoint)ListenerSocket.LocalEndPoint).Port;
-            NTWebSocketLog.Info(string.Format("Server started at {0} (actual port {1})", Location, Port));
+            NTMiner.Write.DevDebug(string.Format("Server started at {0} (actual port {1})", Location, Port));
             if (_scheme == "wss") {
                 if (Certificate == null) {
-                    NTWebSocketLog.Error("Scheme cannot be 'wss' without a Certificate");
+                    NTMiner.Write.DevError("Scheme cannot be 'wss' without a Certificate");
                     return;
                 }
 
                 if (EnabledSslProtocols == SslProtocols.None) {
                     EnabledSslProtocols = SslProtocols.Tls;
-                    NTWebSocketLog.Debug("Using default TLS 1.0 security protocol.");
+                    NTMiner.Write.DevDebug("Using default TLS 1.0 security protocol.");
                 }
             }
             ListenForClients();
@@ -90,18 +90,18 @@ namespace NTWebSocket {
 
         private void ListenForClients() {
             ListenerSocket.Accept(OnClientConnect, e => {
-                NTWebSocketLog.Error("Listener socket is closed", e);
+                NTMiner.Write.DevException("Listener socket is closed", e);
                 if (RestartAfterListenError) {
-                    NTWebSocketLog.Info("Listener socket restarting");
+                    NTMiner.Write.DevDebug("Listener socket restarting");
                     try {
                         ListenerSocket.Dispose();
                         var socket = new Socket(_locationIP.AddressFamily, SocketType.Stream, ProtocolType.IP);
                         ListenerSocket = new SocketWrapper(socket);
                         Start(_config);
-                        NTWebSocketLog.Info("Listener socket restarted");
+                        NTMiner.Write.DevDebug("Listener socket restarted");
                     }
                     catch (Exception ex) {
-                        NTWebSocketLog.Error("Listener could not be restarted", ex);
+                        NTMiner.Write.DevException("Listener could not be restarted", ex);
                     }
                 }
             });
@@ -110,7 +110,7 @@ namespace NTWebSocket {
         private void OnClientConnect(ISocket clientSocket) {
             if (clientSocket == null) return; // socket closed
 
-            NTWebSocketLog.Debug(String.Format("Client connected from {0}:{1}", clientSocket.RemoteIpAddress, clientSocket.RemotePort.ToString()));
+            NTMiner.Write.DevDebug(String.Format("Client connected from {0}:{1}", clientSocket.RemoteIpAddress, clientSocket.RemotePort.ToString()));
             ListenForClients();
 
             WebSocketConnection connection = null;
@@ -129,12 +129,12 @@ namespace NTWebSocket {
                 negotiateSubProtocol: s => SubProtocolNegotiator.Negotiate(SupportedSubProtocols, s));
 
             if (IsSecure) {
-                NTWebSocketLog.Debug("Authenticating Secure Connection");
+                NTMiner.Write.DevDebug("Authenticating Secure Connection");
                 clientSocket
                     .Authenticate(Certificate,
                                   EnabledSslProtocols,
                                   connection.StartReceiving,
-                                  e => NTWebSocketLog.Warn("Failed to Authenticate", e));
+                                  e => NTMiner.Write.DevException("Failed to Authenticate", e));
             }
             else {
                 connection.StartReceiving();

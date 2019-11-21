@@ -150,14 +150,14 @@ namespace NTWebSocket.Handlers {
                     onMessage(ReadUTF8PayloadData(data));
                     break;
                 default:
-                    NTWebSocketLog.Debug("Received unhandled " + frameType);
+                    NTMiner.Write.DevDebug("Received unhandled " + frameType);
                     break;
             }
         }
 
 
         private static byte[] BuildHandshake(WebSocketHttpRequest request, string subProtocol) {
-            NTWebSocketLog.Debug("Building Hybi-14 Response");
+            NTMiner.Write.DevDebug("Building Hybi-14 Response");
 
             var builder = new StringBuilder();
 

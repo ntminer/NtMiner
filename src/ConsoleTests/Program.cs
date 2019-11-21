@@ -24,7 +24,6 @@ namespace NTMiner {
         }
 
         static void WebSocketTest() {
-            NTWebSocketLog.Level = LogLevel.Debug;
             var allSockets = new List<IWebSocketConnection>();
             var server = new WebSocketServer("ws://0.0.0.0:8181");
             server.Start(socket => {

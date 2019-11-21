@@ -86,6 +86,10 @@ namespace NTMiner {
             DevLine(e.GetInnerMessage() + e.StackTrace, MessageType.Error);
         }
 
+        public static void DevException(string message, Exception e) {
+            DevLine(message + e.StackTrace, MessageType.Error);
+        }
+
         public static void DevError(string text) {
             DevLine(text, MessageType.Error);
         }

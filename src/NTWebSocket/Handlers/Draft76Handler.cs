@@ -55,7 +55,7 @@ namespace NTWebSocket.Handlers {
         }
 
         private static byte[] Handshake(WebSocketHttpRequest request, string subProtocol) {
-            NTWebSocketLog.Debug("Building Draft76 Response");
+            NTMiner.Write.DevDebug("Building Draft76 Response");
 
             var builder = new StringBuilder();
             builder.Append("HTTP/1.1 101 WebSocket Protocol Handshake\r\n");

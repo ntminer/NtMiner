@@ -15,7 +15,7 @@ namespace NTWebSocket.Handlers {
         }
 
         private static byte[] Handshake(WebSocketHttpRequest request, string subProtocol) {
-            NTWebSocketLog.Debug("Building Flash Socket Policy Response");
+            NTMiner.Write.DevDebug("Building Flash Socket Policy Response");
             return Encoding.UTF8.GetBytes(PolicyResponse);
         }
     }
