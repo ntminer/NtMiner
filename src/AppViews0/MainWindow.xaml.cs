@@ -229,13 +229,15 @@ namespace NTMiner.Views {
                 return;
             }
             ConsoleWindow consoleWindow = ConsoleWindow.Instance;
-            if (!this.IsVisible || this.WindowState == WindowState.Minimized || MainArea.SelectedItem != ConsoleTabItem) {
+            if (!this.IsVisible || this.WindowState == WindowState.Minimized) {
                 consoleWindow.Hide();
                 NTMinerConsole.Hide();
                 return;
             }
             if (!consoleWindow.IsVisible) {
                 consoleWindow.Show();
+            }
+            if (MainArea.SelectedItem == ConsoleTabItem) {
                 NTMinerConsole.Show();
             }
             if (consoleWindow.WindowState != this.WindowState) {

@@ -48,6 +48,7 @@ namespace NTMiner {
         }
 
         public static IntPtr Show() {
+            _isHided = false;
             IntPtr console = SafeNativeMethods.GetConsoleWindow();
             if (console != IntPtr.Zero) {
                 SafeNativeMethods.ShowWindow(console, 1);
@@ -55,7 +56,12 @@ namespace NTMiner {
             return console;
         }
 
+        private static bool _isHided = false;
         public static void Hide() {
+            if (_isHided) {
+                return;
+            }
+            _isHided = true;
             IntPtr console = SafeNativeMethods.GetConsoleWindow();
             if (console != IntPtr.Zero) {
                 SafeNativeMethods.ShowWindow(console, 0);
