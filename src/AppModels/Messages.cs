@@ -39,11 +39,8 @@ namespace NTMiner {
 
     [MessageType(description: "关闭主界面")]
     public class CloseMainWindowCommand : Cmd {
-        public CloseMainWindowCommand(string message) {
-            this.Message = message;
+        public CloseMainWindowCommand() {
         }
-
-        public string Message { get; private set; }
     }
 
     [MessageType(description: "打开内核列表窗口")]

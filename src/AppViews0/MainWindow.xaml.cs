@@ -231,12 +231,7 @@ namespace NTMiner.Views {
             };
             VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
-                    if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
-                        AppStatic.AppExit.Execute(null);
-                        return;
-                    }
                     this.Close();
-                    VirtualRoot.Out.ShowSuccess(message.Message, "开源矿工");
                 });
             });
             this.BuildEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
@@ -268,7 +263,8 @@ namespace NTMiner.Views {
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
                         if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.Timestamp) {
-                            VirtualRoot.Execute(new CloseMainWindowCommand($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置"));
+                            VirtualRoot.Out.ShowSuccess($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置", "开源矿工");
+                            VirtualRoot.Execute(new CloseMainWindowCommand());
                         }
                     }
                     Vm.RefreshDaemonStateBrush();
@@ -401,9 +397,15 @@ namespace NTMiner.Views {
         #endregion
 
         protected override void OnClosing(CancelEventArgs e) {
-            e.Cancel = true;
-            AppContext.Disable();
-            this.Hide();
+            if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
+                AppStatic.AppExit.Execute(null);
+            }
+            else {
+                e.Cancel = true;
+                AppContext.Disable();
+                this.Hide();
+                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行");
+            }
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) {

@@ -17,7 +17,7 @@ namespace NTMiner.Vms {
             }
             RefreshDaemonStateBrush();
             this.CloseMainWindow = new DelegateCommand(() => {
-                VirtualRoot.Execute(new CloseMainWindowCommand("已切换为无界面模式运行"));
+                VirtualRoot.Execute(new CloseMainWindowCommand());
             });
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.ThisPcName;
