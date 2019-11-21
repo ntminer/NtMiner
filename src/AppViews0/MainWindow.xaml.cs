@@ -161,11 +161,6 @@ namespace NTMiner.Views {
                 }
                 MoveConsoleWindow();
             };
-            this.SizeChanged += (s, e) => {
-                if (!ConsoleRectangle.IsVisible) {
-                    ConsoleWindow.Instance.Hide();
-                }
-            };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
