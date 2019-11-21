@@ -24,8 +24,8 @@ namespace NTMiner.Vms {
                     throw new ValidationException("IP地址格式不正确");
                 }
                 List<string> ipList = new List<string>();
-                for (long i = Net.Util.GetIpNum(FromIp); i <= Net.Util.GetIpNum(ToIp); i++) {
-                    ipList.Add(Net.Util.GetIpString(i));
+                for (long i = Net.Util.ConvertToIpNum(FromIp); i <= Net.Util.ConvertToIpNum(ToIp); i++) {
+                    ipList.Add(Net.Util.ConvertToIpString(i));
                 }
                 if (Results.Count != 0) {
                     Results.Clear();
@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
             if (localIp != null) {
                 this._fromIp = localIp.DefaultIPGateway;
                 if (!string.IsNullOrEmpty(_fromIp)) {
-                    _fromIp = Net.Util.GetIpString(Net.Util.GetIpNum(_fromIp) + 1);
+                    _fromIp = Net.Util.ConvertToIpString(Net.Util.ConvertToIpNum(_fromIp) + 1);
                     string[] parts = _fromIp.Split('.');
                     parts[parts.Length - 1] = "255";
                     this._toIp = string.Join(".", parts);
