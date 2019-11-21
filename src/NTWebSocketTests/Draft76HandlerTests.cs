@@ -55,7 +55,7 @@ ExpectedAnswer;
             _request.Headers["Sec-WebSocket-Protocol"] = "sample";
             _request.Headers["Origin"] = "http://example.com";
             _request.Body = Challenge;
-            _request.Scheme = WebSocketScheme.ws;
+            _request.Scheme = SchemeType.ws;
             _request.Path = "/demo";
             _request.Bytes = Encoding.UTF8.GetBytes(ExampleRequest);
 

@@ -7,15 +7,15 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace NTWebSocket {
     public sealed class WebSocketServer : IWebSocketServer {
-        private readonly WebSocketScheme _scheme;
+        private readonly SchemeType _scheme;
         private readonly IPAddress _ip;
         private Action<IWebSocketConnection> _config;
         private readonly string _location;
         private readonly bool _isSecure;
 
-        public WebSocketServer(WebSocketScheme scheme, IPAddress ip, int port, bool supportDualStack = true) {
+        public WebSocketServer(SchemeType scheme, IPAddress ip, int port, bool supportDualStack = true) {
             _scheme = scheme;
-            _isSecure = scheme == WebSocketScheme.wss;
+            _isSecure = scheme == SchemeType.wss;
             _ip = ip;
             Port = port;
             _location = $"{scheme.ToString()}://{ip}:{port}";

@@ -100,8 +100,9 @@ namespace NTWebSocket {
         }
 
         public void Close(int code) {
-            if (!IsAvailable)
+            if (!IsAvailable) {
                 return;
+            }
 
             _closing = true;
 
@@ -111,10 +112,12 @@ namespace NTWebSocket {
             }
 
             var bytes = Handler.FrameClose(code);
-            if (bytes.Length == 0)
+            if (bytes.Length == 0) {
                 CloseSocket();
-            else
+            }
+            else {
                 SendBytes(bytes, CloseSocket);
+            }
         }
 
         public void CreateHandler(IEnumerable<byte> data) {

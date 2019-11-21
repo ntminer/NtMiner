@@ -1,5 +1,5 @@
 ﻿namespace NTWebSocket {
-    public enum WebSocketScheme {
+    public enum SchemeType {
         ws,
         wss
     }
