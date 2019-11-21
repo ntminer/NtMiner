@@ -33,36 +33,26 @@ namespace NTMiner.Vms {
                         return;
                     }
 
-                    uint leftValue = IpToInt(this.LeftIp);
-                    uint rightValue = IpToInt(this.RightIp);
-                    if (rightValue >= leftValue) {
-                        List<string> clientIps = new List<string>();
-                        for (uint ip = leftValue; ip <= rightValue; ip++) {
-                            clientIps.Add(IntToIp(ip));
-                        }
+                    List<string> clientIps = Net.Util.CreateIpRange(this.LeftIp, this.RightIp);
 
-                        if (clientIps.Count > 101) {
-                            this.ShowMessage("最多支持一次添加101个IP");
-                            return;
-                        }
+                    if (clientIps.Count > 101) {
+                        this.ShowMessage("最多支持一次添加101个IP");
+                        return;
+                    }
 
-                        if (clientIps.Count == 0) {
-                            this.ShowMessage("没有IP");
-                            return;
+                    if (clientIps.Count == 0) {
+                        this.ShowMessage("没有IP");
+                        return;
+                    }
+                    Server.ClientService.AddClientsAsync(clientIps, (response, e) => {
+                        if (!response.IsSuccess()) {
+                            this.ShowMessage(response.ReadMessage(e));
                         }
-                        Server.ClientService.AddClientsAsync(clientIps, (response, e) => {
-                            if (!response.IsSuccess()) {
-                                this.ShowMessage(response.ReadMessage(e));
-                            }
-                            else {
-                                AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                                UIThread.Execute(() => CloseWindow?.Invoke());
-                            }
-                        });
-                    }
-                    else {
-                        this.ShowMessage("起始IP不能比终止IP大");
-                    }
+                        else {
+                            AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
+                            UIThread.Execute(() => CloseWindow?.Invoke());
+                        }
+                    });
                 }
                 else {
                     Server.ClientService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
@@ -78,27 +68,10 @@ namespace NTMiner.Vms {
             });
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
-                int left = Net.Util.ConvertToIpNum(localIp.DefaultIPGateway) + 1;
+                uint left = Net.Util.ConvertToIpNum(localIp.DefaultIPGateway) + 1;
                 this._leftIp = Net.Util.ConvertToIpString(left);
                 this._rightIp = Net.Util.ConvertToIpString(left + 100);
             }
-        }
-
-        public static uint IpToInt(string ipStr) {
-            string[] ip = ipStr.Split('.');
-            uint ipCode = 0xFFFFFF00 | byte.Parse(ip[3]);
-            ipCode = ipCode & 0xFFFF00FF | (uint.Parse(ip[2]) << 0x8);
-            ipCode = ipCode & 0xFF00FFFF | (uint.Parse(ip[1]) << 0xF);
-            ipCode = ipCode & 0x00FFFFFF | (uint.Parse(ip[0]) << 0x18);
-            return ipCode;
-        }
-        public static string IntToIp(uint ipCode) {
-            byte a = (byte)((ipCode & 0xFF000000) >> 0x18);
-            byte b = (byte)((ipCode & 0x00FF0000) >> 0xF);
-            byte c = (byte)((ipCode & 0x0000FF00) >> 0x8);
-            byte d = (byte)(ipCode & 0x000000FF);
-            string ipStr = $"{a}.{b}.{c}.{d}";
-            return ipStr;
         }
 
         private void ShowMessage(string message) {
