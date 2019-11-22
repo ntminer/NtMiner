@@ -606,15 +606,15 @@ namespace NTMiner.Vms {
                     this.KernelBrand = string.Empty;
                 }
                 else {
-                    this.KernelBrand = $"{GpuType.AMD.GetName()}:{a.Id}";
+                    this.KernelBrand = $"{GpuType.AMD.GetName()}:{a.Id.ToString()}";
                 }
             }
             else {
                 if (a == null) {
-                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id}";
+                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id.ToString()}";
                 }
                 else {
-                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id};{GpuType.AMD.GetName()}:{a.Id}";
+                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id.ToString()};{GpuType.AMD.GetName()}:{a.Id.ToString()}";
                 }
             }
         }

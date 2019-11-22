@@ -26,7 +26,7 @@ namespace NTMiner {
                 while (Console.ReadLine() != "exit") {
                 }
 
-                Write.UserOk($"服务停止成功: {DateTime.Now}.");
+                Write.UserOk($"服务停止成功: {DateTime.Now.ToString()}.");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -53,7 +53,7 @@ namespace NTMiner {
                     catch {
                     }
                     if (htmlData != null && htmlData.Length != 0) {
-                        Write.UserOk($"{DateTime.Now} - 鱼池首页html获取成功");
+                        Write.UserOk($"{DateTime.Now.ToString()} - 鱼池首页html获取成功");
                         string html = Encoding.UTF8.GetString(htmlData);
                         string vdsUUHtml = string.Empty;
                         string vdsZtHtml = string.Empty;
@@ -64,19 +64,19 @@ namespace NTMiner {
                             vdsZtHtml = Encoding.UTF8.GetString(vdsZtData);
                         }
                         double usdCny = PickUsdCny(html);
-                        Write.UserInfo($"usdCny={usdCny}");
+                        Write.UserInfo($"usdCny={usdCny.ToString()}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
                         IncomeItem vdsIncomeItem = PickVDSIncomeItem(vdsUUHtml, vdsZtHtml, usdCny);
                         if (vdsIncomeItem != null && incomeItems.All(a => a.CoinCode != "VDS")) {
                             incomeItems.Add(vdsIncomeItem);
                         }
-                        Write.UserInfo($"鱼池首页有{incomeItems.Count}个币种");
+                        Write.UserInfo($"鱼池首页有{incomeItems.Count.ToString()}个币种");
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
                             OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
-                                Write.UserInfo($"NTMiner有{data.Count}个币种");
+                                Write.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
                                     IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
@@ -128,9 +128,9 @@ namespace NTMiner {
                                     Write.UserOk(incomeItem.ToString());
                                 }
 
-                                Write.UserOk($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
+                                Write.UserOk($"更新了{coinCodes.Count.ToString()}个币种：{string.Join(",", coinCodes)}");
                                 int unUpdatedCount = data.Count - coinCodes.Count;
-                                Write.UserWarn($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty : "：" + string.Join(",", data.Select(a => a.CoinCode).Except(coinCodes)))}");
+                                Write.UserWarn($"{unUpdatedCount.ToString()}个币种未更新{(unUpdatedCount == 0 ? string.Empty : "：" + string.Join(",", data.Select(a => a.CoinCode).Except(coinCodes)))}");
                             });
                         }
                     }

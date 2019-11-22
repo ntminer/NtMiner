@@ -18,7 +18,7 @@ namespace NTWebSocket {
             _isSecure = scheme == SchemeType.wss;
             _ip = ip;
             Port = port;
-            _location = $"{scheme.ToString()}://{ip}:{port}";
+            _location = $"{scheme.ToString()}://{ip.ToString()}:{port.ToString()}";
             SupportDualStack = supportDualStack;
 
             var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);

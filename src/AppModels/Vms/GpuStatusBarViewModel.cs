@@ -77,7 +77,7 @@ namespace NTMiner.Vms {
 
         public string GpuCountText {
             get {
-                return $"x{NTMinerRoot.Instance.GpuSet.Count}";
+                return $"x{NTMinerRoot.Instance.GpuSet.Count.ToString()}";
             }
         }
     }

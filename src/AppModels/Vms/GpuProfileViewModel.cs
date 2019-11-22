@@ -64,7 +64,7 @@ namespace NTMiner.Vms {
         }
 
         public string GetId() {
-            return $"{CoinId}_{Index}";
+            return $"{CoinId.ToString()}_{Index.ToString()}";
         }
 
         public Guid CoinId {
@@ -98,7 +98,7 @@ namespace NTMiner.Vms {
                 if (Index == NTMinerRoot.GpuAllId || GpuVm == null) {
                     return "all#统一超频";
                 }
-                return $"{Index}#{GpuVm.Name}";
+                return $"{Index.ToString()}#{GpuVm.Name}";
             }
         }
 

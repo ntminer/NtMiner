@@ -68,7 +68,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                Logger.InfoDebugLine($"{LoginName} {Sign} {Timestamp}");
+                Logger.InfoDebugLine($"{LoginName} {Sign} {Timestamp.ToString()}");
                 if (!request.IsValid(User, Sign, Timestamp, base.ClientIp, out ResponseBase response)) {
                     return response;
                 }

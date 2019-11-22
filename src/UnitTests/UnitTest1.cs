@@ -27,6 +27,8 @@ namespace UnitTests {
             Console.WriteLine($"{1}{false}{NTWebSocket.SchemeType.ws}");
             // 装箱了
             string.Format(CultureInfo.InvariantCulture, "0x{0:X8}", 1);
+            // 装箱了
+            Console.WriteLine($"{Guid.NewGuid()}");
         }
 
         [TestMethod]
@@ -242,9 +244,9 @@ namespace UnitTests {
                     ntminerWalletCount++;
                 }
             }
-            Console.WriteLine($"测试{total}次");
-            Console.WriteLine($"选中用户的钱包    {userWalletCount}次，{(double)userWalletCount / total * 100} %");
-            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount}次，{(double)ntminerWalletCount / total * 100} %");
+            Console.WriteLine($"测试{total.ToString()}次");
+            Console.WriteLine($"选中用户的钱包    {userWalletCount.ToString()}次，{(double)userWalletCount / total * 100} %");
+            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount.ToString()}次，{(double)ntminerWalletCount / total * 100} %");
         }
 
         [TestMethod]

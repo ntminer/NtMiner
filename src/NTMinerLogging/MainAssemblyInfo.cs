@@ -26,7 +26,7 @@ namespace NTMiner {
         }
 
         public static string GetServerJsonVersion(Version version) {
-            return $"server{CurrentVersion.Major}.0.0.json";
+            return $"server{CurrentVersion.Major.ToString()}.0.0.json";
         }
 
         static MainAssemblyInfo() {

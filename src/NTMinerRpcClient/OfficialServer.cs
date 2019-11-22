@@ -43,7 +43,7 @@ namespace NTMiner {
                         if (query != null && query.Count != 0) {
                             queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                         }
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}", param);
                         T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -63,7 +63,7 @@ namespace NTMiner {
                             queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));
                         }
 
-                        Task<HttpResponseMessage> getHttpResponse = client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}");
+                        Task<HttpResponseMessage> getHttpResponse = client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}");
                         T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }

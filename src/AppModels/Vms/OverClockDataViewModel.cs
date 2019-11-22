@@ -225,7 +225,7 @@ namespace NTMiner.Vms {
 
         public string Tooltip {
             get {
-                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 温度阈值{TempLimit}℃";
+                return $"核心{CoreClockDelta.ToString()}M, 显存{MemoryClockDelta.ToString()}M, 功耗{PowerCapacity.ToString()}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 温度阈值{TempLimit.ToString()}℃";
             }
         }
     }

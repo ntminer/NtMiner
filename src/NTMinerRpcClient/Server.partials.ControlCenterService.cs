@@ -23,7 +23,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort}/api/{SControllerName}/{nameof(IControlCenterController.GetServicesVersion)}", null);
+                            Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IControlCenterController.GetServicesVersion)}", null);
                             string response = getHttpResponse.Result.Content.ReadAsAsync<string>().Result;
                             callback?.Invoke(response, null);
                         }
@@ -43,7 +43,7 @@ namespace NTMiner {
                         return;
                     }
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort}/api/{SControllerName}/{nameof(IControlCenterController.CloseServices)}", null);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IControlCenterController.CloseServices)}", null);
                         Write.DevDebug($"{nameof(CloseServices)} {getHttpResponse.Result.ReasonPhrase}");
                     }
                 }

@@ -116,7 +116,7 @@ namespace NTMiner {
                                     dualWeightArg = string.Empty;
                                 }
                                 else {
-                                    dualWeightArg = $"{kernelInput.DualWeightArg} {Convert.ToInt32(coinKernelProfile.DualCoinWeight)}";
+                                    dualWeightArg = $"{kernelInput.DualWeightArg} {Convert.ToInt32(coinKernelProfile.DualCoinWeight).ToString()}";
                                 }
                             }
                             else {

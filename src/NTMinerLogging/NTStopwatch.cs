@@ -10,7 +10,7 @@ namespace NTMiner {
             public int StackHeight;
 
             public override string ToString() {
-                return $"[{StackHeight}]{ElapsedMilliseconds} 毫秒";
+                return $"[{StackHeight.ToString()}]{ElapsedMilliseconds.ToString()} 毫秒";
             }
         }
 

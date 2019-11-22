@@ -45,7 +45,7 @@ namespace HardwareProviders.CPU {
             this.CpuId = cpuId;
 
             Vendor = cpuId[0][0].Vendor;
-            Identifier = $"{Vendor}/{processorIndex}";
+            Identifier = $"{Vendor.ToString()}/{processorIndex.ToString()}";
 
             family = cpuId[0][0].Family;
             model = cpuId[0][0].Model;

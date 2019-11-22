@@ -11,7 +11,7 @@
         public string NetSpeedUnit { get; set; }
 
         public override string ToString() {
-            return $"DataCode={DataCode},CoinCode={CoinCode},Speed={Speed},SpeedUnit={SpeedUnit},IncomeCoin={IncomeCoin},IncomeUsd={IncomeUsd},IncomeCny={IncomeCny},NetSpeed={NetSpeed},NetSpeedUnit={NetSpeedUnit}";
+            return $"DataCode={DataCode},CoinCode={CoinCode},Speed={Speed.ToString()},SpeedUnit={SpeedUnit},IncomeCoin={IncomeCoin.ToString()},IncomeUsd={IncomeUsd.ToString()},IncomeCny={IncomeCny.ToString()},NetSpeed={NetSpeed.ToString()},NetSpeedUnit={NetSpeedUnit}";
         }
     }
 }

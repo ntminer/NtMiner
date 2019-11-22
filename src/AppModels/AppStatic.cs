@@ -897,7 +897,7 @@ namespace NTMiner {
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
-            Process.Start($"{OfficialServer.MinerJsonBucket}MinerStudio.exe?t={DateTime.Now.Ticks}");
+            Process.Start($"{OfficialServer.MinerJsonBucket}MinerStudio.exe?t={DateTime.Now.Ticks.ToString()}");
         });
 
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(() => {

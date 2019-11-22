@@ -78,7 +78,7 @@ namespace NTMiner.Gpus.Adl {
         public int OSDisplayIndex;
 
         public override string ToString() {
-            return $"Size={Size},AdapterIndex={AdapterIndex},UDID={UDID},BusNumber={BusNumber},DeviceNumber={DeviceNumber},FunctionNumber={FunctionNumber},VendorID={VendorID},AdapterName={AdapterName},DisplayName={DisplayName},Present={Present},Exist={Exist},PNPString={PNPString},OSDisplayIndex={OSDisplayIndex}";
+            return $"Size={Size.ToString()},AdapterIndex={AdapterIndex.ToString()},UDID={UDID},BusNumber={BusNumber.ToString()},DeviceNumber={DeviceNumber.ToString()},FunctionNumber={FunctionNumber.ToString()},VendorID={VendorID.ToString()},AdapterName={AdapterName},DisplayName={DisplayName},Present={Present.ToString()},Exist={Exist.ToString()},PNPString={PNPString},OSDisplayIndex={OSDisplayIndex.ToString()}";
         }
     }
 
@@ -131,7 +131,7 @@ namespace NTMiner.Gpus.Adl {
         public int iControl;
 
         public override string ToString() {
-            return $"iClock:{iClock},iVddc:{iVddc},iEnabled={iEnabled},iControl={iControl}";
+            return $"iClock:{iClock.ToString()},iVddc:{iVddc.ToString()},iEnabled={iEnabled.ToString()},iControl={iControl.ToString()}";
         }
     }
 
