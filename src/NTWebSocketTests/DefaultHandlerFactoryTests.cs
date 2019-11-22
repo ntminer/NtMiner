@@ -38,7 +38,7 @@ namespace NTWebSocket.Tests {
         public void ShouldThrowWhenUnsupportedType() {
 
             var request = new WebSocketHttpRequest { Headers = { { "Bad", "Request" } } };
-            Assert.Throws<WebSocketException>(() => HandlerFactory.BuildHandler(request, x => { }, () => { }, x => { }, x => { }, x => { }));
+            Assert.IsNull(HandlerFactory.BuildHandler(request, x => { }, () => { }, x => { }, x => { }, x => { }));
 
         }
     }

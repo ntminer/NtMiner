@@ -25,7 +25,7 @@ namespace NTWebSocket {
             }
 
             NTMiner.Write.DevError("UnsupportedDataType:" + version);
-            throw new WebSocketException(WebSocketStatusCodes.UnsupportedDataType);
+            return null;
         }
 
         public static string GetVersion(WebSocketHttpRequest request) {
