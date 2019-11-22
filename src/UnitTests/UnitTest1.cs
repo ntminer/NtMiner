@@ -5,6 +5,7 @@ using NTMiner.Profile;
 using NTMiner.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -24,6 +25,8 @@ namespace UnitTests {
             Console.WriteLine(string.Format("{0}{1}{2}", 1, false, NTWebSocket.SchemeType.ws));
             // 装箱了，和上面完全一样
             Console.WriteLine($"{1}{false}{NTWebSocket.SchemeType.ws}");
+            // 装箱了
+            string.Format(CultureInfo.InvariantCulture, "0x{0:X8}", 1);
         }
 
         [TestMethod]

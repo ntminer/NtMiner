@@ -221,7 +221,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         public static void BoundedInteger(int lowerBoundInclusive, int value, int upperBoundExclusive, string parameterName) {
             if (value < lowerBoundInclusive || value >= upperBoundExclusive) {
                 Assert.Fail();
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The integer value must be bounded with [{0}, {1})", lowerBoundInclusive, upperBoundExclusive), parameterName);
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, "The integer value must be bounded with [{0}, {1})", lowerBoundInclusive.ToString(), upperBoundExclusive.ToString()), parameterName);
             }
         }
 
