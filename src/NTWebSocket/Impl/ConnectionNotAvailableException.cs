@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public class ConnectionNotAvailableException : Exception {
         public ConnectionNotAvailableException() : base() {
         }

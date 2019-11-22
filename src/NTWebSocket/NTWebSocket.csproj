@@ -36,7 +36,7 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionNotAvailableException.cs" />
+    <Compile Include="Impl\ConnectionNotAvailableException.cs" />
     <Compile Include="FrameType.cs" />
     <Compile Include="Impl\HandlerFactory.cs" />
     <Compile Include="Impl\Handlers\ComposableHandler.cs" />
@@ -54,11 +54,11 @@
     <Compile Include="Impl\Handlers\ReadState.cs" />
     <Compile Include="Impl\RequestParser.cs" />
     <Compile Include="Impl\SocketWrapper.cs" />
-    <Compile Include="SubProtocolNegotiationFailureException.cs" />
+    <Compile Include="Impl\SubProtocolNegotiationFailureException.cs" />
     <Compile Include="Impl\SubProtocolNegotiator.cs" />
     <Compile Include="Impl\WebSocketConnection.cs" />
     <Compile Include="Impl\WebSocketConnectionInfo.cs" />
-    <Compile Include="WebSocketException.cs" />
+    <Compile Include="Impl\WebSocketException.cs" />
     <Compile Include="Impl\WebSocketHttpRequest.cs" />
     <Compile Include="SchemeType.cs" />
     <Compile Include="Impl\WebSocketServer.cs" />
