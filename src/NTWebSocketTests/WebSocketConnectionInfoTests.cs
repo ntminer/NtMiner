@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NTWebSocket.Impl;
+using NUnit.Framework;
 using System;
 
 namespace NTWebSocket.Tests {
@@ -61,11 +62,9 @@ namespace NTWebSocket.Tests {
             var info = WebSocketConnectionInfo.Create(request, clientIp, clientPort, negotiatedSubProtocol);
 
             var headers = info.Headers;
-            string usernameValue = null;
-
             Assert.IsNotNull(headers);
             Assert.AreEqual(5, headers.Count);
-            Assert.True(headers.TryGetValue("Username", out usernameValue));
+            Assert.True(headers.TryGetValue("Username", out string usernameValue));
             Assert.True(usernameValue.Equals(username));
             Assert.True(headers.ContainsKey("Cookie"));
         }

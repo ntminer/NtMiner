@@ -1,6 +1,6 @@
 using System;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public class SubProtocolNegotiationFailureException : Exception {
         public SubProtocolNegotiationFailureException() : base() { }
 

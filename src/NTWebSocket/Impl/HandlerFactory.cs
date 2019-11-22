@@ -1,7 +1,7 @@
 using System;
-using NTWebSocket.Handlers;
+using NTWebSocket.Impl.Handlers;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public static class HandlerFactory {
         public static IHandler BuildHandler(
             WebSocketHttpRequest request, 
@@ -25,7 +25,7 @@ namespace NTWebSocket {
             }
 
             NTMiner.Write.DevError("UnsupportedDataType:" + version);
-            throw new WebSocketException(WebSocketStatusCodes.UnsupportedDataType);
+            return null;
         }
 
         public static string GetVersion(WebSocketHttpRequest request) {

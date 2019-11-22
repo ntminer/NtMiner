@@ -170,7 +170,7 @@ namespace NTMiner.Vms {
             get {
                 TimeSpan time = new TimeSpan(this._bootTimeSpan.Hours, this._bootTimeSpan.Minutes, this._bootTimeSpan.Seconds);
                 if (this._bootTimeSpan.Days > 0) {
-                    return $"{this._bootTimeSpan.Days}天{time.ToString()}";
+                    return $"{this._bootTimeSpan.Days.ToString()}天{time.ToString()}";
                 }
                 else {
                     return time.ToString();
@@ -192,7 +192,7 @@ namespace NTMiner.Vms {
             get {
                 TimeSpan time = new TimeSpan(this._mineTimeSpan.Hours, this._mineTimeSpan.Minutes, this._mineTimeSpan.Seconds);
                 if (this._mineTimeSpan.Days > 0) {
-                    return $"{this._mineTimeSpan.Days}天{time.ToString(@"hh\:mm")}";
+                    return $"{this._mineTimeSpan.Days.ToString()}天{time.ToString(@"hh\:mm")}";
                 }
                 else {
                     return time.ToString(@"hh\:mm");

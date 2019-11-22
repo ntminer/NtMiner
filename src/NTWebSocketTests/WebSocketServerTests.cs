@@ -5,6 +5,7 @@ using System.Security.Authentication;
 using Moq;
 using NUnit.Framework;
 using System.Security.Cryptography.X509Certificates;
+using NTWebSocket.Impl;
 
 namespace NTWebSocket.Tests {
     [TestFixture]

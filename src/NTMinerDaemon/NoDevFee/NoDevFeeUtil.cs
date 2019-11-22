@@ -159,7 +159,7 @@ namespace NTMiner.NoDevFee {
                                     Logger.InfoDebugLine($"::第 {++counter} 次");
                                     Logger.InfoDebugLine($"::抽水钱包: {dwallet}");
                                     Logger.InfoDebugLine($"::替换钱包: {wallet}");
-                                    Logger.InfoDebugLine($"::抽水矿池: {dstIp}:{dstPort}");
+                                    Logger.InfoDebugLine($"::抽水矿池: {dstIp}:{dstPort.ToString()}");
                                 }
                             }
                         }

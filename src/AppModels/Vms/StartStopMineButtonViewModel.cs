@@ -35,7 +35,9 @@ namespace NTMiner.Vms {
             });
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
 #endif
         }
 
@@ -52,7 +54,7 @@ namespace NTMiner.Vms {
                         n = 0;
                     }
                     else {
-                        BtnStopText = $"倒计时{--n}";
+                        BtnStopText = $"倒计时{(--n).ToString()}";
                     }
                     if (n <= 0) {
                         VirtualRoot.DeletePath(handler);

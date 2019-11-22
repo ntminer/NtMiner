@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NTWebSocket.Handlers {
+namespace NTWebSocket.Impl.Handlers {
     public static class Hybi13Handler {
         public static IHandler Create(WebSocketHttpRequest request, Action<string> onMessage, Action onClose, Action<byte[]> onBinary, Action<byte[]> onPing, Action<byte[]> onPong) {
             var readState = new ReadState();

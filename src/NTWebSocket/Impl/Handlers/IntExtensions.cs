@@ -1,6 +1,6 @@
 using System;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl.Handlers {
     public static class IntExtensions {
         public static byte[] ToBigEndianBytes<T>(this int source) {
             byte[] bytes;

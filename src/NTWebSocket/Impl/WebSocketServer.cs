@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public sealed class WebSocketServer : IWebSocketServer {
         private readonly SchemeType _scheme;
         private readonly IPAddress _ip;
@@ -18,7 +18,7 @@ namespace NTWebSocket {
             _isSecure = scheme == SchemeType.wss;
             _ip = ip;
             Port = port;
-            _location = $"{scheme.ToString()}://{ip}:{port}";
+            _location = $"{scheme.ToString()}://{ip.ToString()}:{port.ToString()}";
             SupportDualStack = supportDualStack;
 
             var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);

@@ -40,7 +40,7 @@ namespace NTMiner.Profile {
         }
 
         public string GetId() {
-            return $"{CoinId}_{Index}";
+            return $"{CoinId.ToString()}_{Index.ToString()}";
         }
 
         public Guid CoinId { get; set; }
@@ -63,7 +63,7 @@ namespace NTMiner.Profile {
         public int Cool { get; set; }
 
         public override string ToString() {
-            return $"{CoinId}{Index}{CoreClockDelta}{MemoryClockDelta}{CoreVoltage}{MemoryVoltage}{PowerCapacity}{TempLimit}{IsAutoFanSpeed}{Cool}";
+            return $"{CoinId.ToString()}{Index.ToString()}{CoreClockDelta.ToString()}{MemoryClockDelta.ToString()}{CoreVoltage.ToString()}{MemoryVoltage.ToString()}{PowerCapacity.ToString()}{TempLimit.ToString()}{IsAutoFanSpeed.ToString()}{Cool.ToString()}";
         }
     }
 }

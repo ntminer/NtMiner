@@ -1,4 +1,5 @@
 using System;
+using NTWebSocket.Impl;
 using NUnit.Framework;
 
 namespace NTWebSocket.Tests {

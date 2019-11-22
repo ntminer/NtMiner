@@ -161,11 +161,6 @@ namespace NTMiner.Views {
                 }
                 MoveConsoleWindow();
             };
-            this.SizeChanged += (s, e) => {
-                if (!ConsoleRectangle.IsVisible) {
-                    ConsoleWindow.Instance.Hide();
-                }
-            };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
@@ -219,7 +214,9 @@ namespace NTMiner.Views {
                 });
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
 #endif
         }
 
@@ -229,13 +226,15 @@ namespace NTMiner.Views {
                 return;
             }
             ConsoleWindow consoleWindow = ConsoleWindow.Instance;
-            if (!this.IsVisible || this.WindowState == WindowState.Minimized || MainArea.SelectedItem != ConsoleTabItem) {
+            if (!this.IsVisible || this.WindowState == WindowState.Minimized) {
                 consoleWindow.Hide();
                 NTMinerConsole.Hide();
                 return;
             }
             if (!consoleWindow.IsVisible) {
                 consoleWindow.Show();
+            }
+            if (MainArea.SelectedItem == ConsoleTabItem) {
                 NTMinerConsole.Show();
             }
             if (consoleWindow.WindowState != this.WindowState) {

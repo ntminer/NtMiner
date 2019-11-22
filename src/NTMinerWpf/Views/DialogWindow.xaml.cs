@@ -43,7 +43,7 @@ namespace NTMiner.Views {
                     string noText = Vm.NoText;
                     TimeSpan.FromSeconds(4).Delay(perSecondCallback: n => {
                         UIThread.Execute(() => {
-                            Vm.NoText = $"请再点一次({n})";
+                            Vm.NoText = $"请再点一次({n.ToString()})";
                         });
                     }).ContinueWith(t => {
                         UIThread.Execute(() => {

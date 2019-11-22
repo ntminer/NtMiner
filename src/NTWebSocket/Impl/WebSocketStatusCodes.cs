@@ -1,4 +1,4 @@
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public static class WebSocketStatusCodes {
         public const ushort NormalClosure = 1000;
         public const ushort GoingAway = 1001;

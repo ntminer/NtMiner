@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace NTWebSocket.Handlers {
+namespace NTWebSocket.Impl.Handlers {
     public class FlashSocketPolicyRequestHandler {
         public static string PolicyResponse =
 "<?xml version=\"1.0\"?>\n" +

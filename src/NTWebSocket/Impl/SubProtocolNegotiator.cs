@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public static class SubProtocolNegotiator {
         public static string Negotiate(IEnumerable<string> server, IEnumerable<string> client) {
             if (!server.Any() || !client.Any()) {

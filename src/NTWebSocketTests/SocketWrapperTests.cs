@@ -1,10 +1,10 @@
-using System;
-using System.Threading.Tasks;
+using NTWebSocket.Impl;
 using NUnit.Framework;
-using System.Net.Sockets;
+using System;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading;
-
+using System.Threading.Tasks;
 
 namespace NTWebSocket.Tests {
     [TestFixture]

@@ -76,7 +76,9 @@ namespace NTMiner.Core.Gpus.Impl {
             }
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
 #endif
         }
 
@@ -89,7 +91,9 @@ namespace NTMiner.Core.Gpus.Impl {
             }
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(LoadGpuState)}");
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(LoadGpuState)}");
+            }
 #endif
         }
 

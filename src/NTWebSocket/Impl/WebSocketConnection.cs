@@ -4,7 +4,7 @@ using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public class WebSocketConnection : IWebSocketConnection {
 
         private readonly Action<IWebSocketConnection> _initialize;

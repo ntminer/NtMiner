@@ -14,7 +14,7 @@ namespace NTMiner {
         }
 
         public static string GetRemotePassword(Guid clientId) {
-            return HashUtil.Sha1($"{HashUtil.Sha1(PasswordSha1)}{clientId}");
+            return HashUtil.Sha1($"{HashUtil.Sha1(PasswordSha1)}{clientId.ToString()}");
         }
     }
 }

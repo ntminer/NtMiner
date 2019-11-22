@@ -12,7 +12,9 @@ namespace NTMiner.Vms {
             this.GpuAllVm = AppContext.Instance.GpuVms.Items.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
 #endif
         }
 
@@ -75,7 +77,7 @@ namespace NTMiner.Vms {
 
         public string GpuCountText {
             get {
-                return $"x{NTMinerRoot.Instance.GpuSet.Count}";
+                return $"x{NTMinerRoot.Instance.GpuSet.Count.ToString()}";
             }
         }
     }

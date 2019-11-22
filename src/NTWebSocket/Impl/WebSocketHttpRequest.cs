@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public class WebSocketHttpRequest {
         private readonly IDictionary<string, string> _headers = new Dictionary<string, string>(System.StringComparer.InvariantCultureIgnoreCase);
 

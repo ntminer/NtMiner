@@ -28,7 +28,9 @@ namespace NTMiner {
                             Cleaner.Instance.Clear();
 #if DEBUG
                             var elapsedMilliseconds = Write.Stopwatch.Stop();
-                            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
+                            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
+                            }
 #endif
                             Write.UserOk("场地打扫完毕");
                             // 应用超频
@@ -144,7 +146,7 @@ namespace NTMiner {
                                     mineContext.AutoRestartKernelCount += 1;
                                     VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), processName + $"挖矿内核进程消失", toConsole: true);
                                     if (Instance.MinerProfile.IsAutoRestartKernel && mineContext.AutoRestartKernelCount <= Instance.MinerProfile.AutoRestartKernelTimes) {
-                                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"尝试第{mineContext.AutoRestartKernelCount}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes}次", toConsole: true);
+                                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"尝试第{mineContext.AutoRestartKernelCount.ToString()}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes.ToString()}次", toConsole: true);
                                         Instance.RestartMine();
                                         Instance.LockedMineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount;
                                     }
@@ -264,7 +266,7 @@ namespace NTMiner {
                     lpProcessInformation: out _)) {
                     if (bret == false) {
                         int lasterr = Marshal.GetLastWin32Error();
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr}"));
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr.ToString()}"));
                     }
                     else {
                         IMessagePathId closeHandle = null;

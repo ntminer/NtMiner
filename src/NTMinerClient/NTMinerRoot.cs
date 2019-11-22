@@ -66,10 +66,10 @@ namespace NTMiner {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) < Timestamp.DesyncSeconds) {
-                                        Logger.OkDebugLine($"本机和服务器时间一致或相差不超过 {Timestamp.DesyncSeconds} 秒");
+                                        Logger.OkDebugLine($"本机和服务器时间一致或相差不超过 {Timestamp.DesyncSeconds.ToString()} 秒");
                                     }
                                     else {
-                                        Write.UserWarn($"本机和服务器时间不同步，请调整，本地：{DateTime.Now}，服务器：{Timestamp.FromTimestamp(serverState.Time)}。此问题不影响挖矿。");
+                                        Write.UserWarn($"本机和服务器时间不同步，请调整，本地：{DateTime.Now.ToString()}，服务器：{Timestamp.FromTimestamp(serverState.Time).ToString()}。此问题不影响挖矿。");
                                     }
                                 });
                             }
@@ -249,7 +249,7 @@ namespace NTMiner {
                     try {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
-                                string content = $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartComputerMinutes}分钟重启电脑";
+                                string content = $"每运行{MinerProfile.PeriodicRestartKernelHours.ToString()}小时{MinerProfile.PeriodicRestartComputerMinutes.ToString()}分钟重启电脑";
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), content, toConsole: true);
                                 Windows.Power.Restart(60);
                                 VirtualRoot.Execute(new CloseNTMinerCommand(content));
@@ -266,7 +266,7 @@ namespace NTMiner {
                     try {
                         if (IsMining && MinerProfile.IsPeriodicRestartKernel) {
                             if ((DateTime.Now - LockedMineContext.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
-                                VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours}小时{MinerProfile.PeriodicRestartKernelMinutes}分钟重启内核", toConsole: true);
+                                VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours.ToString()}小时{MinerProfile.PeriodicRestartKernelMinutes.ToString()}分钟重启内核", toConsole: true);
                                 RestartMine();
                                 return;// 退出
                             }
@@ -296,7 +296,7 @@ namespace NTMiner {
                                         if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
                                             VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                         }
-                                        string content = $"{MinerProfile.NoShareRestartComputerMinutes}分钟无份额重启电脑";
+                                        string content = $"{MinerProfile.NoShareRestartComputerMinutes.ToString()}分钟无份额重启电脑";
                                         VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), content, toConsole: true);
                                         Windows.Power.Restart(60);
                                         VirtualRoot.Execute(new CloseNTMinerCommand(content));
@@ -304,7 +304,7 @@ namespace NTMiner {
                                     }
                                     // 产生过份额或者已经两倍重启内核时间了
                                     if (restartKernel && (totalShare > 0 || (DateTime.Now - shareOn).TotalMinutes > 2 * MinerProfile.NoShareRestartKernelMinutes)) {
-                                        VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"{MinerProfile.NoShareRestartKernelMinutes}分钟无份额重启内核", toConsole: true);
+                                        VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"{MinerProfile.NoShareRestartKernelMinutes.ToString()}分钟无份额重启内核", toConsole: true);
                                         RestartMine();
                                         return;// 退出
                                     }

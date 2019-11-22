@@ -47,7 +47,7 @@ namespace NTMiner.User.Impl {
                 };
                 using (HttpClient client = new HttpClient()) {
                     client.Timeout = TimeSpan.FromMilliseconds(2000);
-                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetControlCenterHost()}:{NTKeyword.ControlCenterPort}/api/ControlCenter/Users", request);
+                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTMinerRegistry.GetControlCenterHost()}:{NTKeyword.ControlCenterPort.ToString()}/api/ControlCenter/Users", request);
                     DataResponse<List<UserData>> response = getHttpResponse.Result.Content.ReadAsAsync<DataResponse<List<UserData>>>().Result;
                     if (response != null && response.Data != null) {
                         return response.Data;

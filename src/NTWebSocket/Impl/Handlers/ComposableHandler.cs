@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NTWebSocket.Handlers {
+namespace NTWebSocket.Impl.Handlers {
     public class ComposableHandler : IHandler {
         private readonly Func<string, byte[]> _handshake = s => new byte[0];
         private readonly Func<string, byte[]> _textFrame = x => new byte[0];

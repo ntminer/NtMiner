@@ -333,13 +333,13 @@ namespace NTMiner.Vms {
 
         private static string TimeSpanToString(TimeSpan timeSpan) {
             if (timeSpan.Days >= 1) {
-                return $"{timeSpan.Days}天{timeSpan.Hours}小时{timeSpan.Minutes}分钟";
+                return $"{timeSpan.Days.ToString()}天{timeSpan.Hours.ToString()}小时{timeSpan.Minutes.ToString()}分钟";
             }
             if (timeSpan.Hours > 0) {
-                return $"{timeSpan.Hours}小时{timeSpan.Minutes}分钟";
+                return $"{timeSpan.Hours.ToString()}小时{timeSpan.Minutes.ToString()}分钟";
             }
             if (timeSpan.Minutes > 2) {
-                return $"{timeSpan.Minutes}分钟";
+                return $"{timeSpan.Minutes.ToString()}分钟";
             }
             return (int)timeSpan.TotalSeconds + "秒";
         }

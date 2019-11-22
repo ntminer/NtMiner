@@ -1,3 +1,4 @@
+using NTWebSocket.Impl;
 using NUnit.Framework;
 using System.Text;
 

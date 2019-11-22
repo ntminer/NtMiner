@@ -27,7 +27,7 @@ namespace NTMiner {
                     }
                     string serverHost = NTMinerRegistry.GetControlCenterHost();
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{serverHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{serverHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}", param);
                         T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -49,7 +49,7 @@ namespace NTMiner {
                     if (timeout.HasValue) {
                         client.Timeout = TimeSpan.FromMilliseconds(timeout.Value);
                     }
-                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{serverHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
+                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{serverHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}", param);
                     T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                     return response;
                 }
@@ -71,7 +71,7 @@ namespace NTMiner {
                         }
 
                         Task<HttpResponseMessage> message =
-                            client.GetAsync($"http://{serverHost}:{NTKeyword.ControlCenterPort}/api/{controller}/{action}{queryString}");
+                            client.GetAsync($"http://{serverHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}");
                         T response = message.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }

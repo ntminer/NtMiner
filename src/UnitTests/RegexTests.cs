@@ -73,7 +73,7 @@ namespace UnitTests {
                 Match match = matches[gpuId];
                 string gpuSpeedUnit = match.Groups["gpuSpeedUnit"].Value;
                 double.TryParse(match.Groups["gpuSpeed"].Value, out double gpuSpeed);
-                Console.WriteLine($"GPU{gpuId} {gpuSpeed} {gpuSpeedUnit}");
+                Console.WriteLine($"GPU{gpuId.ToString()} {gpuSpeed.ToString()} {gpuSpeedUnit}");
             }
         }
 

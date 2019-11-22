@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Text;
-using NTWebSocket.Handlers;
+using NTWebSocket.Impl.Handlers;
 using NUnit.Framework;
 using System.Linq;
+using NTWebSocket.Impl;
 
 namespace NTWebSocket.Tests {
     [TestFixture]

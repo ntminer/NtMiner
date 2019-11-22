@@ -5,6 +5,7 @@ using NTMiner.Profile;
 using NTMiner.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -24,6 +25,10 @@ namespace UnitTests {
             Console.WriteLine(string.Format("{0}{1}{2}", 1, false, NTWebSocket.SchemeType.ws));
             // 装箱了，和上面完全一样
             Console.WriteLine($"{1}{false}{NTWebSocket.SchemeType.ws}");
+            // 装箱了
+            string.Format(CultureInfo.InvariantCulture, "0x{0:X8}", 1);
+            // 装箱了
+            Console.WriteLine($"{Guid.NewGuid()}");
         }
 
         [TestMethod]
@@ -239,9 +244,9 @@ namespace UnitTests {
                     ntminerWalletCount++;
                 }
             }
-            Console.WriteLine($"测试{total}次");
-            Console.WriteLine($"选中用户的钱包    {userWalletCount}次，{(double)userWalletCount / total * 100} %");
-            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount}次，{(double)ntminerWalletCount / total * 100} %");
+            Console.WriteLine($"测试{total.ToString()}次");
+            Console.WriteLine($"选中用户的钱包    {userWalletCount.ToString()}次，{((double)userWalletCount / total * 100).ToString()} %");
+            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount.ToString()}次，{((double)ntminerWalletCount / total * 100).ToString()} %");
         }
 
         [TestMethod]

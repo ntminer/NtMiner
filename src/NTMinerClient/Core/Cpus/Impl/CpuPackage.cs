@@ -35,7 +35,7 @@ namespace NTMiner.Core.Cpus.Impl {
                                 }
                                 if ((message.Timestamp - LowTemperatureOn).TotalSeconds >= _minerProfile.CpuGETemperatureSeconds) {
                                     LowTemperatureOn = message.Timestamp;
-                                    VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动停止挖矿，因为 CPU 温度连续{_minerProfile.CpuGETemperatureSeconds}秒不低于{_minerProfile.CpuStopTemperature}℃", toConsole: true);
+                                    VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动停止挖矿，因为 CPU 温度连续{_minerProfile.CpuGETemperatureSeconds.ToString()}秒不低于{_minerProfile.CpuStopTemperature.ToString()}℃", toConsole: true);
                                     NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
                                 }
                             }
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Cpus.Impl {
                                     }
                                     if ((message.Timestamp - HighTemperatureOn).TotalSeconds >= _minerProfile.CpuLETemperatureSeconds) {
                                         HighTemperatureOn = message.Timestamp;
-                                        VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动开始挖矿，因为 CPU 温度连续{_minerProfile.CpuLETemperatureSeconds}秒不高于{_minerProfile.CpuStartTemperature}℃", toConsole: true);
+                                        VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动开始挖矿，因为 CPU 温度连续{_minerProfile.CpuLETemperatureSeconds.ToString()}秒不高于{_minerProfile.CpuStartTemperature.ToString()}℃", toConsole: true);
                                         NTMinerRoot.Instance.StartMine();
                                     }
                                 }
@@ -63,7 +63,7 @@ namespace NTMiner.Core.Cpus.Impl {
                             }
                             if ((message.Timestamp - LowPerformanceOn).TotalSeconds >= _minerProfile.HighCpuSeconds) {
                                 LowPerformanceOn = message.Timestamp;
-                                VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"CPU使用率过高：连续{_minerProfile.HighCpuSeconds}秒不低于{_minerProfile.HighCpuBaseline}%");
+                                VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"CPU使用率过高：连续{_minerProfile.HighCpuSeconds.ToString()}秒不低于{_minerProfile.HighCpuBaseline.ToString()}%");
                             }
                         }
                     }

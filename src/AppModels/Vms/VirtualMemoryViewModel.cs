@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
         }
 
         public override string ToString() {
-            return $"{DriveName}pagefile.sys  {MaxSizeMb} {MaxSizeMb}";
+            return $"{DriveName}pagefile.sys  {MaxSizeMb.ToString()} {MaxSizeMb.ToString()}";
         }
     }
 }

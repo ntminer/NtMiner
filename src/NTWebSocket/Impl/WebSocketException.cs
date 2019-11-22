@@ -1,6 +1,6 @@
 using System;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public class WebSocketException : Exception {
         public WebSocketException(ushort statusCode) : base() {
             StatusCode = statusCode;

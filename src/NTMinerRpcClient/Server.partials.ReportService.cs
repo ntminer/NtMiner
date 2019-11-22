@@ -20,7 +20,7 @@ namespace NTMiner {
                         using (HttpClient client = new HttpClient()) {
                             // 可能超过3秒钟，查查原因。因为我的网络不稳经常断线。
                             client.Timeout = timeSpan;
-                            Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort}/api/{SControllerName}/{nameof(IReportController.ReportSpeed)}", data);
+                            Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IReportController.ReportSpeed)}", data);
                             ReportResponse response = getHttpResponse.Result.Content.ReadAsAsync<ReportResponse>().Result;
                             callback?.Invoke(response);
                         }
@@ -41,7 +41,7 @@ namespace NTMiner {
                                 ClientId = clientId,
                                 IsMining = isMining
                             };
-                            Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort}/api/{SControllerName}/{nameof(IReportController.ReportState)}", request);
+                            Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IReportController.ReportState)}", request);
                             Write.DevDebug($"{nameof(ReportStateAsync)} {getHttpResponse.Result.ReasonPhrase}");
                         }
                     }

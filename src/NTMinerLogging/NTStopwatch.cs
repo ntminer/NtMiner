@@ -3,12 +3,14 @@ using System.Diagnostics;
 
 namespace NTMiner {
     public class NTStopwatch {
+        public static readonly long ElapsedMilliseconds = 20;
+
         public struct ElapsedValue {
             public long ElapsedMilliseconds;
             public int StackHeight;
 
             public override string ToString() {
-                return $"[{StackHeight}]{ElapsedMilliseconds} 毫秒";
+                return $"[{StackHeight.ToString()}]{ElapsedMilliseconds.ToString()} 毫秒";
             }
         }
 
