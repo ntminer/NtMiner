@@ -1,4 +1,5 @@
-using NTWebSocket.Handlers;
+using NTWebSocket.Impl;
+using NTWebSocket.Impl.Handlers;
 using NUnit.Framework;
 using System.Text;
 

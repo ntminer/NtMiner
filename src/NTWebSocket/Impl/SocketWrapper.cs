@@ -8,7 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public class SocketWrapper : ISocket {
 
         public const uint KeepAliveInterval = 60000;

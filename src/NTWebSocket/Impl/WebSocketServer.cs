@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public sealed class WebSocketServer : IWebSocketServer {
         private readonly SchemeType _scheme;
         private readonly IPAddress _ip;

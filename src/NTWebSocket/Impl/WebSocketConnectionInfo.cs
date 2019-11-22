@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     public class WebSocketConnectionInfo : IWebSocketConnectionInfo {
         const string CookiePattern = @"((;)*(\s)*(?<cookie_name>[^=]+)=(?<cookie_value>[^\;]+))+";
         private static readonly Regex CookieRegex = new Regex(CookiePattern, RegexOptions.Compiled);

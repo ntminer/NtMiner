@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace NTWebSocket.Handlers {
+namespace NTWebSocket.Impl.Handlers {
     /// <summary>
     /// 注意这个依赖MD5，有些windows可能禁用了MD5
     /// </summary>

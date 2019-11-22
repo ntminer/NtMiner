@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl {
     /// <summary>
     /// Wraps a stream and queues multiple write operations.
     /// Useful for wrapping SslStream as it does not support multiple simultaneous write operations.

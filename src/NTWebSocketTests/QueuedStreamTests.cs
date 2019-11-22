@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using Moq;
+using NTWebSocket.Impl;
 using NUnit.Framework;
 
 namespace NTWebSocket.Tests {
