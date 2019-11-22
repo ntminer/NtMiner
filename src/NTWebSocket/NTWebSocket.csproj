@@ -48,10 +48,10 @@
     <Compile Include="IWebSocketConnection.cs" />
     <Compile Include="IWebSocketConnectionInfo.cs" />
     <Compile Include="IWebSocketServer.cs" />
-    <Compile Include="IntExtensions.cs" />
+    <Compile Include="Impl\Handlers\IntExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Impl\QueuedStream.cs" />
-    <Compile Include="ReadState.cs" />
+    <Compile Include="Impl\Handlers\ReadState.cs" />
     <Compile Include="Impl\RequestParser.cs" />
     <Compile Include="Impl\SocketWrapper.cs" />
     <Compile Include="SubProtocolNegotiationFailureException.cs" />

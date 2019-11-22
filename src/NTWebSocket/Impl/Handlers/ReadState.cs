@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NTWebSocket {
+namespace NTWebSocket.Impl.Handlers {
     public class ReadState {
         public ReadState() {
             Data = new List<byte>();
