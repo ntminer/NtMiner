@@ -54,7 +54,7 @@ namespace NTMiner.Gpus {
                     _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
                     var elapsedMilliseconds = Write.Stopwatch.Stop();
-                    if (elapsedMilliseconds.ElapsedMilliseconds > 20) {
+                    if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                         Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
                     }
 #endif

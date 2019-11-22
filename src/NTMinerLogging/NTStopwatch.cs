@@ -3,6 +3,8 @@ using System.Diagnostics;
 
 namespace NTMiner {
     public class NTStopwatch {
+        public static readonly long ElapsedMilliseconds = 20;
+
         public struct ElapsedValue {
             public long ElapsedMilliseconds;
             public int StackHeight;

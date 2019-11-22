@@ -268,7 +268,7 @@ namespace NTMiner.Vms {
                 });
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            if (elapsedMilliseconds.ElapsedMilliseconds > 20) {
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
 #endif
