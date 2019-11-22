@@ -245,8 +245,8 @@ namespace UnitTests {
                 }
             }
             Console.WriteLine($"测试{total.ToString()}次");
-            Console.WriteLine($"选中用户的钱包    {userWalletCount.ToString()}次，{(double)userWalletCount / total * 100} %");
-            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount.ToString()}次，{(double)ntminerWalletCount / total * 100} %");
+            Console.WriteLine($"选中用户的钱包    {userWalletCount.ToString()}次，{((double)userWalletCount / total * 100).ToString()} %");
+            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount.ToString()}次，{((double)ntminerWalletCount / total * 100).ToString()} %");
         }
 
         [TestMethod]
