@@ -28,7 +28,9 @@ namespace NTMiner {
                             Cleaner.Instance.Clear();
 #if DEBUG
                             var elapsedMilliseconds = Write.Stopwatch.Stop();
-                            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
+                            if (elapsedMilliseconds.ElapsedMilliseconds > 20) {
+                                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
+                            }
 #endif
                             Write.UserOk("场地打扫完毕");
                             // 应用超频

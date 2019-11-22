@@ -342,7 +342,9 @@ namespace NTMiner {
             }
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
-            Write.DevTimeSpan($"耗时{elapsedMilliseconds} {typeof(VirtualRoot).Name}.GetBrandId");
+            if (elapsedMilliseconds.ElapsedMilliseconds > 20) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {typeof(VirtualRoot).Name}.GetBrandId");
+            }
 #endif
             return guid;
         }
