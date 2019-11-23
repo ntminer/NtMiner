@@ -9,7 +9,7 @@ namespace NTMiner {
         private static IWebSocketServer _server;
         public static void Start() {
             Dictionary<Guid, IWebSocketConnection> connDic = new Dictionary<Guid, IWebSocketConnection>();
-            _server = ServerFactory.Create(new ServerConfig {
+            _server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
                 Ip = IPAddress.Parse("0.0.0.0"),
                 Port = NTKeyword.MinerClientPort + 1000

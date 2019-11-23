@@ -34,7 +34,7 @@ namespace NTWebSocket.Tests {
         public void ShouldStart() {
             var socketMock = _repository.Create<ISocket>();
 
-            var server = new WebSocketServer(new ServerConfig {
+            var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
                 Ip = IPAddress.Parse("0.0.0.0"),
                 Port = 8000,
@@ -50,7 +50,7 @@ namespace NTWebSocket.Tests {
         [Test]
         public void ShouldFailToParseIPAddressOfLocation() {
             Assert.Throws(typeof(FormatException), () => {
-                new WebSocketServer(new ServerConfig {
+                WebSocketServer.Create(new ServerConfig {
                     Scheme = SchemeType.ws,
                     Ip = IPAddress.Parse("localhost"),
                     Port = 8000
@@ -60,7 +60,7 @@ namespace NTWebSocket.Tests {
 
         [Test]
         public void ShouldBeSecureWithWssAndCertificate() {
-            var server = new WebSocketServer(new ServerConfig {
+            var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
                 Ip = IPAddress.Parse("0.0.0.0"),
                 Port = 8000,
@@ -72,7 +72,7 @@ namespace NTWebSocket.Tests {
 
         [Test]
         public void ShouldDefaultToNoneWithWssAndCertificate() {
-            var server = new WebSocketServer(new ServerConfig {
+            var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
                 Ip = IPAddress.Parse("0.0.0.0"),
                 Port = 8000,
@@ -84,7 +84,7 @@ namespace NTWebSocket.Tests {
 
         [Test]
         public void ShouldNotBeSecureWithWssAndNoCertificate() {
-            var server = new WebSocketServer(new ServerConfig {
+            var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
                 Ip = IPAddress.Parse("0.0.0.0"),
                 Port = 8000
@@ -95,7 +95,7 @@ namespace NTWebSocket.Tests {
 
         [Test]
         public void ShouldNotBeSecureWithoutWssAndCertificate() {
-            var server = new WebSocketServer(new ServerConfig {
+            var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
                 Ip = IPAddress.Parse("0.0.0.0"),
                 Port = 8000,
@@ -108,7 +108,7 @@ namespace NTWebSocket.Tests {
         [Test]
         [Ignore("Fails for an unknown release, does the test host need IPv6?")]
         public void ShouldSupportDualStackListenWhenServerV4All() {
-            var server = new WebSocketServer(new ServerConfig {
+            var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
                 Ip = IPAddress.Parse("0.0.0.0"),
                 Port = 8000
@@ -125,7 +125,7 @@ namespace NTWebSocket.Tests {
 
         [Test]
         public void ShouldSupportDualStackListenWhenServerV6All() {
-            var server = new WebSocketServer(new ServerConfig {
+            var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
                 Ip = IPAddress.Parse("[::]"),
                 Port = 8000

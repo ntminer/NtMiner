@@ -1,3 +1,4 @@
+using NTWebSocket.Impl;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -5,45 +6,59 @@ using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 
-namespace NTWebSocket.Impl {
+namespace NTWebSocket {
     public sealed class WebSocketServer : IWebSocketServer {
+        public static IWebSocketServer Create(ServerConfig config) {
+            return new WebSocketServer(config);
+        }
+
         private readonly SchemeType _scheme;
         private readonly IPAddress _ip;
         private Action<IWebSocketConnection> _config;
         private readonly string _location;
         private readonly bool _isSecure;
 
-        public WebSocketServer(ServerConfig config) {
-            _scheme = config.Scheme;
-            _isSecure = config.Scheme == SchemeType.wss;
-            _ip = config.Ip;
-            Port = config.Port;
-            _location = $"{config.Scheme.ToString()}://{config.Ip.ToString()}:{config.Port.ToString()}";
-            SupportDualStack = config.SupportDualStack;
+        private WebSocketServer(ServerConfig config) {
+            Socket socket = null;
+            try {
+                _scheme = config.Scheme;
+                _isSecure = config.Scheme == SchemeType.wss;
+                _ip = config.Ip;
+                Port = config.Port;
+                _location = $"{config.Scheme.ToString()}://{config.Ip.ToString()}:{config.Port.ToString()}";
+                SupportDualStack = config.SupportDualStack;
 
-            Socket socket;
-            if (config.ListenerSocket == null) {
-                socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
-            }
-            else {
-                socket = config.ListenerSocket.Socket;
-            }
+                if (config.ListenerSocket == null) {
+#pragma warning disable IDE0068 // 使用建议的 dispose 模式
+                    socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
+#pragma warning restore IDE0068 // 使用建议的 dispose 模式
+                }
+                else {
+                    socket = config.ListenerSocket.Socket;
+                }
 
-            if (SupportDualStack) {
-                socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
-                socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
-            }
+                if (SupportDualStack) {
+                    socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
+                    socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
+                }
 
-            if (config.ListenerSocket == null) {
-                ListenerSocket = new SocketWrapper(socket);
+                if (config.ListenerSocket == null) {
+                    ListenerSocket = new SocketWrapper(socket);
+                }
+                else {
+                    ListenerSocket = config.ListenerSocket;
+                }
+                SupportedSubProtocols = config.SupportedSubProtocols;
+                Certificate = config.Certificate;
+                EnabledSslProtocols = config.EnabledSslProtocols;
+                RestartAfterListenError = config.RestartAfterListenError;
             }
-            else {
-                ListenerSocket = config.ListenerSocket;
+            catch {
+                if (socket != null) {
+                    socket.Dispose();
+                }
+                throw;
             }
-            SupportedSubProtocols = config.SupportedSubProtocols;
-            Certificate = config.Certificate;
-            EnabledSslProtocols = config.EnabledSslProtocols;
-            RestartAfterListenError = config.RestartAfterListenError;
         }
 
         public ISocket ListenerSocket { get; private set; }
