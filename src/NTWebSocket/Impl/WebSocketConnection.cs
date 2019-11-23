@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
 
 namespace NTWebSocket.Impl {
     public class WebSocketConnection : IWebSocketConnection {
@@ -198,9 +197,6 @@ namespace NTWebSocket.Impl {
         }
 
         private Task SendBytes(byte[] bytes, Action callback = null) {
-#if DEBUG
-            NTMiner.Write.DevDebug("\n" + Encoding.UTF8.GetString(bytes));
-#endif
             return Socket.Send(bytes, () => {
                 NTMiner.Write.DevDebug("Sent " + bytes.Length + " bytes");
                 callback?.Invoke();
