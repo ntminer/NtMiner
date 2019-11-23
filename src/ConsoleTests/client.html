@@ -22,15 +22,11 @@
             inc.innerHTML += "connecting to server ..<br/>";
 
             // create a new websocket and connect
-            window.ws = new wsImpl('ws://server.ntminer.com:8088/');
+            window.ws = new wsImpl('ws://localhost:8088/');
 
-            var clientId;
             // when data is comming from the server, this metod is called
             ws.onmessage = function (evt) {
                 console.log(evt);
-                if (evt.data.startWith("clientId:")) {
-                    clientId = evt.data.substring("clientId:".length);
-                }
                 inc.innerHTML += evt.data + '<br/>';
             };
 
@@ -46,11 +42,8 @@
 
             function send(e) {
                 e.preventDefault();
-                if (!clientId) {
-                    return;
-                }
                 var val = input.value;
-                ws.send(clientId + ":" + val);
+                ws.send(val);
                 input.value = "";
             }
 

@@ -1,63 +1,71 @@
 ﻿using NTWebSocket;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
+using System.Text;
 
 namespace NTMiner {
     class Program {
-        static void Main(string[] args) {
+        static void Main() {
             DevMode.SetDevMode();
 
             WebSocketTest();
 
             Console.ReadKey();
         }
-        
+
         static void WebSocketTest() {
-            Dictionary<Guid, IWebSocketConnection> connDic = new Dictionary<Guid, IWebSocketConnection>();
-            var server = ServerFactory.Create(SchemeType.ws, IPAddress.Parse("0.0.0.0"), 8088);
-            server.Start(socket => {
-                socket.OnOpen = () => {
-                    string id = socket.ConnectionInfo.Id.ToString();
-                    connDic.Add(socket.ConnectionInfo.Id, socket);
-                    socket.Send($"clientId:" + id);
-                };
-                socket.OnClose = () => {
-                    connDic.Remove(socket.ConnectionInfo.Id);
-                };
-                socket.OnMessage = message => {
-                    if (string.IsNullOrEmpty(message)) {
-                        return;
-                    }
-                    string[] parts = message.Split(':');
-                    if (parts.Length < 2) {
-                        return;
-                    }
-                    if (!Guid.TryParse(parts[0], out Guid clientId) || !connDic.ContainsKey(clientId)) {
-                        return;
-                    }
-                    string command = parts[1];
-                    switch (command) {
-                        case "getSpeed":
-                            if (connDic.TryGetValue(clientId, out IWebSocketConnection conn)) {
-                                conn.Send("result of getSpeed:{'a':'this is a test'}");
-                            }
-                            break;
-                        default:
-                            connDic.Values.ToList().ForEach(s => s.Send("Echo:" + command));
-                            break;
-                    }
-                };
-            });
+            using (var server = WebSocketServer.Create(new ServerConfig {
+                Scheme = SchemeType.ws,
+                Ip = IPAddress.Parse("0.0.0.0"),
+                Port = 8088
+            })) {
+                server.Start(conn => {
+                    conn.OnOpen = () => {
+                        Write.DevDebug("OnOpen: opened");
+                        Write.DevWarn("ConnCount " + server.ConnCount);
+                    };
+                    conn.OnClose = () => {
+                        Write.DevDebug("OnClose: closed");
+                        Write.DevWarn("ConnCount " + server.ConnCount);
+                    };
+                    conn.OnPing = (data) => {
+                        conn.SendPong(data);
+                    };
+                    conn.OnPong = (data) => {
+                        Write.DevDebug("OnPong: " + Encoding.UTF8.GetString(data));
+                    };
+                    conn.OnError = e => {
+                        Write.DevException(e);
+                    };
+                    conn.OnMessage = message => {
+                        if (string.IsNullOrEmpty(message)) {
+                            return;
+                        }
+                        switch (message) {
+                            case "getSpeed":
+                                conn.Send(new JsonObject {
+                                    type = "getSpeed",
+                                    value = new Dictionary<string, object> {
+                                        {"str", "hello" },
+                                        {"num", 111 },
+                                        {"date", DateTime.Now }
+                                    }
+                                }.ToJson());
+                                break;
+                            default:
+                                conn.Send(message);
+                                break;
+                        }
+                        Write.DevWarn("ConnCount " + server.ConnCount);
+                    };
+                });
 
 
-            var input = Console.ReadLine();
-            while (input != "exit") {
-                foreach (var socket in connDic.Values.ToList()) {
-                    socket.Send(input);
+                var input = Console.ReadLine();
+                while (input != "exit") {
+                    input = Console.ReadLine();
                 }
-                input = Console.ReadLine();
             }
         }
     }

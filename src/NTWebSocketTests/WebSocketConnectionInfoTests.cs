@@ -41,7 +41,6 @@ namespace NTWebSocket.Tests {
             const string host = "blah.com";
             const string subprotocol = "Submarine!";
             const string username = "Username";
-            const string secret = "Secret";
             const string clientIp = "127.0.0.1";
             const string cookies = "chocolate=yummy; oatmeal=alsoyummy";
             const int clientPort = 0;
