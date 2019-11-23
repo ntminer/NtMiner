@@ -17,7 +17,7 @@ namespace NTMiner {
         static void WebSocketTest() {
             Dictionary<Guid, IWebSocketConnection> connDic = new Dictionary<Guid, IWebSocketConnection>();
             using (var server = WebSocketServer.Create(new ServerConfig {
-                Scheme = SchemeType.wss,
+                Scheme = SchemeType.ws,
                 Ip = IPAddress.Parse("0.0.0.0"),
                 Port = 8088
             })) {
