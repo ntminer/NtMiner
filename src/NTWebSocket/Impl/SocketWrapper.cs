@@ -51,6 +51,10 @@ namespace NTWebSocket.Impl {
         }
 
         public SocketWrapper(Socket socket) {
+            if (socket.AddressFamily == AddressFamily.InterNetworkV6) {
+                socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
+            }
+            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
             _tokenSource = new CancellationTokenSource();
             _taskFactory = new TaskFactory(_tokenSource.Token);
             _socket = socket;

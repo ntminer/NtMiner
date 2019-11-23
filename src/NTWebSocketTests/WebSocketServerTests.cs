@@ -31,7 +31,6 @@ namespace NTWebSocket.Tests {
         public void ShouldStart() {
             var socketMock = _repository.Create<ISocket>();
             socketMock.SetupGet(a => a.LocalEndPoint).Returns(new IPEndPoint(_ipV4Address, 8000));
-            socketMock.SetupGet(a => a.Socket).Returns(_ipV4Socket);
 
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,

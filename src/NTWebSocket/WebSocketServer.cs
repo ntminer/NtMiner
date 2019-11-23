@@ -19,52 +19,28 @@ namespace NTWebSocket {
         private readonly bool _isSecure;
 
         private WebSocketServer(ServerConfig config) {
-            Socket socket = null;
-            try {
-                _scheme = config.Scheme;
-                _isSecure = config.Scheme == SchemeType.wss;
-                _ip = config.Ip;
-                Port = config.Port;
-                _location = $"{config.Scheme.ToString()}://{config.Ip.ToString()}:{config.Port.ToString()}";
-                SupportDualStack = config.SupportDualStack;
+            _scheme = config.Scheme;
+            _isSecure = config.Scheme == SchemeType.wss;
+            _ip = config.Ip;
+            Port = config.Port;
+            _location = $"{config.Scheme.ToString()}://{config.Ip.ToString()}:{config.Port.ToString()}";
 
-                if (config.ListenerSocket == null) {
-#pragma warning disable IDE0068 // 使用建议的 dispose 模式
-                    socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
-#pragma warning restore IDE0068 // 使用建议的 dispose 模式
-                }
-                else {
-                    socket = config.ListenerSocket.Socket;
-                }
-
-                if (SupportDualStack) {
-                    socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
-                    socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
-                }
-
-                if (config.ListenerSocket == null) {
-                    ListenerSocket = new SocketWrapper(socket);
-                }
-                else {
-                    ListenerSocket = config.ListenerSocket;
-                }
-                SupportedSubProtocols = config.SupportedSubProtocols;
-                if (config.Scheme == SchemeType.wss) {
-                    Certificate = new X509Certificate2();
-                }
-                EnabledSslProtocols = config.EnabledSslProtocols;
-                RestartAfterListenError = config.RestartAfterListenError;
+            if (config.ListenerSocket == null) {
+                var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
+                ListenerSocket = new SocketWrapper(socket);
             }
-            catch {
-                if (socket != null) {
-                    socket.Dispose();
-                }
-                throw;
+            else {
+                ListenerSocket = config.ListenerSocket;
             }
+            SupportedSubProtocols = config.SupportedSubProtocols;
+            if (config.Scheme == SchemeType.wss) {
+                Certificate = new X509Certificate2();
+            }
+            EnabledSslProtocols = config.EnabledSslProtocols;
+            RestartAfterListenError = config.RestartAfterListenError;
         }
 
         public ISocket ListenerSocket { get; private set; }
-        public bool SupportDualStack { get; private set; }
         public int Port { get; private set; }
         public X509Certificate2 Certificate { get; private set; }
         public SslProtocols EnabledSslProtocols { get; private set; }
