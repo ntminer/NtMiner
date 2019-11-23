@@ -14,7 +14,7 @@ namespace NTWebSocket {
 
         private readonly SchemeType _scheme;
         private readonly IPAddress _ip;
-        private Action<IWebSocketConnection> _config;
+        private Action<IWebSocketConnection> _connConfig;
         private readonly string _location;
         private readonly bool _isSecure;
 
@@ -73,7 +73,7 @@ namespace NTWebSocket {
                 }
             }
             ListenForClients();
-            _config = connConfig;
+            _connConfig = connConfig;
         }
 
         private void ListenForClients() {
@@ -85,7 +85,7 @@ namespace NTWebSocket {
                         ListenerSocket.Dispose();
                         var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
                         ListenerSocket = new SocketWrapper(socket);
-                        Start(_config);
+                        Start(_connConfig);
                         NTMiner.Write.DevDebug("Listener socket restarted");
                     }
                     catch (Exception ex) {
@@ -107,15 +107,30 @@ namespace NTWebSocket {
 
             connection = new WebSocketConnection(
                 socket: clientSocket,
-                initialize: _config,
+                initialize: _connConfig,
                 parseRequest: bytes => RequestParser.Parse(bytes, _scheme),
                 handlerFactory: r => HandlerFactory.BuildHandler(
                     request: r,
-                    onMessage: s => connection.OnMessage(s),
-                    onClose: connection.Close,
-                    onBinary: b => connection.OnBinary(b),
-                    onPing: b => connection.OnPing(b),
-                    onPong: b => connection.OnPong(b)),
+                    onMessage: s => {
+                        connection.MessageOn = DateTime.Now;
+                        connection.OnMessage(s);
+                    },
+                    onClose: ()=> {
+                        connection.ClosedOn = DateTime.Now;
+                        connection.Close();
+                    },
+                    onBinary: b => {
+                        connection.BinaryOn = DateTime.Now;
+                        connection.OnBinary(b);
+                    },
+                    onPing: b => {
+                        connection.PingOn = DateTime.Now;
+                        connection.OnPing(b);
+                    },
+                    onPong: b => {
+                        connection.PongOn = DateTime.Now;
+                        connection.OnPong(b);
+                    }),
                 negotiateSubProtocol: s => SubProtocolNegotiator.Negotiate(SupportedSubProtocols, s));
 
             if (IsSecure) {

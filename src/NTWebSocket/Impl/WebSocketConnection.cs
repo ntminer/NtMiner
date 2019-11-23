@@ -55,6 +55,14 @@ namespace NTWebSocket.Impl {
             get { return !_closing && !_closed && Socket.Connected; }
         }
 
+        public DateTime OpenedOn { get; private set; }
+
+        public DateTime ClosedOn { get; set; }
+        public DateTime MessageOn { get; set; }
+        public DateTime BinaryOn { get; set; }
+        public DateTime PingOn { get; set; }
+        public DateTime PongOn { get; set; }
+
         public Task Send(string message) {
             return Send(message, Handler.FrameText);
         }
@@ -135,7 +143,10 @@ namespace NTWebSocket.Impl {
             _initialize(this);
 
             var handshake = Handler.CreateHandshake(subProtocol);
-            SendBytes(handshake, OnOpen);
+            SendBytes(handshake, ()=> {
+                OpenedOn = DateTime.Now;
+                OnOpen();
+            });
         }
 
         private void Read(List<byte> data, byte[] buffer) {
