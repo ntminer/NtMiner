@@ -180,7 +180,10 @@ namespace NTWebSocket.Impl.Handlers {
         public static string CreateResponseKey(string requestKey) {
             var combined = requestKey + WebSocketResponseGuid;
 
-            var bytes = SHA1.Create().ComputeHash(Encoding.ASCII.GetBytes(combined));
+            byte[] bytes;
+            using (var sha1 = SHA1.Create()) {
+                bytes = sha1.ComputeHash(Encoding.ASCII.GetBytes(combined));
+            }
 
             return Convert.ToBase64String(bytes);
         }
