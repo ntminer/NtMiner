@@ -49,7 +49,9 @@ namespace NTWebSocket {
                     ListenerSocket = config.ListenerSocket;
                 }
                 SupportedSubProtocols = config.SupportedSubProtocols;
-                Certificate = config.Certificate;
+                if (config.Scheme == SchemeType.wss) {
+                    Certificate = new X509Certificate2();
+                }
                 EnabledSslProtocols = config.EnabledSslProtocols;
                 RestartAfterListenError = config.RestartAfterListenError;
             }

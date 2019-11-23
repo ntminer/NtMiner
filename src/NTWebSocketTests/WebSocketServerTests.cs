@@ -1,11 +1,9 @@
+using Moq;
+using NUnit.Framework;
 using System;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Authentication;
-using Moq;
-using NUnit.Framework;
-using System.Security.Cryptography.X509Certificates;
-using NTWebSocket.Impl;
 
 namespace NTWebSocket.Tests {
     [TestFixture]
@@ -59,47 +57,33 @@ namespace NTWebSocket.Tests {
         }
 
         [Test]
-        public void ShouldBeSecureWithWssAndCertificate() {
+        public void ShouldBeSecureWithWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
                 Ip = IPAddress.Parse("0.0.0.0"),
-                Port = 8000,
-                Certificate = new X509Certificate2()
+                Port = 8000
             });
             Assert.IsTrue(server.IsSecure);
             server.Dispose();
         }
 
         [Test]
-        public void ShouldDefaultToNoneWithWssAndCertificate() {
+        public void ShouldDefaultToNoneWithWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
                 Ip = IPAddress.Parse("0.0.0.0"),
-                Port = 8000,
-                Certificate = new X509Certificate2()
+                Port = 8000
             });
             Assert.AreEqual(server.EnabledSslProtocols, SslProtocols.None);
             server.Dispose();
         }
 
         [Test]
-        public void ShouldNotBeSecureWithWssAndNoCertificate() {
-            var server = WebSocketServer.Create(new ServerConfig {
-                Scheme = SchemeType.wss,
-                Ip = IPAddress.Parse("0.0.0.0"),
-                Port = 8000
-            });
-            Assert.IsFalse(server.IsSecure);
-            server.Dispose();
-        }
-
-        [Test]
-        public void ShouldNotBeSecureWithoutWssAndCertificate() {
+        public void ShouldNotBeSecureWithoutWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
                 Ip = IPAddress.Parse("0.0.0.0"),
-                Port = 8000,
-                Certificate = new X509Certificate2()
+                Port = 8000
             });
             Assert.IsFalse(server.IsSecure);
             server.Dispose();
