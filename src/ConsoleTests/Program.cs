@@ -13,20 +13,24 @@ namespace NTMiner {
 
             Console.ReadKey();
         }
-        
+
         static void WebSocketTest() {
             Dictionary<Guid, IWebSocketConnection> connDic = new Dictionary<Guid, IWebSocketConnection>();
-            var server = ServerFactory.Create(SchemeType.ws, IPAddress.Parse("0.0.0.0"), 8088);
-            server.Start(socket => {
-                socket.OnOpen = () => {
-                    string id = socket.ConnectionInfo.Id.ToString();
-                    connDic.Add(socket.ConnectionInfo.Id, socket);
-                    socket.Send($"clientId:" + id);
+            var server = ServerFactory.Create(new ServerConfig {
+                Scheme = SchemeType.wss,
+                Ip = IPAddress.Parse("0.0.0.0"),
+                Port = 8088
+            });
+            server.Start(conn => {
+                conn.OnOpen = () => {
+                    string id = conn.ConnectionInfo.Id.ToString();
+                    connDic.Add(conn.ConnectionInfo.Id, conn);
+                    conn.Send($"clientId:" + id);
                 };
-                socket.OnClose = () => {
-                    connDic.Remove(socket.ConnectionInfo.Id);
+                conn.OnClose = () => {
+                    connDic.Remove(conn.ConnectionInfo.Id);
                 };
-                socket.OnMessage = message => {
+                conn.OnMessage = message => {
                     if (string.IsNullOrEmpty(message)) {
                         return;
                     }
@@ -40,9 +44,7 @@ namespace NTMiner {
                     string command = parts[1];
                     switch (command) {
                         case "getSpeed":
-                            if (connDic.TryGetValue(clientId, out IWebSocketConnection conn)) {
-                                conn.Send("result of getSpeed:{'a':'this is a test'}");
-                            }
+                            conn.Send("result of getSpeed:{'a':'this is a test'}");
                             break;
                         default:
                             connDic.Values.ToList().ForEach(s => s.Send("Echo:" + command));

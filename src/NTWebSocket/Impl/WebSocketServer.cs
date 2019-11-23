@@ -13,32 +13,46 @@ namespace NTWebSocket.Impl {
         private readonly string _location;
         private readonly bool _isSecure;
 
-        public WebSocketServer(SchemeType scheme, IPAddress ip, int port, bool supportDualStack = true) {
-            _scheme = scheme;
-            _isSecure = scheme == SchemeType.wss;
-            _ip = ip;
-            Port = port;
-            _location = $"{scheme.ToString()}://{ip.ToString()}:{port.ToString()}";
-            SupportDualStack = supportDualStack;
+        public WebSocketServer(ServerConfig config) {
+            _scheme = config.Scheme;
+            _isSecure = config.Scheme == SchemeType.wss;
+            _ip = config.Ip;
+            Port = config.Port;
+            _location = $"{config.Scheme.ToString()}://{config.Ip.ToString()}:{config.Port.ToString()}";
+            SupportDualStack = config.SupportDualStack;
 
-            var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
+            Socket socket;
+            if (config.ListenerSocket == null) {
+                socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
+            }
+            else {
+                socket = config.ListenerSocket.Socket;
+            }
 
             if (SupportDualStack) {
                 socket.SetSocketOption(SocketOptionLevel.IPv6, SocketOptionName.IPv6Only, false);
                 socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReuseAddress, 1);
             }
 
-            ListenerSocket = new SocketWrapper(socket);
-            SupportedSubProtocols = new string[0];
+            if (config.ListenerSocket == null) {
+                ListenerSocket = new SocketWrapper(socket);
+            }
+            else {
+                ListenerSocket = config.ListenerSocket;
+            }
+            SupportedSubProtocols = config.SupportedSubProtocols;
+            Certificate = config.Certificate;
+            EnabledSslProtocols = config.EnabledSslProtocols;
+            RestartAfterListenError = config.RestartAfterListenError;
         }
 
-        public ISocket ListenerSocket { get; set; }
-        public bool SupportDualStack { get; }
+        public ISocket ListenerSocket { get; private set; }
+        public bool SupportDualStack { get; private set; }
         public int Port { get; private set; }
-        public X509Certificate2 Certificate { get; set; }
-        public SslProtocols EnabledSslProtocols { get; set; }
-        public IEnumerable<string> SupportedSubProtocols { get; set; }
-        public bool RestartAfterListenError { get; set; }
+        public X509Certificate2 Certificate { get; private set; }
+        public SslProtocols EnabledSslProtocols { get; private set; }
+        public IEnumerable<string> SupportedSubProtocols { get; private set; }
+        public bool RestartAfterListenError { get; private set; }
 
         public bool IsSecure {
             get { return _isSecure && Certificate != null; }
@@ -48,7 +62,7 @@ namespace NTWebSocket.Impl {
             ListenerSocket.Dispose();
         }
 
-        public void Start(Action<IWebSocketConnection> config) {
+        public void Start(Action<IWebSocketConnection> connConfig) {
             var ipLocal = new IPEndPoint(_ip, Port);
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);
@@ -66,7 +80,7 @@ namespace NTWebSocket.Impl {
                 }
             }
             ListenForClients();
-            _config = config;
+            _config = connConfig;
         }
 
         private void ListenForClients() {

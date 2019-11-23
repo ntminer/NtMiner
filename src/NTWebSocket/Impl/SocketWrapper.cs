@@ -19,6 +19,12 @@ namespace NTWebSocket.Impl {
         private CancellationTokenSource _tokenSource;
         private TaskFactory _taskFactory;
 
+        public Socket Socket {
+            get {
+                return _socket;
+            }
+        }
+
         public string RemoteIpAddress {
             get {
                 var endpoint = _socket.RemoteEndPoint as IPEndPoint;

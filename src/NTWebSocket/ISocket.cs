@@ -1,12 +1,14 @@
 using System;
 using System.IO;
 using System.Net;
+using System.Net.Sockets;
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 namespace NTWebSocket {
     public interface ISocket {
+        Socket Socket { get; }
         bool Connected { get; }
         string RemoteIpAddress { get; }
         int RemotePort { get; }

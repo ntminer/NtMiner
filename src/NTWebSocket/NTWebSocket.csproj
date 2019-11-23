@@ -62,6 +62,7 @@
     <Compile Include="Impl\WebSocketHttpRequest.cs" />
     <Compile Include="SchemeType.cs" />
     <Compile Include="Impl\WebSocketServer.cs" />
+    <Compile Include="ServerConfig.cs" />
     <Compile Include="ServerFactory.cs" />
     <Compile Include="Impl\WebSocketStatusCodes.cs" />
   </ItemGroup>

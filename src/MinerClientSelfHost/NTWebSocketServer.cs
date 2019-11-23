@@ -9,17 +9,21 @@ namespace NTMiner {
         private static IWebSocketServer _server;
         public static void Start() {
             Dictionary<Guid, IWebSocketConnection> connDic = new Dictionary<Guid, IWebSocketConnection>();
-            _server = ServerFactory.Create(scheme: SchemeType.ws, ip: IPAddress.Parse("0.0.0.0"), port: NTKeyword.MinerClientPort + 1000);
-            _server.Start(socket => {
-                socket.OnOpen = () => {
-                    string id = socket.ConnectionInfo.Id.ToString();
-                    connDic.Add(socket.ConnectionInfo.Id, socket);
-                    socket.Send($"clientId:" + id);
+            _server = ServerFactory.Create(new ServerConfig {
+                Scheme = SchemeType.ws,
+                Ip = IPAddress.Parse("0.0.0.0"),
+                Port = NTKeyword.MinerClientPort + 1000
+            });
+            _server.Start(conn => {
+                conn.OnOpen = () => {
+                    string id = conn.ConnectionInfo.Id.ToString();
+                    connDic.Add(conn.ConnectionInfo.Id, conn);
+                    conn.Send($"clientId:" + id);
                 };
-                socket.OnClose = () => {
-                    connDic.Remove(socket.ConnectionInfo.Id);
+                conn.OnClose = () => {
+                    connDic.Remove(conn.ConnectionInfo.Id);
                 };
-                socket.OnMessage = message => {
+                conn.OnMessage = message => {
                     if (string.IsNullOrEmpty(message)) {
                         return;
                     }
@@ -33,11 +37,9 @@ namespace NTMiner {
                     string command = parts[1];
                     switch (command) {
                         case "getSpeed":
-                            if (connDic.TryGetValue(clientId, out IWebSocketConnection conn)) {
-                                var speedData = Report.CreateSpeedData();
-                                string json = VirtualRoot.JsonSerializer.Serialize(speedData);
-                                conn.Send("result of getSpeed:" + json);
-                            }
+                            var speedData = Report.CreateSpeedData();
+                            string json = VirtualRoot.JsonSerializer.Serialize(speedData);
+                            conn.Send("result of getSpeed:" + json);
                             break;
                         default:
                             connDic.Values.ToList().ForEach(s => s.Send("Echo:" + command));
