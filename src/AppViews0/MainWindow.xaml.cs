@@ -240,11 +240,11 @@ namespace NTMiner.Views {
             if (consoleWindow.WindowState != this.WindowState) {
                 consoleWindow.WindowState = this.WindowState;
             }
-            if (consoleWindow.Width != this.ActualWidth) {
-                consoleWindow.Width = this.ActualWidth;
+            if (consoleWindow.Width != this.Width) {
+                consoleWindow.Width = this.Width;
             }
-            if (consoleWindow.Height != this.ActualHeight) {
-                consoleWindow.Height = this.ActualHeight;
+            if (consoleWindow.Height != this.Height) {
+                consoleWindow.Height = this.Height;
             }
             if (this.WindowState == WindowState.Normal) {
                 if (consoleWindow.Left != this.Left) {
