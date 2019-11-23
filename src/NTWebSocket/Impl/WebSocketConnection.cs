@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace NTWebSocket.Impl {
     public class WebSocketConnection : IWebSocketConnection {
@@ -17,10 +18,10 @@ namespace NTWebSocket.Impl {
         private const int ReadSize = 1024 * 4;
 
         public WebSocketConnection(
-            ISocket socket, 
-            Action<IWebSocketConnection> initialize, 
-            Func<byte[], WebSocketHttpRequest> parseRequest, 
-            Func<WebSocketHttpRequest, IHandler> handlerFactory, 
+            ISocket socket,
+            Action<IWebSocketConnection> initialize,
+            Func<byte[], WebSocketHttpRequest> parseRequest,
+            Func<WebSocketHttpRequest, IHandler> handlerFactory,
             Func<IEnumerable<string>, string> negotiateSubProtocol) {
 
             Socket = socket;
@@ -197,6 +198,9 @@ namespace NTWebSocket.Impl {
         }
 
         private Task SendBytes(byte[] bytes, Action callback = null) {
+#if DEBUG
+            NTMiner.Write.DevDebug("\n" + Encoding.UTF8.GetString(bytes));
+#endif
             return Socket.Send(bytes, () => {
                 NTMiner.Write.DevDebug("Sent " + bytes.Length + " bytes");
                 callback?.Invoke();
