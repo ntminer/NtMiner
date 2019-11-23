@@ -1,5 +1,6 @@
 ﻿using NTWebSocket;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Text;
 
@@ -43,10 +44,14 @@ namespace NTMiner {
                         }
                         switch (message) {
                             case "getSpeed":
-                                conn.Send("result of getSpeed:{'a':'this is a test'}");
+                                conn.Send(new JsonObject<Dictionary<string, object>>(new Dictionary<string, object> {
+                                    {"str", "hello" },
+                                    {"num", 111 },
+                                    {"date", DateTime.Now }
+                                }).ToJson());
                                 break;
                             default:
-                                conn.Send("Echo:" + message);
+                                conn.Send(message);
                                 break;
                         }
                         Write.DevWarn("ConnCount " + server.ConnCount);
