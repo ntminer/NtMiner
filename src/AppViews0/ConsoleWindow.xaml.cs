@@ -60,6 +60,16 @@ namespace NTMiner.Views {
             _marginTop = marginTop;
             _height = height;
             _width = width;
+            // 如果没有ConsoleBgRectangle的话鼠标会点击到桌面上
+            if (ConsoleBgRectangle.Width != width) {
+                ConsoleBgRectangle.Width = width;
+            }
+            if (ConsoleBgRectangle.Height != height) {
+                ConsoleBgRectangle.Height = height;
+            }
+            if ((int)ConsoleBgRectangle.Margin.Top != marginTop) {
+                ConsoleBgRectangle.Margin = new Thickness(0, marginTop, 1, 0);
+            }
             IntPtr console = NTMinerConsole.Show();
             SafeNativeMethods.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, true);
         }
