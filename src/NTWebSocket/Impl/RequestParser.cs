@@ -19,6 +19,9 @@ namespace NTWebSocket.Impl {
         public static WebSocketHttpRequest Parse(byte[] bytes, SchemeType scheme) {
             // Check for websocket request header
             var body = Encoding.UTF8.GetString(bytes);
+#if DEBUG
+            NTMiner.Write.DevDebug("\n" + body);
+#endif
             Match match = _regex.Match(body);
 
             if (!match.Success) {

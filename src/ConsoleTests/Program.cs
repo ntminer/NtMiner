@@ -1,6 +1,7 @@
 ﻿using NTWebSocket;
 using System;
 using System.Net;
+using System.Text;
 
 namespace NTMiner {
     class Program {
@@ -20,10 +21,19 @@ namespace NTMiner {
             })) {
                 server.Start(conn => {
                     conn.OnOpen = () => {
-                        Write.DevDebug("opened");
+                        Write.DevDebug("OnOpen: opened");
                     };
                     conn.OnClose = () => {
-                        Write.DevDebug("closed");
+                        Write.DevDebug("OnClose: closed");
+                    };
+                    conn.OnPing = (data) => {
+                        conn.SendPong(data);
+                    };
+                    conn.OnPong = (data) => {
+                        Write.DevDebug("OnPong: " + Encoding.UTF8.GetString(data));
+                    };
+                    conn.OnError = e => {
+                        Write.DevException(e);
                     };
                     conn.OnMessage = message => {
                         if (string.IsNullOrEmpty(message)) {
