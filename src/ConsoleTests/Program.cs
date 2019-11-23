@@ -22,9 +22,11 @@ namespace NTMiner {
                 server.Start(conn => {
                     conn.OnOpen = () => {
                         Write.DevDebug("OnOpen: opened");
+                        Write.DevWarn("ConnCount " + server.ConnCount);
                     };
                     conn.OnClose = () => {
                         Write.DevDebug("OnClose: closed");
+                        Write.DevWarn("ConnCount " + server.ConnCount);
                     };
                     conn.OnPing = (data) => {
                         conn.SendPong(data);
@@ -47,6 +49,7 @@ namespace NTMiner {
                                 conn.Send("Echo:" + message);
                                 break;
                         }
+                        Write.DevWarn("ConnCount " + server.ConnCount);
                     };
                 });
 

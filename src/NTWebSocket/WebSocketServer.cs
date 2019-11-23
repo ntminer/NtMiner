@@ -12,11 +12,24 @@ namespace NTWebSocket {
             return new WebSocketServer(config);
         }
 
+        private readonly List<IWebSocketConnection> _conns = new List<IWebSocketConnection>();
         private readonly SchemeType _scheme;
         private readonly IPAddress _ip;
         private Action<IWebSocketConnection> _connConfig;
         private readonly string _location;
         private readonly bool _isSecure;
+
+        public IEnumerable<IWebSocketConnection> Conns {
+            get {
+                return _conns.ToArray();
+            }
+        }
+
+        public int ConnCount {
+            get {
+                return _conns.Count;
+            }
+        }
 
         private WebSocketServer(ServerConfig config) {
             _scheme = config.Scheme;
@@ -118,6 +131,7 @@ namespace NTWebSocket {
                     onClose: ()=> {
                         connection.ClosedOn = DateTime.Now;
                         connection.Close();
+                        _conns.Remove(connection);
                     },
                     onBinary: b => {
                         connection.BinaryOn = DateTime.Now;
@@ -132,6 +146,7 @@ namespace NTWebSocket {
                         connection.OnPong(b);
                     }),
                 negotiateSubProtocol: s => SubProtocolNegotiator.Negotiate(SupportedSubProtocols, s));
+            _conns.Add(connection);
 
             if (IsSecure) {
                 NTMiner.Write.DevDebug("Authenticating Secure Connection");
