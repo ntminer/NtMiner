@@ -29,8 +29,7 @@ namespace NTWebSocket.Impl {
         }
 
         public static string GetVersion(WebSocketHttpRequest request) {
-            string version;
-            if (request.Headers.TryGetValue("Sec-WebSocket-Version", out version)) {
+            if (request.Headers.TryGetValue("Sec-WebSocket-Version", out string version)) {
                 return version;
             }
 
@@ -38,6 +37,7 @@ namespace NTWebSocket.Impl {
                 return version;
             }
 
+            // safariä¯ÀÀÆ÷
             if (request.Headers.ContainsKey("Sec-WebSocket-Key1")) {
                 return "76";
             }

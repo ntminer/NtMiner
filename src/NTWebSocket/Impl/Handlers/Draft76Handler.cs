@@ -12,7 +12,7 @@ namespace NTWebSocket.Impl.Handlers {
 
         public static IHandler Create(WebSocketHttpRequest request, Action<string> onMessage) {
             return new ComposableHandler(
-                textFrame: FrameText, 
+                textFrame: FrameText,
                 handshake: sub => Handshake(request, sub),
                 receiveData: data => ReceiveData(onMessage, data));
         }
@@ -90,15 +90,14 @@ namespace NTWebSocket.Impl.Handlers {
             Array.Copy(result2Bytes, 0, rawAnswer, 4, 4);
             Array.Copy(challenge.Array, challenge.Offset, rawAnswer, 8, 8);
 
-            using (var sha1 = new SHA1CryptoServiceProvider()) {
-                byte[] result = sha1.ComputeHash(rawAnswer);
-                return result;
+            using (var md5 = MD5.Create()) {
+                return md5.ComputeHash(rawAnswer);
             }
         }
 
         private static byte[] ParseKey(string key) {
             int spaces = key.Count(x => x == ' ');
-            var digits = new String(key.Where(Char.IsDigit).ToArray());
+            var digits = new string(key.Where(char.IsDigit).ToArray());
 
             var value = (int)(long.Parse(digits) / spaces);
 
