@@ -5,9 +5,6 @@ using System.Security.Cryptography;
 using System.Text;
 
 namespace NTWebSocket.Impl.Handlers {
-    /// <summary>
-    /// 注意这个依赖MD5，有些windows可能禁用了MD5
-    /// </summary>
     public static class Draft76Handler {
         private const byte End = 255;
         private const byte Start = 0;
@@ -93,8 +90,10 @@ namespace NTWebSocket.Impl.Handlers {
             Array.Copy(result2Bytes, 0, rawAnswer, 4, 4);
             Array.Copy(challenge.Array, challenge.Offset, rawAnswer, 8, 8);
 
-            // 注意并非所有的windows设置都默认支持MD5
-            return MD5.Create().ComputeHash(rawAnswer);
+            using (var sha1 = new SHA1CryptoServiceProvider()) {
+                byte[] result = sha1.ComputeHash(rawAnswer);
+                return result;
+            }
         }
 
         private static byte[] ParseKey(string key) {
