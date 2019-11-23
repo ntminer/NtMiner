@@ -28,9 +28,10 @@ namespace NTWebSocket.Tests {
         }
 
         [Test]
-        [Ignore("Fails for an unknown release, was there a breaking change in Moq?")]
         public void ShouldStart() {
             var socketMock = _repository.Create<ISocket>();
+            socketMock.SetupGet(a => a.LocalEndPoint).Returns(new IPEndPoint(_ipV4Address, 8000));
+            socketMock.SetupGet(a => a.Socket).Returns(_ipV4Socket);
 
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
@@ -90,11 +91,10 @@ namespace NTWebSocket.Tests {
         }
 
         [Test]
-        [Ignore("Fails for an unknown release, does the test host need IPv6?")]
         public void ShouldSupportDualStackListenWhenServerV4All() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Parse("[::]"),
                 Port = 8000
             });
             server.Start(conn => { });
