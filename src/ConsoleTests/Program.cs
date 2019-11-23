@@ -44,11 +44,14 @@ namespace NTMiner {
                         }
                         switch (message) {
                             case "getSpeed":
-                                conn.Send(new JsonObject<Dictionary<string, object>>(new Dictionary<string, object> {
-                                    {"str", "hello" },
-                                    {"num", 111 },
-                                    {"date", DateTime.Now }
-                                }).ToJson());
+                                conn.Send(new JsonObject {
+                                    type = "getSpeed",
+                                    value = new Dictionary<string, object> {
+                                        {"str", "hello" },
+                                        {"num", 111 },
+                                        {"date", DateTime.Now }
+                                    }
+                                }.ToJson());
                                 break;
                             default:
                                 conn.Send(message);
