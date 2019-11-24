@@ -1,4 +1,3 @@
-using Moq;
 using NUnit.Framework;
 using System;
 using System.Net;
@@ -8,7 +7,6 @@ using System.Security.Authentication;
 namespace NTWebSocket.Tests {
     [TestFixture]
     public class WebSocketServerTests {
-        private MockRepository _repository;
 
         private IPAddress _ipV4Address;
         private IPAddress _ipV6Address;
@@ -18,8 +16,6 @@ namespace NTWebSocket.Tests {
 
         [SetUp]
         public void Setup() {
-            _repository = new MockRepository(MockBehavior.Default);
-
             _ipV4Address = IPAddress.Parse("127.0.0.1");
             _ipV6Address = IPAddress.Parse("::1");
 
@@ -29,19 +25,14 @@ namespace NTWebSocket.Tests {
 
         [Test]
         public void ShouldStart() {
-            var socketMock = _repository.Create<ISocket>();
-            socketMock.SetupGet(a => a.LocalEndPoint).Returns(new IPEndPoint(_ipV4Address, 8000));
-
-            var server = WebSocketServer.Create(new ServerConfig {
+            WebSocketServer server = (WebSocketServer)WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
-                Ip = IPAddress.Parse("0.0.0.0"),
-                Port = 8000,
-                ListenerSocket = socketMock.Object
+                Ip = IPAddress.Any,
+                Port = 8000
             });
-            server.Start(conn => { });
+            server.Start();
 
-            socketMock.Verify(s => s.Bind(It.Is<IPEndPoint>(i => i.Port == 8000)));
-            socketMock.Verify(s => s.Accept(It.IsAny<Action<ISocket>>(), It.IsAny<Action<Exception>>()));
+            Assert.AreEqual(8000, ((IPEndPoint)server.ListenerSocket.LocalEndPoint).Port);
             server.Dispose();
         }
 
@@ -60,7 +51,7 @@ namespace NTWebSocket.Tests {
         public void ShouldBeSecureWithWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = 8000
             });
             Assert.IsTrue(server.IsSecure);
@@ -71,7 +62,7 @@ namespace NTWebSocket.Tests {
         public void ShouldDefaultToNoneWithWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = 8000
             });
             Assert.AreEqual(server.EnabledSslProtocols, SslProtocols.None);
@@ -82,7 +73,7 @@ namespace NTWebSocket.Tests {
         public void ShouldNotBeSecureWithoutWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = 8000
             });
             Assert.IsFalse(server.IsSecure);
@@ -96,7 +87,7 @@ namespace NTWebSocket.Tests {
                 Ip = IPAddress.Parse("[::]"),
                 Port = 8000
             });
-            server.Start(conn => { });
+            server.Start();
             _ipV4Socket.Connect(_ipV4Address, 8000);
             _ipV6Socket.Connect(_ipV6Address, 8000);
             server.Dispose();
@@ -113,7 +104,7 @@ namespace NTWebSocket.Tests {
                 Ip = IPAddress.Parse("[::]"),
                 Port = 8000
             });
-            server.Start(conn => { });
+            server.Start();
             _ipV4Socket.Connect(_ipV4Address, 8000);
             _ipV6Socket.Connect(_ipV6Address, 8000);
             server.Dispose();

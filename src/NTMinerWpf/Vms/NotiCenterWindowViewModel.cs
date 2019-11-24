@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                 if (delaySeconds.HasValue && delaySeconds.Value != 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(4))
+                        .WithDelay(TimeSpan.FromSeconds(delaySeconds.Value))
                         .Queue();
                 }
                 else {
@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
                 if (delaySeconds.HasValue && delaySeconds.Value != 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(4))
+                        .WithDelay(TimeSpan.FromSeconds(delaySeconds.Value))
                         .Queue();
                 }
                 else {

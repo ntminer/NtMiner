@@ -15,8 +15,8 @@ namespace NTWebSocket.Tests {
             _socketMock = new Mock<ISocket>();
             _handlerMock = new Mock<IHandler>();
             _connection = new WebSocketConnection(
+                WebSocketServer.Create(new ServerConfig()),
                 socket: _socketMock.Object,
-                initialize: connection => { },
                 parseRequest: b => new WebSocketHttpRequest(),
                 handlerFactory: r => _handlerMock.Object,
                 negotiateSubProtocol: s => default);
@@ -27,7 +27,7 @@ namespace NTWebSocket.Tests {
             _socketMock.SetupGet(x => x.Connected).Returns(true);
             SetupReadLengths(0);
             bool hit = false;
-            _connection.OnClose = () => hit = true;
+            _connection.Server.Closed += (conn) => hit = true;
             _connection.StartReceiving();
             Assert.IsTrue(hit);
         }
@@ -57,57 +57,6 @@ namespace NTWebSocket.Tests {
         }
 
         [Test]
-        public void ShouldRaiseInitializeOnFirstRead() {
-            bool initializeRaised = false;
-            var connection = new WebSocketConnection(
-                socket:_socketMock.Object,
-                initialize: conn => { initializeRaised = true; },
-                parseRequest: b => new WebSocketHttpRequest(),
-                handlerFactory: r => _handlerMock.Object,
-                negotiateSubProtocol: s => default);
-
-            _socketMock.SetupGet(x => x.Connected).Returns(true);
-            SetupReadLengths(1, 0);
-            connection.StartReceiving();
-
-            Assert.IsTrue(initializeRaised);
-        }
-
-        [Test]
-        public void ShouldNotRaiseInitializeIfParseRequestReturnsNull() {
-            bool initializeRaised = false;
-            var connection = new WebSocketConnection(
-                socket: _socketMock.Object,
-                initialize: conn => { initializeRaised = true; },
-                parseRequest: b => null,
-                handlerFactory: r => _handlerMock.Object,
-                negotiateSubProtocol: s => default);
-
-            _socketMock.SetupGet(x => x.Connected).Returns(true);
-            SetupReadLengths(1, 0);
-            connection.StartReceiving();
-
-            Assert.IsFalse(initializeRaised);
-        }
-
-        [Test]
-        public void ShouldNotRaiseInitializeIfHandlerFactoryReturnsNull() {
-            bool initializeRaised = false;
-            var connection = new WebSocketConnection(
-                socket: _socketMock.Object,
-                initialize: conn => { initializeRaised = true; },
-                parseRequest: b => new WebSocketHttpRequest(),
-                handlerFactory: r => null,
-                negotiateSubProtocol: s => null);
-
-            _socketMock.SetupGet(x => x.Connected).Returns(true);
-            SetupReadLengths(1, 0);
-            connection.StartReceiving();
-
-            Assert.IsFalse(initializeRaised);
-        }
-
-        [Test]
         public void ShouldCallOnErrorWhenError() {
             _socketMock.Setup(
                 x =>
@@ -119,7 +68,7 @@ namespace NTWebSocket.Tests {
             _socketMock.SetupGet(x => x.Connected).Returns(true);
 
             bool hit = false;
-            _connection.OnError = e => hit = true;
+            _connection.Server.Error += (conn, e) => hit = true;
 
             _connection.StartReceiving();
             Assert.IsTrue(hit);
@@ -137,7 +86,7 @@ namespace NTWebSocket.Tests {
             _socketMock.SetupGet(x => x.Connected).Returns(true);
 
             bool hit = false;
-            _connection.OnError = e => hit = true;
+            _connection.Server.Error += (conn, e) => hit = true;
 
             _connection.StartReceiving();
             Assert.IsFalse(hit);
@@ -149,10 +98,12 @@ namespace NTWebSocket.Tests {
                 x =>
                 x.Receive(It.IsAny<byte[]>(), It.IsAny<Action<int>>(), It.IsAny<Action<Exception>>(), It.IsAny<int>()))
                 .Callback<byte[], Action<int>, Action<Exception>, int>((buffer, success, error, offset) => {
-                    if (args.Length > index)
+                    if (args.Length > index) {
                         success(args[index++]);
-                    else
+                    }
+                    else {
                         _socketMock.SetupGet(x => x.Connected == false);
+                    }
                 });
         }
     }

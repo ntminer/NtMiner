@@ -15,7 +15,6 @@ namespace NTWebSocket {
         private readonly List<IWebSocketConnection> _conns = new List<IWebSocketConnection>();
         private readonly SchemeType _scheme;
         private readonly IPAddress _ip;
-        private Action<IWebSocketConnection> _connConfig;
         private readonly string _location;
         private readonly bool _isSecure;
 
@@ -38,13 +37,8 @@ namespace NTWebSocket {
             Port = config.Port;
             _location = $"{config.Scheme.ToString()}://{config.Ip.ToString()}:{config.Port.ToString()}";
 
-            if (config.ListenerSocket == null) {
-                var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
-                ListenerSocket = new SocketWrapper(socket);
-            }
-            else {
-                ListenerSocket = config.ListenerSocket;
-            }
+            ListenerSocket = new SocketWrapper(new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP));
+
             SupportedSubProtocols = config.SupportedSubProtocols;
             if (config.Scheme == SchemeType.wss) {
                 Certificate = new X509Certificate2();
@@ -64,11 +58,89 @@ namespace NTWebSocket {
             get { return _isSecure && Certificate != null; }
         }
 
+        public event Action<IWebSocketConnection> Opened;
+        public event Action<IWebSocketConnection> Closed;
+        public event Action<IWebSocketConnection, Exception> Error;
+
+        public void OnOpen(IWebSocketConnection conn) {
+            _onOpen?.Invoke(conn);
+            Opened?.Invoke(conn);
+        }
+
+        public void OnClose(IWebSocketConnection conn) {
+            _onClose?.Invoke(conn);
+            Closed?.Invoke(conn);
+        }
+
+        public void OnMessage(IWebSocketConnection conn, string message) {
+            _onMessage?.Invoke(conn, message);
+        }
+
+        public void OnBinary(IWebSocketConnection conn, byte[] data) {
+            _onBinary?.Invoke(conn, data);
+        }
+
+        public void OnPing(IWebSocketConnection conn, byte[] data) {
+            if (_onPing == null) {
+                conn.SendPong(data);
+            }
+            else {
+                _onPing?.Invoke(conn, data);
+            }
+        }
+
+        public void OnPong(IWebSocketConnection conn, byte[] data) {
+            _onPong?.Invoke(conn, data);
+        }
+
+        public void OnError(IWebSocketConnection conn, Exception e) {
+            _onError?.Invoke(conn, e);
+            Error?.Invoke(conn, e);
+        }
+
         public void Dispose() {
             ListenerSocket.Dispose();
         }
 
-        public void Start(Action<IWebSocketConnection> connConfig) {
+        private Action<IWebSocketConnection> _onOpen = null;
+        private Action<IWebSocketConnection> _onClose = null;
+        private Action<IWebSocketConnection, string> _onMessage = null;
+        private Action<IWebSocketConnection, byte[]> _onBinary = null;
+        private Action<IWebSocketConnection, byte[]> _onPing = null;
+        private Action<IWebSocketConnection, byte[]> _onPong = null;
+        private Action<IWebSocketConnection, Exception> _onError = null;
+
+        public void Start(
+            Action<IWebSocketConnection> onOpen = null,
+            Action<IWebSocketConnection> onClose = null,
+            Action<IWebSocketConnection, string> onMessage = null,
+            Action<IWebSocketConnection, byte[]> onBinary = null,
+            Action<IWebSocketConnection, byte[]> onPing = null,
+            Action<IWebSocketConnection, byte[]> onPong = null,
+            Action<IWebSocketConnection, Exception> onError = null) {
+
+            if (_onOpen != null) {
+                _onOpen = onClose;
+            }
+            if (_onClose != null) {
+                _onClose = onClose;
+            }
+            if (_onMessage != null) {
+                _onMessage = onMessage;
+            }
+            if (_onBinary != null) {
+                _onBinary = onBinary;
+            }
+            if (_onPing != null) {
+                _onPing = onPing;
+            }
+            if (_onPong != null) {
+                _onPong = onPong;
+            }
+            if (_onError != null) {
+                _onError = onError;
+            }
+
             var ipLocal = new IPEndPoint(_ip, Port);
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);
@@ -86,7 +158,6 @@ namespace NTWebSocket {
                 }
             }
             ListenForClients();
-            _connConfig = connConfig;
         }
 
         private void ListenForClients() {
@@ -98,7 +169,7 @@ namespace NTWebSocket {
                         ListenerSocket.Dispose();
                         var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
                         ListenerSocket = new SocketWrapper(socket);
-                        Start(_connConfig);
+                        Start();
                         NTMiner.Write.DevDebug("Listener socket restarted");
                     }
                     catch (Exception ex) {
@@ -119,31 +190,30 @@ namespace NTWebSocket {
             WebSocketConnection connection = null;
 
             connection = new WebSocketConnection(
+                server: this,
                 socket: clientSocket,
-                initialize: _connConfig,
                 parseRequest: bytes => RequestParser.Parse(bytes, _scheme),
                 handlerFactory: r => HandlerFactory.BuildHandler(
                     request: r,
                     onMessage: s => {
                         connection.MessageOn = DateTime.Now;
-                        connection.OnMessage(s);
+                        this.OnMessage(connection, s);
                     },
-                    onClose: ()=> {
-                        connection.ClosedOn = DateTime.Now;
+                    onClose: () => {
                         connection.Close();
                         _conns.Remove(connection);
                     },
                     onBinary: b => {
                         connection.BinaryOn = DateTime.Now;
-                        connection.OnBinary(b);
+                        this.OnBinary(connection, b);
                     },
                     onPing: b => {
                         connection.PingOn = DateTime.Now;
-                        connection.OnPing(b);
+                        this.OnPing(connection, b);
                     },
                     onPong: b => {
                         connection.PongOn = DateTime.Now;
-                        connection.OnPong(b);
+                        this.OnPong(connection, b);
                     }),
                 negotiateSubProtocol: s => SubProtocolNegotiator.Negotiate(SupportedSubProtocols, s));
             _conns.Add(connection);

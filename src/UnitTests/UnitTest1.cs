@@ -20,6 +20,15 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void SizeOfTest() {
+            Console.WriteLine("bool:" + sizeof(bool));
+            unsafe {
+                Console.WriteLine("DateTime:" + sizeof(DateTime));
+                Console.WriteLine("Guid:" + sizeof(Guid));
+            }
+        }
+
+        [TestMethod]
         public void BoxTest() {
             // 装箱了
             Console.WriteLine(string.Format("{0}{1}{2}", 1, false, NTWebSocket.SchemeType.ws));
@@ -34,8 +43,7 @@ namespace UnitTests {
         [TestMethod]
         public void TimestampTest() {
             Assert.AreEqual(0ul, Timestamp.GetTimestamp(Timestamp.UnixBaseTime));
-            // 因为有时区
-            Assert.AreNotEqual(0ul, Timestamp.GetTimestamp(new DateTime(1970, 1, 1)));
+            Assert.AreEqual(0ul, Timestamp.GetTimestamp(new DateTime(1970, 1, 1)));
             DateTime n = DateTime.Now;
             DateTime now = new DateTime(n.Year, n.Month, n.Day, n.Hour, n.Minute, n.Second);
             Assert.AreEqual(now, Timestamp.FromTimestamp(Timestamp.GetTimestamp(now)));
@@ -80,7 +88,7 @@ namespace UnitTests {
         public void LinqTest() {
             Assert.AreEqual(Guid.Empty, new Guid[] { }.FirstOrDefault());
         }
-        
+
         [TestMethod]
         public void VersionTest() {
             Assert.AreEqual(new Version(), new Version());
@@ -91,7 +99,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void ShortcutTest() {
-            string linkFileFullName= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "ShortcutTest.lnk");
+            string linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "ShortcutTest.lnk");
             File.Delete(linkFileFullName);
             Assert.IsTrue(string.IsNullOrEmpty(WindowsShortcut.GetTargetPath(linkFileFullName)));
             WindowsShortcut.CreateShortcut(linkFileFullName, VirtualRoot.AppFileFullName, "this is a test");

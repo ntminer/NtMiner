@@ -7,26 +7,14 @@ namespace NTMiner {
         public static void Start() {
             _server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = NTKeyword.MinerClientPort + 1000
             });
-            _server.Start(conn => {
-                conn.OnMessage = message => {
-                    if (string.IsNullOrEmpty(message)) {
-                        return;
-                    }
-                    switch (message) {
-                        case "getSpeed":
-                            var speedData = Report.CreateSpeedData();
-                            string json = VirtualRoot.JsonSerializer.Serialize(speedData);
-                            conn.Send("result of getSpeed:" + json);
-                            break;
-                        default:
-                            conn.Send("Echo:" + message);
-                            break;
-                    }
-                };
-            });
+            _server.Start(
+                onMessage: (conn, message) => {
+                    conn.Send("Echo:" + message);
+                }
+            );
         }
 
         public static void Stop() {
