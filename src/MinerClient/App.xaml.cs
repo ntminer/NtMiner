@@ -31,7 +31,6 @@ namespace NTMiner {
             AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
-            NTWebSocketServer.Stop();
             base.OnExit(e);
             NTMinerConsole.Free();
         }
@@ -140,7 +139,6 @@ namespace NTMiner {
                             catch (Exception ex) {
                                 Logger.ErrorDebugLine(ex);
                             }
-                            NTWebSocketServer.Start();
                         });
                     });
                     Link();
