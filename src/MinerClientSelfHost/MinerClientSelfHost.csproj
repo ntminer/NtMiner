@@ -54,7 +54,6 @@
   <ItemGroup>
     <Compile Include="HttpServer.cs" />
     <Compile Include="MinerClientController.cs" />
-    <Compile Include="NTWebSocketServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -81,10 +80,6 @@
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NTWebSocket\NTWebSocket.csproj">
-      <Project>{4b589378-679a-4fc6-a5d7-99b29af67163}</Project>
-      <Name>NTWebSocket</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

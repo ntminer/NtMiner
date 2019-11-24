@@ -122,10 +122,6 @@
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTWebSocket\NTWebSocket.csproj">
-      <Project>{4b589378-679a-4fc6-a5d7-99b29af67163}</Project>
-      <Name>NTWebSocket</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
