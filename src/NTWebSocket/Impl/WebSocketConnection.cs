@@ -31,6 +31,12 @@ namespace NTWebSocket.Impl {
             _negotiateSubProtocol = negotiateSubProtocol;
         }
 
+        public DateTime OpenedOn { get; private set; }
+        public DateTime MessageOn { get; set; }
+        public DateTime BinaryOn { get; set; }
+        public DateTime PingOn { get; set; }
+        public DateTime PongOn { get; set; }
+
         public ISocket Socket { get; set; }
 
         public IHandler Handler { get; set; }
@@ -54,14 +60,6 @@ namespace NTWebSocket.Impl {
         public bool IsAvailable {
             get { return !_closing && !_closed && Socket.Connected; }
         }
-
-        public DateTime OpenedOn { get; private set; }
-
-        public DateTime ClosedOn { get; set; }
-        public DateTime MessageOn { get; set; }
-        public DateTime BinaryOn { get; set; }
-        public DateTime PingOn { get; set; }
-        public DateTime PongOn { get; set; }
 
         public Task Send(string message) {
             return Send(message, Handler.FrameText);
