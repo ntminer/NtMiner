@@ -37,13 +37,8 @@ namespace NTWebSocket {
             Port = config.Port;
             _location = $"{config.Scheme.ToString()}://{config.Ip.ToString()}:{config.Port.ToString()}";
 
-            if (config.ListenerSocket == null) {
-                var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
-                ListenerSocket = new SocketWrapper(socket);
-            }
-            else {
-                ListenerSocket = config.ListenerSocket;
-            }
+            ListenerSocket = new SocketWrapper(new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP));
+
             SupportedSubProtocols = config.SupportedSubProtocols;
             if (config.Scheme == SchemeType.wss) {
                 Certificate = new X509Certificate2();

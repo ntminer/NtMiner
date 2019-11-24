@@ -9,7 +9,6 @@ namespace NTWebSocket {
         public int Port { get; set; } = 80;
         public SslProtocols EnabledSslProtocols { get; set; } = SslProtocols.None;
         public bool RestartAfterListenError { get; set; } = true;
-        public ISocket ListenerSocket { get; set; }
         public IEnumerable<string> SupportedSubProtocols { get; private set; } = new string[0];
     }
 }
