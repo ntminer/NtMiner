@@ -39,7 +39,7 @@ namespace NTWebSocket.Impl {
             }
         }
 
-        public void SetKeepAlive(Socket socket, uint keepAliveInterval, uint retryInterval) {
+        private void SetKeepAlive(Socket socket, uint keepAliveInterval, uint retryInterval) {
             int size = sizeof(uint);
             uint on = 1;
 
@@ -58,8 +58,9 @@ namespace NTWebSocket.Impl {
             _tokenSource = new CancellationTokenSource();
             _taskFactory = new TaskFactory(_tokenSource.Token);
             _socket = socket;
-            if (_socket.Connected)
+            if (_socket.Connected) {
                 _stream = new NetworkStream(_socket);
+            }
 
             // The tcp keepalive default values on most systems
             // are huge (~7200s). Set them to something more reasonable.
@@ -69,10 +70,7 @@ namespace NTWebSocket.Impl {
         public Task Authenticate(X509Certificate2 certificate, SslProtocols enabledSslProtocols, Action callback, Action<Exception> error) {
             var ssl = new SslStream(_stream, false);
             _stream = new QueuedStream(ssl);
-            Func<AsyncCallback, object, IAsyncResult> begin =
-                (cb, s) => ssl.BeginAuthenticateAsServer(certificate, false, enabledSslProtocols, false, cb, s);
-
-            Task task = Task.Factory.FromAsync(begin, ssl.EndAuthenticateAsServer, null);
+            Task task = Task.Factory.FromAsync((cb, s) => ssl.BeginAuthenticateAsServer(certificate, false, enabledSslProtocols, false, cb, s), ssl.EndAuthenticateAsServer, null);
             task.ContinueWith(t => callback(), TaskContinuationOptions.NotOnFaulted)
                 .ContinueWith(t => error(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
             task.ContinueWith(t => error(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
@@ -107,10 +105,7 @@ namespace NTWebSocket.Impl {
 
         public Task<int> Receive(byte[] buffer, Action<int> callback, Action<Exception> error, int offset) {
             try {
-                Func<AsyncCallback, object, IAsyncResult> begin =
-               (cb, s) => _stream.BeginRead(buffer, offset, buffer.Length, cb, s);
-
-                Task<int> task = Task.Factory.FromAsync<int>(begin, _stream.EndRead, null);
+                Task<int> task = Task.Factory.FromAsync<int>((cb, s) => _stream.BeginRead(buffer, offset, buffer.Length, cb, s), _stream.EndRead, null);
                 task.ContinueWith(t => callback(t.Result), TaskContinuationOptions.NotOnFaulted)
                     .ContinueWith(t => error(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
                 task.ContinueWith(t => error(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
@@ -123,8 +118,7 @@ namespace NTWebSocket.Impl {
         }
 
         public Task<ISocket> Accept(Action<ISocket> callback, Action<Exception> error) {
-            Func<IAsyncResult, ISocket> end = r => _tokenSource.Token.IsCancellationRequested ? null : new SocketWrapper(_socket.EndAccept(r));
-            var task = _taskFactory.FromAsync(_socket.BeginAccept, end, null);
+            var task = _taskFactory.FromAsync(_socket.BeginAccept, r => _tokenSource.Token.IsCancellationRequested ? null : (ISocket)new SocketWrapper(_socket.EndAccept(r)), null);
             task.ContinueWith(t => callback(t.Result), TaskContinuationOptions.OnlyOnRanToCompletion)
                 .ContinueWith(t => error(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
             task.ContinueWith(t => error(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
@@ -151,14 +145,12 @@ namespace NTWebSocket.Impl {
         }
 
         public Task Send(byte[] buffer, Action callback, Action<Exception> error) {
-            if (_tokenSource.IsCancellationRequested)
+            if (_tokenSource.IsCancellationRequested) {
                 return null;
+            }
 
             try {
-                Func<AsyncCallback, object, IAsyncResult> begin =
-                    (cb, s) => _stream.BeginWrite(buffer, 0, buffer.Length, cb, s);
-
-                Task task = Task.Factory.FromAsync(begin, _stream.EndWrite, null);
+                Task task = Task.Factory.FromAsync((cb, s) => _stream.BeginWrite(buffer, 0, buffer.Length, cb, s), _stream.EndWrite, null);
                 task.ContinueWith(t => callback(), TaskContinuationOptions.NotOnFaulted)
                     .ContinueWith(t => error(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
                 task.ContinueWith(t => error(t.Exception), TaskContinuationOptions.OnlyOnFaulted);
