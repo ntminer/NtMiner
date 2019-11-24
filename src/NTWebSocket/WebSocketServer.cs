@@ -119,25 +119,25 @@ namespace NTWebSocket {
             Action<IWebSocketConnection, byte[]> onPong = null,
             Action<IWebSocketConnection, Exception> onError = null) {
 
-            if (_onOpen != null) {
+            if (onOpen != null) {
                 _onOpen = onClose;
             }
-            if (_onClose != null) {
+            if (onClose != null) {
                 _onClose = onClose;
             }
-            if (_onMessage != null) {
+            if (onMessage != null) {
                 _onMessage = onMessage;
             }
-            if (_onBinary != null) {
+            if (onBinary != null) {
                 _onBinary = onBinary;
             }
-            if (_onPing != null) {
+            if (onPing != null) {
                 _onPing = onPing;
             }
-            if (_onPong != null) {
+            if (onPong != null) {
                 _onPong = onPong;
             }
-            if (_onError != null) {
+            if (onError != null) {
                 _onError = onError;
             }
 
