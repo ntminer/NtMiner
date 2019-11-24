@@ -129,7 +129,6 @@ namespace NTWebSocket {
                         connection.OnMessage(s);
                     },
                     onClose: ()=> {
-                        connection.ClosedOn = DateTime.Now;
                         connection.Close();
                         _conns.Remove(connection);
                     },
