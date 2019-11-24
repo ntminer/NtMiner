@@ -185,6 +185,14 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string LocalIp {
+            get { return _data.LocalIp; }
+            set {
+                _data.LocalIp = value;
+                OnPropertyChanged(nameof(LocalIp));
+            }
+        }
+
         public bool IsAutoBoot {
             get { return _data.IsAutoBoot; }
             set {

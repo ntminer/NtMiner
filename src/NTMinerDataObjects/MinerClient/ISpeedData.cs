@@ -8,6 +8,7 @@ namespace NTMiner.MinerClient {
         DateTime BootOn { get; }
         Guid ClientId { get; }
         string MACAddress { get; }
+        string LocalIp { get; }
         int CpuGETemperatureSeconds { get; }
         int CpuLETemperatureSeconds { get; }
         int CpuPerformance { get; }

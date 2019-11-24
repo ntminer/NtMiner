@@ -16,6 +16,7 @@ namespace NTMiner.MinerServer {
                 Id = data.Id,
                 ClientId = data.ClientId,
                 MACAddress = string.Empty,
+                LocalIp = string.Empty,
                 MinerIp = data.MinerIp,
                 MinerName = data.MinerName,
                 ClientName = data.ClientName,
@@ -101,6 +102,7 @@ namespace NTMiner.MinerServer {
                 WindowsLoginName = string.Empty,
                 WindowsPassword = string.Empty,
                 MACAddress = speedData.MACAddress,
+                LocalIp = speedData.LocalIp,
                 ClientId = speedData.ClientId,
                 IsAutoBoot = speedData.IsAutoBoot,
                 IsAutoStart = speedData.IsAutoStart,
@@ -207,6 +209,9 @@ namespace NTMiner.MinerServer {
             this.ClientId = speedData.ClientId;
             if (!string.IsNullOrEmpty(speedData.MACAddress)) {
                 this.MACAddress = speedData.MACAddress;
+            }
+            if (!string.IsNullOrEmpty(speedData.LocalIp)) {
+                this.LocalIp = speedData.LocalIp;
             }
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
