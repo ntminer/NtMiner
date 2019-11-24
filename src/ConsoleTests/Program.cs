@@ -17,7 +17,7 @@ namespace NTMiner {
         static void WebSocketTest() {
             using (var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = 8088
             })) {
                 server.Start(onOpen: (conn) => {

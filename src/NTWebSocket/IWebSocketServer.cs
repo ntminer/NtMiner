@@ -16,6 +16,7 @@ namespace NTWebSocket {
             Action<IWebSocketConnection, byte[]> onPing = null,
             Action<IWebSocketConnection, byte[]> onPong = null,
             Action<IWebSocketConnection, Exception> onError = null);
+
         event Action<IWebSocketConnection> Opened;
         event Action<IWebSocketConnection> Closed;
         event Action<IWebSocketConnection, Exception> Error;

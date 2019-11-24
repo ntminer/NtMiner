@@ -27,7 +27,7 @@ namespace NTWebSocket.Tests {
         public void ShouldStart() {
             WebSocketServer server = (WebSocketServer)WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = 8000
             });
             server.Start();
@@ -51,7 +51,7 @@ namespace NTWebSocket.Tests {
         public void ShouldBeSecureWithWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = 8000
             });
             Assert.IsTrue(server.IsSecure);
@@ -62,7 +62,7 @@ namespace NTWebSocket.Tests {
         public void ShouldDefaultToNoneWithWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.wss,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = 8000
             });
             Assert.AreEqual(server.EnabledSslProtocols, SslProtocols.None);
@@ -73,7 +73,7 @@ namespace NTWebSocket.Tests {
         public void ShouldNotBeSecureWithoutWss() {
             var server = WebSocketServer.Create(new ServerConfig {
                 Scheme = SchemeType.ws,
-                Ip = IPAddress.Parse("0.0.0.0"),
+                Ip = IPAddress.Any,
                 Port = 8000
             });
             Assert.IsFalse(server.IsSecure);
