@@ -41,33 +41,38 @@ namespace NTMiner {
                     if (string.IsNullOrEmpty(message)) {
                         return;
                     }
-                    JsonRequest request = VirtualRoot.JsonSerializer.Deserialize<JsonRequest>(message);
-                    if (request == null) {
+                    if (message[0] != '{' || message[message.Length - 1] != '}') {
                         return;
                     }
-                    switch (request.action) {
-                        case "getSpeed":
-                            Dictionary<string, object> data = VirtualRoot.JsonSerializer.Deserialize<Dictionary<string, object>>(request.json);
-                            string messageId = string.Empty;
-                            if (data != null) {
-                                messageId = data["messageId"]?.ToString();
-                            }
-                            conn.Send(new JsonResponse {
-                                messageId = messageId,
-                                code = 200,
-                                phrase = "Ok",
-                                des = "成功",
-                                res = "getSpeed",
-                                data = new Dictionary<string, object> {
+                    else {
+                        JsonRequest request = VirtualRoot.JsonSerializer.Deserialize<JsonRequest>(message);
+                        if (request == null) {
+                            return;
+                        }
+                        switch (request.action) {
+                            case "getSpeed":
+                                Dictionary<string, object> data = VirtualRoot.JsonSerializer.Deserialize<Dictionary<string, object>>(request.json);
+                                string messageId = string.Empty;
+                                if (data != null) {
+                                    messageId = data["messageId"]?.ToString();
+                                }
+                                conn.Send(new JsonResponse {
+                                    messageId = messageId,
+                                    code = 200,
+                                    phrase = "Ok",
+                                    des = "成功",
+                                    res = "getSpeed",
+                                    data = new Dictionary<string, object> {
                                         {"str", "hello" },
                                         {"num", 111 },
                                         {"date", DateTime.Now }
                                     }
-                            }.ToJson());
-                            break;
-                        default:
-                            conn.Send(message);
-                            break;
+                                }.ToJson());
+                                break;
+                            default:
+                                conn.Send(message);
+                                break;
+                        }
                     }
                     Write.DevWarn("ConnCount " + server.ConnCount);
                 });
