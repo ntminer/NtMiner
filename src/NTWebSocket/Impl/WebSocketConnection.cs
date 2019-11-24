@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace NTWebSocket.Impl {
     public class WebSocketConnection : IWebSocketConnection {
-
-        private readonly Action<IWebSocketConnection> _initialize;
         private readonly Func<WebSocketHttpRequest, IHandler> _handlerFactory;
         private readonly Func<IEnumerable<string>, string> _negotiateSubProtocol;
         private readonly Func<byte[], WebSocketHttpRequest> _parseRequest;
@@ -15,17 +13,22 @@ namespace NTWebSocket.Impl {
         private bool _closing;
         private bool _closed;
         private const int ReadSize = 1024 * 4;
+        private readonly IWebSocketServer _server;
+        public IWebSocketServer Server {
+            get {
+                return _server;
+            }
+        }
 
         public WebSocketConnection(
+            IWebSocketServer server,
             ISocket socket,
-            Action<IWebSocketConnection> initialize,
             Func<byte[], WebSocketHttpRequest> parseRequest,
             Func<WebSocketHttpRequest, IHandler> handlerFactory,
             Func<IEnumerable<string>, string> negotiateSubProtocol) {
 
+            _server = server;
             Socket = socket;
-            OnPing = x => SendPong(x);
-            _initialize = initialize;
             _handlerFactory = handlerFactory;
             _parseRequest = parseRequest;
             _negotiateSubProtocol = negotiateSubProtocol;
@@ -40,20 +43,6 @@ namespace NTWebSocket.Impl {
         public ISocket Socket { get; set; }
 
         public IHandler Handler { get; set; }
-
-        public Action OnOpen { get; set; } = () => { };
-
-        public Action OnClose { get; set; } = () => { };
-
-        public Action<string> OnMessage { get; set; } = x => { };
-
-        public Action<byte[]> OnBinary { get; set; } = x => { };
-
-        public Action<byte[]> OnPing { get; set; }
-
-        public Action<byte[]> OnPong { get; set; } = x => { };
-
-        public Action<Exception> OnError { get; set; } = x => { };
 
         public IWebSocketConnectionInfo ConnectionInfo { get; private set; }
 
@@ -138,12 +127,10 @@ namespace NTWebSocket.Impl {
             var subProtocol = _negotiateSubProtocol(request.SubProtocols);
             ConnectionInfo = WebSocketConnectionInfo.Create(request, Socket.RemoteIpAddress, Socket.RemotePort, subProtocol);
 
-            _initialize(this);
-
             var handshake = Handler.CreateHandshake(subProtocol);
             SendBytes(handshake, ()=> {
                 OpenedOn = DateTime.Now;
-                OnOpen();
+                _server.OnOpen(this);
             });
         }
 
@@ -185,7 +172,7 @@ namespace NTWebSocket.Impl {
                 return;
             }
 
-            OnError(e);
+            _server.OnError(this, e);
 
             if (e is WebSocketException) {
                 NTMiner.Write.DevException("Error while reading", e);
@@ -223,7 +210,7 @@ namespace NTWebSocket.Impl {
 
         private void CloseSocket() {
             _closing = true;
-            OnClose();
+            _server.OnClose(this);
             _closed = true;
             Socket.Close();
             Socket.Dispose();

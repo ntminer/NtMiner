@@ -38,7 +38,7 @@ namespace NTWebSocket.Tests {
                 Port = 8000,
                 ListenerSocket = socketMock.Object
             });
-            server.Start(conn => { });
+            server.Start();
 
             socketMock.Verify(s => s.Bind(It.Is<IPEndPoint>(i => i.Port == 8000)));
             socketMock.Verify(s => s.Accept(It.IsAny<Action<ISocket>>(), It.IsAny<Action<Exception>>()));
@@ -96,7 +96,7 @@ namespace NTWebSocket.Tests {
                 Ip = IPAddress.Parse("[::]"),
                 Port = 8000
             });
-            server.Start(conn => { });
+            server.Start();
             _ipV4Socket.Connect(_ipV4Address, 8000);
             _ipV6Socket.Connect(_ipV6Address, 8000);
             server.Dispose();
@@ -113,7 +113,7 @@ namespace NTWebSocket.Tests {
                 Ip = IPAddress.Parse("[::]"),
                 Port = 8000
             });
-            server.Start(conn => { });
+            server.Start();
             _ipV4Socket.Connect(_ipV4Address, 8000);
             _ipV6Socket.Connect(_ipV6Address, 8000);
             server.Dispose();

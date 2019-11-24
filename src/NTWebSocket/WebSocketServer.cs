@@ -15,7 +15,6 @@ namespace NTWebSocket {
         private readonly List<IWebSocketConnection> _conns = new List<IWebSocketConnection>();
         private readonly SchemeType _scheme;
         private readonly IPAddress _ip;
-        private Action<IWebSocketConnection> _connConfig;
         private readonly string _location;
         private readonly bool _isSecure;
 
@@ -51,6 +50,7 @@ namespace NTWebSocket {
             }
             EnabledSslProtocols = config.EnabledSslProtocols;
             RestartAfterListenError = config.RestartAfterListenError;
+            OnPing = (conn, x) => conn.SendPong(x);
         }
 
         public ISocket ListenerSocket { get; private set; }
@@ -60,6 +60,20 @@ namespace NTWebSocket {
         public IEnumerable<string> SupportedSubProtocols { get; private set; }
         public bool RestartAfterListenError { get; private set; }
 
+        public Action<IWebSocketConnection> OnOpen { get; set; } = (conn) => { };
+
+        public Action<IWebSocketConnection> OnClose { get; set; } = (conn) => { };
+
+        public Action<IWebSocketConnection, string> OnMessage { get; set; } = (conn, x) => { };
+
+        public Action<IWebSocketConnection, byte[]> OnBinary { get; set; } = (conn, x) => { };
+
+        public Action<IWebSocketConnection, byte[]> OnPing { get; set; }
+
+        public Action<IWebSocketConnection, byte[]> OnPong { get; set; } = (conn, x) => { };
+
+        public Action<IWebSocketConnection, Exception> OnError { get; set; } = (conn, x) => { };
+
         public bool IsSecure {
             get { return _isSecure && Certificate != null; }
         }
@@ -68,7 +82,7 @@ namespace NTWebSocket {
             ListenerSocket.Dispose();
         }
 
-        public void Start(Action<IWebSocketConnection> connConfig) {
+        public void Start() {
             var ipLocal = new IPEndPoint(_ip, Port);
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);
@@ -86,7 +100,6 @@ namespace NTWebSocket {
                 }
             }
             ListenForClients();
-            _connConfig = connConfig;
         }
 
         private void ListenForClients() {
@@ -98,7 +111,7 @@ namespace NTWebSocket {
                         ListenerSocket.Dispose();
                         var socket = new Socket(_ip.AddressFamily, SocketType.Stream, ProtocolType.IP);
                         ListenerSocket = new SocketWrapper(socket);
-                        Start(_connConfig);
+                        Start();
                         NTMiner.Write.DevDebug("Listener socket restarted");
                     }
                     catch (Exception ex) {
@@ -119,30 +132,30 @@ namespace NTWebSocket {
             WebSocketConnection connection = null;
 
             connection = new WebSocketConnection(
+                server: this,
                 socket: clientSocket,
-                initialize: _connConfig,
                 parseRequest: bytes => RequestParser.Parse(bytes, _scheme),
                 handlerFactory: r => HandlerFactory.BuildHandler(
                     request: r,
                     onMessage: s => {
                         connection.MessageOn = DateTime.Now;
-                        connection.OnMessage(s);
+                        this.OnMessage(connection, s);
                     },
-                    onClose: ()=> {
+                    onClose: () => {
                         connection.Close();
                         _conns.Remove(connection);
                     },
                     onBinary: b => {
                         connection.BinaryOn = DateTime.Now;
-                        connection.OnBinary(b);
+                        this.OnBinary(connection, b);
                     },
                     onPing: b => {
                         connection.PingOn = DateTime.Now;
-                        connection.OnPing(b);
+                        this.OnPing(connection, b);
                     },
                     onPong: b => {
                         connection.PongOn = DateTime.Now;
-                        connection.OnPong(b);
+                        this.OnPong(connection, b);
                     }),
                 negotiateSubProtocol: s => SubProtocolNegotiator.Negotiate(SupportedSubProtocols, s));
             _conns.Add(connection);

@@ -10,11 +10,10 @@ namespace NTMiner {
                 Ip = IPAddress.Any,
                 Port = NTKeyword.MinerClientPort + 1000
             });
-            _server.Start(conn => {
-                conn.OnMessage = message => {
-                    conn.Send("Echo:" + message);
-                };
-            });
+            _server.OnMessage = (conn, message) => {
+                conn.Send("Echo:" + message);
+            };
+            _server.Start();
         }
 
         public static void Stop() {
