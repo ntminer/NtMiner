@@ -45,7 +45,6 @@ namespace NTWebSocket {
             }
             EnabledSslProtocols = config.EnabledSslProtocols;
             RestartAfterListenError = config.RestartAfterListenError;
-            OnPing = (conn, x) => conn.SendPong(x);
         }
 
         public ISocket ListenerSocket { get; private set; }
@@ -55,29 +54,93 @@ namespace NTWebSocket {
         public IEnumerable<string> SupportedSubProtocols { get; private set; }
         public bool RestartAfterListenError { get; private set; }
 
-        public Action<IWebSocketConnection> OnOpen { get; set; } = (conn) => { };
-
-        public Action<IWebSocketConnection> OnClose { get; set; } = (conn) => { };
-
-        public Action<IWebSocketConnection, string> OnMessage { get; set; } = (conn, x) => { };
-
-        public Action<IWebSocketConnection, byte[]> OnBinary { get; set; } = (conn, x) => { };
-
-        public Action<IWebSocketConnection, byte[]> OnPing { get; set; }
-
-        public Action<IWebSocketConnection, byte[]> OnPong { get; set; } = (conn, x) => { };
-
-        public Action<IWebSocketConnection, Exception> OnError { get; set; } = (conn, x) => { };
-
         public bool IsSecure {
             get { return _isSecure && Certificate != null; }
+        }
+
+        public event Action<IWebSocketConnection> Opened;
+        public event Action<IWebSocketConnection> Closed;
+        public event Action<IWebSocketConnection, Exception> Error;
+
+        public void OnOpen(IWebSocketConnection conn) {
+            _onOpen?.Invoke(conn);
+            Opened?.Invoke(conn);
+        }
+
+        public void OnClose(IWebSocketConnection conn) {
+            _onClose?.Invoke(conn);
+            Closed?.Invoke(conn);
+        }
+
+        public void OnMessage(IWebSocketConnection conn, string message) {
+            _onMessage?.Invoke(conn, message);
+        }
+
+        public void OnBinary(IWebSocketConnection conn, byte[] data) {
+            _onBinary?.Invoke(conn, data);
+        }
+
+        public void OnPing(IWebSocketConnection conn, byte[] data) {
+            if (_onPing == null) {
+                conn.SendPong(data);
+            }
+            else {
+                _onPing?.Invoke(conn, data);
+            }
+        }
+
+        public void OnPong(IWebSocketConnection conn, byte[] data) {
+            _onPong?.Invoke(conn, data);
+        }
+
+        public void OnError(IWebSocketConnection conn, Exception e) {
+            _onError?.Invoke(conn, e);
+            Error?.Invoke(conn, e);
         }
 
         public void Dispose() {
             ListenerSocket.Dispose();
         }
 
-        public void Start() {
+        private Action<IWebSocketConnection> _onOpen = null;
+        private Action<IWebSocketConnection> _onClose = null;
+        private Action<IWebSocketConnection, string> _onMessage = null;
+        private Action<IWebSocketConnection, byte[]> _onBinary = null;
+        private Action<IWebSocketConnection, byte[]> _onPing = null;
+        private Action<IWebSocketConnection, byte[]> _onPong = null;
+        private Action<IWebSocketConnection, Exception> _onError = null;
+
+        public void Start(
+            Action<IWebSocketConnection> onOpen = null,
+            Action<IWebSocketConnection> onClose = null,
+            Action<IWebSocketConnection, string> onMessage = null,
+            Action<IWebSocketConnection, byte[]> onBinary = null,
+            Action<IWebSocketConnection, byte[]> onPing = null,
+            Action<IWebSocketConnection, byte[]> onPong = null,
+            Action<IWebSocketConnection, Exception> onError = null) {
+
+            if (_onOpen != null) {
+                _onOpen = onClose;
+            }
+            if (_onClose != null) {
+                _onClose = onClose;
+            }
+            if (_onMessage != null) {
+                _onMessage = onMessage;
+            }
+            if (_onBinary != null) {
+                _onBinary = onBinary;
+            }
+            if (_onPing != null) {
+                _onPing = onPing;
+            }
+            if (_onPong != null) {
+                _onPong = onPong;
+            }
+            if (_onError != null) {
+                _onError = onError;
+            }
+
             var ipLocal = new IPEndPoint(_ip, Port);
             ListenerSocket.Bind(ipLocal);
             ListenerSocket.Listen(100);

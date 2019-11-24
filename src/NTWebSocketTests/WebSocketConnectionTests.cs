@@ -27,7 +27,7 @@ namespace NTWebSocket.Tests {
             _socketMock.SetupGet(x => x.Connected).Returns(true);
             SetupReadLengths(0);
             bool hit = false;
-            _connection.Server.OnClose = (conn) => hit = true;
+            _connection.Server.Closed += (conn) => hit = true;
             _connection.StartReceiving();
             Assert.IsTrue(hit);
         }
@@ -68,7 +68,7 @@ namespace NTWebSocket.Tests {
             _socketMock.SetupGet(x => x.Connected).Returns(true);
 
             bool hit = false;
-            _connection.Server.OnError = (conn, e) => hit = true;
+            _connection.Server.Error += (conn, e) => hit = true;
 
             _connection.StartReceiving();
             Assert.IsTrue(hit);
@@ -86,7 +86,7 @@ namespace NTWebSocket.Tests {
             _socketMock.SetupGet(x => x.Connected).Returns(true);
 
             bool hit = false;
-            _connection.Server.OnError = (conn, e) => hit = true;
+            _connection.Server.Error += (conn, e) => hit = true;
 
             _connection.StartReceiving();
             Assert.IsFalse(hit);
@@ -98,10 +98,12 @@ namespace NTWebSocket.Tests {
                 x =>
                 x.Receive(It.IsAny<byte[]>(), It.IsAny<Action<int>>(), It.IsAny<Action<Exception>>(), It.IsAny<int>()))
                 .Callback<byte[], Action<int>, Action<Exception>, int>((buffer, success, error, offset) => {
-                    if (args.Length > index)
+                    if (args.Length > index) {
                         success(args[index++]);
-                    else
+                    }
+                    else {
                         _socketMock.SetupGet(x => x.Connected == false);
+                    }
                 });
         }
     }

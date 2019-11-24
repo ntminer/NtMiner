@@ -15,30 +15,29 @@ namespace NTMiner {
         }
 
         static void WebSocketTest() {
-            using (var server = WebSocketServer.Create(
-                new ServerConfig {
-                    Scheme = SchemeType.ws,
-                    Ip = IPAddress.Parse("0.0.0.0"),
-                    Port = 8088
+            using (var server = WebSocketServer.Create(new ServerConfig {
+                Scheme = SchemeType.ws,
+                Ip = IPAddress.Parse("0.0.0.0"),
+                Port = 8088
             })) {
-                server.OnOpen = (conn) => {
+                server.Start(onOpen: (conn) => {
                     Write.DevDebug("OnOpen: opened");
                     Write.DevWarn("ConnCount " + server.ConnCount);
-                };
-                server.OnClose = (conn) => {
+                },
+                onClose: (conn) => {
                     Write.DevDebug("OnClose: closed");
                     Write.DevWarn("ConnCount " + server.ConnCount);
-                };
-                server.OnPing = (conn, data) => {
+                },
+                onPing: (conn, data) => {
                     conn.SendPong(data);
-                };
-                server.OnPong = (conn, data) => {
+                },
+                onPong: (conn, data) => {
                     Write.DevDebug("OnPong: " + Encoding.UTF8.GetString(data));
-                };
-                server.OnError = (conn, e) => {
+                },
+                onError: (conn, e) => {
                     Write.DevException(e);
-                };
-                server.OnMessage = (conn, message) => {
+                },
+                onMessage: (conn, message) => {
                     if (string.IsNullOrEmpty(message)) {
                         return;
                     }
@@ -71,9 +70,7 @@ namespace NTMiner {
                             break;
                     }
                     Write.DevWarn("ConnCount " + server.ConnCount);
-                };
-                server.Start();
-
+                });
 
                 var input = Console.ReadLine();
                 while (input != "exit") {
