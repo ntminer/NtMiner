@@ -41,7 +41,8 @@ namespace NTMiner.Views {
         private LoginWindow(Action onLoginSuccess) {
             _onLoginSuccess = onLoginSuccess;
             InitializeComponent();
-            NotiCenterWindow.Bind(this, isNoOtherWindow: true);
+            // 1个是通知窗口，1个是本窗口
+            NotiCenterWindow.Bind(this, isNoOtherWindow: Application.Current.Windows.Count <= 2);
             this.PbPassword.Focus();
         }
 
