@@ -80,7 +80,8 @@
     <Compile Include="IOverClockInput.cs" />
     <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
     <Compile Include="JsonDb\IJsonDb.cs" />
-    <Compile Include="JsonObject.cs" />
+    <Compile Include="JsonRequest.cs" />
+    <Compile Include="JsonResponse.cs" />
     <Compile Include="MinerClient\IGpuSpeedData.cs" />
     <Compile Include="MinerClient\ILocalIp.cs" />
     <Compile Include="MinerClient\ISpeedData.cs" />
