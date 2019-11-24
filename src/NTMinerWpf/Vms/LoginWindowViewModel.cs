@@ -45,11 +45,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowSuccess(message);
                 }
                 else {
-                    NotiCenterWindowViewModel.Instance.Manager.CreateMessage()
-                        .Error(message)
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    VirtualRoot.Out.ShowError(message, delaySeconds: 4);
                 }
             });
         }

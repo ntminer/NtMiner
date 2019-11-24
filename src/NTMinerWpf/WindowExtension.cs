@@ -1,4 +1,5 @@
 ﻿using NTMiner.Bus;
+using NTMiner.Views;
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -48,7 +49,7 @@ namespace NTMiner {
         public static void ShowSoftDialog(this Window window) {
             if (window.Owner == null) {
                 var owner = WpfUtil.GetTopWindow();
-                if (owner != window) {
+                if (owner != null && owner != window && owner.GetType() != typeof(NotiCenterWindow)) {
                     window.Owner = owner;
                 }
             }
