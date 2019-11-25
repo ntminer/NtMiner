@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : BlankWindow {
-        public static void ShowDialog(DialogWindowViewModel vm) {
+        public static void ShowSoftDialog(DialogWindowViewModel vm) {
             Window window = new DialogWindow(vm);
             window.MousePosition();
             window.ShowSoftDialog();

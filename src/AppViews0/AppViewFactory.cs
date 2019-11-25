@@ -14,7 +14,7 @@ namespace NTMiner.Views {
         public override void Link() {
             VirtualRoot.BuildCmdPath<ShowDialogWindowCommand>(action: message => {
                 UIThread.Execute(() => {
-                    DialogWindow.ShowDialog(new DialogWindowViewModel(message: message.Message, title: message.Title, onYes: message.OnYes, icon: message.Icon));
+                    DialogWindow.ShowSoftDialog(new DialogWindowViewModel(message: message.Message, title: message.Title, onYes: message.OnYes, icon: message.Icon));
                 });
             });
             VirtualRoot.BuildCmdPath<ShowQQGroupQrCodeCommand>(action: message => {

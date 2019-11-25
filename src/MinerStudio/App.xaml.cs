@@ -87,7 +87,7 @@ namespace NTMiner {
                     _appViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
                 }
                 catch (Exception) {
-                    DialogWindow.ShowDialog(new DialogWindowViewModel(
+                    DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
                         message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。",
                         title: "alert",
                         icon: "Icon_Error"));
