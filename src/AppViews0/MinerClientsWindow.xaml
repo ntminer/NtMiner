@@ -682,8 +682,57 @@
 								</controls:KbButton>
 							</WrapPanel>
 						</DataGridTextColumn.Header>
-					</DataGridTextColumn>
-					<!--MinerIp-->
+                    </DataGridTextColumn>
+                    <!--LocalIp-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.LocalIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.LOCAL_IP}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="LocalIp"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <controls:KbButton
+										BorderThickness="0"
+										Background="Transparent"
+										Command="{Binding RemoteDesktop}"
+                                        CommandParameter="{Binding LocalIp}"
+										CornerRadius="2">
+                                        <Path
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_RemoteDesktop}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+                                    </controls:KbButton>
+                                    <TextBox 
+										ToolTip="双击打开远程桌面"
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding LocalIp, Mode=OneWay}"></TextBox>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--MinerIp-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 						IsReadOnly="True">
@@ -713,6 +762,7 @@
 										BorderThickness="0"
 										Background="Transparent"
 										Command="{Binding RemoteDesktop}"
+                                        CommandParameter="{Binding MinerIp}"
 										CornerRadius="2">
 										<Path
 											Width="14"

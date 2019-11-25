@@ -44,6 +44,7 @@ namespace NTMiner.Vms {
         private bool _minerName;
         private bool _clientName;
         private bool _minerIp;
+        private bool _localIp;
         private bool _minerGroup;
         private bool _mainCoinCode;
         private bool _mainCoinSpeedText;
@@ -176,6 +177,7 @@ namespace NTMiner.Vms {
             _minerName = data.MinerName;
             _clientName = data.ClientName;
             _minerIp = data.MinerIp;
+            _localIp = data.LocalIp;
             _minerGroup = data.MinerGroup;
             _mainCoinCode = data.MainCoinCode;
             _mainCoinSpeedText = data.MainCoinSpeedText;
@@ -348,6 +350,18 @@ namespace NTMiner.Vms {
             set {
                 if (_minerIp != value) {
                     _minerIp = value;
+                    OnColumnItemChanged(nameof(MinerIp));
+                }
+            }
+        }
+
+        public const string LOCAL_IP = "内网IP";
+        [Description(LOCAL_IP)]
+        public bool LocalIp {
+            get { return _localIp; }
+            set {
+                if (_localIp != value) {
+                    _localIp = value;
                     OnColumnItemChanged(nameof(MinerIp));
                 }
             }

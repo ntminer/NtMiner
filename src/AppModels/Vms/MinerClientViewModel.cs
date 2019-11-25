@@ -71,21 +71,29 @@ namespace NTMiner.Vms {
                     }
                 });
             });
-            this.RemoteDesktop = new DelegateCommand(() => {
+            this.RemoteDesktop = new DelegateCommand<string>((ip) => {
+                if (string.IsNullOrEmpty(ip)) {
+                    VirtualRoot.Out.ShowWarn("Ip地址不能为空", delaySeconds: 4);
+                    return;
+                }
+                string[] parts = ip.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 1) {
+                    ip = parts[0];
+                }
                 if (string.IsNullOrEmpty(this.WindowsLoginName)) {
                     VirtualRoot.Execute(new ShowRemoteDesktopLoginDialogCommand(new RemoteDesktopLoginViewModel {
-                        Ip = this.MinerIp,
+                        Ip = ip,
                         OnOk = vm => {
                             this.WindowsLoginName = vm.LoginName;
                             this.WindowsPassword = vm.Password;
-                            Rdp.RemoteDesktop?.Invoke(new RdpInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                            Rdp.RemoteDesktop?.Invoke(new RdpInput(ip, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
                                 VirtualRoot.Out.ShowError(message, 4);
                             }));
                         }
                     }));
                 }
                 else {
-                    Rdp.RemoteDesktop?.Invoke(new RdpInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                    Rdp.RemoteDesktop?.Invoke(new RdpInput(ip, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
                         VirtualRoot.Out.ShowError(message, 4);
                     }));
                 }

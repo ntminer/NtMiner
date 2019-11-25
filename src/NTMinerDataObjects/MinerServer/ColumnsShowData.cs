@@ -35,6 +35,7 @@ namespace NTMiner.MinerServer {
             PeriodicRestartComputerHours = true,
             PeriodicRestartKernelHours = true,
             MinerIp = true,
+            LocalIp = true,
             Kernel = true,
             KernelCommandLine = true,
             LastActivedOnText = true,
@@ -81,6 +82,8 @@ namespace NTMiner.MinerServer {
         public bool ClientName { get; set; }
 
         public bool MinerIp{ get; set; }
+
+        public bool LocalIp { get; set; }
 
         public bool MinerGroup{ get; set; }
 
