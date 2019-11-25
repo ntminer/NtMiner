@@ -19,6 +19,7 @@ namespace NTMiner.Vms {
         private string _downloadMessage;
         private bool _isDownloading = false;
         private double _downloadPercent;
+        private string _unInstallText = "卸载";
 
         private Action _cancelDownload;
 
@@ -41,7 +42,7 @@ namespace NTMiner.Vms {
                 this.Download();
             });
             this.UnInstall = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
+                if (this.UnInstallText == "确认卸载") {
                     string processName = _kernelVm.GetProcessName();
                     if (!string.IsNullOrEmpty(processName)) {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
@@ -64,7 +65,15 @@ namespace NTMiner.Vms {
                         }
                     }
                     Refresh();
-                }));
+                }
+                else {
+                    this.UnInstallText = "确认卸载";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        UIThread.Execute(() => {
+                            this.UnInstallText = "卸载";
+                        });
+                    });
+                }
             });
         }
 
@@ -139,6 +148,16 @@ namespace NTMiner.Vms {
                 if (_downloadMessage != value) {
                     _downloadMessage = value;
                     OnPropertyChanged(nameof(DownloadMessage));
+                }
+            }
+        }
+
+        public string UnInstallText {
+            get { return _unInstallText; }
+            set {
+                if (_unInstallText != value) {
+                    _unInstallText = value;
+                    OnPropertyChanged(nameof(UnInstallText));
                 }
             }
         }

@@ -479,7 +479,7 @@
 										    Height="26"
 										    Width="78"
 										    Padding="8 4"
-										    Content="卸载"
+										    Content="{Binding Kernel.KernelProfileVm.UnInstallText}"
 										    Foreground="Black">
                                         </controls:KbButton>
                                     </WrapPanel>
