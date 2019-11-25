@@ -78,7 +78,7 @@
 			PreviewKeyDown="DataGrid_PreviewKeyDown"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="280" Header="名称" IsReadOnly="True">
+				<DataGridTemplateColumn Width="220" Header="名称" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -103,7 +103,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="80" Header="显卡" IsReadOnly="True">
+				<DataGridTemplateColumn Width="100" Header="显卡" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -129,7 +129,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" Header="双挖" IsReadOnly="True">
+				<DataGridTemplateColumn Width="80" Header="双挖" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Path
