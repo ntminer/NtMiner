@@ -542,7 +542,17 @@ namespace NTMiner.Vms {
                 if (_minGpuMemoryGb != value) {
                     _minGpuMemoryGb = value;
                     OnPropertyChanged(nameof(MinGpuMemoryGb));
+                    OnPropertyChanged(nameof(MinGpuMemoryGbText));
                 }
+            }
+        }
+
+        public string MinGpuMemoryGbText {
+            get {
+                if (MinGpuMemoryGb == 0) {
+                    return "-";
+                }
+                return MinGpuMemoryGb.ToString() + " Gb";
             }
         }
 
