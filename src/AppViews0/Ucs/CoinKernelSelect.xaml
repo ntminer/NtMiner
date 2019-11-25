@@ -12,7 +12,6 @@
 		BorderThickness="1"
 		Background="White"
 		mc:Ignorable="d" 
-        Width="450"
 		d:DesignHeight="300"
         d:DataContext="{d:DesignData Source=/Design/CoinKernelSelectViewModel.xaml}">
 	<Grid>
@@ -54,7 +53,7 @@
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
 				</controls:KbButton>
-                <TextBlock Margin="4 0 0 0" Foreground="{StaticResource LableColor}" VerticalAlignment="Center">首次选用时会自动安装。按字母表排序。</TextBlock>
+                <TextBlock Margin="4 0 0 0" Foreground="{StaticResource LableColor}" VerticalAlignment="Center">1. 首次选用时会自动安装。2. 列表按首字母表排序。</TextBlock>
 			</WrapPanel>
 		</Border>
 		<controls:KbButton 
@@ -79,7 +78,7 @@
 			PreviewKeyDown="DataGrid_PreviewKeyDown"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="名称" IsReadOnly="True">
+				<DataGridTemplateColumn Width="280" Header="名称" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
