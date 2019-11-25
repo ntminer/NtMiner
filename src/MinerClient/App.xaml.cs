@@ -113,12 +113,11 @@ namespace NTMiner {
                             else {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
+                            StartStopMineButtonViewModel.Instance.AutoStart();
+                            AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             splashWindow?.Dispatcher.Invoke((Action)delegate () {
                                 splashWindow?.Close();
                             });
-                            StartStopMineButtonViewModel.Instance.AutoStart();
-                            AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
-                            NTMinerRoot.Instance.CpuPackage.Start();
                         });
                         #region 处理显示主界面命令
                         VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
@@ -139,6 +138,7 @@ namespace NTMiner {
                             catch (Exception ex) {
                                 Logger.ErrorDebugLine(ex);
                             }
+                            NTMinerRoot.Instance.CpuPackage.Start();
                         });
                     });
                     Link();
