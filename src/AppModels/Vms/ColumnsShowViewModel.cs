@@ -362,7 +362,7 @@ namespace NTMiner.Vms {
             set {
                 if (_localIp != value) {
                     _localIp = value;
-                    OnColumnItemChanged(nameof(MinerIp));
+                    OnColumnItemChanged(nameof(LocalIp));
                 }
             }
         }
