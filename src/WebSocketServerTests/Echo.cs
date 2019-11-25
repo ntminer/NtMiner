@@ -25,7 +25,7 @@ namespace NTMiner {
                 return;
             }
             if (e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
-                return;
+                base.Send(e.Data);
             }
             else {
                 JsonRequest request = VirtualRoot.JsonSerializer.Deserialize<JsonRequest>(e.Data);

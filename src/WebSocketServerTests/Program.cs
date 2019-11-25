@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.IO;
 using WebSocketSharp.Server;
 
 namespace NTMiner {
@@ -12,7 +10,6 @@ namespace NTMiner {
             wssv.Log.Level = WebSocketSharp.LogLevel.Trace;
             wssv.AddWebSocketService<Echo>("/Echo");
             wssv.Start();
-            Process.Start(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../../client.html"));
             Console.ReadKey(true);
             wssv.Stop();
         }
