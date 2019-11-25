@@ -143,8 +143,61 @@
 								Stretch="Fill" />
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-			</DataGrid.Columns>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="100" MinWidth="100" Header="安装" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Rectangle
+									Width="{Binding Kernel.KernelProfileVm.DownloadPercent, ConverterParameter=100, Converter={StaticResource PercentToLengthConverter}}" 
+									HorizontalAlignment="Left" Fill="#6FBBFE"></Rectangle>
+                                <WrapPanel Margin="6 0 0 0">
+                                    <WrapPanel Visibility="{Binding Kernel.KernelProfileVm.BtnInstalledVisible, Converter={StaticResource VisibilityInvertConverter}}">
+                                        <WrapPanel Visibility="{Binding Kernel.KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                                            <controls:KbButton 
+												Visibility="{Binding Kernel.KernelProfileVm.BtnInstallVisible}"
+												Width="78"
+												Padding="8 4"
+												Command="{Binding Kernel.KernelProfileVm.Install}"
+												Content="安装"
+												Foreground="White"
+												Background="#05c400">
+                                            </controls:KbButton>
+                                        </WrapPanel>
+                                    </WrapPanel>
+                                    <TextBlock
+										TextAlignment="Center"
+										Width="64"
+										Padding="8 4"
+										Text="{Binding Kernel.KernelProfileVm.DownloadMessage}"
+										ToolTip="{Binding Kernel.KernelProfileVm.DownloadMessage}"
+										Visibility="{Binding Kernel.KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                                    <controls:KbButton 
+										Command="{Binding Kernel.KernelProfileVm.CancelDownload}"
+										ToolTip="取消下载"
+										Visibility="{Binding Kernel.KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityConverter}}"
+										Background="Transparent" BorderThickness="0">
+                                        <Path
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_Cancel}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+                                    </controls:KbButton>
+                                    <controls:KbButton HorizontalAlignment="Center"
+										Visibility="{Binding Kernel.KernelProfileVm.BtnInstalledVisible}"
+										Command="{Binding Kernel.KernelProfileVm.UnInstall}"
+										Width="78"
+										Padding="8 4"
+										Content="卸载"
+										Foreground="Black">
+                                    </controls:KbButton>
+                                </WrapPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
 		</DataGrid>
 		<TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
 		<TextBox Grid.Row="2" IsReadOnly="True" FontSize="12" Foreground="{StaticResource LableColor}" BorderThickness="0">什么？有更高算力的内核？Q群2362120103报小编</TextBox>
