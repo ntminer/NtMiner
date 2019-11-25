@@ -689,7 +689,7 @@
 						IsReadOnly="True">
                         <DataGridTemplateColumn.Header>
                             <WrapPanel>
-                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.LOCAL_IP}"></TextBlock>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.LOCAL_IP}" ToolTip="{x:Static vm:ColumnsShowViewModel.LOCAL_IP_TOOLTIP}"></TextBlock>
                                 <controls:KbButton
 									ToolTip="不展示"
 									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 

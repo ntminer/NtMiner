@@ -355,7 +355,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        public const string LOCAL_IP = "内网IP";
+        public const string LOCAL_IP = "内网IP?";
+        public const string LOCAL_IP_TOOLTIP = "挖矿端从2.6.6.6开始上报内网IP";
         [Description(LOCAL_IP)]
         public bool LocalIp {
             get { return _localIp; }

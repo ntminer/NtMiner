@@ -127,7 +127,7 @@ namespace NTMiner.Views {
                 return;
             }
             if (Vm.SelectedMinerClients != null && Vm.SelectedMinerClients.Length != 0) {
-                Vm.SelectedMinerClients[0].RemoteDesktop.Execute(null);
+                Vm.SelectedMinerClients[0].RemoteDesktop.Execute(Vm.SelectedMinerClients[0].GetRemoteDesktopIp());
             }
         }
 

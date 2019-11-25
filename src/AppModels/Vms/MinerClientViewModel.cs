@@ -148,6 +148,13 @@ namespace NTMiner.Vms {
         }
         #endregion
 
+        public string GetRemoteDesktopIp() {
+            if (string.IsNullOrEmpty(LocalIp)) {
+                return MinerIp;
+            }
+            return LocalIp;
+        }
+
         // 便于工具追踪代码
         public void Update(ClientData data) {
             EntityExtensions.Update(this, data);
