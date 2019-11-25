@@ -19,6 +19,7 @@ namespace NTMiner.Vms {
         private string _downloadMessage;
         private bool _isDownloading = false;
         private double _downloadPercent;
+        private string _installText = "安装";
         private string _unInstallText = "卸载";
 
         private Action _cancelDownload;
@@ -65,13 +66,15 @@ namespace NTMiner.Vms {
                         }
                     }
                     Refresh();
+                    this.InstallText = "卸载成功";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        this.InstallText = "安装";
+                    });
                 }
                 else {
                     this.UnInstallText = "确认卸载";
                     TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
-                        UIThread.Execute(() => {
-                            this.UnInstallText = "卸载";
-                        });
+                        this.UnInstallText = "卸载";
                     });
                 }
             });
@@ -162,6 +165,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string InstallText {
+            get { return _installText; }
+            set {
+                if (_installText != value) {
+                    _installText = value;
+                    OnPropertyChanged(nameof(InstallText));
+                }
+            }
+        }
+
         #region Download
         public void Download(Action<bool, string> downloadComplete = null) {
             if (this.IsDownloading) {
@@ -186,6 +199,10 @@ namespace NTMiner.Vms {
                     foreach (var kernelVm in otherSamePackageKernelVms) {
                         kernelVm.KernelProfileVm.IsDownloading = false;
                     }
+                    this.UnInstallText = "安装成功";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        this.UnInstallText = "卸载";
+                    });
                 }
                 else {
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {

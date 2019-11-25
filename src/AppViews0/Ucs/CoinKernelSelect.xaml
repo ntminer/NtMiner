@@ -159,7 +159,7 @@
 												Width="78"
 												Padding="8 4"
 												Command="{Binding Kernel.KernelProfileVm.Install}"
-												Content="安装"
+										        Content="{Binding Kernel.KernelProfileVm.InstallText}"
 												Foreground="White"
 												Background="#05c400">
                                             </controls:KbButton>
