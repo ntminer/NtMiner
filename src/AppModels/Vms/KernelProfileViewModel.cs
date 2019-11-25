@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
                 this.Download();
             });
             this.UnInstall = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
                     string processName = _kernelVm.GetProcessName();
                     if (!string.IsNullOrEmpty(processName)) {
                         Windows.TaskKill.Kill(processName, waitForExit: true);

@@ -105,19 +105,19 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelCommand(this.Id));
                 }));
             });
             this.Publish = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.Published;
                     this.PublishOn = Timestamp.GetTimestamp();
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }));
             });
             this.UnPublish = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定取消发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定取消发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.UnPublished;
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }));

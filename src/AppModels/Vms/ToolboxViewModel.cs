@@ -31,7 +31,7 @@ namespace NTMiner.Vms {
                         VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
                         return true;
                     }, yesText: "开启计算模式", noText: "关闭计算模式");
-                this.ShowDialog(config);
+                this.ShowSoftDialog(config);
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
@@ -47,17 +47,17 @@ namespace NTMiner.Vms {
                 Process.Start(item.Value);
             });
             this.RegCmdHere = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RegCmdHereCommand());
                 }));
             });
             this.BlockWAU = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
                 }, helpUrl: "https://www.loserhub.cn/posts/details/91"));
             });
             this.Win10Optimize = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
                 }, helpUrl: "https://www.loserhub.cn/posts/details/83"));
             });

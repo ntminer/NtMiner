@@ -162,10 +162,10 @@ namespace NTMiner.Vms {
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
-                    this.ShowDialog(new DialogWindowViewModel(message: "该项不能删除", title: "警告", icon: "Icon_Error"));
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: "该项不能删除", title: "警告", icon: "Icon_Error"));
                     return;
                 }
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveColumnsShowCommand(this.Id));
                 }));
             });

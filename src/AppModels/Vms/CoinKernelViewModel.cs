@@ -95,7 +95,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new EnvironmentVariableEditCommand(this, environmentVariable));
             });
             this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
                     this.EnvironmentVariables.Remove(environmentVariable);
                     EnvironmentVariables = EnvironmentVariables.ToList();
                 }));
@@ -107,13 +107,13 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new InputSegmentEditCommand(this, segment));
             });
             this.RemoveSegment = new DelegateCommand<InputSegment>((segment) => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
                     this.InputSegments.Remove(segment);
                     InputSegments = InputSegments.ToList();
                 }));
             });
             this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((writer) => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
                     this.FileWriterVms.Remove(writer);
                     List<Guid> writerIds = new List<Guid>(this.FileWriterIds);
                     writerIds.Remove(writer.Id);
@@ -121,7 +121,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.RemoveFragmentWriter = new DelegateCommand<FragmentWriterViewModel>((writer) => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
                     this.FragmentWriterVms.Remove(writer);
                     List<Guid> writerIds = new List<Guid>(this.FragmentWriterIds);
                     writerIds.Remove(writer.Id);
@@ -141,7 +141,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinKernelCommand(this.Id));
                     Kernel.OnPropertyChanged(nameof(Kernel.SupportedCoins));
                 }));

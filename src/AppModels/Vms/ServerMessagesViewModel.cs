@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
                 this.Keyword = string.Empty;
             });
             this.Clear = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: "确定清空吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: "确定清空吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new ClearServerMessages());
                 }));
             });

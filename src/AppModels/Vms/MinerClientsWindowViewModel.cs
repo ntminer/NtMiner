@@ -177,7 +177,7 @@ namespace NTMiner.Vms {
                 }
             }, OnlySelectedOne);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
-                this.ShowDialog(new DialogWindowViewModel(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
                     foreach (var item in SelectedMinerClients) {
                         Server.MinerClientService.UpgradeNTMinerAsync(item, ntminerFileData.FileName, (response, e) => {
                             if (!response.IsSuccess()) {
@@ -195,7 +195,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(new DialogWindowViewModel(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
                         this.CountDown = 10;
                         Server.ClientService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
@@ -233,7 +233,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(new DialogWindowViewModel(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -249,7 +249,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(new DialogWindowViewModel(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.ShutdownWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -265,7 +265,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(new DialogWindowViewModel(message: $"确定重启选中的挖矿客户端吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启选中的挖矿客户端吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartNTMinerAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -297,7 +297,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(new DialogWindowViewModel(message: $"确定将选中的矿机停止挖矿吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定将选中的矿机停止挖矿吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             item.IsMining = false;
                             Server.MinerClientService.StopMineAsync(item, (response, e) => {

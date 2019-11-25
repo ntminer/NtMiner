@@ -70,7 +70,7 @@ namespace NTMiner.Vms {
                 if (this.IsReadOnly) {
                     return;
                 }
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.Keyword}内核输出关键字吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Keyword}内核输出关键字吗？", title: "确认", onYes: () => {
                     if (DevMode.IsDevMode) {
                         LoginWindow.Login(() => {
                             VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(this.Id));

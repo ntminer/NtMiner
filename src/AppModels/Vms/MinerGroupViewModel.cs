@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
                 }));
             }, () => {
