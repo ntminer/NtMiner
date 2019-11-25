@@ -450,7 +450,7 @@
 												    Command="{Binding KernelProfileVm.Install}"
 										            Content="{Binding KernelProfileVm.InstallText}"
 												    Foreground="White"
-												    Background="#05c400">
+												    Background="{StaticResource ThemeBackground}">
                                                 </controls:KbButton>
                                             </WrapPanel>
                                         </WrapPanel>
