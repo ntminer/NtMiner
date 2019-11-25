@@ -10,6 +10,7 @@ namespace NTMiner {
             wssv.Log.Level = WebSocketSharp.LogLevel.Trace;
             wssv.AddWebSocketService<Echo>("/Echo");
             wssv.Start();
+            Windows.ConsoleHandler.Register(wssv.Stop);
             Console.ReadKey(true);
             wssv.Stop();
         }

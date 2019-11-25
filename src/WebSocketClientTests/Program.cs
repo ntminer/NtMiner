@@ -16,10 +16,11 @@ namespace NTMiner {
                     Write.UserError(e.Message);
                 };
                 ws.OnClose += (sender, e) => {
-                    Write.UserWarn($"WebSocket Close ({e.Reason})");
+                    Write.UserWarn($"WebSocket Close {e.Code} {e.Reason}");
                 };
                 ws.Log.Level = LogLevel.Trace;
                 ws.Connect();
+                Windows.ConsoleHandler.Register(ws.Close);
                 Console.WriteLine("\nType 'exit' to exit.\n");
                 while (true) {
                     Console.Write("> ");
