@@ -21,7 +21,10 @@ namespace NTMiner.Vms {
             _walletRegexPattern = string.Empty,
             _notice = string.Empty,
             _tutorialUrl = string.Empty,
-            _iconImageSource = string.Empty
+            _iconImageSource = string.Empty,
+            _minGpuMemoryGb = 0,
+            _isHot = false,
+            _kernelBrand = string.Empty
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
             _code = "不指定"
@@ -44,6 +47,7 @@ namespace NTMiner.Vms {
         private string _tutorialUrl;
         private bool _isHot;
         private string _kernelBrand;
+        private double _minGpuMemoryGb;
         private List<GpuProfileViewModel> _gpuProfileVms;
         private readonly CoinIncomeViewModel _coinIncomeVm;
 
@@ -99,6 +103,7 @@ namespace NTMiner.Vms {
             _tutorialUrl = data.TutorialUrl;
             _isHot = data.IsHot;
             _kernelBrand = data.KernelBrand;
+            _minGpuMemoryGb = data.MinGpuMemoryGb;
             string iconFileFullName = SpecialPath.GetIconFileFullName(data);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
@@ -527,6 +532,16 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         _kernelBrandDic.Clear();
                     }
+                }
+            }
+        }
+
+        public double MinGpuMemoryGb {
+            get { return _minGpuMemoryGb; }
+            set {
+                if (_minGpuMemoryGb != value) {
+                    _minGpuMemoryGb = value;
+                    OnPropertyChanged(nameof(MinGpuMemoryGb));
                 }
             }
         }

@@ -16,7 +16,9 @@ namespace NTMiner.Core {
             Notice = string.Empty,
             TutorialUrl = string.Empty,
             IsHot = false,
-            KernelBrand = string.Empty
+            KernelBrand = string.Empty,
+            MinGpuMemoryGb = 0,
+            SortNumber = 0
         };
 
         public CoinData() {
@@ -55,5 +57,7 @@ namespace NTMiner.Core {
         // 使导出的json向后兼容，待旧版本用户少了可以去除这个属性
 
         public int SortNumber { get; set; }
+
+        public double MinGpuMemoryGb { get; set; }
     }
 }
