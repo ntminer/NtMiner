@@ -36,6 +36,18 @@ namespace NTMiner {
         public static SpeedData CreateSpeedData() {
             INTMinerRoot root = NTMinerRoot.Instance;
             IWorkProfile workProfile = root.MinerProfile;
+            string macAddress = string.Empty;
+            string localIp = string.Empty;
+            foreach (var item in VirtualRoot.LocalIpSet.AsEnumerable()) {
+                if (macAddress.Length != 0) {
+                    macAddress += "," + item.MACAddress;
+                    localIp += "," + item.IPAddress;
+                }
+                else {
+                    macAddress = item.MACAddress;
+                    localIp = item.IPAddress;
+                }
+            }
             SpeedData data = new SpeedData {
                 LocalServerMessageTimestamp = VirtualRoot.LocalServerMessageSetTimestamp,
                 KernelSelfRestartCount = 0,
@@ -51,7 +63,8 @@ namespace NTMiner {
                 MinerName = workProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
                 ClientId = VirtualRoot.Id,
-                MACAddress = string.Join(",", VirtualRoot.LocalIpSet.AsEnumerable().Select(a => a.MACAddress)),
+                MACAddress = macAddress,
+                LocalIp = localIp,
                 MainCoinCode = string.Empty,
                 MainCoinWallet = string.Empty,
                 MainCoinTotalShare = 0,

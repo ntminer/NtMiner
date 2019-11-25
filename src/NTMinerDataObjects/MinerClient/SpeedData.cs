@@ -40,6 +40,7 @@ namespace NTMiner.MinerClient {
         public Guid ClientId { get; set; }
 
         public string MACAddress { get; set; }
+        public string LocalIp { get; set; }
 
         public string Version { get; set; }
 

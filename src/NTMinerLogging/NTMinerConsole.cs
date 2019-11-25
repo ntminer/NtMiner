@@ -4,19 +4,18 @@ using System.Runtime.InteropServices;
 namespace NTMiner {
     public static class NTMinerConsole {
         private static class SafeNativeMethods {
-            private const string Kernel32DllName = "kernel32.dll";
-            [DllImport(Kernel32DllName)]
+            [DllImport(DllName.Kernel32Dll)]
             internal static extern bool AllocConsole();
-            [DllImport(Kernel32DllName)]
+            [DllImport(DllName.Kernel32Dll)]
             internal static extern bool FreeConsole();
-            [DllImport(Kernel32DllName)]
+            [DllImport(DllName.Kernel32Dll)]
             internal static extern IntPtr GetConsoleWindow();
 
-            [DllImport(Kernel32DllName, SetLastError = true)]
+            [DllImport(DllName.Kernel32Dll, SetLastError = true)]
             internal static extern IntPtr GetStdHandle(int hConsoleHandle);
-            [DllImport(Kernel32DllName, SetLastError = true)]
+            [DllImport(DllName.Kernel32Dll, SetLastError = true)]
             internal static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint mode);
-            [DllImport(Kernel32DllName, SetLastError = true)]
+            [DllImport(DllName.Kernel32Dll, SetLastError = true)]
             internal static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint mode);
             [DllImport(DllName.User32Dll, SetLastError = true)]
             internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);

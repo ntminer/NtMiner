@@ -59,7 +59,7 @@
 					<TextBlock Margin="4 0 0 0" Text="管理" Foreground="{StaticResource ThemeForeground}"></TextBlock>
 				</WrapPanel>
 			</controls:KbButton>
-            <TextBlock VerticalAlignment="Center" Foreground="Red">人们通常使用交易所的充币地址挖矿</TextBlock>
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">矿工通常使用交易所的充币地址挖矿</TextBlock>
 		</WrapPanel>
 		<controls:KbButton 
 			Background="Transparent" 

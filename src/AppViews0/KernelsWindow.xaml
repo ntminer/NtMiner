@@ -448,7 +448,7 @@
 												    Width="78"
 												    Padding="8 4"
 												    Command="{Binding KernelProfileVm.Install}"
-												    Content="安装"
+										            Content="{Binding KernelProfileVm.InstallText}"
 												    Foreground="White"
 												    Background="#05c400">
                                                 </controls:KbButton>
@@ -479,7 +479,7 @@
 										    Height="26"
 										    Width="78"
 										    Padding="8 4"
-										    Content="卸载"
+										    Content="{Binding KernelProfileVm.UnInstallText}"
 										    Foreground="Black">
                                         </controls:KbButton>
                                     </WrapPanel>

@@ -24,7 +24,7 @@ namespace NTMiner.Net {
         }
 
         #region private static method GetLocalIps
-        private static List<LocalIpData> GetLocalIps() {
+        private static LocalIpData[] GetLocalIps() {
             List<LocalIpData> list = new List<LocalIpData>();
             try {
                 foreach (ManagementObject mo in GetNetCardInfo()) {
@@ -78,7 +78,7 @@ namespace NTMiner.Net {
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
-            return list;
+            return list.ToArray();
         }
         private static void FillNames(List<LocalIpData> list) {
             //获取网卡
@@ -94,7 +94,7 @@ namespace NTMiner.Net {
         }
         #endregion
 
-        private List<LocalIpData> _localIps = new List<LocalIpData>();
+        private LocalIpData[] _localIps = new LocalIpData[0];
         public LocalIpSet() {
             NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
                 // 延迟获取网络信息以防止立即获取时获取不到
@@ -103,16 +103,16 @@ namespace NTMiner.Net {
                     _isInited = false;
                     InitOnece();
                     var localIps = _localIps;
-                    if (localIps.Count == 0) {
+                    if (localIps.Length == 0) {
                         VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), "网络连接已断开", toConsole: true);
                     }
                     else {
-                        if (old.Count == 0) {
+                        if (old.Length == 0) {
                             VirtualRoot.ThisLocalInfo(nameof(LocalIpSet), "网络连接已连接", toConsole: true);
                         }
                         else {
                             bool isIpChanged = false;
-                            if (old.Count != localIps.Count) {
+                            if (old.Length != localIps.Length) {
                                 isIpChanged = true;
                             }
                             else {

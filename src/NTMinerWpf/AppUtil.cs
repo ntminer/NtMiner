@@ -51,7 +51,7 @@ namespace NTMiner {
                 return;
             }
             if (e is ValidationException) {
-                DialogWindow.ShowDialog(new DialogWindowViewModel(title: "验证失败", message: e.Message, icon: "Icon_Error"));
+                DialogWindow.ShowSoftDialog(new DialogWindowViewModel(title: "验证失败", message: e.Message, icon: "Icon_Error"));
             }
             else {
                 Logger.ErrorDebugLine(e);

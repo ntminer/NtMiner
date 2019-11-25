@@ -7,6 +7,7 @@ namespace NTMiner.MinerServer {
         bool MinerName { get; }
         bool ClientName { get; }
         bool MinerIp  { get; }
+        bool LocalIp { get; }
         bool MinerGroup  { get; }
         bool MainCoinCode  { get; }
         bool MainCoinSpeedText  { get; }

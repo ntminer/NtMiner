@@ -19,6 +19,8 @@ namespace NTMiner.Vms {
         private string _downloadMessage;
         private bool _isDownloading = false;
         private double _downloadPercent;
+        private string _installText = "安装";
+        private string _unInstallText = "卸载";
 
         private Action _cancelDownload;
 
@@ -41,7 +43,7 @@ namespace NTMiner.Vms {
                 this.Download();
             });
             this.UnInstall = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
+                if (this.UnInstallText == "确认卸载") {
                     string processName = _kernelVm.GetProcessName();
                     if (!string.IsNullOrEmpty(processName)) {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
@@ -64,7 +66,17 @@ namespace NTMiner.Vms {
                         }
                     }
                     Refresh();
-                }));
+                    this.InstallText = "卸载成功";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        this.InstallText = "安装";
+                    });
+                }
+                else {
+                    this.UnInstallText = "确认卸载";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        this.UnInstallText = "卸载";
+                    });
+                }
             });
         }
 
@@ -143,6 +155,26 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string UnInstallText {
+            get { return _unInstallText; }
+            set {
+                if (_unInstallText != value) {
+                    _unInstallText = value;
+                    OnPropertyChanged(nameof(UnInstallText));
+                }
+            }
+        }
+
+        public string InstallText {
+            get { return _installText; }
+            set {
+                if (_installText != value) {
+                    _installText = value;
+                    OnPropertyChanged(nameof(InstallText));
+                }
+            }
+        }
+
         #region Download
         public void Download(Action<bool, string> downloadComplete = null) {
             if (this.IsDownloading) {
@@ -167,6 +199,10 @@ namespace NTMiner.Vms {
                     foreach (var kernelVm in otherSamePackageKernelVms) {
                         kernelVm.KernelProfileVm.IsDownloading = false;
                     }
+                    this.UnInstallText = "安装成功";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        this.UnInstallText = "卸载";
+                    });
                 }
                 else {
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {

@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
             this.Remove = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
                     Server.ClientService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
@@ -71,27 +71,35 @@ namespace NTMiner.Vms {
                     }
                 });
             });
-            this.RemoteDesktop = new DelegateCommand(() => {
+            this.RemoteDesktop = new DelegateCommand<string>((ip) => {
+                if (string.IsNullOrEmpty(ip)) {
+                    VirtualRoot.Out.ShowWarn("Ip地址不能为空", delaySeconds: 4);
+                    return;
+                }
+                string[] parts = ip.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 1) {
+                    ip = parts[0];
+                }
                 if (string.IsNullOrEmpty(this.WindowsLoginName)) {
                     VirtualRoot.Execute(new ShowRemoteDesktopLoginDialogCommand(new RemoteDesktopLoginViewModel {
-                        Ip = this.MinerIp,
+                        Ip = ip,
                         OnOk = vm => {
                             this.WindowsLoginName = vm.LoginName;
                             this.WindowsPassword = vm.Password;
-                            Rdp.RemoteDesktop?.Invoke(new RdpInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                            Rdp.RemoteDesktop?.Invoke(new RdpInput(ip, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
                                 VirtualRoot.Out.ShowError(message, 4);
                             }));
                         }
                     }));
                 }
                 else {
-                    Rdp.RemoteDesktop?.Invoke(new RdpInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                    Rdp.RemoteDesktop?.Invoke(new RdpInput(ip, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
                         VirtualRoot.Out.ShowError(message, 4);
                     }));
                 }
             });
             this.RestartWindows = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.RestartWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
@@ -100,7 +108,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.ShutdownWindows = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.ShutdownWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
@@ -109,7 +117,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.RestartNTMiner = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.RestartNTMinerAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
@@ -127,7 +135,7 @@ namespace NTMiner.Vms {
                 Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
             });
             this.StopMine = new DelegateCommand(() => {
-                this.ShowDialog(new DialogWindowViewModel(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
                     IsMining = false;
                     Server.MinerClientService.StopMineAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
@@ -139,6 +147,13 @@ namespace NTMiner.Vms {
             });
         }
         #endregion
+
+        public string GetRemoteDesktopIp() {
+            if (string.IsNullOrEmpty(LocalIp)) {
+                return MinerIp;
+            }
+            return LocalIp;
+        }
 
         // 便于工具追踪代码
         public void Update(ClientData data) {
@@ -182,6 +197,14 @@ namespace NTMiner.Vms {
             set {
                 _data.MACAddress = value;
                 OnPropertyChanged(nameof(MACAddress));
+            }
+        }
+
+        public string LocalIp {
+            get { return _data.LocalIp; }
+            set {
+                _data.LocalIp = value;
+                OnPropertyChanged(nameof(LocalIp));
             }
         }
 

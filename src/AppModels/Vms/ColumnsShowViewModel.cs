@@ -44,6 +44,7 @@ namespace NTMiner.Vms {
         private bool _minerName;
         private bool _clientName;
         private bool _minerIp;
+        private bool _localIp;
         private bool _minerGroup;
         private bool _mainCoinCode;
         private bool _mainCoinSpeedText;
@@ -161,10 +162,10 @@ namespace NTMiner.Vms {
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
-                    this.ShowDialog(new DialogWindowViewModel(message: "该项不能删除", title: "警告", icon: "Icon_Error"));
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: "该项不能删除", title: "警告", icon: "Icon_Error"));
                     return;
                 }
-                this.ShowDialog(new DialogWindowViewModel(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.ColumnsShowName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveColumnsShowCommand(this.Id));
                 }));
             });
@@ -176,6 +177,7 @@ namespace NTMiner.Vms {
             _minerName = data.MinerName;
             _clientName = data.ClientName;
             _minerIp = data.MinerIp;
+            _localIp = data.LocalIp;
             _minerGroup = data.MinerGroup;
             _mainCoinCode = data.MainCoinCode;
             _mainCoinSpeedText = data.MainCoinSpeedText;
@@ -349,6 +351,19 @@ namespace NTMiner.Vms {
                 if (_minerIp != value) {
                     _minerIp = value;
                     OnColumnItemChanged(nameof(MinerIp));
+                }
+            }
+        }
+
+        public const string LOCAL_IP = "内网IP?";
+        public const string LOCAL_IP_TOOLTIP = "挖矿端从2.6.6.6开始上报内网IP";
+        [Description(LOCAL_IP)]
+        public bool LocalIp {
+            get { return _localIp; }
+            set {
+                if (_localIp != value) {
+                    _localIp = value;
+                    OnColumnItemChanged(nameof(LocalIp));
                 }
             }
         }
