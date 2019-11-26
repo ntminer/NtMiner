@@ -61,15 +61,6 @@ namespace NTMiner {
                 }
                 if (createdNew) {
                     Logger.InfoDebugLine($"==================NTMiner.exe {MainAssemblyInfo.CurrentVersion.ToString()}==================");
-                    if (!NTMiner.Windows.WMI.IsWmiEnabled) {
-                        DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                            message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
-                            title: "提醒",
-                            icon: "Icon_Error"));
-                        Shutdown();
-                        Environment.Exit(0);
-                    }
-
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = null;
                     // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
@@ -79,6 +70,14 @@ namespace NTMiner {
                     });
                     //ConsoleWindow.Instance.Show();
                     NotiCenterWindow.ShowWindow();
+                    if (!NTMiner.Windows.WMI.IsWmiEnabled) {
+                        DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
+                            message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
+                            title: "提醒",
+                            icon: "Icon_Error"));
+                        Shutdown();
+                        Environment.Exit(0);
+                    }
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()
