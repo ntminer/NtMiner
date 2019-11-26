@@ -22,21 +22,21 @@ namespace NTMiner {
             StackTrace ss = new StackTrace(false);
             // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action);
+            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, Guid.Empty);
         }
 
-        public static IMessagePathId BuildOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
+        public static IMessagePathId BuildOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId) {
             StackTrace ss = new StackTrace(false);
             // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, viaLimit: 1);
+            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, pathId, viaLimit: 1);
         }
 
         public static IMessagePathId BuildViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit) {
             StackTrace ss = new StackTrace(false);
             // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, viaLimit);
+            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, Guid.Empty, viaLimit);
         }
 
         public static void BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)

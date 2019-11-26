@@ -21,7 +21,7 @@
             }
         }
 
-        public void Dispatch<TMessage>(TMessage message) {
+        public void Dispatch<TMessage>(TMessage message) where TMessage : IMessage {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
             }
@@ -30,12 +30,15 @@
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (MessagePath<TMessage>)messageHandler;
+                    bool isMatch = tMessageHandler.PathId == Guid.Empty || tMessageHandler.PathId == message.Id;
                     if (tMessageHandler.ViaLimit > 0) {
-                        lock (tMessageHandler) {
-                            if (tMessageHandler.ViaLimit > 0) {
-                                tMessageHandler.ViaLimit--;
-                                if (tMessageHandler.ViaLimit == 0) {
-                                    Disconnect(tMessageHandler);
+                        if (isMatch) {
+                            lock (tMessageHandler) {
+                                if (tMessageHandler.ViaLimit > 0) {
+                                    tMessageHandler.ViaLimit--;
+                                    if (tMessageHandler.ViaLimit == 0) {
+                                        Disconnect(tMessageHandler);
+                                    }
                                 }
                             }
                         }
@@ -43,20 +46,22 @@
                     if (!tMessageHandler.IsEnabled) {
                         continue;
                     }
-                    switch (tMessageHandler.LogType) {
-                        case LogEnum.DevConsole:
-                            if (DevMode.IsDevMode) {
-                                Write.DevDebug($"({messageType.Name})->({tMessageHandler.Location.Name}){tMessageHandler.Description}");
-                            }
-                            break;
-                        case LogEnum.Log:
-                            Logger.InfoDebugLine($"({messageType.Name})->({tMessageHandler.Location.Name}){tMessageHandler.Description}");
-                            break;
-                        case LogEnum.None:
-                        default:
-                            break;
+                    if (isMatch) {
+                        switch (tMessageHandler.LogType) {
+                            case LogEnum.DevConsole:
+                                if (DevMode.IsDevMode) {
+                                    Write.DevDebug($"({messageType.Name})->({tMessageHandler.Location.Name}){tMessageHandler.Description}");
+                                }
+                                break;
+                            case LogEnum.Log:
+                                Logger.InfoDebugLine($"({messageType.Name})->({tMessageHandler.Location.Name}){tMessageHandler.Description}");
+                                break;
+                            case LogEnum.None:
+                            default:
+                                break;
+                        }
+                        tMessageHandler.Run(message);
                     }
-                    tMessageHandler.Run(message);
                 }
             }
             else {

@@ -366,11 +366,8 @@ namespace NTMiner.Core {
     
     [MessageType(description: "币种超频完成后")]
     public class CoinOverClockDoneEvent : EventBase {
-        public CoinOverClockDoneEvent(Guid cmdId) {
-            this.CmdId = cmdId;
+        public CoinOverClockDoneEvent(Guid id) : base(id) {
         }
-
-        public Guid CmdId { get; private set; }
     }
 
     [MessageType(description: "Gpu超频数据添加或更新后")]
