@@ -17,7 +17,7 @@ namespace NTMiner {
         // 预热内存，减小主界面上鼠标转圈的可能
         public void VmsCtor() {
             List<object> temp = new List<object> {
-                GpuVms,MinerProfileVm,PoolVms,CoinKernelVms,CoinVms,KernelVms
+                GpuVms,MinerProfileVm,PoolVms,CoinKernelVms,CoinVms,KernelVms,WalletVms
             };
             temp.Clear();
         }
