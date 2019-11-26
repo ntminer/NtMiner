@@ -164,19 +164,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加工作后")]
     public class MineWorkAddedEvent : DomainEvent<IMineWork> {
-        public MineWorkAddedEvent(IMineWork source) : base(source) {
+        public MineWorkAddedEvent(Guid pathId, IMineWork source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新工作后")]
     public class MineWorkUpdatedEvent : DomainEvent<IMineWork> {
-        public MineWorkUpdatedEvent(IMineWork source) : base(source) {
+        public MineWorkUpdatedEvent(Guid pathId, IMineWork source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除工作后")]
     public class MineWorkRemovedEvent : DomainEvent<IMineWork> {
-        public MineWorkRemovedEvent(IMineWork source) : base(source) {
+        public MineWorkRemovedEvent(Guid pathId, IMineWork source) : base(pathId, source) {
         }
     }
     #endregion
@@ -202,19 +202,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加矿机分组后")]
     public class MinerGroupAddedEvent : DomainEvent<IMinerGroup> {
-        public MinerGroupAddedEvent(IMinerGroup source) : base(source) {
+        public MinerGroupAddedEvent(Guid pathId, IMinerGroup source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新矿机分组后")]
     public class MinerGroupUpdatedEvent : DomainEvent<IMinerGroup> {
-        public MinerGroupUpdatedEvent(IMinerGroup source) : base(source) {
+        public MinerGroupUpdatedEvent(Guid pathId, IMinerGroup source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除矿机分组后")]
     public class MinerGroupRemovedEvent : DomainEvent<IMinerGroup> {
-        public MinerGroupRemovedEvent(IMinerGroup source) : base(source) {
+        public MinerGroupRemovedEvent(Guid pathId, IMinerGroup source) : base(pathId, source) {
         }
     }
     #endregion
@@ -240,19 +240,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加NTMiner钱包后")]
     public class NTMinerWalletAddedEvent : DomainEvent<INTMinerWallet> {
-        public NTMinerWalletAddedEvent(INTMinerWallet source) : base(source) {
+        public NTMinerWalletAddedEvent(Guid pathId, INTMinerWallet source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新NTMiner钱包后")]
     public class NTMinerWalletUpdatedEvent : DomainEvent<INTMinerWallet> {
-        public NTMinerWalletUpdatedEvent(INTMinerWallet source) : base(source) {
+        public NTMinerWalletUpdatedEvent(Guid pathId, INTMinerWallet source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除NTMiner钱包后")]
     public class NTMinerWalletRemovedEvent : DomainEvent<INTMinerWallet> {
-        public NTMinerWalletRemovedEvent(INTMinerWallet source) : base(source) {
+        public NTMinerWalletRemovedEvent(Guid pathId, INTMinerWallet source) : base(pathId, source) {
         }
     }
     #endregion
@@ -278,19 +278,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加超频建议后")]
     public class OverClockDataAddedEvent : DomainEvent<IOverClockData> {
-        public OverClockDataAddedEvent(IOverClockData source) : base(source) {
+        public OverClockDataAddedEvent(Guid pathId, IOverClockData source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新超频建议后")]
     public class OverClockDataUpdatedEvent : DomainEvent<IOverClockData> {
-        public OverClockDataUpdatedEvent(IOverClockData source) : base(source) {
+        public OverClockDataUpdatedEvent(Guid pathId, IOverClockData source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除超频建议后")]
     public class OverClockDataRemovedEvent : DomainEvent<IOverClockData> {
-        public OverClockDataRemovedEvent(IOverClockData source) : base(source) {
+        public OverClockDataRemovedEvent(Guid pathId, IOverClockData source) : base(pathId, source) {
         }
     }
 
@@ -328,19 +328,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加列显后")]
     public class ColumnsShowAddedEvent : DomainEvent<IColumnsShow> {
-        public ColumnsShowAddedEvent(IColumnsShow source) : base(source) {
+        public ColumnsShowAddedEvent(Guid pathId, IColumnsShow source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新列显后")]
     public class ColumnsShowUpdatedEvent : DomainEvent<IColumnsShow> {
-        public ColumnsShowUpdatedEvent(IColumnsShow source) : base(source) {
+        public ColumnsShowUpdatedEvent(Guid pathId, IColumnsShow source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除列显后")]
     public class ColumnsShowRemovedEvent : DomainEvent<IColumnsShow> {
-        public ColumnsShowRemovedEvent(IColumnsShow source) : base(source) {
+        public ColumnsShowRemovedEvent(Guid pathId, IColumnsShow source) : base(pathId, source) {
         }
     }
     #endregion
@@ -366,13 +366,13 @@ namespace NTMiner.Core {
     
     [MessageType(description: "币种超频完成后")]
     public class CoinOverClockDoneEvent : EventBase {
-        public CoinOverClockDoneEvent(Guid id) : base(id) {
+        public CoinOverClockDoneEvent(Guid pathId) : base(pathId) {
         }
     }
 
     [MessageType(description: "Gpu超频数据添加或更新后")]
     public class GpuProfileAddedOrUpdatedEvent : DomainEvent<IGpuProfile> {
-        public GpuProfileAddedOrUpdatedEvent(IGpuProfile source) : base(source) {
+        public GpuProfileAddedOrUpdatedEvent(Guid pathId, IGpuProfile source) : base(pathId, source) {
         }
     }
     #endregion
@@ -380,7 +380,7 @@ namespace NTMiner.Core {
     #region speed and share
     [MessageType(description: "显卡算力变更事件")]
     public class GpuSpeedChangedEvent : DomainEvent<IGpuSpeed> {
-        public GpuSpeedChangedEvent(bool isDual, IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        public GpuSpeedChangedEvent(bool isDual, Guid pathId, IGpuSpeed gpuSpeed) : base(pathId, gpuSpeed) {
             this.IsDual = isDual;
         }
 
@@ -389,37 +389,37 @@ namespace NTMiner.Core {
 
     [MessageType(description: "显卡份额变更事件")]
     public class GpuShareChangedEvent : DomainEvent<IGpuSpeed> {
-        public GpuShareChangedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        public GpuShareChangedEvent(Guid pathId, IGpuSpeed gpuSpeed) : base(pathId, gpuSpeed) {
         }
     }
 
     [MessageType(description: "找到了一个份额")]
     public class FoundShareIncreasedEvent : DomainEvent<IGpuSpeed> {
-        public FoundShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        public FoundShareIncreasedEvent(Guid pathId, IGpuSpeed gpuSpeed) : base(pathId, gpuSpeed) {
         }
     }
 
     [MessageType(description: "接受了一个份额")]
     public class AcceptShareIncreasedEvent : DomainEvent<IGpuSpeed> {
-        public AcceptShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        public AcceptShareIncreasedEvent(Guid pathId, IGpuSpeed gpuSpeed) : base(pathId, gpuSpeed) {
         }
     }
 
     [MessageType(description: "拒绝了一个份额")]
     public class RejectShareIncreasedEvent : DomainEvent<IGpuSpeed> {
-        public RejectShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        public RejectShareIncreasedEvent(Guid pathId, IGpuSpeed gpuSpeed) : base(pathId, gpuSpeed) {
         }
     }
 
     [MessageType(description: "算错了一个份额")]
     public class IncorrectShareIncreasedEvent : DomainEvent<IGpuSpeed> {
-        public IncorrectShareIncreasedEvent(IGpuSpeed gpuSpeed) : base(gpuSpeed) {
+        public IncorrectShareIncreasedEvent(Guid pathId, IGpuSpeed gpuSpeed) : base(pathId, gpuSpeed) {
         }
     }
 
     [MessageType(description: "收益变更事件")]
     public class ShareChangedEvent : DomainEvent<ICoinShare> {
-        public ShareChangedEvent(ICoinShare share) : base(share) {
+        public ShareChangedEvent(Guid pathId, ICoinShare share) : base(pathId, share) {
         }
     }
     #endregion
@@ -427,7 +427,7 @@ namespace NTMiner.Core {
     #region Gpu Messages
     [MessageType(description: "显卡状态变更事件", isCanNoHandler: true)]
     public class GpuStateChangedEvent : DomainEvent<IGpu> {
-        public GpuStateChangedEvent(IGpu source) : base(source) {
+        public GpuStateChangedEvent(Guid pathId, IGpu source) : base(pathId, source) {
         }
     }
     #endregion
@@ -453,19 +453,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加系统字典后")]
     public class SysDicAddedEvent : DomainEvent<ISysDic> {
-        public SysDicAddedEvent(ISysDic source) : base(source) {
+        public SysDicAddedEvent(Guid pathId, ISysDic source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新系统字典后")]
     public class SysDicUpdatedEvent : DomainEvent<ISysDic> {
-        public SysDicUpdatedEvent(ISysDic source) : base(source) {
+        public SysDicUpdatedEvent(Guid pathId, ISysDic source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除系统字典后")]
     public class SysDicRemovedEvent : DomainEvent<ISysDic> {
-        public SysDicRemovedEvent(ISysDic source) : base(source) {
+        public SysDicRemovedEvent(Guid pathId, ISysDic source) : base(pathId, source) {
         }
     }
     #endregion
@@ -491,19 +491,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了系统字典项后")]
     public class SysDicItemAddedEvent : DomainEvent<ISysDicItem> {
-        public SysDicItemAddedEvent(ISysDicItem source) : base(source) {
+        public SysDicItemAddedEvent(Guid pathId, ISysDicItem source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了系统字典项后")]
     public class SysDicItemUpdatedEvent : DomainEvent<ISysDicItem> {
-        public SysDicItemUpdatedEvent(ISysDicItem source) : base(source) {
+        public SysDicItemUpdatedEvent(Guid pathId, ISysDicItem source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除了系统字典项后")]
     public class SysDicItemRemovedEvent : DomainEvent<ISysDicItem> {
-        public SysDicItemRemovedEvent(ISysDicItem source) : base(source) {
+        public SysDicItemRemovedEvent(Guid pathId, ISysDicItem source) : base(pathId, source) {
         }
     }
     #endregion
@@ -529,25 +529,25 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了币种后")]
     public class CoinAddedEvent : DomainEvent<ICoin> {
-        public CoinAddedEvent(ICoin source) : base(source) {
+        public CoinAddedEvent(Guid pathId, ICoin source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了币种后")]
     public class CoinUpdatedEvent : DomainEvent<ICoin> {
-        public CoinUpdatedEvent(ICoin source) : base(source) {
+        public CoinUpdatedEvent(Guid pathId, ICoin source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了币种后")]
     public class CoinRemovedEvent : DomainEvent<ICoin> {
-        public CoinRemovedEvent(ICoin source) : base(source) {
+        public CoinRemovedEvent(Guid pathId, ICoin source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "下载了币种图标后")]
     public class CoinIconDownloadedEvent : DomainEvent<ICoin> {
-        public CoinIconDownloadedEvent(ICoin source) : base(source) {
+        public CoinIconDownloadedEvent(Guid pathId, ICoin source) : base(pathId, source) {
         }
     }
     #endregion
@@ -573,19 +573,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了组后")]
     public class GroupAddedEvent : DomainEvent<IGroup> {
-        public GroupAddedEvent(IGroup source) : base(source) {
+        public GroupAddedEvent(Guid pathId, IGroup source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了组后")]
     public class GroupUpdatedEvent : DomainEvent<IGroup> {
-        public GroupUpdatedEvent(IGroup source) : base(source) {
+        public GroupUpdatedEvent(Guid pathId, IGroup source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了组后")]
     public class GroupRemovedEvent : DomainEvent<IGroup> {
-        public GroupRemovedEvent(IGroup source) : base(source) {
+        public GroupRemovedEvent(Guid pathId, IGroup source) : base(pathId, source) {
         }
     }
     #endregion
@@ -611,13 +611,13 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了币组后")]
     public class CoinGroupAddedEvent : DomainEvent<ICoinGroup> {
-        public CoinGroupAddedEvent(ICoinGroup source) : base(source) {
+        public CoinGroupAddedEvent(Guid pathId, ICoinGroup source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了币组后")]
     public class CoinGroupRemovedEvent : DomainEvent<ICoinGroup> {
-        public CoinGroupRemovedEvent(ICoinGroup source) : base(source) {
+        public CoinGroupRemovedEvent(Guid pathId, ICoinGroup source) : base(pathId, source) {
         }
     }
     #endregion
@@ -643,19 +643,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了文件书写器后")]
     public class FileWriterAddedEvent : DomainEvent<IFileWriter> {
-        public FileWriterAddedEvent(IFileWriter source) : base(source) {
+        public FileWriterAddedEvent(Guid pathId, IFileWriter source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了文件书写器后")]
     public class FileWriterUpdatedEvent : DomainEvent<IFileWriter> {
-        public FileWriterUpdatedEvent(IFileWriter source) : base(source) {
+        public FileWriterUpdatedEvent(Guid pathId, IFileWriter source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了文件书写器后")]
     public class FileWriterRemovedEvent : DomainEvent<IFileWriter> {
-        public FileWriterRemovedEvent(IFileWriter source) : base(source) {
+        public FileWriterRemovedEvent(Guid pathId, IFileWriter source) : base(pathId, source) {
         }
     }
     #endregion
@@ -681,19 +681,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了命令行片段书写器后")]
     public class FragmentWriterAddedEvent : DomainEvent<IFragmentWriter> {
-        public FragmentWriterAddedEvent(IFragmentWriter source) : base(source) {
+        public FragmentWriterAddedEvent(Guid pathId, IFragmentWriter source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了命令行片段书写器后")]
     public class FragmentWriterUpdatedEvent : DomainEvent<IFragmentWriter> {
-        public FragmentWriterUpdatedEvent(IFragmentWriter source) : base(source) {
+        public FragmentWriterUpdatedEvent(Guid pathId, IFragmentWriter source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了命令行片段书写器后")]
     public class FragmentWriterRemovedEvent : DomainEvent<IFragmentWriter> {
-        public FragmentWriterRemovedEvent(IFragmentWriter source) : base(source) {
+        public FragmentWriterRemovedEvent(Guid pathId, IFragmentWriter source) : base(pathId, source) {
         }
     }
     #endregion
@@ -719,19 +719,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了钱包后")]
     public class WalletAddedEvent : DomainEvent<IWallet> {
-        public WalletAddedEvent(IWallet source) : base(source) {
+        public WalletAddedEvent(Guid pathId, IWallet source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了钱包后")]
     public class WalletUpdatedEvent : DomainEvent<IWallet> {
-        public WalletUpdatedEvent(IWallet source) : base(source) {
+        public WalletUpdatedEvent(Guid pathId, IWallet source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了钱包后")]
     public class WalletRemovedEvent : DomainEvent<IWallet> {
-        public WalletRemovedEvent(IWallet source) : base(source) {
+        public WalletRemovedEvent(Guid pathId, IWallet source) : base(pathId, source) {
         }
     }
     #endregion
@@ -757,19 +757,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了矿池后")]
     public class PoolAddedEvent : DomainEvent<IPool> {
-        public PoolAddedEvent(IPool source) : base(source) {
+        public PoolAddedEvent(Guid pathId, IPool source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了矿池后")]
     public class PoolUpdatedEvent : DomainEvent<IPool> {
-        public PoolUpdatedEvent(IPool source) : base(source) {
+        public PoolUpdatedEvent(Guid pathId, IPool source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了矿池后")]
     public class PoolRemovedEvent : DomainEvent<IPool> {
-        public PoolRemovedEvent(IPool source) : base(source) {
+        public PoolRemovedEvent(Guid pathId, IPool source) : base(pathId, source) {
         }
     }
     #endregion
@@ -795,19 +795,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了币种级内核后")]
     public class CoinKernelAddedEvent : DomainEvent<ICoinKernel> {
-        public CoinKernelAddedEvent(ICoinKernel source) : base(source) {
+        public CoinKernelAddedEvent(Guid pathId, ICoinKernel source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了币种级内核后")]
     public class CoinKernelUpdatedEvent : DomainEvent<ICoinKernel> {
-        public CoinKernelUpdatedEvent(ICoinKernel source) : base(source) {
+        public CoinKernelUpdatedEvent(Guid pathId, ICoinKernel source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了币种级内核后")]
     public class CoinKernelRemovedEvent : DomainEvent<ICoinKernel> {
-        public CoinKernelRemovedEvent(ICoinKernel source) : base(source) {
+        public CoinKernelRemovedEvent(Guid pathId, ICoinKernel source) : base(pathId, source) {
         }
     }
     #endregion
@@ -833,19 +833,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了矿池级内核后")]
     public class PoolKernelAddedEvent : DomainEvent<IPoolKernel> {
-        public PoolKernelAddedEvent(IPoolKernel source) : base(source) {
+        public PoolKernelAddedEvent(Guid pathId, IPoolKernel source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了矿池级内核后")]
     public class PoolKernelUpdatedEvent : DomainEvent<IPoolKernel> {
-        public PoolKernelUpdatedEvent(IPoolKernel source) : base(source) {
+        public PoolKernelUpdatedEvent(Guid pathId, IPoolKernel source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了矿池级内核后")]
     public class PoolKernelRemovedEvent : DomainEvent<IPoolKernel> {
-        public PoolKernelRemovedEvent(IPoolKernel source) : base(source) {
+        public PoolKernelRemovedEvent(Guid pathId, IPoolKernel source) : base(pathId, source) {
         }
     }
     #endregion
@@ -871,19 +871,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了包后")]
     public class PackageAddedEvent : DomainEvent<IPackage> {
-        public PackageAddedEvent(IPackage source) : base(source) {
+        public PackageAddedEvent(Guid pathId, IPackage source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了包后")]
     public class PackageUpdatedEvent : DomainEvent<IPackage> {
-        public PackageUpdatedEvent(IPackage source) : base(source) {
+        public PackageUpdatedEvent(Guid pathId, IPackage source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除了包后")]
     public class PackageRemovedEvent : DomainEvent<IPackage> {
-        public PackageRemovedEvent(IPackage source) : base(source) {
+        public PackageRemovedEvent(Guid pathId, IPackage source) : base(pathId, source) {
         }
     }
     #endregion
@@ -909,19 +909,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了内核后")]
     public class KernelAddedEvent : DomainEvent<IKernel> {
-        public KernelAddedEvent(IKernel source) : base(source) {
+        public KernelAddedEvent(Guid pathId, IKernel source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了内核后")]
     public class KernelUpdatedEvent : DomainEvent<IKernel> {
-        public KernelUpdatedEvent(IKernel source) : base(source) {
+        public KernelUpdatedEvent(Guid pathId, IKernel source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "删除了内核后")]
     public class KernelRemovedEvent : DomainEvent<IKernel> {
-        public KernelRemovedEvent(IKernel source) : base(source) {
+        public KernelRemovedEvent(Guid pathId, IKernel source) : base(pathId, source) {
         }
     }
     #endregion
@@ -947,19 +947,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了内核输入组后")]
     public class KernelInputAddedEvent : DomainEvent<IKernelInput> {
-        public KernelInputAddedEvent(IKernelInput source) : base(source) {
+        public KernelInputAddedEvent(Guid pathId, IKernelInput source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了内核输入组后")]
     public class KernelInputUpdatedEvent : DomainEvent<IKernelInput> {
-        public KernelInputUpdatedEvent(IKernelInput source) : base(source) {
+        public KernelInputUpdatedEvent(Guid pathId, IKernelInput source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了内核输入组后")]
     public class KernelInputRemovedEvent : DomainEvent<IKernelInput> {
-        public KernelInputRemovedEvent(IKernelInput source) : base(source) {
+        public KernelInputRemovedEvent(Guid pathId, IKernelInput source) : base(pathId, source) {
         }
     }
     #endregion
@@ -985,19 +985,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了内核输出组后")]
     public class KernelOutputAddedEvent : DomainEvent<IKernelOutput> {
-        public KernelOutputAddedEvent(IKernelOutput source) : base(source) {
+        public KernelOutputAddedEvent(Guid pathId, IKernelOutput source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了内核输出组后")]
     public class KernelOutputUpdatedEvent : DomainEvent<IKernelOutput> {
-        public KernelOutputUpdatedEvent(IKernelOutput source) : base(source) {
+        public KernelOutputUpdatedEvent(Guid pathId, IKernelOutput source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了内核输出组后")]
     public class KernelOutputRemovedEvent : DomainEvent<IKernelOutput> {
-        public KernelOutputRemovedEvent(IKernelOutput source) : base(source) {
+        public KernelOutputRemovedEvent(Guid pathId, IKernelOutput source) : base(pathId, source) {
         }
     }
     #endregion
@@ -1023,19 +1023,19 @@ namespace NTMiner.Core {
 
     [MessageType(description: "添加了内核输出翻译器后")]
     public class KernelOutputTranslaterAddedEvent : DomainEvent<IKernelOutputTranslater> {
-        public KernelOutputTranslaterAddedEvent(IKernelOutputTranslater source) : base(source) {
+        public KernelOutputTranslaterAddedEvent(Guid pathId, IKernelOutputTranslater source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "更新了内核输出翻译器后")]
     public class KernelOutputTranslaterUpdatedEvent : DomainEvent<IKernelOutputTranslater> {
-        public KernelOutputTranslaterUpdatedEvent(IKernelOutputTranslater source) : base(source) {
+        public KernelOutputTranslaterUpdatedEvent(Guid pathId, IKernelOutputTranslater source) : base(pathId, source) {
         }
     }
 
     [MessageType(description: "移除了内核输出翻译器后")]
     public class KernelOutputTranslaterRemovedEvent : DomainEvent<IKernelOutputTranslater> {
-        public KernelOutputTranslaterRemovedEvent(IKernelOutputTranslater source) : base(source) {
+        public KernelOutputTranslaterRemovedEvent(Guid pathId, IKernelOutputTranslater source) : base(pathId, source) {
         }
     }
     #endregion

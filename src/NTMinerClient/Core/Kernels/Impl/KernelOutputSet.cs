@@ -24,7 +24,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(message.Id, entity));
                 });
             context.BuildCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -46,7 +46,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(message.Id, entity));
                 });
             context.BuildCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputRemovedEvent(message.Id, entity));
                 });
             #endregion
         }

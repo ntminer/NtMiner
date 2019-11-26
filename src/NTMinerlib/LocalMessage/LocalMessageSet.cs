@@ -36,7 +36,7 @@ namespace NTMiner.LocalMessage {
                     var col = db.GetCollection<LocalMessageData>();
                     col.Insert(data);
                 }
-                VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(data, removes));
+                VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(message.Id, data, removes));
             });
             VirtualRoot.BuildCmdPath<ClearLocalMessageSetCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {

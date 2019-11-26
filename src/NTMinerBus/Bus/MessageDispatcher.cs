@@ -30,7 +30,10 @@
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (MessagePath<TMessage>)messageHandler;
-                    bool isMatch = tMessageHandler.PathId == Guid.Empty || tMessageHandler.PathId == message.Id;
+                    bool isMatch = tMessageHandler.PathId == Guid.Empty || message is ICmd;
+                    if (!isMatch && message is IEvent evt) {
+                        isMatch = tMessageHandler.PathId == evt.PathId;
+                    }
                     if (tMessageHandler.ViaLimit > 0) {
                         if (isMatch) {
                             lock (tMessageHandler) {

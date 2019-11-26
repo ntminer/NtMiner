@@ -21,7 +21,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new NTMinerWalletAddedEvent(entity));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletAddedEvent(message.Id, entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(e));
@@ -44,11 +44,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.Id, entity));
                         Write.UserFail(response.ReadMessage(e));
                     }
                 });
-                VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.Id, entity));
             });
             VirtualRoot.BuildCmdPath<RemoveNTMinerWalletCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -61,7 +61,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.NTMinerWalletService.RemoveNTMinerWalletAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new NTMinerWalletRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletRemovedEvent(message.Id, entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(e));

@@ -7,12 +7,13 @@ namespace NTMiner.Bus {
             this.Timestamp = DateTime.Now;
         }
 
-        protected EventBase(Guid id) {
-            this.Id = id;
-            this.Timestamp = DateTime.Now;
+        protected EventBase(Guid pathId) : this() {
+            this.PathId = pathId;
         }
 
         public Guid Id { get; private set; }
+
+        public Guid PathId { get; private set; }
 
         public DateTime Timestamp { get; private set; }
     }

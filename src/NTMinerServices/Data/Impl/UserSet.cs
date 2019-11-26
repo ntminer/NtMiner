@@ -19,7 +19,7 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<UserData>();
                         col.Insert(entity);
                     }
-                    VirtualRoot.RaiseEvent(new UserAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new UserAddedEvent(message.Id, entity));
                 }
             });
             VirtualRoot.BuildCmdPath<UpdateUserCommand>(action: message => {
@@ -30,7 +30,7 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<UserData>();
                         col.Update(entity);
                     }
-                    VirtualRoot.RaiseEvent(new UserUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.Id, entity));
                 }
             });
             VirtualRoot.BuildCmdPath<RemoveUserCommand>(action: message => {
@@ -41,7 +41,7 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<UserData>();
                         col.Delete(message.LoginName);
                     }
-                    VirtualRoot.RaiseEvent(new UserRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new UserRemovedEvent(message.Id, entity));
                 }
             });
         }

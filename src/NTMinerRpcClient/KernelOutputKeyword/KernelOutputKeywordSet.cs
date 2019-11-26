@@ -67,7 +67,7 @@ namespace NTMiner.KernelOutputKeyword {
                             col.Update(exist);
                         }
                         if (!isServer) {
-                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordUpdatedEvent(exist));
+                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordUpdatedEvent(message.Id, exist));
                         }
                     }
                     else {
@@ -84,7 +84,7 @@ namespace NTMiner.KernelOutputKeyword {
                             col.Insert(entity);
                         }
                         if (!isServer) {
-                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordAddedEvent(entity));
+                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordAddedEvent(message.Id, entity));
                         }
                     }
                 }
@@ -115,7 +115,7 @@ namespace NTMiner.KernelOutputKeyword {
                         col.Delete(message.EntityId);
                     }
                     if (!isServer) {
-                        VirtualRoot.RaiseEvent(new UserKernelOutputKeywordRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new UserKernelOutputKeywordRemovedEvent(message.Id, entity));
                     }
                 }
                 else if (DevMode.IsDevMode) {

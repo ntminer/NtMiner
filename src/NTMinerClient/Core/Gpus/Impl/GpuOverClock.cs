@@ -1,4 +1,5 @@
 ﻿using NTMiner.Gpus;
+using System;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class GpuOverClock : IOverClock {
@@ -18,7 +19,7 @@ namespace NTMiner.Core.Gpus.Impl {
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);
             }
-            VirtualRoot.RaiseEvent(new GpuStateChangedEvent(gpu));
+            VirtualRoot.RaiseEvent(new GpuStateChangedEvent(Guid.Empty, gpu));
         }
 
         public void SetCoreClock(int gpuIndex, int value, int voltage) {

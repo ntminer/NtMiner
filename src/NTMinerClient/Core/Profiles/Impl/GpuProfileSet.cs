@@ -23,12 +23,12 @@ namespace NTMiner.Core.Profiles.Impl {
                     _data.GpuProfiles.Add(data);
                     Save();
                 }
-                VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(data));
+                VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(message.Id, data));
             });
             VirtualRoot.BuildCmdPath<CoinOverClockCommand>(action: message => {
                 Task.Factory.StartNew(() => {
                     CoinOverClock(root, message.CoinId);
-                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(message.Id));
+                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(pathId: message.Id));
                 });
             });
         }

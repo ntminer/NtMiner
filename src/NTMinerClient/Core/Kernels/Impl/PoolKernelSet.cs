@@ -16,7 +16,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         _dicById.Add(message.Input.GetId(), entity);
                         var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                         repository.Add(entity);
-                        VirtualRoot.RaiseEvent(new PoolKernelAddedEvent(message.Input));
+                        VirtualRoot.RaiseEvent(new PoolKernelAddedEvent(message.Id, message.Input));
                     }
                 });
             _context.BuildCmdPath<RemovePoolKernelCommand>("处理移除矿池级内核命令", LogEnum.DevConsole,
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         _dicById.Remove(message.EntityId);
                         var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                         repository.Remove(message.EntityId);
-                        VirtualRoot.RaiseEvent(new PoolKernelRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new PoolKernelRemovedEvent(message.Id, entity));
                     }
                 });
             _context.BuildCmdPath<UpdatePoolKernelCommand>("更新矿池内核", LogEnum.DevConsole,
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new PoolKernelUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new PoolKernelUpdatedEvent(message.Id, entity));
                 });
         }
 
