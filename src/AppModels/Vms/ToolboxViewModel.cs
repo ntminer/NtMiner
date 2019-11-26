@@ -15,6 +15,8 @@ namespace NTMiner.Vms {
 
         public ICommand OpenDevmgmt { get; private set; }
 
+        public ICommand WindowsProperty { get; private set; }
+
         public ToolboxViewModel() {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -71,6 +73,9 @@ namespace NTMiner.Vms {
             });
             this.OpenDevmgmt = new DelegateCommand(() => {
                 Process.Start("devmgmt.msc");
+            });
+            this.WindowsProperty = new DelegateCommand(() => {
+                Process.Start("control.exe", "system");
             });
         }
 
