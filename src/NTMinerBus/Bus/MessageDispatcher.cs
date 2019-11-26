@@ -30,6 +30,9 @@
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (MessagePath<TMessage>)messageHandler;
+                    if (tMessageHandler.IsOnece) {
+                        _handlers[messageType].Remove(messageHandler);
+                    }
                     if (!tMessageHandler.IsEnabled) {
                         continue;
                     }

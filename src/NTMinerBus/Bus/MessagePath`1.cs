@@ -8,16 +8,16 @@ namespace NTMiner.Bus {
 
         public event PropertyChangedEventHandler PropertyChanged;
         
-        public static MessagePath<TMessage> Build(IMessageDispatcher dispatcher, Type location, string description, LogEnum logType, Action<TMessage> action) {
+        public static MessagePath<TMessage> Build(IMessageDispatcher dispatcher, Type location, string description, LogEnum logType, Action<TMessage> action, bool isOnece = false) {
             if (action == null) {
                 throw new ArgumentNullException(nameof(action));
             }
-            MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, action);
+            MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, action, isOnece);
             dispatcher.Connect(handler);
             return handler;
         }
 
-        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path) {
+        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path, bool isOnece) {
             this.IsEnabled = true;
             MessageType = typeof(TMessage);
             Location = location;
@@ -25,8 +25,10 @@ namespace NTMiner.Bus {
             Description = description;
             LogType = logType;
             _path = path;
+            IsOnece = isOnece;
         }
 
+        public bool IsOnece { get; private set; }
         public Type MessageType { get; private set; }
         public Type Location { get; private set; }
         public string Path { get; private set; }

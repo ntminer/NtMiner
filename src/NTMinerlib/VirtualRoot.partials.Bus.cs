@@ -25,6 +25,13 @@ namespace NTMiner {
             return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action);
         }
 
+        public static IMessagePathId BuildOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
+            StackTrace ss = new StackTrace(false);
+            // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
+            Type location = ss.GetFrame(2).GetMethod().DeclaringType;
+            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, isOnece: true);
+        }
+
         public static IMessagePathId BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
