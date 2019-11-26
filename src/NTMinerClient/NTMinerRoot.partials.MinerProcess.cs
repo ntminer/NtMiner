@@ -278,7 +278,7 @@ namespace NTMiner {
                             }
                             VirtualRoot.DeletePath(closeHandle);
                         });
-                        closeHandle = VirtualRoot.BuildEventPath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
+                        closeHandle = VirtualRoot.BuildOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
                                 if (_kernelProcessDaemon != null) {
@@ -289,7 +289,6 @@ namespace NTMiner {
                                     CloseHandle(hWriteOut);
                                     isHWriteOutHasClosed = true;
                                 }
-                                VirtualRoot.DeletePath(closeHandle);
                             });
                         Task.Factory.StartNew(() => {
                             using (FileStream fs = new FileStream(mineContext.LogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {

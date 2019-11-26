@@ -30,11 +30,13 @@
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (MessagePath<TMessage>)messageHandler;
-                    lock (tMessageHandler) {
-                        if (tMessageHandler.ViaLimit > 0) {
-                            tMessageHandler.ViaLimit--;
-                            if (tMessageHandler.ViaLimit == 0) {
-                                _handlers[messageType].Remove(messageHandler);
+                    if (tMessageHandler.ViaLimit > 0) {
+                        lock (tMessageHandler) {
+                            if (tMessageHandler.ViaLimit > 0) {
+                                tMessageHandler.ViaLimit--;
+                                if (tMessageHandler.ViaLimit == 0) {
+                                    _handlers[messageType].Remove(messageHandler);
+                                }
                             }
                         }
                     }
