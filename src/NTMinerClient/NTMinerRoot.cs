@@ -95,6 +95,54 @@ namespace NTMiner {
             });
         }
 
+        private MinerProfile _minerProfile;
+        private void DoInit(bool isWork, Action callback) {
+            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
+            this.ServerAppSettingSet = new ServerAppSettingSet();
+            this.CalcConfigSet = new CalcConfigSet(this);
+            this.ServerContext = new ServerContext();
+            this.GpuProfileSet = new GpuProfileSet(this);
+            this.UserSet = new UserSet();
+            this.KernelProfileSet = new KernelProfileSet(this);
+            this.GpusSpeed = new GpusSpeed(this);
+            this.CoinShareSet = new CoinShareSet(this);
+            this.MineWorkSet = new MineWorkSet();
+            this.MinerGroupSet = new MinerGroupSet();
+            this.NTMinerWalletSet = new NTMinerWalletSet();
+            this.OverClockDataSet = new OverClockDataSet(this);
+            this.ColumnsShowSet = new ColumnsShowSet();
+            this.ServerMessageSet = new ServerMessageSet(VirtualRoot.LocalDbFileFullName, isServer: false);
+            // 作业和在群控客户端管理作业时
+            IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
+            this._minerProfile = new MinerProfile(this);
+            this.CpuPackage = new CpuPackage(_minerProfile);
+
+            // 这几个注册表内部区分挖矿端和群控客户端
+            NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
+            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
+            NTMinerRegistry.SetCurrentVersion(MainAssemblyInfo.CurrentVersion.ToString());
+            NTMinerRegistry.SetCurrentVersionTag(MainAssemblyInfo.CurrentVersionTag);
+
+            if (VirtualRoot.IsMinerClient) {
+                VirtualRoot.LocalIpSet.InitOnece();
+                Report.Init();
+                Link();
+                // 当显卡温度变更时守卫温度防线
+                TempGruarder.Instance.Init(this);
+                // 因为这里耗时500毫秒左右
+                Task.Factory.StartNew(() => {
+                    Windows.Error.DisableWindowsErrorUI();
+                    Windows.UAC.DisableUAC();
+                    Windows.WAU.DisableWAUAsync();
+                    Windows.Defender.DisableAntiSpyware();
+                    Windows.Power.PowerCfgOff();
+                    Windows.BcdEdit.IgnoreAllFailures();
+                });
+            }
+
+            callback?.Invoke();
+        }
+
         // MinerProfile对应local.litedb或local.json
         // 群控客户端管理作业时调用该方法切换MinerProfile上下文
         public void ReInitMinerProfile() {
@@ -149,54 +197,6 @@ namespace NTMiner {
         }
 
         #region private methods
-
-        private MinerProfile _minerProfile;
-        private void DoInit(bool isWork, Action callback) {
-            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
-            this.ServerAppSettingSet = new ServerAppSettingSet();
-            this.CalcConfigSet = new CalcConfigSet(this);
-            this.ServerContext = new ServerContext();
-            this.GpuProfileSet = new GpuProfileSet(this);
-            this.UserSet = new UserSet();
-            this.KernelProfileSet = new KernelProfileSet(this);
-            this.GpusSpeed = new GpusSpeed(this);
-            this.CoinShareSet = new CoinShareSet(this);
-            this.MineWorkSet = new MineWorkSet();
-            this.MinerGroupSet = new MinerGroupSet();
-            this.NTMinerWalletSet = new NTMinerWalletSet();
-            this.OverClockDataSet = new OverClockDataSet(this);
-            this.ColumnsShowSet = new ColumnsShowSet();
-            this.ServerMessageSet = new ServerMessageSet(VirtualRoot.LocalDbFileFullName, isServer: false);
-            // 作业和在群控客户端管理作业时
-            IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
-            this._minerProfile = new MinerProfile(this);
-            this.CpuPackage = new CpuPackage(_minerProfile);
-
-            // 这几个注册表内部区分挖矿端和群控客户端
-            NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
-            NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
-            NTMinerRegistry.SetCurrentVersion(MainAssemblyInfo.CurrentVersion.ToString());
-            NTMinerRegistry.SetCurrentVersionTag(MainAssemblyInfo.CurrentVersionTag);
-
-            if (VirtualRoot.IsMinerClient) {
-                VirtualRoot.LocalIpSet.InitOnece();
-                Report.Init();
-                Link();
-                // 当显卡温度变更时守卫温度防线
-                TempGruarder.Instance.Init(this);
-                // 因为这里耗时500毫秒左右
-                Task.Factory.StartNew(() => {
-                    Windows.Error.DisableWindowsErrorUI();
-                    Windows.UAC.DisableUAC();
-                    Windows.WAU.DisableWAUAsync();
-                    Windows.Defender.DisableAntiSpyware();
-                    Windows.Power.PowerCfgOff();
-                    Windows.BcdEdit.IgnoreAllFailures();
-                });
-            }
-
-            callback?.Invoke();
-        }
 
         private void ContextReInit(bool isWork) {
             if (isWork) {

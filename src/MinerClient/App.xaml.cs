@@ -89,11 +89,6 @@ namespace NTMiner {
 
                             }).Queue();
                     }
-                    VirtualRoot.BuildEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
-                        action: message => {
-                            AppContext.Instance.MinerProfileVm.IsMining = false;
-                            VirtualRoot.Out.ShowError(message.Message);
-                        });
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (VirtualRoot.IsLTWin10) {
@@ -111,6 +106,8 @@ namespace NTMiner {
                                 VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
                             }
                             else {
+                                // 预热视图模型
+                                AppContext.Instance.VmsCtor();
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
                             StartStopMineButtonViewModel.Instance.AutoStart();
@@ -119,11 +116,6 @@ namespace NTMiner {
                                 splashWindow?.Close();
                             });
                         });
-                        #region 处理显示主界面命令
-                        VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
-                            ShowMainWindow(message.IsToggle);
-                        });
-                        #endregion
                         Task.Factory.StartNew(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall) {
                                 Firewall.DisableFirewall();
@@ -181,6 +173,16 @@ namespace NTMiner {
         }
 
         private void Link() {
+            VirtualRoot.BuildEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+                action: message => {
+                    AppContext.Instance.MinerProfileVm.IsMining = false;
+                    VirtualRoot.Out.ShowError(message.Message);
+                });
+            #region 处理显示主界面命令
+            VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
+                ShowMainWindow(message.IsToggle);
+            });
+            #endregion
             VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
                 // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
                 VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}。原因：{message.Reason}");

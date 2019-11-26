@@ -1,12 +1,10 @@
 ﻿using NTMiner.Core;
 using System;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
-        private SolidColorBrush _daemonStateBrush;
 
         public ICommand UseThisPcName { get; private set; }
         public ICommand CloseMainWindow { get; private set; }
@@ -15,7 +13,6 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            RefreshDaemonStateBrush();
             this.CloseMainWindow = new DelegateCommand(() => {
                 VirtualRoot.Execute(new CloseMainWindowCommand());
             });
@@ -78,29 +75,6 @@ namespace NTMiner.Vms {
         public MinerProfileViewModel MinerProfile {
             get {
                 return AppContext.Instance.MinerProfileVm;
-            }
-        }
-
-        public SolidColorBrush DaemonStateBrush {
-            get => _daemonStateBrush;
-            set {
-                if (_daemonStateBrush != value) {
-                    _daemonStateBrush = value;
-                    OnPropertyChanged(nameof(DaemonStateBrush));
-                }
-            }
-        }
-
-        public void RefreshDaemonStateBrush() {
-            if (NTMinerRoot.Instance.CreatedOn.AddSeconds(10) > DateTime.Now) {
-                // 如果刚刚启动10秒钟内视为白色正常状态
-                DaemonStateBrush = WpfUtil.WhiteBrush;
-            }
-            else if (NTMinerRegistry.GetDaemonActiveOn().AddSeconds(20) >= DateTime.Now) {
-                DaemonStateBrush = WpfUtil.WhiteBrush;
-            }
-            else {
-                DaemonStateBrush = WpfUtil.RedBrush;
             }
         }
     }
