@@ -6,10 +6,6 @@ namespace NTMiner.Bus {
             this.Id = Guid.NewGuid();
             this.Timestamp = DateTime.Now;
         }
-        public Guid GetId() {
-            return this.Id;
-        }
-
 
         public Guid Id { get; private set; }
 
