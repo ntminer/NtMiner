@@ -30,8 +30,13 @@
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (MessagePath<TMessage>)messageHandler;
-                    if (tMessageHandler.IsOnece) {
-                        _handlers[messageType].Remove(messageHandler);
+                    lock (tMessageHandler) {
+                        if (tMessageHandler.ViaLimit > 0) {
+                            tMessageHandler.ViaLimit--;
+                            if (tMessageHandler.ViaLimit == 0) {
+                                _handlers[messageType].Remove(messageHandler);
+                            }
+                        }
                     }
                     if (!tMessageHandler.IsEnabled) {
                         continue;

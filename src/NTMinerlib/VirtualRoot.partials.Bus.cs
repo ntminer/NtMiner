@@ -29,7 +29,14 @@ namespace NTMiner {
             StackTrace ss = new StackTrace(false);
             // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, isOnece: true);
+            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, viaLimit: 1);
+        }
+
+        public static IMessagePathId BuildViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit) {
+            StackTrace ss = new StackTrace(false);
+            // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
+            Type location = ss.GetFrame(2).GetMethod().DeclaringType;
+            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, viaLimit);
         }
 
         public static IMessagePathId BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)

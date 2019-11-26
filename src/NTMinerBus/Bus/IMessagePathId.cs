@@ -3,7 +3,7 @@
 namespace NTMiner.Bus {
     
     public interface IMessagePathId {
-        bool IsOnece { get; }
+        int ViaLimit { get; }
         Type MessageType { get; }
         bool IsEnabled { get; set; }
         Type Location { get; }
