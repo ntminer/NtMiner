@@ -25,25 +25,25 @@ namespace NTMiner {
             return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action);
         }
 
-        public static IMessagePathId BuildOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
+        public static void BuildOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
             StackTrace ss = new StackTrace(false);
             // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, viaLimit: 1);
+            MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, viaLimit: 1);
         }
 
-        public static IMessagePathId BuildViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit) {
+        public static void BuildViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit) {
             StackTrace ss = new StackTrace(false);
             // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
             Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, viaLimit);
+            MessagePath<TMessage>.Build(MessageDispatcher, location, description, logType, action, viaLimit);
         }
 
-        public static IMessagePathId BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
+        public static void BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
-            return BuildPath(description, logType, action);
+            BuildPath(description, logType, action);
         }
 
         public static IMessagePathId BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
