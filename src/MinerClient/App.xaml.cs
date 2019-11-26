@@ -18,6 +18,7 @@ namespace NTMiner {
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             Logger.SetDir(SpecialPath.LogsDirFullName);
+            Write.UIThreadId = Dispatcher.Thread.ManagedThreadId;
             AppUtil.Init(this);
             InitializeComponent();
         }
