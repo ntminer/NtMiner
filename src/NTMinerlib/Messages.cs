@@ -66,7 +66,7 @@ namespace NTMiner {
 
     [MessageType(description: "ServerAppSetting变更后")]
     public class ServerAppSettingSetedEvent : DomainEvent<IAppSetting> {
-        public ServerAppSettingSetedEvent(Guid pathId, IAppSetting source) : base(pathId, source) {
+        public ServerAppSettingSetedEvent(Guid bornPathId, IAppSetting source) : base(bornPathId, source) {
         }
     }
 
@@ -99,7 +99,7 @@ namespace NTMiner {
 
     [MessageType(description: "LocalAppSetting变更后")]
     public class LocalAppSettingChangedEvent : DomainEvent<IAppSetting> {
-        public LocalAppSettingChangedEvent(Guid pathId, IAppSetting source) : base(pathId, source) {
+        public LocalAppSettingChangedEvent(Guid bornPathId, IAppSetting source) : base(bornPathId, source) {
         }
     }
 
@@ -132,13 +132,13 @@ namespace NTMiner {
 
     [MessageType(description: "添加了用户自定义内核输出关键字后")]
     public class UserKernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
-        public UserKernelOutputKeywordAddedEvent(Guid pathId, IKernelOutputKeyword source) : base(pathId, source) {
+        public UserKernelOutputKeywordAddedEvent(Guid bornPathId, IKernelOutputKeyword source) : base(bornPathId, source) {
         }
     }
 
     [MessageType(description: "更新了用户自定义内核输出关键字后")]
     public class UserKernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
-        public UserKernelOutputKeywordUpdatedEvent(Guid pathId, IKernelOutputKeyword source) : base(pathId, source) {
+        public UserKernelOutputKeywordUpdatedEvent(Guid bornPathId, IKernelOutputKeyword source) : base(bornPathId, source) {
         }
     }
 
@@ -150,7 +150,7 @@ namespace NTMiner {
 
     [MessageType(description: "移除了用户自定义内核输出关键字后")]
     public class UserKernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
-        public UserKernelOutputKeywordRemovedEvent(Guid pathId, IKernelOutputKeyword source) : base(pathId, source) {
+        public UserKernelOutputKeywordRemovedEvent(Guid bornPathId, IKernelOutputKeyword source) : base(bornPathId, source) {
 
         }
     }
@@ -164,7 +164,7 @@ namespace NTMiner {
 
     [MessageType(description: "记录了本地事件后")]
     public class LocalMessageAddedEvent : DomainEvent<ILocalMessage> {
-        public LocalMessageAddedEvent(Guid pathId, ILocalMessage source, List<ILocalMessage> removes) : base(pathId, source) {
+        public LocalMessageAddedEvent(Guid bornPathId, ILocalMessage source, List<ILocalMessage> removes) : base(bornPathId, source) {
             this.Removes = removes ?? new List<ILocalMessage>();
         }
 

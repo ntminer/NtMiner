@@ -32,7 +32,7 @@
                     var tMessageHandler = (MessagePath<TMessage>)messageHandler;
                     bool isMatch = tMessageHandler.PathId == Guid.Empty || message is ICmd;
                     if (!isMatch && message is IEvent evt) {
-                        isMatch = tMessageHandler.PathId == evt.PathId;
+                        isMatch = tMessageHandler.PathId == evt.BornPathId;
                     }
                     if (tMessageHandler.ViaLimit > 0) {
                         if (isMatch) {

@@ -2,7 +2,7 @@
     using System;
 
     public interface IEvent : IMessage {
-        Guid PathId { get; }
+        Guid BornPathId { get; }
         DateTime Timestamp { get; }
     }
 }
