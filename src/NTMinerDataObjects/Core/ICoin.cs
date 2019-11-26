@@ -19,5 +19,6 @@ namespace NTMiner.Core {
         /// GpuType:KernelBrandId;GpuType:KernelBrandId
         /// </summary>
         string KernelBrand { get; }
+        double MinGpuMemoryGb { get; }
     }
 }

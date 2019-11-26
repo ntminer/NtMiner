@@ -46,6 +46,7 @@ namespace NTMiner {
                 e.Handled = true;
             };
 
+            Write.UIThreadId = Dispatcher.Thread.ManagedThreadId;
             UIThread.InitializeWithDispatcher();
             UIThread.StartTimer();
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");

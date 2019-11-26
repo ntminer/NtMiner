@@ -127,6 +127,9 @@
 				Content="仅作为双挖币"
 				VerticalContentAlignment="Center" IsChecked="{Binding JustAsDualCoin}">
 			</CheckBox>
+            <TextBlock Style="{StaticResource LblTb}">最低需要</TextBlock>
+            <TextBox Text="{Binding MinGpuMemoryGb}" Width="60" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"></TextBox>
+            <TextBlock Foreground="{StaticResource LableColor}" VerticalAlignment="Center">Gb显存</TextBlock>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">

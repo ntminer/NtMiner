@@ -157,8 +157,10 @@
 				<DataGridTextColumn Width="140" Header="中文名" Binding="{Binding CnName}" IsReadOnly="True">
 				</DataGridTextColumn>
 				<DataGridTextColumn Width="140" Header="算法" Binding="{Binding AlgoItem.Value}" IsReadOnly="True">
-				</DataGridTextColumn>
-				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="100" Header="最低显存" Binding="{Binding MinGpuMemoryGbText}" IsReadOnly="True">
+                </DataGridTextColumn>
+                <DataGridTemplateColumn Width="40" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<controls:KbLinkButton

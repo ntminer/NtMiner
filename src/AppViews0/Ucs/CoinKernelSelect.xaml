@@ -12,7 +12,6 @@
 		BorderThickness="1"
 		Background="White"
 		mc:Ignorable="d" 
-        Width="450"
 		d:DesignHeight="300"
         d:DataContext="{d:DesignData Source=/Design/CoinKernelSelectViewModel.xaml}">
 	<Grid>
@@ -54,7 +53,7 @@
 						Fill="{StaticResource IconFillColor}"
 						Stretch="Fill" />
 				</controls:KbButton>
-                <TextBlock Margin="4 0 0 0" Foreground="{StaticResource LableColor}" VerticalAlignment="Center">首次选用时会自动安装。按字母表排序。</TextBlock>
+                <TextBlock Margin="4 0 0 0" Foreground="{StaticResource LableColor}" VerticalAlignment="Center">1. 首次选用时会自动安装。2. 排名不分先后。</TextBlock>
 			</WrapPanel>
 		</Border>
 		<controls:KbButton 
@@ -79,7 +78,7 @@
 			PreviewKeyDown="DataGrid_PreviewKeyDown"
 			BorderThickness="0">
 			<DataGrid.Columns>
-				<DataGridTemplateColumn Width="*" Header="名称" IsReadOnly="True">
+				<DataGridTemplateColumn Width="220" Header="名称" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -104,7 +103,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="80" Header="显卡" IsReadOnly="True">
+				<DataGridTemplateColumn Width="100" Header="显卡" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<WrapPanel>
@@ -130,7 +129,7 @@
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
 				</DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="40" Header="双挖" IsReadOnly="True">
+				<DataGridTemplateColumn Width="50" Header="双挖" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Path
@@ -162,7 +161,7 @@
 												Command="{Binding Kernel.KernelProfileVm.Install}"
 										        Content="{Binding Kernel.KernelProfileVm.InstallText}"
 												Foreground="White"
-												Background="#05c400">
+												Background="{StaticResource ThemeBackground}">
                                             </controls:KbButton>
                                         </WrapPanel>
                                     </WrapPanel>

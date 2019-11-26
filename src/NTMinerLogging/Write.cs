@@ -3,6 +3,7 @@ using System.Threading;
 
 namespace NTMiner {
     public static class Write {
+        public static int UIThreadId;
         private static readonly ThreadLocal<NTStopwatch> _stopwatch = new ThreadLocal<NTStopwatch>(() => {
             return new NTStopwatch();
         });
@@ -67,7 +68,7 @@ namespace NTMiner {
         }
 
         public static void UserLine(string text, ConsoleColor foreground) {
-            UserLineMethod?.Invoke(text, foreground);
+            UserLineMethod?.Invoke($"{(Thread.CurrentThread.ManagedThreadId == UIThreadId ? "UI " : "   ")}{text}", foreground);
         }
 
         public static void DevLine(string text, MessageType messageType = MessageType.Default) {
@@ -75,7 +76,7 @@ namespace NTMiner {
                 return;
             }
             InitOnece();
-            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
+            text = $"{(Thread.CurrentThread.ManagedThreadId == UIThreadId ? "UI " : "   ")}{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = messageType.ToConsoleColor();
             Console.WriteLine(text);

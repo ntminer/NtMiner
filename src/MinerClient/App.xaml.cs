@@ -18,6 +18,7 @@ namespace NTMiner {
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             Logger.SetDir(SpecialPath.LogsDirFullName);
+            Write.UIThreadId = Dispatcher.Thread.ManagedThreadId;
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -60,15 +61,6 @@ namespace NTMiner {
                 }
                 if (createdNew) {
                     Logger.InfoDebugLine($"==================NTMiner.exe {MainAssemblyInfo.CurrentVersion.ToString()}==================");
-                    if (!NTMiner.Windows.WMI.IsWmiEnabled) {
-                        DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                            message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
-                            title: "提醒",
-                            icon: "Icon_Error"));
-                        Shutdown();
-                        Environment.Exit(0);
-                    }
-
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = null;
                     // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
@@ -78,6 +70,14 @@ namespace NTMiner {
                     });
                     //ConsoleWindow.Instance.Show();
                     NotiCenterWindow.ShowWindow();
+                    if (!NTMiner.Windows.WMI.IsWmiEnabled) {
+                        DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
+                            message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
+                            title: "提醒",
+                            icon: "Icon_Error"));
+                        Shutdown();
+                        Environment.Exit(0);
+                    }
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()
@@ -89,11 +89,6 @@ namespace NTMiner {
 
                             }).Queue();
                     }
-                    VirtualRoot.BuildEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
-                        action: message => {
-                            AppContext.Instance.MinerProfileVm.IsMining = false;
-                            VirtualRoot.Out.ShowError(message.Message);
-                        });
                     NTMinerRoot.Instance.Init(() => {
                         _appViewFactory.Link();
                         if (VirtualRoot.IsLTWin10) {
@@ -111,20 +106,16 @@ namespace NTMiner {
                                 VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
                             }
                             else {
+                                // 预热视图模型
+                                AppContext.Instance.VmsCtor();
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
+                            StartStopMineButtonViewModel.Instance.AutoStart();
+                            AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             splashWindow?.Dispatcher.Invoke((Action)delegate () {
                                 splashWindow?.Close();
                             });
-                            StartStopMineButtonViewModel.Instance.AutoStart();
-                            AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
-                            NTMinerRoot.Instance.CpuPackage.Start();
                         });
-                        #region 处理显示主界面命令
-                        VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
-                            ShowMainWindow(message.IsToggle);
-                        });
-                        #endregion
                         Task.Factory.StartNew(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall) {
                                 Firewall.DisableFirewall();
@@ -139,6 +130,7 @@ namespace NTMiner {
                             catch (Exception ex) {
                                 Logger.ErrorDebugLine(ex);
                             }
+                            NTMinerRoot.Instance.CpuPackage.Start();
                         });
                     });
                     Link();
@@ -181,6 +173,16 @@ namespace NTMiner {
         }
 
         private void Link() {
+            VirtualRoot.BuildEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+                action: message => {
+                    AppContext.Instance.MinerProfileVm.IsMining = false;
+                    VirtualRoot.Out.ShowError(message.Message);
+                });
+            #region 处理显示主界面命令
+            VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
+                ShowMainWindow(message.IsToggle);
+            });
+            #endregion
             VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
                 // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
                 VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}。原因：{message.Reason}");

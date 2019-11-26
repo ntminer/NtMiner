@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Vms;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace NTMiner {

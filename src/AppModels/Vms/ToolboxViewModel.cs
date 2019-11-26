@@ -13,6 +13,10 @@ namespace NTMiner.Vms {
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
 
+        public ICommand OpenDevmgmt { get; private set; }
+
+        public ICommand WindowsProperty { get; private set; }
+
         public ToolboxViewModel() {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -66,6 +70,12 @@ namespace NTMiner.Vms {
             });
             this.WindowsAutoLogon = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
+            });
+            this.OpenDevmgmt = new DelegateCommand(() => {
+                Process.Start("devmgmt.msc");
+            });
+            this.WindowsProperty = new DelegateCommand(() => {
+                Process.Start("control.exe", "system");
             });
         }
 

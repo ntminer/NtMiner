@@ -206,7 +206,6 @@ namespace NTMiner.Views {
                             VirtualRoot.Execute(new CloseMainWindowCommand());
                         }
                     }
-                    Vm.RefreshDaemonStateBrush();
                 });
             this.BuildEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
                 action: message => {
