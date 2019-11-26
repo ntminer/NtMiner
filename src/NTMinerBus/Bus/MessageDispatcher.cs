@@ -35,8 +35,7 @@
                             if (tMessageHandler.ViaLimit > 0) {
                                 tMessageHandler.ViaLimit--;
                                 if (tMessageHandler.ViaLimit == 0) {
-                                    _handlers[messageType].Remove(messageHandler);
-                                    Disconnected?.Invoke(tMessageHandler);
+                                    Disconnect(tMessageHandler);
                                 }
                             }
                         }
