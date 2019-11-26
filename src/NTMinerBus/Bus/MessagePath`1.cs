@@ -5,9 +5,10 @@ namespace NTMiner.Bus {
     public class MessagePath<TMessage> : IMessagePathId, INotifyPropertyChanged {
         private readonly Action<TMessage> _path;
         private bool _isEnabled;
+        private int _viaLimit;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         public static MessagePath<TMessage> Build(IMessageDispatcher dispatcher, Type location, string description, LogEnum logType, Action<TMessage> action, int viaLimit = -1) {
             if (action == null) {
                 throw new ArgumentNullException(nameof(action));
@@ -28,7 +29,15 @@ namespace NTMiner.Bus {
             ViaLimit = viaLimit;
         }
 
-        public int ViaLimit { get; internal set; }
+        public int ViaLimit {
+            get => _viaLimit;
+            internal set {
+                _viaLimit = value;
+#if DEBUG
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaLimit)));
+#endif
+            }
+        }
         public Type MessageType { get; private set; }
         public Type Location { get; private set; }
         public string Path { get; private set; }
@@ -38,7 +47,9 @@ namespace NTMiner.Bus {
             get => _isEnabled;
             set {
                 _isEnabled = value;
+#if DEBUG
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsEnabled)));
+#endif
             }
         }
 

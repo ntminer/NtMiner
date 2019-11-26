@@ -35,6 +35,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTextColumn Header="ViaLimit" Binding="{Binding ViaLimit}"></DataGridTextColumn>
                 <DataGridTextColumn Header="MessageType" Binding="{Binding MessageType.FullName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Location" Binding="{Binding Location.FullName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="LogType" Binding="{Binding LogType}"></DataGridTextColumn>
