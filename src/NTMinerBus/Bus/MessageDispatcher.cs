@@ -26,8 +26,8 @@
                 throw new ArgumentNullException(nameof(message));
             }
             var messageType = typeof(TMessage);
-            if (_handlers.ContainsKey(messageType)) {
-                var messageHandlers = _handlers[messageType].ToArray();
+            if (_handlers.TryGetValue(messageType, out List<object> list)) {
+                var messageHandlers = list.ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (MessagePath<TMessage>)messageHandler;
                     // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
