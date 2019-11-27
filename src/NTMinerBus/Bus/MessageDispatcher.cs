@@ -36,9 +36,9 @@
                     if (!isMatch && message is IEvent evt) {
                         isMatch = tMessagePath.PathId == evt.BornPathId;
                     }
-                    // ViaLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaLimit计数
-                    if (tMessagePath.ViaLimit > 0) {
-                        if (isMatch) {
+                    if (isMatch) {
+                        // ViaLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaLimit计数
+                        if (tMessagePath.ViaLimit > 0) {
                             lock (tMessagePath.Locker) {
                                 if (tMessagePath.ViaLimit > 0) {
                                     tMessagePath.ViaLimit--;
