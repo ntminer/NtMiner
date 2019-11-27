@@ -67,7 +67,7 @@
                             default:
                                 break;
                         }
-                        tMessageHandler.Run(message);
+                        tMessageHandler.Go(message);
                     }
                 }
             }

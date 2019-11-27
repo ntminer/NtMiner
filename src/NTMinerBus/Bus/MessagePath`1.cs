@@ -67,7 +67,7 @@ namespace NTMiner.Bus {
             }
         }
 
-        public void Run(TMessage message) {
+        public void Go(TMessage message) {
             try {
                 _path?.Invoke(message);
             }
