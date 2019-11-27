@@ -3,7 +3,7 @@
     using System.Collections.Generic;
 
     public class MessageDispatcher : IMessageDispatcher {
-        private readonly Dictionary<Type, List<object>> _handlers = new Dictionary<Type, List<object>>();
+        private readonly Dictionary<Type, List<object>> _pathDicByMessageType = new Dictionary<Type, List<object>>();
         private readonly Dictionary<string, List<IMessagePathId>> _paths = new Dictionary<string, List<IMessagePathId>>();
         private readonly object _locker = new object();
 
@@ -26,7 +26,7 @@
                 throw new ArgumentNullException(nameof(message));
             }
             var messageType = typeof(TMessage);
-            if (_handlers.TryGetValue(messageType, out List<object> list)) {
+            if (_pathDicByMessageType.TryGetValue(messageType, out List<object> list)) {
                 var messagePaths = list.ToArray();
                 foreach (var messagePath in messagePaths) {
                     var tMessagePath = (MessagePath<TMessage>)messagePath;
@@ -98,8 +98,8 @@
                     handlerIds.Add(pathId);
                     Write.DevWarn($"重复的路径:{pathId.Path} {pathId.Description}");
                 }
-                if (_handlers.ContainsKey(keyType)) {
-                    var registeredHandlers = _handlers[keyType];
+                if (_pathDicByMessageType.ContainsKey(keyType)) {
+                    var registeredHandlers = _pathDicByMessageType[keyType];
                     if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(keyType)) {
                         // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
                         // 之所以设计为统一走总线只是为了将通过命令类型集中表达起文档作用。
@@ -111,7 +111,7 @@
                 }
                 else {
                     var registeredHandlers = new List<dynamic> { path };
-                    _handlers.Add(keyType, registeredHandlers);
+                    _pathDicByMessageType.Add(keyType, registeredHandlers);
                 }
                 Connected?.Invoke(pathId);
             }
@@ -124,11 +124,11 @@
             lock (_locker) {
                 _paths.Remove(handlerId.Path);
                 var keyType = handlerId.MessageType;
-                if (_handlers.ContainsKey(keyType) &&
-                    _handlers[keyType] != null &&
-                    _handlers[keyType].Count > 0 &&
-                    _handlers[keyType].Contains(handlerId)) {
-                    _handlers[keyType].Remove(handlerId);
+                if (_pathDicByMessageType.ContainsKey(keyType) &&
+                    _pathDicByMessageType[keyType] != null &&
+                    _pathDicByMessageType[keyType].Count > 0 &&
+                    _pathDicByMessageType[keyType].Contains(handlerId)) {
+                    _pathDicByMessageType[keyType].Remove(handlerId);
                     Write.DevDebug("拆除路径" + handlerId.Path);
                     Disconnected?.Invoke(handlerId);
                 }
