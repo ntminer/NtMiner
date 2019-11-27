@@ -84,7 +84,7 @@
                 throw new ArgumentNullException(nameof(path));
             }
             lock (_locker) {
-                var keyType = typeof(TMessage);
+                var messageType = typeof(TMessage);
 
                 var pathId = path;
                 if (!_paths.ContainsKey(pathId.Path)) {
@@ -98,9 +98,9 @@
                     handlerIds.Add(pathId);
                     Write.DevWarn($"重复的路径:{pathId.Path} {pathId.Description}");
                 }
-                if (_pathDicByMessageType.ContainsKey(keyType)) {
-                    var registeredHandlers = _pathDicByMessageType[keyType];
-                    if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(keyType)) {
+                if (_pathDicByMessageType.ContainsKey(messageType)) {
+                    var registeredHandlers = _pathDicByMessageType[messageType];
+                    if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(messageType)) {
                         // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
                         // 之所以设计为统一走总线只是为了将通过命令类型集中表达起文档作用。
                         throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
@@ -111,7 +111,7 @@
                 }
                 else {
                     var registeredHandlers = new List<dynamic> { path };
-                    _pathDicByMessageType.Add(keyType, registeredHandlers);
+                    _pathDicByMessageType.Add(messageType, registeredHandlers);
                 }
                 Connected?.Invoke(pathId);
             }
@@ -123,12 +123,12 @@
             }
             lock (_locker) {
                 _paths.Remove(handlerId.Path);
-                var keyType = handlerId.MessageType;
-                if (_pathDicByMessageType.ContainsKey(keyType) &&
-                    _pathDicByMessageType[keyType] != null &&
-                    _pathDicByMessageType[keyType].Count > 0 &&
-                    _pathDicByMessageType[keyType].Contains(handlerId)) {
-                    _pathDicByMessageType[keyType].Remove(handlerId);
+                var messageType = handlerId.MessageType;
+                if (_pathDicByMessageType.ContainsKey(messageType) &&
+                    _pathDicByMessageType[messageType] != null &&
+                    _pathDicByMessageType[messageType].Count > 0 &&
+                    _pathDicByMessageType[messageType].Contains(handlerId)) {
+                    _pathDicByMessageType[messageType].Remove(handlerId);
                     Write.DevDebug("拆除路径" + handlerId.Path);
                     Disconnected?.Invoke(handlerId);
                 }
