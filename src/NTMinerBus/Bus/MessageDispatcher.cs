@@ -30,16 +30,20 @@
                 var messageHandlers = _handlers[messageType].ToArray();
                 foreach (var messageHandler in messageHandlers) {
                     var tMessageHandler = (MessagePath<TMessage>)messageHandler;
+                    // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
+                    // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过
                     bool isMatch = tMessageHandler.PathId == Guid.Empty || message is ICmd;
                     if (!isMatch && message is IEvent evt) {
                         isMatch = tMessageHandler.PathId == evt.BornPathId;
                     }
+                    // ViaLimite小于0表示是不限定次穿过的次数的路径，不限定穿过的次数的路径不需要消息每穿过一次递减一次ViaLimit计数
                     if (tMessageHandler.ViaLimit > 0) {
                         if (isMatch) {
-                            lock (tMessageHandler) {
+                            lock (tMessageHandler.Locker) {
                                 if (tMessageHandler.ViaLimit > 0) {
                                     tMessageHandler.ViaLimit--;
                                     if (tMessageHandler.ViaLimit == 0) {
+                                        // ViaLimit递减到0从路径列表中移除该路径
                                         Disconnect(tMessageHandler);
                                     }
                                 }

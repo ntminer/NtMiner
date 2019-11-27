@@ -7,6 +7,8 @@ namespace NTMiner.Bus {
         , INotifyPropertyChanged
 #endif
         {
+        internal readonly object Locker = new object();
+
         private readonly Action<TMessage> _path;
         private bool _isEnabled;
         private int _viaLimit;
