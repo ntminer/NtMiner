@@ -27,6 +27,9 @@ namespace NTMiner.Bus {
         }
 
         private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit) {
+            if (viaLimit == 0) {
+                throw new InvalidProgramException("消息路径的viaLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
+            }
             this.IsEnabled = true;
             MessageType = typeof(TMessage);
             Location = location;
