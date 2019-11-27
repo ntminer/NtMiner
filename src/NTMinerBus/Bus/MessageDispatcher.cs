@@ -28,8 +28,8 @@
             var messageType = typeof(TMessage);
             if (_handlers.TryGetValue(messageType, out List<object> list)) {
                 var messagePaths = list.ToArray();
-                foreach (var messageHandler in messagePaths) {
-                    var tMessagePath = (MessagePath<TMessage>)messageHandler;
+                foreach (var messagePath in messagePaths) {
+                    var tMessagePath = (MessagePath<TMessage>)messagePath;
                     // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
                     // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过
                     bool isMatch = tMessagePath.PathId == Guid.Empty || message is ICmd;
