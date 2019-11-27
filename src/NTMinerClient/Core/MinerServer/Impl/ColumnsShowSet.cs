@@ -19,7 +19,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new ColumnsShowAddedEvent(entity));
+                        VirtualRoot.RaiseEvent(new ColumnsShowAddedEvent(message.Id, entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(exception));
@@ -40,11 +40,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-                VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
             });
             VirtualRoot.BuildCmdPath<RemoveColumnsShowCommand>(action: (message) => {
                 InitOnece();
@@ -58,7 +58,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.ColumnsShowService.RemoveColumnsShowAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new ColumnsShowRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new ColumnsShowRemovedEvent(message.Id, entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(exception));

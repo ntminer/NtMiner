@@ -21,32 +21,54 @@
             }
         }
 
-        public void Dispatch<TMessage>(TMessage message) {
+        public void Dispatch<TMessage>(TMessage message) where TMessage : IMessage {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
             }
             var messageType = typeof(TMessage);
-            if (_handlers.ContainsKey(messageType)) {
-                var messageHandlers = _handlers[messageType].ToArray();
-                foreach (var messageHandler in messageHandlers) {
-                    var tMessageHandler = (MessagePath<TMessage>)messageHandler;
-                    if (!tMessageHandler.IsEnabled) {
+            if (_handlers.TryGetValue(messageType, out List<object> list)) {
+                var messagePaths = list.ToArray();
+                foreach (var messagePath in messagePaths) {
+                    var tMessagePath = (MessagePath<TMessage>)messagePath;
+                    // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
+                    // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过
+                    bool isMatch = tMessagePath.PathId == Guid.Empty || message is ICmd;
+                    if (!isMatch && message is IEvent evt) {
+                        isMatch = tMessagePath.PathId == evt.BornPathId;
+                    }
+                    if (isMatch) {
+                        // ViaLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaLimit计数
+                        if (tMessagePath.ViaLimit > 0) {
+                            lock (tMessagePath.Locker) {
+                                if (tMessagePath.ViaLimit > 0) {
+                                    tMessagePath.ViaLimit--;
+                                    if (tMessagePath.ViaLimit == 0) {
+                                        // ViaLimit递减到0从路径列表中移除该路径
+                                        Disconnect(tMessagePath);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    if (!tMessagePath.IsEnabled) {
                         continue;
                     }
-                    switch (tMessageHandler.LogType) {
-                        case LogEnum.DevConsole:
-                            if (DevMode.IsDevMode) {
-                                Write.DevDebug($"({messageType.Name})->({tMessageHandler.Location.Name}){tMessageHandler.Description}");
-                            }
-                            break;
-                        case LogEnum.Log:
-                            Logger.InfoDebugLine($"({messageType.Name})->({tMessageHandler.Location.Name}){tMessageHandler.Description}");
-                            break;
-                        case LogEnum.None:
-                        default:
-                            break;
+                    if (isMatch) {
+                        switch (tMessagePath.LogType) {
+                            case LogEnum.DevConsole:
+                                if (DevMode.IsDevMode) {
+                                    Write.DevDebug($"({messageType.Name})->({tMessagePath.Location.Name}){tMessagePath.Description}");
+                                }
+                                break;
+                            case LogEnum.Log:
+                                Logger.InfoDebugLine($"({messageType.Name})->({tMessagePath.Location.Name}){tMessagePath.Description}");
+                                break;
+                            case LogEnum.None:
+                            default:
+                                break;
+                        }
+                        tMessagePath.Go(message);
                     }
-                    tMessageHandler.Run(message);
                 }
             }
             else {

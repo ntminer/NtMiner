@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new CoinGroupAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new CoinGroupAddedEvent(message.Id, entity));
                 });
             context.BuildCmdPath<RemoveCoinGroupCommand>("移除币组", LogEnum.DevConsole,
                 action: (message) => {
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<CoinGroupData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.RaiseEvent(new CoinGroupRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new CoinGroupRemovedEvent(message.Id, entity));
                 });
         }
 

@@ -110,7 +110,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             gpuSpeed.IncreaseMainCoinFoundShare();
-            VirtualRoot.RaiseEvent(new FoundShareIncreasedEvent(gpuSpeed: gpuSpeed));
+            VirtualRoot.RaiseEvent(new FoundShareIncreasedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
         }
 
         public void IncreaseAcceptShare(int gpuIndex) {
@@ -120,7 +120,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             gpuSpeed.IncreaseMainCoinAcceptShare();
-            VirtualRoot.RaiseEvent(new AcceptShareIncreasedEvent(gpuSpeed: gpuSpeed));
+            VirtualRoot.RaiseEvent(new AcceptShareIncreasedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
         }
 
         public void IncreaseRejectShare(int gpuIndex) {
@@ -130,7 +130,7 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             gpuSpeed.IncreaseMainCoinRejectShare();
-            VirtualRoot.RaiseEvent(new RejectShareIncreasedEvent(gpuSpeed: gpuSpeed));
+            VirtualRoot.RaiseEvent(new RejectShareIncreasedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
         }
 
         public void IncreaseIncorrectShare(int gpuIndex) {
@@ -140,14 +140,14 @@ namespace NTMiner.Core.Gpus.Impl {
             }
             CheckReset();
             gpuSpeed.IncreaseMainCoinIncorrectShare();
-            VirtualRoot.RaiseEvent(new IncorrectShareIncreasedEvent(gpuSpeed: gpuSpeed));
+            VirtualRoot.RaiseEvent(new IncorrectShareIncreasedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
         }
 
         public void ResetShare() {
             InitOnece();
             foreach (var gpuSpeed in _currentGpuSpeed.Values) {
                 gpuSpeed.ResetShare();
-                VirtualRoot.RaiseEvent(new GpuShareChangedEvent(gpuSpeed: gpuSpeed));
+                VirtualRoot.RaiseEvent(new GpuShareChangedEvent(Guid.Empty, gpuSpeed: gpuSpeed));
             }
         }
 
@@ -213,7 +213,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
             if (isChanged) {
-                VirtualRoot.RaiseEvent(new GpuSpeedChangedEvent(isDual: isDual, gpuSpeed: gpuSpeed));
+                VirtualRoot.RaiseEvent(new GpuSpeedChangedEvent(isDual: isDual, Guid.Empty, gpuSpeed: gpuSpeed));
             }
         }
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace NTMiner.Bus {
     public interface IMessageDispatcher {
         IEnumerable<IMessagePathId> GetAllPaths();
-        void Dispatch<TMessage>(TMessage message);
+        void Dispatch<TMessage>(TMessage message) where TMessage : IMessage;
 
         void Connect<TMessage>(MessagePath<TMessage> handler);
 

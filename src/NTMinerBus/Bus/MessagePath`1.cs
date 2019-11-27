@@ -2,22 +2,34 @@
 using System.ComponentModel;
 
 namespace NTMiner.Bus {
-    public class MessagePath<TMessage> : IMessagePathId, INotifyPropertyChanged {
+    public class MessagePath<TMessage> : IMessagePathId
+#if DEBUG
+        , INotifyPropertyChanged
+#endif
+        {
+        internal readonly object Locker = new object();
+
         private readonly Action<TMessage> _path;
         private bool _isEnabled;
+        private int _viaLimit;
 
+#if DEBUG
         public event PropertyChangedEventHandler PropertyChanged;
-        
-        public static MessagePath<TMessage> Build(IMessageDispatcher dispatcher, Type location, string description, LogEnum logType, Action<TMessage> action) {
-            if (action == null) {
-                throw new ArgumentNullException(nameof(action));
+#endif
+
+        public static MessagePath<TMessage> Build(IMessageDispatcher dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
+            if (path == null) {
+                throw new ArgumentNullException(nameof(path));
             }
-            MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, action);
+            MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, path, pathId, viaLimit);
             dispatcher.Connect(handler);
             return handler;
         }
 
-        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path) {
+        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit) {
+            if (viaLimit == 0) {
+                throw new InvalidProgramException("消息路径的viaLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
+            }
             this.IsEnabled = true;
             MessageType = typeof(TMessage);
             Location = location;
@@ -25,8 +37,21 @@ namespace NTMiner.Bus {
             Description = description;
             LogType = logType;
             _path = path;
+            PathId = pathId;
+            ViaLimit = viaLimit;
         }
 
+        public int ViaLimit {
+            get => _viaLimit;
+            internal set {
+                _viaLimit = value;
+#if DEBUG
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaLimit)));
+#endif
+            }
+        }
+
+        public Guid PathId { get; private set; }
         public Type MessageType { get; private set; }
         public Type Location { get; private set; }
         public string Path { get; private set; }
@@ -36,11 +61,13 @@ namespace NTMiner.Bus {
             get => _isEnabled;
             set {
                 _isEnabled = value;
+#if DEBUG
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsEnabled)));
+#endif
             }
         }
 
-        public void Run(TMessage message) {
+        public void Go(TMessage message) {
             try {
                 _path?.Invoke(message);
             }

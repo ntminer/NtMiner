@@ -19,7 +19,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 var response = Server.MineWorkService.AddOrUpdateMineWork(entity);
                 if (response.IsSuccess()) {
                     _dicById.Add(entity.Id, entity);
-                    VirtualRoot.RaiseEvent(new MineWorkAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.Id, entity));
                 }
                 else {
                     Write.UserFail(response?.Description);
@@ -39,11 +39,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.MineWorkService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-                VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
             });
             VirtualRoot.BuildCmdPath<RemoveMineWorkCommand>(action: (message) => {
                 InitOnece();
@@ -57,7 +57,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 Server.MineWorkService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(message.Id, entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(exception));

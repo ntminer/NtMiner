@@ -56,7 +56,7 @@ namespace NTMiner.Core.Impl {
             }
             coinShare.ShareOn = now;
             if (isChanged) {
-                VirtualRoot.RaiseEvent(new ShareChangedEvent(coinShare));
+                VirtualRoot.RaiseEvent(new ShareChangedEvent(Guid.Empty, coinShare));
             }
         }
     }

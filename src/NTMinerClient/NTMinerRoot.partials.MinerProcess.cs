@@ -37,18 +37,13 @@ namespace NTMiner {
                             if (Instance.GpuProfileSet.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
                                 Write.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                                 var cmd = new CoinOverClockCommand(mineContext.MainCoin.GetId());
-                                // N卡超频当cpu性能非常差时较耗时，所以这里弄个回调
-                                IMessagePathId callback = null;
-                                callback = VirtualRoot.BuildEventPath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
+                                VirtualRoot.BuildOnecePath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                     message => {
-                                        if (mineContext != Instance.LockedMineContext) {
-                                            VirtualRoot.DeletePath(callback);
-                                        }
-                                        else if (message.CmdId == cmd.Id) {
-                                            VirtualRoot.DeletePath(callback);
+                                        if (mineContext == Instance.LockedMineContext) {
                                             ContinueCreateProcess(mineContext);
                                         }
-                                    });
+                                    }, pathId: cmd.Id);
+                                // 超频是在另一个线程执行的，因为N卡超频当cpu性能非常差时较耗时
                                 VirtualRoot.Execute(cmd);
                             }
                             else {
@@ -278,7 +273,7 @@ namespace NTMiner {
                             }
                             VirtualRoot.DeletePath(closeHandle);
                         });
-                        closeHandle = VirtualRoot.BuildEventPath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
+                        closeHandle = VirtualRoot.BuildOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                             action: message => {
                                 // 挖矿停止后摘除挖矿内核进程守护器
                                 if (_kernelProcessDaemon != null) {
@@ -289,8 +284,7 @@ namespace NTMiner {
                                     CloseHandle(hWriteOut);
                                     isHWriteOutHasClosed = true;
                                 }
-                                VirtualRoot.DeletePath(closeHandle);
-                            });
+                            }, pathId: Guid.Empty);
                         Task.Factory.StartNew(() => {
                             using (FileStream fs = new FileStream(mineContext.LogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                                 const byte r = (byte)'\r';

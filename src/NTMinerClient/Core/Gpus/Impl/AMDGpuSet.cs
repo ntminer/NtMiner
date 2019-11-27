@@ -112,7 +112,7 @@ namespace NTMiner.Core.Gpus.Impl {
             gpu.FanSpeed = speed;
 
             if (isChanged) {
-                VirtualRoot.RaiseEvent(new GpuStateChangedEvent(gpu));
+                VirtualRoot.RaiseEvent(new GpuStateChangedEvent(Guid.Empty, gpu));
             }
         }
 

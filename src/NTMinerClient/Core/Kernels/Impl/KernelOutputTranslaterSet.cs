@@ -38,7 +38,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterAddedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterAddedEvent(message.Id, entity));
                 });
             context.BuildCmdPath<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterUpdatedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterUpdatedEvent(message.Id, entity));
                 });
             context.BuildCmdPath<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
@@ -80,7 +80,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterRemovedEvent(entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterRemovedEvent(message.Id, entity));
                 });
         }
 

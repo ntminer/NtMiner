@@ -24,7 +24,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new OverClockDataAddedEvent(entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataAddedEvent(message.Id, entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(e));
@@ -47,11 +47,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.Id, entity));
                         Write.UserFail(response.ReadMessage(e));
                     }
                 });
-                VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(entity));
+                VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.Id, entity));
             });
             VirtualRoot.BuildCmdPath<RemoveOverClockDataCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new OverClockDataRemovedEvent(entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataRemovedEvent(message.Id, entity));
                     }
                     else {
                         Write.UserFail(response.ReadMessage(e));

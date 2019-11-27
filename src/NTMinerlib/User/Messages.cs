@@ -1,4 +1,5 @@
 ﻿using NTMiner.Bus;
+using System;
 
 namespace NTMiner.User {
     [MessageType(description: "添加用户")]
@@ -54,19 +55,19 @@ namespace NTMiner.User {
 
     [MessageType(description: "添加了新用户后")]
     public class UserAddedEvent : DomainEvent<IUser> {
-        public UserAddedEvent(IUser source) : base(source) {
+        public UserAddedEvent(Guid bornPathId, IUser source) : base(bornPathId, source) {
         }
     }
 
     [MessageType(description: "修改了用户后")]
     public class UserUpdatedEvent : DomainEvent<IUser> {
-        public UserUpdatedEvent(IUser source) : base(source) {
+        public UserUpdatedEvent(Guid bornPathId, IUser source) : base(bornPathId, source) {
         }
     }
 
     [MessageType(description: "移除了用户后")]
     public class UserRemovedEvent : DomainEvent<IUser> {
-        public UserRemovedEvent(IUser source) : base(source) {
+        public UserRemovedEvent(Guid bornPathId, IUser source) : base(bornPathId, source) {
         }
     }
 }
