@@ -25,7 +25,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new KernelAddedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -47,7 +47,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new KernelUpdatedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -67,7 +67,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Remove(entity.Id);
 
                     VirtualRoot.RaiseEvent(new KernelRemovedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

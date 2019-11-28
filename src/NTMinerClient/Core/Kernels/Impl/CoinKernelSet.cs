@@ -42,7 +42,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new AddPoolKernelCommand(poolKernel));
                         }
                     }
-                });
+                }, location: this.GetType());
             context.AddCmdPath<UpdateCoinKernelCommand>("更新币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<RemoveCoinKernelCommand>("移除币种内核", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -92,7 +92,7 @@ namespace NTMiner.Core.Kernels.Impl {
                             VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                         }
                     }
-                });
+                }, location: this.GetType());
             context.AddEventPath<FileWriterRemovedEvent>("移除文件书写器后移除引用关系", LogEnum.DevConsole,
                 action: message => {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
@@ -102,7 +102,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         repository.Update(entity);
                         VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(message.Id, entity));
                     }
-                });
+                }, location: this.GetType());
             context.AddEventPath<FragmentWriterRemovedEvent>("移除命令行片段书写器后移除引用关系", LogEnum.DevConsole,
                 action: message => {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
@@ -112,7 +112,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         repository.Update(entity);
                         VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(message.Id, entity));
                     }
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

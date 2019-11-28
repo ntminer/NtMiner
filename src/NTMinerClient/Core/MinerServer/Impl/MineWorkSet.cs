@@ -24,7 +24,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 else {
                     Write.UserFail(response?.Description);
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -44,7 +44,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
                 VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -63,7 +63,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;

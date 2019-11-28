@@ -61,6 +61,7 @@
     <Compile Include="DotNet45Tests.cs" />
     <Compile Include="EnvironmentTests.cs" />
     <Compile Include="LiteDBTests.cs" />
+    <Compile Include="StackTraceTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IPTests.cs" />

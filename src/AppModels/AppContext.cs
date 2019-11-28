@@ -24,16 +24,16 @@ namespace NTMiner {
 
         #region static methods
         // 因为是上下文路径，无需返回路径标识
-        public static void BuildCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
+        public static void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location)
             where TCmd : ICmd {
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, borderType: typeof(AppContext));
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
             _contextHandlers.Add(messagePathId);
         }
 
         // 因为是上下文路径，无需返回路径标识
-        public static void BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public static void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, borderType: typeof(AppContext));
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
             _contextHandlers.Add(messagePathId);
         }
 

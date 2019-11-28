@@ -14,7 +14,7 @@ namespace NTMiner.Data.Impl {
             VirtualRoot.AddEventPath<Per10SecondEvent>("周期性拍摄快照", LogEnum.DevConsole,
                 action: message => {
                     Snapshot(message.BornOn);
-                });
+                }, location: this.GetType());
             VirtualRoot.AddEventPath<Per2MinuteEvent>("周期性拍摄快照", LogEnum.DevConsole,
                 action: message => {
                     DateTime time = DateTime.Now.AddMinutes(-20);
@@ -22,7 +22,7 @@ namespace NTMiner.Data.Impl {
                     foreach (var item in toRemoves) {
                         _dataList.Remove(item);
                     }
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;
@@ -83,8 +83,7 @@ namespace NTMiner.Data.Impl {
                         continue;
                     }
 
-                    CoinSnapshotData mainCoinSnapshotData;
-                    if (!dicByCoinCode.TryGetValue(clientData.MainCoinCode, out mainCoinSnapshotData)) {
+                    if (!dicByCoinCode.TryGetValue(clientData.MainCoinCode, out CoinSnapshotData mainCoinSnapshotData)) {
                         mainCoinSnapshotData = new CoinSnapshotData() {
                             Timestamp = now,
                             CoinCode = clientData.MainCoinCode
@@ -103,8 +102,7 @@ namespace NTMiner.Data.Impl {
                     mainCoinSnapshotData.MainCoinOnlineCount += 1;
 
                     if (!string.IsNullOrEmpty(clientData.DualCoinCode) && clientData.IsDualCoinEnabled) {
-                        CoinSnapshotData dualCoinSnapshotData;
-                        if (!dicByCoinCode.TryGetValue(clientData.DualCoinCode, out dualCoinSnapshotData)) {
+                        if (!dicByCoinCode.TryGetValue(clientData.DualCoinCode, out CoinSnapshotData dualCoinSnapshotData)) {
                             dualCoinSnapshotData = new CoinSnapshotData() {
                                 Timestamp = now,
                                 CoinCode = clientData.DualCoinCode

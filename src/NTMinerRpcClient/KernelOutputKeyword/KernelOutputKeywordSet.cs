@@ -53,7 +53,7 @@ namespace NTMiner.KernelOutputKeyword {
                             }
                         }
                     });
-                });
+                }, location: this.GetType());
             }
             VirtualRoot.AddCmdPath<AddOrUpdateKernelOutputKeywordCommand>(action: (message) => {
                 InitOnece();
@@ -95,7 +95,7 @@ namespace NTMiner.KernelOutputKeyword {
                         }
                     });
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveKernelOutputKeywordCommand>(action: (message) => {
                 InitOnece();
                 if (isServer || !DevMode.IsDevMode) {
@@ -125,7 +125,7 @@ namespace NTMiner.KernelOutputKeyword {
                         }
                     });
                 }
-            });
+            }, location: this.GetType());
         }
 
         private const string fileName = "ServerKernelOutputKeywords.json";

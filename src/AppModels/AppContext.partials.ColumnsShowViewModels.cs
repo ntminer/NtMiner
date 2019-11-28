@@ -21,7 +21,7 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new ColumnsShowViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                BuildEventPath<ColumnsShowAddedEvent>("添加了列显后刷新VM内存", LogEnum.DevConsole,
+                AddEventPath<ColumnsShowAddedEvent>("添加了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Target.GetId())) {
                             ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Target);
@@ -29,20 +29,20 @@ namespace NTMiner {
                             OnPropertyChanged(nameof(List));
                             AppContext.Instance.MinerClientsWindowVm.ColumnsShow = vm;
                         }
-                    });
-                BuildEventPath<ColumnsShowUpdatedEvent>("更新了列显后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<ColumnsShowUpdatedEvent>("更新了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.ContainsKey(message.Target.GetId())) {
                             ColumnsShowViewModel entity = _dicById[message.Target.GetId()];
                             entity.Update(message.Target);
                         }
-                    });
-                BuildEventPath<ColumnsShowRemovedEvent>("移除了列显后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<ColumnsShowRemovedEvent>("移除了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         AppContext.Instance.MinerClientsWindowVm.ColumnsShow = _dicById.Values.FirstOrDefault();
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(List));
-                    });
+                    }, location: this.GetType());
                 foreach (var item in NTMinerRoot.Instance.ColumnsShowSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));
                 }

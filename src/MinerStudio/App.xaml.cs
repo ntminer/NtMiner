@@ -44,10 +44,10 @@ namespace NTMiner {
                 UIThread.Execute(() => {
                     FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
                 });
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
-            });
+            }, location: this.GetType());
             try {
                 appMutex = new Mutex(true, s_appPipName, out createdNew);
             }
@@ -81,7 +81,7 @@ namespace NTMiner {
                             Environment.Exit(0);
                         }
                     });
-                });
+                }, location: this.GetType());
             }
             else {
                 try {
@@ -109,7 +109,7 @@ namespace NTMiner {
                 #region 处理显示主界面命令
                 VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
                     VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
-                });
+                }, location: this.GetType());
                 #endregion
                 HttpServer.Start($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}");
                 Rdp.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;

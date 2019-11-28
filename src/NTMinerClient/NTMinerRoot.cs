@@ -87,7 +87,7 @@ namespace NTMiner {
                         VirtualRoot.AddEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
                             action: message => {
                                 RefreshServerJsonFile();
-                            });
+                            }, location: this.GetType());
                         #endregion
                     }
                 }
@@ -225,11 +225,11 @@ namespace NTMiner {
                     Logger.ErrorDebugLine(e);
                     VirtualRoot.ThisLocalError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,
                 action: message => {
                     Windows.Power.PreventSleep();
-                });
+                }, location: this.GetType());
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
@@ -240,7 +240,7 @@ namespace NTMiner {
                     if (!message.MineContext.IsRestart) {
                         shareOn = DateTime.Now;
                     }
-                });
+                }, location: this.GetType());
             #endregion
             #region 每20秒钟检查是否需要重启
             VirtualRoot.AddEventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
@@ -320,7 +320,7 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e);
                     }
                     #endregion
-                });
+                }, location: this.GetType());
             #endregion
             VirtualRoot.AddEventPath<Per10SecondEvent>("周期刷新显卡状态", LogEnum.None,
                 action: message => {
@@ -328,7 +328,7 @@ namespace NTMiner {
                     Task.Factory.StartNew(() => {
                         GpuSet.LoadGpuState();
                     });
-                });
+                }, location: this.GetType());
         }
         #endregion
 

@@ -54,7 +54,7 @@ namespace NTMiner.Core.Impl {
                             VirtualRoot.Execute(new AddPoolKernelCommand(poolKernel));
                         }
                     }
-                });
+                }, location: this.GetType());
             context.AddCmdPath<UpdatePoolCommand>("更新矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -87,7 +87,7 @@ namespace NTMiner.Core.Impl {
                     }
 
                     VirtualRoot.RaiseEvent(new PoolUpdatedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -112,7 +112,7 @@ namespace NTMiner.Core.Impl {
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
-                });
+                }, location: this.GetType());
             VirtualRoot.AddEventPath<PoolDelayPickedEvent>("提取了矿池延时后记录进内存", LogEnum.DevConsole,
                 action: message => {
                     if (message.IsDual) {
@@ -137,7 +137,7 @@ namespace NTMiner.Core.Impl {
                             });
                         }
                     }
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

@@ -35,7 +35,7 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new SysDicItemAddedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             _context.AddCmdPath<UpdateSysDicItemCommand>("更新系统字典项", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -63,7 +63,7 @@ namespace NTMiner.Core.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new SysDicItemUpdatedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             _context.AddCmdPath<RemoveSysDicItemCommand>("移除系统字典项", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -84,7 +84,7 @@ namespace NTMiner.Core.Impl {
                     repository.Remove(entity.Id);
 
                     VirtualRoot.RaiseEvent(new SysDicItemRemovedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

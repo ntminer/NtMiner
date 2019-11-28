@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
                     UIThread.Execute(() => {
                         Init();
                     });
-                });
+                }, location: this.GetType());
             VirtualRoot.AddEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -72,7 +72,7 @@ namespace NTMiner.Vms {
                         }
                         OnPropertyChanged(nameof(IsNoRecord));
                     });
-                });
+                }, location: this.GetType());
             VirtualRoot.AddEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole,
                 action: message => {
                     if (QueryResults == null) {
@@ -87,7 +87,7 @@ namespace NTMiner.Vms {
                             break;
                         }
                     }
-                });
+                }, location: this.GetType());
         }
 
         private void Init() {

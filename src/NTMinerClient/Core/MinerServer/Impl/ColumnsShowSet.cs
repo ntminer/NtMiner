@@ -25,7 +25,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -45,7 +45,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
                 VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelect.Id) {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;

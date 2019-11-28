@@ -22,7 +22,7 @@ namespace NTMiner.Views.Ucs {
             this.PopupMainCoin.Closed += Popup_Closed;
             this.PopupMainCoinWallet.Closed += Popup_Closed;
             this.RunOneceOnLoaded((window)=> {
-                window.BuildEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+                window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (Vm.MinerProfile.MineWork != null) {
@@ -49,7 +49,7 @@ namespace NTMiner.Views.Ucs {
                             OpenMainCoinWalletPopup();
                         }
                     });
-                });
+                }, location: this.GetType());
             });
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();

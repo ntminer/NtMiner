@@ -13,10 +13,10 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             this.RunOneceOnLoaded(window => {
                 if (VirtualRoot.IsMinerStudio) {
-                    window.BuildEventPath<Per1MinuteEvent>("周期刷新群控客户端的服务器消息集", LogEnum.DevConsole,
+                    window.AddEventPath<Per1MinuteEvent>("周期刷新群控客户端的服务器消息集", LogEnum.DevConsole,
                     action: message => {
                         VirtualRoot.Execute(new LoadNewServerMessageCommand());
-                    });
+                    }, location: this.GetType());
                 }
             });
         }

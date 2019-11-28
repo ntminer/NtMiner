@@ -75,7 +75,7 @@
                     UIThread.Execute(() => {
                         Init();
                     });
-                });
+                }, location: this.GetType());
             VirtualRoot.AddEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
@@ -100,7 +100,7 @@
                         }
                         OnPropertyChanged(nameof(IsNoRecord));
                     });
-                });
+                }, location: this.GetType());
             VirtualRoot.AddEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole,
                 action: message => {
                     if (QueryResults == null) {
@@ -115,7 +115,7 @@
                             break;
                         }
                     }
-                });
+                }, location: this.GetType());
         }
 
         private void Init() {

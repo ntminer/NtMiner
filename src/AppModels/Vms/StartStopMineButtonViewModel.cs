@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
                             NTMinerRoot.Instance.StartMine();
                         }
                     }
-                }, viaLimit: MinerProfile.AutoStartDelaySeconds);
+                }, location: this.GetType(), viaLimit: MinerProfile.AutoStartDelaySeconds);
             }
         }
 

@@ -51,7 +51,7 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<MinerData>();
                         col.Upsert(minerDatas);
                     }
-                });
+                }, location: this.GetType());
         }
 
         private void GetSpeed() {

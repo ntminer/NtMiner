@@ -16,7 +16,7 @@ namespace NTMiner.Core.Gpus.Impl {
             VirtualRoot.AddEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
                 action: message => {
                     ClearOutOfDateHistory();
-                });
+                }, location: this.GetType());
 
             VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后产生一次0算力", LogEnum.DevConsole,
                 action: message => {
@@ -27,7 +27,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
                         }
                     }
-                });
+                }, location: this.GetType());
 
             VirtualRoot.AddEventPath<MineStartedEvent>("挖矿开始时产生一次0算力0份额", LogEnum.DevConsole,
                 action: message => {
@@ -43,7 +43,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             SetCurrentSpeed(gpuIndex: gpu.Index, speed: 0.0, isDual: true, now: now);
                         }
                     }
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

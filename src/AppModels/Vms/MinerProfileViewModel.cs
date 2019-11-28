@@ -242,19 +242,19 @@ namespace NTMiner.Vms {
             VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(nameof(CoinVm));
-                });
-            AppContext.BuildCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
+                }, location: this.GetType());
+            AppContext.AddCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
                 action: message => {
                     MinerProfileData data = NTMinerRoot.CreateLocalRepository<MinerProfileData>().GetByKey(this.Id);
                     if (data != null) {
                         this.IsAutoBoot = data.IsAutoBoot;
                         this.IsAutoStart = data.IsAutoStart;
                     }
-                });
-            AppContext.BuildEventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
+                }, location: this.GetType());
+            AppContext.AddEventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
-                });
+                }, location: this.GetType());
 
             VirtualRoot.AddEventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
                 action: message => {
@@ -265,7 +265,7 @@ namespace NTMiner.Vms {
                         CoinVm.CoinProfile.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedWallet));
                         CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.CoinProfile.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedDualCoinWallet));
                     }
-                });
+                }, location: this.GetType());
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {

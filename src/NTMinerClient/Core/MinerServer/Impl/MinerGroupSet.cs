@@ -28,7 +28,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -51,7 +51,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
                 VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -70,7 +70,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserFail(response.ReadMessage(exception));
                     }
                 });
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;

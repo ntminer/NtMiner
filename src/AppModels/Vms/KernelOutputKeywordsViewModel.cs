@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
             VirtualRoot.AddEventPath<CurrentMineContextChangedEvent>("挖矿上下文变更后刷新内核输出关键字Vm视图集", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(nameof(KernelOutputVm));
-                });
+                }, location: this.GetType());
             this.Add = new DelegateCommand(() => {
                 KernelOutputViewModel kernelOutputVm = KernelOutputVm;
                 if (kernelOutputVm == null) {

@@ -173,7 +173,7 @@ namespace NTMiner.Net {
                         mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
                     }
                 }
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;

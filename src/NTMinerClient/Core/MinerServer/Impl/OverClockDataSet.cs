@@ -30,7 +30,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserFail(response.ReadMessage(e));
                     }
                 });
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateOverClockDataCommand>(action: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -52,7 +52,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
                 VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveOverClockDataCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -70,7 +70,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         Write.UserFail(response.ReadMessage(e));
                     }
                 });
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;
