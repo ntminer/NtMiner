@@ -32,6 +32,7 @@ namespace NTMiner {
         }
 
         // 慢了1000多倍，但是这不是一个常调的方法
+        // 基于边界类型找到接线的地点
         private static Type GetMessagePathLocation(Type borderType) {
             if (borderType == null) {
                 borderType = typeof(VirtualRoot);
