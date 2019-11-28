@@ -116,7 +116,7 @@ namespace NTMiner {
         // 视图层有个界面提供给开发者观察系统的消息路径情况所以是public的。
         // 系统根上的一些状态集的构造时最好都放在MessageDispatcher初始化之后，因为状态集的构造
         // 函数中可能会建造消息路径，所以这里保证在访问MessageDispatcher之前一定完成了构造。
-        public static readonly IMessageDispatcher MessageDispatcher = new MessageDispatcher();
+        public static readonly IMessagePathSet MessageDispatcher = new MessagePathSet();
         public static readonly ILocalMessageSet LocalMessages;
 
         #region Out

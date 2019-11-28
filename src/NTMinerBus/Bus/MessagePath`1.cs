@@ -17,7 +17,7 @@ namespace NTMiner.Bus {
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> Build(IMessageDispatcher dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
+        public static MessagePath<TMessage> Build(IMessagePathSet dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }

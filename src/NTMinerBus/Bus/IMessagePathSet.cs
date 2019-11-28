@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Bus {
-    public interface IMessageDispatcher {
+    public interface IMessagePathSet {
         IEnumerable<IMessagePathId> GetAllPaths();
         void Dispatch<TMessage>(TMessage message) where TMessage : IMessage;
 

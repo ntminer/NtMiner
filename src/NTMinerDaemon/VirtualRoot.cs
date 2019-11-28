@@ -6,10 +6,10 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static bool IsMinerStudio = false;
 
-        public static readonly IMessageDispatcher MessageDispatcher;
+        public static readonly IMessagePathSet MessageDispatcher;
 
         static VirtualRoot() {
-            MessageDispatcher = new MessageDispatcher();
+            MessageDispatcher = new MessagePathSet();
         }
     }
 }

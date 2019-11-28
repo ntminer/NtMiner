@@ -43,8 +43,8 @@
     <Compile Include="Bus\IEvent.cs" />
     <Compile Include="Bus\IMessagePathId.cs" />
     <Compile Include="Bus\IMessage.cs" />
-    <Compile Include="Bus\IMessageDispatcher.cs" />
-    <Compile Include="Bus\MessageDispatcher.cs" />
+    <Compile Include="Bus\IMessagePathSet.cs" />
+    <Compile Include="Bus\MessagePathSet.cs" />
     <Compile Include="Bus\MessageTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -2,7 +2,7 @@
     using System;
     using System.Collections.Generic;
 
-    public class MessageDispatcher : IMessageDispatcher {
+    public class MessagePathSet : IMessagePathSet {
         private readonly Dictionary<Type, List<object>> _pathDicByMessageType = new Dictionary<Type, List<object>>();
         private readonly Dictionary<string, List<IMessagePathId>> _paths = new Dictionary<string, List<IMessagePathId>>();
         private readonly object _locker = new object();
