@@ -8,11 +8,11 @@ using System.Timers;
 namespace NTMiner {
     public static partial class VirtualRoot {
         public static void RaiseEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent {
-            MessageDispatcher.Dispatch(evnt);
+            MessageDispatcher.Route(evnt);
         }
 
         public static void Execute<TCmd>(TCmd command) where TCmd : class, ICmd {
-            MessageDispatcher.Dispatch(command);
+            MessageDispatcher.Route(command);
         }
 
         // 修建消息（命令或事件）的运动路径
@@ -53,7 +53,7 @@ namespace NTMiner {
             if (handler == null) {
                 return;
             }
-            MessageDispatcher.Disconnect(handler);
+            MessageDispatcher.Remove(handler);
         }
 
         private static readonly Dictionary<string, Regex> _regexDic = new Dictionary<string, Regex>();

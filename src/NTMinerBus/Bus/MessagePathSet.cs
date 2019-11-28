@@ -7,8 +7,8 @@
         private readonly Dictionary<string, List<IMessagePathId>> _paths = new Dictionary<string, List<IMessagePathId>>();
         private readonly object _locker = new object();
 
-        public event Action<IMessagePathId> Connected;
-        public event Action<IMessagePathId> Disconnected;
+        public event Action<IMessagePathId> Added;
+        public event Action<IMessagePathId> Removed;
 
         #region IMessageDispatcher Members
         public IEnumerable<IMessagePathId> GetAllPaths() {
@@ -21,7 +21,7 @@
             }
         }
 
-        public void Dispatch<TMessage>(TMessage message) where TMessage : IMessage {
+        public void Route<TMessage>(TMessage message) where TMessage : IMessage {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
             }
@@ -44,7 +44,7 @@
                                     tMessagePath.ViaLimit--;
                                     if (tMessagePath.ViaLimit == 0) {
                                         // ViaLimit递减到0从路径列表中移除该路径
-                                        Disconnect(tMessagePath);
+                                        Remove(tMessagePath);
                                     }
                                 }
                             }
@@ -79,7 +79,7 @@
             }
         }
 
-        public void Connect<TMessage>(MessagePath<TMessage> path) {
+        public void Add<TMessage>(MessagePath<TMessage> path) {
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }
@@ -102,7 +102,7 @@
                     var registeredHandlers = _pathDicByMessageType[messageType];
                     if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(messageType)) {
                         // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
-                        // 之所以设计为统一走总线只是为了将通过命令类型集中表达起文档作用。
+                        // 之所以设计为统一走总线只是为了通过将命令类型集中表达以起文档作用。
                         throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
                     }
                     if (!registeredHandlers.Contains(path)) {
@@ -113,11 +113,11 @@
                     var registeredHandlers = new List<dynamic> { path };
                     _pathDicByMessageType.Add(messageType, registeredHandlers);
                 }
-                Connected?.Invoke(pathId);
+                Added?.Invoke(pathId);
             }
         }
 
-        public void Disconnect(IMessagePathId handlerId) {
+        public void Remove(IMessagePathId handlerId) {
             if (handlerId == null) {
                 return;
             }
@@ -130,7 +130,7 @@
                     _pathDicByMessageType[messageType].Contains(handlerId)) {
                     _pathDicByMessageType[messageType].Remove(handlerId);
                     Write.DevDebug("拆除路径" + handlerId.Path);
-                    Disconnected?.Invoke(handlerId);
+                    Removed?.Invoke(handlerId);
                 }
             }
         }

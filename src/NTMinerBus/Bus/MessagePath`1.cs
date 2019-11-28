@@ -22,7 +22,7 @@ namespace NTMiner.Bus {
                 throw new ArgumentNullException(nameof(path));
             }
             MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, path, pathId, viaLimit);
-            dispatcher.Connect(handler);
+            dispatcher.Add(handler);
             return handler;
         }
 
