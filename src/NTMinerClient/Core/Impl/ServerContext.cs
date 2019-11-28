@@ -39,7 +39,7 @@ namespace NTMiner.Core.Impl {
         /// </summary>
         public void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, borderType: typeof(ServerContext));
             _serverContextHandlers.Add(messagePathId);
         }
 
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Impl {
         /// </summary>
         public void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, borderType: typeof(ServerContext));
             _serverContextHandlers.Add(messagePathId);
         }
 

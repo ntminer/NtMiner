@@ -119,11 +119,11 @@
     <Compile Include="..\NTMinerlib\User\IUserSet.cs">
       <Link>User\IUserSet.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Bus.cs">
-      <Link>VirtualRoot.partials.Bus.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Common.cs">
       <Link>VirtualRoot.partials.Common.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Hub.cs">
+      <Link>VirtualRoot.partials.Hub.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>

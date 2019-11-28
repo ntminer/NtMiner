@@ -40,6 +40,9 @@ namespace NTMiner {
             Type location = ss.GetFrame(index).GetMethod().DeclaringType;
             while (location != borderType) {
                 index++;
+                if (index == ss.FrameCount) {
+                    throw new InvalidProgramException("到底了");
+                }
                 if (index > 10) {
                     throw new InvalidProgramException("不可能这么深");
                 }
@@ -47,6 +50,9 @@ namespace NTMiner {
             }
             while (location == borderType) {
                 index++;
+                if (index == ss.FrameCount) {
+                    throw new InvalidProgramException("到底了");
+                }
                 if (index > 10) {
                     throw new InvalidProgramException("不可能这么深");
                 }
