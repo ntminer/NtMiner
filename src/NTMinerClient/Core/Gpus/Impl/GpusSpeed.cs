@@ -13,12 +13,12 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly INTMinerRoot _root;
         public GpusSpeed(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.BuildEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
                 action: message => {
                     ClearOutOfDateHistory();
                 });
 
-            VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后产生一次0算力", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后产生一次0算力", LogEnum.DevConsole,
                 action: message => {
                     var now = DateTime.Now;
                     foreach (var gpu in _root.GpuSet.AsEnumerable()) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     }
                 });
 
-            VirtualRoot.BuildEventPath<MineStartedEvent>("挖矿开始时产生一次0算力0份额", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<MineStartedEvent>("挖矿开始时产生一次0算力0份额", LogEnum.DevConsole,
                 action: message => {
                     var now = DateTime.Now;
                     _root.CoinShareSet.UpdateShare(message.MineContext.MainCoin.GetId(), 0, 0, now);

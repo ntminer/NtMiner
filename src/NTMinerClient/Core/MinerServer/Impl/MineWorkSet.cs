@@ -7,7 +7,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
 
         public MineWorkSet() {
-            VirtualRoot.BuildCmdPath<AddMineWorkCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<AddMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -25,7 +25,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     Write.UserFail(response?.Description);
                 }
             });
-            VirtualRoot.BuildCmdPath<UpdateMineWorkCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<UpdateMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -45,7 +45,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
             });
-            VirtualRoot.BuildCmdPath<RemoveMineWorkCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<RemoveMineWorkCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();

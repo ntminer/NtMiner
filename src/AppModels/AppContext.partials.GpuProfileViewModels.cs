@@ -17,7 +17,7 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                VirtualRoot.BuildEventPath<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
                             _listByCoinId.Clear();

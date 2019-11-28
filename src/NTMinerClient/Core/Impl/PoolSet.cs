@@ -13,7 +13,7 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, PoolDelay> _poolDelayById = new Dictionary<Guid, PoolDelay>();
 
         public PoolSet(IServerContext context) {
-            context.BuildCmdPath<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
+            context.AddCmdPath<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -55,7 +55,7 @@ namespace NTMiner.Core.Impl {
                         }
                     }
                 });
-            context.BuildCmdPath<UpdatePoolCommand>("更新矿池", LogEnum.DevConsole,
+            context.AddCmdPath<UpdatePoolCommand>("更新矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -88,7 +88,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new PoolUpdatedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
+            context.AddCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {
@@ -113,7 +113,7 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
                     }
                 });
-            VirtualRoot.BuildEventPath<PoolDelayPickedEvent>("提取了矿池延时后记录进内存", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<PoolDelayPickedEvent>("提取了矿池延时后记录进内存", LogEnum.DevConsole,
                 action: message => {
                     if (message.IsDual) {
                         if (_poolDelayById.TryGetValue(message.PoolId, out PoolDelay poolDelay)) {

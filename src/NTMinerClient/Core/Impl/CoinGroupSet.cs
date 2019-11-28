@@ -7,7 +7,7 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, CoinGroupData> _dicById = new Dictionary<Guid, CoinGroupData>();
 
         public CoinGroupSet(IServerContext context) {
-            context.BuildCmdPath<AddCoinGroupCommand>("添加币组", LogEnum.DevConsole,
+            context.AddCmdPath<AddCoinGroupCommand>("添加币组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinGroupAddedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<RemoveCoinGroupCommand>("移除币组", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveCoinGroupCommand>("移除币组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

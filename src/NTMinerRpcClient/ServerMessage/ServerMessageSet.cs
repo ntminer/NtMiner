@@ -15,7 +15,7 @@ namespace NTMiner.ServerMessage {
             }
             _connectionString = $"filename={dbFileFullName};journal=false";
             if (!isServer) {
-                VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(action: message => {
+                VirtualRoot.AddCmdPath<LoadNewServerMessageCommand>(action: message => {
                     if (!VirtualRoot.IsServerMessagesVisible) {
                         return;
                     }
@@ -30,11 +30,11 @@ namespace NTMiner.ServerMessage {
                         }
                     });
                 });
-                VirtualRoot.BuildCmdPath<ReceiveServerMessageCommand>(action: message => {
+                VirtualRoot.AddCmdPath<ReceiveServerMessageCommand>(action: message => {
                     ReceiveServerMessage(message.Data);
                 });
             }
-            VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
+            VirtualRoot.AddCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
                 InitOnece();
                 if (isServer) {
                     #region Server
@@ -87,7 +87,7 @@ namespace NTMiner.ServerMessage {
                     });
                 }
             });
-            VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(action: message => {
+            VirtualRoot.AddCmdPath<MarkDeleteServerMessageCommand>(action: message => {
                 InitOnece();
                 if (isServer) {
                     #region Server
@@ -118,7 +118,7 @@ namespace NTMiner.ServerMessage {
                     });
                 }
             });
-            VirtualRoot.BuildCmdPath<ClearServerMessages>(action: message => {
+            VirtualRoot.AddCmdPath<ClearServerMessages>(action: message => {
                 InitOnece();
                 // 服务端不应有清空消息的功能
                 if (isServer) {

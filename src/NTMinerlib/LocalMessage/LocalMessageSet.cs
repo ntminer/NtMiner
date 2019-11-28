@@ -12,7 +12,7 @@ namespace NTMiner.LocalMessage {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
                 _connectionString = $"filename={dbFileFullName};journal=false";
             }
-            VirtualRoot.BuildCmdPath<AddLocalMessageCommand>(action: message => {
+            VirtualRoot.AddCmdPath<AddLocalMessageCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {
                     return;
                 }
@@ -38,7 +38,7 @@ namespace NTMiner.LocalMessage {
                 }
                 VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(message.Id, data, removes));
             });
-            VirtualRoot.BuildCmdPath<ClearLocalMessageSetCommand>(action: message => {
+            VirtualRoot.AddCmdPath<ClearLocalMessageSetCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {
                     return;
                 }

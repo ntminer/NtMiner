@@ -116,7 +116,7 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed;
             }
-            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, borderType: typeof(WindowExtension));
             messagePathIds.Add(messagePathId);
         }
 
@@ -135,7 +135,7 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, borderType: typeof(WindowExtension));
             messagePathIds.Add(messagePathId);
         }
 

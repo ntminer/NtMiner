@@ -18,12 +18,12 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new FragmentWriterViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
                     });
-                VirtualRoot.BuildEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
                     });

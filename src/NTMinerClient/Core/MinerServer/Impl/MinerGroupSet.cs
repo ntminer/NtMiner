@@ -7,7 +7,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly Dictionary<Guid, MinerGroupData> _dicById = new Dictionary<Guid, MinerGroupData>();
 
         public MinerGroupSet() {
-            VirtualRoot.BuildCmdPath<AddMinerGroupCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<AddMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -29,7 +29,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
             });
-            VirtualRoot.BuildCmdPath<UpdateMinerGroupCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<UpdateMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -52,7 +52,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.Id, entity));
             });
-            VirtualRoot.BuildCmdPath<RemoveMinerGroupCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<RemoveMinerGroupCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();

@@ -137,7 +137,7 @@ namespace NTMiner.Net {
                     VirtualRoot.ThisLocalWarn(nameof(LocalIpSet), $"网络不可用", toConsole: true);
                 }
             };
-            VirtualRoot.BuildCmdPath<SetLocalIpCommand>(action: message => {
+            VirtualRoot.AddCmdPath<SetLocalIpCommand>(action: message => {
                 ManagementObject mo = null; 
                 using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
                     ManagementObjectCollection moc = mc.GetInstances();

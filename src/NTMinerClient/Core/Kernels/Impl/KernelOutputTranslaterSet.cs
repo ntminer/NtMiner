@@ -17,7 +17,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly Dictionary<Guid, KernelOutputTranslaterData> _dicById = new Dictionary<Guid, KernelOutputTranslaterData>();
         private readonly Dictionary<Guid, List<KernelOutputTranslaterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputTranslaterData>>();
         public KernelOutputTranslaterSet(IServerContext context) {
-            context.BuildCmdPath<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
+            context.AddCmdPath<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputTranslaterAddedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
+            context.AddCmdPath<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputTranslaterUpdatedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

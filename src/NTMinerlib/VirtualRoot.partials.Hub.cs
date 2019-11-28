@@ -16,37 +16,61 @@ namespace NTMiner {
         }
 
         // 修建消息（命令或事件）的运动路径
-        public static IMessagePathId BuildPath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
-            StackTrace ss = new StackTrace(false);
-            // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
-            Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageHub, location, description, logType, action, Guid.Empty);
+        public static IMessagePathId AddMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Type borderType = null) {
+            Type location = GetMessagePathLocation(borderType: borderType);
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, Guid.Empty);
         }
 
-        public static IMessagePathId BuildOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId) {
-            StackTrace ss = new StackTrace(false);
-            // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
-            Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageHub, location, description, logType, action, pathId, viaLimit: 1);
+        public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type borderType = null) {
+            Type location = GetMessagePathLocation(borderType: borderType);
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId, viaLimit: 1);
         }
 
-        public static IMessagePathId BuildViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit) {
-            StackTrace ss = new StackTrace(false);
-            // 0是CreatePath，1是CreateCmdPath或CreateEventPath，2是当地
-            Type location = ss.GetFrame(2).GetMethod().DeclaringType;
-            return MessagePath<TMessage>.Build(MessageHub, location, description, logType, action, Guid.Empty, viaLimit);
+        public static IMessagePathId AddViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type borderType = null) {
+            Type location = GetMessagePathLocation(borderType: borderType);
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, Guid.Empty, viaLimit);
         }
 
-        public static void BuildCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
+        private static Type GetMessagePathLocation(Type borderType) {
+            if (borderType == null) {
+                borderType = typeof(VirtualRoot);
+            }
+            StackTrace ss = new StackTrace(false);
+            int index = 1;
+            Type location = ss.GetFrame(index).GetMethod().DeclaringType;
+            while (location != borderType) {
+                index++;
+                if (index == ss.FrameCount) {
+                    throw new InvalidProgramException("到底了");
+                }
+                if (index > 10) {
+                    throw new InvalidProgramException("不可能这么深");
+                }
+                location = ss.GetFrame(index).GetMethod().DeclaringType;
+            }
+            while (location == borderType) {
+                index++;
+                if (index == ss.FrameCount) {
+                    throw new InvalidProgramException("到底了");
+                }
+                if (index > 10) {
+                    throw new InvalidProgramException("不可能这么深");
+                }
+                location = ss.GetFrame(index).GetMethod().DeclaringType;
+            }
+            return location;
+        }
+
+        public static void AddCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole, Type borderType = null)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
-            BuildPath(description, logType, action);
+            AddMessagePath(description, logType, action, borderType);
         }
 
-        public static IMessagePathId BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public static IMessagePathId AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type borderType = null)
             where TEvent : IEvent {
-            return BuildPath(description, logType, action);
+            return AddMessagePath(description, logType, action, borderType);
         }
 
         public static void DeletePath(IMessagePathId handler) {

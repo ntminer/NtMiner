@@ -70,13 +70,13 @@
                     VirtualRoot.Execute(new ClearLocalMessageSetCommand());
                 }));
             });
-            VirtualRoot.BuildEventPath<LocalMessageSetClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<LocalMessageSetClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Init();
                     });
                 });
-            VirtualRoot.BuildEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         var vm = new LocalMessageViewModel(message.Target);
@@ -101,7 +101,7 @@
                         OnPropertyChanged(nameof(IsNoRecord));
                     });
                 });
-            VirtualRoot.BuildEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole,
                 action: message => {
                     if (QueryResults == null) {
                         return;

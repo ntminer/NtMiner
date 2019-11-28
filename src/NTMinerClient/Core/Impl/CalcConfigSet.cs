@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
 
         public CalcConfigSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.BuildEventPath<MainWindowShowedEvent>("主界面显示后刷新收益计算器", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<MainWindowShowedEvent>("主界面显示后刷新收益计算器", LogEnum.DevConsole,
                 action: message => {
                     Init(forceRefresh: true);
                 });

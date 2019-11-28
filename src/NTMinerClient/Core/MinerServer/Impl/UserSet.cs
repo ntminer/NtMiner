@@ -9,7 +9,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>();
 
         public UserSet() {
-            VirtualRoot.BuildCmdPath<AddUserCommand>(action: message => {
+            VirtualRoot.AddCmdPath<AddUserCommand>(action: message => {
                 if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
                     Server.UserService.AddUserAsync(new UserData {
                         LoginName = message.User.LoginName,
@@ -28,7 +28,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                 }
             });
-            VirtualRoot.BuildCmdPath<UpdateUserCommand>(action: message => {
+            VirtualRoot.AddCmdPath<UpdateUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                     UserData entity = _dicByLoginName[message.User.LoginName];
                     UserData oldValue = new UserData(entity);
@@ -48,7 +48,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.Id, entity));
                 }
             });
-            VirtualRoot.BuildCmdPath<RemoveUserCommand>(action: message => {
+            VirtualRoot.AddCmdPath<RemoveUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.LoginName)) {
                     UserData entity = _dicByLoginName[message.LoginName];
                     Server.UserService.RemoveUserAsync(message.LoginName, (response, exception) => {
