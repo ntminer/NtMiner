@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NTMiner.Bus {
+namespace NTMiner.Router {
     public class MessagePath<TMessage> : IMessagePathId
 #if DEBUG
         , INotifyPropertyChanged

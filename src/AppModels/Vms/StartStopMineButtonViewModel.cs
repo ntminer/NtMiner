@@ -1,4 +1,4 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Router;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {

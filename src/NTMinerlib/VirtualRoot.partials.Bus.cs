@@ -1,4 +1,4 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Router;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -68,7 +68,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{6F255C76-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{3E8B6DD0-5039-4E01-899B-2FB28372E66E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerBus", "src\NTMinerBus\NTMinerBus.csproj", "{E17F278A-E393-403E-9D37-E371036D7A02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerRouter", "src\NTMinerBus\NTMinerRouter.csproj", "{E17F278A-E393-403E-9D37-E371036D7A02}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{4A3C8C8B-6642-405F-B349-57E23903F15B}"
 EndProject

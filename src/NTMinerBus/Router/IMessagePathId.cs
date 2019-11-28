@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Bus {
+namespace NTMiner.Router {
     
     public interface IMessagePathId {
         Guid PathId { get; }

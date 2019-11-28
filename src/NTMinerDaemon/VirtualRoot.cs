@@ -1,4 +1,4 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Router;
 using System.Diagnostics;
 
 namespace NTMiner {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Bus {
+namespace NTMiner.Router {
     public interface IMessagePathSet {
         IEnumerable<IMessagePathId> GetAllPaths();
         void Route<TMessage>(TMessage message) where TMessage : IMessage;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.Bus {
+namespace NTMiner.Router {
     [AttributeUsage(AttributeTargets.Class)]
     public class MessageTypeAttribute : Attribute {
         private static readonly Dictionary<Type, MessageTypeAttribute> _messageTypeAttributeDic = new Dictionary<Type, MessageTypeAttribute>();

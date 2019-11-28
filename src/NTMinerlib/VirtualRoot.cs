@@ -1,5 +1,5 @@
 ﻿using NTMiner.AppSetting;
-using NTMiner.Bus;
+using NTMiner.Router;
 using NTMiner.Core;
 using NTMiner.LocalMessage;
 using NTMiner.MinerClient;
