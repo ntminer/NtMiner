@@ -20,10 +20,10 @@ namespace NTMiner {
                     });
                 BuildEventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
+                        _dicById.Add(message.Target.GetId(), new WalletViewModel(message.Target));
                         OnPropertyChanged(nameof(WalletList));
                         CoinViewModel coin;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coin)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
@@ -31,10 +31,10 @@ namespace NTMiner {
                     });
                 BuildEventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(WalletList));
                         CoinViewModel coin;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coin)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
@@ -43,7 +43,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById[message.Source.GetId()].Update(message.Source);
+                        _dicById[message.Target.GetId()].Update(message.Target);
                     });
                 Init();
 #if DEBUG

@@ -1,4 +1,4 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Hub;
 using NTMiner.Core;
 using System;
 

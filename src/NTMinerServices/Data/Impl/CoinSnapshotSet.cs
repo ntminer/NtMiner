@@ -13,7 +13,7 @@ namespace NTMiner.Data.Impl {
             _root = root;
             VirtualRoot.BuildEventPath<Per10SecondEvent>("周期性拍摄快照", LogEnum.DevConsole,
                 action: message => {
-                    Snapshot(message.Timestamp);
+                    Snapshot(message.BornOn);
                 });
             VirtualRoot.BuildEventPath<Per2MinuteEvent>("周期性拍摄快照", LogEnum.DevConsole,
                 action: message => {

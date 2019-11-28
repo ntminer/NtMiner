@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NTMiner</RootNamespace>
-    <AssemblyName>NTMinerBus</AssemblyName>
+    <AssemblyName>NTMinerHub</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>false</Deterministic>
@@ -31,27 +31,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bus\Cmd.cs" />
-    <Compile Include="Bus\MessagePath`1.cs" />
-    <Compile Include="Bus\DirectBus\DirectBus.cs" />
-    <Compile Include="Bus\DirectBus\DirectCommandBus.cs" />
-    <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
-    <Compile Include="Bus\DomainEvent`1.cs" />
-    <Compile Include="Bus\EventBase.cs" />
-    <Compile Include="Bus\IBus.cs" />
-    <Compile Include="Bus\ICmd.cs" />
-    <Compile Include="Bus\ICmdBus.cs" />
-    <Compile Include="Bus\IEvent.cs" />
-    <Compile Include="Bus\IEventBus.cs" />
-    <Compile Include="Bus\IMessagePathId.cs" />
-    <Compile Include="Bus\IMessage.cs" />
-    <Compile Include="Bus\IMessageDispatcher.cs" />
-    <Compile Include="Bus\MessageDispatcher.cs" />
-    <Compile Include="Bus\MessageTypeAttribute.cs" />
+    <Compile Include="Hub\Cmd.cs" />
+    <Compile Include="Hub\MessagePath`1.cs" />
+    <Compile Include="Hub\DomainEvent`1.cs" />
+    <Compile Include="Hub\EventBase.cs" />
+    <Compile Include="Hub\ICmd.cs" />
+    <Compile Include="Hub\IEvent.cs" />
+    <Compile Include="Hub\IMessagePathId.cs" />
+    <Compile Include="Hub\IMessage.cs" />
+    <Compile Include="Hub\IMessageHub.cs" />
+    <Compile Include="Hub\MessageHub.cs" />
+    <Compile Include="Hub\MessageTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

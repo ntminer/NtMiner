@@ -68,8 +68,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "View", "View", "{6F255C76-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{3E8B6DD0-5039-4E01-899B-2FB28372E66E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerBus", "src\NTMinerBus\NTMinerBus.csproj", "{E17F278A-E393-403E-9D37-E371036D7A02}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "src\UnitTests\UnitTests.csproj", "{4A3C8C8B-6642-405F-B349-57E23903F15B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{32121ECB-19E1-4B91-86B6-369646A7E3E9}"
@@ -95,6 +93,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocketServerTests", "src\WebSocketServerTests\WebSocketServerTests.csproj", "{637E9AD8-6410-419B-8FEE-2528130F871A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocketClientTests", "src\WebSocketClientTests\WebSocketClientTests.csproj", "{188484AC-C870-4F34-BE4C-9A0AF96DE2EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerHub", "src\NTMinerHub\NTMinerHub.csproj", "{E17F278A-E393-403E-9D37-E371036D7A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -310,18 +310,6 @@ Global
 		{B7107A67-A76E-4313-8C5B-3265DDE238B6}.Release|x64.Build.0 = Release|Any CPU
 		{B7107A67-A76E-4313-8C5B-3265DDE238B6}.Release|x86.ActiveCfg = Release|Any CPU
 		{B7107A67-A76E-4313-8C5B-3265DDE238B6}.Release|x86.Build.0 = Release|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|x64.Build.0 = Debug|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|x86.Build.0 = Debug|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x64.ActiveCfg = Release|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x64.Build.0 = Release|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x86.ActiveCfg = Release|Any CPU
-		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x86.Build.0 = Release|Any CPU
 		{4A3C8C8B-6642-405F-B349-57E23903F15B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4A3C8C8B-6642-405F-B349-57E23903F15B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A3C8C8B-6642-405F-B349-57E23903F15B}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -430,6 +418,18 @@ Global
 		{188484AC-C870-4F34-BE4C-9A0AF96DE2EA}.Release|x64.Build.0 = Release|Any CPU
 		{188484AC-C870-4F34-BE4C-9A0AF96DE2EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{188484AC-C870-4F34-BE4C-9A0AF96DE2EA}.Release|x86.Build.0 = Release|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|x64.Build.0 = Debug|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Debug|x86.Build.0 = Debug|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x64.ActiveCfg = Release|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x64.Build.0 = Release|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x86.ActiveCfg = Release|Any CPU
+		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

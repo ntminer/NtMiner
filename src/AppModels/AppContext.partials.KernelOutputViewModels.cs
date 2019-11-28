@@ -25,24 +25,24 @@ namespace NTMiner {
                     });
                 BuildEventPath<KernelOutputAddedEvent>("添加了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        var vm = new KernelOutputViewModel(message.Source);
-                        _dicById.Add(message.Source.GetId(), vm);
+                        var vm = new KernelOutputViewModel(message.Target);
+                        _dicById.Add(message.Target.GetId(), vm);
                         OnPropertyChanged(nameof(AllKernelOutputVms));
                         OnPropertyChanged(nameof(PleaseSelectVms));
                     });
                 BuildEventPath<KernelOutputUpdatedEvent>("更新了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            var item = _dicById[message.Source.GetId()];
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            var item = _dicById[message.Target.GetId()];
                             if (item != null) {
-                                item.Update(message.Source);
+                                item.Update(message.Target);
                             }
                         }
                     });
                 BuildEventPath<KernelOutputRemovedEvent>("移除了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById.Remove(message.Source.GetId());
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById.Remove(message.Target.GetId());
                             OnPropertyChanged(nameof(AllKernelOutputVms));
                             OnPropertyChanged(nameof(PleaseSelectVms));
                         }

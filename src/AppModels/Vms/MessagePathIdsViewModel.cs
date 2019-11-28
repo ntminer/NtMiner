@@ -1,4 +1,4 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Hub;
 using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
@@ -6,7 +6,7 @@ namespace NTMiner.Vms {
         private readonly ObservableCollection<IMessagePathId> _pathIds;
 
         public MessagePathIdsViewModel() {
-            _pathIds = new ObservableCollection<IMessagePathId>(VirtualRoot.MessageDispatcher.GetAllPaths());
+            _pathIds = new ObservableCollection<IMessagePathId>(VirtualRoot.MessageHub.GetAllPaths());
         }
 
         public ObservableCollection<IMessagePathId> PathIds {

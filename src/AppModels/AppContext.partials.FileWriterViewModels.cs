@@ -29,22 +29,22 @@ namespace NTMiner {
                     });
                 BuildEventPath<FileWriterAddedEvent>("添加了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            FileWriterViewModel groupVm = new FileWriterViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), groupVm);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            FileWriterViewModel groupVm = new FileWriterViewModel(message.Target);
+                            _dicById.Add(message.Target.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
                     });
                 BuildEventPath<FileWriterUpdatedEvent>("更新了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            FileWriterViewModel entity = _dicById[message.Source.GetId()];
-                            entity.Update(message.Source);
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            FileWriterViewModel entity = _dicById[message.Target.GetId()];
+                            entity.Update(message.Target);
                         }
                     });
                 BuildEventPath<FileWriterRemovedEvent>("删除了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChangeds();
                     });
                 Init();

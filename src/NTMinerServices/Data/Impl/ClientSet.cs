@@ -19,7 +19,7 @@ namespace NTMiner.Data.Impl {
                     InitOnece();
                     List<MinerData> minerDatas = new List<MinerData>();
                     lock (_locker) {
-                        DateTime time = message.Timestamp.AddMinutes(-3);
+                        DateTime time = message.BornOn.AddMinutes(-3);
                         foreach (var clientData in _dicByObjectId.Values) {
                             if (clientData.ModifiedOn > time) {
                                 minerDatas.Add(new MinerData {

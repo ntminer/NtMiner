@@ -16,19 +16,19 @@ namespace NTMiner {
 #endif
                 BuildEventPath<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
                             PoolViewModel poolVm;
-                            if (AppContext.Instance.PoolVms.TryGetPoolVm(message.Source.PoolId, out poolVm)) {
-                                _dicById.Add(message.Source.GetId(), new PoolKernelViewModel(message.Source));
+                            if (AppContext.Instance.PoolVms.TryGetPoolVm(message.Target.PoolId, out poolVm)) {
+                                _dicById.Add(message.Target.GetId(), new PoolKernelViewModel(message.Target));
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
                         }
                     });
                 BuildEventPath<PoolKernelRemovedEvent>("移除了币种内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            var vm = _dicById[message.Source.GetId()];
-                            _dicById.Remove(message.Source.GetId());
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            var vm = _dicById[message.Target.GetId()];
+                            _dicById.Remove(message.Target.GetId());
                             PoolViewModel poolVm;
                             if (AppContext.Instance.PoolVms.TryGetPoolVm(vm.PoolId, out poolVm)) {
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
@@ -37,8 +37,8 @@ namespace NTMiner {
                     });
                 BuildEventPath<PoolKernelUpdatedEvent>("更新了矿池内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById[message.Source.GetId()].Update(message.Source);
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById[message.Target.GetId()].Update(message.Target);
                         }
                     });
                 Init();

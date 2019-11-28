@@ -25,7 +25,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Source.GetId(), new PackageViewModel(message.Source));
+                        _dicById.Add(message.Target.GetId(), new PackageViewModel(message.Target));
                         OnPropertyChanged(nameof(AllPackages));
                         foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
@@ -33,7 +33,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(AllPackages));
                         foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
@@ -41,8 +41,8 @@ namespace NTMiner {
                     });
                 BuildEventPath<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        var entity = _dicById[message.Source.GetId()];
-                        entity.Update(message.Source);
+                        var entity = _dicById[message.Target.GetId()];
+                        entity.Update(message.Target);
                         foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }

@@ -1,10 +1,11 @@
 ﻿using System;
 
-namespace NTMiner.Bus {
+namespace NTMiner.Hub {
     public abstract class EventBase : IEvent {
         protected EventBase() {
             this.Id = Guid.NewGuid();
-            this.Timestamp = DateTime.Now;
+            this.BornOn = DateTime.Now;
+            this.BornPathId = Guid.Empty;
         }
 
         protected EventBase(Guid bornPathId) : this() {
@@ -15,6 +16,6 @@ namespace NTMiner.Bus {
 
         public Guid BornPathId { get; private set; }
 
-        public DateTime Timestamp { get; private set; }
+        public DateTime BornOn { get; private set; }
     }
 }

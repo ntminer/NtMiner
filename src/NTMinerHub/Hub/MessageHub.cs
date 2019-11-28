@@ -1,14 +1,14 @@
-﻿namespace NTMiner.Bus {
+﻿namespace NTMiner.Hub {
     using System;
     using System.Collections.Generic;
 
-    public class MessageDispatcher : IMessageDispatcher {
+    public class MessageHub : IMessageHub {
         private readonly Dictionary<Type, List<object>> _pathDicByMessageType = new Dictionary<Type, List<object>>();
         private readonly Dictionary<string, List<IMessagePathId>> _paths = new Dictionary<string, List<IMessagePathId>>();
         private readonly object _locker = new object();
 
-        public event Action<IMessagePathId> Connected;
-        public event Action<IMessagePathId> Disconnected;
+        public event Action<IMessagePathId> MessagePathAdded;
+        public event Action<IMessagePathId> MessagePathRemoved;
 
         #region IMessageDispatcher Members
         public IEnumerable<IMessagePathId> GetAllPaths() {
@@ -21,7 +21,7 @@
             }
         }
 
-        public void Dispatch<TMessage>(TMessage message) where TMessage : IMessage {
+        public void Route<TMessage>(TMessage message) where TMessage : IMessage {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
             }
@@ -44,7 +44,7 @@
                                     tMessagePath.ViaLimit--;
                                     if (tMessagePath.ViaLimit == 0) {
                                         // ViaLimit递减到0从路径列表中移除该路径
-                                        Disconnect(tMessagePath);
+                                        RemoveMessagePath(tMessagePath);
                                     }
                                 }
                             }
@@ -79,12 +79,12 @@
             }
         }
 
-        public void Connect<TMessage>(MessagePath<TMessage> path) {
+        public void AddMessagePath<TMessage>(MessagePath<TMessage> path) {
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }
             lock (_locker) {
-                var keyType = typeof(TMessage);
+                var messageType = typeof(TMessage);
 
                 var pathId = path;
                 if (!_paths.ContainsKey(pathId.Path)) {
@@ -98,11 +98,11 @@
                     handlerIds.Add(pathId);
                     Write.DevWarn($"重复的路径:{pathId.Path} {pathId.Description}");
                 }
-                if (_pathDicByMessageType.ContainsKey(keyType)) {
-                    var registeredHandlers = _pathDicByMessageType[keyType];
-                    if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(keyType)) {
+                if (_pathDicByMessageType.ContainsKey(messageType)) {
+                    var registeredHandlers = _pathDicByMessageType[messageType];
+                    if (registeredHandlers.Count > 0 && typeof(ICmd).IsAssignableFrom(messageType)) {
                         // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
-                        // 之所以设计为统一走总线只是为了将通过命令类型集中表达起文档作用。
+                        // 之所以设计为统一走总线只是为了通过将命令类型集中表达以起文档作用。
                         throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
                     }
                     if (!registeredHandlers.Contains(path)) {
@@ -111,26 +111,26 @@
                 }
                 else {
                     var registeredHandlers = new List<dynamic> { path };
-                    _pathDicByMessageType.Add(keyType, registeredHandlers);
+                    _pathDicByMessageType.Add(messageType, registeredHandlers);
                 }
-                Connected?.Invoke(pathId);
+                MessagePathAdded?.Invoke(pathId);
             }
         }
 
-        public void Disconnect(IMessagePathId handlerId) {
+        public void RemoveMessagePath(IMessagePathId handlerId) {
             if (handlerId == null) {
                 return;
             }
             lock (_locker) {
                 _paths.Remove(handlerId.Path);
-                var keyType = handlerId.MessageType;
-                if (_pathDicByMessageType.ContainsKey(keyType) &&
-                    _pathDicByMessageType[keyType] != null &&
-                    _pathDicByMessageType[keyType].Count > 0 &&
-                    _pathDicByMessageType[keyType].Contains(handlerId)) {
-                    _pathDicByMessageType[keyType].Remove(handlerId);
+                var messageType = handlerId.MessageType;
+                if (_pathDicByMessageType.ContainsKey(messageType) &&
+                    _pathDicByMessageType[messageType] != null &&
+                    _pathDicByMessageType[messageType].Count > 0 &&
+                    _pathDicByMessageType[messageType].Contains(handlerId)) {
+                    _pathDicByMessageType[messageType].Remove(handlerId);
                     Write.DevDebug("拆除路径" + handlerId.Path);
-                    Disconnected?.Invoke(handlerId);
+                    MessagePathRemoved?.Invoke(handlerId);
                 }
             }
         }

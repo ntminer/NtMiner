@@ -233,10 +233,6 @@
       <Project>{6cf39d75-a7d7-4546-b29a-888294dc3e38}</Project>
       <Name>HardwareProviders</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
-      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
-      <Name>NTMinerBus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
@@ -244,6 +240,10 @@
     <ProjectReference Include="..\NTMinerGpus\NTMinerGpus.csproj">
       <Project>{035c9774-01fc-4df2-8225-769542a9fd5e}</Project>
       <Name>NTMinerGpus</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerHub</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>

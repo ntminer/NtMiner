@@ -1,4 +1,4 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Hub;
 using NTMiner.Core;
 using NTMiner.Core.Kernels;
 using NTMiner.MinerClient;

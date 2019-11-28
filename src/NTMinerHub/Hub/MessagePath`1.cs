@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NTMiner.Bus {
+namespace NTMiner.Hub {
     public class MessagePath<TMessage> : IMessagePathId
 #if DEBUG
         , INotifyPropertyChanged
@@ -17,12 +17,12 @@ namespace NTMiner.Bus {
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> Build(IMessageDispatcher dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
+        public static MessagePath<TMessage> Build(IMessageHub dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }
             MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, path, pathId, viaLimit);
-            dispatcher.Connect(handler);
+            dispatcher.AddMessagePath(handler);
             return handler;
         }
 

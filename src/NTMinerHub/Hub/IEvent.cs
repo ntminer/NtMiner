@@ -1,8 +1,8 @@
-﻿namespace NTMiner.Bus {
+﻿namespace NTMiner.Hub {
     using System;
 
     public interface IEvent : IMessage {
         Guid BornPathId { get; }
-        DateTime Timestamp { get; }
+        DateTime BornOn { get; }
     }
 }

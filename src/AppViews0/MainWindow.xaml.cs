@@ -198,10 +198,10 @@ namespace NTMiner.Views {
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
                 });
-            this.BuildEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式 和 守护进程状态显示", LogEnum.DevConsole,
+            this.BuildEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
-                        if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.Timestamp) {
+                        if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
                             VirtualRoot.Out.ShowSuccess($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置", "开源矿工");
                             VirtualRoot.Execute(new CloseMainWindowCommand());
                         }

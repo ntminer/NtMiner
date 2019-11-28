@@ -24,9 +24,9 @@ namespace NTMiner {
                     });
                 BuildEventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
+                        _dicById.Add(message.Target.GetId(), new PoolViewModel(message.Target));
                         OnPropertyChanged(nameof(AllPools));
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out CoinViewModel coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out CoinViewModel coinVm)) {
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
@@ -35,9 +35,9 @@ namespace NTMiner {
                     });
                 BuildEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(AllPools));
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
@@ -46,7 +46,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById[message.Source.GetId()].Update(message.Source);
+                        _dicById[message.Target.GetId()].Update(message.Target);
                     });
                 Init();
 #if DEBUG

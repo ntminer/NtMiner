@@ -28,13 +28,13 @@ namespace NTMiner.Core.Cpus.Impl {
                             if (NTMinerRoot.Instance.IsMining) {
                                 /* 挖矿中时周期更新最后一次温度低于挖矿停止温度的时刻，然后检查最后一次低于
                                  * 挖矿停止温度的时刻距离现在是否已经超过了设定的时常，如果超过了则自动停止挖矿*/
-                                HighTemperatureOn = message.Timestamp;
+                                HighTemperatureOn = message.BornOn;
                                 // 如果当前温度低于挖矿停止温度则更新记录的低温时刻
                                 if (this.Temperature < _minerProfile.CpuStopTemperature) {
-                                    LowTemperatureOn = message.Timestamp;
+                                    LowTemperatureOn = message.BornOn;
                                 }
-                                if ((message.Timestamp - LowTemperatureOn).TotalSeconds >= _minerProfile.CpuGETemperatureSeconds) {
-                                    LowTemperatureOn = message.Timestamp;
+                                if ((message.BornOn - LowTemperatureOn).TotalSeconds >= _minerProfile.CpuGETemperatureSeconds) {
+                                    LowTemperatureOn = message.BornOn;
                                     VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动停止挖矿，因为 CPU 温度连续{_minerProfile.CpuGETemperatureSeconds.ToString()}秒不低于{_minerProfile.CpuStopTemperature.ToString()}℃", toConsole: true);
                                     NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
                                 }
@@ -42,14 +42,14 @@ namespace NTMiner.Core.Cpus.Impl {
                             else {
                                 /* 高温停止挖矿后周期更新最后一次温度高于挖矿停止温度的时刻，然后检查最后一次高于
                                  * 挖矿停止温度的时刻距离现在是否已经超过了设定的时常，如果超过了则自动开始挖矿*/
-                                LowTemperatureOn = message.Timestamp;
+                                LowTemperatureOn = message.BornOn;
                                 if (_minerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
                                     // 当前温度高于挖矿停止温度则更新记录的高温时刻
                                     if (this.Temperature > _minerProfile.CpuStartTemperature) {
-                                        HighTemperatureOn = message.Timestamp;
+                                        HighTemperatureOn = message.BornOn;
                                     }
-                                    if ((message.Timestamp - HighTemperatureOn).TotalSeconds >= _minerProfile.CpuLETemperatureSeconds) {
-                                        HighTemperatureOn = message.Timestamp;
+                                    if ((message.BornOn - HighTemperatureOn).TotalSeconds >= _minerProfile.CpuLETemperatureSeconds) {
+                                        HighTemperatureOn = message.BornOn;
                                         VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"自动开始挖矿，因为 CPU 温度连续{_minerProfile.CpuLETemperatureSeconds.ToString()}秒不高于{_minerProfile.CpuStartTemperature.ToString()}℃", toConsole: true);
                                         NTMinerRoot.Instance.StartMine();
                                     }
@@ -59,10 +59,10 @@ namespace NTMiner.Core.Cpus.Impl {
                         #endregion
                         if (_minerProfile.IsRaiseHighCpuEvent) {
                             if (this.Performance < _minerProfile.HighCpuBaseline) {
-                                LowPerformanceOn = message.Timestamp;
+                                LowPerformanceOn = message.BornOn;
                             }
-                            if ((message.Timestamp - LowPerformanceOn).TotalSeconds >= _minerProfile.HighCpuSeconds) {
-                                LowPerformanceOn = message.Timestamp;
+                            if ((message.BornOn - LowPerformanceOn).TotalSeconds >= _minerProfile.HighCpuSeconds) {
+                                LowPerformanceOn = message.BornOn;
                                 VirtualRoot.ThisLocalWarn(nameof(CpuPackage), $"CPU使用率过高：连续{_minerProfile.HighCpuSeconds.ToString()}秒不低于{_minerProfile.HighCpuBaseline.ToString()}%");
                             }
                         }

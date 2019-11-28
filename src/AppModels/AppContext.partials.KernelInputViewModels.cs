@@ -25,18 +25,18 @@ namespace NTMiner {
                     });
                 BuildEventPath<KernelInputAddedEvent>("添加了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        var vm = new KernelInputViewModel(message.Source);
-                        _dicById.Add(message.Source.GetId(), vm);
+                        var vm = new KernelInputViewModel(message.Target);
+                        _dicById.Add(message.Target.GetId(), vm);
                         OnPropertyChangeds();
                     });
                 BuildEventPath<KernelInputUpdatedEvent>("更新了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            var item = _dicById[message.Source.GetId()];
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            var item = _dicById[message.Target.GetId()];
                             if (item != null) {
                                 bool isSupportDualMine = item.IsSupportDualMine;
                                 string args = item.Args;
-                                item.Update(message.Source);
+                                item.Update(message.Target);
                                 if (args != item.Args) {
                                     CoinViewModel coinVm = AppContext.Instance.MinerProfileVm.CoinVm;
                                     if (coinVm != null && coinVm.CoinKernel != null && coinVm.CoinKernel.Kernel.KernelInputId == item.Id) {
@@ -44,7 +44,7 @@ namespace NTMiner {
                                     }
                                 }
                                 if (isSupportDualMine != item.IsSupportDualMine) {
-                                    foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                                    foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Target.GetId())) {
                                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                                     }
                                 }
@@ -53,8 +53,8 @@ namespace NTMiner {
                     });
                 BuildEventPath<KernelInputRemovedEvent>("移除了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById.Remove(message.Source.GetId());
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById.Remove(message.Target.GetId());
                             OnPropertyChangeds();
                         }
                     });
