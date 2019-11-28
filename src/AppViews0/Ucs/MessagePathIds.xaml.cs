@@ -7,7 +7,7 @@ namespace NTMiner.Views.Ucs {
     public partial class MessagePathIds : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "消息路径标识集",
+                Title = "集线器",
                 IconName = "Icon_Logo",
                 Width = 1200,
                 Height = 600,
