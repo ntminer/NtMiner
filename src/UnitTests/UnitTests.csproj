@@ -94,10 +94,6 @@
       <Project>{5911457a-357a-412d-a20c-e77c1a56b4f6}</Project>
       <Name>NTMiner.Controllers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerBus\NTMinerRouter.csproj">
-      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
-      <Name>NTMinerRouter</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerClient\NTMinerClient.csproj">
       <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
       <Name>NTMinerClient</Name>
@@ -113,6 +109,10 @@
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerRouter\NTMinerRouter.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerRouter</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
