@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new FileWriterAddedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<UpdateFileWriterCommand>("更新文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -46,7 +46,7 @@ namespace NTMiner.Core.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new FileWriterUpdatedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<RemoveFileWriterCommand>("移除文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Impl {
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.RaiseEvent(new FileWriterRemovedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

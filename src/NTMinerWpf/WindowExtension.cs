@@ -102,7 +102,7 @@ namespace NTMiner {
         private const string messagePathIdsResourceKey = "messagePathIds";
 
         // 因为是上下文路径，无需返回路径标识
-        public static void BuildCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
+        public static void AddCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action, Type location)
             where TCmd : ICmd {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -116,12 +116,12 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed;
             }
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, borderType: typeof(WindowExtension));
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
             messagePathIds.Add(messagePathId);
         }
 
         // 因为是上下文路径，无需返回路径标识
-        public static void BuildEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
+        public static void AddEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -135,7 +135,7 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, borderType: typeof(WindowExtension));
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
             messagePathIds.Add(messagePathId);
         }
 

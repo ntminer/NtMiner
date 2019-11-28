@@ -44,7 +44,7 @@ namespace NTMiner.Views {
                     }
                 }
             };
-            this.BuildEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+            this.AddEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
@@ -53,11 +53,11 @@ namespace NTMiner.Views {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
                         }
                     }
-                });
-            this.BuildEventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
+                }, location: this.GetType());
+            this.AddEventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                });
+                }, location: this.GetType());
             NotiCenterWindow.Bind(this);
             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
             Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow);

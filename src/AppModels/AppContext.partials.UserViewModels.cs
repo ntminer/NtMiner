@@ -25,25 +25,25 @@ namespace NTMiner {
                     }
                     new UserViewModel().Edit.Execute(FormType.Add);
                 });
-                BuildEventPath<UserAddedEvent>("添加了用户后", LogEnum.DevConsole,
+                AddEventPath<UserAddedEvent>("添加了用户后", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicByLoginName.ContainsKey(message.Target.LoginName)) {
                             _dicByLoginName.Add(message.Target.LoginName, new UserViewModel(message.Target));
                             OnPropertyChanged(nameof(List));
                         }
-                    });
-                BuildEventPath<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
                     action: message => {
                         UserViewModel vm;
                         if (_dicByLoginName.TryGetValue(message.Target.LoginName, out vm)) {
                             vm.Update(message.Target);
                         }
-                    });
-                BuildEventPath<UserRemovedEvent>("移除了用户后", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<UserRemovedEvent>("移除了用户后", LogEnum.DevConsole,
                     action: message => {
                         _dicByLoginName.Remove(message.Target.LoginName);
                         OnPropertyChanged(nameof(List));
-                    });
+                    }, location: this.GetType());
                 foreach (var item in NTMinerRoot.Instance.UserSet.AsEnumerable()) {
                     _dicByLoginName.Add(item.LoginName, new UserViewModel(item));
                 }

@@ -17,8 +17,8 @@ namespace NTMiner {
                     action: message=> {
                         _dicById.Clear();
                         Init();
-                    });
-                BuildEventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Target.GetId(), new WalletViewModel(message.Target));
                         OnPropertyChanged(nameof(WalletList));
@@ -28,8 +28,8 @@ namespace NTMiner {
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                    });
-                BuildEventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(WalletList));
@@ -40,11 +40,11 @@ namespace NTMiner {
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                    });
-                BuildEventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById[message.Target.GetId()].Update(message.Target);
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();

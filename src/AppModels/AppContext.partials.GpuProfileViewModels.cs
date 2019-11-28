@@ -28,8 +28,8 @@ namespace NTMiner {
                             coinVm.OnOverClockPropertiesChanges();
                             VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id));
                         }
-                    });
-                BuildEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
                             if (_listByCoinId.TryGetValue(message.Target.CoinId, out List<GpuProfileViewModel> list)) {
@@ -61,7 +61,7 @@ namespace NTMiner {
                                 _listByCoinId.Add(message.Target.CoinId, list);
                             }
                         }
-                    });
+                    }, location: this.GetType());
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {

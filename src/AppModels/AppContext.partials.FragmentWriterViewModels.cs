@@ -22,31 +22,31 @@ namespace NTMiner {
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
+                    }, location: this.GetType());
                 VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
-                    });
-                BuildEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Target.GetId())) {
                             FragmentWriterViewModel groupVm = new FragmentWriterViewModel(message.Target);
                             _dicById.Add(message.Target.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
-                    });
-                BuildEventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Target.GetId())) {
                             FragmentWriterViewModel entity = _dicById[message.Target.GetId()];
                             entity.Update(message.Target);
                         }
-                    });
-                BuildEventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChangeds();
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();

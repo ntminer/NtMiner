@@ -23,28 +23,28 @@ namespace NTMiner {
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
+                    }, location: this.GetType());
                 VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllKernels));
-                    });
-                BuildEventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Target.GetId(), new KernelViewModel(message.Target));
                         OnPropertyChanged(nameof(AllKernels));
                         foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Target.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
-                    });
-                BuildEventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(AllKernels));
                         foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Target.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
-                    });
-                BuildEventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Target.GetId()];
                         PublishStatus publishStatus = entity.PublishState;
@@ -60,7 +60,7 @@ namespace NTMiner {
                         if (kernelInputId != entity.KernelInputId) {
                             NTMinerRoot.RefreshArgsAssembly.Invoke();
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();

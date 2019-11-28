@@ -30,7 +30,7 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new CoinAddedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new CoinUpdatedEvent(message.Id, message.Input));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -87,7 +87,7 @@ namespace NTMiner.Core.Impl {
                     repository.Remove(entity.Id);
 
                     VirtualRoot.RaiseEvent(new CoinRemovedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

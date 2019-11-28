@@ -1,6 +1,5 @@
 ﻿using NTMiner.AppSetting;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,7 +37,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
                 VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<SetServerAppSettingsCommand>(action: message => {
                 if (message.AppSettings == null) {
                     return;
@@ -61,7 +60,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 }
                 Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a => AppSettingData.Create(a)).ToList(), (response, exception) => {
                 });
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;

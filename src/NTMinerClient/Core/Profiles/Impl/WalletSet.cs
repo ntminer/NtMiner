@@ -27,7 +27,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 AddWallet(entity);
 
                 VirtualRoot.RaiseEvent(new WalletAddedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateWalletCommand>(action: message => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -50,7 +50,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 UpdateWallet(entity);
 
                 VirtualRoot.RaiseEvent(new WalletUpdatedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveWalletCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 RemoveWallet(entity.Id);
 
                 VirtualRoot.RaiseEvent(new WalletRemovedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
         }
 
         private void AddWallet(WalletData entity) {

@@ -43,10 +43,10 @@ namespace NTMiner {
                 UIThread.Execute(() => {
                     FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
                 });
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
-            });
+            }, location: this.GetType());
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
                     UIThread.Execute(() => { Environment.Exit(0); });
@@ -177,11 +177,11 @@ namespace NTMiner {
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = false;
                     VirtualRoot.Out.ShowError(message.Message);
-                });
+                }, location: this.GetType());
             #region 处理显示主界面命令
             VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
                 ShowMainWindow(message.IsToggle);
-            });
+            }, location: this.GetType());
             #endregion
             VirtualRoot.AddCmdPath<CloseNTMinerCommand>(action: message => {
                 // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
@@ -195,12 +195,12 @@ namespace NTMiner {
                         Environment.Exit(0);
                     }
                 });
-            });
+            }, location: this.GetType());
             #region 周期确保守护进程在运行
             VirtualRoot.AddEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {
                     Daemon.DaemonUtil.RunNTMinerDaemon();
-                });
+                }, location: this.GetType());
             #endregion
             #region 开始和停止挖矿后
             VirtualRoot.AddEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
@@ -215,37 +215,37 @@ namespace NTMiner {
                         Daemon.DaemonUtil.RunDevConsoleAsync(poolIp, consoleTitle);
                     }
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Start();
-                });
+                }, location: this.GetType());
             VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后停止1080ti小药丸 挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = false;
                     StartStopMineButtonViewModel.Instance.BtnStopText = "尚未开始";
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
-                });
+                }, location: this.GetType());
             #endregion
             #region 处理禁用win10系统更新
             VirtualRoot.AddCmdPath<BlockWAUCommand>(action: message => {
                 NTMiner.Windows.WindowsUtil.BlockWAU();
-            });
+            }, location: this.GetType());
             #endregion
             #region 优化windows
             VirtualRoot.AddCmdPath<Win10OptimizeCommand>(action: message => {
                 NTMiner.Windows.WindowsUtil.Win10Optimize();
-            });
+            }, location: this.GetType());
             #endregion
             #region 处理开启A卡计算模式
             VirtualRoot.AddCmdPath<SwitchRadeonGpuCommand>(action: message => {
                 if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                     SwitchRadeonGpuMode(message.On);
                 }
-            });
+            }, location: this.GetType());
             #endregion
             #region 处理A卡驱动签名
             VirtualRoot.AddCmdPath<AtikmdagPatcherCommand>(action: message => {
                 if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
                     AtikmdagPatcher.AtikmdagPatcherUtil.Run();
                 }
-            });
+            }, location: this.GetType());
             #endregion
             #region 启用或禁用windows远程桌面
             VirtualRoot.AddCmdPath<EnableWindowsRemoteDesktopCommand>(action: message => {
@@ -260,7 +260,7 @@ namespace NTMiner {
                         Rdp.SetRdpEnabled(true);
                         Firewall.AddRdpRule();
                     }));
-            });
+            }, location: this.GetType());
             #endregion
             #region 启用或禁用windows开机自动登录
             VirtualRoot.AddCmdPath<EnableOrDisableWindowsAutoLoginCommand>(action: message => {
@@ -268,7 +268,7 @@ namespace NTMiner {
                     return;
                 }
                 NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
-            });
+            }, location: this.GetType());
             #endregion
         }
 

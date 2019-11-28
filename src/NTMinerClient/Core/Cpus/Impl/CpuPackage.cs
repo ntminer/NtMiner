@@ -67,7 +67,7 @@ namespace NTMiner.Core.Cpus.Impl {
                             }
                         }
                     }
-                });
+                }, location: this.GetType());
         }
 
         private void Update(int performance, int temperature) {

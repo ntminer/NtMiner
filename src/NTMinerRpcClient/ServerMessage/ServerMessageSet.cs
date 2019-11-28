@@ -29,10 +29,10 @@ namespace NTMiner.ServerMessage {
                             ReceiveServerMessage(response.Data);
                         }
                     });
-                });
+                }, location: this.GetType());
                 VirtualRoot.AddCmdPath<ReceiveServerMessageCommand>(action: message => {
                     ReceiveServerMessage(message.Data);
-                });
+                }, location: this.GetType());
             }
             VirtualRoot.AddCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
                 InitOnece();
@@ -86,7 +86,7 @@ namespace NTMiner.ServerMessage {
                         }
                     });
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<MarkDeleteServerMessageCommand>(action: message => {
                 InitOnece();
                 if (isServer) {
@@ -117,7 +117,7 @@ namespace NTMiner.ServerMessage {
                         }
                     });
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<ClearServerMessages>(action: message => {
                 InitOnece();
                 // 服务端不应有清空消息的功能
@@ -131,7 +131,7 @@ namespace NTMiner.ServerMessage {
                     db.DropCollection(nameof(ServerMessageData));
                 }
                 VirtualRoot.RaiseEvent(new ServerMessagesClearedEvent());
-            });
+            }, location: this.GetType());
         }
 
         private void ReceiveServerMessage(List<ServerMessageData> data) {

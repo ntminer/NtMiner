@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new CoinGroupAddedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<RemoveCoinGroupCommand>("移除币组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -41,7 +41,7 @@ namespace NTMiner.Core.Impl {
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.RaiseEvent(new CoinGroupRemovedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

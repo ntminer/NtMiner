@@ -26,7 +26,7 @@ namespace NTMiner.AppSetting {
                     col.Upsert(entity);
                 }
                 VirtualRoot.RaiseEvent(new LocalAppSettingChangedEvent(message.Id, entity));
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;

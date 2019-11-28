@@ -17,11 +17,11 @@ namespace NTMiner {
                     return;
                 }
                 Init(refresh: false);
-                BuildEventPath<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
+                AddEventPath<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
                     action: message => {
                         Init(refresh: true);
-                    });
-                BuildEventPath<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Target.GetId())) {
                             _dicById.Add(message.Target.GetId(), new OverClockDataViewModel(message.Target));
@@ -29,18 +29,18 @@ namespace NTMiner {
                                 coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                             }
                         }
-                    });
-                BuildEventPath<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Target.GetId()].Update(message.Target);
-                    });
-                BuildEventPath<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Target.GetId());
                         if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                         }
-                    });
+                    }, location: this.GetType());
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {

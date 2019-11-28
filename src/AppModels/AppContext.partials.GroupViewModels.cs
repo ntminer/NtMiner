@@ -24,20 +24,20 @@ namespace NTMiner {
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
+                    }, location: this.GetType());
                 VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
-                    });
-                BuildEventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Target.GetId())) {
                             GroupViewModel groupVm = new GroupViewModel(message.Target);
                             _dicById.Add(message.Target.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
-                    });
-                BuildEventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Target.GetId())) {
                             GroupViewModel entity = _dicById[message.Target.GetId()];
@@ -48,12 +48,12 @@ namespace NTMiner {
                                 OnPropertyChanged(nameof(SelectionOptions));
                             }
                         }
-                    });
-                BuildEventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChangeds();
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();

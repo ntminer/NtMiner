@@ -26,7 +26,7 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new MinerGroupViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                BuildEventPath<MinerGroupAddedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
+                AddEventPath<MinerGroupAddedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Target.GetId())) {
                             _dicById.Add(message.Target.GetId(), new MinerGroupViewModel(message.Target));
@@ -34,18 +34,18 @@ namespace NTMiner {
                             OnPropertyChanged(nameof(MinerGroupItems));
                             AppContext.Instance.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                         }
-                    });
-                BuildEventPath<MinerGroupUpdatedEvent>("更新矿机分组后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<MinerGroupUpdatedEvent>("更新矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById[message.Target.GetId()].Update(message.Target);
-                    });
-                BuildEventPath<MinerGroupRemovedEvent>("删除矿机分组后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<MinerGroupRemovedEvent>("删除矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MinerGroupItems));
                         AppContext.Instance.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
-                    });
+                    }, location: this.GetType());
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {

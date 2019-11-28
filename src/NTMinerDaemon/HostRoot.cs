@@ -114,7 +114,7 @@ namespace NTMiner {
                     action: message => {
                         NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
                         NoDevFee.NoDevFeeUtil.StartAsync();
-                    });
+                    }, typeof(HostRoot));
                 _waitHandle.WaitOne();
                 Close();
             }

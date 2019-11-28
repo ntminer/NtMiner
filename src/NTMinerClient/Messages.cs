@@ -1,5 +1,4 @@
 ﻿using NTMiner.Hub;
-using NTMiner.Core;
 using System;
 
 namespace NTMiner {
@@ -43,11 +42,6 @@ namespace NTMiner {
     [MessageType(description: "LocalContext的视图层刷新完毕后")]
     public class LocalContextVmsReInitedEvent : EventBase {
         public LocalContextVmsReInitedEvent() { }
-    }
-
-    [MessageType(description: "主界面显示后")]
-    public class MainWindowShowedEvent : EventBase {
-        public MainWindowShowedEvent() { }
     }
 
     [MessageType(description: "发现了NTMiner或MinerStudio新版本")]

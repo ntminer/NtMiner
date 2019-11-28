@@ -27,7 +27,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                     UserData entity = _dicByLoginName[message.User.LoginName];
@@ -47,7 +47,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     });
                     VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.Id, entity));
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.LoginName)) {
                     UserData entity = _dicByLoginName[message.LoginName];
@@ -61,7 +61,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                     });
                 }
-            });
+            }, location: this.GetType());
         }
 
         private readonly object _locker = new object();

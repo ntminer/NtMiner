@@ -1,6 +1,5 @@
 ﻿using LiteDB;
 using NTMiner.User;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -21,7 +20,7 @@ namespace NTMiner.Data.Impl {
                     }
                     VirtualRoot.RaiseEvent(new UserAddedEvent(message.Id, entity));
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.User.LoginName)) {
                     UserData entity = _dicByLoginName[message.User.LoginName];
@@ -32,7 +31,7 @@ namespace NTMiner.Data.Impl {
                     }
                     VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.Id, entity));
                 }
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.LoginName)) {
                     UserData entity = _dicByLoginName[message.LoginName];
@@ -43,7 +42,7 @@ namespace NTMiner.Data.Impl {
                     }
                     VirtualRoot.RaiseEvent(new UserRemovedEvent(message.Id, entity));
                 }
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;

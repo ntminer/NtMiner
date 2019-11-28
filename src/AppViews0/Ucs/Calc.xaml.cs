@@ -33,15 +33,15 @@ namespace NTMiner.Views.Ucs {
         private Calc() {
             InitializeComponent();
             this.RunOneceOnLoaded((window) => {
-                window.BuildEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                window.AddEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             foreach (var coinVm in Vm.CoinVms.AllCoins) {
                                 coinVm.CoinIncomeVm.Refresh();
                             }
                         });
-                    });
-                window.BuildEventPath<Per1MinuteEvent>("当收益计算器页面打开着的时候周期刷新", LogEnum.None,
+                    }, location: this.GetType());
+                window.AddEventPath<Per1MinuteEvent>("当收益计算器页面打开着的时候周期刷新", LogEnum.None,
                     action: message => {
                         if (Vm.CoinVms.AllCoins.Count == 0) {
                             return;
@@ -49,7 +49,7 @@ namespace NTMiner.Views.Ucs {
                         if (Vm.CoinVms.AllCoins.Max(a => a.CoinIncomeVm.ModifiedOn).AddMinutes(10) < DateTime.Now) {
                             NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
                         }
-                    });
+                    }, location: this.GetType());
                 NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
             });
         }

@@ -19,7 +19,7 @@ namespace NTMiner {
                 VirtualRoot.AddEventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
                     action: message => {
                         UpdateAsync();
-                    });
+                    }, location: typeof(Program));
                 UpdateAsync();
                 Write.UserInfo("输入exit并回车可以停止服务！");
 

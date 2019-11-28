@@ -20,8 +20,8 @@ namespace NTMiner {
                         _dicById.Clear();
                         _listByGroupId.Clear();
                         Init();
-                    });
-                BuildEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Target.GetId())) {
                             CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Target);
@@ -32,8 +32,8 @@ namespace NTMiner {
                             _listByGroupId[coinGroupVm.GroupId].Add(coinGroupVm);
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
-                    });
-                BuildEventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Target.GetId())) {
                             var entity = _dicById[message.Target.GetId()];
@@ -43,7 +43,7 @@ namespace NTMiner {
                             }
                             OnGroupPropertyChanged(entity.GroupId);
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();

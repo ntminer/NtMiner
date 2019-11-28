@@ -10,9 +10,9 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private bool _isInited = false;
         // 记录显卡的上一次温度
-        private Dictionary<int, int> _preTempDic = new Dictionary<int, int>();
+        private readonly Dictionary<int, int> _preTempDic = new Dictionary<int, int>();
         // 记录显卡温度抵达防御温度的时间
-        private Dictionary<int, DateTime> _fightedOnDic = new Dictionary<int, DateTime>();
+        private readonly Dictionary<int, DateTime> _fightedOnDic = new Dictionary<int, DateTime>();
         private readonly int _fanSpeedDownSeconds = 20;
         private readonly uint _fanSpeedDownStep = 2;
         private static readonly int _guardTemp = 60;
@@ -89,7 +89,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             Write.DevDebug($"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调高至{cool.ToString()}%");
                         }
                     }
-                });
+                }, location: this.GetType());
         }
     }
 }

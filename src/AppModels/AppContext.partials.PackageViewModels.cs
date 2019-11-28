@@ -18,35 +18,35 @@ namespace NTMiner {
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
+                    }, location: this.GetType());
                 VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllPackages));
-                    });
-                BuildEventPath<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Target.GetId(), new PackageViewModel(message.Target));
                         OnPropertyChanged(nameof(AllPackages));
                         foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
-                    });
-                BuildEventPath<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(AllPackages));
                         foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
-                    });
-                BuildEventPath<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         var entity = _dicById[message.Target.GetId()];
                         entity.Update(message.Target);
                         foreach (var item in AppContext.Instance.KernelVms.AllKernels) {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();

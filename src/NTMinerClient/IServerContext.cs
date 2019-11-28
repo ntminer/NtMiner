@@ -6,8 +6,8 @@ using System;
 namespace NTMiner {
     public interface IServerContext {
         void ReInit();
-        void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action) where TCmd : ICmd;
-        void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action) where TEvent : IEvent;
+        void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location) where TCmd : ICmd;
+        void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location) where TEvent : IEvent;
         ICoinGroupSet CoinGroupSet { get; }
         ICoinSet CoinSet { get; }
         IFileWriterSet FileWriterSet { get; }

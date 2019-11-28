@@ -13,12 +13,12 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                BuildEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
+                AddEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicByCoinId.TryGetValue(message.Target.CoinId, out ShareViewModel shareVm)) {
                             shareVm.Update(message.Target);
                         }
-                    });
+                    }, location: this.GetType());
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {

@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new GroupAddedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<UpdateGroupCommand>("更新组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -46,7 +46,7 @@ namespace NTMiner.Core.Impl {
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new GroupUpdatedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
             context.AddCmdPath<RemoveGroupCommand>("移除组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -66,7 +66,7 @@ namespace NTMiner.Core.Impl {
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.RaiseEvent(new GroupRemovedEvent(message.Id, entity));
-                });
+                }, location: this.GetType());
         }
 
         private bool _isInited = false;

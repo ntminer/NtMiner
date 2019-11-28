@@ -17,12 +17,12 @@ namespace NTMiner {
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
+                    }, location: this.GetType());
                 VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllPools));
-                    });
-                BuildEventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Add(message.Target.GetId(), new PoolViewModel(message.Target));
                         OnPropertyChanged(nameof(AllPools));
@@ -32,8 +32,8 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
                             coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.OptionPools));
                         }
-                    });
-                BuildEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(AllPools));
@@ -43,11 +43,11 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                         }
-                    });
-                BuildEventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById[message.Target.GetId()].Update(message.Target);
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();

@@ -37,7 +37,7 @@ namespace NTMiner.LocalMessage {
                     col.Insert(data);
                 }
                 VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(message.Id, data, removes));
-            });
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<ClearLocalMessageSetCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {
                     return;
@@ -49,7 +49,7 @@ namespace NTMiner.LocalMessage {
                     db.DropCollection(nameof(LocalMessageData));
                 }
                 VirtualRoot.RaiseEvent(new LocalMessageSetClearedEvent());
-            });
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;

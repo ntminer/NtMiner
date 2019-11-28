@@ -1,7 +1,6 @@
 ﻿using NTMiner.Hub;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Timers;
 
@@ -16,63 +15,28 @@ namespace NTMiner {
         }
 
         // 修建消息（命令或事件）的运动路径
-        public static IMessagePathId AddMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Type borderType = null) {
-            Type location = GetMessagePathLocation(borderType: borderType);
+        public static IMessagePathId AddMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Type location) {
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, Guid.Empty);
         }
 
-        public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type borderType = null) {
-            Type location = GetMessagePathLocation(borderType: borderType);
+        public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location) {
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId, viaLimit: 1);
         }
 
-        public static IMessagePathId AddViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type borderType = null) {
-            Type location = GetMessagePathLocation(borderType: borderType);
+        public static IMessagePathId AddViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type location) {
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, Guid.Empty, viaLimit);
         }
 
-        // 慢了1000多倍，但是这不是一个常调的方法
-        // 基于边界类型找到接线的地点
-        private static Type GetMessagePathLocation(Type borderType) {
-            if (borderType == null) {
-                borderType = typeof(VirtualRoot);
-            }
-            StackTrace ss = new StackTrace(false);
-            int index = 1;
-            Type location = ss.GetFrame(index).GetMethod().DeclaringType;
-            while (location != borderType) {
-                index++;
-                if (index == ss.FrameCount) {
-                    throw new InvalidProgramException("到底了");
-                }
-                if (index > 10) {
-                    throw new InvalidProgramException("不可能这么深");
-                }
-                location = ss.GetFrame(index).GetMethod().DeclaringType;
-            }
-            while (location == borderType) {
-                index++;
-                if (index == ss.FrameCount) {
-                    throw new InvalidProgramException("到底了");
-                }
-                if (index > 10) {
-                    throw new InvalidProgramException("不可能这么深");
-                }
-                location = ss.GetFrame(index).GetMethod().DeclaringType;
-            }
-            return location;
-        }
-
-        public static void AddCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole, Type borderType = null)
+        public static void AddCmdPath<TCmd>(Action<TCmd> action, Type location, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
-            AddMessagePath(description, logType, action, borderType);
+            AddMessagePath(description, logType, action, location);
         }
 
-        public static IMessagePathId AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type borderType = null)
+        public static IMessagePathId AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
-            return AddMessagePath(description, logType, action, borderType);
+            return AddMessagePath(description, logType, action, location);
         }
 
         public static void DeletePath(IMessagePathId handler) {

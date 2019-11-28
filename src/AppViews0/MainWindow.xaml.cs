@@ -172,8 +172,8 @@ namespace NTMiner.Views {
                 UIThread.Execute(() => {
                     this.Close();
                 });
-            });
-            this.BuildEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
+            }, location: this.GetType());
+            this.AddEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (message.IsDual) {
@@ -183,22 +183,22 @@ namespace NTMiner.Views {
                             Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
                         }
                     });
-                });
-            this.BuildEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
+                }, location: this.GetType());
+            this.AddEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
-                });
-            this.BuildEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
+                }, location: this.GetType());
+            this.AddEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
-                });
-            this.BuildEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
+                }, location: this.GetType());
+            this.AddEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
                         if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
@@ -206,11 +206,11 @@ namespace NTMiner.Views {
                             VirtualRoot.Execute(new CloseMainWindowCommand());
                         }
                     }
-                });
-            this.BuildEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
+                }, location: this.GetType());
+            this.AddEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
                 action: message => {
                     UIThread.Execute(UpdateCpuView);
-                });
+                }, location: this.GetType());
 #if DEBUG
             var elapsedMilliseconds = Write.Stopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {

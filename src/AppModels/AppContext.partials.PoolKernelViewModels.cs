@@ -14,33 +14,31 @@ namespace NTMiner {
 #if DEBUG
                 Write.Stopwatch.Start();
 #endif
-                BuildEventPath<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
+                AddEventPath<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            PoolViewModel poolVm;
-                            if (AppContext.Instance.PoolVms.TryGetPoolVm(message.Target.PoolId, out poolVm)) {
+                            if (AppContext.Instance.PoolVms.TryGetPoolVm(message.Target.PoolId, out PoolViewModel poolVm)) {
                                 _dicById.Add(message.Target.GetId(), new PoolKernelViewModel(message.Target));
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
                         }
-                    });
-                BuildEventPath<PoolKernelRemovedEvent>("移除了币种内核后刷新矿池内核VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PoolKernelRemovedEvent>("移除了币种内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Target.GetId())) {
                             var vm = _dicById[message.Target.GetId()];
                             _dicById.Remove(message.Target.GetId());
-                            PoolViewModel poolVm;
-                            if (AppContext.Instance.PoolVms.TryGetPoolVm(vm.PoolId, out poolVm)) {
+                            if (AppContext.Instance.PoolVms.TryGetPoolVm(vm.PoolId, out PoolViewModel poolVm)) {
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
                         }
-                    });
-                BuildEventPath<PoolKernelUpdatedEvent>("更新了矿池内核后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PoolKernelUpdatedEvent>("更新了矿池内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (_dicById.ContainsKey(message.Target.GetId())) {
                             _dicById[message.Target.GetId()].Update(message.Target);
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
                 var elapsedMilliseconds = Write.Stopwatch.Stop();

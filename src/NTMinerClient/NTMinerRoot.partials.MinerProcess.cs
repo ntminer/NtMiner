@@ -42,7 +42,7 @@ namespace NTMiner {
                                         if (mineContext == Instance.LockedMineContext) {
                                             ContinueCreateProcess(mineContext);
                                         }
-                                    }, pathId: cmd.Id);
+                                    }, location: typeof(MinerProcess), pathId: cmd.Id);
                                 // 超频是在另一个线程执行的，因为N卡超频当cpu性能非常差时较耗时
                                 VirtualRoot.Execute(cmd);
                             }
@@ -162,7 +162,7 @@ namespace NTMiner {
                                 clear?.Invoke();
                             }
                         }
-                    });
+                    }, location: typeof(MinerProcess));
             }
             #endregion
 
@@ -284,7 +284,7 @@ namespace NTMiner {
                                     CloseHandle(hWriteOut);
                                     isHWriteOutHasClosed = true;
                                 }
-                            }, pathId: Guid.Empty);
+                            }, location: typeof(MinerProcess), pathId: Guid.Empty);
                         Task.Factory.StartNew(() => {
                             using (FileStream fs = new FileStream(mineContext.LogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                                 const byte r = (byte)'\r';
