@@ -45,8 +45,8 @@ namespace NTMiner {
                     });
                 BuildEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(message.Source);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(message.Target);
                             _dicById.Add(vm.Id, vm);
                             if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(vm.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                                 if (!_dicByKernelOutputId.ContainsKey(vm.KernelOutputId)) {
@@ -59,13 +59,13 @@ namespace NTMiner {
                     });
                 BuildEventPath<UserKernelOutputKeywordUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
-                            vm.Update(message.Source);
+                        if (_dicById.TryGetValue(message.Target.GetId(), out KernelOutputKeywordViewModel vm)) {
+                            vm.Update(message.Target);
                         }
                     });
                 BuildEventPath<UserKernelOutputKeywordRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
+                        if (_dicById.TryGetValue(message.Target.GetId(), out KernelOutputKeywordViewModel vm)) {
                             _dicById.Remove(vm.Id);
                             _dicByKernelOutputId[vm.KernelOutputId].Remove(vm);
                             if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(vm.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {

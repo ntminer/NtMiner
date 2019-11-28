@@ -23,24 +23,24 @@ namespace NTMiner {
                 });
                 BuildEventPath<ColumnsShowAddedEvent>("添加了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), vm);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Target);
+                            _dicById.Add(message.Target.GetId(), vm);
                             OnPropertyChanged(nameof(List));
                             AppContext.Instance.MinerClientsWindowVm.ColumnsShow = vm;
                         }
                     });
                 BuildEventPath<ColumnsShowUpdatedEvent>("更新了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            ColumnsShowViewModel entity = _dicById[message.Source.GetId()];
-                            entity.Update(message.Source);
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            ColumnsShowViewModel entity = _dicById[message.Target.GetId()];
+                            entity.Update(message.Target);
                         }
                     });
                 BuildEventPath<ColumnsShowRemovedEvent>("移除了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         AppContext.Instance.MinerClientsWindowVm.ColumnsShow = _dicById.Values.FirstOrDefault();
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(List));
                     });
                 foreach (var item in NTMinerRoot.Instance.ColumnsShowSet.AsEnumerable()) {

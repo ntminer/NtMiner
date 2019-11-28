@@ -96,9 +96,9 @@ namespace NTMiner.Core.Kernels.Impl {
             context.BuildEventPath<FileWriterRemovedEvent>("移除文件书写器后移除引用关系", LogEnum.DevConsole,
                 action: message => {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
-                    var entities = _dicById.Values.Where(a => a.FileWriterIds.Contains(message.Source.GetId())).ToArray();
+                    var entities = _dicById.Values.Where(a => a.FileWriterIds.Contains(message.Target.GetId())).ToArray();
                     foreach (var entity in entities) {
-                        entity.FileWriterIds = new List<Guid>(entity.FileWriterIds.Where(a => a != message.Source.GetId()));
+                        entity.FileWriterIds = new List<Guid>(entity.FileWriterIds.Where(a => a != message.Target.GetId()));
                         repository.Update(entity);
                         VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(message.Id, entity));
                     }
@@ -106,9 +106,9 @@ namespace NTMiner.Core.Kernels.Impl {
             context.BuildEventPath<FragmentWriterRemovedEvent>("移除命令行片段书写器后移除引用关系", LogEnum.DevConsole,
                 action: message => {
                     var repository = NTMinerRoot.CreateServerRepository<CoinKernelData>();
-                    var entities = _dicById.Values.Where(a => a.FragmentWriterIds.Contains(message.Source.GetId())).ToArray();
+                    var entities = _dicById.Values.Where(a => a.FragmentWriterIds.Contains(message.Target.GetId())).ToArray();
                     foreach (var entity in entities) {
-                        entity.FragmentWriterIds = new List<Guid>(entity.FragmentWriterIds.Where(a => a != message.Source.GetId()));
+                        entity.FragmentWriterIds = new List<Guid>(entity.FragmentWriterIds.Where(a => a != message.Target.GetId()));
                         repository.Update(entity);
                         VirtualRoot.RaiseEvent(new CoinKernelUpdatedEvent(message.Id, entity));
                     }

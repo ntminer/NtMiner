@@ -27,25 +27,25 @@ namespace NTMiner {
                 });
                 BuildEventPath<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById.Add(message.Source.GetId(), new MineWorkViewModel(message.Source));
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById.Add(message.Target.GetId(), new MineWorkViewModel(message.Target));
                             OnPropertyChanged(nameof(List));
                             OnPropertyChanged(nameof(MineWorkVmItems));
-                            if (message.Source.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                            if (message.Target.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
                                 AppContext.Instance.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                             }
                         }
                     });
                 BuildEventPath<MineWorkUpdatedEvent>("更新作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById[message.Source.GetId()].Update(message.Source);
+                        _dicById[message.Target.GetId()].Update(message.Target);
                     });
                 BuildEventPath<MineWorkRemovedEvent>("删除作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MineWorkVmItems));
-                        if (message.Source.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                        if (message.Target.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
                             AppContext.Instance.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                         }
                     });

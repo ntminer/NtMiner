@@ -30,31 +30,31 @@ namespace NTMiner {
                     });
                 BuildEventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
+                        _dicById.Add(message.Target.GetId(), new CoinViewModel(message.Target));
                         AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     });
                 BuildEventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
                     });
                 BuildEventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CoinViewModel coinVm = _dicById[message.Source.GetId()];
+                        CoinViewModel coinVm = _dicById[message.Target.GetId()];
                         bool justAsDualCoin = coinVm.JustAsDualCoin;
-                        coinVm.Update(message.Source);
-                        coinVm.TestWalletVm.Address = message.Source.TestWallet;
+                        coinVm.Update(message.Target);
+                        coinVm.TestWalletVm.Address = message.Target.TestWallet;
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
-                        if (AppContext.Instance.MinerProfileVm.CoinId == message.Source.GetId()) {
+                        if (AppContext.Instance.MinerProfileVm.CoinId == message.Target.GetId()) {
                             AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         }
                         CoinKernelViewModel coinKernelVm = AppContext.Instance.MinerProfileVm.CoinVm.CoinKernel;
                         if (coinKernelVm != null
                             && coinKernelVm.CoinKernelProfile.SelectedDualCoin != null
-                            && coinKernelVm.CoinKernelProfile.SelectedDualCoin.GetId() == message.Source.GetId()) {
+                            && coinKernelVm.CoinKernelProfile.SelectedDualCoin.GetId() == message.Target.GetId()) {
                             coinKernelVm.CoinKernelProfile.OnPropertyChanged(nameof(coinKernelVm.CoinKernelProfile.SelectedDualCoin));
                         }
                         if (justAsDualCoin != coinVm.JustAsDualCoin) {
@@ -64,14 +64,14 @@ namespace NTMiner {
                 BuildEventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
                     action: message => {
                         try {
-                            if (string.IsNullOrEmpty(message.Source.Icon)) {
+                            if (string.IsNullOrEmpty(message.Target.Icon)) {
                                 return;
                             }
-                            string iconFileFullName = SpecialPath.GetIconFileFullName(message.Source);
+                            string iconFileFullName = SpecialPath.GetIconFileFullName(message.Target);
                             if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
                                 return;
                             }
-                            if (_dicById.TryGetValue(message.Source.GetId(), out CoinViewModel coinVm)) {
+                            if (_dicById.TryGetValue(message.Target.GetId(), out CoinViewModel coinVm)) {
                                 try {
                                     coinVm.IconImageSource = new Uri(iconFileFullName, UriKind.Absolute).ToString();
                                 }

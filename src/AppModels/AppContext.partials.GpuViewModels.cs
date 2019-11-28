@@ -53,32 +53,32 @@ namespace NTMiner {
                     });
                 BuildEventPath<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
                     action: message => {
-                        if (_gpuVms.ContainsKey(message.Source.Index)) {
-                            GpuViewModel vm = _gpuVms[message.Source.Index];
-                            vm.Temperature = message.Source.Temperature;
-                            vm.FanSpeed = message.Source.FanSpeed;
-                            vm.PowerUsage = message.Source.PowerUsage;
-                            vm.CoreClockDelta = message.Source.CoreClockDelta;
-                            vm.MemoryClockDelta = message.Source.MemoryClockDelta;
-                            vm.CoreClockDeltaMin = message.Source.CoreClockDeltaMin;
-                            vm.CoreClockDeltaMax = message.Source.CoreClockDeltaMax;
-                            vm.MemoryClockDeltaMin = message.Source.MemoryClockDeltaMin;
-                            vm.MemoryClockDeltaMax = message.Source.MemoryClockDeltaMax;
-                            vm.Cool = message.Source.Cool;
-                            vm.CoolMin = message.Source.CoolMin;
-                            vm.CoolMax = message.Source.CoolMax;
-                            vm.PowerCapacity = message.Source.PowerCapacity;
-                            vm.PowerMin = message.Source.PowerMin;
-                            vm.PowerMax = message.Source.PowerMax;
-                            vm.TempLimit = message.Source.TempLimit;
-                            vm.TempLimitDefault = message.Source.TempLimitDefault;
-                            vm.TempLimitMax = message.Source.TempLimitMax;
-                            vm.TempLimitMin = message.Source.TempLimitMin;
-                            vm.CoreVoltage = message.Source.CoreVoltage;
-                            vm.MemoryVoltage = message.Source.MemoryVoltage;
-                            vm.VoltMin = message.Source.VoltMin;
-                            vm.VoltMax = message.Source.VoltMax;
-                            vm.VoltDefault = message.Source.VoltDefault;
+                        if (_gpuVms.ContainsKey(message.Target.Index)) {
+                            GpuViewModel vm = _gpuVms[message.Target.Index];
+                            vm.Temperature = message.Target.Temperature;
+                            vm.FanSpeed = message.Target.FanSpeed;
+                            vm.PowerUsage = message.Target.PowerUsage;
+                            vm.CoreClockDelta = message.Target.CoreClockDelta;
+                            vm.MemoryClockDelta = message.Target.MemoryClockDelta;
+                            vm.CoreClockDeltaMin = message.Target.CoreClockDeltaMin;
+                            vm.CoreClockDeltaMax = message.Target.CoreClockDeltaMax;
+                            vm.MemoryClockDeltaMin = message.Target.MemoryClockDeltaMin;
+                            vm.MemoryClockDeltaMax = message.Target.MemoryClockDeltaMax;
+                            vm.Cool = message.Target.Cool;
+                            vm.CoolMin = message.Target.CoolMin;
+                            vm.CoolMax = message.Target.CoolMax;
+                            vm.PowerCapacity = message.Target.PowerCapacity;
+                            vm.PowerMin = message.Target.PowerMin;
+                            vm.PowerMax = message.Target.PowerMax;
+                            vm.TempLimit = message.Target.TempLimit;
+                            vm.TempLimitDefault = message.Target.TempLimitDefault;
+                            vm.TempLimitMax = message.Target.TempLimitMax;
+                            vm.TempLimitMin = message.Target.TempLimitMin;
+                            vm.CoreVoltage = message.Target.CoreVoltage;
+                            vm.MemoryVoltage = message.Target.MemoryVoltage;
+                            vm.VoltMin = message.Target.VoltMin;
+                            vm.VoltMax = message.Target.VoltMax;
+                            vm.VoltDefault = message.Target.VoltDefault;
                             if (_gpuAllVm != null) {
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.TemperatureText));
                                 _gpuAllVm.OnPropertyChanged(nameof(_gpuAllVm.FanSpeedText));

@@ -31,18 +31,18 @@ namespace NTMiner {
                     });
                 BuildEventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            GroupViewModel groupVm = new GroupViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), groupVm);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            GroupViewModel groupVm = new GroupViewModel(message.Target);
+                            _dicById.Add(message.Target.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
                     });
                 BuildEventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            GroupViewModel entity = _dicById[message.Source.GetId()];
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            GroupViewModel entity = _dicById[message.Target.GetId()];
                             int sortNumber = entity.SortNumber;
-                            entity.Update(message.Source);
+                            entity.Update(message.Target);
                             if (sortNumber != entity.SortNumber) {
                                 this.OnPropertyChanged(nameof(List));
                                 OnPropertyChanged(nameof(SelectionOptions));
@@ -51,7 +51,7 @@ namespace NTMiner {
                     });
                 BuildEventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChangeds();
                     });
                 Init();

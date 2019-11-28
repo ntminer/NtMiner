@@ -25,10 +25,10 @@ namespace NTMiner {
                     });
                 BuildEventPath<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        var coinKernelVm = new CoinKernelViewModel(message.Source);
-                        _dicById.Add(message.Source.GetId(), coinKernelVm);
+                        var coinKernelVm = new CoinKernelViewModel(message.Target);
+                        _dicById.Add(message.Target.GetId(), coinKernelVm);
                         OnPropertyChanged(nameof(AllCoinKernels));
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out CoinViewModel coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
                             coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.IsSupported));
@@ -43,10 +43,10 @@ namespace NTMiner {
                     });
                 BuildEventPath<CoinKernelUpdatedEvent>("更新了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        CoinKernelViewModel entity = _dicById[message.Source.GetId()];
+                        CoinKernelViewModel entity = _dicById[message.Target.GetId()];
                         var supportedGpu = entity.SupportedGpu;
                         Guid dualCoinGroupId = entity.DualCoinGroupId;
-                        entity.Update(message.Source);
+                        entity.Update(message.Target);
                         if (supportedGpu != entity.SupportedGpu) {
                             var coinKernels = AllCoinKernels.Where(a => a.KernelId == entity.Id);
                             foreach (var coinKernel in coinKernels) {
@@ -61,10 +61,10 @@ namespace NTMiner {
                     });
                 BuildEventPath<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Source.GetId(), out CoinKernelViewModel coinKernelVm)) {
-                            _dicById.Remove(message.Source.GetId());
+                        if (_dicById.TryGetValue(message.Target.GetId(), out CoinKernelViewModel coinKernelVm)) {
+                            _dicById.Remove(message.Target.GetId());
                             OnPropertyChanged(nameof(AllCoinKernels));
-                            if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out CoinViewModel coinVm)) {
+                            if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out CoinViewModel coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                                 coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
                                 coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.IsSupported));

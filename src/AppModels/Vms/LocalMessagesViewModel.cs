@@ -79,7 +79,7 @@
             VirtualRoot.BuildEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
-                        var vm = new LocalMessageViewModel(message.Source);
+                        var vm = new LocalMessageViewModel(message.Target);
                         _localMessageVms.Insert(0, vm);
                         if (IsSatisfyQuery(vm)) {
                             _queyResults.Insert(0, vm);

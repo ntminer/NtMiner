@@ -63,7 +63,7 @@ namespace NTMiner.Views.Ucs {
                                     }
                                 }
                             }
-                            IGpuSpeed gpuSpeed = message.Source;
+                            IGpuSpeed gpuSpeed = message.Target;
                             int index = gpuSpeed.Gpu.Index;
                             if (Vm.SpeedChartVms.ContainsKey(index)) {
                                 SpeedChartViewModel speedChartVm = Vm.SpeedChartVms[index];
