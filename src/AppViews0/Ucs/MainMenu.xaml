@@ -21,7 +21,7 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
                 </MenuItem.Icon>
-                <MenuItem Header="消息路径标识集" Command="{x:Static app:AppStatic.ShowMessagePathIds}">
+                <MenuItem Header="集线器" Command="{x:Static app:AppStatic.ShowMessagePathIds}">
                     <MenuItem.Icon>
                         <Path
 							Width="14"

@@ -49,7 +49,7 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "打开消息路径标识集页")]
+    [MessageType(description: "打开集线器页")]
     public class ShowMessagePathIdsCommand : Cmd {
         public ShowMessagePathIdsCommand() {
         }
