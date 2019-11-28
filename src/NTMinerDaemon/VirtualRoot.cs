@@ -1,4 +1,4 @@
-﻿using NTMiner.Router;
+﻿using NTMiner.Hub;
 using System.Diagnostics;
 
 namespace NTMiner {
@@ -6,10 +6,6 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static bool IsMinerStudio = false;
 
-        public static readonly IMessagePathSet MessageDispatcher;
-
-        static VirtualRoot() {
-            MessageDispatcher = new MessagePathSet();
-        }
+        public static readonly IMessageHub MessageHub = new MessageHub();
     }
 }

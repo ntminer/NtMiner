@@ -1,8 +1,8 @@
-﻿namespace NTMiner.Router {
+﻿namespace NTMiner.Hub {
     using System;
     using System.Collections.Generic;
 
-    public class MessagePathSet : IMessagePathSet {
+    public class MessageHub : IMessageHub {
         private readonly Dictionary<Type, List<object>> _pathDicByMessageType = new Dictionary<Type, List<object>>();
         private readonly Dictionary<string, List<IMessagePathId>> _paths = new Dictionary<string, List<IMessagePathId>>();
         private readonly object _locker = new object();

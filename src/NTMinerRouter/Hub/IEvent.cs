@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Router {
+﻿namespace NTMiner.Hub {
     using System;
 
     public interface IEvent : IMessage {

@@ -1,4 +1,4 @@
-﻿using NTMiner.Router;
+﻿using NTMiner.Hub;
 using System;
 
 namespace NTMiner.User {

@@ -167,9 +167,9 @@
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerRouter\NTMinerRouter.csproj">
+    <ProjectReference Include="..\NTMinerRouter\NTMinerHub.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
-      <Name>NTMinerRouter</Name>
+      <Name>NTMinerHub</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>

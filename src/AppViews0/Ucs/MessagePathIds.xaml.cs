@@ -1,4 +1,4 @@
-﻿using NTMiner.Router;
+﻿using NTMiner.Hub;
 using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,11 +27,11 @@ namespace NTMiner.Views.Ucs {
         public MessagePathIds() {
             InitializeComponent();
             this.RunOneceOnLoaded(onLoad: window => {
-                VirtualRoot.MessageDispatcher.Added += OnPathConnected;
-                VirtualRoot.MessageDispatcher.Removed += OnPathDisconnected;
+                VirtualRoot.MessageHub.Added += OnPathConnected;
+                VirtualRoot.MessageHub.Removed += OnPathDisconnected;
             }, onUnload: window => {
-                VirtualRoot.MessageDispatcher.Added -= OnPathConnected;
-                VirtualRoot.MessageDispatcher.Removed -= OnPathDisconnected;
+                VirtualRoot.MessageHub.Added -= OnPathConnected;
+                VirtualRoot.MessageHub.Removed -= OnPathDisconnected;
             });
         }
 

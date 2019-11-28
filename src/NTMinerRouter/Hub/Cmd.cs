@@ -1,5 +1,5 @@
 ﻿
-namespace NTMiner.Router {
+namespace NTMiner.Hub {
     using System;
 
     public abstract class Cmd : ICmd {

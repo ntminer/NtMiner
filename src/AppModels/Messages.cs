@@ -1,4 +1,4 @@
-﻿using NTMiner.Router;
+﻿using NTMiner.Hub;
 using NTMiner.Core;
 using NTMiner.Vms;
 using System;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Router {
+namespace NTMiner.Hub {
     public abstract class EventBase : IEvent {
         protected EventBase() {
             this.Id = Guid.NewGuid();

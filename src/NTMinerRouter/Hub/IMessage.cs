@@ -1,7 +1,7 @@
 ﻿
 using System;
 
-namespace NTMiner.Router {
+namespace NTMiner.Hub {
     public interface IMessage {
         Guid Id { get; }
     }

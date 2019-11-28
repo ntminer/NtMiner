@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 
-namespace NTMiner.Router {
+namespace NTMiner.Hub {
     public class MessagePath<TMessage> : IMessagePathId
 #if DEBUG
         , INotifyPropertyChanged
@@ -17,7 +17,7 @@ namespace NTMiner.Router {
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> Build(IMessagePathSet dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
+        public static MessagePath<TMessage> Build(IMessageHub dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }

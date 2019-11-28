@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTMiner.Router {
+namespace NTMiner.Hub {
     public abstract class DomainEvent<TEntity> : IEvent {
         protected DomainEvent(Guid bornPathId, TEntity source) {
             this.Id = Guid.NewGuid();

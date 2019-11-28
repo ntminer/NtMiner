@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NTMiner</RootNamespace>
-    <AssemblyName>NTMinerRouter</AssemblyName>
+    <AssemblyName>NTMinerHub</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>false</Deterministic>
@@ -34,17 +34,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Router\Cmd.cs" />
-    <Compile Include="Router\MessagePath`1.cs" />
-    <Compile Include="Router\DomainEvent`1.cs" />
-    <Compile Include="Router\EventBase.cs" />
-    <Compile Include="Router\ICmd.cs" />
-    <Compile Include="Router\IEvent.cs" />
-    <Compile Include="Router\IMessagePathId.cs" />
-    <Compile Include="Router\IMessage.cs" />
-    <Compile Include="Router\IMessagePathSet.cs" />
-    <Compile Include="Router\MessagePathSet.cs" />
-    <Compile Include="Router\MessageTypeAttribute.cs" />
+    <Compile Include="Hub\Cmd.cs" />
+    <Compile Include="Hub\MessagePath`1.cs" />
+    <Compile Include="Hub\DomainEvent`1.cs" />
+    <Compile Include="Hub\EventBase.cs" />
+    <Compile Include="Hub\ICmd.cs" />
+    <Compile Include="Hub\IEvent.cs" />
+    <Compile Include="Hub\IMessagePathId.cs" />
+    <Compile Include="Hub\IMessage.cs" />
+    <Compile Include="Hub\IMessageHub.cs" />
+    <Compile Include="Hub\MessageHub.cs" />
+    <Compile Include="Hub\MessageTypeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

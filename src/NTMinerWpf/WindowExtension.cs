@@ -1,4 +1,4 @@
-﻿using NTMiner.Router;
+﻿using NTMiner.Hub;
 using NTMiner.Views;
 using System;
 using System.Collections.Generic;
