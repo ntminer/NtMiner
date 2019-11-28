@@ -101,6 +101,7 @@ namespace NTMiner {
                             VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
                         UIThread.Execute(() => {
+                            AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 ConsoleWindow.Instance.Hide();
                                 VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
@@ -111,7 +112,6 @@ namespace NTMiner {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
                             StartStopMineButtonViewModel.Instance.AutoStart();
-                            AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             splashWindow?.Dispatcher.Invoke((Action)delegate () {
                                 splashWindow?.Close();
                             });
