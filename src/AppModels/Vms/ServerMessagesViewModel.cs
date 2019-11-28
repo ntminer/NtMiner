@@ -42,13 +42,13 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new ClearServerMessages());
                 }));
             });
-            VirtualRoot.BuildEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Init();
                     });
                 });
-            VirtualRoot.BuildEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         foreach (var item in message.Data) {
@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(IsNoRecord));
                     });
                 });
-            VirtualRoot.BuildEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<NewDayEvent>("新的一天到来时刷新消息集中的可读性时间戳展示", LogEnum.DevConsole,
                 action: message => {
                     if (QueryResults == null) {
                         return;

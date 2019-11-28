@@ -168,7 +168,7 @@ namespace NTMiner.Views {
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
-            VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(action: message => {
+            VirtualRoot.AddCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
                     this.Close();
                 });

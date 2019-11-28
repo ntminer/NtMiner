@@ -17,7 +17,7 @@ namespace NTMiner.Hub {
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> Build(IMessageHub dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
+        public static MessagePath<TMessage> AddMessagePath(IMessageHub dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }

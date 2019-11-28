@@ -10,7 +10,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         public KernelOutputSet(IServerContext context) {
             #region 接线
-            context.BuildCmdPath<AddKernelOutputCommand>("添加内核输出组", LogEnum.DevConsole,
+            context.AddCmdPath<AddKernelOutputCommand>("添加内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -26,7 +26,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
+            context.AddCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
 
         public SysDicItemSet(IServerContext context) {
             _context = context;
-            _context.BuildCmdPath<AddSysDicItemCommand>("添加系统字典项", LogEnum.DevConsole,
+            _context.AddCmdPath<AddSysDicItemCommand>("添加系统字典项", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new SysDicItemAddedEvent(message.Id, entity));
                 });
-            _context.BuildCmdPath<UpdateSysDicItemCommand>("更新系统字典项", LogEnum.DevConsole,
+            _context.AddCmdPath<UpdateSysDicItemCommand>("更新系统字典项", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new SysDicItemUpdatedEvent(message.Id, entity));
                 });
-            _context.BuildCmdPath<RemoveSysDicItemCommand>("移除系统字典项", LogEnum.DevConsole,
+            _context.AddCmdPath<RemoveSysDicItemCommand>("移除系统字典项", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

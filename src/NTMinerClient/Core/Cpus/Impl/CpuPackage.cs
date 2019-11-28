@@ -12,7 +12,7 @@ namespace NTMiner.Core.Cpus.Impl {
         }
 
         public void Start() {
-            VirtualRoot.BuildEventPath<Per1SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
+            VirtualRoot.AddEventPath<Per1SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
                 action: message => {
                     if (_isFirst) {
                         _isFirst = false;

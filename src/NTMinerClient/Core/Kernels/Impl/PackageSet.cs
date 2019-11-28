@@ -7,7 +7,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private readonly Dictionary<Guid, PackageData> _dicById = new Dictionary<Guid, PackageData>();
 
         public PackageSet(IServerContext context) {
-            context.BuildCmdPath<AddPackageCommand>("添加包", LogEnum.DevConsole,
+            context.AddCmdPath<AddPackageCommand>("添加包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new PackageAddedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<UpdatePackageCommand>("更新包", LogEnum.DevConsole,
+            context.AddCmdPath<UpdatePackageCommand>("更新包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -54,7 +54,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
                     VirtualRoot.RaiseEvent(new PackageUpdatedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<RemovePackageCommand>("移除包", LogEnum.DevConsole,
+            context.AddCmdPath<RemovePackageCommand>("移除包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

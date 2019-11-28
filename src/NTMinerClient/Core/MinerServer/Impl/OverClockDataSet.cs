@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer.Impl {
 
         public OverClockDataSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.BuildCmdPath<AddOverClockDataCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<AddOverClockDataCommand>(action: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -31,7 +31,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
             });
-            VirtualRoot.BuildCmdPath<UpdateOverClockDataCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<UpdateOverClockDataCommand>(action: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -53,7 +53,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.Id, entity));
             });
-            VirtualRoot.BuildCmdPath<RemoveOverClockDataCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<RemoveOverClockDataCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
                 }

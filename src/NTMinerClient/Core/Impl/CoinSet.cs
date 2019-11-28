@@ -8,7 +8,7 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, CoinData> _dicById = new Dictionary<Guid, CoinData>();
 
         public CoinSet(IServerContext context) {
-            context.BuildCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
+            context.AddCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -31,7 +31,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinAddedEvent(message.Id, entity));
                 });
-            context.BuildCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
+            context.AddCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
@@ -53,7 +53,7 @@ namespace NTMiner.Core.Impl {
 
                     VirtualRoot.RaiseEvent(new CoinUpdatedEvent(message.Id, message.Input));
                 });
-            context.BuildCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
+            context.AddCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     if (message == null || message.EntityId == Guid.Empty) {

@@ -26,14 +26,14 @@ namespace NTMiner {
         // 因为是上下文路径，无需返回路径标识
         public static void BuildCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
             where TCmd : ICmd {
-            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action);
             _contextHandlers.Add(messagePathId);
         }
 
         // 因为是上下文路径，无需返回路径标识
         public static void BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
             where TEvent : IEvent {
-            var messagePathId = VirtualRoot.BuildPath(description, logType, action);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action);
             _contextHandlers.Add(messagePathId);
         }
 

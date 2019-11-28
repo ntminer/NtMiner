@@ -46,7 +46,7 @@ namespace NTMiner.Vms {
             if (IsAutoStart && !this.MinerProfile.IsMining) {
                 this.MinerProfile.IsMining = true;
                 IMessagePathId handler = null;
-                handler = VirtualRoot.BuildViaLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
+                handler = VirtualRoot.AddViaLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
                 action: message => {
                     if (NTMinerRoot.IsAutoStartCanceled) {
                         BtnStopText = $"尚未开始";

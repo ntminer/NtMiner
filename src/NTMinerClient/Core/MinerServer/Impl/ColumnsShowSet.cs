@@ -7,7 +7,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private readonly Dictionary<Guid, ColumnsShowData> _dicById = new Dictionary<Guid, ColumnsShowData>();
 
         public ColumnsShowSet() {
-            VirtualRoot.BuildCmdPath<AddColumnsShowCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<AddColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty || message.Input.GetId() == ColumnsShowData.PleaseSelect.Id) {
                     throw new ArgumentNullException();
@@ -26,7 +26,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                 });
             });
-            VirtualRoot.BuildCmdPath<UpdateColumnsShowCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<UpdateColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -46,7 +46,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
             });
-            VirtualRoot.BuildCmdPath<RemoveColumnsShowCommand>(action: (message) => {
+            VirtualRoot.AddCmdPath<RemoveColumnsShowCommand>(action: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty || message.EntityId == ColumnsShowData.PleaseSelect.Id) {
                     throw new ArgumentNullException();

@@ -40,12 +40,12 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            VirtualRoot.BuildCmdPath<ShowFileDownloaderCommand>(action: message => {
+            VirtualRoot.AddCmdPath<ShowFileDownloaderCommand>(action: message => {
                 UIThread.Execute(() => {
                     FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
                 });
             });
-            VirtualRoot.BuildCmdPath<UpgradeCommand>(action: message => {
+            VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
             });
             try {
@@ -69,7 +69,7 @@ namespace NTMiner {
                         Init();
                     }
                 });
-                VirtualRoot.BuildCmdPath<CloseNTMinerCommand>(action: message => {
+                VirtualRoot.AddCmdPath<CloseNTMinerCommand>(action: message => {
                     // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
                     VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}。原因：{message.Reason}");
                     UIThread.Execute(() => {
@@ -107,7 +107,7 @@ namespace NTMiner {
                     AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                 });
                 #region 处理显示主界面命令
-                VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(action: message => {
+                VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
                     VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
                 });
                 #endregion

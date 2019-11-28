@@ -14,7 +14,7 @@ namespace NTMiner.Data.Impl {
         private DateTime _getSpeedOn = DateTime.Now;
         internal ClientSet() {
             GetSpeed();
-            VirtualRoot.BuildEventPath<Per20SecondEvent>("周期性将内存中3分钟内活跃的ClientData列表刷入磁盘", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<Per20SecondEvent>("周期性将内存中3分钟内活跃的ClientData列表刷入磁盘", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     List<MinerData> minerDatas = new List<MinerData>();

@@ -8,7 +8,7 @@ namespace NTMiner.Core.MinerServer.Impl {
     public class ServerAppSettingSet : IAppSettingSet {
         private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
         public ServerAppSettingSet() {
-            VirtualRoot.BuildCmdPath<SetServerAppSettingCommand>(action: message => {
+            VirtualRoot.AddCmdPath<SetServerAppSettingCommand>(action: message => {
                 if (message.AppSetting == null) {
                     return;
                 }
@@ -39,7 +39,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 });
                 VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.Id, entity));
             });
-            VirtualRoot.BuildCmdPath<SetServerAppSettingsCommand>(action: message => {
+            VirtualRoot.AddCmdPath<SetServerAppSettingsCommand>(action: message => {
                 if (message.AppSettings == null) {
                     return;
                 }
