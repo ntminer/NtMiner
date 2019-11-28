@@ -16,27 +16,36 @@ namespace NTMiner {
         }
 
         // 修建消息（命令或事件）的运动路径
-        public static IMessagePathId AddMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> action) {
-            Type location = GetMessagePathLocation();
+        public static IMessagePathId AddMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Type borderType = null) {
+            Type location = GetMessagePathLocation(borderType: borderType);
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, Guid.Empty);
         }
 
-        public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId) {
-            Type location = GetMessagePathLocation();
+        public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type borderType = null) {
+            Type location = GetMessagePathLocation(borderType: borderType);
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId, viaLimit: 1);
         }
 
-        public static IMessagePathId AddViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit) {
-            Type location = GetMessagePathLocation();
+        public static IMessagePathId AddViaLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type borderType = null) {
+            Type location = GetMessagePathLocation(borderType: borderType);
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, Guid.Empty, viaLimit);
         }
 
-        private static Type GetMessagePathLocation() {
+        private static Type GetMessagePathLocation(Type borderType) {
+            if (borderType == null) {
+                borderType = typeof(VirtualRoot);
+            }
             StackTrace ss = new StackTrace(false);
-            int index = 2;
+            int index = 1;
             Type location = ss.GetFrame(index).GetMethod().DeclaringType;
-            Type rootType = typeof(VirtualRoot);
-            while (location == rootType) {
+            while (location != borderType) {
+                index++;
+                if (index > 10) {
+                    throw new InvalidProgramException("不可能这么深");
+                }
+                location = ss.GetFrame(index).GetMethod().DeclaringType;
+            }
+            while (location == borderType) {
                 index++;
                 if (index > 10) {
                     throw new InvalidProgramException("不可能这么深");
@@ -46,16 +55,16 @@ namespace NTMiner {
             return location;
         }
 
-        public static void AddCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole)
+        public static void AddCmdPath<TCmd>(Action<TCmd> action, LogEnum logType = LogEnum.DevConsole, Type borderType = null)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
-            AddMessagePath(description, logType, action);
+            AddMessagePath(description, logType, action, borderType);
         }
 
-        public static IMessagePathId AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        public static IMessagePathId AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type borderType = null)
             where TEvent : IEvent {
-            return AddMessagePath(description, logType, action);
+            return AddMessagePath(description, logType, action, borderType);
         }
 
         public static void DeletePath(IMessagePathId handler) {
