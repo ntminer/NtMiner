@@ -31,6 +31,7 @@ namespace NTMiner {
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, Guid.Empty, viaLimit);
         }
 
+        // 慢了1000多倍，但是这不是一个常调的方法
         private static Type GetMessagePathLocation(Type borderType) {
             if (borderType == null) {
                 borderType = typeof(VirtualRoot);
