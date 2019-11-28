@@ -27,11 +27,11 @@ namespace NTMiner.Views.Ucs {
         public MessagePathIds() {
             InitializeComponent();
             this.RunOneceOnLoaded(onLoad: window => {
-                VirtualRoot.MessageHub.Added += OnPathConnected;
-                VirtualRoot.MessageHub.Removed += OnPathDisconnected;
+                VirtualRoot.MessageHub.MessagePathAdded += OnPathConnected;
+                VirtualRoot.MessageHub.MessagePathRemoved += OnPathDisconnected;
             }, onUnload: window => {
-                VirtualRoot.MessageHub.Added -= OnPathConnected;
-                VirtualRoot.MessageHub.Removed -= OnPathDisconnected;
+                VirtualRoot.MessageHub.MessagePathAdded -= OnPathConnected;
+                VirtualRoot.MessageHub.MessagePathRemoved -= OnPathDisconnected;
             });
         }
 

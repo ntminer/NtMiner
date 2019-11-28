@@ -7,8 +7,8 @@
         private readonly Dictionary<string, List<IMessagePathId>> _paths = new Dictionary<string, List<IMessagePathId>>();
         private readonly object _locker = new object();
 
-        public event Action<IMessagePathId> Added;
-        public event Action<IMessagePathId> Removed;
+        public event Action<IMessagePathId> MessagePathAdded;
+        public event Action<IMessagePathId> MessagePathRemoved;
 
         #region IMessageDispatcher Members
         public IEnumerable<IMessagePathId> GetAllPaths() {
@@ -44,7 +44,7 @@
                                     tMessagePath.ViaLimit--;
                                     if (tMessagePath.ViaLimit == 0) {
                                         // ViaLimit递减到0从路径列表中移除该路径
-                                        Remove(tMessagePath);
+                                        RemoveMessagePath(tMessagePath);
                                     }
                                 }
                             }
@@ -79,7 +79,7 @@
             }
         }
 
-        public void Add<TMessage>(MessagePath<TMessage> path) {
+        public void AddMessagePath<TMessage>(MessagePath<TMessage> path) {
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }
@@ -113,11 +113,11 @@
                     var registeredHandlers = new List<dynamic> { path };
                     _pathDicByMessageType.Add(messageType, registeredHandlers);
                 }
-                Added?.Invoke(pathId);
+                MessagePathAdded?.Invoke(pathId);
             }
         }
 
-        public void Remove(IMessagePathId handlerId) {
+        public void RemoveMessagePath(IMessagePathId handlerId) {
             if (handlerId == null) {
                 return;
             }
@@ -130,7 +130,7 @@
                     _pathDicByMessageType[messageType].Contains(handlerId)) {
                     _pathDicByMessageType[messageType].Remove(handlerId);
                     Write.DevDebug("拆除路径" + handlerId.Path);
-                    Removed?.Invoke(handlerId);
+                    MessagePathRemoved?.Invoke(handlerId);
                 }
             }
         }

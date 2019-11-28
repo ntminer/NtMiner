@@ -53,7 +53,7 @@ namespace NTMiner {
             if (handler == null) {
                 return;
             }
-            MessageHub.Remove(handler);
+            MessageHub.RemoveMessagePath(handler);
         }
 
         private static readonly Dictionary<string, Regex> _regexDic = new Dictionary<string, Regex>();

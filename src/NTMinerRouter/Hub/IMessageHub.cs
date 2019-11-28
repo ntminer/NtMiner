@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Hub {
+    /// <summary>
+    /// 集线器，集消息路径器。也可以叫它MessagePathSet。
+    /// </summary>
     public interface IMessageHub {
-        IEnumerable<IMessagePathId> GetAllPaths();
         void Route<TMessage>(TMessage message) where TMessage : IMessage;
 
-        void Add<TMessage>(MessagePath<TMessage> handler);
+        void AddMessagePath<TMessage>(MessagePath<TMessage> handler);
 
-        void Remove(IMessagePathId handlerId);
+        void RemoveMessagePath(IMessagePathId handlerId);
 
-        event Action<IMessagePathId> Added;
-        event Action<IMessagePathId> Removed;
+        IEnumerable<IMessagePathId> GetAllPaths();
+
+        event Action<IMessagePathId> MessagePathAdded;
+        event Action<IMessagePathId> MessagePathRemoved;
     }
 }
