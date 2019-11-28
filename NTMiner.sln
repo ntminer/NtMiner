@@ -94,7 +94,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocketServerTests", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocketClientTests", "src\WebSocketClientTests\WebSocketClientTests.csproj", "{188484AC-C870-4F34-BE4C-9A0AF96DE2EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerHub", "src\NTMinerRouter\NTMinerHub.csproj", "{E17F278A-E393-403E-9D37-E371036D7A02}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerHub", "src\NTMinerHub\NTMinerHub.csproj", "{E17F278A-E393-403E-9D37-E371036D7A02}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
