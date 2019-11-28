@@ -8,13 +8,11 @@ using System.Timers;
 namespace NTMiner {
     public static partial class VirtualRoot {
         public static void RaiseEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent {
-            _eventBus.Publish(evnt);
-            _eventBus.Commit();
+            MessageDispatcher.Dispatch(evnt);
         }
 
-        public static void Execute(ICmd command) {
-            _commandBus.Publish(command);
-            _commandBus.Commit();
+        public static void Execute<TCmd>(TCmd command) where TCmd : class, ICmd {
+            MessageDispatcher.Dispatch(command);
         }
 
         // 修建消息（命令或事件）的运动路径

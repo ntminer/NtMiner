@@ -37,16 +37,10 @@
   <ItemGroup>
     <Compile Include="Bus\Cmd.cs" />
     <Compile Include="Bus\MessagePath`1.cs" />
-    <Compile Include="Bus\DirectBus\DirectBus.cs" />
-    <Compile Include="Bus\DirectBus\DirectCommandBus.cs" />
-    <Compile Include="Bus\DirectBus\DirectEventBus.cs" />
     <Compile Include="Bus\DomainEvent`1.cs" />
     <Compile Include="Bus\EventBase.cs" />
-    <Compile Include="Bus\IBus.cs" />
     <Compile Include="Bus\ICmd.cs" />
-    <Compile Include="Bus\ICmdBus.cs" />
     <Compile Include="Bus\IEvent.cs" />
-    <Compile Include="Bus\IEventBus.cs" />
     <Compile Include="Bus\IMessagePathId.cs" />
     <Compile Include="Bus\IMessage.cs" />
     <Compile Include="Bus\IMessageDispatcher.cs" />

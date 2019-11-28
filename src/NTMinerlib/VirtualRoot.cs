@@ -1,10 +1,9 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.Bus;
-using NTMiner.Bus.DirectBus;
 using NTMiner.Core;
-using NTMiner.Net;
 using NTMiner.LocalMessage;
 using NTMiner.MinerClient;
+using NTMiner.Net;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
@@ -119,9 +118,6 @@ namespace NTMiner {
         // 函数中可能会建造消息路径，所以这里保证在访问MessageDispatcher之前一定完成了构造。
         public static readonly IMessageDispatcher MessageDispatcher = new MessageDispatcher();
         public static readonly ILocalMessageSet LocalMessages;
-
-        private static readonly ICmdBus _commandBus = new DirectCommandBus(MessageDispatcher);
-        private static readonly IEventBus _eventBus = new DirectEventBus(MessageDispatcher);
 
         #region Out
         private static IOut _out;
