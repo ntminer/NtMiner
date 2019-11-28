@@ -107,7 +107,7 @@
                         return;
                     }
                     foreach (var item in QueryResults) {
-                        if (item.Timestamp.Date.AddDays(3) >= message.Timestamp.Date) {
+                        if (item.Timestamp.Date.AddDays(3) >= message.BornOn.Date) {
                             item.OnPropertyChanged(nameof(item.TimestampText));
                         }
                         else {
