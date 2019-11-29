@@ -5,11 +5,10 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LocalIpConfigViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private List<LocalIpViewModel> _localIpVms = new List<LocalIpViewModel>();
 
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public LocalIpConfigViewModel() {
             foreach (var localIp in VirtualRoot.LocalIpSet.AsEnumerable()) {
@@ -26,7 +25,7 @@ namespace NTMiner.Vms {
                 }
                 VirtualRoot.Execute(new SetLocalIpCommand(vm, vm.IsAutoDNSServer));
                 if (_localIpVms.Count == 1) {
-                    CloseWindow?.Invoke();
+                    VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 }
             }, (vm) => vm.IsChanged);
         }

@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientAddViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private string _leftIp = "192.168.0.100";
         private string _rightIp = "192.168.0.200";
         private bool _isIpRange;
@@ -14,8 +15,6 @@ namespace NTMiner.Vms {
         private Visibility _messageVisible = Visibility.Collapsed;
 
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public MinerClientAddViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -50,7 +49,7 @@ namespace NTMiner.Vms {
                         }
                         else {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                            UIThread.Execute(() => CloseWindow?.Invoke());
+                            UIThread.Execute(() => VirtualRoot.Execute(new CloseWindowCommand(this.Id)));
                         }
                     });
                 }
@@ -61,7 +60,7 @@ namespace NTMiner.Vms {
                         }
                         else {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                            UIThread.Execute(() => CloseWindow?.Invoke());
+                            UIThread.Execute(() => VirtualRoot.Execute(new CloseWindowCommand(this.Id)));
                         }
                     });
                 }

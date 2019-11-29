@@ -17,9 +17,10 @@ namespace NTMiner.Views.Ucs {
                 Width = 620,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
-                KernelViewModel vm = new KernelViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                KernelViewModel vm = new KernelViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(KernelEdit));
                 return new KernelEdit(vm);
             }, fixedSize: false);
         }
