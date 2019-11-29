@@ -216,6 +216,9 @@ namespace NTMiner.Vms {
                 }
             });
             NTMinerRoot.SetRefreshArgsAssembly(() => {
+#if DEBUG
+                Write.Stopwatch.Start();
+#endif
                 if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                     var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
                     var kernelInput = CoinVm.CoinKernel.Kernel.KernelInputVm;
@@ -238,6 +241,12 @@ namespace NTMiner.Vms {
                 else {
                     this.ArgsAssembly = string.Empty;
                 }
+#if DEBUG
+                var milliseconds = Write.Stopwatch.Stop();
+                if (milliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{milliseconds} {this.GetType().Name}.SetRefreshArgsAssembly");
+                }
+#endif
             });
             VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                 action: message => {

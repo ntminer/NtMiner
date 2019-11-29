@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace NTMiner {
     public class NTStopwatch {
-        public static readonly long ElapsedMilliseconds = 10;
+        public static readonly long ElapsedMilliseconds = 0;
 
         public struct ElapsedValue {
             public long ElapsedMilliseconds;
