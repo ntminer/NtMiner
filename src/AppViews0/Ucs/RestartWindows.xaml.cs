@@ -1,4 +1,5 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Hub;
+using NTMiner.Vms;
 using System;
 using System.Windows.Controls;
 
@@ -13,9 +14,10 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_Restart"
             }, ucFactory: (window) => {
-                RestartWindows uc = new RestartWindows {
-                    CloseWindow = window.Close
-                };
+                RestartWindows uc = new RestartWindows();
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: uc.Id, location: typeof(RestartWindows));
                 return uc;
             }, fixedSize: true);
         }
@@ -26,30 +28,30 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        public readonly Guid Id = Guid.NewGuid();
+
         private bool _isCanceled = false;
-        public Action CloseWindow;
         public RestartWindows() {
             InitializeComponent();
-            System.Timers.Timer t = new System.Timers.Timer(1000);
-            t.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => {
-                if (_isCanceled) {
-                    t.Enabled = false;
-                    t.Stop();
-                    return;
-                }
-                UIThread.Execute(() => {
-                    Vm.Seconds = Vm.Seconds - 1;
-                    if (Vm.Seconds <= 0) {
-                        Windows.Power.Restart();
+            this.RunOneceOnLoaded(window => {
+                IMessagePathId messagePathId = null;
+                messagePathId = window.AddViaLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, action: message => {
+                    if (_isCanceled) {
+                        return;
                     }
-                });
-            };
-            t.Start();
+                    Vm.Seconds = Vm.Seconds - 1;
+                    if (messagePathId.ViaLimit == 0) {
+                        UIThread.Execute(() => {
+                            Windows.Power.Restart();
+                        });
+                    }
+                }, Vm.Seconds, location: this.GetType());
+            });
         }
 
         private void KbCancelButton_Click(object sender, System.Windows.RoutedEventArgs e) {
             _isCanceled = true;
-            CloseWindow?.Invoke();
+            VirtualRoot.Execute(new CloseWindowCommand(this.Id));
         }
     }
 

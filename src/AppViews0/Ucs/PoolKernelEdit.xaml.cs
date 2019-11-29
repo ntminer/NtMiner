@@ -13,17 +13,12 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {
-                PoolKernelViewModel vm = new PoolKernelViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                PoolKernelViewModel vm = new PoolKernelViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(PoolKernelEdit));
                 return new PoolKernelEdit(vm);
             }, fixedSize: true);
-        }
-
-        private PoolKernelViewModel Vm {
-            get {
-                return (PoolKernelViewModel)this.DataContext;
-            }
         }
 
         public PoolKernelEdit(PoolKernelViewModel vm) {

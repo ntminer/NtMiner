@@ -3,12 +3,12 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class RemoteDesktopLoginViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
+
         private string _loginName;
         private string _password;
 
         public ICommand Ok { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public Action<RemoteDesktopLoginViewModel> OnOk;
 
@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowError("登录名不能为空", delaySeconds: 4);
                     return;
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 OnOk?.Invoke(this);
             });
         }

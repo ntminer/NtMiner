@@ -12,8 +12,6 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public PoolKernelViewModel(IPoolKernel data) : this(data.GetId()) {
             _poolId = data.PoolId;
             _kernelId = data.KernelId;
@@ -26,7 +24,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Instance.ServerContext.PoolKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePoolKernelCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 VirtualRoot.Execute(new PoolKernelEditCommand(formType ?? FormType.Edit, this));
@@ -106,8 +104,7 @@ namespace NTMiner.Vms {
 
         public KernelViewModel Kernel {
             get {
-                KernelViewModel kernel;
-                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.KernelId, out kernel)) {
+                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.KernelId, out KernelViewModel kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;

@@ -13,17 +13,12 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_FragmentWriter"
             }, ucFactory: (window) =>
             {
-                FragmentWriterViewModel vm = new FragmentWriterViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                FragmentWriterViewModel vm = new FragmentWriterViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(FragmentWriterEdit));
                 return new FragmentWriterEdit(vm);
             }, fixedSize: true);
-        }
-
-        private FragmentWriterViewModel Vm {
-            get {
-                return (FragmentWriterViewModel)this.DataContext;
-            }
         }
 
         public FragmentWriterEdit(FragmentWriterViewModel vm) {

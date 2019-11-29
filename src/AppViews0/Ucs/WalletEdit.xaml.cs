@@ -14,9 +14,11 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 WalletViewModel vm = new WalletViewModel(source) {
-                    CloseWindow = window.Close,
                     AfterClose = source.AfterClose
                 };
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(WalletEdit));
                 return new WalletEdit(vm);
             }, fixedSize: true);
         }

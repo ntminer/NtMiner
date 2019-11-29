@@ -13,9 +13,10 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_FileWriter"
             }, ucFactory: (window) =>
             {
-                FileWriterViewModel vm = new FileWriterViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                FileWriterViewModel vm = new FileWriterViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(FileWriterEdit));
                 return new FileWriterEdit(vm);
             }, fixedSize: true);
         }

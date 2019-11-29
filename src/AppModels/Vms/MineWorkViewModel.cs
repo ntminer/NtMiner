@@ -23,8 +23,6 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public MineWorkViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
@@ -72,12 +70,10 @@ namespace NTMiner.Vms {
                     if (entity.Name != this.Name || entity.Description != this.Description) {
                         isMineWorkChanged = true;
                     }
-                    CloseWindow?.Invoke();
                 }
                 else {
                     isMinerProfileChanged = true;
                     VirtualRoot.Execute(new AddMineWorkCommand(this));
-                    CloseWindow?.Invoke();
                     this.Edit.Execute(FormType.Edit);
                 }
                 if (isMinerProfileChanged) {

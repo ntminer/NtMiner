@@ -7,6 +7,10 @@ namespace NTMiner.Hub {
             Id = Guid.NewGuid();
         }
 
+        protected Cmd(Guid id) {
+            this.Id = id;
+        }
+
         public Guid Id { get; private set; }
     }
 }

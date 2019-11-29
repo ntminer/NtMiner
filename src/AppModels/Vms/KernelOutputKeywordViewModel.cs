@@ -18,8 +18,6 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public KernelOutputKeywordViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
@@ -49,12 +47,12 @@ namespace NTMiner.Vms {
                 if (DevMode.IsDevMode) {
                     LoginWindow.Login(() => {
                         VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
-                        CloseWindow?.Invoke();
+                        VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                     });
                 }
                 else {
                     VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
-                    CloseWindow?.Invoke();
+                    VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 }
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {

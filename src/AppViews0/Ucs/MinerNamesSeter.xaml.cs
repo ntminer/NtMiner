@@ -11,16 +11,13 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_MinerName"
             }, ucFactory: (window) => {
-                vm.CloseWindow = window.Close;
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(MinerNamesSeter));
                 return new MinerNamesSeter(vm);
             }, fixedSize: true);
         }
 
-        private MinerNamesSeterViewModel Vm {
-            get {
-                return (MinerNamesSeterViewModel)this.DataContext;
-            }
-        }
         public MinerNamesSeter(MinerNamesSeterViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();

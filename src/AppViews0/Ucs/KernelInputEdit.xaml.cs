@@ -12,17 +12,12 @@ namespace NTMiner.Views.Ucs {
                 IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
-                KernelInputViewModel vm = new KernelInputViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                KernelInputViewModel vm = new KernelInputViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(KernelInputEdit));
                 return new KernelInputEdit(vm);
             }, fixedSize: true);
-        }
-
-        private KernelInputViewModel Vm {
-            get {
-                return (KernelInputViewModel)this.DataContext;
-            }
         }
 
         public KernelInputEdit(KernelInputViewModel vm) {

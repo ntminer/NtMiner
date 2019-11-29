@@ -20,8 +20,6 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public KernelOutputTranslaterViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
@@ -52,7 +50,7 @@ namespace NTMiner.Vms {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 VirtualRoot.Execute(new KernelOutputTranslaterEditCommand(formType ?? FormType.Edit, this));

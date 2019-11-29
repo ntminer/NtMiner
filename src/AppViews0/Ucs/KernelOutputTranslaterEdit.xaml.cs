@@ -14,9 +14,10 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Coin"
             }, ucFactory: (window) =>
             {
-                KernelOutputTranslaterViewModel vm = new KernelOutputTranslaterViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                KernelOutputTranslaterViewModel vm = new KernelOutputTranslaterViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(KernelOutputTranslaterEdit));
                 return new KernelOutputTranslaterEdit(vm);
             }, fixedSize: true);
         }

@@ -6,6 +6,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class InputSegmentEditViewModel : ViewModelBase, IInputSegment {
+        public readonly Guid Id = Guid.NewGuid();
         private SupportedGpu _targetGpu;
         private string _name;
         private string _segment;
@@ -13,7 +14,6 @@ namespace NTMiner.Vms {
         private bool _isDefault;
 
         public ICommand Save { get; private set; }
-        public Action CloseWindow { get; set; }
 
         public InputSegmentEditViewModel() {
             if (!WpfUtil.IsInDesignMode) {
@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
                     existItem.Update(segment);
                 }
                 coinKernelVm.InputSegments = coinKernelVm.InputSegments.ToList();
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
         }
 

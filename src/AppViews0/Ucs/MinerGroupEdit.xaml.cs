@@ -12,9 +12,10 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_MinerGroup"
             }, ucFactory: (window) => {
-                MinerGroupViewModel vm = new MinerGroupViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                MinerGroupViewModel vm = new MinerGroupViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(MinerGroupEdit));
                 return new MinerGroupEdit(vm);
             }, fixedSize: true);
         }

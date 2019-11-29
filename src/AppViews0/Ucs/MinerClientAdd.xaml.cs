@@ -7,7 +7,9 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow() {
             MinerClientAddViewModel vm = new MinerClientAddViewModel();
             Window window = new MinerClientAdd(vm);
-            vm.CloseWindow = () => window.Close();
+            window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                window.Close();
+            }, pathId: vm.Id, location: typeof(MinerClientAdd));
             window.MousePosition();
             window.ShowSoftDialog();
         }

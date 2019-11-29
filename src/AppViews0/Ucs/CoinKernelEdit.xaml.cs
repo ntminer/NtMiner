@@ -17,9 +17,10 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) =>
             {
-                CoinKernelViewModel vm = new CoinKernelViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                CoinKernelViewModel vm = new CoinKernelViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(CoinKernelEdit));
                 return new CoinKernelEdit(vm);
             }, fixedSize: true);
         }

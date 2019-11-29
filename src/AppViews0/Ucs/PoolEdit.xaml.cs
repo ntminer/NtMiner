@@ -14,9 +14,10 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) =>
             {
-                PoolViewModel vm = new PoolViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                PoolViewModel vm = new PoolViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(PoolEdit));
                 return new PoolEdit(vm);
             }, fixedSize: true);
         }

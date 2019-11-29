@@ -14,9 +14,10 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Coin",
             }, ucFactory: (window) =>
             {
-                CoinViewModel vm = new CoinViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                CoinViewModel vm = new CoinViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(CoinEdit));
                 return new CoinEdit(vm);
             }, fixedSize: true);
         }

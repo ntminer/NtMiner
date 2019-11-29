@@ -12,7 +12,9 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new NTMinerUpdaterConfig();
-                uc.Vm.CloseWindow = window.Close;
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: uc.Vm.Id, location: typeof(NTMinerUpdaterConfig));
                 return uc;
             }, fixedSize: true);
         }

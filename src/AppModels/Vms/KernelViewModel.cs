@@ -56,8 +56,6 @@ namespace NTMiner.Vms {
         public ICommand ShowKernelHelp { get; private set; }
 
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
         #endregion
 
         #region ctor
@@ -93,7 +91,7 @@ namespace NTMiner.Vms {
                 else {
                     VirtualRoot.Execute(new AddKernelCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this == Empty) {
