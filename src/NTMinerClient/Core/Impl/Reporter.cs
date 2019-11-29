@@ -1,39 +1,40 @@
-﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
+﻿using NTMiner.Core.Gpus;
 using NTMiner.Core.Profiles;
 using NTMiner.MinerClient;
 using NTMiner.Profile;
 using System;
 using System.Linq;
 
-namespace NTMiner {
-    public static class Report {
-        public static void Init() {
-            VirtualRoot.AddOnecePath<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
+namespace NTMiner.Core.Impl {
+    public class Reporter : IReporter {
+        public Reporter() {
+            if (VirtualRoot.IsMinerClient) {
+                VirtualRoot.AddOnecePath<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
                     ReportSpeed();
-                }, location: typeof(Report), pathId: Guid.Empty);
+                }, location: this.GetType(), pathId: Guid.Empty);
 
-            VirtualRoot.AddEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
-                action: message => {
-                    ReportSpeed();
-                }, location: typeof(Report));
+                VirtualRoot.AddEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
+                    action: message => {
+                        ReportSpeed();
+                    }, location: this.GetType());
 
-            VirtualRoot.AddEventPath<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole,
-                action: message => {
-                    ReportSpeed();
-                }, location: typeof(Report));
+                VirtualRoot.AddEventPath<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole,
+                    action: message => {
+                        ReportSpeed();
+                    }, location: this.GetType());
 
-            VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
-                action: message => {
-                    Server.ReportService.ReportStateAsync(NTKeyword.OfficialServerHost, VirtualRoot.Id, isMining: false);
-                }, location: typeof(Report));
+                VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
+                    action: message => {
+                        Server.ReportService.ReportStateAsync(NTKeyword.OfficialServerHost, VirtualRoot.Id, isMining: false);
+                    }, location: this.GetType());
+            }
         }
 
-        private static ICoin _sLastSpeedMainCoin;
-        private static ICoin _sLastSpeedDualCoin;
-        public static SpeedData CreateSpeedData() {
+        private ICoin _sLastSpeedMainCoin;
+        private ICoin _sLastSpeedDualCoin;
+        public SpeedData CreateSpeedData() {
             INTMinerRoot root = NTMinerRoot.Instance;
             IWorkProfile workProfile = root.MinerProfile;
             string macAddress = string.Empty;
@@ -214,7 +215,7 @@ namespace NTMiner {
             return data;
         }
 
-        private static void ReportSpeed() {
+        private void ReportSpeed() {
             try {
                 SpeedData data = CreateSpeedData();
                 Server.ReportService.ReportSpeedAsync(NTKeyword.OfficialServerHost, data, response => {

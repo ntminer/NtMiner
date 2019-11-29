@@ -98,6 +98,7 @@ namespace NTMiner {
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
             IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
+            this.Reporter = new Reporter();
             this.ServerAppSettingSet = new ServerAppSettingSet();
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ServerContext = new ServerContext();
@@ -125,7 +126,6 @@ namespace NTMiner {
 
             if (VirtualRoot.IsMinerClient) {
                 VirtualRoot.LocalIpSet.InitOnece();
-                Report.Init();
                 Link();
                 // 当显卡温度变更时守卫温度防线
                 TempGruarder.Instance.Init(this);
@@ -552,6 +552,8 @@ namespace NTMiner {
                 return LockedMineContext != null;
             }
         }
+
+        public IReporter Reporter { get; private set; }
 
         public IServerContext ServerContext { get; private set; }
 
