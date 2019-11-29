@@ -12,7 +12,7 @@
         d:DataContext="{d:DesignData Source=/Design/MainWindowViewModel.xaml}"
         WindowStartupLocation="CenterScreen"
 		MouseDown="Window_MouseDown"
-        Title="矿机扫描(敖江) - 开源矿工" Height="800" Width="600">
+        Title="寻找矿机(敖江) - 开源矿工" Height="800" Width="600">
     <blankWindow:BlankWindow.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
     </blankWindow:BlankWindow.DataContext>
@@ -26,7 +26,7 @@
         <DockPanel Grid.Row="0">
             <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="4 0 0 0">
                 <Image Width="17" Height="18" Source="/NTMinerWpf;component/Styles/Images/aojiang.png"></Image>
-                <TextBlock Margin="2 0 0 0" Foreground="{StaticResource ThemeForeground}">矿机扫描(敖江) - 开源矿工</TextBlock>
+                <TextBlock Margin="2 0 0 0" Foreground="{StaticResource ThemeForeground}">寻找矿机(敖江) - 开源矿工</TextBlock>
             </WrapPanel>
             <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
                 <controls:KbSystemMinButton Height="32" />
