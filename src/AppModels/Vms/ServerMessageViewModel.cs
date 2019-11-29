@@ -61,8 +61,6 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public ServerMessageViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
@@ -90,7 +88,7 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 LoginWindow.Login(() => {
                     VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(this));
-                    CloseWindow?.Invoke();
+                    VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 });
             });
         }

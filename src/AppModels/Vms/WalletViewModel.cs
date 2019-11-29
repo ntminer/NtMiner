@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
@@ -36,8 +35,6 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public Action AfterClose { get; set; }
 
         public WalletViewModel(IWallet data) : this(data.GetId()) {
@@ -61,7 +58,7 @@ namespace NTMiner.Vms {
                         VirtualRoot.Execute(new AddWalletCommand(this));
                     }
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 AfterClose?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {

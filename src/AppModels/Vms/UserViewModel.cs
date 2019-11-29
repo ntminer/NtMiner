@@ -4,6 +4,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class UserViewModel : ViewModelBase, IUser, IEditableViewModel {
+        public readonly Guid Id = Guid.NewGuid();
+
         private string _loginName;
         private string _password;
         private bool _isEnabled;
@@ -14,8 +16,6 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
         public ICommand Enable { get; private set; }
         public ICommand Disable { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public UserViewModel(string loginName) : this() {
             _loginName = loginName;
@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
                 else {
                     VirtualRoot.Execute(new AddUserCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 VirtualRoot.Execute(new UserEditCommand(formType ?? FormType.Edit, this));

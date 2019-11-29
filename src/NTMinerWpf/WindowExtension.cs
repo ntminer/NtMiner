@@ -155,6 +155,25 @@ namespace NTMiner {
             messagePathIds.Add(messagePathId);
         }
 
+        public static IMessagePathId AddViaLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type location)
+            where TMessage : IMessage {
+            if (WpfUtil.IsInDesignMode) {
+                return null;
+            }
+            if (window.Resources == null) {
+                window.Resources = new ResourceDictionary();
+            }
+            List<IMessagePathId> messagePathIds = (List<IMessagePathId>)window.Resources[messagePathIdsResourceKey];
+            if (messagePathIds == null) {
+                messagePathIds = new List<IMessagePathId>();
+                window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
+                window.Closed += UiElement_Closed; ;
+            }
+            var messagePathId = VirtualRoot.AddViaLimitPath(description, logType, action, viaLimit, location);
+            messagePathIds.Add(messagePathId);
+            return messagePathId;
+        }
+
         private static void UiElement_Closed(object sender, EventArgs e) {
             Window uiElement = (Window)sender;
             List<IMessagePathId> messageIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];

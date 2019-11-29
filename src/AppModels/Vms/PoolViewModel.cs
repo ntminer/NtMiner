@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Profiles;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
@@ -48,8 +47,6 @@ namespace NTMiner.Vms {
         public ICommand ViewPoolIncome { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public PoolViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
@@ -88,7 +85,7 @@ namespace NTMiner.Vms {
                 else {
                     VirtualRoot.Execute(new AddPoolCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
