@@ -4,14 +4,13 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerNamesSeterViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private List<Tuple<string, string>> _namesByObjectId;
         private string _prefix;
         private string _suffix;
 
         public bool IsOk { get; private set; }
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public MinerNamesSeterViewModel() {
             if (!WpfUtil.IsInDesignMode) {
@@ -26,7 +25,7 @@ namespace NTMiner.Vms {
             RefreshNames();
             this.Save = new DelegateCommand(() => {
                 this.IsOk = true;
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
         }
 
@@ -61,7 +60,7 @@ namespace NTMiner.Vms {
             }
             List<Tuple<string, string>> list = new List<Tuple<string, string>>();
             for (int i = 0; i < NamesByObjectId.Count; i++) {
-                string suffix = string.Empty;
+                string suffix;
                 if (number != int.MinValue) {
                     suffix = (number + i).ToString().PadLeft(this.Suffix.Length, '0');
                 }
