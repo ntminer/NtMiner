@@ -17,8 +17,6 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public ICommand BrowsePackage { get; private set; }
 
         public PackageViewModel() {
@@ -45,7 +43,7 @@ namespace NTMiner.Vms {
                 else {
                     VirtualRoot.Execute(new AddPackageCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
