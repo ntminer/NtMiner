@@ -82,6 +82,7 @@ namespace NTMiner.Views {
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(Win32MessageProc.WindowProc));
                 MoveConsoleWindow();
+                NTMinerRoot.RefreshArgsAssembly.Invoke();
             };
             InitializeComponent();
 
@@ -93,7 +94,6 @@ namespace NTMiner.Views {
             UIThread.StartTimer();
             _borderBrush = this.BorderBrush;
             DateTime lastGetServerMessageOn = DateTime.MinValue;
-            NTMinerRoot.RefreshArgsAssembly.Invoke();
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
                 // 延迟创建，以加快主界面的启动

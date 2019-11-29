@@ -28,5 +28,9 @@ namespace NTMiner.Views.Ucs {
                 e.Handled = true;
             }
         }
+
+        private void KbButtonAddPool_Click(object sender, System.Windows.RoutedEventArgs e) {
+            Vm.HideView?.Execute(null);
+        }
     }
 }

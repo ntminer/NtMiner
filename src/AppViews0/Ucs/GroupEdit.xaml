@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
         xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
         xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
         mc:Ignorable="d"
@@ -19,16 +20,17 @@
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
             <TextBlock Text="名称" Style="{StaticResource LblTb}"></TextBlock>
-            <TextBox Width="180" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+            <TextBox Width="180" VerticalContentAlignment="Center" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}" Text="{Binding Name, ValidatesOnExceptions=True}">
             </TextBox>
             <TextBlock Text="排序" Style="{StaticResource LblTb}"></TextBlock>
-            <TextBox Width="60" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
+            <TextBox Width="60" VerticalContentAlignment="Center" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
         <WrapPanel Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <controls:KbButton
                 Command="{Binding Save}" 
                 Padding="15 2"
+			    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                 Background="{StaticResource ThemeBackground}"
                 Foreground="{StaticResource ThemeForeground}"
                 CornerRadius="2">
