@@ -13,22 +13,22 @@ namespace NTMiner.Core.Impl {
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
                     ReportSpeed();
-                }, location: typeof(Reporter), pathId: Guid.Empty);
+                }, location: this.GetType(), pathId: Guid.Empty);
 
                 VirtualRoot.AddEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
                     action: message => {
                         ReportSpeed();
-                    }, location: typeof(Reporter));
+                    }, location: this.GetType());
 
                 VirtualRoot.AddEventPath<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole,
                     action: message => {
                         ReportSpeed();
-                    }, location: typeof(Reporter));
+                    }, location: this.GetType());
 
                 VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                     action: message => {
                         Server.ReportService.ReportStateAsync(NTKeyword.OfficialServerHost, VirtualRoot.Id, isMining: false);
-                    }, location: typeof(Reporter));
+                    }, location: this.GetType());
             }
         }
 
