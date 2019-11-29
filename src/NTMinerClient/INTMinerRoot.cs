@@ -44,6 +44,8 @@ namespace NTMiner {
         /// </summary>
         bool IsMining { get; }
 
+        IReporter Reporter { get; }
+
         IServerContext ServerContext { get; }
 
         IGpuProfileSet GpuProfileSet { get; }

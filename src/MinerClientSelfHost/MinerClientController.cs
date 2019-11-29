@@ -89,7 +89,7 @@ namespace NTMiner {
         [HttpPost]
         public SpeedData GetSpeed() {
             try {
-                SpeedData data = Report.CreateSpeedData();
+                SpeedData data = NTMinerRoot.Instance.Reporter.CreateSpeedData();
                 return data;
             }
             catch (Exception e) {
