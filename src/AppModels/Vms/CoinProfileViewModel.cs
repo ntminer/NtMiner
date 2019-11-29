@@ -48,11 +48,13 @@ namespace NTMiner.Vms {
                     int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
                     new WalletViewModel(id) {
                         CoinId = CoinId,
-                        SortNumber = sortNumber
+                        SortNumber = sortNumber,
+                        AfterClose = () => {
+                            if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
+                                this.SelectedWallet = AppContext.Instance.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
+                            }
+                        }
                     }.Edit.Execute(FormType.Add);
-                    if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
-                        this.SelectedWallet = AppContext.Instance.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
-                    }
                 }
             });
             this.AddDualCoinWallet = new DelegateCommand(() => {
@@ -62,11 +64,13 @@ namespace NTMiner.Vms {
                     int sortNumber = wallets.Length == 0 ? 1 : wallets.Max(a => a.SortNumber) + 1;
                     new WalletViewModel(id) {
                         CoinId = CoinId,
-                        SortNumber = sortNumber
-                    }.Edit.Execute(FormType.Add);
-                    if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
-                        this.SelectedDualCoinWallet = AppContext.Instance.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
-                    }
+                        SortNumber = sortNumber,
+                        AfterClose = () => {
+                            if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(id, out IWallet wallet)) {
+                                this.SelectedDualCoinWallet = AppContext.Instance.WalletVms.WalletList.FirstOrDefault(a => a.Id == id);
+                            }
+                        }
+                    }.Edit.Execute(FormType.Add);                    
                 }
             });
         }

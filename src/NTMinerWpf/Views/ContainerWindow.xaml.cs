@@ -35,8 +35,9 @@ namespace NTMiner.Views {
             if (ucFactory == null) {
                 throw new ArgumentNullException(nameof(ucFactory));
             }
-            ContainerWindow window = new ContainerWindow(vm, ucFactory, fixedSize);
+            ContainerWindow window = null;
             if (vm.IsMaskTheParent) {
+                window = new ContainerWindow(vm, ucFactory, afterClose, fixedSize);
                 window.ShowWindow(beforeShow);
                 return window;
             }
@@ -45,11 +46,8 @@ namespace NTMiner.Views {
                 window = s_windowDicByType[ucType];
             }
             else {
+                window = new ContainerWindow(vm, ucFactory, afterClose, fixedSize);
                 s_windowDic.Add(vm, window);
-                window.Closed += (object sender, EventArgs e) => {
-                    s_windowDic.Remove(vm);
-                    afterClose?.Invoke();
-                };
                 s_windowDicByType.Add(ucType, window);
                 if (s_windowLeftDic.ContainsKey(ucType)) {
                     window.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -78,6 +76,7 @@ namespace NTMiner.Views {
         private ContainerWindow(
             ContainerWindowViewModel vm,
             Func<ContainerWindow, UserControl> ucFactory,
+            Action afterClose,
             bool fixedSize = false,
             bool dragMove = true) {
             _uc = ucFactory(this);
@@ -116,6 +115,10 @@ namespace NTMiner.Views {
 
             InitializeComponent();
 
+            this.Closed += (object sender, EventArgs e) => {
+                s_windowDic.Remove(vm);
+                afterClose?.Invoke();
+            };
             if (fixedSize) {
                 if (vm.IsMaskTheParent) {
                     this.ResizeMode = ResizeMode.NoResize;

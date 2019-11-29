@@ -38,6 +38,8 @@ namespace NTMiner.Vms {
 
         public Action CloseWindow { get; set; }
 
+        public Action AfterClose { get; set; }
+
         public WalletViewModel(IWallet data) : this(data.GetId()) {
             _name = data.Name;
             _coinId = data.CoinId;
@@ -60,6 +62,7 @@ namespace NTMiner.Vms {
                     }
                 }
                 CloseWindow?.Invoke();
+                AfterClose?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
