@@ -5,7 +5,6 @@ namespace NTMiner.Core.Cpus {
     /// 指的是整个CPU包，而不是单个CPU核。
     /// </summary>
     public interface ICpuPackage {
-        void Start();
         /// <summary>
         /// CPU使用率百分比。百分号前面的部分
         /// </summary>

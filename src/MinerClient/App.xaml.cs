@@ -130,7 +130,6 @@ namespace NTMiner {
                             catch (Exception ex) {
                                 Logger.ErrorDebugLine(ex);
                             }
-                            NTMinerRoot.Instance.CpuPackage.Start();
                         });
                     });
                     Link();

@@ -10,10 +10,12 @@ namespace NTMiner.Core.Impl {
 
         public CalcConfigSet(INTMinerRoot root) {
             _root = root;
-            VirtualRoot.AddOnecePath<HasBoot20SecondEvent>("启动一定时间后初始化收益计算器", LogEnum.DevConsole,
-                action: message => {
-                    Init(forceRefresh: true);
-                }, location: this.GetType(), pathId: Guid.Empty);
+            if (VirtualRoot.IsMinerClient) {
+                VirtualRoot.AddOnecePath<HasBoot20SecondEvent>("启动一定时间后初始化收益计算器", LogEnum.DevConsole,
+                    action: message => {
+                        Init(forceRefresh: true);
+                    }, location: this.GetType(), pathId: Guid.Empty);
+            }
         }
 
         private DateTime _initedOn = DateTime.MinValue;
