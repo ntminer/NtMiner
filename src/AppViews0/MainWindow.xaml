@@ -176,7 +176,6 @@
                         Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                         IsChecked="{Binding IsTestHost}"
 						Foreground="{StaticResource ThemeForeground}"
-						Command="{Binding SetServerNTminerComHost}"
                         Content="TestHost">
                     </CheckBox>
                     <CheckBox 
