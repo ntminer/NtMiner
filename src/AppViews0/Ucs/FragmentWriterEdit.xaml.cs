@@ -16,7 +16,7 @@ namespace NTMiner.Views.Ucs {
                 FragmentWriterViewModel vm = new FragmentWriterViewModel(source);
                 window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
                     window.Close();
-                }, pathId: vm.Id, location: typeof(FileWriterEdit));
+                }, pathId: vm.Id, location: typeof(FragmentWriterEdit));
                 return new FragmentWriterEdit(vm);
             }, fixedSize: true);
         }

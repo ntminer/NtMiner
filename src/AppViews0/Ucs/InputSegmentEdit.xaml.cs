@@ -12,9 +12,10 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) =>
             {
-                InputSegmentEditViewModel vm = new InputSegmentEditViewModel(coinKernelVm, segment) {
-                    CloseWindow = window.Close
-                };
+                InputSegmentEditViewModel vm = new InputSegmentEditViewModel(coinKernelVm, segment);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(InputSegmentEdit));
                 return new InputSegmentEdit(vm);
             }, fixedSize: true);
         }

@@ -13,17 +13,12 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Group"
             }, ucFactory: (window) =>
             {
-                GroupViewModel vm = new GroupViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                GroupViewModel vm = new GroupViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(GroupEdit));
                 return new GroupEdit(vm);
             }, fixedSize: true);
-        }
-
-        private GroupViewModel Vm {
-            get {
-                return (GroupViewModel)this.DataContext;
-            }
         }
 
         public GroupEdit(GroupViewModel vm) {
