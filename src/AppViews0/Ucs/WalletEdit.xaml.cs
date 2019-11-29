@@ -14,7 +14,8 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 WalletViewModel vm = new WalletViewModel(source) {
-                    CloseWindow = window.Close
+                    CloseWindow = window.Close,
+                    AfterClose = source.AfterClose
                 };
                 return new WalletEdit(vm);
             }, fixedSize: true);
