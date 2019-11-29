@@ -12,9 +12,10 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_OverClock"
             }, ucFactory: (window) => {
-                OverClockDataViewModel vm = new OverClockDataViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                OverClockDataViewModel vm = new OverClockDataViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(OverClockDataEdit));
                 return new OverClockDataEdit(vm);
             }, fixedSize: true);
         }

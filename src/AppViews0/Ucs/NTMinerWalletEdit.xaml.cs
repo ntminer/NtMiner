@@ -12,9 +12,10 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Wallet"
             }, ucFactory: (window) => {
-                NTMinerWalletViewModel vm = new NTMinerWalletViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                NTMinerWalletViewModel vm = new NTMinerWalletViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(NTMinerWalletEdit));
                 return new NTMinerWalletEdit(vm);
             }, fixedSize: true);
         }

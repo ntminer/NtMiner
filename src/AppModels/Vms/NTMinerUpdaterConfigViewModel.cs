@@ -4,9 +4,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class NTMinerUpdaterConfigViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public NTMinerUpdaterConfigViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -21,7 +20,7 @@ namespace NTMiner.Vms {
                         Key = NTKeyword.NTMinerUpdaterFileNameAppSettingKey,
                         Value = this.FileName
                     }));
-                    CloseWindow?.Invoke();
+                    VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
