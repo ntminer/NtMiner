@@ -7,9 +7,8 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class CalcConfigViewModels : ViewModelBase {
         private List<CalcConfigViewModel> _calcConfigVms = new List<CalcConfigViewModel>();
+        public readonly Guid Id = Guid.NewGuid();
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public CalcConfigViewModels() {
             if (WpfUtil.IsInDesignMode) {
@@ -17,7 +16,7 @@ namespace NTMiner.Vms {
             }
             this.Save = new DelegateCommand(() => {
                 NTMinerRoot.Instance.CalcConfigSet.SaveCalcConfigs(this.CalcConfigVms.Select(a => CalcConfigData.Create(a)).ToList());
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             Refresh();
         }

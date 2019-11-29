@@ -5,11 +5,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class EnvironmentVariableEditViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private string _key;
         private string _value;
 
         public ICommand Save { get; private set; }
-        public Action CloseWindow { get; set; }
 
         public EnvironmentVariableEditViewModel() {
             if (!WpfUtil.IsInDesignMode) {
@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                     coinKernelViewModel.EnvironmentVariables.Add(environmentVariable);
                 }
                 coinKernelViewModel.EnvironmentVariables = coinKernelViewModel.EnvironmentVariables.ToList();
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
         }
 

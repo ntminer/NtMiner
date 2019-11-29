@@ -6,11 +6,10 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class EthNoDevFeeEditViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private string _ethNoDevFeeWallet;
 
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public EthNoDevFeeEditViewModel() {
             _ethNoDevFeeWallet = GetEthNoDevFeeWallet();
@@ -20,7 +19,7 @@ namespace NTMiner.Vms {
                     Value = EthNoDevFeeWallet
                 };
                 VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
         }
 

@@ -12,9 +12,10 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_ColumnsShow",
             }, ucFactory: (window) =>
             {
-                ColumnsShowViewModel vm = new ColumnsShowViewModel(source) {
-                    CloseWindow = window.Close
-                };
+                ColumnsShowViewModel vm = new ColumnsShowViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(ColumnsShowEdit));
                 return new ColumnsShowEdit(vm);
             }, fixedSize: true);
         }

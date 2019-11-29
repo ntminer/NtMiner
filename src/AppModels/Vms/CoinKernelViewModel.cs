@@ -47,8 +47,6 @@ namespace NTMiner.Vms {
         public ICommand RemoveFileWriter { get; private set; }
         public ICommand RemoveFragmentWriter { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public CoinKernelViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
@@ -132,7 +130,7 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Instance.ServerContext.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 VirtualRoot.Execute(new CoinKernelEditCommand(formType ?? FormType.Edit, this));
