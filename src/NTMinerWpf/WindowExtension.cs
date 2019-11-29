@@ -101,7 +101,6 @@ namespace NTMiner {
 
         private const string messagePathIdsResourceKey = "messagePathIds";
 
-        // 因为是上下文路径，无需返回路径标识
         public static void AddCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action, Type location)
             where TCmd : ICmd {
             if (WpfUtil.IsInDesignMode) {
@@ -120,7 +119,6 @@ namespace NTMiner {
             messagePathIds.Add(messagePathId);
         }
 
-        // 因为是上下文路径，无需返回路径标识
         public static void AddEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
             if (WpfUtil.IsInDesignMode) {
@@ -136,6 +134,24 @@ namespace NTMiner {
                 window.Closed += UiElement_Closed; ;
             }
             var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+            messagePathIds.Add(messagePathId);
+        }
+
+        public static void AddOnecePath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location)
+            where TMessage : IMessage {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+            if (window.Resources == null) {
+                window.Resources = new ResourceDictionary();
+            }
+            List<IMessagePathId> messagePathIds = (List<IMessagePathId>)window.Resources[messagePathIdsResourceKey];
+            if (messagePathIds == null) {
+                messagePathIds = new List<IMessagePathId>();
+                window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
+                window.Closed += UiElement_Closed; ;
+            }
+            var messagePathId = VirtualRoot.AddOnecePath(description, logType, action, pathId, location);
             messagePathIds.Add(messagePathId);
         }
 
