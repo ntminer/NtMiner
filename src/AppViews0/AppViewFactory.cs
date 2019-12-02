@@ -72,7 +72,9 @@ namespace NTMiner.Views {
                 if (NTMinerRoot.IsBrandSpecified) {
                     return;
                 }
-                BrandTag.ShowWindow();
+                UIThread.Execute(() => {
+                    BrandTag.ShowWindow();
+                });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowCoinPageCommand>(action: message => {
                 UIThread.Execute(() => {
@@ -135,7 +137,9 @@ namespace NTMiner.Views {
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowRemoteDesktopLoginDialogCommand>(action: message => {
-                RemoteDesktopLogin.ShowWindow(message.Vm);
+                UIThread.Execute(() => {
+                    RemoteDesktopLogin.ShowWindow(message.Vm);
+                });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowKernelsWindowCommand>(action: message => {
                 UIThread.Execute(() => {
