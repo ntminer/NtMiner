@@ -2,7 +2,7 @@
 using System.ComponentModel;
 
 namespace NTMiner.Vms {
-    public abstract class ViewModelBase : INotifyPropertyChanged, IDisposable {
+    public abstract class ViewModelBase : INotifyPropertyChanged {
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged(string propertyName) {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -13,9 +13,6 @@ namespace NTMiner.Vms {
             foreach (var propertyInfo in type.GetProperties()) {
                 this.OnPropertyChanged(propertyInfo.Name);
             }
-        }
-        void IDisposable.Dispose() {
-            this.PropertyChanged = null;
         }
     }
 }
