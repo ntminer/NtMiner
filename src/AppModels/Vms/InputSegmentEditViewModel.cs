@@ -21,7 +21,10 @@ namespace NTMiner.Vms {
             }
         }
 
+        private readonly InputSegmentViewModel _old;
         public InputSegmentEditViewModel(CoinKernelViewModel coinKernelVm, InputSegmentViewModel segment) {
+            _old = segment;
+            segment = new InputSegmentViewModel(segment);
             _targetGpu = segment.TargetGpu;
             _name = segment.Name;
             _segment = segment.Segment;
@@ -36,12 +39,15 @@ namespace NTMiner.Vms {
                 segment.Segment = this.Segment;
                 segment.Description = this.Description;
                 segment.IsDefault = this.IsDefault;
-                var existItem = coinKernelVm.InputSegments.FirstOrDefault(a => a.Segment == segment.Segment);
-                if (existItem == null) {
-                    coinKernelVm.InputSegments.Add(new InputSegment(segment));
+                bool isUpdate = !string.IsNullOrEmpty(_old.Name);
+                if (isUpdate) {
+                    var existItem = coinKernelVm.InputSegments.FirstOrDefault(a => a.Name == _old.Name && a.Segment == _old.Segment);
+                    if (existItem != null) {
+                        existItem.Update(segment);
+                    }
                 }
                 else {
-                    existItem.Update(segment);
+                    coinKernelVm.InputSegments.Add(new InputSegment(segment));
                 }
                 coinKernelVm.InputSegments = coinKernelVm.InputSegments.ToList();
                 VirtualRoot.Execute(new CloseWindowCommand(this.Id));
