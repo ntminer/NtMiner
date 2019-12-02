@@ -182,19 +182,6 @@ namespace NTMiner {
                 ShowMainWindow(message.IsToggle);
             }, location: this.GetType());
             #endregion
-            VirtualRoot.AddCmdPath<CloseNTMinerCommand>(action: message => {
-                // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
-                VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}。原因：{message.Reason}");
-                UIThread.Execute(() => {
-                    try {
-                        Shutdown();
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                        Environment.Exit(0);
-                    }
-                });
-            }, location: this.GetType());
             #region 周期确保守护进程在运行
             VirtualRoot.AddEventPath<Per1MinuteEvent>("周期确保守护进程在运行", LogEnum.DevConsole,
                 action: message => {

@@ -69,19 +69,6 @@ namespace NTMiner {
                         Init();
                     }
                 });
-                VirtualRoot.AddCmdPath<CloseNTMinerCommand>(action: message => {
-                    // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
-                    VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"退出{VirtualRoot.AppName}。原因：{message.Reason}");
-                    UIThread.Execute(() => {
-                        try {
-                            Shutdown();
-                        }
-                        catch (Exception ex) {
-                            Logger.ErrorDebugLine(ex);
-                            Environment.Exit(0);
-                        }
-                    });
-                }, location: this.GetType());
             }
             else {
                 try {
