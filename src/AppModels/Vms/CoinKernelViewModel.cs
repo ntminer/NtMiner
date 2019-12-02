@@ -104,9 +104,9 @@ namespace NTMiner.Vms {
             this.EditSegment = new DelegateCommand<InputSegmentViewModel>((segment) => {
                 VirtualRoot.Execute(new InputSegmentEditCommand(this, segment));
             });
-            this.RemoveSegment = new DelegateCommand<InputSegment>((segment) => {
+            this.RemoveSegment = new DelegateCommand<InputSegmentViewModel>((segment) => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
-                    this.InputSegments.Remove(segment);
+                    this.InputSegments.Remove(this.InputSegments.FirstOrDefault(a => a.Name == segment.Name && a.Segment == segment.Segment && a.TargetGpu == segment.TargetGpu));
                     InputSegments = InputSegments.ToList();
                 }));
             });
