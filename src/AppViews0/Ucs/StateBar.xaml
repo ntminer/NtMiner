@@ -303,7 +303,16 @@
                     </WrapPanel>
                 </controls:KbButton>
                 <WrapPanel Grid.Column="1" HorizontalAlignment="Right" Margin="0 0 70 0">
-                    <TextBlock Margin="4 0 0 0" Text="{x:Static app:AppStatic.WindowsEdition}" ToolTip="{x:Static app:AppStatic.WindowsEditionToolTip}" Foreground="{x:Static app:AppStatic.WindowsEditionColor}"></TextBlock>
+                    <controls:KbButton 
+						Background="Transparent"
+						Margin="4 0 0 0"
+						ToolTip="{x:Static app:AppStatic.WindowsEditionToolTip}"
+                        Cursor="Hand"
+                        Command="{x:Static app:AppStatic.WindowsProperty}"
+                        Foreground="{x:Static app:AppStatic.WindowsEditionColor}"
+                        Content="{x:Static app:AppStatic.WindowsEdition}"
+						CornerRadius="2">
+                    </controls:KbButton>
 					<controls:KbButton 
 						Background="Transparent"
 						Margin="4 0 0 0"

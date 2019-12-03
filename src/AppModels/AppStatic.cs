@@ -539,6 +539,10 @@ namespace NTMiner {
         }
         #endregion
 
+        public static ICommand WindowsProperty { get; private set; } = new DelegateCommand(() => {
+            Process.Start("control.exe", "system");
+        });
+
         public static ICommand ShowServerKernelOutputKeywords { get; private set; } = new DelegateCommand(() => {
 
         });

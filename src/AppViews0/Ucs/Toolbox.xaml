@@ -353,7 +353,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
-					Command="{Binding WindowsProperty}"
+					Command="{x:Static app:AppStatic.WindowsProperty}"
 					Cursor="Hand"
 					Background="Transparent">
                     <WrapPanel VerticalAlignment="Center">
