@@ -10,7 +10,7 @@ namespace NTMiner.Models.Win32 {
             return (WSEX)GetWindowLong(hWnd, (int)GWL.EXSTYLE);
         }
 
-        [DllImport("user32.dll", EntryPoint = "GetWindowLongA", SetLastError = true)]
+        [DllImport(DllName.User32Dll, EntryPoint = "GetWindowLongA", SetLastError = true)]
         public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
         public static WS SetWindowLong(this IntPtr hWnd, WS dwNewLong) {
@@ -20,14 +20,14 @@ namespace NTMiner.Models.Win32 {
             return (WSEX)SetWindowLong(hWnd, (int)GWL.EXSTYLE, (int)dwNewLong);
         }
 
-        [DllImport("user32.dll")]
+        [DllImport(DllName.User32Dll)]
         public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
 
-        [DllImport("user32.dll")]
+        [DllImport(DllName.User32Dll)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int x, int y, int cx, int cy, SWP flags);
 
-        [DllImport("user32.dll", SetLastError = true)]
+        [DllImport(DllName.User32Dll, SetLastError = true)]
         public static extern bool PostMessage(IntPtr hwnd, uint Msg, IntPtr wParam, IntPtr lParam);
     }
 }

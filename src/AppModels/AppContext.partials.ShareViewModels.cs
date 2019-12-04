@@ -11,27 +11,28 @@ namespace NTMiner {
 
             private ShareViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                EventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
+                AddEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        ShareViewModel shareVm;
-                        if (_dicByCoinId.TryGetValue(message.Source.CoinId, out shareVm)) {
-                            shareVm.Update(message.Source);
+                        if (_dicByCoinId.TryGetValue(message.Target.CoinId, out ShareViewModel shareVm)) {
+                            shareVm.Update(message.Target);
                         }
-                    });
+                    }, location: this.GetType());
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private readonly object _locker = new object();
             public ShareViewModel GetOrCreate(Guid coinId) {
-                if (!NTMinerRoot.Instance.CoinSet.Contains(coinId)) {
+                if (!NTMinerRoot.Instance.ServerContext.CoinSet.Contains(coinId)) {
                     return new ShareViewModel(coinId);
                 }
-                ShareViewModel shareVm;
-                if (!_dicByCoinId.TryGetValue(coinId, out shareVm)) {
+                if (!_dicByCoinId.TryGetValue(coinId, out ShareViewModel shareVm)) {
                     lock (_locker) {
                         if (!_dicByCoinId.TryGetValue(coinId, out shareVm)) {
                             shareVm = new ShareViewModel(coinId);

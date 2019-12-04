@@ -21,7 +21,10 @@ namespace NTMiner.Vms {
             _walletRegexPattern = string.Empty,
             _notice = string.Empty,
             _tutorialUrl = string.Empty,
-            _iconImageSource = string.Empty
+            _iconImageSource = string.Empty,
+            _minGpuMemoryGb = 0,
+            _isHot = false,
+            _kernelBrand = string.Empty
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
             _code = "不指定"
@@ -44,6 +47,7 @@ namespace NTMiner.Vms {
         private string _tutorialUrl;
         private bool _isHot;
         private string _kernelBrand;
+        private double _minGpuMemoryGb;
         private List<GpuProfileViewModel> _gpuProfileVms;
         private readonly CoinIncomeViewModel _coinIncomeVm;
 
@@ -66,6 +70,8 @@ namespace NTMiner.Vms {
 
         public ICommand AddOverClockData { get; private set; }
 
+        public ICommand AddNTMinerWallet { get; private set; }
+
         public ICommand ApplyTemplateOverClock { get; private set; }
 
         public ICommand ApplyCustomOverClock { get; private set; }
@@ -76,10 +82,8 @@ namespace NTMiner.Vms {
 
         public ICommand FillOverClockForm { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public CoinViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -97,6 +101,7 @@ namespace NTMiner.Vms {
             _tutorialUrl = data.TutorialUrl;
             _isHot = data.IsHot;
             _kernelBrand = data.KernelBrand;
+            _minGpuMemoryGb = data.MinGpuMemoryGb;
             string iconFileFullName = SpecialPath.GetIconFileFullName(data);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
@@ -155,27 +160,27 @@ namespace NTMiner.Vms {
                 }
             });
             this.ApplyTemplateOverClock = new DelegateCommand<OverClockDataViewModel>((data) => {
-                this.ShowDialog(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: data.Tooltip, title: "确定应用该超频设置吗？", onYes: () => {
                     FillOverClock(data);
                     ApplyOverClock();
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.ApplyCustomOverClock = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定应用您的自定义超频吗？", title: "确认自定义超频", onYes: () => {
                     ApplyOverClock();
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.RestoreOverClock = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定恢复默认吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定恢复默认吗？", title: "确认", onYes: () => {
                     NTMinerRoot.Instance.GpuSet.OverClock.Restore();
                     this.IsOverClockEnabled = false;
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.FillOverClockForm = new DelegateCommand<OverClockDataViewModel>((data) => {
                 FillOverClock(data);
             });
             this.FillOverClockForms = new DelegateCommand(() => {
-                this.ShowDialog(message: "确定将统一超频的数据一键填充到每张卡吗？", title: "一键填充表单", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: "确定将统一超频的数据一键填充到每张卡吗？", title: "一键填充表单", onYes: () => {
                     var data = GpuAllProfileVm;
                     foreach (var item in GpuProfileVms) {
                         if (item.Index == NTMinerRoot.GpuAllId) {
@@ -184,10 +189,15 @@ namespace NTMiner.Vms {
                         item.Update((IOverClockInput)data);
                         VirtualRoot.Execute(new AddOrUpdateGpuProfileCommand(item));
                     }
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.AddOverClockData = new DelegateCommand(() => {
                 new OverClockDataViewModel(Guid.NewGuid()) {
+                    CoinId = this.Id
+                }.Edit.Execute(FormType.Add);
+            });
+            this.AddNTMinerWallet = new DelegateCommand(() => {
+                new NTMinerWalletViewModel(Guid.NewGuid()) {
                     CoinId = this.Id
                 }.Edit.Execute(FormType.Add);
             });
@@ -195,13 +205,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.CoinSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddCoinCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -213,9 +223,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Code}币种吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Code}币种吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
 
             this.AddPool = new DelegateCommand(() => {
@@ -307,7 +317,7 @@ namespace NTMiner.Vms {
                 if (this == PleaseSelect || NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
-                foreach (var coinKernel in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.CoinId == this.Id)) {
+                foreach (var coinKernel in NTMinerRoot.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id)) {
                     if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
                         return true;
                     }
@@ -387,7 +397,7 @@ namespace NTMiner.Vms {
             using (var webClient = VirtualRoot.CreateWebClient(10)) {
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
                     if (!e.Cancelled && e.Error == null) {
-                        VirtualRoot.Happened(new CoinIconDownloadedEvent(this));
+                        VirtualRoot.RaiseEvent(new CoinIconDownloadedEvent(Guid.Empty, this));
                     }
                     else {
                         File.Delete(iconFileFullName);
@@ -524,6 +534,26 @@ namespace NTMiner.Vms {
             }
         }
 
+        public double MinGpuMemoryGb {
+            get { return _minGpuMemoryGb; }
+            set {
+                if (_minGpuMemoryGb != value) {
+                    _minGpuMemoryGb = value;
+                    OnPropertyChanged(nameof(MinGpuMemoryGb));
+                    OnPropertyChanged(nameof(MinGpuMemoryGbText));
+                }
+            }
+        }
+
+        public string MinGpuMemoryGbText {
+            get {
+                if (MinGpuMemoryGb == 0) {
+                    return "-";
+                }
+                return MinGpuMemoryGb.ToString() + " Gb";
+            }
+        }
+
         private string _oldKernelBrand;
         private readonly Dictionary<GpuType, Guid> _kernelBrandDic = new Dictionary<GpuType, Guid>();
         private Dictionary<GpuType, Guid> KernelBrandDic {
@@ -599,22 +629,22 @@ namespace NTMiner.Vms {
                     this.KernelBrand = string.Empty;
                 }
                 else {
-                    this.KernelBrand = $"{GpuType.AMD.GetName()}:{a.Id}";
+                    this.KernelBrand = $"{GpuType.AMD.GetName()}:{a.Id.ToString()}";
                 }
             }
             else {
                 if (a == null) {
-                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id}";
+                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id.ToString()}";
                 }
                 else {
-                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id};{GpuType.AMD.GetName()}:{a.Id}";
+                    this.KernelBrand = $"{GpuType.NVIDIA.GetName()}:{n.Id.ToString()};{GpuType.AMD.GetName()}:{a.Id.ToString()}";
                 }
             }
         }
 
         public CoinProfileViewModel CoinProfile {
             get {
-                if (!NTMinerRoot.Instance.CoinSet.Contains(this.Id)) {
+                if (!NTMinerRoot.Instance.ServerContext.CoinSet.Contains(this.Id)) {
                     return null;
                 }
                 return AppContext.Instance.CoinProfileVms.GetOrCreateCoinProfile(this.Id);
@@ -665,7 +695,13 @@ namespace NTMiner.Vms {
 
         public List<OverClockDataViewModel> OverClockDatas {
             get {
-                return AppContext.Instance.OverClockDataVms.Where(a => a.CoinId == this.Id).ToList();
+                return AppContext.Instance.OverClockDataVms.Items.Where(a => a.CoinId == this.Id).ToList();
+            }
+        }
+
+        public List<NTMinerWalletViewModel> NTMinerWallets {
+            get {
+                return AppContext.Instance.NTMinerWalletVms.Items.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 
@@ -683,7 +719,7 @@ namespace NTMiner.Vms {
 
         public List<WalletViewModel> Wallets {
             get {
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return new List<WalletViewModel>();
                 }
                 return GetWallets().ToList();

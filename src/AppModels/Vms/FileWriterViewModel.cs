@@ -13,10 +13,8 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public FileWriterViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -33,13 +31,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.FileWriterSet.TryGetFileWriter(this.Id, out IFileWriter writer)) {
+                if (NTMinerRoot.Instance.ServerContext.FileWriterSet.TryGetFileWriter(this.Id, out IFileWriter writer)) {
                     VirtualRoot.Execute(new UpdateFileWriterCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddFileWriterCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -51,9 +49,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveFileWriterCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
         }
 

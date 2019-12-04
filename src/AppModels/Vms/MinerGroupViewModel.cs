@@ -18,10 +18,8 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public MinerGroupViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -32,14 +30,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                IMinerGroup group;
-                if (NTMinerRoot.Instance.MinerGroupSet.TryGetMinerGroup(this.Id, out group)) {
+                if (NTMinerRoot.Instance.MinerGroupSet.TryGetMinerGroup(this.Id, out IMinerGroup group)) {
                     VirtualRoot.Execute(new UpdateMinerGroupCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddMinerGroupCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -53,9 +50,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMinerGroupCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             }, () => {
                 return this != PleaseSelect;
             });

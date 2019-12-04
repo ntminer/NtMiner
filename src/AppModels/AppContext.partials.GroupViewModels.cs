@@ -13,55 +13,58 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
             private GroupViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
                 this.Add = new DelegateCommand(() => {
                     new GroupViewModel(Guid.NewGuid()) {
                         SortNumber = Count + 1
                     }.Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
-                    });
-                EventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            GroupViewModel groupVm = new GroupViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), groupVm);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            GroupViewModel groupVm = new GroupViewModel(message.Target);
+                            _dicById.Add(message.Target.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
-                    });
-                EventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            GroupViewModel entity = _dicById[message.Source.GetId()];
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            GroupViewModel entity = _dicById[message.Target.GetId()];
                             int sortNumber = entity.SortNumber;
-                            entity.Update(message.Source);
+                            entity.Update(message.Target);
                             if (sortNumber != entity.SortNumber) {
                                 this.OnPropertyChanged(nameof(List));
                                 OnPropertyChanged(nameof(SelectionOptions));
                             }
                         }
-                    });
-                EventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChangeds();
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.GroupSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.GroupSet.AsEnumerable()) {
                     GroupViewModel groupVm = new GroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

@@ -37,7 +37,7 @@ namespace HardwareProviders {
             Parameters = parameterDescriptions;
 
             Name = name;
-            Identifier = $"{hardware.Identifier}/{SensorType}/{Index}";
+            Identifier = $"{hardware.Identifier}/{SensorType.ToString()}/{Index.ToString()}";
         }
 
         public SensorType SensorType { get; }
@@ -50,7 +50,7 @@ namespace HardwareProviders {
 
         public Parameter[] Parameters { get; }
 
-        public override string ToString() => $"{Name} {Value} {Units[SensorType]}";
+        public override string ToString() => $"{Name} {(Value.HasValue?Value.Value.ToString() : string.Empty)} {Units[SensorType]}";
 
         public float? Value {
             get => currentValue;

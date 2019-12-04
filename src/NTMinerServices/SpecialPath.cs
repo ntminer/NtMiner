@@ -8,7 +8,7 @@ namespace NTMiner {
             if (!Directory.Exists(MineWorksDirFullName)) {
                 Directory.CreateDirectory(MineWorksDirFullName);
             }
-            LocalDbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "local.litedb");
+            LocalDbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NTKeyword.LocalDbFileName);
         }
 
         public static string GetMineWorkLocalJsonFileFullName(Guid workId) {

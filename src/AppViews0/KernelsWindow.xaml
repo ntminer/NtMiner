@@ -162,6 +162,541 @@
 				<controls:KbSystemCloseButton Height="36" KbSystemButtonForeground="#385263" />
 			</WrapPanel>
 		</Grid>
-		<uc:KernelGrid DataContext="{Binding}" Margin="0 0 10 0" Background="Transparent"></uc:KernelGrid>
-	</DockPanel>
+        <Grid Margin="0 0 10 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer 
+				    x:Name="CoinsScrollView" 
+				    PreviewMouseDown="CoinsScrollView_PreviewMouseDown" 
+				    HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <ScrollViewer.Resources>
+                        <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
+                        <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
+                    </ScrollViewer.Resources>
+                    <ListBox 
+					    Margin="0 0 0 4"
+					    Background="Transparent"
+					    ItemsSource="{Binding CoinVms.MainCoinPleaseSelect}"
+					    SelectedItem="{Binding SelectedCoinVm}"
+					    MouseDown="ListBox_MouseDown"
+					    ItemContainerStyle="{StaticResource ListBoxBarItem}"
+					    BorderThickness="0">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel>
+                                </WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Padding="10 2" Text="{Binding Code}">
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+                <WrapPanel Grid.Column="1">
+                    <Button x:Name="ButtonLeftCoin" IsEnabled="False" Click="ButtonLeftCoin_Click">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border 
+								    x:Name="Content"
+								    Padding="4 4 6 4"
+								    BorderThickness="1"
+								    Background="Transparent">
+                                    <Path
+									    x:Name="Icon"
+									    Width="8"
+									    Height="12"
+									    Data="{StaticResource Icon_LeftTriangle}"
+									    Fill="#676767"
+									    Stretch="Fill">
+                                    </Path>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
+                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.5"></Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="ButtonRightCoin" Margin="2 0 0 0" Click="ButtonRightCoin_Click">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border 
+								    x:Name="Content"
+								    Padding="6 4 4 4"
+								    BorderThickness="1"
+								    Background="Transparent">
+                                    <Path
+									    x:Name="Icon"
+									    Width="8"
+									    Height="12"
+									    Data="{StaticResource Icon_RightTriangle}"
+									    Fill="#676767"
+									    Stretch="Fill">
+                                    </Path>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
+                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.5"></Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </WrapPanel>
+            </Grid>
+            <DataGrid 
+			    Grid.Row="1"
+			    Margin="0" ItemsSource="{Binding QueryResults}" 
+			    BorderThickness="0" RowHeight="40"
+			    MouseDoubleClick="DataGrid_MouseDoubleClick">
+                <DataGrid.Resources>
+                    <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn MinWidth="100" Width="*" Header="内核编码" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Margin="4 0 0 0">
+                                    <TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
+                                    <WrapPanel>
+                                        <TextBlock Text="{Binding Notice}" ToolTip="{Binding Notice}"></TextBlock>
+                                        <TextBlock 
+										    Foreground="Green" 
+										    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+										    Text="{Binding SupportedCoins}"></TextBlock>
+                                    </WrapPanel>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="100" Header="版本" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="v"></TextBlock>
+                                    <TextBlock Text="{Binding Version}"></TextBlock>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="100"  Header="品牌" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding BrandItem.Value}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="170" Header="发布时间" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Center">
+                                    <WrapPanel Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock Text="发布于" Margin="0 0 4 0"></TextBlock>
+                                        <TextBlock Text="{Binding PublishOnText}"></TextBlock>
+                                    </WrapPanel>
+                                    <TextBlock Text="未发布" Visibility="{Binding IsPublished, Converter={StaticResource BoolToVisibilityInvertConverter}}"></TextBlock>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn 
+					    MinWidth="100" Header="包" 
+					    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+					    IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Package}" Foreground="{Binding IsPackageValid,Converter={StaticResource BoolToBrushConverter}}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn MinWidth="80" Header="尺寸" IsReadOnly="True" Binding="{Binding SizeMbText}">
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn MinWidth="100" Header="输入" 
+					    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+					    IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+								Text="{Binding KernelInputVm.Name}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="100" Header="输出" 
+					    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+					    IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+								Text="{Binding KernelOutputVm.Name}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="70" Header="双挖" 
+					    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+					    IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
+								    Text="支持双挖" 
+								    Visibility="{Binding KernelInputVm.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn MinWidth="100" Header="操作" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <controls:KbButton 
+									    ToolTip="发布"
+									    Command="{Binding Publish}" 
+									    Background="Transparent" BorderThickness="0"
+									    Visibility="{Binding IsBtnPublishVisible}"
+									    Margin="2 0"
+									    CornerRadius="2">
+                                        <WrapPanel>
+                                            <Path
+											    Width="18"
+											    Height="18"
+											    Data="{StaticResource Icon_Publish}"
+											    Fill="{StaticResource IconFillColor}"
+											    Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                    <controls:KbButton 
+									    ToolTip="取消发布"
+									    Command="{Binding UnPublish}" 
+									    Background="Transparent" BorderThickness="0"
+									    Visibility="{Binding IsBtnPublishVisible, Converter={StaticResource VisibilityInvertConverter}}"
+									    Margin="2 0"
+									    CornerRadius="2">
+                                        <WrapPanel>
+                                            <Path
+											    Width="18"
+											    Height="18"
+											    Data="{StaticResource Icon_UnPublish}"
+											    Fill="{StaticResource IconFillColor}"
+											    Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                    <controls:KbButton 
+									    Command="{Binding Edit}" 
+									    Background="Transparent" BorderThickness="0"
+									    Margin="2 0"
+									    CornerRadius="2">
+                                        <WrapPanel>
+                                            <Path
+											    Width="18"
+											    Height="18"
+											    Data="{StaticResource Icon_Edit}"
+											    Fill="{StaticResource IconFillColor}"
+											    Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                    <controls:KbButton 
+									    Command="{Binding Remove}" 
+									    Background="Transparent" BorderThickness="0"
+									    Margin="2 0"
+									    CornerRadius="2">
+                                        <WrapPanel>
+                                            <Path
+											    Width="18"
+											    Height="18"
+											    Data="{StaticResource Icon_Delete}"
+											    Fill="{StaticResource IconFillColor}"
+											    Stretch="Fill" />
+                                        </WrapPanel>
+                                    </controls:KbButton>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="100" MinWidth="100" Header="安装" CanUserResize="False" CanUserReorder="False" CanUserSort="False" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Rectangle
+									    Width="{Binding KernelProfileVm.DownloadPercent, ConverterParameter=100, Converter={StaticResource PercentToLengthConverter}}" 
+									    HorizontalAlignment="Left" Fill="#6FBBFE"></Rectangle>
+                                    <WrapPanel Margin="6 0 0 0">
+                                        <WrapPanel Visibility="{Binding KernelProfileVm.BtnInstalledVisible, Converter={StaticResource VisibilityInvertConverter}}">
+                                            <WrapPanel Visibility="{Binding KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                                                <controls:KbButton 
+												    Visibility="{Binding KernelProfileVm.BtnInstallVisible}"
+												    Height="26"
+												    Width="78"
+												    Padding="8 4"
+												    Command="{Binding KernelProfileVm.Install}"
+										            Content="{Binding KernelProfileVm.InstallText}"
+												    Foreground="White"
+												    Background="{StaticResource ThemeBackground}">
+                                                </controls:KbButton>
+                                            </WrapPanel>
+                                        </WrapPanel>
+                                        <TextBlock
+										    TextAlignment="Center"
+										    Width="64"
+										    Padding="8 4"
+										    Text="{Binding KernelProfileVm.DownloadMessage}"
+										    ToolTip="{Binding KernelProfileVm.DownloadMessage}"
+										    Visibility="{Binding KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                                        <controls:KbButton 
+										    Command="{Binding KernelProfileVm.CancelDownload}"
+										    ToolTip="取消下载"
+										    Visibility="{Binding KernelProfileVm.IsDownloading, Converter={StaticResource BoolToVisibilityConverter}}"
+										    Background="Transparent" BorderThickness="0">
+                                            <Path
+											    Width="14"
+											    Height="14"
+											    Data="{StaticResource Icon_Cancel}"
+											    Fill="{StaticResource IconFillColor}"
+											    Stretch="Fill" />
+                                        </controls:KbButton>
+                                        <controls:KbButton HorizontalAlignment="Center"
+										    Visibility="{Binding KernelProfileVm.BtnInstalledVisible}"
+										    Command="{Binding KernelProfileVm.UnInstall}"
+										    Height="26"
+										    Width="78"
+										    Padding="8 4"
+										    Content="{Binding KernelProfileVm.UnInstallText}"
+										    Foreground="Black">
+                                        </controls:KbButton>
+                                    </WrapPanel>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Grid.Row="1" Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center" Text="沒有记录"></TextBlock>
+            <Grid Grid.Row="2" Height="36">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <ScrollViewer 
+				    x:Name="BrandsScrollView" 
+				    PreviewMouseDown="BrandsScrollView_PreviewMouseDown" 
+				    HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <ScrollViewer.Resources>
+                        <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
+                        <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
+                    </ScrollViewer.Resources>
+                    <ListBox 
+					    Visibility="{Binding IsBrandVisible}"
+					    VerticalAlignment="Center"
+					    Background="Transparent"				
+					    ItemsSource="{Binding SysDicItemVms.KernelBrandsSelect}"
+					    SelectedItem="{Binding BrandItem}"
+					    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+					    ItemContainerStyle="{StaticResource ListBoxBarItem}"
+					    BorderThickness="0">
+                        <ListBox.Resources>
+                            <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                        </ListBox.Resources>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel>
+                                </WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Padding="10 2" Text="{Binding Value}" ToolTip="{Binding Description}">
+                                </TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+                <WrapPanel Grid.Column="1" VerticalAlignment="Center">
+                    <Button x:Name="ButtonLeftBrand" IsEnabled="False" Click="ButtonLeftBrand_Click">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border 
+								    x:Name="Content"
+								    Padding="4 4 6 4"
+								    BorderThickness="1"
+								    Background="Transparent">
+                                    <Path
+									    x:Name="Icon"
+									    Width="8"
+									    Height="12"
+									    Data="{StaticResource Icon_LeftTriangle}"
+									    Fill="#676767"
+									    Stretch="Fill">
+                                    </Path>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
+                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.5"></Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <Button x:Name="ButtonRightBrand" Margin="2 0 0 0" Click="ButtonRightBrand_Click">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border 
+								    x:Name="Content"
+								    Padding="6 4 4 4"
+								    BorderThickness="1"
+								    Background="Transparent">
+                                    <Path
+									    x:Name="Icon"
+									    Width="8"
+									    Height="12"
+									    Data="{StaticResource Icon_RightTriangle}"
+									    Fill="#676767"
+									    Stretch="Fill">
+                                    </Path>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
+                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.5"></Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </WrapPanel>
+                <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                    <Button x:Name="ButtonLeft" IsEnabled="{Binding CanPageSub}" Command="{Binding PageSub}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border 
+								    x:Name="Content"
+								    BorderThickness="1"
+								    Background="Transparent">
+                                    <Path
+									    x:Name="Icon"
+									    Width="22"
+									    Height="22"
+									    Data="{StaticResource Icon_Page-}"
+									    Fill="#676767"
+									    Stretch="Fill">
+                                    </Path>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.5"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeBackground}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                    <ListBox 
+					    Margin="4"
+					    Background="Transparent"
+					    ItemsSource="{Binding PageNumbers}"
+					    SelectedItem="{Binding PageNumber}"
+					    BorderThickness="0">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border 
+											    BorderThickness="1"
+											    BorderBrush="{StaticResource LineColor}"
+											    Margin="4 0"
+											    Background="{TemplateBinding Background}" 
+											    Width="24" 
+											    Height="24" 
+											    CornerRadius="12">
+                                                <TextBlock 
+												    HorizontalAlignment="Center"
+												    VerticalAlignment="Center"
+												    Foreground="{TemplateBinding Foreground}"
+												    Text="{Binding}"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsSelected" Value="true">
+                                                    <Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver" Value="true">
+                                                    <Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel>
+                                </WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                    <Button x:Name="ButtonRight" Margin="2 0 0 0" IsEnabled="{Binding CanPageAdd}" Command="{Binding PageAdd}">
+                        <Button.Template>
+                            <ControlTemplate>
+                                <Border 
+								    x:Name="Content"
+								    BorderThickness="1"
+								    Background="Transparent">
+                                    <Path
+									    x:Name="Icon"
+									    Width="22"
+									    Height="22"
+									    Data="{StaticResource Icon_Page+}"
+									    Fill="#676767"
+									    Stretch="Fill">
+                                    </Path>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.5"></Setter>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeBackground}"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </WrapPanel>
+            </Grid>
+        </Grid>
+    </DockPanel>
 </blankWindow:BlankWindow>

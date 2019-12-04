@@ -18,20 +18,18 @@ namespace NTMiner.Vms {
         private string _value;
         private string _description;
         private int _sortNumber;
-        private DataLevel _dataLevel;
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
         public ICommand SortUp { get; private set; }
         public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public Guid GetId() {
             return this.Id;
         }
 
         public SysDicItemViewModel(ISysDicItem data) : this(data.GetId()) {
+            this.DataLevel = data.DataLevel;
             _dicId = data.DicId;
             _code = data.Code;
             _value = data.Value;
@@ -45,13 +43,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.SysDicItemSet.ContainsKey(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.ContainsKey(this.Id)) {
                     VirtualRoot.Execute(new UpdateSysDicItemCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddSysDicItemCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -63,9 +61,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Code}系统字典项吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Code}系统字典项吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveSysDicItemCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 SysDicItemViewModel upOne = AppContext.Instance.SysDicItemVms.GetUpOne(this.SortNumber);
@@ -97,17 +95,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        public DataLevel DataLevel {
-            get { return _dataLevel; }
-            set {
-                if (_dataLevel != value) {
-                    _dataLevel = value;
-                    OnPropertyChanged(nameof(DataLevel));
-                    OnPropertyChanged(nameof(DataLevelText));
-                    OnPropertyChanged(nameof(IsReadOnly));
-                }
-            }
-        }
+        public DataLevel DataLevel { get; set; }
 
         public bool IsReadOnly {
             get {

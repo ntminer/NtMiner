@@ -8,9 +8,10 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbSkin.xaml" />
-                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbIcon.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbIcons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/KbButton.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Styles/DataGrid.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/NTMinerWpf;component/Notifications/Themes/Generic.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
             <converters:BoolToVisibilityInvertConverter x:Key="BoolToVisibilityInvertConverter" />

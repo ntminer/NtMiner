@@ -1,10 +1,84 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Hub;
+using NTMiner.Views;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 
 namespace NTMiner {
     public static class WindowExtension {
+        /// <summary>
+        /// 基于鼠标位置放置窗口
+        /// </summary>
+        /// <param name="window"></param>
+        public static void MousePosition(this Window window) {
+            if (window.Owner == null) {
+                return;
+            }
+            if (SafeNativeMethods.GetCursorPos(out POINT pt)) {
+                var width = window.Width.Equals(double.NaN) ? 400 : window.Width;
+                var height = window.Height.Equals(double.NaN) ? 200 : window.Height;
+                window.WindowStartupLocation = WindowStartupLocation.Manual;
+                double left = pt.X - width / 2;
+                double top = pt.Y + 20;
+                if (left < window.Owner.Left) {
+                    left = window.Owner.Left;
+                }
+                var ownerTop = window.Owner.Top;
+                var ownerLeft = window.Owner.Left;
+                if (window.Owner.WindowState == WindowState.Maximized) {
+                    ownerTop = 0;
+                    ownerLeft = 0;
+                }
+                var over = top + height - ownerTop - window.Owner.Height;
+                if (over > 0) {
+                    top = pt.Y - height - 20;
+                }
+                over = left + width - ownerLeft - window.Owner.Width;
+                if (over > 0) {
+                    left -= over;
+                }
+                window.Left = left;
+                window.Top = top;
+            }
+        }
+
+        /// <summary>
+        /// 打开为软对话框，非模态对话框。效果是打开时遮罩和禁用父窗口，关闭时复原父窗口。
+        /// </summary>
+        /// <param name="window"></param>
+        public static void ShowSoftDialog(this Window window) {
+            if (window.Owner == null) {
+                var owner = WpfUtil.GetTopWindow();
+                if (owner != null && owner != window && owner.GetType() != typeof(NotiCenterWindow)) {
+                    window.Owner = owner;
+                }
+            }
+            if (window.Owner != null) {
+                // 因为挖矿端主界面是透明的，遮罩方法和普通窗口不同，如果按照通用的方法遮罩的话会导致能透过窗口看见windows桌面或者下面的窗口。
+                if (window.Owner is IMaskWindow maskWindow) {
+                    maskWindow.ShowMask();
+                    window.Owner.IsEnabled = false;
+                    window.Closing += (sender, e) => {
+                        maskWindow.HideMask();
+                        window.Owner.IsEnabled = true;
+                    };
+                }
+                else {
+                    double ownerOpacity = window.Owner.Opacity;
+                    window.Owner.Opacity = 0.6;
+                    window.Owner.IsEnabled = false;
+                    window.Closing += (sender, e) => {
+                        window.Owner.Opacity = ownerOpacity;
+                        window.Owner.IsEnabled = true;
+                    };
+                }
+                window.Closed += (sender, e) => {
+                    window.Owner.Activate();
+                };
+            }
+            window.Show();
+        }
+
         public static void ShowWindow(this Window window, bool isToggle) {
             if (isToggle) {
                 if (window.IsVisible && window.WindowState != WindowState.Minimized) {
@@ -24,51 +98,87 @@ namespace NTMiner {
                 }
             }
         }
-        /// <summary>
-        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
-        /// </summary>
-        public static void CmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action)
+
+        private const string messagePathIdsResourceKey = "messagePathIds";
+
+        public static void AddCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action, Type location)
             where TCmd : ICmd {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             if (window.Resources == null) {
                 window.Resources = new ResourceDictionary();
             }
-            List<IHandlerId> contextHandlers = (List<IHandlerId>)window.Resources["ntminer_contextHandlers"];
-            if (contextHandlers == null) {
-                contextHandlers = new List<IHandlerId>();
-                window.Resources.Add("ntminer_contextHandlers", contextHandlers);
+            List<IMessagePathId> messagePathIds = (List<IMessagePathId>)window.Resources[messagePathIdsResourceKey];
+            if (messagePathIds == null) {
+                messagePathIds = new List<IMessagePathId>();
+                window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed;
             }
-            VirtualRoot.Path(description, logType, action).AddToCollection(contextHandlers);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+            messagePathIds.Add(messagePathId);
         }
 
-        /// <summary>
-        /// 事件响应
-        /// </summary>
-        public static void EventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action)
+        public static void AddEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             if (window.Resources == null) {
                 window.Resources = new ResourceDictionary();
             }
-            List<IHandlerId> contextHandlers = (List<IHandlerId>)window.Resources["ntminer_contextHandlers"];
-            if (contextHandlers == null) {
-                contextHandlers = new List<IHandlerId>();
-                window.Resources.Add("ntminer_contextHandlers", contextHandlers);
+            List<IMessagePathId> messagePathIds = (List<IMessagePathId>)window.Resources[messagePathIdsResourceKey];
+            if (messagePathIds == null) {
+                messagePathIds = new List<IMessagePathId>();
+                window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            VirtualRoot.Path(description, logType, action).AddToCollection(contextHandlers);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+            messagePathIds.Add(messagePathId);
+        }
+
+        public static void AddOnecePath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location)
+            where TMessage : IMessage {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+            if (window.Resources == null) {
+                window.Resources = new ResourceDictionary();
+            }
+            List<IMessagePathId> messagePathIds = (List<IMessagePathId>)window.Resources[messagePathIdsResourceKey];
+            if (messagePathIds == null) {
+                messagePathIds = new List<IMessagePathId>();
+                window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
+                window.Closed += UiElement_Closed; ;
+            }
+            var messagePathId = VirtualRoot.AddOnecePath(description, logType, action, pathId, location);
+            messagePathIds.Add(messagePathId);
+        }
+
+        public static IMessagePathId AddViaLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type location)
+            where TMessage : IMessage {
+            if (WpfUtil.IsInDesignMode) {
+                return null;
+            }
+            if (window.Resources == null) {
+                window.Resources = new ResourceDictionary();
+            }
+            List<IMessagePathId> messagePathIds = (List<IMessagePathId>)window.Resources[messagePathIdsResourceKey];
+            if (messagePathIds == null) {
+                messagePathIds = new List<IMessagePathId>();
+                window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
+                window.Closed += UiElement_Closed; ;
+            }
+            var messagePathId = VirtualRoot.AddViaLimitPath(description, logType, action, viaLimit, location);
+            messagePathIds.Add(messagePathId);
+            return messagePathId;
         }
 
         private static void UiElement_Closed(object sender, EventArgs e) {
             Window uiElement = (Window)sender;
-            List<IHandlerId> contextHandlers = (List<IHandlerId>)uiElement.Resources["ntminer_contextHandlers"];
-            foreach (var handler in contextHandlers) {
-                VirtualRoot.UnPath(handler);
+            List<IMessagePathId> messageIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
+            foreach (var handler in messageIds) {
+                VirtualRoot.DeletePath(handler);
             }
         }
     }

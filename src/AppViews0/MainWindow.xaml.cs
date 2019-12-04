@@ -4,7 +4,6 @@ using NTMiner.Vms;
 using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -16,31 +15,11 @@ namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
         private static class SafeNativeMethods {
             #region enum struct class
-            internal enum MonitorOptions : uint {
-                MONITOR_DEFAULTTONULL = 0x00000000,
-                MONITOR_DEFAULTTOPRIMARY = 0x00000001,
-                MONITOR_DEFAULTTONEAREST = 0x00000002
-            }
-
             [StructLayout(LayoutKind.Sequential)]
             public struct POINT {
                 public int X;
                 public int Y;
-
-                public POINT(int x, int y) {
-                    this.X = x;
-                    this.Y = y;
-                }
             }
-
-            [StructLayout(LayoutKind.Sequential)]
-            public struct MINMAXINFO {
-                public POINT ptReserved;
-                public POINT ptMaxSize;
-                public POINT ptMaxPosition;
-                public POINT ptMinTrackSize;
-                public POINT ptMaxTrackSize;
-            };
 
             [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
             public class MONITORINFO {
@@ -53,45 +32,29 @@ namespace NTMiner.Views {
             [StructLayout(LayoutKind.Sequential)]
             public struct RECT {
                 public int Left, Top, Right, Bottom;
+            }
 
-                public RECT(int left, int top, int right, int bottom) {
-                    this.Left = left;
-                    this.Top = top;
-                    this.Right = right;
-                    this.Bottom = bottom;
-                }
+            public enum ResizeDirection {
+                Left = 1,
+                Right = 2,
+                Top = 3,
+                TopLeft = 4,
+                TopRight = 5,
+                Bottom = 6,
+                BottomLeft = 7,
+                BottomRight = 8,
             }
             #endregion
 
-            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            [DllImport(DllName.User32Dll, CharSet = CharSet.Auto)]
             internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
-            [DllImport("user32.dll")]
+            [DllImport(DllName.User32Dll)]
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool GetCursorPos(out POINT lpPoint);
-
-            [DllImport("user32.dll", SetLastError = true)]
-            internal static extern IntPtr MonitorFromPoint(POINT pt, MonitorOptions dwFlags);
-
-            [DllImport("user32.dll")]
-            internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
-        }
-        public enum ResizeDirection {
-            Left = 1,
-            Right = 2,
-            Top = 3,
-            TopLeft = 4,
-            TopRight = 5,
-            Bottom = 6,
-            BottomLeft = 7,
-            BottomRight = 8,
         }
 
         private bool mRestoreIfMove = false;
-        private readonly ColumnDefinition _mainLayerColumn0 = new ColumnDefinition {
-            SharedSizeGroup = "column0",
-            Width = new GridLength(332)
-        };
 
         private MainWindowViewModel Vm {
             get {
@@ -108,19 +71,62 @@ namespace NTMiner.Views {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
 #if DEBUG
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
 #endif
-            UIThread.StartTimer();
-            ConsoleWindow.Instance.OnSplashHided = MoveConsoleWindow;
-            this.Owner = ConsoleWindow.Instance;
+            this.Loaded += (sender, e) => {
+                ConsoleWindow.Instance.Show();
+                ConsoleWindow.Instance.MouseDown += (ss, ee) => {
+                    MoveConsoleWindow();
+                };
+                this.Owner = ConsoleWindow.Instance;
+                hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+                hwndSource.AddHook(new HwndSourceHook(Win32MessageProc.WindowProc));
+                MoveConsoleWindow();
+                NTMinerRoot.RefreshArgsAssembly.Invoke();
+            };
             InitializeComponent();
-            _borderBrush = this.BorderBrush;
-            NTMinerRoot.RefreshArgsAssembly.Invoke();
-            if (Design.IsInDesignMode) {
+
+            BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            ToogleLeft();
-            this.IsVisibleChanged += (object sender, DependencyPropertyChangedEventArgs e) => {
+
+            UIThread.StartTimer();
+            _borderBrush = this.BorderBrush;
+            DateTime lastGetServerMessageOn = DateTime.MinValue;
+            // 切换了主界面上的Tab时
+            this.MainArea.SelectionChanged += (sender, e) => {
+                // 延迟创建，以加快主界面的启动
+                var selectedItem = MainArea.SelectedItem;
+                if (selectedItem == TabItemSpeedTable) {
+                    if (SpeedTableContainer.Child == null) {
+                        SpeedTableContainer.Child = GetSpeedTable();
+                    }
+                }
+                else if (selectedItem == TabItemMessage) {
+                    if (MessagesContainer.Child == null) {
+                        MessagesContainer.Child = new Messages();
+                    }
+                }
+                else if (selectedItem == TabItemToolbox) {
+                    if (ToolboxContainer.Child == null) {
+                        ToolboxContainer.Child = new Toolbox();
+                    }
+                }
+                else if (selectedItem == TabItemMinerProfileOption) {
+                    if (MinerProfileOptionContainer.Child == null) {
+                        MinerProfileOptionContainer.Child = new MinerProfileOption();
+                    }
+                }
+                VirtualRoot.SetIsServerMessagesVisible(selectedItem == TabItemMessage);
+                if (selectedItem == TabItemMessage) {
+                    if (lastGetServerMessageOn.AddSeconds(10) < DateTime.Now) {
+                        lastGetServerMessageOn = DateTime.Now;
+                        VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                    }
+                }
+            };
+            this.IsVisibleChanged += (sender, e) => {
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
                     NTMinerRoot.MainWindowRendedOn = DateTime.Now;
@@ -128,16 +134,10 @@ namespace NTMiner.Views {
                 else {
                     NTMinerRoot.IsUiVisible = false;
                 }
+                MoveConsoleWindow();
             };
-            // 解决主界面上的popup或菜单展开时可能导致下面的控制台窗口跑到上面的windows bug
-            this.Activated += (object sender, EventArgs e)=> {
-                if (NotiCenterWindow.Instance.Owner != this) {
-                    NotiCenterWindow.Instance.Owner = this;
-                }
-                this.Topmost = true;
-            };
-            this.Deactivated += (object sender, EventArgs e) => {
-                this.Topmost = false;
+            this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
+                MoveConsoleWindow();
             };
             this.StateChanged += (s, e) => {
                 if (Vm.MinerProfile.IsShowInTaskbar) {
@@ -153,7 +153,7 @@ namespace NTMiner.Views {
                 }
                 if (WindowState == WindowState.Maximized) {
                     ResizeCursors.Visibility = Visibility.Collapsed;
-                    this.BorderBrush = Wpf.Util.BlackBrush;
+                    this.BorderBrush = WpfUtil.BlackBrush;
                 }
                 else {
                     ResizeCursors.Visibility = Visibility.Visible;
@@ -161,45 +161,19 @@ namespace NTMiner.Views {
                 }
                 MoveConsoleWindow();
             };
-            this.SizeChanged += (s, e) => {
-                if (!ConsoleRectangle.IsVisible) {
-                    ConsoleWindow.Instance.Hide();
-                }
-            };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
-            bool isFirst = true;
-            this.ConsoleRectangle.IsVisibleChanged += (s, e) => {
-                if (ConsoleRectangle.IsVisible) {
-                    if (isFirst) {
-                        isFirst = false;
-                    }
-                    else {
-                        MoveConsoleWindow();
-                    }
-                }
-            };
-            this.IsVisibleChanged += (s, e) => {
-                if (!this.IsVisible) {
-                    ConsoleWindow.Instance.Hide();
-                }
-            };
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
+            NotiCenterWindow.Bind(this, ownerIsTopMost: true);
             this.LocationChanged += (sender, e) => {
-                changeNotiCenterWindowLocation(sender, e);
                 MoveConsoleWindow();
             };
-            if (DevMode.IsDevMode) {
-                this.EventPath<ServerJsonVersionChangedEvent>("开发者模式展示ServerJsonVersion", LogEnum.DevConsole,
-                    action: message => {
-                        UIThread.Execute(() => {
-                            Vm.ServerJsonVersion = Vm.GetServerJsonVersion();
-                        });
-                    });
-            }
-            this.EventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
+            VirtualRoot.AddCmdPath<CloseMainWindowCommand>(action: message => {
+                UIThread.Execute(() => {
+                    this.Close();
+                });
+            }, location: this.GetType());
+            this.AddEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (message.IsDual) {
@@ -209,44 +183,94 @@ namespace NTMiner.Views {
                             Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
                         }
                     });
-                });
-            this.EventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
+                }, location: this.GetType());
+            this.AddEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
-                });
-            this.EventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
+                }, location: this.GetType());
+            this.AddEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
-                });
-            this.EventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式 和 守护进程状态显示", LogEnum.DevConsole,
+                }, location: this.GetType());
+            this.AddEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
-                        if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.Timestamp) {
-                            VirtualRoot.Execute(new CloseMainWindowCommand($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置"));
+                        if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
+                            VirtualRoot.Out.ShowSuccess($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置", "开源矿工");
+                            VirtualRoot.Execute(new CloseMainWindowCommand());
                         }
                     }
-                    Vm.RefreshDaemonStateBrush();
-                });
-            RefreshCpu();
+                }, location: this.GetType());
+            this.AddEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
+                action: message => {
+                    UIThread.Execute(UpdateCpuView);
+                }, location: this.GetType());
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
 #endif
         }
 
+        #region 改变下面的控制台窗口的尺寸和位置
+        private void MoveConsoleWindow() {
+            if (!this.IsLoaded) {
+                return;
+            }
+            ConsoleWindow consoleWindow = ConsoleWindow.Instance;
+            if (!this.IsVisible || this.WindowState == WindowState.Minimized) {
+                consoleWindow.Hide();
+                NTMinerConsole.Hide();
+                return;
+            }
+            if (!consoleWindow.IsVisible) {
+                consoleWindow.Show();
+            }
+            if (MainArea.SelectedItem == ConsoleTabItem) {
+                NTMinerConsole.Show();
+            }
+            if (consoleWindow.WindowState != this.WindowState) {
+                consoleWindow.WindowState = this.WindowState;
+            }
+            if (consoleWindow.Width != this.Width) {
+                consoleWindow.Width = this.Width;
+            }
+            if (consoleWindow.Height != this.Height) {
+                consoleWindow.Height = this.Height;
+            }
+            if (this.WindowState == WindowState.Normal) {
+                if (consoleWindow.Left != this.Left) {
+                    consoleWindow.Left = this.Left;
+                }
+                if (consoleWindow.Top != this.Top) {
+                    consoleWindow.Top = this.Top;
+                }
+            }
+            if (ConsoleRectangle != null && ConsoleRectangle.IsVisible) {
+                Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
+                consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, height: (int)ConsoleRectangle.ActualHeight);
+            }
+        }
+        #endregion
+
+        #region 更新状态栏展示的CPU使用率和温度
         private int _cpuPerformance = 0;
         private int _cpuTemperature = 0;
-        private void UpdateCpuView(int performance, int temperature) {
+        private void UpdateCpuView() {
+            int performance = NTMinerRoot.Instance.CpuPackage.Performance;
+            int temperature = NTMinerRoot.Instance.CpuPackage.Temperature;
             if (temperature < 0) {
                 temperature = 0;
             }
             if (_cpuPerformance != performance) {
-                _cpuTemperature = performance;
+                _cpuPerformance = performance;
                 Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
             }
             if (_cpuTemperature != temperature) {
@@ -254,68 +278,116 @@ namespace NTMiner.Views {
                 Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
             }
         }
-        private bool _isFirstRefreshCpu = true;
-        private void RefreshCpu() {
-            if (_isFirstRefreshCpu) {
-                _isFirstRefreshCpu = false;
-                Task.Factory.StartNew(() => {
-#if DEBUG
-                    Write.Stopwatch.Restart();
-#endif
-                    int performance = (int)Windows.Cpu.Instance.GetPerformance();
-                    // 因为初始化费时间
-                    int temperature = (int)Windows.Cpu.Instance.GetTemperature();
-#if DEBUG
-                    Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.RefreshCpu");
-#endif
-                    UIThread.Execute(() => {
-                        UpdateCpuView(performance, temperature);
-                    });
-                    this.EventPath<Per1SecondEvent>("每秒钟更新CPU使用率和温度", LogEnum.None,
-                        action: message => {
-                            RefreshCpu();
-                        });
-                });
+        #endregion
+
+        #region 显示或隐藏半透明遮罩层
+        // 因为挖矿端主界面是透明的，遮罩方法和普通窗口不同，如果按照通用的方法遮罩的话会导致能透过窗口看见windows桌面或者下面的窗口。
+        public void ShowMask() {
+            if (this.WindowState != WindowState.Maximized) {
+                this.BorderBrush = WpfUtil.TransparentBrush;
+            }
+            MaskLayer.Visibility = Visibility.Visible;
+        }
+
+        public void HideMask() {
+            this.BorderBrush = _borderBrush;
+            MaskLayer.Visibility = Visibility.Collapsed;
+        }
+        #endregion
+
+        #region 主界面左侧的抽屉
+        public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {
+            ToogleLeft();
+        }
+
+        private void BtnMinerProfileClose_Click(object sender, RoutedEventArgs e) {
+            HideLeft();
+        }
+
+        private void HideLeft() {
+            minerProfileLayer.Visibility = Visibility.Collapsed;
+            BtnMinerProfileGrip.Visibility = Visibility.Visible;
+            PinRotateTransform.Angle = 90;
+
+            mainLayer.ColumnDefinitions.Remove(MinerProfileColumn);
+            MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
+        }
+
+        private void ToogleLeft() {
+            if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
+                HideLeft();
             }
             else {
-                int performance = (int)Windows.Cpu.Instance.GetPerformance();
-                int temperature = (int)Windows.Cpu.Instance.GetTemperature();
-                UpdateCpuView(performance, temperature);
-                if (Vm.MinerProfile.IsAutoStopByCpu) {
-                    if (NTMinerRoot.Instance.IsMining) {
-                        Vm.MinerProfile.LowTemperatureCount = 0;
-                        if (temperature >= Vm.MinerProfile.CpuStopTemperature) {
-                            Vm.MinerProfile.HighTemperatureCount++;
-                        }
-                        else {
-                            Vm.MinerProfile.HighTemperatureCount = 0;
-                        }
-                        if (Vm.MinerProfile.HighTemperatureCount >= Vm.MinerProfile.CpuGETemperatureSeconds) {
-                            Vm.MinerProfile.HighTemperatureCount = 0;
-                            NTMinerRoot.Instance.StopMineAsync(StopMineReason.HighCpuTemperature);
-                            Write.UserWarn($"自动停止挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuGETemperatureSeconds}秒不低于{Vm.MinerProfile.CpuStopTemperature}℃");
-                        }
-                    }
-                    else {
-                        Vm.MinerProfile.HighTemperatureCount = 0;
-                        if (Vm.MinerProfile.IsAutoStartByCpu && NTMinerRoot.Instance.StopReason == StopMineReason.HighCpuTemperature) {
-                            if (temperature <= Vm.MinerProfile.CpuStartTemperature) {
-                                Vm.MinerProfile.LowTemperatureCount++;
-                            }
-                            else {
-                                Vm.MinerProfile.LowTemperatureCount = 0;
-                            }
-                            if (Vm.MinerProfile.LowTemperatureCount >= Vm.MinerProfile.CpuLETemperatureSeconds) {
-                                Vm.MinerProfile.LowTemperatureCount = 0;
-                                Write.UserWarn($"自动开始挖矿，因为 CPU 温度连续{Vm.MinerProfile.CpuLETemperatureSeconds}秒不高于{Vm.MinerProfile.CpuStartTemperature}℃");
-                                NTMinerRoot.Instance.StartMine();
-                            }
-                        }
-                    }
+                BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
+                PinRotateTransform.Angle = 0;
+
+                if (!mainLayer.ColumnDefinitions.Contains(MinerProfileColumn)) {
+                    mainLayer.ColumnDefinitions.Insert(0, MinerProfileColumn);
                 }
+                MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
             }
         }
 
+        private void BtnMinerProfileGrip_Click(object sender, RoutedEventArgs e) {
+            if (minerProfileLayer.Visibility == Visibility.Collapsed) {
+                minerProfileLayer.Visibility = Visibility.Visible;
+            }
+            else {
+                minerProfileLayer.Visibility = Visibility.Collapsed;
+            }
+        }
+        #endregion
+
+        protected override void OnClosing(CancelEventArgs e) {
+            if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
+                AppStatic.AppExit.Execute(null);
+            }
+            else {
+                e.Cancel = true;
+                AppContext.Disable();
+                this.Hide();
+                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行");
+            }
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            hwndSource?.Dispose();
+            hwndSource = null;
+            base.OnClosed(e);
+            Application.Current.Shutdown();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
+
+        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
+            var speedTableUc = this.GetSpeedTable();
+            if (MainArea.SelectedItem == TabItemSpeedTable) {
+                speedTableUc.ShowOrHideOverClock(isShow: speedTableUc.IsOverClockVisible == Visibility.Collapsed);
+            }
+            else {
+                speedTableUc.ShowOrHideOverClock(isShow: true);
+            }
+            MainArea.SelectedItem = TabItemSpeedTable;
+            IconOverClockEyeClosed.Visibility = speedTableUc.IsOverClockVisible == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private SpeedTable _speedTable;
+        private SpeedTable GetSpeedTable() {
+            if (_speedTable == null) {
+                _speedTable = new SpeedTable();
+            }
+            return _speedTable;
+        }
+
+        #region 拖动窗口边缘改变窗口尺寸
         private void Resize(object sender, MouseButtonEventArgs e) {
             this.ResizeWindow(sender);
         }
@@ -330,175 +402,45 @@ namespace NTMiner.Views {
             }
         }
 
-        public void ShowMask() {
-            if (this.WindowState != WindowState.Maximized) {
-                this.BorderBrush = Wpf.Util.TransparentBrush;
-            }
-            MaskLayer.Visibility = Visibility.Visible;
-        }
-
-        public void HideMask() {
-            this.BorderBrush = _borderBrush;
-            MaskLayer.Visibility = Visibility.Collapsed;
-        }
-
-        public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {
-            ToogleLeft();
-        }
-
-        private void BtnMinerProfileClose_Click(object sender, RoutedEventArgs e) {
-            HideLeft();
-        }
-
-        private void HideLeft() {
-            minerProfileLayer.Visibility = Visibility.Collapsed;
-            BtnMinerProfileGrip.Visibility = Visibility.Visible;
-            PinRotateTransform.Angle = 90;
-
-            mainLayer.ColumnDefinitions.Remove(_mainLayerColumn0);
-            MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
-        }
-
-        private void ToogleLeft() {
-            if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
-                HideLeft();
-            }
-            else {
-                BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
-                PinRotateTransform.Angle = 0;
-
-                mainLayer.ColumnDefinitions.Insert(0, _mainLayerColumn0);
-                MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
-            }
-        }
-
-        private void BtnMinerProfileGrip_Click(object sender, RoutedEventArgs e) {
-            if (minerProfileLayer.Visibility == Visibility.Collapsed) {
-                minerProfileLayer.Visibility = Visibility.Visible;
-            }
-            else {
-                minerProfileLayer.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        protected override void OnClosing(CancelEventArgs e) {
-            e.Cancel = true;
-            AppContext.Disable();
-            Write.SetConsoleUserLineMethod();
-            this.Hide();
-        }
-
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
-        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e) {
-            var selectedItem = ((TabControl)sender).SelectedItem;
-            if (selectedItem == TabItemToolbox) {
-                if (ToolboxContainer.Child == null) {
-                    ToolboxContainer.Child = new Toolbox();
-                }
-            }
-            else if (selectedItem == TabItemMinerProfileOption) {
-                if (MinerProfileOptionContainer.Child == null) {
-                    MinerProfileOptionContainer.Child = new MinerProfileOption();
-                }
-            }
-        }
-
-        private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
-        }
-
-        private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
-            var speedTableUc = this.SpeedTable;
-            if (MainArea.SelectedItem == TabItemSpeedTable) {
-                speedTableUc.ShowOrHideOverClock(isShow: speedTableUc.IsOverClockVisible == Visibility.Collapsed);
-            }
-            else {
-                speedTableUc.ShowOrHideOverClock(isShow: true);
-            }
-            MainArea.SelectedItem = TabItemSpeedTable;
-        }
-
-        private void MoveConsoleWindow() {
-            if (this.WindowState == WindowState.Minimized || ConsoleRectangle == null || !ConsoleRectangle.IsVisible || ConsoleRectangle.ActualWidth == 0) {
-                ConsoleWindow.Instance.Hide();
-                return;
-            }
-            ConsoleWindow consoleWindow = ConsoleWindow.Instance;
-            if (!consoleWindow.IsVisible) {
-                consoleWindow.Show();
-            }
-            if (consoleWindow.WindowState != this.WindowState) {
-                consoleWindow.WindowState = this.WindowState;
-            }
-            if (consoleWindow.Width != this.ActualWidth) {
-                consoleWindow.Width = this.ActualWidth;
-            }
-            if (consoleWindow.Height != this.ActualHeight) {
-                consoleWindow.Height = this.ActualHeight;
-            }
-            if (this.WindowState == WindowState.Normal) {
-                if (consoleWindow.Left != this.Left) {
-                    consoleWindow.Left = this.Left;
-                }
-                if (consoleWindow.Top != this.Top) {
-                    consoleWindow.Top = this.Top;
-                }
-            }
-            int marginBottom = (int)StateBar.ActualHeight;
-            Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-            consoleWindow.ReSizeConsoleWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, (int)ConsoleRectangle.ActualHeight);
-        }
-
-        private void Window_SourceInitialized(object sender, EventArgs e) {
-            hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-            hwndSource.AddHook(new HwndSourceHook(WindowProc));
-        }
-
-        private void ResizeWindow(ResizeDirection direction) {
+        private void ResizeWindow(SafeNativeMethods.ResizeDirection direction) {
             SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
         }
-
 
         private void ResizeWindow(object sender) {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
-                case "top":
-                    this.Cursor = Cursors.SizeNS;
-                    ResizeWindow(ResizeDirection.Top);
+                case nameof(this.top):
+                    clickedRectangle.Cursor = Cursors.SizeNS;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Top);
                     break;
-                case "bottom":
-                    this.Cursor = Cursors.SizeNS;
-                    ResizeWindow(ResizeDirection.Bottom);
+                case nameof(this.bottom):
+                    clickedRectangle.Cursor = Cursors.SizeNS;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Bottom);
                     break;
-                case "left":
-                    this.Cursor = Cursors.SizeWE;
-                    ResizeWindow(ResizeDirection.Left);
+                case nameof(this.left):
+                    clickedRectangle.Cursor = Cursors.SizeWE;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Left);
                     break;
-                case "right":
-                    this.Cursor = Cursors.SizeWE;
-                    ResizeWindow(ResizeDirection.Right);
+                case nameof(this.right):
+                    clickedRectangle.Cursor = Cursors.SizeWE;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.Right);
                     break;
-                case "topLeft":
-                    this.Cursor = Cursors.SizeNWSE;
-                    ResizeWindow(ResizeDirection.TopLeft);
+                case nameof(this.topLeft):
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.TopLeft);
                     break;
-                case "topRight":
-                    this.Cursor = Cursors.SizeNESW;
-                    ResizeWindow(ResizeDirection.TopRight);
+                case nameof(this.topRight):
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.TopRight);
                     break;
-                case "bottomLeft":
-                    this.Cursor = Cursors.SizeNESW;
-                    ResizeWindow(ResizeDirection.BottomLeft);
+                case nameof(this.bottomLeft):
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.BottomLeft);
                     break;
-                case "bottomRight":
-                    this.Cursor = Cursors.SizeNWSE;
-                    ResizeWindow(ResizeDirection.BottomRight);
+                case nameof(this.bottomRight):
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
+                    ResizeWindow(SafeNativeMethods.ResizeDirection.BottomRight);
                     break;
                 default:
                     break;
@@ -509,88 +451,48 @@ namespace NTMiner.Views {
             Rectangle clickedRectangle = sender as Rectangle;
 
             switch (clickedRectangle.Name) {
-                case "top":
-                    this.Cursor = Cursors.SizeNS;
+                case nameof(this.top):
+                    clickedRectangle.Cursor = Cursors.SizeNS;
                     break;
-                case "bottom":
-                    this.Cursor = Cursors.SizeNS;
+                case nameof(this.bottom):
+                    clickedRectangle.Cursor = Cursors.SizeNS;
                     break;
-                case "left":
-                    this.Cursor = Cursors.SizeWE;
+                case nameof(this.left):
+                    clickedRectangle.Cursor = Cursors.SizeWE;
                     break;
-                case "right":
-                    this.Cursor = Cursors.SizeWE;
+                case nameof(this.right):
+                    clickedRectangle.Cursor = Cursors.SizeWE;
                     break;
-                case "topLeft":
-                    this.Cursor = Cursors.SizeNWSE;
+                case nameof(this.topLeft):
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
                     break;
-                case "topRight":
-                    this.Cursor = Cursors.SizeNESW;
+                case nameof(this.topRight):
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
                     break;
-                case "bottomLeft":
-                    this.Cursor = Cursors.SizeNESW;
+                case nameof(this.bottomLeft):
+                    clickedRectangle.Cursor = Cursors.SizeNESW;
                     break;
-                case "bottomRight":
-                    this.Cursor = Cursors.SizeNWSE;
+                case nameof(this.bottomRight):
+                    clickedRectangle.Cursor = Cursors.SizeNWSE;
                     break;
                 default:
                     break;
             }
         }
-
-        private static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            switch (msg) {
-                case 0x0024:
-                    WmGetMinMaxInfo(hwnd, lParam);
-                    break;
-            }
-
-            return IntPtr.Zero;
-        }
-
-        private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
-            SafeNativeMethods.POINT lMousePosition;
-            SafeNativeMethods.GetCursorPos(out lMousePosition);
-
-            IntPtr lPrimaryScreen = SafeNativeMethods.MonitorFromPoint(new SafeNativeMethods.POINT(0, 0), SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTOPRIMARY);
-            SafeNativeMethods.MONITORINFO lPrimaryScreenInfo = new SafeNativeMethods.MONITORINFO();
-            if (SafeNativeMethods.GetMonitorInfo(lPrimaryScreen, lPrimaryScreenInfo) == false) {
-                return;
-            }
-
-            IntPtr lCurrentScreen = SafeNativeMethods.MonitorFromPoint(lMousePosition, SafeNativeMethods.MonitorOptions.MONITOR_DEFAULTTONEAREST);
-
-            SafeNativeMethods.MINMAXINFO lMmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
-
-            if (lPrimaryScreen.Equals(lCurrentScreen) == true) {
-                lMmi.ptMaxPosition.X = lPrimaryScreenInfo.rcWork.Left;
-                lMmi.ptMaxPosition.Y = lPrimaryScreenInfo.rcWork.Top;
-                lMmi.ptMaxSize.X = lPrimaryScreenInfo.rcWork.Right - lPrimaryScreenInfo.rcWork.Left;
-                lMmi.ptMaxSize.Y = lPrimaryScreenInfo.rcWork.Bottom - lPrimaryScreenInfo.rcWork.Top;
-            }
-            else {
-                lMmi.ptMaxPosition.X = lPrimaryScreenInfo.rcMonitor.Left;
-                lMmi.ptMaxPosition.Y = lPrimaryScreenInfo.rcMonitor.Top;
-                lMmi.ptMaxSize.X = lPrimaryScreenInfo.rcMonitor.Right - lPrimaryScreenInfo.rcMonitor.Left;
-                lMmi.ptMaxSize.Y = lPrimaryScreenInfo.rcMonitor.Bottom - lPrimaryScreenInfo.rcMonitor.Top;
-            }
-
-            Marshal.StructureToPtr(lMmi, lParam, true);
-        }
+        #endregion
 
         private void SwitchWindowState() {
             switch (WindowState) {
-                case WindowState.Normal: {
-                        Microsoft.Windows.Shell.SystemCommands.MaximizeWindow(this);
-                        break;
-                    }
-                case WindowState.Maximized: {
-                        Microsoft.Windows.Shell.SystemCommands.RestoreWindow(this);
-                        break;
-                    }
+                case WindowState.Normal:
+                    Microsoft.Windows.Shell.SystemCommands.MaximizeWindow(this);
+                    break;
+                case WindowState.Maximized:
+                    Microsoft.Windows.Shell.SystemCommands.RestoreWindow(this);
+                    break;
             }
         }
 
+        #region 拖动窗口头部
         private void RctHeader_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
             if (e.ClickCount == 2) {
                 SwitchWindowState();
@@ -621,8 +523,7 @@ namespace NTMiner.Views {
 
                 WindowState = WindowState.Normal;
 
-                SafeNativeMethods.POINT lMousePosition;
-                SafeNativeMethods.GetCursorPos(out lMousePosition);
+                SafeNativeMethods.GetCursorPos(out SafeNativeMethods.POINT lMousePosition);
 
                 Left = lMousePosition.X - targetHorizontal;
                 Top = lMousePosition.Y - targetVertical;
@@ -630,5 +531,6 @@ namespace NTMiner.Views {
                 DragMove();
             }
         }
+        #endregion
     }
 }

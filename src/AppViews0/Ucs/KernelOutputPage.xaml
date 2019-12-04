@@ -284,7 +284,7 @@
 									</DataGridTemplateColumn.Header>
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
-											<TextBlock Text="{Binding Replacement}" Foreground="{Binding ColorBrush}"></TextBlock>
+											<TextBlock Text="{Binding Replacement}"></TextBlock>
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
@@ -294,7 +294,7 @@
 									</DataGridTemplateColumn.Header>
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
-											<TextBlock Text="{Binding ColorDescription}" Foreground="{Binding ColorBrush}"></TextBlock>
+											<TextBlock Text="{Binding ColorDescription}"></TextBlock>
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>
@@ -337,92 +337,6 @@
                     </Grid>
 				</TabItem>
 				<!--end翻译-->
-
-				<!--start过滤-->
-				<TabItem>
-					<TabItem.Header>
-						<TextBlock Padding="10 0" Text="过滤器"></TextBlock>
-					</TabItem.Header>
-					<Grid>
-						<DataGrid 
-							ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputFilters}" 
-							BorderThickness="1 0 0 0"
-							MouseDoubleClick="KernelOutputFilterDataGrid_MouseDoubleClick">
-							<DataGrid.Resources>
-								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-							</DataGrid.Resources>
-                            <DataGrid.Columns>
-                                <DataGridTemplateColumn MinWidth="100" IsReadOnly="True" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <StackPanel 
-												HorizontalAlignment="Right" 
-												Background="Transparent" 
-												VerticalAlignment="Center" 
-												Orientation="Horizontal">
-                                                <controls:KbButton 
-													Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
-													Margin="2 0"
-													CornerRadius="2" ToolTip="编辑">
-                                                    <WrapPanel>
-                                                        <Path
-															Width="18"
-															Height="18"
-															Data="{StaticResource Icon_Edit}"
-															Fill="{StaticResource IconFillColor}"
-															Stretch="Fill" />
-                                                    </WrapPanel>
-                                                </controls:KbButton>
-                                                <controls:KbButton 
-													Command="{Binding Remove}" 
-													Background="Transparent" 
-													BorderThickness="0"
-													Margin="2 0"
-													CornerRadius="2" ToolTip="删除">
-                                                    <WrapPanel>
-                                                        <Path
-															Width="18"
-															Height="18"
-															Data="{StaticResource Icon_Delete}"
-															Fill="{StaticResource IconFillColor}"
-															Stretch="Fill" />
-                                                    </WrapPanel>
-                                                </controls:KbButton>
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn Binding="{Binding RegexPattern}" Width="*" IsReadOnly="True">
-									<DataGridTextColumn.Header>
-										<WrapPanel>
-											<TextBlock Text="正则表达式"></TextBlock>
-											<TextBlock Margin="4 0 0 0" Text="{Binding Data.CurrentKernelOutputVm.KernelOutputFilters.Count, Source={StaticResource proxy}}"></TextBlock>
-										</WrapPanel>
-									</DataGridTextColumn.Header>
-								</DataGridTextColumn>
-							</DataGrid.Columns>
-						</DataGrid>
-						<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" Visibility="{Binding CurrentKernelOutputVm.KernelOutputFilters, Converter={StaticResource NoRecordVisibilityConverter}}" Grid.Column="1" Text="沒有记录"></TextBlock>
-                        <controls:KbButton 
-				            Margin="4"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-							Command="{Binding CurrentKernelOutputVm.AddKernelOutputFilter}" 
-							Background="Transparent" BorderThickness="0"
-							CornerRadius="2" ToolTip="添加">
-                            <WrapPanel>
-                                <Path
-									Width="18"
-									Height="18"
-									Data="{StaticResource Icon_Add}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </Grid>
-				</TabItem>
-				<!--end过滤-->
 			</TabControl>
 		</Grid>
 	</Grid>

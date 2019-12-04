@@ -7,15 +7,16 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "文件书写器",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 950,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_FileWriter"
             }, ucFactory: (window) =>
             {
-                FileWriterViewModel vm = new FileWriterViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                FileWriterViewModel vm = new FileWriterViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(FileWriterEdit));
                 return new FileWriterEdit(vm);
             }, fixedSize: true);
         }

@@ -3,14 +3,14 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public static class SignExtensions {
-        private static readonly bool _isInnerIpEnabled = Environment.CommandLine.Contains("--enableInnerIp");
+        private static readonly bool _isInnerIpEnabled = Environment.CommandLine.Contains(NTKeyword.EnableInnerIpCmdParameterName);
 
         public static bool IsValid<TResponse>(this IGetSignData data, IUser user, string sign, ulong timestamp, string clientIp, out TResponse response) where TResponse : ResponseBase, new() {
             if (clientIp == "localhost" || clientIp == "127.0.0.1") {
                 response = null;
                 return true;
             }
-            if (_isInnerIpEnabled && Ip.Util.IsInnerIp(clientIp)) {
+            if (_isInnerIpEnabled && Net.Util.IsInnerIp(clientIp)) {
                 response = null;
                 return true;
             }
@@ -28,9 +28,11 @@ namespace NTMiner {
                 response = ResponseBase.Expired<TResponse>();
                 return false;
             }
-            if (sign != GetSign(data, user.LoginName, user.Password, timestamp)) {
+            string mySign = GetSign(data, user.LoginName, user.Password, timestamp);
+            if (sign != mySign) {
                 string message = "用户名或密码错误";
                 response = ResponseBase.Forbidden<TResponse>(message);
+                Write.DevDebug($"{message} sign:{sign} mySign:{mySign}");
                 return false;
             }
             response = null;

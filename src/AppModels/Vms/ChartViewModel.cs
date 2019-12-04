@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                 PointGeometrySize = 0,
                 StrokeThickness = 1,
                 ScalesYAt = 0,
-                Fill = Wpf.Util.TransparentBrush,
+                Fill = WpfUtil.TransparentBrush,
                 Stroke = OnlineColor,
                 Values = new ChartValues<MeasureModel>()
             };
@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
                 PointGeometrySize = 0,
                 StrokeThickness = 1,
                 ScalesYAt = 0,
-                Fill = Wpf.Util.TransparentBrush,
+                Fill = WpfUtil.TransparentBrush,
                 Stroke = MiningColor,
                 Values = new ChartValues<MeasureModel>()
             };
@@ -163,13 +163,13 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush MiningColor {
             get {
-                return Wpf.Util.GreenBrush;
+                return WpfUtil.GreenBrush;
             }
         }
 
         public SolidColorBrush OnlineColor {
             get {
-                return Wpf.Util.BlackBrush;
+                return WpfUtil.BlackBrush;
             }
         }
 

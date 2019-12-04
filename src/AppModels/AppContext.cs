@@ -1,4 +1,4 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Hub;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
@@ -8,28 +8,33 @@ namespace NTMiner {
         public static readonly AppContext Instance = new AppContext();
 
         public static ExtendedNotifyIcon NotifyIcon;
-        public static Action<RemoteDesktopInput> RemoteDesktop;
 
-        private static readonly List<IHandlerId> _contextHandlers = new List<IHandlerId>();
+        private static readonly List<IMessagePathId> _contextHandlers = new List<IMessagePathId>();
 
         private AppContext() {
         }
 
-        #region static methods
-        /// <summary>
-        /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
-        /// </summary>
-        public static IHandlerId CmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action)
-            where TCmd : ICmd {
-            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
+        // 预热内存，减小主界面上鼠标转圈的可能
+        public void VmsCtor() {
+            List<object> temp = new List<object> {
+                GpuVms,MinerProfileVm,PoolVms,CoinKernelVms,CoinVms,KernelVms,WalletVms
+            };
+            temp.Clear();
         }
 
-        /// <summary>
-        /// 事件响应
-        /// </summary>
-        public static IHandlerId EventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action)
+        #region static methods
+        // 因为是上下文路径，无需返回路径标识
+        public static void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location)
+            where TCmd : ICmd {
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+            _contextHandlers.Add(messagePathId);
+        }
+
+        // 因为是上下文路径，无需返回路径标识
+        public static void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
-            return VirtualRoot.Path(description, logType, action).AddToCollection(_contextHandlers);
+            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+            _contextHandlers.Add(messagePathId);
         }
 
         public static void Enable() {
@@ -166,9 +171,9 @@ namespace NTMiner {
             }
         }
 
-        public KernelOutputFilterViewModels KernelOutputFilterVms {
+        public KernelOutputKeywordViewModels KernelOutputKeywordVms {
             get {
-                return KernelOutputFilterViewModels.Instance;
+                return KernelOutputKeywordViewModels.Instance;
             }
         }
 
@@ -205,6 +210,12 @@ namespace NTMiner {
         public OverClockDataViewModels OverClockDataVms {
             get {
                 return OverClockDataViewModels.Instance;
+            }
+        }
+
+        public NTMinerWalletViewModels NTMinerWalletVms {
+            get {
+                return NTMinerWalletViewModels.Instance;
             }
         }
 

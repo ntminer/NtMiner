@@ -26,7 +26,7 @@
 			<RowDefinition Height="*"></RowDefinition>
 		</Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"></ColumnDefinition>
+            <ColumnDefinition Width="300"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 		<!--上标题栏-->
@@ -37,7 +37,7 @@
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<WrapPanel Grid.Column="0" Margin="4" VerticalAlignment="Center">
-				<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+                <Image Width="20" Height="20" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 				</Image>
 				<TextBlock
 					VerticalAlignment="Center"
@@ -65,6 +65,8 @@
 							Stretch="Fill" />
 					</controls:KbButton>
 					<controls:KbButton 
+                        Width="20"
+                        Height="20"
 						ToolTip="矿机列表"
 						Command="{x:Static app:AppStatic.ShowMinerClients}" 
 						Background="Transparent" 
@@ -86,87 +88,100 @@
 				</WrapPanel>
 			</WrapPanel>
         </Grid>
-        <ScrollViewer 
-			Grid.Row="1" Grid.Column="0" 
-			Background="White"
-			VerticalScrollBarVisibility="Visible"
-			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
-            <StackPanel>
-                <WrapPanel HorizontalAlignment="Center">
-                    <CheckBox 
-						FocusVisualStyle="{x:Null}"
-                        FontSize="14"
-                        HorizontalAlignment="Center"
-						VerticalContentAlignment="Bottom" 
-                        IsChecked="{Binding IsShowAll}"
-						VerticalAlignment="Center">
-                    </CheckBox>
-                    <TextBlock 
-                        Margin="10 0 0 0"
-					    Text="{Binding TotalMiningCount}" 
-					    ToolTip="总挖矿数" 
-					    Foreground="Green"
-					    FontSize="20" 
-					    FontWeight="Bold"></TextBlock>
-                    <TextBlock Text="/" FontSize="20" FontWeight="Bold"></TextBlock>
-                    <TextBlock Text="{Binding TotalOnlineCount}" ToolTip="总在线数" FontSize="20" FontWeight="Bold"></TextBlock>
-                </WrapPanel>
-                <ItemsControl
-				    ItemsSource="{Binding ChartVms}"
-				    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel>
-                            </StackPanel>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <WrapPanel Margin="0 8">
-                                <StackPanel Width="80">
-                                    <Image Width="30" Height="30" Source="{Binding CoinVm.IconImageSource}">
-                                    </Image>
-                                    <CheckBox 
-								        FocusVisualStyle="{x:Null}"
-                                        FontSize="14"
-                                        HorizontalAlignment="Center"
-								        VerticalContentAlignment="Bottom" 
-								        IsChecked="{Binding IsShow}" 
-                                        Checked="IsShowCheckBox_Changed"
-                                        Unchecked="IsShowCheckBox_Changed"
-								        ToolTip="显示算力图" 
-								        VerticalAlignment="Center">
-                                        <TextBlock Margin="0 0 0 -2" Text="{Binding CoinVm.Code}"></TextBlock>
-                                    </CheckBox>
-                                </StackPanel>
+        <Grid Grid.Row="1" Grid.Column="0">
+            <DataGrid 
+                RowHeight="30"
+			    ItemsSource="{Binding ChartVms}" 
+			    BorderThickness="0">
+                <DataGrid.Resources>
+                    <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTemplateColumn IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <CheckBox 
+					            FocusVisualStyle="{x:Null}"
+                                IsChecked="{Binding Data.IsShowAll, Source={StaticResource proxy}}"
+					            VerticalAlignment="Center">
+                            </CheckBox>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox 
+								    FocusVisualStyle="{x:Null}"
+                                    HorizontalAlignment="Center"
+								    VerticalContentAlignment="Bottom" 
+								    IsChecked="{Binding IsShow,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                                    Click="IsShowCheckBox_Click"
+								    ToolTip="显示算力图" 
+								    VerticalAlignment="Center">
+                                </CheckBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="30" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Width="26" Height="26" Source="{Binding CoinVm.IconImageSource}">
+                                </Image>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Width="50" Binding="{Binding CoinVm.Code}" IsReadOnly="True">
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn Width="50" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock 
+					            Text="{Binding Data.TotalMiningCount,Source={StaticResource proxy}}" 
+					            ToolTip="总挖矿数" 
+					            Foreground="Green"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                                        <TextBlock Width="40" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}"></TextBlock>
+                                    </WrapPanel>
 
-                                <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-                                    <TextBlock Width="40" TextAlignment="Right" FontSize="18" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.MainCoinMiningCount}"></TextBlock>
-                                    <TextBlock FontSize="18" FontWeight="Bold">/</TextBlock>
-                                    <TextBlock 
-									    FontSize="18" FontWeight="Bold" 
-									    Foreground="{Binding OnlineColor}"
-									    ToolTip="在线数" 
-									    Text="{Binding SnapshotDataVm.MainCoinOnlineCount}">
-                                    </TextBlock>
+                                    <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock Width="40" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}"></TextBlock>
+                                    </WrapPanel>
                                 </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="50" IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <TextBlock Text="{Binding Data.TotalOnlineCount,Source={StaticResource proxy}}" ToolTip="总在线数"></TextBlock>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                                        <TextBlock 
+									        Foreground="{Binding OnlineColor}"
+									        ToolTip="在线数" 
+									        Text="{Binding SnapshotDataVm.MainCoinOnlineCount}">
+                                        </TextBlock>
+                                    </WrapPanel>
 
-                                <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <TextBlock Width="40" TextAlignment="Right" FontSize="18" FontWeight="Bold" Foreground="{Binding MiningColor}" ToolTip="挖矿数" Text="{Binding SnapshotDataVm.DualCoinMiningCount}"></TextBlock>
-                                    <TextBlock FontSize="18" FontWeight="Bold">/</TextBlock>
-                                    <TextBlock 
-									    FontSize="18" FontWeight="Bold" 
-									    Foreground="{Binding OnlineColor}"
-									    ToolTip="在线数" 
-									    Text="{Binding SnapshotDataVm.DualCoinOnlineCount}">
-                                    </TextBlock>
+                                    <WrapPanel VerticalAlignment="Center" Visibility="{Binding CoinVm.JustAsDualCoin, Converter={StaticResource BoolToVisibilityConverter}}">
+                                        <TextBlock 
+									        Foreground="{Binding OnlineColor}"
+									        ToolTip="在线数" 
+									        Text="{Binding SnapshotDataVm.DualCoinOnlineCount}">
+                                        </TextBlock>
+                                    </WrapPanel>
                                 </WrapPanel>
-                            </WrapPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </StackPanel>
-        </ScrollViewer>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn MinWidth="50" Width="*" Binding="{Binding SnapshotDataVm.SpeedText}" IsReadOnly="True">
+                    </DataGridTextColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <TextBlock Grid.Row="2" Visibility="{Binding ChartVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
+        </Grid>
         <ScrollViewer 
 			Grid.Row="1" Grid.Column="1"
 			Background="White"
@@ -174,7 +189,7 @@
 			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
 			<Viewbox Stretch="Uniform" VerticalAlignment="Top">
 				<ItemsControl
-					Width="1240"
+					Width="1140"
 					ItemsSource="{Binding ChartVms}"
 					BorderThickness="0"
 					MouseDown="MetroWindow_MouseDown"
@@ -187,7 +202,7 @@
 					</ItemsControl.ItemsPanel>
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-							<Border Height="200" Width="620" Background="White" Visibility="{Binding IsShow, Converter={StaticResource BoolToVisibilityConverter}}">
+							<Border Height="170" Width="570" Background="White" Visibility="{Binding IsShow, Converter={StaticResource BoolToVisibilityConverter}}">
 								<Border.ContextMenu>
 									<ContextMenu>
 										<MenuItem Header="不展示" Command="{Binding Hide}">

@@ -108,13 +108,13 @@ namespace NTMiner {
 
         private static void Run() {
             try {
-                HttpServer.Start($"http://localhost:{VirtualRoot.NTMinerDaemonPort}");
+                HttpServer.Start($"http://localhost:{NTKeyword.NTMinerDaemonPort.ToString()}");
                 Windows.ConsoleHandler.Register(Close);
-                VirtualRoot.EventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
+                VirtualRoot.AddEventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
                     action: message => {
                         NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
                         NoDevFee.NoDevFeeUtil.StartAsync();
-                    });
+                    }, typeof(HostRoot));
                 _waitHandle.WaitOne();
                 Close();
             }

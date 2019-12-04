@@ -19,6 +19,8 @@ namespace NTMiner.Vms {
         private string _downloadMessage;
         private bool _isDownloading = false;
         private double _downloadPercent;
+        private string _installText = "安装";
+        private string _unInstallText = "卸载";
 
         private Action _cancelDownload;
 
@@ -27,11 +29,11 @@ namespace NTMiner.Vms {
         public ICommand Install { get; private set; }
         public ICommand UnInstall { get; private set; }
 
-        private KernelViewModel _kernelVm;
+        private readonly KernelViewModel _kernelVm;
         public KernelProfileViewModel(KernelViewModel kernelVm, IKernelProfile kernelProfile) {
             _kernelVm = kernelVm;
             _kernelProfile = kernelProfile;
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.CancelDownload = new DelegateCommand(() => {
@@ -41,7 +43,7 @@ namespace NTMiner.Vms {
                 this.Download();
             });
             this.UnInstall = new DelegateCommand(() => {
-                this.ShowDialog(message: $"您确定卸载{_kernelVm.FullName}内核吗？", title: "确认", onYes: () => {
+                if (this.UnInstallText == "确认卸载") {
                     string processName = _kernelVm.GetProcessName();
                     if (!string.IsNullOrEmpty(processName)) {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
@@ -64,7 +66,17 @@ namespace NTMiner.Vms {
                         }
                     }
                     Refresh();
-                }, icon: IconConst.IconConfirm);
+                    this.InstallText = "卸载成功";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        this.InstallText = "安装";
+                    });
+                }
+                else {
+                    this.UnInstallText = "确认卸载";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        this.UnInstallText = "卸载";
+                    });
+                }
             });
         }
 
@@ -143,6 +155,26 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string UnInstallText {
+            get { return _unInstallText; }
+            set {
+                if (_unInstallText != value) {
+                    _unInstallText = value;
+                    OnPropertyChanged(nameof(UnInstallText));
+                }
+            }
+        }
+
+        public string InstallText {
+            get { return _installText; }
+            set {
+                if (_installText != value) {
+                    _installText = value;
+                    OnPropertyChanged(nameof(InstallText));
+                }
+            }
+        }
+
         #region Download
         public void Download(Action<bool, string> downloadComplete = null) {
             if (this.IsDownloading) {
@@ -167,6 +199,10 @@ namespace NTMiner.Vms {
                     foreach (var kernelVm in otherSamePackageKernelVms) {
                         kernelVm.KernelProfileVm.IsDownloading = false;
                     }
+                    this.UnInstallText = "安装成功";
+                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                        this.UnInstallText = "卸载";
+                    });
                 }
                 else {
                     TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
@@ -200,12 +236,14 @@ namespace NTMiner.Vms {
                     UIThread.Execute(() => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
-                            Logger.OkDebugLine(package + "下载成功");
+                            VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), package + "下载成功", toConsole: true);
                         }
                         string message = "下载成功";
                         if (e.Error != null) {
                             message = "下载失败";
-                            Logger.ErrorDebugLine(e.Error.Message, e.Error);
+                            string errorMessage = e.Error.GetInnerMessage();
+                            VirtualRoot.Out.ShowError(errorMessage);
+                            // 这里就不记录异常了，因为异常很可能是因为磁盘空间不足
                         }
                         if (e.Cancelled) {
                             message = "已取消";
@@ -215,10 +253,12 @@ namespace NTMiner.Vms {
                 };
                 OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
                     if (string.IsNullOrEmpty(packageUrl)) {
-                        downloadComplete?.Invoke(false, "未获取到内核包下载地址", saveFileFullName);
+                        string msg = $"未获取到{package}内核包下载地址";
+                        downloadComplete?.Invoke(false, msg, saveFileFullName);
+                        VirtualRoot.ThisLocalError(nameof(KernelProfileViewModel), msg, toConsole: true);
                     }
                     else {
-                        Logger.InfoDebugLine("下载：" + packageUrl);
+                        VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), "下载：" + package, toConsole: true);
                         webClient.DownloadFileAsync(new Uri(packageUrl), saveFileFullName);
                     }
                 });

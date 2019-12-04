@@ -1,37 +1,36 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
 using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class NTMinerUpdaterConfigViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public NTMinerUpdaterConfigViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Save = new DelegateCommand(() => {
                 try {
                     if (string.IsNullOrEmpty(this.FileName)) {
-                        this.FileName = "NTMinerUpdater.exe";
+                        this.FileName = NTKeyword.NTMinerUpdaterFileName;
                     }
-                    VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
-                        Key = "ntminerUpdaterFileName",
+                    VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
+                        Key = NTKeyword.NTMinerUpdaterFileNameAppSettingKey,
                         Value = this.FileName
                     }));
-                    CloseWindow?.Invoke();
+                    VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
                 }
             });
-            if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting("ntminerUpdaterFileName", out IAppSetting appSetting) && appSetting.Value != null) {
+            if (NTMinerRoot.Instance.ServerAppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting appSetting) && appSetting.Value != null) {
                 _fileName = appSetting.Value.ToString();
             }
             else {
-                _fileName = "NTMinerUpdater.exe";
+                _fileName = NTKeyword.NTMinerUpdaterFileName;
             }
         }
 

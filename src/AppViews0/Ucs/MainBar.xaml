@@ -116,17 +116,5 @@
 				Fill="{StaticResource ThemeForeground}"
 				Stretch="Fill" />
 		</controls:KbButton>
-		<controls:KbButton
-			Margin="0 0 4 0"
-			ToolTip="群控服务器"
-			Command="{x:Static app:AppStatic.ConfigControlCenterHost}"
-			Background="Transparent">
-			<Path 
-				Width="16"
-				Height="13"
-				Data="{StaticResource Icon_Server}"
-				Fill="{StaticResource ThemeForeground}"
-				Stretch="Fill" />
-		</controls:KbButton>
 	</WrapPanel>
 </UserControl>

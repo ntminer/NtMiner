@@ -14,19 +14,17 @@ namespace NTMiner.Views.Ucs {
             var minerClientVm = minerClientsWindowVm.SelectedMinerClients[0];
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = $"超频 - 基于矿机{minerClientVm.MinerName}({minerClientVm.MinerIp})",
-                HasOwner = true,
-                IsTopMost = true,
                 IconName = "Icon_OverClock",
                 Width = 800,
                 Height = 700,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
-                var vm = new GpuProfilesPageViewModel(minerClientsWindowVm) {
-                    CloseWindow = () => {
-                        window.Close();
-                    }
-                };
+                window.Owner = WpfUtil.GetTopWindow();
+                var vm = new GpuProfilesPageViewModel(minerClientsWindowVm);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(GpuProfilesPage));
                 var uc = new GpuProfilesPage(vm);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];
                 void handler(object sender, PropertyChangedEventArgs e) {
@@ -60,7 +58,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {

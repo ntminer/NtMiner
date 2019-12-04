@@ -6,11 +6,10 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class EthNoDevFeeEditViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private string _ethNoDevFeeWallet;
 
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public EthNoDevFeeEditViewModel() {
             _ethNoDevFeeWallet = GetEthNoDevFeeWallet();
@@ -19,13 +18,13 @@ namespace NTMiner.Vms {
                     Key = nameof(EthNoDevFeeWallet),
                     Value = EthNoDevFeeWallet
                 };
-                VirtualRoot.Execute(new ChangeLocalAppSettingCommand(appSettingData));
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(appSettingData));
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
         }
 
         public static string GetEthNoDevFeeWallet() {
-            if (NTMinerRoot.Instance.LocalAppSettingSet.TryGetAppSetting(nameof(EthNoDevFeeWallet), out IAppSetting appSetting)) {
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(EthNoDevFeeWallet), out IAppSetting appSetting)) {
                 return (string)appSetting.Value;
             }
             return string.Empty;
@@ -39,7 +38,7 @@ namespace NTMiner.Vms {
                 if (_ethNoDevFeeWallet != value) {
                     _ethNoDevFeeWallet = value;
                     OnPropertyChanged(nameof(EthNoDevFeeWallet));
-                    if (NTMinerRoot.Instance.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
+                    if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
                         if (!string.IsNullOrEmpty(coin.WalletRegexPattern)) {
                             Regex regex = VirtualRoot.GetRegex(coin.WalletRegexPattern);
                             if (!regex.IsMatch(value)) {

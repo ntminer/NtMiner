@@ -13,8 +13,10 @@ namespace NTMiner.Vms {
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
 
+        public ICommand OpenDevmgmt { get; private set; }
+
         public ToolboxViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.SwitchRadeonGpu = new DelegateCommand(() => {
@@ -22,16 +24,16 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowInfo("请先停止挖矿");
                     return;
                 }
-                this.ShowDialog(message: $"过程大概需要花费5到10秒钟", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
-                }, onNo: () => {
-                    bool isClose = false;
-                    this.ShowDialog(message: "关闭计算模式挖矿算力会减半，确定关闭计算模式？", title: "二次确认", onYes: () => {
-                        isClose = true;
+                var config = new DialogWindowViewModel(
+                    isConfirmNo: true,
+                    btnNoToolTip: "注意：关闭计算模式挖矿算力会减半",
+                    message: $"过程大概需要花费5到10秒钟", title: "确认", onYes: () => {
+                        VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
+                    }, onNo: () => {
                         VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
-                    }, icon: IconConst.IconConfirm);
-                    return isClose;
-                }, icon: IconConst.IconConfirm, yesText: "开启计算模式", noText: "关闭计算模式");
+                        return true;
+                    }, yesText: "开启计算模式", noText: "关闭计算模式");
+                this.ShowSoftDialog(config);
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
@@ -47,19 +49,19 @@ namespace NTMiner.Vms {
                 Process.Start(item.Value);
             });
             this.RegCmdHere = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RegCmdHereCommand());
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.BlockWAU = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
-                }, icon: IconConst.IconConfirm, helpUrl: "https://www.loserhub.cn/posts/details/91");
+                }, helpUrl: "https://www.loserhub.cn/posts/details/91"));
             });
             this.Win10Optimize = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
-                }, icon: IconConst.IconConfirm, helpUrl: "https://www.loserhub.cn/posts/details/83");
+                }, helpUrl: "https://www.loserhub.cn/posts/details/83"));
             });
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
@@ -67,11 +69,20 @@ namespace NTMiner.Vms {
             this.WindowsAutoLogon = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
             });
+            this.OpenDevmgmt = new DelegateCommand(() => {
+                Process.Start("devmgmt.msc");
+            });
+        }
+
+        public bool IsReturnEthDevFee {
+            get {
+                return false;
+            }
         }
 
         public SysDicItemViewModel NvidiaDriverWin10 {
             get {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverWin10", out ISysDicItem item)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverWin10", out ISysDicItem item)) {
                     if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
@@ -82,7 +93,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel NvidiaDriverWin7 {
             get {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverWin7", out ISysDicItem item)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverWin7", out ISysDicItem item)) {
                     if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
@@ -93,7 +104,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel NvidiaDriverMore {
             get {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "NvidiaDriverMore", out ISysDicItem item)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverMore", out ISysDicItem item)) {
                     if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
@@ -104,7 +115,7 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel AmdDriverMore {
             get {
-                if (NTMinerRoot.Instance.SysDicItemSet.TryGetDicItem(VirtualRoot.ThisSystemSysDicCode, "AmdDriverMore", out ISysDicItem item)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AmdDriverMore", out ISysDicItem item)) {
                     if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }

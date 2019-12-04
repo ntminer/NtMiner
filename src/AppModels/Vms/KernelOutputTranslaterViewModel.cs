@@ -1,15 +1,12 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Linq;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater, IEditableViewModel {
         private string _regexPattern;
         private Guid _id;
         private string _replacement;
-        private string _color;
         private int _sortNumber;
         private bool _isPre;
 
@@ -23,10 +20,8 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public KernelOutputTranslaterViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -36,7 +31,6 @@ namespace NTMiner.Vms {
             _regexPattern = data.RegexPattern;
             _id = data.GetId();
             _replacement = data.Replacement;
-            _color = data.Color;
             _sortNumber = data.SortNumber;
             _isPre = data.IsPre;
         }
@@ -45,7 +39,7 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 int sortNumber = this.SortNumber;
-                if (NTMinerRoot.Instance.KernelOutputTranslaterSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.KernelOutputTranslaterSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelOutputTranslaterCommand(this));
                 }
                 else {
@@ -56,7 +50,7 @@ namespace NTMiner.Vms {
                         kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                     }
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 VirtualRoot.Execute(new KernelOutputTranslaterEditCommand(formType ?? FormType.Edit, this));
@@ -65,9 +59,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.RegexPattern}内核输出翻译器吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.RegexPattern}内核输出翻译器吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 KernelOutputTranslaterViewModel upOne = AppContext.Instance.KernelOutputTranslaterVms.GetUpOne(this.KernelOutputId, this.SortNumber);
@@ -140,64 +134,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string Color {
-            get => _color;
-            set {
-                if (_color != value) {
-                    _color = value;
-                    OnPropertyChanged(nameof(Color));
-                    OnPropertyChanged(nameof(ColorBrush));
-                    OnPropertyChanged(nameof(ColorDicItem));
-                    OnPropertyChanged(nameof(ColorDescription));
-                }
-            }
-        }
-
-        public SolidColorBrush ColorBrush {
-            get {
-                if (string.IsNullOrEmpty(this.Color)) {
-                    return Wpf.Util.WhiteBrush;
-                }
-                if (ColorDicItem != null && ColorDicItem.Value.TryParse(out ConsoleColor consoleColor)) {
-                    return new SolidColorBrush(consoleColor.ToMediaColor());
-                }
-                return Wpf.Util.WhiteBrush;
-            }
-        }
-
-        private SysDicItemViewModel _colorDicItem;
-        public SysDicItemViewModel ColorDicItem {
-            get {
-                if (_colorDicItem == null || this.Color != _colorDicItem.Code) {
-                    _colorDicItem = LogColorDicVm.SysDicItems.FirstOrDefault(a => a.Code == this.Color);
-                }
-                return _colorDicItem;
-            }
-        }
-
-        public string ColorDescription {
-            get {
-                SysDicViewModel colorDic = LogColorDicVm;
-                if (colorDic != null) {
-                    if (ColorDicItem != null) {
-                        return ColorDicItem.Description;
-                    }
-                }
-                return "默认";
-            }
-        }
-
-        private SysDicViewModel _clorDic;
-
-        public SysDicViewModel LogColorDicVm {
-            get {
-                if (_clorDic == null) {
-                    AppContext.Instance.SysDicVms.TryGetSysDicVm(VirtualRoot.LogColorSysDicCode, out _clorDic);
-                }
-                return _clorDic;
-            }
-        }
-
         public int SortNumber {
             get => _sortNumber;
             set {
@@ -225,25 +161,6 @@ namespace NTMiner.Vms {
                     return "是";
                 }
                 return "否";
-            }
-        }
-
-        public SysDicItemViewModel SelectedColor {
-            get {
-                if (string.IsNullOrEmpty(this.Color)) {
-                    return SysDicItemViewModel.PleaseSelect;
-                }
-                SysDicItemViewModel vm = LogColorDicVm.SysDicItemsSelect.FirstOrDefault(a => a.Code == this.Color);
-                if (vm != null) {
-                    return vm;
-                }
-                return SysDicItemViewModel.PleaseSelect;
-            }
-            set {
-                if (this.Color != value.Code) {
-                    this.Color = value.Code;
-                    OnPropertyChanged(nameof(SelectedColor));
-                }
             }
         }
     }

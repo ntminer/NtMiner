@@ -6,6 +6,8 @@
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		mc:Ignorable="d"
+		d:DataContext="{d:DesignData Source=/Design/StartStopMineButtonViewModel.xaml}"
 		x:Name="Self"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
 	<WrapPanel Height="28">

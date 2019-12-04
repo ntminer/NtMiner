@@ -12,11 +12,11 @@
             return InvalidInput<ResponseBase>(description);
         }
 
-        public static ResponseBase Ok(string message = null) {
+        public static ResponseBase Ok() {
             return new ResponseBase() {
                 StateCode = 200,
                 ReasonPhrase = "Ok",
-                Description = message ?? "成功"
+                Description = "成功"
             };
         }
 
@@ -48,7 +48,7 @@
             return new T {
                 StateCode = 490,
                 ReasonPhrase = "Expired",
-                Description = $"远端和本地时间不一致，时差超过{Timestamp.DesyncSeconds}秒"
+                Description = $"远端和本地时间不一致，时差超过{Timestamp.DesyncSeconds.ToString()}秒"
             };
         }
 

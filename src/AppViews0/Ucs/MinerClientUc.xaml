@@ -10,7 +10,7 @@
 		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 		d:DataContext="{d:DesignData Source=/Design/MinerClientViewModel.xaml}"
-		mc:Ignorable="d" d:DesignWidth="1200">
+		mc:Ignorable="d" d:DesignWidth="930">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="100"></Setter>
@@ -25,7 +25,7 @@
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Center"></TextBlock>
-			<Menu Grid.Column="1">
+			<Menu Grid.Column="1" HorizontalAlignment="Left">
 				<MenuItem Header="刷新" Padding="4" Margin="0 0 6 0" Command="{Binding Refresh}">
 					<MenuItem.Icon>
 						<Path
@@ -304,7 +304,7 @@
 			MinRowHeight="24"
 			IsReadOnly="True"
 			Background="Transparent"
-			ItemsSource="{Binding GpuTableVm}">
+			ItemsSource="{Binding GpuTableVm.Items}">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding GpuTableVm}" />
                 <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">10</sys:Double>
@@ -457,7 +457,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                <DataGridTemplateColumn Width="50" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="核心电压？" ToolTip="'核心电压'可能显示为0，因为挖矿端自2.6.0.0开始上报核心电压且只支持A卡" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -469,7 +469,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                <DataGridTemplateColumn Width="50" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="显存电压？" ToolTip="'显存电压'可能显示为0，因为挖矿端自2.6.0.0开始上报显存电压且只支持A卡" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -481,7 +481,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="60" IsReadOnly="True">
+                <DataGridTemplateColumn Width="40" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="超频功耗" TextWrapping="Wrap" FontSize="12"></TextBlock>
@@ -493,7 +493,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="70" IsReadOnly="True">
+                <DataGridTemplateColumn Width="50" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="温度阈值？" ToolTip="'温度阈值'可能显示为0，因为挖矿端自2.2.0.6开始上报温度阈值" TextWrapping="Wrap" FontSize="12"></TextBlock>

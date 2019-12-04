@@ -11,7 +11,7 @@
     <AssemblyName>AppModels</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.NetFwTypeLib">
+      <HintPath>..\ThirdPartyDlls\Interop.NetFwTypeLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiveCharts.0.9.7\lib\net40\LiveCharts.dll</HintPath>
     </Reference>
@@ -62,10 +66,11 @@
     <Compile Include="AppContext.partials.GpuViewModels.cs" />
     <Compile Include="AppContext.partials.GroupViewModels.cs" />
     <Compile Include="AppContext.partials.KernelInputViewModels.cs" />
-    <Compile Include="AppContext.partials.KernelOutputFilterViewModels.cs" />
+    <Compile Include="AppContext.partials.KernelOutputKeywordViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputTranslaterViewModels.cs" />
     <Compile Include="AppContext.partials.KernelOutputViewModels.cs" />
     <Compile Include="AppContext.partials.KernelViewModels.cs" />
+    <Compile Include="AppContext.partials.NTMinerWalletViewModels.cs" />
     <Compile Include="AppContext.partials.MinerGroupViewModels.cs" />
     <Compile Include="AppContext.partials.MineWorkViewModels.cs" />
     <Compile Include="AppContext.partials.OverClockDataViewModels.cs" />
@@ -82,10 +87,12 @@
     <Compile Include="ExtendedNotifyIcon.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RemoteDesktopInput.cs" />
+    <Compile Include="RemoteDesktop\Firewall.cs" />
+    <Compile Include="RemoteDesktop\Rdp.partial.cs" />
+    <Compile Include="RemoteDesktop\Rdp.cs" />
+    <Compile Include="RemoteDesktop\RdpInput.cs" />
     <Compile Include="View\AbstractAppViewFactory.cs" />
     <Compile Include="View\IAppViewFactory.cs" />
-    <Compile Include="View\ISplashWindow.cs" />
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\BrandTagViewModel.cs" />
@@ -102,13 +109,22 @@
     <Compile Include="Vms\CoinPageViewModel.cs" />
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="Vms\EthNoDevFeeEditViewModel.cs" />
-    <Compile Include="Vms\WorkerEventsViewModel.cs" />
+    <Compile Include="Vms\InnerPropertyViewModel.cs" />
+    <Compile Include="Vms\KernelOutputKeywordViewModel.cs" />
+    <Compile Include="Vms\KernelOutputKeywordsViewModel.cs" />
+    <Compile Include="Vms\MessagePathIdsViewModel.cs" />
+    <Compile Include="Vms\MessageTypeItem`1.cs" />
+    <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
+    <Compile Include="Vms\NTMinerWalletViewModel.cs" />
+    <Compile Include="Vms\RemoteDesktopLoginViewModel.cs" />
+    <Compile Include="Vms\ServerMessageViewModel.cs" />
+    <Compile Include="Vms\ServerMessagesViewModel.cs" />
+    <Compile Include="Vms\LocalMessagesViewModel.cs" />
     <Compile Include="Vms\FragmentWriterPageViewModel.cs" />
     <Compile Include="Vms\FragmentWriterSelectViewModel.cs" />
     <Compile Include="Vms\FileWriterSelectViewModel.cs" />
     <Compile Include="Vms\FragmentWriterViewModel.cs" />
     <Compile Include="Vms\GpuStatusBarViewModel.cs" />
-    <Compile Include="Vms\HandlerIdsWindowViewModel.cs" />
     <Compile Include="Vms\KernelOutputSelectViewModel.cs" />
     <Compile Include="Vms\KernelInputSelectViewModel.cs" />
     <Compile Include="Vms\LocalIpConfigViewModel.cs" />
@@ -122,8 +138,6 @@
     <Compile Include="Vms\CoinViewModel.cs" />
     <Compile Include="Vms\ColumnsShowPageViewModel.cs" />
     <Compile Include="Vms\ColumnsShowViewModel.cs" />
-    <Compile Include="Vms\ContainerWindowViewModel.cs" />
-    <Compile Include="Vms\ControlCenterHostConfigViewModel.cs" />
     <Compile Include="Vms\DriveViewModel.cs" />
     <Compile Include="Vms\EnvironmentVariableEditViewModel.cs" />
     <Compile Include="Vms\FileDownloaderViewModel.cs" />
@@ -143,7 +157,6 @@
     <Compile Include="Vms\KernelInputPageViewModel.cs" />
     <Compile Include="Vms\KernelInputViewModel.cs" />
     <Compile Include="Vms\KernelMenu.cs" />
-    <Compile Include="Vms\KernelOutputFilterViewModel.cs" />
     <Compile Include="Vms\KernelOutputPageViewModel.cs" />
     <Compile Include="Vms\KernelOutputTranslaterViewModel.cs" />
     <Compile Include="Vms\KernelOutputViewModel.cs" />
@@ -151,7 +164,6 @@
     <Compile Include="Vms\KernelSelectViewModel.cs" />
     <Compile Include="Vms\KernelsWindowViewModel.cs" />
     <Compile Include="Vms\KernelViewModel.cs" />
-    <Compile Include="Vms\LogColorViewModel.cs" />
     <Compile Include="Vms\MainWindowViewModel.cs" />
     <Compile Include="Vms\MeasureModel.cs" />
     <Compile Include="Vms\MinerClientAddViewModel.cs" />
@@ -190,16 +202,20 @@
     <Compile Include="Vms\VirtualMemoryViewModel.cs" />
     <Compile Include="Vms\WalletSelectViewModel.cs" />
     <Compile Include="Vms\WalletViewModel.cs" />
-    <Compile Include="Vms\WorkerEventViewModel.cs" />
+    <Compile Include="Vms\LocalMessageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
-      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
-      <Name>NTMinerBus</Name>
+    <ProjectReference Include="..\NTMinerClient\NTMinerClient.csproj">
+      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
+      <Name>NTMinerClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerHub</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
@@ -216,10 +232,6 @@
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NTMiner\NTMiner.csproj">
-      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMiner</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

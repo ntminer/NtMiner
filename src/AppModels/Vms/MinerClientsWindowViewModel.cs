@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
+using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,32 +64,32 @@ namespace NTMiner.Vms {
 
         #region ctor
         public MinerClientsWindowViewModel(bool isInDesignMode = true) {
-            if (Design.IsInDesignMode || isInDesignMode) {
+            if (WpfUtil.IsInDesignMode || isInDesignMode) {
                 return;
             }
             var appSettings = NTMinerRoot.Instance.ServerAppSettingSet;
             Guid columnsShowId = ColumnsShowData.PleaseSelect.Id;
-            if (appSettings.TryGetAppSetting("ColumnsShowId", out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
+            if (appSettings.TryGetAppSetting(NTKeyword.ColumnsShowIdAppSettingKey, out IAppSetting columnsShowAppSetting) && columnsShowAppSetting.Value != null) {
                 if (Guid.TryParse(columnsShowAppSetting.Value.ToString(), out Guid guid)) {
                     columnsShowId = guid;
                 }
             }
-            if (appSettings.TryGetAppSetting("FrozenColumnCount", out IAppSetting frozenColumnCountAppSetting) && frozenColumnCountAppSetting.Value != null) {
+            if (appSettings.TryGetAppSetting(NTKeyword.FrozenColumnCountAppSettingKey, out IAppSetting frozenColumnCountAppSetting) && frozenColumnCountAppSetting.Value != null) {
                 if (int.TryParse(frozenColumnCountAppSetting.Value.ToString(), out int frozenColumnCount)) {
                     _frozenColumnCount = frozenColumnCount;
                 }
             }
-            if (appSettings.TryGetAppSetting("MaxTemp", out IAppSetting maxTempAppSetting) && maxTempAppSetting.Value != null) {
+            if (appSettings.TryGetAppSetting(NTKeyword.MaxTempAppSettingKey, out IAppSetting maxTempAppSetting) && maxTempAppSetting.Value != null) {
                 if (uint.TryParse(maxTempAppSetting.Value.ToString(), out uint maxTemp)) {
                     _maxTemp = maxTemp;
                 }
             }
-            if (appSettings.TryGetAppSetting("MinTemp", out IAppSetting minTempAppSetting) && minTempAppSetting.Value != null) {
+            if (appSettings.TryGetAppSetting(NTKeyword.MinTempAppSettingKey, out IAppSetting minTempAppSetting) && minTempAppSetting.Value != null) {
                 if (uint.TryParse(minTempAppSetting.Value.ToString(), out uint minTemp)) {
                     _minTemp = minTemp;
                 }
             }
-            if (appSettings.TryGetAppSetting("RejectPercent", out IAppSetting rejectPercentAppSetting) && rejectPercentAppSetting.Value != null) {
+            if (appSettings.TryGetAppSetting(NTKeyword.RejectPercentAppSettingKey, out IAppSetting rejectPercentAppSetting) && rejectPercentAppSetting.Value != null) {
                 if (int.TryParse(rejectPercentAppSetting.Value.ToString(), out int rejectPercent)) {
                     _rejectPercent = rejectPercent;
                 }
@@ -111,9 +112,9 @@ namespace NTMiner.Vms {
             this.OneKeyMinerNames = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
                     var selectedMinerClient = this.SelectedMinerClients[0];
-                    Wpf.Util.ShowInputDialog("群控矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
+                    WpfUtil.ShowInputDialog("群控矿工名 注意：重新开始挖矿时生效", selectedMinerClient.MinerName, null, minerName => {
                         selectedMinerClient.MinerName = minerName;
-                        VirtualRoot.Out.ShowSuccessMessage("设置群控矿工名成功，重新开始挖矿时生效。");
+                        VirtualRoot.Out.ShowSuccess("设置群控矿工名成功，重新开始挖矿时生效。");
                     });
                     return;
                 }
@@ -124,7 +125,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new ShowMinerNamesSeterCommand(vm));
                 if (vm.IsOk) {
                     this.CountDown = 10;
-                    Server.ControlCenterService.UpdateClientsAsync(nameof(MinerClientViewModel.MinerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
+                    Server.ClientService.UpdateClientsAsync(nameof(MinerClientViewModel.MinerName), vm.NamesByObjectId.ToDictionary(a => a.Item1, a => (object)a.Item2), callback: (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -141,19 +142,19 @@ namespace NTMiner.Vms {
                 }
             }, CanCommand);
             this.OneKeyWindowsLoginName = new DelegateCommand(() => {
-                Wpf.Util.ShowInputDialog("远程桌面用户名", string.Empty, null, loginName => {
+                WpfUtil.ShowInputDialog("远程桌面用户名", string.Empty, null, loginName => {
                     foreach (var item in SelectedMinerClients) {
                         item.WindowsLoginName = loginName;
                     }
-                    VirtualRoot.Out.ShowSuccessMessage("设置远程桌面用户名成功，双击矿机可打开远程桌面。");
+                    VirtualRoot.Out.ShowSuccess("设置远程桌面用户名成功，双击矿机可打开远程桌面。");
                 });
             }, CanCommand);
             this.OneKeyWindowsLoginPassword = new DelegateCommand(() => {
-                Wpf.Util.ShowInputDialog("远程桌面密码", string.Empty, null, password => {
+                WpfUtil.ShowInputDialog("远程桌面密码", string.Empty, null, password => {
                     foreach (var item in SelectedMinerClients) {
                         item.WindowsPassword = password;
                     }
-                    VirtualRoot.Out.ShowSuccessMessage("设置远程桌面密码成功，双击矿机可打开远程桌面。");
+                    VirtualRoot.Out.ShowSuccess("设置远程桌面密码成功，双击矿机可打开远程桌面。");
                 });
             }, CanCommand);
             this.EditMineWork = new DelegateCommand(() => {
@@ -176,7 +177,7 @@ namespace NTMiner.Vms {
                 }
             }, OnlySelectedOne);
             this.OneKeyUpgrade = new DelegateCommand<NTMinerFileData>((ntminerFileData) => {
-                this.ShowDialog(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: "确定升级到该版本吗？", title: "确认", onYes: () => {
                     foreach (var item in SelectedMinerClients) {
                         Server.MinerClientService.UpgradeNTMinerAsync(item, ntminerFileData.FileName, (response, e) => {
                             if (!response.IsSuccess()) {
@@ -184,9 +185,9 @@ namespace NTMiner.Vms {
                             }
                         });
                     }
-                }, icon: IconConst.IconConfirm);
+                }));
             }, (ntminerFileData) => this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0);
-            this.AddMinerClient = new DelegateCommand(()=> {
+            this.AddMinerClient = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowMinerClientAddCommand());
             });
             this.RemoveMinerClients = new DelegateCommand(() => {
@@ -194,9 +195,9 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除选中的矿机吗？", title: "确认", onYes: () => {
                         this.CountDown = 10;
-                        Server.ControlCenterService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
+                        Server.ClientService.RemoveClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                             if (!response.IsSuccess()) {
                                 Write.UserFail(response.ReadMessage(e));
                             }
@@ -204,7 +205,7 @@ namespace NTMiner.Vms {
                                 QueryMinerClients();
                             }
                         });
-                    }, icon: IconConst.IconConfirm);
+                    }));
                 }
             }, CanCommand);
             this.RefreshMinerClients = new DelegateCommand(() => {
@@ -212,7 +213,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    Server.ControlCenterService.RefreshClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
+                    Server.ClientService.RefreshClientsAsync(SelectedMinerClients.Select(a => a.Id).ToList(), (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -232,7 +233,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -240,7 +241,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: IconConst.IconConfirm);
+                    }));
                 }
             }, CanCommand);
             this.ShutdownWindows = new DelegateCommand(() => {
@@ -248,7 +249,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭选中的电脑吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.ShutdownWindowsAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -256,7 +257,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: IconConst.IconConfirm);
+                    }));
                 }
             }, CanCommand);
             this.RestartNTMiner = new DelegateCommand(() => {
@@ -264,7 +265,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(message: $"确定重启选中的挖矿客户端吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启选中的挖矿客户端吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             Server.MinerClientService.RestartNTMinerAsync(item, (response, e) => {
                                 if (!response.IsSuccess()) {
@@ -272,7 +273,7 @@ namespace NTMiner.Vms {
                                 }
                             });
                         }
-                    }, icon: IconConst.IconConfirm);
+                    }));
                 }
             }, CanCommand);
             this.StartMine = new DelegateCommand(() => {
@@ -287,7 +288,7 @@ namespace NTMiner.Vms {
                                 Write.UserFail($"{item.MinerIp} {response.ReadMessage(e)}");
                             }
                         });
-                        Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                        Server.ClientService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                     }
                 }
             }, CanCommand);
@@ -296,7 +297,7 @@ namespace NTMiner.Vms {
                     ShowNoRecordSelected();
                 }
                 else {
-                    this.ShowDialog(message: $"确定将选中的矿机停止挖矿吗？", title: "确认", onYes: () => {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定将选中的矿机停止挖矿吗？", title: "确认", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             item.IsMining = false;
                             Server.MinerClientService.StopMineAsync(item, (response, e) => {
@@ -304,16 +305,16 @@ namespace NTMiner.Vms {
                                     Write.UserFail($"{item.MinerIp} {response.ReadMessage(e)}");
                                 }
                             });
-                            Server.ControlCenterService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                            Server.ClientService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
                         }
-                    }, icon: IconConst.IconConfirm);
+                    }));
                 }
             }, CanCommand);
             this.PageUp = new DelegateCommand(() => {
-                this.MinerClientPageIndex = this.MinerClientPageIndex - 1;
+                this.MinerClientPageIndex -= 1;
             });
             this.PageDown = new DelegateCommand(() => {
-                this.MinerClientPageIndex = this.MinerClientPageIndex + 1;
+                this.MinerClientPageIndex += 1;
             });
             this.PageFirst = new DelegateCommand(() => {
                 this.MinerClientPageIndex = 1;
@@ -370,14 +371,14 @@ namespace NTMiner.Vms {
         private void RefreshRejectPercentForeground() {
             foreach (MinerClientViewModel item in MinerClients) {
                 if (item.MainCoinRejectPercent >= this.RejectPercent) {
-                    item.MainCoinRejectPercentForeground = Wpf.Util.RedBrush;
+                    item.MainCoinRejectPercentForeground = WpfUtil.RedBrush;
                 }
                 else {
                     item.MainCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
                 }
 
                 if (item.DualCoinRejectPercent >= this.RejectPercent) {
-                    item.DualCoinRejectPercentForeground = Wpf.Util.RedBrush;
+                    item.DualCoinRejectPercentForeground = WpfUtil.RedBrush;
                 }
                 else {
                     item.DualCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
@@ -413,7 +414,7 @@ namespace NTMiner.Vms {
                     continue;
                 }
                 if (item.GpuTableVm.MaxTemp >= this.MaxTemp) {
-                    item.GpuTableVm.TempForeground = Wpf.Util.RedBrush;
+                    item.GpuTableVm.TempForeground = WpfUtil.RedBrush;
                 }
                 else if (item.GpuTableVm.MaxTemp < this.MinTemp) {
                     item.GpuTableVm.TempForeground = MinerClientViewModel.Blue;
@@ -426,7 +427,7 @@ namespace NTMiner.Vms {
         }
 
         private void ShowNoRecordSelected() {
-            VirtualRoot.Out.ShowErrorMessage("没有选中记录", 2);
+            VirtualRoot.Out.ShowError("没有选中记录", 2);
         }
 
         public ColumnsShowViewModel ColumnsShow {
@@ -437,8 +438,8 @@ namespace NTMiner.Vms {
                 if (_columnsShow != value && value != null) {
                     _columnsShow = value;
                     OnPropertyChanged(nameof(ColumnsShow));
-                    VirtualRoot.Execute(new ChangeServerAppSettingCommand(new AppSettingData {
-                        Key = "ColumnsShowId",
+                    VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
+                        Key = NTKeyword.ColumnsShowIdAppSettingKey,
                         Value = value.Id
                     }));
                 }
@@ -555,7 +556,7 @@ namespace NTMiner.Vms {
                     wallet = this.Wallet;
                 }
             }
-            Server.ControlCenterService.QueryClientsAsync(
+            Server.ClientService.QueryClientsAsync(
                 this.MinerClientPageIndex,
                 this.MinerClientPageSize,
                 groupId,
@@ -725,7 +726,7 @@ namespace NTMiner.Vms {
                     _minerIp = value;
                     OnPropertyChanged(nameof(MinerIp));
                     if (!string.IsNullOrEmpty(value)) {
-                        if (!IPAddress.TryParse(value, out IPAddress ip)) {
+                        if (!IPAddress.TryParse(value, out IPAddress _)) {
                             throw new ValidationException("IP地址格式不正确");
                         }
                     }

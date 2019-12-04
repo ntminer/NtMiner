@@ -6,7 +6,7 @@ namespace NTMiner.Vms {
         public ICommand Add { get; private set; }
 
         public KernelInputPageViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Add = new DelegateCommand(() => {

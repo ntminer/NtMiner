@@ -1,19 +1,73 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
 using NTMiner.Controllers;
+using NTMiner.MinerClient;
 using NTMiner.Profile;
 using NTMiner.Serialization;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Web;
 using System.Windows;
 
 namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
+        [TestMethod]
+        public void IsInUnitTestTest() {
+            Assert.IsTrue(DevMode.IsInUnitTest);
+        }
+
+        [TestMethod]
+        public void SizeOfTest() {
+            Console.WriteLine("bool:" + sizeof(bool));
+            unsafe {
+                Console.WriteLine("DateTime:" + sizeof(DateTime));
+                Console.WriteLine("Guid:" + sizeof(Guid));
+            }
+        }
+
+        [TestMethod]
+        public void BoxTest() {
+            // 装箱了
+            Console.WriteLine(string.Format("{0}{1}{2}", 1, false, LocalMessageType.Info));
+            // 装箱了，和上面完全一样
+            Console.WriteLine($"{1}{false}{LocalMessageType.Info}");
+            // 装箱了
+            string.Format(CultureInfo.InvariantCulture, "0x{0:X8}", 1);
+            // 装箱了
+            Console.WriteLine($"{Guid.NewGuid()}");
+        }
+
+        [TestMethod]
+        public void TimestampTest() {
+            Assert.AreEqual(0ul, Timestamp.GetTimestamp(Timestamp.UnixBaseTime));
+            Assert.AreEqual(0ul, Timestamp.GetTimestamp(new DateTime(1970, 1, 1)));
+            DateTime n = DateTime.Now;
+            DateTime now = new DateTime(n.Year, n.Month, n.Day, n.Hour, n.Minute, n.Second);
+            Assert.AreEqual(now, Timestamp.FromTimestamp(Timestamp.GetTimestamp(now)));
+        }
+
+        [TestMethod]
+        public void NullTest() {
+            object o = null;
+            Assert.IsFalse(o is DateTime);
+            o = DateTime.Now;
+            Assert.IsTrue(o is DateTime);
+        }
+
+        [TestMethod]
+        public void NameofTest() {
+            Assert.AreEqual("T", GetNameofT<int>());
+            Assert.AreNotEqual("int", GetNameofT<int>());
+        }
+
+        private string GetNameofT<T>() {
+            return nameof(T);
+        }
+
         [TestMethod]
         public void DictionarySetTest() {
             var dic = new Dictionary<string, string>();
@@ -35,7 +89,7 @@ namespace UnitTests {
         public void LinqTest() {
             Assert.AreEqual(Guid.Empty, new Guid[] { }.FirstOrDefault());
         }
-        
+
         [TestMethod]
         public void VersionTest() {
             Assert.AreEqual(new Version(), new Version());
@@ -46,7 +100,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void ShortcutTest() {
-            string linkFileFullName= Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "ShortcutTest.lnk");
+            string linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "ShortcutTest.lnk");
             File.Delete(linkFileFullName);
             Assert.IsTrue(string.IsNullOrEmpty(WindowsShortcut.GetTargetPath(linkFileFullName)));
             WindowsShortcut.CreateShortcut(linkFileFullName, VirtualRoot.AppFileFullName, "this is a test");
@@ -199,9 +253,9 @@ namespace UnitTests {
                     ntminerWalletCount++;
                 }
             }
-            Console.WriteLine($"测试{total}次");
-            Console.WriteLine($"选中用户的钱包    {userWalletCount}次，{(double)userWalletCount / total * 100} %");
-            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount}次，{(double)ntminerWalletCount / total * 100} %");
+            Console.WriteLine($"测试{total.ToString()}次");
+            Console.WriteLine($"选中用户的钱包    {userWalletCount.ToString()}次，{((double)userWalletCount / total * 100).ToString()} %");
+            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount.ToString()}次，{((double)ntminerWalletCount / total * 100).ToString()} %");
         }
 
         [TestMethod]
@@ -217,10 +271,9 @@ namespace UnitTests {
 
         [TestMethod]
         public void AliOSSUrlTest() {
-            Uri uri = new Uri($"{OfficialServer.MinerJsonBucket}packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
+            Uri uri = new Uri($"{OfficialServer.NTMinerBucket}packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
             Console.WriteLine(uri.ToString());
             Console.WriteLine(OfficialServer.SignatureSafeUrl(uri));
-            Console.WriteLine(HttpUtility.UrlEncode(uri.ToString()));
         }
 
         [TestMethod]
@@ -231,6 +284,18 @@ namespace UnitTests {
                 buffer = new byte[0];
                 fs.Write(buffer, 0, buffer.Length);
             }
+        }
+
+        [TestMethod]
+        public void GetIndexCharTest() {
+            List<string> chars1 = new List<string>();
+            List<string> chars2 = new List<string>();
+            for (int i = 0; i < 12; i++) {
+                chars1.Add(VirtualRoot.GetIndexChar(i, string.Empty));
+                chars2.Add(VirtualRoot.GetIndexChar(i, ","));
+            }
+            Assert.AreEqual("0123456789ab", string.Join(string.Empty, chars1));
+            Assert.AreEqual("0,1,2,3,4,5,6,7,8,9,10,11", string.Join(",", chars2));
         }
     }
 }

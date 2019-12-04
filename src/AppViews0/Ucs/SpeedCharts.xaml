@@ -27,7 +27,7 @@
 		</Grid.RowDefinitions>
 		<ListBox 
 			Background="Transparent"				
-			ItemsSource="{Binding SpeedChartVms}"
+			ItemsSource="{Binding SpeedChartVms.Items}"
 			SelectedItem="{Binding CurrentSpeedChartVm}"
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 			ScrollViewer.VerticalScrollBarVisibility="Disabled"

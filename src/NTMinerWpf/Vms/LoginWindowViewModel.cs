@@ -16,7 +16,7 @@ namespace NTMiner.Vms {
         public LoginWindowViewModel() {
             this._loginName = "admin";
             this._serverHost = NTMinerRegistry.GetControlCenterHost();
-            this.IsInnerIp = Ip.Util.IsInnerIp(_serverHost);
+            this.IsInnerIp = Net.Util.IsInnerIp(_serverHost);
             this.ActiveAdmin = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Password)) {
                     this.ShowMessage("密码不能为空");
@@ -42,14 +42,10 @@ namespace NTMiner.Vms {
         public void ShowMessage(string message, bool isSuccess = false) {
             UIThread.Execute(() => {
                 if (isSuccess) {
-                    VirtualRoot.Out.ShowSuccessMessage(message);
+                    VirtualRoot.Out.ShowSuccess(message);
                 }
                 else {
-                    NotiCenterWindowViewModel.Instance.Manager.CreateMessage()
-                        .Error(message)
-                        .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(2))
-                        .Queue();
+                    VirtualRoot.Out.ShowError(message, delaySeconds: 4);
                 }
             });
         }
@@ -59,7 +55,7 @@ namespace NTMiner.Vms {
             set {
                 _serverHost = value;
                 OnPropertyChanged(nameof(ServerHost));
-                this.IsInnerIp = Ip.Util.IsInnerIp(value);
+                this.IsInnerIp = Net.Util.IsInnerIp(value);
                 OnPropertyChanged(nameof(IsInnerIp));
             }
         }
@@ -69,7 +65,7 @@ namespace NTMiner.Vms {
         }
 
         public int Port {
-            get { return VirtualRoot.ControlCenterPort; }
+            get { return NTKeyword.ControlCenterPort; }
         }
 
         public Visibility IsPasswordAgainVisible {

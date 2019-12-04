@@ -17,12 +17,10 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public ICommand BrowsePackage { get; private set; }
 
         public PackageViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -39,13 +37,13 @@ namespace NTMiner.Vms {
                     return;
                 }
                 _algoIds = this.AlgoSelectItems.Where(a => a.IsChecked).Select(a => a.SysDicItemVm.Id).ToList();
-                if (NTMinerRoot.Instance.PackageSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.PackageSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePackageCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddPackageCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -57,9 +55,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}内核包吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}内核包吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemovePackageCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.BrowsePackage = new DelegateCommand(() => {
                 OpenFileDialog openFileDialog = new OpenFileDialog {

@@ -3,6 +3,7 @@
 namespace NTMiner.Vms {
     public class LocalIpViewModel : ViewModelBase, ILocalIp {
         private string _settingID;
+        private string _macAddress;
         private string _name;
         private bool _dHCPEnabled;
         private bool _isAutoDNSServer;
@@ -17,6 +18,7 @@ namespace NTMiner.Vms {
         public LocalIpViewModel(ILocalIp data) {
             _data = data;
             _settingID = data.SettingID;
+            _macAddress = data.MACAddress;
             _name = data.Name;
             _dHCPEnabled = data.DHCPEnabled;
             if (!data.DHCPEnabled) {
@@ -35,6 +37,7 @@ namespace NTMiner.Vms {
 
         public void Update(ILocalIp data) {
             this.Name = data.Name;
+            this._macAddress = data.MACAddress;
             _iPAddressVm.SetAddress(data.IPAddress);
             _iPSubnetVm.SetAddress(data.IPSubnet);
             _defaultIPGatewayVm.SetAddress(data.DefaultIPGateway);
@@ -136,6 +139,14 @@ namespace NTMiner.Vms {
 
         public string IPAddress {
             get => IPAddressVm.AddressText;
+        }
+
+        public string MACAddress {
+            get { return _macAddress; }
+            set {
+                _macAddress = value;
+                OnPropertyChanged(nameof(MACAddress));
+            }
         }
 
         public IpAddressViewModel IPAddressVm {

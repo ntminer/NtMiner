@@ -11,7 +11,7 @@
     <AssemblyName>NTMinerDataObjects</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,7 +56,6 @@
     <Compile Include="Core\IKernelInput.cs" />
     <Compile Include="Core\IInputSegment.cs" />
     <Compile Include="Core\IKernelOutput.cs" />
-    <Compile Include="Core\IKernelOutputFilter.cs" />
     <Compile Include="Core\IKernelOutputTranslater.cs" />
     <Compile Include="Core\IPackage.cs" />
     <Compile Include="Core\IPoolKernel.cs" />
@@ -67,7 +66,6 @@
     <Compile Include="Core\KernelInputData.cs" />
     <Compile Include="Core\InputSegment.cs" />
     <Compile Include="Core\KernelOutputData.cs" />
-    <Compile Include="Core\KernelOutputFilterData.cs" />
     <Compile Include="Core\KernelOutputTranslaterData.cs" />
     <Compile Include="Core\PackageData.cs" />
     <Compile Include="Core\PoolKernelData.cs" />
@@ -82,14 +80,30 @@
     <Compile Include="IOverClockInput.cs" />
     <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
     <Compile Include="JsonDb\IJsonDb.cs" />
+    <Compile Include="JsonRequest.cs" />
+    <Compile Include="JsonResponse.cs" />
     <Compile Include="MinerClient\IGpuSpeedData.cs" />
     <Compile Include="MinerClient\ILocalIp.cs" />
+    <Compile Include="MinerClient\ISpeedData.cs" />
     <Compile Include="MinerClient\LocalIpData.cs" />
+    <Compile Include="MinerServer\IMinerData.cs" />
+    <Compile Include="MinerServer\INTMinerWallet.cs" />
+    <Compile Include="MinerServer\IServerMessage.cs" />
+    <Compile Include="MinerServer\KernelOutputKeywordsRequest.cs" />
+    <Compile Include="MinerServer\KernelOutputKeywordsResponse.cs" />
+    <Compile Include="MinerServer\NTMinerWalletData.cs" />
+    <Compile Include="MinerServer\NTMinerWalletsRequest.cs" />
+    <Compile Include="MinerClient\LocalMessageChannel.cs" />
+    <Compile Include="MinerServer\ReportResponse.cs" />
+    <Compile Include="MinerServer\ServerMessageData.cs" />
+    <Compile Include="MinerServer\ServerMessagesRequest.cs" />
+    <Compile Include="MinerServer\ServerMessageType.cs" />
+    <Compile Include="MinerServer\ServerState.cs" />
     <Compile Include="Profile\GpuProfileExtension.cs" />
-    <Compile Include="MinerClient\IKernelOutputKeyword.cs" />
-    <Compile Include="MinerClient\IWorkerEvent.cs" />
-    <Compile Include="MinerClient\KernelOutputKeywordData.cs" />
-    <Compile Include="MinerClient\WorkerEventData.cs" />
+    <Compile Include="Core\IKernelOutputKeyword.cs" />
+    <Compile Include="MinerClient\ILocalMessage.cs" />
+    <Compile Include="Core\KernelOutputKeywordData.cs" />
+    <Compile Include="MinerClient\LocalMessageData.cs" />
     <Compile Include="MinerClient\GpuData.cs" />
     <Compile Include="MinerClient\IGpuStaticData.cs" />
     <Compile Include="MinerServer\AddClientRequest.cs" />
@@ -104,10 +118,9 @@
     <Compile Include="Core\IPool.cs" />
     <Compile Include="ISortable.cs" />
     <Compile Include="MinerClient\GpuSpeedData.cs" />
-    <Compile Include="IShowMainWindow.cs" />
     <Compile Include="MinerClient\SetMinerProfilePropertyRequest.cs" />
     <Compile Include="DataRequest`1.cs" />
-    <Compile Include="MinerServer\AppSettingData.cs" />
+    <Compile Include="Core\AppSettingData.cs" />
     <Compile Include="MinerServer\AppSettingRequest.cs" />
     <Compile Include="MinerServer\AppSettingsRequest.cs" />
     <Compile Include="MinerServer\ExportMineWorkRequest.cs" />
@@ -137,7 +150,6 @@
     <Compile Include="HashUtil.cs" />
     <Compile Include="IAppSetting.cs" />
     <Compile Include="MinerServer\ICalcConfig.cs" />
-    <Compile Include="MinerServer\IClientData.cs" />
     <Compile Include="Profile\ICoinKernelProfile.cs" />
     <Compile Include="Profile\ICoinProfile.cs" />
     <Compile Include="IEntity`1.cs" />
@@ -162,7 +174,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MinerServer\QueryClientsRequest.cs" />
     <Compile Include="MinerServer\QueryClientsResponse.cs" />
-    <Compile Include="MinerServer\ReportState.cs" />
+    <Compile Include="MinerClient\ReportState.cs" />
     <Compile Include="PublishStatus.cs" />
     <Compile Include="RequestBase.cs" />
     <Compile Include="ResponseBase.cs" />
@@ -178,6 +190,7 @@
     <Compile Include="MinerServer\UpdateClientRequest.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="Core\WalletData.cs" />
+    <Compile Include="MinerClient\LocalMessageType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

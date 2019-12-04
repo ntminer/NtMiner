@@ -8,15 +8,16 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核输出翻译器",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 520,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Coin"
             }, ucFactory: (window) =>
             {
-                KernelOutputTranslaterViewModel vm = new KernelOutputTranslaterViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                KernelOutputTranslaterViewModel vm = new KernelOutputTranslaterViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(KernelOutputTranslaterEdit));
                 return new KernelOutputTranslaterEdit(vm);
             }, fixedSize: true);
         }
@@ -29,30 +30,6 @@ namespace NTMiner.Views.Ucs {
         public KernelOutputTranslaterEdit(KernelOutputTranslaterViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-        }
-
-        private void KbButtonLogColor_Clicked(object sender, System.Windows.RoutedEventArgs e) {
-            OpenLogColorPopup();
-            e.Handled = true;
-        }
-
-        private void OpenLogColorPopup() {
-            var popup = PopupLogColor;
-            popup.IsOpen = true;
-            var selected = Vm.SelectedColor;
-            popup.Child = new SysDicItemSelect(
-                new SysDicItemSelectViewModel(Vm.LogColorDicVm.SysDicItemsSelect, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (Vm.SelectedColor != selectedResult) {
-                            Vm.SelectedColor = selectedResult;
-                        }
-                        popup.IsOpen = false;
-                    }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
         }
     }
 }

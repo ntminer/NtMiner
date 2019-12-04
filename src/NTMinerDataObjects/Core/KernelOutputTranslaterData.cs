@@ -2,6 +2,8 @@
 
 namespace NTMiner.Core {
     public class KernelOutputTranslaterData : IKernelOutputTranslater, IDbEntity<Guid>, ISortable {
+        public KernelOutputTranslaterData() { }
+
         public Guid GetId() {
             return this.Id;
         }
@@ -13,8 +15,6 @@ namespace NTMiner.Core {
         public string RegexPattern { get; set; }
 
         public string Replacement { get; set; }
-
-        public string Color { get; set; }
 
         public int SortNumber { get; set; }
 

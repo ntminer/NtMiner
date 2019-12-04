@@ -1,4 +1,5 @@
 ﻿using LiveCharts;
+using NTMiner.Core;
 using NTMiner.MinerServer;
 using NTMiner.Vms;
 using System;
@@ -32,14 +33,12 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += changeNotiCenterWindowLocation;
+            NotiCenterWindow.Bind(this);
             #region 总算力
-            this.EventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
+            this.AddEventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
                 action: message => {
                     RefreshTotalSpeedChart(limit: 1);
-                });
+                }, location: this.GetType());
             RefreshTotalSpeedChart(limit: 60);
             #endregion
         }
@@ -53,7 +52,7 @@ namespace NTMiner.Views {
                     Value = item.IsShow
                 });
             }
-            VirtualRoot.Execute(new ChangeServerAppSettingsCommand(list));
+            VirtualRoot.Execute(new SetServerAppSettingsCommand(list));
             base.OnClosing(e);
         }
 
@@ -209,10 +208,10 @@ namespace NTMiner.Views {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
-        private void IsShowCheckBox_Changed(object sender, RoutedEventArgs e) {
+        private void IsShowCheckBox_Click(object sender, RoutedEventArgs e) {
             Vm.OnPropertyChanged(nameof(Vm.IsShowAll));
         }
     }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientAddViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private string _leftIp = "192.168.0.100";
         private string _rightIp = "192.168.0.200";
         private bool _isIpRange;
@@ -14,10 +16,8 @@ namespace NTMiner.Vms {
 
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public MinerClientAddViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Save = new DelegateCommand(() => {
@@ -32,70 +32,45 @@ namespace NTMiner.Vms {
                         return;
                     }
 
-                    uint leftValue = IpToInt(this.LeftIp);
-                    uint rightValue = IpToInt(this.RightIp);
-                    if (rightValue >= leftValue) {
-                        List<string> clientIps = new List<string>();
-                        for (uint ip = leftValue; ip <= rightValue; ip++) {
-                            clientIps.Add(IntToIp(ip));
-                        }
+                    List<string> clientIps = Net.Util.CreateIpRange(this.LeftIp, this.RightIp);
 
-                        if (clientIps.Count > 101) {
-                            this.ShowMessage("最多支持一次添加101个IP");
-                            return;
-                        }
+                    if (clientIps.Count > 101) {
+                        this.ShowMessage("最多支持一次添加101个IP");
+                        return;
+                    }
 
-                        if (clientIps.Count == 0) {
-                            this.ShowMessage("没有IP");
-                            return;
-                        }
-                        Server.ControlCenterService.AddClientsAsync(clientIps, (response, e) => {
-                            if (!response.IsSuccess()) {
-                                this.ShowMessage(response.ReadMessage(e));
-                            }
-                            else {
-                                AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                                UIThread.Execute(() => {
-                                    CloseWindow?.Invoke();
-                                });
-                            }
-                        });
+                    if (clientIps.Count == 0) {
+                        this.ShowMessage("没有IP");
+                        return;
                     }
-                    else {
-                        this.ShowMessage("起始IP不能比终止IP大");
-                    }
-                }
-                else {
-                    Server.ControlCenterService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
+                    Server.ClientService.AddClientsAsync(clientIps, (response, e) => {
                         if (!response.IsSuccess()) {
                             this.ShowMessage(response.ReadMessage(e));
                         }
                         else {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                            UIThread.Execute(() => {
-                                CloseWindow?.Invoke();
-                            });
+                            UIThread.Execute(() => VirtualRoot.Execute(new CloseWindowCommand(this.Id)));
+                        }
+                    });
+                }
+                else {
+                    Server.ClientService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
+                        if (!response.IsSuccess()) {
+                            this.ShowMessage(response.ReadMessage(e));
+                        }
+                        else {
+                            AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
+                            UIThread.Execute(() => VirtualRoot.Execute(new CloseWindowCommand(this.Id)));
                         }
                     });
                 }
             });
-        }
-
-        public static uint IpToInt(string ipStr) {
-            string[] ip = ipStr.Split('.');
-            uint ipCode = 0xFFFFFF00 | byte.Parse(ip[3]);
-            ipCode = ipCode & 0xFFFF00FF | (uint.Parse(ip[2]) << 0x8);
-            ipCode = ipCode & 0xFF00FFFF | (uint.Parse(ip[1]) << 0xF);
-            ipCode = ipCode & 0x00FFFFFF | (uint.Parse(ip[0]) << 0x18);
-            return ipCode;
-        }
-        public static string IntToIp(uint ipCode) {
-            byte a = (byte)((ipCode & 0xFF000000) >> 0x18);
-            byte b = (byte)((ipCode & 0x00FF0000) >> 0xF);
-            byte c = (byte)((ipCode & 0x0000FF00) >> 0x8);
-            byte d = (byte)(ipCode & 0x000000FF);
-            string ipStr = $"{a}.{b}.{c}.{d}";
-            return ipStr;
+            var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
+            if (localIp != null) {
+                uint left = Net.Util.ConvertToIpNum(localIp.DefaultIPGateway) + 1;
+                this._leftIp = Net.Util.ConvertToIpString(left);
+                this._rightIp = Net.Util.ConvertToIpString(left + 100);
+            }
         }
 
         private void ShowMessage(string message) {

@@ -4,6 +4,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class UserViewModel : ViewModelBase, IUser, IEditableViewModel {
+        public readonly Guid Id = Guid.NewGuid();
+
         private string _loginName;
         private string _password;
         private bool _isEnabled;
@@ -14,8 +16,6 @@ namespace NTMiner.Vms {
         public ICommand Save { get; private set; }
         public ICommand Enable { get; private set; }
         public ICommand Disable { get; private set; }
-
-        public Action CloseWindow { get; set; }
 
         public UserViewModel(string loginName) : this() {
             _loginName = loginName;
@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
                 else {
                     VirtualRoot.Execute(new AddUserCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 VirtualRoot.Execute(new UserEditCommand(formType ?? FormType.Edit, this));
@@ -51,9 +51,9 @@ namespace NTMiner.Vms {
                 if (VirtualRoot.IsMinerStudio && this.LoginName == SingleUser.LoginName) {
                     throw new ValidationException("不能删除自己");
                 }
-                this.ShowDialog(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveUserCommand(this.LoginName));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.Enable = new DelegateCommand(() => {
                 if (!VirtualRoot.IsMinerStudio) {
@@ -62,10 +62,10 @@ namespace NTMiner.Vms {
                 if (this.IsEnabled) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
                     this.IsEnabled = true;
                     VirtualRoot.Execute(new UpdateUserCommand(this));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.Disable = new DelegateCommand(() => {
                 if (!VirtualRoot.IsMinerStudio) {
@@ -74,10 +74,10 @@ namespace NTMiner.Vms {
                 if (!this.IsEnabled) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
                     this.IsEnabled = false;
                     VirtualRoot.Execute(new UpdateUserCommand(this));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
         }
 
@@ -144,7 +144,7 @@ namespace NTMiner.Vms {
                         this.Password = HashUtil.Sha1(value);
                     }
                     else {
-                        this.Password = HashUtil.Sha1($"{HashUtil.Sha1(HashUtil.Sha1(value))}{VirtualRoot.Id}");
+                        this.Password = HashUtil.Sha1($"{HashUtil.Sha1(HashUtil.Sha1(value))}{VirtualRoot.Id.ToString()}");
                     }
                 }
             }

@@ -16,38 +16,41 @@ namespace NTMiner {
 
             private ColumnsShowViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
                 this.Add = new DelegateCommand(() => {
                     new ColumnsShowViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                EventPath<ColumnsShowAddedEvent>("添加了列显后刷新VM内存", LogEnum.DevConsole,
+                AddEventPath<ColumnsShowAddedEvent>("添加了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), vm);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            ColumnsShowViewModel vm = new ColumnsShowViewModel(message.Target);
+                            _dicById.Add(message.Target.GetId(), vm);
                             OnPropertyChanged(nameof(List));
                             AppContext.Instance.MinerClientsWindowVm.ColumnsShow = vm;
                         }
-                    });
-                EventPath<ColumnsShowUpdatedEvent>("更新了列显后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<ColumnsShowUpdatedEvent>("更新了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            ColumnsShowViewModel entity = _dicById[message.Source.GetId()];
-                            entity.Update(message.Source);
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            ColumnsShowViewModel entity = _dicById[message.Target.GetId()];
+                            entity.Update(message.Target);
                         }
-                    });
-                EventPath<ColumnsShowRemovedEvent>("移除了列显后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<ColumnsShowRemovedEvent>("移除了列显后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         AppContext.Instance.MinerClientsWindowVm.ColumnsShow = _dicById.Values.FirstOrDefault();
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(List));
-                    });
-                foreach (var item in NTMinerRoot.Instance.ColumnsShowSet) {
+                    }, location: this.GetType());
+                foreach (var item in NTMinerRoot.Instance.ColumnsShowSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new ColumnsShowViewModel(item));
                 }
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 

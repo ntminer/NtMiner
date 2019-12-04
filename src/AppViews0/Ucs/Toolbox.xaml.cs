@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
 
         public Toolbox() {
             InitializeComponent();
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.RunOneceOnLoaded((window) => {
@@ -26,7 +26,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Views;
+using NTMiner.Vms;
 using System;
 using System.Threading;
 using System.Windows;
@@ -26,7 +27,7 @@ namespace NTMiner {
         }
         #endregion
 
-        public static void RunOneceOnLoaded(this UserControl uc, Action<Window> action) {
+        public static void RunOneceOnLoaded(this UserControl uc, Action<Window> onLoad, Action<Window> onUnload = null) {
             uc.Loaded += (sender, e) => {
                 if (uc.Resources == null) {
                     uc.Resources = new ResourceDictionary();
@@ -35,8 +36,13 @@ namespace NTMiner {
                     return;
                 }
                 uc.Resources.Add("isNotFirstTimeLoaded", true);
-                action(Window.GetWindow(uc));
+                onLoad?.Invoke(Window.GetWindow(uc));
             };
+            if (onUnload != null) {
+                uc.Unloaded += (sender, e)=> {
+                    onUnload?.Invoke(Window.GetWindow(uc));
+                };
+            }
         }
 
         #region private methods
@@ -45,7 +51,7 @@ namespace NTMiner {
                 return;
             }
             if (e is ValidationException) {
-                DialogWindow.ShowDialog(title: "验证失败", message: e.Message, icon: "Icon_Error");
+                DialogWindow.ShowSoftDialog(new DialogWindowViewModel(title: "验证失败", message: e.Message, icon: "Icon_Error"));
             }
             else {
                 Logger.ErrorDebugLine(e);

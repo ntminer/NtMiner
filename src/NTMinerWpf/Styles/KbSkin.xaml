@@ -9,8 +9,9 @@
 	<converters:NotNullOrEmptyVisibilityInvertConverter x:Key="NotNullOrEmptyVisibilityInvertConverter" />
 	<converters:NotNullOrEmptyBooleanConverter x:Key="NotNullOrEmptyBooleanConverter" />
 	<converters:PercentToLengthConverter x:Key="PercentToLengthConverter" />
-	<converters:BoolToBrushConverter x:Key="BoolToBrushConverter"></converters:BoolToBrushConverter>
-	<converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converters:BoolToBrushConverter x:Key="BoolToBrushConverter"></converters:BoolToBrushConverter>
+    <converters:BoolToBrushInvertConverter x:Key="BoolToBrushInvertConverter"></converters:BoolToBrushInvertConverter>
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 	<converters:BoolToVisibilityInvertConverter x:Key="BoolToVisibilityInvertConverter" />
 	<converters:BoolToHiddenConverter x:Key="BoolToHiddenConverter" />
 	<converters:BoolToHiddenInvertConverter x:Key="BoolToHiddenInvertConverter" />
@@ -23,9 +24,12 @@
 	<converters:ConsoleColorToMediaColorConverter x:Key="ConsoleColorToMediaColorConverter" />
 
 	<SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
-	<SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
-	<SolidColorBrush x:Key="TransparentColor" Color="#00FFFFFF" />
-	<SolidColorBrush x:Key="LableColor" Color="#99000000"></SolidColorBrush>
+    <SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
+    <SolidColorBrush x:Key="InfoColor">#99000000</SolidColorBrush>
+    <SolidColorBrush x:Key="WarnColor">#ECB443</SolidColorBrush>
+    <SolidColorBrush x:Key="NewVersionColor">Red</SolidColorBrush>
+    <SolidColorBrush x:Key="TransparentColor">#00FFFFFF</SolidColorBrush>
+    <SolidColorBrush x:Key="LableColor">#99000000</SolidColorBrush>
 	<SolidColorBrush x:Key="LineColor">#D9D9D9</SolidColorBrush>
     <SolidColorBrush x:Key="ThemeBackground">#009AD9</SolidColorBrush>
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
@@ -133,6 +137,7 @@
 		<Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
 	</Style>
 	<Style x:Key="ListBoxBarItem" TargetType="ListBoxItem">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
 		<Setter Property="Template">
 			<Setter.Value>
 				<ControlTemplate TargetType="ListBoxItem">

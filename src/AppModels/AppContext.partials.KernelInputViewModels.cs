@@ -12,31 +12,31 @@ namespace NTMiner {
 
             private KernelInputViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
-                    });
-                EventPath<KernelInputAddedEvent>("添加了内核输入后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelInputAddedEvent>("添加了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        var vm = new KernelInputViewModel(message.Source);
-                        _dicById.Add(message.Source.GetId(), vm);
+                        var vm = new KernelInputViewModel(message.Target);
+                        _dicById.Add(message.Target.GetId(), vm);
                         OnPropertyChangeds();
-                    });
-                EventPath<KernelInputUpdatedEvent>("更新了内核输入后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelInputUpdatedEvent>("更新了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            var item = _dicById[message.Source.GetId()];
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            var item = _dicById[message.Target.GetId()];
                             if (item != null) {
                                 bool isSupportDualMine = item.IsSupportDualMine;
                                 string args = item.Args;
-                                item.Update(message.Source);
+                                item.Update(message.Target);
                                 if (args != item.Args) {
                                     CoinViewModel coinVm = AppContext.Instance.MinerProfileVm.CoinVm;
                                     if (coinVm != null && coinVm.CoinKernel != null && coinVm.CoinKernel.Kernel.KernelInputId == item.Id) {
@@ -44,28 +44,31 @@ namespace NTMiner {
                                     }
                                 }
                                 if (isSupportDualMine != item.IsSupportDualMine) {
-                                    foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                                    foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Target.GetId())) {
                                         coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                                     }
                                 }
                             }
                         }
-                    });
-                EventPath<KernelInputRemovedEvent>("移除了内核输入后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelInputRemovedEvent>("移除了内核输入后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById.Remove(message.Source.GetId());
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById.Remove(message.Target.GetId());
                             OnPropertyChangeds();
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.KernelInputSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.KernelInputSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new KernelInputViewModel(item));
                 }
             }

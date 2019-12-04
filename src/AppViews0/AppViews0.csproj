@@ -95,14 +95,29 @@
     <Compile Include="ConsoleWindow.xaml.cs">
       <DependentUpon>ConsoleWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ContainerWindow.xaml.cs">
-      <DependentUpon>ContainerWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ChartsWindow.xaml.cs">
       <DependentUpon>ChartsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\KernelOutputKeywords.xaml.cs">
+      <DependentUpon>KernelOutputKeywords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\KernelOutputKeywordEdit.xaml.cs">
+      <DependentUpon>KernelOutputKeywordEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\Messages.xaml.cs">
+      <DependentUpon>Messages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\ServerMessageEdit.xaml.cs">
+      <DependentUpon>ServerMessageEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\RemoteDesktopLogin.xaml.cs">
+      <DependentUpon>RemoteDesktopLogin.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\BrandTag.xaml.cs">
       <DependentUpon>BrandTag.xaml</DependentUpon>
@@ -134,11 +149,23 @@
     <Compile Include="Ucs\MinerClientsToolBar.xaml.cs">
       <DependentUpon>MinerClientsToolBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\NTMinerWalletEdit.xaml.cs">
+      <DependentUpon>NTMinerWalletEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\NTMinerWalletPage.xaml.cs">
+      <DependentUpon>NTMinerWalletPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\WorkerEvents.xaml.cs">
-      <DependentUpon>WorkerEvents.xaml</DependentUpon>
+    <Compile Include="Ucs\MessagePathIds.xaml.cs">
+      <DependentUpon>MessagePathIds.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\ServerMessages.xaml.cs">
+      <DependentUpon>ServerMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\LocalMessages.xaml.cs">
+      <DependentUpon>LocalMessages.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
       <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
@@ -184,9 +211,6 @@
     </Compile>
     <Compile Include="Ucs\CoinKernelSelect.xaml.cs">
       <DependentUpon>CoinKernelSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MessageCenter.xaml.cs">
-      <DependentUpon>MessageCenter.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\MinerClientSetting.xaml.cs">
       <DependentUpon>MinerClientSetting.xaml</DependentUpon>
@@ -254,20 +278,11 @@
     <Compile Include="Ucs\KernelSelect.xaml.cs">
       <DependentUpon>KernelSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\LogColor.xaml.cs">
-      <DependentUpon>LogColor.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\FileDownloader.xaml.cs">
       <DependentUpon>FileDownloader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\KernelGrid.xaml.cs">
-      <DependentUpon>KernelGrid.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Ucs\KernelDownloading.xaml.cs">
       <DependentUpon>KernelDownloading.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\ControlCenterHostConfig.xaml.cs">
-      <DependentUpon>ControlCenterHostConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\MineWorkEdit.xaml.cs">
       <DependentUpon>MineWorkEdit.xaml</DependentUpon>
@@ -280,9 +295,6 @@
     </Compile>
     <Compile Include="Ucs\KernelOutputTranslaterEdit.xaml.cs">
       <DependentUpon>KernelOutputTranslaterEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelOutputFilterEdit.xaml.cs">
-      <DependentUpon>KernelOutputFilterEdit.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\RestartWindows.xaml.cs">
       <DependentUpon>RestartWindows.xaml</DependentUpon>
@@ -348,13 +360,53 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ContainerWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="ChartsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Design\KernelOutputKeywordViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\KernelOutputKeywordsViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\ServerMessageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\LocalMessagesViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\ServerMessagesViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\RemoteDesktopLoginViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\CalcConfigViewModels.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\LocalIpConfigViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\MainWindowViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\NTMinerWalletViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Design\StartStopMineButtonViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\MinerProfileIndexViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -381,10 +433,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\KernelOutputSelectViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Design\KernelOutputFilterViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -448,15 +496,35 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\ContainerWindowViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="PackagesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Design\PackageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SplashWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\KernelOutputKeywords.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\KernelOutputKeywordEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\Messages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\ServerMessageEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\RemoteDesktopLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -500,11 +568,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Ucs\NTMinerWalletEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\NTMinerWalletPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Ucs\Property.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\WorkerEvents.xaml">
+    <Page Include="Ucs\MessagePathIds.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\ServerMessages.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\LocalMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -569,10 +653,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\CoinKernelSelect.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\MessageCenter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -712,23 +792,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\LogColor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Ucs\FileDownloader.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelGrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Ucs\KernelDownloading.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\ControlCenterHostConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -749,10 +817,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Ucs\KernelOutputTranslaterEdit.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Ucs\KernelOutputFilterEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -886,13 +950,17 @@
       <Project>{b7107a67-a76e-4313-8c5b-3265dde238b6}</Project>
       <Name>BlankWindow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
-      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
-      <Name>NTMinerBus</Name>
+    <ProjectReference Include="..\NTMinerClient\NTMinerClient.csproj">
+      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
+      <Name>NTMinerClient</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerHub</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
@@ -909,10 +977,6 @@
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>
       <Name>NTMinerWpf</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NTMiner\NTMiner.csproj">
-      <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
-      <Name>NTMiner</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

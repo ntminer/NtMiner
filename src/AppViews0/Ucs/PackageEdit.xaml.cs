@@ -8,14 +8,15 @@ namespace NTMiner.Views.Ucs {
                 Title = "内核包",
                 FormType = formType,
                 IconName = "Icon_Package",
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 860,
                 Height = 300,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
-                PackageViewModel vm = new PackageViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                PackageViewModel vm = new PackageViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(PackageEdit));
                 return new PackageEdit(vm);
             }, fixedSize: false);
         }

@@ -38,10 +38,16 @@ namespace NTMiner.Data.Impl {
             }
         }
 
-        public NTMinerFileData LatestMinerClientFile { get; private set; }
+        private NTMinerFileData _latestMinerClientFile;
+        public NTMinerFileData LatestMinerClientFile {
+            get {
+                Init();
+                return _latestMinerClientFile;
+            }
+        }
 
         private void RefreshLatest() {
-            LatestMinerClientFile = _dicById.Values.Where(a => a.AppType == NTMinerAppType.MinerClient).OrderByDescending(a => a.GetVersion()).FirstOrDefault();
+            _latestMinerClientFile = _dicById.Values.Where(a => a.AppType == NTMinerAppType.MinerClient).OrderByDescending(a => a.GetVersion()).FirstOrDefault();
         }
 
         public void AddOrUpdate(NTMinerFileData data) {

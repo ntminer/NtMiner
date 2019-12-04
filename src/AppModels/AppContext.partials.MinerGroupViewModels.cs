@@ -15,39 +15,42 @@ namespace NTMiner {
 
             private MinerGroupViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                foreach (var item in NTMinerRoot.Instance.MinerGroupSet) {
+                foreach (var item in NTMinerRoot.Instance.MinerGroupSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new MinerGroupViewModel(item));
                 }
                 this.Add = new DelegateCommand(() => {
                     new MinerGroupViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                EventPath<MinerGroupAddedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
+                AddEventPath<MinerGroupAddedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById.Add(message.Source.GetId(), new MinerGroupViewModel(message.Source));
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById.Add(message.Target.GetId(), new MinerGroupViewModel(message.Target));
                             OnPropertyChanged(nameof(List));
                             OnPropertyChanged(nameof(MinerGroupItems));
                             AppContext.Instance.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                         }
-                    });
-                EventPath<MinerGroupUpdatedEvent>("更新矿机分组后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<MinerGroupUpdatedEvent>("更新矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById[message.Source.GetId()].Update(message.Source);
-                    });
-                EventPath<MinerGroupRemovedEvent>("删除矿机分组后刷新VM内存", LogEnum.DevConsole,
+                        _dicById[message.Target.GetId()].Update(message.Target);
+                    }, location: this.GetType());
+                AddEventPath<MinerGroupRemovedEvent>("删除矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MinerGroupItems));
                         AppContext.Instance.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
-                    });
+                    }, location: this.GetType());
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 

@@ -12,49 +12,52 @@ namespace NTMiner {
 
             private KernelOutputViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         AllPropertyChanged();
-                    });
-                EventPath<KernelOutputAddedEvent>("添加了内核输出组后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelOutputAddedEvent>("添加了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        var vm = new KernelOutputViewModel(message.Source);
-                        _dicById.Add(message.Source.GetId(), vm);
+                        var vm = new KernelOutputViewModel(message.Target);
+                        _dicById.Add(message.Target.GetId(), vm);
                         OnPropertyChanged(nameof(AllKernelOutputVms));
                         OnPropertyChanged(nameof(PleaseSelectVms));
-                    });
-                EventPath<KernelOutputUpdatedEvent>("更新了内核输出组后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelOutputUpdatedEvent>("更新了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            var item = _dicById[message.Source.GetId()];
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            var item = _dicById[message.Target.GetId()];
                             if (item != null) {
-                                item.Update(message.Source);
+                                item.Update(message.Target);
                             }
                         }
-                    });
-                EventPath<KernelOutputRemovedEvent>("移除了内核输出组后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelOutputRemovedEvent>("移除了内核输出组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById.Remove(message.Source.GetId());
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById.Remove(message.Target.GetId());
                             OnPropertyChanged(nameof(AllKernelOutputVms));
                             OnPropertyChanged(nameof(PleaseSelectVms));
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.KernelOutputSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.KernelOutputSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new KernelOutputViewModel(item));
                 }
             }

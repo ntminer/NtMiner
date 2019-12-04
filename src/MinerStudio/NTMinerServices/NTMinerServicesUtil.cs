@@ -33,7 +33,7 @@ namespace NTMiner.NTMinerServices {
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
-                        VirtualRoot.Out.ShowErrorMessage("启动失败，请重试，如果问题一直持续请联系开发者解决问题");
+                        VirtualRoot.ThisLocalError(nameof(NTMinerServicesUtil), "启动失败，请重试，如果问题一直持续请联系开发者解决问题", toConsole: true);
                     }
                 });
             }
@@ -43,11 +43,11 @@ namespace NTMiner.NTMinerServices {
         }
 
         private static void ExtractRunNTMinerServicesAsync(Action callback) {
-            string[] names = new string[] { "NTMinerServices.exe" };
+            string[] names = new string[] { NTKeyword.NTMinerServicesFileName };
             foreach (var name in names) {
                 ExtractResource(name);
             }
-            Windows.Cmd.RunClose(SpecialPath.ServicesFileFullName, "--enableInnerIp --notofficial");
+            Windows.Cmd.RunClose(SpecialPath.ServicesFileFullName, $"{NTKeyword.EnableInnerIpCmdParameterName} {NTKeyword.NotOfficialCmdParameterName}");
             Logger.OkDebugLine("群控服务进程启动成功");
             callback?.Invoke();
         }
@@ -69,7 +69,7 @@ namespace NTMiner.NTMinerServices {
             get {
                 if (s_thisNTMinerServicesFileVersion == null) {
                     try {
-                        string name = "NTMinerServices.exe";
+                        string name = NTKeyword.NTMinerServicesFileName;
                         Type type = typeof(NTMinerServicesUtil);
                         Assembly assembly = type.Assembly;
                         using (var stream = assembly.GetManifestResourceStream(type, name)) {

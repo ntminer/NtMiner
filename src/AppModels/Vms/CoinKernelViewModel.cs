@@ -47,10 +47,8 @@ namespace NTMiner.Vms {
         public ICommand RemoveFileWriter { get; private set; }
         public ICommand RemoveFragmentWriter { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public CoinKernelViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -95,10 +93,10 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new EnvironmentVariableEditCommand(this, environmentVariable));
             });
             this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
-                this.ShowDialog(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
                     this.EnvironmentVariables.Remove(environmentVariable);
                     EnvironmentVariables = EnvironmentVariables.ToList();
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.AddSegment = new DelegateCommand(() => {
                 VirtualRoot.Execute(new InputSegmentEditCommand(this, new InputSegmentViewModel()));
@@ -106,33 +104,33 @@ namespace NTMiner.Vms {
             this.EditSegment = new DelegateCommand<InputSegmentViewModel>((segment) => {
                 VirtualRoot.Execute(new InputSegmentEditCommand(this, segment));
             });
-            this.RemoveSegment = new DelegateCommand<InputSegment>((segment) => {
-                this.ShowDialog(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
-                    this.InputSegments.Remove(segment);
+            this.RemoveSegment = new DelegateCommand<InputSegmentViewModel>((segment) => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
+                    this.InputSegments.Remove(this.InputSegments.FirstOrDefault(a => a.Name == segment.Name && a.Segment == segment.Segment && a.TargetGpu == segment.TargetGpu));
                     InputSegments = InputSegments.ToList();
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.RemoveFileWriter = new DelegateCommand<FileWriterViewModel>((writer) => {
-                this.ShowDialog(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
                     this.FileWriterVms.Remove(writer);
                     List<Guid> writerIds = new List<Guid>(this.FileWriterIds);
                     writerIds.Remove(writer.Id);
                     this.FileWriterIds = writerIds;
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.RemoveFragmentWriter = new DelegateCommand<FragmentWriterViewModel>((writer) => {
-                this.ShowDialog(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除文件书写器{writer.Name}吗？", title: "确认", onYes: () => {
                     this.FragmentWriterVms.Remove(writer);
                     List<Guid> writerIds = new List<Guid>(this.FragmentWriterIds);
                     writerIds.Remove(writer.Id);
                     this.FragmentWriterIds = writerIds;
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Instance.CoinKernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 VirtualRoot.Execute(new CoinKernelEditCommand(formType ?? FormType.Edit, this));
@@ -141,10 +139,10 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{Kernel.Code}币种内核吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinKernelCommand(this.Id));
                     Kernel.OnPropertyChanged(nameof(Kernel.SupportedCoins));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
         }
 

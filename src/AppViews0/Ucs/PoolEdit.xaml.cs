@@ -9,14 +9,15 @@ namespace NTMiner.Views.Ucs {
                 Title = "矿池",
                 FormType = formType,
                 IconName = "Icon_Pool",
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 540,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) =>
             {
-                PoolViewModel vm = new PoolViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                PoolViewModel vm = new PoolViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(PoolEdit));
                 return new PoolEdit(vm);
             }, fixedSize: true);
         }
@@ -33,7 +34,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.DataGrid_MouseDoubleClick<PoolKernelViewModel>(sender, e);
+            WpfUtil.DataGrid_MouseDoubleClick<PoolKernelViewModel>(sender, e);
         }
 
         private void KbButtonBrand_Clicked(object sender, RoutedEventArgs e) {

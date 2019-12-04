@@ -18,8 +18,6 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public Guid GetId() {
             return this.Id;
         }
@@ -34,13 +32,13 @@ namespace NTMiner.Vms {
         public SysDicViewModel(Guid id) {
             _id = id;
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Instance.SysDicSet.ContainsKey(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.SysDicSet.ContainsKey(this.Id)) {
                     VirtualRoot.Execute(new UpdateSysDicCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddSysDicCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.AddSysDicItem = new DelegateCommand(() => {
                 new SysDicItemViewModel(Guid.NewGuid()) {
@@ -55,9 +53,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Code}系统字典吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Code}系统字典吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveSysDicCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 SysDicViewModel upOne = AppContext.Instance.SysDicVms.GetUpOne(this.SortNumber);

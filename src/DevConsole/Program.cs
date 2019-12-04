@@ -92,9 +92,9 @@ namespace NTMiner {
                             else {
                                 string dstIp = ipv4Header->DstAddr.ToString();
                                 var dstPort = tcpHdr->DstPort;
-                                string arrow = $"->{dstIp}:{dstPort}";
+                                string arrow = $"->{dstIp}:{dstPort.ToString()}";
                                 if (dstIp == poolIp) {
-                                    arrow = $"{dstIp}:{dstPort}<-";
+                                    arrow = $"{dstIp}:{dstPort.ToString()}<-";
                                     Console.WriteLine($"<-<-<-<-<-<-<-<-<-<-<-<-<-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-");
                                 }
                                 else {

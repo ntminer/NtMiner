@@ -14,65 +14,64 @@ namespace NTMiner {
 
             private CoinViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         AllPropertyChanged();
-                    });
-                EventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
+                        _dicById.Add(message.Target.GetId(), new CoinViewModel(message.Target));
                         AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
-                    });
-                EventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         AllPropertyChanged();
-                    });
-                EventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CoinViewModel coinVm = _dicById[message.Source.GetId()];
+                        CoinViewModel coinVm = _dicById[message.Target.GetId()];
                         bool justAsDualCoin = coinVm.JustAsDualCoin;
-                        coinVm.Update(message.Source);
-                        coinVm.TestWalletVm.Address = message.Source.TestWallet;
+                        coinVm.Update(message.Target);
+                        coinVm.TestWalletVm.Address = message.Target.TestWallet;
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
-                        if (AppContext.Instance.MinerProfileVm.CoinId == message.Source.GetId()) {
+                        if (AppContext.Instance.MinerProfileVm.CoinId == message.Target.GetId()) {
                             AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(NTMiner.AppContext.Instance.MinerProfileVm.CoinVm));
                         }
                         CoinKernelViewModel coinKernelVm = AppContext.Instance.MinerProfileVm.CoinVm.CoinKernel;
                         if (coinKernelVm != null
                             && coinKernelVm.CoinKernelProfile.SelectedDualCoin != null
-                            && coinKernelVm.CoinKernelProfile.SelectedDualCoin.GetId() == message.Source.GetId()) {
+                            && coinKernelVm.CoinKernelProfile.SelectedDualCoin.GetId() == message.Target.GetId()) {
                             coinKernelVm.CoinKernelProfile.OnPropertyChanged(nameof(coinKernelVm.CoinKernelProfile.SelectedDualCoin));
                         }
                         if (justAsDualCoin != coinVm.JustAsDualCoin) {
                             OnPropertyChanged(nameof(MainCoins));
                         }
-                    });
-                EventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
                     action: message => {
                         try {
-                            if (string.IsNullOrEmpty(message.Source.Icon)) {
+                            if (string.IsNullOrEmpty(message.Target.Icon)) {
                                 return;
                             }
-                            string iconFileFullName = SpecialPath.GetIconFileFullName(message.Source);
+                            string iconFileFullName = SpecialPath.GetIconFileFullName(message.Target);
                             if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
                                 return;
                             }
-                            CoinViewModel coinVm;
-                            if (_dicById.TryGetValue(message.Source.GetId(), out coinVm)) {
+                            if (_dicById.TryGetValue(message.Target.GetId(), out CoinViewModel coinVm)) {
                                 try {
                                     coinVm.IconImageSource = new Uri(iconFileFullName, UriKind.Absolute).ToString();
                                 }
@@ -85,15 +84,18 @@ namespace NTMiner {
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e);
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.CoinSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new CoinViewModel(item));
                 }
                 foreach (var coinVm in _dicById.Values) {
@@ -106,8 +108,7 @@ namespace NTMiner {
             }
 
             public bool TryGetCoinVm(string coinCode, out CoinViewModel coinVm) {
-                ICoin coin;
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(coinCode, out coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(coinCode, out ICoin coin)) {
                     return TryGetCoinVm(coin.GetId(), out coinVm);
                 }
                 coinVm = CoinViewModel.Empty;

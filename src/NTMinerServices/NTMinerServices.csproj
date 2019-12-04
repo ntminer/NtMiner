@@ -11,7 +11,7 @@
     <AssemblyName>NTMinerServices</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -86,9 +86,19 @@
     </Compile>
     <Compile Include="Controllers\ApiControllerBase.cs" />
     <Compile Include="Controllers\AppSettingController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
+    <Compile Include="Controllers\ColumnsShowController.cs" />
     <Compile Include="Controllers\ControlCenterController.cs" />
     <Compile Include="Controllers\FileUrlController.cs" />
     <Compile Include="Controllers\IndexController.cs" />
+    <Compile Include="Controllers\KernelOutputKeywordController.cs" />
+    <Compile Include="Controllers\MinerGroupController.cs" />
+    <Compile Include="Controllers\MineWorkController.cs" />
+    <Compile Include="Controllers\NTMinerWalletController.cs" />
+    <Compile Include="Controllers\PoolController.cs" />
+    <Compile Include="Controllers\ServerMessageController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\WalletController.cs" />
     <Compile Include="Controllers\WrapperMinerClientController.cs" />
     <Compile Include="Controllers\OverClockDataController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
@@ -107,11 +117,13 @@
     <Compile Include="Data\Impl\MinerGroupSet.cs" />
     <Compile Include="Data\Impl\MineWorkSet.cs" />
     <Compile Include="Data\Impl\NTMinerFileSet.cs" />
+    <Compile Include="Data\Impl\NTMinerWalletSet.cs" />
     <Compile Include="Data\Impl\OverClockDataSet.cs" />
     <Compile Include="Data\Impl\PoolSet.cs" />
     <Compile Include="Data\Impl\UserSet.cs" />
     <Compile Include="Data\Impl\WalletSet.cs" />
     <Compile Include="Data\INTMinerFileSet.cs" />
+    <Compile Include="Data\INTMinerWalletSet.cs" />
     <Compile Include="Data\IOverClockDataSet.cs" />
     <Compile Include="Data\IPoolSet.cs" />
     <Compile Include="Data\IWalletSet.cs" />
@@ -134,13 +146,13 @@
       <Project>{5911457a-357a-412d-a20c-e77c1a56b4f6}</Project>
       <Name>NTMiner.Controllers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
-      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
-      <Name>NTMinerBus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerHub</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>

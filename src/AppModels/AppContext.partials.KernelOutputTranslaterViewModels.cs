@@ -13,64 +13,65 @@ namespace NTMiner {
 
             private KernelOutputTranslaterViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         _dicByKernelOutputId.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllKernelOutputTranslaterVms));
-                    });
-                EventPath<KernelOutputTranslaterAddedEvent>("添加了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelOutputTranslaterAddedEvent>("添加了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        KernelOutputViewModel kernelOutputVm;
-                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
-                            if (!_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
-                                _dicByKernelOutputId.Add(message.Source.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
+                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Target.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
+                            if (!_dicByKernelOutputId.ContainsKey(message.Target.KernelOutputId)) {
+                                _dicByKernelOutputId.Add(message.Target.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
                             }
-                            var vm = new KernelOutputTranslaterViewModel(message.Source);
-                            _dicByKernelOutputId[message.Source.KernelOutputId].Add(vm);
-                            _dicById.Add(message.Source.GetId(), vm);
+                            var vm = new KernelOutputTranslaterViewModel(message.Target);
+                            _dicByKernelOutputId[message.Target.KernelOutputId].Add(vm);
+                            _dicById.Add(message.Target.GetId(), vm);
                             kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                         }
-                    });
-                EventPath<KernelOutputTranslaterUpdatedEvent>("更新了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelOutputTranslaterUpdatedEvent>("更新了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
-                            var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
+                        if (_dicByKernelOutputId.ContainsKey(message.Target.KernelOutputId)) {
+                            var item = _dicByKernelOutputId[message.Target.KernelOutputId].FirstOrDefault(a => a.Id == message.Target.GetId());
                             if (item != null) {
-                                item.Update(message.Source);
+                                item.Update(message.Target);
                             }
                         }
-                    });
-                EventPath<KernelOutputTranslaterRemovedEvent>("移除了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelOutputTranslaterRemovedEvent>("移除了内核输出翻译器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicByKernelOutputId.ContainsKey(message.Source.KernelOutputId)) {
-                            var item = _dicByKernelOutputId[message.Source.KernelOutputId].FirstOrDefault(a => a.Id == message.Source.GetId());
+                        if (_dicByKernelOutputId.ContainsKey(message.Target.KernelOutputId)) {
+                            var item = _dicByKernelOutputId[message.Target.KernelOutputId].FirstOrDefault(a => a.Id == message.Target.GetId());
                             if (item != null) {
-                                _dicByKernelOutputId[message.Source.KernelOutputId].Remove(item);
+                                _dicByKernelOutputId[message.Target.KernelOutputId].Remove(item);
                             }
                         }
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById.Remove(message.Source.GetId());
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById.Remove(message.Target.GetId());
                         }
-                        KernelOutputViewModel kernelOutputVm;
-                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Source.KernelOutputId, out kernelOutputVm)) {
+                        if (AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(message.Target.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                             kernelOutputVm.OnPropertyChanged(nameof(kernelOutputVm.KernelOutputTranslaters));
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.KernelOutputTranslaterSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.KernelOutputTranslaterSet.AsEnumerable()) {
                     if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
                         _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterViewModel>());
                     }

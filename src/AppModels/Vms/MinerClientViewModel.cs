@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
+using NTMiner.RemoteDesktop;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class MinerClientViewModel : ViewModelBase, IClientData {
+    public class MinerClientViewModel : ViewModelBase, IMinerData, ISpeedData, IEntity<string> {
         public static readonly SolidColorBrush Blue = new SolidColorBrush(Colors.Blue);
         public static readonly SolidColorBrush DefaultForeground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5A, 0x5A, 0x5A));
 
@@ -36,7 +37,7 @@ namespace NTMiner.Vms {
         private readonly ClientData _data;
         #region ctor
         public MinerClientViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -46,8 +47,8 @@ namespace NTMiner.Vms {
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
             this.Remove = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
-                    Server.ControlCenterService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
+                    Server.ClientService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -55,10 +56,10 @@ namespace NTMiner.Vms {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                         }
                     });
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.Refresh = new DelegateCommand(() => {
-                Server.ControlCenterService.RefreshClientsAsync(new List<string> { this.Id }, (response, e) => {
+                Server.ClientService.RefreshClientsAsync(new List<string> { this.Id }, (response, e) => {
                     if (!response.IsSuccess()) {
                         Write.UserFail(response.ReadMessage(e));
                     }
@@ -70,41 +71,59 @@ namespace NTMiner.Vms {
                     }
                 });
             });
-            this.RemoteDesktop = new DelegateCommand(() => {
-                if (string.IsNullOrEmpty(this.WindowsLoginName)) {
-                    VirtualRoot.Out.ShowErrorMessage("没有填写远程桌面用户名", 4);
+            this.RemoteDesktop = new DelegateCommand<string>((ip) => {
+                if (string.IsNullOrEmpty(ip)) {
+                    VirtualRoot.Out.ShowWarn("Ip地址不能为空", delaySeconds: 4);
                     return;
                 }
-                AppContext.RemoteDesktop?.Invoke(new RemoteDesktopInput(this.MinerIp, this.WindowsLoginName, this.WindowsPassword, this.MinerName, message => {
-                    VirtualRoot.Out.ShowErrorMessage(message, 4);
-                }));
+                string[] parts = ip.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length != 1) {
+                    ip = parts[0];
+                }
+                if (string.IsNullOrEmpty(this.WindowsLoginName)) {
+                    VirtualRoot.Execute(new ShowRemoteDesktopLoginDialogCommand(new RemoteDesktopLoginViewModel {
+                        Ip = ip,
+                        OnOk = vm => {
+                            this.WindowsLoginName = vm.LoginName;
+                            this.WindowsPassword = vm.Password;
+                            Rdp.RemoteDesktop?.Invoke(new RdpInput(ip, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                                VirtualRoot.Out.ShowError(message, 4);
+                            }));
+                        }
+                    }));
+                }
+                else {
+                    Rdp.RemoteDesktop?.Invoke(new RdpInput(ip, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
+                        VirtualRoot.Out.ShowError(message, 4);
+                    }));
+                }
             });
             this.RestartWindows = new DelegateCommand(() => {
-                this.ShowDialog(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.RestartWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
                     });
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.ShutdownWindows = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.ShutdownWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
                     });
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.RestartNTMiner = new DelegateCommand(() => {
-                this.ShowDialog(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
                     Server.MinerClientService.RestartNTMinerAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
                     });
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.StartMine = new DelegateCommand(() => {
                 IsMining = true;
@@ -113,24 +132,31 @@ namespace NTMiner.Vms {
                         Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
                     }
                 });
-                Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
+                Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
             });
             this.StopMine = new DelegateCommand(() => {
-                this.ShowDialog(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
                     IsMining = false;
                     Server.MinerClientService.StopMineAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
                         }
                     });
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
-                }, icon: IconConst.IconConfirm);
+                    Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
+                }));
             });
         }
         #endregion
 
+        public string GetRemoteDesktopIp() {
+            if (string.IsNullOrEmpty(LocalIp)) {
+                return MinerIp;
+            }
+            return LocalIp;
+        }
+
         // 便于工具追踪代码
-        public void Update(IClientData data) {
+        public void Update(ClientData data) {
             EntityExtensions.Update(this, data);
         }
 
@@ -163,6 +189,22 @@ namespace NTMiner.Vms {
             set {
                 _data.ClientId = value;
                 OnPropertyChanged(nameof(ClientId));
+            }
+        }
+
+        public string MACAddress {
+            get { return _data.MACAddress; }
+            set {
+                _data.MACAddress = value;
+                OnPropertyChanged(nameof(MACAddress));
+            }
+        }
+
+        public string LocalIp {
+            get { return _data.LocalIp; }
+            set {
+                _data.LocalIp = value;
+                OnPropertyChanged(nameof(LocalIp));
             }
         }
 
@@ -244,7 +286,7 @@ namespace NTMiner.Vms {
                     this.WorkId = value.Id;
                     _selectedMineWork = value;
                     try {
-                        Server.ControlCenterService.UpdateClientAsync(
+                        Server.ClientService.UpdateClientAsync(
                             this.Id, nameof(WorkId), value.Id, (response, exception) => {
                                 if (!response.IsSuccess()) {
                                     _selectedMineWork = old;
@@ -314,13 +356,13 @@ namespace NTMiner.Vms {
 
         private static string TimeSpanToString(TimeSpan timeSpan) {
             if (timeSpan.Days >= 1) {
-                return $"{timeSpan.Days}天{timeSpan.Hours}小时{timeSpan.Minutes}分钟";
+                return $"{timeSpan.Days.ToString()}天{timeSpan.Hours.ToString()}小时{timeSpan.Minutes.ToString()}分钟";
             }
             if (timeSpan.Hours > 0) {
-                return $"{timeSpan.Hours}小时{timeSpan.Minutes}分钟";
+                return $"{timeSpan.Hours.ToString()}小时{timeSpan.Minutes.ToString()}分钟";
             }
             if (timeSpan.Minutes > 2) {
-                return $"{timeSpan.Minutes}分钟";
+                return $"{timeSpan.Minutes.ToString()}分钟";
             }
             return (int)timeSpan.TotalSeconds + "秒";
         }
@@ -334,7 +376,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        private readonly bool _isInnerIp = Ip.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
+        private readonly bool _isInnerIp = Net.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
         public bool IsOnline {
             get {
                 if (_isInnerIp) {
@@ -396,7 +438,7 @@ namespace NTMiner.Vms {
                 if (_data.MinerName != value) {
                     var old = _data.MinerName;
                     _data.MinerName = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
+                    Server.ClientService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
                         if (!response.IsSuccess()) {
                             _data.MinerName = old;
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
@@ -439,7 +481,7 @@ namespace NTMiner.Vms {
                     _selectedMinerGroup = value;
                     this.GroupId = value.Id;
                     try {
-                        Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
+                        Server.ClientService.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
                             if (!response.IsSuccess()) {
                                 _selectedMinerGroup = old;
                                 this.GroupId = old.Id;
@@ -472,7 +514,7 @@ namespace NTMiner.Vms {
                 if (_data.WindowsLoginName != value) {
                     var old = _data.WindowsLoginName;
                     _data.WindowsLoginName = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
+                    Server.ClientService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(exception)}");
@@ -499,7 +541,7 @@ namespace NTMiner.Vms {
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;
                     _data.WindowsPassword = value;
-                    Server.ControlCenterService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
+                    Server.ClientService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(exception)}");
@@ -973,6 +1015,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public DateTime CreatedOn {
+            get { return _data.CreatedOn; }
+            set {
+                if (_data.CreatedOn != value) {
+                    _data.CreatedOn = value;
+                    OnPropertyChanged(nameof(CreatedOn));
+                }
+            }
+        }
+
         private GpuSpeedDataViewModels _gpuTableVm;
         public GpuSpeedDataViewModels GpuTableVm {
             get {
@@ -1160,13 +1212,53 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int KernelSelfRestartCount {
+            get { return _data.KernelSelfRestartCount; }
+            set {
+                _data.KernelSelfRestartCount = value;
+                OnPropertyChanged(nameof(KernelSelfRestartCount));
+            }
+        }
+
+        public DateTime LocalServerMessageTimestamp {
+            get { return _data.LocalServerMessageTimestamp; }
+            set {
+                _data.LocalServerMessageTimestamp = value;
+                OnPropertyChanged(nameof(LocalServerMessageTimestamp));
+            }
+        }
+
+        public bool IsRaiseHighCpuEvent {
+            get { return _data.IsRaiseHighCpuEvent; }
+            set {
+                _data.IsRaiseHighCpuEvent = value;
+                OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
+            }
+        }
+
+        public int HighCpuPercent {
+            get { return _data.HighCpuPercent; }
+            set {
+                _data.HighCpuPercent = value;
+                OnPropertyChanged(nameof(HighCpuPercent));
+            }
+        }
+
+        public int HighCpuSeconds {
+            get { return _data.HighCpuSeconds; }
+            set {
+                _data.HighCpuSeconds = value;
+                OnPropertyChanged(nameof(HighCpuSeconds));
+            }
+        }
+
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
             if (GpuTableVm == null) {
                 return;
             }
             foreach (var gpuSpeedData in GpuTableVm.List) {
                 if (gpuSpeedData.Temperature >= maxTemp) {
-                    gpuSpeedData.TemperatureForeground = Wpf.Util.RedBrush;
+                    gpuSpeedData.TemperatureForeground = WpfUtil.RedBrush;
                 }
                 else if (gpuSpeedData.Temperature < minTemp) {
                     gpuSpeedData.TemperatureForeground = Blue;

@@ -23,10 +23,8 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public MineWorkViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -48,7 +46,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (string.IsNullOrEmpty(this.Name)) {
-                    VirtualRoot.Out.ShowErrorMessage("作业名称是必须的");
+                    VirtualRoot.Out.ShowError("作业名称是必须的");
                 }
                 bool isMineWorkChanged = false;
                 bool isMinerProfileChanged = false;
@@ -72,19 +70,17 @@ namespace NTMiner.Vms {
                     if (entity.Name != this.Name || entity.Description != this.Description) {
                         isMineWorkChanged = true;
                     }
-                    CloseWindow?.Invoke();
                 }
                 else {
                     isMinerProfileChanged = true;
                     VirtualRoot.Execute(new AddMineWorkCommand(this));
-                    CloseWindow?.Invoke();
                     this.Edit.Execute(FormType.Edit);
                 }
                 if (isMinerProfileChanged) {
                     Write.DevDebug("检测到MinerProfile状态变更");
                     NTMinerRoot.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                     if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                        Server.ControlCenterService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
+                        Server.MineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
                     }
                     if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
                         this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
@@ -100,7 +96,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (!AppContext.Instance.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm)) {
-                    Wpf.Util.ShowInputDialog("作业名称", string.Empty, workName => {
+                    WpfUtil.ShowInputDialog("作业名称", string.Empty, workName => {
                         if (string.IsNullOrEmpty(workName)) {
                             return "作业名称是必须的";
                         }
@@ -112,7 +108,7 @@ namespace NTMiner.Vms {
                 else {
                     // 编辑作业前切换上下文
                     // 根据workId下载json保存到本地并调用LocalJson.Instance.ReInit()
-                    string json = Server.ControlCenterService.GetLocalJson(this.Id);
+                    string json = Server.MineWorkService.GetLocalJson(this.Id);
                     if (!string.IsNullOrEmpty(json)) {
                         File.WriteAllText(SpecialPath.LocalJsonFileFullName, json);
                     }
@@ -133,9 +129,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             }, () => {
                 if (this == PleaseSelect) {
                     return false;

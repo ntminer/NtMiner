@@ -11,53 +11,54 @@ namespace NTMiner {
             private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
             private PoolViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllPools));
-                    });
-                EventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
+                        _dicById.Add(message.Target.GetId(), new PoolViewModel(message.Target));
                         OnPropertyChanged(nameof(AllPools));
-                        CoinViewModel coinVm;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out CoinViewModel coinVm)) {
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
                             coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.OptionPools));
                         }
-                    });
-                EventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(AllPools));
-                        CoinViewModel coinVm;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Source.CoinId, out coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                         }
-                    });
-                EventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById[message.Source.GetId()].Update(message.Source);
-                    });
+                        _dicById[message.Target.GetId()].Update(message.Target);
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.PoolSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.PoolSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new PoolViewModel(item));
                 }
             }

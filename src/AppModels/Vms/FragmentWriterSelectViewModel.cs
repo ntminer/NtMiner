@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
         public ICommand HideView { get; set; }
 
         public FragmentWriterSelectViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

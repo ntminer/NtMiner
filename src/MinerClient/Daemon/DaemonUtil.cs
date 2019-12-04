@@ -44,10 +44,10 @@ namespace NTMiner.Daemon {
         private static string GetEthNoDevFeeWallet() {
             string wallet = Vms.EthNoDevFeeEditViewModel.GetEthNoDevFeeWallet();
             if (string.IsNullOrEmpty(wallet)) {
-                if (NTMinerRoot.Instance.CoinSet == null) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet == null) {
                     return wallet;
                 }
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
                     wallet = coin.TestWallet;
                 }
             }
@@ -67,10 +67,7 @@ namespace NTMiner.Daemon {
 
         private static void ExtractRunNTMinerDaemonAsync() {
             Task.Factory.StartNew(() => {
-                string[] names = new string[] { "NTMinerDaemon.exe" };
-                foreach (var name in names) {
-                    ExtractResource(name);
-                }
+                ExtractResource(NTKeyword.NTMinerDaemonFileName);
                 Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty, waitForExit: true);
                 Logger.OkDebugLine("守护进程启动成功");
                 SetWalletAsync();
@@ -83,14 +80,12 @@ namespace NTMiner.Daemon {
             }
             Task.Factory.StartNew(() => {
                 if (!File.Exists(SpecialPath.DevConsoleFileFullName)) {
-                    string name = "DevConsole.exe";
-                    ExtractResource(name);
+                    ExtractResource(NTKeyword.DevConsoleFileName);
                     Logger.OkDebugLine("DevConsole解压成功");
                 }
                 else if (HashUtil.Sha1(File.ReadAllBytes(SpecialPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
-                    Windows.TaskKill.Kill("DevConsole", waitForExit: true);
-                    string name = "DevConsole.exe";
-                    ExtractResource(name);
+                    Windows.TaskKill.Kill(NTKeyword.DevConsoleFileName, waitForExit: true);
+                    ExtractResource(NTKeyword.DevConsoleFileName);
                     Logger.OkDebugLine("发现新版DevConsole，更新成功");
                 }
                 string argument = poolIp + " " + consoleTitle;
@@ -116,7 +111,7 @@ namespace NTMiner.Daemon {
             get {
                 if (s_thisDevConsoleFileVersion == null) {
                     try {
-                        string name = "DevConsole.exe";
+                        string name = NTKeyword.DevConsoleFileName;
                         Type type = typeof(DaemonUtil);
                         Assembly assembly = type.Assembly;
                         using (var stream = assembly.GetManifestResourceStream(type, name)) {

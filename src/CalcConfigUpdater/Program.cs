@@ -10,23 +10,23 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public class Program {
-        static void Main(string[] args) {
+        static void Main() {
             VirtualRoot.StartTimer();
             try {
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
-                MainAssemblyInfo.SetOfficialServerHost("localhost");
+                NTKeyword.SetOfficialServerHost("localhost");
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
-                VirtualRoot.EventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
                     action: message => {
                         UpdateAsync();
-                    });
+                    }, location: typeof(Program));
                 UpdateAsync();
                 Write.UserInfo("输入exit并回车可以停止服务！");
 
                 while (Console.ReadLine() != "exit") {
                 }
 
-                Write.UserOk($"服务停止成功: {DateTime.Now}.");
+                Write.UserOk($"服务停止成功: {DateTime.Now.ToString()}.");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -53,7 +53,7 @@ namespace NTMiner {
                     catch {
                     }
                     if (htmlData != null && htmlData.Length != 0) {
-                        Write.UserOk($"{DateTime.Now} - 鱼池首页html获取成功");
+                        Write.UserOk($"{DateTime.Now.ToString()} - 鱼池首页html获取成功");
                         string html = Encoding.UTF8.GetString(htmlData);
                         string vdsUUHtml = string.Empty;
                         string vdsZtHtml = string.Empty;
@@ -64,19 +64,19 @@ namespace NTMiner {
                             vdsZtHtml = Encoding.UTF8.GetString(vdsZtData);
                         }
                         double usdCny = PickUsdCny(html);
-                        Write.UserInfo($"usdCny={usdCny}");
+                        Write.UserInfo($"usdCny={usdCny.ToString()}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
                         IncomeItem vdsIncomeItem = PickVDSIncomeItem(vdsUUHtml, vdsZtHtml, usdCny);
                         if (vdsIncomeItem != null && incomeItems.All(a => a.CoinCode != "VDS")) {
                             incomeItems.Add(vdsIncomeItem);
                         }
-                        Write.UserInfo($"鱼池首页有{incomeItems.Count}个币种");
+                        Write.UserInfo($"鱼池首页有{incomeItems.Count.ToString()}个币种");
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
-                                Write.UserInfo($"NTMiner有{data.Count}个币种");
+                            OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
+                                Write.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
                                     IncomeItem incomeItem = incomeItems.FirstOrDefault(a => string.Equals(a.CoinCode, calcConfigData.CoinCode, StringComparison.OrdinalIgnoreCase));
@@ -109,7 +109,7 @@ namespace NTMiner {
                                         }
                                     }
                                 }
-                                OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
+                                OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, callback: (res, e) => {
                                     if (!res.IsSuccess()) {
                                         Write.UserFail(res.ReadMessage(e));
                                     }
@@ -128,9 +128,9 @@ namespace NTMiner {
                                     Write.UserOk(incomeItem.ToString());
                                 }
 
-                                Write.UserOk($"更新了{coinCodes.Count}个币种：{string.Join(",", coinCodes)}");
+                                Write.UserOk($"更新了{coinCodes.Count.ToString()}个币种：{string.Join(",", coinCodes)}");
                                 int unUpdatedCount = data.Count - coinCodes.Count;
-                                Write.UserWarn($"{unUpdatedCount}个币种未更新{(unUpdatedCount == 0 ? string.Empty : "：" + string.Join(",", data.Select(a => a.CoinCode).Except(coinCodes)))}");
+                                Write.UserWarn($"{unUpdatedCount.ToString()}个币种未更新{(unUpdatedCount == 0 ? string.Empty : "：" + string.Join(",", data.Select(a => a.CoinCode).Except(coinCodes)))}");
                             });
                         }
                     }
@@ -185,12 +185,10 @@ namespace NTMiner {
                 result.SpeedUnit = match.Groups["speedUnit"].Value + "h/s";
                 string netSpeedText = match.Groups["netSpeed"].Value;
                 result.NetSpeedUnit = match.Groups["netSpeedUnit"].Value + "h/s";
-                double incomeCoin;
-                if (double.TryParse(incomeCoinText, out incomeCoin)) {
+                if (double.TryParse(incomeCoinText, out double incomeCoin)) {
                     result.IncomeCoin = incomeCoin;
                 }
-                double netSpeed;
-                if (double.TryParse(netSpeedText, out netSpeed)) {
+                if (double.TryParse(netSpeedText, out double netSpeed)) {
                     result.NetSpeed = netSpeed;
                 }
             }
@@ -199,8 +197,7 @@ namespace NTMiner {
             match = regex.Match(vdsZtHtml);
             if (match.Success) {
                 string incomeCnyText = match.Groups["incomeCny"].Value;
-                double incomeCny;
-                if (double.TryParse(incomeCnyText, out incomeCny)) {
+                if (double.TryParse(incomeCnyText, out double incomeCny)) {
                     result.IncomeCny = incomeCny * result.IncomeCoin;
                     result.IncomeUsd = result.IncomeCny / usdCny;
                 }

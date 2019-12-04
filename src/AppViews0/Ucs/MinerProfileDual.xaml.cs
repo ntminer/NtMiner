@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
             this.PopupDualCoin.Closed += Popup_Closed;
             this.PopupDualCoinWallet.Closed += Popup_Closed;
             this.RunOneceOnLoaded((window) => {
-                window.EventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+                window.AddEventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => {
                             if (Vm.MineWork != null) {
@@ -37,7 +37,7 @@ namespace NTMiner.Views.Ucs {
                                 OpenDualCoinWalletPopup();
                             }
                         });
-                    });
+                    }, location: this.GetType());
             });
         }
 
@@ -163,12 +163,12 @@ namespace NTMiner.Views.Ucs {
 
         private static void UserActionHappend() {
             if (!DevMode.IsDebugMode) {
-                VirtualRoot.Happened(new UserActionEvent());
+                VirtualRoot.RaiseEvent(new UserActionEvent());
             }
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

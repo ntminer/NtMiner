@@ -11,43 +11,46 @@ namespace NTMiner {
             private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
             private WalletViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新钱包Vm内存", LogEnum.None,
+                VirtualRoot.AddEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新钱包Vm内存", LogEnum.None,
                     action: message=> {
                         _dicById.Clear();
                         Init();
-                    });
-                EventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
+                        _dicById.Add(message.Target.GetId(), new WalletViewModel(message.Target));
                         OnPropertyChanged(nameof(WalletList));
                         CoinViewModel coin;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coin)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                    });
-                EventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(WalletList));
                         CoinViewModel coin;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Source.CoinId, out coin)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                         }
-                    });
-                EventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById[message.Source.GetId()].Update(message.Source);
-                    });
+                        _dicById[message.Target.GetId()].Update(message.Target);
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 

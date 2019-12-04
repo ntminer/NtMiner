@@ -14,43 +14,46 @@ namespace NTMiner {
 
             private MineWorkViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                foreach (var item in NTMinerRoot.Instance.MineWorkSet) {
+                foreach (var item in NTMinerRoot.Instance.MineWorkSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new MineWorkViewModel(item));
                 }
                 this.Add = new DelegateCommand(() => {
                     new MineWorkViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                EventPath<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
+                AddEventPath<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            _dicById.Add(message.Source.GetId(), new MineWorkViewModel(message.Source));
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            _dicById.Add(message.Target.GetId(), new MineWorkViewModel(message.Target));
                             OnPropertyChanged(nameof(List));
                             OnPropertyChanged(nameof(MineWorkVmItems));
-                            if (message.Source.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                            if (message.Target.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
                                 AppContext.Instance.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                             }
                         }
-                    });
-                EventPath<MineWorkUpdatedEvent>("更新作业后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<MineWorkUpdatedEvent>("更新作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById[message.Source.GetId()].Update(message.Source);
-                    });
-                EventPath<MineWorkRemovedEvent>("删除作业后刷新VM内存", LogEnum.DevConsole,
+                        _dicById[message.Target.GetId()].Update(message.Target);
+                    }, location: this.GetType());
+                AddEventPath<MineWorkRemovedEvent>("删除作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(List));
                         OnPropertyChanged(nameof(MineWorkVmItems));
-                        if (message.Source.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                        if (message.Target.GetId() == AppContext.Instance.MinerClientsWindowVm.SelectedMineWork.GetId()) {
                             AppContext.Instance.MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                         }
-                    });
+                    }, location: this.GetType());
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 

@@ -15,8 +15,9 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();
-                CalcConfigViewModels vm = (CalcConfigViewModels)uc.DataContext;
-                vm.CloseWindow = () => window.Close();
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: uc.Vm.Id, location: typeof(CalcConfig));
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();
@@ -35,17 +36,15 @@ namespace NTMiner.Views.Ucs {
         private CalcConfig() {
             InitializeComponent();
             this.RunOneceOnLoaded((window) => {
-                window.EventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                window.AddEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => {
-                            Vm.Refresh();
-                        });
-                    });
+                        UIThread.Execute(()=> Vm.Refresh());
+                    }, location: this.GetType());
             });
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

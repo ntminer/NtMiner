@@ -7,13 +7,14 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "升级器版本",
                 IconName = "Icon_Update",
-                Width = 400,
-                Height = 120,
+                Width = 500,
+                Height = 180,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new NTMinerUpdaterConfig();
-                var vm = (NTMinerUpdaterConfigViewModel)uc.DataContext;
-                vm.CloseWindow = () => window.Close();
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: uc.Vm.Id, location: typeof(NTMinerUpdaterConfig));
                 return uc;
             }, fixedSize: true);
         }

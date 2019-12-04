@@ -1,38 +1,32 @@
 ﻿using LiteDB;
-using NTMiner.Bus;
-using NTMiner.MinerServer;
-using System.Collections;
+using NTMiner.Core;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.AppSetting {
     public class LocalAppSettingSet : IAppSettingSet {
-        private Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>();
+        private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
         private readonly string _dbFileFullName;
 
         public LocalAppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.CmdPath<ChangeLocalAppSettingCommand>("处理设置AppSetting命令", LogEnum.DevConsole,
-                action: message => {
-                    if (message.AppSetting == null) {
-                        return;
-                    }
-                    if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
-                        entity.Value = message.AppSetting.Value;
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<AppSettingData>();
-                            col.Update(entity);
-                        }
-                    }
-                    else {
-                        entity = AppSettingData.Create(message.AppSetting);
-                        _dicByKey.Add(message.AppSetting.Key, entity);
-                        using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                            var col = db.GetCollection<AppSettingData>();
-                            col.Insert(entity);
-                        }
-                    }
-                    VirtualRoot.Happened(new LocalAppSettingChangedEvent(entity));
-                });
+            VirtualRoot.AddCmdPath<SetLocalAppSettingCommand>(action: message => {
+                if (message.AppSetting == null) {
+                    return;
+                }
+                if (_dicByKey.TryGetValue(message.AppSetting.Key, out AppSettingData entity)) {
+                    entity.Value = message.AppSetting.Value;
+                }
+                else {
+                    entity = AppSettingData.Create(message.AppSetting);
+                    _dicByKey[message.AppSetting.Key] = entity;
+                }
+                using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                    var col = db.GetCollection<AppSettingData>();
+                    col.Upsert(entity);
+                }
+                VirtualRoot.RaiseEvent(new LocalAppSettingChangedEvent(message.Id, entity));
+            }, location: this.GetType());
         }
 
         private bool _isInited = false;
@@ -66,18 +60,9 @@ namespace NTMiner.AppSetting {
             return result;
         }
 
-        public IEnumerator<IAppSetting> GetEnumerator() {
+        public IEnumerable<IAppSetting> AsEnumerable() {
             InitOnece();
-            foreach (var item in _dicByKey.Values) {
-                yield return item;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            InitOnece();
-            foreach (var item in _dicByKey.Values) {
-                yield return item;
-            }
+            return _dicByKey.Values;
         }
     }
 }

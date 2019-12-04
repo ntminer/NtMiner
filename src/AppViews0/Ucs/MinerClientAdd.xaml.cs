@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using NTMiner.Wpf;
 using System.Windows;
 using System.Windows.Input;
 
@@ -8,20 +7,17 @@ namespace NTMiner.Views.Ucs {
         public static void ShowWindow() {
             MinerClientAddViewModel vm = new MinerClientAddViewModel();
             Window window = new MinerClientAdd(vm);
-            vm.CloseWindow = () => window.Close();
+            window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                window.Close();
+            }, pathId: vm.Id, location: typeof(MinerClientAdd));
             window.MousePosition();
-            window.ShowDialogEx();
+            window.ShowSoftDialog();
         }
 
-        private MinerClientAddViewModel Vm {
-            get {
-                return (MinerClientAddViewModel)this.DataContext;
-            }
-        }
         public MinerClientAdd(MinerClientAddViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            var owner = TopWindow.GetTopWindow();
+            var owner = WpfUtil.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
             }

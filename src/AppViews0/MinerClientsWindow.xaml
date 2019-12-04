@@ -27,7 +27,7 @@
 	</blankWindow:BlankWindow.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="30"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 			<RowDefinition Height="*"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
@@ -44,10 +44,10 @@
 			</Grid.ColumnDefinitions>
 			<WrapPanel Grid.Column="0" Margin="4" VerticalAlignment="Center">
 				<Path
-					Width="12"
-					Height="12"
+					Width="13"
+					Height="13"
 					Data="{StaticResource Icon_Miner}"
-					Fill="{StaticResource IconFillColor}"
+					Fill="{StaticResource ThemeForeground}"
 					Stretch="Fill" />
 				<TextBlock
 					VerticalAlignment="Center"
@@ -73,12 +73,14 @@
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
 				</controls:KbButton>
-				<controls:KbButton 
+                <controls:KbButton 
+                    Width="20"
+                    Height="20"
 					Margin="0 0 12 0"
 					ToolTip="算力图"
 					Command="{x:Static app:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
 					CornerRadius="2">
-					<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+                    <Image Width="20" Height="20" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
 					</Image>
 				</controls:KbButton>
 				<uc:MainMenu Background="Transparent">
@@ -680,8 +682,57 @@
 								</controls:KbButton>
 							</WrapPanel>
 						</DataGridTextColumn.Header>
-					</DataGridTextColumn>
-					<!--MinerIp-->
+                    </DataGridTextColumn>
+                    <!--LocalIp-->
+                    <DataGridTemplateColumn 
+						Visibility="{Binding Data.ColumnsShow.LocalIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+						IsReadOnly="True">
+                        <DataGridTemplateColumn.Header>
+                            <WrapPanel>
+                                <TextBlock Text="{x:Static vm:ColumnsShowViewModel.LOCAL_IP}" ToolTip="{x:Static vm:ColumnsShowViewModel.LOCAL_IP_TOOLTIP}"></TextBlock>
+                                <controls:KbButton
+									ToolTip="不展示"
+									Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+									CommandParameter="LocalIp"
+									Background="Transparent">
+                                    <WrapPanel>
+                                        <Path
+											Width="14"
+											Height="8"
+											Data="{StaticResource Icon_Hide}"
+											Fill="#FF5A5A5A"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataGridTemplateColumn.Header>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <controls:KbButton
+										BorderThickness="0"
+										Background="Transparent"
+										Command="{Binding RemoteDesktop}"
+                                        CommandParameter="{Binding LocalIp}"
+										CornerRadius="2">
+                                        <Path
+											Width="14"
+											Height="14"
+											Data="{StaticResource Icon_RemoteDesktop}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+                                    </controls:KbButton>
+                                    <TextBox 
+										ToolTip="双击打开远程桌面"
+										BorderThickness="0"
+										Background="Transparent"
+										IsReadOnly="True"
+										Text="{Binding LocalIp, Mode=OneWay}"></TextBox>
+                                </WrapPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <!--MinerIp-->
 					<DataGridTemplateColumn 
 						Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 						IsReadOnly="True">
@@ -711,6 +762,7 @@
 										BorderThickness="0"
 										Background="Transparent"
 										Command="{Binding RemoteDesktop}"
+                                        CommandParameter="{Binding MinerIp}"
 										CornerRadius="2">
 										<Path
 											Width="14"
@@ -2359,7 +2411,7 @@
 					</WrapPanel>
 				</controls:KbButton>
 			</WrapPanel>
-			<GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 24"  VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
+			<GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 24" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
 			<Grid Grid.Row="0" VerticalAlignment="Bottom">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -2538,15 +2590,26 @@
             </Grid>
             <ScrollViewer 
                 Grid.Row="1" Margin="0 6 0 0"
-				Background="#EEEEF2"
+				Background="White"
 				VerticalScrollBarVisibility="Disabled"
                 HorizontalScrollBarVisibility="Auto">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
-                        <ColumnDefinition Width="1000"></ColumnDefinition>
+                        <ColumnDefinition Width="930"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
-                    <uc:MessageCenter Grid.Column="0"></uc:MessageCenter>
+                    <Border BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="3*"></RowDefinition>
+                                <RowDefinition Height="2*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <uc:LocalMessages>
+                            </uc:LocalMessages>
+                            <GridSplitter Grid.Row="0" Height="6" BorderThickness="0 1 0 1" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
+                            <uc:ServerMessages Grid.Row="1" x:Name="ServerMessagesUc"></uc:ServerMessages>
+                        </Grid>
+                    </Border>
                     <ScrollViewer 
                         Grid.Column="1" 
                         Style="{StaticResource LeftBarScroolView}"

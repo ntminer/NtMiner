@@ -12,10 +12,8 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public FragmentWriterViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -31,13 +29,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.FragmentWriterSet.TryGetFragmentWriter(this.Id, out IFragmentWriter writer)) {
+                if (NTMinerRoot.Instance.ServerContext.FragmentWriterSet.TryGetFragmentWriter(this.Id, out IFragmentWriter writer)) {
                     VirtualRoot.Execute(new UpdateFragmentWriterCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddFragmentWriterCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -49,9 +47,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveFragmentWriterCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
         }
 

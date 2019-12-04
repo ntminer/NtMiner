@@ -18,8 +18,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = new HttpClient()) {
-                            Task<HttpResponseMessage> message = client.PostAsync($"http://localhost:{clientPort}/api/{s_controllerName}/{nameof(IMinerStudioController.ShowMainWindow)}", null);
-                            bool response = message.Result.Content.ReadAsAsync<bool>().Result;
+                            Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{clientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerStudioController.ShowMainWindow)}", null);
+                            bool response = getHttpResponse.Result.Content.ReadAsAsync<bool>().Result;
                             callback?.Invoke(response, null);
                         }
                     }
@@ -41,8 +41,8 @@ namespace NTMiner {
                 bool isClosed = false;
                 try {
                     using (HttpClient client = new HttpClient()) {
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://localhost:{VirtualRoot.MinerStudioPort}/api/{s_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignRequest {});
-                        ResponseBase response = message.Result.Content.ReadAsAsync<ResponseBase>().Result;
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}/api/{s_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignRequest {});
+                        ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
                     }
                 }

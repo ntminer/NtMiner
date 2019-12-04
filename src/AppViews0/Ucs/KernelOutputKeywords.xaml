@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.KernelOutputKeywords"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:blankWindow="http://NTMiner.com"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+        d:DataContext="{d:DesignData Source=/Design/KernelOutputKeywordsViewModel.xaml}"
+		mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="520">
+	<UserControl.DataContext>
+        <vm:KernelOutputKeywordsViewModel></vm:KernelOutputKeywordsViewModel>
+	</UserControl.DataContext>
+	<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DataGrid 
+            Grid.Row="1" 
+            ItemsSource="{Binding KernelOutputVm.KernelOutputKeywords}"
+			MouseDoubleClick="DataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
+                                <controls:KbButton 
+                                    IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}"
+									Margin="2 0"
+									Command="{Binding Edit}" Background="Transparent" BorderThickness="0"
+									CornerRadius="2" ToolTip="编辑">
+                                    <WrapPanel>
+                                        <Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Edit}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                                <controls:KbButton 
+                                    IsEnabled="{Binding IsReadOnly,Converter={StaticResource BoolInvertConverter}}"
+									Margin="2 0"
+									Command="{Binding Remove}" Background="Transparent" BorderThickness="0"
+									CornerRadius="2" ToolTip="删除">
+                                    <WrapPanel>
+                                        <Path
+											Width="18"
+											Height="18"
+											Data="{StaticResource Icon_Delete}"
+											Fill="{StaticResource IconFillColor}"
+											Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="20" Width="20" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Path
+						        Width="14"
+						        Height="14"
+						        Data="{Binding MessageTypeIcon}"
+						        Fill="{Binding IconFill}"
+						        Stretch="Fill" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="关键字" Width="100" Binding="{Binding Keyword}"></DataGridTextColumn>
+                <DataGridTextColumn Header="大意" Width="*" Binding="{Binding Description}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding KernelOutputVm.KernelOutputKeywords, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
+        <controls:KbButton
+            Grid.Row="1"
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top"
+			Margin="2 8 2 0"
+			Command="{Binding Add}" 
+			Background="Transparent" 
+            BorderThickness="0"
+			CornerRadius="2" 
+            ToolTip="添加">
+            <WrapPanel>
+                <Path
+					Width="18"
+					Height="18"
+					Data="{StaticResource Icon_Add}"
+					Fill="{StaticResource IconFillColor}"
+					Stretch="Fill" />
+            </WrapPanel>
+        </controls:KbButton>
+    </Grid>
+</UserControl>

@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
         public ICommand ClearKeyword { get; private set; }
 
         public CoinPageViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Add = new DelegateCommand(() => {

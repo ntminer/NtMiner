@@ -1,9 +1,17 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Threading;
 
 namespace NTMiner {
     public static class Write {
-        public static readonly Stopwatch Stopwatch = new Stopwatch();
+        public static int UIThreadId;
+        private static readonly ThreadLocal<NTStopwatch> _stopwatch = new ThreadLocal<NTStopwatch>(() => {
+            return new NTStopwatch();
+        });
+        public static NTStopwatch Stopwatch {
+            get {
+                return _stopwatch.Value;
+            }
+        }
 
         private static readonly Action<string, ConsoleColor> _consoleUserLineMethod = (line, color) => {
             InitOnece();
@@ -21,14 +29,10 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_isInited) {
                         _isInited = true;
-                        NTMinerConsole.Show();
+                        NTMinerConsole.Alloc();
                     }
                 }
             }
-        }
-
-        public static void SetConsoleUserLineMethod() {
-            UserLineMethod = _consoleUserLineMethod;
         }
 
         public static void SetUserLineMethod(Action<string, ConsoleColor> action) {
@@ -59,20 +63,12 @@ namespace NTMiner {
             UserLine(text, MessageType.Warn);
         }
 
-        public static void UserEvent(string text) {
-            UserLine(text, MessageType.Event);
-        }
-
         public static void UserFail(string text) {
             UserLine(text, MessageType.Fail);
         }
 
-        public static void UserFatal(string text) {
-            UserLine(text, MessageType.Fatal);
-        }
-
         public static void UserLine(string text, ConsoleColor foreground) {
-            UserLineMethod?.Invoke(text, foreground);
+            UserLineMethod?.Invoke($"{(Thread.CurrentThread.ManagedThreadId == UIThreadId ? "UI " : "   ")}{text}", foreground);
         }
 
         public static void DevLine(string text, MessageType messageType = MessageType.Default) {
@@ -80,11 +76,19 @@ namespace NTMiner {
                 return;
             }
             InitOnece();
-            text = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
+            text = $"{(Thread.CurrentThread.ManagedThreadId == UIThreadId ? "UI " : "   ")}{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = messageType.ToConsoleColor();
             Console.WriteLine(text);
             Console.ForegroundColor = oldColor;
+        }
+
+        public static void DevException(Exception e) {
+            DevLine(e.GetInnerMessage() + e.StackTrace, MessageType.Error);
+        }
+
+        public static void DevException(string message, Exception e) {
+            DevLine(message + e.StackTrace, MessageType.Error);
         }
 
         public static void DevError(string text) {
@@ -109,10 +113,6 @@ namespace NTMiner {
 
         public static void DevFail(string text) {
             DevLine(text, MessageType.Fail);
-        }
-
-        public static void DevFatal(string text) {
-            DevLine(text, MessageType.Fatal);
         }
     }
 }

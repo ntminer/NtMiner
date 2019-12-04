@@ -24,10 +24,8 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public OverClockDataViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -38,14 +36,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                IOverClockData group;
-                if (NTMinerRoot.Instance.OverClockDataSet.TryGetOverClockData(this.Id, out group)) {
+                if (NTMinerRoot.Instance.OverClockDataSet.TryGetOverClockData(this.Id, out IOverClockData group)) {
                     VirtualRoot.Execute(new UpdateOverClockDataCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddOverClockDataCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -57,9 +54,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveOverClockDataCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
         }
 
@@ -226,7 +223,7 @@ namespace NTMiner.Vms {
 
         public string Tooltip {
             get {
-                return $"核心{CoreClockDelta}M, 显存{MemoryClockDelta}M, 功耗{PowerCapacity}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 温度阈值{TempLimit}℃";
+                return $"核心{CoreClockDelta.ToString()}M, 显存{MemoryClockDelta.ToString()}M, 功耗{PowerCapacity.ToString()}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 温度阈值{TempLimit.ToString()}℃";
             }
         }
     }

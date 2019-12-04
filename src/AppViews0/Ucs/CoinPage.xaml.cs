@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Vms;
 using System;
-using System.Linq;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -12,29 +11,28 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Coin",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = DevMode.IsDebugMode ? AppStatic.MainWindowWidth : 960,
+                Width = DevMode.IsDebugMode ? AppStatic.MainWindowWidth : 1000,
                 Height = 520
             },
             ucFactory: (window) => new CoinPage(),
-            beforeShow: uc => {
+            beforeShow: (window, uc) => {
                 if (currentCoin != null) {
-                    CoinPageViewModel vm = (CoinPageViewModel)uc.DataContext;
                     switch (tabType) {
-                        case VirtualRoot.PoolParameterName:
-                            vm.IsPoolTabSelected = true;
+                        case NTKeyword.PoolParameterName:
+                            uc.Vm.IsPoolTabSelected = true;
                             break;
-                        case VirtualRoot.WalletParameterName:
-                            vm.IsWalletTabSelected = true;
+                        case NTKeyword.WalletParameterName:
+                            uc.Vm.IsWalletTabSelected = true;
                             break;
                         default:
                             break;
                     }
-                    vm.CurrentCoin = currentCoin;
+                    uc.Vm.CurrentCoin = currentCoin;
                 }
             });
         }
 
-        private CoinPageViewModel Vm {
+        public CoinPageViewModel Vm {
             get {
                 return (CoinPageViewModel)this.DataContext;
             }
@@ -57,19 +55,19 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.DataGrid_MouseDoubleClick<CoinViewModel>(sender, e);
+            WpfUtil.DataGrid_MouseDoubleClick<CoinViewModel>(sender, e);
         }
 
         private void WalletDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.DataGrid_MouseDoubleClick<WalletViewModel>(sender, e);
+            WpfUtil.DataGrid_MouseDoubleClick<WalletViewModel>(sender, e);
         }
 
         private void PoolDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.DataGrid_MouseDoubleClick<PoolViewModel>(sender, e);
+            WpfUtil.DataGrid_MouseDoubleClick<PoolViewModel>(sender, e);
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
+            WpfUtil.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
         }
 
         private void ButtonAddCoinKernel_Click(object sender, System.Windows.RoutedEventArgs e) {

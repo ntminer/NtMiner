@@ -15,57 +15,60 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
             private SysDicViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicByCode.Clear();
                         _dicById.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
-                    });
+                    }, location: this.GetType());
                 this.Add = new DelegateCommand(() => {
                     new SysDicViewModel(Guid.NewGuid()).Edit.Execute(null);
                 });
-                EventPath<SysDicAddedEvent>("添加了系统字典后调整VM内存", LogEnum.DevConsole,
+                AddEventPath<SysDicAddedEvent>("添加了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            SysDicViewModel sysDicVm = new SysDicViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), sysDicVm);
-                            if (!_dicByCode.ContainsKey(message.Source.Code)) {
-                                _dicByCode.Add(message.Source.Code, sysDicVm);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            SysDicViewModel sysDicVm = new SysDicViewModel(message.Target);
+                            _dicById.Add(message.Target.GetId(), sysDicVm);
+                            if (!_dicByCode.ContainsKey(message.Target.Code)) {
+                                _dicByCode.Add(message.Target.Code, sysDicVm);
                             }
                             OnPropertyChangeds();
                         }
-                    });
-                EventPath<SysDicUpdatedEvent>("更新了系统字典后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<SysDicUpdatedEvent>("更新了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            SysDicViewModel entity = _dicById[message.Source.GetId()];
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            SysDicViewModel entity = _dicById[message.Target.GetId()];
                             int sortNumber = entity.SortNumber;
-                            entity.Update(message.Source);
+                            entity.Update(message.Target);
                             if (sortNumber != entity.SortNumber) {
                                 this.OnPropertyChanged(nameof(List));
                             }
                         }
-                    });
-                EventPath<SysDicRemovedEvent>("删除了系统字典后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<SysDicRemovedEvent>("删除了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
-                        _dicByCode.Remove(message.Source.Code);
+                        _dicById.Remove(message.Target.GetId());
+                        _dicByCode.Remove(message.Target.Code);
                         OnPropertyChangeds();
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.SysDicSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.SysDicSet.AsEnumerable()) {
                     SysDicViewModel sysDicVm = new SysDicViewModel(item);
                     _dicById.Add(item.GetId(), sysDicVm);
                     _dicByCode.Add(item.Code, sysDicVm);

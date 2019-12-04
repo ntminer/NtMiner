@@ -8,14 +8,15 @@ namespace NTMiner.Views.Ucs {
                 Title = "系统字典项",
                 FormType = formType,
                 Width= 520,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_SysDic"
             }, ucFactory: (window) =>
             {
-                SysDicItemViewModel vm = new SysDicItemViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                SysDicItemViewModel vm = new SysDicItemViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(SysDicItemEdit));
                 return new SysDicItemEdit(vm);
             }, fixedSize: true);
         }

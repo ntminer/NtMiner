@@ -17,39 +17,39 @@ namespace NTMiner {
 
             private KernelViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChanged(nameof(AllKernels));
-                    });
-                EventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
+                        _dicById.Add(message.Target.GetId(), new KernelViewModel(message.Target));
                         OnPropertyChanged(nameof(AllKernels));
-                        foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                        foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Target.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
-                    });
-                EventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(AllKernels));
-                        foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
+                        foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Target.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
-                    });
-                EventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        var entity = _dicById[message.Source.GetId()];
+                        var entity = _dicById[message.Target.GetId()];
                         PublishStatus publishStatus = entity.PublishState;
                         Guid kernelInputId = entity.KernelInputId;
-                        entity.Update(message.Source);
+                        entity.Update(message.Target);
                         if (publishStatus != entity.PublishState) {
                             foreach (var coinKernelVm in AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == entity.Id)) {
                                 foreach (var coinVm in AppContext.Instance.CoinVms.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {
@@ -60,15 +60,18 @@ namespace NTMiner {
                         if (kernelInputId != entity.KernelInputId) {
                             NTMinerRoot.RefreshArgsAssembly.Invoke();
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.KernelSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.KernelSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new KernelViewModel(item));
                 }
             }

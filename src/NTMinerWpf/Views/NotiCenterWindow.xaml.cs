@@ -7,21 +7,52 @@ using System.Windows.Interop;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
-        private static NotiCenterWindow _instance;
-        public static NotiCenterWindow Instance {
-            get {
-                if (_instance == null) {
-                    _instance = new NotiCenterWindow();
-                }
-                return _instance;
-            }
+        private static readonly NotiCenterWindow _instance = new NotiCenterWindow();
+
+        public static void ShowWindow() {
+            _instance.Show();
         }
 
-        public static EventHandler CreateNotiCenterWindowLocationManager(Window window) {
-            return (sender, e) => {
-                Instance.Left = window.Left + (window.Width - Instance.Width) / 2;
-                Instance.Top = window.Top + 10;
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="ownerIsTopMost"></param>
+        /// <param name="isNoOtherWindow">如果没有其它窗口就不需要响应窗口激活和非激活状态变更事件了</param>
+        public static void Bind(Window owner, bool ownerIsTopMost = false, bool isNoOtherWindow = false) {
+            EventHandler handler = (sender, e) => {
+                _instance.Left = owner.Left + (owner.Width - _instance.Width) / 2;
+                _instance.Top = owner.Top + 10;
             };
+            if (ownerIsTopMost) {
+                if (!isNoOtherWindow) {
+                    owner.Activated += (sender, e) => {
+                        // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                        if (!owner.Topmost) {
+                            owner.Topmost = true;
+                        }
+                        handler(sender, e);
+                        _instance.SwitchOwner(owner);
+                    };
+                }
+                if (!isNoOtherWindow) {
+                    owner.Deactivated += (sender, e) => {
+                        // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+                        if (owner.Topmost) {
+                            owner.Topmost = false;
+                        }
+                    };
+                }
+            }
+            else {
+                if (!isNoOtherWindow) {
+                    owner.Activated += (sender, e) => {
+                        handler(sender, e);
+                        _instance.SwitchOwner(owner);
+                    };
+                }
+            }
+            owner.LocationChanged += handler;
         }
 
         public NotiCenterWindowViewModel Vm {
@@ -34,14 +65,63 @@ namespace NTMiner.Views {
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
                 HotKeyUtil.RegHotKey = (key) => {
                     if (!RegHotKey(key, out string message)) {
-                        VirtualRoot.Out.ShowErrorMessage(message, 4);
+                        VirtualRoot.Out.ShowError(message, 4);
                         return false;
                     }
                     else {
-                        VirtualRoot.Out.ShowSuccessMessage($"热键Ctrl + Alt + {key.ToString()} 设置成功");
+                        VirtualRoot.ThisLocalInfo(nameof(NotiCenterWindow), $"热键Ctrl + Alt + {key.ToString()} 设置成功", OutEnum.Success);
                         return true;
                     }
                 };
+            }
+        }
+
+        public void SwitchOwner(Window window) {
+            if (Owner != window) {
+                bool isOwnerIsTopMost = window.Topmost;
+                if (isOwnerIsTopMost) {
+                    window.Topmost = false;
+                }
+                if (window != null) {
+                    window.IsVisibleChanged -= Owner_IsVisibleChanged;
+                    window.StateChanged -= Owner_StateChanged;
+                }
+                Owner = window;
+                Owner.IsVisibleChanged += Owner_IsVisibleChanged;
+                Owner.StateChanged += Owner_StateChanged;
+                _instance.Left = window.Left + (window.Width - _instance.Width) / 2;
+                _instance.Top = window.Top + 10;
+                if (isOwnerIsTopMost) {
+                    window.Topmost = true;
+                    this.Topmost = true;
+                    Owner.Activate();
+                }
+                else {
+                    this.Activate();
+                }
+            }
+            else {
+                bool isOwnerIsTopMost = window.Topmost;
+                if (isOwnerIsTopMost) {
+                    Owner.Activate();
+                }
+            }
+        }
+
+        private void Owner_StateChanged(object sender, EventArgs e) {
+            Window owner = (Window)sender;
+            if (this.Owner == owner && owner.WindowState == WindowState.Minimized) {
+                this.Owner = null;
+                if (!this.IsVisible) {
+                    this.Show();
+                }
+            }
+        }
+
+        private void Owner_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            Window owner = (Window)sender;
+            if (this.Owner == owner && !owner.IsVisible) {
+                this.Owner = null;
             }
         }
 
@@ -70,8 +150,7 @@ namespace NTMiner.Views {
         protected override void OnContentRendered(EventArgs e) {
             base.OnContentRendered(e);
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
-                System.Windows.Forms.Keys hotKey;
-                Enum.TryParse(HotKeyUtil.GetHotKey(), out hotKey);
+                Enum.TryParse(HotKeyUtil.GetHotKey(), out System.Windows.Forms.Keys hotKey);
                 if (!RegHotKey(hotKey, out string message)) {
                     NotiCenterWindowViewModel.Instance.Manager
                         .CreateMessage()

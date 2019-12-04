@@ -19,9 +19,6 @@ namespace NTMiner.Views.Ucs {
 
         public Property() {
             InitializeComponent();
-            if (Design.IsInDesignMode) {
-                return;
-            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "超频菜谱",
                 IconName = "Icon_OverClock",
-                Width = 600,
+                Width = 800,
                 Height = 400,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => new OverClockDataPage(), fixedSize: true);
@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            Wpf.Util.DataGrid_MouseDoubleClick<OverClockDataViewModel>(sender, e);
+            WpfUtil.DataGrid_MouseDoubleClick<OverClockDataViewModel>(sender, e);
         }
     }
 }

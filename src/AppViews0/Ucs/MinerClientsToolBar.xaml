@@ -158,7 +158,7 @@
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding OneKeyWindowsLoginName}" Padding="4" Margin="0 0 6 0" Header="一键远程桌面用户名">
+            <MenuItem Command="{Binding OneKeyWindowsLoginName}" Padding="4" Margin="0 0 6 0" Header="远程桌面用户名">
                 <MenuItem.Icon>
                     <Path
 						Width="16"
@@ -168,7 +168,7 @@
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Command="{Binding OneKeyWindowsLoginPassword}" Padding="4" Margin="0 0 6 0" Header="一键远程桌面密码">
+            <MenuItem Command="{Binding OneKeyWindowsLoginPassword}" Padding="4" Margin="0 0 6 0" Header="远程桌面密码">
                 <MenuItem.Icon>
                     <Path
 						Width="16"

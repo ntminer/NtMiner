@@ -1,5 +1,6 @@
 ﻿namespace NTMiner.Controllers {
-    public interface IMinerStudioController : IShowMainWindow {
+    public interface IMinerStudioController {
+        bool ShowMainWindow();
         ResponseBase CloseMinerStudio(SignRequest request);
     }
 }

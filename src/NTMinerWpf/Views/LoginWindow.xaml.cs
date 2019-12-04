@@ -4,18 +4,50 @@ using System;
 using System.Windows;
 
 namespace NTMiner.Views {
-    public partial class LoginWindow : BlankWindow {
+    public partial class LoginWindow : Window {
+        public static void Login(Action onLoginSuccess) {
+            if (!IsLogined()) {
+                UIThread.Execute(() => {
+                    var topWindow = WpfUtil.GetTopWindow();
+                    LoginWindow window = new LoginWindow(onLoginSuccess);
+                    if (topWindow != null && topWindow.GetType() != typeof(NotiCenterWindow)) {
+                        window.Owner = topWindow;
+                        window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    }
+                    window.Closing += (sender, e) => {
+                        if (IsLogined()) {
+                            onLoginSuccess?.Invoke();
+                        }
+                    };
+                    window.ShowSoftDialog();
+                    window.PasswordFocus();
+                });
+            }
+            else {
+                onLoginSuccess?.Invoke();
+            }
+        }
+
+        private static bool IsLogined() {
+            return !string.IsNullOrEmpty(SingleUser.LoginName) && !string.IsNullOrEmpty(SingleUser.PasswordSha1);
+        }
+
         private LoginWindowViewModel Vm {
             get {
                 return (LoginWindowViewModel)this.DataContext;
             }
         }
 
-        public LoginWindow() {
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += changeNotiCenterWindowLocation;
+        private readonly Action _onLoginSuccess;
+        private LoginWindow(Action onLoginSuccess) {
+            _onLoginSuccess = onLoginSuccess;
             InitializeComponent();
+            // 1个是通知窗口，1个是本窗口
+            NotiCenterWindow.Bind(this, isNoOtherWindow: Application.Current.Windows.Count <= 2);
+            PasswordFocus();
+        }
+
+        public void PasswordFocus() {
             this.PbPassword.Focus();
         }
 
@@ -27,7 +59,8 @@ namespace NTMiner.Views {
 
         protected override void OnClosed(EventArgs e) {
             base.OnClosed(e);
-            if ((!this.DialogResult.HasValue || !this.DialogResult.Value) && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {
+            bool isNoOwnerWindow = this.Owner == null || this.Owner.GetType() == typeof(NotiCenterWindow);
+            if (isNoOwnerWindow && !IsLogined() && Application.Current.ShutdownMode != ShutdownMode.OnMainWindowClose) {
                 Application.Current.Shutdown();
             }
         }
@@ -44,8 +77,9 @@ namespace NTMiner.Views {
                 list.Insert(0, Vm.ServerHost);
             }
             NTMinerRegistry.SetControlCenterHosts(list);
-            if (Ip.Util.IsInnerIp(Vm.ServerHost)) {
-                this.DialogResult = true;
+            if (Net.Util.IsInnerIp(Vm.ServerHost)) {
+                SingleUser.LoginName = "localhost";
+                SingleUser.SetPasswordSha1("localhost");
                 this.Close();
                 return;
             }
@@ -58,7 +92,6 @@ namespace NTMiner.Views {
                     if (response.IsSuccess()) {
                         SingleUser.LoginName = Vm.LoginName;
                         SingleUser.SetPasswordSha1(passwordSha1);
-                        this.DialogResult = true;
                         this.Close();
                     }
                     else if (Vm.LoginName == "admin" && response.StateCode == 404) {

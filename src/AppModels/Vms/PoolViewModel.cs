@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Profiles;
 using NTMiner.Profile;
 using System;
 using System.Collections.Generic;
@@ -17,7 +16,6 @@ namespace NTMiner.Vms {
             _coinId = Guid.Empty,
             _name = "不指定"
         };
-        private DataLevel _dataLevel = DataLevel.UnDefined;
         private Guid _id;
         private Guid _brandId;
         private string _name;
@@ -49,17 +47,15 @@ namespace NTMiner.Vms {
         public ICommand ViewPoolIncome { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public PoolViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
 
         public PoolViewModel(IPool data) : this(data.GetId()) {
+            this.DataLevel = data.DataLevel;
             _brandId = data.BrandId;
-            _dataLevel = data.DataLevel;
             _name = data.Name;
             _coinId = data.CoinId;
             _server = data.Server;
@@ -83,13 +79,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.PoolSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.PoolSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddPoolCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -101,9 +97,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}矿池吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}矿池吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemovePoolCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 PoolViewModel upOne = AppContext.Instance.PoolVms.GetUpOne(this.CoinId, this.SortNumber);
@@ -157,7 +153,7 @@ namespace NTMiner.Vms {
 
         public bool IsNew {
             get {
-                return !NTMinerRoot.Instance.PoolSet.Contains(this.Id);
+                return !NTMinerRoot.Instance.ServerContext.PoolSet.Contains(this.Id);
             }
         }
 
@@ -167,17 +163,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public DataLevel DataLevel {
-            get { return _dataLevel; }
-            set {
-                if (_dataLevel != value) {
-                    _dataLevel = value;
-                    OnPropertyChanged(nameof(DataLevel));
-                    OnPropertyChanged(nameof(DataLevelText));
-                    OnPropertyChanged(nameof(IsReadOnly));
-                }
-            }
-        }
+        public DataLevel DataLevel { get; set; }
 
         public bool IsReadOnly {
             get {
@@ -224,8 +210,7 @@ namespace NTMiner.Vms {
                 if (this.BrandId == Guid.Empty) {
                     return SysDicItemViewModel.PleaseSelect;
                 }
-                SysDicItemViewModel item;
-                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out item)) {
+                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out SysDicItemViewModel item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;
@@ -290,7 +275,7 @@ namespace NTMiner.Vms {
 
         public string CoinCode {
             get {
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin.Code;
                 }
                 return string.Empty;

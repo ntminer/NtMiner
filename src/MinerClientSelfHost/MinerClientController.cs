@@ -8,7 +8,7 @@ namespace NTMiner {
     /// <summary>
     /// 端口号：<see cref="Consts.MinerClientPort"/>
     /// </summary>
-    public class MinerClientController : ApiController, IMinerClientController, IShowMainWindow {
+    public class MinerClientController : ApiController, IMinerClientController {
         [HttpPost]
         public bool ShowMainWindow() {
             try {
@@ -28,7 +28,7 @@ namespace NTMiner {
             }
             try {
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith((t) => {
-                    VirtualRoot.Execute(new CloseNTMinerCommand());
+                    VirtualRoot.Execute(new CloseNTMinerCommand("挖矿端升级后关闭旧版挖矿端"));
                 });
                 return ResponseBase.Ok();
             }
@@ -44,6 +44,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
+                VirtualRoot.ThisLocalInfo(nameof(MinerClientController), $"开始挖矿", toConsole: true);
                 NTMinerRoot.Instance.RestartMine(isWork: request.WorkId != Guid.Empty);
                 return ResponseBase.Ok();
             }
@@ -59,6 +60,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
+                VirtualRoot.ThisLocalInfo(nameof(MinerClientController), $"停止挖矿", toConsole: true);
                 NTMinerRoot.Instance.StopMineAsync(StopMineReason.RPCUserAction);
                 return ResponseBase.Ok();
             }
@@ -74,6 +76,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
+                VirtualRoot.ThisLocalInfo(nameof(MinerClientController), $"设置挖矿参数");
                 NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(request.PropertyName, request.Value);
                 return ResponseBase.Ok();
             }
@@ -86,7 +89,7 @@ namespace NTMiner {
         [HttpPost]
         public SpeedData GetSpeed() {
             try {
-                SpeedData data = Report.CreateSpeedData();
+                SpeedData data = NTMinerRoot.Instance.Reporter.CreateSpeedData();
                 return data;
             }
             catch (Exception e) {
@@ -102,6 +105,7 @@ namespace NTMiner {
 
         [HttpPost]
         public void OverClock() {
+            VirtualRoot.ThisLocalInfo(nameof(MinerClientController), $"刷新超频", toConsole: true);
             NTMinerRoot.Instance.GpuProfileSet.Refresh();
         }
     }

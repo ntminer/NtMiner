@@ -11,7 +11,7 @@
     <AssemblyName>NTMiner.Controllers</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,13 +35,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IAppSettingController.cs" />
+    <Compile Include="IClientController.cs" />
+    <Compile Include="IColumnsShowController.cs" />
     <Compile Include="IControlCenterController.cs" />
     <Compile Include="IFileUrlController.cs" />
+    <Compile Include="IKernelOutputKeywordController.cs" />
     <Compile Include="IMinerClientController.cs" />
+    <Compile Include="IMinerGroupController.cs" />
     <Compile Include="IMinerStudioController.cs" />
+    <Compile Include="IMineWorkController.cs" />
     <Compile Include="INTMinerDaemonController.cs" />
+    <Compile Include="INTMinerWalletController.cs" />
     <Compile Include="IOverClockDataController.cs" />
+    <Compile Include="IPoolController.cs" />
     <Compile Include="IReportController.cs" />
+    <Compile Include="IServerMessageController.cs" />
+    <Compile Include="IUserController.cs" />
+    <Compile Include="IWalletController.cs" />
     <Compile Include="IWrapperMinerClientController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

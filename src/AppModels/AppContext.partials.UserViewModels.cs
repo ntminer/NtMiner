@@ -14,9 +14,9 @@ namespace NTMiner {
 
             private UserViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return;
                 }
                 this.Add = new DelegateCommand(() => {
@@ -25,30 +25,33 @@ namespace NTMiner {
                     }
                     new UserViewModel().Edit.Execute(FormType.Add);
                 });
-                EventPath<UserAddedEvent>("添加了用户后", LogEnum.DevConsole,
+                AddEventPath<UserAddedEvent>("添加了用户后", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicByLoginName.ContainsKey(message.Source.LoginName)) {
-                            _dicByLoginName.Add(message.Source.LoginName, new UserViewModel(message.Source));
+                        if (!_dicByLoginName.ContainsKey(message.Target.LoginName)) {
+                            _dicByLoginName.Add(message.Target.LoginName, new UserViewModel(message.Target));
                             OnPropertyChanged(nameof(List));
                         }
-                    });
-                EventPath<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
                     action: message => {
                         UserViewModel vm;
-                        if (_dicByLoginName.TryGetValue(message.Source.LoginName, out vm)) {
-                            vm.Update(message.Source);
+                        if (_dicByLoginName.TryGetValue(message.Target.LoginName, out vm)) {
+                            vm.Update(message.Target);
                         }
-                    });
-                EventPath<UserRemovedEvent>("移除了用户后", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<UserRemovedEvent>("移除了用户后", LogEnum.DevConsole,
                     action: message => {
-                        _dicByLoginName.Remove(message.Source.LoginName);
+                        _dicByLoginName.Remove(message.Target.LoginName);
                         OnPropertyChanged(nameof(List));
-                    });
-                foreach (var item in NTMinerRoot.Instance.UserSet) {
+                    }, location: this.GetType());
+                foreach (var item in NTMinerRoot.Instance.UserSet.AsEnumerable()) {
                     _dicByLoginName.Add(item.LoginName, new UserViewModel(item));
                 }
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 

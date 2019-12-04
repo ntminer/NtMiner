@@ -11,7 +11,7 @@
     <AssemblyName>NTMinerDaemon</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -80,17 +80,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\AppModels\RemoteDesktop\Firewall.cs">
+      <Link>RemoteDesktop\Firewall.cs</Link>
+    </Compile>
+    <Compile Include="..\AppModels\RemoteDesktop\Rdp.cs">
+      <Link>RemoteDesktop\Rdp.cs</Link>
+    </Compile>
     <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
-    <Compile Include="..\MinerClient\RemoteDesktopEnabler\Firewall.cs">
-      <Link>RemoteDesktopEnabler\Firewall.cs</Link>
+    <Compile Include="..\NTMinerClient\Windows\Power.cs">
+      <Link>Windows\Power.cs</Link>
     </Compile>
-    <Compile Include="..\MinerClient\RemoteDesktopEnabler\Rdp.cs">
-      <Link>RemoteDesktopEnabler\Rdp.cs</Link>
+    <Compile Include="..\NTMinerClient\Windows\WMI.cs">
+      <Link>Windows\WMI.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\EnumExtension.cs">
+      <Link>EnumExtension.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Messages.Timing.cs">
       <Link>Messages.Timing.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\NTKeyword.cs">
+      <Link>NTKeyword.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
@@ -107,14 +119,11 @@
     <Compile Include="..\NTMinerlib\User\IUserSet.cs">
       <Link>User\IUserSet.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Bus.cs">
-      <Link>VirtualRoot.partials.Bus.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Common.cs">
       <Link>VirtualRoot.partials.Common.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Consts.cs">
-      <Link>VirtualRoot.partials.Consts.cs</Link>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.Hub.cs">
+      <Link>VirtualRoot.partials.Hub.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
@@ -128,15 +137,10 @@
     <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
       <Link>Windows\WinRegistry.cs</Link>
     </Compile>
-    <Compile Include="..\NTMiner\Windows\Power.cs">
-      <Link>Windows\Power.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMiner\Windows\WMI.cs">
-      <Link>Windows\WMI.cs</Link>
-    </Compile>
     <Compile Include="HostRoot.cs" />
     <Compile Include="IHostRoot.cs" />
     <Compile Include="MinerProfileUtil.cs" />
+    <Compile Include="NoDevFee\EthWalletSet.cs" />
     <Compile Include="NoDevFee\WinDivert.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.cs" />
     <Compile Include="NoDevFee\WinDivertExtract.cs" />
@@ -159,13 +163,13 @@
       <Project>{5911457a-357a-412d-a20c-e77c1a56b4f6}</Project>
       <Name>NTMiner.Controllers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
-      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
-      <Name>NTMinerBus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerHub</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
@@ -175,6 +179,7 @@
   <ItemGroup>
     <EmbeddedResource Include="logo.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>$(TargetName) --sha1</PostBuildEvent>

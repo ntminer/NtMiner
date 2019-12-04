@@ -7,10 +7,8 @@ namespace NTMiner {
         Warn,
         Ok,
         Fail,
-        Fatal,
         Info,
         Debug,
-        Event,
         TimeSpan
     }
 
@@ -25,12 +23,8 @@ namespace NTMiner {
                     return ConsoleColor.Green;
                 case MessageType.Fail:
                     return ConsoleColor.Red;
-                case MessageType.Fatal:
-                    return ConsoleColor.DarkRed;
                 case MessageType.Info:
                     return ConsoleColor.Gray;
-                case MessageType.Event:
-                    return ConsoleColor.Cyan;
                 case MessageType.TimeSpan:
                     return ConsoleColor.Gray;
                 case MessageType.Debug:

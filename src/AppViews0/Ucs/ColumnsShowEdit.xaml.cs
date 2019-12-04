@@ -7,14 +7,15 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "列显",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_ColumnsShow",
             }, ucFactory: (window) =>
             {
-                ColumnsShowViewModel vm = new ColumnsShowViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                ColumnsShowViewModel vm = new ColumnsShowViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(ColumnsShowEdit));
                 return new ColumnsShowEdit(vm);
             }, fixedSize: true);
         }

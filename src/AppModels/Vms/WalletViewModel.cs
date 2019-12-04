@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Input;
 
@@ -36,7 +35,7 @@ namespace NTMiner.Vms {
         public ICommand SortDown { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
+        public Action AfterClose { get; set; }
 
         public WalletViewModel(IWallet data) : this(data.GetId()) {
             _name = data.Name;
@@ -52,15 +51,15 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (!this.IsTestWallet) {
-                    IWallet wallet;
-                    if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out wallet)) {
+                    if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out IWallet wallet)) {
                         VirtualRoot.Execute(new UpdateWalletCommand(this));
                     }
                     else {
                         VirtualRoot.Execute(new AddWalletCommand(this));
                     }
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
+                AfterClose?.Invoke();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -75,9 +74,9 @@ namespace NTMiner.Vms {
                 if (this.IsTestWallet) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}钱包吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}钱包吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveWalletCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 WalletViewModel upOne = AppContext.Instance.WalletVms.GetUpOne(this.CoinId, this.SortNumber);
@@ -87,8 +86,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateWalletCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(this));
-                    CoinViewModel coinVm;
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     }
@@ -102,8 +100,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateWalletCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(this));
-                    CoinViewModel coinVm;
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out coinVm)) {
+                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     }
@@ -157,8 +154,7 @@ namespace NTMiner.Vms {
 
         public string CoinCode {
             get {
-                ICoin coin;
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin.Code;
                 }
                 return string.Empty;
@@ -167,8 +163,7 @@ namespace NTMiner.Vms {
 
         public ICoin Coin {
             get {
-                ICoin coin;
-                if (NTMinerRoot.Instance.CoinSet.TryGetCoin(this.CoinId, out coin)) {
+                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin;
                 }
                 return CoinViewModel.Empty;
@@ -203,13 +198,13 @@ namespace NTMiner.Vms {
             }
         }
 
+        // 钱包地址保存后不能修改
         public bool IsAddressEditable {
             get {
                 if (IsTestWallet) {
                     return false;
                 }
-                IWallet wallet;
-                if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out wallet)) {
+                if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out IWallet _)) {
                     return false;
                 }
                 return true;

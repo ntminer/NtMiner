@@ -1,11 +1,10 @@
 ﻿using NTMiner.MinerClient;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
-    public class GpuSpeedDataViewModels : ViewModelBase, IEnumerable<GpuSpeedDataViewModel> {
+    public class GpuSpeedDataViewModels : ViewModelBase {
         private readonly List<GpuSpeedDataViewModel> _gpuSpeeds = new List<GpuSpeedDataViewModel>();
         private string _mainCoinCode;
         private string _dualCoinCode;
@@ -22,7 +21,7 @@ namespace NTMiner.Vms {
         private int _maxTemp;
 
         public GpuSpeedDataViewModels() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -171,12 +170,10 @@ namespace NTMiner.Vms {
             }
         }
 
-        public IEnumerator<GpuSpeedDataViewModel> GetEnumerator() {
-            return _gpuSpeeds.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return _gpuSpeeds.GetEnumerator();
+        public IEnumerable<GpuSpeedDataViewModel> Items {
+            get {
+                return _gpuSpeeds;
+            }
         }
     }
 }

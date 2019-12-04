@@ -25,9 +25,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{CoinVm.Code}吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{CoinVm.Code}吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveCoinGroupCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 CoinGroupViewModel upOne = AppContext.Instance.CoinGroupVms.GetUpOne(this.GroupId, this.SortNumber);
@@ -37,8 +37,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
-                    GroupViewModel groupVm;
-                    if (AppContext.Instance.GroupVms.TryGetGroupVm(this.GroupId, out groupVm)) {
+                    if (AppContext.Instance.GroupVms.TryGetGroupVm(this.GroupId, out GroupViewModel groupVm)) {
                         groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
                     }
                 }
@@ -51,8 +50,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
-                    GroupViewModel groupVm;
-                    if (AppContext.Instance.GroupVms.TryGetGroupVm(this.GroupId, out groupVm)) {
+                    if (AppContext.Instance.GroupVms.TryGetGroupVm(this.GroupId, out GroupViewModel groupVm)) {
                         groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
                     }
                 }
@@ -95,8 +93,7 @@ namespace NTMiner.Vms {
 
         public CoinViewModel CoinVm {
             get {
-                CoinViewModel vm;
-                if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out vm)) {
+                if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel vm)) {
                     return vm;
                 }
                 return CoinViewModel.Empty;

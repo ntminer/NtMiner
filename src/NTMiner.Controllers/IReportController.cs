@@ -3,7 +3,7 @@ using NTMiner.MinerServer;
 
 namespace NTMiner.Controllers {
     public interface IReportController {
-        void ReportSpeed(SpeedData speedData);
+        ReportResponse ReportSpeed(SpeedData speedData);
         void ReportState(ReportState request);
     }
 }

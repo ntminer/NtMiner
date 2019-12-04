@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         public ICommand CancelDownload { get; private set; }
 
         public FileDownloaderViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }

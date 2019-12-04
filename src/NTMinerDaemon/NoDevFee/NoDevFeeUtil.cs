@@ -37,21 +37,12 @@ namespace NTMiner.NoDevFee {
             }
         }
 
-        private static readonly string _defaultWallet = "0xEd44cF3679D627d3Cb57767EfAc1bdd9C9B8D143";
-        private static string _wallet = _defaultWallet;
-        public static void SetWallet(string wallet) {
-            _wallet = wallet;
-        }
-
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
         private static bool _isStopping = true;
         public static void StartAsync() {
             // Win7下WinDivert.sys文件签名问题
             if (VirtualRoot.IsLTWin10) {
                 return;
-            }
-            if (string.IsNullOrEmpty(_wallet) || _wallet.Length != _defaultWallet.Length) {
-                _wallet = _defaultWallet;
             }
             if (!TryGetClaymoreCommandLine(out string minerName, out string userWallet)) {
                 Stop();
@@ -158,7 +149,8 @@ namespace NTMiner.NoDevFee {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             if (TryGetPosition(workerName, text, out var position)) {
                                 byte[] byteUserWallet = Encoding.ASCII.GetBytes(userWallet);
-                                byte[] byteWallet = Encoding.ASCII.GetBytes(_wallet);
+                                string wallet = EthWalletSet.Instance.GetOneWallet();
+                                byte[] byteWallet = Encoding.ASCII.GetBytes(wallet);
                                 string dwallet = Encoding.UTF8.GetString(packet, position, byteWallet.Length);
                                 if (!dwallet.StartsWith(userWallet)) {
                                     string dstIp = ipv4Header->DstAddr.ToString();
@@ -166,8 +158,8 @@ namespace NTMiner.NoDevFee {
                                     Buffer.BlockCopy(byteWallet, 0, packet, position, byteWallet.Length);
                                     Logger.InfoDebugLine($"::第 {++counter} 次");
                                     Logger.InfoDebugLine($"::抽水钱包: {dwallet}");
-                                    Logger.InfoDebugLine($"::替换钱包: {_wallet}");
-                                    Logger.InfoDebugLine($"::抽水矿池: {dstIp}:{dstPort}");
+                                    Logger.InfoDebugLine($"::替换钱包: {wallet}");
+                                    Logger.InfoDebugLine($"::抽水矿池: {dstIp}:{dstPort.ToString()}");
                                 }
                             }
                         }

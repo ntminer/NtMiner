@@ -61,6 +61,7 @@
 				Height="24"
 				Padding="4 0"
 				Background="{StaticResource ThemeBackground}"
+                Click="KbButtonAddPool_Click"
 				Command="{Binding Coin.AddPool}"
 				CornerRadius="2">
 				<WrapPanel>

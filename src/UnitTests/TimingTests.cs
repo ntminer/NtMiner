@@ -6,30 +6,36 @@ namespace UnitTests {
     [TestClass]
     public class TimingTests {
         [TestMethod]
+        public void NewDayEventTest() {
+            DateTime t = new DateTime(2019, 11, 11);
+            Assert.IsTrue(t.TimeOfDay.TotalSeconds == 0);
+        }
+
+        [TestMethod]
         public void TestMethod1() {
             int secondCount = 1000000;
-            Write.Stopwatch.Restart();
-            int count1;
-            Method1(secondCount, out count1);
-            Console.WriteLine("Method1 " + Write.Stopwatch.ElapsedMilliseconds);
-            Write.Stopwatch.Restart();
-            int count2;
-            Method2(secondCount, out count2);
-            Console.WriteLine("Method2 " + Write.Stopwatch.ElapsedMilliseconds);
+            Write.Stopwatch.Start();
+            Method1(secondCount, out int count1);
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Console.WriteLine("Method1 " + elapsedMilliseconds);
+            Write.Stopwatch.Start();
+            Method2(secondCount, out int count2);
+            elapsedMilliseconds = Write.Stopwatch.Stop();
+            Console.WriteLine("Method2 " + elapsedMilliseconds);
             Assert.AreEqual(count1, count2);
         }
 
         [TestMethod]
         public void TestMethod2() {
             int secondCount = 1000000;
-            Write.Stopwatch.Restart();
-            int count1;
-            A(secondCount, out count1);
-            Console.WriteLine("A " + Write.Stopwatch.ElapsedMilliseconds);
-            Write.Stopwatch.Restart();
-            int count2;
-            B(secondCount, out count2);
-            Console.WriteLine("B " + Write.Stopwatch.ElapsedMilliseconds);
+            Write.Stopwatch.Start();
+            A(secondCount, out int count1);
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            Console.WriteLine("A " + elapsedMilliseconds);
+            Write.Stopwatch.Start();
+            B(secondCount, out int count2);
+            elapsedMilliseconds = Write.Stopwatch.Stop();
+            Console.WriteLine("B " + elapsedMilliseconds);
             Assert.AreEqual(count1, count2);
         }
 

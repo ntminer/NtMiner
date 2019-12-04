@@ -22,10 +22,8 @@ namespace NTMiner.Vms {
         public ICommand AddCoinGroup { get; private set; }
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public GroupViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -41,13 +39,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.GroupSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.GroupSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddGroupCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -59,9 +57,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}组吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveGroupCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.SortUp = new DelegateCommand(() => {
                 GroupViewModel upOne = AppContext.Instance.GroupVms.GetUpOne(this.SortNumber);

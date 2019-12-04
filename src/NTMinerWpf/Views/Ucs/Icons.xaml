@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.Icons"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:blankWindow="http://NTMiner.com"
+		xmlns:controls="clr-namespace:NTMiner.Controls"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms"
+		Background="White"
+		mc:Ignorable="d" 
+		d:DesignWidth="960"
+		d:DesignHeight="520">
+    <UserControl.DataContext>
+        <vm:IconsViewModel></vm:IconsViewModel>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Path 
+				Width="30"
+				Height="30"
+				Fill="{StaticResource IconFillColor}"
+				Stretch="Fill"
+				Data="{StaticResource Icon_Serach}"></Path>
+            <controls:KbTextBox 
+                Margin="4 0 0 0"
+				x:Name="TbKeyword" 
+                Width="300" 
+                Height="40"
+                FontSize="18"
+				Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+				VerticalContentAlignment="Center"
+				Hint="请输入关键字"
+				BorderBrush="{StaticResource LineColor}"
+				BorderThickness="1"
+				Background="White"
+				SelectedColor="#409EFF" />
+            <controls:KbButton 
+				Height="20"
+				Background="Transparent" 
+				BorderThickness="0"
+				Command="{Binding ClearKeyword}"
+				Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+				Margin="-22 0 0 0" 
+				HorizontalAlignment="Left">
+                <Path
+					Width="16"
+					Height="16"
+					Data="{StaticResource Icon_Close}"
+					Fill="{StaticResource IconFillColor}"
+					Stretch="Fill" />
+            </controls:KbButton>
+        </WrapPanel>
+        <ScrollViewer
+            Grid.Row="1"
+			VerticalScrollBarVisibility="Auto" 
+			PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+            <ItemsControl 
+		        Background="Transparent"
+		        ItemsSource="{Binding Icons}"
+				MouseDown="MetroWindow_MouseDown"
+		        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+		        ScrollViewer.VerticalScrollBarVisibility="Auto"
+		        BorderThickness="0">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border 
+                            x:Name="border"
+                            Width="78" Height="78" 
+                            Margin="2" Padding="4" 
+                            ToolTip="{Binding Key}"
+                            BorderThickness="1" 
+                            BorderBrush="{Binding BorderBrush}">
+                            <StackPanel>
+                                <Path 
+					                Height="40"
+					                Data="{Binding Data}"
+					                Fill="{StaticResource IconFillColor}"
+					                Stretch="Uniform" />
+                                <TextBox 
+                                    HorizontalAlignment="Center" 
+                                    Margin="0 4 0 0" 
+                                    BorderThickness="0" 
+                                    IsReadOnly="True" 
+                                    Text="{Binding Key, Mode=OneWay}"></TextBox>
+                            </StackPanel>
+                        </Border>
+                        <DataTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#C9DEF5"></Setter>
+                            </Trigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

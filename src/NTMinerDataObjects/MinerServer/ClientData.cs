@@ -3,29 +3,30 @@ using NTMiner.MinerClient;
 using System;
 
 namespace NTMiner.MinerServer {
-    public class ClientData : IClientData, IDbEntity<string>, ITimestampEntity<string> {
-        public ClientData() {
-            this.GpuTable = new GpuSpeedData[0];
+    public class ClientData : SpeedData, IMinerData, ISpeedData, IDbEntity<string>, ITimestampEntity<string> {
+        public ClientData() : base() {
         }
 
         public string GetId() {
             return this.Id;
         }
 
-        public static ClientData CreateClientData(MinerData data) {
+        public static ClientData CreateClientData(IMinerData data) {
             return new ClientData() {
+                Id = data.Id,
                 ClientId = data.ClientId,
+                MACAddress = string.Empty,
+                LocalIp = string.Empty,
                 MinerIp = data.MinerIp,
                 MinerName = data.MinerName,
                 ClientName = data.ClientName,
                 CreatedOn = data.CreatedOn,
                 GroupId = data.GroupId,
                 WorkId = data.WorkId,
-                MineWorkId = Guid.Empty,
-                MineWorkName = string.Empty,
                 WindowsLoginName = data.WindowsLoginName,
                 WindowsPassword = data.WindowsPassword,
-                Id = data.Id,
+                MineWorkId = Guid.Empty,
+                MineWorkName = string.Empty,
                 IsAutoBoot = false,
                 IsAutoStart = false,
                 AutoStartDelaySeconds = 15,
@@ -80,13 +81,28 @@ namespace NTMiner.MinerServer {
                 IsGotOneIncorrectGpuShare = false,
                 CpuPerformance = 0,
                 CpuTemperature = 0,
+                KernelSelfRestartCount = 0,
+                IsRaiseHighCpuEvent = false,
+                HighCpuPercent = 80,
+                HighCpuSeconds = 10,
+                LocalServerMessageTimestamp = Timestamp.UnixBaseTime,
                 GpuTable = new GpuSpeedData[0]
             };
         }
 
-        public static ClientData Create(SpeedData speedData, string minerIp) {
+        public static ClientData Create(ISpeedData speedData, string minerIp) {
             return new ClientData() {
                 Id = ObjectId.NewObjectId().ToString(),
+                MinerName = string.Empty,
+                MinerIp = minerIp,
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                GroupId = Guid.Empty,
+                WorkId = Guid.Empty,
+                WindowsLoginName = string.Empty,
+                WindowsPassword = string.Empty,
+                MACAddress = speedData.MACAddress,
+                LocalIp = speedData.LocalIp,
                 ClientId = speedData.ClientId,
                 IsAutoBoot = speedData.IsAutoBoot,
                 IsAutoStart = speedData.IsAutoStart,
@@ -109,7 +125,6 @@ namespace NTMiner.MinerServer {
                 CpuStartTemperature = speedData.CpuStartTemperature,
                 CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds,
                 CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds,
-                MinerName = string.Empty,
                 GpuDriver = speedData.GpuDriver,
                 GpuType = speedData.GpuType,
                 OSName = speedData.OSName,
@@ -119,9 +134,6 @@ namespace NTMiner.MinerServer {
                 IsMining = speedData.IsMining,
                 BootOn = speedData.BootOn,
                 MineStartedOn = speedData.MineStartedOn,
-                MinerIp = minerIp,
-                CreatedOn = DateTime.Now,
-                ModifiedOn = DateTime.Now,
                 MainCoinCode = speedData.MainCoinCode,
                 MainCoinTotalShare = speedData.MainCoinTotalShare,
                 MainCoinRejectShare = speedData.MainCoinRejectShare,
@@ -138,12 +150,8 @@ namespace NTMiner.MinerServer {
                 DualCoinSpeed = speedData.DualCoinSpeed,
                 KernelCommandLine = speedData.KernelCommandLine,
                 GpuTable = speedData.GpuTable,
-                GroupId = Guid.Empty,
-                WorkId = Guid.Empty,
                 MineWorkId = speedData.MineWorkId,
                 MineWorkName = speedData.MineWorkName,
-                WindowsLoginName = string.Empty,
-                WindowsPassword = string.Empty,
                 ClientName = speedData.MinerName,
                 DiskSpace = speedData.DiskSpace,
                 MainCoinPoolDelay = speedData.MainCoinPoolDelay,
@@ -152,7 +160,12 @@ namespace NTMiner.MinerServer {
                 IsRejectOneGpuShare = speedData.IsRejectOneGpuShare,
                 IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare,
                 CpuTemperature = speedData.CpuTemperature,
-                CpuPerformance = speedData.CpuPerformance
+                CpuPerformance = speedData.CpuPerformance,
+                KernelSelfRestartCount = speedData.KernelSelfRestartCount,
+                LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp,
+                IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent,
+                HighCpuPercent = speedData.HighCpuPercent,
+                HighCpuSeconds = speedData.HighCpuSeconds
             };
         }
 
@@ -164,12 +177,12 @@ namespace NTMiner.MinerServer {
         private string _preMainCoin;
         private string _preDualCoin;
 
-        public void Update(SpeedData speedData, string minerIp) {
+        public void Update(ISpeedData speedData, string minerIp) {
             this.MinerIp = minerIp;
             Update(speedData);
         }
 
-        public void Update(SpeedData speedData) {
+        public void Update(ISpeedData speedData) {
             if (speedData == null) {
                 return;
             }
@@ -177,8 +190,6 @@ namespace NTMiner.MinerServer {
             if (_preMainCoin != this.MainCoinCode) {
                 _preMainCoinShare = 0;
                 _preMainCoinRejectShare = 0;
-                speedData.MainCoinTotalShare = 0;
-                speedData.MainCoinRejectShare = 0;
             }
             else {
                 _preMainCoinShare = this.MainCoinTotalShare;
@@ -188,8 +199,6 @@ namespace NTMiner.MinerServer {
             if (_preDualCoin != this.DualCoinCode) {
                 _preDualCoinShare = 0;
                 _preDualCoinRejectShare = 0;
-                speedData.DualCoinTotalShare = 0;
-                speedData.DualCoinRejectShare = 0;
             }
             else {
                 _preDualCoinShare = this.DualCoinTotalShare;
@@ -198,6 +207,12 @@ namespace NTMiner.MinerServer {
             _preDualCoin = this.DualCoinCode;
 
             this.ClientId = speedData.ClientId;
+            if (!string.IsNullOrEmpty(speedData.MACAddress)) {
+                this.MACAddress = speedData.MACAddress;
+            }
+            if (!string.IsNullOrEmpty(speedData.LocalIp)) {
+                this.LocalIp = speedData.LocalIp;
+            }
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
             this.AutoStartDelaySeconds = speedData.AutoStartDelaySeconds;
@@ -257,6 +272,11 @@ namespace NTMiner.MinerServer {
             this.CpuTemperature = speedData.CpuTemperature;
             this.MineWorkId = speedData.MineWorkId;
             this.MineWorkName = speedData.MineWorkName;
+            this.KernelSelfRestartCount = speedData.KernelSelfRestartCount;
+            this.LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp;
+            this.IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent;
+            this.HighCpuPercent = speedData.HighCpuPercent;
+            this.HighCpuSeconds = speedData.HighCpuSeconds;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
@@ -349,125 +369,23 @@ namespace NTMiner.MinerServer {
             return delta;
         }
 
-        private string _mainCoinCode;
-        private string _dualCoinCode;
         public string Id { get; set; }
-
-        public Guid ClientId { get; set; }
-        public bool IsAutoBoot { get; set; }
-        public bool IsAutoStart { get; set; }
-        public int AutoStartDelaySeconds { get; set; }
-        public bool IsAutoRestartKernel { get; set; }
-        public int AutoRestartKernelTimes { get; set; }
-        public bool IsNoShareRestartKernel { get; set; }
-        public bool IsNoShareRestartComputer { get; set; }
-        public int NoShareRestartKernelMinutes { get; set; }
-        public int NoShareRestartComputerMinutes { get; set; }
-        public bool IsPeriodicRestartKernel { get; set; }
-        public int PeriodicRestartKernelHours { get; set; }
-        public bool IsPeriodicRestartComputer { get; set; }
-        public int PeriodicRestartComputerHours { get; set; }
-        public int PeriodicRestartKernelMinutes { get; set; }
-        public int PeriodicRestartComputerMinutes { get; set; }
-        public bool IsAutoStopByCpu { get; set; }
-        public int CpuGETemperatureSeconds { get; set; }
-        public int CpuStopTemperature { get; set; }
-        public bool IsAutoStartByCpu { get; set; }
-        public int CpuLETemperatureSeconds { get; set; }
-        public int CpuStartTemperature { get; set; }
-        public string OSName { get; set; }
-        public int OSVirtualMemoryMb { get; set; }
-        public string DiskSpace { get; set; }
-        public GpuType GpuType { get; set; }
-        public string GpuDriver { get; set; }
-        public string GpuInfo { get; set; }
 
         /// <summary>
         /// 服务的指定的作业
         /// </summary>
         public Guid WorkId { get; set; }
 
-        /// <summary>
-        /// 挖矿端上报的作业
-        /// </summary>
-        public Guid MineWorkId { get; set; }
-
-        public string MineWorkName { get; set; }
-
-        public string Version { get; set; }
-
-        public bool IsMining { get; set; }
-
-        public string MinerName { get; set; }
-
         public string ClientName { get; set; }
-
-        public string MinerIp { get; set; }
 
         public string WindowsLoginName { get; set; }
 
         public string WindowsPassword { get; set; }
-
-        public DateTime BootOn { get; set; }
-
-        public DateTime? MineStartedOn { get; set; }
-
-        public string MainCoinCode {
-            get => _mainCoinCode ?? string.Empty;
-            set => _mainCoinCode = value;
-        }
-
-        public double MainCoinSpeed { get; set; }
-
-        public int MainCoinRejectShare { get; set; }
-
-        public int MainCoinTotalShare { get; set; }
-
-        public string MainCoinPool { get; set; }
-
-        public string MainCoinWallet { get; set; }
-
-        public string MainCoinPoolDelay { get; set; }
-
-        public string Kernel { get; set; }
-
-        public bool IsDualCoinEnabled { get; set; }
-
-        public string DualCoinCode {
-            get => _dualCoinCode ?? string.Empty;
-            set => _dualCoinCode = value;
-        }
-
-        public double DualCoinSpeed { get; set; }
-
-        public int DualCoinRejectShare { get; set; }
-
-        public int DualCoinTotalShare { get; set; }
-
-        public string DualCoinPool { get; set; }
-
-        public string DualCoinWallet { get; set; }
-
-        public string DualCoinPoolDelay { get; set; }
 
         public DateTime CreatedOn { get; set; }
 
         public DateTime ModifiedOn { get; set; }
 
         public Guid GroupId { get; set; }
-
-        public string KernelCommandLine { get; set; }
-
-        public bool IsRejectOneGpuShare { get; set; }
-
-        public bool IsFoundOneGpuShare { get; set; }
-
-        public bool IsGotOneIncorrectGpuShare { get; set; }
-
-        public int CpuPerformance { get; set; }
-
-        public int CpuTemperature { get; set; }
-
-        public GpuSpeedData[] GpuTable { get; set; }
     }
 }

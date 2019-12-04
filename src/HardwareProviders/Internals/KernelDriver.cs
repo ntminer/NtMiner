@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using Microsoft.Win32.SafeHandles;
 
 namespace HardwareProviders.Internals {
-    internal class KernelDriver {
+    internal class KernelDriver : IDisposable {
         private const int
             ERROR_SERVICE_EXISTS = unchecked((int)0x80070431),
             ERROR_SERVICE_ALREADY_RUNNING = unchecked((int)0x80070420);
@@ -116,6 +116,10 @@ namespace HardwareProviders.Internals {
                 device.Dispose();
                 device = null;
             }
+        }
+
+        public void Dispose() {
+            Close();
         }
 
         public bool Delete() {

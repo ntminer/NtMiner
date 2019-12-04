@@ -3,15 +3,14 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerClientSettingViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private bool _isAutoBoot;
         private bool _isAutoStart;
-
-        public Action CloseWindow { get; set; }
 
         public ICommand Save { get; private set; }
 
         public MinerClientSettingViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -28,7 +27,7 @@ namespace NTMiner.Vms {
                         item.Refresh.Execute(null);
                     }
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
         }
 

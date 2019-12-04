@@ -12,14 +12,15 @@ namespace NTMiner.Views.Ucs {
                 Title = "币种级参数",
                 FormType = formType,
                 Width = 700,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 IconName = "Icon_Kernel",
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) =>
             {
-                CoinKernelViewModel vm = new CoinKernelViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                CoinKernelViewModel vm = new CoinKernelViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(CoinKernelEdit));
                 return new CoinKernelEdit(vm);
             }, fixedSize: true);
         }

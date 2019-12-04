@@ -6,6 +6,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class InputSegmentEditViewModel : ViewModelBase, IInputSegment {
+        public readonly Guid Id = Guid.NewGuid();
         private SupportedGpu _targetGpu;
         private string _name;
         private string _segment;
@@ -13,15 +14,17 @@ namespace NTMiner.Vms {
         private bool _isDefault;
 
         public ICommand Save { get; private set; }
-        public Action CloseWindow { get; set; }
 
         public InputSegmentEditViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
 
+        private readonly InputSegmentViewModel _old;
         public InputSegmentEditViewModel(CoinKernelViewModel coinKernelVm, InputSegmentViewModel segment) {
+            _old = segment;
+            segment = new InputSegmentViewModel(segment);
             _targetGpu = segment.TargetGpu;
             _name = segment.Name;
             _segment = segment.Segment;
@@ -36,15 +39,18 @@ namespace NTMiner.Vms {
                 segment.Segment = this.Segment;
                 segment.Description = this.Description;
                 segment.IsDefault = this.IsDefault;
-                var existItem = coinKernelVm.InputSegments.FirstOrDefault(a => a.Segment == segment.Segment);
-                if (existItem == null) {
-                    coinKernelVm.InputSegments.Add(new InputSegment(segment));
+                bool isUpdate = !string.IsNullOrEmpty(_old.Name);
+                if (isUpdate) {
+                    var existItem = coinKernelVm.InputSegments.FirstOrDefault(a => a.Name == _old.Name && a.Segment == _old.Segment);
+                    if (existItem != null) {
+                        existItem.Update(segment);
+                    }
                 }
                 else {
-                    existItem.Update(segment);
+                    coinKernelVm.InputSegments.Add(new InputSegment(segment));
                 }
                 coinKernelVm.InputSegments = coinKernelVm.InputSegments.ToList();
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
         }
 

@@ -31,15 +31,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int MaxSizeGb {
+        public double MaxSizeGb {
             get {
-                return MaxSizeMb / 1024;
+                return MaxSizeMb / 1024.0;
             }
         }
 
         public string MaxSizeGbText {
             get {
-                return MaxSizeGb + " G"; ;
+                return MaxSizeGb.ToString("f1") + " G"; ;
             }
         }
 
@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
         }
 
         public override string ToString() {
-            return $"{DriveName}pagefile.sys  {MaxSizeMb} {MaxSizeMb}";
+            return $"{DriveName}pagefile.sys  {MaxSizeMb.ToString()} {MaxSizeMb.ToString()}";
         }
     }
 }

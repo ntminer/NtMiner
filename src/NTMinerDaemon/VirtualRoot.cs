@@ -1,5 +1,4 @@
-﻿using NTMiner.Bus;
-using NTMiner.Bus.DirectBus;
+﻿using NTMiner.Hub;
 using System.Diagnostics;
 
 namespace NTMiner {
@@ -7,14 +6,6 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static bool IsMinerStudio = false;
 
-        public static readonly IMessageDispatcher SMessageDispatcher;
-        private static readonly ICmdBus SCommandBus;
-        private static readonly IEventBus SEventBus;
-
-        static VirtualRoot() {
-            SMessageDispatcher = new MessageDispatcher();
-            SCommandBus = new DirectCommandBus(SMessageDispatcher);
-            SEventBus = new DirectEventBus(SMessageDispatcher);
-        }
+        public static readonly IMessageHub MessageHub = new MessageHub();
     }
 }

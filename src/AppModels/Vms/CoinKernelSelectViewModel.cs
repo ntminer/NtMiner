@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         public ICommand HideView { get; set; }
 
         public CoinKernelSelectViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -66,7 +66,7 @@ namespace NTMiner.Vms {
                     .Where(a => a.Kernel != null && a.IsSupported)
                     .OrderBy(a => a.Kernel.Code)
                     .ThenByDescending(a => a.Kernel.Version).AsQueryable();
-                if (!Design.IsDevMode) {
+                if (!WpfUtil.IsDevMode) {
                     query = query.Where(a => a.Kernel.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {

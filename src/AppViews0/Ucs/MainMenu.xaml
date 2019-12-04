@@ -20,8 +20,18 @@
 						Data="{StaticResource Icon_Developer}"
 						Fill="{StaticResource ThemeForeground}"
 						Stretch="Fill" />
-				</MenuItem.Icon>
-				<MenuItem Header="global dir" Command="{x:Static app:AppStatic.ShowGlobalDir}">
+                </MenuItem.Icon>
+                <MenuItem Header="集线器" Command="{x:Static app:AppStatic.ShowMessagePathIds}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Message}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="家目录" Command="{x:Static app:AppStatic.ShowHomeDir}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -31,17 +41,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="server db" Command="{x:Static app:AppStatic.OpenServerLiteDb}">
-					<MenuItem.Icon>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Db}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="serverJson export" Command="{x:Static app:AppStatic.ExportServerJson}">
+                <MenuItem Header="{x:Static app:AppStatic.ExportServerJsonMenuName}" Command="{x:Static app:AppStatic.ExportServerJson}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -50,8 +50,18 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="local db" Command="{x:Static app:AppStatic.OpenLocalLiteDb}">
+                </MenuItem>
+                <MenuItem Header="server db" Command="{x:Static app:AppStatic.OpenServerLiteDb}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Db}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="local db" Command="{x:Static app:AppStatic.OpenLocalLiteDb}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -116,7 +126,7 @@
 						<Path
 							Width="14"
 							Height="14"
-							Data="{StaticResource Icon_Info}"
+							Data="{StaticResource Icon_Message}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
@@ -140,8 +150,28 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="收益计算器设置" Command="{x:Static app:AppStatic.ShowCalcConfig}">
+                </MenuItem>
+                <MenuItem Header="NTMiner钱包" Command="{x:Static app:AppStatic.ShowNTMinerWallets}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Wallet}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="内核输出关键字" Command="{x:Static app:AppStatic.ShowServerKernelOutputKeywords}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_KernelOutput}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="收益计算器设置" Command="{x:Static app:AppStatic.ShowCalcConfig}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -245,8 +275,8 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
+                </MenuItem>
+                <MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -341,8 +371,8 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
+                </MenuItem>
+                <MenuItem Header="帮助" Command="{x:Static app:AppStatic.ShowHelp}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -371,8 +401,8 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="退出" Command="{x:Static app:AppStatic.AppExit}">
+                </MenuItem>
+                <MenuItem Header="退出" Command="{x:Static app:AppStatic.AppExit}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

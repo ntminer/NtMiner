@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.RemoteDesktopLogin"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:blankWindow="http://NTMiner.com"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+        d:DataContext="{d:DesignData Source=/Design/RemoteDesktopLoginViewModel.xaml}"
+		mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="400">
+	<Grid Margin="0 8 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock 
+			Grid.Row="0" Grid.Column="0" Margin="0 2" 
+			Text="登录名" TextAlignment="Right" VerticalAlignment="Center"
+			Foreground="{StaticResource LableColor}"></TextBlock>
+        <TextBox 
+			Grid.Row="0" Grid.Column="1" Margin="0 2"
+			Text="{Binding LoginName, ValidatesOnExceptions=True}" Background="White" 
+			VerticalContentAlignment="Center"></TextBox>
+
+        <TextBlock 
+			Grid.Row="1" Grid.Column="0" Margin="0 2" 
+			Text="密码" TextAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource LableColor}"></TextBlock>
+        <PasswordBox 
+			Grid.Row="1" Grid.Column="1" Margin="0 2" Height="26"
+			VerticalContentAlignment="Center" Background="White" controls:PasswordBoxHelper.Attach="true" controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <controls:KbButton
+            Grid.Row="2"
+            Grid.Column="1"
+            Margin="0 10 0 0"
+            HorizontalAlignment="Center"
+			Visibility="{Binding IsPasswordAgainVisible,Converter={StaticResource VisibilityInvertConverter}}"
+			IsDefault="True"
+			Padding="15 2"
+            Command="{Binding Ok}"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
+			CornerRadius="2">
+            <WrapPanel>
+                <Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+                <TextBlock
+					Padding="0 4"
+					VerticalAlignment="Center"
+					Foreground="{StaticResource ThemeForeground}"
+					Text="确定" />
+            </WrapPanel>
+        </controls:KbButton>
+    </Grid>
+</UserControl>

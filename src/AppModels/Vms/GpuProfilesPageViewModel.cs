@@ -10,6 +10,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class GpuProfilesPageViewModel : ViewModelBase {
+        public readonly Guid Id = Guid.NewGuid();
         private Geometry _gpuIcon;
         private string _gpuIconFill = "Gray";
         private string _redText;
@@ -22,10 +23,8 @@ namespace NTMiner.Vms {
 
         public ICommand Save { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public GpuProfilesPageViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -66,8 +65,8 @@ namespace NTMiner.Vms {
                 foreach (var client in minerClientsWindowVm.SelectedMinerClients) {
                     Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
                 }
-                VirtualRoot.Out.ShowSuccessMessage("应用成功，请观察效果");
-                CloseWindow?.Invoke();
+                VirtualRoot.Out.ShowSuccess("应用成功，请观察效果");
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
                 _data = data;

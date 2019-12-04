@@ -25,12 +25,12 @@ namespace NTMiner.Gpus {
                     var handles = new NvPhysicalGpuHandle[NvapiConst.MAX_PHYSICAL_GPUS];
                     var r = NvapiNativeMethods.NvEnumPhysicalGPUs(handles, out int gpuCount);
                     if (r != NvStatus.NVAPI_OK) {
-                        Write.DevError($"{nameof(NvapiNativeMethods.NvEnumPhysicalGPUs)} {r}");
+                        Write.DevError($"{nameof(NvapiNativeMethods.NvEnumPhysicalGPUs)} {r.ToString()}");
                     }
                     for (int i = 0; i < gpuCount; i++) {
                         r = NvapiNativeMethods.NvGetBusID(handles[i], out int busId);
                         if (r != NvStatus.NVAPI_OK) {
-                            Write.DevError($"{nameof(NvapiNativeMethods.NvGetBusID)} {r}");
+                            Write.DevError($"{nameof(NvapiNativeMethods.NvGetBusID)} {r.ToString()}");
                         }
                         if (!_handlesByBusId.ContainsKey(busId)) {
                             _handlesByBusId.Add(busId, handles[i]);
@@ -39,12 +39,12 @@ namespace NTMiner.Gpus {
                     handles = new NvPhysicalGpuHandle[NvapiConst.MAX_PHYSICAL_GPUS];
                     r = NvapiNativeMethods.NvEnumTCCPhysicalGPUs(handles, out gpuCount);
                     if (r != NvStatus.NVAPI_OK) {
-                        Write.DevError($"{nameof(NvapiNativeMethods.NvEnumTCCPhysicalGPUs)} {r}");
+                        Write.DevError($"{nameof(NvapiNativeMethods.NvEnumTCCPhysicalGPUs)} {r.ToString()}");
                     }
                     for (int i = 0; i < gpuCount; i++) {
                         r = NvapiNativeMethods.NvGetBusID(handles[i], out int busId);
                         if (r != NvStatus.NVAPI_OK) {
-                            Write.DevError($"{nameof(NvapiNativeMethods.NvGetBusID)} {r}");
+                            Write.DevError($"{nameof(NvapiNativeMethods.NvGetBusID)} {r.ToString()}");
                         }
                         if (!_handlesByBusId.ContainsKey(busId)) {
                             _handlesByBusId.Add(busId, handles[i]);
@@ -109,7 +109,7 @@ namespace NTMiner.Gpus {
                     info.pstates[0].clocks[0].freqDelta_kHz.value = kHz;
                     var r = NvSetPStateV2(busId, ref info);
                     if (!r) {
-                        Write.DevError($"{nameof(SetCoreClock)} {r}");
+                        Write.DevError($"{nameof(SetCoreClock)} {r.ToString()}");
                     }
                 }
                 return false;
@@ -133,7 +133,7 @@ namespace NTMiner.Gpus {
 
                     var r = NvSetPStateV2(busId, ref info);
                     if (!r) {
-                        Write.DevError($"{nameof(SetMemoryClock)} {r}");
+                        Write.DevError($"{nameof(SetMemoryClock)} {r.ToString()}");
                     }
                 }
                 return false;
@@ -144,7 +144,7 @@ namespace NTMiner.Gpus {
         }
 
         public bool SetTempLimit(int busId, int value) {
-            value = value << 8;
+            value <<= 8;
             try {
                 if (!NvThermalPoliciesGetInfo(busId, out NvGpuThermalInfo info)) {
                     return false;
@@ -186,10 +186,8 @@ namespace NTMiner.Gpus {
         }
 
         public bool SetPowerValue(int busId, uint percentInt) {
-            uint minPower = 0, defPower = 0, maxPower = 0;
-
             try {
-                if (GetPowerPoliciesInfo(busId, out minPower, out defPower, out maxPower)) {
+                if (GetPowerPoliciesInfo(busId, out uint minPower, out uint defPower, out uint maxPower)) {
                     if (percentInt == 0) {
                         percentInt = defPower;
                     }
@@ -242,7 +240,7 @@ namespace NTMiner.Gpus {
         }
 
         public bool GetFanSpeed(int busId, out uint currCooler) {
-            if (GetCooler(busId, out uint minCooler, out currCooler, out uint maxCooler)) {
+            if (GetCooler(busId, out _, out currCooler, out _)) {
                 return true;
             }
             return false;
@@ -264,7 +262,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
                 var r = NvapiNativeMethods.NvPowerPoliciesSetStatus(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvPowerPoliciesSetStatus)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvPowerPoliciesSetStatus)} {r.ToString()}");
                 }
                 if (r == NvStatus.NVAPI_OK) {
                     return true;
@@ -330,7 +328,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1))));
                 var r = NvapiNativeMethods.NvGetPStateV1(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvGetPStateV1)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvGetPStateV1)} {r.ToString()}");
                     return false;
                 }
                 return true;
@@ -353,7 +351,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV2))));
                 var r = NvapiNativeMethods.NvGetPStateV2(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvGetPStateV2)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvGetPStateV2)} {r.ToString()}");
                     return false;
                 }
                 return true;
@@ -375,7 +373,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV2))));
                 var r = NvapiNativeMethods.NvSetPStateV2(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvSetPStateV2)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvSetPStateV2)} {r.ToString()}");
                 }
                 if (r == NvStatus.NVAPI_OK) {
                     return true;
@@ -398,7 +396,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1))));
                 var r = NvapiNativeMethods.NvSetPStateV1(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvSetPStateV1)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvSetPStateV1)} {r.ToString()}");
                 }
                 if (r == NvStatus.NVAPI_OK) {
                     return true;
@@ -422,7 +420,7 @@ namespace NTMiner.Gpus {
                 info.ClockType = type;
                 var r = NvapiNativeMethods.NvGetAllClockFrequenciesV2(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvGetAllClockFrequenciesV2)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvGetAllClockFrequenciesV2)} {r.ToString()}");
                 }
                 if (r == NvStatus.NVAPI_OK) {
                     return info;
@@ -460,7 +458,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalInfo))));
                 var r = NvapiNativeMethods.NvThermalPoliciesGetInfo(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvThermalPoliciesGetInfo)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvThermalPoliciesGetInfo)} {r.ToString()}");
                     return false;
                 }
                 return true;
@@ -482,7 +480,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalLimit))));
                 var r = NvapiNativeMethods.NvThermalPoliciesGetLimit(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvThermalPoliciesGetLimit)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvThermalPoliciesGetLimit)} {r.ToString()}");
                 }
                 if (r == NvStatus.NVAPI_OK) {
                     return info;
@@ -504,7 +502,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalLimit))));
                 var r = NvapiNativeMethods.NvThermalPoliciesSetLimit(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvThermalPoliciesSetLimit)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvThermalPoliciesSetLimit)} {r.ToString()}");
                 }
                 if (r == NvStatus.NVAPI_OK) {
                     return true;
@@ -548,11 +546,7 @@ namespace NTMiner.Gpus {
         }
 
         private void SetDefaultTempLimit(int busId) {
-            int currValue = 0;
-            int minValue = 0;
-            int defValue = 0;
-            int maxValue = 0;
-            if (GetTempLimit(busId, out currValue, out minValue, out defValue, out maxValue)) {
+            if (GetTempLimit(busId, out _, out _, out int defValue, out _)) {
                 SetTempLimit(busId, defValue);
             }
         }
@@ -569,7 +563,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus))));
                 var r = NvapiNativeMethods.NvPowerPoliciesGetStatus(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvPowerPoliciesGetStatus)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvPowerPoliciesGetStatus)} {r.ToString()}");
                     return false;
                 }
                 return true;
@@ -603,7 +597,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerInfo))));
                 var r = NvapiNativeMethods.NvPowerPoliciesGetInfo(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvPowerPoliciesGetInfo)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvPowerPoliciesGetInfo)} {r.ToString()}");
                     return false;
                 }
                 return true;
@@ -614,17 +608,13 @@ namespace NTMiner.Gpus {
         }
 
         private bool SetDefaultPowerLimit(int busId) {
-            uint currPower;
-            uint minPower;
-            uint defPower;
-            uint maxPower;
-            if (GetPowerLimit(busId, out currPower, out minPower, out defPower, out maxPower)) {
+            if (GetPowerLimit(busId, out _, out _, out uint defPower, out _)) {
                 return SetPowerValue(busId, defPower * 1000);
             }
             return false;
         }
 
-        private HashSet<int> _nvFanCoolersGetStatusNotSupporteds = new HashSet<int>();
+        private readonly HashSet<int> _nvFanCoolersGetStatusNotSupporteds = new HashSet<int>();
         private bool GetFanCoolersGetStatus(int busId, out PrivateFanCoolersStatusV1 info) {
             info = new PrivateFanCoolersStatusV1();
             if (NvapiNativeMethods.NvFanCoolersGetStatus == null) {
@@ -643,7 +633,7 @@ namespace NTMiner.Gpus {
                     if (r == NvStatus.NVAPI_NOT_SUPPORTED || r == NvStatus.NVAPI_FIRMWARE_REVISION_NOT_SUPPORTED) {
                         _nvFanCoolersGetStatusNotSupporteds.Add(busId);
                     }
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvFanCoolersGetStatus)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvFanCoolersGetStatus)} {r.ToString()}");
                     return false;
                 }
                 return true;
@@ -653,7 +643,7 @@ namespace NTMiner.Gpus {
             return false;
         }
 
-        private HashSet<int> _nvGetCoolerSettingsNotSupporteds = new HashSet<int>();
+        private readonly HashSet<int> _nvGetCoolerSettingsNotSupporteds = new HashSet<int>();
         private bool GetCoolerSettings(int busId, out NvCoolerSettings info) {
             info = new NvCoolerSettings();
             if (NvapiNativeMethods.NvGetCoolerSettings == null) {
@@ -673,7 +663,7 @@ namespace NTMiner.Gpus {
                     if (r == NvStatus.NVAPI_NOT_SUPPORTED || r == NvStatus.NVAPI_FIRMWARE_REVISION_NOT_SUPPORTED || r == NvStatus.NVAPI_GPU_NOT_POWERED) {
                         _nvGetCoolerSettingsNotSupporteds.Add(busId);
                     }
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvGetCoolerSettings)} {r.ToString()}");
                     return false;
                 }
                 return true;
@@ -695,7 +685,7 @@ namespace NTMiner.Gpus {
                 info.version = (uint)(VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersControlV1))));
                 var r = NvapiNativeMethods.NvFanCoolersGetControl(handle, ref info);
                 if (r != NvStatus.NVAPI_OK) {
-                    Write.DevError($"{nameof(NvapiNativeMethods.NvFanCoolersGetControl)} {r}");
+                    Write.DevError($"{nameof(NvapiNativeMethods.NvFanCoolersGetControl)} {r.ToString()}");
                     return false;
                 }
                 return true;
@@ -721,7 +711,7 @@ namespace NTMiner.Gpus {
                     info.coolers[0].currentPolicy = isAutoMode ? NvCoolerPolicy.NVAPI_COOLER_POLICY_AUTO : NvCoolerPolicy.NVAPI_COOLER_POLICY_MANUAL;
                     var r = NvapiNativeMethods.NvSetCoolerLevels(handle, coolerIndex, ref info);
                     if (r != NvStatus.NVAPI_OK) {
-                        Write.DevError($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r}");
+                        Write.DevError($"{nameof(NvapiNativeMethods.NvSetCoolerLevels)} {r.ToString()}");
                     }
                     else {
                         return true;
@@ -744,7 +734,7 @@ namespace NTMiner.Gpus {
                     }
                     var r = NvapiNativeMethods.NvFanCoolersSetControl(handle, ref info);
                     if (r != NvStatus.NVAPI_OK) {
-                        Write.DevError($"{nameof(NvapiNativeMethods.NvFanCoolersSetControl)} {r}");
+                        Write.DevError($"{nameof(NvapiNativeMethods.NvFanCoolersSetControl)} {r.ToString()}");
                         return false;
                     }
                     return true;

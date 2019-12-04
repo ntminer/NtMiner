@@ -39,10 +39,10 @@ namespace NTMiner {
         private static LiteDatabase GetDb() {
             string location = NTMinerRegistry.GetLocation();
             if (!string.IsNullOrEmpty(location)) {
-                string dbFile = Path.Combine(Path.GetDirectoryName(location), "local.litedb");
+                string dbFile = Path.Combine(Path.GetDirectoryName(location), NTKeyword.LocalDbFileName);
                 bool isDbFileExist = File.Exists(dbFile);
                 if (!isDbFileExist) {
-                    dbFile = Path.Combine(MainAssemblyInfo.TempDirFullName, "local.litedb");
+                    dbFile = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
                     isDbFileExist = File.Exists(dbFile);
                 }
                 if (!isDbFileExist) {

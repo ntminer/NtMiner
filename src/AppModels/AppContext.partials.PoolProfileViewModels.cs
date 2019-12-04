@@ -11,27 +11,29 @@ namespace NTMiner {
 
             private PoolProfileViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                EventPath<PoolProfilePropertyChangedEvent>("矿池设置变更后刷新VM内存", LogEnum.DevConsole,
+                AddEventPath<PoolProfilePropertyChangedEvent>("矿池设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.PoolId, out PoolProfileViewModel vm)) {
                             vm.OnPropertyChanged(message.PropertyName);
                         }
-                    });
-                VirtualRoot.EventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
-                    });
+                    }, location: this.GetType());
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private readonly object _locker = new object();
             public PoolProfileViewModel GetOrCreatePoolProfile(Guid poolId) {
-                PoolProfileViewModel poolProfile;
-                if (!_dicById.TryGetValue(poolId, out poolProfile)) {
+                if (!_dicById.TryGetValue(poolId, out PoolProfileViewModel poolProfile)) {
                     lock (_locker) {
                         if (!_dicById.TryGetValue(poolId, out poolProfile)) {
                             poolProfile = new PoolProfileViewModel(NTMinerRoot.Instance.MinerProfile.GetPoolProfile(poolId));

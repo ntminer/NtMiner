@@ -56,14 +56,12 @@ namespace NTMiner.Vms {
         public ICommand ShowKernelHelp { get; private set; }
 
         public ICommand Save { get; private set; }
-
-        public Action CloseWindow { get; set; }
         #endregion
 
         #region ctor
         // 供设计视图使用
         public KernelViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -83,17 +81,17 @@ namespace NTMiner.Vms {
 
         public KernelViewModel(Guid id) {
             _id = id;
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Instance.KernelSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.KernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddKernelCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this == Empty) {
@@ -105,22 +103,22 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.FullName}内核吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.Publish = new DelegateCommand(() => {
-                this.ShowDialog(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.Published;
                     this.PublishOn = Timestamp.GetTimestamp();
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.UnPublish = new DelegateCommand(() => {
-                this.ShowDialog(message: $"您确定取消发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定取消发布{this.Code} (v{this.Version})吗？", title: "确认", onYes: () => {
                     this.PublishState = PublishStatus.UnPublished;
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
-                }, icon: IconConst.IconConfirm);
+                }));
             });
             this.BrowsePackage = new DelegateCommand(() => {
                 OpenFileDialog openFileDialog = new OpenFileDialog {
@@ -278,8 +276,7 @@ namespace NTMiner.Vms {
                 if (this.BrandId == Guid.Empty) {
                     return SysDicItemViewModel.PleaseSelect;
                 }
-                SysDicItemViewModel item;
-                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out item)) {
+                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out SysDicItemViewModel item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;
@@ -370,7 +367,7 @@ namespace NTMiner.Vms {
         public List<CoinViewModel> SupportedCoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                foreach (var item in NTMinerRoot.Instance.CoinKernelSet.Where(a => a.KernelId == this.Id)) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.KernelId == this.Id)) {
                     if (AppContext.Instance.CoinVms.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
                         list.Add(coin);
                     }

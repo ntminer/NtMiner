@@ -18,12 +18,15 @@ namespace NTMiner.Vms {
             _isDualCoin = isDualCoin;
             _selectedResult = selected;
             OnOk = onOk;
-            if (_isDualCoin) {
-                this.AddWallet = _coin.CoinProfile.AddDualCoinWallet;
-            }
-            else {
-                this.AddWallet = _coin.CoinProfile.AddWallet;
-            }
+            this.AddWallet = new DelegateCommand(() => {
+                this.HideView.Execute(null);
+                if (_isDualCoin) {
+                    _coin.CoinProfile.AddDualCoinWallet.Execute(null);
+                }
+                else {
+                    _coin.CoinProfile.AddWallet.Execute(null);
+                }
+            });
         }
 
         public WalletViewModel SelectedResult {

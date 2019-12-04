@@ -15,9 +15,9 @@ namespace NTMiner {
 
             private GpuProfileViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
                             _listByCoinId.Clear();
@@ -28,54 +28,54 @@ namespace NTMiner {
                             coinVm.OnOverClockPropertiesChanges();
                             VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id));
                         }
-                    });
-                EventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
-                            List<GpuProfileViewModel> list;
-                            if (_listByCoinId.TryGetValue(message.Source.CoinId, out list)) {
-                                var vm = list.FirstOrDefault(a => a.Index == message.Source.Index);
+                            if (_listByCoinId.TryGetValue(message.Target.CoinId, out List<GpuProfileViewModel> list)) {
+                                var vm = list.FirstOrDefault(a => a.Index == message.Target.Index);
                                 if (vm != null) {
-                                    vm.Update(message.Source);
+                                    vm.Update(message.Target);
                                 }
                                 else {
-                                    if (AppContext.Instance.GpuVms.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
-                                        var item = new GpuProfileViewModel(message.Source, gpuVm);
+                                    if (AppContext.Instance.GpuVms.TryGetGpuVm(message.Target.Index, out GpuViewModel gpuVm)) {
+                                        var item = new GpuProfileViewModel(message.Target, gpuVm);
                                         list.Add(item);
                                         list.Sort(new CompareByGpuIndex());
                                         if (item.Index == NTMinerRoot.GpuAllId) {
-                                            _gpuAllVmDicByCoinId.Add(message.Source.CoinId, item);
+                                            _gpuAllVmDicByCoinId.Add(message.Target.CoinId, item);
                                         }
                                     }
                                 }
                             }
                             else {
                                 list = new List<GpuProfileViewModel>();
-                                if (AppContext.Instance.GpuVms.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
-                                    var item = new GpuProfileViewModel(message.Source, gpuVm);
+                                if (AppContext.Instance.GpuVms.TryGetGpuVm(message.Target.Index, out GpuViewModel gpuVm)) {
+                                    var item = new GpuProfileViewModel(message.Target, gpuVm);
                                     list.Add(item);
                                     list.Sort(new CompareByGpuIndex());
                                     if (item.Index == NTMinerRoot.GpuAllId) {
-                                        _gpuAllVmDicByCoinId.Add(message.Source.CoinId, item);
+                                        _gpuAllVmDicByCoinId.Add(message.Target.CoinId, item);
                                     }
                                 }
-                                _listByCoinId.Add(message.Source.CoinId, list);
+                                _listByCoinId.Add(message.Target.CoinId, list);
                             }
                         }
-                    });
+                    }, location: this.GetType());
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private readonly object _locker = new object();
             public GpuProfileViewModel GpuAllVm(Guid coinId) {
-                GpuProfileViewModel result;
-                if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out result)) {
+                if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out GpuProfileViewModel result)) {
                     lock (_locker) {
                         if (!_gpuAllVmDicByCoinId.TryGetValue(coinId, out result)) {
-                            GpuViewModel gpuVm;
-                            AppContext.Instance.GpuVms.TryGetGpuVm(NTMinerRoot.GpuAllId, out gpuVm);
+                            AppContext.Instance.GpuVms.TryGetGpuVm(NTMinerRoot.GpuAllId, out GpuViewModel gpuVm);
                             result = GetGpuProfileVm(coinId, gpuVm);
                             _gpuAllVmDicByCoinId.Add(coinId, result);
                         }
@@ -85,12 +85,11 @@ namespace NTMiner {
             }
 
             public List<GpuProfileViewModel> List(Guid coinId) {
-                List<GpuProfileViewModel> list;
-                if (!_listByCoinId.TryGetValue(coinId, out list)) {
+                if (!_listByCoinId.TryGetValue(coinId, out List<GpuProfileViewModel> list)) {
                     lock (_locker) {
                         if (!_listByCoinId.TryGetValue(coinId, out list)) {
                             list = new List<GpuProfileViewModel>();
-                            foreach (var gpu in AppContext.Instance.GpuVms) {
+                            foreach (var gpu in AppContext.Instance.GpuVms.Items) {
                                 GpuProfileViewModel gpuProfileVm = GetGpuProfileVm(coinId, gpu);
                                 list.Add(gpuProfileVm);
                             }

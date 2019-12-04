@@ -7,11 +7,14 @@ namespace NTMiner.Vms {
 
         private GpuStatusBarViewModel() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-            this.GpuAllVm = AppContext.Instance.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
+            this.GpuAllVm = AppContext.Instance.GpuVms.Items.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
 #endif
         }
 
@@ -74,7 +77,7 @@ namespace NTMiner.Vms {
 
         public string GpuCountText {
             get {
-                return $"x{NTMinerRoot.Instance.GpuSet.Count}";
+                return $"x{NTMinerRoot.Instance.GpuSet.Count.ToString()}";
             }
         }
     }

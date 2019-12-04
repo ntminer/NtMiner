@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner;
+using System;
 using System.Runtime.InteropServices;
 
 namespace HardwareProviders.CPU {
@@ -136,7 +137,7 @@ namespace HardwareProviders.CPU {
         }
 
         protected static class NativeMethods {
-            [DllImport("ntdll.dll")]
+            [DllImport(DllName.NtdllDll)]
             public static extern int NtQuerySystemInformation(
                 SystemInformationClass informationClass,
                 [Out] SystemProcessorPerformanceInformation[] informations,

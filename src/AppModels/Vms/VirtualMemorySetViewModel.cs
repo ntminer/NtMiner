@@ -1,11 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Vms {
-    public class VirtualMemorySetViewModel : ViewModelBase, IEnumerable<VirtualMemoryViewModel> {
+    public class VirtualMemorySetViewModel : ViewModelBase {
         public static readonly VirtualMemorySetViewModel Instance = new VirtualMemorySetViewModel();
 
         private readonly Dictionary<string, VirtualMemoryViewModel> _dic = new Dictionary<string, VirtualMemoryViewModel>(StringComparer.OrdinalIgnoreCase);
@@ -13,7 +12,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<string, VirtualMemoryViewModel> _initialVms = new Dictionary<string, VirtualMemoryViewModel>(StringComparer.OrdinalIgnoreCase);
         private VirtualMemorySetViewModel() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
@@ -28,7 +27,10 @@ namespace NTMiner.Vms {
             }
             NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
 #endif
         }
 
@@ -49,7 +51,7 @@ namespace NTMiner.Vms {
         }
 
 
-        public int TotalVirtualMemoryGb {
+        public double TotalVirtualMemoryGb {
             get {
                 return _dic.Values.Sum(a => a.MaxSizeGb);
             }
@@ -57,7 +59,7 @@ namespace NTMiner.Vms {
 
         public string TotalVirtualMemoryGbText {
             get {
-                return TotalVirtualMemoryGb + " G";
+                return TotalVirtualMemoryGb.ToString("f1") + " G";
             }
         }
 
@@ -88,14 +90,12 @@ namespace NTMiner.Vms {
 
         private VirtualMemoryViewModel Parse(string vmReg) {
             string driveName;
-            int minsize = 0;
-            int maxsize = 0;
             try {
                 string[] strarr = vmReg.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
                 if (strarr.Length == 3) {
                     driveName = strarr[0].Substring(0, 3);
-                    minsize = Convert.ToInt32(strarr[1]);
-                    maxsize = Convert.ToInt32(strarr[2]);
+                    int minsize = Convert.ToInt32(strarr[1]);
+                    int maxsize = Convert.ToInt32(strarr[2]);
                     return new VirtualMemoryViewModel(driveName, maxsize);
                 }
                 return null;
@@ -132,12 +132,10 @@ namespace NTMiner.Vms {
             return _dic.ContainsKey(driveName);
         }
 
-        public IEnumerator<VirtualMemoryViewModel> GetEnumerator() {
-            return _dic.Values.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return _dic.Values.GetEnumerator();
+        public IEnumerable<VirtualMemoryViewModel> Items {
+            get {
+                return _dic.Values;
+            }
         }
     }
 }

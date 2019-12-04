@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
         private readonly KernelMenu _uninstallKernelMenu = new KernelMenu("卸载", "Icon_Delete");
 
         public KernelsWindowViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.ChangeCurrentKernelMenu = new DelegateCommand<KernelMenu>((kernelMenu) => {
@@ -56,10 +56,10 @@ namespace NTMiner.Vms {
                 Keyword = string.Empty;
             });
             this.PageSub = new DelegateCommand(() => {
-                this.PageNumber = this.PageNumber - 1;
+                this.PageNumber -= 1;
             });
             this.PageAdd = new DelegateCommand(() => {
-                this.PageNumber = this.PageNumber + 1;
+                this.PageNumber += 1;
             });
             this.ShowPackages = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowPackagesWindowCommand());
@@ -197,7 +197,7 @@ namespace NTMiner.Vms {
         public List<KernelViewModel> QueryResults {
             get {
                 IQueryable<KernelViewModel> query = AppContext.Instance.KernelVms.AllKernels.AsQueryable();
-                if (!Design.IsDevMode) {
+                if (!WpfUtil.IsDevMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }
                 if (!string.IsNullOrEmpty(Keyword)) {

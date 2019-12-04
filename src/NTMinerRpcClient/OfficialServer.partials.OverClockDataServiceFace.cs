@@ -2,48 +2,44 @@
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class OfficialServer {
-        public class CalcConfigServiceFace {
-            public static readonly CalcConfigServiceFace Instance = new CalcConfigServiceFace();
-            private static readonly string SControllerName = ControllerUtil.GetControllerName<IControlCenterController>();
+        public class OverClockDataServiceFace {
+            public static readonly OverClockDataServiceFace Instance = new OverClockDataServiceFace();
+            private static readonly string SControllerName = ControllerUtil.GetControllerName<IOverClockDataController>();
 
-            private CalcConfigServiceFace() { }
+            private OverClockDataServiceFace() { }
 
-            #region GetCalcConfigsAsync
-            public void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        CalcConfigsRequest request = new CalcConfigsRequest {
-                        };
-                        PostAsync(SControllerName, nameof(IControlCenterController.CalcConfigs), null, request, (DataResponse<List<CalcConfigData>> response, Exception e) => {
-                            if (response.IsSuccess()) {
-                                callback?.Invoke(response.Data);
-                            }
-                            else {
-                                callback?.Invoke(new List<CalcConfigData>());
-                            }
-                        }, timeountMilliseconds: 10 * 1000);
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(new List<CalcConfigData>());
-                        Logger.ErrorDebugLine(e);
-                    }
-                });
+            #region GetOverClockDatasAsync
+            public void GetOverClockDatasAsync(Action<DataResponse<List<OverClockData>>, Exception> callback) {
+                try {
+                    OverClockDatasRequest request = new OverClockDatasRequest {
+                    };
+                    PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), null, request, callback);
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                    callback?.Invoke(null, e);
+                }
             }
             #endregion
 
-            #region SaveCalcConfigsAsync
-            public void SaveCalcConfigsAsync(List<CalcConfigData> configs, Action<ResponseBase, Exception> callback) {
-                if (configs == null || configs.Count == 0) {
-                    return;
-                }
-                SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
-                    Data = configs
+            #region AddOrUpdateOverClockDataAsync
+            public void AddOrUpdateOverClockDataAsync(OverClockData entity, Action<ResponseBase, Exception> callback) {
+                DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
+                    Data = entity
                 };
-                PostAsync(SControllerName, nameof(IControlCenterController.SaveCalcConfigs), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+            }
+            #endregion
+
+            #region RemoveOverClockDataAsync
+            public void RemoveOverClockDataAsync(Guid id, Action<ResponseBase, Exception> callback) {
+                DataRequest<Guid> request = new DataRequest<Guid>() {
+                    Data = id
+                };
+                PostAsync(SControllerName, nameof(IOverClockDataController.RemoveOverClockData), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
             }
             #endregion
         }

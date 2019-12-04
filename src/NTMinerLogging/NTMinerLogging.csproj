@@ -11,7 +11,7 @@
     <AssemblyName>NTMinerLogging</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,16 +38,17 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DllName.cs" />
     <Compile Include="MainAssemblyInfo.cs" />
     <Compile Include="LogEnum.cs" />
     <Compile Include="NTMinerConsole.cs" />
     <Compile Include="DevMode.cs" />
     <Compile Include="ExceptionExtension.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="Logging\ILoggingService.cs" />
-    <Compile Include="Logging\Log4NetLoggingService.cs" />
-    <Compile Include="Logging\LogDir.cs" />
+    <Compile Include="ILoggingService.cs" />
+    <Compile Include="Impl\Log4NetLoggingService.cs" />
     <Compile Include="MessageType.cs" />
+    <Compile Include="NTStopwatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Write.cs" />
   </ItemGroup>

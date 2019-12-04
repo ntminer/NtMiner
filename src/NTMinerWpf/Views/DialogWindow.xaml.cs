@@ -1,4 +1,4 @@
-﻿using NTMiner.Wpf;
+﻿using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -6,71 +6,52 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : BlankWindow {
-        public static void ShowDialog(string icon = null,
-            string title = null,
-            string message = null,
-            string helpUrl = null,
-            Action onYes = null,
-            Func<bool> onNo = null,
-            string yesText = null,
-            string noText = null) {
-            Window window = new DialogWindow(icon, title, message, helpUrl, onYes, onNo, yesText, noText);
+        public static void ShowSoftDialog(DialogWindowViewModel vm) {
+            Window window = new DialogWindow(vm);
             window.MousePosition();
-            window.ShowDialogEx();
+            window.ShowSoftDialog();
         }
 
-        private readonly Action _onYes;
-        private readonly Func<bool> _onNo;
-        private readonly string _helpUrl;
-        private DialogWindow(
-            string icon, 
-            string title, 
-            string message, 
-            string helpUrl,
-            Action onYes,
-            Func<bool> onNo,
-            string yesText = null,
-            string noText = null) {
-            _helpUrl = helpUrl;
+        public DialogWindowViewModel Vm {
+            get {
+                return (DialogWindowViewModel)this.DataContext;
+            }
+        }
+
+        private DialogWindow(DialogWindowViewModel vm) {
+            this.DataContext = vm;
+            this.Title = vm.Title;
             InitializeComponent();
-            if (!string.IsNullOrEmpty(yesText)) {
-                this.yesText.Text = yesText;
-            }
-            if (!string.IsNullOrEmpty(noText)) {
-                this.noText.Text = noText;
-            }
-            if (!string.IsNullOrEmpty(helpUrl)) {
-                this.BtnHelp.Visibility = Visibility.Visible;
-            }
-            this.TextBlockTitle.Text = title;
-            this.TextBlockMessage.Text = message;
-            if (!string.IsNullOrEmpty(icon) && Application.Current.Resources.Contains(icon)) {
-                this.Resources["Icon"] = Application.Current.Resources[icon];
+            if (!string.IsNullOrEmpty(vm.Icon) && Application.Current.Resources.Contains(vm.Icon)) {
+                this.Resources["Icon"] = Application.Current.Resources[vm.Icon];
             }
 
-            var owner = TopWindow.GetTopWindow();
+            var owner = WpfUtil.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
-            }
-            _onYes = onYes;
-            _onNo = onNo;
-            if (onYes != null || onNo != null) {
-                this.BtnOk.Visibility = Visibility.Collapsed;
-            }
-            if (onYes == null && onNo == null) {
-                this.BtnYes.Visibility = Visibility.Collapsed;
-                this.BtnNo.Visibility = Visibility.Collapsed;
             }
         }
 
         private void KbYesButton_Click(object sender, RoutedEventArgs e) {
-            _onYes?.Invoke();
+            Vm.OnYes?.Invoke();
             this.Close();
         }
 
         private void KbNoButton_Click(object sender, RoutedEventArgs e) {
-            if (_onNo != null) {
-                if (_onNo.Invoke()) {
+            if (Vm.OnNo != null) {
+                if (Vm.IsConfirmNo && !Vm.NoText.StartsWith("请再点一次")) {
+                    string noText = Vm.NoText;
+                    TimeSpan.FromSeconds(4).Delay(perSecondCallback: n => {
+                        UIThread.Execute(() => {
+                            Vm.NoText = $"请再点一次({n.ToString()})";
+                        });
+                    }).ContinueWith(t => {
+                        UIThread.Execute(() => {
+                            Vm.NoText = noText;
+                        });
+                    });
+                }
+                else if (Vm.OnNo.Invoke()) {
                     this.Close();
                 }
             }
@@ -90,8 +71,8 @@ namespace NTMiner.Views {
         }
 
         private void Help_Click(object sender, RoutedEventArgs e) {
-            if (!string.IsNullOrEmpty(_helpUrl)) {
-                Process.Start(_helpUrl);
+            if (!string.IsNullOrEmpty(Vm.HelpUrl)) {
+                Process.Start(Vm.HelpUrl);
             }
         }
     }

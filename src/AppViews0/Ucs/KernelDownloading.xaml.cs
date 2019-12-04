@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
     public partial class KernelDownloading : UserControl {
         public static void ShowWindow(Guid kernelId, Action<bool, string> downloadComplete) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Title = "下载挖矿内核",
                 IconName = "Icon_Download",
                 Width = 294,
@@ -20,16 +20,15 @@ namespace NTMiner.Views.Ucs {
                 };
                 return uc;
             },
-            beforeShow: uc=> {
+            beforeShow: (window, uc) => {
                 if (kernelId != Guid.Empty) {
-                    var vm = (KernelDownloadingViewModel)uc.DataContext;
-                    vm.Download(kernelId, (isSuccess, message) => {
+                    uc.Vm.Download(kernelId, (isSuccess, message) => {
                         if (isSuccess) {
-                            ((KernelDownloading)uc).CloseWindow();
+                            uc.CloseWindow();
                         }
                         downloadComplete(isSuccess, message);
                     });
-                    vm.OnPropertyChanged(nameof(vm.DownloadingVms));
+                    uc.Vm.OnPropertyChanged(nameof(uc.Vm.DownloadingVms));
                 }
             }, fixedSize: true);
         }

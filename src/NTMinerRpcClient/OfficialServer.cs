@@ -10,15 +10,23 @@ using System.Web;
 namespace NTMiner {
     public static partial class OfficialServer {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
+        public const string NTMinerBucket = "https://ntminer.oss-cn-beijing.aliyuncs.com/";
         public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
         public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
-        public static readonly CalcConfigServiceFace CalcConfigService = CalcConfigServiceFace.Instance;
+        public static readonly NTMinerWalletServiceFace NTMinerWalletService = NTMinerWalletServiceFace.Instance;
+        public static readonly KernelOutputKeywordServiceFace KernelOutputKeywordService = KernelOutputKeywordServiceFace.Instance;
+        public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
+        public static readonly ServerMessageServiceFace ServerMessageService = ServerMessageServiceFace.Instance;
 
         public static string SignatureSafeUrl(Uri uri) {
+            // https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=
+            // Signature的值长度是28
             string url = uri.ToString();
-            if (url.Length > MinerJsonBucket.Length) {
-                string signature = url.Substring(url.Length - MinerJsonBucket.Length);
-                return url.Substring(0, url.Length - MinerJsonBucket.Length) + HttpUtility.UrlEncode(signature);
+            const string keyword = "Signature=";
+            int index = url.IndexOf(keyword);
+            if (index != -1) {
+                string signature = url.Substring(index + keyword.Length, 28);
+                return url.Substring(0, index) + keyword + HttpUtility.UrlEncode(signature) + url.Substring(index + keyword.Length + 28);
             }
             return url;
         }
@@ -35,8 +43,8 @@ namespace NTMiner {
                         if (query != null && query.Count != 0) {
                             queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                         }
-                        Task<HttpResponseMessage> message = client.PostAsJsonAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{VirtualRoot.ControlCenterPort}/api/{controller}/{action}{queryString}", param);
-                        T response = message.Result.Content.ReadAsAsync<T>().Result;
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}", param);
+                        T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
                 }
@@ -55,13 +63,13 @@ namespace NTMiner {
                             queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));
                         }
 
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{MainAssemblyInfo.OfficialServerHost}:{VirtualRoot.ControlCenterPort}/api/{controller}/{action}{queryString}");
-                        T response = message.Result.Content.ReadAsAsync<T>().Result;
+                        Task<HttpResponseMessage> getHttpResponse = client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}");
+                        T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
                 }
                 catch (Exception e) {
-                    callback?.Invoke(default(T), e);
+                    callback?.Invoke(default, e);
                 }
             });
         }
@@ -74,23 +82,42 @@ namespace NTMiner {
         }
 
         #region GetJsonFileVersionAsync
-        public static void GetJsonFileVersionAsync(string key, Action<string, string> callback) {
+        public static void GetJsonFileVersionAsync(string key, Action<ServerState> callback) {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
             PostAsync("AppSetting", nameof(IAppSettingController.GetJsonFileVersion), null, request, (string text, Exception e) => {
                 string jsonFileVersion = string.Empty;
                 string minerClientVersion = string.Empty;
+                ulong time = Timestamp.GetTimestamp();
+                ulong messageTimestamp = 0;
+                ulong kernelOutputKeywordTimestamp = 0;
                 if (!string.IsNullOrEmpty(text)) {
-                    string[] parts = text.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    text = text.Trim();
+                    string[] parts = text.Split(new char[] { '|' });
                     if (parts.Length > 0) {
                         jsonFileVersion = parts[0];
                     }
                     if (parts.Length > 1) {
                         minerClientVersion = parts[1];
                     }
+                    if (parts.Length > 2) {
+                        ulong.TryParse(parts[2], out time);
+                    }
+                    if (parts.Length > 3) {
+                        ulong.TryParse(parts[3], out messageTimestamp);
+                    }
+                    if (parts.Length > 4) {
+                        ulong.TryParse(parts[4], out kernelOutputKeywordTimestamp);
+                    }
                 }
-                callback?.Invoke(jsonFileVersion, minerClientVersion);
+                callback?.Invoke(new ServerState {
+                    JsonFileVersion = jsonFileVersion,
+                    MinerClientVersion = minerClientVersion,
+                    Time = time,
+                    MessageTimestamp = messageTimestamp,
+                    OutputKeywordTimestamp = kernelOutputKeywordTimestamp
+                });
             }, timeountMilliseconds: 10 * 1000);
         }
         #endregion

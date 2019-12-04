@@ -15,27 +15,28 @@ namespace NTMiner.Vms {
         private string _timeText;
         private string _dateText;
         private string _localIps;
-        private DateTime _now = DateTime.MinValue;
+        private readonly DateTime _bootTime = DateTime.MinValue;
         private string _cpuPerformanceText = "0 %";
         private string _cpuTemperatureText = "0 ℃";
 
-
-        public ICommand ConfigControlCenterHost { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
 
         public StateBarViewModel() {
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             UpdateDateTime();
-            this.ConfigControlCenterHost = new DelegateCommand(() => {
-                VirtualRoot.Execute(new ShowControlCenterHostConfigCommand());
-            });
             this.WindowsAutoLogon = new DelegateCommand(() => {
+                if (IsAutoAdminLogon) {
+                    return;
+                }
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
             });
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
+                if (IsRemoteDesktopEnabled) {
+                    return;
+                }
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
             _localIps = GetLocalIps();
@@ -87,10 +88,10 @@ namespace NTMiner.Vms {
 
         public void UpdateDateTime() {
             DateTime now = DateTime.Now;
-            if (_now.Minute != now.Minute || _now == DateTime.MinValue) {
+            if (_bootTime.Minute != now.Minute || _bootTime == DateTime.MinValue) {
                 this.TimeText = now.ToString("H:mm");
             }
-            if (_now.Hour != now.Hour || _now == DateTime.MinValue) {
+            if (_bootTime.Hour != now.Hour || _bootTime == DateTime.MinValue) {
                 this.DateText = now.ToString("yyyy/M/d");
             }
         }
@@ -118,11 +119,11 @@ namespace NTMiner.Vms {
         private string GetLocalIps() {
             StringBuilder sb = new StringBuilder();
             int len = sb.Length;
-            foreach (var localIp in VirtualRoot.LocalIpSet) {
+            foreach (var localIp in VirtualRoot.LocalIpSet.AsEnumerable()) {
                 if (len != sb.Length) {
                     sb.Append("，");
                 }
-                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(dhcp)" : "🔒");
+                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(动态)" : "🔒");
             }
             return sb.ToString();
         }
@@ -136,7 +137,7 @@ namespace NTMiner.Vms {
                 CheckUpdateForeground = (SolidColorBrush)Application.Current.Resources["LableColor"];
             }
             else {
-                CheckUpdateForeground = Wpf.Util.RedBrush;
+                CheckUpdateForeground = WpfUtil.RedBrush;
             }
         }
 
@@ -152,7 +153,7 @@ namespace NTMiner.Vms {
 
         public string KernelSelfRestartCountText {
             get {
-                var mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                var mineContext = NTMinerRoot.Instance.LockedMineContext;
                 if (mineContext == null || mineContext.KernelSelfRestartCount <= 0) {
                     return string.Empty;
                 }
@@ -169,7 +170,7 @@ namespace NTMiner.Vms {
             get {
                 TimeSpan time = new TimeSpan(this._bootTimeSpan.Hours, this._bootTimeSpan.Minutes, this._bootTimeSpan.Seconds);
                 if (this._bootTimeSpan.Days > 0) {
-                    return $"{this._bootTimeSpan.Days}天{time.ToString()}";
+                    return $"{this._bootTimeSpan.Days.ToString()}天{time.ToString()}";
                 }
                 else {
                     return time.ToString();
@@ -191,7 +192,7 @@ namespace NTMiner.Vms {
             get {
                 TimeSpan time = new TimeSpan(this._mineTimeSpan.Hours, this._mineTimeSpan.Minutes, this._mineTimeSpan.Seconds);
                 if (this._mineTimeSpan.Days > 0) {
-                    return $"{this._mineTimeSpan.Days}天{time.ToString(@"hh\:mm")}";
+                    return $"{this._mineTimeSpan.Days.ToString()}天{time.ToString(@"hh\:mm")}";
                 }
                 else {
                     return time.ToString(@"hh\:mm");

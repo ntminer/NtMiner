@@ -7,23 +7,18 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "组",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 380,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Group"
             }, ucFactory: (window) =>
             {
-                GroupViewModel vm = new GroupViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                GroupViewModel vm = new GroupViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(GroupEdit));
                 return new GroupEdit(vm);
             }, fixedSize: true);
-        }
-
-        private GroupViewModel Vm {
-            get {
-                return (GroupViewModel)this.DataContext;
-            }
         }
 
         public GroupEdit(GroupViewModel vm) {

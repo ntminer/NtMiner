@@ -11,7 +11,7 @@
     <AssemblyName>NTMinerWpf</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <Deterministic>true</Deterministic>
+    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -42,12 +42,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
+    <Compile Include="CloseWindowCommand.cs" />
     <Compile Include="ColorMapper.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
     <Compile Include="Controls\IpAddressControl.xaml.cs">
       <DependentUpon>IpAddressControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BoolToBrushInvertConverter.cs" />
     <Compile Include="Converters\BoolToStreamGeometryConverter.cs" />
+    <Compile Include="ViewModelExtension.cs" />
+    <Compile Include="Views\ContainerWindow.xaml.cs">
+      <DependentUpon>ContainerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\Icons.xaml.cs">
+      <DependentUpon>Icons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vms\ContainerWindowViewModel.cs" />
+    <Compile Include="Vms\DialogWindowViewModel.cs" />
+    <Compile Include="Vms\IconsViewModel.cs" />
     <Compile Include="Vms\IpAddressControlViewModel.cs" />
     <Compile Include="Controls\IPRangeValidationRule.cs" />
     <Compile Include="Controls\KbButton.cs" />
@@ -81,9 +93,7 @@
     <Compile Include="Converters\VisibilityInvertConverter.cs" />
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="DelegateCommand`1.cs" />
-    <Compile Include="Design.cs" />
     <Compile Include="HotKeyUtil.cs" />
-    <Compile Include="IconConst.cs" />
     <Compile Include="SystemHotKey.cs" />
     <Compile Include="UIThread.cs" />
     <Compile Include="Notifications\ContentLocation.cs" />
@@ -102,7 +112,7 @@
     <Compile Include="Notifications\NotificationMessageManagerEventArgs.cs" />
     <Compile Include="Notifications\NotificationMessageManagerEventHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Views\IMaskWindow.cs" />
+    <Compile Include="IMaskWindow.cs" />
     <Compile Include="Views\InputWindow.xaml.cs">
       <DependentUpon>InputWindow.xaml</DependentUpon>
     </Compile>
@@ -111,12 +121,11 @@
     </Compile>
     <Compile Include="Vms\ServerHostSelectViewModel.cs" />
     <Compile Include="Vms\ServerHostItem.cs" />
-    <Compile Include="ViewModelExtension.cs" />
     <Compile Include="WindowExtension.cs" />
+    <Compile Include="Win32MessageProc.cs" />
     <Compile Include="WindowsShortcut.cs" />
-    <Compile Include="Wpf\DataGridExtesnsion.cs" />
-    <Compile Include="Wpf\NativeMethods.cs" />
-    <Compile Include="Wpf\TopWindow.cs" />
+    <Compile Include="DataGridExtesnsion.cs" />
+    <Compile Include="NativeMethods.cs" />
     <Compile Include="Views\NotiCenterWindow.xaml.cs">
       <DependentUpon>NotiCenterWindow.xaml</DependentUpon>
     </Compile>
@@ -132,8 +141,7 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Wpf\WindowExtensions.cs" />
-    <Compile Include="Wpf\Util.cs" />
+    <Compile Include="WpfUtil.cs" />
     <Compile Include="Controls\BindingProxy.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -161,7 +169,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\KbIcon.xaml">
+    <Page Include="Styles\KbIcons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -170,6 +178,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\KbTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ContainerWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\DialogWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -186,6 +202,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\LoginWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\Icons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -216,13 +236,13 @@
       <Project>{b7107a67-a76e-4313-8c5b-3265dde238b6}</Project>
       <Name>BlankWindow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerBus\NTMinerBus.csproj">
-      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
-      <Name>NTMinerBus</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
       <Name>NTMinerDataObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
+      <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
+      <Name>NTMinerHub</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerlib\NTMinerlib.csproj">
       <Project>{5d0f2719-83fd-40fc-8f65-85ebb891bc13}</Project>
@@ -247,6 +267,9 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Styles\Images\aojiang.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

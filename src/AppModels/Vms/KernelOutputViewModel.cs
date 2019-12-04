@@ -46,16 +46,12 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
-        public ICommand AddKernelOutputFilter { get; private set; }
-
         public ICommand AddKernelOutputTranslater { get; private set; }
 
         public ICommand ClearTranslaterKeyword { get; private set; }
 
-        public Action CloseWindow { get; set; }
-
         public KernelOutputViewModel() {
-            if (!Design.IsInDesignMode) {
+            if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
             }
         }
@@ -96,13 +92,13 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.KernelOutputSet.Contains(this.Id)) {
+                if (NTMinerRoot.Instance.ServerContext.KernelOutputSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelOutputCommand(this));
                 }
                 else {
                     VirtualRoot.Execute(new AddKernelOutputCommand(this));
                 }
-                CloseWindow?.Invoke();
+                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -114,14 +110,9 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                this.ShowDialog(message: $"您确定删除{this.Name}内核输出吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Name}内核输出吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RemoveKernelOutputCommand(this.Id));
-                }, icon: IconConst.IconConfirm);
-            });
-            this.AddKernelOutputFilter = new DelegateCommand(() => {
-                new KernelOutputFilterViewModel(Guid.NewGuid()) {
-                    KernelOutputId = this.Id
-                }.Edit.Execute(FormType.Add);
+                }));
             });
             this.AddKernelOutputTranslater = new DelegateCommand(() => {
                 int sortNumber = this.KernelOutputTranslaters.Count == 0 ? 1 : this.KernelOutputTranslaters.Count + 1;
@@ -135,9 +126,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        public List<KernelOutputFilterViewModel> KernelOutputFilters {
+        public List<KernelOutputKeywordViewModel> KernelOutputKeywords {
             get {
-                return new List<KernelOutputFilterViewModel>(AppContext.Instance.KernelOutputFilterVms.GetListByKernelId(this.Id));
+                return new List<KernelOutputKeywordViewModel>(AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.Id).OrderBy(a => a.Keyword));
             }
         }
 
@@ -166,11 +157,11 @@ namespace NTMiner.Vms {
         public string GroupNames {
             get {
                 return string.Join("、", new string[] {
-                    VirtualRoot.TotalSpeedGroupName, VirtualRoot.TotalSpeedUnitGroupName,
-                    VirtualRoot.TotalShareGroupName, VirtualRoot.AcceptShareGroupName,
-                    VirtualRoot.RejectShareGroupName, VirtualRoot.RejectPercentGroupName,
-                    VirtualRoot.GpuIndexGroupName, VirtualRoot.GpuSpeedGroupName,
-                    VirtualRoot.GpuSpeedUnitGroupName, VirtualRoot.PoolDelayGroupName
+                    NTKeyword.TotalSpeedGroupName, NTKeyword.TotalSpeedUnitGroupName,
+                    NTKeyword.TotalShareGroupName, NTKeyword.AcceptShareGroupName,
+                    NTKeyword.RejectShareGroupName, NTKeyword.RejectPercentGroupName,
+                    NTKeyword.GpuIndexGroupName, NTKeyword.GpuSpeedGroupName,
+                    NTKeyword.GpuSpeedUnitGroupName, NTKeyword.PoolDelayGroupName
                 });
             }
         }

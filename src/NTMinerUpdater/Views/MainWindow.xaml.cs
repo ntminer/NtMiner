@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using System;
 using System.Windows;
 
 namespace NTMiner.Views {
@@ -12,9 +11,7 @@ namespace NTMiner.Views {
 
         public MainWindow() {
             InitializeComponent();
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += changeNotiCenterWindowLocation;
+            NotiCenterWindow.Bind(this);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) {

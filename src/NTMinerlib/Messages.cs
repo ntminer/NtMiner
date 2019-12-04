@@ -1,25 +1,13 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Hub;
+using NTMiner.Core;
+using NTMiner.MinerClient;
+using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 
 namespace NTMiner {
 
     #region abstract
-    public abstract class DomainEvent<TEntity> : IEvent {
-        protected DomainEvent(TEntity source) {
-            this.Id = Guid.NewGuid();
-            this.Source = source;
-            this.Timestamp = DateTime.Now;
-        }
-        public Guid GetId() {
-            return this.Id;
-        }
-
-        public Guid Id { get; private set; }
-        public DateTime Timestamp { get; private set; }
-        public TEntity Source { get; private set; }
-    }
-
     public abstract class AddEntityCommand<TEntity> : Cmd where TEntity : class, IEntity<Guid> {
         protected AddEntityCommand(TEntity input) {
             this.Input = input ?? throw new ArgumentNullException(nameof(input));
@@ -55,8 +43,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "设置ServerAppSetting")]
-    public class ChangeServerAppSettingCommand : Cmd {
-        public ChangeServerAppSettingCommand(IAppSetting appSetting) {
+    public class SetServerAppSettingCommand : Cmd {
+        public SetServerAppSettingCommand(IAppSetting appSetting) {
             this.AppSetting = appSetting;
         }
 
@@ -66,8 +54,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "设置ServerAppSetting")]
-    public class ChangeServerAppSettingsCommand : Cmd {
-        public ChangeServerAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
+    public class SetServerAppSettingsCommand : Cmd {
+        public SetServerAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
             this.AppSettings = appSettings;
         }
 
@@ -77,14 +65,14 @@ namespace NTMiner {
     }
 
     [MessageType(description: "ServerAppSetting变更后")]
-    public class ServerAppSettingChangedEvent : DomainEvent<IAppSetting> {
-        public ServerAppSettingChangedEvent(IAppSetting source) : base(source) {
+    public class ServerAppSettingSetedEvent : DomainEvent<IAppSetting> {
+        public ServerAppSettingSetedEvent(Guid bornPathId, IAppSetting source) : base(bornPathId, source) {
         }
     }
 
     [MessageType(description: "设置LocalAppSetting")]
-    public class ChangeLocalAppSettingCommand : Cmd {
-        public ChangeLocalAppSettingCommand(IAppSetting appSetting) {
+    public class SetLocalAppSettingCommand : Cmd {
+        public SetLocalAppSettingCommand(IAppSetting appSetting) {
             this.AppSetting = appSetting;
         }
 
@@ -94,8 +82,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "设置LocalAppSetting")]
-    public class ChangeLocalAppSettingsCommand : Cmd {
-        public ChangeLocalAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
+    public class SetLocalAppSettingsCommand : Cmd {
+        public SetLocalAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
             this.AppSettings = appSettings;
         }
 
@@ -104,14 +92,14 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "本机IP集刷新后")]
-    public class LocalIpSetRefreshedEvent : EventBase {
-        public LocalIpSetRefreshedEvent() { }
+    [MessageType(description: "本机IP集初始化后")]
+    public class LocalIpSetInitedEvent : EventBase {
+        public LocalIpSetInitedEvent() { }
     }
 
     [MessageType(description: "LocalAppSetting变更后")]
     public class LocalAppSettingChangedEvent : DomainEvent<IAppSetting> {
-        public LocalAppSettingChangedEvent(IAppSetting source) : base(source) {
+        public LocalAppSettingChangedEvent(Guid bornPathId, IAppSetting source) : base(bornPathId, source) {
         }
     }
 
@@ -120,4 +108,154 @@ namespace NTMiner {
         public UserActionEvent() {
         }
     }
+
+    [MessageType(description: "设置本机Ip")]
+    public class SetLocalIpCommand : Cmd {
+        public SetLocalIpCommand(ILocalIp input, bool isAutoDNSServer) {
+            this.Input = input;
+            this.IsAutoDNSServer = isAutoDNSServer;
+        }
+
+        public ILocalIp Input { get; private set; }
+        public bool IsAutoDNSServer { get; private set; }
+    }
+
+    #region KernelOutputKeyword Messages
+    [MessageType(description: "添加或修改内核输出关键字")]
+    public class AddOrUpdateKernelOutputKeywordCommand : Cmd {
+        public AddOrUpdateKernelOutputKeywordCommand(IKernelOutputKeyword input) {
+            this.Input = input;
+        }
+
+        public IKernelOutputKeyword Input { get; private set; }
+    }
+
+    [MessageType(description: "添加了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordAddedEvent(Guid bornPathId, IKernelOutputKeyword source) : base(bornPathId, source) {
+        }
+    }
+
+    [MessageType(description: "更新了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordUpdatedEvent(Guid bornPathId, IKernelOutputKeyword source) : base(bornPathId, source) {
+        }
+    }
+
+    [MessageType(description: "移除内核输出关键字")]
+    public class RemoveKernelOutputKeywordCommand : RemoveEntityCommand {
+        public RemoveKernelOutputKeywordCommand(Guid entityId) : base(entityId) {
+        }
+    }
+
+    [MessageType(description: "移除了用户自定义内核输出关键字后")]
+    public class UserKernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
+        public UserKernelOutputKeywordRemovedEvent(Guid bornPathId, IKernelOutputKeyword source) : base(bornPathId, source) {
+
+        }
+    }
+    #endregion
+
+    #region LocalMessage
+    [MessageType(description: "添加本地消息")]
+    public class AddLocalMessageCommand : AddEntityCommand<ILocalMessage> {
+        public AddLocalMessageCommand(ILocalMessage input) : base(input) { }
+    }
+
+    [MessageType(description: "记录了本地事件后")]
+    public class LocalMessageAddedEvent : DomainEvent<ILocalMessage> {
+        public LocalMessageAddedEvent(Guid bornPathId, ILocalMessage source, List<ILocalMessage> removes) : base(bornPathId, source) {
+            this.Removes = removes ?? new List<ILocalMessage>();
+        }
+
+        public List<ILocalMessage> Removes { get; private set; }
+    }
+
+    [MessageType(description: "清空本地消息集")]
+    public class ClearLocalMessageSetCommand : Cmd {
+        public ClearLocalMessageSetCommand() { }
+    }
+
+    [MessageType(description: "本地消息集清空后")]
+    public class LocalMessageSetClearedEvent : EventBase {
+        public LocalMessageSetClearedEvent() { }
+    }
+    #endregion
+
+    #region ServerMessage
+    [MessageType(description: "清空服务器消息集")]
+    public class ClearServerMessages : Cmd {
+        public ClearServerMessages() { }
+    }
+
+    [MessageType(description: "服务器消息集清空后")]
+    public class ServerMessagesClearedEvent : EventBase {
+        public ServerMessagesClearedEvent() { }
+    }
+
+    [MessageType(description: "接收从服务器得到的服务器消息")]
+    public class ReceiveServerMessageCommand : Cmd {
+        public ReceiveServerMessageCommand(List<ServerMessageData> data) {
+            this.Data = data;
+        }
+
+        public List<ServerMessageData> Data { get; private set; }
+    }
+
+    [MessageType(description: "从服务器获取新的服务器消息")]
+    public class LoadNewServerMessageCommand : Cmd {
+        public LoadNewServerMessageCommand() {
+            this.KnowServerMessageTimestamp = Timestamp.GetTimestamp();
+        }
+
+        public LoadNewServerMessageCommand(ulong knowServerMessageTimestamp) {
+            this.KnowServerMessageTimestamp = knowServerMessageTimestamp;
+        }
+
+        public ulong KnowServerMessageTimestamp { get; private set; }
+    }
+
+    [MessageType(description: "从服务器获取内核输出关键字")]
+    public class LoadKernelOutputKeywordCommand : Cmd {
+        public LoadKernelOutputKeywordCommand() {
+            this.KnowKernelOutputKeywordTimestamp = Timestamp.GetTimestamp();
+        }
+        public LoadKernelOutputKeywordCommand(ulong knowKernelOutputKeywordTimestamp) {
+            this.KnowKernelOutputKeywordTimestamp = knowKernelOutputKeywordTimestamp;
+        }
+
+        public ulong KnowKernelOutputKeywordTimestamp { get; private set; }
+    }
+
+    [MessageType(description: "从服务器获取到新的服务器消息后")]
+    public class NewServerMessageLoadedEvent : EventBase {
+        public NewServerMessageLoadedEvent(LinkedList<ServerMessageData> data) {
+            this.Data = data;
+        }
+
+        public LinkedList<ServerMessageData> Data { get; private set; }
+    }
+
+    [MessageType(description: "从服务器获取了内核输出关键字后")]
+    public class KernelOutputKeywordLoadedEvent : EventBase {
+        public KernelOutputKeywordLoadedEvent(List<KernelOutputKeywordData> data) {
+            this.Data = data;
+        }
+
+        public List<KernelOutputKeywordData> Data { get; private set; }
+    }
+
+    [MessageType(description: "添加或修改服务器消息")]
+    public class AddOrUpdateServerMessageCommand : AddEntityCommand<IServerMessage> {
+        public AddOrUpdateServerMessageCommand(IServerMessage input) : base(input) {
+        }
+    }
+
+    [MessageType(description: "标记删除服务器消息")]
+    public class MarkDeleteServerMessageCommand : RemoveEntityCommand {
+        public MarkDeleteServerMessageCommand(Guid id) : base(id) {
+
+        }
+    }
+    #endregion
 }

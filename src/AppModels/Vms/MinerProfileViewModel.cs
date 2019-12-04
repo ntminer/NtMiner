@@ -13,9 +13,6 @@ namespace NTMiner.Vms {
         private readonly string _linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "开源矿工.lnk");
         private readonly string _linkFileDescription = "开源矿工 - 做最好的矿工 https://ntminer.com";
 
-        public int HighTemperatureCount = 0;
-        public int LowTemperatureCount = 0;
-
         public ICommand AutoStartDelaySecondsUp { get; private set; }
         public ICommand AutoStartDelaySecondsDown { get; private set; }
 
@@ -63,11 +60,17 @@ namespace NTMiner.Vms {
         public ICommand AutoNoUiMinutesUp { get; private set; }
         public ICommand AutoNoUiMinutesDown { get; private set; }
 
+        public ICommand HighCpuBaselineUp { get; private set; }
+        public ICommand HighCpuBaselineDown { get; private set; }
+
+        public ICommand HighCpuSecondsUp { get; private set; }
+        public ICommand HighCpuSecondsDown { get; private set; }
+
         public MinerProfileViewModel() {
 #if DEBUG
-            Write.Stopwatch.Restart();
+            Write.Stopwatch.Start();
 #endif
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             if (Instance != null) {
@@ -196,7 +199,26 @@ namespace NTMiner.Vms {
                     this.AutoNoUiMinutes--;
                 }
             });
+            this.HighCpuBaselineUp = new DelegateCommand(() => {
+                this.HighCpuBaseline++;
+            });
+            this.HighCpuBaselineDown = new DelegateCommand(() => {
+                if (this.HighCpuBaseline > 0) {
+                    this.HighCpuBaseline--;
+                }
+            });
+            this.HighCpuSecondsUp = new DelegateCommand(() => {
+                this.HighCpuSeconds++;
+            });
+            this.HighCpuSecondsDown = new DelegateCommand(() => {
+                if (this.HighCpuSeconds > 0) {
+                    this.HighCpuSeconds--;
+                }
+            });
             NTMinerRoot.SetRefreshArgsAssembly(() => {
+#if DEBUG
+                Write.Stopwatch.Start();
+#endif
                 if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                     var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
                     var kernelInput = CoinVm.CoinKernel.Kernel.KernelInputVm;
@@ -212,26 +234,38 @@ namespace NTMiner.Vms {
                         }
                     }
                 }
-                this.ArgsAssembly = NTMinerRoot.Instance.BuildAssembleArgs(out _, out _, out _);
+                NTMinerRoot.Instance.CurrentMineContext = NTMinerRoot.Instance.CreateMineContext();
+                if (NTMinerRoot.Instance.CurrentMineContext != null) {
+                    this.ArgsAssembly = NTMinerRoot.Instance.CurrentMineContext.CommandLine;
+                }
+                else {
+                    this.ArgsAssembly = string.Empty;
+                }
+#if DEBUG
+                var milliseconds = Write.Stopwatch.Stop();
+                if (milliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{milliseconds} {this.GetType().Name}.SetRefreshArgsAssembly");
+                }
+#endif
             });
-            VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(nameof(CoinVm));
-                });
-            AppContext.CmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
+                }, location: this.GetType());
+            AppContext.AddCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
                 action: message => {
                     MinerProfileData data = NTMinerRoot.CreateLocalRepository<MinerProfileData>().GetByKey(this.Id);
                     if (data != null) {
                         this.IsAutoBoot = data.IsAutoBoot;
                         this.IsAutoStart = data.IsAutoStart;
                     }
-                });
-            AppContext.EventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
+                }, location: this.GetType());
+            AppContext.AddEventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
-                });
+                }, location: this.GetType());
 
-            VirtualRoot.EventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
                 action: message => {
                     AllPropertyChanged();
                     if (CoinVm != null) {
@@ -240,9 +274,12 @@ namespace NTMiner.Vms {
                         CoinVm.CoinProfile.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedWallet));
                         CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.CoinProfile.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedDualCoinWallet));
                     }
-                });
+                }, location: this.GetType());
 #if DEBUG
-            Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
 #endif
         }
 
@@ -391,7 +428,6 @@ namespace NTMiner.Vms {
             set {
                 _argsAssembly = value;
                 OnPropertyChanged(nameof(ArgsAssembly));
-                NTMinerRoot.UserKernelCommandLine = value;
             }
         }
 
@@ -690,6 +726,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStopByCpu), value);
                     OnPropertyChanged(nameof(IsAutoStopByCpu));
                 }
@@ -700,7 +737,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStopTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStopTemperature != value) {
-                    HighTemperatureCount = 0;
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStopTemperature), value);
                     OnPropertyChanged(nameof(CpuStopTemperature));
                 }
@@ -711,6 +748,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuGETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuGETemperatureSeconds));
                 }
@@ -721,6 +759,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStartByCpu), value);
                     OnPropertyChanged(nameof(IsAutoStartByCpu));
                 }
@@ -731,7 +770,7 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuStartTemperature;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuStartTemperature != value) {
-                    LowTemperatureCount = 0;
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStartTemperature), value);
                     OnPropertyChanged(nameof(CpuStartTemperature));
                 }
@@ -742,8 +781,42 @@ namespace NTMiner.Vms {
             get => NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds;
             set {
                 if (NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuLETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+                }
+            }
+        }
+
+        public bool IsRaiseHighCpuEvent {
+            get => NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsRaiseHighCpuEvent), value);
+                    OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
+                }
+            }
+        }
+
+        public int HighCpuBaseline {
+            get => NTMinerRoot.Instance.MinerProfile.HighCpuBaseline;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.HighCpuBaseline != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuBaseline), value);
+                    OnPropertyChanged(nameof(HighCpuBaseline));
+                }
+            }
+        }
+
+        public int HighCpuSeconds {
+            get => NTMinerRoot.Instance.MinerProfile.HighCpuSeconds;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.HighCpuSeconds != value) {
+                    NTMinerRoot.Instance.CpuPackage.Reset();
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuSeconds), value);
+                    OnPropertyChanged(nameof(HighCpuSeconds));
                 }
             }
         }

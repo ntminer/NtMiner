@@ -1,4 +1,4 @@
-﻿using NTMiner.Bus;
+﻿using NTMiner.Hub;
 using NTMiner.Core;
 using NTMiner.Vms;
 using System;
@@ -28,18 +28,30 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "关闭主界面")]
-    public class CloseMainWindowCommand : Cmd {
-        public CloseMainWindowCommand(string message) {
-            this.Message = message;
+    [MessageType(description: "打开收集远程桌面登录名和密码的对话框")]
+    public class ShowRemoteDesktopLoginDialogCommand : Cmd {
+        public ShowRemoteDesktopLoginDialogCommand(RemoteDesktopLoginViewModel vm) {
+            this.Vm = vm;
         }
 
-        public string Message { get; private set; }
+        public RemoteDesktopLoginViewModel Vm { get; private set; }
+    }
+
+    [MessageType(description: "关闭主界面")]
+    public class CloseMainWindowCommand : Cmd {
+        public CloseMainWindowCommand() {
+        }
     }
 
     [MessageType(description: "打开内核列表窗口")]
     public class ShowKernelsWindowCommand : Cmd {
         public ShowKernelsWindowCommand() {
+        }
+    }
+
+    [MessageType(description: "打开集线器页")]
+    public class ShowMessagePathIdsCommand : Cmd {
+        public ShowMessagePathIdsCommand() {
         }
     }
 
@@ -52,6 +64,12 @@ namespace NTMiner {
     [MessageType(description: "打开超频菜谱列表页")]
     public class ShowOverClockDataPageCommand : Cmd {
         public ShowOverClockDataPageCommand() {
+        }
+    }
+
+    [MessageType(description: "打开NTMiner钱包列表页")]
+    public class ShowNTMinerWalletPageCommand : Cmd {
+        public ShowNTMinerWalletPageCommand() {
         }
     }
 
@@ -201,15 +219,6 @@ namespace NTMiner {
         public ColumnsShowViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开装饰器窗口")]
-    public class ShowContainerWindowCommand : Cmd {
-        public ShowContainerWindowCommand(ContainerWindowViewModel vm) {
-            this.Vm = vm;
-        }
-
-        public ContainerWindowViewModel Vm { get; private set; }
-    }
-
     [MessageType(description: "打开算力图界面")]
     public class ShowSpeedChartsCommand : Cmd {
         public ShowSpeedChartsCommand(GpuSpeedViewModel gpuSpeedVm = null) {
@@ -264,6 +273,17 @@ namespace NTMiner {
         public FragmentWriterViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开服务器消息编辑界面")]
+    public class ServerMessageEditCommand : Cmd {
+        public ServerMessageEditCommand(FormType formType, ServerMessageViewModel source) {
+            this.FormType = formType;
+            this.Source = source;
+        }
+
+        public FormType FormType { get; private set; }
+        public ServerMessageViewModel Source { get; private set; }
+    }
+
     [MessageType(description: "打开内核输入编辑界面")]
     public class KernelInputEditCommand : Cmd {
         public KernelInputEditCommand(FormType formType, KernelInputViewModel source) {
@@ -275,15 +295,15 @@ namespace NTMiner {
         public KernelInputViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开内核输出过滤器编辑界面")]
-    public class KernelOutputFilterEditCommand : Cmd {
-        public KernelOutputFilterEditCommand(FormType formType, KernelOutputFilterViewModel source) {
+    [MessageType(description: "打开内核输出关键字编辑界面")]
+    public class KernelOutputKeywordEditCommand : Cmd {
+        public KernelOutputKeywordEditCommand(FormType formType, KernelOutputKeywordViewModel source) {
             this.FormType = formType;
             this.Source = source;
         }
 
         public FormType FormType { get; private set; }
-        public KernelOutputFilterViewModel Source { get; private set; }
+        public KernelOutputKeywordViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开内核输出翻译器编辑界面")]
@@ -323,12 +343,6 @@ namespace NTMiner {
 
         public FormType FormType { get; private set; }
         public KernelViewModel Source { get; private set; }
-    }
-
-    [MessageType(description: "打开内核日志颜色配置器界面")]
-    public class ShowLogColorCommand : Cmd {
-        public ShowLogColorCommand() {
-        }
     }
 
     [MessageType(description: "打开挖矿端远程设置界面")]
@@ -448,6 +462,17 @@ namespace NTMiner {
         public MinerGroupViewModel Source { get; private set; }
     }
 
+    [MessageType(description: "打开NTMiner钱包编辑界面")]
+    public class NTMinerWalletEditCommand : Cmd {
+        public NTMinerWalletEditCommand(FormType formType, NTMinerWalletViewModel source) {
+            this.FormType = formType;
+            this.Source = source;
+        }
+
+        public FormType FormType { get; private set; }
+        public NTMinerWalletViewModel Source { get; private set; }
+    }
+
     [MessageType(description: "打开作业编辑界面")]
     public class MineWorkEditCommand : Cmd {
         public MineWorkEditCommand(FormType formType, MineWorkViewModel source) {
@@ -503,12 +528,6 @@ namespace NTMiner {
         public PoolViewModel Source { get; private set; }
     }
 
-    [MessageType(description: "打开群控服务地址设置界面")]
-    public class ShowControlCenterHostConfigCommand : Cmd {
-        public ShowControlCenterHostConfigCommand() {
-        }
-    }
-
     [MessageType(description: "打开字典项编辑界面")]
     public class SysDicItemEditCommand : Cmd {
         public SysDicItemEditCommand(FormType formType, SysDicItemViewModel source) {
@@ -529,6 +548,12 @@ namespace NTMiner {
 
         public FormType FormType { get; private set; }
         public SysDicViewModel Source { get; private set; }
+    }
+
+    [MessageType(description: "打开内核输出关键字列表页")]
+    public class ShowKernelOutputKeywordsCommand : Cmd {
+        public ShowKernelOutputKeywordsCommand() {
+        }
     }
 
     [MessageType(description: "打开用户编辑界面")]

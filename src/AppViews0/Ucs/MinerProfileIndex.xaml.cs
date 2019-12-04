@@ -13,13 +13,16 @@ namespace NTMiner.Views.Ucs {
         }
 
         public MinerProfileIndex() {
+#if DEBUG
+            Write.Stopwatch.Start();
+#endif
             InitializeComponent();
             this.PopupKernel.Closed += Popup_Closed;
             this.PopupMainCoinPool.Closed += Popup_Closed;
             this.PopupMainCoin.Closed += Popup_Closed;
             this.PopupMainCoinWallet.Closed += Popup_Closed;
             this.RunOneceOnLoaded((window)=> {
-                window.EventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
+                window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         if (Vm.MinerProfile.MineWork != null) {
@@ -46,8 +49,14 @@ namespace NTMiner.Views.Ucs {
                             OpenMainCoinWalletPopup();
                         }
                     });
-                });
+                }, location: this.GetType());
             });
+#if DEBUG
+            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+            }
+#endif
         }
 
         private void Popup_Closed(object sender, System.EventArgs e) {
@@ -233,7 +242,7 @@ namespace NTMiner.Views.Ucs {
 
         private static void UserActionHappend() {
             if (!DevMode.IsDebugMode) {
-                VirtualRoot.Happened(new UserActionEvent());
+                VirtualRoot.RaiseEvent(new UserActionEvent());
             }
         }
 

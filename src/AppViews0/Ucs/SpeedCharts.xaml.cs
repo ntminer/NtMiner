@@ -9,12 +9,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class SpeedCharts : UserControl {
         public static void ShowWindow(GpuSpeedViewModel gpuSpeedVm = null) {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel() {
+            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "算力图",
                 IconName = "Icon_Speed",
                 Width = 760,
@@ -24,12 +23,11 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => {
                 SpeedCharts uc = new SpeedCharts();
                 return uc;
-            }, beforeShow: (uc) => {
+            }, beforeShow: (window, uc) => {
                 if (gpuSpeedVm != null) {
-                    SpeedChartsViewModel vm = (SpeedChartsViewModel)uc.DataContext;
-                    SpeedChartViewModel item = vm.SpeedChartVms.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);
+                    SpeedChartViewModel item = uc.Vm.SpeedChartVms.Items.FirstOrDefault(a => a.GpuSpeedVm == gpuSpeedVm);
                     if (item != null) {
-                        vm.CurrentSpeedChartVm = item;
+                        uc.Vm.CurrentSpeedChartVm = item;
                     }
                 }
             }, fixedSize: false);
@@ -44,17 +42,17 @@ namespace NTMiner.Views.Ucs {
         private readonly Dictionary<SpeedChartViewModel, CartesianChart> _chartDic = new Dictionary<SpeedChartViewModel, CartesianChart>();
         public SpeedCharts() {
             InitializeComponent();
-            if (Design.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
             this.RunOneceOnLoaded((window) => {
-                window.EventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
+                window.AddEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                     action: (message) => {
                         UIThread.Execute(() => {
                             if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
                                 mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-                                foreach (var speedChartVm in Vm.SpeedChartVms) {
+                                foreach (var speedChartVm in Vm.SpeedChartVms.Items) {
                                     SeriesCollection series = speedChartVm.Series;
                                     SeriesCollection seriesShadow = speedChartVm.SeriesShadow;
                                     foreach (var item in series) {
@@ -65,7 +63,7 @@ namespace NTMiner.Views.Ucs {
                                     }
                                 }
                             }
-                            IGpuSpeed gpuSpeed = message.Source;
+                            IGpuSpeed gpuSpeed = message.Target;
                             int index = gpuSpeed.Gpu.Index;
                             if (Vm.SpeedChartVms.ContainsKey(index)) {
                                 SpeedChartViewModel speedChartVm = Vm.SpeedChartVms[index];
@@ -112,7 +110,7 @@ namespace NTMiner.Views.Ucs {
                                 speedChartVm.SetAxisLimits(now);
                             }
                         });
-                    });
+                    }, location: this.GetType());
             });
 
             Vm.PropertyChanged += (object sender, System.ComponentModel.PropertyChangedEventArgs e) => {
@@ -128,7 +126,7 @@ namespace NTMiner.Views.Ucs {
                                 DisableAnimations = true,
                                 Hoverable = false,
                                 DataTooltip = null,
-                                Background = Wpf.Util.WhiteBrush,
+                                Background = WpfUtil.WhiteBrush,
                                 Padding = new Thickness(4, 0, 0, 0),
                                 Visibility = Visibility.Visible
                             };
@@ -146,11 +144,11 @@ namespace NTMiner.Views.Ucs {
                 }
             };
 
-            Vm.CurrentSpeedChartVm = Vm.SpeedChartVms.FirstOrDefault();
+            Vm.CurrentSpeedChartVm = Vm.SpeedChartVms.Items.FirstOrDefault();
 
             if (AppContext.Instance.MinerProfileVm.CoinVm != null) {
                 Guid coinId = AppContext.Instance.MinerProfileVm.CoinId;
-                foreach (var item in NTMinerRoot.Instance.GpuSet) {
+                foreach (var item in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
                     List<IGpuSpeed> gpuSpeedHistory = item.GetGpuSpeedHistory();
                     SpeedChartViewModel speedChartVm = Vm.SpeedChartVms[item.Index];
                     SeriesCollection series = speedChartVm.Series;
@@ -192,7 +190,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

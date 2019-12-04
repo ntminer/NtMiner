@@ -13,45 +13,48 @@ namespace NTMiner {
             private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
             private CoinGroupViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         _listByGroupId.Clear();
                         Init();
-                    });
-                EventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), coinGroupVm);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Target);
+                            _dicById.Add(message.Target.GetId(), coinGroupVm);
                             if (!_listByGroupId.ContainsKey(coinGroupVm.GroupId)) {
                                 _listByGroupId.Add(coinGroupVm.GroupId, new List<CoinGroupViewModel>());
                             }
                             _listByGroupId[coinGroupVm.GroupId].Add(coinGroupVm);
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
-                    });
-                EventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            var entity = _dicById[message.Source.GetId()];
-                            _dicById.Remove(message.Source.GetId());
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            var entity = _dicById[message.Target.GetId()];
+                            _dicById.Remove(message.Target.GetId());
                             if (_listByGroupId.ContainsKey(entity.GroupId)) {
                                 _listByGroupId[entity.GroupId].Remove(entity);
                             }
                             OnGroupPropertyChanged(entity.GroupId);
                         }
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.CoinGroupSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinGroupSet.AsEnumerable()) {
                     CoinGroupViewModel groupVm = new CoinGroupViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                     if (!_listByGroupId.ContainsKey(item.GroupId)) {
@@ -62,8 +65,7 @@ namespace NTMiner {
             }
 
             private void OnGroupPropertyChanged(Guid groupId) {
-                GroupViewModel groupVm;
-                if (AppContext.Instance.GroupVms.TryGetGroupVm(groupId, out groupVm)) {
+                if (AppContext.Instance.GroupVms.TryGetGroupVm(groupId, out GroupViewModel groupVm)) {
                     groupVm.OnPropertyChanged(nameof(groupVm.CoinVms));
                     groupVm.OnPropertyChanged(nameof(groupVm.DualCoinVms));
                     groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));

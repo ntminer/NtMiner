@@ -7,15 +7,16 @@ namespace NTMiner.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "内核输出",
                 FormType = formType,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 Width = 900,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_KernelOutput"
             }, ucFactory: (window) =>
             {
-                KernelOutputViewModel vm = new KernelOutputViewModel(source) {
-                    CloseWindow = () => window.Close()
-                };
+                KernelOutputViewModel vm = new KernelOutputViewModel(source);
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: vm.Id, location: typeof(KernelOutputEdit));
                 return new KernelOutputEdit(vm);
             }, fixedSize: true);
         }

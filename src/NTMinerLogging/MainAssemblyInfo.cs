@@ -16,32 +16,31 @@ namespace NTMiner {
         public static readonly string ServerJsonFileName;
         public static readonly string ServerVersionJsonFileFullName;
 
-        public static string OfficialServerHost { get; private set; } = "server.ntminer.com";
         public static string HomeDirFullName { get; private set; } = TempDirFullName;
         public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.lock");
         public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.config");
         public static readonly bool IsLocalHome;
 
-        public static void SetOfficialServerHost(string host) {
-            OfficialServerHost = host;
-        }
-
         public static void SetHomeDirFullName(string dirFullName) {
             HomeDirFullName = dirFullName;
         }
 
+        public static string GetServerJsonVersion(Version version) {
+            return $"server{CurrentVersion.Major.ToString()}.0.0.json";
+        }
+
         static MainAssemblyInfo() {
-            Assembly mainAssembly = Assembly.GetEntryAssembly();
-            // 单元测试时为null
-            if (mainAssembly != null) {
+            if (!DevMode.IsInUnitTest) {
+                Assembly mainAssembly = Assembly.GetEntryAssembly();
                 CurrentVersion = mainAssembly.GetName().Version;
                 var description = (AssemblyDescriptionAttribute)mainAssembly.GetCustomAttributes(typeof(AssemblyDescriptionAttribute), inherit: false).FirstOrDefault();
                 CurrentVersionTag = description?.Description;
-                ServerJsonFileName = $"server{CurrentVersion.Major}.0.0.json";
             }
             else {
-                ServerJsonFileName = $"server2.0.0.json";
+                CurrentVersion = new Version(2, 0, 0);
+                CurrentVersionTag = "UnitTest";
             }
+            ServerJsonFileName = GetServerJsonVersion(CurrentVersion);
             if (!File.Exists(RootLockFileFullName)) {
                 if (File.Exists(RootConfigFileFullName)) {
                     HomeDirFullName = AppDomain.CurrentDomain.BaseDirectory;

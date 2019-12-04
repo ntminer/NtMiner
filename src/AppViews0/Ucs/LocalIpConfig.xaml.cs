@@ -10,24 +10,23 @@ namespace NTMiner.Views.Ucs {
                 Title = "管理本机 IP",
                 IconName = "Icon_Ip",
                 Width = 450,
-                IsDialogWindow = true,
+                IsMaskTheParent = true,
                 FooterVisible = Visibility.Collapsed,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new LocalIpConfig();
-                LocalIpConfigViewModel vm = (LocalIpConfigViewModel)uc.DataContext;
-                vm.CloseWindow = window.Close;
+                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                    window.Close();
+                }, pathId: uc.Vm.Id, location: typeof(LocalIpConfig));
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();
                     }
                 };
-                window.EventPath<LocalIpSetRefreshedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
+                window.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => {
-                            vm.Refresh();
-                        });
-                    });
+                        UIThread.Execute(()=> uc.Vm.Refresh());
+                    }, location: typeof(LocalIpConfig));
                 return uc;
             }, fixedSize: true);
         }
@@ -43,7 +42,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
     }
 }

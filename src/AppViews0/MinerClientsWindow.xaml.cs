@@ -1,7 +1,6 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
 using NTMiner.Vms;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -35,7 +34,17 @@ namespace NTMiner.Views {
             this.DataContext = Vm;
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
-            this.EventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+            DateTime lastGetServerMessageOn = DateTime.MinValue;
+            this.ServerMessagesUc.IsVisibleChanged += (sender, e)=> {
+                VirtualRoot.SetIsServerMessagesVisible(this.ServerMessagesUc.IsVisible);
+                if (this.ServerMessagesUc.IsVisible) {
+                    if (lastGetServerMessageOn.AddSeconds(10) < DateTime.Now) {
+                        lastGetServerMessageOn = DateTime.Now;
+                        VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                    }
+                }
+            };
+            this.AddEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
@@ -44,32 +53,30 @@ namespace NTMiner.Views {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
                         }
                     }
-                });
-            this.EventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
+                }, location: this.GetType());
+            this.AddEventPath<Per10SecondEvent>("周期刷新在线客户端列表", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                });
-            EventHandler changeNotiCenterWindowLocation = NotiCenterWindow.CreateNotiCenterWindowLocationManager(this);
-            this.Activated += changeNotiCenterWindowLocation;
-            this.LocationChanged += changeNotiCenterWindowLocation;
+                }, location: this.GetType());
+            NotiCenterWindow.Bind(this);
             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
             Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow);
         }
 
         protected override void OnClosing(CancelEventArgs e) {
-            VirtualRoot.Execute(new ChangeServerAppSettingsCommand(
+            VirtualRoot.Execute(new SetServerAppSettingsCommand(
                 new AppSettingData[]{
                         new AppSettingData {
-                            Key = "FrozenColumnCount",
+                            Key = NTKeyword.FrozenColumnCountAppSettingKey,
                             Value = Vm.FrozenColumnCount
                         },new AppSettingData {
-                            Key = "MaxTemp",
+                            Key = NTKeyword.MaxTempAppSettingKey,
                             Value = Vm.MaxTemp
                         },new AppSettingData {
-                            Key = "MinTemp",
+                            Key = NTKeyword.MinTempAppSettingKey,
                             Value = Vm.MinTemp
                         },new AppSettingData {
-                            Key = "RejectPercent",
+                            Key = NTKeyword.RejectPercentAppSettingKey,
                             Value = Vm.RejectPercent
                         }
             }));
@@ -92,7 +99,7 @@ namespace NTMiner.Views {
         }
 
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            Wpf.Util.ScrollViewer_PreviewMouseDown(sender, e);
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void MinerClientUcScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
@@ -120,7 +127,7 @@ namespace NTMiner.Views {
                 return;
             }
             if (Vm.SelectedMinerClients != null && Vm.SelectedMinerClients.Length != 0) {
-                Vm.SelectedMinerClients[0].RemoteDesktop.Execute(null);
+                Vm.SelectedMinerClients[0].RemoteDesktop.Execute(Vm.SelectedMinerClients[0].GetRemoteDesktopIp());
             }
         }
 

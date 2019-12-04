@@ -13,48 +13,51 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
             private FileWriterViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
                 this.Add = new DelegateCommand(() => {
                     new FileWriterViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.EventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Clear();
                         Init();
-                    });
-                VirtualRoot.EventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
                         OnPropertyChangeds();
-                    });
-                EventPath<FileWriterAddedEvent>("添加了文件书写器后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<FileWriterAddedEvent>("添加了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            FileWriterViewModel groupVm = new FileWriterViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), groupVm);
+                        if (!_dicById.ContainsKey(message.Target.GetId())) {
+                            FileWriterViewModel groupVm = new FileWriterViewModel(message.Target);
+                            _dicById.Add(message.Target.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
-                    });
-                EventPath<FileWriterUpdatedEvent>("更新了文件书写器后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<FileWriterUpdatedEvent>("更新了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Source.GetId())) {
-                            FileWriterViewModel entity = _dicById[message.Source.GetId()];
-                            entity.Update(message.Source);
+                        if (_dicById.ContainsKey(message.Target.GetId())) {
+                            FileWriterViewModel entity = _dicById[message.Target.GetId()];
+                            entity.Update(message.Target);
                         }
-                    });
-                EventPath<FileWriterRemovedEvent>("删除了文件书写器后调整VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<FileWriterRemovedEvent>("删除了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Source.GetId());
+                        _dicById.Remove(message.Target.GetId());
                         OnPropertyChangeds();
-                    });
+                    }, location: this.GetType());
                 Init();
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             private void Init() {
-                foreach (var item in NTMinerRoot.Instance.FileWriterSet) {
+                foreach (var item in NTMinerRoot.Instance.ServerContext.FileWriterSet.AsEnumerable()) {
                     FileWriterViewModel groupVm = new FileWriterViewModel(item);
                     _dicById.Add(item.GetId(), groupVm);
                 }

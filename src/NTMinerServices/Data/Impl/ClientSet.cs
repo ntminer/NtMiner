@@ -1,7 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.MinerServer;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,16 +12,14 @@ namespace NTMiner.Data.Impl {
         private readonly Dictionary<Guid, ClientData> _dicByClientId = new Dictionary<Guid, ClientData>();
 
         private DateTime _getSpeedOn = DateTime.Now;
-        private readonly IHostRoot _root;
-        internal ClientSet(IHostRoot root) {
-            _root = root;
+        internal ClientSet() {
             GetSpeed();
-            VirtualRoot.EventPath<Per20SecondEvent>("周期性将内存中3分钟内活跃的ClientData列表刷入磁盘", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<Per20SecondEvent>("周期性将内存中3分钟内活跃的ClientData列表刷入磁盘", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
                     List<MinerData> minerDatas = new List<MinerData>();
                     lock (_locker) {
-                        DateTime time = message.Timestamp.AddMinutes(-3);
+                        DateTime time = message.BornOn.AddMinutes(-3);
                         foreach (var clientData in _dicByObjectId.Values) {
                             if (clientData.ModifiedOn > time) {
                                 minerDatas.Add(new MinerData {
@@ -32,6 +29,7 @@ namespace NTMiner.Data.Impl {
                                     ClientId = clientData.ClientId,
                                     ClientName = clientData.ClientName,
                                     MinerIp = clientData.MinerIp,
+                                    MACAddress = clientData.MACAddress,
                                     MinerName = clientData.MinerName,
                                     WindowsLoginName = clientData.WindowsLoginName,
                                     WindowsPassword = clientData.WindowsPassword,
@@ -53,7 +51,7 @@ namespace NTMiner.Data.Impl {
                         var col = db.GetCollection<MinerData>();
                         col.Upsert(minerDatas);
                     }
-                });
+                }, location: this.GetType());
         }
 
         private void GetSpeed() {
@@ -128,6 +126,7 @@ namespace NTMiner.Data.Impl {
                 CreatedOn = DateTime.Now,
                 GroupId = Guid.Empty,
                 MinerIp = minerIp,
+                MACAddress = string.Empty,
                 WindowsLoginName = string.Empty,
                 WindowsPassword = String.Empty,
                 WorkId = Guid.Empty
@@ -322,15 +321,9 @@ namespace NTMiner.Data.Impl {
             return _dicByObjectId.Values.Any(a => a.WorkId == workId);
         }
 
-        public IEnumerator<ClientData> GetEnumerator() {
+        public IEnumerable<ClientData> AsEnumerable() {
             InitOnece();
-            foreach (var clientData in _dicByObjectId.Values) {
-                yield return clientData;
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
+            return _dicByObjectId.Values;
         }
     }
 }

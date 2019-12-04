@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 namespace NTMiner.Windows {
     public class ConsoleHandler {
         private static class SafeNativeMethods {
-            [DllImport("kernel32.dll")]
+            [DllImport(DllName.Kernel32Dll)]
             public static extern bool SetConsoleCtrlHandler(ControlCtrlDelegate HandlerRoutine, bool Add);
         }
 

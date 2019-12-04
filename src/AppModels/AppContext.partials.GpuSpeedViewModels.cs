@@ -21,11 +21,10 @@ namespace NTMiner {
             private double _incomeDualCoinUsdPerDay;
             private double _incomeDualCoinCnyPerDay;
 
-            private void CheckReset() {
+            private void ResetIfMainCoinSwitched() {
                 Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
                 if (_mainCoinId != mainCoinId) {
                     _mainCoinId = mainCoinId;
-                    DateTime now = DateTime.Now;
                     foreach (var item in _list) {
                         item.MainCoinSpeed.Reset();
                         item.DualCoinSpeed.Reset();
@@ -41,81 +40,81 @@ namespace NTMiner {
 
             private GpuSpeedViewModels() {
 #if DEBUG
-                Write.Stopwatch.Restart();
+                Write.Stopwatch.Start();
 #endif
-                if (Design.IsInDesignMode) {
+                if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                this.GpuAllVm = AppContext.Instance.GpuVms.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
+                this.GpuAllVm = AppContext.Instance.GpuVms.Items.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
                 IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
-                foreach (var item in gpuSpeeds) {
+                foreach (var item in gpuSpeeds.AsEnumerable()) {
                     this._list.Add(new GpuSpeedViewModel(item));
                 }
                 _totalSpeedVm = this._list.FirstOrDefault(a => a.GpuVm.Index == NTMinerRoot.GpuAllId);
-                EventPath<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole,
+                AddEventPath<GpuShareChangedEvent>("显卡份额变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
-                        int index = message.Source.Gpu.Index;
+                        ResetIfMainCoinSwitched();
+                        int index = message.Target.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
-                            gpuSpeedVm.MainCoinSpeed.FoundShare = message.Source.MainCoinSpeed.FoundShare;
-                            gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
-                            gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
+                            gpuSpeedVm.MainCoinSpeed.FoundShare = message.Target.MainCoinSpeed.FoundShare;
+                            gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Target.MainCoinSpeed.AcceptShare;
+                            gpuSpeedVm.MainCoinSpeed.RejectShare = message.Target.MainCoinSpeed.RejectShare;
                         }
-                    });
-                EventPath<FoundShareIncreasedEvent>("找到一个份额后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<FoundShareIncreasedEvent>("找到一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
-                        int index = message.Source.Gpu.Index;
+                        ResetIfMainCoinSwitched();
+                        int index = message.Target.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
-                            gpuSpeedVm.MainCoinSpeed.FoundShare = message.Source.MainCoinSpeed.FoundShare;
+                            gpuSpeedVm.MainCoinSpeed.FoundShare = message.Target.MainCoinSpeed.FoundShare;
                         }
-                    });
-                EventPath<AcceptShareIncreasedEvent>("接受一个份额后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<AcceptShareIncreasedEvent>("接受一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
-                        int index = message.Source.Gpu.Index;
+                        ResetIfMainCoinSwitched();
+                        int index = message.Target.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
-                            gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Source.MainCoinSpeed.AcceptShare;
+                            gpuSpeedVm.MainCoinSpeed.AcceptShare = message.Target.MainCoinSpeed.AcceptShare;
                         }
-                    });
-                EventPath<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<RejectShareIncreasedEvent>("拒绝一个份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
-                        int index = message.Source.Gpu.Index;
+                        ResetIfMainCoinSwitched();
+                        int index = message.Target.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
-                            gpuSpeedVm.MainCoinSpeed.RejectShare = message.Source.MainCoinSpeed.RejectShare;
+                            gpuSpeedVm.MainCoinSpeed.RejectShare = message.Target.MainCoinSpeed.RejectShare;
                         }
-                    });
-                EventPath<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<IncorrectShareIncreasedEvent>("产生一个错误份额后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        CheckReset();
-                        int index = message.Source.Gpu.Index;
+                        ResetIfMainCoinSwitched();
+                        int index = message.Target.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
-                            gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Source.MainCoinSpeed.IncorrectShare;
+                            gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Target.MainCoinSpeed.IncorrectShare;
                         }
-                    });
-                EventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
+                    }, location: this.GetType());
+                AddEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        CheckReset();
-                        int index = message.Source.Gpu.Index;
+                        ResetIfMainCoinSwitched();
+                        int index = message.Target.Gpu.Index;
                         GpuSpeedViewModel gpuSpeedVm = _list.FirstOrDefault(a => a.GpuVm.Index == index);
                         if (gpuSpeedVm != null) {
                             if (message.IsDual) {
-                                gpuSpeedVm.DualCoinSpeed.UpdateSpeed(message.Source.DualCoinSpeed.Value, message.Source.DualCoinSpeed.SpeedOn);
+                                gpuSpeedVm.DualCoinSpeed.UpdateSpeed(message.Target.DualCoinSpeed.Value, message.Target.DualCoinSpeed.SpeedOn);
                                 gpuSpeedVm.OnPropertyChanged(nameof(gpuSpeedVm.AverageDualCoinSpeedText));
                             }
                             else {
-                                gpuSpeedVm.MainCoinSpeed.UpdateSpeed(message.Source.MainCoinSpeed.Value, message.Source.MainCoinSpeed.SpeedOn);
+                                gpuSpeedVm.MainCoinSpeed.UpdateSpeed(message.Target.MainCoinSpeed.Value, message.Target.MainCoinSpeed.SpeedOn);
                                 gpuSpeedVm.OnPropertyChanged(nameof(gpuSpeedVm.AverageMainCoinSpeedText));
                             }
                         }
                         if (index == _totalSpeedVm.GpuVm.Index) {
-                            IMineContext mineContext = NTMinerRoot.Instance.CurrentMineContext;
+                            IMineContext mineContext = NTMinerRoot.Instance.LockedMineContext;
                             if (mineContext == null) {
                                 IncomeMainCoinPerDay = 0;
                                 IncomeMainCoinUsdPerDay = 0;
@@ -141,20 +140,23 @@ namespace NTMiner {
                                 }
                             }
                         }
-                    });
-                EventPath<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None,
+                    }, location: this.GetType());
+                AddEventPath<Per1SecondEvent>("每秒钟更新算力活动时间", LogEnum.None,
                     action: message => {
                         TotalSpeedVm.MainCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
-                    });
+                    }, location: this.GetType());
 #if DEBUG
-                Write.DevTimeSpan($"耗时{Write.Stopwatch.ElapsedMilliseconds}毫秒 {this.GetType().Name}.ctor");
+                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                }
 #endif
             }
 
             public void Refresh() {
                 foreach (var item in this._list) {
-                    var data = NTMinerRoot.Instance.GpusSpeed.FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
+                    var data = NTMinerRoot.Instance.GpusSpeed.AsEnumerable().FirstOrDefault(a => a.Gpu.Index == item.GpuVm.Index);
                     if (data != null) {
                         if (item.GpuVm.Index == NTMinerRoot.GpuAllId) {
                             TotalSpeedVm.MainCoinSpeed.UpdateSpeed(data.MainCoinSpeed.Value, data.MainCoinSpeed.SpeedOn);
