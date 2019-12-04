@@ -72,6 +72,7 @@
     <Compile Include="RemoteDesktopTests.cs" />
     <Compile Include="LocalMessageTests.cs" />
     <Compile Include="NetTests.cs" />
+    <Compile Include="JsonSerializerTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
