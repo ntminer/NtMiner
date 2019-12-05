@@ -59,7 +59,7 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <TextBlock Text="IP"></TextBlock>
+                                <TextBlock Text="{Binding Data.Results.Count,Source={StaticResource proxy}}"></TextBlock>
                                 <TextBlock Margin="10 0 0 0" Foreground="Red" FontWeight="Normal" Text="双击行复制"></TextBlock>
                             </WrapPanel>
                         </DataTemplate>
