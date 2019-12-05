@@ -45,7 +45,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowSuccess(message);
                 }
                 else {
-                    VirtualRoot.Out.ShowError(message, delaySeconds: 4);
+                    VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
                 }
             });
         }

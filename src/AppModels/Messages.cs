@@ -391,11 +391,6 @@ namespace NTMiner {
         public CoinViewModel CoinVm { get; private set; }
     }
 
-    [MessageType(description: "打开本机IP管理页")]
-    public class ShowLocalIpsCommand : Cmd {
-        public ShowLocalIpsCommand() { }
-    }
-
     [MessageType(description: "打开ETH反抽水配置页")]
     public class ShowEthNoDevFeeCommand : Cmd {
         public ShowEthNoDevFeeCommand() { }

@@ -56,7 +56,7 @@
                     var item = _messagePaths.FirstOrDefault(a => ReferenceEquals(a, messagePathId));
                     if (item != null) {
                         _messagePaths.Remove(item);
-                        Write.DevDebug("拆除路径" + messagePathId.Path);
+                        Write.DevDebug("拆除路径" + messagePathId.Path + messagePathId.Description);
                     }
                 }
             }
@@ -122,19 +122,9 @@
                             isMatch = messagePath.PathId == cmd.Id;
                         }
                     }
-                    if (isMatch) {
+                    if (isMatch && messagePath.ViaLimit > 0) {
                         // ViaLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaLimit计数
-                        if (messagePath.ViaLimit > 0) {
-                            lock (messagePath.Locker) {
-                                if (messagePath.ViaLimit > 0) {
-                                    messagePath.ViaLimit--;
-                                    if (messagePath.ViaLimit == 0) {
-                                        // ViaLimit递减到0从路径列表中移除该路径
-                                        RemoveMessagePath(messagePath);
-                                    }
-                                }
-                            }
-                        }
+                        messagePath.DecreaseViaLimit(onDownToZero: RemoveMessagePath);
                     }
                     if (!messagePath.IsEnabled) {
                         continue;

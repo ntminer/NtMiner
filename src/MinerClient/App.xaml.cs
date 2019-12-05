@@ -104,7 +104,7 @@ namespace NTMiner {
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 ConsoleWindow.Instance.Hide();
-                                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
+                                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行，可在选项页调整设置", header: "开源矿工");
                             }
                             else {
                                 // 预热视图模型
@@ -269,7 +269,7 @@ namespace NTMiner {
                     }
                 }
                 else if (e != null) {
-                    VirtualRoot.Out.ShowError(e.Message, delaySeconds: 4);
+                    VirtualRoot.Out.ShowError(e.Message, autoHideSeconds: 4);
                 }
                 else {
                     if (on) {

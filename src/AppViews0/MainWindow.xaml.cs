@@ -204,7 +204,7 @@ namespace NTMiner.Views {
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
                         if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
-                            VirtualRoot.Out.ShowSuccess($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置", "开源矿工");
+                            VirtualRoot.Out.ShowSuccess($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置", header: "开源矿工");
                             VirtualRoot.Execute(new CloseMainWindowCommand());
                         }
                     }

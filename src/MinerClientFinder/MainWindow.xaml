@@ -21,7 +21,7 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="4 0 0 0">
@@ -35,13 +35,16 @@
             </WrapPanel>
         </DockPanel>
         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">IP范围从</TextBlock>
-            <TextBox Margin="4 0 0 0" Background="{StaticResource ThemeForeground}" FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding FromIp, ValidatesOnExceptions=True}"></TextBox>
+            <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">从</TextBlock>
+            <controls:IpAddressControl Margin="4 0 0 0" DataContext="{Binding FromIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
             <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Margin="4 0">到</TextBlock>
-            <TextBox Background="{StaticResource ThemeForeground}" FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding ToIp, ValidatesOnExceptions=True}"></TextBox>
-            <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding Start}" Content="开始" IsEnabled="{Binding IsScanning,Converter={StaticResource BoolInvertConverter}}"></Button>
-            <TextBlock Foreground="{StaticResource ThemeForeground}" Margin="4 0 0 0" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
+            <controls:IpAddressControl DataContext="{Binding ToIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
+            <Button Margin="4 0 0 0" Padding="8 0" FocusVisualStyle="{x:Null}" Command="{Binding Start}" Content="{Binding BtnStartText}"></Button>
+            <TextBlock Foreground="{StaticResource ThemeForeground}" Width="22" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
             <TextBlock Foreground="{StaticResource ThemeForeground}" Margin="2 0 0 0" VerticalAlignment="Center" Text="%"></TextBlock>
+            <RadioButton x:Name="RbFast" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="4 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">快</RadioButton>
+            <RadioButton x:Name="RbNormal" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="4 0 0 0" IsChecked="True" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">中</RadioButton>
+            <RadioButton x:Name="RbSlow" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="4 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">慢</RadioButton>
         </WrapPanel>
         <DataGrid
             Grid.Row="2"
@@ -56,7 +59,7 @@
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <WrapPanel>
-                                <TextBlock Text="IP"></TextBlock>
+                                <TextBlock Text="{Binding Data.Results.Count,Source={StaticResource proxy}}"></TextBlock>
                                 <TextBlock Margin="10 0 0 0" Foreground="Red" FontWeight="Normal" Text="双击行复制"></TextBlock>
                             </WrapPanel>
                         </DataTemplate>
@@ -88,6 +91,17 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="3" Margin="4 2" Foreground="{StaticResource ThemeForeground}">双击行复制</TextBlock>
+        <WrapPanel Grid.Row="3" VerticalAlignment="Center">
+            <controls:KbButton 
+				Background="Transparent"
+				Margin="4 0 0 0"
+				ToolTip="管理本机 IP"
+                Cursor="Hand"
+                Command="{Binding ShowLocalIps}"
+                Foreground="White"
+                Content="{Binding LocalIps}"
+				CornerRadius="2">
+            </controls:KbButton>
+        </WrapPanel>
     </Grid>
 </blankWindow:BlankWindow>

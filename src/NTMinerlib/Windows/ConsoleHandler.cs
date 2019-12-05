@@ -6,9 +6,10 @@ namespace NTMiner.Windows {
     public class ConsoleHandler {
         private static class SafeNativeMethods {
             [DllImport(DllName.Kernel32Dll)]
-            public static extern bool SetConsoleCtrlHandler(ControlCtrlDelegate HandlerRoutine, bool Add);
+            public static extern bool SetConsoleCtrlHandler(ControlCtrlDelegate handlerRoutine, bool Add);
         }
 
+        // 无法封送处理泛型类型，所以这里不能用Func<int, bool>代替
         public delegate bool ControlCtrlDelegate(int ctrlType);
 
         // 静态的，调用前不能被垃圾回收

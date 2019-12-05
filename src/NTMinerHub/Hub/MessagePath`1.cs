@@ -1,14 +1,15 @@
 ﻿using System;
+using System.Threading;
+#if DEBUG
 using System.ComponentModel;
+#endif
 
 namespace NTMiner.Hub {
-    public class MessagePath<TMessage> : IMessagePathId
 #if DEBUG
-        , INotifyPropertyChanged
+    public class MessagePath<TMessage> : IMessagePathId, INotifyPropertyChanged {
+#else
+    public class MessagePath<TMessage> : IMessagePathId {
 #endif
-        {
-        internal readonly object Locker = new object();
-
         private readonly Action<TMessage> _path;
         private bool _isEnabled;
         private int _viaLimit;
@@ -30,7 +31,7 @@ namespace NTMiner.Hub {
             if (viaLimit == 0) {
                 throw new InvalidProgramException("消息路径的viaLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
             }
-            this.IsEnabled = true;
+            _isEnabled = true;
             MessageType = typeof(TMessage);
             Location = location;
             Path = $"{location.FullName}[{MessageType.FullName}]";
@@ -38,16 +39,26 @@ namespace NTMiner.Hub {
             LogType = logType;
             _path = path;
             PathId = pathId;
-            ViaLimit = viaLimit;
+            _viaLimit = viaLimit;
         }
 
         public int ViaLimit {
             get => _viaLimit;
-            internal set {
+            private set {
                 _viaLimit = value;
 #if DEBUG
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaLimit)));
 #endif
+            }
+        }
+
+        private readonly object _locker = new object();
+
+        internal void DecreaseViaLimit(Action<IMessagePathId> onDownToZero) {
+            int newValue = Interlocked.Decrement(ref _viaLimit);
+            if (newValue == 0) {
+                // ViaLimit递减到0从路径列表中移除该路径
+                onDownToZero?.Invoke(this);
             }
         }
 

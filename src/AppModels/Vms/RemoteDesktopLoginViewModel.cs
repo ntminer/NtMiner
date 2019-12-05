@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
             }
             this.Ok = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(LoginName)) {
-                    VirtualRoot.Out.ShowError("登录名不能为空", delaySeconds: 4);
+                    VirtualRoot.Out.ShowError("登录名不能为空", autoHideSeconds: 4);
                     return;
                 }
                 VirtualRoot.Execute(new CloseWindowCommand(this.Id));
