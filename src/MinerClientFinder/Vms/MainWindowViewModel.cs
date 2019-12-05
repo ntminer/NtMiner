@@ -8,8 +8,8 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        private string _fromIp;
-        private string _toIp;
+        private IpAddressViewModel _fromIpAddressVm;
+        private IpAddressViewModel _toIpAddressVm;
         private readonly ObservableCollection<string> _results = new ObservableCollection<string>();
         private int _percent;
         private int _count = 0;
@@ -26,13 +26,13 @@ namespace NTMiner.Vms {
                 }
                 else {
                     _thread?.Abort();
-                    if (!IPAddress.TryParse(FromIp, out _) || !IPAddress.TryParse(ToIp, out _)) {
+                    if (!IPAddress.TryParse(_fromIpAddressVm.AddressText, out _) || !IPAddress.TryParse(_toIpAddressVm.AddressText, out _)) {
                         throw new ValidationException("IP地址格式不正确");
                     }
                     if (Results.Count != 0) {
                         Results.Clear();
                     }
-                    List<string> ipList = Net.Util.CreateIpRange(FromIp, ToIp);
+                    List<string> ipList = Net.Util.CreateIpRange(_fromIpAddressVm.AddressText, _toIpAddressVm.AddressText);
                     _thread = new Thread(new ThreadStart(() => {
                         Scan(ipList.ToArray());
                     })) {
@@ -43,12 +43,11 @@ namespace NTMiner.Vms {
             });
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
-                this._fromIp = localIp.DefaultIPGateway;
-                if (!string.IsNullOrEmpty(_fromIp)) {
-                    _fromIp = Net.Util.ConvertToIpString(Net.Util.ConvertToIpNum(_fromIp) + 1);
-                    string[] parts = _fromIp.Split('.');
+                if (!string.IsNullOrEmpty(localIp.DefaultIPGateway)) {
+                    this._fromIpAddressVm = new IpAddressViewModel(Net.Util.ConvertToIpString(Net.Util.ConvertToIpNum(localIp.DefaultIPGateway) + 1));
+                    string[] parts = localIp.DefaultIPGateway.Split('.');
                     parts[parts.Length - 1] = "255";
-                    this._toIp = string.Join(".", parts);
+                    this._toIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
                 }
             }
         }
@@ -125,24 +124,19 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string FromIp {
-            get => _fromIp;
+        public IpAddressViewModel FromIpAddressVm {
+            get => _fromIpAddressVm;
             set {
-                _fromIp = value;
-                OnPropertyChanged(nameof(FromIp));
-                if (!IPAddress.TryParse(value, out _)) {
-                    throw new ValidationException("IP地址格式错误");
-                }
+                _fromIpAddressVm = value;
+                OnPropertyChanged(nameof(FromIpAddressVm));
             }
         }
-        public string ToIp {
-            get => _toIp;
+
+        public IpAddressViewModel ToIpAddressVm {
+            get => _toIpAddressVm;
             set {
-                _toIp = value;
-                OnPropertyChanged(nameof(ToIp));
-                if (!IPAddress.TryParse(value, out _)) {
-                    throw new ValidationException("IP地址格式错误");
-                }
+                _toIpAddressVm = value;
+                OnPropertyChanged(nameof(ToIpAddressVm));
             }
         }
 

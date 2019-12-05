@@ -1,10 +1,17 @@
 ﻿using NTMiner.Views;
+using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner {
     public partial class MainWindow : BlankWindow {
+        public MainWindowViewModel Vm {
+            get {
+                return (MainWindowViewModel)this.DataContext;
+            }
+        }
+
         public MainWindow() {
             InitializeComponent();
             NotiCenterWindow.Bind(this);

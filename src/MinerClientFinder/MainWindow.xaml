@@ -36,11 +36,11 @@
         </DockPanel>
         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
             <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">IP范围从</TextBlock>
-            <TextBox Margin="4 0 0 0" Background="{StaticResource ThemeForeground}" FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding FromIp, ValidatesOnExceptions=True}"></TextBox>
+            <controls:IpAddressControl Margin="4 0 0 0" DataContext="{Binding FromIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
             <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Margin="4 0">到</TextBlock>
-            <TextBox Background="{StaticResource ThemeForeground}" FontSize="18" Width="200" Height="30" VerticalContentAlignment="Center" Text="{Binding ToIp, ValidatesOnExceptions=True}"></TextBox>
+            <controls:IpAddressControl DataContext="{Binding ToIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
             <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding Start}" Content="{Binding BtnStartText}"></Button>
-            <TextBlock Foreground="{StaticResource ThemeForeground}" Width="20" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
+            <TextBlock Foreground="{StaticResource ThemeForeground}" Width="22" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
             <TextBlock Foreground="{StaticResource ThemeForeground}" Margin="2 0 0 0" VerticalAlignment="Center" Text="%"></TextBlock>
         </WrapPanel>
         <DataGrid
