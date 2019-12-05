@@ -38,7 +38,7 @@ namespace NTMiner {
         }
 
         private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e) {
-            VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"Windows SessionSwitch, Reason:{e.Reason}", toConsole: true);
+            VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"Windows SessionSwitch, Reason:{e.Reason}");
         }
 
         #region Init
