@@ -96,6 +96,7 @@
                     _paths.Add(pathId.Path, new List<IMessagePathId> { pathId });
                 }
                 else {
+                    // 重复的代码路径并不是什么问题，这里只是提醒注意合并重复路径
                     List<IMessagePathId> handlerIds = _paths[pathId.Path];
                     if (handlerIds.Count == 1) {
                         Write.DevWarn($"重复的路径:{handlerIds[0].Path} {handlerIds[0].Description}");
