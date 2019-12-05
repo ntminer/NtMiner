@@ -1,4 +1,5 @@
-﻿using NTMiner.AppSetting;
+﻿using Microsoft.Win32;
+using NTMiner.AppSetting;
 using NTMiner.Core;
 using NTMiner.Core.Cpus;
 using NTMiner.Core.Cpus.Impl;
@@ -31,6 +32,13 @@ namespace NTMiner {
 
         private NTMinerRoot() {
             CreatedOn = DateTime.Now;
+            if (VirtualRoot.IsMinerClient) {
+                SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+            }
+        }
+
+        private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e) {
+            VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"Windows SessionSwitch, Reason:{e.Reason}", toConsole: true);
         }
 
         #region Init
@@ -337,6 +345,7 @@ namespace NTMiner {
             if (_lockedMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }
+            SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
         }
         #endregion
 
