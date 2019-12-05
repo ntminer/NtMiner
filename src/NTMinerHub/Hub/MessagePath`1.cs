@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 #if DEBUG
 using System.ComponentModel;
 #endif
@@ -54,14 +55,10 @@ namespace NTMiner.Hub {
         private readonly object _locker = new object();
 
         internal void DecreaseViaLimit(Action<IMessagePathId> onDownToZero) {
-            lock (_locker) {
-                if (ViaLimit > 0) {
-                    ViaLimit--;
-                    if (ViaLimit == 0) {
-                        // ViaLimit递减到0从路径列表中移除该路径
-                        onDownToZero?.Invoke(this);
-                    }
-                }
+            int newValue = Interlocked.Decrement(ref _viaLimit);
+            if (newValue == 0) {
+                // ViaLimit递减到0从路径列表中移除该路径
+                onDownToZero?.Invoke(this);
             }
         }
 
