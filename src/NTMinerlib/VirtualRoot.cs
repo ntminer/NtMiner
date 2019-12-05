@@ -136,19 +136,19 @@ namespace NTMiner {
 
             private EmptyOut() { }
 
-            public void ShowError(string message, int? delaySeconds = null) {
+            public void ShowError(string message, int delaySeconds) {
                 // nothing need todo
             }
 
-            public void ShowInfo(string message) {
+            public void ShowInfo(string message, int delaySeconds) {
                 // nothing need todo
             }
 
-            public void ShowSuccess(string message, string header = "成功") {
+            public void ShowSuccess(string message, int delaySeconds, string header = "成功") {
                 // nothing need todo
             }
 
-            public void ShowWarn(string message, int? delaySeconds = null) {
+            public void ShowWarn(string message, int delaySeconds) {
                 // nothing need todo
             }
         }

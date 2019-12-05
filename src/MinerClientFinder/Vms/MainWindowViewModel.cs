@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -15,19 +14,32 @@ namespace NTMiner.Vms {
         private int _percent;
         private int _count = 0;
         private bool _isScanning;
+        private Thread _thread;
 
         public ICommand Start { get; private set; }
 
         public MainWindowViewModel() {
             this.Start = new DelegateCommand(() => {
-                if (!IPAddress.TryParse(FromIp, out _) || !IPAddress.TryParse(ToIp, out _)) {
-                    throw new ValidationException("IP地址格式不正确");
+                if (IsScanning) {
+                    _thread?.Abort();
+                    IsScanning = false;
                 }
-                if (Results.Count != 0) {
-                    Results.Clear();
+                else {
+                    _thread?.Abort();
+                    if (!IPAddress.TryParse(FromIp, out _) || !IPAddress.TryParse(ToIp, out _)) {
+                        throw new ValidationException("IP地址格式不正确");
+                    }
+                    if (Results.Count != 0) {
+                        Results.Clear();
+                    }
+                    List<string> ipList = Net.Util.CreateIpRange(FromIp, ToIp);
+                    _thread = new Thread(new ThreadStart(() => {
+                        Scan(ipList.ToArray());
+                    })) {
+                        IsBackground = true
+                    };
+                    _thread.Start();
                 }
-                List<string> ipList = Net.Util.CreateIpRange(FromIp, ToIp);
-                Scan(ipList.ToArray());
             });
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
@@ -48,26 +60,42 @@ namespace NTMiner.Vms {
             _count = 0;
             Percent = 0;
             foreach (var ip in ipList) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (TcpClient client = new TcpClient(ip, 3337)) {
-                            if (client.Connected) {
-                                UIThread.Execute(() => {
-                                    _results.Add(ip);
-                                });
+                Socket socket = null;
+                try {
+                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ip), 3337);
+                    socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                    int n = 0;
+                    Thread t = new Thread(new ThreadStart(() => {
+                        while (true) {
+                            Thread.Sleep(100);
+                            n++;
+                            if (n >= 2) {
+                                try {
+                                    socket.Close();
+                                }
+                                catch {
+                                }
                             }
                         }
+                    })) {
+                        IsBackground = true
+                    };
+                    t.Start();
+                    socket.Connect(endPoint);
+                    UIThread.Execute(() => {
+                        _results.Add(ip);
+                    });
+                }
+                catch {
+                }
+                finally {
+                    socket?.Close();
+                    int count = Interlocked.Increment(ref _count);
+                    Percent = count * 100 / ipList.Length;
+                    if (count == ipList.Length) {
+                        IsScanning = false;
                     }
-                    catch {
-                    }
-                    finally {
-                        Interlocked.Increment(ref _count);
-                        Percent = _count * 100 / ipList.Length;
-                        if (_count == ipList.Length) {
-                            IsScanning = false;
-                        }
-                    }
-                });
+                }
             }
         }
 
@@ -76,6 +104,16 @@ namespace NTMiner.Vms {
             set {
                 _isScanning = value;
                 OnPropertyChanged(nameof(IsScanning));
+                OnPropertyChanged(nameof(BtnStartText));
+            }
+        }
+
+        public string BtnStartText {
+            get {
+                if (IsScanning) {
+                    return "取消";
+                }
+                return "开始";
             }
         }
 

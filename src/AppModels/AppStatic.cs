@@ -577,7 +577,7 @@ namespace NTMiner {
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
                 NTMinerRoot.ExportServerVersionJson(MainAssemblyInfo.ServerVersionJsonFileFullName);
-                VirtualRoot.Out.ShowSuccess($"{MainAssemblyInfo.ServerJsonFileName}", "导出成功");
+                VirtualRoot.Out.ShowSuccess($"{MainAssemblyInfo.ServerJsonFileName}", header: "导出成功");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

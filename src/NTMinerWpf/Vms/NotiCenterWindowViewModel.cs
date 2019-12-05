@@ -17,14 +17,14 @@ namespace NTMiner.Vms {
                 return _manager;
             }
         }
-        public void ShowError(string message, int? delaySeconds = null) {
+        public void ShowError(string message, int delaySeconds) {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Error(message ?? string.Empty);
-                if (delaySeconds.HasValue && delaySeconds.Value != 0) {
+                if (delaySeconds != 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(delaySeconds.Value))
+                        .WithDelay(TimeSpan.FromSeconds(delaySeconds))
                         .Queue();
                 }
                 else {
@@ -35,14 +35,14 @@ namespace NTMiner.Vms {
             });
         }
 
-        public void ShowWarn(string message, int? delaySeconds = null) {
+        public void ShowWarn(string message, int delaySeconds) {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Warning(message ?? string.Empty);
-                if (delaySeconds.HasValue && delaySeconds.Value != 0) {
+                if (delaySeconds != 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(delaySeconds.Value))
+                        .WithDelay(TimeSpan.FromSeconds(delaySeconds))
                         .Queue();
                 }
                 else {
@@ -53,22 +53,22 @@ namespace NTMiner.Vms {
             });
         }
 
-        public void ShowInfo(string message) {
+        public void ShowInfo(string message, int delaySeconds) {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Warning(message ?? string.Empty)
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(4))
+                    .WithDelay(TimeSpan.FromSeconds(delaySeconds))
                     .Queue();
             });
         }
 
-        public void ShowSuccess(string message, string header = "成功") {
+        public void ShowSuccess(string message, int delaySeconds, string header = "成功") {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Success(header, message)
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(4))
+                    .WithDelay(TimeSpan.FromSeconds(delaySeconds))
                     .Queue();
             });
         }
