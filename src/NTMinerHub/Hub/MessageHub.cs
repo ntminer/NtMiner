@@ -56,7 +56,7 @@
                     var item = _messagePaths.FirstOrDefault(a => ReferenceEquals(a, messagePathId));
                     if (item != null) {
                         _messagePaths.Remove(item);
-                        Write.DevDebug("拆除路径" + messagePathId.Path);
+                        Write.DevDebug("拆除路径" + messagePathId.Path + messagePathId.Description);
                     }
                 }
             }
