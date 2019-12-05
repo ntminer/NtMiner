@@ -1,4 +1,5 @@
 ﻿using NTMiner.Views;
+using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +16,15 @@ namespace NTMiner {
         public MainWindow() {
             InitializeComponent();
             NotiCenterWindow.Bind(this);
+            this.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                action: message => {
+                    UIThread.Execute(() => Vm.RefreshLocalIps());
+                }, location: this.GetType());
+            this.AddCmdPath<ShowLocalIpsCommand>(LogEnum.DevConsole, action: message => {
+                UIThread.Execute(() => {
+                    LocalIpConfig.ShowWindow();
+                });
+            }, location: this.GetType());
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e) {

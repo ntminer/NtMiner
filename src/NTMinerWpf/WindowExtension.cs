@@ -101,7 +101,7 @@ namespace NTMiner {
 
         private const string messagePathIdsResourceKey = "messagePathIds";
 
-        public static void AddCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action, Type location)
+        public static void AddCmdPath<TCmd>(this Window window, LogEnum logType, Action<TCmd> action, Type location)
             where TCmd : ICmd {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -115,6 +115,8 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed;
             }
+            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
+            string description = "处理" + messageTypeDescription.Description;
             var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
             messagePathIds.Add(messagePathId);
         }

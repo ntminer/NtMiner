@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
-    <Compile Include="CloseWindowCommand.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="ColorMapper.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
     <Compile Include="Controls\IpAddressControl.xaml.cs">
@@ -53,6 +53,9 @@
     <Compile Include="ViewModelExtension.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LocalIpConfig.xaml.cs">
+      <DependentUpon>LocalIpConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\Icons.xaml.cs">
       <DependentUpon>Icons.xaml</DependentUpon>
@@ -119,6 +122,8 @@
     <Compile Include="Views\Ucs\ServerHostSelect.xaml.cs">
       <DependentUpon>ServerHostSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\LocalIpConfigViewModel.cs" />
+    <Compile Include="Vms\LocalIpViewModel.cs" />
     <Compile Include="Vms\ServerHostSelectViewModel.cs" />
     <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="WindowExtension.cs" />
@@ -189,11 +194,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Design\LocalIpConfigViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\InputWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LocalIpConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

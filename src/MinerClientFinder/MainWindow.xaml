@@ -21,7 +21,7 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="50"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="20"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="4 0 0 0">
@@ -88,6 +88,17 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="3" Margin="4 2" Foreground="{StaticResource ThemeForeground}">双击行复制</TextBlock>
+        <WrapPanel Grid.Row="3" VerticalAlignment="Center">
+            <controls:KbButton 
+				Background="Transparent"
+				Margin="4 0 0 0"
+				ToolTip="管理本机 IP"
+                Cursor="Hand"
+                Command="{Binding ShowLocalIps}"
+                Foreground="White"
+                Content="{Binding LocalIps}"
+				CornerRadius="2">
+            </controls:KbButton>
+        </WrapPanel>
     </Grid>
 </blankWindow:BlankWindow>

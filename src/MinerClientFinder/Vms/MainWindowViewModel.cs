@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using System.Windows.Input;
 
@@ -10,6 +11,7 @@ namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
         private IpAddressViewModel _fromIpAddressVm;
         private IpAddressViewModel _toIpAddressVm;
+        private string _localIps;
         private readonly ObservableCollection<string> _results = new ObservableCollection<string>();
         private int _percent;
         private int _count = 0;
@@ -17,6 +19,10 @@ namespace NTMiner.Vms {
         private Thread _thread;
 
         public ICommand Start { get; private set; }
+
+        public ICommand ShowLocalIps { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowLocalIpsCommand());
+        });
 
         public MainWindowViewModel() {
             this.Start = new DelegateCommand(() => {
@@ -50,6 +56,23 @@ namespace NTMiner.Vms {
                     this._toIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
                 }
             }
+            _localIps = GetLocalIps();
+        }
+
+        private string GetLocalIps() {
+            StringBuilder sb = new StringBuilder();
+            int len = sb.Length;
+            foreach (var localIp in VirtualRoot.LocalIpSet.AsEnumerable()) {
+                if (len != sb.Length) {
+                    sb.Append("，");
+                }
+                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(动态)" : "🔒");
+            }
+            return sb.ToString();
+        }
+
+        public void RefreshLocalIps() {
+            LocalIps = GetLocalIps();
         }
 
         private void Scan(string[] ipList) {
@@ -66,7 +89,7 @@ namespace NTMiner.Vms {
                     int n = 0;
                     Thread t = new Thread(new ThreadStart(() => {
                         while (true) {
-                            Thread.Sleep(100);
+                            Thread.Sleep(200);
                             n++;
                             if (n >= 2) {
                                 try {
@@ -95,6 +118,14 @@ namespace NTMiner.Vms {
                         IsScanning = false;
                     }
                 }
+            }
+        }
+
+        public string LocalIps {
+            get { return _localIps; }
+            set {
+                _localIps = value;
+                OnPropertyChanged(nameof(LocalIps));
             }
         }
 
