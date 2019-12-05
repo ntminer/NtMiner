@@ -17,6 +17,7 @@ namespace NTMiner.Vms {
         private int _count = 0;
         private bool _isScanning;
         private Thread _thread;
+        private int _timeout;
 
         public ICommand Start { get; private set; }
 
@@ -89,7 +90,7 @@ namespace NTMiner.Vms {
                     int n = 0;
                     Thread t = new Thread(new ThreadStart(() => {
                         while (true) {
-                            Thread.Sleep(200);
+                            Thread.Sleep(Timeout);
                             n++;
                             if (n >= 2) {
                                 try {
@@ -118,6 +119,14 @@ namespace NTMiner.Vms {
                         IsScanning = false;
                     }
                 }
+            }
+        }
+
+        public int Timeout {
+            get { return _timeout; }
+            set {
+                _timeout = value;
+                OnPropertyChanged(nameof(Timeout));
             }
         }
 

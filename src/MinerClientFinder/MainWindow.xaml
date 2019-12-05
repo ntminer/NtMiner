@@ -35,13 +35,16 @@
             </WrapPanel>
         </DockPanel>
         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">IP范围从</TextBlock>
+            <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">从</TextBlock>
             <controls:IpAddressControl Margin="4 0 0 0" DataContext="{Binding FromIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
             <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Margin="4 0">到</TextBlock>
             <controls:IpAddressControl DataContext="{Binding ToIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
             <Button Margin="4 0 0 0" Padding="8 0" Command="{Binding Start}" Content="{Binding BtnStartText}"></Button>
             <TextBlock Foreground="{StaticResource ThemeForeground}" Width="22" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
             <TextBlock Foreground="{StaticResource ThemeForeground}" Margin="2 0 0 0" VerticalAlignment="Center" Text="%"></TextBlock>
+            <RadioButton x:Name="RbFast" Checked="RbSpeed_Checked" Margin="4 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">快</RadioButton>
+            <RadioButton x:Name="RbNormal" Checked="RbSpeed_Checked" Margin="4 0 0 0" IsChecked="True" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">中</RadioButton>
+            <RadioButton x:Name="RbSlow" Checked="RbSpeed_Checked" Margin="4 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">慢</RadioButton>
         </WrapPanel>
         <DataGrid
             Grid.Row="2"

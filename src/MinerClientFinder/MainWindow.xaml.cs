@@ -45,5 +45,18 @@ namespace NTMiner {
                 VirtualRoot.Out.ShowSuccess(ip, autoHideSeconds: 1, "复制成功");
             }
         }
+
+        private void RbSpeed_Checked(object sender, RoutedEventArgs e) {
+            RadioButton rbtn = (RadioButton)sender;
+            if (rbtn == RbFast) {
+                Vm.Timeout = 100;
+            }
+            else if (rbtn == RbNormal) {
+                Vm.Timeout = 200;
+            }
+            else {
+                Vm.Timeout = 300;
+            }
+        }
     }
 }
