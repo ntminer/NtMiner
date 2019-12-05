@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Keyword)) {
-                    VirtualRoot.Out.ShowError("关键字不能为空", delaySeconds: 4);
+                    VirtualRoot.Out.ShowError("关键字不能为空", autoHideSeconds: 4);
                     return;
                 }
                 if (AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.KernelOutputId).Any(a => a.Id != this.Id && a.Keyword == this.Keyword)) {

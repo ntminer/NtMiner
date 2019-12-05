@@ -269,7 +269,7 @@ namespace NTMiner {
                     }
                 }
                 else if (e != null) {
-                    VirtualRoot.Out.ShowError(e.Message, delaySeconds: 4);
+                    VirtualRoot.Out.ShowError(e.Message, autoHideSeconds: 4);
                 }
                 else {
                     if (on) {

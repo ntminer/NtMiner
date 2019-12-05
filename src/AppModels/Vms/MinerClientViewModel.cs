@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
             });
             this.RemoteDesktop = new DelegateCommand<string>((ip) => {
                 if (string.IsNullOrEmpty(ip)) {
-                    VirtualRoot.Out.ShowWarn("Ip地址不能为空", delaySeconds: 4);
+                    VirtualRoot.Out.ShowWarn("Ip地址不能为空", autoHideSeconds: 4);
                     return;
                 }
                 string[] parts = ip.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);

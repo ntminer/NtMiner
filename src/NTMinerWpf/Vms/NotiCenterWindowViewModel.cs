@@ -17,59 +17,75 @@ namespace NTMiner.Vms {
                 return _manager;
             }
         }
-        public void ShowError(string message, int delaySeconds) {
+        public void ShowError(string message, int autoHideSeconds) {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Error(message ?? string.Empty);
-                if (delaySeconds != 0) {
+                if (autoHideSeconds > 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(delaySeconds))
+                        .WithDelay(TimeSpan.FromSeconds(autoHideSeconds))
                         .Queue();
                 }
                 else {
                     builder
-                        .Dismiss().WithButton("忽略", null)
+                        .Dismiss().WithButton("知道了", null)
                         .Queue();
                 }
             });
         }
 
-        public void ShowWarn(string message, int delaySeconds) {
+        public void ShowWarn(string message, int autoHideSeconds) {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Warning(message ?? string.Empty);
-                if (delaySeconds != 0) {
+                if (autoHideSeconds > 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(delaySeconds))
+                        .WithDelay(TimeSpan.FromSeconds(autoHideSeconds))
                         .Queue();
                 }
                 else {
                     builder
-                        .Dismiss().WithButton("忽略", null)
+                        .Dismiss().WithButton("知道了", null)
                         .Queue();
                 }
             });
         }
 
-        public void ShowInfo(string message, int delaySeconds) {
+        public void ShowInfo(string message, int autoHideSeconds) {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
-                builder.Warning(message ?? string.Empty)
+                builder.Warning(message ?? string.Empty);
+                if (autoHideSeconds > 0) {
+                    builder
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(delaySeconds))
+                    .WithDelay(TimeSpan.FromSeconds(autoHideSeconds))
                     .Queue();
+                }
+                else {
+                    builder
+                        .Dismiss().WithButton("知道了", null)
+                        .Queue();
+                }
             });
         }
 
-        public void ShowSuccess(string message, int delaySeconds, string header = "成功") {
+        public void ShowSuccess(string message, int autoHideSeconds, string header = "成功") {
             UIThread.Execute(() => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
-                builder.Success(header, message)
+                builder.Success(header, message);
+                if (autoHideSeconds > 0) {
+                    builder
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(delaySeconds))
+                    .WithDelay(TimeSpan.FromSeconds(autoHideSeconds))
                     .Queue();
+                }
+                else {
+                    builder
+                        .Dismiss().WithButton("知道了", null)
+                        .Queue();
+                }
             });
         }
     }

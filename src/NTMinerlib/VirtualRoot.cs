@@ -136,19 +136,19 @@ namespace NTMiner {
 
             private EmptyOut() { }
 
-            public void ShowError(string message, int delaySeconds) {
+            public void ShowError(string message, int autoHideSeconds) {
                 // nothing need todo
             }
 
-            public void ShowInfo(string message, int delaySeconds) {
+            public void ShowInfo(string message, int autoHideSeconds) {
                 // nothing need todo
             }
 
-            public void ShowSuccess(string message, int delaySeconds, string header = "成功") {
+            public void ShowSuccess(string message, int autoHideSeconds, string header = "成功") {
                 // nothing need todo
             }
 
-            public void ShowWarn(string message, int delaySeconds) {
+            public void ShowWarn(string message, int autoHideSeconds) {
                 // nothing need todo
             }
         }
@@ -367,10 +367,10 @@ namespace NTMiner {
                     Out.ShowInfo(content);
                     break;
                 case OutEnum.Warn:
-                    Out.ShowWarn(content, delaySeconds: 4);
+                    Out.ShowWarn(content, autoHideSeconds: 4);
                     break;
                 case OutEnum.Error:
-                    Out.ShowError(content, delaySeconds: 4);
+                    Out.ShowError(content, autoHideSeconds: 4);
                     break;
                 case OutEnum.Success:
                     Out.ShowSuccess(content);

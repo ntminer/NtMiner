@@ -25,7 +25,7 @@ namespace NTMiner {
             if (dg.SelectedItem != null) {
                 string ip = (string)dg.SelectedItem;
                 Clipboard.SetDataObject(ip);
-                VirtualRoot.Out.ShowSuccess(ip, delaySeconds: 1, "复制成功");
+                VirtualRoot.Out.ShowSuccess(ip, autoHideSeconds: 1, "复制成功");
             }
         }
     }
