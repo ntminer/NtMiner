@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using Microsoft.Win32;
+using NTMiner.Core;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
@@ -73,6 +74,7 @@ namespace NTMiner.Views {
 #if DEBUG
             Write.Stopwatch.Start();
 #endif
+            SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
             this.Loaded += (sender, e) => {
                 ConsoleWindow.Instance.Show();
                 ConsoleWindow.Instance.MouseDown += (ss, ee) => {
@@ -219,6 +221,10 @@ namespace NTMiner.Views {
 #endif
         }
 
+        private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e) {
+            MoveConsoleWindow();
+        }
+
         #region 改变下面的控制台窗口的尺寸和位置
         private void MoveConsoleWindow() {
             if (!this.IsLoaded) {
@@ -354,6 +360,7 @@ namespace NTMiner.Views {
             hwndSource?.Dispose();
             hwndSource = null;
             base.OnClosed(e);
+            SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
             Application.Current.Shutdown();
         }
 

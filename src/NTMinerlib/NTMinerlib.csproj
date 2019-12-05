@@ -44,6 +44,7 @@
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
     <Compile Include="Hosts.cs" />
+    <Compile Include="JsonRequestExtensions.cs" />
     <Compile Include="JsonResponseExtension.cs" />
     <Compile Include="Net\ArpUtil.cs" />
     <Compile Include="Net\DeviceScanner.cs" />

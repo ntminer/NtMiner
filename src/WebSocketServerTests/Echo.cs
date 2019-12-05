@@ -34,7 +34,7 @@ namespace NTMiner {
                 }
                 switch (request.action) {
                     case "getSpeed":
-                        Dictionary<string, object> data = VirtualRoot.JsonSerializer.Deserialize<Dictionary<string, object>>(request.json);
+                        Dictionary<string, object> data = request.Parse();
                         string messageId = string.Empty;
                         if (data != null) {
                             messageId = data["messageId"]?.ToString();

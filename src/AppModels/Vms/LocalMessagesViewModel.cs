@@ -166,7 +166,7 @@
             if (_queyResults == _localMessageVms) {
                 return false;
             }
-            if (_count[SelectedChannel][vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.Contains(Keyword))) {
+            if (SelectedChannel == vm.ChannelEnum.GetEnumItem() && _count[SelectedChannel][vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.Contains(Keyword))) {
                 return true;
             }
             return false;
