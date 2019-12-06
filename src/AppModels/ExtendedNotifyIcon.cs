@@ -59,7 +59,7 @@ namespace NTMiner {
             Dispose(true);
             // Tell the garbage collector not to call the finalizer
             // since all the cleanup will already be done.
-            GC.SuppressFinalize(true);
+            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool isDisposing) {
