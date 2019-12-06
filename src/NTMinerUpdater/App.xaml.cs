@@ -99,11 +99,11 @@ namespace NTMiner {
         }
 
         public void Dispose() {
-            Dispose(true);
+            CleanUp(true);
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose(bool disposing) {
+        private void CleanUp(bool disposing) {
             if (disposing) {
                 if (mutexApp != null) {
                     mutexApp.Dispose();

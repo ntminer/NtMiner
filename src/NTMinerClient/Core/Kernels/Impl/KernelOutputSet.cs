@@ -298,7 +298,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         gpuSpeeds.SetCurrentSpeed(gpu, gpuSpeedL, isDual, now);
                     }
                 }
-                string totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
+                string totalSpeedPattern = kernelOutput.TotalSpeedPattern;
                 if (isDual) {
                     totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
                 }

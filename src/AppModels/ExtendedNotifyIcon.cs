@@ -52,17 +52,17 @@ namespace NTMiner {
         private bool _isDisposed = false;
 
         ~ExtendedNotifyIcon() {
-            Dispose(false);
+            CleanUp(false);
         }
 
         public void Dispose() {
-            Dispose(true);
+            CleanUp(true);
             // Tell the garbage collector not to call the finalizer
             // since all the cleanup will already be done.
             GC.SuppressFinalize(this);
         }
 
-        protected virtual void Dispose(bool isDisposing) {
+        protected virtual void CleanUp(bool isDisposing) {
             if (_isDisposed)
                 return;
 

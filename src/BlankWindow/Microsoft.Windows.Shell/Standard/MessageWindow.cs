@@ -61,18 +61,18 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         ~MessageWindow() {
-            _Dispose(false, false);
+            CleanUp(false, false);
         }
 
         public void Dispose() {
-            _Dispose(true, false);
+            CleanUp(true, false);
             GC.SuppressFinalize(this);
         }
 
         // This isn't right if the Dispatcher has already started shutting down.
         // The HWND itself will get cleaned up on thread completion, but it will wind up leaking the class ATOM...
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing")]
-        private void _Dispose(bool disposing, bool isHwndBeingDestroyed) {
+        private void CleanUp(bool disposing, bool isHwndBeingDestroyed) {
             if (_isDisposed) {
                 // Block against reentrancy.
                 return;
@@ -128,7 +128,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
             }
 
             if (msg == WM.NCDESTROY) {
-                hwndWrapper._Dispose(true, true);
+                hwndWrapper.CleanUp(true, true);
                 GC.SuppressFinalize(hwndWrapper);
             }
 
