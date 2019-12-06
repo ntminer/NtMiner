@@ -8,8 +8,8 @@ using System.Net.NetworkInformation;
 namespace NTMiner.Net {
     public class LocalIpSet : ILocalIpSet {
         public static IEnumerable<ManagementObject> GetNetCardInfo() {
-            using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
-                ManagementObjectCollection moc = mc.GetInstances();
+            using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
+            using (ManagementObjectCollection moc = mc.GetInstances()) {
                 foreach (ManagementObject mo in moc) {
                     if (!(bool)mo["IPEnabled"] || mo["DefaultIPGateway"] == null) {
                         continue;
@@ -139,8 +139,8 @@ namespace NTMiner.Net {
             };
             VirtualRoot.AddCmdPath<SetLocalIpCommand>(action: message => {
                 ManagementObject mo = null; 
-                using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
-                    ManagementObjectCollection moc = mc.GetInstances();
+                using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
+                using (ManagementObjectCollection moc = mc.GetInstances()) {
                     foreach (ManagementObject item in moc) {
                         if ((string)item["SettingID"] == message.Input.SettingID) {
                             mo = item;

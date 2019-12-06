@@ -25,12 +25,11 @@ namespace UnitTests {
         [TestMethod]
         public void ProcessInfoTest() {
             string wmiQuery = $"select * from Win32_Process where Name='devenv.exe'";// VS的进程
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery)) {
-                using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
-                    foreach (ManagementObject retObject in retObjectCollection) {
-                        foreach (var kv in retObject.Properties) {
-                            Console.WriteLine(kv.Name + ":" + kv.Value);
-                        }
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery))
+            using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
+                foreach (ManagementObject retObject in retObjectCollection) {
+                    foreach (var kv in retObject.Properties) {
+                        Console.WriteLine(kv.Name + ":" + kv.Value);
                     }
                 }
             }
@@ -39,11 +38,10 @@ namespace UnitTests {
         [TestMethod]
         public void ProcessInfoTest2() {
             string wmiQuery = $"select Caption,ExecutablePath from Win32_Process";
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery)) {
-                using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
-                    foreach (ManagementObject retObject in retObjectCollection) {
-                        Console.WriteLine($"Caption: {retObject["Caption"].ToString().PadRight(50)},ExecutablePath: {retObject["ExecutablePath"]}");
-                    }
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery))
+            using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
+                foreach (ManagementObject retObject in retObjectCollection) {
+                    Console.WriteLine($"Caption: {retObject["Caption"].ToString().PadRight(50)},ExecutablePath: {retObject["ExecutablePath"]}");
                 }
             }
         }
