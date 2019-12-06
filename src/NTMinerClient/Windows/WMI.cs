@@ -47,11 +47,10 @@ namespace NTMiner.Windows {
                 processName += ".exe";
             }
             string wmiQuery = $"select CommandLine from Win32_Process where Name='{processName}'";
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery)) {
-                using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
-                    foreach (ManagementObject retObject in retObjectCollection) {
-                        results.Add((string)retObject["CommandLine"]);
-                    }
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery))
+            using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
+                foreach (ManagementObject retObject in retObjectCollection) {
+                    results.Add((string)retObject["CommandLine"]);
                 }
             }
 
