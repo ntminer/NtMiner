@@ -12,6 +12,7 @@
         d:DataContext="{d:DesignData Source=/Design/MainWindowViewModel.xaml}"
         WindowStartupLocation="CenterScreen"
 		MouseDown="Window_MouseDown"
+        FontSize="14"
         Title="寻找矿机(敖江) - 开源矿工" Height="800" Width="600">
     <blankWindow:BlankWindow.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
@@ -21,7 +22,7 @@
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-            <RowDefinition Height="20"></RowDefinition>
+            <RowDefinition Height="24"></RowDefinition>
         </Grid.RowDefinitions>
         <DockPanel Grid.Row="0">
             <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="4 0 0 0">
@@ -40,9 +41,9 @@
             <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Margin="4 0">到</TextBlock>
             <controls:IpAddressControl DataContext="{Binding ToIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
             <Button Margin="4 0 0 0" Padding="8 0" Height="26" FocusVisualStyle="{x:Null}" Command="{Binding Start}" Content="{Binding BtnStartText}"></Button>
-            <TextBlock Foreground="{StaticResource ThemeForeground}" Width="22" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
+            <TextBlock Foreground="{StaticResource ThemeForeground}" Width="26" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
             <TextBlock Foreground="{StaticResource ThemeForeground}" Margin="2 0 0 0" VerticalAlignment="Center" Text="%"></TextBlock>
-            <RadioButton x:Name="RbFast" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="4 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">快</RadioButton>
+            <RadioButton x:Name="RbFast" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="8 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">快</RadioButton>
             <RadioButton x:Name="RbNormal" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="4 0 0 0" IsChecked="True" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">中</RadioButton>
             <RadioButton x:Name="RbSlow" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="4 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">慢</RadioButton>
         </WrapPanel>
@@ -99,6 +100,7 @@
                 Cursor="Hand"
                 Command="{Binding ShowLocalIps}"
                 Foreground="White"
+                FontSize="13"
                 Content="{Binding LocalIps}"
 				CornerRadius="2">
             </controls:KbButton>
