@@ -10,7 +10,6 @@
 		SizeToContent="Height"
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterOwner"
-		MouseDown="Window_MouseDown"
 		Background="White"
         d:DataContext="{d:DesignData Source=/Design/MinerClientSettingViewModel.xaml}"
 		mc:Ignorable="d" Width="300" MinHeight="120">

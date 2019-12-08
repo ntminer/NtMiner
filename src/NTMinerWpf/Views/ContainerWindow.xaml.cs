@@ -130,12 +130,6 @@ namespace NTMiner.Views {
             this.Container.Children.Add(_uc);
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
         private void ShowWindow<TUc>(Action<ContainerWindow, TUc> beforeShow = null) where TUc : UserControl {
             beforeShow?.Invoke(this, (TUc)_uc);
             if (Vm.IsMaskTheParent && this.Owner == null) {

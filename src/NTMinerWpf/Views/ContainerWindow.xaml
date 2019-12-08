@@ -11,7 +11,6 @@
 	Background="{StaticResource ThemeBackground}"
 	WindowStartupLocation="CenterScreen"
 	TextOptions.TextFormattingMode="Display"
-    MouseDown="Window_MouseDown"
 	MaxWidth="{Binding MaxWidth}" MaxHeight="{Binding MaxHeight}"
 	mc:Ignorable="d" d:DesignHeight="360" d:DesignWidth="600">
 	<Grid>

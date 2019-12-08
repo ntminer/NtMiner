@@ -15,7 +15,6 @@
 		WindowState="Maximized"
         d:DataContext="{d:DesignData Source=/Design/MinerClientsWindowViewModel.xaml}"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="MetroWindow_MouseDown"
 		Title="矿机列表"
 		mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="5300">
     <blankWindow:BlankWindow.Resources>

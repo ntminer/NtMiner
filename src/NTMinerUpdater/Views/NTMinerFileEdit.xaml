@@ -14,7 +14,6 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/NTMinerFileViewModel.xaml}"
 		WindowStartupLocation="CenterOwner"
-		MouseDown="MetroWindow_MouseDown"
 		Title="编辑版本" SizeToContent="Height" Width="400">
 	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>

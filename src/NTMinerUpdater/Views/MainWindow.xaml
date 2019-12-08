@@ -12,7 +12,6 @@
 		Background="{StaticResource ThemeBackground}"
 		Foreground="{StaticResource ThemeForeground}"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="MetroWindow_MouseDown"
 		DataContext="{x:Static vm:MainWindowViewModel.Instance}"
 		Title="开源矿工升级器" Height="440" Width="333">
 	<Grid>

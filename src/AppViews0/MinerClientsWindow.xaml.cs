@@ -88,12 +88,6 @@ namespace NTMiner.Views {
             base.OnClosed(e);
         }
 
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
         private void MinerClientsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
             Vm.SelectedMinerClients = ((DataGrid)sender).SelectedItems.Cast<MinerClientViewModel>().ToArray();
         }

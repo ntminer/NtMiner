@@ -1,6 +1,5 @@
 ﻿using NTMiner.Vms;
 using System.Windows;
-using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerClientAdd : BlankWindow {
@@ -20,12 +19,6 @@ namespace NTMiner.Views.Ucs {
             var owner = WpfUtil.GetTopWindow();
             if (this != owner) {
                 this.Owner = owner;
-            }
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ButtonState == MouseButtonState.Pressed) {
-                this.DragMove();
             }
         }
     }

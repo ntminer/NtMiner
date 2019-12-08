@@ -11,7 +11,6 @@
 		Background="{StaticResource ThemeBackground}"
         d:DataContext="{d:DesignData Source=/Design/MainWindowViewModel.xaml}"
         WindowStartupLocation="CenterScreen"
-		MouseDown="Window_MouseDown"
         FontSize="14"
         Title="寻找矿机(敖江) - 开源矿工" Height="800" Width="600">
     <blankWindow:BlankWindow.DataContext>

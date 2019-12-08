@@ -27,12 +27,6 @@ namespace NTMiner {
             }, location: this.GetType());
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             WpfUtil.DataGrid_MouseDoubleClick<string>(sender, e, ip => {
                 Clipboard.SetDataObject(ip);

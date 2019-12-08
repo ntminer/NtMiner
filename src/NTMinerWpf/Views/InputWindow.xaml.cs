@@ -48,11 +48,5 @@ namespace NTMiner.Views {
                 _onOk.Invoke(this.TbText.Text);
             }
         }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ButtonState == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
     }
 }
