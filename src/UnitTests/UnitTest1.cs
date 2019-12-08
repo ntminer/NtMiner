@@ -235,7 +235,7 @@ namespace UnitTests {
                 PoolId = Guid.NewGuid(),
                 UserName = "test"
             };
-            Console.WriteLine(new ObjectJsonSerializer().Serialize(data));
+            Console.WriteLine(new NTJsonSerializer().Serialize(data));
         }
 
         [TestMethod]

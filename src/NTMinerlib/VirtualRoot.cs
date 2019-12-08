@@ -111,7 +111,7 @@ namespace NTMiner {
         }
 
         public static ILocalIpSet LocalIpSet { get; private set; }
-        public static IObjectSerializer JsonSerializer { get; private set; }
+        public static INTSerializer JsonSerializer { get; private set; }
 
         // 视图层有个界面提供给开发者观察系统的消息路径情况所以是public的。
         // 系统根上的一些状态集的构造时最好都放在MessageHub初始化之后，因为状态集的构造
@@ -162,7 +162,7 @@ namespace NTMiner {
         static VirtualRoot() {
             Id = NTMinerRegistry.GetClientId();
             LocalIpSet = new LocalIpSet();
-            JsonSerializer = new ObjectJsonSerializer();
+            JsonSerializer = new NTJsonSerializer();
             // 构造函数中会建造消息路径
             LocalMessages = new LocalMessageSet(LocalDbFileFullName);
         }
