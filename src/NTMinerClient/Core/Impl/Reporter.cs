@@ -55,7 +55,7 @@ namespace NTMiner.Core.Impl {
                 IsAutoBoot = workProfile.IsAutoBoot,
                 IsAutoStart = workProfile.IsAutoStart,
                 AutoStartDelaySeconds = workProfile.AutoStartDelaySeconds,
-                Version = MainAssemblyInfo.CurrentVersion.ToString(4),
+                Version = EntryAssemblyInfo.CurrentVersion.ToString(4),
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,
                 IsMining = root.IsMining,

@@ -18,6 +18,9 @@ namespace NTMiner {
             _isEnabled = true;
         }
 
+        /// <summary>
+        /// 禁用Write则可以避免行走到NTMinerConsole中去，从而避免创建出Windows控制台
+        /// </summary>
         public static void Disable() {
             _isEnabled = false;
         }

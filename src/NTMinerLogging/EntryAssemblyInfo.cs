@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 namespace NTMiner {
-    public static class MainAssemblyInfo {
+    public static class EntryAssemblyInfo {
         public const string Version = "2.6.6";
         public const string Build = "5";
         public const string Tag = "蛮吉";
@@ -29,7 +29,7 @@ namespace NTMiner {
             return $"server{CurrentVersion.Major.ToString()}.0.0.json";
         }
 
-        static MainAssemblyInfo() {
+        static EntryAssemblyInfo() {
             if (!DevMode.IsInUnitTest) {
                 Assembly mainAssembly = Assembly.GetEntryAssembly();
                 CurrentVersion = mainAssembly.GetName().Version;

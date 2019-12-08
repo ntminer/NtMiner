@@ -20,7 +20,7 @@ namespace NTMiner.Controllers {
                     clientData.Update(speedData, ClientIp);
                 }
                 if (Version.TryParse(speedData.Version, out Version version)) {
-                    string jsonVersionKey = MainAssemblyInfo.GetServerJsonVersion(version);
+                    string jsonVersionKey = EntryAssemblyInfo.GetServerJsonVersion(version);
                     var response = ReportResponse.Ok(HostRoot.GetServerState(jsonVersionKey));
                     if (speedData.LocalServerMessageTimestamp.AddSeconds(1) < HostRoot.Instance.ServerMessageTimestamp) {
                         var list = HostRoot.Instance.ServerMessageSet.GetServerMessages(speedData.LocalServerMessageTimestamp);

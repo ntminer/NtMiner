@@ -58,7 +58,7 @@ namespace HardwareProviders {
 
         private static string GetTempFileName() {
             // try to create one in the application folder
-            var fileName = Path.Combine(NTMiner.MainAssemblyInfo.TempDirFullName, "HardwareProviders.sys");
+            var fileName = Path.Combine(NTMiner.EntryAssemblyInfo.TempDirFullName, "HardwareProviders.sys");
             try {
                 using (var stream = File.Create(fileName)) {
                     return fileName;

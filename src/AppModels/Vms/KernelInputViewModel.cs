@@ -161,7 +161,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsSupportDualMineVisible {
             get {
-                if (DevMode.IsDebugMode) {
+                if (DevMode.IsDevMode) {
                     return Visibility.Visible;
                 }
                 if (IsSupportDualMine) {

@@ -15,7 +15,7 @@ namespace NTMiner.SwitchRadeonGpu {
                     Type type = typeof(SwitchRadeonGpu);
                     Assembly assembly = type.Assembly;
                     string name = "switch-radeon-gpu.exe";
-                    string fileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, name);
+                    string fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
                     Windows.Cmd.RunClose(fileFullName, $"--compute={(on ? "on" : "off")} --admin --restart", waitForExit: true);
                     callback?.Invoke(true, null);

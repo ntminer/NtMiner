@@ -22,7 +22,7 @@ namespace NTMiner {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static string LocalDbFileFullName {
             get {
-                return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
+                return Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
             }
         }
 

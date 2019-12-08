@@ -124,10 +124,10 @@ namespace NTMiner {
             get => NTMinerRoot.Instance.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss");
         }
         public static string HomeDir {
-            get => MainAssemblyInfo.HomeDirFullName;
+            get => EntryAssemblyInfo.HomeDirFullName;
         }
         public static string TempDir {
-            get { return MainAssemblyInfo.TempDirFullName; }
+            get { return EntryAssemblyInfo.TempDirFullName; }
         }
         public static string ServerDbFileFullName {
             get {
@@ -143,7 +143,7 @@ namespace NTMiner {
         }
 
         public static string ServerVersionJsonFileFullName {
-            get { return MainAssemblyInfo.ServerVersionJsonFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName); }
+            get { return EntryAssemblyInfo.ServerVersionJsonFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName); }
         }
 
         public static string PackagesDirFullName {
@@ -395,19 +395,19 @@ namespace NTMiner {
 
         public static string CurrentVersion {
             get {
-                return MainAssemblyInfo.CurrentVersion.ToString();
+                return EntryAssemblyInfo.CurrentVersion.ToString();
             }
         }
 
         public static string VersionTag {
             get {
-                return MainAssemblyInfo.CurrentVersionTag;
+                return EntryAssemblyInfo.CurrentVersionTag;
             }
         }
 
         public static string VersionFullName {
             get {
-                return $"v{MainAssemblyInfo.CurrentVersion}({VersionTag})";
+                return $"v{EntryAssemblyInfo.CurrentVersion}({VersionTag})";
             }
         }
         #endregion
@@ -553,10 +553,10 @@ namespace NTMiner {
 
         public static ICommand OpenDir { get; private set; } = new DelegateCommand<string>((dir) => {
             if (dir.StartsWith(NTKeyword.TempDirParameterName)) {
-                dir = dir.Replace(NTKeyword.TempDirParameterName, MainAssemblyInfo.TempDirFullName);
+                dir = dir.Replace(NTKeyword.TempDirParameterName, EntryAssemblyInfo.TempDirFullName);
             }
             else if (dir.StartsWith(NTKeyword.HomeDirParameterName)) {
-                dir = dir.Replace(NTKeyword.HomeDirParameterName, MainAssemblyInfo.HomeDirFullName);
+                dir = dir.Replace(NTKeyword.HomeDirParameterName, EntryAssemblyInfo.HomeDirFullName);
             }
             Process.Start(dir);
         });
@@ -570,27 +570,27 @@ namespace NTMiner {
 
         public static string ExportServerJsonMenuName {
             get {
-                return "导出" + MainAssemblyInfo.ServerJsonFileName;
+                return "导出" + EntryAssemblyInfo.ServerJsonFileName;
             }
         }
 
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
-                NTMinerRoot.ExportServerVersionJson(MainAssemblyInfo.ServerVersionJsonFileFullName);
-                VirtualRoot.Out.ShowSuccess($"{MainAssemblyInfo.ServerJsonFileName}", header: "导出成功");
+                NTMinerRoot.ExportServerVersionJson(EntryAssemblyInfo.ServerVersionJsonFileFullName);
+                VirtualRoot.Out.ShowSuccess($"{EntryAssemblyInfo.ServerJsonFileName}", header: "导出成功");
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
         });
 
-        public static string ServerJsonFileName { get; private set; } = MainAssemblyInfo.ServerJsonFileName;
+        public static string ServerJsonFileName { get; private set; } = EntryAssemblyInfo.ServerJsonFileName;
 
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowDialogWindowCommand(message: $"您确定刷新{MainAssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
+            VirtualRoot.Execute(new ShowDialogWindowCommand(message: $"您确定刷新{EntryAssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {
                 try {
                     VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
-                        Key = MainAssemblyInfo.ServerJsonFileName,
+                        Key = EntryAssemblyInfo.ServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }));
                     VirtualRoot.Out.ShowSuccess($"刷新成功");
@@ -715,7 +715,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowCalcConfigCommand());
         });
         public static ICommand ShowHomeDir { get; private set; } = new DelegateCommand(() => {
-            Process.Start(MainAssemblyInfo.HomeDirFullName);
+            Process.Start(EntryAssemblyInfo.HomeDirFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
             OpenLiteDb(VirtualRoot.LocalDbFileFullName);

@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                 new KernelOutputKeywordViewModel(new KernelOutputKeywordData {
                     Id = Guid.NewGuid(),
                     MessageType = LocalMessageType.Info.GetName(),
-                    DataLevel = DevMode.IsDevMode? DataLevel.Global: DataLevel.Profile,
+                    DataLevel = DevMode.IsDevMode ? DataLevel.Global: DataLevel.Profile,
                     Keyword = string.Empty,
                     Description = string.Empty,
                     KernelOutputId = kernelOutputVm.Id
