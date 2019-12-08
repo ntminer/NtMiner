@@ -76,7 +76,7 @@ namespace NTMiner.Views {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<KernelViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<KernelViewModel>(sender, e);
         }
 
         private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {

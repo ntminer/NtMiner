@@ -35,7 +35,7 @@ namespace NTMiner.Views {
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
             DateTime lastGetServerMessageOn = DateTime.MinValue;
-            this.ServerMessagesUc.IsVisibleChanged += (sender, e)=> {
+            this.ServerMessagesUc.IsVisibleChanged += (sender, e) => {
                 VirtualRoot.SetIsServerMessagesVisible(this.ServerMessagesUc.IsVisible);
                 if (this.ServerMessagesUc.IsVisible) {
                     if (lastGetServerMessageOn.AddSeconds(10) < DateTime.Now) {
@@ -107,14 +107,9 @@ namespace NTMiner.Views {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < dg.ColumnHeaderHeight) {
-                return;
-            }
-            if (Vm.SelectedMinerClients != null && Vm.SelectedMinerClients.Length != 0) {
-                Vm.SelectedMinerClients[0].RemoteDesktop.Execute(Vm.SelectedMinerClients[0].GetRemoteDesktopIp());
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<MinerClientViewModel>(sender, e, rowVm => {
+                rowVm.RemoteDesktop.Execute(Vm.SelectedMinerClients[0].GetRemoteDesktopIp());
+            });
         }
 
         private void DataGrid_OnSorting(object sender, DataGridSortingEventArgs e) {

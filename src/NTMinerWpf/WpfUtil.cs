@@ -69,13 +69,6 @@ namespace NTMiner {
             Application.Current.Shutdown();
         }
 
-        public static ScrollViewer GetScrollViewer(this FlowDocumentScrollViewer element) {
-            if (element == null) {
-                throw new ArgumentNullException(nameof(element));
-            }
-            return element.Template?.FindName("PART_ContentHost", element) as ScrollViewer;
-        }
-
         public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e, bool isLeftBar = false) {
             if (isLeftBar) {
                 if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
@@ -115,15 +108,21 @@ namespace NTMiner {
             }
         }
 
-        public static void DataGrid_MouseDoubleClick<T>(object sender, MouseButtonEventArgs e) where T : IEditableViewModel {
+        public static void DataGrid_MouseDoubleClick<T>(object sender, MouseButtonEventArgs e, Action<T> callback) {
             DataGrid dg = (DataGrid)sender;
             Point p = e.GetPosition(dg);
             if (p.Y < dg.ColumnHeaderHeight) {
                 return;
             }
             if (dg.SelectedItem != null) {
-                ((T)dg.SelectedItem).Edit.Execute(FormType.Edit);
+                callback?.Invoke(((T)dg.SelectedItem));
             }
+        }
+
+        public static void DataGrid_EditRow<T>(object sender, MouseButtonEventArgs e) where T : IEditableViewModel {
+            DataGrid_MouseDoubleClick<T>(sender, e, t => {
+                t.Edit.Execute(FormType.Edit);
+            });
         }
     }
 }
