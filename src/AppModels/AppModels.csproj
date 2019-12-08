@@ -91,6 +91,7 @@
     <Compile Include="RemoteDesktop\Rdp.partial.cs" />
     <Compile Include="RemoteDesktop\Rdp.cs" />
     <Compile Include="RemoteDesktop\RdpInput.cs" />
+    <Compile Include="SortableExtension.cs" />
     <Compile Include="View\AbstractAppViewFactory.cs" />
     <Compile Include="View\IAppViewFactory.cs" />
     <Compile Include="Vms\AboutPageViewModel.cs" />

@@ -67,11 +67,11 @@ namespace NTMiner {
             }
 
             public WalletViewModel GetUpOne(Guid coinId, int sortNumber) {
-                return WalletList.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber < sortNumber);
+                return WalletList.Where(a => a.CoinId == coinId).GetUpOne(sortNumber);
             }
 
             public WalletViewModel GetNextOne(Guid coinId, int sortNumber) {
-                return WalletList.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber > sortNumber);
+                return WalletList.Where(a => a.CoinId == coinId).GetNextOne(sortNumber);
             }
         }
     }

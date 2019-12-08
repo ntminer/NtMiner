@@ -30,7 +30,7 @@ namespace NTMiner {
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
-                            coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.OptionPools));
+                            coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                         }
                     }, location: this.GetType());
                 AddEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
@@ -74,11 +74,11 @@ namespace NTMiner {
             }
 
             public PoolViewModel GetNextOne(Guid coinId, int sortNumber) {
-                return AllPools.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber > sortNumber);
+                return AllPools.Where(a => a.CoinId == coinId).GetNextOne(sortNumber);
             }
 
             public PoolViewModel GetUpOne(Guid coinId, int sortNumber) {
-                return AllPools.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber < sortNumber);
+                return AllPools.Where(a => a.CoinId == coinId).GetUpOne(sortNumber);
             }
         }
     }
