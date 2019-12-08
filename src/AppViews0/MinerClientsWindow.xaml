@@ -2396,6 +2396,7 @@
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
+            <TextBlock Margin="4 0 0 28" HorizontalAlignment="Left" VerticalAlignment="Bottom">小提示：鼠标配合ctrl和shift可以多选矿机</TextBlock>
             <WrapPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}">
                 <TextBlock VerticalAlignment="Center" Foreground="Red" Text="没有记录，请先添加矿机"></TextBlock>
                 <controls:KbButton Padding="4" Command="{Binding AddMinerClient}">
