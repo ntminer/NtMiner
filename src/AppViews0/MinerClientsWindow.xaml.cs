@@ -103,21 +103,7 @@ namespace NTMiner.Views {
         }
 
         private void MinerClientUcScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
-                ScrollViewer scrollViewer = (ScrollViewer)sender;
-                Point p = e.GetPosition(scrollViewer);
-                if (p.X < SystemParameters.ScrollWidth) {
-                    return;
-                }
-                if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
-                    p = e.GetPosition(scrollViewer);
-                    if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
-                        return;
-                    }
-                }
-                this.DragMove();
-                e.Handled = true;
-            }
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e, isLeftBar: true);
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

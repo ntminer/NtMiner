@@ -76,23 +76,42 @@ namespace NTMiner {
             return element.Template?.FindName("PART_ContentHost", element) as ScrollViewer;
         }
 
-        public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
-                ScrollViewer scrollViewer = (ScrollViewer)sender;
-                if (scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible) {
+        public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e, bool isLeftBar = false) {
+            if (isLeftBar) {
+                if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                    ScrollViewer scrollViewer = (ScrollViewer)sender;
                     Point p = e.GetPosition(scrollViewer);
-                    if (p.X > scrollViewer.ActualWidth - SystemParameters.ScrollWidth) {
+                    if (p.X < SystemParameters.ScrollWidth) {
                         return;
                     }
-                }
-                if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
-                    Point p = e.GetPosition(scrollViewer);
-                    if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
-                        return;
+                    if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
+                        p = e.GetPosition(scrollViewer);
+                        if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
+                            return;
+                        }
                     }
+                    Window.GetWindow(scrollViewer).DragMove();
+                    e.Handled = true;
                 }
-                Window.GetWindow(scrollViewer).DragMove();
-                e.Handled = true;
+            }
+            else {
+                if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                    ScrollViewer scrollViewer = (ScrollViewer)sender;
+                    if (scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible) {
+                        Point p = e.GetPosition(scrollViewer);
+                        if (p.X > scrollViewer.ActualWidth - SystemParameters.ScrollWidth) {
+                            return;
+                        }
+                    }
+                    if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
+                        Point p = e.GetPosition(scrollViewer);
+                        if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
+                            return;
+                        }
+                    }
+                    Window.GetWindow(scrollViewer).DragMove();
+                    e.Handled = true;
+                }
             }
         }
 
