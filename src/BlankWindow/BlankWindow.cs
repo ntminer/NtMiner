@@ -8,6 +8,17 @@ using System.Windows.Media;
 namespace NTMiner {
     [TemplatePart(Name = PART_TITLEBAR, Type = typeof(UIElement))]
     public class BlankWindow : Window {
+        public BlankWindow() {
+            this.MouseDown += MetroWindow_MouseDown;
+        }
+
+
+        protected void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.LeftButton == MouseButtonState.Pressed) {
+                this.DragMove();
+            }
+        }
+
         private const string PART_TITLEBAR = "PART_TitleBar";
 
         public double TitleBarHeight {

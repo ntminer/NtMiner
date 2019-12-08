@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
             if (!DevMode.IsDevMode) {
                 return;
             }
-            WpfUtil.DataGrid_MouseDoubleClick<ServerMessageViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<ServerMessageViewModel>(sender, e);
         }
     }
 }

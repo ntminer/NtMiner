@@ -5,32 +5,29 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class DevMode {
-        private const string AppDebugParamName = "--debug";
-        private const string AppReleaseParamName = "--release";
-        private const string AppDevParamName = "--dev";
-
-        public static bool IsDebugMode { get; private set; }
         public static bool IsDevMode { get; private set; }
         public static bool IsInUnitTest { get; private set; }
 
         public static void SetDevMode() {
-            IsDebugMode = true;
             IsDevMode = true;
         }
 
         static DevMode() {
             List<string> _commandLineArgs = Environment.GetCommandLineArgs().Skip(1).ToList();
-            IsDebugMode = _commandLineArgs.Contains(AppDebugParamName, StringComparer.OrdinalIgnoreCase);
 #if DEBUG
-            IsDebugMode = true;
+            // 如果编译时是DEBUG则是Debug
+            IsDevMode = true;
+#else
+            // 如果启动时追加了--debug或--dev参数则是Debug
+            IsDevMode = 
+                _commandLineArgs.Contains("--debug", StringComparer.OrdinalIgnoreCase) 
+             || _commandLineArgs.Contains("--dev", StringComparer.OrdinalIgnoreCase);
 #endif
-            if (IsDebugMode && _commandLineArgs.Contains(AppReleaseParamName, StringComparer.OrdinalIgnoreCase)) {
-                IsDebugMode = false;
+            // 如果是Debug但追加了--release参数则不是Debug
+            if (IsDevMode && _commandLineArgs.Contains("--release", StringComparer.OrdinalIgnoreCase)) {
+                IsDevMode = false;
             }
-            IsDevMode = IsDebugMode;
-            if (!IsDevMode && _commandLineArgs.Contains(AppDevParamName, StringComparer.OrdinalIgnoreCase)) {
-                IsDevMode = true;
-            }
+            // 如果没有启动入口程序集则是UnitTest
             if (Assembly.GetEntryAssembly() == null) {
                 IsInUnitTest = true;
             }

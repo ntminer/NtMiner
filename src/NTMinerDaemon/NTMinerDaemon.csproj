@@ -107,11 +107,11 @@
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Serialization\IObjectSerializer.cs">
-      <Link>Serialization\IObjectSerializer.cs</Link>
+    <Compile Include="..\NTMinerlib\Serialization\INTSerializer.cs">
+      <Link>Serialization\INTSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Serialization\ObjectJsonSerializer.cs">
-      <Link>Serialization\ObjectJsonSerializer.cs</Link>
+    <Compile Include="..\NTMinerlib\Serialization\NTJsonSerializer.cs">
+      <Link>Serialization\NTJsonSerializer.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\TimeSpanExtensions.cs">
       <Link>TimeSpanExtensions.cs</Link>

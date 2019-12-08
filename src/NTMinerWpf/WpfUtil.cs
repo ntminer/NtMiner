@@ -69,42 +69,60 @@ namespace NTMiner {
             Application.Current.Shutdown();
         }
 
-        public static ScrollViewer GetScrollViewer(this FlowDocumentScrollViewer element) {
-            if (element == null) {
-                throw new ArgumentNullException(nameof(element));
-            }
-            return element.Template?.FindName("PART_ContentHost", element) as ScrollViewer;
-        }
-
-        public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
-                ScrollViewer scrollViewer = (ScrollViewer)sender;
-                if (scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible) {
+        public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e, bool isLeftBar = false) {
+            if (isLeftBar) {
+                if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                    ScrollViewer scrollViewer = (ScrollViewer)sender;
                     Point p = e.GetPosition(scrollViewer);
-                    if (p.X > scrollViewer.ActualWidth - SystemParameters.ScrollWidth) {
+                    if (p.X < SystemParameters.ScrollWidth) {
                         return;
                     }
-                }
-                if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
-                    Point p = e.GetPosition(scrollViewer);
-                    if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
-                        return;
+                    if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
+                        p = e.GetPosition(scrollViewer);
+                        if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
+                            return;
+                        }
                     }
+                    Window.GetWindow(scrollViewer).DragMove();
+                    e.Handled = true;
                 }
-                Window.GetWindow(scrollViewer).DragMove();
-                e.Handled = true;
+            }
+            else {
+                if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
+                    ScrollViewer scrollViewer = (ScrollViewer)sender;
+                    if (scrollViewer.ComputedVerticalScrollBarVisibility == Visibility.Visible) {
+                        Point p = e.GetPosition(scrollViewer);
+                        if (p.X > scrollViewer.ActualWidth - SystemParameters.ScrollWidth) {
+                            return;
+                        }
+                    }
+                    if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
+                        Point p = e.GetPosition(scrollViewer);
+                        if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
+                            return;
+                        }
+                    }
+                    Window.GetWindow(scrollViewer).DragMove();
+                    e.Handled = true;
+                }
             }
         }
 
-        public static void DataGrid_MouseDoubleClick<T>(object sender, MouseButtonEventArgs e) where T : IEditableViewModel {
+        public static void DataGrid_MouseDoubleClick<T>(object sender, MouseButtonEventArgs e, Action<T> callback) {
             DataGrid dg = (DataGrid)sender;
             Point p = e.GetPosition(dg);
             if (p.Y < dg.ColumnHeaderHeight) {
                 return;
             }
             if (dg.SelectedItem != null) {
-                ((T)dg.SelectedItem).Edit.Execute(FormType.Edit);
+                callback?.Invoke(((T)dg.SelectedItem));
             }
+        }
+
+        public static void DataGrid_EditRow<T>(object sender, MouseButtonEventArgs e) where T : IEditableViewModel {
+            DataGrid_MouseDoubleClick<T>(sender, e, t => {
+                t.Edit.Execute(FormType.Edit);
+            });
         }
     }
 }

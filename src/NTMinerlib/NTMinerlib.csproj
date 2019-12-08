@@ -71,8 +71,8 @@
     <Compile Include="Repositories\HierarchicalRepository`1.cs" />
     <Compile Include="Repositories\DuplicateIdException.cs" />
     <Compile Include="Repositories\IRepository`1.cs" />
-    <Compile Include="Serialization\IObjectSerializer.cs" />
-    <Compile Include="Serialization\ObjectJsonSerializer.cs" />
+    <Compile Include="Serialization\INTSerializer.cs" />
+    <Compile Include="Serialization\NTJsonSerializer.cs" />
     <Compile Include="VirtualRoot.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />

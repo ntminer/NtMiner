@@ -37,14 +37,8 @@ namespace NTMiner.Views {
             _instance = null;
         }
 
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<PackageViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<PackageViewModel>(sender, e);
         }
     }
 }

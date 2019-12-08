@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace NTMiner.OhGodAnETHlargementPill {
     public static class OhGodAnETHlargementPillUtil {
         private static readonly string s_processName = "OhGodAnETHlargementPill-r2";
-        private static readonly string s_fileFullName = Path.Combine(MainAssemblyInfo.TempDirFullName, s_processName + ".exe");
+        private static readonly string s_fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, s_processName + ".exe");
 
         public static void Start() {
             try {

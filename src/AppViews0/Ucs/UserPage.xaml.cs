@@ -27,7 +27,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<UserViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<UserViewModel>(sender, e);
         }
     }
 }

@@ -77,8 +77,7 @@ namespace NTMiner.Views {
             ContainerWindowViewModel vm,
             Func<ContainerWindow, UserControl> ucFactory,
             Action afterClose,
-            bool fixedSize = false,
-            bool dragMove = true) {
+            bool fixedSize = false) {
             _uc = ucFactory(this);
             vm.UcResourceDic = _uc.Resources;
             _vm = vm;
@@ -127,13 +126,6 @@ namespace NTMiner.Views {
                     this.ResizeMode = ResizeMode.CanMinimize;
                 }
                 vm.MaxVisible = Visibility.Collapsed;
-            }
-            if (dragMove) {
-                this.MouseDown += (object sender, MouseButtonEventArgs e) => {
-                    if (e.LeftButton == MouseButtonState.Pressed) {
-                        this.DragMove();
-                    }
-                };
             }
             this.Container.Children.Add(_uc);
         }

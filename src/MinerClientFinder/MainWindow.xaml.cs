@@ -27,23 +27,11 @@ namespace NTMiner {
             }, location: this.GetType());
         }
 
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < dg.ColumnHeaderHeight) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                string ip = (string)dg.SelectedItem;
+            WpfUtil.DataGrid_MouseDoubleClick<string>(sender, e, ip => {
                 Clipboard.SetDataObject(ip);
                 VirtualRoot.Out.ShowSuccess(ip, autoHideSeconds: 1, "复制成功");
-            }
+            });
         }
 
         private void RbSpeed_Checked(object sender, RoutedEventArgs e) {

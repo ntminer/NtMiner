@@ -13,7 +13,6 @@
     SizeToContent="Height"
     BorderBrush="{StaticResource IconFillColor}"
     WindowStartupLocation="CenterOwner"
-    MouseDown="Window_MouseDown"
     Background="White"
     d:DataContext="{d:DesignData Source=./Design/DialogWindowViewModel.xaml}"
     mc:Ignorable="d" Width="400" MinHeight="200">

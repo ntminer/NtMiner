@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 
 namespace NTMiner.Serialization {
-    public class ObjectJsonSerializer : IObjectSerializer {
+    public class NTJsonSerializer : INTSerializer {
         private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() {
             MissingMemberHandling = MissingMemberHandling.Ignore,// 默认值也是Ignore
             NullValueHandling = NullValueHandling.Ignore
         };
 
-        public ObjectJsonSerializer() {
+        public NTJsonSerializer() {
         }
 
         public virtual string Serialize<TObject>(TObject obj) {

@@ -9,7 +9,6 @@
 		SizeToContent="Height"
 		BorderBrush="{StaticResource IconFillColor}"
 		WindowStartupLocation="CenterOwner"
-		MouseDown="Window_MouseDown"
 		Background="White"
 		mc:Ignorable="d" Width="400" MinHeight="130">
 	<Grid> 

@@ -232,15 +232,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Visibility IsDebugModeVisible {
-            get {
-                if (DevMode.IsDebugMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
-
         public bool LocalIsLatest {
             get => _localIsLatest;
             set {

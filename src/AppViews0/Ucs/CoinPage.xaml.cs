@@ -11,7 +11,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Coin",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = DevMode.IsDebugMode ? AppStatic.MainWindowWidth : 1000,
+                Width = DevMode.IsDevMode ? AppStatic.MainWindowWidth : 1000,
                 Height = 520
             },
             ucFactory: (window) => new CoinPage(),
@@ -55,19 +55,19 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<CoinViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<CoinViewModel>(sender, e);
         }
 
         private void WalletDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<WalletViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<WalletViewModel>(sender, e);
         }
 
         private void PoolDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<PoolViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<PoolViewModel>(sender, e);
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<CoinKernelViewModel>(sender, e);
         }
 
         private void ButtonAddCoinKernel_Click(object sender, System.Windows.RoutedEventArgs e) {

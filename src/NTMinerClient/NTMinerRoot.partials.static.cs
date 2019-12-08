@@ -13,7 +13,7 @@ using System.Text;
 namespace NTMiner {
     public partial class NTMinerRoot {
         static NTMinerRoot() {
-            ServerVersion = MainAssemblyInfo.CurrentVersion;
+            ServerVersion = EntryAssemblyInfo.CurrentVersion;
         }
 
         public const int SpeedHistoryLengthByMinute = 10;

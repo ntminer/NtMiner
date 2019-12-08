@@ -99,7 +99,7 @@ namespace NTMiner.Vms {
 
         public bool IsReadOnly {
             get {
-                if (!DevMode.IsDebugMode && this.DataLevel == DataLevel.Global) {
+                if (!DevMode.IsDevMode && this.DataLevel == DataLevel.Global) {
                     return true;
                 }
                 return false;

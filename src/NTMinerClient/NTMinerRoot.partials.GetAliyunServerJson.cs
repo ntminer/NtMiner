@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public partial class NTMinerRoot {
         private static void GetAliyunServerJson(Action<byte[]> callback) {
-            string serverJsonFileUrl = $"{OfficialServer.MinerJsonBucket}{MainAssemblyInfo.ServerJsonFileName}";
+            string serverJsonFileUrl = $"{OfficialServer.MinerJsonBucket}{EntryAssemblyInfo.ServerJsonFileName}";
             string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
                 try {

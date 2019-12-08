@@ -56,7 +56,7 @@ namespace NTMiner {
                         NTMinerRegistry.SetIsLastIsWork(false);
                     }
                     // 如果是Debug模式且不是群控客户端则使用本地数据库初始化
-                    bool useLocalDb = DevMode.IsDebugMode && !VirtualRoot.IsMinerStudio;
+                    bool useLocalDb = DevMode.IsDevMode && !VirtualRoot.IsMinerStudio;
                     if (useLocalDb) {
                         DoInit(isWork: false, callback: callback);
                     }
@@ -70,7 +70,7 @@ namespace NTMiner {
                                 if (!string.IsNullOrEmpty(serverJson)) {
                                     SpecialPath.WriteServerJsonFile(serverJson);
                                 }
-                                OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, serverState => {
+                                OfficialServer.GetJsonFileVersionAsync(EntryAssemblyInfo.ServerJsonFileName, serverState => {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) < Timestamp.DesyncSeconds) {
@@ -105,7 +105,7 @@ namespace NTMiner {
 
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
-            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
+            IsJsonServer = !DevMode.IsDevMode || VirtualRoot.IsMinerStudio || isWork;
             this.Reporter = new Reporter();
             this.ServerAppSettingSet = new ServerAppSettingSet();
             this.CalcConfigSet = new CalcConfigSet(this);
@@ -129,8 +129,8 @@ namespace NTMiner {
             // 这几个注册表内部区分挖矿端和群控客户端
             NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
             NTMinerRegistry.SetArguments(string.Join(" ", CommandLineArgs.Args));
-            NTMinerRegistry.SetCurrentVersion(MainAssemblyInfo.CurrentVersion.ToString());
-            NTMinerRegistry.SetCurrentVersionTag(MainAssemblyInfo.CurrentVersionTag);
+            NTMinerRegistry.SetCurrentVersion(EntryAssemblyInfo.CurrentVersion.ToString());
+            NTMinerRegistry.SetCurrentVersionTag(EntryAssemblyInfo.CurrentVersionTag);
 
             if (VirtualRoot.IsMinerClient) {
                 VirtualRoot.LocalIpSet.InitOnece();
@@ -164,7 +164,7 @@ namespace NTMiner {
         }
 
         private void RefreshServerJsonFile() {
-            OfficialServer.GetJsonFileVersionAsync(MainAssemblyInfo.ServerJsonFileName, serverState => {
+            OfficialServer.GetJsonFileVersionAsync(EntryAssemblyInfo.ServerJsonFileName, serverState => {
                 AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverState.JsonFileVersion) && localServerJsonFileVersion != serverState.JsonFileVersion) {
@@ -210,7 +210,7 @@ namespace NTMiner {
             if (isWork) {
                 ReInitServerJson();
             }
-            IsJsonServer = !DevMode.IsDebugMode || VirtualRoot.IsMinerStudio || isWork;
+            IsJsonServer = !DevMode.IsDevMode || VirtualRoot.IsMinerStudio || isWork;
             this.ServerContext.ReInit();
             // CoreContext的视图模型集此时刷新
             VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());

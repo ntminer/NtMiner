@@ -21,7 +21,6 @@
 	d:DesignWidth="1200"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen"
-	MouseDown="MetroWindow_MouseDown"
 	TextOptions.TextFormattingMode="Display">
 	<blankWindow:BlankWindow.DataContext>
 		<vm:KernelsWindowViewModel></vm:KernelsWindowViewModel>

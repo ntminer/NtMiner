@@ -60,7 +60,7 @@ namespace NTMiner {
                     createdNew = false;
                 }
                 if (createdNew) {
-                    Logger.InfoDebugLine($"==================NTMiner.exe {MainAssemblyInfo.CurrentVersion.ToString()}==================");
+                    Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersion.ToString()}==================");
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = null;
                     // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞

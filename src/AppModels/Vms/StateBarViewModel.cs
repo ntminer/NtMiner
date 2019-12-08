@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
             _localIps = GetLocalIps();
-            SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
+            SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
         }
 
         public bool IsAutoAdminLogon {
