@@ -47,14 +47,18 @@
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <TextBlock Style="{StaticResource LblTb}">关键字</TextBlock>
-            <TextBox Width="440" Style="{StaticResource TextBox}" ToolTip="基于关键字从内核输出中时时提取出包含关键字的行" Text="{Binding Keyword, ValidatesOnExceptions=True}">
+            <TextBox Width="440" Style="{StaticResource TextBox}" Text="{Binding Keyword, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <TextBlock Style="{StaticResource LblTb}">大意</TextBlock>
-            <TextBox Width="440" Style="{StaticResource TextBox}" ToolTip="“大意”是翻译，因为内核输出往往是英文" Text="{Binding Description, ValidatesOnExceptions=True}">
+            <TextBox Width="440" Style="{StaticResource TextBox}" Text="{Binding Description, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
+        <StackPanel Margin="60 0 0 0">
+            <TextBlock Foreground="Red">1，基于关键字从内核输出中时时提取出包含关键字的行；</TextBlock>
+            <TextBlock Foreground="Red">2，“大意”是翻译，因为内核输出往往是英文；</TextBlock>
+        </StackPanel>
         <controls:KbButton
 			Command="{Binding Save}" 
             IsEnabled="{Binding IsReadOnly, Converter={StaticResource BoolInvertConverter}}"
