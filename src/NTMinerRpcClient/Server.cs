@@ -26,7 +26,7 @@ namespace NTMiner {
                         queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                     }
                     string serverHost = NTMinerRegistry.GetControlCenterHost();
-                    using (HttpClient client = HttpClientFactory.Create()) {
+                    using (HttpClient client = RpcRoot.Create()) {
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{serverHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}", param);
                         T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
@@ -45,7 +45,7 @@ namespace NTMiner {
                     queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                 }
                 string serverHost = NTMinerRegistry.GetControlCenterHost();
-                using (HttpClient client = HttpClientFactory.Create()) {
+                using (HttpClient client = RpcRoot.Create()) {
                     if (timeout.HasValue) {
                         client.Timeout = TimeSpan.FromMilliseconds(timeout.Value);
                     }
@@ -64,7 +64,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     string serverHost = NTMinerRegistry.GetControlCenterHost();
-                    using (HttpClient client = HttpClientFactory.Create()) {
+                    using (HttpClient client = RpcRoot.Create()) {
                         string queryString = string.Empty;
                         if (param != null && param.Count != 0) {
                             queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));

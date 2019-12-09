@@ -312,7 +312,7 @@ namespace NTMiner {
 
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
-                using (HttpClient client = HttpClientFactory.Create()) {
+                using (HttpClient client = RpcRoot.Create()) {
                     client.Timeout = TimeSpan.FromSeconds(20);
                     return await client.GetByteArrayAsync(url);
                 }

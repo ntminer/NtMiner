@@ -35,7 +35,7 @@ namespace NTMiner {
         private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object param, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = HttpClientFactory.Create()) {
+                    using (HttpClient client = RpcRoot.Create()) {
                         if (timeountMilliseconds != 0) {
                             client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
@@ -57,7 +57,7 @@ namespace NTMiner {
         private static void GetAsync<T>(string controller, string action, Dictionary<string, string> param, Action<T, Exception> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = HttpClientFactory.Create()) {
+                    using (HttpClient client = RpcRoot.Create()) {
                         string queryString = string.Empty;
                         if (param != null && param.Count != 0) {
                             queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));
