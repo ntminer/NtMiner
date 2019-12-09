@@ -1,10 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace UnitTests {
     [TestClass]
@@ -21,15 +18,11 @@ namespace UnitTests {
 
         [TestMethod]
         public void TaskTest() {
-            try {
-                using (HttpClient client = RpcRoot.Create()) {
-                    Task<HttpResponseMessage> getHttpResponse = client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/AppSetting/GetTime");
-                    DateTime response = getHttpResponse.Result.Content.ReadAsAsync<DateTime>().Result;
-                    
-                }
-            }
-            catch (Exception e) {
-            }
+            HttpClient client = RpcRoot.Create();
+            client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/AppSetting/GetTime")
+                .ContinueWith(t => {
+                    Console.WriteLine(t.Result.Content.ReadAsAsync<DateTime>().Result);
+                }).Wait();
         }
     }
 }
