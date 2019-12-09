@@ -67,7 +67,7 @@ namespace NTMiner.Core.Cpus.Impl {
 
         private void Update() {
             bool isChanged = false;
-            Windows.Cpu.Instance.GetSensorValue(out double performance, out float temperature);
+            Windows.Cpu.Instance.GetSensorValue(out double performance, out float temperature, out double power);
             if (performance != this.Performance) {
                 isChanged = true;
                 this.Performance = (int)performance;
