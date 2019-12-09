@@ -124,7 +124,8 @@ namespace NTMiner {
             // 作业和在群控客户端管理作业时
             IsJsonLocal = isWork || VirtualRoot.IsMinerStudio;
             this._minerProfile = new MinerProfile(this);
-            this.CpuPackage = new CpuPackage(_minerProfile);
+            var cpuPackage = new CpuPackage(_minerProfile);
+            this.CpuPackage = cpuPackage;
 
             // 这几个注册表内部区分挖矿端和群控客户端
             NTMinerRegistry.SetLocation(VirtualRoot.AppFileFullName);
@@ -149,6 +150,7 @@ namespace NTMiner {
             }
 
             callback?.Invoke();
+            cpuPackage.Init();
         }
 
         // MinerProfile对应local.litedb或local.json
@@ -342,6 +344,7 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
+            VirtualRoot.StopTimer();
             if (_lockedMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }

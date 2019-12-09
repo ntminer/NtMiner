@@ -69,6 +69,7 @@ namespace NTMiner {
 
         private static Timer _timer;
         public static void StartTimer() {
+            _isTimerStoped = false;
             if (_timer != null) {
                 return;
             }
@@ -79,8 +80,16 @@ namespace NTMiner {
             _timer.Start();
         }
 
+        private static bool _isTimerStoped = false;
+        public static void StopTimer() {
+            _isTimerStoped = true;
+        }
+
         private static DateTime _dateTime = DateTime.Now;
         public static void Elapsed() {
+            if (_isTimerStoped) {
+                return;
+            }
             _secondCount++;
             const int daySecond = 24 * 60 * 60;
             DateTime now = DateTime.Now;
