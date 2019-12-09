@@ -1,6 +1,7 @@
 ﻿using NTMiner.Notifications;
 using NTMiner.Vms;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -20,10 +21,10 @@ namespace NTMiner.Views {
         /// <param name="ownerIsTopMost"></param>
         /// <param name="isNoOtherWindow">如果没有其它窗口就不需要响应窗口激活和非激活状态变更事件了</param>
         public static void Bind(Window owner, bool ownerIsTopMost = false, bool isNoOtherWindow = false) {
-            EventHandler handler = (sender, e) => {
+            void handler(object sender, EventArgs e) {
                 _instance.Left = owner.Left + (owner.Width - _instance.Width) / 2;
                 _instance.Top = owner.Top + 10;
-            };
+            }
             if (ownerIsTopMost) {
                 if (!isNoOtherWindow) {
                     owner.Activated += (sender, e) => {
@@ -76,36 +77,39 @@ namespace NTMiner.Views {
             }
         }
 
-        public void SwitchOwner(Window window) {
-            if (Owner != window) {
-                bool isOwnerIsTopMost = window.Topmost;
+        private readonly HashSet<Window> _owners = new HashSet<Window>();
+        public void SwitchOwner(Window owner) {
+            if (this.Owner != owner) {
+                bool isOwnerIsTopMost = owner.Topmost;
                 if (isOwnerIsTopMost) {
-                    window.Topmost = false;
+                    owner.Topmost = false;
                 }
-                if (window != null) {
-                    window.IsVisibleChanged -= Owner_IsVisibleChanged;
-                    window.StateChanged -= Owner_StateChanged;
+                if (owner != null) {
+                    owner.IsVisibleChanged -= Owner_IsVisibleChanged;
+                    owner.StateChanged -= Owner_StateChanged;
                 }
-                Owner = window;
-                Owner.IsVisibleChanged += Owner_IsVisibleChanged;
-                Owner.StateChanged += Owner_StateChanged;
-                _instance.Left = window.Left + (window.Width - _instance.Width) / 2;
-                _instance.Top = window.Top + 10;
+                this.Owner = owner;
+                this.Owner.IsVisibleChanged += Owner_IsVisibleChanged;
+                this.Owner.StateChanged += Owner_StateChanged;
+                _instance.Left = owner.Left + (owner.Width - _instance.Width) / 2;
+                _instance.Top = owner.Top + 4;
                 if (isOwnerIsTopMost) {
-                    window.Topmost = true;
+                    owner.Topmost = true;
                     this.Topmost = true;
-                    Owner.Activate();
                 }
-                else {
-                    this.Activate();
-                }
+            }
+            if (_owners.Contains(owner)) {
+                this.Owner?.Activate();
             }
             else {
-                bool isOwnerIsTopMost = window.Topmost;
-                if (isOwnerIsTopMost) {
-                    Owner.Activate();
-                }
+                owner.Closed += Owner_Closed;
+                _owners.Add(owner);
+                this.Activate();
             }
+        }
+
+        private void Owner_Closed(object sender, EventArgs e) {
+            _owners.Remove((Window)sender);
         }
 
         private void Owner_StateChanged(object sender, EventArgs e) {
