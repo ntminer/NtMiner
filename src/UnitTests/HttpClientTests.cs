@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Net;
+using NTMiner;
 using System.Net.Http;
 
 namespace UnitTests {
@@ -9,6 +9,9 @@ namespace UnitTests {
         public void TestMethod1() {
             using (HttpClient client = new HttpClient()) {
                 Assert.AreEqual(100, client.Timeout.TotalSeconds);
+            }
+            using (HttpClient client = HttpClientFactory.Create()) {
+                Assert.AreEqual(60, client.Timeout.TotalSeconds);
             }
         }
     }
