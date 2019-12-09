@@ -4,6 +4,7 @@ using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using NTMiner.Profile;
 using NTMiner.Repositories;
+using OpenHardwareMonitor.Hardware;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,6 +34,20 @@ namespace NTMiner {
             get { return _isJsonLocal; }
             private set { _isJsonLocal = value; }
         }
+
+        #region 电脑硬件
+        private static Computer _computer = null;
+        public static Computer Computer {
+            get {
+                if (_computer == null) {
+                    _computer = new Computer();
+                    _computer.Open();
+                    _computer.CPUEnabled = true;
+                }
+                return _computer;
+            }
+        }
+        #endregion
 
         public static string ThisPcName {
             get {

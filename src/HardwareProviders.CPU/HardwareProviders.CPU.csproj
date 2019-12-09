@@ -53,10 +53,6 @@
     <Compile Include="Vendor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HardwareProviders\HardwareProviders.csproj">
-      <Project>{6cf39d75-a7d7-4546-b29a-888294dc3e38}</Project>
-      <Name>HardwareProviders</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>

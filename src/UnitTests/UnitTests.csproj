@@ -53,6 +53,9 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OpenHardwareMonitorLib">
+      <HintPath>..\ThirdPartyDlls\OpenHardwareMonitorLib.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -92,14 +95,6 @@
     <ProjectReference Include="..\AppModels\AppModels.csproj">
       <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
       <Name>AppModels</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HardwareProviders.CPU\HardwareProviders.CPU.csproj">
-      <Project>{7de56519-4fc8-4a72-a143-098acc4de53c}</Project>
-      <Name>HardwareProviders.CPU</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HardwareProviders\HardwareProviders.csproj">
-      <Project>{6cf39d75-a7d7-4546-b29a-888294dc3e38}</Project>
-      <Name>HardwareProviders</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">
       <Project>{5911457a-357a-412d-a20c-e77c1a56b4f6}</Project>

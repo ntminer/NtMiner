@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using OpenHardwareMonitor.Hardware;
 using System;
 using System.Diagnostics;
 using System.Management;
@@ -13,8 +14,6 @@ namespace NTMiner.Windows {
         // This stores the total number of logical cores in the processor
         private readonly int numberOfProcessors = Environment.ProcessorCount;
         private readonly PerformanceCounter _cpuPerformanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-        private HardwareProviders.CPU.Cpu[] _cpus = null;
-        private readonly object _cpusLocker = new object();
 
         private Cpu() { }
 
@@ -28,38 +27,21 @@ namespace NTMiner.Windows {
         }
 
         public float GetTemperature() {
-            try {
-                if (_cpus == null) {
-                    lock (_cpusLocker) {
-                        if (_cpus == null) {
-                            _cpus = HardwareProviders.CPU.Cpu.Discover();
+            var computer = NTMinerRoot.Computer;
+            for (int i = 0; i < computer.Hardware.Length; i++) {
+                if (computer.Hardware[i].HardwareType == HardwareType.CPU) {
+                    computer.Hardware[i].Update();
+                    for (int j = 0; j < computer.Hardware[i].Sensors.Length; j++) {
+                        if (computer.Hardware[i].Sensors[j].SensorType == SensorType.Temperature) {
+                            if (computer.Hardware[i].Sensors[j].Name == "CPU Package") {
+                                float? t = computer.Hardware[i].Sensors[j].Value;
+                                if (t.HasValue) {
+                                    return t.Value;
+                                }
+                            }
                         }
                     }
                 }
-                else {
-                    foreach (var cpu in _cpus) {
-                        cpu.Update();
-                    }
-                }
-                foreach (var cpu in _cpus) {
-                    if (cpu.PackageTemperature != null && cpu.PackageTemperature.Value.HasValue) {
-                        return cpu.PackageTemperature.Value.Value;
-                    }
-                }
-                int n = 0;
-                float sum = 0.0f;
-                foreach (var cpu in _cpus) {
-                    foreach (var item in cpu.CoreTemperatures) {
-                        if (item != null && item.Value.HasValue) {
-                            sum += item.Value.Value;
-                            n++;
-                        }
-                    }
-                }
-                return sum / n;
-            }
-            catch {
-                _cpus = new HardwareProviders.CPU.Cpu[0];
             }
             return 0.0f;
         }
@@ -73,7 +55,8 @@ namespace NTMiner.Windows {
             _isFirstGetCpuId = false;
             _cpuId = "N/A";
             try {
-                using (var query = new ManagementObjectSearcher("Select ProcessorID from Win32_processor").Get()) {
+                using (var searcher = new ManagementObjectSearcher("Select ProcessorID from Win32_processor"))
+                using (var query = searcher.Get()) {
                     foreach (var item in query) {
                         _cpuId = item.GetPropertyValue("ProcessorID").ToString();
                     }
