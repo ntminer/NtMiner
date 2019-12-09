@@ -52,7 +52,6 @@
 				Background="Transparent">
                 <TextBlock Text="4，如何盈利/商业模式" Foreground="{StaticResource LinkForeground}"></TextBlock>
             </controls:KbLinkButton>
-            <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">5，开源矿工不是第一个矿工，但会是最后一个矿工。</TextBlock>
         </StackPanel>
 		<StackPanel Grid.Row="2" HorizontalAlignment="Center">
             <WrapPanel HorizontalAlignment="Center">
