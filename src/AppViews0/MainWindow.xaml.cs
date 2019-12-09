@@ -166,7 +166,7 @@ namespace NTMiner.Views {
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
-            NotiCenterWindow.Bind(this, ownerIsTopMost: true);
+            NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };

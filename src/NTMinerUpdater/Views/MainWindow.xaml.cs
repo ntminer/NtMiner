@@ -11,7 +11,7 @@ namespace NTMiner.Views {
 
         public MainWindow() {
             InitializeComponent();
-            NotiCenterWindow.Bind(this);
+            NotiCenterWindow.Instance.Bind(this);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) {

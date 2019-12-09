@@ -15,7 +15,7 @@ namespace NTMiner {
 
         public MainWindow() {
             InitializeComponent();
-            NotiCenterWindow.Bind(this);
+            NotiCenterWindow.Instance.Bind(this);
             this.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => Vm.RefreshLocalIps());

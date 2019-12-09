@@ -1,16 +1,24 @@
 ﻿using NTMiner.Notifications;
 using NTMiner.Vms;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
-        private static readonly NotiCenterWindow _instance = new NotiCenterWindow();
+        public static readonly NotiCenterWindow Instance = new NotiCenterWindow();
 
-        public static void ShowWindow() {
-            _instance.Show();
+        #region 将通知窗口切到活动窗口上面去
+        public void ShowWindow() {
+            base.Show();
+        }
+
+        private void OnLocationChanged(object sender, EventArgs e) {
+            Window owner = (Window)sender;
+            Left = owner.Left + (owner.Width - Width) / 2;
+            Top = owner.Top + 4;
         }
 
         /// <summary>
@@ -19,41 +27,97 @@ namespace NTMiner.Views {
         /// <param name="owner"></param>
         /// <param name="ownerIsTopMost"></param>
         /// <param name="isNoOtherWindow">如果没有其它窗口就不需要响应窗口激活和非激活状态变更事件了</param>
-        public static void Bind(Window owner, bool ownerIsTopMost = false, bool isNoOtherWindow = false) {
-            EventHandler handler = (sender, e) => {
-                _instance.Left = owner.Left + (owner.Width - _instance.Width) / 2;
-                _instance.Top = owner.Top + 10;
-            };
+        public void Bind(Window owner, bool ownerIsTopMost = false, bool isNoOtherWindow = false) {
             if (ownerIsTopMost) {
                 if (!isNoOtherWindow) {
-                    owner.Activated += (sender, e) => {
-                        // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-                        if (!owner.Topmost) {
-                            owner.Topmost = true;
-                        }
-                        handler(sender, e);
-                        _instance.SwitchOwner(owner);
-                    };
+                    owner.Activated += TopMostOwner_Activated;
                 }
                 if (!isNoOtherWindow) {
-                    owner.Deactivated += (sender, e) => {
-                        // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-                        if (owner.Topmost) {
-                            owner.Topmost = false;
-                        }
-                    };
+                    owner.Deactivated += Owner_Deactivated;
                 }
             }
             else {
                 if (!isNoOtherWindow) {
-                    owner.Activated += (sender, e) => {
-                        handler(sender, e);
-                        _instance.SwitchOwner(owner);
-                    };
+                    owner.Activated += Owner_Activated;
                 }
             }
-            owner.LocationChanged += handler;
+            owner.LocationChanged += OnLocationChanged;
         }
+
+        private void Owner_Deactivated(object sender, EventArgs e) {
+            Window owner = (Window)sender;
+            // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+            if (owner.Topmost) {
+                owner.Topmost = false;
+            }
+        }
+
+        private void Owner_Activated(object sender, EventArgs e) {
+            Window owner = (Window)sender;
+            OnLocationChanged(sender, e);
+            SwitchOwner(owner);
+        }
+
+        private void TopMostOwner_Activated(object sender, EventArgs e) {
+            Window owner = (Window)sender;
+            // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
+            if (!owner.Topmost) {
+                owner.Topmost = true;
+            }
+            Owner_Activated(sender, e);
+        }
+
+        private readonly HashSet<Window> _owners = new HashSet<Window>();
+        public void SwitchOwner(Window owner) {
+            if (this.Owner != owner) {
+                bool isOwnerIsTopMost = owner.Topmost;
+                if (isOwnerIsTopMost) {
+                    owner.Topmost = false;
+                }
+                this.Owner = owner;
+                if (isOwnerIsTopMost) {
+                    owner.Topmost = true;
+                    this.Topmost = true;
+                }
+            }
+            if (_owners.Contains(owner)) {
+                if (owner.IsEnabled) {
+                    this.Owner?.Activate();
+                }
+                else {
+                    this.Activate();
+                }
+            }
+            else {
+                owner.Closed += Owner_Closed;
+                owner.IsVisibleChanged += Owner_IsVisibleChanged;
+                owner.StateChanged += Owner_StateChanged;
+                _owners.Add(owner);
+                this.Activate();
+            }
+        }
+
+        private void Owner_Closed(object sender, EventArgs e) {
+            _owners.Remove((Window)sender);
+        }
+
+        private void Owner_StateChanged(object sender, EventArgs e) {
+            Window owner = (Window)sender;
+            if (this.Owner == owner && owner.WindowState == WindowState.Minimized) {
+                this.Owner = null;
+                if (!this.IsVisible) {
+                    this.Show();
+                }
+            }
+        }
+
+        private void Owner_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
+            Window owner = (Window)sender;
+            if (this.Owner == owner && !owner.IsVisible) {
+                this.Owner = null;
+            }
+        }
+        #endregion
 
         public NotiCenterWindowViewModel Vm {
             get { return NotiCenterWindowViewModel.Instance; }
@@ -73,55 +137,6 @@ namespace NTMiner.Views {
                         return true;
                     }
                 };
-            }
-        }
-
-        public void SwitchOwner(Window window) {
-            if (Owner != window) {
-                bool isOwnerIsTopMost = window.Topmost;
-                if (isOwnerIsTopMost) {
-                    window.Topmost = false;
-                }
-                if (window != null) {
-                    window.IsVisibleChanged -= Owner_IsVisibleChanged;
-                    window.StateChanged -= Owner_StateChanged;
-                }
-                Owner = window;
-                Owner.IsVisibleChanged += Owner_IsVisibleChanged;
-                Owner.StateChanged += Owner_StateChanged;
-                _instance.Left = window.Left + (window.Width - _instance.Width) / 2;
-                _instance.Top = window.Top + 10;
-                if (isOwnerIsTopMost) {
-                    window.Topmost = true;
-                    this.Topmost = true;
-                    Owner.Activate();
-                }
-                else {
-                    this.Activate();
-                }
-            }
-            else {
-                bool isOwnerIsTopMost = window.Topmost;
-                if (isOwnerIsTopMost) {
-                    Owner.Activate();
-                }
-            }
-        }
-
-        private void Owner_StateChanged(object sender, EventArgs e) {
-            Window owner = (Window)sender;
-            if (this.Owner == owner && owner.WindowState == WindowState.Minimized) {
-                this.Owner = null;
-                if (!this.IsVisible) {
-                    this.Show();
-                }
-            }
-        }
-
-        private void Owner_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e) {
-            Window owner = (Window)sender;
-            if (this.Owner == owner && !owner.IsVisible) {
-                this.Owner = null;
             }
         }
 
