@@ -11,19 +11,26 @@ namespace NTMiner.Windows {
     public sealed class Cpu {
         public static readonly Cpu Instance = new Cpu();
 
-        // This stores the total number of logical cores in the processor
-        private readonly int numberOfProcessors = Environment.ProcessorCount;
-        private readonly PerformanceCounter _cpuPerformanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-
         private Cpu() { }
 
         public double GetPerformance() {
-            try {
-                return _cpuPerformanceCounter.NextValue();
+            var computer = NTMinerRoot.Computer;
+            for (int i = 0; i < computer.Hardware.Length; i++) {
+                if (computer.Hardware[i].HardwareType == HardwareType.CPU) {
+                    computer.Hardware[i].Update();
+                    for (int j = 0; j < computer.Hardware[i].Sensors.Length; j++) {
+                        if (computer.Hardware[i].Sensors[j].SensorType == SensorType.Load) {
+                            if (computer.Hardware[i].Sensors[j].Name == "CPU Total") {
+                                float? t = computer.Hardware[i].Sensors[j].Value;
+                                if (t.HasValue) {
+                                    return t.Value;
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            catch {
-                return 0.0;
-            }
+            return 0.0f;
         }
 
         public float GetTemperature() {
@@ -77,6 +84,8 @@ namespace NTMiner.Windows {
             }
         }
 
+        // This stores the total number of logical cores in the processor
+        private readonly int numberOfProcessors = Environment.ProcessorCount;
         /// <summary>
         /// Retrieves the number of logical cores on the system
         /// </summary>
@@ -154,7 +163,7 @@ namespace NTMiner.Windows {
         /// </summary>
         /// <returns>True if there is more than one logical processor</returns>
         private bool IsMulticore() {
-            if (Environment.ProcessorCount > 1) {
+            if (NumberOfLogicalCores > 1) {
                 return true;
             }
 
