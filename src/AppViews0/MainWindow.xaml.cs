@@ -269,15 +269,21 @@ namespace NTMiner.Views {
         #region 更新状态栏展示的CPU使用率和温度
         private int _cpuPerformance = 0;
         private int _cpuTemperature = 0;
+        private int _cpuPower = 0;
         private void UpdateCpuView() {
             int performance = NTMinerRoot.Instance.CpuPackage.Performance;
             int temperature = NTMinerRoot.Instance.CpuPackage.Temperature;
+            int cpuPower = NTMinerRoot.Instance.CpuPackage.Power;
             if (temperature < 0) {
                 temperature = 0;
             }
             if (_cpuPerformance != performance) {
                 _cpuPerformance = performance;
-                Vm.StateBarVm.CpuPerformanceText = performance.ToString() + " %";
+                Vm.StateBarVm.CpuPerformanceText = performance.ToString() + "%";
+            }
+            if (_cpuPower != cpuPower) {
+                _cpuPower = cpuPower;
+                Vm.StateBarVm.CpuPowerText = cpuPower.ToString() + "W";
             }
             if (_cpuTemperature != temperature) {
                 _cpuTemperature = temperature;

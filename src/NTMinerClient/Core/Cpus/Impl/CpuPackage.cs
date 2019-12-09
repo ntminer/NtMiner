@@ -76,6 +76,10 @@ namespace NTMiner.Core.Cpus.Impl {
                 isChanged = true;
                 this.Temperature = (int)temperature;
             }
+            if (power != this.Power) {
+                isChanged = true;
+                this.Power = (int)power;
+            }
             if (isChanged) {
                 VirtualRoot.RaiseEvent(new CpuPackageStateChangedEvent());
             }
@@ -91,6 +95,8 @@ namespace NTMiner.Core.Cpus.Impl {
         public int Performance { get; set; }
 
         public int Temperature { get; set; }
+
+        public int Power { get; set; }
 
         public DateTime LowPerformanceOn { get; set; }
 
