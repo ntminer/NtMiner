@@ -74,23 +74,24 @@ namespace NTMiner.Views {
                 if (isOwnerIsTopMost) {
                     owner.Topmost = false;
                 }
-                if (owner != null) {
-                    owner.IsVisibleChanged -= Owner_IsVisibleChanged;
-                    owner.StateChanged -= Owner_StateChanged;
-                }
                 this.Owner = owner;
-                this.Owner.IsVisibleChanged += Owner_IsVisibleChanged;
-                this.Owner.StateChanged += Owner_StateChanged;
                 if (isOwnerIsTopMost) {
                     owner.Topmost = true;
                     this.Topmost = true;
                 }
             }
             if (_owners.Contains(owner)) {
-                this.Owner?.Activate();
+                if (owner.IsEnabled) {
+                    this.Owner?.Activate();
+                }
+                else {
+                    this.Activate();
+                }
             }
             else {
                 owner.Closed += Owner_Closed;
+                owner.IsVisibleChanged += Owner_IsVisibleChanged;
+                owner.StateChanged += Owner_StateChanged;
                 _owners.Add(owner);
                 this.Activate();
             }
