@@ -11,7 +11,6 @@
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
-			 TextOptions.TextFormattingMode="Display"
              d:DataContext="{d:DesignData Source=/Design/MinerProfileIndexViewModel.xaml}"
 			 Width="324">
 	<UserControl.DataContext>

@@ -10,7 +10,6 @@
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d" 
 			 BorderBrush="{StaticResource LineColor}"
-			 TextOptions.TextFormattingMode="Display"  
 			 Width="328">
 	<UserControl.Resources>
 		<ResourceDictionary>

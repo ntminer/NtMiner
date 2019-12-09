@@ -37,12 +37,19 @@ namespace NTMiner {
 
         #region 电脑硬件
         private static Computer _computer = null;
+        private static bool _isComputerFirst = true;
+        private static readonly object _computerLocker = new object();
         public static Computer Computer {
             get {
-                if (_computer == null) {
-                    _computer = new Computer();
-                    _computer.Open();
-                    _computer.CPUEnabled = true;
+                if (_isComputerFirst) {
+                    lock (_computerLocker) {
+                        if (_isComputerFirst) {
+                            _isComputerFirst = false;
+                            _computer = new Computer();
+                            _computer.Open();
+                            _computer.CPUEnabled = true;
+                        }
+                    }
                 }
                 return _computer;
             }

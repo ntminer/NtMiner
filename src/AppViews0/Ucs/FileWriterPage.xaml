@@ -10,7 +10,6 @@
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d"
 			 Background="White"
-			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="520" d:DesignWidth="1200">
 	<UserControl.DataContext>
 		<vm:FileWriterPageViewModel></vm:FileWriterPageViewModel>

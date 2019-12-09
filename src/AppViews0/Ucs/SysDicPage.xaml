@@ -8,7 +8,6 @@
              xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
              xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
              Background="{StaticResource ThemeBackground}"
-             TextOptions.TextFormattingMode="Display" 
              mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
     <UserControl.DataContext>
         <vm:SysDicPageViewModel></vm:SysDicPageViewModel>

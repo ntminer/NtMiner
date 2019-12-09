@@ -9,7 +9,6 @@
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 			 Background="White"
-			 TextOptions.TextFormattingMode="Display" 
 			 mc:Ignorable="d" 
              d:DesignHeight="420" 
              d:DesignWidth="660">
