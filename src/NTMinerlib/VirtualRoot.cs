@@ -404,7 +404,7 @@ namespace NTMiner {
         }
         #endregion
 
-        public static WebClient CreateWebClient(int timeoutSeconds = 180) {
+        public static WebClient CreateWebClient(int timeoutSeconds = 60) {
             return new NTMinerWebClient(timeoutSeconds);
         }
 

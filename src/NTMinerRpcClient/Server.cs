@@ -77,7 +77,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    callback?.Invoke(default(T), e);
+                    callback?.Invoke(default, e);
                 }
             });
         }
