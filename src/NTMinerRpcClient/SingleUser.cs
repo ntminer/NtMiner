@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner {
-    public class SingleUser {
+    public static class SingleUser {
         public static string LoginName { get; set; }
 
         private static string s_passwordSha1;

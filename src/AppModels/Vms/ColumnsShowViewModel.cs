@@ -118,7 +118,7 @@ namespace NTMiner.Vms {
             if (item != null) {
                 item.OnPropertyChanged(nameof(item.IsChecked));
             }
-            Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
+            RpcRoot.Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
                 if (!response.IsSuccess()) {
                     Write.UserFail(response.ReadMessage(exception));
                 }

@@ -16,7 +16,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.RestartWindows(request.ClientIp, request.InnerRequest);
+                response = RpcRoot.Client.NTMinerDaemonService.RestartWindows(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -37,7 +37,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.ShutdownWindows(request.ClientIp, request.InnerRequest);
+                response = RpcRoot.Client.NTMinerDaemonService.ShutdownWindows(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -58,7 +58,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.UpgradeNTMiner(request.ClientIp, request.InnerRequest);
+                response = RpcRoot.Client.NTMinerDaemonService.UpgradeNTMiner(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -94,7 +94,7 @@ namespace NTMiner.Controllers {
                     LocalJson = localJson,
                     ServerJson = serverJson
                 };
-                response = Client.NTMinerDaemonService.StartMine(request.ClientIp, innerRequest);
+                response = RpcRoot.Client.NTMinerDaemonService.StartMine(request.ClientIp, innerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -130,7 +130,7 @@ namespace NTMiner.Controllers {
                     LocalJson = localJson,
                     ServerJson = serverJson
                 };
-                response = Client.NTMinerDaemonService.RestartNTMiner(request.ClientIp, innerRequest);
+                response = RpcRoot.Client.NTMinerDaemonService.RestartNTMiner(request.ClientIp, innerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -151,7 +151,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                response = Client.NTMinerDaemonService.StopMine(request.ClientIp, request.InnerRequest);
+                response = RpcRoot.Client.NTMinerDaemonService.StopMine(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {
@@ -172,7 +172,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                response = Client.MinerClientService.SetMinerProfileProperty(request.ClientIp, request.InnerRequest);
+                response = RpcRoot.Client.MinerClientService.SetMinerProfileProperty(request.ClientIp, request.InnerRequest);
                 return response;
             }
             catch (Exception e) {

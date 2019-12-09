@@ -27,7 +27,7 @@ namespace NTMiner.Core.Impl {
 
                 VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                     action: message => {
-                        Server.ReportService.ReportStateAsync(NTKeyword.OfficialServerHost, VirtualRoot.Id, isMining: false);
+                        RpcRoot.Server.ReportService.ReportStateAsync(NTKeyword.OfficialServerHost, VirtualRoot.Id, isMining: false);
                     }, location: this.GetType());
             }
         }
@@ -218,7 +218,7 @@ namespace NTMiner.Core.Impl {
         private void ReportSpeed() {
             try {
                 SpeedData data = CreateSpeedData();
-                Server.ReportService.ReportSpeedAsync(NTKeyword.OfficialServerHost, data, response => {
+                RpcRoot.Server.ReportService.ReportSpeedAsync(NTKeyword.OfficialServerHost, data, response => {
                     if (response.IsSuccess()) {
                         AppVersionChangedEvent.PublishIfNewVersion(response.ServerState.MinerClientVersion);
                         if (response.NewServerMessages.Count != 0) {

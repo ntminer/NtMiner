@@ -76,10 +76,10 @@ namespace NTMiner.Vms {
                         if (isSuccess) {
                             this.DownloadMessage = "更新成功，正在重启";
                             if (VirtualRoot.IsMinerStudio) {
-                                Client.MinerStudioService.CloseMinerStudio();
+                                RpcRoot.Client.MinerStudioService.CloseMinerStudio();
                             }
                             else {
-                                Client.MinerClientService.CloseNTMiner();
+                                RpcRoot.Client.MinerClientService.CloseNTMiner();
                             }
                             TimeSpan.FromSeconds(3).Delay().ContinueWith((t) => {
                                 string location = NTMinerRegistry.GetLocation();
@@ -183,14 +183,14 @@ namespace NTMiner.Vms {
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };
-                OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
+                RpcRoot.OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
                     webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
                 });
             }
         }
 
         public void Refresh() {
-            OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntMinerFiles, e) => {
+            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntMinerFiles, e) => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;

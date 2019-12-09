@@ -93,14 +93,6 @@ namespace NTMiner {
                 }
                 return new List<KernelOutputTranslaterViewModel>();
             }
-
-            public KernelOutputTranslaterViewModel GetNextOne(Guid kernelOutputId, int sortNumber) {
-                return GetListByKernelId(kernelOutputId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
-            }
-
-            public KernelOutputTranslaterViewModel GetUpOne(Guid kernelOutputId, int sortNumber) {
-                return GetListByKernelId(kernelOutputId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber);
-            }
         }
     }
 }

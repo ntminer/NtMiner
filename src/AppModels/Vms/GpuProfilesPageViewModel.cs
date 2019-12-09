@@ -63,12 +63,12 @@ namespace NTMiner.Vms {
                 }
                 string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);
                 foreach (var client in minerClientsWindowVm.SelectedMinerClients) {
-                    Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
+                    RpcRoot.Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
                 }
                 VirtualRoot.Out.ShowSuccess("应用成功，请观察效果");
                 VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
-            Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
+            RpcRoot.Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
                 _data = data;
                 if (e != null) {
                     Write.UserError(e.Message);

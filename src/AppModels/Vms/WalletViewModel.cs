@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class WalletViewModel : ViewModelBase, IWallet, IEditableViewModel {
+    public class WalletViewModel : ViewModelBase, IWallet, IEditableViewModel, ISortable {
         public static readonly WalletViewModel PleaseSelect = new WalletViewModel(Guid.Empty) {
             _name = "不指定",
             _address = string.Empty,

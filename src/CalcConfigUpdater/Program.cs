@@ -75,7 +75,7 @@ namespace NTMiner {
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
+                            RpcRoot.OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
                                 Write.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
@@ -109,7 +109,7 @@ namespace NTMiner {
                                         }
                                     }
                                 }
-                                OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, callback: (res, e) => {
+                                RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, callback: (res, e) => {
                                     if (!res.IsSuccess()) {
                                         Write.UserFail(res.ReadMessage(e));
                                     }
@@ -312,7 +312,7 @@ namespace NTMiner {
 
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
-                using (HttpClient client = new HttpClient()) {
+                using (HttpClient client = RpcRoot.Create()) {
                     client.Timeout = TimeSpan.FromSeconds(20);
                     return await client.GetByteArrayAsync(url);
                 }

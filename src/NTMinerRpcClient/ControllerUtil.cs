@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner {
-    public static class ControllerUtil {
+    public class ControllerUtil {
         public static string GetControllerName<T>() {
             Type t = typeof(T);
             string name = t.Name;

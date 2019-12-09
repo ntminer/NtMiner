@@ -399,10 +399,34 @@
 								            VerticalAlignment="Top">
                                             <CheckBox 
 									            FocusVisualStyle="{x:Null}"
-									            Margin="4 0 0 0"
-									            Width="16"
+									            Margin="4 4 0 0"
 									            ToolTip="显示命令行"
-									            IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
+									            IsChecked="{Binding MinerProfile.IsShowCommandLine}">
+                                                <CheckBox.Template>
+                                                    <ControlTemplate>
+                                                        <WrapPanel Width="15" Height="15" Background="Black">
+                                                            <Path
+								                                Width="15"
+								                                Height="10"
+                                                                Visibility="{Binding MinerProfile.IsShowCommandLine,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+								                                Data="{StaticResource Icon_Menu}"
+								                                Fill="White"
+								                                Stretch="Fill" />
+                                                            <Path
+								                                Width="15"
+								                                Height="10"
+                                                                Visibility="{Binding MinerProfile.IsShowCommandLine,Converter={StaticResource BoolToVisibilityConverter}}"
+								                                Data="{StaticResource Icon_Menu}"
+								                                Fill="White"
+								                                Stretch="Fill">
+                                                                <Path.LayoutTransform>
+                                                                    <RotateTransform Angle="180"></RotateTransform>
+                                                                </Path.LayoutTransform>
+                                                            </Path>
+                                                        </WrapPanel>
+                                                    </ControlTemplate>
+                                                </CheckBox.Template>
+                                            </CheckBox>
                                         </WrapPanel>
                                         <Grid Grid.Row="1" Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}">
                                             <TextBlock Foreground="LightGray" VerticalAlignment="Top">></TextBlock>

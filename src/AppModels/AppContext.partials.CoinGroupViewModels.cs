@@ -2,7 +2,6 @@
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -81,14 +80,6 @@ namespace NTMiner {
                     return new List<CoinGroupViewModel>();
                 }
                 return _listByGroupId[groupId];
-            }
-
-            public CoinGroupViewModel GetNextOne(Guid groupId, int sortNumber) {
-                return GetCoinGroupsByGroupId(groupId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
-            }
-
-            public CoinGroupViewModel GetUpOne(Guid groupId, int sortNumber) {
-                return GetCoinGroupsByGroupId(groupId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber);
             }
         }
     }

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner {
-    public static partial class OfficialServer {
+    public partial class OfficialServer {
         public class ServerMessageServiceFace {
             public static readonly ServerMessageServiceFace Instance = new ServerMessageServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IServerMessageController>();

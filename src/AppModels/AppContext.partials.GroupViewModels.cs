@@ -92,14 +92,6 @@ namespace NTMiner {
                 }
             }
 
-            public GroupViewModel GetNextOne(int sortNumber) {
-                return List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
-            }
-
-            public GroupViewModel GetUpOne(int sortNumber) {
-                return List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber);
-            }
-
             private IEnumerable<GroupViewModel> GetSelectionItems() {
                 yield return GroupViewModel.PleaseSelect;
                 foreach (var item in _dicById.Values.OrderBy(a => a.SortNumber)) {

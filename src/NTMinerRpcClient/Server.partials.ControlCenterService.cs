@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class Server {
+    public partial class Server {
         public class ControlCenterServiceFace {
             public static readonly ControlCenterServiceFace Instance = new ControlCenterServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IControlCenterController>();
@@ -22,7 +22,7 @@ namespace NTMiner {
                 }
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
+                        using (HttpClient client = RpcRoot.Create()) {
                             Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IControlCenterController.GetServicesVersion)}", null);
                             string response = getHttpResponse.Result.Content.ReadAsAsync<string>().Result;
                             callback?.Invoke(response, null);
@@ -42,7 +42,7 @@ namespace NTMiner {
                     if (processes.Length == 0) {
                         return;
                     }
-                    using (HttpClient client = new HttpClient()) {
+                    using (HttpClient client = RpcRoot.Create()) {
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IControlCenterController.CloseServices)}", null);
                         Write.DevDebug($"{nameof(CloseServices)} {getHttpResponse.Result.ReasonPhrase}");
                     }

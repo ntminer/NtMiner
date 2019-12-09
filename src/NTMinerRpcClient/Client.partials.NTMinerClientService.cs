@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class Client {
+    public partial class Client {
         public partial class MinerClientServiceFace {
             public static readonly MinerClientServiceFace Instance = new MinerClientServiceFace();
             private static readonly string s_controllerName = ControllerUtil.GetControllerName<IMinerClientController>();
@@ -20,7 +20,7 @@ namespace NTMiner {
             public void ShowMainWindowAsync(int clientPort, Action<bool, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
+                        using (HttpClient client = RpcRoot.Create()) {
                             Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{clientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.ShowMainWindow)}", null);
                             bool response = getHttpResponse.Result.Content.ReadAsAsync<bool>().Result;
                             callback?.Invoke(response, null);
@@ -44,8 +44,8 @@ namespace NTMiner {
                 }
                 bool isClosed = false;
                 try {
-                    using (HttpClient client = new HttpClient()) {
-                        client.Timeout = TimeSpan.FromMilliseconds(2000);
+                    using (HttpClient client = RpcRoot.Create()) {
+                        client.Timeout = TimeSpan.FromSeconds(2);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.CloseNTMiner)}", new SignRequest { });
                         ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         isClosed = response.IsSuccess();
@@ -67,8 +67,8 @@ namespace NTMiner {
             public void RefreshAutoBootStartAsync() {
                 Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromMilliseconds(3000);
+                        using (HttpClient client = RpcRoot.Create()) {
+                            client.Timeout = TimeSpan.FromSeconds(3);
                             Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
                             Write.DevDebug($"{nameof(RefreshAutoBootStartAsync)} {getHttpResponse.Result.ReasonPhrase}");
                         }
@@ -94,7 +94,7 @@ namespace NTMiner {
             }
 
             public ResponseBase StartMine(string clientIp, WorkRequest request) {
-                using (HttpClient client = new HttpClient()) {
+                using (HttpClient client = RpcRoot.Create()) {
                     Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.MinerClientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.StartMine)}", request);
                     ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
@@ -114,7 +114,7 @@ namespace NTMiner {
             }
 
             public ResponseBase StopMine(string clientIp, SignRequest request) {
-                using (HttpClient client = new HttpClient()) {
+                using (HttpClient client = RpcRoot.Create()) {
                     Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.MinerClientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.StopMine)}", request);
                     ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
@@ -134,8 +134,8 @@ namespace NTMiner {
             }
 
             public ResponseBase SetMinerProfileProperty(string clientIp, SetClientMinerProfilePropertyRequest request) {
-                using (HttpClient client = new HttpClient()) {
-                    client.Timeout = TimeSpan.FromMilliseconds(3000);
+                using (HttpClient client = RpcRoot.Create()) {
+                    client.Timeout = TimeSpan.FromSeconds(3);
                     Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.MinerClientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
                     ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     return response;
@@ -145,8 +145,8 @@ namespace NTMiner {
             public Task<SpeedData> GetSpeedAsync(string clientHost, Action<SpeedData, Exception> callback) {
                 return Task.Factory.StartNew(() => {
                     try {
-                        using (HttpClient client = new HttpClient()) {
-                            client.Timeout = TimeSpan.FromMilliseconds(3000);
+                        using (HttpClient client = RpcRoot.Create()) {
+                            client.Timeout = TimeSpan.FromSeconds(3);
                             Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{clientHost}:{NTKeyword.MinerClientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
                             SpeedData data = getHttpResponse.Result.Content.ReadAsAsync<SpeedData>().Result;
                             callback?.Invoke(data, null);

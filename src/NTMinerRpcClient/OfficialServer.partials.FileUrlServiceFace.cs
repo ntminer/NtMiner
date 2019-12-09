@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner {
-    public static partial class OfficialServer {
+    public partial class OfficialServer {
         public class FileUrlServiceFace {
             public static readonly FileUrlServiceFace Instance = new FileUrlServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IFileUrlController>();

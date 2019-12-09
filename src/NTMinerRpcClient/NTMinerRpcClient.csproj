@@ -59,6 +59,8 @@
     <Compile Include="Client.partials.NTMinerClientService.cs" />
     <Compile Include="Client.partials.NTMinerDaemonService.cs" />
     <Compile Include="ControllerUtil.cs" />
+    <Compile Include="RpcRoot.partial.cs" />
+    <Compile Include="RpcRoot.cs" />
     <Compile Include="KernelOutputKeyword\IKernelOutputKeywordSet.cs" />
     <Compile Include="KernelOutputKeyword\KernelOutputKeywordSet.cs" />
     <Compile Include="OfficialServer.partials.FileUrlServiceFace.cs" />

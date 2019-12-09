@@ -64,7 +64,7 @@ namespace NTMiner.Views {
         #region 刷新总算力图表
         private void RefreshTotalSpeedChart(int limit) {
             //NTMinerRoot.Current.DebugLine($"获取总算力数据，范围{leftTime} - {rightTime}");
-            Server.ControlCenterService.GetLatestSnapshotsAsync(
+            RpcRoot.Server.ControlCenterService.GetLatestSnapshotsAsync(
                 limit,
                 (response, exception) => {
                     if (response == null) {

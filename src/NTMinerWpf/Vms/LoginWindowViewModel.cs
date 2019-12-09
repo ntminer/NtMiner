@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 string passwordSha1 = HashUtil.Sha1(Password);
-                Server.ControlCenterService.ActiveControlCenterAdminAsync(passwordSha1, (response, e) => {
+                RpcRoot.Server.ControlCenterService.ActiveControlCenterAdminAsync(passwordSha1, (response, e) => {
                     if (response.IsSuccess()) {
                         IsPasswordAgainVisible = Visibility.Collapsed;
                         this.ShowMessage("激活成功", isSuccess: true);

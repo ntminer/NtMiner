@@ -129,7 +129,6 @@
     <Compile Include="WindowExtension.cs" />
     <Compile Include="Win32MessageProc.cs" />
     <Compile Include="WindowsShortcut.cs" />
-    <Compile Include="DataGridExtesnsion.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Views\NotiCenterWindow.xaml.cs">
       <DependentUpon>NotiCenterWindow.xaml</DependentUpon>

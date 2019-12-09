@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using OpenHardwareMonitor.Hardware;
 using System;
 using System.Diagnostics;
 using System.Management;
@@ -10,58 +11,86 @@ namespace NTMiner.Windows {
     public sealed class Cpu {
         public static readonly Cpu Instance = new Cpu();
 
-        // This stores the total number of logical cores in the processor
-        private readonly int numberOfProcessors = Environment.ProcessorCount;
-        private readonly PerformanceCounter _cpuPerformanceCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-        private HardwareProviders.CPU.Cpu[] _cpus = null;
-        private readonly object _cpusLocker = new object();
-
         private Cpu() { }
 
-        public double GetPerformance() {
-            try {
-                return _cpuPerformanceCounter.NextValue();
-            }
-            catch {
-                return 0.0;
-            }
-        }
-
-        public float GetTemperature() {
-            try {
-                if (_cpus == null) {
-                    lock (_cpusLocker) {
-                        if (_cpus == null) {
-                            _cpus = HardwareProviders.CPU.Cpu.Discover();
+        private double _performance = 0.0f;
+        public void GetSensorValue(out double performance, out float temperature, out double power) {
+            performance = _performance;
+            temperature = 0.0f;
+            power = 0.0f;
+            var computer = NTMinerRoot.Computer;
+            for (int i = 0; i < computer.Hardware.Length; i++) {
+                var hardware = computer.Hardware[i];
+                if (hardware.HardwareType == HardwareType.CPU) {
+                    hardware.Update();
+                    bool isCPUPackageReaded = false;
+                    bool isCPUTotalReaded = false;
+                    bool isPowerReaded = false;
+                    for (int j = 0; j < hardware.Sensors.Length; j++) {
+                        switch (hardware.Sensors[j].SensorType) {
+                            case SensorType.Voltage:
+                                break;
+                            case SensorType.Clock:
+                                break;
+                            case SensorType.Temperature:
+                                if (!isCPUPackageReaded) {
+                                    if (hardware.Sensors[j].Name == "CPU Package") {
+                                        isCPUPackageReaded = true;
+                                        float? t = hardware.Sensors[j].Value;
+                                        if (t.HasValue) {
+                                            temperature = t.Value;
+                                        }
+                                    }
+                                }
+                                break;
+                            case SensorType.Load:
+                                if (!isCPUTotalReaded) {
+                                    if (hardware.Sensors[j].Name == "CPU Total") {
+                                        isCPUTotalReaded = true;
+                                        float? t = hardware.Sensors[j].Value;
+                                        if (t.HasValue) {
+                                            performance = t.Value;
+                                            if (performance == 0) {
+                                                performance = _performance;
+                                            }
+                                            else {
+                                                _performance = performance;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                            case SensorType.Fan:
+                                break;
+                            case SensorType.Flow:
+                                break;
+                            case SensorType.Control:
+                                break;
+                            case SensorType.Level:
+                                break;
+                            case SensorType.Factor:
+                                break;
+                            case SensorType.Power:
+                                if (!isPowerReaded) {
+                                    if (hardware.Sensors[j].Name == "CPU Package") {
+                                        isPowerReaded = true;
+                                        float? t = hardware.Sensors[j].Value;
+                                        if (t.HasValue) {
+                                            power = t.Value;
+                                        }
+                                    }
+                                }
+                                break;
+                            case SensorType.Data:
+                                break;
+                            case SensorType.SmallData:
+                                break;
+                            default:
+                                break;
                         }
                     }
                 }
-                else {
-                    foreach (var cpu in _cpus) {
-                        cpu.Update();
-                    }
-                }
-                foreach (var cpu in _cpus) {
-                    if (cpu.PackageTemperature != null && cpu.PackageTemperature.Value.HasValue) {
-                        return cpu.PackageTemperature.Value.Value;
-                    }
-                }
-                int n = 0;
-                float sum = 0.0f;
-                foreach (var cpu in _cpus) {
-                    foreach (var item in cpu.CoreTemperatures) {
-                        if (item != null && item.Value.HasValue) {
-                            sum += item.Value.Value;
-                            n++;
-                        }
-                    }
-                }
-                return sum / n;
             }
-            catch {
-                _cpus = new HardwareProviders.CPU.Cpu[0];
-            }
-            return 0.0f;
         }
 
         private static bool _isFirstGetCpuId = true;
@@ -73,7 +102,8 @@ namespace NTMiner.Windows {
             _isFirstGetCpuId = false;
             _cpuId = "N/A";
             try {
-                using (var query = new ManagementObjectSearcher("Select ProcessorID from Win32_processor").Get()) {
+                using (var searcher = new ManagementObjectSearcher("Select ProcessorID from Win32_processor"))
+                using (var query = searcher.Get()) {
                     foreach (var item in query) {
                         _cpuId = item.GetPropertyValue("ProcessorID").ToString();
                     }
@@ -94,6 +124,8 @@ namespace NTMiner.Windows {
             }
         }
 
+        // This stores the total number of logical cores in the processor
+        private readonly int numberOfProcessors = Environment.ProcessorCount;
         /// <summary>
         /// Retrieves the number of logical cores on the system
         /// </summary>
@@ -171,7 +203,7 @@ namespace NTMiner.Windows {
         /// </summary>
         /// <returns>True if there is more than one logical processor</returns>
         private bool IsMulticore() {
-            if (Environment.ProcessorCount > 1) {
+            if (NumberOfLogicalCores > 1) {
                 return true;
             }
 

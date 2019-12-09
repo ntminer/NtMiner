@@ -3,7 +3,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class CoinGroupViewModel : ViewModelBase, ICoinGroup {
+    public class CoinGroupViewModel : ViewModelBase, ICoinGroup, ISortable {
         private Guid _id;
         private Guid _groupId;
         private Guid _coinId;
@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinGroupViewModel upOne = AppContext.Instance.CoinGroupVms.GetUpOne(this.GroupId, this.SortNumber);
+                CoinGroupViewModel upOne = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.GroupId).GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinGroupViewModel nextOne = AppContext.Instance.CoinGroupVms.GetNextOne(this.GroupId, this.SortNumber);
+                CoinGroupViewModel nextOne = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.GroupId).GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;

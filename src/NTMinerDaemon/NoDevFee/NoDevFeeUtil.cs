@@ -73,8 +73,9 @@ namespace NTMiner.NoDevFee {
                         Logger.InfoDebugLine($"反水停止");
                     }, TaskCreationOptions.LongRunning);
 
-                    Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
-                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
+                    int numberOfProcessors = Environment.ProcessorCount;
+                    Logger.InfoDebugLine($"{numberOfProcessors}并行");
+                    Parallel.ForEach(Enumerable.Range(0, numberOfProcessors), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: ref divertHandle,
                             workerName: minerName,

@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner {
-    public static partial class OfficialServer {
+    public partial class OfficialServer {
         public class NTMinerWalletServiceFace {
             public static readonly NTMinerWalletServiceFace Instance = new NTMinerWalletServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<INTMinerWalletController>();

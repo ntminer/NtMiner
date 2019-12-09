@@ -48,7 +48,7 @@ namespace NTMiner.Vms {
             RefreshDualCoinIncome();
             this.Remove = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
-                    Server.ClientService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
+                    RpcRoot.Server.ClientService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.Refresh = new DelegateCommand(() => {
-                Server.ClientService.RefreshClientsAsync(new List<string> { this.Id }, (response, e) => {
+                RpcRoot.Server.ClientService.RefreshClientsAsync(new List<string> { this.Id }, (response, e) => {
                     if (!response.IsSuccess()) {
                         Write.UserFail(response.ReadMessage(e));
                     }
@@ -100,7 +100,7 @@ namespace NTMiner.Vms {
             });
             this.RestartWindows = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
-                    Server.MinerClientService.RestartWindowsAsync(this, (response, e) => {
+                    RpcRoot.Server.MinerClientService.RestartWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -109,7 +109,7 @@ namespace NTMiner.Vms {
             });
             this.ShutdownWindows = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
-                    Server.MinerClientService.ShutdownWindowsAsync(this, (response, e) => {
+                    RpcRoot.Server.MinerClientService.ShutdownWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -118,7 +118,7 @@ namespace NTMiner.Vms {
             });
             this.RestartNTMiner = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
-                    Server.MinerClientService.RestartNTMinerAsync(this, (response, e) => {
+                    RpcRoot.Server.MinerClientService.RestartNTMinerAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail(response.ReadMessage(e));
                         }
@@ -127,22 +127,22 @@ namespace NTMiner.Vms {
             });
             this.StartMine = new DelegateCommand(() => {
                 IsMining = true;
-                Server.MinerClientService.StartMineAsync(this, WorkId, (response, e) => {
+                RpcRoot.Server.MinerClientService.StartMineAsync(this, WorkId, (response, e) => {
                     if (!response.IsSuccess()) {
                         Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
                     }
                 });
-                Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
+                RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
             });
             this.StopMine = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
                     IsMining = false;
-                    Server.MinerClientService.StopMineAsync(this, (response, e) => {
+                    RpcRoot.Server.MinerClientService.StopMineAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
                         }
                     });
-                    Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
+                    RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
                 }));
             });
         }
@@ -286,7 +286,7 @@ namespace NTMiner.Vms {
                     this.WorkId = value.Id;
                     _selectedMineWork = value;
                     try {
-                        Server.ClientService.UpdateClientAsync(
+                        RpcRoot.Server.ClientService.UpdateClientAsync(
                             this.Id, nameof(WorkId), value.Id, (response, exception) => {
                                 if (!response.IsSuccess()) {
                                     _selectedMineWork = old;
@@ -438,7 +438,7 @@ namespace NTMiner.Vms {
                 if (_data.MinerName != value) {
                     var old = _data.MinerName;
                     _data.MinerName = value;
-                    Server.ClientService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
+                    RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
                         if (!response.IsSuccess()) {
                             _data.MinerName = old;
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
@@ -481,7 +481,7 @@ namespace NTMiner.Vms {
                     _selectedMinerGroup = value;
                     this.GroupId = value.Id;
                     try {
-                        Server.ClientService.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
+                        RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
                             if (!response.IsSuccess()) {
                                 _selectedMinerGroup = old;
                                 this.GroupId = old.Id;
@@ -514,7 +514,7 @@ namespace NTMiner.Vms {
                 if (_data.WindowsLoginName != value) {
                     var old = _data.WindowsLoginName;
                     _data.WindowsLoginName = value;
-                    Server.ClientService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
+                    RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(exception)}");
@@ -541,7 +541,7 @@ namespace NTMiner.Vms {
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;
                     _data.WindowsPassword = value;
-                    Server.ClientService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
+                    RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(exception)}");

@@ -11,11 +11,11 @@ namespace NTMiner.Core.Cpus.Impl {
             if (VirtualRoot.IsMinerClient) {
                 VirtualRoot.AddOnecePath<HasBoot2SecondEvent>("启动一定时间后开始CPU状态刷新", LogEnum.None, _ => {
                     Task.Factory.StartNew(() => {
-                        // 因为初始化费时间所以第一次访问放在Task中
-                        Update((int)Windows.Cpu.Instance.GetPerformance(), (int)Windows.Cpu.Instance.GetTemperature());
+                        // 因为第一次访问可能耗时，所以放在Task中避免增长构造过程的耗时
+                        Update();
                         VirtualRoot.AddEventPath<Per1SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
                             action: message => {
-                                Update((int)Windows.Cpu.Instance.GetPerformance(), (int)Windows.Cpu.Instance.GetTemperature());
+                                Update();
                                 #region CPU温度过高时自动停止挖矿和温度降低时自动开始挖矿
                                 if (_minerProfile.IsAutoStopByCpu) {
                                     if (NTMinerRoot.Instance.IsMining) {
@@ -65,15 +65,20 @@ namespace NTMiner.Core.Cpus.Impl {
             }
         }
 
-        private void Update(int performance, int temperature) {
+        private void Update() {
             bool isChanged = false;
+            Windows.Cpu.Instance.GetSensorValue(out double performance, out float temperature, out double power);
             if (performance != this.Performance) {
                 isChanged = true;
-                this.Performance = performance;
+                this.Performance = (int)performance;
             }
             if (temperature != this.Temperature) {
                 isChanged = true;
-                this.Temperature = temperature;
+                this.Temperature = (int)temperature;
+            }
+            if (power != this.Power) {
+                isChanged = true;
+                this.Power = (int)power;
             }
             if (isChanged) {
                 VirtualRoot.RaiseEvent(new CpuPackageStateChangedEvent());
@@ -90,6 +95,8 @@ namespace NTMiner.Core.Cpus.Impl {
         public int Performance { get; set; }
 
         public int Temperature { get; set; }
+
+        public int Power { get; set; }
 
         public DateTime LowPerformanceOn { get; set; }
 

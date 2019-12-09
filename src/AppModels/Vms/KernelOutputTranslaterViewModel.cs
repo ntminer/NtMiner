@@ -3,7 +3,7 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater, IEditableViewModel {
+    public class KernelOutputTranslaterViewModel : ViewModelBase, IKernelOutputTranslater, IEditableViewModel, ISortable {
         private string _regexPattern;
         private Guid _id;
         private string _replacement;
@@ -64,7 +64,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel upOne = AppContext.Instance.KernelOutputTranslaterVms.GetUpOne(this.KernelOutputId, this.SortNumber);
+                KernelOutputTranslaterViewModel upOne = AppContext.Instance.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -78,7 +78,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                KernelOutputTranslaterViewModel nextOne = AppContext.Instance.KernelOutputTranslaterVms.GetNextOne(this.KernelOutputId, this.SortNumber);
+                KernelOutputTranslaterViewModel nextOne = AppContext.Instance.KernelOutputTranslaterVms.GetListByKernelId(this.KernelOutputId).GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;

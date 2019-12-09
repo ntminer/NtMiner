@@ -346,6 +346,7 @@ namespace NTMiner {
                 StopMine(StopMineReason.ApplicationExit);
             }
             SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
+            _computer?.Close();
         }
         #endregion
 
