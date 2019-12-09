@@ -58,7 +58,7 @@ namespace NTMiner.Views {
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                 }, location: this.GetType());
-            NotiCenterWindow.Bind(this);
+            NotiCenterWindow.Instance.Bind(this);
             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
         }
 

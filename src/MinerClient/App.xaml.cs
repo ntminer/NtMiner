@@ -69,7 +69,7 @@ namespace NTMiner {
                         splashWindow = window;
                     });
                     //ConsoleWindow.Instance.Show();
-                    NotiCenterWindow.ShowWindow();
+                    NotiCenterWindow.Instance.ShowWindow();
                     if (!NTMiner.Windows.WMI.IsWmiEnabled) {
                         DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
                             message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
