@@ -10,7 +10,6 @@
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d"
 			 Background="White"
-			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="720" d:DesignWidth="1360">
 	<UserControl.DataContext>
 		<vm:KernelOutputPageViewModel></vm:KernelOutputPageViewModel>

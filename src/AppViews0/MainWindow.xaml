@@ -21,8 +21,7 @@
         BorderBrush="{StaticResource IconFillColor}"
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="Window_MouseDown"
-		TextOptions.TextFormattingMode="Display">
+		MouseDown="Window_MouseDown">
     <Window.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
     </Window.DataContext>
@@ -50,7 +49,7 @@
             </Grid.RowDefinitions>
             <Rectangle 
                 Grid.RowSpan="2"
-                Height="70"
+                Height="64"
                 VerticalAlignment="Top" 
                 Fill="{StaticResource ThemeBackground}">
             </Rectangle>
@@ -738,7 +737,7 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Background="{StaticResource ThemeBackground}" Margin="0 -3 4 0" VerticalAlignment="Top">
+            <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Background="{StaticResource ThemeBackground}" Margin="0 -4 4 0" VerticalAlignment="Top">
                 <StackPanel Margin="2 0 0 0">
                     <CheckBox 
                         Padding="0"

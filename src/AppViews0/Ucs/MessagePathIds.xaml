@@ -12,7 +12,6 @@
 			 mc:Ignorable="d" 
              x:Name="Uc"
 			 Background="White"
-			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="450" d:DesignWidth="1200">
     <UserControl.DataContext>
         <vm:MessagePathIdsViewModel></vm:MessagePathIdsViewModel>

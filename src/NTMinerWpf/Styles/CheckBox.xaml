@@ -19,18 +19,17 @@
                         </Grid.ColumnDefinitions>
                         <Border
                             x:Name="border"
-                            Width="14"
-                            Height="14"
+                            Width="13"
+                            Height="13"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             Background="White"
-                            BorderThickness="1"
-                            CornerRadius="2">
+                            BorderThickness="1">
                             <Path
                                 x:Name="icon"
-                                Width="10"
-                                Height="8"
+                                Width="9"
+                                Height="7"
                                 Data="{StaticResource Icon_Check}"
-                                Fill="Black"
+                                Fill="{StaticResource ThemeForeground}"
                                 Stretch="Fill"
                                 Visibility="Collapsed" />
                         </Border>
@@ -44,6 +43,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="icon" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource ThemeBackground}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="grid" Property="Opacity" Value="0.8" />
