@@ -13,8 +13,9 @@ namespace NTMiner.Windows {
 
         private Cpu() { }
 
+        private double _performance = 0.0f;
         public void GetSensorValue(out double performance, out float temperature, out double power) {
-            performance = 0.0f;
+            performance = _performance;
             temperature = 0.0f;
             power = 0.0f;
             var computer = NTMinerRoot.Computer;
@@ -49,6 +50,12 @@ namespace NTMiner.Windows {
                                         float? t = hardware.Sensors[j].Value;
                                         if (t.HasValue) {
                                             performance = t.Value;
+                                            if (performance == 0) {
+                                                performance = _performance;
+                                            }
+                                            else {
+                                                _performance = performance;
+                                            }
                                         }
                                     }
                                 }
