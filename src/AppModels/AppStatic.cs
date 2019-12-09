@@ -36,7 +36,7 @@ namespace NTMiner {
         #region Upgrade
         public static void Upgrade(string fileName, Action callback) {
             try {
-                OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
+                RpcRoot.OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
                         string argument = string.Empty;
                         if (!string.IsNullOrEmpty(fileName)) {
@@ -732,7 +732,7 @@ namespace NTMiner {
                 Directory.CreateDirectory(liteDbExplorerDir);
             }
             if (!File.Exists(liteDbExplorerFileFullName)) {
-                OfficialServer.FileUrlService.GetLiteDbExplorerUrlAsync((downloadFileUrl, e) => {
+                RpcRoot.OfficialServer.FileUrlService.GetLiteDbExplorerUrlAsync((downloadFileUrl, e) => {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }

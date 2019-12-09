@@ -32,7 +32,7 @@ namespace NTMiner {
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
             if (createdNew) {
-                Server.ControlCenterService.CloseServices();
+                RpcRoot.Server.ControlCenterService.CloseServices();
             }
             base.OnExit(e);
             NTMinerConsole.Free();

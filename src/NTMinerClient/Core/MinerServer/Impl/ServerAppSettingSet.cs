@@ -24,7 +24,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     oldValue = null;
                     _dicByKey.Add(message.AppSetting.Key, entity);
                 }
-                Server.AppSettingService.SetAppSettingAsync(entity, (response, exception) => {
+                RpcRoot.Server.AppSettingService.SetAppSettingAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         if (oldValue == null) {
                             _dicByKey.Remove(message.AppSetting.Key);
@@ -58,7 +58,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }
                     VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.Id, entity));
                 }
-                Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a => AppSettingData.Create(a)).ToList(), (response, exception) => {
+                RpcRoot.Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a => AppSettingData.Create(a)).ToList(), (response, exception) => {
                 });
             }, location: this.GetType());
         }
@@ -76,7 +76,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var list = Server.AppSettingService.GetAppSettings();
+                    var list = RpcRoot.Server.AppSettingService.GetAppSettings();
                     foreach (var item in list) {
                         _dicByKey.Add(item.Key, item);
                     }

@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class Server {
+    public partial class Server {
         public partial class ReportServiceFace {
             public static readonly ReportServiceFace Instance = new ReportServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IReportController>();

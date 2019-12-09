@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class Server {
+    public partial class Server {
         public class ControlCenterServiceFace {
             public static readonly ControlCenterServiceFace Instance = new ControlCenterServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IControlCenterController>();

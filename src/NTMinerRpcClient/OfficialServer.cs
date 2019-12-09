@@ -8,15 +8,17 @@ using System.Threading.Tasks;
 using System.Web;
 
 namespace NTMiner {
-    public static partial class OfficialServer {
+    public partial class OfficialServer {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
         public const string NTMinerBucket = "https://ntminer.oss-cn-beijing.aliyuncs.com/";
-        public static readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
-        public static readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
-        public static readonly NTMinerWalletServiceFace NTMinerWalletService = NTMinerWalletServiceFace.Instance;
-        public static readonly KernelOutputKeywordServiceFace KernelOutputKeywordService = KernelOutputKeywordServiceFace.Instance;
-        public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
-        public static readonly ServerMessageServiceFace ServerMessageService = ServerMessageServiceFace.Instance;
+        public readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
+        public readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
+        public readonly NTMinerWalletServiceFace NTMinerWalletService = NTMinerWalletServiceFace.Instance;
+        public readonly KernelOutputKeywordServiceFace KernelOutputKeywordService = KernelOutputKeywordServiceFace.Instance;
+        public readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
+        public readonly ServerMessageServiceFace ServerMessageService = ServerMessageServiceFace.Instance;
+
+        internal OfficialServer() { }
 
         public static string SignatureSafeUrl(Uri uri) {
             // https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=

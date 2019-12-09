@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                         this.ShowMessage("没有IP");
                         return;
                     }
-                    Server.ClientService.AddClientsAsync(clientIps, (response, e) => {
+                    RpcRoot.Server.ClientService.AddClientsAsync(clientIps, (response, e) => {
                         if (!response.IsSuccess()) {
                             this.ShowMessage(response.ReadMessage(e));
                         }
@@ -54,7 +54,7 @@ namespace NTMiner.Vms {
                     });
                 }
                 else {
-                    Server.ClientService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
+                    RpcRoot.Server.ClientService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
                         if (!response.IsSuccess()) {
                             this.ShowMessage(response.ReadMessage(e));
                         }

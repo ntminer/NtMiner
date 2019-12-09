@@ -80,7 +80,7 @@ namespace NTMiner.Vms {
                     Write.DevDebug("检测到MinerProfile状态变更");
                     NTMinerRoot.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                     if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                        Server.MineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
+                        RpcRoot.Server.MineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
                     }
                     if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
                         this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
@@ -108,7 +108,7 @@ namespace NTMiner.Vms {
                 else {
                     // 编辑作业前切换上下文
                     // 根据workId下载json保存到本地并调用LocalJson.Instance.ReInit()
-                    string json = Server.MineWorkService.GetLocalJson(this.Id);
+                    string json = RpcRoot.Server.MineWorkService.GetLocalJson(this.Id);
                     if (!string.IsNullOrEmpty(json)) {
                         File.WriteAllText(SpecialPath.LocalJsonFileFullName, json);
                     }

@@ -11,7 +11,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         public UserSet() {
             VirtualRoot.AddCmdPath<AddUserCommand>(action: message => {
                 if (!_dicByLoginName.ContainsKey(message.User.LoginName)) {
-                    Server.UserService.AddUserAsync(new UserData {
+                    RpcRoot.Server.UserService.AddUserAsync(new UserData {
                         LoginName = message.User.LoginName,
                         Password = message.User.Password,
                         IsEnabled = message.User.IsEnabled,
@@ -33,7 +33,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     UserData entity = _dicByLoginName[message.User.LoginName];
                     UserData oldValue = new UserData(entity);
                     entity.Update(message.User);
-                    Server.UserService.UpdateUserAsync(new UserData {
+                    RpcRoot.Server.UserService.UpdateUserAsync(new UserData {
                         LoginName = message.User.LoginName,
                         Password = message.User.Password,
                         IsEnabled = message.User.IsEnabled,
@@ -51,7 +51,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             VirtualRoot.AddCmdPath<RemoveUserCommand>(action: message => {
                 if (_dicByLoginName.ContainsKey(message.LoginName)) {
                     UserData entity = _dicByLoginName[message.LoginName];
-                    Server.UserService.RemoveUserAsync(message.LoginName, (response, exception) => {
+                    RpcRoot.Server.UserService.RemoveUserAsync(message.LoginName, (response, exception) => {
                         if (response.IsSuccess()) {
                             _dicByLoginName.Remove(entity.LoginName);
                             VirtualRoot.RaiseEvent(new UserRemovedEvent(message.Id, entity));
@@ -76,7 +76,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (!VirtualRoot.IsMinerStudio) {
                             clientId = VirtualRoot.Id;
                         }
-                        var result = Server.UserService.GetUsers(clientId);
+                        var result = RpcRoot.Server.UserService.GetUsers(clientId);
                         _dicByLoginName = result.ToDictionary(a => a.LoginName, a => a);
                         _isInited = true;
                     }

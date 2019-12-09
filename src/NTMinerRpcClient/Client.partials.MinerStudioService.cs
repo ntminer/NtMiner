@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class Client {
+    public partial class Client {
         public partial class MinerStudioServiceFace {
             public static readonly MinerStudioServiceFace Instance = new MinerStudioServiceFace();
             private static readonly string s_controllerName = ControllerUtil.GetControllerName<IMinerStudioController>();

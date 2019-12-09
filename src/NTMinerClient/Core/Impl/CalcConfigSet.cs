@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
             // 如果未显示主界面则收益计算器也不用更新了
             if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible || VirtualRoot.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
-                OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
+                RpcRoot.OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
                     Init(data);
                     VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());
                 });
@@ -90,7 +90,7 @@ namespace NTMiner.Core.Impl {
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {
             _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-            OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, null);
+            RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, null);
         }
 
         public IEnumerable<ICalcConfig> AsEnumerable() {

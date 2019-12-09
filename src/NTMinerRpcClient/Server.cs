@@ -5,18 +5,20 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class Server {
-        public static readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
-        public static readonly UserServiceFace UserService = UserServiceFace.Instance;
-        public static readonly MinerGroupServiceFace MinerGroupService = MinerGroupServiceFace.Instance;
-        public static readonly MineWorkServiceFace MineWorkService = MineWorkServiceFace.Instance;
-        public static readonly WalletServiceFace WalletService = WalletServiceFace.Instance;
-        public static readonly PoolServiceFace PoolService = PoolServiceFace.Instance;
-        public static readonly ColumnsShowServiceFace ColumnsShowService = ColumnsShowServiceFace.Instance;
-        public static readonly ClientServiceFace ClientService = ClientServiceFace.Instance;
-        public static readonly AppSettingServiceFace AppSettingService = AppSettingServiceFace.Instance;
-        public static readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
-        public static readonly WrapperMinerClientServiceFace MinerClientService = WrapperMinerClientServiceFace.Instance;
+    public partial class Server {
+        public readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
+        public readonly UserServiceFace UserService = UserServiceFace.Instance;
+        public readonly MinerGroupServiceFace MinerGroupService = MinerGroupServiceFace.Instance;
+        public readonly MineWorkServiceFace MineWorkService = MineWorkServiceFace.Instance;
+        public readonly WalletServiceFace WalletService = WalletServiceFace.Instance;
+        public readonly PoolServiceFace PoolService = PoolServiceFace.Instance;
+        public readonly ColumnsShowServiceFace ColumnsShowService = ColumnsShowServiceFace.Instance;
+        public readonly ClientServiceFace ClientService = ClientServiceFace.Instance;
+        public readonly AppSettingServiceFace AppSettingService = AppSettingServiceFace.Instance;
+        public readonly ReportServiceFace ReportService = ReportServiceFace.Instance;
+        public readonly WrapperMinerClientServiceFace MinerClientService = WrapperMinerClientServiceFace.Instance;
+
+        internal Server() { }
 
         private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object param, Action<T, Exception> callback) where T : class {
             Task.Factory.StartNew(() => {

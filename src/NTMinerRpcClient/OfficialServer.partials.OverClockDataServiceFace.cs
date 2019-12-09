@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner {
-    public static partial class OfficialServer {
+    public partial class OfficialServer {
         public class OverClockDataServiceFace {
             public static readonly OverClockDataServiceFace Instance = new OverClockDataServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IOverClockDataController>();

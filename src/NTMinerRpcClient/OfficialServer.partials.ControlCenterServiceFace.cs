@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class OfficialServer {
+    public partial class OfficialServer {
         public class ControlCenterServiceFace {
             public static readonly ControlCenterServiceFace Instance = new ControlCenterServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IControlCenterController>();

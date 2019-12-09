@@ -54,7 +54,7 @@ namespace NTMiner.View {
             try {
                 switch (appType) {
                     case NTMinerAppType.MinerClient:
-                        Client.MinerClientService.ShowMainWindowAsync(NTKeyword.MinerClientPort, (isSuccess, exception) => {
+                        RpcRoot.Client.MinerClientService.ShowMainWindowAsync(NTKeyword.MinerClientPort, (isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }
@@ -62,7 +62,7 @@ namespace NTMiner.View {
                         });
                         break;
                     case NTMinerAppType.MinerStudio:
-                        Client.MinerStudioService.ShowMainWindowAsync(NTKeyword.MinerStudioPort, (isSuccess, exception) => {
+                        RpcRoot.Client.MinerStudioService.ShowMainWindowAsync(NTKeyword.MinerStudioPort, (isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }

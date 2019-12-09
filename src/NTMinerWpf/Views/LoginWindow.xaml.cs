@@ -9,7 +9,7 @@ namespace NTMiner.Views {
             if (!IsLogined()) {
                 UIThread.Execute(() => {
                     var topWindow = WpfUtil.GetTopWindow();
-                    LoginWindow window = new LoginWindow(onLoginSuccess);
+                    LoginWindow window = new LoginWindow();
                     if (topWindow != null && topWindow.GetType() != typeof(NotiCenterWindow)) {
                         window.Owner = topWindow;
                         window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -38,9 +38,7 @@ namespace NTMiner.Views {
             }
         }
 
-        private readonly Action _onLoginSuccess;
-        private LoginWindow(Action onLoginSuccess) {
-            _onLoginSuccess = onLoginSuccess;
+        private LoginWindow() {
             InitializeComponent();
             // 1个是通知窗口，1个是本窗口
             NotiCenterWindow.Bind(this, isNoOtherWindow: Application.Current.Windows.Count <= 2);
@@ -83,7 +81,7 @@ namespace NTMiner.Views {
                 this.Close();
                 return;
             }
-            Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, (response, exception) => {
+            RpcRoot.Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, (response, exception) => {
                 UIThread.Execute(() => {
                     if (response == null) {
                         Vm.ShowMessage("服务器忙");

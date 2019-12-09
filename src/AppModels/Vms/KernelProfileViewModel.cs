@@ -251,7 +251,7 @@ namespace NTMiner.Vms {
                         downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                     });
                 };
-                OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
+                RpcRoot.OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
                     if (string.IsNullOrEmpty(packageUrl)) {
                         string msg = $"未获取到{package}内核包下载地址";
                         downloadComplete?.Invoke(false, msg, saveFileFullName);

@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class Client {
+    public partial class Client {
         public partial class MinerClientServiceFace {
             public static readonly MinerClientServiceFace Instance = new MinerClientServiceFace();
             private static readonly string s_controllerName = ControllerUtil.GetControllerName<IMinerClientController>();

@@ -24,7 +24,7 @@ namespace NTMiner.ServerMessage {
                     if (message.KnowServerMessageTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
                         return;
                     }
-                    OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
+                    RpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
                         if (response.IsSuccess() && response.Data.Count > 0) {
                             ReceiveServerMessage(response.Data);
                         }
@@ -80,7 +80,7 @@ namespace NTMiner.ServerMessage {
                     #endregion
                 }
                 else {
-                    OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData(message.Input), (response, ex) => {
+                    RpcRoot.OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData(message.Input), (response, ex) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
                         }
@@ -111,7 +111,7 @@ namespace NTMiner.ServerMessage {
                     #endregion
                 }
                 else {
-                    OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
+                    RpcRoot.OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
                         }
