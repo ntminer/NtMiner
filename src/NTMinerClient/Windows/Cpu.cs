@@ -13,44 +13,34 @@ namespace NTMiner.Windows {
 
         private Cpu() { }
 
-        public double GetPerformance() {
+        public void GetSensorValue(out double performance, out float temperature) {
+            performance = 0.0f;
+            temperature = 0.0f;
             var computer = NTMinerRoot.Computer;
             for (int i = 0; i < computer.Hardware.Length; i++) {
-                if (computer.Hardware[i].HardwareType == HardwareType.CPU) {
-                    computer.Hardware[i].Update();
-                    for (int j = 0; j < computer.Hardware[i].Sensors.Length; j++) {
-                        if (computer.Hardware[i].Sensors[j].SensorType == SensorType.Load) {
-                            if (computer.Hardware[i].Sensors[j].Name == "CPU Total") {
-                                float? t = computer.Hardware[i].Sensors[j].Value;
+                var hardware = computer.Hardware[i];
+                if (hardware.HardwareType == HardwareType.CPU) {
+                    hardware.Update();
+                    for (int j = 0; j < hardware.Sensors.Length; j++) {
+                        if (hardware.Sensors[j].SensorType == SensorType.Load) {
+                            if (hardware.Sensors[j].Name == "CPU Total") {
+                                float? t = hardware.Sensors[j].Value;
                                 if (t.HasValue) {
-                                    return t.Value;
+                                    performance = t.Value;
+                                }
+                            }
+                        }
+                        else if (hardware.Sensors[j].SensorType == SensorType.Temperature) {
+                            if (hardware.Sensors[j].Name == "CPU Package") {
+                                float? t = hardware.Sensors[j].Value;
+                                if (t.HasValue) {
+                                    temperature = t.Value;
                                 }
                             }
                         }
                     }
                 }
             }
-            return 0.0f;
-        }
-
-        public float GetTemperature() {
-            var computer = NTMinerRoot.Computer;
-            for (int i = 0; i < computer.Hardware.Length; i++) {
-                if (computer.Hardware[i].HardwareType == HardwareType.CPU) {
-                    computer.Hardware[i].Update();
-                    for (int j = 0; j < computer.Hardware[i].Sensors.Length; j++) {
-                        if (computer.Hardware[i].Sensors[j].SensorType == SensorType.Temperature) {
-                            if (computer.Hardware[i].Sensors[j].Name == "CPU Package") {
-                                float? t = computer.Hardware[i].Sensors[j].Value;
-                                if (t.HasValue) {
-                                    return t.Value;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return 0.0f;
         }
 
         private static bool _isFirstGetCpuId = true;
