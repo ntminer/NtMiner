@@ -344,7 +344,6 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
-            VirtualRoot.StopTimer();
             if (_lockedMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }

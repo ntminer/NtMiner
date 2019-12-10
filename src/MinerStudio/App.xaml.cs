@@ -100,6 +100,7 @@ namespace NTMiner {
                 #endregion
                 HttpServer.Start($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}");
                 Rdp.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
+                VirtualRoot.StartTimer(new WpfTimer());
             });
         }
 

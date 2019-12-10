@@ -115,6 +115,7 @@ namespace NTMiner {
                             splashWindow?.Dispatcher.Invoke((Action)delegate () {
                                 splashWindow?.Close();
                             });
+                            VirtualRoot.StartTimer(new WpfTimer());
                         });
                         Task.Factory.StartNew(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall) {

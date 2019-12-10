@@ -93,7 +93,6 @@ namespace NTMiner.Views {
                 return;
             }
 
-            UIThread.StartTimer();
             _borderBrush = this.BorderBrush;
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             // 切换了主界面上的Tab时

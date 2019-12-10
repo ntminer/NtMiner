@@ -55,7 +55,10 @@
     <Compile Include="Net\Util.cs" />
     <Compile Include="Out\EmptyOut.cs" />
     <Compile Include="Out\IOut.cs" />
-    <Compile Include="Messages.Timing.cs" />
+    <Compile Include="Timing\AbstractTimer.cs" />
+    <Compile Include="Timing\DefaultTimer.cs" />
+    <Compile Include="Timing\ITimer.cs" />
+    <Compile Include="Timing\Messages.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="SignExtensions.cs" />
     <Compile Include="StringExtensions.cs" />

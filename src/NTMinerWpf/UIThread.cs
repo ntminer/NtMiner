@@ -26,15 +26,5 @@ namespace NTMiner {
         public static void Execute(this Action action) {
             s_executor(action);
         }
-
-        private static DispatcherTimer _dispatcherTimer;
-        public static void StartTimer() {
-            if (_dispatcherTimer != null) {
-                return;
-            }
-            _dispatcherTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e)=> {
-                VirtualRoot.Elapsed();
-            }, Dispatcher.CurrentDispatcher);
-        }
     }
 }

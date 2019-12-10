@@ -1,9 +1,10 @@
 ﻿using NTMiner.AppSetting;
-using NTMiner.Hub;
 using NTMiner.Core;
+using NTMiner.Hub;
 using NTMiner.LocalMessage;
 using NTMiner.MinerClient;
 using NTMiner.Net;
+using NTMiner.Out;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
@@ -12,7 +13,6 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
-using NTMiner.Out;
 
 namespace NTMiner {
     /// <summary>

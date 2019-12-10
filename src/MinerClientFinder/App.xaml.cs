@@ -17,6 +17,7 @@ namespace NTMiner {
             NotiCenterWindow.Instance.ShowWindow();
             MainWindow = new MainWindow();
             MainWindow.Show();
+            VirtualRoot.StartTimer(new WpfTimer());
             base.OnStartup(e);
         }
     }
