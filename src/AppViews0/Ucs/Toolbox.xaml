@@ -259,7 +259,7 @@
 						<Path 
 							Width="30"
 							Height="30"
-							Data="{StaticResource Icon_WindowsUpdate}"
+							Data="{StaticResource Icon_DisableWindowsUpdate}"
 							Fill="Black"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
