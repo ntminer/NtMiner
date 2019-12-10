@@ -2,11 +2,10 @@
 
 namespace NTMiner.Timing {
     public abstract class AbstractTimer : ITimer {
-        private int _secondCount = 0;
-        private DateTime _dateTime = DateTime.Now;
-
         public abstract void Start();
 
+        private int _secondCount = 0;
+        private DateTime _dateTime = DateTime.Now;
         public void Elapsed() {
             _secondCount++;
             const int daySecond = 24 * 60 * 60;

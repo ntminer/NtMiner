@@ -1,12 +1,11 @@
-﻿using NTMiner.Hub;
-using NTMiner.Core;
+﻿using NTMiner.Core;
+using NTMiner.Hub;
 using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 
 namespace NTMiner {
-
     #region abstract
     public abstract class AddEntityCommand<TEntity> : Cmd where TEntity : class, IEntity<Guid> {
         protected AddEntityCommand(TEntity input) {

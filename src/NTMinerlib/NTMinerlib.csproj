@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="Messages.Timing.cs" />
     <Compile Include="Net\Hosts.cs" />
     <Compile Include="JsonRequestExtensions.cs" />
     <Compile Include="JsonResponseExtension.cs" />
@@ -58,7 +59,6 @@
     <Compile Include="Timing\AbstractTimer.cs" />
     <Compile Include="Timing\DefaultTimer.cs" />
     <Compile Include="Timing\ITimer.cs" />
-    <Compile Include="Timing\Messages.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="SignExtensions.cs" />
     <Compile Include="StringExtensions.cs" />

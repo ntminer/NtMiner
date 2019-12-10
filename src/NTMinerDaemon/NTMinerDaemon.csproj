@@ -98,6 +98,9 @@
     <Compile Include="..\NTMinerlib\EnumExtension.cs">
       <Link>EnumExtension.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\Messages.Timing.cs">
+      <Link>Messages.Timing.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\NTKeyword.cs">
       <Link>NTKeyword.cs</Link>
     </Compile>
@@ -121,9 +124,6 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Timing\ITimer.cs">
       <Link>Timing\ITimer.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Timing\Messages.cs">
-      <Link>Timing\Messages.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\User\IUserSet.cs">
       <Link>User\IUserSet.cs</Link>
