@@ -59,7 +59,7 @@ namespace NTMiner {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 NotiCenterWindow.Instance.ShowWindow();
                 LoginWindow.Login(() => {
-                    bool isInnerIp = Net.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
+                    bool isInnerIp = Net.IpUtil.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
                     if (isInnerIp) {
                         NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(() => {
                             Init();

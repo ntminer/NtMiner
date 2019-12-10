@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                         return;
                     }
 
-                    List<string> clientIps = Net.Util.CreateIpRange(this.LeftIp, this.RightIp);
+                    List<string> clientIps = Net.IpUtil.CreateIpRange(this.LeftIp, this.RightIp);
 
                     if (clientIps.Count > 101) {
                         this.ShowMessage("最多支持一次添加101个IP");
@@ -67,9 +67,9 @@ namespace NTMiner.Vms {
             });
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
-                uint left = Net.Util.ConvertToIpNum(localIp.DefaultIPGateway) + 1;
-                this._leftIp = Net.Util.ConvertToIpString(left);
-                this._rightIp = Net.Util.ConvertToIpString(left + 100);
+                uint left = Net.IpUtil.ConvertToIpNum(localIp.DefaultIPGateway) + 1;
+                this._leftIp = Net.IpUtil.ConvertToIpString(left);
+                this._rightIp = Net.IpUtil.ConvertToIpString(left + 100);
             }
         }
 

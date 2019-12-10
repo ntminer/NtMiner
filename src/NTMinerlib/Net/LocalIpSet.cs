@@ -217,11 +217,11 @@ namespace NTMiner.Net {
             if (localIp != null) {
                 var fromIp = localIp.DefaultIPGateway;
                 if (!string.IsNullOrEmpty(fromIp)) {
-                    fromIp = Util.ConvertToIpString(Util.ConvertToIpNum(fromIp) + 1);
+                    fromIp = IpUtil.ConvertToIpString(IpUtil.ConvertToIpNum(fromIp) + 1);
                     string[] parts = fromIp.Split('.');
                     parts[parts.Length - 1] = "255";
                     var toIp = string.Join(".", parts);
-                    return Util.CreateIpRange(fromIp, toIp);
+                    return IpUtil.CreateIpRange(fromIp, toIp);
                 }
             }
 
