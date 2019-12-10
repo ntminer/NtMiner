@@ -52,7 +52,7 @@ namespace NTMiner {
 
         public static IntPtr Show() {
             _isHided = false;
-            IntPtr console = GetIntPtr();
+            IntPtr console = SafeNativeMethods.GetConsoleWindow();
             if (console != IntPtr.Zero) {
                 SafeNativeMethods.ShowWindow(console, 1);
             }
