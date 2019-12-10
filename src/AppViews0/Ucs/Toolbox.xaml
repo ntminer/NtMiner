@@ -353,6 +353,26 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+					Command="{Binding OpenEventvwr}"
+					Cursor="Hand"
+					Background="Transparent">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Eventvwr}"
+							Fill="#C42C2D"
+							Stretch="Fill" />
+                        <StackPanel Margin="8 0 0 0" Width="152">
+                            <TextBlock FontWeight="Bold" FontSize="14">Windows 事件查看器</TextBlock>
+                            <TextBlock Foreground="{StaticResource LableColor}">打开 Windows 事件查看器</TextBlock>
+                        </StackPanel>
+                    </WrapPanel>
+                </controls:KbButton>
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
+					Margin="4"
 					Command="{x:Static app:AppStatic.WindowsProperty}"
 					Cursor="Hand"
 					Background="Transparent">
