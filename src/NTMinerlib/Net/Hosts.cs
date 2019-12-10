@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace NTMiner {
+namespace NTMiner.Net {
     public static class Hosts {
         /// <summary>
         /// 
