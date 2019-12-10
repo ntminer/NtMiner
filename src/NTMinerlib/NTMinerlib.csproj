@@ -53,7 +53,8 @@
     <Compile Include="Net\ILocalIpSet.cs" />
     <Compile Include="Net\LocalIpSet.cs" />
     <Compile Include="Net\Util.cs" />
-    <Compile Include="IOut.cs" />
+    <Compile Include="Out\EmptyOut.cs" />
+    <Compile Include="Out\IOut.cs" />
     <Compile Include="Messages.Timing.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="SignExtensions.cs" />

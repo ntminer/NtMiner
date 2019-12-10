@@ -12,6 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using NTMiner.Out;
 
 namespace NTMiner {
     /// <summary>
@@ -129,30 +130,6 @@ namespace NTMiner {
                 return _out ?? EmptyOut.Instance;
             }
         }
-
-        #region 这是一个外部不需要知道的类型
-        private class EmptyOut : IOut {
-            public static readonly EmptyOut Instance = new EmptyOut();
-
-            private EmptyOut() { }
-
-            public void ShowError(string message, int autoHideSeconds) {
-                // nothing need todo
-            }
-
-            public void ShowInfo(string message, int autoHideSeconds) {
-                // nothing need todo
-            }
-
-            public void ShowSuccess(string message, int autoHideSeconds, string header = "成功") {
-                // nothing need todo
-            }
-
-            public void ShowWarn(string message, int autoHideSeconds) {
-                // nothing need todo
-            }
-        }
-        #endregion
 
         public static void SetOut(IOut ntOut) {
             _out = ntOut;
