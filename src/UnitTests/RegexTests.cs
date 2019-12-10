@@ -9,7 +9,7 @@ namespace UnitTests {
         [TestMethod]
         public void RegexPerfomanceTest() {
             string text = @"11:55:42:201	384	ETH: GPU0 14.015 Mh/s, GPU1 21.048 Mh/s";
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
             for (int i = 0; i < 100; i++) {
                 Regex regex = new Regex(@"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)");
                 MatchCollection matches = regex.Matches(text);
@@ -20,14 +20,14 @@ namespace UnitTests {
                     var d = match.Groups["notexit"];
                 }
             }
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine($"非编译：耗时{elapsedMilliseconds}");
 
             string pattern= @"GPU(?<gpu>\d+) (?<gpuSpeed>[\d\.]+) (?<gpuSpeedUnit>.+?/s)";
             for (int i = 0; i < 1000; i++) {
                 VirtualRoot.GetRegex(Guid.NewGuid().ToString());
             }
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
             for (int i = 0; i < 100; i++) {
                 MatchCollection matches = VirtualRoot.GetRegex(pattern).Matches(text);
                 foreach (Match match in matches) {
@@ -37,7 +37,7 @@ namespace UnitTests {
                     var d = match.Groups["notexit"];
                 }
             }
-            elapsedMilliseconds = Write.Stopwatch.Stop();
+            elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine($"编译 ：耗时{elapsedMilliseconds}");
         }
 

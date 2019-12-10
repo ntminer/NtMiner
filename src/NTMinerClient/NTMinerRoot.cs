@@ -654,7 +654,7 @@ namespace NTMiner {
                                         _gpuSet = new NVIDIAGpuSet(this);
                                     }
                                     else {
-                                        _gpuSet = new AMDGpuSet(this);
+                                        _gpuSet = new AMDGpuSet();
                                     }
                                 }
                                 catch (Exception ex) {

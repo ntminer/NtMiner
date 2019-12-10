@@ -12,7 +12,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
             private CoinKernelViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -28,10 +28,10 @@ namespace NTMiner {
                         var coinKernelVm = new CoinKernelViewModel(message.Target);
                         _dicById.Add(message.Target.GetId(), coinKernelVm);
                         OnPropertyChanged(nameof(AllCoinKernels));
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out CoinViewModel coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
-                            coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.IsSupported));
+                            coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));
                         }
                         var kernelVm = coinKernelVm.Kernel;
                         if (kernelVm != null) {
@@ -64,10 +64,10 @@ namespace NTMiner {
                         if (_dicById.TryGetValue(message.Target.GetId(), out CoinKernelViewModel coinKernelVm)) {
                             _dicById.Remove(message.Target.GetId());
                             OnPropertyChanged(nameof(AllCoinKernels));
-                            if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out CoinViewModel coinVm)) {
+                            if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                                 coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
-                                coinVm.OnPropertyChanged(nameof(NTMiner.Vms.CoinViewModel.IsSupported));
+                                coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));
                             }
                             var kernelVm = coinKernelVm.Kernel;
                             kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));
@@ -78,7 +78,7 @@ namespace NTMiner {
                     }, location: this.GetType());
                 Init();
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }

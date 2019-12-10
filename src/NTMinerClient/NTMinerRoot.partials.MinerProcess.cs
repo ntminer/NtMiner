@@ -22,12 +22,12 @@ namespace NTMiner {
                     lock (_locker) {
                         try {
 #if DEBUG
-                            Write.Stopwatch.Start();
+                            NTStopwatch.Start();
 #endif
                             // 清理除当前外的Temp/Kernel
                             Cleaner.Instance.Clear();
 #if DEBUG
-                            var elapsedMilliseconds = Write.Stopwatch.Stop();
+                            var elapsedMilliseconds = NTStopwatch.Stop();
                             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(MinerProcess)}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
                             }

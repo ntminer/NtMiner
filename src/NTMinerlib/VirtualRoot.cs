@@ -297,7 +297,7 @@ namespace NTMiner {
                 throw new InvalidProgramException("不支持单元测试这个方法，因为该方法的逻辑依赖于主程序集而单元测试时主程序集是null");
             }
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             Guid guid = Guid.Empty;
             int LEN = keyword.Length;
@@ -337,7 +337,7 @@ namespace NTMiner {
                 Guid.TryParse(guidString, out guid);
             }
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {typeof(VirtualRoot).Name}.GetBrandId");
             }

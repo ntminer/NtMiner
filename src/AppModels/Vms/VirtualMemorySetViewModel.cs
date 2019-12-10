@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<string, VirtualMemoryViewModel> _initialVms = new Dictionary<string, VirtualMemoryViewModel>(StringComparer.OrdinalIgnoreCase);
         private VirtualMemorySetViewModel() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
             }
             NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }

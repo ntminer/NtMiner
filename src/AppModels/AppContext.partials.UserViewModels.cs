@@ -14,7 +14,7 @@ namespace NTMiner {
 
             private UserViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 if (WpfUtil.IsInDesignMode) {
                     return;
@@ -34,8 +34,7 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<UserUpdatedEvent>("更新了用户后", LogEnum.DevConsole,
                     action: message => {
-                        UserViewModel vm;
-                        if (_dicByLoginName.TryGetValue(message.Target.LoginName, out vm)) {
+                        if (_dicByLoginName.TryGetValue(message.Target.LoginName, out UserViewModel vm)) {
                             vm.Update(message.Target);
                         }
                     }, location: this.GetType());
@@ -48,7 +47,7 @@ namespace NTMiner {
                     _dicByLoginName.Add(item.LoginName, new UserViewModel(item));
                 }
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }

@@ -13,7 +13,7 @@ namespace NTMiner.Windows {
                 }
                 _isFirstCall = false;
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 try {
                     using (new ManagementObjectSearcher("root\\CIMV2", "SELECT FreePhysicalMemory FROM Win32_OperatingSystem").Get()) {
@@ -26,7 +26,7 @@ namespace NTMiner.Windows {
                     _isWmiEnabled = false;
                 }
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(WMI)}.IsWmiEnabled");
                 }
