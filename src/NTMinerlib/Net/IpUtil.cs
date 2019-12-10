@@ -1,25 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
-using System.Net.NetworkInformation;
 
 namespace NTMiner.Net {
-    public static class Util {
-        public static bool Ping(string hostOrIp) {
-            try {
-                using (Ping p1 = new Ping()) {
-                    PingReply reply = p1.Send(hostOrIp);
-                    if (reply == null) {
-                        return false;
-                    }
-                    return reply.Status == IPStatus.Success;
-                }
-            }
-            catch {
-                return false;
-            }
-        }
-
+    public static class IpUtil {
         private static readonly long aBegin = ConvertToIpNum("10.0.0.0");
         private static readonly long aEnd = ConvertToIpNum("10.255.255.255");
         private static readonly long bBegin = ConvertToIpNum("172.16.0.0");

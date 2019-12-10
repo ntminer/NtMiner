@@ -228,14 +228,22 @@ namespace NTMiner {
                     index = html.IndexOf(splitText, index + splitText.Length);
                 }
                 Regex regex = VirtualRoot.GetRegex(pattern);
+                int maxLen = 0;
                 for (int i = 0; i < indexList.Count; i++) {
                     IncomeItem incomeItem;
                     if (i + 1 < indexList.Count) {
-                        incomeItem = PickIncomeItem(regex, html.Substring(indexList[i], indexList[i + 1] - indexList[i]));
+                        int len = indexList[i + 1] - indexList[i];
+                        if (len > maxLen) {
+                            maxLen = len;
+                        }
+                        incomeItem = PickIncomeItem(regex, html.Substring(indexList[i], len));
                     }
                     else {
                         string content = html.Substring(indexList[i]);
-                        incomeItem = PickIncomeItem(regex, content.Substring(0, content.IndexOf("<span class=\"info-title\">币价</span>")));
+                        if (content.Length > maxLen) {
+                            content = content.Substring(0, maxLen);
+                        }
+                        incomeItem = PickIncomeItem(regex, content);
                     }
                     if (incomeItem != null) {
                         results.Add(incomeItem);

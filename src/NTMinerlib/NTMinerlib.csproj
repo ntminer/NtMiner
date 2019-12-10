@@ -47,13 +47,11 @@
     <Compile Include="Net\Hosts.cs" />
     <Compile Include="JsonRequestExtensions.cs" />
     <Compile Include="JsonResponseExtension.cs" />
-    <Compile Include="Net\ArpUtil.cs" />
-    <Compile Include="Net\DeviceScanner.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
     <Compile Include="Net\ILocalIpSet.cs" />
     <Compile Include="Net\LocalIpSet.cs" />
-    <Compile Include="Net\Util.cs" />
+    <Compile Include="Net\IpUtil.cs" />
     <Compile Include="Out\EmptyOut.cs" />
     <Compile Include="Out\IOut.cs" />
     <Compile Include="Timing\AbstractTimer.cs" />

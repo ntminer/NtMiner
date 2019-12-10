@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
                     if (Results.Count != 0) {
                         Results.Clear();
                     }
-                    List<string> ipList = Net.Util.CreateIpRange(_fromIpAddressVm.AddressText, _toIpAddressVm.AddressText);
+                    List<string> ipList = Net.IpUtil.CreateIpRange(_fromIpAddressVm.AddressText, _toIpAddressVm.AddressText);
                     _thread = new Thread(new ThreadStart(() => {
                         Scan(ipList.ToArray());
                     })) {
@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
                 if (!string.IsNullOrEmpty(localIp.DefaultIPGateway)) {
-                    this._fromIpAddressVm = new IpAddressViewModel(Net.Util.ConvertToIpString(Net.Util.ConvertToIpNum(localIp.DefaultIPGateway) + 1));
+                    this._fromIpAddressVm = new IpAddressViewModel(Net.IpUtil.ConvertToIpString(Net.IpUtil.ConvertToIpNum(localIp.DefaultIPGateway) + 1));
                     string[] parts = localIp.DefaultIPGateway.Split('.');
                     parts[parts.Length - 1] = "255";
                     this._toIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
