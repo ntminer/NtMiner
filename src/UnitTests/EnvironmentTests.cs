@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
+using NTMiner.Net;
 using System;
 using System.IO;
 

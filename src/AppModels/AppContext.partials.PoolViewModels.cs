@@ -11,7 +11,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
             private PoolViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -26,7 +26,7 @@ namespace NTMiner {
                     action: (message) => {
                         _dicById.Add(message.Target.GetId(), new PoolViewModel(message.Target));
                         OnPropertyChanged(nameof(AllPools));
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out CoinViewModel coinVm)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
@@ -50,7 +50,7 @@ namespace NTMiner {
                     }, location: this.GetType());
                 Init();
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }

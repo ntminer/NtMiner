@@ -70,7 +70,7 @@ namespace NTMiner.Views {
             if ((int)ConsoleBgRectangle.Margin.Top != marginTop) {
                 ConsoleBgRectangle.Margin = new Thickness(0, marginTop, 1, 0);
             }
-            IntPtr console = NTMinerConsole.Show();
+            IntPtr console = NTMinerConsole.GetIntPtr();
             SafeNativeMethods.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, true);
         }
     }

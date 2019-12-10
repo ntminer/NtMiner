@@ -11,7 +11,7 @@ namespace NTMiner {
 
             private ShareViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 AddEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -20,7 +20,7 @@ namespace NTMiner {
                         }
                     }, location: this.GetType());
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }

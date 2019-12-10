@@ -15,7 +15,7 @@ namespace NTMiner {
 
             private DriveSetViewModel() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
                     _drives.Add(new DriveViewModel(item));
@@ -24,7 +24,7 @@ namespace NTMiner {
                     AppContext.Instance.VirtualMemorySetVm.SetVirtualMemoryOfDrive();
                 });
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }

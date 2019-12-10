@@ -188,7 +188,7 @@ namespace NTMiner.Net {
 
         private void Init() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             lock (_locker) {
                 if (!_isInited) {
@@ -199,7 +199,7 @@ namespace NTMiner.Net {
             }
 #if DEBUG
             // 将近300毫秒
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
             }

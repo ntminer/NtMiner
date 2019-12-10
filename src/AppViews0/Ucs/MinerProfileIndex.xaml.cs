@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileIndex() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             InitializeComponent();
             this.PopupKernel.Closed += Popup_Closed;
@@ -52,7 +52,7 @@ namespace NTMiner.Views.Ucs {
                 }, location: this.GetType());
             });
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }

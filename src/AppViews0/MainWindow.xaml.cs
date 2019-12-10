@@ -72,7 +72,7 @@ namespace NTMiner.Views {
             this.Width = AppStatic.MainWindowWidth;
             this.Height = AppStatic.MainWindowHeight;
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
             this.Loaded += (sender, e) => {
@@ -93,7 +93,6 @@ namespace NTMiner.Views {
                 return;
             }
 
-            UIThread.StartTimer();
             _borderBrush = this.BorderBrush;
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             // 切换了主界面上的Tab时
@@ -214,7 +213,7 @@ namespace NTMiner.Views {
                     UIThread.Execute(UpdateCpuView);
                 }, location: this.GetType());
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }

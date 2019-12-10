@@ -4,14 +4,6 @@ using System.Threading;
 namespace NTMiner {
     public static class Write {
         public static int UIThreadId;
-        private static readonly ThreadLocal<NTStopwatch> _stopwatch = new ThreadLocal<NTStopwatch>(() => {
-            return new NTStopwatch();
-        });
-        public static NTStopwatch Stopwatch {
-            get {
-                return _stopwatch.Value;
-            }
-        }
 
         private static bool _isEnabled = true;
         public static void Enable() {

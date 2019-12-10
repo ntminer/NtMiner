@@ -12,16 +12,16 @@ namespace UnitTests {
         [TestMethod]
         public void StackTraceTest() {
             int count = 100000;
-            NTMiner.Write.Stopwatch.Start();
+            NTMiner.NTStopwatch.Start();
             for (int i = 0; i < count; i++) {
                 MethodA();
             }
-            Console.WriteLine("MethodA "+ NTMiner.Write.Stopwatch.Stop());
-            NTMiner.Write.Stopwatch.Start();
+            Console.WriteLine("MethodA "+ NTMiner.NTStopwatch.Stop());
+            NTMiner.NTStopwatch.Start();
             for (int i = 0; i < count; i++) {
                 MethodB();
             }
-            Console.WriteLine("MethodB " + NTMiner.Write.Stopwatch.Stop());
+            Console.WriteLine("MethodB " + NTMiner.NTStopwatch.Stop());
         }
 
         private void MethodA() {

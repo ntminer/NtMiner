@@ -3,13 +3,13 @@ using System;
 
 namespace NTMiner {
     public static class Logger {
-        private static string s_logDir;
+        private static string _logDir;
         public static string Dir {
-            get { return s_logDir; }
+            get { return _logDir; }
         }
 
         public static void SetDir(string fullPath) {
-            s_logDir = fullPath;
+            _logDir = fullPath;
         }
 
         private static bool _isEnabled = true;

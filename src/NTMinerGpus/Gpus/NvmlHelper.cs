@@ -40,7 +40,7 @@ namespace NTMiner.Gpus {
                 }
                 try {
 #if DEBUG
-                    Write.Stopwatch.Start();
+                    NTStopwatch.Start();
 #endif
                     if (!Directory.Exists(_nvsmiDir)) {
                         Directory.CreateDirectory(_nvsmiDir);
@@ -53,7 +53,7 @@ namespace NTMiner.Gpus {
                     NvmlNativeMethods.SetDllDirectory(null);
                     _isNvmlInited = nvmlReturn == nvmlReturn.Success;
 #if DEBUG
-                    var elapsedMilliseconds = Write.Stopwatch.Stop();
+                    var elapsedMilliseconds = NTStopwatch.Stop();
                     if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                         Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
                     }

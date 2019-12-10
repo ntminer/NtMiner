@@ -1,9 +1,10 @@
 ﻿using NTMiner.AppSetting;
-using NTMiner.Hub;
 using NTMiner.Core;
+using NTMiner.Hub;
 using NTMiner.LocalMessage;
 using NTMiner.MinerClient;
 using NTMiner.Net;
+using NTMiner.Out;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
@@ -129,30 +130,6 @@ namespace NTMiner {
                 return _out ?? EmptyOut.Instance;
             }
         }
-
-        #region 这是一个外部不需要知道的类型
-        private class EmptyOut : IOut {
-            public static readonly EmptyOut Instance = new EmptyOut();
-
-            private EmptyOut() { }
-
-            public void ShowError(string message, int autoHideSeconds) {
-                // nothing need todo
-            }
-
-            public void ShowInfo(string message, int autoHideSeconds) {
-                // nothing need todo
-            }
-
-            public void ShowSuccess(string message, int autoHideSeconds, string header = "成功") {
-                // nothing need todo
-            }
-
-            public void ShowWarn(string message, int autoHideSeconds) {
-                // nothing need todo
-            }
-        }
-        #endregion
 
         public static void SetOut(IOut ntOut) {
             _out = ntOut;
@@ -297,7 +274,7 @@ namespace NTMiner {
                 throw new InvalidProgramException("不支持单元测试这个方法，因为该方法的逻辑依赖于主程序集而单元测试时主程序集是null");
             }
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             Guid guid = Guid.Empty;
             int LEN = keyword.Length;
@@ -337,7 +314,7 @@ namespace NTMiner {
                 Guid.TryParse(guidString, out guid);
             }
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {typeof(VirtualRoot).Name}.GetBrandId");
             }

@@ -216,7 +216,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
             catch (OverflowException) {
             }
             // Doesn't seem to be a valid guid.
-            guid = default(Guid);
+            guid = default;
             return false;
         }
 

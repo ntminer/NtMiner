@@ -46,6 +46,10 @@ namespace NTMiner {
             return console;
         }
 
+        public static IntPtr GetIntPtr() {
+            return SafeNativeMethods.GetConsoleWindow();
+        }
+
         public static IntPtr Show() {
             _isHided = false;
             IntPtr console = SafeNativeMethods.GetConsoleWindow();

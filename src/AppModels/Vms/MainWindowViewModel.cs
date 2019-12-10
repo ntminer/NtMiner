@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Net;
 using System;
 using System.Windows.Input;
 

@@ -1,7 +1,6 @@
 ﻿using NTMiner.Hub;
 
 namespace NTMiner {
-
     [MessageType(description: "已经启动1秒钟", isCanNoHandler: true)]
     public class HasBoot1SecondEvent : EventBase {
         public readonly int Seconds = 1;
@@ -67,7 +66,6 @@ namespace NTMiner {
         public readonly int Seconds = 86400;
     }
 
-    // 注意：优化per类事件时犯过一个错误，不能优化为单例，因为事件的Timestamp和Id属性都需要变化
     [MessageType(description: "每1秒事件", isCanNoHandler: true)]
     public class Per1SecondEvent : EventBase {
         public readonly int Seconds = 1;

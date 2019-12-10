@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
                 return;
             }
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
             this.StartMine = new DelegateCommand(() => {
                 VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"手动开始挖矿", toConsole: true);
@@ -34,7 +34,7 @@ namespace NTMiner.Vms {
                 });
             });
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }

@@ -67,7 +67,7 @@ namespace NTMiner.Vms {
 
         public MinerProfileViewModel() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -216,7 +216,7 @@ namespace NTMiner.Vms {
             });
             NTMinerRoot.SetRefreshArgsAssembly(() => {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                     var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
@@ -241,7 +241,7 @@ namespace NTMiner.Vms {
                     this.ArgsAssembly = string.Empty;
                 }
 #if DEBUG
-                var milliseconds = Write.Stopwatch.Stop();
+                var milliseconds = NTStopwatch.Stop();
                 if (milliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{milliseconds} {this.GetType().Name}.SetRefreshArgsAssembly");
                 }
@@ -275,7 +275,7 @@ namespace NTMiner.Vms {
                     }
                 }, location: this.GetType());
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }

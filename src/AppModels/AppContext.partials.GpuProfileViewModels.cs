@@ -15,7 +15,7 @@ namespace NTMiner {
 
             private GpuProfileViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 VirtualRoot.AddEventPath<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
                     action: message => {
@@ -63,7 +63,7 @@ namespace NTMiner {
                         }
                     }, location: this.GetType());
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }

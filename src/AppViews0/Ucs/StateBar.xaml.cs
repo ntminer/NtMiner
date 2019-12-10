@@ -12,7 +12,7 @@ namespace NTMiner.Views.Ucs {
 
         public StateBar() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             InitializeComponent();
             if (WpfUtil.IsInDesignMode) {
@@ -71,7 +71,7 @@ namespace NTMiner.Views.Ucs {
                 BtnShowVirtualMemory.Foreground = WpfUtil.RedBrush;
             }
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }

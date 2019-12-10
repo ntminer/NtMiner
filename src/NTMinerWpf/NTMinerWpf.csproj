@@ -145,6 +145,7 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfTimer.cs" />
     <Compile Include="WpfUtil.cs" />
     <Compile Include="Controls\BindingProxy.cs" />
   </ItemGroup>
