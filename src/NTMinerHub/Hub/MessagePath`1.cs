@@ -52,8 +52,6 @@ namespace NTMiner.Hub {
             }
         }
 
-        private readonly object _locker = new object();
-
         internal void DecreaseViaLimit(Action<IMessagePathId> onDownToZero) {
             int newValue = Interlocked.Decrement(ref _viaLimit);
             if (newValue == 0) {
