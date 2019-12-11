@@ -124,21 +124,22 @@ namespace NTMiner {
             #endregion
 
             #region KernelProcessDaemon
-            private static IMessagePathId _kernelProcessDaemon = null;
-            private static Action _clear = null;
-            private static void ReleaseKernelProcessDaemon() {
-                if (_kernelProcessDaemon != null) {
-                    VirtualRoot.DeletePath(_kernelProcessDaemon);
-                    _kernelProcessDaemon = null;
+            private static void ReleaseKernelProcessDaemon(IMineContext mineContext) {
+                if (mineContext.Data.TryGetValue("_kernelProcessDaemon", out object obj)) {
+                    VirtualRoot.DeletePath((IMessagePathId)obj);
+                    mineContext.Data.Remove("_kernelProcessDaemon");
+                }
+                if (mineContext.Data.TryGetValue("_clear", out obj)) {
+                    ((Action)obj)?.Invoke();
+                    mineContext.Data.Remove("_clear");
                 }
             }
             private static void KernelProcessDaemon(IMineContext mineContext, Action clear) {
-                ReleaseKernelProcessDaemon();
-                _clear?.Invoke();
-
-                _clear = clear;
+                if (clear != null) {
+                    mineContext.Data["_clear"] = clear;
+                }
                 string processName = mineContext.Kernel.GetProcessName();
-                _kernelProcessDaemon = VirtualRoot.AddEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
+                mineContext.Data["_kernelProcessDaemon"] = VirtualRoot.AddEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
                         if (mineContext == Instance.LockedMineContext) {
                             if (!string.IsNullOrEmpty(processName)) {
@@ -154,23 +155,20 @@ namespace NTMiner {
                                     else {
                                         Instance.StopMineAsync(StopMineReason.KernelProcessLost);
                                     }
-                                    ReleaseKernelProcessDaemon();
-                                    clear?.Invoke();
+                                    ReleaseKernelProcessDaemon(mineContext);
                                 }
                             }
                         }
                         else {
-                            ReleaseKernelProcessDaemon();
-                            clear?.Invoke();
+                            ReleaseKernelProcessDaemon(mineContext);
                         }
                     }, location: typeof(MinerProcess));
             }
             #endregion
 
-            private static Process _kernelProcess = null;
-            private static void DisposeKernelProcess() {
-                _kernelProcess?.Dispose();
-                _kernelProcess = null;
+            private static void DisposeKernelProcess(IMineContext mineContext) {
+                mineContext.KernelProcess?.Dispose();
+                mineContext.KernelProcess = null;
             }
             #region CreateLogfileProcess
             private static void CreateLogfileProcess(IMineContext mineContext, string kernelExeFileFullName, string arguments) {
@@ -183,11 +181,11 @@ namespace NTMiner {
                 foreach (var item in mineContext.CoinKernel.EnvironmentVariables) {
                     startInfo.EnvironmentVariables.Add(item.Key, item.Value);
                 }
-                DisposeKernelProcess();
-                _kernelProcess = new Process {
+                DisposeKernelProcess(mineContext);
+                mineContext.KernelProcess = new Process {
                     StartInfo = startInfo
                 };
-                _kernelProcess.Start();
+                mineContext.KernelProcess.Start();
                 ReadPrintLoopLogFileAsync(mineContext, isWriteToConsole: false);
                 KernelProcessDaemon(mineContext, null);
             }
@@ -264,7 +262,7 @@ namespace NTMiner {
                         lpProcessInformation: out PROCESS_INFORMATION processInfo)) {
 
                     try {
-                        _kernelProcess = Process.GetProcessById((int)processInfo.dwProcessId);
+                        mineContext.KernelProcess = Process.GetProcessById((int)processInfo.dwProcessId);
                     }
                     catch {
                         CloseHandle(hReadOut);
@@ -278,8 +276,7 @@ namespace NTMiner {
                     });
                     closeHandle = VirtualRoot.AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                         action: message => {
-                            ReleaseKernelProcessDaemon();
-                            CloseHandle(hWriteOut);
+                            ReleaseKernelProcessDaemon(mineContext);
                         }, location: typeof(MinerProcess), pathId: Guid.Empty);
 
                     Task.Factory.StartNew(() => {
@@ -476,7 +473,7 @@ namespace NTMiner {
                         }
                         Write.UserWarn("内核表演结束");
                     }
-                    DisposeKernelProcess();
+                    DisposeKernelProcess(mineContext);
                 }, TaskCreationOptions.LongRunning);
             }
             #endregion

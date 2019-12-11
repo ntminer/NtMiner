@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace NTMiner {
@@ -21,6 +22,7 @@ namespace NTMiner {
                 Dictionary<Guid, string> fragments,
                 Dictionary<Guid, string> fileWriters,
                 int[] useDevices) {
+                this.Data = new Dictionary<string, object>();
                 this.Fragments = fragments;
                 this.FileWriters = fileWriters;
                 this.Id = Guid.NewGuid();
@@ -89,6 +91,10 @@ namespace NTMiner {
             public IKernelInput KernelInput { get; private set; }
 
             public IKernelOutput KernelOutput { get; private set; }
+
+            public Process KernelProcess { get; set; }
+
+            public Dictionary<string, object> Data { get; private set; }
         }
         #endregion
 

@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace NTMiner {
     public interface IMineContext {
@@ -25,5 +26,7 @@ namespace NTMiner {
         IKernelInput KernelInput { get; }
         IKernelOutput KernelOutput { get; }
         string CommandLine { get; }
+        Process KernelProcess { get; set; }
+        Dictionary<string, object> Data { get; }
     }
 }
