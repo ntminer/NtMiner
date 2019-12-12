@@ -6,11 +6,14 @@ using System.Diagnostics;
 
 namespace NTMiner {
     public interface IMineContext {
-        event Action OnClose;
+        event Action OnKill;
         void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location) where TCmd : ICmd;
         void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location) where TEvent : IEvent;
         void AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location);
+        void NewLogFileName();
+        void Kill();
         void Close();
+        bool IsClosed { get; }
         Guid Id { get; }
         bool IsRestart { get; set; }
         string MinerName { get; }

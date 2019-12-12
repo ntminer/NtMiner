@@ -24,6 +24,8 @@ namespace NTMiner {
 #if DEBUG
                             NTStopwatch.Start();
 #endif
+                            mineContext.Kill();
+
                             mineContext.AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                                 action: message => {
                                     message.MineContext.Close();
@@ -140,12 +142,10 @@ namespace NTMiner {
                                     if (Instance.MinerProfile.IsAutoRestartKernel && mineContext.AutoRestartKernelCount <= Instance.MinerProfile.AutoRestartKernelTimes) {
                                         VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"尝试第{mineContext.AutoRestartKernelCount.ToString()}次重启，共{Instance.MinerProfile.AutoRestartKernelTimes.ToString()}次", toConsole: true);
                                         Instance.RestartMine();
-                                        Instance.LockedMineContext.AutoRestartKernelCount = mineContext.AutoRestartKernelCount;
                                     }
                                     else {
                                         Instance.StopMineAsync(StopMineReason.KernelProcessLost);
                                     }
-                                    mineContext.Close();
                                 }
                             }
                         }
@@ -198,7 +198,7 @@ namespace NTMiner {
                     VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"管道型进程创建失败 lasterr:{lasterr.ToString()}"));
                     return;
                 }
-                mineContext.OnClose += () => {
+                mineContext.OnKill += () => {
                     CloseHandle(hWriteOut);
                 };
 
@@ -386,7 +386,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     bool isLogFileCreated = true;
                     int n = 0;
-                    while (!File.Exists(mineContext.LogFileFullName)) {
+                    string logFileFullName = mineContext.LogFileFullName;
+                    while (!File.Exists(logFileFullName)) {
                         if (n >= 20) {
                             // 20秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
@@ -397,7 +398,7 @@ namespace NTMiner {
                         if (n == 0) {
                             Write.UserInfo("等待内核出场");
                         }
-                        if (mineContext != Instance.LockedMineContext) {
+                        if (logFileFullName != Instance.LockedMineContext.LogFileFullName) {
                             Write.UserWarn("结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
@@ -407,8 +408,8 @@ namespace NTMiner {
                     if (isLogFileCreated) {
                         StreamReader sreader = null;
                         try {
-                            sreader = new StreamReader(File.Open(mineContext.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
-                            while (mineContext == Instance.LockedMineContext) {
+                            sreader = new StreamReader(File.Open(logFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
+                            while (logFileFullName == Instance.LockedMineContext.LogFileFullName) {
                                 string outline = sreader.ReadLine();
                                 if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
                                     Thread.Sleep(1000);
@@ -453,7 +454,6 @@ namespace NTMiner {
                         }
                         Write.UserWarn("内核表演结束");
                     }
-                    mineContext.Close();
                 }, TaskCreationOptions.LongRunning);
             }
             #endregion

@@ -36,11 +36,6 @@ namespace NTMiner {
         [Description("挖矿内核进程消失")]
         KernelProcessLost,
         /// <summary>
-        /// 重启挖矿时，开始挖矿前做一次停止挖矿操作
-        /// </summary>
-        [Description("重启挖矿时，开始挖矿前做一次停止挖矿操作")]
-        RestartMine,
-        /// <summary>
         /// 退出开源矿工
         /// </summary>
         [Description("退出开源矿工")]

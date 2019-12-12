@@ -370,11 +370,8 @@ namespace NTMiner {
                 return;
             }
             try {
-                if (LockedMineContext != null && LockedMineContext.Kernel != null) {
-                    string processName = LockedMineContext.Kernel.GetProcessName();
-                    Task.Factory.StartNew(() => {
-                        Windows.TaskKill.Kill(processName, waitForExit: true);
-                    });
+                if (LockedMineContext != null) {
+                    LockedMineContext.Kill();
                 }
                 var mineContext = LockedMineContext;
                 LockedMineContext = null;
@@ -389,20 +386,10 @@ namespace NTMiner {
 
         #region RestartMine
         public void RestartMine(bool isWork = false) {
-            if (!IsMining) {
-                if (isWork) {
-                    ContextReInit(true);
-                }
-                StartMine(isRestart: true);
+            if (isWork) {
+                ContextReInit(true);
             }
-            else {
-                this.StopMineAsync(StopMineReason.RestartMine, () => {
-                    if (isWork) {
-                        ContextReInit(true);
-                    }
-                    StartMine(isRestart: true);
-                });
-            }
+            StartMine(isRestart: true);
             NTMinerRegistry.SetIsLastIsWork(isWork);
         }
         #endregion
@@ -449,89 +436,100 @@ namespace NTMiner {
         #region StartMine
         public void StartMine(bool isRestart = false) {
             try {
-                IWorkProfile minerProfile = this.MinerProfile;
-                if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, 
-                    out IKernel kernel, out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent(errorMsg));
-                    return;
-                }
-                if (!kernel.IsSupported(mainCoin)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
-                    return;
-                }
-                if (string.IsNullOrEmpty(mainCoinProfile.Wallet)) {
-                    MinerProfile.SetCoinProfileProperty(mainCoin.GetId(), nameof(mainCoinProfile.Wallet), mainCoin.TestWallet);
-                }
-                if (mainCoinPool.IsUserMode) {
-                    IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
-                    string userName = poolProfile.UserName;
-                    if (string.IsNullOrEmpty(userName)) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写矿池用户名。"));
-                        return;
+                if (isRestart) {
+                    if (LockedMineContext == null || LockedMineContext.IsClosed) {
+                        throw new InvalidProgramException();
                     }
-                }
-                if (string.IsNullOrEmpty(mainCoinProfile.Wallet) && !mainCoinPool.IsUserMode) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写钱包地址。"));
-                    return;
-                }
-                ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(mainCoinKernel.GetId());
-                ICoin dualCoin = null;
-                IPool dualCoinPool = null;
-                ICoinProfile dualCoinProfile = null;
-                if (coinKernelProfile.IsDualCoinEnabled) {
-                    if (!ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖币种。"));
-                        return;
-                    }
-                    dualCoinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
-                    if (!ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖矿池。"));
-                        return;
-                    }
-                    if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
-                        MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(dualCoinProfile.DualCoinWallet), dualCoin.TestWallet);
-                    }
-                    if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
-                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写双挖钱包。"));
-                        return;
-                    }
-                }
-                if (string.IsNullOrEmpty(kernel.Package)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent(kernel.GetFullName() + "没有内核包"));
-                    return;
-                }
-                if (string.IsNullOrEmpty(kernelInput.Args)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有配置运行参数。"));
-                    return;
-                }
-                if (IsMining) {
-                    this.StopMine(StopMineReason.InStartMine);
-                }
-                string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
-                if (!File.Exists(packageZipFileFullName)) {
-                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
-                    VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
-                        if (isSuccess) {
-                            StartMine(isRestart);
-                        }
-                        else {
-                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核下载：" + message));
-                        }
-                    }));
-                }
-                else {
-                    LockedMineContext = CreateMineContext();
-                    if (CurrentMineContext == null) {
-                        CurrentMineContext = LockedMineContext;
-                    }
-                    if (LockedMineContext == null) {
-                        return;
-                    }
-                    LockedMineContext.IsRestart = isRestart;
+                    LockedMineContext.NewLogFileName();
+                    LockedMineContext.IsRestart = true;
                     MinerProcess.CreateProcessAsync(LockedMineContext);
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
-                    if (LockedMineContext.UseDevices.Length != GpuSet.Count) {
-                        VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
+                }
+                else {
+                    LockedMineContext?.Close();
+                    IWorkProfile minerProfile = this.MinerProfile;
+                    if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel,
+                        out IKernel kernel, out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg)) {
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent(errorMsg));
+                        return;
+                    }
+                    if (!kernel.IsSupported(mainCoin)) {
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"该内核不支持{GpuSet.GpuType.GetDescription()}卡。"));
+                        return;
+                    }
+                    if (string.IsNullOrEmpty(mainCoinProfile.Wallet)) {
+                        MinerProfile.SetCoinProfileProperty(mainCoin.GetId(), nameof(mainCoinProfile.Wallet), mainCoin.TestWallet);
+                    }
+                    if (mainCoinPool.IsUserMode) {
+                        IPoolProfile poolProfile = minerProfile.GetPoolProfile(mainCoinPool.GetId());
+                        string userName = poolProfile.UserName;
+                        if (string.IsNullOrEmpty(userName)) {
+                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写矿池用户名。"));
+                            return;
+                        }
+                    }
+                    if (string.IsNullOrEmpty(mainCoinProfile.Wallet) && !mainCoinPool.IsUserMode) {
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写钱包地址。"));
+                        return;
+                    }
+                    ICoinKernelProfile coinKernelProfile = minerProfile.GetCoinKernelProfile(mainCoinKernel.GetId());
+                    ICoin dualCoin = null;
+                    IPool dualCoinPool = null;
+                    ICoinProfile dualCoinProfile = null;
+                    if (coinKernelProfile.IsDualCoinEnabled) {
+                        if (!ServerContext.CoinSet.TryGetCoin(coinKernelProfile.DualCoinId, out dualCoin)) {
+                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖币种。"));
+                            return;
+                        }
+                        dualCoinProfile = minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
+                        if (!ServerContext.PoolSet.TryGetPool(dualCoinProfile.DualCoinPoolId, out dualCoinPool)) {
+                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有选择双挖矿池。"));
+                            return;
+                        }
+                        if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
+                            MinerProfile.SetCoinProfileProperty(dualCoin.GetId(), nameof(dualCoinProfile.DualCoinWallet), dualCoin.TestWallet);
+                        }
+                        if (string.IsNullOrEmpty(dualCoinProfile.DualCoinWallet)) {
+                            VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有填写双挖钱包。"));
+                            return;
+                        }
+                    }
+                    if (string.IsNullOrEmpty(kernel.Package)) {
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent(kernel.GetFullName() + "没有内核包"));
+                        return;
+                    }
+                    if (string.IsNullOrEmpty(kernelInput.Args)) {
+                        VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有配置运行参数。"));
+                        return;
+                    }
+                    if (IsMining) {
+                        this.StopMine(StopMineReason.InStartMine);
+                    }
+                    string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
+                    if (!File.Exists(packageZipFileFullName)) {
+                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
+                        VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
+                            if (isSuccess) {
+                                StartMine(isRestart);
+                            }
+                            else {
+                                VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核下载：" + message));
+                            }
+                        }));
+                    }
+                    else {
+                        LockedMineContext = CreateMineContext();
+                        if (CurrentMineContext == null) {
+                            CurrentMineContext = LockedMineContext;
+                        }
+                        if (LockedMineContext == null) {
+                            return;
+                        }
+                        MinerProcess.CreateProcessAsync(LockedMineContext);
+                        VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
+                        if (LockedMineContext.UseDevices.Length != GpuSet.Count) {
+                            VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
+                        }
                     }
                 }
             }

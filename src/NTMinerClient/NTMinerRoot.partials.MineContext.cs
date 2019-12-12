@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Kernels;
 using NTMiner.Hub;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         #region MineContext
         private class MineContext : IMineContext {
-            public event Action OnClose;
+            public event Action OnKill;
             private readonly List<IMessagePathId> _contextHandlers = new List<IMessagePathId>();
             public MineContext(
                 string minerName,
@@ -43,6 +44,11 @@ namespace NTMiner {
                 this.UseDevices = useDevices;
                 this.KernelInput = kernelInput;
                 this.KernelOutput = kernelOutput;
+
+                this.NewLogFileName();
+            }
+
+            public void NewLogFileName() {
                 string logFileName;
                 if (this.CommandLine.Contains(NTKeyword.LogFileParameterName)) {
                     this.KernelProcessType = KernelProcessType.Logfile;
@@ -50,7 +56,7 @@ namespace NTMiner {
                 }
                 else {
                     this.KernelProcessType = KernelProcessType.Pip;
-                    logFileName = $"{kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
+                    logFileName = $"{this.Kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
                 }
                 this.LogFileFullName = Path.Combine(SpecialPath.LogsDirFullName, logFileName);
             }
@@ -78,6 +84,21 @@ namespace NTMiner {
                 _contextHandlers.Add(messagePathId);
             }
 
+            public void Kill() {
+                if (Kernel != null) {
+                    try {
+                        string processName = Kernel.GetProcessName();
+                        Windows.TaskKill.Kill(processName, waitForExit: true);                         
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
+                    }
+                    finally {
+                        OnKill?.Invoke();
+                    }
+                }
+            }
+
             private bool _isClosed = false;
             public void Close() {
                 if (!_isClosed) {
@@ -88,7 +109,13 @@ namespace NTMiner {
                     KernelProcess?.Dispose();
                     KernelProcess = null;
                     _contextHandlers.Clear();
-                    OnClose?.Invoke();
+                    Kill();
+                }
+            }
+
+            public bool IsClosed {
+                get {
+                    return _isClosed;
                 }
             }
 
