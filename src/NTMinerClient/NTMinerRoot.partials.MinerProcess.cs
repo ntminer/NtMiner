@@ -416,7 +416,7 @@ namespace NTMiner {
                         StreamReader sreader = null;
                         try {
                             sreader = new StreamReader(File.Open(logFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
-                            while (logFileFullName == Instance.LockedMineContext.LogFileFullName) {
+                            while (Instance.LockedMineContext != null && logFileFullName == Instance.LockedMineContext.LogFileFullName) {
                                 string outline = sreader.ReadLine();
                                 if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
                                     Thread.Sleep(1000);
