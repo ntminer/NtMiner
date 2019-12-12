@@ -74,7 +74,7 @@ namespace NTMiner {
                 else {
                     AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                         action: message => {
-                            message.MineContext.Close();
+                            message.MineContext?.Close();
                         }, location: this.GetType(), pathId: Guid.Empty);
                 }
                 this.MineStartedOn = DateTime.Now;

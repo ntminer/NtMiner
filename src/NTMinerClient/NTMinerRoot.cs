@@ -367,13 +367,11 @@ namespace NTMiner {
         }
         private void StopMine(StopMineReason stopReason) {
             this.StopReason = stopReason;
+            LockedMineContext?.Close();
             if (!IsMining) {
                 return;
             }
             try {
-                if (LockedMineContext != null) {
-                    LockedMineContext.Close();
-                }
                 var mineContext = LockedMineContext;
                 LockedMineContext = null;
                 VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"挖矿停止。原因：{stopReason.GetDescription()}", toConsole: true);
