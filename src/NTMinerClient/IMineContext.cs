@@ -1,20 +1,15 @@
 ﻿using NTMiner.Core;
-using NTMiner.Hub;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace NTMiner {
     public interface IMineContext {
-        event Action OnKill;
-        void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location) where TEvent : IEvent;
-        void AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location);
-        void NewLogFileName();
-        void Start();
+        void Start(bool isRestart);
         void Close();
         bool IsClosed { get; }
         Guid Id { get; }
-        bool IsRestart { get; set; }
+        bool IsRestart { get; }
         string MinerName { get; }
         ICoin MainCoin { get; }
         IPool MainCoinPool { get; }
@@ -35,6 +30,5 @@ namespace NTMiner {
         IKernelOutput KernelOutput { get; }
         string CommandLine { get; }
         Process KernelProcess { get; set; }
-        Dictionary<string, object> Data { get; }
     }
 }

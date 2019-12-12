@@ -248,6 +248,7 @@ namespace NTMiner {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
                     if (!message.MineContext.IsRestart) {
+                        // 当不是内核重启时更新shareOn，如果是内核重启不用更新shareOn从而给不干扰无内核矿机重启的逻辑
                         shareOn = DateTime.Now;
                     }
                 }, location: this.GetType());
@@ -440,9 +441,7 @@ namespace NTMiner {
                     if (LockedMineContext == null || LockedMineContext.IsClosed) {
                         throw new InvalidProgramException();
                     }
-                    LockedMineContext.NewLogFileName();
-                    LockedMineContext.IsRestart = true;
-                    LockedMineContext.Start();
+                    LockedMineContext.Start(isRestart: true);
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
                 }
                 else {
@@ -525,7 +524,7 @@ namespace NTMiner {
                         if (LockedMineContext == null) {
                             return;
                         }
-                        LockedMineContext.Start();
+                        LockedMineContext.Start(isRestart: false);
                         VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
                         if (LockedMineContext.UseDevices.Length != GpuSet.Count) {
                             VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
