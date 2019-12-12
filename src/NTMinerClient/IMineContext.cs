@@ -16,8 +16,8 @@ namespace NTMiner {
         IKernel Kernel { get; }
         ICoinKernel CoinKernel { get; }
         string MainCoinWallet { get; }
-        int AutoRestartKernelCount { get; set; }
-        int KernelSelfRestartCount { get; set; }
+        int AutoRestartKernelCount { get; }
+        int KernelSelfRestartCount { get; }
         string LogFileFullName { get; }
         KernelProcessType KernelProcessType { get; }
 
@@ -29,6 +29,6 @@ namespace NTMiner {
         IKernelInput KernelInput { get; }
         IKernelOutput KernelOutput { get; }
         string CommandLine { get; }
-        Process KernelProcess { get; set; }
+        Process KernelProcess { get; }
     }
 }

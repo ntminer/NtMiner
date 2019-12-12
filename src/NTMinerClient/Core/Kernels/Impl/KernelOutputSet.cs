@@ -117,7 +117,6 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values;
         }
 
-        private DateTime _kernelRestartKeywordOn = DateTime.MinValue;
         private string _preline;
         public void Pick(ref string line, IMineContext mineContext) {
             try {
@@ -129,13 +128,6 @@ namespace NTMiner.Core.Kernels.Impl {
                 if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
                     if (mineContext.MainCoin.Code != "ETH" && line.Contains("ETH")) {
                         line = line.Replace("ETH", mineContext.MainCoin.Code);
-                    }
-                }
-                if (!string.IsNullOrEmpty(mineContext.KernelOutput.KernelRestartKeyword) && line.Contains(mineContext.KernelOutput.KernelRestartKeyword)) {
-                    if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
-                        mineContext.KernelSelfRestartCount += 1;
-                        _kernelRestartKeywordOn = DateTime.Now;
-                        VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
                     }
                 }
                 ICoin coin = mineContext.MainCoin;
