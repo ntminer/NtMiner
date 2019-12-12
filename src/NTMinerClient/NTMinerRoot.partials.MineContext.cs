@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Hub;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +9,8 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         #region MineContext
         private class MineContext : IMineContext {
+            public event Action OnClose;
+            private readonly List<IMessagePathId> _contextHandlers = new List<IMessagePathId>();
             public MineContext(
                 string minerName,
                 ICoin mainCoin,
@@ -50,6 +53,43 @@ namespace NTMiner {
                     logFileName = $"{kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
                 }
                 this.LogFileFullName = Path.Combine(SpecialPath.LogsDirFullName, logFileName);
+            }
+
+            /// <summary>
+            /// 命令窗口。使用该方法的代码行应将前两个参数放在第一行以方便vs查找引用时展示出参数信息
+            /// </summary>
+            public void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location)
+                where TCmd : ICmd {
+                var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+                _contextHandlers.Add(messagePathId);
+            }
+
+            /// <summary>
+            /// 事件响应
+            /// </summary>
+            public void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
+                where TEvent : IEvent {
+                var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+                _contextHandlers.Add(messagePathId);
+            }
+
+            public void AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location) {
+                var messagePathId = VirtualRoot.AddOnecePath(description, logType, action, pathId, location);
+                _contextHandlers.Add(messagePathId);
+            }
+
+            private bool _isClosed = false;
+            public void Close() {
+                if (!_isClosed) {
+                    _isClosed = true;
+                    foreach (var handler in _contextHandlers) {
+                        VirtualRoot.DeletePath(handler);
+                    }
+                    KernelProcess?.Dispose();
+                    KernelProcess = null;
+                    _contextHandlers.Clear();
+                    OnClose?.Invoke();
+                }
             }
 
             public Guid Id { get; private set; }

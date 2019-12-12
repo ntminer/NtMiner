@@ -344,7 +344,7 @@ namespace NTMiner {
 
         #region Exit
         public void Exit() {
-            if (_lockedMineContext != null) {
+            if (LockedMineContext != null) {
                 StopMine(StopMineReason.ApplicationExit);
             }
             SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
@@ -370,14 +370,14 @@ namespace NTMiner {
                 return;
             }
             try {
-                if (_lockedMineContext != null && _lockedMineContext.Kernel != null) {
-                    string processName = _lockedMineContext.Kernel.GetProcessName();
+                if (LockedMineContext != null && LockedMineContext.Kernel != null) {
+                    string processName = LockedMineContext.Kernel.GetProcessName();
                     Task.Factory.StartNew(() => {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
                     });
                 }
-                var mineContext = _lockedMineContext;
-                _lockedMineContext = null;
+                var mineContext = LockedMineContext;
+                LockedMineContext = null;
                 VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"挖矿停止。原因：{stopReason.GetDescription()}", toConsole: true);
                 VirtualRoot.RaiseEvent(new MineStopedEvent(mineContext, stopReason));
             }
@@ -520,17 +520,17 @@ namespace NTMiner {
                     }));
                 }
                 else {
-                    _lockedMineContext = CreateMineContext();
+                    LockedMineContext = CreateMineContext();
                     if (CurrentMineContext == null) {
-                        CurrentMineContext = _lockedMineContext;
+                        CurrentMineContext = LockedMineContext;
                     }
-                    if (_lockedMineContext == null) {
+                    if (LockedMineContext == null) {
                         return;
                     }
-                    _lockedMineContext.IsRestart = isRestart;
-                    MinerProcess.CreateProcessAsync(_lockedMineContext);
+                    LockedMineContext.IsRestart = isRestart;
+                    MinerProcess.CreateProcessAsync(LockedMineContext);
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
-                    if (_lockedMineContext.UseDevices.Length != GpuSet.Count) {
+                    if (LockedMineContext.UseDevices.Length != GpuSet.Count) {
                         VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
                     }
                 }
@@ -556,6 +556,12 @@ namespace NTMiner {
         public IMineContext LockedMineContext {
             get {
                 return _lockedMineContext;
+            }
+            private set {
+                if (_lockedMineContext != value) {
+                    _currentMineContext?.Close();
+                    _lockedMineContext = value;
+                }
             }
         }
 

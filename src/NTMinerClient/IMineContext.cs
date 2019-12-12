@@ -1,10 +1,16 @@
 ﻿using NTMiner.Core;
+using NTMiner.Hub;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace NTMiner {
     public interface IMineContext {
+        event Action OnClose;
+        void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location) where TCmd : ICmd;
+        void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location) where TEvent : IEvent;
+        void AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location);
+        void Close();
         Guid Id { get; }
         bool IsRestart { get; set; }
         string MinerName { get; }
