@@ -39,7 +39,7 @@ namespace NTMiner {
                 this.AutoRestartKernelCount = 0;
                 this.KernelSelfRestartCount = 0;
                 this.CommandLine = commandLine ?? string.Empty;
-                this.CreatedOn = DateTime.Now;
+                this.MineStartedOn = DateTime.MinValue;
                 this.Parameters = parameters;
                 this.UseDevices = useDevices;
                 this.KernelInput = kernelInput;
@@ -75,7 +75,12 @@ namespace NTMiner {
                 _contextHandlers.Add(messagePathId);
             }
 
-            public void Kill() {
+            public void Start() {
+                Kill();
+                MinerProcess.CreateProcessAsync(this);
+            }
+
+            private void Kill() {
                 if (Kernel != null) {
                     try {
                         string processName = Kernel.GetProcessName();
@@ -136,7 +141,7 @@ namespace NTMiner {
 
             public string CommandLine { get; private set; }
 
-            public DateTime CreatedOn { get; private set; }
+            public DateTime MineStartedOn { get; private set; }
 
             public Dictionary<string, string> Parameters { get; private set; }
 

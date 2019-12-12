@@ -23,8 +23,6 @@ namespace NTMiner {
 #if DEBUG
                             NTStopwatch.Start();
 #endif
-                            mineContext.Kill();
-
                             if (!mineContext.IsRestart) {
                                 mineContext.AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                                 action: message => {

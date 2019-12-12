@@ -274,8 +274,8 @@ namespace NTMiner {
 
                     #region 周期重启内核
                     try {
-                        if (IsMining && MinerProfile.IsPeriodicRestartKernel) {
-                            if ((DateTime.Now - LockedMineContext.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
+                        if (IsMining && MinerProfile.IsPeriodicRestartKernel && LockedMineContext.MineStartedOn != DateTime.MinValue) {
+                            if ((DateTime.Now - LockedMineContext.MineStartedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartKernelHours + MinerProfile.PeriodicRestartKernelMinutes) {
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"每运行{MinerProfile.PeriodicRestartKernelHours.ToString()}小时{MinerProfile.PeriodicRestartKernelMinutes.ToString()}分钟重启内核", toConsole: true);
                                 RestartMine();
                                 return;// 退出
@@ -371,7 +371,7 @@ namespace NTMiner {
             }
             try {
                 if (LockedMineContext != null) {
-                    LockedMineContext.Kill();
+                    LockedMineContext.Close();
                 }
                 var mineContext = LockedMineContext;
                 LockedMineContext = null;
@@ -442,7 +442,7 @@ namespace NTMiner {
                     }
                     LockedMineContext.NewLogFileName();
                     LockedMineContext.IsRestart = true;
-                    MinerProcess.CreateProcessAsync(LockedMineContext);
+                    LockedMineContext.Start();
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
                 }
                 else {
@@ -525,7 +525,7 @@ namespace NTMiner {
                         if (LockedMineContext == null) {
                             return;
                         }
-                        MinerProcess.CreateProcessAsync(LockedMineContext);
+                        LockedMineContext.Start();
                         VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
                         if (LockedMineContext.UseDevices.Length != GpuSet.Count) {
                             VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);

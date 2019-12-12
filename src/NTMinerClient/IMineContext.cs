@@ -10,7 +10,7 @@ namespace NTMiner {
         void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location) where TEvent : IEvent;
         void AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location);
         void NewLogFileName();
-        void Kill();
+        void Start();
         void Close();
         bool IsClosed { get; }
         Guid Id { get; }
@@ -26,7 +26,7 @@ namespace NTMiner {
         string LogFileFullName { get; }
         KernelProcessType KernelProcessType { get; }
 
-        DateTime CreatedOn { get; }
+        DateTime MineStartedOn { get; }
         Dictionary<string, string> Parameters { get; }
         Dictionary<Guid, string> Fragments { get; }
         Dictionary<Guid, string> FileWriters { get; }
