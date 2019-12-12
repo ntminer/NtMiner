@@ -16,47 +16,45 @@ namespace NTMiner {
 
             LocalJsonFileFullName = Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.LocalJsonFileName);
             GpuProfilesJsonFileFullName = Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.GpuProfilesFileName);           
-            if (EntryAssemblyInfo.IsLocalHome && !File.Exists(EntryAssemblyInfo.RootLockFileFullName)) {
-                if (VirtualRoot.IsMinerClient) {
-                    #region 迁移
-                    string sharePackagesDir = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.PackagesDirName);
-                    if (Directory.Exists(sharePackagesDir)) {
-                        foreach (var fileFullName in Directory.GetFiles(sharePackagesDir)) {
-                            string destFileName = Path.Combine(PackagesDirFullName, Path.GetFileName(fileFullName));
-                            if (!File.Exists(destFileName)) {
-                                File.Copy(fileFullName, destFileName);
-                            }
+            if (VirtualRoot.IsMinerClient && EntryAssemblyInfo.IsLocalHome && !File.Exists(EntryAssemblyInfo.RootLockFileFullName)) {
+                #region 迁移
+                string sharePackagesDir = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.PackagesDirName);
+                if (Directory.Exists(sharePackagesDir)) {
+                    foreach (var fileFullName in Directory.GetFiles(sharePackagesDir)) {
+                        string destFileName = Path.Combine(PackagesDirFullName, Path.GetFileName(fileFullName));
+                        if (!File.Exists(destFileName)) {
+                            File.Copy(fileFullName, destFileName);
                         }
                     }
-                    if (DevMode.IsDevMode) {
-                        string shareServerDbFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerDbFileName);
-                        if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
-                            File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
-                        }
-                    }
-                    string shareServerJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerJsonFileName);
-                    if (File.Exists(shareServerJsonFileFullName) && !File.Exists(ServerJsonFileFullName)) {
-                        File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName);
-                    }
-                    string shareLocalDbFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
-                    if (File.Exists(shareLocalDbFileFullName) && !File.Exists(VirtualRoot.LocalDbFileFullName)) {
-                        File.Copy(shareLocalDbFileFullName, VirtualRoot.LocalDbFileFullName);
-                    }
-                    string shareLocalJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LocalJsonFileName);
-                    if (File.Exists(shareLocalJsonFileFullName) && !File.Exists(LocalJsonFileFullName)) {
-                        File.Copy(shareLocalJsonFileFullName, LocalJsonFileFullName);
-                    }
-                    string shareGpuProfilesJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.GpuProfilesFileName);
-                    if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(GpuProfilesJsonFileFullName)) {
-                        File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
-                    }
-                    string shareUpdaterFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.UpdaterDirName, NTKeyword.NTMinerUpdaterFileName);
-                    if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {
-                        File.Copy(shareUpdaterFileFullName, UpdaterFileFullName);
-                    }
-                    #endregion
-                    File.Move(EntryAssemblyInfo.RootConfigFileFullName, EntryAssemblyInfo.RootLockFileFullName);
                 }
+                if (DevMode.IsDevMode) {
+                    string shareServerDbFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerDbFileName);
+                    if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
+                        File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
+                    }
+                }
+                string shareServerJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerJsonFileName);
+                if (File.Exists(shareServerJsonFileFullName) && !File.Exists(ServerJsonFileFullName)) {
+                    File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName);
+                }
+                string shareLocalDbFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
+                if (File.Exists(shareLocalDbFileFullName) && !File.Exists(VirtualRoot.LocalDbFileFullName)) {
+                    File.Copy(shareLocalDbFileFullName, VirtualRoot.LocalDbFileFullName);
+                }
+                string shareLocalJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LocalJsonFileName);
+                if (File.Exists(shareLocalJsonFileFullName) && !File.Exists(LocalJsonFileFullName)) {
+                    File.Copy(shareLocalJsonFileFullName, LocalJsonFileFullName);
+                }
+                string shareGpuProfilesJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.GpuProfilesFileName);
+                if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(GpuProfilesJsonFileFullName)) {
+                    File.Copy(shareGpuProfilesJsonFileFullName, GpuProfilesJsonFileFullName);
+                }
+                string shareUpdaterFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.UpdaterDirName, NTKeyword.NTMinerUpdaterFileName);
+                if (File.Exists(shareUpdaterFileFullName) && !File.Exists(UpdaterFileFullName)) {
+                    File.Copy(shareUpdaterFileFullName, UpdaterFileFullName);
+                }
+                #endregion
+                File.Move(EntryAssemblyInfo.RootConfigFileFullName, EntryAssemblyInfo.RootLockFileFullName);
             }
         }
 

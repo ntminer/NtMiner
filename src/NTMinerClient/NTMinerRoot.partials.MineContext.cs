@@ -74,7 +74,7 @@ namespace NTMiner {
                 else {
                     AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                         action: message => {
-                            message.MineContext.Close();
+                            message.MineContext?.Close();
                         }, location: this.GetType(), pathId: Guid.Empty);
                 }
                 this.MineStartedOn = DateTime.Now;
@@ -88,8 +88,6 @@ namespace NTMiner {
                     foreach (var handler in _contextHandlers) {
                         VirtualRoot.DeletePath(handler);
                     }
-                    KernelProcess?.Dispose();
-                    KernelProcess = null;
                     _contextHandlers.Clear();
                     Kill();
                 }
@@ -168,6 +166,8 @@ namespace NTMiner {
                         Logger.ErrorDebugLine(e);
                     }
                     finally {
+                        KernelProcess?.Dispose();
+                        KernelProcess = null;
                         OnKill?.Invoke();
                     }
                 }
@@ -483,6 +483,7 @@ namespace NTMiner {
                     if (isLogFileCreated) {
                         StreamReader sreader = null;
                         try {
+                            DateTime _kernelRestartKeywordOn = DateTime.MinValue;
                             sreader = new StreamReader(File.Open(logFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
                             while (Instance.LockedMineContext != null && logFileFullName == Instance.LockedMineContext.LogFileFullName) {
                                 string outline = sreader.ReadLine();
@@ -497,6 +498,13 @@ namespace NTMiner {
                                     }
                                     // 前译
                                     Instance.ServerContext.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, isPre: true);
+                                    if (!string.IsNullOrEmpty(KernelOutput.KernelRestartKeyword) && input.Contains(KernelOutput.KernelRestartKeyword)) {
+                                        if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
+                                            KernelSelfRestartCount += 1;
+                                            _kernelRestartKeywordOn = DateTime.Now;
+                                            VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
+                                        }
+                                    }
                                     Instance.ServerContext.KernelOutputSet.Pick(ref input, this);
                                     var kernelOutputKeywords = Instance.KernelOutputKeywordSet.GetKeywords(this.KernelOutput.GetId());
                                     if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {
@@ -505,7 +513,7 @@ namespace NTMiner {
                                                 if (keyword.MessageType.TryParse(out LocalMessageType messageType)) {
                                                     string content = input;
                                                     if (!string.IsNullOrEmpty(keyword.Description)) {
-                                                        content += $" 大意：{keyword.Description}";
+                                                        content = $" 大意：{keyword.Description} 详情：" + content;
                                                     }
                                                     VirtualRoot.LocalMessage(LocalMessageChannel.Kernel, this.GetType().Name, messageType, content, OutEnum.None, toConsole: false);
                                                 }

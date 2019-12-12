@@ -5,24 +5,46 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class EntryAssemblyInfo {
-        public const string Version = "2.6.6";
-        public const string Build = "5";
+        public const string Version = "2.7.0";
+        public const string Build = "0";
         public const string Tag = "蛮吉";
         public const string Copyright = "Copyright ©  NTMiner";
 
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag = string.Empty;
         public static readonly string TempDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-        public static readonly string ServerJsonFileName;
-        public static readonly string ServerVersionJsonFileFullName;
-
         public static string HomeDirFullName { get; private set; } = TempDirFullName;
         public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.lock");
         public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.config");
-        public static readonly bool IsLocalHome;
+
+        public static string ServerJsonFileName {
+            get {
+                return GetServerJsonVersion(CurrentVersion);
+            }
+        }
+        public static string ServerVersionJsonFileFullName {
+            get {
+                return Path.Combine(HomeDirFullName, ServerJsonFileName);
+            }
+        }
+        public static bool IsLocalHome {
+            get {
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                if (HomeDirFullName.Length + 1 != baseDir.Length) {
+                    return false;
+                }
+                return HomeDirFullName + "\\" == baseDir;
+            }
+        }
 
         public static void SetHomeDirFullName(string dirFullName) {
+            if (dirFullName.EndsWith("\\")) {
+                dirFullName = dirFullName.Substring(0, dirFullName.Length - 1);
+            }
             HomeDirFullName = dirFullName;
+            if (!Directory.Exists(dirFullName)) {
+                Directory.CreateDirectory(dirFullName);
+            }
         }
 
         public static string GetServerJsonVersion(Version version) {
@@ -40,26 +62,16 @@ namespace NTMiner {
                 CurrentVersion = new Version(2, 0, 0);
                 CurrentVersionTag = "UnitTest";
             }
-            ServerJsonFileName = GetServerJsonVersion(CurrentVersion);
+            string homeDirFullName = HomeDirFullName;
             if (!File.Exists(RootLockFileFullName)) {
                 if (File.Exists(RootConfigFileFullName)) {
-                    HomeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
-                    IsLocalHome = true;
-                }
-                else if (!Directory.Exists(HomeDirFullName)) {
-                    Directory.CreateDirectory(HomeDirFullName);
+                    homeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
                 }
             }
             else {
-                HomeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
-                IsLocalHome = true;
+                homeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
             }
-            if (IsLocalHome) {
-                if (HomeDirFullName.EndsWith("\\")) {
-                    HomeDirFullName = HomeDirFullName.Substring(0, HomeDirFullName.Length - 1);
-                }
-            }
-            ServerVersionJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
+            SetHomeDirFullName(homeDirFullName);
         }
 
         public static void ExtractManifestResource(this Assembly assembly, Type type, string name, string saveFileFuleName) {

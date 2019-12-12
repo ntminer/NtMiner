@@ -367,13 +367,11 @@ namespace NTMiner {
         }
         private void StopMine(StopMineReason stopReason) {
             this.StopReason = stopReason;
+            LockedMineContext?.Close();
             if (!IsMining) {
                 return;
             }
             try {
-                if (LockedMineContext != null) {
-                    LockedMineContext.Close();
-                }
                 var mineContext = LockedMineContext;
                 LockedMineContext = null;
                 VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), $"挖矿停止。原因：{stopReason.GetDescription()}", toConsole: true);
@@ -446,6 +444,10 @@ namespace NTMiner {
                 }
                 else {
                     LockedMineContext?.Close();
+                    if (IsMining) {
+                        // 如果已经处在挖矿中了又点击了开始挖矿按钮（通常发生在群控端）
+                        this.StopMine(StopMineReason.InStartMine);
+                    }
                     IWorkProfile minerProfile = this.MinerProfile;
                     if (!GetProfileData(out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel,
                         out IKernel kernel, out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg)) {
@@ -500,9 +502,6 @@ namespace NTMiner {
                     if (string.IsNullOrEmpty(kernelInput.Args)) {
                         VirtualRoot.RaiseEvent(new StartingMineFailedEvent("没有配置运行参数。"));
                         return;
-                    }
-                    if (IsMining) {
-                        this.StopMine(StopMineReason.InStartMine);
                     }
                     string packageZipFileFullName = Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
                     if (!File.Exists(packageZipFileFullName)) {
