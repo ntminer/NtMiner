@@ -56,9 +56,20 @@ namespace NTMiner.Vms {
                             var exist = _serverMessageVms.FirstOrDefault(a => a.Id == item.Id);
                             if (exist != null) {
                                 _serverMessageVms.Remove(exist);
+                                if (item.IsDeleted) {
+                                    _count[exist.MessageTypeEnum].Count--;
+                                }
+                                else {
+                                    _serverMessageVms.Insert(0, vm);
+                                    if (exist.MessageType != item.MessageType) {
+                                        _count[exist.MessageTypeEnum].Count--;
+                                        _count[vm.MessageTypeEnum].Count++;
+                                    }
+                                }
                             }
-                            if (!vm.IsDeleted) {
+                            else if (!vm.IsDeleted) {
                                 _serverMessageVms.Insert(0, vm);
+                                _count[vm.MessageTypeEnum].Count++;
                             }
                             if (IsSatisfyQuery(vm)) {
                                 exist = _queyResults.FirstOrDefault(a => a.Id == item.Id);
