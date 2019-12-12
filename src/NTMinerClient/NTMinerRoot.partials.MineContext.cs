@@ -245,7 +245,7 @@ namespace NTMiner {
                     arguments = arguments.Replace(NTKeyword.LogFileParameterName, this.LogFileFullName);
                 }
                 Write.UserOk($"\"{kernelExeFileFullName}\" {arguments}");
-                Write.UserInfo($"有请内核上场：{this.KernelProcessType}");
+                Write.UserInfo($"有请内核上场");
                 if (this != Instance.LockedMineContext) {
                     Write.UserWarn("挖矿停止");
                     return;
