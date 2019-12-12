@@ -6,12 +6,14 @@ namespace NTMiner {
     public class WpfTimer : AbstractTimer {
         private DispatcherTimer _dispatcherTimer;
         public override void Start() {
-            if (_dispatcherTimer != null) {
-                return;
-            }
-            _dispatcherTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e) => {
-                base.Elapsed();
-            }, Dispatcher.CurrentDispatcher);
+            UIThread.Execute(() => {
+                if (_dispatcherTimer != null) {
+                    return;
+                }
+                _dispatcherTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e) => {
+                    base.Elapsed();
+                }, Dispatcher.CurrentDispatcher);
+            });
         }
     }
 }
