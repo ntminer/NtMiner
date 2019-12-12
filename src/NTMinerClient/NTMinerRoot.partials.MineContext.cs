@@ -513,7 +513,7 @@ namespace NTMiner {
                                                 if (keyword.MessageType.TryParse(out LocalMessageType messageType)) {
                                                     string content = input;
                                                     if (!string.IsNullOrEmpty(keyword.Description)) {
-                                                        content += $" 大意：{keyword.Description}";
+                                                        content = $" 大意：{keyword.Description} 详情：" + content;
                                                     }
                                                     VirtualRoot.LocalMessage(LocalMessageChannel.Kernel, this.GetType().Name, messageType, content, OutEnum.None, toConsole: false);
                                                 }
