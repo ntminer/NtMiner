@@ -77,6 +77,7 @@ namespace NTMiner {
                             message.MineContext.Close();
                         }, location: this.GetType(), pathId: Guid.Empty);
                 }
+                this.MineStartedOn = DateTime.Now;
                 CreateProcessAsync();
             }
 
