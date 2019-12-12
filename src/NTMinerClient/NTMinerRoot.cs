@@ -437,8 +437,8 @@ namespace NTMiner {
         #region StartMine
         public void StartMine(bool isRestart = false) {
             try {
-                if (isRestart) {
-                    if (LockedMineContext == null || LockedMineContext.IsClosed) {
+                if (IsMining && isRestart) {
+                    if (LockedMineContext.IsClosed) {
                         throw new InvalidProgramException();
                     }
                     LockedMineContext.Start(isRestart: true);
