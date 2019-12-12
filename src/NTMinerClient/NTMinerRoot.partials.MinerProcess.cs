@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
-using NTMiner.Hub;
 using NTMiner.MinerClient;
 using System;
 using System.Collections;
@@ -26,10 +25,12 @@ namespace NTMiner {
 #endif
                             mineContext.Kill();
 
-                            mineContext.AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
+                            if (!mineContext.IsRestart) {
+                                mineContext.AddOnecePath<MineStopedEvent>("挖矿停止后关闭非托管的日志句柄", LogEnum.DevConsole,
                                 action: message => {
                                     message.MineContext.Close();
                                 }, location: typeof(MinerProcess), pathId: Guid.Empty);
+                            }
                             // 清理除当前外的Temp/Kernel
                             Cleaner.Instance.Clear();
 #if DEBUG
@@ -40,7 +41,7 @@ namespace NTMiner {
 #endif
                             Write.UserOk("场地打扫完毕");
                             // 应用超频
-                            if (Instance.GpuProfileSet.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
+                            if (!mineContext.IsRestart && Instance.GpuProfileSet.IsOverClockEnabled(mineContext.MainCoin.GetId())) {
                                 Write.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                                 var cmd = new CoinOverClockCommand(coinId: mineContext.MainCoin.GetId());
                                 mineContext.AddOnecePath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
@@ -105,6 +106,7 @@ namespace NTMiner {
                     default:
                         throw new InvalidProgramException();
                 }
+                KernelProcessDaemon(mineContext);
                 VirtualRoot.RaiseEvent(new MineStartedEvent(mineContext));
             }
             #endregion
@@ -130,6 +132,9 @@ namespace NTMiner {
 
             #region KernelProcessDaemon
             private static void KernelProcessDaemon(IMineContext mineContext) {
+                if (mineContext.IsRestart) {
+                    return;
+                }
                 string processName = mineContext.Kernel.GetProcessName();
                 mineContext.AddEventPath<Per1MinuteEvent>("周期性检查挖矿内核是否消失，如果消失尝试重启", LogEnum.DevConsole,
                     action: message => {
@@ -172,7 +177,6 @@ namespace NTMiner {
                 };
                 mineContext.KernelProcess.Start();
                 ReadPrintLoopLogFileAsync(mineContext, isWriteToConsole: false);
-                KernelProcessDaemon(mineContext);
             }
             #endregion
 
@@ -199,7 +203,11 @@ namespace NTMiner {
                     return;
                 }
                 mineContext.OnKill += () => {
-                    CloseHandle(hWriteOut);
+                    try {
+                        CloseHandle(hWriteOut);
+                    }
+                    catch {
+                    }
                 };
 
                 const uint STARTF_USESHOWWINDOW = 0x00000001;
@@ -257,7 +265,6 @@ namespace NTMiner {
                         VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"内核已退出"));
                         return;
                     }
-                    KernelProcessDaemon(mineContext);
 
                     Task.Factory.StartNew(() => {
                         using (FileStream fs = new FileStream(mineContext.LogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
