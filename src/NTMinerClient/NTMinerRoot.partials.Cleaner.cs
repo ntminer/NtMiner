@@ -76,7 +76,7 @@ namespace NTMiner {
             private void CleanKernels() {
                 try {
                     foreach (var kernelProcessName in NTMinerRoot.Instance.ServerContext.KernelSet.GetAllKernelProcessNames()) {
-                        if (NTMinerRoot.Instance.LockedMineContext == null || NTMinerRoot.Instance.LockedMineContext.Kernel.GetProcessName() != kernelProcessName) {
+                        if (!NTMinerRoot.Instance.IsMining || NTMinerRoot.Instance.LockedMineContext.Kernel.GetProcessName() != kernelProcessName) {
                             Windows.TaskKill.Kill(kernelProcessName, waitForExit: true);
                         }
                     }

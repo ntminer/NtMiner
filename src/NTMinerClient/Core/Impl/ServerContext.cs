@@ -6,17 +6,17 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
     public class ServerContext : IServerContext {
-        private readonly List<IMessagePathId> _serverContextHandlers = new List<IMessagePathId>();
+        private readonly List<IMessagePathId> _contextHandlers = new List<IMessagePathId>();
 
         public ServerContext() {
             ReInit();
         }
 
         public void ReInit() {
-            foreach (var handler in _serverContextHandlers) {
+            foreach (var handler in _contextHandlers) {
                 VirtualRoot.DeletePath(handler);
             }
-            _serverContextHandlers.Clear();
+            _contextHandlers.Clear();
             this.CoinGroupSet = new CoinGroupSet(this);
             this.CoinSet = new CoinSet(this);
             this.FileWriterSet = new FileWriterSet(this);
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Impl {
         public void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location)
             where TCmd : ICmd {
             var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
-            _serverContextHandlers.Add(messagePathId);
+            _contextHandlers.Add(messagePathId);
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Impl {
         public void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
             var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
-            _serverContextHandlers.Add(messagePathId);
+            _contextHandlers.Add(messagePathId);
         }
 
         public ICoinGroupSet CoinGroupSet { get; private set; }

@@ -41,8 +41,8 @@ namespace NTMiner.Views.Ucs {
                             DateTime now = DateTime.Now;
                             Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
                             var mineContext = NTMinerRoot.Instance.LockedMineContext;
-                            if (mineContext != null) {
-                                Vm.UpdateMineTimeSpan(now - mineContext.CreatedOn);
+                            if (mineContext != null && mineContext.MineStartedOn != DateTime.MinValue) {
+                                Vm.UpdateMineTimeSpan(now - mineContext.MineStartedOn);
                             }
                         });
                     }, location: this.GetType());

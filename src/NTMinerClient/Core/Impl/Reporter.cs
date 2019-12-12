@@ -178,7 +178,9 @@ namespace NTMiner.Core.Impl {
                 var mineContext = root.LockedMineContext;
                 if (mineContext != null) {
                     data.KernelSelfRestartCount = mineContext.KernelSelfRestartCount;
-                    data.MineStartedOn = mineContext.CreatedOn;
+                    if (mineContext.MineStartedOn != DateTime.MinValue) {
+                        data.MineStartedOn = mineContext.MineStartedOn;
+                    }
                     data.KernelCommandLine = mineContext.CommandLine;
                 }
                 // 判断上次报告的算力币种和本次报告的是否相同，否则说明刚刚切换了币种默认第一次报告0算力

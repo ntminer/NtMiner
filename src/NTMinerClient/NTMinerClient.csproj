@@ -161,7 +161,6 @@
     <Compile Include="NTMinerRoot.partials.Cleaner.cs" />
     <Compile Include="NTMinerRoot.partials.GetAliyunServerJson.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
-    <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
     <Compile Include="Core\Impl\Reporter.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\GpuSpeed.cs" />
