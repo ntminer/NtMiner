@@ -2596,7 +2596,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
-                        <ColumnDefinition Width="930"></ColumnDefinition>
+                        <ColumnDefinition Width="910"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
                     <Border BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}">
                         <Grid>
