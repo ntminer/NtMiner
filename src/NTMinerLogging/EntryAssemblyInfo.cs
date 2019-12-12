@@ -29,11 +29,18 @@ namespace NTMiner {
         }
         public static bool IsLocalHome {
             get {
-                return HomeDirFullName == AppDomain.CurrentDomain.BaseDirectory;
+                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                if (HomeDirFullName.Length + 1 != baseDir.Length) {
+                    return false;
+                }
+                return HomeDirFullName + "\\" == baseDir;
             }
         }
 
         public static void SetHomeDirFullName(string dirFullName) {
+            if (dirFullName.EndsWith("\\")) {
+                dirFullName = dirFullName.Substring(0, dirFullName.Length - 1);
+            }
             HomeDirFullName = dirFullName;
             if (!Directory.Exists(dirFullName)) {
                 Directory.CreateDirectory(dirFullName);
@@ -63,9 +70,6 @@ namespace NTMiner {
             }
             else {
                 homeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
-            }
-            if (homeDirFullName.EndsWith("\\")) {
-                homeDirFullName = homeDirFullName.Substring(0, homeDirFullName.Length - 1);
             }
             SetHomeDirFullName(homeDirFullName);
         }
