@@ -5,8 +5,8 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class EntryAssemblyInfo {
-        public const string Version = "2.6.6";
-        public const string Build = "5";
+        public const string Version = "2.7.0";
+        public const string Build = "0";
         public const string Tag = "蛮吉";
         public const string Copyright = "Copyright ©  NTMiner";
 
