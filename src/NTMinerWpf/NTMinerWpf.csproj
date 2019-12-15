@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
+    <Compile Include="FrameworkElementExtension.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="ColorMapper.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
