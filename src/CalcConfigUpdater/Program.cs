@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public class Program {
         static void Main() {
-            VirtualRoot.StartTimer();
             try {
+                VirtualRoot.StartTimer();
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
                 NTKeyword.SetOfficialServerHost("localhost");
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);

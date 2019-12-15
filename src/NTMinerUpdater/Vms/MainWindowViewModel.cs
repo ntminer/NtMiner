@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
         public ICommand ShowOrHideServerLatestDescription { get; private set; }
 
         private MainWindowViewModel() {
-            if (App.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Refresh();

@@ -2,14 +2,12 @@
 using NTMiner.Views;
 using NTMiner.Vms;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace NTMiner {
     public partial class App : Application, IDisposable {
@@ -29,35 +27,13 @@ namespace NTMiner {
                 return NTMinerAppType.MinerClient;
             }
         }
-        public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
 
-        private Mutex mutexApp;
+        private Mutex _mutexApp;
 
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
-                if (e.ExceptionObject is Exception exception) {
-                    Handle(exception);
-                }
-            };
-
-            DispatcherUnhandledException += (object sender, DispatcherUnhandledExceptionEventArgs e) => {
-                Handle(e.Exception);
-                e.Handled = true;
-            };
-
-            Write.UIThreadId = Dispatcher.Thread.ManagedThreadId;
-            UIThread.InitializeWithDispatcher();
-            VirtualRoot.StartTimer(new WpfTimer());
-            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
+            AppUtil.Init(this);
             InitializeComponent();
-        }
-
-        private void Handle(Exception e) {
-            if (e == null) {
-                return;
-            }
-            Logger.ErrorDebugLine(e);
         }
 
         protected override void OnStartup(StartupEventArgs e) {
@@ -65,7 +41,7 @@ namespace NTMiner {
 
             bool mutexCreated;
             try {
-                mutexApp = new Mutex(true, "NTMinerUpdaterAppMutex", out mutexCreated);
+                _mutexApp = new Mutex(true, "NTMinerUpdaterAppMutex", out mutexCreated);
             }
             catch {
                 mutexCreated = false;
@@ -96,6 +72,7 @@ namespace NTMiner {
             NotiCenterWindow.Instance.ShowWindow();
             this.MainWindow = new MainWindow();
             this.MainWindow.Show();
+            VirtualRoot.StartTimer(new WpfTimer());
         }
 
         public void Dispose() {
@@ -105,8 +82,8 @@ namespace NTMiner {
 
         private void CleanUp(bool disposing) {
             if (disposing) {
-                if (mutexApp != null) {
-                    mutexApp.Dispose();
+                if (_mutexApp != null) {
+                    _mutexApp.Dispose();
                 }
             }
         }

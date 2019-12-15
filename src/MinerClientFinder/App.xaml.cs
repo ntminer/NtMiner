@@ -7,7 +7,6 @@ namespace NTMiner {
         public App() {
             Logger.Disable();
             Write.Disable();
-            Write.UIThreadId = Dispatcher.Thread.ManagedThreadId;
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             AppUtil.Init(this);
             InitializeComponent();
