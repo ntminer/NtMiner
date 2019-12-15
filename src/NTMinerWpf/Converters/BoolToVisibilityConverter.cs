@@ -8,19 +8,9 @@ namespace NTMiner.Converters {
     public class BoolToVisibilityConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value is bool b && b) {
-                return ConvertFun(Visibility.Visible, parameter);
-            }
-            return ConvertFun(Visibility.Collapsed, parameter);
-        }
-
-        public object ConvertFun(Visibility visibility, object parameter) {
-            if (parameter is string p) {
-                if (visibility == Visibility.Visible) {
-                    return Visibility.Collapsed;
-                }
                 return Visibility.Visible;
             }
-            return visibility;
+            return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

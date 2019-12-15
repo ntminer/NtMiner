@@ -8,19 +8,9 @@ namespace NTMiner.Converters {
     public class BoolToHiddenInvertConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             if (value is bool b && b) {
-                return ConvertFun(Visibility.Hidden, parameter);
+                return Visibility.Hidden;
             }
-            return ConvertFun(Visibility.Visible, parameter);
-        }
-
-        public object ConvertFun(Visibility visibility, object parameter) {
-            if (parameter is string p) {
-                if (visibility == Visibility.Visible) {
-                    return Visibility.Hidden;
-                }
-                return Visibility.Visible;
-            }
-            return visibility;
+            return Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
