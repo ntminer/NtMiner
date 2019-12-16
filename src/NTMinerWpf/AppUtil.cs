@@ -35,6 +35,19 @@ namespace NTMiner {
         }
         #endregion
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("代码质量", "IDE0052:删除未读的私有成员", Justification = "<挂起>")]
+        private static Mutex _mutexApp;
+        public static bool GetMutex(string name) {
+            bool result;
+            try {
+                _mutexApp = new Mutex(true, name, out result);
+            }
+            catch {
+                result = false;
+            }
+            return result;
+        }
+
         #region private methods
         private static void Handle(Exception e) {
             if (e == null) {

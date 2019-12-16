@@ -3,13 +3,12 @@ using NTMiner.Views;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace NTMiner {
-    public partial class App : Application, IDisposable {
+    public partial class App : Application {
         public static NTMinerAppType AppType {
             get {
                 if (VirtualRoot.IsMinerStudio) {
@@ -18,8 +17,6 @@ namespace NTMiner {
                 return NTMinerAppType.MinerClient;
             }
         }
-
-        private Mutex _mutexApp;
 
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
@@ -30,14 +27,7 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
-            bool mutexCreated;
-            try {
-                _mutexApp = new Mutex(true, "NTMinerUpdaterAppMutex", out mutexCreated);
-            }
-            catch {
-                mutexCreated = false;
-            }
-            if (mutexCreated == false) {
+            if (!AppUtil.GetMutex("NTMinerUpdaterAppMutex")) {
                 Process thatProcess = null;
                 Process currentProcess = Process.GetCurrentProcess();
                 Process[] Processes = Process.GetProcessesByName(currentProcess.ProcessName);
@@ -64,19 +54,6 @@ namespace NTMiner {
             this.MainWindow = new MainWindow();
             this.MainWindow.Show();
             VirtualRoot.StartTimer(new WpfTimer());
-        }
-
-        public void Dispose() {
-            CleanUp(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void CleanUp(bool disposing) {
-            if (disposing) {
-                if (_mutexApp != null) {
-                    _mutexApp.Dispose();
-                }
-            }
         }
     }
 }

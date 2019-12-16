@@ -7,14 +7,13 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace NTMiner {
-    public partial class App : Application, IDisposable {
+    public partial class App : Application {
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             Logger.SetDir(SpecialPath.LogsDirFullName);
@@ -24,9 +23,6 @@ namespace NTMiner {
 
         private readonly IAppViewFactory _appViewFactory = new AppViewFactory();
 
-        private bool createdNew;
-        private Mutex appMutex;
-        private static readonly string s_appPipName = "ntminerclient";
         protected override void OnExit(ExitEventArgs e) {
             AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
@@ -52,13 +48,7 @@ namespace NTMiner {
                 }));
             }
             else {
-                try {
-                    appMutex = new Mutex(true, s_appPipName, out createdNew);
-                }
-                catch (Exception) {
-                    createdNew = false;
-                }
-                if (createdNew) {
+                if (AppUtil.GetMutex("ntminerclient")) {
                     Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersion.ToString()}==================");
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = null;
@@ -280,19 +270,6 @@ namespace NTMiner {
                     }
                 }
             });
-        }
-
-        public void Dispose() {
-            CleanUp(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void CleanUp(bool disposing) {
-            if (disposing) {
-                if (appMutex != null) {
-                    appMutex.Dispose();
-                }
-            }
         }
     }
 }

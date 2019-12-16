@@ -2,15 +2,12 @@
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace NTMiner {
     public partial class App : Application {
-        private Mutex _mutexApp;
-
         public App() {
             Logger.Disable();
             Write.Disable();
@@ -22,14 +19,7 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
-            bool mutexCreated;
-            try {
-                _mutexApp = new Mutex(true, "MinerClientFinderAppMutex", out mutexCreated);
-            }
-            catch {
-                mutexCreated = false;
-            }
-            if (mutexCreated == false) {
+            if (!AppUtil.GetMutex("MinerClientFinderAppMutex")) {
                 Process thatProcess = null;
                 Process currentProcess = Process.GetCurrentProcess();
                 Process[] Processes = Process.GetProcessesByName(currentProcess.ProcessName);
@@ -56,19 +46,6 @@ namespace NTMiner {
             MainWindow = new MainWindow();
             MainWindow.Show();
             VirtualRoot.StartTimer(new WpfTimer());
-        }
-
-        public void Dispose() {
-            CleanUp(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void CleanUp(bool disposing) {
-            if (disposing) {
-                if (_mutexApp != null) {
-                    _mutexApp.Dispose();
-                }
-            }
         }
     }
 }
