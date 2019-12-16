@@ -389,6 +389,26 @@
                         </StackPanel>
                     </WrapPanel>
                 </controls:KbButton>
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
+					Margin="4"
+					Command="{Binding OpenMinerClientFinder}"
+					Cursor="Hand"
+					Background="Transparent">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_MinerClientFinder}"
+							Fill="Green"
+							Stretch="Fill" />
+                        <StackPanel Margin="8 0 0 0" Width="152">
+                            <TextBlock FontWeight="Bold" FontSize="14">矿机雷达 - 开源矿工</TextBlock>
+                            <TextBlock Foreground="{StaticResource LableColor}">发现局域网中的开源矿工</TextBlock>
+                        </StackPanel>
+                    </WrapPanel>
+                </controls:KbButton>
             </WrapPanel>
 		</ScrollViewer>
 	</Grid>
