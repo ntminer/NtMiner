@@ -33,6 +33,9 @@ namespace NTMiner.Vms {
                 }
                 else {
                     _thread?.Abort();
+                    if (_fromIpAddressVm.IsAnyEmpty || _toIpAddressVm.IsAnyEmpty) {
+                        throw new ValidationException("IP地址不能为空");
+                    }
                     if (!IPAddress.TryParse(_fromIpAddressVm.AddressText, out _) || !IPAddress.TryParse(_toIpAddressVm.AddressText, out _)) {
                         throw new ValidationException("IP地址格式不正确");
                     }
@@ -117,6 +120,7 @@ namespace NTMiner.Vms {
                     Percent = count * 100 / ipList.Length;
                     if (count == ipList.Length) {
                         IsScanning = false;
+                        _thread = null;
                     }
                 }
             }
