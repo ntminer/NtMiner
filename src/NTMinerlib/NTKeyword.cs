@@ -65,6 +65,7 @@
         #region LocalAppSettingKey
         public const string UseDevicesAppSettingKey = "UseDevices";
         public const string UpdaterVersionAppSettingKey = "UpdaterVersion";
+        public const string MinerClientFinderVersionAppSettingKey = "MinerClientFinderVersion";
         public const string ServerJsonVersionAppSettingKey = "ServerJsonVersion";
         #endregion
 

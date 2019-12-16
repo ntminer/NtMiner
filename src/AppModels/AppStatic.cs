@@ -34,7 +34,7 @@ namespace NTMiner {
 
         private static string GetMinerClientFinderVersion() {
             string version = string.Empty;
-            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.MinerClientFinderFileNameAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.MinerClientFinderVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
                 version = setting.Value.ToString();
             }
             return version;
@@ -42,7 +42,7 @@ namespace NTMiner {
 
         private static void SetMinerClientFinderVersion(string value) {
             VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
-                Key = NTKeyword.MinerClientFinderFileNameAppSettingKey,
+                Key = NTKeyword.MinerClientFinderVersionAppSettingKey,
                 Value = value
             }));
         }
