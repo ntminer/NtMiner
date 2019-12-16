@@ -18,7 +18,7 @@ using System.Windows;
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion(EntryAssemblyInfo.Version + "." + EntryAssemblyInfo.Build)]
-[assembly: AssemblyDescription(EntryAssemblyInfo.Tag)]
+[assembly: AssemblyDescription(EntryAssemblyInfo.ManJiTag)]
 [assembly: AssemblyFileVersion(EntryAssemblyInfo.Version)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
