@@ -1,12 +1,22 @@
 ﻿using NTMiner.Views;
 using NTMiner.Vms;
 using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Threading;
 
 namespace NTMiner {
     public static class AppUtil {
+        private static class SafeNativeMethods {
+            [DllImport(DllName.User32Dll)]
+            public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
+
+            [DllImport(DllName.User32Dll)]
+            public static extern bool SetForegroundWindow(IntPtr hWnd);
+        }
+
         #region Init
         public static void Init(Application app) {
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
@@ -38,5 +48,11 @@ namespace NTMiner {
             }
         }
         #endregion
+        
+        private const int SW_SHOWNOMAL = 1;
+        public static void Show(Process instance) {
+            SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
+            SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
+        }
     }
 }

@@ -3,7 +3,6 @@ using NTMiner.Views;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
@@ -11,14 +10,6 @@ using System.Windows.Media;
 
 namespace NTMiner {
     public partial class App : Application, IDisposable {
-        private static class SafeNativeMethods {
-            [DllImport(DllName.User32Dll)]
-            public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
-
-            [DllImport(DllName.User32Dll)]
-            public static extern bool SetForegroundWindow(IntPtr hWnd);
-        }
-
         public static NTMinerAppType AppType {
             get {
                 if (VirtualRoot.IsMinerStudio) {
@@ -58,7 +49,7 @@ namespace NTMiner {
                     }
                 }
                 if (thatProcess != null) {
-                    Show(thatProcess);
+                    AppUtil.Show(thatProcess);
                 }
                 else {
                     MessageBox.Show("Another Updater is running", "alert", MessageBoxButton.OKCancel);
@@ -86,12 +77,6 @@ namespace NTMiner {
                     _mutexApp.Dispose();
                 }
             }
-        }
-
-        private const int SW_SHOWNOMAL = 1;
-        private static void Show(Process instance) {
-            SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
-            SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
         }
     }
 }
