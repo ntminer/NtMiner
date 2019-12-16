@@ -10,6 +10,7 @@ namespace NTMiner.Controllers {
         ResponseBase AddOrUpdateNTMinerFile(DataRequest<NTMinerFileData> request);
         ResponseBase RemoveNTMinerFile(DataRequest<Guid> request);
         string NTMinerUpdaterUrl();
+        string MinerClientFinderUrl();
         string LiteDbExplorerUrl();
         string PackageUrl(PackageUrlRequest request);
     }

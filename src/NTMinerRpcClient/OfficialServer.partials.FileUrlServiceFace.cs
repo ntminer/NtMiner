@@ -67,6 +67,12 @@ namespace NTMiner {
             }
             #endregion
 
+            #region GetMinerClientFinderUrlAsync
+            public void GetMinerClientFinderUrlAsync(Action<string, Exception> callback) {
+                PostAsync(SControllerName, nameof(IFileUrlController.MinerClientFinderUrl), null, null, callback, timeountMilliseconds: 2000);
+            }
+            #endregion
+
             #region GetPackageUrlAsync
             public void GetPackageUrlAsync(string package, Action<string, Exception> callback) {
                 PackageUrlRequest request = new PackageUrlRequest {

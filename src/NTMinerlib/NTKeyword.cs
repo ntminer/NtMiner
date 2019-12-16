@@ -13,6 +13,7 @@
         }
 
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
+        public const string MinerClientFinderFileName = "MinerClientFinder.exe";
         public const string NTMinerServicesFileName = "NTMinerServices.exe";
         public const string GpuProfilesFileName = "gpuProfiles.json";
         public const string LocalJsonFileName = "local.json";
@@ -74,6 +75,7 @@
         public const string MinTempAppSettingKey = "MinTemp";
         public const string RejectPercentAppSettingKey = "RejectPercent";
         public const string NTMinerUpdaterFileNameAppSettingKey = "NTMinerUpdaterFileName";
+        public const string MinerClientFinderFileNameAppSettingKey = " MinerClientFinderFileName";
         #endregion
 
         #region 系统字典编码

@@ -19,16 +19,31 @@ namespace NTMiner {
         public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
 
         private static string GetUpdaterVersion() {
-            string updaterVersion = string.Empty;
+            string version = string.Empty;
             if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.UpdaterVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
-                updaterVersion = setting.Value.ToString();
+                version = setting.Value.ToString();
             }
-            return updaterVersion;
+            return version;
         }
 
         private static void SetUpdaterVersion(string value) {
             VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
                 Key = NTKeyword.UpdaterVersionAppSettingKey,
+                Value = value
+            }));
+        }
+
+        private static string GetMinerClientFinderVersion() {
+            string version = string.Empty;
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.MinerClientFinderFileNameAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+                version = setting.Value.ToString();
+            }
+            return version;
+        }
+
+        private static void SetMinerClientFinderVersion(string value) {
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                Key = NTKeyword.MinerClientFinderFileNameAppSettingKey,
                 Value = value
             }));
         }

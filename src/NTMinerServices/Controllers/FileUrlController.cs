@@ -79,14 +79,34 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string NTMinerUpdaterUrl() {
             try {
-                string ntminerUpdaterFileName;
-                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting ntminerUpdaterFileNameSetting)) {
-                    ntminerUpdaterFileName = NTKeyword.NTMinerUpdaterFileName;
+                string fileName;
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting setting)) {
+                    fileName = NTKeyword.NTMinerUpdaterFileName;
                 }
                 else {
-                    ntminerUpdaterFileName = (string)ntminerUpdaterFileNameSetting.Value;
+                    fileName = (string)setting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get);
+                var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get);
+                var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
+                return OfficialServer.SignatureSafeUrl(uri);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return string.Empty;
+            }
+        }
+
+        [HttpPost]
+        public string MinerClientFinderUrl() {
+            try {
+                string fileName;
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.MinerClientFinderFileNameAppSettingKey, out IAppSetting setting)) {
+                    fileName = NTKeyword.MinerClientFinderFileName;
+                }
+                else {
+                    fileName = (string)setting.Value;
+                }
+                var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
                 return OfficialServer.SignatureSafeUrl(uri);
             }
