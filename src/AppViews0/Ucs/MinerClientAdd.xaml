@@ -5,6 +5,7 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 		ResizeMode="NoResize"
 		SizeToContent="Height"
 		BorderBrush="{StaticResource IconFillColor}"
@@ -86,6 +87,28 @@
 					Foreground="{StaticResource ThemeForeground}"
 					Text="添加" />
 			</WrapPanel>
-		</controls:KbButton>
-	</Grid>
+        </controls:KbButton>
+        <controls:KbButton
+			Grid.Row="2"
+			IsDefault="True"
+            ToolTip="用矿机雷达发现矿机"
+			Command="{x:Static app:AppStatic.OpenMinerClientFinder}" 
+			HorizontalAlignment="Right"
+			Margin="0 0 4 10"
+			Background="White"
+			CornerRadius="2">
+            <WrapPanel>
+                <Path
+					Width="16"
+					Height="16"
+					Data="{StaticResource Icon_MinerClientFinder}"
+					Fill="Green"
+					Stretch="Fill" />
+                <TextBlock
+					Padding="2 4"
+					VerticalAlignment="Center"
+					Text="矿机雷达" />
+            </WrapPanel>
+        </controls:KbButton>
+    </Grid>
 </blankWindow:BlankWindow>
