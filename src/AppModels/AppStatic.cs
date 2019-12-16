@@ -68,8 +68,8 @@ namespace NTMiner {
                             return;
                         }
                         Uri uri = new Uri(downloadFileUrl);
-                        string updaterVersion = GetUpdaterVersion();
-                        if (string.IsNullOrEmpty(updaterVersion) || !File.Exists(SpecialPath.UpdaterFileFullName) || uri.AbsolutePath != updaterVersion) {
+                        string localVersion = GetUpdaterVersion();
+                        if (string.IsNullOrEmpty(localVersion) || !File.Exists(SpecialPath.UpdaterFileFullName) || uri.AbsolutePath != localVersion) {
                             VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                                 try {
                                     if (isSuccess) {
@@ -102,6 +102,53 @@ namespace NTMiner {
             }
             catch {
                 callback?.Invoke();
+            }
+        }
+        #endregion
+
+        #region OpenMinerClientFinder
+        public static void OpenMinerClientFinder() {
+            try {
+                RpcRoot.OfficialServer.FileUrlService.GetMinerClientFinderUrlAsync((downloadFileUrl, e) => {
+                    try {
+                        if (string.IsNullOrEmpty(downloadFileUrl)) {
+                            if (File.Exists(SpecialPath.MinerClientFinderFileFullName)) {
+                                Windows.Cmd.RunClose(SpecialPath.MinerClientFinderFileFullName, string.Empty);
+                            }
+                            return;
+                        }
+                        Uri uri = new Uri(downloadFileUrl);
+                        string localVersion = GetMinerClientFinderVersion();
+                        if (string.IsNullOrEmpty(localVersion) || !File.Exists(SpecialPath.MinerClientFinderFileFullName) || uri.AbsolutePath != localVersion) {
+                            VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
+                                try {
+                                    if (isSuccess) {
+                                        File.Copy(saveFileFullName, SpecialPath.MinerClientFinderFileFullName, overwrite: true);
+                                        File.Delete(saveFileFullName);
+                                        SetMinerClientFinderVersion(uri.AbsolutePath);
+                                        window?.Close();
+                                        Windows.Cmd.RunClose(SpecialPath.MinerClientFinderFileFullName, string.Empty);
+                                    }
+                                    else {
+                                        VirtualRoot.ThisLocalError(nameof(AppStatic), message, toConsole: true);
+                                    }
+                                }
+                                catch(Exception ex) {
+                                    Logger.ErrorDebugLine(ex);
+                                }
+                            }));
+                        }
+                        else {
+                            Windows.Cmd.RunClose(SpecialPath.MinerClientFinderFileFullName, string.Empty);
+                        }
+                    }
+                    catch (Exception ex) {
+                        Logger.ErrorDebugLine(ex);
+                    }
+                });
+            }
+            catch (Exception ex) {
+                Logger.ErrorDebugLine(ex);
             }
         }
         #endregion

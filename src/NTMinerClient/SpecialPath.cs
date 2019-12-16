@@ -220,6 +220,12 @@ namespace NTMiner {
             }
         }
 
+        public static string MinerClientFinderFileFullName {
+            get {
+                return Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.MinerClientFinderFileName);
+            }
+        }
+
         private static bool _sIsFirstCallServicesDirFullName = true;
         public static string ServicesDirFullName {
             get {
