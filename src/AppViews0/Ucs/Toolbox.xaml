@@ -393,7 +393,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
-					Command="{Binding OpenMinerClientFinder}"
+					Command="{x:Static app:AppStatic.OpenMinerClientFinder}"
 					Cursor="Hand"
 					Background="Transparent">
                     <WrapPanel VerticalAlignment="Center">

@@ -48,8 +48,22 @@
 				<uc:MainBar></uc:MainBar>
 			</WrapPanel>
 			<WrapPanel Grid.Column="2">
-				<WrapPanel Margin="0" VerticalAlignment="Top">
-					<controls:KbButton 
+                <WrapPanel Margin="0" VerticalAlignment="Top">
+                    <controls:KbButton 
+					    ToolTip="矿机雷达"
+					    Command="{x:Static app:AppStatic.OpenMinerClientFinder}" 
+					    Background="Transparent" 
+					    BorderThickness="0"
+					    Margin="0 0 12 0"
+					    CornerRadius="2">
+                        <Path 
+						    Width="18"
+						    Height="18"
+						    Data="{StaticResource Icon_MinerClientFinder}"
+						    Fill="{StaticResource ThemeForeground}"
+						    Stretch="Fill" />
+                    </controls:KbButton>
+                    <controls:KbButton 
 						ToolTip="收益计算器"
 						Command="{x:Static app:AppStatic.ShowCalc}" 
 						Background="Transparent" 

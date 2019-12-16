@@ -17,8 +17,6 @@ namespace NTMiner.Vms {
 
         public ICommand OpenEventvwr { get; private set; }
 
-        public ICommand OpenMinerClientFinder { get; private set; }
-
         public ToolboxViewModel() {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -78,9 +76,6 @@ namespace NTMiner.Vms {
             });
             this.OpenEventvwr = new DelegateCommand(() => {
                 Process.Start("eventvwr.msc", "/c:Application");
-            });
-            this.OpenMinerClientFinder = new DelegateCommand(() => {
-                AppStatic.OpenMinerClientFinder();
             });
         }
 
