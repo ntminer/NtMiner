@@ -59,12 +59,12 @@
 									<TextBlock VerticalAlignment="Center">自动挖矿，延迟</TextBlock>
 									<TextBox Style="{StaticResource TbUpDown}" Text="{Binding AutoStartDelaySeconds}"></TextBox>
 									<StackPanel Margin="0 0 2 0">
-										<Button Height="12" Command="{Binding AutoStartDelaySecondsUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="AutoStartDelaySeconds">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 											</Button.Content>
 										</Button>
-										<Button Height="12" Command="{Binding AutoStartDelaySecondsDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="AutoStartDelaySeconds">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 											</Button.Content>
@@ -93,12 +93,12 @@
 									<TextBlock VerticalAlignment="Center">如果内核进程意外消失，尝试重启内核</TextBlock>
 									<TextBox Style="{StaticResource TbUpDown}" Text="{Binding AutoRestartKernelTimes}" HorizontalAlignment="Left"></TextBox>
 									<StackPanel Margin="0 0 2 0">
-										<Button Height="12" Command="{Binding AutoRestartKernelTimesUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="AutoRestartKernelTimes">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 											</Button.Content>
 										</Button>
-										<Button Height="12" Command="{Binding AutoRestartKernelTimesDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="AutoRestartKernelTimes">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 											</Button.Content>
@@ -118,12 +118,12 @@
 									<TextBlock VerticalAlignment="Center">如果</TextBlock>
 									<TextBox Style="{StaticResource TbUpDown}" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
 									<StackPanel Margin="0 0 2 0">
-										<Button Height="12" Command="{Binding NoShareRestartKernelMinutesUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="NoShareRestartKernelMinutes">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 											</Button.Content>
 										</Button>
-										<Button Height="12" Command="{Binding NoShareRestartKernelMinutesDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="NoShareRestartKernelMinutes">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 											</Button.Content>
@@ -143,12 +143,12 @@
                                     <TextBlock VerticalAlignment="Center">如果</TextBlock>
                                     <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NoShareRestartComputerMinutes}" HorizontalAlignment="Left"></TextBox>
                                     <StackPanel Margin="0 0 2 0">
-                                        <Button Height="12" Command="{Binding NoShareRestartComputerMinutesUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="NoShareRestartComputerMinutes">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Height="12" Command="{Binding NoShareRestartComputerMinutesDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="NoShareRestartComputerMinutes">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
                                             </Button.Content>
@@ -168,12 +168,12 @@
 									<TextBlock VerticalAlignment="Center">每运行</TextBlock>
 									<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
 									<StackPanel Margin="0 0 2 0">
-										<Button Height="12" Command="{Binding PeriodicRestartKernelHoursUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="PeriodicRestartKernelHours">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 											</Button.Content>
 										</Button>
-										<Button Height="12" Command="{Binding PeriodicRestartKernelHoursDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="PeriodicRestartKernelHours">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 											</Button.Content>
@@ -182,12 +182,12 @@
 									<TextBlock VerticalAlignment="Center">小时</TextBlock>
 									<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PeriodicRestartKernelMinutes,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
 									<StackPanel Margin="0 0 2 0">
-										<Button Height="12" Command="{Binding PeriodicRestartKernelMinutesUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="PeriodicRestartKernelMinutes">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 											</Button.Content>
 										</Button>
-										<Button Height="12" Command="{Binding PeriodicRestartKernelMinutesDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="PeriodicRestartKernelMinutes">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 											</Button.Content>
@@ -207,12 +207,12 @@
 									<TextBlock VerticalAlignment="Center">每运行</TextBlock>
 									<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
 									<StackPanel Margin="0 0 2 0">
-										<Button Height="12" Command="{Binding PeriodicRestartComputerHoursUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="PeriodicRestartComputerHours">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 											</Button.Content>
 										</Button>
-										<Button Height="12" Command="{Binding PeriodicRestartComputerHoursDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="PeriodicRestartComputerHours">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 											</Button.Content>
@@ -221,12 +221,12 @@
 									<TextBlock VerticalAlignment="Center">小时</TextBlock>
 									<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PeriodicRestartComputerMinutes,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
 									<StackPanel Margin="0 0 2 0">
-										<Button Height="12" Command="{Binding PeriodicRestartComputerMinutesUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="PeriodicRestartComputerMinutes">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 											</Button.Content>
 										</Button>
-										<Button Height="12" Command="{Binding PeriodicRestartComputerMinutesDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="PeriodicRestartComputerMinutes">
 											<Button.Content>
 												<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 											</Button.Content>
@@ -246,12 +246,12 @@
                                     <TextBlock VerticalAlignment="Center">CPU 温度持续</TextBlock>
                                     <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuGETemperatureSeconds}" HorizontalAlignment="Left"></TextBox>
                                     <StackPanel Margin="0 0 2 0">
-                                        <Button Height="12" Command="{Binding CpuGETemperatureSecondsUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="CpuGETemperatureSeconds">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Height="12" Command="{Binding CpuGETemperatureSecondsDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="CpuGETemperatureSeconds">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
                                             </Button.Content>
@@ -260,12 +260,12 @@
                                     <TextBlock VerticalAlignment="Center">秒不低于</TextBlock>
                                     <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuStopTemperature,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
                                     <StackPanel Margin="0 0 2 0">
-                                        <Button Height="12" Command="{Binding CpuStopTemperatureUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="CpuStopTemperature">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Height="12" Command="{Binding CpuStopTemperatureDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="CpuStopTemperature">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
                                             </Button.Content>
@@ -286,12 +286,12 @@
                                     <TextBlock VerticalAlignment="Center">CPU 温度持续</TextBlock>
                                     <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuLETemperatureSeconds}" HorizontalAlignment="Left"></TextBox>
                                     <StackPanel Margin="0 0 2 0">
-                                        <Button Height="12" Command="{Binding CpuLETemperatureSecondsUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="CpuLETemperatureSeconds">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Height="12" Command="{Binding CpuLETemperatureSecondsDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="CpuLETemperatureSeconds">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
                                             </Button.Content>
@@ -300,12 +300,12 @@
                                     <TextBlock VerticalAlignment="Center">秒不高于</TextBlock>
                                     <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuStartTemperature,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
                                     <StackPanel Margin="0 0 2 0">
-                                        <Button Height="12" Command="{Binding CpuStartTemperatureUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="CpuStartTemperature">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Height="12" Command="{Binding CpuStartTemperatureDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="CpuStartTemperature">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
                                             </Button.Content>
@@ -325,12 +325,12 @@
                                     <TextBlock VerticalAlignment="Center">CPU 使用率持续</TextBlock>
                                     <TextBox Style="{StaticResource TbUpDown}" Text="{Binding HighCpuSeconds}" HorizontalAlignment="Left"></TextBox>
                                     <StackPanel Margin="0 0 2 0">
-                                        <Button Height="12" Command="{Binding HighCpuSecondsUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="HighCpuSeconds">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Height="12" Command="{Binding HighCpuSecondsDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="HighCpuSeconds">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
                                             </Button.Content>
@@ -339,12 +339,12 @@
                                     <TextBlock VerticalAlignment="Center">秒达到</TextBlock>
                                     <TextBox Style="{StaticResource TbUpDown}" Text="{Binding HighCpuBaseline,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
                                     <StackPanel Margin="0 0 2 0">
-                                        <Button Height="12" Command="{Binding HighCpuBaselineUp}">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="HighCpuBaseline">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
                                             </Button.Content>
                                         </Button>
-                                        <Button Height="12" Command="{Binding HighCpuBaselineDown}">
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="HighCpuBaseline">
                                             <Button.Content>
                                                 <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
                                             </Button.Content>
@@ -406,12 +406,12 @@
 								<TextBlock VerticalAlignment="Center">挖矿中时界面展示</TextBlock>
 								<TextBox Style="{StaticResource TbUpDown}" Text="{Binding AutoNoUiMinutes}" HorizontalAlignment="Left"></TextBox>
 								<StackPanel Margin="0 0 2 0">
-									<Button Height="12" Command="{Binding AutoNoUiMinutesUp}">
+                                    <Button Height="12" Command="{Binding Up}" CommandParameter="AutoNoUiMinutes">
 										<Button.Content>
 											<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 										</Button.Content>
 									</Button>
-									<Button Height="12" Command="{Binding AutoNoUiMinutesDown}">
+                                    <Button Height="12" Command="{Binding Down}" CommandParameter="AutoNoUiMinutes">
 										<Button.Content>
 											<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 										</Button.Content>
@@ -485,12 +485,12 @@
 						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
 						<StackPanel Margin="0 0 2 0">
-							<Button Height="12" Command="{Binding EPriceUp}">
+                            <Button Height="12" Command="{Binding Up}" CommandParameter="EPrice">
 								<Button.Content>
 									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 								</Button.Content>
 							</Button>
-							<Button Height="12" Command="{Binding EPriceDown}">
+                            <Button Height="12" Command="{Binding Down}" CommandParameter="EPrice">
 								<Button.Content>
 									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 								</Button.Content>
@@ -509,12 +509,12 @@
 						<TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
 						<StackPanel Margin="0 0 2 0">
-							<Button Height="12" Command="{Binding PowerAppendUp}">
+                            <Button Height="12" Command="{Binding Up}" CommandParameter="PowerAppend">
 								<Button.Content>
 									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 								</Button.Content>
 							</Button>
-							<Button Height="12" Command="{Binding PowerAppendDown}">
+                            <Button Height="12" Command="{Binding Down}" CommandParameter="PowerAppend">
 								<Button.Content>
 									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 								</Button.Content>
@@ -527,12 +527,12 @@
 						<TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>
 						<TextBox Style="{StaticResource TbUpDown}" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
 						<StackPanel Margin="0 0 2 0">
-							<Button Height="12" Command="{Binding MaxTempUp}">
+                            <Button Height="12" Command="{Binding Up}" CommandParameter="MaxTemp">
 								<Button.Content>
 									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
 								</Button.Content>
 							</Button>
-							<Button Height="12" Command="{Binding MaxTempDown}">
+                            <Button Height="12" Command="{Binding Down}" CommandParameter="MaxTemp">
 								<Button.Content>
 									<Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
 								</Button.Content>
