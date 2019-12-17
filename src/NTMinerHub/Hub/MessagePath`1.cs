@@ -43,20 +43,20 @@ namespace NTMiner.Hub {
             CreatedOn = DateTime.Now;
         }
 
-        public int ViaLimit {
+        public int ViaTimesLimit {
             get => _viaLimit;
             private set {
                 _viaLimit = value;
 #if DEBUG
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaLimit)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaTimesLimit)));
 #endif
             }
         }
 
-        internal void DecreaseViaLimit(Action<IMessagePathId> onDownToZero) {
+        internal void DecreaseViaTimesLimit(Action<IMessagePathId> onDownToZero) {
             int newValue = Interlocked.Decrement(ref _viaLimit);
             if (newValue == 0) {
-                // ViaLimit递减到0从路径列表中移除该路径
+                // ViaTimesLimit递减到0从路径列表中移除该路径
                 onDownToZero?.Invoke(this);
             }
         }

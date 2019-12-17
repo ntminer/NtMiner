@@ -46,15 +46,15 @@ namespace NTMiner.Vms {
             if (IsAutoStart && !this.MinerProfile.IsMining) {
                 this.MinerProfile.IsMining = true;
                 IMessagePathId pathId = null;
-                pathId = VirtualRoot.AddViaLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
+                pathId = VirtualRoot.AddViaTimesLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
                 action: message => {
                     if (NTMinerRoot.IsAutoStartCanceled) {
                         BtnStopText = $"尚未开始";
                     }
                     else {
-                        BtnStopText = $"倒计时{pathId.ViaLimit.ToString()}";
+                        BtnStopText = $"倒计时{pathId.ViaTimesLimit.ToString()}";
                     }
-                    if (pathId.ViaLimit == 0) {
+                    if (pathId.ViaTimesLimit == 0) {
                         if (!NTMinerRoot.IsAutoStartCanceled) {
                             BtnStopText = "正在挖矿";
                             MinerProfile.IsMining = true;

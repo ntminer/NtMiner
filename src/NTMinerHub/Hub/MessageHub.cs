@@ -122,9 +122,9 @@
                             isMatch = messagePath.PathId == cmd.Id;
                         }
                     }
-                    if (isMatch && messagePath.ViaLimit > 0) {
-                        // ViaLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaLimit计数
-                        messagePath.DecreaseViaLimit(onDownToZero: RemoveMessagePath);
+                    if (isMatch && messagePath.ViaTimesLimit > 0) {
+                        // ViaTimesLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaTimesLimit计数
+                        messagePath.DecreaseViaTimesLimit(onDownToZero: RemoveMessagePath);
                     }
                     if (!messagePath.IsEnabled) {
                         continue;
