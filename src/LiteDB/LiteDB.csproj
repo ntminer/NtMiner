@@ -1,0 +1,81 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>net35;net40;netstandard1.3;netstandard2.0</TargetFrameworks>
+    <PackageId>LiteDB</PackageId>
+    <Version>4.1.4</Version>
+    <AssemblyVersion>4.1.4.0</AssemblyVersion>
+    <FileVersion>4.1.4</FileVersion>
+    <VersionPrefix>4.1.4</VersionPrefix>
+    <Authors>Maurício David</Authors>
+    <Product>LiteDB</Product>
+    <Description>LiteDB - A lightweight embedded .NET NoSQL document store in a single datafile</Description>
+    <Copyright>MIT</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Title>LiteDB</Title>
+    <PackageId>LiteDB</PackageId>
+    <PackageTags>database nosql embedded</PackageTags>
+    <PackageIconUrl>http://www.litedb.org/img/logo_64x64.png</PackageIconUrl>
+    <PackageProjectUrl>https://www.litedb.org</PackageProjectUrl>
+    <PackageLicenseUrl>https://raw.github.com/mbdavid/LiteDB/master/LICENSE</PackageLicenseUrl>
+    <RepositoryUrl>https://github.com/mbdavid/LiteDB</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RootNamespace>LiteDB</RootNamespace>
+    <AssemblyName>LiteDB</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NetStandardImplicitPackageVersion Condition=" '$(TargetFramework)' == 'netstandard1.3' ">1.6.1</NetStandardImplicitPackageVersion>
+    <NoWarn>1701;1702;1705;1591;0618</NoWarn>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\LiteDB.xml</DocumentationFile>
+    <SignAssembly Condition="'$(OS)'=='Windows_NT'">true</SignAssembly>
+    <AssemblyOriginatorKeyFile>LiteDB.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  
+  <!--
+  == All variables ==
+  HAVE_APP_DOMAIN
+  HAVE_PROCESS
+  HAVE_ENVIRONMENT
+  HAVE_FLUSH_DISK
+  HAVE_SYNC_OVER_ASYNC
+  HAVE_LOCK
+  HAVE_THREAD_ID
+  HAVE_TYPE_INFO
+  HAVE_EXPRESSION_ASSIGN
+  HAVE_TASK_DELAY
+  HAVE_ATTR_DEFINED
+  -->
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DefineConstants>TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net35'">
+    <DefineConstants>NET35;HAVE_APP_DOMAIN;HAVE_PROCESS;HAVE_ENVIRONMENT;HAVE_LOCK;HAVE_THREAD_ID;HAVE_ATTR_DEFINED</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net40'">
+    <DefineConstants>NET40;HAVE_APP_DOMAIN;HAVE_PROCESS;HAVE_ENVIRONMENT;HAVE_FLUSH_DISK;HAVE_LOCK;HAVE_THREAD_ID;HAVE_EXPRESSION_ASSIGN;HAVE_ATTR_DEFINED</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+    <DefineConstants>NETSTANDARD13;HAVE_FLUSH_DISK;HAVE_SYNC_OVER_ASYNC;HAVE_TYPE_INFO;HAVE_EXPRESSION_ASSIGN;HAVE_TASK_DELAY</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <DefineConstants>NETSTANDARD20;HAVE_FLUSH_DISK;HAVE_SYNC_OVER_ASYNC;HAVE_LOCK;HAVE_TYPE_INFO;HAVE_EXPRESSION_ASSIGN;HAVE_TASK_DELAY;HAVE_ATTR_DEFINED</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net35' OR '$(TargetFramework)' == 'net40'">
+    <Reference Include="System" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3' OR '$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Reflection" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.TypeExtensions" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>

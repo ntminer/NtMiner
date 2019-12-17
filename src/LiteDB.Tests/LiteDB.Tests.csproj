@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <AssemblyName>LiteDB.Tests</AssemblyName>
+    <RootNamespace>LiteDB.Tests</RootNamespace>
+    <Authors>Maurício David</Authors>
+    <Copyright>MIT</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>1701;1702;1705;1591;0618</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="1.1.11" />
+    <PackageReference Include="MSTest.TestFramework" Version="1.1.11" />
+    <PackageReference Include="CoreCompat.System.Drawing" Version="1.0.0-beta006" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LiteDB\LiteDB.csproj" />
+  </ItemGroup>
+
+</Project>
+
