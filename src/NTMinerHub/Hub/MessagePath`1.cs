@@ -13,21 +13,22 @@ namespace NTMiner.Hub {
         private readonly Action<TMessage> _path;
         private bool _isEnabled;
         private int _viaLimit;
+        private int _lifeLimitSeconds;
 
 #if DEBUG
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaLimit = -1) {
+        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaLimit = -1, int lifeLimitSeconds = -1) {
             if (action == null) {
                 throw new ArgumentNullException(nameof(action));
             }
-            MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, viaLimit);
+            MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, viaLimit, lifeLimitSeconds);
             hub.AddMessagePath(path);
             return path;
         }
 
-        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaLimit) {
+        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaLimit, int lifeLimitSeconds) {
             if (viaLimit == 0) {
                 throw new InvalidProgramException("消息路径的viaLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
             }
@@ -40,6 +41,7 @@ namespace NTMiner.Hub {
             _path = action;
             PathId = pathId;
             _viaLimit = viaLimit;
+            _lifeLimitSeconds = lifeLimitSeconds;
             CreatedOn = DateTime.Now;
         }
 
@@ -50,6 +52,13 @@ namespace NTMiner.Hub {
 #if DEBUG
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaTimesLimit)));
 #endif
+            }
+        }
+
+        public int LifeLimitSeconds {
+            get => _lifeLimitSeconds;
+            private set {
+                _lifeLimitSeconds = value;
             }
         }
 
