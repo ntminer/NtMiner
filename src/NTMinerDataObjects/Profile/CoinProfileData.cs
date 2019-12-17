@@ -10,14 +10,14 @@ namespace NTMiner.Profile {
         public static CoinProfileData CreateDefaultData(Guid coinId, Guid poolId, string wallet, Guid coinKernelId) {
             return new CoinProfileData() {
                 PoolId = poolId,
-                PoolId1 = Guid.Empty,
+                PoolId1 = default,
                 Wallet = wallet,
                 CoinId = coinId,
                 CoinKernelId = coinKernelId,
-                IsHideWallet = false,
-                DualCoinPoolId = Guid.Empty,
+                IsHideWallet = default,
+                DualCoinPoolId = default,
                 DualCoinWallet = string.Empty,
-                IsDualCoinHideWallet = false,
+                IsDualCoinHideWallet = default,
                 CalcInput = 1
             };
         }
