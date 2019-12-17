@@ -18,16 +18,16 @@ namespace NTMiner.Hub {
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> AddMessagePath(IMessageHub dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
-            if (path == null) {
-                throw new ArgumentNullException(nameof(path));
+        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaLimit = -1) {
+            if (action == null) {
+                throw new ArgumentNullException(nameof(action));
             }
-            MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, path, pathId, viaLimit);
-            dispatcher.AddMessagePath(handler);
-            return handler;
+            MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, viaLimit);
+            hub.AddMessagePath(path);
+            return path;
         }
 
-        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit) {
+        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaLimit) {
             if (viaLimit == 0) {
                 throw new InvalidProgramException("消息路径的viaLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
             }
@@ -37,7 +37,7 @@ namespace NTMiner.Hub {
             Path = $"{location.FullName}[{MessageType.FullName}]";
             Description = description;
             LogType = logType;
-            _path = path;
+            _path = action;
             PathId = pathId;
             _viaLimit = viaLimit;
         }

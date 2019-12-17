@@ -178,9 +178,9 @@ namespace NTMiner {
 
         private static void UiElement_Closed(object sender, EventArgs e) {
             Window uiElement = (Window)sender;
-            List<IMessagePathId> messageIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
-            foreach (var handler in messageIds) {
-                VirtualRoot.DeletePath(handler);
+            List<IMessagePathId> pathIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
+            foreach (var pathId in pathIds) {
+                VirtualRoot.DeletePath(pathId);
             }
         }
     }

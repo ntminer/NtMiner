@@ -51,11 +51,11 @@ namespace NTMiner {
             return AddMessagePath(description, logType, action, location);
         }
 
-        public static void DeletePath(IMessagePathId handler) {
-            if (handler == null) {
+        public static void DeletePath(IMessagePathId pathId) {
+            if (pathId == null) {
                 return;
             }
-            MessageHub.RemoveMessagePath(handler);
+            MessageHub.RemoveMessagePath(pathId);
         }
 
         private static readonly Dictionary<string, Regex> _regexDic = new Dictionary<string, Regex>();
