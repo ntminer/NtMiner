@@ -14,7 +14,7 @@ namespace NTMiner {
         public ManualSignAttribute() { }
     }
 
-    public static class GetSignDataExtension {
+    internal static class GetSignDataExtension {
         private static Dictionary<Type, PropertyInfo[]> _propertyInfos = new Dictionary<Type, PropertyInfo[]>();
         private static readonly object _locker = new object();
         private static PropertyInfo[] GetPropertyInfos(Type type) {
@@ -29,7 +29,7 @@ namespace NTMiner {
             return properties;
         }
 
-        public static StringBuilder BuildSign(this IGetSignData obj) {
+        internal static StringBuilder BuildSign(this IGetSignData obj) {
             var propertyInfos = GetPropertyInfos(obj.GetType());
             StringBuilder sb = new StringBuilder();
             foreach (var propertyInfo in propertyInfos) {

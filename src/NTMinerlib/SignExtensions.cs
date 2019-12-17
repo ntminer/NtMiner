@@ -24,7 +24,7 @@ namespace NTMiner {
                 response = ResponseBase.NotExist<TResponse>(message);
                 return false;
             }
-            if (!timestamp.IsInTime()) {
+            if (!Timestamp.IsInTime(timestamp)) {
                 response = ResponseBase.Expired<TResponse>();
                 return false;
             }

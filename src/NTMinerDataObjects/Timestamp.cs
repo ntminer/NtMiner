@@ -20,5 +20,15 @@ namespace NTMiner {
         public static DateTime FromTimestamp(ulong timestamp) {
             return UnixBaseTime.AddSeconds(timestamp).ToLocalTime();
         }
+
+        public static bool IsInTime(ulong timestamp) {
+            ulong now = GetTimestamp(DateTime.Now);
+            if (now > timestamp) {
+                return timestamp + DesyncSeconds > now;
+            }
+            else {
+                return now + DesyncSeconds > timestamp;
+            }
+        }
     }
 }

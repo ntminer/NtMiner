@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner {
-    public static class DoubleExtension {
+    public static class SpeedDoubleExtension {
         public static string ToUnitSpeedText(this double speed) {
             ToUnitSpeedText(speed, out string speedValueText, out string speedUnit);
             return $"{speedValueText} {speedUnit}";

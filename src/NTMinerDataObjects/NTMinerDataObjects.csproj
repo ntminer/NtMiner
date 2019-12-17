@@ -74,7 +74,7 @@
     <Compile Include="Core\SysDicItemData.cs" />
     <Compile Include="Daemon\SetWalletRequest.cs" />
     <Compile Include="DataLevel.cs" />
-    <Compile Include="DoubleExtension.cs" />
+    <Compile Include="SpeedDoubleExtension.cs" />
     <Compile Include="IGetSignData.cs" />
     <Compile Include="DataResponse`1.cs" />
     <Compile Include="IOverClockInput.cs" />
@@ -144,7 +144,6 @@
     <Compile Include="Profile\WorkProfileRequest.cs" />
     <Compile Include="Profile\CoinProfileData.cs" />
     <Compile Include="MinerServer\CoinSnapshotData.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="MinerServer\GetCoinSnapshotsRequest.cs" />
     <Compile Include="MinerServer\GetCoinSnapshotsResponse.cs" />
     <Compile Include="HashUtil.cs" />

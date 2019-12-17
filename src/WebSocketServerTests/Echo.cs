@@ -34,17 +34,13 @@ namespace NTMiner {
                 }
                 switch (request.action) {
                     case "getSpeed":
-                        Dictionary<string, object> data = request.Parse();
-                        string messageId = string.Empty;
-                        if (data != null) {
-                            messageId = data["messageId"]?.ToString();
-                        }
+                        Dictionary<string, object> data = request.Parse(out string messageId);
                         base.Send(new JsonResponse {
                             messageId = messageId,
                             code = 200,
                             phrase = "Ok",
                             des = "成功",
-                            res = "getSpeed",
+                            action = request.action,
                             data = new Dictionary<string, object> {
                                         {"str", "hello" },
                                         {"num", 111 },
