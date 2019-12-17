@@ -146,25 +146,33 @@ namespace NTMiner.Vms {
                 this.CpuGETemperatureSeconds++;
             });
             this.CpuGETemperatureSecondsDown = new DelegateCommand(() => {
-                this.CpuGETemperatureSeconds--;
+                if (this.CpuGETemperatureSeconds > 0) {
+                    this.CpuGETemperatureSeconds--;
+                }
             });
             this.CpuStopTemperatureUp = new DelegateCommand(() => {
                 this.CpuStopTemperature++;
             });
             this.CpuStopTemperatureDown = new DelegateCommand(() => {
-                this.CpuStopTemperature--;
+                if (this.CpuStopTemperature > 0) {
+                    this.CpuStopTemperature--;
+                }
             });
             this.CpuLETemperatureSecondsUp = new DelegateCommand(() => {
                 this.CpuLETemperatureSeconds++;
             });
             this.CpuLETemperatureSecondsDown = new DelegateCommand(() => {
-                this.CpuLETemperatureSeconds--;
+                if (this.CpuLETemperatureSeconds > 0) {
+                    this.CpuLETemperatureSeconds--;
+                }
             });
             this.CpuStartTemperatureUp = new DelegateCommand(() => {
                 this.CpuStartTemperature++;
             });
             this.CpuStartTemperatureDown = new DelegateCommand(() => {
-                this.CpuStartTemperature--;
+                if (this.CpuStartTemperature > 0) {
+                    this.CpuStartTemperature--;
+                }
             });
             this.EPriceUp = new DelegateCommand(() => {
                 this.EPrice = Math.Round(this.EPrice + 0.1, 2);
