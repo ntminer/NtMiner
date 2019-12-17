@@ -609,6 +609,46 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsNetUnavailableStopMine {
+            get => NTMinerRoot.Instance.MinerProfile.IsNetUnavailableStopMine;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsNetUnavailableStopMine != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetUnavailableStopMine), value);
+                    OnPropertyChanged(nameof(IsNetUnavailableStopMine));
+                }
+            }
+        }
+
+        public int NetUnavailableStopMineMinutes {
+            get => NTMinerRoot.Instance.MinerProfile.NetUnavailableStopMineMinutes;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.NetUnavailableStopMineMinutes != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NetUnavailableStopMineMinutes), value);
+                    OnPropertyChanged(nameof(NetUnavailableStopMineMinutes));
+                }
+            }
+        }
+
+        public bool IsNetAvailableStartMine {
+            get => NTMinerRoot.Instance.MinerProfile.IsNetAvailableStartMine;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsNetAvailableStartMine != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetAvailableStartMine), value);
+                    OnPropertyChanged(nameof(IsNetAvailableStartMine));
+                }
+            }
+        }
+
+        public int NetAvailableStartMineSeconds {
+            get => NTMinerRoot.Instance.MinerProfile.NetAvailableStartMineSeconds;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.NetAvailableStartMineSeconds != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NetAvailableStartMineSeconds), value);
+                    OnPropertyChanged(nameof(NetAvailableStartMineSeconds));
+                }
+            }
+        }
+
         public bool IsEChargeEnabled {
             get => NTMinerRoot.Instance.MinerProfile.IsEChargeEnabled;
             set {

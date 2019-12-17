@@ -20,6 +20,10 @@ namespace NTMiner.Profile {
                 AutoRestartKernelTimes = data.AutoRestartKernelTimes,
                 IsNoShareRestartKernel = data.IsNoShareRestartKernel,
                 NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes,
+                IsNetUnavailableStopMine = data.IsNetUnavailableStopMine,
+                IsNetAvailableStartMine = data.IsNetAvailableStartMine,
+                NetAvailableStartMineSeconds = data.NetAvailableStartMineSeconds,
+                NetUnavailableStopMineMinutes = data.NetUnavailableStopMineMinutes,
                 IsNoShareRestartComputer = data.IsNoShareRestartComputer,
                 NoShareRestartComputerMinutes = data.NoShareRestartComputerMinutes,
                 IsPeriodicRestartKernel = data.IsPeriodicRestartKernel,
@@ -66,6 +70,10 @@ namespace NTMiner.Profile {
             AutoRestartKernelTimes = 10;
             IsNoShareRestartKernel = false;
             NoShareRestartKernelMinutes = 15;
+            IsNetUnavailableStopMine = false;
+            IsNetAvailableStartMine = false;
+            NetUnavailableStopMineMinutes = 1;
+            NetAvailableStartMineSeconds = 10;
             IsNoShareRestartComputer = false;
             NoShareRestartComputerMinutes = 30;
             IsPeriodicRestartKernel = false;
@@ -114,6 +122,10 @@ namespace NTMiner.Profile {
         public Guid CoinId { get; set; }
         public bool IsNoShareRestartKernel { get; set; }
         public int NoShareRestartKernelMinutes { get; set; }
+        public bool IsNetUnavailableStopMine { get; set; }
+        public int NetUnavailableStopMineMinutes { get; set; }
+        public bool IsNetAvailableStartMine { get; set; }
+        public int NetAvailableStartMineSeconds { get; set; }
         public bool IsNoShareRestartComputer { get; set; }
         public int NoShareRestartComputerMinutes { get; set; }
         public bool IsPeriodicRestartKernel { get; set; }
