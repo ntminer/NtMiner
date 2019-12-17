@@ -174,14 +174,6 @@ namespace NTMiner.Vms {
                     this.CpuStartTemperature--;
                 }
             });
-            this.EPriceUp = new DelegateCommand(() => {
-                this.EPrice = Math.Round(this.EPrice + 0.1, 2);
-            });
-            this.EPriceDown = new DelegateCommand(() => {
-                if (this.EPrice > 0.1) {
-                    this.EPrice = Math.Round(this.EPrice - 0.1, 2);
-                }
-            });
             this.PowerAppendUp = new DelegateCommand(() => {
                 this.PowerAppend++;
             });
@@ -220,6 +212,15 @@ namespace NTMiner.Vms {
             this.HighCpuSecondsDown = new DelegateCommand(() => {
                 if (this.HighCpuSeconds > 0) {
                     this.HighCpuSeconds--;
+                }
+            });
+
+            this.EPriceUp = new DelegateCommand(() => {
+                this.EPrice = Math.Round(this.EPrice + 0.1, 2);
+            });
+            this.EPriceDown = new DelegateCommand(() => {
+                if (this.EPrice > 0.1) {
+                    this.EPrice = Math.Round(this.EPrice - 0.1, 2);
                 }
             });
             NTMinerRoot.SetRefreshArgsAssembly(() => {
