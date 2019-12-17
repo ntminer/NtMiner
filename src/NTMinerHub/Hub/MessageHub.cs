@@ -64,16 +64,14 @@
         }
 
         private static class MessagePathSetSet {
-            private static readonly List<IMessagePathSet> _sets = new List<IMessagePathSet>();
             private static readonly Dictionary<Type, IMessagePathSet> _dicByMessageType = new Dictionary<Type, IMessagePathSet>();
 
             public static void Add(IMessagePathSet messagePathSet) {
-                _sets.Add(messagePathSet);
                 _dicByMessageType.Add(messagePathSet.MessageType, messagePathSet);
             }
 
             public static IEnumerable<IMessagePathId> GetAllMessagePathIds() {
-                foreach (var set in _sets.ToArray()) {
+                foreach (var set in _dicByMessageType.Values.ToArray()) {
                     foreach (var path in set.GetMessagePaths()) {
                         yield return path;
                     }
