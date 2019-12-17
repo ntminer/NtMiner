@@ -2,6 +2,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Reflection;
 
     public class MessageHub : IMessageHub {
         #region 内部类
@@ -90,6 +91,9 @@
         public event Action<IMessagePathId> MessagePathAdded;
         public event Action<IMessagePathId> MessagePathRemoved;
 
+        public MessageHub() {
+        }
+
         #region IMessageDispatcher Members
         public IEnumerable<IMessagePathId> GetAllPaths() {
             foreach (var path in MessagePathSetSet.GetAllMessagePathIds()) {
@@ -97,19 +101,31 @@
             }
         }
 
+        private static readonly Type _per1SecondMessageType = typeof(Per1SecondEvent);
         public void Route<TMessage>(TMessage message) where TMessage : IMessage {
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
             }
             MessagePath<TMessage>[] messagePaths = MessagePathSet<TMessage>.Instance.GetMessagePaths();
+            Type messageType = typeof(TMessage);
             if (messagePaths.Length == 0) {
-                Type messageType = typeof(TMessage);
                 MessageTypeAttribute messageTypeAttr = MessageTypeAttribute.GetMessageTypeAttribute(messageType);
                 if (!messageTypeAttr.IsCanNoHandler) {
                     Write.DevWarn(messageType.FullName + "类型的消息没有对应的处理器");
                 }
             }
             else {
+                bool isPer1SecondMessage = messageType == _per1SecondMessageType;
+                if (isPer1SecondMessage) {
+                    foreach (dynamic messagePath in MessagePathSetSet.GetAllMessagePathIds()) {
+                        if (messagePath.LifeLimitSeconds > 0) {
+                            dynamic newValue = messagePath.DecreaseLifeLimitSeconds();
+                            if (newValue == 0) {
+                                RemoveMessagePath(messagePath);
+                            }
+                        }
+                    }
+                }
                 foreach (var messagePath in messagePaths) {
                     // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
                     // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过

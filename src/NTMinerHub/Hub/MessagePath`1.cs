@@ -72,11 +72,8 @@ namespace NTMiner.Hub {
             }
         }
 
-        internal void DecreaseLifeLimitSeconds(Action<IMessagePathId> onDownToZero) {
-            int newValue = Interlocked.Decrement(ref _lifeLimitSeconds);
-            if (newValue == 0) {
-                onDownToZero?.Invoke(this);
-            }
+        internal int DecreaseLifeLimitSeconds() {
+            return Interlocked.Decrement(ref _lifeLimitSeconds);
         }
 
         public Guid PathId { get; private set; }

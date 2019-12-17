@@ -95,9 +95,6 @@
     <Compile Include="..\NTMinerlib\EnumExtension.cs">
       <Link>EnumExtension.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Messages.Timing.cs">
-      <Link>Messages.Timing.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\NTKeyword.cs">
       <Link>NTKeyword.cs</Link>
     </Compile>
