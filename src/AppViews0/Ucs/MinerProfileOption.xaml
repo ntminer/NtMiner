@@ -159,6 +159,57 @@
                             </CheckBox>
                         </WrapPanel>
                         <WrapPanel Margin="0 2">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsNetUnavailableStopMine}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">挖矿中断网</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NetUnavailableStopMineMinutes}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="NetUnavailableStopMineMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="NetUnavailableStopMineMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟后自动停止挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+                                IsEnabled="{Binding IsNetUnavailableStopMine}"
+								IsChecked="{Binding IsNetAvailableStartMine}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">因断网停止挖矿后，网络恢复</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NetAvailableStartMineSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="NetAvailableStartMineSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="NetAvailableStartMineSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒钟后自动开始挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 2">
 							<CheckBox
 								FocusVisualStyle="{x:Null}"
 								Padding="0"

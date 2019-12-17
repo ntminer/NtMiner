@@ -464,6 +464,9 @@ namespace NTMiner.Vms {
                 if (NTMinerRoot.Instance.MinerProfile.IsNetUnavailableStopMine != value) {
                     NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetUnavailableStopMine), value);
                     OnPropertyChanged(nameof(IsNetUnavailableStopMine));
+                    if (value) {
+                        IsNetAvailableStartMine = true;
+                    }
                 }
             }
         }
