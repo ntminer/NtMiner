@@ -16,6 +16,7 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
+        public ICommand ToGlobal { get; private set; }
         public ICommand Save { get; private set; }
 
         public KernelOutputKeywordViewModel() {
@@ -78,6 +79,9 @@ namespace NTMiner.Vms {
                         VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(this.Id));
                     }
                 }));
+            });
+            this.ToGlobal = new DelegateCommand(() => {
+                // TODO:
             });
         }
 
