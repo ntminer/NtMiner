@@ -15,15 +15,18 @@ namespace NTMiner {
     }
 
     public static class GetSignDataExtension {
-        private static Dictionary<Type, PropertyInfo[]> _propertyInfos;
+        private static Dictionary<Type, PropertyInfo[]> _propertyInfos = new Dictionary<Type, PropertyInfo[]>();
+        private static readonly object _locker = new object();
         private static PropertyInfo[] GetPropertyInfos(Type type) {
-            if (_propertyInfos == null) {
-                _propertyInfos = new Dictionary<Type, PropertyInfo[]>();
+            if (!_propertyInfos.TryGetValue(type, out PropertyInfo[] properties)) {
+                lock (_locker) {
+                    if (!_propertyInfos.TryGetValue(type, out properties)) {
+                        properties = type.GetProperties().Where(a => a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(ManualSignAttribute), inherit: false).Length == 0).ToArray();
+                        _propertyInfos.Add(type, properties);
+                    }
+                }
             }
-            if (!_propertyInfos.ContainsKey(type)) {
-                _propertyInfos.Add(type, type.GetProperties().Where(a => a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(ManualSignAttribute), inherit: false).Length == 0).ToArray());
-            }
-            return _propertyInfos[type];
+            return properties;
         }
 
         public static StringBuilder BuildSign(this IGetSignData obj) {
