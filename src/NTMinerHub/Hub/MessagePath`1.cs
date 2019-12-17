@@ -49,9 +49,6 @@ namespace NTMiner.Hub {
             get => _viaTimesLimit;
             private set {
                 _viaTimesLimit = value;
-#if DEBUG
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaTimesLimit)));
-#endif
             }
         }
 
@@ -59,9 +56,6 @@ namespace NTMiner.Hub {
             get => _lifeLimitSeconds;
             private set {
                 _lifeLimitSeconds = value;
-#if DEBUG
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LifeLimitSeconds)));
-#endif
             }
         }
 
@@ -70,10 +64,17 @@ namespace NTMiner.Hub {
             if (newValue == 0) {
                 onDownToZero?.Invoke(this);
             }
+#if DEBUG
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaTimesLimit)));
+#endif
         }
 
         internal int DecreaseLifeLimitSeconds() {
-            return Interlocked.Decrement(ref _lifeLimitSeconds);
+            int r = Interlocked.Decrement(ref _lifeLimitSeconds);
+#if DEBUG
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LifeLimitSeconds)));
+#endif
+            return r;
         }
 
         public Guid PathId { get; private set; }
