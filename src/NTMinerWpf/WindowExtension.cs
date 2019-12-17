@@ -157,7 +157,7 @@ namespace NTMiner {
             messagePathIds.Add(messagePathId);
         }
 
-        public static IMessagePathId AddViaTimesLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type location)
+        public static IMessagePathId AddViaTimesLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, int viaTimesLimit, Type location)
             where TMessage : IMessage {
             if (WpfUtil.IsInDesignMode) {
                 return null;
@@ -171,7 +171,7 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.AddViaTimesLimitPath(description, logType, action, viaLimit, location);
+            var messagePathId = VirtualRoot.AddViaTimesLimitPath(description, logType, action, viaTimesLimit, location);
             messagePathIds.Add(messagePathId);
             return messagePathId;
         }

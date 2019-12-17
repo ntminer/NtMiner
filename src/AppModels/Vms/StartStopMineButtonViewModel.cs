@@ -47,22 +47,22 @@ namespace NTMiner.Vms {
                 this.MinerProfile.IsMining = true;
                 IMessagePathId pathId = null;
                 pathId = VirtualRoot.AddViaTimesLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
-                action: message => {
-                    if (NTMinerRoot.IsAutoStartCanceled) {
-                        BtnStopText = $"尚未开始";
-                    }
-                    else {
-                        BtnStopText = $"倒计时{pathId.ViaTimesLimit.ToString()}";
-                    }
-                    if (pathId.ViaTimesLimit == 0) {
-                        if (!NTMinerRoot.IsAutoStartCanceled) {
-                            BtnStopText = "正在挖矿";
-                            MinerProfile.IsMining = true;
-                            VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"自动开始挖矿", toConsole: true);
-                            NTMinerRoot.Instance.StartMine();
+                    action: message => {
+                        if (NTMinerRoot.IsAutoStartCanceled) {
+                            BtnStopText = $"尚未开始";
                         }
-                    }
-                }, location: this.GetType(), viaLimit: MinerProfile.AutoStartDelaySeconds);
+                        else {
+                            BtnStopText = $"倒计时{pathId.ViaTimesLimit.ToString()}";
+                        }
+                        if (pathId.ViaTimesLimit == 0) {
+                            if (!NTMinerRoot.IsAutoStartCanceled) {
+                                BtnStopText = "正在挖矿";
+                                MinerProfile.IsMining = true;
+                                VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"自动开始挖矿", toConsole: true);
+                                NTMinerRoot.Instance.StartMine();
+                            }
+                        }
+                    }, location: this.GetType(), viaTimesLimit: MinerProfile.AutoStartDelaySeconds);
             }
         }
 

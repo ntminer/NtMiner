@@ -12,25 +12,25 @@ namespace NTMiner.Hub {
 #endif
         private readonly Action<TMessage> _path;
         private bool _isEnabled;
-        private int _viaLimit;
+        private int _viaTimesLimit;
         private int _lifeLimitSeconds;
 
 #if DEBUG
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaLimit = -1, int lifeLimitSeconds = -1) {
+        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaTimesLimit = -1, int lifeLimitSeconds = -1) {
             if (action == null) {
                 throw new ArgumentNullException(nameof(action));
             }
-            MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, viaLimit, lifeLimitSeconds);
+            MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, viaTimesLimit, lifeLimitSeconds);
             hub.AddMessagePath(path);
             return path;
         }
 
-        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaLimit, int lifeLimitSeconds) {
-            if (viaLimit == 0) {
-                throw new InvalidProgramException("消息路径的viaLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
+        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaTimesLimit, int lifeLimitSeconds) {
+            if (viaTimesLimit == 0) {
+                throw new InvalidProgramException("消息路径的viaTimesLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
             }
             _isEnabled = true;
             MessageType = typeof(TMessage);
@@ -40,15 +40,15 @@ namespace NTMiner.Hub {
             LogType = logType;
             _path = action;
             PathId = pathId;
-            _viaLimit = viaLimit;
+            _viaTimesLimit = viaTimesLimit;
             _lifeLimitSeconds = lifeLimitSeconds;
             CreatedOn = DateTime.Now;
         }
 
         public int ViaTimesLimit {
-            get => _viaLimit;
+            get => _viaTimesLimit;
             private set {
-                _viaLimit = value;
+                _viaTimesLimit = value;
 #if DEBUG
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaTimesLimit)));
 #endif
@@ -59,13 +59,22 @@ namespace NTMiner.Hub {
             get => _lifeLimitSeconds;
             private set {
                 _lifeLimitSeconds = value;
+#if DEBUG
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(LifeLimitSeconds)));
+#endif
             }
         }
 
         internal void DecreaseViaTimesLimit(Action<IMessagePathId> onDownToZero) {
-            int newValue = Interlocked.Decrement(ref _viaLimit);
+            int newValue = Interlocked.Decrement(ref _viaTimesLimit);
             if (newValue == 0) {
-                // ViaTimesLimit递减到0从路径列表中移除该路径
+                onDownToZero?.Invoke(this);
+            }
+        }
+
+        internal void DecreaseLifeLimitSeconds(Action<IMessagePathId> onDownToZero) {
+            int newValue = Interlocked.Decrement(ref _lifeLimitSeconds);
+            if (newValue == 0) {
                 onDownToZero?.Invoke(this);
             }
         }

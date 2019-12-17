@@ -32,11 +32,11 @@ namespace NTMiner {
         }
 
         public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location) {
-            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId, viaLimit: 1);
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId, viaTimesLimit: 1);
         }
 
-        public static IMessagePathId AddViaTimesLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type location) {
-            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: Guid.Empty, viaLimit);
+        public static IMessagePathId AddViaTimesLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaTimesLimit, Type location) {
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: Guid.Empty, viaTimesLimit);
         }
 
         public static void AddCmdPath<TCmd>(Action<TCmd> action, Type location, LogEnum logType = LogEnum.DevConsole)
