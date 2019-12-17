@@ -5,7 +5,7 @@
         <Setter Property="BorderBrush" Value="#DCDFE6" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-        <Setter Property="BorderBrush" Value="{StaticResource ThemeBackground}"></Setter>
+        <Setter Property="BorderBrush" Value="DarkBlue"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">

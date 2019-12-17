@@ -752,7 +752,6 @@
                     </CheckBox>
                     <CheckBox
                         Padding="0"
-                        Margin="0 -2 0 0"
 				        FocusVisualStyle="{x:Null}"
 				        VerticalContentAlignment="Center"
                         Foreground="{StaticResource ThemeForeground}"
