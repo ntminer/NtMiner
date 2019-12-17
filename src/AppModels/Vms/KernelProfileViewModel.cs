@@ -70,13 +70,13 @@ namespace NTMiner.Vms {
                     }
                     Refresh();
                     this.InstallText = "卸载成功";
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    2.SecondsDelay().ContinueWith(t => {
                         this.InstallText = "安装";
                     });
                 }
                 else {
                     this.UnInstallText = "确认卸载";
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    2.SecondsDelay().ContinueWith(t => {
                         this.UnInstallText = "卸载";
                     });
                 }
@@ -203,12 +203,12 @@ namespace NTMiner.Vms {
                         kernelVm.KernelProfileVm.IsDownloading = false;
                     }
                     this.UnInstallText = "安装成功";
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    2.SecondsDelay().ContinueWith(t => {
                         this.UnInstallText = "卸载";
                     });
                 }
                 else {
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                    2.SecondsDelay().ContinueWith((t) => {
                         this.IsDownloading = false;
                         foreach (var kernelVm in otherSamePackageKernelVms) {
                             kernelVm.KernelProfileVm.IsDownloading = false;

@@ -162,7 +162,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 else {
                     Write.UserOk($"GPU{gpu.Index}超频：{data.ToOverClockString()}");
                 }
-                TimeSpan.FromSeconds(1).Delay().ContinueWith(t => {
+                1.SecondsDelay().ContinueWith(t => {
                     overClock.RefreshGpuState(data.Index);
                 });
             }

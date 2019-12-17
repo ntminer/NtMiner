@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
                 if (autoHideSeconds > 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(autoHideSeconds))
+                        .WithDelay(autoHideSeconds)
                         .Queue();
                 }
                 else {
@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                 if (autoHideSeconds > 0) {
                     builder
                         .Dismiss()
-                        .WithDelay(TimeSpan.FromSeconds(autoHideSeconds))
+                        .WithDelay(autoHideSeconds)
                         .Queue();
                 }
                 else {
@@ -61,7 +61,7 @@ namespace NTMiner.Vms {
                 if (autoHideSeconds > 0) {
                     builder
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(autoHideSeconds))
+                    .WithDelay(autoHideSeconds)
                     .Queue();
                 }
                 else {
@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
                 if (autoHideSeconds > 0) {
                     builder
                     .Dismiss()
-                    .WithDelay(TimeSpan.FromSeconds(autoHideSeconds))
+                    .WithDelay(autoHideSeconds)
                     .Queue();
                 }
                 else {

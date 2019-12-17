@@ -92,6 +92,9 @@
     <Compile Include="..\NTMinerClient\Windows\WMI.cs">
       <Link>Windows\WMI.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\DelayTask.cs">
+      <Link>DelayTask.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\EnumExtension.cs">
       <Link>EnumExtension.cs</Link>
     </Compile>
@@ -106,9 +109,6 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Serialization\NTJsonSerializer.cs">
       <Link>Serialization\NTJsonSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\TimeSpanExtensions.cs">
-      <Link>TimeSpanExtensions.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Timing\AbstractTimer.cs">
       <Link>Timing\AbstractTimer.cs</Link>

@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class FileDownloaderViewModel : ViewModelBase {
-        private string _downloadFileUrl;
+        private readonly string _downloadFileUrl;
         private string _downloadMessage;
         private Action _cancel;
         private Visibility _btnCancelVisible = Visibility.Visible;
@@ -107,7 +107,7 @@ namespace NTMiner.Vms {
                     this.DownloadMessage = message;
                     this.DownloadPercent = 0;
                     this.BtnCancelVisible = Visibility.Collapsed;
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                    2.SecondsDelay().ContinueWith((t) => {
                         UIThread.Execute(() => {
                             downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                         });
