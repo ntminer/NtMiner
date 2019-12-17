@@ -28,7 +28,7 @@ namespace NTMiner {
             }
             try {
                 TimeSpan.FromMilliseconds(100).Delay().ContinueWith((t) => {
-                    VirtualRoot.Execute(new CloseNTMinerCommand("通过RPC关闭挖矿"));
+                    VirtualRoot.Execute(new CloseNTMinerCommand("挖矿端升级后关闭旧版挖矿端"));
                 });
                 return ResponseBase.Ok();
             }
