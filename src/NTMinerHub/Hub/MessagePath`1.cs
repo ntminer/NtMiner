@@ -40,6 +40,7 @@ namespace NTMiner.Hub {
             _path = action;
             PathId = pathId;
             _viaLimit = viaLimit;
+            CreatedOn = DateTime.Now;
         }
 
         public int ViaLimit {
@@ -61,6 +62,7 @@ namespace NTMiner.Hub {
         }
 
         public Guid PathId { get; private set; }
+        public DateTime CreatedOn { get; private set; }
         public Type MessageType { get; private set; }
         public Type Location { get; private set; }
         public string Path { get; private set; }
