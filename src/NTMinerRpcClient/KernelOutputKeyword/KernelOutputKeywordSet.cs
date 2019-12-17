@@ -89,6 +89,7 @@ namespace NTMiner.KernelOutputKeyword {
                     }
                 }
                 else if (DevMode.IsDevMode) {
+                    message.Input.SetDataLevel(DataLevel.Global);
                     RpcRoot.OfficialServer.KernelOutputKeywordService.AddOrUpdateKernelOutputKeywordAsync(KernelOutputKeywordData.Create(message.Input), (response, e) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());

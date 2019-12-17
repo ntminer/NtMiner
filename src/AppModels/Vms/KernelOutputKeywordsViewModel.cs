@@ -24,7 +24,7 @@ namespace NTMiner.Vms {
                 new KernelOutputKeywordViewModel(new KernelOutputKeywordData {
                     Id = Guid.NewGuid(),
                     MessageType = LocalMessageType.Info.GetName(),
-                    DataLevel = DevMode.IsDevMode ? DataLevel.Global: DataLevel.Profile,
+                    DataLevel = DataLevel.Profile,// 新建的内核输出关键字时的工作流：默认为Profile级，测试没问题后，然后在界面上提供个按钮转化为Global级提交到服务器
                     Keyword = string.Empty,
                     Description = string.Empty,
                     KernelOutputId = kernelOutputVm.Id
