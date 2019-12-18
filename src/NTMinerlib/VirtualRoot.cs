@@ -31,7 +31,7 @@ namespace NTMiner {
         /// 矿机的唯一的持久的标识。持久在注册表。
         /// </summary>
         public static Guid Id { get; private set; }
-        
+
         #region IsMinerClient
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;
@@ -48,7 +48,7 @@ namespace NTMiner {
                     if (_isMinerClientDetected) {
                         return _isMinerClient;
                     }
-                    if (DevMode.IsInUnitTest) { 
+                    if (DevMode.IsInUnitTest) {
                         _isMinerClient = true;
                     }
                     else {
@@ -109,6 +109,22 @@ namespace NTMiner {
         // 独立一个方法是为了方便编程工具走查代码，这算是个模式吧，不只出现这一次。编程的用户有三个：1，人；2，编程工具；3，运行时；
         public static void SetIsServerMessagesVisible(bool value) {
             _isServerMessagesVisible = value;
+        }
+
+        public static string GetLocalIps(out string macAddress) {
+            string localIp = string.Empty;
+            macAddress = string.Empty;
+            foreach (var item in LocalIpSet.AsEnumerable()) {
+                if (macAddress.Length != 0) {
+                    macAddress += "," + item.MACAddress;
+                    localIp += "," + item.IPAddress + (item.DHCPEnabled ? "(动态)" : "(🔒)");
+                }
+                else {
+                    macAddress = item.MACAddress;
+                    localIp = item.IPAddress + (item.DHCPEnabled ? "(动态)" : "(🔒)");
+                }
+            }
+            return localIp;
         }
 
         public static ILocalIpSet LocalIpSet { get; private set; }

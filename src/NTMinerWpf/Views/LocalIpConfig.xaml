@@ -48,10 +48,10 @@
                                 </WrapPanel>
                             </GroupBox.Header>
                             <StackPanel>
-                                <RadioButton GroupName="{Binding DHCPEnabledGroupName1}" Margin="9 2 0 4" IsChecked="{Binding DHCPEnabled}">自动获得 IP 地址</RadioButton>
+                                <RadioButton GroupName="{Binding DHCPEnabledGroupName1}" Margin="9 2 0 4" IsChecked="{Binding DHCPEnabled}">(动态)自动获得 IP 地址</RadioButton>
                                 <GroupBox>
                                     <GroupBox.Header>
-                                        <RadioButton GroupName="{Binding DHCPEnabledGroupName2}" IsChecked="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">使用下面的 IP 地址</RadioButton>
+                                        <RadioButton GroupName="{Binding DHCPEnabledGroupName2}" IsChecked="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">(🔒)使用下面的 IP 地址</RadioButton>
                                     </GroupBox.Header>
                                     <StackPanel IsEnabled="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">
                                         <WrapPanel Margin="0 0 0 4">
