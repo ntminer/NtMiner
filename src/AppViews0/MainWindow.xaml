@@ -298,7 +298,6 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel 
-                    Margin="0 2 0 0"
                     Background="White">
                     <StackPanel.LayoutTransform>
                         <RotateTransform Angle="-90"/>
@@ -614,7 +613,6 @@
                         </TabControl>
                         <Border 
                             x:Name="minerProfileLayer"
-                            Margin="0 2 0 0"
                             HorizontalAlignment="Left"
 				            Background="{StaticResource MinerProfileBackground}"
 				            Padding="0 4 8 0"
@@ -629,16 +627,16 @@
                                 <WrapPanel>
                                     <WrapPanel VerticalAlignment="Center" IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
                                         <TextBlock 
-								            FontSize="12"
+								            FontSize="11"
 								            Foreground="{StaticResource LableColor}"
-								            Padding="0 0 4 0"
-								            Width="50"
+								            Padding="0 0 2 0"
+								            Width="40"
 								            VerticalAlignment="Center"
 								            TextAlignment="Right"
 								            TextWrapping="Wrap"
 								            Text="矿机名"></TextBlock>
                                         <TextBox 
-								            Width="86" 
+								            Width="96" 
 								            Padding="3 0 0 0"
 								            Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 								            Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
@@ -794,6 +792,7 @@
 			    DataContext="{Binding StateBarVm}"
 			    Background="{StaticResource MinerProfileBackground}" 
 			    BorderBrush="{StaticResource LineColor}" 
+                Margin="0 -1 0 0"
 			    BorderThickness="0 1 0 0">
             </uc:StateBar>
             <Border x:Name="MaskLayer" Grid.RowSpan="3" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>

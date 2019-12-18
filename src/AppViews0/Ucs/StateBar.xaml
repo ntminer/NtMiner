@@ -18,7 +18,7 @@
 			</Style>
 		</ResourceDictionary>
 	</UserControl.Resources>
-	<Border Padding="4 0 4 0" Background="Transparent">
+    <Border Padding="4 0 4 0" Background="Transparent">
 		<StackPanel>
 			<Grid>
 				<Grid.ColumnDefinitions>
@@ -175,7 +175,7 @@
 					<controls:KbButton 
 						HorizontalContentAlignment="Left"
 						Width="240" ToolTip="收益计算器"
-						Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
+						Padding="2 0" Cursor="Hand" Background="Transparent"
 						Command="{x:Static app:AppStatic.ShowCalc}"
 						CommandParameter="{Binding MinerProfile.CoinVm}">
 						<WrapPanel>
@@ -233,7 +233,7 @@
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
 							Width="240" ToolTip="数据来自鱼池首页"
-							Padding="2 0" Cursor="Hand" Background="Transparent" BorderThickness="0"
+							Padding="2 0" Cursor="Hand" Background="Transparent"
 							Command="{x:Static app:AppStatic.ShowCalc}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
 							<WrapPanel>
@@ -287,7 +287,6 @@
                     ToolTip="检查更新"
 					Cursor="Hand"
 					Background="Transparent" 
-					BorderThickness="0"
 					Command="{x:Static app:AppStatic.ShowOnlineUpdate}">
                     <WrapPanel>
                         <Path 
@@ -358,7 +357,6 @@
 						Content="{x:Static app:AppStatic.TotalVirtualMemoryGbText}" 
 						Background="Transparent" 
 						Cursor="Hand"
-						BorderThickness="0" 
 						ToolTip="虚拟内存" 
 						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>

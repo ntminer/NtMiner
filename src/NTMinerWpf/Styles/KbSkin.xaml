@@ -55,7 +55,7 @@
 	<Style x:Key="LblTbBase" TargetType="TextBlock">
 		<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
 		<Setter Property="FontSize" Value="12"></Setter>
-		<Setter Property="Padding" Value="4 4 2 4"></Setter>
+		<Setter Property="Padding" Value="4 2 2 2"></Setter>
 		<Setter Property="VerticalAlignment" Value="Center"></Setter>
 		<Setter Property="TextAlignment" Value="Right"></Setter>
 		<Setter Property="TextWrapping" Value="Wrap"></Setter>
