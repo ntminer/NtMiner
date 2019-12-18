@@ -467,10 +467,7 @@ namespace NTMiner.Microsoft.Windows.Shell {
 
         private void _NotifyPropertyChanged(string propertyName) {
             Assert.IsNeitherNullNorEmpty(propertyName);
-            var handler = PropertyChanged;
-            if (handler != null) {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

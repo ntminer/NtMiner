@@ -16,7 +16,7 @@ namespace NTMiner {
     public partial class NTMinerRoot : INTMinerRoot {
         private class MineContext : IMineContext {
             private event Action OnKill;
-            private readonly List<IMessagePathId> _contextHandlers = new List<IMessagePathId>();
+            private readonly List<IMessagePathId> _contextPathIds = new List<IMessagePathId>();
             public MineContext(
                 string minerName,
                 ICoin mainCoin,
@@ -85,10 +85,10 @@ namespace NTMiner {
             public void Close() {
                 if (!_isClosed) {
                     _isClosed = true;
-                    foreach (var handler in _contextHandlers) {
-                        VirtualRoot.DeletePath(handler);
+                    foreach (var pathId in _contextPathIds) {
+                        VirtualRoot.DeletePath(pathId);
                     }
-                    _contextHandlers.Clear();
+                    _contextPathIds.Clear();
                     Kill();
                 }
             }
@@ -147,12 +147,12 @@ namespace NTMiner {
             private void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
                 where TEvent : IEvent {
                 var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
-                _contextHandlers.Add(messagePathId);
+                _contextPathIds.Add(messagePathId);
             }
 
             private void AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location) {
                 var messagePathId = VirtualRoot.AddOnecePath(description, logType, action, pathId, location);
-                _contextHandlers.Add(messagePathId);
+                _contextPathIds.Add(messagePathId);
             }
 
             #region Kill

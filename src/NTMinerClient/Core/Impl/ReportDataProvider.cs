@@ -6,8 +6,8 @@ using System;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class Reporter : IReporter {
-        public Reporter() {
+    public class ReportDataProvider : IReportDataProvider {
+        public ReportDataProvider() {
             if (VirtualRoot.IsMinerClient) {
                 VirtualRoot.AddOnecePath<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {
@@ -37,18 +37,7 @@ namespace NTMiner.Core.Impl {
         public SpeedData CreateSpeedData() {
             INTMinerRoot root = NTMinerRoot.Instance;
             IWorkProfile workProfile = root.MinerProfile;
-            string macAddress = string.Empty;
-            string localIp = string.Empty;
-            foreach (var item in VirtualRoot.LocalIpSet.AsEnumerable()) {
-                if (macAddress.Length != 0) {
-                    macAddress += "," + item.MACAddress;
-                    localIp += "," + item.IPAddress;
-                }
-                else {
-                    macAddress = item.MACAddress;
-                    localIp = item.IPAddress;
-                }
-            }
+            string localIps = VirtualRoot.GetLocalIps(out string macAddress);
             SpeedData data = new SpeedData {
                 LocalServerMessageTimestamp = VirtualRoot.LocalServerMessageSetTimestamp,
                 KernelSelfRestartCount = 0,
@@ -65,7 +54,7 @@ namespace NTMiner.Core.Impl {
                 GpuInfo = root.GpuSetInfo,
                 ClientId = VirtualRoot.Id,
                 MACAddress = macAddress,
-                LocalIp = localIp,
+                LocalIp = localIps,
                 MainCoinCode = string.Empty,
                 MainCoinWallet = string.Empty,
                 MainCoinTotalShare = 0,

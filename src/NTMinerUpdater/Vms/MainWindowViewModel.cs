@@ -81,7 +81,7 @@ namespace NTMiner.Vms {
                             else {
                                 RpcRoot.Client.MinerClientService.CloseNTMiner();
                             }
-                            TimeSpan.FromSeconds(3).Delay().ContinueWith((t) => {
+                            3.SecondsDelay().ContinueWith((t) => {
                                 string location = NTMinerRegistry.GetLocation();
                                 if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                                     location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
@@ -128,7 +128,7 @@ namespace NTMiner.Vms {
                             });
                         }
                         else {
-                            TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                            2.SecondsDelay().ContinueWith((t) => {
                                 this.IsDownloading = false;
                             });
                         }

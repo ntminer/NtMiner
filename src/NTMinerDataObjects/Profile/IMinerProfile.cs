@@ -8,6 +8,11 @@ namespace NTMiner.Profile {
         bool IsNoShareRestartKernel { get; }
         int NoShareRestartKernelMinutes { get; }
 
+        bool IsNetUnavailableStopMine { get; }
+        int NetUnavailableStopMineMinutes { get; }
+        bool IsNetAvailableStartMine { get; }
+        int NetAvailableStartMineSeconds { get; }
+
         bool IsNoShareRestartComputer { get; }
         int NoShareRestartComputerMinutes { get; }
 

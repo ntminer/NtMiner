@@ -31,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +46,7 @@
     <Compile Include="Hub\IMessageHub.cs" />
     <Compile Include="Hub\MessageHub.cs" />
     <Compile Include="Hub\MessageTypeAttribute.cs" />
+    <Compile Include="Messages.Timing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

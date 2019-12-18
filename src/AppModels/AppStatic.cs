@@ -15,7 +15,15 @@ using System.Windows.Media.Imaging;
 namespace NTMiner {
     // 注意：这里的成员只应用于绑定，不应在.cs中使用，在IDE中看到的静态源代码应用计数应为0
     public static class AppStatic {
-        public static readonly BitmapImage BigLogoImageSource = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
+        private static readonly Lazy<BitmapImage> _bigLogoImageSource = new Lazy<BitmapImage>(() => {
+            return new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
+        });
+
+        public static BitmapImage BigLogoImageSource {
+            get {
+                return _bigLogoImageSource.Value;
+            }
+        }
 
         private static string GetUpdaterVersion() {
             string version = string.Empty;
@@ -255,7 +263,11 @@ namespace NTMiner {
             }
         }
 
-        public static bool IsNotDevMode => !WpfUtil.IsDevMode;
+        public static bool IsNotDevMode {
+            get {
+                return !WpfUtil.IsDevMode;
+            }
+        }
 
         public static Visibility IsDevModeVisible {
             get {
@@ -518,10 +530,15 @@ namespace NTMiner {
         #endregion
 
         #region Windows
-        private static readonly string _windowsEdition = Windows.OS.Instance.WindowsEdition?.Replace("Windows ", "Win");
+        private static readonly Lazy<string> _windowsEdition = new Lazy<string>(()=> {
+            return Windows.OS.Instance.WindowsEdition?.Replace("Windows ", "Win");
+        });
         public static string WindowsEdition {
             get {
-                return _windowsEdition;
+                if (WpfUtil.IsInDesignMode) {
+                    return nameof(WindowsEdition);
+                }
+                return _windowsEdition.Value;
             }
         }
 
@@ -538,6 +555,9 @@ namespace NTMiner {
 
         public static SolidColorBrush WindowsEditionColor {
             get {
+                if (WpfUtil.IsInDesignMode) {
+                    return WpfUtil.RedBrush;
+                }
                 // Win7下WinDivert.sys文件签名问题
                 if (VirtualRoot.IsLTWin10) {
                     return WpfUtil.RedBrush;
@@ -645,7 +665,11 @@ namespace NTMiner {
             }
         });
 
-        public static string ServerJsonFileName { get; private set; } = EntryAssemblyInfo.ServerJsonFileName;
+        public static string ServerJsonFileName {
+            get {
+                return EntryAssemblyInfo.ServerJsonFileName;
+            }
+        }
 
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowDialogWindowCommand(message: $"您确定刷新{EntryAssemblyInfo.ServerJsonFileName}吗？", title: "确认", onYes: () => {

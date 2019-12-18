@@ -8,9 +8,9 @@ namespace NTMiner.Hub {
     public interface IMessageHub {
         void Route<TMessage>(TMessage message) where TMessage : IMessage;
 
-        void AddMessagePath<TMessage>(MessagePath<TMessage> handler);
+        void AddMessagePath<TMessage>(MessagePath<TMessage> path);
 
-        void RemoveMessagePath(IMessagePathId handlerId);
+        void RemoveMessagePath(IMessagePathId pathId);
 
         IEnumerable<IMessagePathId> GetAllPaths();
 

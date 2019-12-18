@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -40,12 +39,17 @@ namespace NTMiner.Vms {
                 }
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
-            _localIps = GetLocalIps();
+            _localIps = VirtualRoot.GetLocalIps(out string _);
             SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
         }
 
         public bool IsAutoAdminLogon {
-            get { return Windows.OS.Instance.IsAutoAdminLogon; }
+            get {
+                if (WpfUtil.IsInDesignMode) {
+                    return false;
+                }
+                return Windows.OS.Instance.IsAutoAdminLogon;
+            }
         }
 
         public string AutoAdminLogonToolTip {
@@ -59,6 +63,9 @@ namespace NTMiner.Vms {
 
         public bool IsRemoteDesktopEnabled {
             get {
+                if (WpfUtil.IsInDesignMode) {
+                    return false;
+                }
                 return NTMinerRegistry.GetIsRemoteDesktopEnabled();
             }
         }
@@ -127,20 +134,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        private string GetLocalIps() {
-            StringBuilder sb = new StringBuilder();
-            int len = sb.Length;
-            foreach (var localIp in VirtualRoot.LocalIpSet.AsEnumerable()) {
-                if (len != sb.Length) {
-                    sb.Append("，");
-                }
-                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(动态)" : "🔒");
-            }
-            return sb.ToString();
-        }
-
         public void RefreshLocalIps() {
-            LocalIps = GetLocalIps();
+            LocalIps = VirtualRoot.GetLocalIps(out string _);
         }
 
         public void SetCheckUpdateForeground(bool isLatest) {
@@ -254,7 +249,12 @@ namespace NTMiner.Vms {
         }
 
         public string LocalIps {
-            get { return _localIps; }
+            get {
+                if (WpfUtil.IsInDesignMode) {
+                    return "192.168.1.111";
+                }
+                return _localIps;
+            }
             set {
                 _localIps = value;
                 OnPropertyChanged(nameof(LocalIps));

@@ -63,16 +63,14 @@
         }
 
         private static class MessagePathSetSet {
-            private static readonly List<IMessagePathSet> _sets = new List<IMessagePathSet>();
             private static readonly Dictionary<Type, IMessagePathSet> _dicByMessageType = new Dictionary<Type, IMessagePathSet>();
 
             public static void Add(IMessagePathSet messagePathSet) {
-                _sets.Add(messagePathSet);
                 _dicByMessageType.Add(messagePathSet.MessageType, messagePathSet);
             }
 
             public static IEnumerable<IMessagePathId> GetAllMessagePathIds() {
-                foreach (var set in _sets.ToArray()) {
+                foreach (var set in _dicByMessageType.Values.ToArray()) {
                     foreach (var path in set.GetMessagePaths()) {
                         yield return path;
                     }
@@ -89,6 +87,9 @@
 
         public event Action<IMessagePathId> MessagePathAdded;
         public event Action<IMessagePathId> MessagePathRemoved;
+
+        public MessageHub() {
+        }
 
         #region IMessageDispatcher Members
         public IEnumerable<IMessagePathId> GetAllPaths() {
@@ -122,9 +123,9 @@
                             isMatch = messagePath.PathId == cmd.Id;
                         }
                     }
-                    if (isMatch && messagePath.ViaLimit > 0) {
-                        // ViaLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaLimit计数
-                        messagePath.DecreaseViaLimit(onDownToZero: RemoveMessagePath);
+                    if (isMatch && messagePath.ViaTimesLimit > 0) {
+                        // ViaTimesLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaTimesLimit计数
+                        messagePath.DecreaseViaTimesLimit(onDownToZero: RemoveMessagePath);
                     }
                     if (!messagePath.IsEnabled) {
                         continue;

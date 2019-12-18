@@ -40,7 +40,6 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
-    <Compile Include="Messages.Timing.cs" />
     <Compile Include="Net\Hosts.cs" />
     <Compile Include="JsonRequestExtensions.cs" />
     <Compile Include="JsonResponseExtension.cs" />
@@ -57,7 +56,7 @@
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="SignExtensions.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="TimeSpanExtensions.cs" />
+    <Compile Include="DelayTask.cs" />
     <Compile Include="User\IUserSet.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />

@@ -106,7 +106,7 @@ namespace NTMiner {
         private MinerProfile _minerProfile;
         private void DoInit(bool isWork, Action callback) {
             IsJsonServer = !DevMode.IsDevMode || VirtualRoot.IsMinerStudio || isWork;
-            this.Reporter = new Reporter();
+            this.ReporterDataProvider = new ReportDataProvider();
             this.ServerAppSettingSet = new ServerAppSettingSet();
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ServerContext = new ServerContext();
@@ -567,7 +567,7 @@ namespace NTMiner {
             }
         }
 
-        public IReporter Reporter { get; private set; }
+        public IReportDataProvider ReporterDataProvider { get; private set; }
 
         public IServerContext ServerContext { get; private set; }
 

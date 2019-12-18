@@ -35,12 +35,12 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             this.RunOneceOnLoaded(window => {
                 IMessagePathId messagePathId = null;
-                messagePathId = window.AddViaLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, action: message => {
+                messagePathId = window.AddViaTimesLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, action: message => {
                     if (_isCanceled) {
                         return;
                     }
                     Vm.Seconds = Vm.Seconds - 1;
-                    if (messagePathId.ViaLimit == 0) {
+                    if (messagePathId.ViaTimesLimit == 0) {
                         UIThread.Execute(() => {
                             Windows.Power.Restart();
                         });

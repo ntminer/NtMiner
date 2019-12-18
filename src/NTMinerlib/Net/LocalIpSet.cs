@@ -98,7 +98,7 @@ namespace NTMiner.Net {
         public LocalIpSet() {
             NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
                 // 延迟获取网络信息以防止立即获取时获取不到
-                TimeSpan.FromSeconds(1).Delay().ContinueWith(t => {
+                1.SecondsDelay().ContinueWith(t => {
                     var old = _localIps;
                     _isInited = false;
                     InitOnece();

@@ -76,7 +76,7 @@ namespace NTMiner.Vms {
         private void ShowMessage(string message) {
             this.Message = message;
             MessageVisible = Visibility.Visible;
-            TimeSpan.FromSeconds(4).Delay().ContinueWith(t => {
+            4.SecondsDelay().ContinueWith(t => {
                 UIThread.Execute(() => {
                     MessageVisible = Visibility.Collapsed;
                 });

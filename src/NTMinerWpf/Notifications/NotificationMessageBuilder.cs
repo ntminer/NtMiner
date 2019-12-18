@@ -233,13 +233,10 @@ namespace NTMiner.Notifications {
             return this.Message;
         }
 
-        /// <summary>
-        /// Executes the action after specified delay time.
-        /// </summary>
-        /// <param name="delayMilliseconds">The delay in milliseconds.</param>
-        /// <param name="action">The action.</param>
-        public void Delay(int delayMilliseconds, Action<INotificationMessage> action) {
-            this.Delay(TimeSpan.FromMilliseconds(delayMilliseconds), action);
+        public void Delay(int seconds, Action<INotificationMessage> action) {
+            seconds.SecondsDelay().ContinueWith(
+                context => action(this.Message),
+                TaskScheduler.FromCurrentSynchronizationContext());
         }
 
         /// <summary>
