@@ -172,8 +172,8 @@ namespace UnitTests {
 
         [TestMethod]
         public void Sha1Test() {
-            Assert.AreEqual(string.Empty, NTMiner.HashUtil.Sha1(string.Empty));
-            Assert.AreEqual(string.Empty, NTMiner.HashUtil.Sha1((string)null));
+            Assert.AreEqual(string.Empty, HashUtil.Sha1(string.Empty));
+            Assert.AreEqual(string.Empty, HashUtil.Sha1((string)null));
         }
 
         [TestMethod]
