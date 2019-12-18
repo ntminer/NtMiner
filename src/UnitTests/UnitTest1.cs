@@ -172,13 +172,15 @@ namespace UnitTests {
 
         [TestMethod]
         public void Sha1Test() {
-            Assert.AreEqual(string.Empty, NTMiner.HashUtil.Sha1(string.Empty));
-            Assert.AreEqual(string.Empty, NTMiner.HashUtil.Sha1((string)null));
+            Assert.AreEqual(string.Empty, HashUtil.Sha1(string.Empty));
+            Assert.AreEqual(string.Empty, HashUtil.Sha1((string)null));
         }
 
         [TestMethod]
         public void ResourceDictionaryTest() {
+#pragma warning disable IDE0028 // 简化集合初始化
             ResourceDictionary dic = new ResourceDictionary();
+#pragma warning restore IDE0028 // 简化集合初始化
             dic["aaa"] = "aaa";
         }
 
@@ -243,8 +245,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void IntTest() {
-            int i;
-            Assert.IsTrue(int.TryParse("001", out i));
+            Assert.IsTrue(int.TryParse("001", out int _));
         }
 
         [TestMethod]
@@ -274,8 +275,8 @@ namespace UnitTests {
             List<string> chars1 = new List<string>();
             List<string> chars2 = new List<string>();
             for (int i = 0; i < 12; i++) {
-                chars1.Add(VirtualRoot.GetIndexChar(i, string.Empty));
-                chars2.Add(VirtualRoot.GetIndexChar(i, ","));
+                chars1.Add(NTKeyword.GetIndexChar(i, string.Empty));
+                chars2.Add(NTKeyword.GetIndexChar(i, ","));
             }
             Assert.AreEqual("0123456789ab", string.Join(string.Empty, chars1));
             Assert.AreEqual("0,1,2,3,4,5,6,7,8,9,10,11", string.Join(",", chars2));

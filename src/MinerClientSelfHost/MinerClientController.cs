@@ -27,7 +27,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromMilliseconds(100).Delay().ContinueWith((t) => {
+                100.MillisecondsDelay().ContinueWith((t) => {
                     VirtualRoot.Execute(new CloseNTMinerCommand("挖矿端升级后关闭旧版挖矿端"));
                 });
                 return ResponseBase.Ok();

@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:NTMiner.Views.Ucs"
     xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
     xmlns:vm="clr-namespace:NTMiner.Vms"
+    xmlns:app="clr-namespace:NTMiner"
     mc:Ignorable="d" 
 	DataContext="{x:Static vm:MainWindowViewModel.Instance}"
     d:DesignHeight="450" d:DesignWidth="800">
@@ -37,7 +38,7 @@
                 <DataGridTextColumn Width="100" IsReadOnly="True" Header="时间" Binding="{Binding PublishOnText}"></DataGridTextColumn>
                 <DataGridTemplateColumn 
 					IsReadOnly="True"
-					Visibility="{Binding Data.IsDevModeVisible,Source={StaticResource proxy}}">
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
 							Command="{Binding Data.AddNTMinerFile, Source={StaticResource proxy}}" 

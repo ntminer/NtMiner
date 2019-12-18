@@ -5,7 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NTMiner {
+namespace NTMiner.Views {
     public partial class MainWindow : BlankWindow {
         public MainWindowViewModel Vm {
             get {

@@ -215,7 +215,7 @@ namespace NTMiner {
                 if ((useDevices.Length != 0 && useDevices.Length != GpuSet.Count) || kernelInput.IsDeviceAllNotEqualsNone) {
                     string separator = kernelInput.DevicesSeparator;
                     // 因为空格在界面上不易被人读取所以以关键字代替空格
-                    if (kernelInput.DevicesSeparator == VirtualRoot.SpaceKeyword) {
+                    if (kernelInput.DevicesSeparator == NTKeyword.SpaceKeyword) {
                         separator = " ";
                     }
                     List<string> gpuIndexes = new List<string>();
@@ -224,7 +224,7 @@ namespace NTMiner {
                         if (kernelInput.DeviceBaseIndex != 0) {
                             i = index + kernelInput.DeviceBaseIndex;
                         }
-                        string nText = VirtualRoot.GetIndexChar(i, separator);
+                        string nText = NTKeyword.GetIndexChar(i, separator);
                         gpuIndexes.Add(nText);
                     }
                     switch (GpuSet.GpuType) {

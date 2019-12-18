@@ -31,7 +31,7 @@ namespace NTMiner {
         public void CloseDaemon() {
             Logger.InfoDebugLine("退出守护进程");
             // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应
-            TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
+            100.MillisecondsDelay().ContinueWith(t => {
                 HostRoot.Exit();
             });
         }

@@ -80,6 +80,10 @@ namespace NTMiner {
                             VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "开源矿工更新器", (window, isSuccess, message, saveFileFullName) => {
                                 try {
                                     if (isSuccess) {
+                                        string updateDirFullName = Path.GetDirectoryName(SpecialPath.UpdaterFileFullName);
+                                        if (!Directory.Exists(updateDirFullName)) {
+                                            Directory.CreateDirectory(updateDirFullName);
+                                        }
                                         File.Copy(saveFileFullName, SpecialPath.UpdaterFileFullName, overwrite: true);
                                         File.Delete(saveFileFullName);
                                         SetUpdaterVersion(uri.AbsolutePath);
@@ -92,7 +96,8 @@ namespace NTMiner {
                                         callback?.Invoke();
                                     }
                                 }
-                                catch {
+                                catch(Exception ex) {
+                                    Logger.ErrorDebugLine(ex);
                                     callback?.Invoke();
                                 }
                             }));
@@ -102,7 +107,8 @@ namespace NTMiner {
                             callback?.Invoke();
                         }
                     }
-                    catch {
+                    catch (Exception ex) {
+                        Logger.ErrorDebugLine(ex);
                         callback?.Invoke();
                     }
                 });

@@ -401,17 +401,6 @@ namespace NTMiner {
             return new NTMinerWebClient(timeoutSeconds);
         }
 
-        // 因为界面上输入框不好体现输入的空格，所以这里对空格进行转义
-        public const string SpaceKeyword = "space";
-        // 如果没有使用分隔符分割序号的话无法表达两位数的序号，此时这种情况基本都是用ABCDEFGH……表达的后续的两位数
-        private static readonly string[] IndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n" };
-        public static string GetIndexChar(int index, string separator) {
-            if (index <= 9 || !string.IsNullOrEmpty(separator)) {
-                return index.ToString();
-            }
-            return IndexChars[index - 10];
-        }
-
         #region 内部类
         private class NTMinerWebClient : WebClient {
             /// <summary>
