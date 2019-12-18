@@ -298,7 +298,6 @@
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel 
-                    Margin="0 2 0 0"
                     Background="White">
                     <StackPanel.LayoutTransform>
                         <RotateTransform Angle="-90"/>
@@ -614,7 +613,6 @@
                         </TabControl>
                         <Border 
                             x:Name="minerProfileLayer"
-                            Margin="0 2 0 0"
                             HorizontalAlignment="Left"
 				            Background="{StaticResource MinerProfileBackground}"
 				            Padding="0 4 8 0"
@@ -632,13 +630,13 @@
 								            FontSize="12"
 								            Foreground="{StaticResource LableColor}"
 								            Padding="0 0 4 0"
-								            Width="50"
+								            Width="40"
 								            VerticalAlignment="Center"
 								            TextAlignment="Right"
 								            TextWrapping="Wrap"
 								            Text="矿机名"></TextBlock>
                                         <TextBox 
-								            Width="86" 
+								            Width="96" 
 								            Padding="3 0 0 0"
 								            Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 								            Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 

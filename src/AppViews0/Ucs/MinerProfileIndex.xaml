@@ -19,7 +19,7 @@
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
-				<Setter Property="Width" Value="50"></Setter>
+				<Setter Property="Width" Value="40"></Setter>
 				<Setter Property="FontSize" Value="11"></Setter>
 			</Style>
 		</ResourceDictionary>
@@ -49,7 +49,7 @@
 						</ContextMenu>
 					</controls:KbButton.ContextMenu>
 					<WrapPanel>
-						<TextBlock Width="54" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+						<TextBlock Width="59" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
 						<Path
 							Margin="0 2 0 0"
 							Width="12"
@@ -89,7 +89,7 @@
 						</ContextMenu>
 					</controls:KbButton.ContextMenu>
 					<WrapPanel>
-						<TextBlock Width="116" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
+						<TextBlock Width="121" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName}"></TextBlock>
 						<Path
 							Margin="0 2 0 0"
 							Width="12"
@@ -134,7 +134,7 @@
 						</ContextMenu>
 					</controls:KbButton.ContextMenu>
 					<WrapPanel>
-						<TextBlock Width="100" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Name}"></TextBlock>
+						<TextBlock Width="105" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Name}"></TextBlock>
 						<Path
 							Margin="0 2 0 0"
 							Width="12"
@@ -177,7 +177,7 @@
                                 </ContextMenu>
                             </controls:KbButton.ContextMenu>
                             <WrapPanel>
-                                <TextBlock Width="100" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.Name}"></TextBlock>
+                                <TextBlock Width="105" Padding="0 0 10 0" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.Name}"></TextBlock>
                                 <Path
 								    Margin="0 2 0 0"
 								    Width="12"
@@ -201,10 +201,10 @@
 		<WrapPanel>
 			<Border Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
 				<WrapPanel Margin="0 0 0 4">
-					<TextBlock Style="{StaticResource LblTb}" Text="主池账户"></TextBlock>
+                    <TextBlock Style="{StaticResource LblTb}" Margin="10 0 0 0" Width="30" TextWrapping="Wrap" Text="主池账户"></TextBlock>
 					<Grid>
 						<TextBox 
-							Width="112"
+							Width="122"
                             Padding="0 0 20 0"
                             ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice}"
 							Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
@@ -214,7 +214,7 @@
 						</TextBox>
 						<Path
 							Margin="1 0"
-							Width="90"
+							Width="100"
 							Height="16"
 							HorizontalAlignment="Left"
 							Data="M98 480.86h829.99v63.79H98z"
@@ -255,10 +255,10 @@
 			<Border HorizontalAlignment="Left" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}">
 				<WrapPanel Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}">
                     <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.NoPool1,Converter={StaticResource BoolToVisibilityInvertConverter}}">
-                        <TextBlock Style="{StaticResource LblTb}" Text="备池账户" Width="Auto"></TextBlock>
+                        <TextBlock Style="{StaticResource LblTb}" Margin="10 0 0 0" Width="30" TextWrapping="Wrap" Text="备池账户"></TextBlock>
                         <Grid>
                             <TextBox 
-							    Width="112"
+							    Width="122"
                                 ToolTip="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.Notice}"
 							    Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 							    IsReadOnly="{Binding MinerProfile.IsMining}"
@@ -267,7 +267,7 @@
                             </TextBox>
                             <Path
 							    Margin="1 0"
-							    Width="110"
+							    Width="120"
 							    Height="16"
 							    HorizontalAlignment="Left"
 							    Data="M98 480.86h829.99v63.79H98z"
@@ -290,7 +290,7 @@
 				<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
 					<controls:KbButton 
 						x:Name="ButtonMainCoinWallet"
-						Width="274"
+						Width="284"
 						Padding="4 0"
 						BorderThickness="1"
 						BorderBrush="{StaticResource LineColor}"
@@ -310,7 +310,7 @@
 							</ContextMenu>
 						</controls:KbButton.ContextMenu>
 						<WrapPanel>
-							<StackPanel Width="266">
+							<StackPanel Width="276">
 								<TextBlock Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet.Name}"></TextBlock>
 								<TextBlock FontSize="11" Foreground="Black" Text="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet.Address}"></TextBlock>
 							</StackPanel>
@@ -331,9 +331,9 @@
 						StaysOpen="False"></Popup>
 				</WrapPanel>
 				<Path
-					Width="269"
+					Width="279"
 					Height="14"
-					Margin="52 -18 0 0" 
+					Margin="42 -18 0 0" 
 					Data="M98 480.86h829.99v63.79H98z"
 					Fill="{StaticResource ThemeBackground}"
 					Stretch="Fill"
@@ -411,6 +411,7 @@
 					IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
 				<WrapPanel 
 					Margin="4 0 0 0"
+                    Height="22"
 					VerticalAlignment="Center"
 					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityInvertConverter}}">
 					<Slider 
@@ -425,6 +426,7 @@
 						Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
 						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
 					<TextBox 
+                        Height="22"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
 						LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
 				</WrapPanel>
@@ -437,11 +439,14 @@
 		</Border>
 
 		<WrapPanel VerticalAlignment="Center">
-			<TextBlock
+            <TextBlock 
+                Margin="10 0 0 0" 
+                Width="30" 
+                TextWrapping="Wrap"
 				Style="{StaticResource LblTb}"
 				Text="高级参数" />
 			<TextBox 
-				Width="274"
+				Width="284"
 				VerticalContentAlignment="Center"
 				Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 				IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
