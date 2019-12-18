@@ -17,10 +17,10 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand<LocalIpViewModel>((vm) => {
                 if (!vm.IsAutoDNSServer) {
                     if (vm.DNSServer0Vm.IsAnyEmpty) {
-                        vm.DNSServer0Vm.SetAddress("114.114.114.114");
+                        vm.DNSServer0Vm.SetAddress(NTKeyword.DNSServer0);
                     }
                     if (vm.DNSServer1Vm.IsAnyEmpty) {
-                        vm.DNSServer1Vm.SetAddress("114.114.114.115");
+                        vm.DNSServer1Vm.SetAddress(NTKeyword.DNSServer1);
                     }
                 }
                 VirtualRoot.Execute(new SetLocalIpCommand(vm, vm.IsAutoDNSServer));
