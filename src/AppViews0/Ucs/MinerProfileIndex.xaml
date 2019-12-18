@@ -396,39 +396,41 @@
 				VerticalAlignment="Center"
 				Content="启用双挖"
 				IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled}" />
-			<WrapPanel
-                VerticalAlignment="Center"
-				Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                <CheckBox
-					FocusVisualStyle="{x:Null}"
-                    Margin="10 0 0 0"
-					Content="自动权重"
+            <Border Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightArg,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+                <WrapPanel
 					VerticalAlignment="Center"
-					IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
-					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
-					IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
-				<WrapPanel 
-					Margin="4 0 0 0"
-                    Height="18"
-					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityInvertConverter}}">
-					<Slider 
-						x:Name="dualCoinWeightSlider" 
-                        VerticalAlignment="Center"
-						Minimum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMin}" 
-						Maximum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMax}" 
-						Width="120"
-						IsSnapToTickEnabled="True"
-						ToolTip="注意：调整双挖权重可能导致挖矿失败，请注意观察。"
-						LostFocus="DualCoinWeightSlider_LostFocus"
-						Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
-						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
-					<TextBox 
-                        Height="18"
-						Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
-						LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
-				</WrapPanel>
-			</WrapPanel>
-		</WrapPanel>
+					Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <CheckBox
+						FocusVisualStyle="{x:Null}"
+						Margin="10 0 0 0"
+						Content="自动权重"
+						VerticalAlignment="Center"
+						IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
+						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityConverter}}"
+						IsChecked="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight}" />
+                    <WrapPanel 
+						Margin="4 0 0 0"
+						Height="18"
+						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsAutoDualWeight, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                        <Slider 
+							x:Name="dualCoinWeightSlider" 
+							VerticalAlignment="Center"
+							Minimum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMin}" 
+							Maximum="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.KernelInputVm.DualWeightMax}" 
+							Width="120"
+							IsSnapToTickEnabled="True"
+							ToolTip="注意：调整双挖权重可能导致挖矿失败，请注意观察。"
+							LostFocus="DualCoinWeightSlider_LostFocus"
+							Value="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight}"
+							IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"></Slider>
+                        <TextBox 
+							Height="18"
+							Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.DualCoinWeight, UpdateSourceTrigger=PropertyChanged}"
+							LostFocus="DualCoinWeightSlider_LostFocus"></TextBox>
+                    </WrapPanel>
+                </WrapPanel>
+            </Border>
+        </WrapPanel>
 		<Border
 			x:Name="DualContainer"
 			IsVisibleChanged="DualContainer_IsVisibleChanged"
