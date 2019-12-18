@@ -153,6 +153,10 @@ namespace NTMiner.Net {
                         mo.InvokeMethod("EnableStatic", null);
                         mo.InvokeMethod("SetGateways", null);
                         mo.InvokeMethod("EnableDHCP", null);
+                        1.SecondsDelay().ContinueWith(t => {
+                            _isInited = false;
+                            InitOnece();
+                        });
                     }
                     else {
                         ManagementBaseObject inPar = mo.GetMethodParameters("EnableStatic");
