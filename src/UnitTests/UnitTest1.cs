@@ -178,7 +178,9 @@ namespace UnitTests {
 
         [TestMethod]
         public void ResourceDictionaryTest() {
+#pragma warning disable IDE0028 // 简化集合初始化
             ResourceDictionary dic = new ResourceDictionary();
+#pragma warning restore IDE0028 // 简化集合初始化
             dic["aaa"] = "aaa";
         }
 
@@ -243,8 +245,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void IntTest() {
-            int i;
-            Assert.IsTrue(int.TryParse("001", out i));
+            Assert.IsTrue(int.TryParse("001", out int _));
         }
 
         [TestMethod]
