@@ -6,8 +6,8 @@ using System;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class Reporter : IReporter {
-        public Reporter() {
+    public class ReportDataProvider : IReportDataProvider {
+        public ReportDataProvider() {
             if (VirtualRoot.IsMinerClient) {
                 VirtualRoot.AddOnecePath<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {

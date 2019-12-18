@@ -1,7 +1,7 @@
 ﻿using NTMiner.MinerClient;
 
 namespace NTMiner.Core {
-    public interface IReporter {
+    public interface IReportDataProvider {
         SpeedData CreateSpeedData();
     }
 }
