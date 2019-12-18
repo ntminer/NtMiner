@@ -262,7 +262,7 @@ namespace NTMiner.Vms {
 
         public bool IsDevicesSpaceSeparator {
             get {
-                return DevicesSeparator == VirtualRoot.SpaceKeyword;
+                return DevicesSeparator == NTKeyword.SpaceKeyword;
             }
         }
 
