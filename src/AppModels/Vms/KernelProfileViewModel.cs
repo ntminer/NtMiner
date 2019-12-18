@@ -196,6 +196,9 @@ namespace NTMiner.Vms {
                 this.DownloadMessage = message;
                 this.DownloadPercent = 0;
                 if (isSuccess) {
+                    if (!Directory.Exists(SpecialPath.PackagesDirFullName)) {
+                        Directory.CreateDirectory(SpecialPath.PackagesDirFullName);
+                    }
                     File.Copy(saveFileFullName, Path.Combine(SpecialPath.PackagesDirFullName, package), overwrite: true);
                     File.Delete(saveFileFullName);
                     this.IsDownloading = false;
