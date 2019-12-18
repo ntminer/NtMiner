@@ -627,9 +627,9 @@
                                 <WrapPanel>
                                     <WrapPanel VerticalAlignment="Center" IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
                                         <TextBlock 
-								            FontSize="12"
+								            FontSize="11"
 								            Foreground="{StaticResource LableColor}"
-								            Padding="0 0 4 0"
+								            Padding="0 0 2 0"
 								            Width="40"
 								            VerticalAlignment="Center"
 								            TextAlignment="Right"
@@ -792,6 +792,7 @@
 			    DataContext="{Binding StateBarVm}"
 			    Background="{StaticResource MinerProfileBackground}" 
 			    BorderBrush="{StaticResource LineColor}" 
+                Margin="0 -1 0 0"
 			    BorderThickness="0 1 0 0">
             </uc:StateBar>
             <Border x:Name="MaskLayer" Grid.RowSpan="3" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>
