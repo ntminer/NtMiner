@@ -12,7 +12,7 @@ namespace NTMiner {
                 throw new InvalidProgramException("秒表已经启动，不能重复启动");
             }
             if (timer == null) {
-                timer = new DefaultTimer();
+                timer = new DefaultTimer(MessageHub);
             }
             _timer = timer;
             timer.Start();

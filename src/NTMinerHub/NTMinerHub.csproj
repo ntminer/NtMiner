@@ -48,6 +48,9 @@
     <Compile Include="Hub\MessageTypeAttribute.cs" />
     <Compile Include="Messages.Timing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Timing\AbstractTimer.cs" />
+    <Compile Include="Timing\DefaultTimer.cs" />
+    <Compile Include="Timing\ITimer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">

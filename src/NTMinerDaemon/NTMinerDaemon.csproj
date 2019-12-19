@@ -110,15 +110,6 @@
     <Compile Include="..\NTMinerlib\Serialization\NTJsonSerializer.cs">
       <Link>Serialization\NTJsonSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Timing\AbstractTimer.cs">
-      <Link>Timing\AbstractTimer.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Timing\DefaultTimer.cs">
-      <Link>Timing\DefaultTimer.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\Timing\ITimer.cs">
-      <Link>Timing\ITimer.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\User\IUserSet.cs">
       <Link>User\IUserSet.cs</Link>
     </Compile>
