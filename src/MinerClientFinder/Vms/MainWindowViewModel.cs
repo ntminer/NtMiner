@@ -1,14 +1,30 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
+        public class ScanArgs {
+            public ScanArgs(Socket socket, string[] ips, string ip) {
+                this.Soket = socket;
+                this.Ips = ips;
+                this.Ip = ip;
+            }
+
+            public readonly Socket Soket;
+            public readonly string[] Ips;
+            public readonly string Ip;
+            public readonly ManualResetEvent Set = new ManualResetEvent(false);
+            public bool IsTimeouted { get; set; }
+        }
+
         private IpAddressViewModel _fromIpAddressVm;
         private IpAddressViewModel _toIpAddressVm;
         private string _localIps;
@@ -16,7 +32,6 @@ namespace NTMiner.Vms {
         private int _percent;
         private int _count = 0;
         private bool _isScanning;
-        private Thread _thread;
         private int _timeout;
 
         public ICommand Start { get; private set; }
@@ -28,11 +43,9 @@ namespace NTMiner.Vms {
         public MainWindowViewModel() {
             this.Start = new DelegateCommand(() => {
                 if (IsScanning) {
-                    _thread?.Abort();
                     IsScanning = false;
                 }
                 else {
-                    _thread?.Abort();
                     if (_fromIpAddressVm.IsAnyEmpty || _toIpAddressVm.IsAnyEmpty) {
                         throw new ValidationException("IP地址不能为空");
                     }
@@ -43,20 +56,18 @@ namespace NTMiner.Vms {
                         Results.Clear();
                     }
                     List<string> ipList = Net.IpUtil.CreateIpRange(_fromIpAddressVm.AddressText, _toIpAddressVm.AddressText);
-                    _thread = new Thread(new ThreadStart(() => {
+                    Task.Factory.StartNew(() => {
                         Scan(ipList.ToArray());
-                    })) {
-                        IsBackground = true
-                    };
-                    _thread.Start();
+                    });
                 }
             });
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
                 if (!string.IsNullOrEmpty(localIp.DefaultIPGateway)) {
-                    this._fromIpAddressVm = new IpAddressViewModel(Net.IpUtil.ConvertToIpString(Net.IpUtil.ConvertToIpNum(localIp.DefaultIPGateway) + 1));
                     string[] parts = localIp.DefaultIPGateway.Split('.');
-                    parts[parts.Length - 1] = "255";
+                    parts[parts.Length - 1] = "1";
+                    this._fromIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
+                    parts[parts.Length - 1] = "254";
                     this._toIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
                 }
             }
@@ -85,43 +96,46 @@ namespace NTMiner.Vms {
             }
             _count = 0;
             Percent = 0;
-            foreach (var ip in ipList) {
-                Socket socket = null;
-                try {
-                    IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse(ip), 3337);
-                    socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                    int n = 0;
-                    Thread t = new Thread(new ThreadStart(() => {
-                        while (true) {
-                            Thread.Sleep(Timeout);
-                            n++;
-                            if (n >= 2) {
-                                try {
-                                    socket.Close();
-                                }
-                                catch {
-                                }
-                            }
-                        }
-                    })) {
-                        IsBackground = true
-                    };
-                    t.Start();
-                    socket.Connect(endPoint);
-                    UIThread.Execute(() => {
-                        _results.Add(ip);
-                    });
+            Parallel.ForEach(ipList, ip => {
+                if (!IsScanning) {
+                    return;
                 }
-                catch {
+                IPAddress ipAddress = IPAddress.Parse(ip);
+                IPEndPoint endPoint = new IPEndPoint(ipAddress, 3337);
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                var state = new ScanArgs(socket, ipList, ip);
+                socket.BeginConnect(endPoint, Callback, state);
+                if (!state.Set.WaitOne(Timeout)) {
+                    state.IsTimeouted = true;
+                    socket.Close();
                 }
-                finally {
-                    socket?.Close();
-                    int count = Interlocked.Increment(ref _count);
-                    Percent = count * 100 / ipList.Length;
-                    if (count == ipList.Length) {
-                        IsScanning = false;
-                        _thread = null;
-                    }
+            });
+        }
+
+        private void Callback(IAsyncResult ar) {
+            ScanArgs data = ((ScanArgs)ar.AsyncState);
+            try {
+                if (data.IsTimeouted) {
+                    return;
+                }
+                data.Set.Set();
+                if (!IsScanning) {
+                    return;
+                }
+                data.Soket.EndConnect(ar);
+                UIThread.Execute(() => {
+                    _results.Add(data.Ip);
+                });
+            }
+            catch(Exception e) {
+                Console.WriteLine(e.Message);
+            }
+            finally {
+                data.Soket.Close();
+                int count = Interlocked.Increment(ref _count);
+                Percent = count * 100 / data.Ips.Length;
+                if (count == data.Ips.Length) {
+                    IsScanning = false;
                 }
             }
         }
