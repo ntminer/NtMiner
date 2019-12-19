@@ -22,9 +22,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => {
                 window.Owner = WpfUtil.GetTopWindow();
                 var vm = new GpuProfilesPageViewModel(minerClientsWindowVm);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(GpuProfilesPage));
+                window.AddCloseWindowOnecePath(vm.Id);
                 var uc = new GpuProfilesPage(vm);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];
                 void handler(object sender, PropertyChangedEventArgs e) {

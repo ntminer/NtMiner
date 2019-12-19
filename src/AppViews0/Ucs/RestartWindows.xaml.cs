@@ -15,9 +15,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Restart"
             }, ucFactory: (window) => {
                 RestartWindows uc = new RestartWindows();
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: uc.Id, location: typeof(RestartWindows));
+                window.AddCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
             }, fixedSize: true);
         }
@@ -27,8 +25,6 @@ namespace NTMiner.Views.Ucs {
                 return (RestartWindowsViewModel)this.DataContext;
             }
         }
-
-        public readonly Guid Id = Guid.NewGuid();
 
         private bool _isCanceled = false;
         public RestartWindows() {
@@ -51,12 +47,13 @@ namespace NTMiner.Views.Ucs {
 
         private void KbCancelButton_Click(object sender, System.Windows.RoutedEventArgs e) {
             _isCanceled = true;
-            VirtualRoot.Execute(new CloseWindowCommand(this.Id));
+            VirtualRoot.Execute(new CloseWindowCommand(this.Vm.Id));
         }
     }
 
     public class RestartWindowsViewModel : ViewModelBase {
         private int _seconds = 4;
+        public readonly Guid Id = Guid.NewGuid();
 
         public int Seconds {
             get => _seconds;

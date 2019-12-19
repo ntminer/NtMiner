@@ -12,9 +12,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 InputSegmentEditViewModel vm = new InputSegmentEditViewModel(coinKernelVm, segment);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(InputSegmentEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new InputSegmentEdit(vm);
             }, fixedSize: true);
         }

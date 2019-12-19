@@ -13,9 +13,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Wallet"
             }, ucFactory: (window) => {
                 NTMinerWalletViewModel vm = new NTMinerWalletViewModel(source);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(NTMinerWalletEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new NTMinerWalletEdit(vm);
             }, fixedSize: true);
         }
