@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="NTMiner.Views.Ucs.MinerClientFinderConfig"
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:blankWindow="http://NTMiner.com"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+		mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="400">
+	<UserControl.DataContext>
+		<vm:MinerClientFinderConfigViewModel></vm:MinerClientFinderConfigViewModel>
+	</UserControl.DataContext>
+	<StackPanel VerticalAlignment="Center">
+		<WrapPanel Margin="0 0 0 10">
+            <TextBlock Width="120" TextAlignment="Right" Foreground="{StaticResource LableColor}" VerticalAlignment="Center">矿机雷达程序文件名：</TextBlock>
+			<TextBox Width="250" Text="{Binding FileName, ValidatesOnExceptions=True}" VerticalAlignment="Center"></TextBox>
+		</WrapPanel>
+		<TextBlock 
+			Padding="20 0"
+			Foreground="Red"
+			TextWrapping="Wrap">如果客户端没有矿机雷达程序文件或者客户端记录的之前下载的矿机雷达程序文件和这里设置的不同则客户端会再次下载矿机雷达程序文件，从而提供一个机会可以在后续升级矿机雷达程序。</TextBlock>
+		<controls:KbButton
+			Command="{Binding Save}" 
+			Margin="0 10 0 0"
+			Padding="15 2"
+			HorizontalAlignment="Center"
+			Background="{StaticResource ThemeBackground}"
+			Foreground="{StaticResource ThemeForeground}"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource ThemeForeground}"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Foreground="{StaticResource ThemeForeground}"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+	</StackPanel>
+</UserControl>

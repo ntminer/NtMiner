@@ -149,6 +149,12 @@ namespace NTMiner {
         }
     }
 
+    [MessageType(description: "打开矿机雷达程序设置页面")]
+    public class ShowMinerClientFinderConfigCommand : Cmd {
+        public ShowMinerClientFinderConfigCommand() {
+        }
+    }
+
     [MessageType(description: "打开内核输入页面")]
     public class ShowKernelInputPageCommand : Cmd {
         public ShowKernelInputPageCommand() {

@@ -14,9 +14,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 PackageViewModel vm = new PackageViewModel(source);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(PackageEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new PackageEdit(vm);
             }, fixedSize: false);
         }

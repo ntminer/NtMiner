@@ -86,7 +86,7 @@ namespace NTMiner {
                 if (!_isClosed) {
                     _isClosed = true;
                     foreach (var pathId in _contextPathIds) {
-                        VirtualRoot.DeletePath(pathId);
+                        VirtualRoot.RemoveMessagePath(pathId);
                     }
                     _contextPathIds.Clear();
                     Kill();

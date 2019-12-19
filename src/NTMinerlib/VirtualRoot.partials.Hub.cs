@@ -12,7 +12,7 @@ namespace NTMiner {
                 throw new InvalidProgramException("秒表已经启动，不能重复启动");
             }
             if (timer == null) {
-                timer = new DefaultTimer();
+                timer = new DefaultTimer(MessageHub);
             }
             _timer = timer;
             timer.Start();
@@ -51,7 +51,7 @@ namespace NTMiner {
             return AddMessagePath(description, logType, action, location);
         }
 
-        public static void DeletePath(IMessagePathId pathId) {
+        public static void RemoveMessagePath(IMessagePathId pathId) {
             if (pathId == null) {
                 return;
             }

@@ -157,6 +157,12 @@ namespace NTMiner {
             messagePathIds.Add(messagePathId);
         }
 
+        public static void AddCloseWindowOnecePath(this Window window, Guid pathId) {
+            window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                window.Close();
+            }, pathId: pathId, location: typeof(WindowExtension));
+        }
+
         public static IMessagePathId AddViaTimesLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, int viaTimesLimit, Type location)
             where TMessage : IMessage {
             if (WpfUtil.IsInDesignMode) {
@@ -180,7 +186,7 @@ namespace NTMiner {
             Window uiElement = (Window)sender;
             List<IMessagePathId> pathIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
             foreach (var pathId in pathIds) {
-                VirtualRoot.DeletePath(pathId);
+                VirtualRoot.RemoveMessagePath(pathId);
             }
         }
     }

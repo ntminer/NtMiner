@@ -15,9 +15,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new LocalIpConfig();
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: uc.Vm.Id, location: typeof(LocalIpConfig));
+                window.AddCloseWindowOnecePath(uc.Vm.Id);
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();

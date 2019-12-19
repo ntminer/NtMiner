@@ -115,6 +115,7 @@
     <Compile Include="Vms\KernelOutputKeywordsViewModel.cs" />
     <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\MessageTypeItem`1.cs" />
+    <Compile Include="Vms\MinerClientFinderConfigViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletViewModel.cs" />
     <Compile Include="Vms\RemoteDesktopLoginViewModel.cs" />

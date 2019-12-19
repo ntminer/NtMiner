@@ -2,28 +2,28 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class NTMinerUpdaterConfig : UserControl {
+    public partial class MinerClientFinderConfig : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "升级器版本",
-                IconName = "Icon_Update",
+                Title = "矿机雷达版本",
+                IconName = "Icon_MinerClientFinder",
                 Width = 500,
                 Height = 180,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
-                var uc = new NTMinerUpdaterConfig();
+                var uc = new MinerClientFinderConfig();
                 window.AddCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
             }, fixedSize: true);
         }
 
-        public NTMinerUpdaterConfigViewModel Vm {
+        public MinerClientFinderConfigViewModel Vm {
             get {
-                return (NTMinerUpdaterConfigViewModel)this.DataContext;
+                return (MinerClientFinderConfigViewModel)this.DataContext;
             }
         }
 
-        public NTMinerUpdaterConfig() {
+        public MinerClientFinderConfig() {
             InitializeComponent();
         }
     }

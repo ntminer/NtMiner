@@ -15,9 +15,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 CoinViewModel vm = new CoinViewModel(source);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(CoinEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new CoinEdit(vm);
             }, fixedSize: true);
         }

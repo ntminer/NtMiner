@@ -14,9 +14,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 GroupViewModel vm = new GroupViewModel(source);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(GroupEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new GroupEdit(vm);
             }, fixedSize: true);
         }

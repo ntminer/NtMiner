@@ -4,6 +4,8 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public class WpfTimer : AbstractTimer {
+        public WpfTimer() : base(VirtualRoot.MessageHub) { }
+
         private DispatcherTimer _dispatcherTimer;
         public override void Start() {
             UIThread.Execute(() => {

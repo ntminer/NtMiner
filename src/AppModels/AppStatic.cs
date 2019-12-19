@@ -789,6 +789,9 @@ namespace NTMiner {
         public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowNTMinerUpdaterConfigCommand());
         });
+        public static ICommand ShowMinerClientFinderConfig { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowMinerClientFinderConfigCommand());
+        });
         public static ICommand ShowOnlineUpdate { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new UpgradeCommand(string.Empty, null));
         });

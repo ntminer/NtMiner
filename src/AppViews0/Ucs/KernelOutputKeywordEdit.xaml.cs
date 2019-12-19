@@ -13,9 +13,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(data);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(KernelOutputKeywordEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new KernelOutputKeywordEdit(vm);
             }, fixedSize: true);
         }
