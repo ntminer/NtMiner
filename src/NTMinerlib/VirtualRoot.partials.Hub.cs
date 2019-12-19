@@ -51,7 +51,7 @@ namespace NTMiner {
             return AddMessagePath(description, logType, action, location);
         }
 
-        public static void DeletePath(IMessagePathId pathId) {
+        public static void RemoveMessagePath(IMessagePathId pathId) {
             if (pathId == null) {
                 return;
             }

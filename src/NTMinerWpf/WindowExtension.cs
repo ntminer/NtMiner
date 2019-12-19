@@ -180,7 +180,7 @@ namespace NTMiner {
             Window uiElement = (Window)sender;
             List<IMessagePathId> pathIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
             foreach (var pathId in pathIds) {
-                VirtualRoot.DeletePath(pathId);
+                VirtualRoot.RemoveMessagePath(pathId);
             }
         }
     }

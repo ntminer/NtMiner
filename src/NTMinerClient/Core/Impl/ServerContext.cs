@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
 
         public void ReInit() {
             foreach (var pathId in _contextPathIds) {
-                VirtualRoot.DeletePath(pathId);
+                VirtualRoot.RemoveMessagePath(pathId);
             }
             _contextPathIds.Clear();
             this.CoinGroupSet = new CoinGroupSet(this);
