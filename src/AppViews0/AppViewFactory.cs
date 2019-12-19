@@ -53,6 +53,11 @@ namespace NTMiner.Views {
                     NTMinerUpdaterConfig.ShowWindow();
                 });
             }, location: location);
+            VirtualRoot.AddCmdPath<ShowMinerClientFinderConfigCommand>(action: message => {
+                UIThread.Execute(() => {
+                    MinerClientFinderConfig.ShowWindow();
+                });
+            }, location: location);
             VirtualRoot.AddCmdPath<ShowAboutPageCommand>(action: message => {
                 UIThread.Execute(() => {
                     AboutPage.ShowWindow();

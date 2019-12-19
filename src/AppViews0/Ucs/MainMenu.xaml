@@ -205,8 +205,20 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-				</MenuItem>
-			</MenuItem>
+                </MenuItem>
+                <MenuItem 
+					Header="矿机雷达版本" 
+					Command="{x:Static app:AppStatic.ShowMinerClientFinderConfig}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_MinerClientFinder}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
 			<MenuItem Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
