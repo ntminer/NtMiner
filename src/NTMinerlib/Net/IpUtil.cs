@@ -16,11 +16,12 @@ namespace NTMiner.Net {
         /// <param name="ipAddress">IP地址字符串</param>
         /// <returns></returns>
         public static bool IsInnerIp(string ipAddress) {
+            if (IsLocalhost(ipAddress)) {
+                return true;
+            }
+
             if (string.IsNullOrEmpty(ipAddress)) {
                 return false;
-            }
-            if (ipAddress == "localhost" || ipAddress == "127.0.0.1") {
-                return true;
             }
 
             if (!IPAddress.TryParse(ipAddress, out _)) {
@@ -43,7 +44,7 @@ namespace NTMiner.Net {
             }
         }
 
-        public static bool IsLocalHost(string ipAddress) {
+        public static bool IsLocalhost(string ipAddress) {
             if (string.IsNullOrEmpty(ipAddress)) {
                 return false;
             }
@@ -61,6 +62,9 @@ namespace NTMiner.Net {
         public static uint ConvertToIpNum(string ipAddress) {
             if (string.IsNullOrEmpty(ipAddress)) {
                 throw new ArgumentNullException(nameof(ipAddress));
+            }
+            if (ipAddress == "localhost") {
+                ipAddress = "127.0.0.1";
             }
             string[] parts = ipAddress.Split('.');
             if (parts.Length != 4) {
