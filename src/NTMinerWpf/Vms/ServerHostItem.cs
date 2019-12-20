@@ -6,7 +6,7 @@
             }
             this.IpOrHost = ipOrHost;
             this.IsInnerIp = Net.IpUtil.IsInnerIp(ipOrHost);
-            this.IsLocalHost = Net.IpUtil.IsLocalHost(ipOrHost);
+            this.IsLocalHost = Net.IpUtil.IsLocalhost(ipOrHost);
         }
 
         public string IpOrHost { get; set; }
