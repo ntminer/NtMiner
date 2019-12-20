@@ -61,17 +61,19 @@ namespace NTMiner.Vms {
                     });
                 }
             });
-            var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
-            if (localIp != null) {
-                if (!string.IsNullOrEmpty(localIp.DefaultIPGateway)) {
-                    string[] parts = localIp.DefaultIPGateway.Split('.');
-                    parts[parts.Length - 1] = "1";
-                    this._fromIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
-                    parts[parts.Length - 1] = "254";
-                    this._toIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
+            Task.Factory.StartNew(() => {
+                var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
+                if (localIp != null) {
+                    if (!string.IsNullOrEmpty(localIp.DefaultIPGateway)) {
+                        string[] parts = localIp.DefaultIPGateway.Split('.');
+                        parts[parts.Length - 1] = "1";
+                        this.FromIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
+                        parts[parts.Length - 1] = "254";
+                        this.ToIpAddressVm = new IpAddressViewModel(string.Join(".", parts));
+                    }
                 }
-            }
-            _localIps = GetLocalIps();
+                LocalIps = GetLocalIps();
+            });
         }
 
         private string GetLocalIps() {
