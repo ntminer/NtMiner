@@ -68,8 +68,23 @@ namespace NTMiner {
         public static void SetRefreshArgsAssembly(Action action) {
             RefreshArgsAssembly = action;
         }
-        public static bool IsUiVisible;
-        public static DateTime MainWindowRendedOn = DateTime.MinValue;
+        private static bool _isUiVisible = false;
+        public static bool IsUiVisible {
+            get { return _isUiVisible; }
+            set {
+                _isUiVisible = value;
+                if (value) {
+                    MainWindowRendedOn = DateTime.Now;
+                }
+            }
+        }
+        private static DateTime _mainWindowRendedOn = DateTime.MinValue;
+        public static DateTime MainWindowRendedOn {
+            get { return _mainWindowRendedOn; }
+            private set {
+                _mainWindowRendedOn = value;
+            }
+        }
 
         public static bool IsUseDevConsole = false;
         public static int OSVirtualMemoryMb;

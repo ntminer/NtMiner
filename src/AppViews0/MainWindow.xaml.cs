@@ -130,7 +130,6 @@ namespace NTMiner.Views {
             this.IsVisibleChanged += (sender, e) => {
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
-                    NTMinerRoot.MainWindowRendedOn = DateTime.Now;
                 }
                 else {
                     NTMinerRoot.IsUiVisible = false;
@@ -171,7 +170,12 @@ namespace NTMiner.Views {
             };
             VirtualRoot.AddCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
-                    this.Close();
+                    if (message.IsAutoNoUi) {
+                        SwitchToNoUi();
+                    }
+                    else {
+                        this.Close();
+                    }
                 });
             }, location: this.GetType());
             this.AddEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
@@ -203,8 +207,8 @@ namespace NTMiner.Views {
                 action: message => {
                     if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
                         if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
-                            VirtualRoot.Out.ShowSuccess($"界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置", header: "开源矿工");
-                            VirtualRoot.Execute(new CloseMainWindowCommand());
+                            VirtualRoot.ThisLocalInfo(nameof(MainWindow), $"挖矿中界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置");
+                            VirtualRoot.Execute(new CloseMainWindowCommand(isAutoNoUi: true));
                         }
                     }
                 }, location: this.GetType());
@@ -355,10 +359,14 @@ namespace NTMiner.Views {
             }
             else {
                 e.Cancel = true;
-                AppContext.Disable();
-                this.Hide();
-                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行");
+                SwitchToNoUi();
             }
+        }
+
+        private void SwitchToNoUi() {
+            AppContext.Disable();
+            this.Hide();
+            VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行");
         }
 
         protected override void OnClosed(EventArgs e) {

@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.CloseMainWindow = new DelegateCommand(() => {
-                VirtualRoot.Execute(new CloseMainWindowCommand());
+                VirtualRoot.Execute(new CloseMainWindowCommand(isAutoNoUi: false));
             });
             this.UseThisPcName = new DelegateCommand(() => {
                 string thisPcName = NTMinerRoot.ThisPcName;
