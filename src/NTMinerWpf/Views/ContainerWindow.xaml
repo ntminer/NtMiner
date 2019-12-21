@@ -20,8 +20,8 @@
 		</Grid.RowDefinitions>
 		<!--上标题栏-->
 		<DockPanel Height="30">
-			<WrapPanel DockPanel.Dock="Left" VerticalAlignment="Top" Margin="0 2 0 0">
-				<WrapPanel Margin="4 4 0 0" MouseDown="WindowIcon_MouseDoubleClick">
+            <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center">
+                <WrapPanel VerticalAlignment="Center" Margin="4 0 0 0" MouseDown="WindowIcon_MouseDoubleClick">
 					<Image
 						Visibility="{Binding IconImage, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 						Source="{Binding IconImageSource}"
@@ -52,9 +52,9 @@
 						Stretch="Fill"/>
 				</WrapPanel>
 				<TextBlock
+                    VerticalAlignment="Center"
 					Margin="4 0 0 0"
 					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
 					FontSize="16"
 					Foreground="{StaticResource ThemeForeground}"
 					Text="{Binding Title}" />
@@ -81,33 +81,22 @@
 			</Grid.ColumnDefinitions>
 			<WrapPanel>
 				<TextBlock
-					Margin="0" Padding="4 0 0 0"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
+					Margin="0" 
+                    Padding="4 0 0 0"
 					Text="NTMiner" />
 				<TextBlock
 					Margin="2 0 0 0"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
 					Text="v" />
 				<TextBlock
 					Margin="0"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
 					Text="{Binding CurrentVersion}" />
 				<TextBlock
 					Margin="2 0 0 0"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
 					Text="(" />
 				<TextBlock
 					Margin="0"
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
 					Text="{Binding VersionTag}" />
 				<TextBlock
-					HorizontalAlignment="Left"
-					VerticalAlignment="Center"
 					Text=")" />
 			</WrapPanel>
 			<TextBlock Grid.Column="1" Margin="20 0 0 0" Text="{Binding FooterText}"></TextBlock>
