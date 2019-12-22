@@ -118,12 +118,19 @@ namespace NTMiner.Vms {
                                         }
                                     }
                                 }
-                                File.Delete(saveFileFullName);
+                                try {
+                                    File.Delete(saveFileFullName);
+                                }
+                                catch(Exception e) {
+                                    Logger.ErrorDebugLine(e);
+                                }
                                 string arguments = NTMinerRegistry.GetArguments();
                                 Process.Start(location, arguments);
                                 this.IsDownloading = false;
-                                UIThread.Execute(() => {
-                                    Application.Current.MainWindow?.Close();
+                                2.SecondsDelay().ContinueWith(_ => {
+                                    UIThread.Execute(() => {
+                                        Application.Current.MainWindow?.Close();
+                                    });
                                 });
                             });
                         }

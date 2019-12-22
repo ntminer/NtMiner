@@ -56,7 +56,7 @@ namespace NTMiner {
                 }
                 if (!isClosed) {
                     try {
-                        Windows.TaskKill.Kill(processName);
+                        Windows.TaskKill.Kill(processName, waitForExit: true);
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
