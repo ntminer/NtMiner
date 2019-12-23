@@ -89,6 +89,9 @@ namespace NTMiner {
                         if (NTMinerRoot.Instance.ServerContext.CoinSet.Count == 0) {
                             VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
+                        splashWindow?.Dispatcher.Invoke((Action)delegate () {
+                            splashWindow?.Close();
+                        });
                         UIThread.Execute(() => {
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
@@ -99,9 +102,6 @@ namespace NTMiner {
                                 _appViewFactory.ShowMainWindow(isToggle: false);
                             }
                             StartStopMineButtonViewModel.Instance.AutoStart();
-                            splashWindow?.Dispatcher.Invoke((Action)delegate () {
-                                splashWindow?.Close();
-                            });
                             VirtualRoot.StartTimer(new WpfTimer());
                         });
                         Task.Factory.StartNew(() => {
