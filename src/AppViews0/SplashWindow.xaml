@@ -6,46 +6,54 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     ResizeMode="NoResize"
-    Background="{StaticResource IconFillColor}"
     Foreground="White"
     WindowStyle="None"
-    Height="260" 
+    Background="Transparent"
+    AllowsTransparency="True"
+    Height="300" 
     Width="520"
 	MouseDown="Window_MouseDown"
     WindowStartupLocation="CenterScreen"
     Title="欢迎使用开源矿工">
     <Grid>
-        <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Image Width="120" Height="120" x:Name="BigLogo">
-            </Image>
-            <StackPanel Margin="10 0 0 0" VerticalAlignment="Center">
-                <TextBlock Text="NTMiner" FontSize="50"></TextBlock>
-                <TextBlock x:Name="TbFullVersion" FontSize="20"></TextBlock>
-            </StackPanel>
-        </WrapPanel>
-        <Button 
-            x:Name="BtnClose"
-            HorizontalAlignment="Right" 
-            VerticalAlignment="Top" 
-            Click="BtnClose_Click">
-            <Button.Template>
-                <ControlTemplate>
-                    <Border x:Name="Bg" Height="26" Width="26" Background="Transparent">
-                        <Path
-                            Width="13"
-                            Height="13"
-                            Data="{StaticResource Icon_Close}"
-                            Fill="White"
-                            UseLayoutRounding="True"
-                            Stretch="Fill" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bg" Property="Background" Value="Red" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border></Border>
+        <Grid Grid.Row="1" Background="{StaticResource IconFillColor}">
+            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Image Width="120" Height="120" x:Name="BigLogo">
+                </Image>
+                <StackPanel Margin="10 0 0 0" VerticalAlignment="Center">
+                    <TextBlock Text="NTMiner" FontSize="50"></TextBlock>
+                    <TextBlock x:Name="TbFullVersion" FontSize="20"></TextBlock>
+                </StackPanel>
+            </WrapPanel>
+            <Button 
+                x:Name="BtnClose"
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Top" 
+                Click="BtnClose_Click">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border x:Name="Bg" Height="26" Width="26" Background="Transparent">
+                            <Path
+                                Width="13"
+                                Height="13"
+                                Data="{StaticResource Icon_Close}"
+                                Fill="White"
+                                UseLayoutRounding="True"
+                                Stretch="Fill" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bg" Property="Background" Value="Red" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
     </Grid>
 </Window>
