@@ -48,7 +48,7 @@
         </WrapPanel>
         <StackPanel Margin="70 0 0 0" Visibility="{Binding IsAddressEditable, Converter={StaticResource BoolToVisibilityConverter}}">
             <TextBlock VerticalAlignment="Center" Foreground="Red">1. 钱包地址保存后不可修改；</TextBlock>
-            <TextBlock VerticalAlignment="Center" Foreground="Red">2. 矿工通常使用交易所的充币地址挖矿。</TextBlock>
+            <TextBlock VerticalAlignment="Center" Foreground="Red">2. 矿工通常使用交易所为用户生成充币地址挖矿。</TextBlock>
         </StackPanel>
         <controls:KbButton
             Command="{Binding Save}" 
