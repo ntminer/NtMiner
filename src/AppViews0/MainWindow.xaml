@@ -43,13 +43,13 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="36"/>
+                <RowDefinition Height="38"/>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle 
                 Grid.RowSpan="2"
-                Height="64"
+                Height="66"
                 VerticalAlignment="Top" 
                 Fill="{StaticResource ThemeBackground}">
             </Rectangle>
