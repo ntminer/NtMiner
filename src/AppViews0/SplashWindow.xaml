@@ -10,7 +10,7 @@
     WindowStyle="None"
     Background="Transparent"
     AllowsTransparency="True"
-    Height="300" 
+    SizeToContent="Height"
     Width="520"
 	MouseDown="Window_MouseDown"
     WindowStartupLocation="CenterScreen"
@@ -18,11 +18,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="260"></RowDefinition>
         </Grid.RowDefinitions>
         <Border></Border>
         <Grid Grid.Row="1" Background="{StaticResource IconFillColor}">
-            <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <WrapPanel Margin="90 0 0 0" VerticalAlignment="Center">
                 <Image Width="120" Height="120" x:Name="BigLogo">
                 </Image>
                 <StackPanel Margin="10 0 0 0" VerticalAlignment="Center">
