@@ -65,7 +65,7 @@ namespace NTMiner {
                 }
                 catch (Exception) {
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                        message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。",
+                        message: "另一个群控客户端正在运行，请重试。",
                         title: "alert",
                         icon: "Icon_Error"));
                     Process currentProcess = Process.GetCurrentProcess();

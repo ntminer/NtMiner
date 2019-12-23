@@ -11,6 +11,12 @@ namespace NTMiner.Views {
             window.ShowSoftDialog();
         }
 
+        public static void ShowHardDialog(DialogWindowViewModel vm) {
+            Window window = new DialogWindow(vm);
+            window.MousePosition();
+            window.ShowHardDialog();
+        }
+
         public DialogWindowViewModel Vm {
             get {
                 return (DialogWindowViewModel)this.DataContext;
