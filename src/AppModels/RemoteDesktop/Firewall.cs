@@ -27,6 +27,10 @@ namespace NTMiner.RemoteDesktop {
 
         #region DisableFirewall
         public static bool DisableFirewall() {
+            FirewallStatus state = Status(FirewallDomain.Domain);
+            if (state == RemoteDesktop.FirewallStatus.Disabled) {
+                return true;
+            }
             try {
                 int exitcode = -1;
                 Cmd.RunClose("netsh", "advfirewall set allprofiles state off", ref exitcode);
@@ -48,6 +52,10 @@ namespace NTMiner.RemoteDesktop {
 
         #region EnableFirewall
         public static bool EnableFirewall() {
+            FirewallStatus state = Status(FirewallDomain.Domain);
+            if (state == RemoteDesktop.FirewallStatus.Enabled) {
+                return true;
+            }
             try {
                 int exitcode = -1;
                 Cmd.RunClose("netsh", "advfirewall set allprofiles state on", ref exitcode);
@@ -68,54 +76,115 @@ namespace NTMiner.RemoteDesktop {
         #endregion
 
         public static FirewallStatus Status(FirewallDomain? domain = null) {
-            return FirewallStatus(domain);
+            try {
+                return FirewallStatus(domain);
+            }
+            catch {
+                return RemoteDesktop.FirewallStatus.Disabled;
+            }
         }
 
         public static void AddMinerClientRule() {
-            OpenPort($"{MinerClientRuleName}_TCP", NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
-            OpenPort($"{MinerClientRuleName}_UDP", NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
+            FirewallStatus state = Status(FirewallDomain.Domain);
+            if (state == RemoteDesktop.FirewallStatus.Disabled) {
+                return;
+            }
+            try {
+                OpenPort($"{MinerClientRuleName}_TCP", NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
+                OpenPort($"{MinerClientRuleName}_UDP", NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
 
-            OpenPort($"{NTMinerDaemonRuleName}_TCP", NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
-            OpenPort($"{NTMinerDaemonRuleName}_UDP", NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
+                OpenPort($"{NTMinerDaemonRuleName}_TCP", NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
+                OpenPort($"{NTMinerDaemonRuleName}_UDP", NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         public static void RemoveMinerClientRule() {
-            INetFwOpenPorts openPorts = GetOpenPorts();
-            openPorts.Remove(NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
-            openPorts.Remove(NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
+            FirewallStatus state = Status(FirewallDomain.Domain);
+            if (state == RemoteDesktop.FirewallStatus.Disabled) {
+                return;
+            }
+            try {
+                INetFwOpenPorts openPorts = GetOpenPorts();
+                openPorts.Remove(NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+                openPorts.Remove(NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
 
-            openPorts.Remove(NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
-            openPorts.Remove(NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
+                openPorts.Remove(NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+                openPorts.Remove(NTKeyword.NTMinerDaemonPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
 
-            INetFwPolicy2 policyManager = GetPolicyManager();
-            policyManager.Rules.Remove(MinerClientRuleName);
-            policyManager.Rules.Remove(NTMinerDaemonRuleName);
+                INetFwPolicy2 policyManager = GetPolicyManager();
+                policyManager.Rules.Remove(MinerClientRuleName);
+                policyManager.Rules.Remove(NTMinerDaemonRuleName);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         public static bool IsMinerClientRuleExists() {
-            INetFwPolicy2 policyManager = GetPolicyManager();
-            return 
-                policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(MinerClientRuleName)) &&
-                policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(NTMinerDaemonRuleName));
+            FirewallStatus state = Status(FirewallDomain.Domain);
+            if (state == RemoteDesktop.FirewallStatus.Disabled) {
+                return true;
+            }
+            try {
+                INetFwPolicy2 policyManager = GetPolicyManager();
+                return
+                    policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(MinerClientRuleName)) &&
+                    policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(NTMinerDaemonRuleName));
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return true;
+            }
         }
 
         public static void AddRdpRule() {
-            OpenPort($"{RdpRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, RdpScope);
-            OpenPort($"{RdpRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, RdpScope);
+            FirewallStatus state = Status(FirewallDomain.Domain);
+            if (state == RemoteDesktop.FirewallStatus.Disabled) {
+                return;
+            }
+            try {
+                OpenPort($"{RdpRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, RdpScope);
+                OpenPort($"{RdpRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, RdpScope);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         public static void RemoveRdpRule() {
-            INetFwOpenPorts openPorts = GetOpenPorts();
-            openPorts.Remove(RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
-            openPorts.Remove(RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
+            FirewallStatus state = Status(FirewallDomain.Domain);
+            if (state == RemoteDesktop.FirewallStatus.Disabled) {
+                return;
+            }
+            try {
+                INetFwOpenPorts openPorts = GetOpenPorts();
+                openPorts.Remove(RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
+                openPorts.Remove(RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP);
 
-            INetFwPolicy2 policyManager = GetPolicyManager();
-            policyManager.Rules.Remove(RdpRuleName);
+                INetFwPolicy2 policyManager = GetPolicyManager();
+                policyManager.Rules.Remove(RdpRuleName);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         public static bool IsRdpRuleExists() {
-            INetFwPolicy2 policyManager = GetPolicyManager();
-            return policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(RdpRuleName));
+            FirewallStatus state = Status(FirewallDomain.Domain);
+            if (state == RemoteDesktop.FirewallStatus.Disabled) {
+                return true;
+            }
+            try {
+                INetFwPolicy2 policyManager = GetPolicyManager();
+                return policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(RdpRuleName));
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return true;
+            }
         }
 
         #region private methods

@@ -17,6 +17,7 @@ namespace NTMiner {
             public void CloseDaemon() {
                 try {
                     using (HttpClient client = RpcRoot.Create()) {
+                        client.Timeout = TimeSpan.FromSeconds(2);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{s_controllerName}/{nameof(INTMinerDaemonController.CloseDaemon)}", null);
                         Write.DevDebug($"{nameof(CloseDaemon)} {getHttpResponse.Result.ReasonPhrase}");
                     }
@@ -30,6 +31,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = RpcRoot.Create()) {
+                            client.Timeout = TimeSpan.FromSeconds(2);
                             Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SetWallet)}", request);
                             ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                             callback?.Invoke(response, null);
