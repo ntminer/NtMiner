@@ -43,7 +43,7 @@ namespace NTMiner {
             VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
             }, location: this.GetType());
-            createdNew = AppUtil.GetMutex("ntminercontrol");
+            createdNew = AppUtil.GetMutex(NTKeyword.MinerStudioAppMutex);
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 NotiCenterWindow.Instance.ShowWindow();
@@ -65,8 +65,8 @@ namespace NTMiner {
                 }
                 catch (Exception) {
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                        message: "另一个群控客户端正在运行，请重试。",
-                        title: "alert",
+                        message: "另一个群控客户端正在运行但唤醒失败，请重试。",
+                        title: "错误",
                         icon: "Icon_Error"));
                     Process currentProcess = Process.GetCurrentProcess();
                     NTMiner.Windows.TaskKill.KillOtherProcess(currentProcess);

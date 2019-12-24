@@ -48,7 +48,7 @@ namespace NTMiner {
                 }));
             }
             else {
-                if (AppUtil.GetMutex("ntminerclient")) {
+                if (AppUtil.GetMutex(NTKeyword.MinerClientAppMutex)) {
                     Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersion.ToString()}==================");
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = null;
@@ -128,8 +128,8 @@ namespace NTMiner {
                     }
                     catch (Exception) {
                         DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                            message: "另一个开源矿工正在运行，请重试。",
-                            title: "提醒",
+                            message: "另一个开源矿工正在运行但唤醒失败，请重试。",
+                            title: "错误",
                             icon: "Icon_Error"));
                         Process currentProcess = Process.GetCurrentProcess();
                         NTMiner.Windows.TaskKill.KillOtherProcess(currentProcess);

@@ -27,7 +27,7 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
-            if (!AppUtil.GetMutex("NTMinerUpdaterAppMutex")) {
+            if (!AppUtil.GetMutex(NTKeyword.MinerUpdaterAppMutex)) {
                 Process thatProcess = null;
                 Process currentProcess = Process.GetCurrentProcess();
                 Process[] Processes = Process.GetProcessesByName(currentProcess.ProcessName);
@@ -42,7 +42,7 @@ namespace NTMiner {
                     AppUtil.Show(thatProcess);
                 }
                 else {
-                    MessageBox.Show("Another Updater is running", "alert", MessageBoxButton.OKCancel);
+                    MessageBox.Show("另一个升级器已在运行", "提示", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 }
                 Environment.Exit(-1);
                 return;

@@ -1,5 +1,12 @@
 ﻿namespace NTMiner {
     public static class NTKeyword {
+        #region AppMutex
+        public const string MinerClientAppMutex = "ntminerclient";
+        public const string MinerStudioAppMutex = "ntminercontrol";
+        public const string MinerUpdaterAppMutex = "NTMinerUpdaterAppMutex";
+        public const string MinerClientFinderAppMutex = "MinerClientFinderAppMutex";
+        #endregion
+
         public const string HomeDirParameterName = "{家目录}";
         public const string TempDirParameterName = "{临时目录}";
         public const int MinerClientPort = 3336;
