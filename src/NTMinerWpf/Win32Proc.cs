@@ -2,8 +2,8 @@
 using System.Runtime.InteropServices;
 
 namespace NTMiner {
-    public static class Win32MessageProc {
-        private static class SafeNativeMethods {
+    public static class Win32Proc {
+        public static class SafeNativeMethods {
             #region enum struct class
             [StructLayout(LayoutKind.Sequential)]
             public struct POINT {
@@ -29,17 +29,62 @@ namespace NTMiner {
             }
 
             [StructLayout(LayoutKind.Sequential)]
+            internal struct APPBARDATA {
+                /// <summary>
+                /// initialize this field using: Marshal.SizeOf(typeof(APPBARDATA));
+                /// </summary>
+                public int cbSize;
+                public IntPtr hWnd;
+                public int uCallbackMessage;
+                public int uEdge;
+                public RECT rc;
+                public bool lParam;
+            }
+
+            [StructLayout(LayoutKind.Sequential)]
             public struct RECT {
                 public int Left, Top, Right, Bottom;
             }
 
             #endregion
 
+            [DllImport(DllName.User32Dll, SetLastError = true)]
+            internal static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+            [DllImport(DllName.Shell32Dll, CallingConvention = CallingConvention.StdCall)]
+            internal static extern uint SHAppBarMessage(int dwMessage, ref APPBARDATA pData);
+
             [DllImport(DllName.User32Dll)]
             internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
             [DllImport(DllName.User32Dll)]
             internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
+        }
+
+        public enum WindowsTaskbarEdge {
+            Left, Top, Right, Bottom
+        }
+
+        public static WindowsTaskbarEdge GetWindowsTaskbarEdge(out double value) {
+            // maybe we can use ReBarWindow32 isntead Shell_TrayWnd
+            IntPtr hwnd = SafeNativeMethods.FindWindow("Shell_TrayWnd", null);
+            var abd = new SafeNativeMethods.APPBARDATA();
+            abd.cbSize = Marshal.SizeOf(abd);
+            abd.hWnd = hwnd;
+            SafeNativeMethods.SHAppBarMessage(5, ref abd);
+            value = Math.Min(Math.Abs(abd.rc.Top - abd.rc.Bottom), Math.Abs(abd.rc.Left - abd.rc.Right));
+            switch (abd.uEdge) {
+                case 0:
+                    return WindowsTaskbarEdge.Left;
+                case 1:
+                    return WindowsTaskbarEdge.Top;
+                case 2:
+                    return WindowsTaskbarEdge.Right;
+                case 3:
+                    return WindowsTaskbarEdge.Bottom;
+                default:
+                    return WindowsTaskbarEdge.Bottom;
+            }
         }
 
         public static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {

@@ -19,7 +19,7 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
-            if (!AppUtil.GetMutex("MinerClientFinderAppMutex")) {
+            if (!AppUtil.GetMutex(NTKeyword.MinerClientFinderAppMutex)) {
                 Process thatProcess = null;
                 Process currentProcess = Process.GetCurrentProcess();
                 Process[] Processes = Process.GetProcessesByName(currentProcess.ProcessName);
@@ -34,7 +34,7 @@ namespace NTMiner {
                     AppUtil.Show(thatProcess);
                 }
                 else {
-                    MessageBox.Show("Another MinerClientFinder is running", "alert", MessageBoxButton.OKCancel);
+                    MessageBox.Show("另一个矿机雷达已在运行", "提示", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 }
                 Environment.Exit(-1);
                 return;

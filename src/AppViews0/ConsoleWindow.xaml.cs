@@ -30,7 +30,7 @@ namespace NTMiner.Views {
                 SafeNativeMethods.SetParent(console, parent);
                 SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-                hwndSource.AddHook(new HwndSourceHook(Win32MessageProc.WindowProc));
+                hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
             };
         }
 

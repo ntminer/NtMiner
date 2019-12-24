@@ -47,6 +47,14 @@ namespace NTMiner {
         /// </summary>
         /// <param name="window"></param>
         public static void ShowSoftDialog(this Window window) {
+            ShowDialog(window, useSoftDialog: true);
+        }
+
+        public static void ShowHardDialog(this Window window) {
+            ShowDialog(window, useSoftDialog: false);
+        }
+
+        private static void ShowDialog(Window window, bool useSoftDialog) {
             if (window.Owner == null) {
                 var owner = WpfUtil.GetTopWindow();
                 if (owner != null && owner != window && owner.GetType() != typeof(NotiCenterWindow)) {
@@ -76,7 +84,12 @@ namespace NTMiner {
                     window.Owner.Activate();
                 };
             }
-            window.Show();
+            if (useSoftDialog) {
+                window.Show();
+            }
+            else {
+                window.ShowDialog();
+            }
         }
 
         public static void ShowWindow(this Window window, bool isToggle) {

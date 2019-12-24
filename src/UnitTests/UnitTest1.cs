@@ -281,5 +281,11 @@ namespace UnitTests {
             Assert.AreEqual("0123456789ab", string.Join(string.Empty, chars1));
             Assert.AreEqual("0,1,2,3,4,5,6,7,8,9,10,11", string.Join(",", chars2));
         }
+
+        [TestMethod]
+        public void GetWindowsTaskbarPositionTest() {
+            var edge = Win32Proc.GetWindowsTaskbarEdge(out double value);
+            Console.WriteLine($"{edge.ToString()} {value}");
+        }
     }
 }

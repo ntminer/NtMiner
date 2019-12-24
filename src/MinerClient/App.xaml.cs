@@ -48,7 +48,7 @@ namespace NTMiner {
                 }));
             }
             else {
-                if (AppUtil.GetMutex("ntminerclient")) {
+                if (AppUtil.GetMutex(NTKeyword.MinerClientAppMutex)) {
                     Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersion.ToString()}==================");
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
                     SplashWindow splashWindow = null;
@@ -60,7 +60,7 @@ namespace NTMiner {
                     //ConsoleWindow.Instance.Show();
                     NotiCenterWindow.Instance.ShowWindow();
                     if (!NTMiner.Windows.WMI.IsWmiEnabled) {
-                        DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
+                        DialogWindow.ShowHardDialog(new DialogWindowViewModel(
                             message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
                             title: "提醒",
                             icon: "Icon_Error"));
@@ -128,8 +128,8 @@ namespace NTMiner {
                     }
                     catch (Exception) {
                         DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                            message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。",
-                            title: "提醒",
+                            message: "另一个开源矿工正在运行但唤醒失败，请重试。",
+                            title: "错误",
                             icon: "Icon_Error"));
                         Process currentProcess = Process.GetCurrentProcess();
                         NTMiner.Windows.TaskKill.KillOtherProcess(currentProcess);
