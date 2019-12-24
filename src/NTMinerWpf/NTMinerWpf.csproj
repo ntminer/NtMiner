@@ -128,7 +128,7 @@
     <Compile Include="Vms\ServerHostSelectViewModel.cs" />
     <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="WindowExtension.cs" />
-    <Compile Include="Win32MessageProc.cs" />
+    <Compile Include="Win32Proc.cs" />
     <Compile Include="WindowsShortcut.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Views\NotiCenterWindow.xaml.cs">

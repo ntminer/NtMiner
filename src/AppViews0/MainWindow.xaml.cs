@@ -82,7 +82,7 @@ namespace NTMiner.Views {
                 };
                 this.Owner = ConsoleWindow.Instance;
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-                hwndSource.AddHook(new HwndSourceHook(Win32MessageProc.WindowProc));
+                hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
                 MoveConsoleWindow();
                 NTMinerRoot.RefreshArgsAssembly.Invoke();
             };
