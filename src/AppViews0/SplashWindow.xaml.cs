@@ -23,6 +23,7 @@ namespace NTMiner.Views {
 
         private SplashWindow() {
             InitializeComponent();
+            #region 使SplashWindow和SplashWindow.png完全重合
             var windowsTaskbarEdge = Win32Proc.GetWindowsTaskbarEdge(out double value);
             value /= 2;
             double left = (SystemParameters.WorkArea.Width - this.Width) / 2;
@@ -41,6 +42,7 @@ namespace NTMiner.Views {
             }
             this.Left = left;
             this.Top = top;
+            #endregion
             // BitmapImage是依赖对象，而SplashWindow是在单独的线程中使用的，所以SplashWindow不能使用任何其它界面用到的依赖对象
             this.BigLogo.Source = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
             this.TbFullVersion.Text = $"v{EntryAssemblyInfo.CurrentVersion}({EntryAssemblyInfo.CurrentVersionTag})";
