@@ -62,7 +62,10 @@ namespace NTMiner {
         }
 
         public enum WindowsTaskbarEdge {
-            Left, Top, Right, Bottom
+            Left = 0, 
+            Top = 1, 
+            Right = 2, 
+            Bottom = 3
         }
 
         /// <summary>
@@ -77,16 +80,16 @@ namespace NTMiner {
             abd.hWnd = hwnd;
             SafeNativeMethods.SHAppBarMessage(5, ref abd);
             switch (abd.uEdge) {
-                case 0:
+                case (int)WindowsTaskbarEdge.Left:
                     margin = Math.Abs(abd.rc.Left - abd.rc.Right);
                     return WindowsTaskbarEdge.Left;
-                case 1:
+                case (int)WindowsTaskbarEdge.Top:
                     margin = Math.Abs(abd.rc.Top - abd.rc.Bottom);
                     return WindowsTaskbarEdge.Top;
-                case 2:
+                case (int)WindowsTaskbarEdge.Right:
                     margin = Math.Abs(abd.rc.Left - abd.rc.Right);
                     return WindowsTaskbarEdge.Right;
-                case 3:
+                case (int)WindowsTaskbarEdge.Bottom:
                     margin = Math.Abs(abd.rc.Top - abd.rc.Bottom);
                     return WindowsTaskbarEdge.Bottom;
                 default:
