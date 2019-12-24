@@ -65,24 +65,32 @@ namespace NTMiner {
             Left, Top, Right, Bottom
         }
 
-        public static WindowsTaskbarEdge GetWindowsTaskbarEdge(out double value) {
-            // maybe we can use ReBarWindow32 isntead Shell_TrayWnd
+        /// <summary>
+        /// 获取windows任务栏的方位和工作区距离屏幕边缘的距离。
+        /// </summary>
+        /// <param name="margin">任务栏与工作区的接触边距离屏幕边的距离</param>
+        /// <returns></returns>
+        public static WindowsTaskbarEdge GetWindowsTaskbarEdge(out double margin) {
             IntPtr hwnd = SafeNativeMethods.FindWindow("Shell_TrayWnd", null);
             var abd = new SafeNativeMethods.APPBARDATA();
             abd.cbSize = Marshal.SizeOf(abd);
             abd.hWnd = hwnd;
             SafeNativeMethods.SHAppBarMessage(5, ref abd);
-            value = Math.Min(Math.Abs(abd.rc.Top - abd.rc.Bottom), Math.Abs(abd.rc.Left - abd.rc.Right));
             switch (abd.uEdge) {
                 case 0:
+                    margin = Math.Abs(abd.rc.Left - abd.rc.Right);
                     return WindowsTaskbarEdge.Left;
                 case 1:
+                    margin = Math.Abs(abd.rc.Top - abd.rc.Bottom);
                     return WindowsTaskbarEdge.Top;
                 case 2:
+                    margin = Math.Abs(abd.rc.Left - abd.rc.Right);
                     return WindowsTaskbarEdge.Right;
                 case 3:
+                    margin = Math.Abs(abd.rc.Top - abd.rc.Bottom);
                     return WindowsTaskbarEdge.Bottom;
                 default:
+                    margin = 0;
                     return WindowsTaskbarEdge.Bottom;
             }
         }
