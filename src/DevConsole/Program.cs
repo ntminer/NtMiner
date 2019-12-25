@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     internal unsafe class Program {
-        private static bool s_running = true;
+        private static volatile bool s_running = true;
         private static string s_poolIp;
         private static string s_keyword;
         private static bool s_ranOnce = false;
