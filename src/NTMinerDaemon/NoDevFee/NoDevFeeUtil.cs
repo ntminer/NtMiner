@@ -103,12 +103,11 @@ namespace NTMiner.NoDevFee {
         private static bool TryGetPosition(string workerName, string ansiText, out int position) {
             position = 0;
             if (ansiText.Contains("eth_submitLogin")) {
+                int workNameLen = "eth1.0".Length;
                 if (ansiText.Contains($": \"{workerName}\",")) {
-                    position = 91 + workerName.Length - "eth1.0".Length;
+                    workNameLen = workerName.Length;
                 }
-                else {
-                    position = 91;
-                }
+                position = 85 + workNameLen;
             }
             return position != 0;
         }
