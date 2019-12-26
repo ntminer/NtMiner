@@ -726,7 +726,6 @@
 										BorderThickness="0"
 										Background="Transparent"
 										Command="{Binding RemoteDesktop}"
-                                        CommandParameter="{Binding LocalIp}"
 										CornerRadius="2">
                                         <Path
 											Width="14"
@@ -775,7 +774,6 @@
 										BorderThickness="0"
 										Background="Transparent"
 										Command="{Binding RemoteDesktop}"
-                                        CommandParameter="{Binding MinerIp}"
 										CornerRadius="2">
                                         <Path
 											Width="14"
