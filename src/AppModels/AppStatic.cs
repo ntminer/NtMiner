@@ -688,7 +688,7 @@ namespace NTMiner {
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    VirtualRoot.Out.ShowError($"刷新失败");
+                    VirtualRoot.Out.ShowError($"刷新失败", autoHideSeconds: 4);
                 }
             }));
         });

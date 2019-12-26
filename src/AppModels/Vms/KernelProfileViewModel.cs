@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
             });
             this.Install = new DelegateCommand(() => {
                 if (!VirtualRoot.IsMinerClient) {
-                    VirtualRoot.Out.ShowWarn("非挖矿端不需要安装内核");
+                    VirtualRoot.Out.ShowWarn("非挖矿端不需要安装内核", autoHideSeconds: 4);
                     return;
                 }
                 this.Download();
@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                     string processName = _kernelVm.GetProcessName();
                     if (NTMinerRoot.Instance.IsMining) {
                         if (NTMinerRoot.Instance.LockedMineContext.Kernel.Package == _kernelVm.Package) {
-                            VirtualRoot.Out.ShowWarn("该内核正在挖矿，请停止挖矿后再卸载");
+                            VirtualRoot.Out.ShowWarn("该内核正在挖矿，请停止挖矿后再卸载", autoHideSeconds: 4);
                             return;
                         }
                     }

@@ -6,7 +6,7 @@ using System.Reflection;
 namespace NTMiner {
     public static class EntryAssemblyInfo {
         public const string Version = "2.7.0";
-        public const string Build = "1";
+        public const string Build = "0";
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";
         public const string Copyright = "Copyright ©  NTMiner";
