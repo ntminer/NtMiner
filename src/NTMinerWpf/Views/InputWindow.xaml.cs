@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class InputWindow : BlankWindow {
@@ -14,6 +13,7 @@ namespace NTMiner.Views {
             Action<string> onOk) {
             this.Title = title;
             InitializeComponent();
+            this.TbUcName.Text = nameof(InputWindow);
             TbTitle.Text = title;
             TbText.Text = text;
 

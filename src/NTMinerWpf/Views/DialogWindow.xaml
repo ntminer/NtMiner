@@ -7,6 +7,7 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:blankWindow="http://NTMiner.com"
     xmlns:controls="clr-namespace:NTMiner.Controls"
+    xmlns:app="clr-namespace:NTMiner"
     xmlns:vm="clr-namespace:NTMiner.Vms"
     xmlns:local="clr-namespace:NTMiner.Views"
     ResizeMode="NoResize"
@@ -69,6 +70,7 @@
                 </WrapPanel>
             </controls:KbLinkButton>
         </DockPanel>
+        <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
         <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock Text="{Binding Message}" FontSize="16" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>

@@ -40,6 +40,7 @@ namespace NTMiner.Views {
 
         private LoginWindow() {
             InitializeComponent();
+            this.TbUcName.Text = nameof(LoginWindow);
             // 1个是通知窗口，1个是本窗口
             NotiCenterWindow.Instance.Bind(this, isNoOtherWindow: Application.Current.Windows.Count <= 2);
             PasswordFocus();

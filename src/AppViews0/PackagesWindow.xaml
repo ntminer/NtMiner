@@ -35,6 +35,7 @@
 			<controls:KbSystemMaxButton Height="36" KbSystemButtonForeground="#385263" />
 			<controls:KbSystemCloseButton Height="36" KbSystemButtonForeground="#385263" />
 		</WrapPanel>
+        <TextBlock x:Name="TbUcName" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
 		<DataGrid 
 			Grid.Row="1"
 			Margin="0" ItemsSource="{Binding PackageVms.AllPackages}" 

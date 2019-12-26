@@ -7,6 +7,7 @@
 		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls"
 		xmlns:vm="clr-namespace:NTMiner.Vms"
+		xmlns:app="clr-namespace:NTMiner"
 		xmlns:local="clr-namespace:NTMiner.Views"
 		mc:Ignorable="d"
 		ResizeMode="NoResize"
@@ -36,6 +37,7 @@
 				<controls:KbSystemCloseButton Height="30" />
 			</WrapPanel>
 		</DockPanel>
+        <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
 		<Grid Grid.Row="1" Margin="20 10">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="*"></ColumnDefinition>

@@ -34,6 +34,7 @@ namespace NTMiner.Views {
             this.DataContext = Vm;
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
+            this.TbUcName.Text = nameof(MinerClientsWindow);
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             this.ServerMessagesUc.IsVisibleChanged += (sender, e) => {
                 VirtualRoot.SetIsServerMessagesVisible(this.ServerMessagesUc.IsVisible);
