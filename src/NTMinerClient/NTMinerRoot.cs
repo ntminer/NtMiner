@@ -174,7 +174,6 @@ namespace NTMiner {
                         string rawJson = Encoding.UTF8.GetString(data);
                         SpecialPath.WriteServerJsonFile(rawJson);
                         SetServerJsonVersion(serverState.JsonFileVersion);
-                        ReInitServerJson();
                         // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
                         ContextReInit(isWork: VirtualRoot.IsMinerStudio);
                         VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), $"刷新server.json配置", toConsole: true);
@@ -209,9 +208,7 @@ namespace NTMiner {
         #region private methods
 
         private void ContextReInit(bool isWork) {
-            if (isWork) {
-                ReInitServerJson();
-            }
+            ReInitServerJson();
             IsJsonServer = !DevMode.IsDevMode || VirtualRoot.IsMinerStudio || isWork;
             this.ServerContext.ReInit();
             // CoreContext的视图模型集此时刷新

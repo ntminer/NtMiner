@@ -13,6 +13,7 @@ namespace NTMiner.Vms {
         public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
+        [Obsolete("这是供WPF设计时使用的构造，不应在业务代码中被调用")]
         public CoinSelectViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();

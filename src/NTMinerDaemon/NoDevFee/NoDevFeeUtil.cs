@@ -38,7 +38,7 @@ namespace NTMiner.NoDevFee {
         }
 
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
-        private static bool _isStopping = true;
+        private static volatile bool _isStopping = true;
         public static void StartAsync() {
             // Win7下WinDivert.sys文件签名问题
             if (VirtualRoot.IsLTWin10) {

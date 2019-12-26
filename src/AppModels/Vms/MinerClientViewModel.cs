@@ -36,6 +36,7 @@ namespace NTMiner.Vms {
 
         private readonly ClientData _data;
         #region ctor
+        [Obsolete("这是供WPF设计时使用的构造，不应在业务代码中被调用")]
         public MinerClientViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
