@@ -884,7 +884,7 @@ namespace NTMiner {
                                     // 前译
                                     Instance.ServerContext.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, isPre: true);
                                     if (!string.IsNullOrEmpty(KernelOutput.KernelRestartKeyword) && input.Contains(KernelOutput.KernelRestartKeyword)) {
-                                        if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
+                                        if (_kernelRestartKeywordOn.AddSeconds(1) < DateTime.Now) {
                                             KernelSelfRestartCount += 1;
                                             _kernelRestartKeywordOn = DateTime.Now;
                                             VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
