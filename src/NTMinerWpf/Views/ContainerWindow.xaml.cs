@@ -113,7 +113,7 @@ namespace NTMiner.Views {
             }
 
             InitializeComponent();
-
+            this.TbUcName.Text = _uc.GetType().Name;
             this.Closed += (object sender, EventArgs e) => {
                 s_windowDic.Remove(vm);
                 afterClose?.Invoke();

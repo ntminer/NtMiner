@@ -22,6 +22,15 @@ namespace NTMiner {
             }
         }
 
+        public static Visibility IsDevModeVisible {
+            get {
+                if (IsDevMode) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
         public static Window GetTopWindow() {
             IntPtr hwnd = SafeNativeMethods.GetForegroundWindow();
             if (hwnd == IntPtr.Zero) {
