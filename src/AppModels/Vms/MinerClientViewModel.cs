@@ -72,14 +72,10 @@ namespace NTMiner.Vms {
                     }
                 });
             });
-            this.RemoteDesktop = new DelegateCommand<string>((ip) => {
-                if (string.IsNullOrEmpty(ip)) {
+            this.RemoteDesktop = new DelegateCommand(() => {
+                if (!SpeedData.TryGetFirstIp(this.LocalIp, out string ip)) {
                     VirtualRoot.Out.ShowWarn("Ip地址不能为空", autoHideSeconds: 4);
                     return;
-                }
-                string[] parts = ip.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length != 1) {
-                    ip = parts[0];
                 }
                 if (string.IsNullOrEmpty(this.WindowsLoginName)) {
                     VirtualRoot.Execute(new ShowRemoteDesktopLoginDialogCommand(new RemoteDesktopLoginViewModel {
@@ -979,7 +975,7 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(GpuCount));
                 int maxTemperature = _data.GpuTable.Length == 0 ? 0 : _data.GpuTable.Max(a => a.Temperature);
                 this.GpuTableVm = new GpuSpeedDataViewModels(
-                    MainCoinCode, DualCoinCode, MainCoinSpeedText, 
+                    MainCoinCode, DualCoinCode, MainCoinSpeedText,
                     DualCoinSpeedText, TotalPowerText,
                     IsRejectOneGpuShare, IsFoundOneGpuShare, IsGotOneIncorrectGpuShare,
                     CpuPerformance, CpuTemperature, maxTemperature, value);

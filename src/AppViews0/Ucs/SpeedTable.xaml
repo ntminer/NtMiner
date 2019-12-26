@@ -17,10 +17,10 @@
         <vm:SpeedTableViewModel></vm:SpeedTableViewModel>
     </UserControl.DataContext>
     <UserControl.Resources>
-        <Style x:Key="TextBox" TargetType="TextBox">
-            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Style x:Key="TextBox" TargetType="TextBox" BasedOn="{StaticResource TextBoxBase}">
             <Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
             <Setter Property="Width" Value="40"></Setter>
+            <Setter Property="Height" Value="18"></Setter>
             <Setter Property="Background" Value="Black"></Setter>
             <Setter Property="Foreground" Value="White"></Setter>
         </Style>

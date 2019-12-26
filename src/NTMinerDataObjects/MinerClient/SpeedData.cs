@@ -2,6 +2,27 @@
 
 namespace NTMiner.MinerClient {
     public class SpeedData : ISpeedData {
+        public static bool TryGetFirstIp(string ipReportByClient, out string outIp) {
+            /* 
+             * LocalIp可能是空、1个或多个Ip，多个Ip以英文“,”号分隔，Ip末尾可能带有英文"()"小括号括住的"(动态)"或"(🔒)"
+             * 例如：192.168.1.110(🔒)
+             * 例如：192.168.1.110(🔒),10.1.1.119(动态)
+             */
+            outIp = ipReportByClient;
+            if (string.IsNullOrEmpty(ipReportByClient)) {
+                return false;
+            }
+            string[] parts = outIp.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length != 1) {
+                outIp = parts[0];
+            }
+            int pos = outIp.IndexOf('(');
+            if (pos != -1) {
+                outIp = outIp.Substring(0, pos);
+            }
+            return true;
+        }
+
         public SpeedData() {
             GpuTable = new GpuSpeedData[0];
         }
@@ -40,11 +61,6 @@ namespace NTMiner.MinerClient {
         public Guid ClientId { get; set; }
 
         public string MACAddress { get; set; }
-        /// <summary>
-        /// 可能是空、1个或多个Ip，多个Ip以英文“,”号分隔，Ip末尾可能带有英文"()"小括号括住的"(动态)"或"(🔒)"
-        /// 例如：192.168.1.110(🔒)
-        /// 例如：192.168.1.110(🔒),10.1.1.119(动态)
-        /// </summary>
         public string LocalIp { get; set; }
 
         public string Version { get; set; }

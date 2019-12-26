@@ -16,15 +16,11 @@
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="60"></Setter>
         </Style>
-        <Style x:Key="TextBox" TargetType="TextBox">
-            <Setter Property="Background" Value="White"></Setter>
-            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-        </Style>
     </UserControl.Resources>
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
             <TextBlock Style="{StaticResource LblTb}">演员</TextBlock>
-            <TextBox Width="160" Style="{StaticResource TextBox}" Text="{Binding Provider, ValidatesOnExceptions=True}">
+            <TextBox Width="160" Background="White" Text="{Binding Provider, ValidatesOnExceptions=True}">
             </TextBox>
             <ListBox 
 				Background="Transparent"
@@ -49,7 +45,7 @@
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <TextBlock Style="{StaticResource LblTb}">内容</TextBlock>
-            <TextBox Width="440" Style="{StaticResource TextBox}" Text="{Binding Content, ValidatesOnExceptions=True}">
+            <TextBox Width="440" Text="{Binding Content, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
         <controls:KbButton
