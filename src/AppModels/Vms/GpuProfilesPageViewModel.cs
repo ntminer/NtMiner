@@ -23,6 +23,7 @@ namespace NTMiner.Vms {
 
         public ICommand Save { get; private set; }
 
+        [Obsolete("这是供WPF设计时使用的构造，不应在业务代码中被调用")]
         public GpuProfilesPageViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
