@@ -34,7 +34,7 @@
     <SolidColorBrush x:Key="ThemeBackground">#009AD9</SolidColorBrush>
 	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
 	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
-	<SolidColorBrush x:Key="MinerProfileBackground">#EBEBEB</SolidColorBrush>
+    <SolidColorBrush x:Key="MinerProfileBackground">#EBF2F9</SolidColorBrush>
     <SolidColorBrush x:Key="WindowBorderBrush">#9B9FB9</SolidColorBrush>
     <SolidColorBrush x:Key="TableHeaderBackground">#F5F4F5</SolidColorBrush>
     <SolidColorBrush x:Key="TableHeaderForeground">#FF5A5A5A</SolidColorBrush>
