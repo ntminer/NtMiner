@@ -60,20 +60,22 @@
 		<Setter Property="TextAlignment" Value="Right"></Setter>
 		<Setter Property="TextWrapping" Value="Wrap"></Setter>
 	</Style>
-	<Style TargetType="TextBox">
-		<Setter Property="Height" Value="26"></Setter>
-		<Setter Property="VerticalAlignment" Value="Center"></Setter>
-		<Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-		<Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-		<Setter Property="Background" Value="Transparent"></Setter>
-		<Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}">
-		</Setter>
-		<Style.Triggers>
-			<Trigger Property="Validation.HasError" Value="true">
-				<Setter Property="ToolTip"
+    <Style x:Key="TextBoxBase" TargetType="TextBox">
+        <Setter Property="Height" Value="26"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}">
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip"
 						Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
-			</Trigger>
-		</Style.Triggers>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+    <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBase}">		
     </Style>
     <Style TargetType="ScrollViewer">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
