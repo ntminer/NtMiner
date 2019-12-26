@@ -40,6 +40,10 @@ namespace NTMiner.Vms {
                 _cancelDownload?.Invoke();
             });
             this.Install = new DelegateCommand(() => {
+                if (!VirtualRoot.IsMinerClient) {
+                    this.ShowSoftDialog(new DialogWindowViewModel(title: "提示", yesText: "好", message: "非挖矿端不需要安装内核"));
+                    return;
+                }
                 this.Download();
             });
             this.UnInstall = new DelegateCommand(() => {
