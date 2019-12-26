@@ -152,8 +152,9 @@
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
 					</WrapPanel>
-				</controls:KbButton>
-			</WrapPanel>
+                </controls:KbButton>
+                <TextBlock x:Name="TbUcName" Margin="10 0 0 0" VerticalAlignment="Center" Visibility="{x:Static app:AppStatic.IsDevModeVisible}"></TextBlock>
+            </WrapPanel>
 			<WrapPanel Grid.Column="1" HorizontalAlignment="Right">
 				<controls:KbSystemMinButton Height="36" KbSystemButtonForeground="#385263" />
 				<controls:KbSystemMaxButton Height="36" KbSystemButtonForeground="#385263" />

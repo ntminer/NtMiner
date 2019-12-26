@@ -30,6 +30,7 @@ namespace NTMiner.Views {
 
         public PackagesWindow() {
             InitializeComponent();
+            this.TbUcName.Text = nameof(PackagesWindow);
         }
 
         protected override void OnClosed(EventArgs e) {

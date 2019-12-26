@@ -101,6 +101,7 @@
 				</WrapPanel>
 			</WrapPanel>
         </Grid>
+        <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
         <Grid Grid.Row="1" Grid.Column="0">
             <DataGrid 
                 RowHeight="30"

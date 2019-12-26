@@ -33,6 +33,7 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
+            this.TbUcName.Text = nameof(ChartsWindow);
             NotiCenterWindow.Instance.Bind(this);
             #region 总算力
             this.AddEventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,

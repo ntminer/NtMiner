@@ -17,6 +17,7 @@ namespace NTMiner.Views.Ucs {
                 window.Closed += (sender, e) => {
                     vm.Save.Execute(null);
                 };
+                NotiCenterWindow.Instance.Bind(window);
                 return new MineWorkEdit(vm);
             }, fixedSize: true);
         }
