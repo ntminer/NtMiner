@@ -1,5 +1,4 @@
-﻿using NTMiner.Views;
-using NTMiner.Views.Ucs;
+﻿using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,9 +27,9 @@ namespace NTMiner.Views {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<string>(sender, e, ip => {
-                Clipboard.SetDataObject(ip);
-                VirtualRoot.Out.ShowSuccess(ip, autoHideSeconds: 1, "复制成功");
+            WpfUtil.DataGrid_MouseDoubleClick<MainWindowViewModel.IpResult>(sender, e, ipResult => {
+                Clipboard.SetDataObject(ipResult.Ip);
+                VirtualRoot.Out.ShowSuccess(ipResult.Ip, autoHideSeconds: 1, "复制成功");
             });
         }
 

@@ -67,7 +67,10 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}"></TextBlock>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding Ip}"></TextBlock>
+                                <TextBlock Text="（本机）" Visibility="{Binding IsSelf, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                            </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

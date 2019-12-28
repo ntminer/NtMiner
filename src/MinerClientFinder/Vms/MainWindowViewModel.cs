@@ -25,10 +25,21 @@ namespace NTMiner.Vms {
             public bool IsTimeouted { get; set; }
         }
 
+        public class IpResult {
+            public IpResult(string ip, string selfIp) {
+                this.Ip = ip;
+                IsSelf = selfIp == ip;
+            }
+
+            public string Ip { get; set; }
+            public bool IsSelf { get; set; }
+        }
+
         private IpAddressViewModel _fromIpAddressVm;
         private IpAddressViewModel _toIpAddressVm;
         private string _localIps;
-        private readonly ObservableCollection<string> _results = new ObservableCollection<string>();
+        private string _selfIp;
+        private readonly ObservableCollection<IpResult> _results = new ObservableCollection<IpResult>();
         private int _percent;
         private int _count = 0;
         private bool _isScanning;
@@ -83,6 +94,9 @@ namespace NTMiner.Vms {
                 if (len != sb.Length) {
                     sb.Append("，");
                 }
+                else {
+                    this._selfIp = localIp.IPAddress;
+                }
                 sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(动态)" : "🔒");
             }
             return sb.ToString();
@@ -126,7 +140,7 @@ namespace NTMiner.Vms {
                 }
                 data.Soket.EndConnect(ar);
                 UIThread.Execute(() => {
-                    _results.Add(data.Ip);
+                    _results.Add(new IpResult(data.Ip, this._selfIp));
                 });
             }
             catch(Exception e) {
@@ -200,7 +214,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ObservableCollection<string> Results {
+        public ObservableCollection<IpResult> Results {
             get => _results;
         }
     }
