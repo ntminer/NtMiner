@@ -19,15 +19,20 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
-            if (!AppUtil.GetMutex(NTKeyword.MinerClientFinderAppMutex)) {
+            if (AppUtil.GetMutex(NTKeyword.MinerClientFinderAppMutex)) {
+                NotiCenterWindow.Instance.ShowWindow();
+                MainWindow = new MainWindow();
+                MainWindow.Show();
+                VirtualRoot.StartTimer(new WpfTimer());
+            }
+            else {
                 Process thatProcess = null;
                 Process currentProcess = Process.GetCurrentProcess();
                 Process[] Processes = Process.GetProcessesByName(currentProcess.ProcessName);
                 foreach (Process process in Processes) {
                     if (process.Id != currentProcess.Id) {
-                        if (typeof(App).Assembly.Location.Equals(currentProcess.MainModule.FileName, StringComparison.OrdinalIgnoreCase)) {
-                            thatProcess = process;
-                        }
+                        thatProcess = process;
+                        break;
                     }
                 }
                 if (thatProcess != null) {
@@ -41,11 +46,6 @@ namespace NTMiner {
             }
 
             base.OnStartup(e);
-
-            NotiCenterWindow.Instance.ShowWindow();
-            MainWindow = new MainWindow();
-            MainWindow.Show();
-            VirtualRoot.StartTimer(new WpfTimer());
         }
     }
 }

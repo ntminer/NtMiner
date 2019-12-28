@@ -27,12 +27,19 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
-            if (!AppUtil.GetMutex(NTKeyword.MinerUpdaterAppMutex)) {
+            if (AppUtil.GetMutex(NTKeyword.MinerUpdaterAppMutex)) {
+                NotiCenterWindow.Instance.ShowWindow();
+                this.MainWindow = new MainWindow();
+                this.MainWindow.Show();
+                VirtualRoot.StartTimer(new WpfTimer());
+            }
+            else {
                 Process thatProcess = null;
                 Process currentProcess = Process.GetCurrentProcess();
                 Process[] Processes = Process.GetProcessesByName(currentProcess.ProcessName);
                 foreach (Process process in Processes) {
                     if (process.Id != currentProcess.Id) {
+                        // 因为挖矿端和群控端的升级器是同一份程序所以区分一下
                         if (typeof(App).Assembly.Location.Equals(currentProcess.MainModule.FileName, StringComparison.OrdinalIgnoreCase)) {
                             thatProcess = process;
                         }
@@ -47,13 +54,7 @@ namespace NTMiner {
                 Environment.Exit(-1);
                 return;
             }
-
             base.OnStartup(e);
-
-            NotiCenterWindow.Instance.ShowWindow();
-            this.MainWindow = new MainWindow();
-            this.MainWindow.Show();
-            VirtualRoot.StartTimer(new WpfTimer());
         }
     }
 }

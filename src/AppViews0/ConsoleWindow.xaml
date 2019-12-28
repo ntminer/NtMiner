@@ -7,12 +7,13 @@
     mc:Ignorable="d"
     ShowInTaskbar="False"
     ResizeMode="NoResize"
-    Background="Black"
+    Background="Transparent"
+    AllowsTransparency="True"
     WindowStyle="None"
     WindowStartupLocation="CenterScreen"
     Title="原版内核控制台窗口">
-    <Rectangle 
-        x:Name="ConsoleBgRectangle"
-        Fill="#01000000">
-    </Rectangle>
+    <Grid Margin="30 30 0 30" Background="Black">
+        <Rectangle x:Name="ConsoleBgRectangle" Fill="#01000000">
+        </Rectangle>
+    </Grid>
 </Window>
