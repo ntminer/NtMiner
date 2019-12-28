@@ -244,6 +244,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Controls\Kb.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlankWindow\BlankWindow.csproj">
