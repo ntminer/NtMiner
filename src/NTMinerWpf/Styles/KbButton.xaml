@@ -173,7 +173,7 @@
                     <Border
                         x:Name="line"
                         Background="{TemplateBinding Background}"
-                        BorderThickness="0 0 0 0.5"
+                        BorderThickness="0 0 0 1"
                         BorderBrush="Transparent">
                         <ContentPresenter
                             x:Name="Content"
