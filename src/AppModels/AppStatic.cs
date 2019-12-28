@@ -987,7 +987,7 @@ namespace NTMiner {
         });
 
         public static ICommand OpenLGPL { get; private set; } = new DelegateCommand(() => {
-            string url = "https://github.com/ntminer/ntminer/blob/master/docs/LGPL.png";
+            string url = "https://raw.githubusercontent.com/ntminer/ntminer/master/docs/LGPL.png";
             if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "LGPL", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
