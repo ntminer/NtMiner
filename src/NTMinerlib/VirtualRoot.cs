@@ -44,6 +44,10 @@ namespace NTMiner {
                 if (_isMinerClientDetected) {
                     return _isMinerClient;
                 }
+                if (_isMinerStudioDetected && IsMinerStudio) {
+                    _isMinerClientDetected = true;
+                    return false;
+                }
                 lock (_isMinerClientLocker) {
                     if (_isMinerClientDetected) {
                         return _isMinerClient;
@@ -74,6 +78,10 @@ namespace NTMiner {
             get {
                 if (_isMinerStudioDetected) {
                     return _isMinerStudio;
+                }
+                if (_isMinerClientDetected && IsMinerClient) {
+                    _isMinerStudioDetected = true;
+                    return false;
                 }
                 lock (_isMinerStudioLocker) {
                     if (_isMinerStudioDetected) {

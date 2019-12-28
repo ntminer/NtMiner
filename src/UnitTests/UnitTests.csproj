@@ -65,6 +65,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppTypeTests.cs" />
     <Compile Include="CpuTests.cs" />
     <Compile Include="DotNet45Tests.cs" />
     <Compile Include="EnvironmentTests.cs" />
@@ -97,6 +98,14 @@
     <ProjectReference Include="..\LiteDB\LiteDB.csproj">
       <Project>{4a53a085-df9d-4c7f-b6ae-5540e1ff481c}</Project>
       <Name>LiteDB</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MinerClient\MinerClient.csproj">
+      <Project>{128b59a2-fa1a-479c-9136-7eb866b96fb4}</Project>
+      <Name>MinerClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MinerStudio\MinerStudio.csproj">
+      <Project>{6ed1f43a-b43f-4be4-80dd-49297cf3dc4f}</Project>
+      <Name>MinerStudio</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">
       <Project>{5911457a-357a-412d-a20c-e77c1a56b4f6}</Project>
