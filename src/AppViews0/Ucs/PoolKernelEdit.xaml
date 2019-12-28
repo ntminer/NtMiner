@@ -39,7 +39,6 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
 				<controls:KbLinkButton 
 					KbDisplayLine="False"
-					KbSystemButtonHoverBackground="Transparent" 
 					Background="Transparent"
 					Margin="0" 
 					Command="{Binding Kernel.Edit}">
@@ -70,7 +69,6 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
 				<controls:KbLinkButton 
 					KbDisplayLine="False"
-					KbSystemButtonHoverBackground="Transparent" 
 					Background="Transparent"
 					Margin="0" 
 					Command="{Binding CoinKernelVm.Edit}">
