@@ -39,8 +39,7 @@
                             VerticalAlignment="Bottom"
 				            KbDisplayLine="False"
                             Click="Help_Click"
-                            Background="Transparent"
-				            KbSystemButtonHoverBackground="Transparent">
+                            Background="Transparent">
                         <WrapPanel>
                             <TextBlock Foreground="{StaticResource IconFillColor}">更多</TextBlock>
                         </WrapPanel>

@@ -46,7 +46,6 @@
 			Foreground="{StaticResource ThemeForeground}"
 			ToolTip="点击加入QQ群"
 			Background="Transparent"
-			KbSystemButtonHoverBackground="Transparent"
 			KbDisplayLine="False"
 			Command="{x:Static app:AppStatic.JoinQQGroup}">
 			<TextBlock>Q群</TextBlock>
@@ -77,7 +76,6 @@
 			Command="{x:Static app:AppStatic.OpenGithub}"
 			Background="Transparent"
 			Foreground="{StaticResource ThemeForeground}"
-			KbSystemButtonHoverBackground="Transparent"
 			KbDisplayLine="False">
 			<Path 
 				Width="14"
@@ -92,7 +90,6 @@
 			Foreground="{StaticResource ThemeForeground}"
 			Command="{x:Static app:AppStatic.OpenDiscussSite}"
 			Background="Transparent"
-			KbSystemButtonHoverBackground="Transparent"
 			KbDisplayLine="False">
 			<Path 
 				Width="14"

@@ -29,12 +29,12 @@
                         <TextBlock FontSize="20" VerticalAlignment="Bottom" Margin="6 0 0 0" Text="{Binding CurrentVersion}"></TextBlock>
                     </WrapPanel>
                     <controls:KbLinkButton
+                        FontSize="16"
 						Command="{x:Static app:AppStatic.OpenOfficialSite}"
 						KbDisplayLine="False"
 						HorizontalAlignment="Left"
-						KbSystemButtonHoverBackground="Transparent"
 						Background="Transparent">
-						<TextBlock Text="https://ntminer.com/" Foreground="{StaticResource LinkForeground}"></TextBlock>
+						<TextBlock Text="https://ntminer.com/"></TextBlock>
 					</controls:KbLinkButton>
 				</StackPanel>
 			</WrapPanel>
@@ -48,9 +48,8 @@
 				Command="{x:Static app:AppStatic.BusinessModel}"
 				KbDisplayLine="False"
 				HorizontalAlignment="Left"
-				KbSystemButtonHoverBackground="Transparent"
 				Background="Transparent">
-                <TextBlock Text="4，如何盈利/商业模式" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                <TextBlock Text="4，如何盈利/商业模式"></TextBlock>
             </controls:KbLinkButton>
         </StackPanel>
 		<StackPanel Grid.Row="2" HorizontalAlignment="Center">
@@ -61,7 +60,6 @@
                         Background="Transparent"
 			            Command="{x:Static app:AppStatic.OpenGithub}"
 			            Foreground="{StaticResource ThemeBackground}"
-			            KbSystemButtonHoverBackground="Transparent"
 			            KbDisplayLine="False">
                     <WrapPanel Margin="4">
                         <Path 

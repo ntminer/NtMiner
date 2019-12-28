@@ -171,7 +171,6 @@
 								CommandParameter="{Binding TutorialUrl}"
 								KbDisplayLine="False"
 								Content="教程"
-								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent">
 							</controls:KbLinkButton>
 						</DataTemplate>

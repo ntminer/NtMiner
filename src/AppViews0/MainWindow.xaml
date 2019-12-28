@@ -121,20 +121,20 @@
 					    ToolTip="打开官网"
 					    FontSize="16"
                         BorderThickness="0"
+                        VerticalAlignment="Center"
 					    Command="{x:Static app:AppStatic.OpenOfficialSite}"
 					    KbDisplayLine="False"
                         Foreground="{StaticResource ThemeForeground}"
                         Content="{x:Static app:AppStatic.OfficialSiteName}"
-					    KbSystemButtonHoverBackground="Transparent"
 					    Background="Transparent">
                     </controls:KbLinkButton>
                     <controls:KbLinkButton
                         Margin="2 0 0 0"
 					    ToolTip="关于开源矿工"
                         BorderThickness="0"
+                        VerticalAlignment="Center"
 					    Command="{x:Static app:AppStatic.ShowAbout}"
 					    KbDisplayLine="False"
-					    KbSystemButtonHoverBackground="Transparent"
 					    Background="Transparent"
 					    Foreground="{StaticResource ThemeForeground}">
                         <WrapPanel>
@@ -171,7 +171,6 @@
                     <CheckBox 
                         Margin="0 0 12 0"
 						Background="Transparent"
-                        VerticalAlignment="Center"
                         Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                         IsChecked="{Binding IsTestHost}"
 						Foreground="{StaticResource ThemeForeground}"
@@ -181,7 +180,6 @@
                         Margin="0 0 12 0"
 						FocusVisualStyle="{x:Null}"
 						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-						VerticalAlignment="Center"
 						Cursor="Hand"
 						Foreground="{StaticResource ThemeForeground}"
 						IsChecked="{Binding IsUseDevConsole}">
@@ -189,14 +187,12 @@
                     </CheckBox>
                     <WrapPanel 
                         Margin="0 0 20 0" 
-                        VerticalAlignment="Center" 
+                        VerticalAlignment="Center"
                         Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                         <Border
 					        Width="30"
 					        Height="30"
 					        Background="Red"
-					        HorizontalAlignment="Right" 
-					        VerticalAlignment="Top" 
 					        CornerRadius="15"
 					        Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBlock 
@@ -217,7 +213,6 @@
 				        Command="{x:Static app:AppStatic.DownloadMinerStudio}"
 				        KbDisplayLine="False"
 				        Foreground="{StaticResource ThemeForeground}"
-				        KbSystemButtonHoverBackground="Transparent"
 				        Background="Transparent">
                         <WrapPanel>
                             <Path 

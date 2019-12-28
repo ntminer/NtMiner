@@ -110,7 +110,6 @@
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">
 				<controls:KbLinkButton 
 					KbDisplayLine="False"
-					KbSystemButtonHoverBackground="Transparent" 
 					Background="Transparent"
 					Margin="0 4 0 0" 
 					Command="{Binding Kernel.Edit}">

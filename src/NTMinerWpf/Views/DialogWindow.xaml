@@ -56,7 +56,6 @@
                 VerticalAlignment="Center"
 				KbDisplayLine="False"
                 Click="Help_Click"
-				KbSystemButtonHoverBackground="Transparent"
 				Background="Transparent"
 				Foreground="{StaticResource ThemeForeground}">
                 <WrapPanel>

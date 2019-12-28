@@ -167,7 +167,6 @@
 									CommandParameter="{Binding TutorialUrl}"
 									KbDisplayLine="False"
 									Content="教程"
-									KbSystemButtonHoverBackground="Transparent"
 									Background="Transparent">
 								</controls:KbLinkButton>
 							</DataTemplate>
@@ -305,7 +304,6 @@
 								                Command="{x:Static app:AppStatic.ViewUrl}"
 								                CommandParameter="{Binding Website}"
 									            KbDisplayLine="False"
-									            KbSystemButtonHoverBackground="Transparent"
 									            Background="Transparent">
                                                 <Path
 						                            Width="14"
@@ -365,7 +363,6 @@
 											CommandParameter="{Binding TutorialUrl}"
 											KbDisplayLine="False"
 											Content="教程"
-											KbSystemButtonHoverBackground="Transparent"
 											Background="Transparent">
 										</controls:KbLinkButton>
 									</DataTemplate>

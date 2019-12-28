@@ -147,7 +147,6 @@
 					    CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
 					    KbDisplayLine="False"
 					    Content="备池收益"
-					    KbSystemButtonHoverBackground="Transparent"
 					    Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}"
 					    Background="Transparent">
                     </controls:KbLinkButton>
@@ -169,7 +168,6 @@
 						CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
 						KbDisplayLine="False"
 						Content="查看收益"
-						KbSystemButtonHoverBackground="Transparent"
 						Background="Transparent">
 					</controls:KbLinkButton>
 					<controls:KbButton 
@@ -227,7 +225,6 @@
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
 							KbDisplayLine="False"
 							Content="辅币收益"
-							KbSystemButtonHoverBackground="Transparent"
 							Background="Transparent">
 						</controls:KbLinkButton>
 						<controls:KbButton 
