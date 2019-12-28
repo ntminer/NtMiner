@@ -986,6 +986,14 @@ namespace NTMiner {
             Process.Start(url);
         });
 
+        public static ICommand OpenLGPL { get; private set; } = new DelegateCommand(() => {
+            string url = "https://github.com/ntminer/ntminer/blob/master/docs/LGPL.png";
+            if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "LGPL", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
+        });
+
         public static ICommand OpenDiscussSite { get; private set; } = new DelegateCommand(() => {
             string url = "https://github.com/ntminer/ntminer/issues";
             if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "DiscussUrl", out ISysDicItem dicItem)) {
