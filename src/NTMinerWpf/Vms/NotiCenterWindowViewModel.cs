@@ -1,6 +1,5 @@
 ﻿using NTMiner.Notifications;
 using NTMiner.Out;
-using System;
 
 namespace NTMiner.Vms {
     public class NotiCenterWindowViewModel : ViewModelBase, IOut {
