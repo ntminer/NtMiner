@@ -46,8 +46,7 @@
             </WrapPanel>
             <controls:KbSystemCloseButton
                 DockPanel.Dock="Right" 
-                HorizontalAlignment="Right" 
-				Height="30" />
+                HorizontalAlignment="Right" />
             <controls:KbLinkButton 
                 Margin="0 0 4 0"
                 Visibility="{Binding HelpUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"

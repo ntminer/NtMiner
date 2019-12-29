@@ -32,7 +32,7 @@
 					Margin="4 4 0 0"
 					FontSize="16" />
 			</WrapPanel>
-			<controls:KbSystemCloseButton HorizontalAlignment="Right" Height="30" />
+			<controls:KbSystemCloseButton HorizontalAlignment="Right" />
 		</DockPanel>
         <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
 		<StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">

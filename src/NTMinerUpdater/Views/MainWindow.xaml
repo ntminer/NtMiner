@@ -24,7 +24,7 @@
 			</Image>
 			<TextBlock DockPanel.Dock="Left" Margin="4 0 0 0" VerticalAlignment="Center">开源矿工 - 在线升级</TextBlock>
 			<WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
-				<controls:KbSystemCloseButton Height="30" />
+				<controls:KbSystemCloseButton />
 			</WrapPanel>
 		</DockPanel>
 		<Grid Grid.Row="1">

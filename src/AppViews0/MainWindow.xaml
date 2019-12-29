@@ -43,13 +43,13 @@
     <Grid>
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="38"/>
+                <RowDefinition Height="34"/>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle 
                 Grid.RowSpan="2"
-                Height="66"
+                Height="62"
                 VerticalAlignment="Top" 
                 Fill="{StaticResource ThemeBackground}">
             </Rectangle>
@@ -282,9 +282,9 @@
                     </controls:KbButton>
                     <uc:MainMenu VerticalAlignment="Center">
                     </uc:MainMenu>
-                    <controls:KbSystemMinButton Height="32" />
-                    <controls:KbSystemMaxButton Height="32" />
-                    <controls:KbSystemCloseButton Command="{Binding CloseMainWindow}" Height="32" />
+                    <controls:KbSystemMinButton />
+                    <controls:KbSystemMaxButton />
+                    <controls:KbSystemCloseButton Command="{Binding CloseMainWindow}" />
                 </WrapPanel>
             </Grid>
             <Grid Grid.Row="1">

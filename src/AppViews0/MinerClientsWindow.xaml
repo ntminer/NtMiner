@@ -98,9 +98,9 @@
                 </controls:KbButton>
                 <uc:MainMenu Background="Transparent">
                 </uc:MainMenu>
-                <controls:KbSystemMinButton Height="30" />
-                <controls:KbSystemMaxButton Height="30" />
-                <controls:KbSystemCloseButton Height="30" />
+                <controls:KbSystemMinButton />
+                <controls:KbSystemMaxButton />
+                <controls:KbSystemCloseButton />
             </WrapPanel>
         </Grid>
         <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>

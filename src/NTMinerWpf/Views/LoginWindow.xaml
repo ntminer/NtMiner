@@ -34,7 +34,7 @@
 			<WrapPanel 
 				DockPanel.Dock="Right"
 				HorizontalAlignment="Right">
-				<controls:KbSystemCloseButton Height="30" />
+				<controls:KbSystemCloseButton />
 			</WrapPanel>
 		</DockPanel>
         <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>

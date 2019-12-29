@@ -29,9 +29,9 @@
                 <TextBlock Margin="2 0 0 0" Foreground="{StaticResource ThemeForeground}">矿机雷达(敖江) - 开源矿工</TextBlock>
             </WrapPanel>
             <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
-                <controls:KbSystemMinButton Height="32" />
-                <controls:KbSystemMaxButton Height="32" />
-                <controls:KbSystemCloseButton Height="32" />
+                <controls:KbSystemMinButton />
+                <controls:KbSystemMaxButton />
+                <controls:KbSystemCloseButton />
             </WrapPanel>
         </DockPanel>
         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">

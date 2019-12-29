@@ -31,9 +31,9 @@
 		</Grid.RowDefinitions>
 		<TextBlock Padding="4 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="14" FontWeight="Bold">内核包</TextBlock>
 		<WrapPanel HorizontalAlignment="Right">
-			<controls:KbSystemMinButton Height="36" KbSystemButtonForeground="#385263" />
-			<controls:KbSystemMaxButton Height="36" KbSystemButtonForeground="#385263" />
-			<controls:KbSystemCloseButton Height="36" KbSystemButtonForeground="#385263" />
+			<controls:KbSystemMinButton KbSystemButtonForeground="#385263" />
+			<controls:KbSystemMaxButton KbSystemButtonForeground="#385263" />
+			<controls:KbSystemCloseButton KbSystemButtonForeground="#385263" />
 		</WrapPanel>
         <TextBlock x:Name="TbUcName" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
 		<DataGrid 

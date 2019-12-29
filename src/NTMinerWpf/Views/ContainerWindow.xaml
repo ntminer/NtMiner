@@ -65,9 +65,9 @@
 				DockPanel.Dock="Right" 
 				HorizontalAlignment="Right" 
 				VerticalAlignment="Top">
-				<controls:KbSystemMinButton Height="30" x:Name="BtnMin" />
-				<controls:KbSystemMaxButton Height="30" Visibility="{Binding MaxVisible}" />
-				<controls:KbSystemCloseButton Height="30" Visibility="{Binding CloseVisible}" />
+				<controls:KbSystemMinButton x:Name="BtnMin" />
+				<controls:KbSystemMaxButton Visibility="{Binding MaxVisible}" />
+				<controls:KbSystemCloseButton Visibility="{Binding CloseVisible}" />
 			</WrapPanel>
 		</DockPanel>
         <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>

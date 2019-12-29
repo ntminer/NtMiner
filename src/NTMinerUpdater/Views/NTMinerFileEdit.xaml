@@ -37,7 +37,7 @@
 			<WrapPanel 
 				DockPanel.Dock="Right"
 				HorizontalAlignment="Right">
-				<controls:KbSystemCloseButton Height="30" />
+				<controls:KbSystemCloseButton />
 			</WrapPanel>
 		</DockPanel>
 		<StackPanel Grid.Row="1" Background="White" VerticalAlignment="Center">
