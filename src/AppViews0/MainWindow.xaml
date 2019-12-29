@@ -206,7 +206,7 @@
                         <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
                     </WrapPanel>
                     <controls:KbLinkButton
-                        Margin="0 0 20 0"
+                        Margin="0 0 12 0"
                         BorderThickness="0"
                         VerticalAlignment="Center"
                         Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
@@ -262,20 +262,6 @@
 								Height="18"
 								Width="18"
 								Data="{StaticResource Icon_Calc}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-                        </WrapPanel>
-                    </controls:KbButton>
-                    <controls:KbButton 
-						Margin="0 0 12 0"
-						ToolTip="内核"
-						Background="Transparent" BorderThickness="0"
-						Command="{x:Static app:AppStatic.ShowKernels}">
-                        <WrapPanel>
-                            <Path 
-								Height="18"
-								Width="18"
-								Data="{StaticResource Icon_Kernel}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
                         </WrapPanel>
