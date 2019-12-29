@@ -14,6 +14,11 @@ namespace NTMiner {
             private MinerStudioServiceFace() {
             }
 
+            /// <summary>
+            /// 本机网络调用
+            /// </summary>
+            /// <param name="clientPort"></param>
+            /// <param name="callback"></param>
             public void ShowMainWindowAsync(int clientPort, Action<bool, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {
@@ -29,6 +34,9 @@ namespace NTMiner {
                 });
             }
 
+            /// <summary>
+            /// 本机同步网络调用
+            /// </summary>
             public void CloseMinerStudio() {
                 string location = NTMinerRegistry.GetLocation();
                 if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
