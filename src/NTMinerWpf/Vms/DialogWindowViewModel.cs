@@ -75,7 +75,7 @@ namespace NTMiner.Vms {
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public DialogWindowViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 

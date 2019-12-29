@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public OverClockDataViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
