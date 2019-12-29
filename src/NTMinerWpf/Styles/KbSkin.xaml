@@ -21,7 +21,6 @@
 	<converters:BoolInvertConverter x:Key="BoolInvertConverter" />
 	<converters:ByteToGbConverter x:Key="ByteToGbConverter" />
 	<converters:ByteToMbConverter x:Key="ByteToMbConverter" />
-	<converters:ConsoleColorToMediaColorConverter x:Key="ConsoleColorToMediaColorConverter" />
 
 	<SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
     <SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>

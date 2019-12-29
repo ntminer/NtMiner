@@ -87,7 +87,6 @@
     <Compile Include="Converters\BoolToVisibilityInvertConverter.cs" />
     <Compile Include="Converters\ByteToGbConverter.cs" />
     <Compile Include="Converters\ByteToMbConverter.cs" />
-    <Compile Include="Converters\ConsoleColorToMediaColorConverter.cs" />
     <Compile Include="Converters\NoRecordVisibilityConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyBooleanConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyVisibilityConverter.cs" />
