@@ -59,7 +59,7 @@ namespace NTMiner.Vms {
         #endregion
 
         #region ctor
-        [Obsolete("这是供WPF设计时使用的构造，不应在业务代码中被调用")]
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public KernelViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();

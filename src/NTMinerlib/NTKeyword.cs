@@ -1,5 +1,7 @@
 ﻿namespace NTMiner {
     public static class NTKeyword {
+        public const string WpfDesignOnly = "这是供WPF设计时使用的构造，不应在业务代码中被调用";
+
         #region AppMutex
         public const string MinerClientAppMutex = "ntminerclient";
         public const string MinerStudioAppMutex = "ntminercontrol";

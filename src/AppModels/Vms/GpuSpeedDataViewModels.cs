@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
         private SolidColorBrush _tempForeground;
         private int _maxTemp;
 
-        [Obsolete("这是供WPF设计时使用的构造，不应在业务代码中被调用")]
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public GpuSpeedDataViewModels() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException();
