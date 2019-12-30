@@ -17,7 +17,7 @@ namespace NTMiner.KernelOutputKeyword {
             if (string.IsNullOrEmpty(dbFileFullName)) {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
-            _connectionString = $"filename={dbFileFullName};journal=false";
+            _connectionString = $"filename={dbFileFullName}";
             _isServer = isServer;
             if (!isServer) {
                 VirtualRoot.AddCmdPath<LoadKernelOutputKeywordCommand>(action: message => {

@@ -13,7 +13,7 @@ namespace NTMiner.ServerMessage {
             if (string.IsNullOrEmpty(dbFileFullName)) {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
-            _connectionString = $"filename={dbFileFullName};journal=false";
+            _connectionString = $"filename={dbFileFullName}";
             if (!isServer) {
                 VirtualRoot.AddCmdPath<LoadNewServerMessageCommand>(action: message => {
                     if (!VirtualRoot.IsServerMessagesVisible) {

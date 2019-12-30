@@ -48,7 +48,7 @@ namespace NTMiner {
                 if (!isDbFileExist) {
                     return null;
                 }
-                return new LiteDatabase($"filename={dbFile};journal=false");
+                return new LiteDatabase($"filename={dbFile}");
             }
             else {
                 return null;

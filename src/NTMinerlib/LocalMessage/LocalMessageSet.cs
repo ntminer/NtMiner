@@ -11,7 +11,7 @@ namespace NTMiner.LocalMessage {
 
         public LocalMessageSet(string dbFileFullName) {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
-                _connectionString = $"filename={dbFileFullName};journal=false";
+                _connectionString = $"filename={dbFileFullName}";
             }
             VirtualRoot.AddCmdPath<AddLocalMessageCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {

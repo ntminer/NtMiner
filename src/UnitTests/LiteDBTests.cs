@@ -10,7 +10,7 @@ namespace UnitTests {
         [TestMethod]
         public void FileStorageTest() {
             string dbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString() + ".litedb");
-            string connString = $"filename={dbFileFullName};journal=false";
+            string connString = $"filename={dbFileFullName}";
             File.Delete(dbFileFullName);
             string fileContext = "this is a test";
             string fileId = "$/cache/test.json";
