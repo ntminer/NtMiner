@@ -172,7 +172,7 @@
 					</controls:KbLinkButton>
 					<controls:KbButton 
 						HorizontalContentAlignment="Left"
-						Width="240" ToolTip="收益计算器"
+						Width="220" ToolTip="收益计算器"
 						Padding="2 0" Cursor="Hand" Background="Transparent"
 						Command="{x:Static app:AppStatic.ShowCalc}"
 						CommandParameter="{Binding MinerProfile.CoinVm}">
@@ -203,7 +203,7 @@
 							<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 						</WrapPanel>
 					</controls:KbButton>
-					<WrapPanel Width="170">
+					<WrapPanel Width="190">
 						<TextBlock Padding="0 0 4 0" VerticalAlignment="Center" Text="拒绝" Style="{StaticResource Lbl}" />
 						<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
 						<TextBlock VerticalAlignment="Center" Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
@@ -212,7 +212,7 @@
 						<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding PoolDelayText}" />
 					</WrapPanel>
 					<WrapPanel Width="150" VerticalAlignment="Center">
-						<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
+                        <TextBlock ToolTip="总算力" Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
 						<TextBlock Margin="4 0 0 0" Foreground="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnForeground}" Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText}"></TextBlock>
 					</WrapPanel>
 				</WrapPanel>
@@ -229,7 +229,7 @@
 						</controls:KbLinkButton>
 						<controls:KbButton 
 							HorizontalContentAlignment="Left"
-							Width="240" ToolTip="数据来自鱼池首页"
+							Width="220" ToolTip="数据来自鱼池首页"
 							Padding="2 0" Cursor="Hand" Background="Transparent"
 							Command="{x:Static app:AppStatic.ShowCalc}"
 							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin}">
@@ -260,7 +260,7 @@
 								<TextBlock Padding="1 0" Text="/天" Foreground="{StaticResource LableColor}" />
 							</WrapPanel>
 						</controls:KbButton>
-						<WrapPanel Width="170">
+						<WrapPanel Width="190">
 							<TextBlock Padding="0 0 4 0" VerticalAlignment="Center" Text="拒绝" Style="{StaticResource Lbl}" />
 							<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
 							<TextBlock VerticalAlignment="Center" Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
@@ -269,7 +269,7 @@
 							<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding DualPoolDelayText}" />
 						</WrapPanel>
 						<WrapPanel Width="150" VerticalAlignment="Center">
-							<TextBlock Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
+							<TextBlock ToolTip="总算力" Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
 							<TextBlock Margin="4 0 0 0" Foreground="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnForeground}" Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText}"></TextBlock>
 						</WrapPanel>
 					</WrapPanel>
