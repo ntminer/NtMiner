@@ -7,7 +7,7 @@ namespace NTMiner.Repositories {
     public class LiteDbReadWriteRepository<T> : IRepository<T> where T : class, IDbEntity<Guid> {
         private readonly string _connectionString;
         public LiteDbReadWriteRepository(string dbFile) {
-            _connectionString = $"filename={dbFile};journal=false";
+            _connectionString = $"filename={dbFile}";
         }
 
         public IEnumerable<T> GetAll() {

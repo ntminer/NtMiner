@@ -14,6 +14,9 @@ namespace NTMiner {
             private NTMinerDaemonServiceFace() { }
 
             #region Localhost
+            /// <summary>
+            /// 本机网络调用
+            /// </summary>
             public void CloseDaemon() {
                 try {
                     using (HttpClient client = RpcRoot.Create()) {
@@ -27,6 +30,11 @@ namespace NTMiner {
                 }
             }
 
+            /// <summary>
+            /// 本机网络调用
+            /// </summary>
+            /// <param name="request"></param>
+            /// <param name="callback"></param>
             public void SetWalletAsync(SetWalletRequest request, Action<ResponseBase, Exception> callback) {
                 Task.Factory.StartNew(() => {
                     try {

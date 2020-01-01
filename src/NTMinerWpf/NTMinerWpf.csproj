@@ -69,7 +69,6 @@
     <Compile Include="Controls\KbButton.cs" />
     <Compile Include="Controls\KbComboBox.cs" />
     <Compile Include="Controls\KbLinkButton.cs" />
-    <Compile Include="Controls\KbRadioButton.cs" />
     <Compile Include="Controls\KbSystemButton.cs" />
     <Compile Include="Controls\KbSystemCloseButton.cs" />
     <Compile Include="Controls\KbSystemMaxButton.cs" />

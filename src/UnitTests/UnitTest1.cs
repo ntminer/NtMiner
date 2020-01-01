@@ -16,6 +16,12 @@ namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void FileTest() {
+            new FileInfo(string.Empty);
+        }
+
+        [TestMethod]
         public void IsInUnitTestTest() {
             Assert.IsTrue(DevMode.IsInUnitTest);
         }

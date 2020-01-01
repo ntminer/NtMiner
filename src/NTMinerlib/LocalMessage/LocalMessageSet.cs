@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.MinerClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,7 @@ namespace NTMiner.LocalMessage {
 
         public LocalMessageSet(string dbFileFullName) {
             if (!string.IsNullOrEmpty(dbFileFullName)) {
-                _connectionString = $"filename={dbFileFullName};journal=false";
+                _connectionString = $"filename={dbFileFullName}";
             }
             VirtualRoot.AddCmdPath<AddLocalMessageCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {
@@ -68,15 +69,27 @@ namespace NTMiner.LocalMessage {
                     if (string.IsNullOrEmpty(_connectionString)) {
                         return;
                     }
-                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        var col = db.GetCollection<LocalMessageData>();
-                        foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                            if (_records.Count < NTKeyword.LocalMessageSetCapacity) {
-                                _records.AddFirst(item);
+                    try {
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<LocalMessageData>();
+                            foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
+                                if (_records.Count < NTKeyword.LocalMessageSetCapacity) {
+                                    _records.AddFirst(item);
+                                }
+                                else {
+                                    col.Delete(item.Id);
+                                }
                             }
-                            else {
-                                col.Delete(item.Id);
+                        }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
+                        try {
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                db.DropCollection(nameof(LocalMessageData));
                             }
+                        }
+                        catch {
                         }
                     }
                     _isInited = true;

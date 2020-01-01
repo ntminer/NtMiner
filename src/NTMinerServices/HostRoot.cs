@@ -125,12 +125,12 @@ namespace NTMiner {
         #endregion
 
         public static LiteDatabase CreateLocalDb() {
-            return new LiteDatabase($"filename={SpecialPath.LocalDbFileFullName};journal=false");
+            return new LiteDatabase($"filename={SpecialPath.LocalDbFileFullName}");
         }
 
         public static LiteDatabase CreateReportDb() {
             string dbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"report{DateTime.Now.ToString("yyyy-MM-dd")}.litedb");
-            return new LiteDatabase($"filename={dbFileFullName};journal=false");
+            return new LiteDatabase($"filename={dbFileFullName}");
         }
 
         public static ServerState GetServerState(string jsonVersionKey) {

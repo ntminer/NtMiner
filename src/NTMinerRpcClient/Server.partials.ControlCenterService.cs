@@ -15,6 +15,10 @@ namespace NTMiner {
             }
 
             #region GetServicesVersionAsync
+            /// <summary>
+            /// 本机网络调用
+            /// </summary>
+            /// <param name="callback"></param>
             public void GetServicesVersionAsync(Action<string, Exception> callback) {
                 Process[] processes = Process.GetProcessesByName("NTMinerServices");
                 if (processes.Length == 0) {
@@ -36,6 +40,9 @@ namespace NTMiner {
             #endregion
 
             #region CloseServices
+            /// <summary>
+            /// 本机同步网络调用
+            /// </summary>
             public void CloseServices() {
                 try {
                     Process[] processes = Process.GetProcessesByName("NTMinerServices");
