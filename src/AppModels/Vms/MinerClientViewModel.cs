@@ -74,8 +74,13 @@ namespace NTMiner.Vms {
             });
             this.RemoteDesktop = new DelegateCommand(() => {
                 if (!SpeedData.TryGetFirstIp(this.LocalIp, out string ip)) {
-                    VirtualRoot.Out.ShowWarn("Ip地址不能为空", autoHideSeconds: 4);
-                    return;
+                    if (SpeedData.TryGetFirstIp(this.MinerIp, out string minerIp) && Net.IpUtil.IsInnerIp(minerIp)) {
+                        ip = minerIp;
+                    }
+                    else {
+                        VirtualRoot.Out.ShowWarn("Ip地址不能为空", autoHideSeconds: 4);
+                        return;
+                    }
                 }
                 if (string.IsNullOrEmpty(this.WindowsLoginName)) {
                     VirtualRoot.Execute(new ShowRemoteDesktopLoginDialogCommand(new RemoteDesktopLoginViewModel {
