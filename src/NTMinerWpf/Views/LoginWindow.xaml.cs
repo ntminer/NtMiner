@@ -9,16 +9,11 @@ namespace NTMiner.Views {
             if (!IsLogined()) {
                 UIThread.Execute(() => {
                     var topWindow = WpfUtil.GetTopWindow();
-                    LoginWindow window = new LoginWindow();
+                    LoginWindow window = new LoginWindow(onLoginSuccess);
                     if (topWindow != null && topWindow.GetType() != typeof(NotiCenterWindow)) {
                         window.Owner = topWindow;
                         window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                     }
-                    window.Closing += (sender, e) => {
-                        if (IsLogined()) {
-                            onLoginSuccess?.Invoke();
-                        }
-                    };
                     window.ShowSoftDialog();
                     window.PasswordFocus();
                 });
@@ -38,7 +33,9 @@ namespace NTMiner.Views {
             }
         }
 
-        private LoginWindow() {
+        private readonly Action _onLoginSuccess;
+        private LoginWindow(Action onLoginSuccess) {
+            _onLoginSuccess = onLoginSuccess;
             InitializeComponent();
             this.TbUcName.Text = nameof(LoginWindow);
             // 1个是通知窗口，1个是本窗口
@@ -76,10 +73,14 @@ namespace NTMiner.Views {
                 list.Insert(0, Vm.ServerHost);
             }
             NTMinerRegistry.SetControlCenterHosts(list);
+            // 内网免登录
             if (Net.IpUtil.IsInnerIp(Vm.ServerHost)) {
                 SingleUser.LoginName = "localhost";
                 SingleUser.SetPasswordSha1("localhost");
                 this.Close();
+                // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调
+                // 则会导致弹窗的父窗口是本窗口，而本窗口随后立即关闭导致作为子窗口的弹窗也会被关闭。
+                _onLoginSuccess?.Invoke();
                 return;
             }
             RpcRoot.Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, (response, exception) => {
@@ -92,6 +93,9 @@ namespace NTMiner.Views {
                         SingleUser.LoginName = Vm.LoginName;
                         SingleUser.SetPasswordSha1(passwordSha1);
                         this.Close();
+                        // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调
+                        // 则会导致弹窗的父窗口是本窗口，而本窗口随后立即关闭导致作为子窗口的弹窗也会被关闭。
+                        _onLoginSuccess?.Invoke();
                     }
                     else if (Vm.LoginName == "admin" && response.StateCode == 404) {
                         Vm.IsPasswordAgainVisible = Visibility.Visible;
