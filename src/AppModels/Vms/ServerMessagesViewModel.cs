@@ -44,9 +44,7 @@ namespace NTMiner.Vms {
             });
             VirtualRoot.AddEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
-                        Init();
-                    });
+                    UIThread.Execute(Init);
                 }, location: this.GetType());
             VirtualRoot.AddEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
