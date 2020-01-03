@@ -20,9 +20,7 @@ namespace NTMiner.Views {
                     UIThread.Execute(() => Vm.RefreshLocalIps());
                 }, location: this.GetType());
             this.AddCmdPath<ShowLocalIpsCommand>(LogEnum.DevConsole, action: message => {
-                UIThread.Execute(() => {
-                    LocalIpConfig.ShowWindow();
-                });
+                UIThread.Execute(LocalIpConfig.ShowWindow);
             }, location: this.GetType());
         }
 

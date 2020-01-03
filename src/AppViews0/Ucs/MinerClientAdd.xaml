@@ -59,10 +59,6 @@
 					</TextBox>
 				</WrapPanel>
 			</StackPanel>
-			<WrapPanel>
-				<TextBlock Style="{StaticResource LblTb}"></TextBlock>
-				<TextBlock Margin="4 0 0 0" Foreground="Red" VerticalAlignment="Center" Text="{Binding Message}" Visibility="{Binding MessageVisible}"></TextBlock>
-			</WrapPanel>
 		</StackPanel>
 		<controls:KbButton
 			Grid.Row="2"

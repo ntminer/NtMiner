@@ -37,9 +37,7 @@ namespace NTMiner.Views.Ucs {
                     }
                     Vm.Seconds = Vm.Seconds - 1;
                     if (messagePathId.ViaTimesLimit == 0) {
-                        UIThread.Execute(() => {
-                            Windows.Power.Restart();
-                        });
+                        Windows.Power.Restart();
                     }
                 }, Vm.Seconds, location: this.GetType());
             });
