@@ -41,7 +41,7 @@ namespace NTMiner {
                 else {
                     MessageBox.Show("另一个矿机雷达已在运行", "提示", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 }
-                Environment.Exit(-1);
+                Environment.Exit(0);
                 return;
             }
 

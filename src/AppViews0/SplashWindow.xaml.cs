@@ -11,7 +11,12 @@ namespace NTMiner.Views {
             Thread t = new Thread(() => {
                 SplashWindow win = new SplashWindow();
                 win.Closed += (d, k) => {
-                    System.Windows.Threading.Dispatcher.ExitAllFrames();
+                    if (!win._isOkClose) {
+                        Environment.Exit(0);
+                    }
+                    else {
+                        System.Windows.Threading.Dispatcher.ExitAllFrames();
+                    }
                 };
                 win.Show();
                 callback?.Invoke(win);
@@ -54,8 +59,14 @@ namespace NTMiner.Views {
             }
         }
 
+        private bool _isOkClose = false;
+        public void OkClose() {
+            _isOkClose = true;
+            this.Close();
+        }
+
         private void BtnClose_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+            this.Close();
         }
     }
 }
