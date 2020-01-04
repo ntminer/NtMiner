@@ -38,7 +38,13 @@
             public void AddMessagePath(MessagePath<TMessage> messagePath) {
                 lock (_locker) {
                     if (typeof(ICmd).IsAssignableFrom(typeof(TMessage))) {
-                        if (_messagePaths.Any(a => messagePath.PathId == a.PathId)) {
+                        bool isExist = _messagePaths.Any(a => messagePath.PathId == a.PathId);
+                        if (messagePath.PathId != Guid.Empty) {
+                            if (isExist) {
+                                return;
+                            }
+                        }
+                        if (isExist) {
                             // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
                             // 之所以设计为统一走总线只是为了通过将命令类型集中表达以起文档作用。
                             throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
@@ -119,7 +125,12 @@
                         isMatch = evt.RouteToPathId.IsAll || evt.RouteToPathId == messagePath.PathId;
                     }
                     else if (message is ICmd cmd) {
-                        isMatch = messagePath.PathId == Guid.Empty || messagePath.PathId == cmd.Id;
+                        if (messagePath.PathId == Guid.Empty) {
+                            isMatch = messagePaths.Where(a => a.PathId != Guid.Empty).All(a => a.PathId != cmd.Id);
+                        }
+                        else {
+                            isMatch = messagePath.PathId == cmd.Id;
+                        }
                     }
                     if (isMatch && messagePath.ViaTimesLimit > 0) {
                         // ViaTimesLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaTimesLimit计数
