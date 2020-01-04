@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
             }
         }
         public void ShowError(string message, int autoHideSeconds) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Error(message ?? string.Empty);
                 if (autoHideSeconds > 0) {
@@ -36,7 +36,7 @@ namespace NTMiner.Vms {
         }
 
         public void ShowWarn(string message, int autoHideSeconds) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Warning(message ?? string.Empty);
                 if (autoHideSeconds > 0) {
@@ -54,7 +54,7 @@ namespace NTMiner.Vms {
         }
 
         public void ShowInfo(string message, int autoHideSeconds) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Warning(message ?? string.Empty);
                 if (autoHideSeconds > 0) {
@@ -72,7 +72,7 @@ namespace NTMiner.Vms {
         }
 
         public void ShowSuccess(string message, int autoHideSeconds, string header = "成功") {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Success(header, message);
                 if (autoHideSeconds > 0) {

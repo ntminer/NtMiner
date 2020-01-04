@@ -36,13 +36,13 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void OnPathConnected(IMessagePathId pathId) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 Vm.PathIds.Add(pathId);
             });
         }
 
         private void OnPathDisconnected(IMessagePathId pathId) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 Vm.PathIds.Remove(pathId);
             });
         }

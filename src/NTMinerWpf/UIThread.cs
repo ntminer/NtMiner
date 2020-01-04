@@ -3,29 +3,26 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class UIThread {
-        private static Action<Action> _executor = action => action();
-
+        private static Dispatcher _dispatcher;
         public static void InitializeWithDispatcher() {
-            var dispatcher = Dispatcher.CurrentDispatcher;
-            Write.UIThreadId = dispatcher.Thread.ManagedThreadId;
-            _executor = action => {
-                if (action == null) {
-                    return;
-                }
-                if (dispatcher.CheckAccess()) {
-                    action();
-                }
-                else {
-                    dispatcher.BeginInvoke(action);
-                }
-            };
+            _dispatcher = Dispatcher.CurrentDispatcher;
+            Write.UIThreadId = _dispatcher.Thread.ManagedThreadId;
         }
 
         /// <summary>
-        /// 在UI线程上执行给定的行为。注意action不应是Vm上的方法，如果是Vm上的方法必须包裹一次。
+        /// 因为该方法可能会在非UI线程被调用，所以是这个风格。
+        /// 详解：当以UIThread.Execute(Vm.Method1)这个风格调用时，因为Vm实例可能来自
+        /// 于(TVm)this.DataContext，而this是DependencyObject是不能在非UI线程访问的。
         /// </summary>
-        public static void Execute(this Action action) {
-            _executor(action);
+        public static void Execute(Func<Action> getAction) {
+            if (_dispatcher.CheckAccess()) {
+                getAction()();
+            }
+            else {
+                _dispatcher.BeginInvoke(new Action(()=> {
+                    getAction()();
+                }));
+            }
         }
     }
 }

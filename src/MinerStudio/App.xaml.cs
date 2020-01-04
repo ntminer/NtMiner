@@ -77,7 +77,7 @@ namespace NTMiner {
         private void Init() {
             NTMinerRoot.Instance.Init(() => {
                 _appViewFactory.Link();
-                UIThread.Execute(() => {
+                UIThread.Execute(() => () => {
                     VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
                     AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                 });

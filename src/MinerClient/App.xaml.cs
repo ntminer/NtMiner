@@ -42,7 +42,7 @@ namespace NTMiner {
             }, location: this.GetType());
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
-                    UIThread.Execute(() => { Environment.Exit(0); });
+                    UIThread.Execute(() => () => { Environment.Exit(0); });
                 }));
             }
             else {
@@ -90,7 +90,7 @@ namespace NTMiner {
                         splashWindow?.Dispatcher.Invoke((Action)delegate () {
                             splashWindow?.OkClose();
                         });
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 ConsoleWindow.Instance.Hide();
@@ -138,7 +138,7 @@ namespace NTMiner {
         }
 
         private void ShowMainWindow(bool isToggle) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 _appViewFactory.ShowMainWindow(isToggle);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {

@@ -76,7 +76,7 @@ namespace NTMiner.Views {
                         Write.UserFail(response.ReadMessage(exception));
                         return;
                     }
-                    UIThread.Execute(() => {
+                    UIThread.Execute(() => () => {
                         bool isOnlyOne = limit == 1;
                         Vm.TotalMiningCount = response.TotalMiningCount;
                         Vm.TotalOnlineCount = response.TotalOnlineCount;

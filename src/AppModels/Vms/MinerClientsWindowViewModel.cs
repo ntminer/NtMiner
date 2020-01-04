@@ -570,7 +570,7 @@ namespace NTMiner.Vms {
                 this.Version, this.Kernel, (response, exception) => {
                     this.CountDown = 10;
                     if (response != null) {
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             if (response.Data.Count == 0) {
                                 _minerClients = new List<MinerClientViewModel>();
                             }

@@ -14,7 +14,7 @@ namespace NTMiner.Core.Cpus.Impl {
             if (VirtualRoot.IsMinerClient) {
                 Task.Factory.StartNew(() => {
                     // 因为第一次访问可能耗时，所以放在Task中避免增长构造过程的耗时
-                    Update();
+                    Windows.Cpu.Instance.GetSensorValue(out double _, out float _, out double _);
                     VirtualRoot.AddEventPath<Per1SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
                         action: message => {
                             Update();

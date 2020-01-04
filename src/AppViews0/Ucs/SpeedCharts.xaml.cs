@@ -49,7 +49,7 @@ namespace NTMiner.Views.Ucs {
             this.RunOneceOnLoaded((window) => {
                 window.AddEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                     action: (message) => {
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
                                 mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
                                 foreach (var speedChartVm in Vm.SpeedChartVms.Items) {

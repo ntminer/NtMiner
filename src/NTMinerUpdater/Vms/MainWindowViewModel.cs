@@ -128,7 +128,7 @@ namespace NTMiner.Vms {
                                 Process.Start(location, arguments);
                                 this.IsDownloading = false;
                                 2.SecondsDelay().ContinueWith(_ => {
-                                    UIThread.Execute(() => {
+                                    UIThread.Execute(() => () => {
                                         Application.Current.MainWindow?.Close();
                                     });
                                 });

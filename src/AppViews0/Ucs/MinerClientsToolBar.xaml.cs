@@ -27,7 +27,7 @@ namespace NTMiner.Views.Ucs {
 
         private void MenuItemUpgrade_Click(object sender, RoutedEventArgs e) {
             RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntMinerFiles, ex) => {
-                UIThread.Execute(() => {
+                UIThread.Execute(() => () => {
                     Vm.NTMinerFileList = (ntMinerFiles ?? new List<NTMinerFileData>()).OrderByDescending(a => a.GetVersion()).ToList();
                 });
             });

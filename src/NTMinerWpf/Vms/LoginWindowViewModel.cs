@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
         }
 
         public void ShowMessage(string message, bool isSuccess = false) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 if (isSuccess) {
                     VirtualRoot.Out.ShowSuccess(message);
                 }

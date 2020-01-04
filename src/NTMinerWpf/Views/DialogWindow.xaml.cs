@@ -50,7 +50,7 @@ namespace NTMiner.Views {
                     int n = 4;
                     Vm.NoText = $"请再点一次({n.ToString()})";
                     this.AddViaTimesLimitPath<Per1SecondEvent>("倒计时'请再点一次'", LogEnum.None, message => {
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             n--;
                             Vm.NoText = $"请再点一次({n.ToString()})";
                             if (n == 0) {
