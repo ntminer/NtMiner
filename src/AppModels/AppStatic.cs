@@ -159,7 +159,7 @@ namespace NTMiner {
         }
         public static string ServerDbFileFullName {
             get {
-                return SpecialPath.ServerDbFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
+                return VirtualRoot.ServerDbFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
             }
         }
         public static string LocalDbFileFullName {
@@ -815,7 +815,7 @@ namespace NTMiner {
             OpenLiteDb(VirtualRoot.LocalDbFileFullName);
         });
         public static ICommand OpenServerLiteDb { get; private set; } = new DelegateCommand(() => {
-            OpenLiteDb(SpecialPath.ServerDbFileFullName);
+            OpenLiteDb(VirtualRoot.ServerDbFileFullName);
         });
 
         #region private method OpenLiteDb
