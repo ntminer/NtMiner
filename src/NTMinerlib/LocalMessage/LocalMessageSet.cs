@@ -23,19 +23,29 @@ namespace NTMiner.LocalMessage {
                 List<ILocalMessage> removes = new List<ILocalMessage>();
                 lock (_locker) {
                     _records.AddFirst(data);
-                    while (_records.Count > NTKeyword.LocalMessageSetCapacity) {
-                        var toRemove = _records.Last;
-                        removes.Add(toRemove.Value);
-                        _records.RemoveLast();
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<LocalMessageData>();
-                            col.Delete(toRemove.Value.Id);
+                    try {
+                        while (_records.Count > NTKeyword.LocalMessageSetCapacity) {
+                            var toRemove = _records.Last;
+                            removes.Add(toRemove.Value);
+                            _records.RemoveLast();
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                var col = db.GetCollection<LocalMessageData>();
+                                col.Delete(toRemove.Value.Id);
+                            }
                         }
                     }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
+                    }
                 }
-                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    var col = db.GetCollection<LocalMessageData>();
-                    col.Insert(data);
+                try {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                        var col = db.GetCollection<LocalMessageData>();
+                        col.Insert(data);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
                 }
                 VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(message.Id, data, removes));
             }, location: this.GetType());
@@ -46,8 +56,13 @@ namespace NTMiner.LocalMessage {
                 lock (_locker) {
                     _records.Clear();
                 }
-                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    db.DropCollection(nameof(LocalMessageData));
+                try {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                        db.DropCollection(nameof(LocalMessageData));
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
                 }
                 VirtualRoot.RaiseEvent(new LocalMessageSetClearedEvent());
             }, location: this.GetType());

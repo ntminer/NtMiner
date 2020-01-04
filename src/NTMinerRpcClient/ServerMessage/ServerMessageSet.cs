@@ -61,20 +61,30 @@ namespace NTMiner.ServerMessage {
                         }
                     }
                     if (exist != null) {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<ServerMessageData>();
-                            col.Update(exist);
+                        try {
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                var col = db.GetCollection<ServerMessageData>();
+                                col.Update(exist);
+                            }
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                     else {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<ServerMessageData>();
-                            if (toRemoves.Count != 0) {
-                                foreach (var item in toRemoves) {
-                                    col.Delete(item.Id);
+                        try {
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                var col = db.GetCollection<ServerMessageData>();
+                                if (toRemoves.Count != 0) {
+                                    foreach (var item in toRemoves) {
+                                        col.Delete(item.Id);
+                                    }
                                 }
+                                col.Insert(data);
                             }
-                            col.Insert(data);
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                     #endregion
@@ -103,9 +113,14 @@ namespace NTMiner.ServerMessage {
                         }
                     }
                     if (exist != null) {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<ServerMessageData>();
-                            col.Update(exist);
+                        try {
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                var col = db.GetCollection<ServerMessageData>();
+                                col.Update(exist);
+                            }
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                     #endregion
@@ -124,11 +139,16 @@ namespace NTMiner.ServerMessage {
                 if (isServer) {
                     return;
                 }
-                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    lock (_locker) {
-                        _linkedList.Clear();
+                try {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                        lock (_locker) {
+                            _linkedList.Clear();
+                        }
+                        db.DropCollection(nameof(ServerMessageData));
                     }
-                    db.DropCollection(nameof(ServerMessageData));
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
                 }
                 VirtualRoot.RaiseEvent(new ServerMessagesClearedEvent());
             }, location: this.GetType());
@@ -160,16 +180,21 @@ namespace NTMiner.ServerMessage {
                     VirtualRoot.LocalServerMessageSetTimestamp = maxTime;
                 }
             }
-            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                var col = db.GetCollection<ServerMessageData>();
-                foreach (var item in newDatas) {
-                    if (item.IsDeleted) {
-                        col.Delete(item.Id);
-                    }
-                    else {
-                        col.Upsert(item);
+            try {
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<ServerMessageData>();
+                    foreach (var item in newDatas) {
+                        if (item.IsDeleted) {
+                            col.Delete(item.Id);
+                        }
+                        else {
+                            col.Upsert(item);
+                        }
                     }
                 }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
             }
             VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(newDatas));
         }
@@ -202,16 +227,21 @@ namespace NTMiner.ServerMessage {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        var col = db.GetCollection<ServerMessageData>();
-                        foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                            if (_linkedList.Count < NTKeyword.ServerMessageSetCapacity) {
-                                _linkedList.AddFirst(item);
-                            }
-                            else {
-                                col.Delete(_linkedList.Last.Value.Id);
+                    try {
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<ServerMessageData>();
+                            foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
+                                if (_linkedList.Count < NTKeyword.ServerMessageSetCapacity) {
+                                    _linkedList.AddFirst(item);
+                                }
+                                else {
+                                    col.Delete(_linkedList.Last.Value.Id);
+                                }
                             }
                         }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
                     }
                     _isInited = true;
                 }
