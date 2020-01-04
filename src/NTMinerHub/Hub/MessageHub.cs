@@ -117,7 +117,7 @@
                     bool isMatch = messagePath.PathId == Guid.Empty;
                     if (!isMatch) {
                         if (message is IEvent evt) {
-                            isMatch = messagePath.PathId == evt.BornPathId;
+                            isMatch = messagePath.PathId == evt.RouteToPathId;
                         }
                         else if (message is ICmd cmd) {
                             isMatch = messagePath.PathId == cmd.Id;
