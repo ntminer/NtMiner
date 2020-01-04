@@ -35,10 +35,9 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            // 之所以提前到这里是因为升级之前可能需要下载升级器，下载升级器时需要下载器
             VirtualRoot.AddCmdPath<ShowFileDownloaderCommand>(action: message => {
-                UIThread.Execute(() => {
-                    FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
-                });
+                FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);

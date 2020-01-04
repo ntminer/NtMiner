@@ -17,7 +17,9 @@ namespace NTMiner.Views.Ucs {
                         CloseVisible = System.Windows.Visibility.Visible,
                     }, ucFactory: (window) => {
                         FileDownloaderViewModel vm = new FileDownloaderViewModel(downloadFileUrl, (isSuccess, message, saveFileFullName) => {
-                            downloadComplete(window, isSuccess, message, saveFileFullName);
+                            UIThread.Execute(() => {
+                                downloadComplete(window, isSuccess, message, saveFileFullName);
+                            });
                         });
                         return new FileDownloader(vm);
                     }, fixedSize: true);

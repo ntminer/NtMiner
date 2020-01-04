@@ -109,9 +109,7 @@ namespace NTMiner.Vms {
                     this.DownloadPercent = 0;
                     this.BtnCancelVisible = Visibility.Collapsed;
                     2.SecondsDelay().ContinueWith((t) => {
-                        UIThread.Execute(() => {
-                            downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
-                        });
+                        downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                     });
                 };
                 webClient.DownloadFileAsync(
