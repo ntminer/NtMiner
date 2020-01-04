@@ -5,16 +5,16 @@ namespace NTMiner.Hub {
         protected EventBase() {
             this.Id = Guid.NewGuid();
             this.BornOn = DateTime.Now;
-            this.RouteToPathId = Guid.Empty;
+            this.RouteToPathId = RouteToPathId.All;
         }
 
-        protected EventBase(Guid routeToPathId) : this() {
+        protected EventBase(RouteToPathId routeToPathId) : this() {
             this.RouteToPathId = routeToPathId;
         }
 
         public Guid Id { get; private set; }
 
-        public Guid RouteToPathId { get; private set; }
+        public RouteToPathId RouteToPathId { get; private set; }
 
         public DateTime BornOn { get; private set; }
     }

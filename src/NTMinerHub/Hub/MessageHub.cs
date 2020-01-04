@@ -114,14 +114,12 @@
                 foreach (var messagePath in messagePaths) {
                     // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
                     // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过
-                    bool isMatch = messagePath.PathId == Guid.Empty;
-                    if (!isMatch) {
-                        if (message is IEvent evt) {
-                            isMatch = messagePath.PathId == evt.RouteToPathId;
-                        }
-                        else if (message is ICmd cmd) {
-                            isMatch = messagePath.PathId == cmd.Id;
-                        }
+                    bool isMatch = false;
+                    if (message is IEvent evt) {
+                        isMatch = evt.RouteToPathId.IsAll || evt.RouteToPathId == messagePath.PathId;
+                    }
+                    else if (message is ICmd cmd) {
+                        isMatch = messagePath.PathId == Guid.Empty || messagePath.PathId == cmd.Id;
                     }
                     if (isMatch && messagePath.ViaTimesLimit > 0) {
                         // ViaTimesLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaTimesLimit计数
