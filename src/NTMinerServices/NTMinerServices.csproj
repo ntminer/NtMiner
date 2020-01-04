@@ -54,6 +54,9 @@
     <Reference Include="Costura, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Costura.Fody.4.0.0\lib\net40\Costura.dll</HintPath>
     </Reference>
+    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -139,10 +142,6 @@
     <EmbeddedResource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\LiteDB\LiteDB.csproj">
-      <Project>{4a53a085-df9d-4c7f-b6ae-5540e1ff481c}</Project>
-      <Name>LiteDB</Name>
-    </ProjectReference>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">
       <Project>{5911457a-357a-412d-a20c-e77c1a56b4f6}</Project>
       <Name>NTMiner.Controllers</Name>

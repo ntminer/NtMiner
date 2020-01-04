@@ -37,14 +37,12 @@ namespace NTMiner.Views.Ucs {
                     }, location: this.GetType());
                 window.AddEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
-                        UIThread.Execute(() => {
-                            DateTime now = DateTime.Now;
-                            Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
-                            var mineContext = NTMinerRoot.Instance.LockedMineContext;
-                            if (mineContext != null && mineContext.MineStartedOn != DateTime.MinValue) {
-                                Vm.UpdateMineTimeSpan(now - mineContext.MineStartedOn);
-                            }
-                        });
+                        DateTime now = DateTime.Now;
+                        Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
+                        var mineContext = NTMinerRoot.Instance.LockedMineContext;
+                        if (mineContext != null && mineContext.MineStartedOn != DateTime.MinValue) {
+                            Vm.UpdateMineTimeSpan(now - mineContext.MineStartedOn);
+                        }
                     }, location: this.GetType());
                 window.AddEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
