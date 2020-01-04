@@ -4,9 +4,14 @@ using System.Windows.Threading;
 namespace NTMiner {
     public static class UIThread {
         private static Dispatcher _dispatcher;
+        /// <summary>
+        /// 执行两个操作：
+        /// 1，记下对Dispatcher.CurrentDispatcher的引用，因为Splash会令开一个UI线程，防止访问到Splash线程的Dispatcher.CurrentDispatcher；
+        /// 2，设置Writer.UIThreadId；
+        /// </summary>
         public static void InitializeWithDispatcher() {
             _dispatcher = Dispatcher.CurrentDispatcher;
-            Write.UIThreadId = _dispatcher.Thread.ManagedThreadId;
+            Write.SetUIThreadId(_dispatcher.Thread.ManagedThreadId);
         }
 
         /// <summary>
