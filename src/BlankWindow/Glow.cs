@@ -3,6 +3,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace NTMiner {
+    /// <summary>
+    /// 发出微弱而稳定的光；
+    /// </summary>
     public class Glow : Control {
         public static readonly DependencyProperty GlowBrushProperty = DependencyProperty.Register(nameof(GlowBrush), typeof(Brush), typeof(Glow), new UIPropertyMetadata(Brushes.Transparent));
         public static readonly DependencyProperty NonActiveGlowBrushProperty = DependencyProperty.Register(nameof(NonActiveGlowBrush), typeof(Brush), typeof(Glow), new UIPropertyMetadata(Brushes.Transparent));
@@ -13,6 +16,8 @@ namespace NTMiner {
         static Glow() {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Glow), new FrameworkPropertyMetadata(typeof(Glow)));
         }
+
+        public Glow() { }
 
         public Brush GlowBrush {
             get { return (Brush)this.GetValue(GlowBrushProperty); }
