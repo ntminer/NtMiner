@@ -35,7 +35,7 @@ namespace NTMiner {
         }
         #endregion
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("代码质量", "IDE0052:删除未读的私有成员", Justification = "<挂起>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("代码质量", "IDE0052:删除未读的私有成员", Justification = "这个成员是供下层操作系统访问的")]
         private static Mutex _mutexApp;
         public static bool GetMutex(string name) {
             bool result;
@@ -46,6 +46,12 @@ namespace NTMiner {
                 result = false;
             }
             return result;
+        }
+        
+        private const int SW_SHOWNOMAL = 1;
+        public static void Show(Process instance) {
+            SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
+            SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
         }
 
         #region private methods
@@ -61,11 +67,5 @@ namespace NTMiner {
             }
         }
         #endregion
-        
-        private const int SW_SHOWNOMAL = 1;
-        public static void Show(Process instance) {
-            SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
-            SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
-        }
     }
 }
