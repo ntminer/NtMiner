@@ -11,7 +11,6 @@ namespace NTMiner {
             DaemonFileFullName = Path.Combine(daemonDirFullName, NTKeyword.NTMinerDaemonFileName);
             DevConsoleFileFullName = Path.Combine(daemonDirFullName, NTKeyword.DevConsoleFileName);
 
-            ServerDbFileFullName = Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.ServerDbFileName);
             ServerJsonFileFullName = Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.ServerJsonFileName);
 
             LocalJsonFileFullName = Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.LocalJsonFileName);
@@ -29,8 +28,8 @@ namespace NTMiner {
                 }
                 if (DevMode.IsDevMode) {
                     string shareServerDbFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerDbFileName);
-                    if (File.Exists(shareServerDbFileFullName) && !File.Exists(ServerDbFileFullName)) {
-                        File.Copy(shareServerDbFileFullName, ServerDbFileFullName);
+                    if (File.Exists(shareServerDbFileFullName) && !File.Exists(VirtualRoot.ServerDbFileFullName)) {
+                        File.Copy(shareServerDbFileFullName, VirtualRoot.ServerDbFileFullName);
                     }
                 }
                 string shareServerJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerJsonFileName);
@@ -100,8 +99,6 @@ namespace NTMiner {
 
         public static readonly string LocalJsonFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
-
-        public static readonly string ServerDbFileFullName;
 
         public static readonly string ServerJsonFileFullName;
 

@@ -7,7 +7,7 @@ namespace NTMiner.Views {
     public partial class LoginWindow : Window {
         public static void Login(Action onLoginSuccess) {
             if (!IsLogined()) {
-                UIThread.Execute(() => {
+                UIThread.Execute(() => () => {
                     var topWindow = WpfUtil.GetTopWindow();
                     LoginWindow window = new LoginWindow(onLoginSuccess);
                     if (topWindow != null && topWindow.GetType() != typeof(NotiCenterWindow)) {
@@ -84,7 +84,7 @@ namespace NTMiner.Views {
                 return;
             }
             RpcRoot.Server.ControlCenterService.LoginAsync(Vm.LoginName, passwordSha1, (response, exception) => {
-                UIThread.Execute(() => {
+                UIThread.Execute(() => () => {
                     if (response == null) {
                         Vm.ShowMessage("服务器忙");
                         return;

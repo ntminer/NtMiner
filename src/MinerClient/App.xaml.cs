@@ -33,18 +33,16 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            // 通过群控升级挖矿端的时候升级器可能不存在所以需要下载，下载的时候需要用到下载器所以下载器需要提前注册
+            // 之所以提前到这里是因为升级之前可能需要下载升级器，下载升级器时需要下载器
             VirtualRoot.AddCmdPath<ShowFileDownloaderCommand>(action: message => {
-                UIThread.Execute(() => {
-                    FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
-                });
+                FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
             }, location: this.GetType());
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
-                    UIThread.Execute(() => { Environment.Exit(0); });
+                    UIThread.Execute(() => () => { Environment.Exit(0); });
                 }));
             }
             else {
@@ -90,9 +88,9 @@ namespace NTMiner {
                             VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
                         splashWindow?.Dispatcher.Invoke((Action)delegate () {
-                            splashWindow?.Close();
+                            splashWindow?.OkClose();
                         });
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 ConsoleWindow.Instance.Hide();
@@ -140,7 +138,7 @@ namespace NTMiner {
         }
 
         private void ShowMainWindow(bool isToggle) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 _appViewFactory.ShowMainWindow(isToggle);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {

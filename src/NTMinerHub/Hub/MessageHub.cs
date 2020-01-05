@@ -38,7 +38,13 @@
             public void AddMessagePath(MessagePath<TMessage> messagePath) {
                 lock (_locker) {
                     if (typeof(ICmd).IsAssignableFrom(typeof(TMessage))) {
-                        if (_messagePaths.Any(a => messagePath.PathId == a.PathId)) {
+                        bool isExist = _messagePaths.Any(a => messagePath.PathId == a.PathId);
+                        if (messagePath.PathId != Guid.Empty) {
+                            if (isExist) {
+                                return;
+                            }
+                        }
+                        if (isExist) {
                             // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
                             // 之所以设计为统一走总线只是为了通过将命令类型集中表达以起文档作用。
                             throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
@@ -114,12 +120,15 @@
                 foreach (var messagePath in messagePaths) {
                     // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
                     // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过
-                    bool isMatch = messagePath.PathId == Guid.Empty;
-                    if (!isMatch) {
-                        if (message is IEvent evt) {
-                            isMatch = messagePath.PathId == evt.BornPathId;
+                    bool isMatch = false;
+                    if (message is IEvent evt) {
+                        isMatch = evt.RouteToPathId.IsAll || evt.RouteToPathId == messagePath.PathId;
+                    }
+                    else if (message is ICmd cmd) {
+                        if (messagePath.PathId == Guid.Empty) {
+                            isMatch = messagePaths.Where(a => a.PathId != Guid.Empty).All(a => a.PathId != cmd.Id);
                         }
-                        else if (message is ICmd cmd) {
+                        else {
                             isMatch = messagePath.PathId == cmd.Id;
                         }
                     }

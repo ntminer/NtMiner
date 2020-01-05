@@ -12,7 +12,7 @@ namespace NTMiner {
         /// 打开远程桌面窗口连接给定ip的windows主机
         /// </summary>
         public static void OpenRemoteDesktop(RdpInput input) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 string serverIp = input.ServerIp;
                 string userName = input.UserName;
                 string password = input.Password;

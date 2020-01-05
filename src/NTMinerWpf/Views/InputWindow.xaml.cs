@@ -36,7 +36,7 @@ namespace NTMiner.Views {
                     this.TbMessage.Text = message;
                     this.TbMessage.Visibility = Visibility.Visible;
                     4.SecondsDelay().ContinueWith(t => {
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             this.TbMessage.Text = string.Empty;
                             this.TbMessage.Visibility = Visibility.Hidden;
                         });

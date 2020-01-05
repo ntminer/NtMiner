@@ -357,7 +357,7 @@ namespace NTMiner {
 
         public static IRepository<T> CreateServerRepository<T>() where T : class, IDbEntity<Guid> {
             if (!IsJsonServer) {
-                return new LiteDbReadWriteRepository<T>(SpecialPath.ServerDbFileFullName);
+                return new LiteDbReadWriteRepository<T>(VirtualRoot.ServerDbFileFullName);
             }
             else {
                 return new JsonReadOnlyRepository<T>(ServerJson);

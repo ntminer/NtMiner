@@ -3,7 +3,11 @@ using System.Threading;
 
 namespace NTMiner {
     public static class Write {
-        public static int UIThreadId;
+        private static int _uiThreadId;
+
+        public static void SetUIThreadId(int value) {
+            _uiThreadId = value;
+        }
 
         private static bool _isEnabled = true;
         public static void Enable() {
@@ -75,7 +79,7 @@ namespace NTMiner {
             if (!_isEnabled) {
                 return;
             }
-            UserLineMethod?.Invoke($"{(Thread.CurrentThread.ManagedThreadId == UIThreadId ? "UI " : "   ")}{text}", foreground);
+            UserLineMethod?.Invoke($"{(Thread.CurrentThread.ManagedThreadId == _uiThreadId ? "UI " : "   ")}{text}", foreground);
         }
 
         public static void DevLine(string text, MessageType messageType = MessageType.Default) {
@@ -86,7 +90,7 @@ namespace NTMiner {
                 return;
             }
             InitOnece();
-            text = $"{(Thread.CurrentThread.ManagedThreadId == UIThreadId ? "UI " : "   ")}{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
+            text = $"{(Thread.CurrentThread.ManagedThreadId == _uiThreadId ? "UI " : "   ")}{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = messageType.ToConsoleColor();
             Console.WriteLine(text);

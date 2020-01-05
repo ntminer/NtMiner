@@ -28,7 +28,7 @@ namespace NTMiner.Core.Profiles.Impl {
             VirtualRoot.AddCmdPath<CoinOverClockCommand>(action: message => {
                 Task.Factory.StartNew(() => {
                     CoinOverClock(root, message.CoinId);
-                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(bornPathId: message.Id));
+                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(routeToPathId: message.Id));
                 });
             }, location: this.GetType());
         }

@@ -51,7 +51,7 @@ namespace NTMiner {
                 else {
                     MessageBox.Show("另一个升级器已在运行", "提示", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 }
-                Environment.Exit(-1);
+                Environment.Exit(0);
                 return;
             }
             base.OnStartup(e);

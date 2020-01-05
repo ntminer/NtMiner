@@ -27,13 +27,11 @@ namespace NTMiner.Views.Ucs {
                 };
                 window.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(()=> Vm.RefreshLocalIps());
+                        UIThread.Execute(() => Vm.RefreshLocalIps);
                     }, location: this.GetType());
                 window.AddEventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
                     action: message => {
-                        UIThread.Execute(() => {
-                            Vm.UpdateDateTime();
-                        });
+                        UIThread.Execute(() => Vm.UpdateDateTime);
                     }, location: this.GetType());
                 window.AddEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
@@ -46,19 +44,19 @@ namespace NTMiner.Views.Ucs {
                     }, location: this.GetType());
                 window.AddEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             Vm.SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
                         });
                     }, location: this.GetType());
                 window.AddEventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                         });
                     }, location: this.GetType());
                 window.AddEventPath<MineStartedEvent>("挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                         });
                     }, location: this.GetType());

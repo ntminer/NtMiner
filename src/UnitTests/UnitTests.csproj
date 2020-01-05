@@ -66,10 +66,12 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppTypeTests.cs" />
     <Compile Include="CpuTests.cs" />
+    <Compile Include="DependencyObjectTests.cs" />
     <Compile Include="DotNet45Tests.cs" />
     <Compile Include="EnvironmentTests.cs" />
     <Compile Include="LiteDBTests.cs" />
