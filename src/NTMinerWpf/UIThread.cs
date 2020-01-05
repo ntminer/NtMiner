@@ -6,7 +6,7 @@ namespace NTMiner {
         private static Dispatcher _dispatcher;
         /// <summary>
         /// 执行两个操作：
-        /// 1，记下对Dispatcher.CurrentDispatcher的引用，因为Splash会令开一个UI线程，防止访问到Splash线程的Dispatcher.CurrentDispatcher；
+        /// 1，记下对Dispatcher.CurrentDispatcher的引用，因为Splash会另开一个UI线程，防止访问到Splash线程的Dispatcher.CurrentDispatcher；
         /// 2，设置Writer.UIThreadId；
         /// </summary>
         public static void InitializeWithDispatcher() {
