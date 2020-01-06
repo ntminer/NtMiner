@@ -11,8 +11,18 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	mc:Ignorable="d">
 	<WrapPanel>
-		<Menu Background="Transparent" VerticalAlignment="Center">
-			<MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+        <Menu Background="Transparent" VerticalAlignment="Center">
+            <MenuItem Width="26" Height="30" Command="{x:Static app:AppStatic.ShowProperty}">
+                <MenuItem.Icon>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Property}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"

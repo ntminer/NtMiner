@@ -135,7 +135,7 @@
 					ToolTip="算力图"
 					Command="{x:Static app:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
 					CornerRadius="2">
-                    <Image Width="20" Height="20" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+                    <Image Source="/NTMinerWpf;component/Styles/Images/cc32.png">
                     </Image>
                 </controls:KbButton>
                 <uc:MainMenu Background="Transparent">
