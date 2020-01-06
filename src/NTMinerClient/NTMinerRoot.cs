@@ -225,7 +225,7 @@ namespace NTMiner {
         private void Link() {
             VirtualRoot.AddCmdPath<RegCmdHereCommand>(action: message => {
                 try {
-                    Windows.Cmd.RegCmdHere(); 
+                    Windows.Cmd.RegCmdHere();
                     VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "添加windows右键命令行成功", OutEnum.Success);
                 }
                 catch (Exception e) {
@@ -401,7 +401,7 @@ namespace NTMiner {
         #endregion
 
         private bool GetProfileData(
-            out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel, 
+            out ICoin mainCoin, out ICoinProfile mainCoinProfile, out IPool mainCoinPool, out ICoinKernel mainCoinKernel, out IKernel kernel,
             out IKernelInput kernelInput, out IKernelOutput kernelOutput, out string errorMsg) {
             mainCoinProfile = null;
             mainCoinPool = null;
