@@ -240,7 +240,7 @@
 							Fill="Black"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
-							<TextBlock FontWeight="Bold" FontSize="14">Windows右键命令行</TextBlock>
+							<TextBlock FontWeight="Bold" Foreground="{Binding IsRegedCmdHere,Converter={StaticResource BoolToBrushConverter}}" FontSize="14">Windows右键命令行</TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">方便在当前目录打开命令行</TextBlock>
 						</StackPanel>
 					</WrapPanel>

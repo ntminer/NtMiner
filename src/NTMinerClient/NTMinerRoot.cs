@@ -226,11 +226,21 @@ namespace NTMiner {
             VirtualRoot.AddCmdPath<RegCmdHereCommand>(action: message => {
                 try {
                     Windows.Cmd.RegCmdHere(); 
-                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "windows右键命令行添加成功", OutEnum.Success);
+                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "添加windows右键命令行成功", OutEnum.Success);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
-                    VirtualRoot.ThisLocalError(nameof(NTMinerRoot), "windows右键命令行添加失败", OutEnum.Warn);
+                    VirtualRoot.ThisLocalError(nameof(NTMinerRoot), "添加windows右键命令行失败", OutEnum.Warn);
+                }
+            }, location: this.GetType());
+            VirtualRoot.AddCmdPath<UnRegCmdHereCommand>(action: message => {
+                try {
+                    Windows.Cmd.UnRegCmdHere();
+                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "移除windows右键命令行成功", OutEnum.Success);
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                    VirtualRoot.ThisLocalError(nameof(NTMinerRoot), "移除windows右键命令行失败", OutEnum.Warn);
                 }
             }, location: this.GetType());
             VirtualRoot.AddEventPath<Per1MinuteEvent>("每1分钟阻止系统休眠", LogEnum.None,

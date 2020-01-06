@@ -51,19 +51,28 @@ namespace NTMiner.Vms {
                 Process.Start(item.Value);
             });
             this.RegCmdHere = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RegCmdHereCommand());
-                }));
+                if (IsRegedCmdHere) {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定移除windows右键上下文菜单中的\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                        VirtualRoot.Execute(new UnRegCmdHereCommand());
+                        OnPropertyChanged(nameof(IsRegedCmdHere));
+                    }));
+                }
+                else {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                        VirtualRoot.Execute(new RegCmdHereCommand());
+                        OnPropertyChanged(nameof(IsRegedCmdHere));
+                    }));
+                }
             });
             this.BlockWAU = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
-                }, helpUrl: "https://www.loserhub.cn/posts/details/91"));
+                }, helpUrl: "https://www.cnblogs.com/ntminer/p/12155769.html"));
             });
             this.Win10Optimize = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
-                }, helpUrl: "https://www.loserhub.cn/posts/details/83"));
+                }, helpUrl: "https://www.cnblogs.com/ntminer/p/12155773.html"));
             });
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
@@ -77,6 +86,12 @@ namespace NTMiner.Vms {
             this.OpenEventvwr = new DelegateCommand(() => {
                 Process.Start("eventvwr.msc", "/c:Application");
             });
+        }
+
+        public bool IsRegedCmdHere {
+            get {
+                return Windows.Cmd.IsRegedCmdHere();
+            }
         }
 
         public bool IsReturnEthDevFee {

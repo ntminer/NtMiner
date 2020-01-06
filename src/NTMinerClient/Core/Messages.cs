@@ -85,9 +85,14 @@ namespace NTMiner.Core {
         }
     }
 
-    [MessageType(description: "注册右键打开windindows命令行菜单")]
+    [MessageType(description: "注册右键打开windows命令行菜单")]
     public class RegCmdHereCommand : Cmd {
         public RegCmdHereCommand() { }
+    }
+
+    [MessageType(description: "移除右键打开windows命令行菜单")]
+    public class UnRegCmdHereCommand : Cmd {
+        public UnRegCmdHereCommand() { }
     }
     #endregion
 

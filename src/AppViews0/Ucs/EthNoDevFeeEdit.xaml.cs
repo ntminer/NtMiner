@@ -28,7 +28,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void Help_Click(object sender, System.Windows.RoutedEventArgs e) {
-            Process.Start("https://www.loserhub.cn/posts/details/92");
+            Process.Start("https://www.cnblogs.com/ntminer/p/11162986.html");
         }
     }
 }

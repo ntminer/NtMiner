@@ -971,7 +971,7 @@ namespace NTMiner {
         }
 
         public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
-            string url = "https://www.loserhub.cn/posts/details/52";
+            string url = "https://www.cnblogs.com/ntminer/p/11162986.html";
             if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "BusinessModelUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
