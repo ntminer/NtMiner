@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -53,14 +54,18 @@ namespace NTMiner.Vms {
             this.RegCmdHere = new DelegateCommand(() => {
                 if (IsRegedCmdHere) {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定移除windows右键上下文菜单中的\"命令行\"菜单吗？", title: "确认", onYes: () => {
-                        VirtualRoot.Execute(new UnRegCmdHereCommand());
-                        OnPropertyChanged(nameof(IsRegedCmdHere));
+                        Task.Factory.StartNew(() => {
+                            VirtualRoot.Execute(new UnRegCmdHereCommand());
+                            OnPropertyChanged(nameof(IsRegedCmdHere));
+                        });
                     }));
                 }
                 else {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
-                        VirtualRoot.Execute(new RegCmdHereCommand());
-                        OnPropertyChanged(nameof(IsRegedCmdHere));
+                        Task.Factory.StartNew(() => {
+                            VirtualRoot.Execute(new RegCmdHereCommand());
+                            OnPropertyChanged(nameof(IsRegedCmdHere));
+                        });
                     }));
                 }
             });
