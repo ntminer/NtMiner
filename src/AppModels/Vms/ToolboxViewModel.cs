@@ -8,7 +8,6 @@ namespace NTMiner.Vms {
         public ICommand AtikmdagPatcher { get; private set; }
         public ICommand NavigateToDriver { get; private set; }
         public ICommand RegCmdHere { get; private set; }
-        public ICommand UnRegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
@@ -52,14 +51,18 @@ namespace NTMiner.Vms {
                 Process.Start(item.Value);
             });
             this.RegCmdHere = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RegCmdHereCommand());
-                }));
-            });
-            this.UnRegCmdHere = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定移除windows右键上下文菜单中的\"命令行\"菜单吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new UnRegCmdHereCommand());
-                }));
+                if (IsRegedCmdHere) {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定移除windows右键上下文菜单中的\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                        VirtualRoot.Execute(new UnRegCmdHereCommand());
+                        OnPropertyChanged(nameof(IsRegedCmdHere));
+                    }));
+                }
+                else {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                        VirtualRoot.Execute(new RegCmdHereCommand());
+                        OnPropertyChanged(nameof(IsRegedCmdHere));
+                    }));
+                }
             });
             this.BlockWAU = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
@@ -83,6 +86,12 @@ namespace NTMiner.Vms {
             this.OpenEventvwr = new DelegateCommand(() => {
                 Process.Start("eventvwr.msc", "/c:Application");
             });
+        }
+
+        public bool IsRegedCmdHere {
+            get {
+                return Windows.Cmd.IsRegedCmdHere();
+            }
         }
 
         public bool IsReturnEthDevFee {

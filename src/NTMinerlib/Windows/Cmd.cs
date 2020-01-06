@@ -5,9 +5,21 @@ using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {
+        #region cmd_here
         private static string _cmdHere0 = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
         private static string _cmdHere1 = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
         private static string _cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
+
+        public static bool IsRegedCmdHere() {
+            using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(_cmdHere0)) {
+                if (registryKey != null) {
+                    registryKey.Close();
+                    return true;
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// 在Windows Directory和Folder右键上下文菜单中添加“命令行”菜单
         /// </summary>
@@ -55,6 +67,7 @@ namespace NTMiner.Windows {
                 Logger.ErrorDebugLine(e);
             }
         }
+        #endregion
 
         const string cmdMsg = "注意cmdName参数中不能带参数，参数必须放在args中";
         /// <summary>
