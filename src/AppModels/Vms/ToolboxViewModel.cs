@@ -8,6 +8,7 @@ namespace NTMiner.Vms {
         public ICommand AtikmdagPatcher { get; private set; }
         public ICommand NavigateToDriver { get; private set; }
         public ICommand RegCmdHere { get; private set; }
+        public ICommand UnRegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
@@ -53,6 +54,11 @@ namespace NTMiner.Vms {
             this.RegCmdHere = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new RegCmdHereCommand());
+                }));
+            });
+            this.UnRegCmdHere = new DelegateCommand(() => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定移除windows右键上下文菜单中的\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                    VirtualRoot.Execute(new UnRegCmdHereCommand());
                 }));
             });
             this.BlockWAU = new DelegateCommand(() => {
