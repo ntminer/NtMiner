@@ -36,7 +36,7 @@ namespace UnitTests {
         public void UIThreadTest() {
             DependencyObject obj = null;
             Task.Factory.StartNew(() => {
-                NTMiner.UIThread.InitializeWithDispatcher();
+                NTMiner.UIThread.InitializeWithDispatcher(System.Windows.Threading.Dispatcher.CurrentDispatcher);
                 obj = new DependencyObject();
             }).Wait();
             Assert.IsNotNull(obj);
@@ -47,7 +47,7 @@ namespace UnitTests {
         [TestMethod]
         public void UIThreadTest1() {
             DependencyObject obj = null;
-            NTMiner.UIThread.InitializeWithDispatcher();
+            NTMiner.UIThread.InitializeWithDispatcher(System.Windows.Threading.Dispatcher.CurrentDispatcher);
             Task.Factory.StartNew(() => {
                 obj = new DependencyObject();
             }).Wait();
@@ -58,7 +58,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void UIThreadTest2() {
-            NTMiner.UIThread.InitializeWithDispatcher();
+            NTMiner.UIThread.InitializeWithDispatcher(System.Windows.Threading.Dispatcher.CurrentDispatcher);
             DependencyObject obj = new DependencyObject();
             Assert.IsTrue(obj.Dispatcher.CheckAccess());
             Assert.IsTrue(NTMiner.UIThread.CheckAccess());
