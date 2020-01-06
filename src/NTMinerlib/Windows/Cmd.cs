@@ -5,24 +5,55 @@ using System.IO;
 
 namespace NTMiner.Windows {
     public static class Cmd {
+        private static string _cmdHere0 = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
+        private static string _cmdHere1 = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
+        private static string _cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
         /// <summary>
-        /// 在Windows右键上下文菜单中添加“命令行”菜单
+        /// 在Windows Directory和Folder右键上下文菜单中添加“命令行”菜单
         /// </summary>
         public static void RegCmdHere() {
-            string cmdHere = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
-            string cmdHereCommand = cmdHere + "\\command";
-            string cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
-            string cmdPromptCommand = cmdPrompt + "\\command";
-            WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
-            WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-            WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
-            WinRegistry.SetValue(Registry.LocalMachine, cmdPrompt, "", "命令行");
-            WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
-            cmdHere = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
-            cmdHereCommand = cmdHere + "\\command";
-            WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "", "命令行");
-            WinRegistry.SetValue(Registry.LocalMachine, cmdHere, "Icon", "cmd.exe");
-            WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand, "", "\"cmd.exe\"");
+            try {
+                string cmdHereCommand0 = _cmdHere0 + "\\command";
+                WinRegistry.SetValue(Registry.LocalMachine, _cmdHere0, "", "命令行");
+                WinRegistry.SetValue(Registry.LocalMachine, _cmdHere0, "Icon", "cmd.exe");
+                WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand0, "", "\"cmd.exe\"");
+
+                string cmdHereCommand1 = _cmdHere1 + "\\command";
+                WinRegistry.SetValue(Registry.LocalMachine, _cmdHere1, "", "命令行");
+                WinRegistry.SetValue(Registry.LocalMachine, _cmdHere1, "Icon", "cmd.exe");
+                WinRegistry.SetValue(Registry.LocalMachine, cmdHereCommand1, "", "\"cmd.exe\"");
+
+                string cmdPromptCommand = _cmdPrompt + "\\command";
+                WinRegistry.SetValue(Registry.LocalMachine, _cmdPrompt, "", "命令行");
+                WinRegistry.SetValue(Registry.LocalMachine, cmdPromptCommand, "", "\"cmd.exe\" \"cd %1\"");
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+        }
+
+        public static void UnRegCmdHere() {
+            RegistryKey root = Registry.LocalMachine;
+            try {
+                root.DeleteSubKeyTree(_cmdHere0);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+
+            try {
+                root.DeleteSubKeyTree(_cmdHere1);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+
+            try {
+                root.DeleteSubKeyTree(_cmdPrompt);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
         }
 
         const string cmdMsg = "注意cmdName参数中不能带参数，参数必须放在args中";
