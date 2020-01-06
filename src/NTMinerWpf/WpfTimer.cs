@@ -13,7 +13,7 @@ namespace NTMiner {
             }
             _dispatcherTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e) => {
                 base.Elapsed();
-            }, Dispatcher.CurrentDispatcher);
+            }, UIThread.Dispatcher);
         }
     }
 }

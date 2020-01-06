@@ -42,12 +42,54 @@
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <WrapPanel Grid.Column="0" Margin="4" VerticalAlignment="Center">
-                <Path
-					Width="13"
-					Height="13"
-					Data="{StaticResource Icon_Miner}"
-					Fill="{StaticResource ThemeForeground}"
-					Stretch="Fill" />
+                <Menu Background="Transparent">
+                    <MenuItem Width="22">
+                        <MenuItem.Icon>
+                            <Path
+					            Width="13"
+					            Height="13"
+					            Data="{StaticResource Icon_Miner}"
+					            Fill="{StaticResource ThemeForeground}"
+					            Stretch="Fill" />
+                        </MenuItem.Icon>
+                        <MenuItem 
+                            Header="打开家目录"
+                            Command="{x:Static app:AppStatic.OpenDir}" 
+                            CommandParameter="{x:Static app:AppStatic.HomeDir}">
+                            <MenuItem.Icon>
+                                <Path
+						            Width="16"
+						            Height="16"
+						            Data="{StaticResource Icon_Home}"
+						            Fill="{StaticResource IconFillColor}"
+						            Stretch="Fill" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem 
+                            Header="打开临时目录" 
+                            Command="{x:Static app:AppStatic.OpenDir}" 
+                            CommandParameter="{x:Static app:AppStatic.TempDir}">
+                            <MenuItem.Icon>
+                                <Path
+						            Width="16"
+						            Height="16"
+						            Data="{StaticResource Icon_Dir}"
+						            Fill="{StaticResource IconFillColor}"
+						            Stretch="Fill" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="图标" Command="{x:Static app:AppStatic.ShowIcons}">
+                            <MenuItem.Icon>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{StaticResource Icon_Icon}"
+							        Fill="{StaticResource IconFillColor}"
+							        Stretch="Fill" />
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                </Menu>
                 <TextBlock
 					VerticalAlignment="Center"
 					Margin="4 0 8 0"
@@ -93,7 +135,7 @@
 					ToolTip="算力图"
 					Command="{x:Static app:AppStatic.ShowChartsWindow}" Background="Transparent" BorderThickness="0"
 					CornerRadius="2">
-                    <Image Width="20" Height="20" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
+                    <Image Source="/NTMinerWpf;component/Styles/Images/cc32.png">
                     </Image>
                 </controls:KbButton>
                 <uc:MainMenu Background="Transparent">
