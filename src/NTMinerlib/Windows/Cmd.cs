@@ -6,9 +6,9 @@ using System.IO;
 namespace NTMiner.Windows {
     public static class Cmd {
         #region cmd_here
-        private static string _cmdHere0 = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
-        private static string _cmdHere1 = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
-        private static string _cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
+        private static readonly string _cmdHere0 = "SOFTWARE\\Classes\\Directory\\shell\\cmd_here";
+        private static readonly string _cmdHere1 = "SOFTWARE\\Classes\\Directory\\background\\shell\\cmd_here";
+        private static readonly string _cmdPrompt = "SOFTWARE\\Classes\\Folder\\shell\\cmdPrompt";
 
         public static bool IsRegedCmdHere() {
             using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey(_cmdHere0)) {
@@ -91,7 +91,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {cmdName} {args}";
+                    proc.StartInfo.Arguments = $"/C {cmdName}{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
                     proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
                     proc.Start();
                     if (waitForExit) {
@@ -125,7 +125,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {cmdName} {args}";
+                    proc.StartInfo.Arguments = $"/C {cmdName}{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
                     proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
                     proc.Start();
                     proc.WaitForExit(10 * 1000);
@@ -162,7 +162,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.RedirectStandardOutput = true;
                     proc.StartInfo.RedirectStandardError = true;
                     proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {cmdName} {args}";
+                    proc.StartInfo.Arguments = $"/C {cmdName}{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
                     proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
                     proc.Start();
 

@@ -226,20 +226,6 @@
                     </controls:KbLinkButton>
                     <controls:KbButton 
 						Margin="0 0 12 0"
-						ToolTip="属性"
-						Background="Transparent" BorderThickness="0"
-						Command="{x:Static app:AppStatic.ShowProperty}">
-                        <WrapPanel>
-                            <Path 
-								Height="18"
-								Width="18"
-								Data="{StaticResource Icon_Property}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-                        </WrapPanel>
-                    </controls:KbButton>
-                    <controls:KbButton 
-						Margin="0 0 12 0"
 						ToolTip="算力图"
 						Background="Transparent" BorderThickness="0"
 						Command="{x:Static app:AppStatic.ShowSpeedChart}">
@@ -253,7 +239,7 @@
                         </WrapPanel>
                     </controls:KbButton>
                     <controls:KbButton 
-						Margin="0 0 12 0"
+						Margin="0 0 8 0"
 						ToolTip="收益计算器"
 						Background="Transparent" BorderThickness="0"
 						Command="{x:Static app:AppStatic.ShowCalc}">

@@ -357,11 +357,9 @@
 						ToolTip="虚拟内存" 
 						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					<WrapPanel>
-                        <TextBlock Text="{x:Static app:AppStatic.DriverVersion}" ToolTip="{x:Static app:AppStatic.DriverVersionToolTip}" Foreground="{x:Static app:AppStatic.DriverVersionColor}"></TextBlock>
-						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-					</WrapPanel>
-					<TextBlock Text="{x:Static app:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static app:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
+                    <TextBlock Text="{x:Static app:AppStatic.DriverVersion}" ToolTip="{x:Static app:AppStatic.DriverVersionToolTip}" Foreground="{x:Static app:AppStatic.DriverVersionColor}"></TextBlock>
+                    <TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
+                    <TextBlock Text="{x:Static app:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static app:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
 					<WrapPanel 
 						Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
 						ToolTip="可在'选项'页调整电价">
