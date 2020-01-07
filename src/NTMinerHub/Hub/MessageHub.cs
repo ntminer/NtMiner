@@ -118,28 +118,30 @@
             }
             else {
                 foreach (var messagePath in messagePaths) {
-                    // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
-                    // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过
-                    bool isMatch = false;
+                    bool canGo = false;
                     if (message is IEvent evt) {
-                        isMatch = evt.RouteToPathId.IsAll || messagePath.PathId == RouteToPathId.All || evt.RouteToPathId == messagePath.PathId;
+                        canGo = 
+                            evt.RouteToPathId.IsAll // 事件不是特定路径的事件则放行
+                            || messagePath.PathId == RouteToPathId.All // 路径不是特定事件的路径则放行
+                            || evt.RouteToPathId == messagePath.PathId; // 路径是特定事件的路径且路径和事件造型放行
                     }
                     else if (message is ICmd cmd) {
-                        if (messagePath.PathId == Guid.Empty) {
-                            isMatch = messagePaths.Where(a => a.PathId != Guid.Empty).All(a => a.PathId != cmd.Id);
+                        // 路径不是特定命令的路径则放行
+                        if (messagePath.PathId == RouteToPathId.All) {
+                            canGo = true;
                         }
                         else {
-                            isMatch = messagePath.PathId == cmd.Id;
+                            canGo = messagePath.PathId == cmd.Id;
                         }
                     }
-                    if (isMatch && messagePath.ViaTimesLimit > 0) {
+                    if (canGo && messagePath.ViaTimesLimit > 0) {
                         // ViaTimesLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaTimesLimit计数
                         messagePath.DecreaseViaTimesLimit(onDownToZero: RemoveMessagePath);
                     }
                     if (!messagePath.IsEnabled) {
                         continue;
                     }
-                    if (isMatch) {
+                    if (canGo) {
                         switch (messagePath.LogType) {
                             case LogEnum.DevConsole:
                                 if (DevMode.IsDevMode) {
