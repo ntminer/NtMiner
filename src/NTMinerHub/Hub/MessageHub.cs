@@ -122,7 +122,7 @@
                     // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过
                     bool isMatch = false;
                     if (message is IEvent evt) {
-                        isMatch = evt.RouteToPathId.IsAll || evt.RouteToPathId == messagePath.PathId;
+                        isMatch = evt.RouteToPathId.IsAll || messagePath.PathId == RouteToPathId.All || evt.RouteToPathId == messagePath.PathId;
                     }
                     else if (message is ICmd cmd) {
                         if (messagePath.PathId == Guid.Empty) {
