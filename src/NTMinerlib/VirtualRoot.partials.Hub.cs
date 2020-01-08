@@ -28,15 +28,15 @@ namespace NTMiner {
 
         // 修建消息（命令或事件）的运动路径
         public static IMessagePathId AddMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Type location) {
-            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: Guid.Empty);
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: PathId.Empty);
         }
 
-        public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location) {
+        public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, PathId pathId, Type location) {
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId, viaTimesLimit: 1);
         }
 
         public static IMessagePathId AddViaTimesLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaTimesLimit, Type location) {
-            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: Guid.Empty, viaTimesLimit: viaTimesLimit);
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: PathId.Empty, viaTimesLimit: viaTimesLimit);
         }
 
         public static void AddCmdPath<TCmd>(Action<TCmd> action, Type location, LogEnum logType = LogEnum.DevConsole)

@@ -18,7 +18,7 @@ namespace NTMiner.Hub {
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaTimesLimit = -1) {
+        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, int viaTimesLimit = -1) {
             if (action == null) {
                 throw new ArgumentNullException(nameof(action));
             }
@@ -27,7 +27,7 @@ namespace NTMiner.Hub {
             return path;
         }
 
-        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, Guid pathId, int viaTimesLimit) {
+        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, int viaTimesLimit) {
             if (viaTimesLimit == 0) {
                 throw new InvalidProgramException("消息路径的viaTimesLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
             }
@@ -60,7 +60,7 @@ namespace NTMiner.Hub {
 #endif
         }
 
-        public Guid PathId { get; private set; }
+        public PathId PathId { get; private set; }
         public DateTime CreatedOn { get; private set; }
         public Type MessageType { get; private set; }
         public Type Location { get; private set; }

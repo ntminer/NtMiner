@@ -2,7 +2,7 @@
     using System;
 
     public interface IEvent : IMessage {
-        RouteToPathId RouteToPathId { get; }
+        PathId RouteToPathId { get; }
         DateTime BornOn { get; }
     }
 }

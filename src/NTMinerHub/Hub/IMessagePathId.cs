@@ -3,7 +3,7 @@
 namespace NTMiner.Hub {
     
     public interface IMessagePathId {
-        Guid PathId { get; }
+        PathId PathId { get; }
         DateTime CreatedOn { get; }
         /// <summary>
         /// 表示该条消息路径允许消息通过的次数

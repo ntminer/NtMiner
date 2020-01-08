@@ -116,13 +116,13 @@
                     bool canGo = false;
                     if (message is IEvent evt) {
                         canGo = 
-                            evt.RouteToPathId.IsAll // 事件不是特定路径的事件则放行
-                            || messagePath.PathId == RouteToPathId.All // 路径不是特定事件的路径则放行
+                            evt.RouteToPathId == PathId.Empty // 事件不是特定路径的事件则放行
+                            || messagePath.PathId == PathId.Empty // 路径不是特定事件的路径则放行
                             || evt.RouteToPathId == messagePath.PathId; // 路径是特定事件的路径且路径和事件造型放行
                     }
                     else if (message is ICmd cmd) {
                         // 路径不是特定命令的路径则放行
-                        if (messagePath.PathId == RouteToPathId.All) {
+                        if (messagePath.PathId == PathId.Empty) {
                             canGo = true;
                         }
                         else {

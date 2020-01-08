@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Hub;
 using NTMiner.Notifications;
 using NTMiner.RemoteDesktop;
 using NTMiner.View;
@@ -147,10 +148,10 @@ namespace NTMiner {
                         return;
                     }
                     var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
-                    VirtualRoot.RaiseEvent(new ShareChangedEvent(Guid.Empty, coinShare));
+                    VirtualRoot.RaiseEvent(new ShareChangedEvent(PathId.Empty, coinShare));
                     if ((NTMinerRoot.Instance.LockedMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
                         coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                        VirtualRoot.RaiseEvent(new ShareChangedEvent(Guid.Empty, coinShare));
+                        VirtualRoot.RaiseEvent(new ShareChangedEvent(PathId.Empty, coinShare));
                     }
                     AppContext.Instance.GpuSpeedVms.Refresh();
                 }
