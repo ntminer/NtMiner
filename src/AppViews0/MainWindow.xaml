@@ -119,7 +119,7 @@
                     </Menu>
                     <controls:KbLinkButton
 					    ToolTip="打开官网"
-					    FontSize="16"
+					    FontSize="15"
                         BorderThickness="0"
                         VerticalAlignment="Center"
 					    Command="{x:Static app:AppStatic.OpenOfficialSite}"
@@ -142,13 +142,13 @@
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{x:Static app:AppStatic.AppMinerName}" />
                             <TextBlock
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{Binding BrandTitle}" />
                             <TextBlock
                                 Visibility="{Binding BrandTitle,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
@@ -156,7 +156,7 @@
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{x:Static app:AppStatic.AppMinerDescription}" />
                         </WrapPanel>
                     </controls:KbLinkButton>
@@ -231,8 +231,8 @@
 						Command="{x:Static app:AppStatic.ShowSpeedChart}">
                         <WrapPanel>
                             <Path 
-								Height="18"
-								Width="18"
+								Height="14"
+								Width="14"
 								Data="{StaticResource Icon_Speed}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
@@ -245,8 +245,8 @@
 						Command="{x:Static app:AppStatic.ShowCalc}">
                         <WrapPanel>
                             <Path 
-								Height="18"
-								Width="18"
+								Height="14"
+								Width="14"
 								Data="{StaticResource Icon_Calc}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
