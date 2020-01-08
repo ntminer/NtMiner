@@ -850,15 +850,16 @@ namespace NTMiner {
             OpenTxtFile(logfileFullName);
         });
 
-        public static string NppPackageUrl {
+        private static string NppPackageUrl {
             get {
+                const string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
                 if (WpfUtil.IsDevMode) {
-                    return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
+                    return url;
                 }
                 if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem("Tool", "npp", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
-                return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
+                return url;
             }
         }
 
