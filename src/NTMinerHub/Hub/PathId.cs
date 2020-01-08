@@ -1,6 +1,9 @@
 ﻿using System;
 
 namespace NTMiner.Hub {
+    /// <summary>
+    /// 消息和消息路径的标识。对Guid的包装，只为词汇，只为可读。
+    /// </summary>
     public struct PathId {
         public static PathId Empty = new PathId(Guid.Empty);
 
