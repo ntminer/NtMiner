@@ -55,19 +55,19 @@ namespace NTMiner.User {
 
     [MessageType(description: "添加了新用户后")]
     public class UserAddedEvent : DomainEvent<IUser> {
-        public UserAddedEvent(RouteToPathId routeToPathId, IUser source) : base(routeToPathId, source) {
+        public UserAddedEvent(PathId targetPathId, IUser source) : base(targetPathId, source) {
         }
     }
 
     [MessageType(description: "修改了用户后")]
     public class UserUpdatedEvent : DomainEvent<IUser> {
-        public UserUpdatedEvent(RouteToPathId routeToPathId, IUser source) : base(routeToPathId, source) {
+        public UserUpdatedEvent(PathId targetPathId, IUser source) : base(targetPathId, source) {
         }
     }
 
     [MessageType(description: "移除了用户后")]
     public class UserRemovedEvent : DomainEvent<IUser> {
-        public UserRemovedEvent(RouteToPathId routeToPathId, IUser source) : base(routeToPathId, source) {
+        public UserRemovedEvent(PathId targetPathId, IUser source) : base(targetPathId, source) {
         }
     }
 }

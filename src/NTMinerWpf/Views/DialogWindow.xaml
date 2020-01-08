@@ -29,7 +29,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Background="{StaticResource ThemeBackground}" Height="30">
+        <DockPanel Background="{StaticResource ThemeBackground}">
             <WrapPanel DockPanel.Dock="Left">
                 <Path 
                     Margin="4 4 0 0"
@@ -69,10 +69,10 @@
             </controls:KbLinkButton>
         </DockPanel>
         <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
-        <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <StackPanel Grid.Row="1" Margin="10 20" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock Text="{Binding Message}" FontSize="16" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
-        <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 26">
             <controls:KbButton 
                 Padding="15 2"
                 Margin="20 0"
@@ -92,7 +92,7 @@
                         Stretch="Fill" />
                     <TextBlock
                         FontSize="14"
-                        Padding="0 4"
+                        Padding="4"
                         Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
                         Text="好" />
@@ -117,7 +117,7 @@
                         Stretch="Fill" />
                     <TextBlock
                         FontSize="14"
-                        Padding="0 4"
+                        Padding="4"
                         Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
                         Text="{Binding YesText}" />
@@ -141,7 +141,7 @@
                         Stretch="Fill" />
                     <TextBlock
                         FontSize="14"
-                        Padding="0 4"
+                        Padding="4"
                         Foreground="White"
                         VerticalAlignment="Center"
                         Text="{Binding NoText}" />

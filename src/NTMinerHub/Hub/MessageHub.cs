@@ -12,18 +12,15 @@
         }
 
         private class MessagePathSet<TMessage> : IMessagePathSet {
-            public static readonly MessagePathSet<TMessage> Instance = new MessagePathSet<TMessage>();
-
             private readonly List<MessagePath<TMessage>> _messagePaths = new List<MessagePath<TMessage>>();
             private readonly object _locker = new object();
-
-            private MessagePathSet() {
-                MessagePathSetSet.Add(this);
+            public MessagePathSet() {
             }
 
+            private readonly Type _messageType = typeof(TMessage);
             public Type MessageType {
                 get {
-                    return typeof(TMessage);
+                    return _messageType;
                 }
             }
 
@@ -63,14 +60,32 @@
             }
         }
 
-        private static class MessagePathSetSet {
-            private static readonly Dictionary<Type, IMessagePathSet> _dicByMessageType = new Dictionary<Type, IMessagePathSet>();
+        private class MessagePathSetSet {
+            private readonly Dictionary<Type, IMessagePathSet> _dicByMessageType = new Dictionary<Type, IMessagePathSet>();
 
-            public static void Add(IMessagePathSet messagePathSet) {
-                _dicByMessageType.Add(messagePathSet.MessageType, messagePathSet);
+            public MessagePathSetSet() { }
+
+            private readonly object _locker = new object();
+            public MessagePathSet<TMessage> GetMessagePathSet<TMessage>() {
+                Type messageType = typeof(TMessage);
+                if (_dicByMessageType.TryGetValue(messageType, out IMessagePathSet setSet)) {
+                    return (MessagePathSet<TMessage>)setSet;
+                }
+                else {
+                    lock (_locker) {
+                        if (!_dicByMessageType.TryGetValue(messageType, out setSet)) {
+                            MessagePathSet<TMessage> pathSet = new MessagePathSet<TMessage>();
+                            _dicByMessageType.Add(messageType, pathSet);
+                            return pathSet;
+                        }
+                        else {
+                            return (MessagePathSet<TMessage>)setSet;
+                        }
+                    }
+                }
             }
 
-            public static IEnumerable<IMessagePathId> GetAllMessagePathIds() {
+            public IEnumerable<IMessagePathId> GetAllMessagePathIds() {
                 foreach (var set in _dicByMessageType.Values.ToArray()) {
                     foreach (var path in set.GetMessagePaths()) {
                         yield return path;
@@ -78,7 +93,7 @@
                 }
             }
 
-            public static void RemoveMessagePath(IMessagePathId messagePathId) {
+            public void RemoveMessagePath(IMessagePathId messagePathId) {
                 if (_dicByMessageType.TryGetValue(messagePathId.MessageType, out IMessagePathSet set)) {
                     set.RemoveMessagePath(messagePathId);
                 }
@@ -86,6 +101,7 @@
         }
         #endregion
 
+        private readonly MessagePathSetSet PathSetSet = new MessagePathSetSet();
         public event Action<IMessagePathId> MessagePathAdded;
         public event Action<IMessagePathId> MessagePathRemoved;
 
@@ -94,7 +110,7 @@
 
         #region IMessageDispatcher Members
         public IEnumerable<IMessagePathId> GetAllPaths() {
-            foreach (var path in MessagePathSetSet.GetAllMessagePathIds()) {
+            foreach (var path in PathSetSet.GetAllMessagePathIds()) {
                 yield return path;
             }
         }
@@ -103,7 +119,7 @@
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
             }
-            MessagePath<TMessage>[] messagePaths = MessagePathSet<TMessage>.Instance.GetMessagePaths();
+            MessagePath<TMessage>[] messagePaths = PathSetSet.GetMessagePathSet<TMessage>().GetMessagePaths();
             if (messagePaths.Length == 0) {
                 Type messageType = typeof(TMessage);
                 MessageTypeAttribute messageTypeAttr = MessageTypeAttribute.GetMessageTypeAttribute(messageType);
@@ -116,13 +132,13 @@
                     bool canGo = false;
                     if (message is IEvent evt) {
                         canGo = 
-                            evt.RouteToPathId.IsAll // 事件不是特定路径的事件则放行
-                            || messagePath.PathId == RouteToPathId.All // 路径不是特定事件的路径则放行
-                            || evt.RouteToPathId == messagePath.PathId; // 路径是特定事件的路径且路径和事件造型放行
+                            evt.TargetPathId == PathId.Empty // 事件不是特定路径的事件则放行
+                            || messagePath.PathId == PathId.Empty // 路径不是特定事件的路径则放行
+                            || evt.TargetPathId == messagePath.PathId; // 路径是特定事件的路径且路径和事件造型放行
                     }
                     else if (message is ICmd cmd) {
                         // 路径不是特定命令的路径则放行
-                        if (messagePath.PathId == RouteToPathId.All) {
+                        if (messagePath.PathId == PathId.Empty) {
                             canGo = true;
                         }
                         else {
@@ -160,7 +176,7 @@
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }
-            MessagePathSet<TMessage>.Instance.AddMessagePath(path);
+            PathSetSet.GetMessagePathSet<TMessage>().AddMessagePath(path);
             MessagePathAdded?.Invoke(path);
         }
 
@@ -168,7 +184,7 @@
             if (pathId == null) {
                 return;
             }
-            MessagePathSetSet.RemoveMessagePath(pathId);
+            PathSetSet.RemoveMessagePath(pathId);
             MessagePathRemoved?.Invoke(pathId);
         }
         #endregion
