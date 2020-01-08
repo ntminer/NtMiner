@@ -63,7 +63,6 @@ namespace NTMiner.Views {
             }
         }
 
-        private const int WM_SYSCOMMAND = 0x112;
         private HwndSource hwndSource;
         private readonly Brush _borderBrush;
         public MainWindow() {
@@ -163,6 +162,14 @@ namespace NTMiner.Views {
             };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
+            };
+            this.SizeChanged += (s, e) => {
+                if (this.Width < 860) {
+                    this.HideLeft();
+                }
+                else {
+                    this.ShowLeft();
+                }
             };
             NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
             this.LocationChanged += (sender, e) => {
@@ -311,15 +318,35 @@ namespace NTMiner.Views {
         #endregion
 
         #region 主界面左侧的抽屉
+        // 点击pin按钮
         public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {
-            ToogleLeft();
+            if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
+                HideLeft();
+            }
+            else {
+                ShowLeft();
+            }
         }
 
+        // 点击x按钮
         private void BtnMinerProfileClose_Click(object sender, RoutedEventArgs e) {
             HideLeft();
         }
 
+        // 点击抽屉按钮
+        private void BtnMinerProfileGrip_Click(object sender, RoutedEventArgs e) {
+            if (minerProfileLayer.Visibility == Visibility.Collapsed) {
+                minerProfileLayer.Visibility = Visibility.Visible;
+            }
+            else {
+                minerProfileLayer.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private void HideLeft() {
+            if (minerProfileLayer.Visibility == Visibility.Collapsed) {
+                return;
+            }
             minerProfileLayer.Visibility = Visibility.Collapsed;
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
@@ -328,28 +355,18 @@ namespace NTMiner.Views {
             MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
-        private void ToogleLeft() {
+        private void ShowLeft() {
             if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
-                HideLeft();
+                return;
             }
-            else {
-                BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
-                PinRotateTransform.Angle = 0;
+            minerProfileLayer.Visibility = Visibility.Visible;
+            BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
+            PinRotateTransform.Angle = 0;
 
-                if (!mainLayer.ColumnDefinitions.Contains(MinerProfileColumn)) {
-                    mainLayer.ColumnDefinitions.Insert(0, MinerProfileColumn);
-                }
-                MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
+            if (!mainLayer.ColumnDefinitions.Contains(MinerProfileColumn)) {
+                mainLayer.ColumnDefinitions.Insert(0, MinerProfileColumn);
             }
-        }
-
-        private void BtnMinerProfileGrip_Click(object sender, RoutedEventArgs e) {
-            if (minerProfileLayer.Visibility == Visibility.Collapsed) {
-                minerProfileLayer.Visibility = Visibility.Visible;
-            }
-            else {
-                minerProfileLayer.Visibility = Visibility.Collapsed;
-            }
+            MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
         #endregion
 
@@ -423,6 +440,7 @@ namespace NTMiner.Views {
         }
 
         private void ResizeWindow(SafeNativeMethods.ResizeDirection direction) {
+            const int WM_SYSCOMMAND = 0x112;
             SafeNativeMethods.SendMessage(hwndSource.Handle, WM_SYSCOMMAND, (IntPtr)(61440 + direction), IntPtr.Zero);
         }
 
