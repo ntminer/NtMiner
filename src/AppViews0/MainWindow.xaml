@@ -213,16 +213,8 @@
 				        Command="{x:Static app:AppStatic.DownloadMinerStudio}"
 				        KbDisplayLine="False"
 				        Foreground="{StaticResource ThemeForeground}"
+                        Content="下载群控"
 				        Background="Transparent">
-                        <WrapPanel>
-                            <Path 
-						        Width="14"
-						        Height="13"
-						        Data="{StaticResource Icon_ControlCenter}"
-						        Fill="{StaticResource ThemeForeground}"
-						        Stretch="Fill" />
-                            <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
-                        </WrapPanel>
                     </controls:KbLinkButton>
                     <controls:KbButton 
 						Margin="0 0 12 0"
