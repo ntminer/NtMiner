@@ -255,18 +255,18 @@ namespace NTMiner.Views {
             if (consoleWindow.WindowState != this.WindowState) {
                 consoleWindow.WindowState = this.WindowState;
             }
-            if (consoleWindow.Width != this.Width) {
-                consoleWindow.Width = this.Width;
+            if (consoleWindow.Width != this.Width - 2) {
+                consoleWindow.Width = this.Width - 2;
             }
-            if (consoleWindow.Height != this.Height) {
-                consoleWindow.Height = this.Height;
+            if (consoleWindow.Height != this.Height - 2) {
+                consoleWindow.Height = this.Height - 2;
             }
             if (this.WindowState == WindowState.Normal) {
-                if (consoleWindow.Left != this.Left) {
-                    consoleWindow.Left = this.Left;
+                if (consoleWindow.Left != this.Left + 1) {
+                    consoleWindow.Left = this.Left + 1;
                 }
-                if (consoleWindow.Top != this.Top) {
-                    consoleWindow.Top = this.Top;
+                if (consoleWindow.Top != this.Top + 1) {
+                    consoleWindow.Top = this.Top + 1;
                 }
             }
             if (ConsoleRectangle != null && ConsoleRectangle.IsVisible) {
