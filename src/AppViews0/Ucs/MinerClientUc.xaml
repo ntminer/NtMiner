@@ -298,12 +298,14 @@
 			</WrapPanel>
 		</Grid>
         <DataGrid
+            IsHitTestVisible="False"
             Margin="44 3 0 3"
             HorizontalAlignment="Left" 
 			ColumnHeaderHeight="32"
 			MinRowHeight="24"
-			IsReadOnly="True"
+            IsReadOnly="True"
 			Background="Transparent"
+            VerticalScrollBarVisibility="Disabled"
 			ItemsSource="{Binding GpuTableVm.Items}">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding GpuTableVm}" />
