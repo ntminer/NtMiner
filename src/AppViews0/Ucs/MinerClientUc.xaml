@@ -298,7 +298,6 @@
 			</WrapPanel>
 		</Grid>
         <DataGrid
-            IsHitTestVisible="False"
             Margin="44 3 0 3"
             HorizontalAlignment="Left" 
 			ColumnHeaderHeight="32"
