@@ -129,7 +129,7 @@ namespace NTMiner.Views {
             if (NotiCenterWindowViewModel.IsHotKeyEnabled) {
                 HotKeyUtil.RegHotKey = (key) => {
                     if (!RegHotKey(key, out string message)) {
-                        VirtualRoot.Out.ShowError(message, 4);
+                        VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
                         return false;
                     }
                     else {
@@ -169,7 +169,7 @@ namespace NTMiner.Views {
                 if (!RegHotKey(hotKey, out string message)) {
                     NotiCenterWindowViewModel.Instance.Manager
                         .CreateMessage()
-                        .Warning(message)
+                        .Warning("失败", message)
                         .Dismiss().WithButton("忽略", null)
                         .Queue();
                 }
