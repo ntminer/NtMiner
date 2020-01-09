@@ -14,17 +14,23 @@
     <Grid Visibility="{Binding IsHistoryVisible}" Background="White">
         <DataGrid  
 			BorderThickness="0"
+            GridLinesVisibility="None"
 			ItemsSource="{Binding NTMinerFiles}"
 			SelectedItem="{Binding SelectedNTMinerFile}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <TextBlock Margin="20 6 0 10" Text="{Binding Path=Description}" TextWrapping="Wrap" Width="290"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="*" IsReadOnly="True" Header="版本号">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Version}"></TextBlock>
+                            <TextBlock Text="{Binding Version}" FontSize="13"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

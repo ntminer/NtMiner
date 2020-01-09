@@ -427,7 +427,7 @@ namespace NTMiner.Vms {
         }
 
         private void ShowNoRecordSelected() {
-            VirtualRoot.Out.ShowError("没有选中记录", 2);
+            VirtualRoot.Out.ShowWarn("没有选中记录", autoHideSeconds: 2);
         }
 
         public ColumnsShowViewModel ColumnsShow {

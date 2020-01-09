@@ -201,7 +201,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="200" Width="*" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="300" Width="*" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock>内容</TextBlock>

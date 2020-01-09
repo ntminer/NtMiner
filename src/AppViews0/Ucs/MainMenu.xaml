@@ -12,7 +12,20 @@
 	mc:Ignorable="d">
 	<WrapPanel>
         <Menu Background="Transparent" VerticalAlignment="Center">
-            <MenuItem Width="26" Height="30" Command="{x:Static app:AppStatic.ShowProperty}">
+            <MenuItem 
+                Width="26" Height="30" ToolTip="日志" 
+                Command="{x:Static app:AppStatic.OpenDir}" 
+                CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
+                <MenuItem.Icon>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_LogDir}"
+						Fill="{StaticResource ThemeForeground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Width="26" Height="30" ToolTip="属性" Command="{x:Static app:AppStatic.ShowProperty}">
                 <MenuItem.Icon>
                     <Path
 						Width="14"
@@ -229,7 +242,7 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-			<MenuItem Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Width="26" Height="30">
+			<MenuItem ToolTip="菜单" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Width="26" Height="30">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -329,7 +342,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-			<MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
+            <MenuItem ToolTip="菜单" Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"

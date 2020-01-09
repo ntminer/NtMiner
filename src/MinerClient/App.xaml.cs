@@ -69,7 +69,7 @@ namespace NTMiner {
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()
-                            .Warning("请以管理员身份运行。")
+                            .Warning("提示", "请以管理员身份运行。")
                             .WithButton("点击以管理员身份运行", button => {
                                 WpfUtil.RunAsAdministrator();
                             })

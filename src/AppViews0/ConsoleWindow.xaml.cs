@@ -49,7 +49,7 @@ namespace NTMiner.Views {
             }
             const int paddingLeft = 4;
             const int paddingRight = 5;
-            int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft;
+            int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft + 1;
             if (width < 0) {
                 width = 0;
             }

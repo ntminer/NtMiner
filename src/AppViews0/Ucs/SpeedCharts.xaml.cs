@@ -17,7 +17,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "算力图",
                 IconName = "Icon_Speed",
                 Width = 760,
-                Height = 520,
+                Height = 460,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {

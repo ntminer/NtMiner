@@ -17,8 +17,6 @@
         WindowStyle="None"
         ResizeMode="CanMinimize"
 		Background="Transparent"
-        BorderThickness="1"
-        BorderBrush="{StaticResource IconFillColor}"
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
 		MouseDown="Window_MouseDown">
@@ -41,7 +39,7 @@
 		</ResourceDictionary>
 	</Window.Resources>
     <Grid>
-        <Grid>
+        <Grid Margin="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="34"/>
                 <RowDefinition Height="*" />
@@ -119,7 +117,7 @@
                     </Menu>
                     <controls:KbLinkButton
 					    ToolTip="打开官网"
-					    FontSize="16"
+					    FontSize="15"
                         BorderThickness="0"
                         VerticalAlignment="Center"
 					    Command="{x:Static app:AppStatic.OpenOfficialSite}"
@@ -142,13 +140,13 @@
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{x:Static app:AppStatic.AppMinerName}" />
                             <TextBlock
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{Binding BrandTitle}" />
                             <TextBlock
                                 Visibility="{Binding BrandTitle,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
@@ -156,7 +154,7 @@
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{x:Static app:AppStatic.AppMinerDescription}" />
                         </WrapPanel>
                     </controls:KbLinkButton>
@@ -213,16 +211,8 @@
 				        Command="{x:Static app:AppStatic.DownloadMinerStudio}"
 				        KbDisplayLine="False"
 				        Foreground="{StaticResource ThemeForeground}"
+                        Content="下载群控"
 				        Background="Transparent">
-                        <WrapPanel>
-                            <Path 
-						        Width="14"
-						        Height="13"
-						        Data="{StaticResource Icon_ControlCenter}"
-						        Fill="{StaticResource ThemeForeground}"
-						        Stretch="Fill" />
-                            <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
-                        </WrapPanel>
                     </controls:KbLinkButton>
                     <controls:KbButton 
 						Margin="0 0 12 0"
@@ -231,8 +221,8 @@
 						Command="{x:Static app:AppStatic.ShowSpeedChart}">
                         <WrapPanel>
                             <Path 
-								Height="18"
-								Width="18"
+								Height="14"
+								Width="14"
 								Data="{StaticResource Icon_Speed}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
@@ -245,8 +235,8 @@
 						Command="{x:Static app:AppStatic.ShowCalc}">
                         <WrapPanel>
                             <Path 
-								Height="18"
-								Width="18"
+								Height="14"
+								Width="14"
 								Data="{StaticResource Icon_Calc}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
@@ -500,22 +490,6 @@
                                             </WrapPanel>
                                         </StackPanel>
                                     </Grid>
-                                    <controls:KbButton 
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-							            ToolTip="打开日志文件夹"
-							            Background="White" 
-							            BorderThickness="0"
-                                        Margin="0 0 4 0"
-                                        Command="{x:Static app:AppStatic.OpenDir}" 
-                                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
-                                        <Path
-								            Width="15"
-								            Height="15"
-								            Data="{StaticResource Icon_LogDir}"
-								            Fill="Black"
-								            Stretch="Fill" />
-                                    </controls:KbButton>
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Left" Width="4" Fill="Black"></Rectangle>
                                     <Rectangle Grid.Row="1" x:Name="ConsoleRectangle"></Rectangle>
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Right" Width="4" Fill="Black"></Rectangle>
@@ -849,5 +823,6 @@
                 MouseLeave="ResetCursor" 
                 PreviewMouseDown="Resize" />
         </Grid>
+        <Border BorderThickness="1" BorderBrush="{StaticResource IconFillColor}" CornerRadius="2"></Border>
     </Grid>
 </Window>

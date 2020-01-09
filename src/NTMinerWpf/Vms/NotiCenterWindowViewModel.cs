@@ -17,10 +17,10 @@ namespace NTMiner.Vms {
                 return _manager;
             }
         }
-        public void ShowError(string message, int autoHideSeconds) {
+        public void ShowError(string message, string header, int autoHideSeconds) {
             UIThread.Execute(() => () => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
-                builder.Error(message ?? string.Empty);
+                builder.Error(header, message ?? string.Empty);
                 if (autoHideSeconds > 0) {
                     builder
                         .Dismiss()
@@ -35,10 +35,10 @@ namespace NTMiner.Vms {
             });
         }
 
-        public void ShowWarn(string message, int autoHideSeconds) {
+        public void ShowWarn(string message, string header, int autoHideSeconds) {
             UIThread.Execute(() => () => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
-                builder.Warning(message ?? string.Empty);
+                builder.Warning(header, message ?? string.Empty);
                 if (autoHideSeconds > 0) {
                     builder
                         .Dismiss()
@@ -53,10 +53,10 @@ namespace NTMiner.Vms {
             });
         }
 
-        public void ShowInfo(string message, int autoHideSeconds) {
+        public void ShowInfo(string message, string header, int autoHideSeconds) {
             UIThread.Execute(() => () => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
-                builder.Warning(message ?? string.Empty);
+                builder.Info(header, message ?? string.Empty);
                 if (autoHideSeconds > 0) {
                     builder
                     .Dismiss()
@@ -71,7 +71,7 @@ namespace NTMiner.Vms {
             });
         }
 
-        public void ShowSuccess(string message, int autoHideSeconds, string header = "成功") {
+        public void ShowSuccess(string message, string header, int autoHideSeconds) {
             UIThread.Execute(() => () => {
                 var builder = NotificationMessageBuilder.CreateMessage(Manager);
                 builder.Success(header, message);

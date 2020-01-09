@@ -89,14 +89,14 @@ namespace NTMiner.Vms {
                             this.WindowsLoginName = vm.LoginName;
                             this.WindowsPassword = vm.Password;
                             Rdp.RemoteDesktop?.Invoke(new RdpInput(ip, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
-                                VirtualRoot.Out.ShowError(message, 4);
+                                VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
                             }));
                         }
                     }));
                 }
                 else {
                     Rdp.RemoteDesktop?.Invoke(new RdpInput(ip, this.WindowsLoginName, this.WindowsPassword, this.MinerName, onDisconnected: message => {
-                        VirtualRoot.Out.ShowError(message, 4);
+                        VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
                     }));
                 }
             });

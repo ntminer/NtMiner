@@ -850,15 +850,16 @@ namespace NTMiner {
             OpenTxtFile(logfileFullName);
         });
 
-        public static string NppPackageUrl {
+        private static string NppPackageUrl {
             get {
+                const string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
                 if (WpfUtil.IsDevMode) {
-                    return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
+                    return url;
                 }
                 if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem("Tool", "npp", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
-                return "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
+                return url;
             }
         }
 
@@ -1003,7 +1004,7 @@ namespace NTMiner {
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
-            Process.Start($"{OfficialServer.MinerJsonBucket}MinerStudio.exe?t={DateTime.Now.Ticks.ToString()}");
+            Process.Start("https://www.cnblogs.com/ntminer/p/11923722.html");
         });
 
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(() => {
