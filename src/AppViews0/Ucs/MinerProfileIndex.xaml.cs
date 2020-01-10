@@ -17,10 +17,6 @@ namespace NTMiner.Views.Ucs {
             NTStopwatch.Start();
 #endif
             InitializeComponent();
-            this.PopupKernel.Closed += Popup_Closed;
-            this.PopupMainCoinPool.Closed += Popup_Closed;
-            this.PopupMainCoin.Closed += Popup_Closed;
-            this.PopupMainCoinWallet.Closed += Popup_Closed;
             this.RunOneceOnLoaded((window)=> {
                 window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                 action: message => {
@@ -59,10 +55,6 @@ namespace NTMiner.Views.Ucs {
 #endif
         }
 
-        private void Popup_Closed(object sender, System.EventArgs e) {
-            ((Popup)sender).Child = null;
-        }
-
         private void DualCoinWeightSlider_LostFocus(object sender, RoutedEventArgs e) {
             if (Vm.MinerProfile.CoinVm == null
                 || Vm.MinerProfile.CoinVm.CoinKernel == null
@@ -84,22 +76,27 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupKernel;
             popup.IsOpen = true;
             var selected = coinVm.CoinKernel;
-            popup.Child = new CoinKernelSelect(
-                new CoinKernelSelectViewModel(coinVm, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (coinVm.CoinKernel != selectedResult) {
-                            coinVm.CoinKernel = selectedResult;
-                        }
-                        else {
-                            selectedResult?.Kernel?.OnPropertyChanged(nameof(selectedResult.Kernel.FullName));
-                        }
-                        popup.IsOpen = false;
+            var vm = new CoinKernelSelectViewModel(coinVm, selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (coinVm.CoinKernel != selectedResult) {
+                        coinVm.CoinKernel = selectedResult;
                     }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    else {
+                        selectedResult?.Kernel?.OnPropertyChanged(nameof(selectedResult.Kernel.FullName));
+                    }
+                    popup.IsOpen = false;
+                }
+            }) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            if (popup.Child == null) {
+                popup.Child = new CoinKernelSelect(vm);
+            }
+            else {
+                ((CoinKernelSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenMainCoinPoolPopup() {
@@ -110,22 +107,27 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupMainCoinPool;
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.MainCoinPool;
-            popup.Child = new PoolSelect(
-                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (coinVm.CoinProfile.MainCoinPool != selectedResult) {
-                            coinVm.CoinProfile.MainCoinPool = selectedResult;
-                        }
-                        else {
-                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
-                        }
-                        popup.IsOpen = false;
+            var vm = new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (coinVm.CoinProfile.MainCoinPool != selectedResult) {
+                        coinVm.CoinProfile.MainCoinPool = selectedResult;
                     }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    else {
+                        selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                    }
+                    popup.IsOpen = false;
+                }
+            }) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            if (popup.Child == null) {
+                popup.Child = new PoolSelect(vm);
+            }
+            else {
+                ((PoolSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenMainCoinPool1Popup() {
@@ -136,44 +138,54 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupMainCoinPool1;
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.MainCoinPool1;
-            popup.Child = new PoolSelect(
-                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (coinVm.CoinProfile.MainCoinPool1 != selectedResult) {
-                            coinVm.CoinProfile.MainCoinPool1 = selectedResult;
-                        }
-                        else {
-                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
-                        }
-                        popup.IsOpen = false;
+            var vm = new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (coinVm.CoinProfile.MainCoinPool1 != selectedResult) {
+                        coinVm.CoinProfile.MainCoinPool1 = selectedResult;
                     }
-                }, usedByPool1: true) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    else {
+                        selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                    }
+                    popup.IsOpen = false;
+                }
+            }, usedByPool1: true) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            if (popup.Child == null) {
+                popup.Child = new PoolSelect(vm);
+            }
+            else {
+                ((PoolSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenMainCoinPopup() {
             var popup = PopupMainCoin;
             popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm;
-            popup.Child = new CoinSelect(
-                new CoinSelectViewModel(AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (Vm.MinerProfile.CoinVm != selectedResult) {
-                            Vm.MinerProfile.CoinVm = selectedResult;
-                        }
-                        else {
-                            selectedResult.OnPropertyChanged(nameof(selectedResult.Code));
-                        }
-                        popup.IsOpen = false;
+            var vm = new CoinSelectViewModel(AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (Vm.MinerProfile.CoinVm != selectedResult) {
+                        Vm.MinerProfile.CoinVm = selectedResult;
                     }
-                }, isPromoteHotCoin: true) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    else {
+                        selectedResult.OnPropertyChanged(nameof(selectedResult.Code));
+                    }
+                    popup.IsOpen = false;
+                }
+            }, isPromoteHotCoin: true) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            if (popup.Child == null) {
+                popup.Child = new CoinSelect(vm);
+            }
+            else {
+                ((CoinSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenMainCoinWalletPopup() {
@@ -185,24 +197,29 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.SelectedWallet;
             bool isDualCoin = false;
-            popup.Child = new WalletSelect(
-                new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (coinVm.CoinProfile.SelectedWallet != selectedResult) {
-                            coinVm.CoinProfile.SelectedWallet = selectedResult;
-                        }
-                        else {
-                            coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedWallet));
-                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
-                            selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
-                        }
-                        popup.IsOpen = false;
+            var vm = new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (coinVm.CoinProfile.SelectedWallet != selectedResult) {
+                        coinVm.CoinProfile.SelectedWallet = selectedResult;
                     }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    else {
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedWallet));
+                        selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                        selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
+                    }
+                    popup.IsOpen = false;
+                }
+            }) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            if (popup.Child == null) {
+                popup.Child = new WalletSelect(vm);
+            }
+            else {
+                ((WalletSelect)popup.Child).DataContext = vm;
+            }
         }
 
         #endregion
