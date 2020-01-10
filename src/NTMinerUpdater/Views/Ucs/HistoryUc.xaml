@@ -23,7 +23,7 @@
             </DataGrid.Resources>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <TextBlock Margin="20 6 0 10" Text="{Binding Path=Description}" TextWrapping="Wrap" Width="290"></TextBlock>
+                    <TextBlock Margin="20 0 0 10" Text="{Binding Path=Description}" TextWrapping="Wrap" Width="290"></TextBlock>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
             <DataGrid.Columns>
