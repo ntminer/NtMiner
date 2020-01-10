@@ -7,6 +7,7 @@ namespace NTMiner.Vms {
     public class CoinSelectViewModel : ViewModelBase {
         private string _keyword;
         private CoinViewModel _selectedResult;
+        private CoinViewModel _selectedHotCoin;
         public readonly Action<CoinViewModel> OnOk;
         private readonly IEnumerable<CoinViewModel> _coins;
 
@@ -27,6 +28,9 @@ namespace NTMiner.Vms {
             bool isPromoteHotCoin = false) {
             _coins = coins;
             _selectedResult = selected;
+            if (selected != null && selected.IsHot) {
+                _selectedHotCoin = selected;
+            }
             OnOk = onOk;
             IsPromoteHotCoin = isPromoteHotCoin;
             this.ClearKeyword = new DelegateCommand(() => {
@@ -54,8 +58,22 @@ namespace NTMiner.Vms {
             set {
                 if (_selectedResult != value) {
                     _selectedResult = value;
+                    if (value != null && value.IsHot) {
+                        _selectedHotCoin = value;
+                    }
+                    else {
+                        _selectedHotCoin = null;
+                    }
                     OnPropertyChanged(nameof(SelectedResult));
+                    OnPropertyChanged(nameof(SelectedHotCoin));
                 }
+            }
+        }
+
+        public CoinViewModel SelectedHotCoin {
+            get => _selectedHotCoin;
+            set {
+                SelectedResult = value;
             }
         }
 

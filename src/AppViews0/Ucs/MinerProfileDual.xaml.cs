@@ -14,9 +14,6 @@ namespace NTMiner.Views.Ucs {
         public MinerProfileDual() {
             this.DataContext = MinerProfileViewModel.Instance;
             InitializeComponent();
-            this.PopupDualCoinPool.Closed += Popup_Closed;
-            this.PopupDualCoin.Closed += Popup_Closed;
-            this.PopupDualCoinWallet.Closed += Popup_Closed;
             this.RunOneceOnLoaded((window) => {
                 window.AddEventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                     action: message => {
@@ -24,25 +21,18 @@ namespace NTMiner.Views.Ucs {
                             if (Vm.MineWork != null) {
                                 return;
                             }
-                            if (this.PopupDualCoinPool != null) {
-                                this.PopupDualCoinPool.IsOpen = false;
+                            if (this.PopupDualCoinPool.Child != null && this.PopupDualCoinPool.IsOpen) {
                                 OpenDualCoinPoolPopup();
                             }
-                            if (this.PopupDualCoin != null) {
-                                this.PopupDualCoin.IsOpen = false;
+                            if (this.PopupDualCoin.Child != null && this.PopupDualCoin.IsOpen) {
                                 OpenDualCoinPopup();
                             }
-                            if (this.PopupDualCoinWallet != null) {
-                                this.PopupDualCoinWallet.IsOpen = false;
+                            if (this.PopupDualCoinWallet.Child != null && this.PopupDualCoinWallet.IsOpen) {
                                 OpenDualCoinWalletPopup();
                             }
                         });
                     }, location: this.GetType());
             });
-        }
-
-        private void Popup_Closed(object sender, System.EventArgs e) {
-            ((Popup)sender).Child = null;
         }
 
         private void DualCoinWeightSlider_LostFocus(object sender, RoutedEventArgs e) {
@@ -66,19 +56,24 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupDualCoinPool;
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.DualCoinPool;
-            popup.Child = new PoolSelect(
-                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (coinVm.CoinProfile.DualCoinPool != selectedResult) {
-                            coinVm.CoinProfile.DualCoinPool = selectedResult;
-                        }
-                        popup.IsOpen = false;
+            var vm = new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (coinVm.CoinProfile.DualCoinPool != selectedResult) {
+                        coinVm.CoinProfile.DualCoinPool = selectedResult;
                     }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    popup.IsOpen = false;
+                }
+            }) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            if (popup.Child == null) {
+                popup.Child = new PoolSelect(vm);
+            }
+            else {
+                ((PoolSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenDualCoinPopup() {
@@ -88,19 +83,24 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupDualCoin;
             popup.IsOpen = true;
             var selected = Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
-            popup.Child = new CoinSelect(
-                new CoinSelectViewModel(Vm.CoinVm.CoinKernel.SelectedDualCoinGroup.DualCoinVms, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin != selectedResult) {
-                            Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
-                        }
-                        popup.IsOpen = false;
+            var vm = new CoinSelectViewModel(Vm.CoinVm.CoinKernel.SelectedDualCoinGroup.DualCoinVms, selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin != selectedResult) {
+                        Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
                     }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    popup.IsOpen = false;
+                }
+            }) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            if (popup.Child == null) {
+                popup.Child = new CoinSelect(vm);
+            }
+            else {
+                ((CoinSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenDualCoinWalletPopup() {
@@ -112,24 +112,29 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.SelectedDualCoinWallet;
             bool isDualCoin = true;
-            popup.Child = new WalletSelect(
-                new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
-                    if (selectedResult != null) {
-                        if (coinVm.CoinProfile.SelectedDualCoinWallet != selectedResult) {
-                            coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
-                        }
-                        else {
-                            coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedDualCoinWallet));
-                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
-                            selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
-                        }
-                        popup.IsOpen = false;
+            var vm = new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
+                if (selectedResult != null) {
+                    if (coinVm.CoinProfile.SelectedDualCoinWallet != selectedResult) {
+                        coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
                     }
-                }) {
-                    HideView = new DelegateCommand(() => {
-                        popup.IsOpen = false;
-                    })
-                });
+                    else {
+                        coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedDualCoinWallet));
+                        selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                        selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
+                    }
+                    popup.IsOpen = false;
+                }
+            }) {
+                HideView = new DelegateCommand(() => {
+                    popup.IsOpen = false;
+                })
+            };
+            if (popup.Child == null) {
+                popup.Child = new WalletSelect(vm);
+            }
+            else {
+                ((WalletSelect)popup.Child).DataContext = vm;
+            }
         }
 
         #endregion
