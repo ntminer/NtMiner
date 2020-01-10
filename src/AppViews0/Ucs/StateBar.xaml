@@ -25,7 +25,7 @@
 					<ColumnDefinition Width="Auto"></ColumnDefinition>
 					<ColumnDefinition Width="*"></ColumnDefinition>
 				</Grid.ColumnDefinitions>
-                <WrapPanel Margin="0 1 0 0" IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}" VerticalAlignment="Top">
+                <WrapPanel Margin="0 2 0 0" IsEnabled="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolInvertConverter}}" VerticalAlignment="Top">
 					<CheckBox
 						FocusVisualStyle="{x:Null}"
 						Content="开机启动"
