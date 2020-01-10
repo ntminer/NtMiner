@@ -56,22 +56,27 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupDualCoinPool;
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.DualCoinPool;
-            var vm = new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
-                if (selectedResult != null) {
-                    if (coinVm.CoinProfile.DualCoinPool != selectedResult) {
-                        coinVm.CoinProfile.DualCoinPool = selectedResult;
+            PoolSelectViewModel vm = null;
+            // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
+            bool newVm = popup.Child == null || ((PoolSelectViewModel)((PoolSelect)popup.Child).DataContext).Coin != coinVm;
+            if (newVm) {
+                vm = new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        if (coinVm.CoinProfile.DualCoinPool != selectedResult) {
+                            coinVm.CoinProfile.DualCoinPool = selectedResult;
+                        }
+                        popup.IsOpen = false;
                     }
-                    popup.IsOpen = false;
-                }
-            }) {
-                HideView = new DelegateCommand(() => {
-                    popup.IsOpen = false;
-                })
-            };
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                };
+            }
             if (popup.Child == null) {
                 popup.Child = new PoolSelect(vm);
             }
-            else {
+            else if (newVm) {
                 ((PoolSelect)popup.Child).DataContext = vm;
             }
         }
@@ -83,22 +88,27 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupDualCoin;
             popup.IsOpen = true;
             var selected = Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
-            var vm = new CoinSelectViewModel(Vm.CoinVm.CoinKernel.SelectedDualCoinGroup.DualCoinVms, selected, onOk: selectedResult => {
-                if (selectedResult != null) {
-                    if (Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin != selectedResult) {
-                        Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
+            CoinSelectViewModel vm = null;
+            // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
+            bool newVm = popup.Child == null || ((CoinSelectViewModel)((CoinSelect)popup.Child).DataContext).SelectedResult != selected;
+            if (newVm) {
+                vm = new CoinSelectViewModel(Vm.CoinVm.CoinKernel.SelectedDualCoinGroup.DualCoinVms, selected, onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        if (Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin != selectedResult) {
+                            Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin = selectedResult;
+                        }
+                        popup.IsOpen = false;
                     }
-                    popup.IsOpen = false;
-                }
-            }) {
-                HideView = new DelegateCommand(() => {
-                    popup.IsOpen = false;
-                })
-            };
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                };
+            }
             if (popup.Child == null) {
                 popup.Child = new CoinSelect(vm);
             }
-            else {
+            else if (newVm) {
                 ((CoinSelect)popup.Child).DataContext = vm;
             }
         }
@@ -112,27 +122,32 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.SelectedDualCoinWallet;
             bool isDualCoin = true;
-            var vm = new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
-                if (selectedResult != null) {
-                    if (coinVm.CoinProfile.SelectedDualCoinWallet != selectedResult) {
-                        coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
+            WalletSelectViewModel vm = null;
+            // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
+            bool newVm = popup.Child == null || ((WalletSelectViewModel)((WalletSelect)popup.Child).DataContext).Coin != coinVm;
+            if (newVm) {
+                vm = new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
+                    if (selectedResult != null) {
+                        if (coinVm.CoinProfile.SelectedDualCoinWallet != selectedResult) {
+                            coinVm.CoinProfile.SelectedDualCoinWallet = selectedResult;
+                        }
+                        else {
+                            coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedDualCoinWallet));
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
+                            selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
+                        }
+                        popup.IsOpen = false;
                     }
-                    else {
-                        coinVm.CoinProfile.OnPropertyChanged(nameof(coinVm.CoinProfile.SelectedDualCoinWallet));
-                        selectedResult.OnPropertyChanged(nameof(selectedResult.Name));
-                        selectedResult.OnPropertyChanged(nameof(selectedResult.Address));
-                    }
-                    popup.IsOpen = false;
-                }
-            }) {
-                HideView = new DelegateCommand(() => {
-                    popup.IsOpen = false;
-                })
-            };
+                }) {
+                    HideView = new DelegateCommand(() => {
+                        popup.IsOpen = false;
+                    })
+                };
+            }
             if (popup.Child == null) {
                 popup.Child = new WalletSelect(vm);
             }
-            else {
+            else if (newVm) {
                 ((WalletSelect)popup.Child).DataContext = vm;
             }
         }
