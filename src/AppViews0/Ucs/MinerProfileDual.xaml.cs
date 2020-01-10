@@ -22,15 +22,12 @@ namespace NTMiner.Views.Ucs {
                                 return;
                             }
                             if (this.PopupDualCoinPool.Child != null && this.PopupDualCoinPool.IsOpen) {
-                                this.PopupDualCoinPool.IsOpen = false;
                                 OpenDualCoinPoolPopup();
                             }
                             if (this.PopupDualCoin.Child != null && this.PopupDualCoin.IsOpen) {
-                                this.PopupDualCoin.IsOpen = false;
                                 OpenDualCoinPopup();
                             }
                             if (this.PopupDualCoinWallet.Child != null && this.PopupDualCoinWallet.IsOpen) {
-                                this.PopupDualCoinWallet.IsOpen = false;
                                 OpenDualCoinWalletPopup();
                             }
                         });

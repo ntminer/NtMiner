@@ -98,7 +98,7 @@
             Visibility="{Binding IsPromoteHotCoin,Converter={StaticResource BoolToVisibilityConverter}}"
 			Background="{StaticResource TableHeaderBackground}"
 			ItemsSource="{Binding HotCoins}"
-            SelectedItem="{Binding SelectedResult}"
+            SelectedItem="{Binding SelectedHotCoin}"
 			ItemContainerStyle="{StaticResource ListBoxBarItem}"
 			BorderThickness="0">
             <ListBox.ItemsPanel>

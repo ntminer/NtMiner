@@ -25,23 +25,18 @@ namespace NTMiner.Views.Ucs {
                             return;
                         }
                         if (this.PopupKernel.Child != null && this.PopupKernel.IsOpen) {
-                            this.PopupKernel.IsOpen = false;
                             OpenKernelPopup();
                         }
                         if (this.PopupMainCoinPool.Child != null && this.PopupMainCoinPool.IsOpen) {
-                            this.PopupMainCoinPool.IsOpen = false;
                             OpenMainCoinPoolPopup();
                         }
                         if (this.PopupMainCoinPool1.Child != null && this.PopupMainCoinPool1.IsOpen) {
-                            this.PopupMainCoinPool1.IsOpen = false;
                             OpenMainCoinPool1Popup();
                         }
                         if (this.PopupMainCoin != null && this.PopupMainCoin.IsOpen) {
-                            this.PopupMainCoin.IsOpen = false;
                             OpenMainCoinPopup();
                         }
                         if (this.PopupMainCoinWallet != null && this.PopupMainCoinWallet.IsOpen) {
-                            this.PopupMainCoinWallet.IsOpen = false;
                             OpenMainCoinWalletPopup();
                         }
                     });
