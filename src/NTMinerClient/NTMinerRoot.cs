@@ -532,7 +532,7 @@ namespace NTMiner {
                         }
                         LockedMineContext.Start(isRestart: false);
                         VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "开始挖矿", toConsole: true);
-                        if (LockedMineContext.UseDevices.Length != GpuSet.Count) {
+                        if (LockedMineContext.UseDevices.Length < GpuSet.Count) {
                             VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), "未启用全部显卡挖矿", toConsole: true);
                         }
                     }
