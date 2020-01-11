@@ -46,6 +46,7 @@ namespace NTMiner.Views.Ucs {
         private void KbCancelButton_Click(object sender, System.Windows.RoutedEventArgs e) {
             _isCanceled = true;
             VirtualRoot.Execute(new CloseWindowCommand(this.Vm.Id));
+            VirtualRoot.ThisLocalInfo(nameof(RestartWindows), "取消重启电脑");
         }
     }
 }
