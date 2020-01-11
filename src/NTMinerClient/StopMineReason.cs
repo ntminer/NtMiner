@@ -39,6 +39,11 @@ namespace NTMiner {
         /// 退出开源矿工
         /// </summary>
         [Description("退出开源矿工")]
-        ApplicationExit
+        ApplicationExit,
+        /// <summary>
+        /// 重启电脑
+        /// </summary>
+        [Description("重启电脑")]
+        RestartComputer
     }
 }

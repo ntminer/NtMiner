@@ -269,8 +269,7 @@ namespace NTMiner {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
                                 string content = $"每运行{MinerProfile.PeriodicRestartKernelHours.ToString()}小时{MinerProfile.PeriodicRestartComputerMinutes.ToString()}分钟重启电脑";
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), content, toConsole: true);
-                                Windows.Power.Restart(60);
-                                VirtualRoot.Execute(new CloseNTMinerCommand(content));
+                                VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
                                 return;// 退出
                             }
                         }
@@ -316,8 +315,7 @@ namespace NTMiner {
                                         }
                                         string content = $"{MinerProfile.NoShareRestartComputerMinutes.ToString()}分钟无份额重启电脑";
                                         VirtualRoot.ThisLocalWarn(nameof(NTMinerRoot), content, toConsole: true);
-                                        Windows.Power.Restart(60);
-                                        VirtualRoot.Execute(new CloseNTMinerCommand(content));
+                                        VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
                                         return;// 退出
                                     }
                                     // 产生过份额或者已经两倍重启内核时间了

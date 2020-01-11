@@ -1,11 +1,10 @@
 ﻿using NTMiner.Hub;
 using NTMiner.Vms;
-using System;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class RestartWindows : UserControl {
-        public static void ShowDialog() {
+        public static void ShowDialog(RestartWindowsViewModel vm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "重启电脑",
                 Width = 400,
@@ -14,7 +13,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_Restart"
             }, ucFactory: (window) => {
-                RestartWindows uc = new RestartWindows();
+                RestartWindows uc = new RestartWindows(vm);
                 window.AddCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
             }, fixedSize: true);
@@ -27,7 +26,8 @@ namespace NTMiner.Views.Ucs {
         }
 
         private bool _isCanceled = false;
-        public RestartWindows() {
+        public RestartWindows(RestartWindowsViewModel vm) {
+            this.DataContext = vm;
             InitializeComponent();
             this.RunOneceOnLoaded(window => {
                 IMessagePathId messagePathId = null;
@@ -46,19 +46,7 @@ namespace NTMiner.Views.Ucs {
         private void KbCancelButton_Click(object sender, System.Windows.RoutedEventArgs e) {
             _isCanceled = true;
             VirtualRoot.Execute(new CloseWindowCommand(this.Vm.Id));
-        }
-    }
-
-    public class RestartWindowsViewModel : ViewModelBase {
-        private int _seconds = 4;
-        public readonly Guid Id = Guid.NewGuid();
-
-        public int Seconds {
-            get => _seconds;
-            set {
-                _seconds = value;
-                OnPropertyChanged(nameof(Seconds));
-            }
+            VirtualRoot.ThisLocalInfo(nameof(RestartWindows), "取消重启电脑");
         }
     }
 }

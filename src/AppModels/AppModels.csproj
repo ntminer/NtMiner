@@ -119,6 +119,7 @@
     <Compile Include="Vms\NTMinerWalletPageViewModel.cs" />
     <Compile Include="Vms\NTMinerWalletViewModel.cs" />
     <Compile Include="Vms\RemoteDesktopLoginViewModel.cs" />
+    <Compile Include="Vms\RestartWindowsViewModel.cs" />
     <Compile Include="Vms\ServerMessageViewModel.cs" />
     <Compile Include="Vms\ServerMessagesViewModel.cs" />
     <Compile Include="Vms\LocalMessagesViewModel.cs" />

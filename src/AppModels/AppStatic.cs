@@ -740,7 +740,7 @@ namespace NTMiner {
         });
 
         public static ICommand ShowRestartWindows { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowRestartWindowsCommand());
+            VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 4));
         });
 
         public static ICommand ShowVirtualMemory { get; private set; } = new DelegateCommand(() => {

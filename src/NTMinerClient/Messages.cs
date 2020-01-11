@@ -2,6 +2,15 @@
 using System;
 
 namespace NTMiner {
+    [MessageType(description: "打开windows重启倒计时界面")]
+    public class ShowRestartWindowsCommand : Cmd {
+        public ShowRestartWindowsCommand(int countDownSeconds) {
+            this.CountDownSeconds = countDownSeconds;
+        }
+
+        public int CountDownSeconds { get; private set; }
+    }
+
     [MessageType(description: "打开内核下载界面")]
     public class ShowKernelDownloaderCommand : Cmd {
         public ShowKernelDownloaderCommand(Guid kernelId, Action<bool, string> downloadComplete) {
