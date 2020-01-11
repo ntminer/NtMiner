@@ -8,10 +8,8 @@
         xmlns:local="clr-namespace:NTMiner.Views.Ucs"
         xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
         FontSize="20" Background="White"
+        d:DataContext="{d:DesignData Source=/Design/RestartWindowsViewModel.xaml}"
         mc:Ignorable="d" d:DesignHeight="200" d:DesignWidth="500">
-    <UserControl.DataContext>
-        <local:RestartWindowsViewModel></local:RestartWindowsViewModel>
-    </UserControl.DataContext>
     <StackPanel VerticalAlignment="Center">
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock VerticalAlignment="Center">警告：系统将在</TextBlock>

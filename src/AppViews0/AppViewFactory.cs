@@ -103,7 +103,7 @@ namespace NTMiner.Views {
             }, location: location);
             VirtualRoot.AddCmdPath<ShowRestartWindowsCommand>(action: message => {
                 UIThread.Execute(() => () => {
-                    RestartWindows.ShowDialog();
+                    RestartWindows.ShowDialog(new RestartWindowsViewModel(message.CountDownSeconds));
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowNotificationSampleCommand>(action: message => {

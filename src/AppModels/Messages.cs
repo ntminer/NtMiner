@@ -94,12 +94,6 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "打开windows重启倒计时界面")]
-    public class ShowRestartWindowsCommand : Cmd {
-        public ShowRestartWindowsCommand() {
-        }
-    }
-
     [MessageType(description: "打开虚拟内存管理界面")]
     public class ShowVirtualMemoryCommand : Cmd {
         public ShowVirtualMemoryCommand() {
