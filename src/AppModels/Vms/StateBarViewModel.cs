@@ -140,7 +140,7 @@ namespace NTMiner.Vms {
 
         public void SetCheckUpdateForeground(bool isLatest) {
             if (isLatest) {
-                CheckUpdateForeground = (SolidColorBrush)Application.Current.Resources["LableColor"];
+                CheckUpdateForeground = AppUtil.GetResource<SolidColorBrush>("LableColor");
             }
             else {
                 CheckUpdateForeground = WpfUtil.RedBrush;

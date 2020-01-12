@@ -17,8 +17,10 @@ namespace NTMiner {
             public static extern bool SetForegroundWindow(IntPtr hWnd);
         }
 
+        private static Application _app;
         #region Init
         public static void Init(Application app) {
+            _app = app;
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 if (e.ExceptionObject is Exception exception) {
                     Handle(exception);
@@ -52,6 +54,20 @@ namespace NTMiner {
         public static void Show(Process instance) {
             SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
             SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
+        }
+
+        public static T GetResource<T>(string key) {
+            if (_app == null) {
+                return (T)Application.Current.Resources[key];
+            }
+            return (T)_app.Resources[key];
+        }
+
+        public static object GetResource(string key) {
+            if (_app == null) {
+                return Application.Current.Resources[key];
+            }
+            return _app.Resources[key];
         }
 
         #region private methods

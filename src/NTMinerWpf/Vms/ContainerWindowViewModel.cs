@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
                 if (_iconName != value) {
                     _iconName = value;
                     if (!string.IsNullOrEmpty(value)) {
-                        Icon = (Geometry)Application.Current.Resources[value];
+                        Icon = AppUtil.GetResource<Geometry>(value);
                     }
                     OnPropertyChanged(nameof(IconName));
                 }

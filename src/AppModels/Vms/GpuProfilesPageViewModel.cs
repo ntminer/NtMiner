@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                             IsEnabled = false;
                             break;
                     }
-                    GpuIcon = (Geometry)System.Windows.Application.Current.Resources[iconName];
+                    GpuIcon = AppUtil.GetResource<Geometry>(iconName);
                     foreach (var coinVm in AppContext.Instance.CoinVms.MainCoins) {
                         var coinOverClock = data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinVm.Id);
                         var gpuProfiles = data.GpuProfiles.Where(a => a.CoinId == coinVm.Id).ToArray();

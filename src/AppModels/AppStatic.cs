@@ -512,7 +512,7 @@ namespace NTMiner {
                         }
                         break;
                 }
-                return (SolidColorBrush)Application.Current.Resources["LableColor"];
+                return AppUtil.GetResource<SolidColorBrush>("LableColor");
             }
         }
 
@@ -573,7 +573,7 @@ namespace NTMiner {
                 if (VirtualRoot.IsLTWin10) {
                     return WpfUtil.RedBrush;
                 }
-                return (SolidColorBrush)Application.Current.Resources["LableColor"];
+                return AppUtil.GetResource<SolidColorBrush>("LableColor");
             }
         }
 

@@ -89,6 +89,7 @@
     <Compile Include="JsonSerializerTests.cs" />
     <Compile Include="HttpClientTests.cs" />
     <Compile Include="DictionaryTests.cs" />
+    <Compile Include="ResourceDictionaryTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
