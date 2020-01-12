@@ -71,6 +71,10 @@ namespace NTMiner {
             }
         }
 
+        /// <summary>
+        /// 如果程序没有控制台窗口调用没有副作用，应在程序生命周期最末尾调用。
+        /// 因为控制台窗口是按需创建的，所以不能在顺序不定的AppExit中释放，以免释放后又按需创建。
+        /// </summary>
         public static void Free() {
             IntPtr console = SafeNativeMethods.GetConsoleWindow();
             if (console != IntPtr.Zero) {
