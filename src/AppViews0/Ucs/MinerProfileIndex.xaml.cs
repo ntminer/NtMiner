@@ -17,29 +17,29 @@ namespace NTMiner.Views.Ucs {
             NTStopwatch.Start();
 #endif
             InitializeComponent();
-            this.RunOneceOnLoaded((window) => {
-                window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => () => {
-                        if (Vm.MinerProfile.MineWork != null) {
-                            return;
-                        }
-                        if (this.PopupKernel.Child != null && this.PopupKernel.IsOpen) {
-                            OpenKernelPopup();
-                        }
-                        if (this.PopupMainCoinPool.Child != null && this.PopupMainCoinPool.IsOpen) {
-                            OpenMainCoinPoolPopup();
-                        }
-                        if (this.PopupMainCoinPool1.Child != null && this.PopupMainCoinPool1.IsOpen) {
-                            OpenMainCoinPool1Popup();
-                        }
-                        if (this.PopupMainCoin != null && this.PopupMainCoin.IsOpen) {
-                            OpenMainCoinPopup();
-                        }
-                        if (this.PopupMainCoinWallet != null && this.PopupMainCoinWallet.IsOpen) {
-                            OpenMainCoinWalletPopup();
-                        }
-                    });
+            this.OnLoaded((window) => {
+                window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole, 
+                    action: message => {
+                        UIThread.Execute(() => () => {
+                            if (Vm.MinerProfile.MineWork != null) {
+                                return;
+                            }
+                            if (this.PopupKernel.Child != null && this.PopupKernel.IsOpen) {
+                                OpenKernelPopup();
+                            }
+                            if (this.PopupMainCoinPool.Child != null && this.PopupMainCoinPool.IsOpen) {
+                                OpenMainCoinPoolPopup();
+                            }
+                            if (this.PopupMainCoinPool1.Child != null && this.PopupMainCoinPool1.IsOpen) {
+                                OpenMainCoinPool1Popup();
+                            }
+                            if (this.PopupMainCoin != null && this.PopupMainCoin.IsOpen) {
+                                OpenMainCoinPopup();
+                            }
+                            if (this.PopupMainCoinWallet != null && this.PopupMainCoinWallet.IsOpen) {
+                                OpenMainCoinWalletPopup();
+                            }
+                        });
                 }, location: this.GetType());
             });
 #if DEBUG

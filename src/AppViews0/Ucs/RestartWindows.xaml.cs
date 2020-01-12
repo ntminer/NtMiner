@@ -29,7 +29,7 @@ namespace NTMiner.Views.Ucs {
         public RestartWindows(RestartWindowsViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            this.RunOneceOnLoaded(window => {
+            this.OnLoaded(window => {
                 IMessagePathId messagePathId = null;
                 messagePathId = window.AddViaTimesLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, action: message => {
                     if (_isCanceled) {

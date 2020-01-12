@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
         public MinerProfileDual() {
             this.DataContext = MinerProfileViewModel.Instance;
             InitializeComponent();
-            this.RunOneceOnLoaded((window) => {
+            this.OnLoaded((window) => {
                 window.AddEventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => () => {
