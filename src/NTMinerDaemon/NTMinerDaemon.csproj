@@ -95,6 +95,9 @@
     <Compile Include="..\NTMinerClient\Windows\WMI.cs">
       <Link>Windows\WMI.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\AppExitEvent.cs">
+      <Link>AppExitEvent.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\DelayTask.cs">
       <Link>DelayTask.cs</Link>
     </Compile>
@@ -121,6 +124,9 @@
     </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Hub.cs">
       <Link>VirtualRoot.partials.Hub.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\WindowsSessionEndingEvent.cs">
+      <Link>WindowsSessionEndingEvent.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>

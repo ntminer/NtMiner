@@ -16,6 +16,11 @@ namespace NTMiner {
             InitializeComponent();
         }
 
+        protected override void OnExit(ExitEventArgs e) {
+            VirtualRoot.RaiseEvent(new AppExitEvent());
+            base.OnExit(e);
+        }
+
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 

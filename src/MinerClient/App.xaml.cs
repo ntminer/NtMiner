@@ -25,6 +25,7 @@ namespace NTMiner {
         private readonly IAppViewFactory _appViewFactory = new AppViewFactory();
 
         protected override void OnExit(ExitEventArgs e) {
+            VirtualRoot.RaiseEvent(new AppExitEvent());
             AppContext.NotifyIcon?.Dispose();
             NTMinerRoot.Instance.Exit();
             HttpServer.Stop();
