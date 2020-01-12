@@ -346,7 +346,7 @@
 								            FontFamily="Courier New"
 								            Text="{x:Static app:AppStatic.AppMinerIntro}"
 								            BorderThickness="0" IsReadOnly="True" 
-								            Padding="0 0 16 0" Foreground="White">
+								            Padding="0 2 16 0" Foreground="White">
                                         </controls:KbMuiltilineTextBox>
                                         <WrapPanel 
 								            Margin="0 2 4 0"
@@ -395,7 +395,7 @@
 									            IsReadOnly="True" 
 									            Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></controls:KbMuiltilineTextBox>
                                         </Grid>
-                                        <StackPanel Grid.Row="3">
+                                        <StackPanel Grid.Row="2">
                                             <WrapPanel Visibility="{Binding MinerProfile.CoinVm.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                                                 <Path
 										            Margin="2 2 2 0"

@@ -925,8 +925,9 @@ namespace NTMiner {
 
         public static string OfficialSiteName {
             get {
+                const string txt = "NTMiner.com";
                 if (WpfUtil.IsDevMode) {
-                    return "NTMiner.com";
+                    return txt;
                 }
                 if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem) && !string.IsNullOrEmpty(dicItem.Value)) {
                     if (dicItem.Value.StartsWith("https://")) {
@@ -936,43 +937,46 @@ namespace NTMiner {
                         return dicItem.Value.Substring("http://".Length);
                     }
                 }
-                return "NTMiner.com";
+                return txt;
             }
         }
 
         public static string AppMinerName {
             get {
+                const string txt = "开源矿工";
                 if (WpfUtil.IsDevMode) {
-                    return "开源矿工";
+                    return txt;
                 }
                 if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
-                return "开源矿工";
+                return txt;
             }
         }
 
         public static string AppMinerDescription {
             get {
+                const string txt = " - 做最好的矿工";
                 if (WpfUtil.IsDevMode) {
-                    return " - 做最好的矿工";
+                    return txt;
                 }
                 if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerName", out ISysDicItem dicItem)) {
                     return " - " + dicItem.Description;
                 }
-                return " - 做最好的矿工";
+                return txt;
             }
         }
 
         public static string AppMinerIntro {
             get {
+                const string txt = "开源、开放、安全、专业、更高收益。QQ群863725136";
                 if (WpfUtil.IsDevMode) {
-                    return "开源、开放、安全、专业、最高收益。QQ群863725136";
+                    return txt;
                 }
                 if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AppMinerIntro", out ISysDicItem dicItem)) {
                     return dicItem.Value;
                 }
-                return "开源、开放、安全、专业、最高收益。QQ群863725136";
+                return txt;
             }
         }
 
