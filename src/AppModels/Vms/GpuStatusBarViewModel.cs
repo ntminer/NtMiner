@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
                             iconName = "Icon_GpuEmpty";
                             break;
                     }
-                    _icon = (Geometry)System.Windows.Application.Current.Resources[iconName];
+                    _icon = AppUtil.GetResource<Geometry>(iconName);
                 }
                 return _icon;
             }

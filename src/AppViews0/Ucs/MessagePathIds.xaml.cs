@@ -26,7 +26,7 @@ namespace NTMiner.Views.Ucs {
 
         public MessagePathIds() {
             InitializeComponent();
-            this.RunOneceOnLoaded(onLoad: window => {
+            this.OnLoaded(onLoad: window => {
                 VirtualRoot.MessageHub.MessagePathAdded += OnPathConnected;
                 VirtualRoot.MessageHub.MessagePathRemoved += OnPathDisconnected;
             }, onUnload: window => {

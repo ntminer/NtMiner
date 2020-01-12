@@ -49,7 +49,6 @@ namespace NTMiner {
         private static void Close() {
             if (!_isClosed) {
                 _isClosed = true;
-                HttpServer.Stop();
                 _sMutexApp?.Dispose();
             }
         }

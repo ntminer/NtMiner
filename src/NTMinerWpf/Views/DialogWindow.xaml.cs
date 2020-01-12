@@ -28,8 +28,11 @@ namespace NTMiner.Views {
             this.Title = vm.Title;
             InitializeComponent();
             this.TbUcName.Text = nameof(DialogWindow);
-            if (!string.IsNullOrEmpty(vm.Icon) && Application.Current.Resources.Contains(vm.Icon)) {
-                this.Resources["Icon"] = Application.Current.Resources[vm.Icon];
+            if (!string.IsNullOrEmpty(vm.Icon)) {
+                object obj = AppUtil.GetResource(vm.Icon);
+                if (obj != null) {
+                    this.Resources["Icon"] = obj;
+                }
             }
 
             var owner = WpfUtil.GetTopWindow();

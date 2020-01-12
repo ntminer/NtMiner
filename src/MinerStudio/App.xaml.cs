@@ -14,7 +14,7 @@ namespace NTMiner {
         public App() {
             EntryAssemblyInfo.SetHomeDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            Logger.SetDir(SpecialPath.LogsDirFullName);
+            Logger.SetDir(SpecialPath.HomeLogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -23,9 +23,7 @@ namespace NTMiner {
 
         private bool createdNew;
         protected override void OnExit(ExitEventArgs e) {
-            AppContext.NotifyIcon?.Dispose();
-            NTMinerRoot.Instance.Exit();
-            HttpServer.Stop();
+            VirtualRoot.RaiseEvent(new AppExitEvent());
             if (createdNew) {
                 RpcRoot.Server.ControlCenterService.CloseServices();
             }

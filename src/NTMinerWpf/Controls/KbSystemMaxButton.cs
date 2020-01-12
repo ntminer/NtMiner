@@ -30,10 +30,10 @@ namespace NTMiner.Controls {
 
         private void ResetIcon() {
             if (window.WindowState == WindowState.Maximized) {
-                this.Icon = (StreamGeometry)Application.Current.Resources["Icon_Maxed"];
+                this.Icon = AppUtil.GetResource<StreamGeometry>("Icon_Maxed");
             }
             else {
-                this.Icon = (StreamGeometry)Application.Current.Resources["Icon_Max"];
+                this.Icon = AppUtil.GetResource<StreamGeometry>("Icon_Max");
             }
         }
     }

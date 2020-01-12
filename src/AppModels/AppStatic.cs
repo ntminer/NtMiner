@@ -159,11 +159,11 @@ namespace NTMiner {
         }
         public static string ServerDbFileFullName {
             get {
-                return VirtualRoot.ServerDbFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
+                return EntryAssemblyInfo.ServerDbFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
             }
         }
         public static string LocalDbFileFullName {
-            get => VirtualRoot.LocalDbFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
+            get => EntryAssemblyInfo.LocalDbFileFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
         }
 
         public static string ServerJsonFileFullName {
@@ -197,7 +197,12 @@ namespace NTMiner {
         }
 
         public static string LogsDirFullName {
-            get { return SpecialPath.LogsDirFullName.Replace(TempDir, NTKeyword.TempDirParameterName); }
+            get {
+                if (VirtualRoot.IsMinerClient) {
+                    return SpecialPath.TempLogsDirFullName.Replace(TempDir, NTKeyword.TempDirParameterName);
+                }
+                return SpecialPath.HomeLogsDirFullName.Replace(HomeDir, NTKeyword.HomeDirParameterName);
+            }
         }
 
         public static string AppRuntime {
@@ -507,7 +512,7 @@ namespace NTMiner {
                         }
                         break;
                 }
-                return (SolidColorBrush)Application.Current.Resources["LableColor"];
+                return AppUtil.GetResource<SolidColorBrush>("LableColor");
             }
         }
 
@@ -568,7 +573,7 @@ namespace NTMiner {
                 if (VirtualRoot.IsLTWin10) {
                     return WpfUtil.RedBrush;
                 }
-                return (SolidColorBrush)Application.Current.Resources["LableColor"];
+                return AppUtil.GetResource<SolidColorBrush>("LableColor");
             }
         }
 
@@ -812,10 +817,10 @@ namespace NTMiner {
             Process.Start(EntryAssemblyInfo.HomeDirFullName);
         });
         public static ICommand OpenLocalLiteDb { get; private set; } = new DelegateCommand(() => {
-            OpenLiteDb(VirtualRoot.LocalDbFileFullName);
+            OpenLiteDb(EntryAssemblyInfo.LocalDbFileFullName);
         });
         public static ICommand OpenServerLiteDb { get; private set; } = new DelegateCommand(() => {
-            OpenLiteDb(VirtualRoot.ServerDbFileFullName);
+            OpenLiteDb(EntryAssemblyInfo.ServerDbFileFullName);
         });
 
         #region private method OpenLiteDb

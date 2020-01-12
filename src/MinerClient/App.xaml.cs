@@ -17,7 +17,7 @@ namespace NTMiner {
     public partial class App : Application {
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            Logger.SetDir(SpecialPath.LogsDirFullName);
+            Logger.SetDir(SpecialPath.TempLogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -25,9 +25,7 @@ namespace NTMiner {
         private readonly IAppViewFactory _appViewFactory = new AppViewFactory();
 
         protected override void OnExit(ExitEventArgs e) {
-            AppContext.NotifyIcon?.Dispose();
-            NTMinerRoot.Instance.Exit();
-            HttpServer.Stop();
+            VirtualRoot.RaiseEvent(new AppExitEvent());
             base.OnExit(e);
             NTMinerConsole.Free();
         }

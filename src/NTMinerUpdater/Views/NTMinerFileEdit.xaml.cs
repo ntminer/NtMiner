@@ -13,7 +13,7 @@ namespace NTMiner.Views {
         public NTMinerFileEdit(string iconName, NTMinerFileViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            this.PathIcon.Data = (Geometry)Application.Current.Resources[iconName];
+            this.PathIcon.Data = AppUtil.GetResource<Geometry>(iconName);
             this.Owner = WpfUtil.GetTopWindow();
         }
     }

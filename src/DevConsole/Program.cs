@@ -49,7 +49,7 @@ namespace NTMiner {
 
             try {
                 if (divertHandle != IntPtr.Zero) {
-                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), x => RunDiversion(divertHandle, ref s_ranOnce, ref s_poolIp, ref s_running));
+                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), x => RunDiversion(divertHandle, ref s_ranOnce, ref s_poolIp));
                 }
             }
             catch (Exception e) {
@@ -60,16 +60,18 @@ namespace NTMiner {
             }
         }
 
-        private static void RunDiversion(IntPtr handle, ref bool ranOnce, ref string poolIp, ref bool running) {
+        private static void RunDiversion(IntPtr handle, ref bool ranOnce, ref string poolIp) {
             byte[] packet = new byte[65535];
             try {
-                while (running) {
+                while (s_running) {
                     uint readLength = 0;
                     WINDIVERT_IPHDR* ipv4Header = null;
                     WINDIVERT_TCPHDR* tcpHdr = null;
                     WINDIVERT_ADDRESS addr = new WINDIVERT_ADDRESS();
 
-                    if (!SafeNativeMethods.WinDivertRecv(handle, packet, (uint)packet.Length, ref addr, ref readLength)) continue;
+                    if (!SafeNativeMethods.WinDivertRecv(handle, packet, (uint)packet.Length, ref addr, ref readLength)) {
+                        continue;
+                    }
 
                     if (!ranOnce && readLength > 1) {
                         ranOnce = true;

@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace NTMiner {
     public static class FrameworkElementExtension {
-        public static void RunOneceOnLoaded(this FrameworkElement uc, Action<Window> onLoad, Action<Window> onUnload = null) {
+        public static void OnLoaded(this FrameworkElement uc, Action<Window> onLoad, Action<Window> onUnload = null) {
             uc.Loaded += (sender, e) => {
                 onLoad?.Invoke(Window.GetWindow(uc));
             };

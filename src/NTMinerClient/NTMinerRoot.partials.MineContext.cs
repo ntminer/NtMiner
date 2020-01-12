@@ -447,7 +447,7 @@ namespace NTMiner {
                     this.KernelProcessType = KernelProcessType.Pip;
                     logFileName = $"{this.Kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
                 }
-                this.LogFileFullName = Path.Combine(SpecialPath.LogsDirFullName, logFileName);
+                this.LogFileFullName = Path.Combine(SpecialPath.TempLogsDirFullName, logFileName);
             }
 
             public void Start(bool isRestart) {

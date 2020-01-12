@@ -37,7 +37,7 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_isInited) {
                         _isInited = true;
-                        NTMinerConsole.Alloc();
+                        NTMinerConsole.GetOrAlloc();
                     }
                 }
             }
