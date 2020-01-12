@@ -189,48 +189,60 @@ namespace NTMiner.Vms {
         public Guid ClientId {
             get { return _data.ClientId; }
             set {
-                _data.ClientId = value;
-                OnPropertyChanged(nameof(ClientId));
+                if (_data.ClientId != value) {
+                    _data.ClientId = value;
+                    OnPropertyChanged(nameof(ClientId));
+                }
             }
         }
 
         public string MACAddress {
             get { return _data.MACAddress; }
             set {
-                _data.MACAddress = value;
-                OnPropertyChanged(nameof(MACAddress));
+                if (_data.MACAddress != value) {
+                    _data.MACAddress = value;
+                    OnPropertyChanged(nameof(MACAddress));
+                }
             }
         }
 
         public string LocalIp {
             get { return _data.LocalIp; }
             set {
-                _data.LocalIp = value;
-                OnPropertyChanged(nameof(LocalIp));
+                if (_data.LocalIp != value) {
+                    _data.LocalIp = value;
+                    OnPropertyChanged(nameof(LocalIp));
+                }
             }
         }
 
         public bool IsAutoBoot {
             get { return _data.IsAutoBoot; }
             set {
-                _data.IsAutoBoot = value;
-                OnPropertyChanged(nameof(IsAutoBoot));
+                if (_data.IsAutoBoot != value) {
+                    _data.IsAutoBoot = value;
+                    OnPropertyChanged(nameof(IsAutoBoot));
+                }
             }
         }
 
         public bool IsAutoStart {
             get { return _data.IsAutoStart; }
             set {
-                _data.IsAutoStart = value;
-                OnPropertyChanged(nameof(IsAutoStart));
+                if (_data.IsAutoStart != value) {
+                    _data.IsAutoStart = value;
+                    OnPropertyChanged(nameof(IsAutoStart));
+                }
             }
         }
 
         public int AutoStartDelaySeconds {
             get { return _data.AutoStartDelaySeconds; }
             set {
-                _data.AutoStartDelaySeconds = value;
-                OnPropertyChanged(nameof(AutoStartDelaySeconds));
+                if (_data.AutoStartDelaySeconds != value) {
+                    _data.AutoStartDelaySeconds = value;
+                    OnPropertyChanged(nameof(AutoStartDelaySeconds));
+                }
             }
         }
 
@@ -350,9 +362,11 @@ namespace NTMiner.Vms {
         public DateTime BootOn {
             get { return _data.BootOn; }
             set {
-                _data.BootOn = value;
-                OnPropertyChanged(nameof(BootOn));
-                OnPropertyChanged(nameof(BootTimeSpanText));
+                if (_data.BootOn != value) {
+                    _data.BootOn = value;
+                    OnPropertyChanged(nameof(BootOn));
+                    OnPropertyChanged(nameof(BootTimeSpanText));
+                }
             }
         }
 
@@ -391,9 +405,11 @@ namespace NTMiner.Vms {
         public DateTime? MineStartedOn {
             get { return _data.MineStartedOn; }
             set {
-                _data.MineStartedOn = value;
-                OnPropertyChanged(nameof(MineStartedOn));
-                OnPropertyChanged(nameof(MineTimeSpanText));
+                if (_data.MineStartedOn != value) {
+                    _data.MineStartedOn = value;
+                    OnPropertyChanged(nameof(MineStartedOn));
+                    OnPropertyChanged(nameof(MineTimeSpanText));
+                }
             }
         }
 
@@ -425,8 +441,10 @@ namespace NTMiner.Vms {
         public string ClientName {
             get { return _data.ClientName; }
             set {
-                _data.ClientName = value;
-                OnPropertyChanged(nameof(ClientName));
+                if (_data.ClientName != value) {
+                    _data.ClientName = value;
+                    OnPropertyChanged(nameof(ClientName));
+                }
             }
         }
 
@@ -604,20 +622,24 @@ namespace NTMiner.Vms {
         public int MainCoinTotalShare {
             get { return _data.MainCoinTotalShare; }
             set {
-                _data.MainCoinTotalShare = value;
-                OnPropertyChanged(nameof(MainCoinTotalShare));
-                OnPropertyChanged(nameof(MainCoinRejectPercentText));
-                OnPropertyChanged(nameof(MainCoinRejectPercent));
+                if (_data.MainCoinTotalShare != value) {
+                    _data.MainCoinTotalShare = value;
+                    OnPropertyChanged(nameof(MainCoinTotalShare));
+                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                    OnPropertyChanged(nameof(MainCoinRejectPercent));
+                }
             }
         }
 
         public int MainCoinRejectShare {
             get { return _data.MainCoinRejectShare; }
             set {
-                _data.MainCoinRejectShare = value;
-                OnPropertyChanged(nameof(MainCoinRejectShare));
-                OnPropertyChanged(nameof(MainCoinRejectPercentText));
-                OnPropertyChanged(nameof(MainCoinRejectPercent));
+                if (_data.MainCoinRejectShare != value) {
+                    _data.MainCoinRejectShare = value;
+                    OnPropertyChanged(nameof(MainCoinRejectShare));
+                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                    OnPropertyChanged(nameof(MainCoinRejectPercent));
+                }
             }
         }
 
@@ -642,9 +664,11 @@ namespace NTMiner.Vms {
         public double IncomeMainCoinPerDay {
             get => _incomeMainCoinPerDay;
             set {
-                _incomeMainCoinPerDay = value;
-                OnPropertyChanged(nameof(IncomeMainCoinPerDay));
-                OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+                if (_incomeMainCoinPerDay != value) {
+                    _incomeMainCoinPerDay = value;
+                    OnPropertyChanged(nameof(IncomeMainCoinPerDay));
+                    OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+                }
             }
         }
 
@@ -657,9 +681,11 @@ namespace NTMiner.Vms {
         public double IncomeMainCoinUsdPerDay {
             get { return _incomeMainCoinUsdPerDay; }
             set {
-                _incomeMainCoinUsdPerDay = value;
-                OnPropertyChanged(nameof(IncomeMainCoinUsdPerDay));
-                OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
+                if (_incomeMainCoinUsdPerDay != value) {
+                    _incomeMainCoinUsdPerDay = value;
+                    OnPropertyChanged(nameof(IncomeMainCoinUsdPerDay));
+                    OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
+                }
             }
         }
 
@@ -672,9 +698,11 @@ namespace NTMiner.Vms {
         public double IncomeMainCoinCnyPerDay {
             get { return _incomeMainCoinCnyPerDay; }
             set {
-                _incomeMainCoinCnyPerDay = value;
-                OnPropertyChanged(nameof(IncomeMainCoinCnyPerDay));
-                OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
+                if (_incomeMainCoinCnyPerDay != value) {
+                    _incomeMainCoinCnyPerDay = value;
+                    OnPropertyChanged(nameof(IncomeMainCoinCnyPerDay));
+                    OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
+                }
             }
         }
 
@@ -687,9 +715,11 @@ namespace NTMiner.Vms {
         public double IncomeDualCoinPerDay {
             get => _incomeDualCoinPerDay;
             set {
-                _incomeDualCoinPerDay = value;
-                OnPropertyChanged(nameof(IncomeDualCoinPerDay));
-                OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
+                if (_incomeDualCoinPerDay != value) {
+                    _incomeDualCoinPerDay = value;
+                    OnPropertyChanged(nameof(IncomeDualCoinPerDay));
+                    OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
+                }
             }
         }
 
@@ -702,9 +732,11 @@ namespace NTMiner.Vms {
         public double IncomeDualCoinUsdPerDay {
             get { return _incomeDualCoinUsdPerDay; }
             set {
-                _incomeDualCoinUsdPerDay = value;
-                OnPropertyChanged(nameof(IncomeDualCoinUsdPerDay));
-                OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
+                if (_incomeDualCoinUsdPerDay != value) {
+                    _incomeDualCoinUsdPerDay = value;
+                    OnPropertyChanged(nameof(IncomeDualCoinUsdPerDay));
+                    OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
+                }
             }
         }
 
@@ -717,9 +749,11 @@ namespace NTMiner.Vms {
         public double IncomeDualCoinCnyPerDay {
             get { return _incomeDualCoinCnyPerDay; }
             set {
-                _incomeDualCoinCnyPerDay = value;
-                OnPropertyChanged(nameof(IncomeDualCoinCnyPerDay));
-                OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
+                if (_incomeDualCoinCnyPerDay != value) {
+                    _incomeDualCoinCnyPerDay = value;
+                    OnPropertyChanged(nameof(IncomeDualCoinCnyPerDay));
+                    OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
+                }
             }
         }
 
@@ -782,10 +816,12 @@ namespace NTMiner.Vms {
         public double DualCoinSpeed {
             get => _data.DualCoinSpeed;
             set {
-                _data.DualCoinSpeed = value;
-                OnPropertyChanged(nameof(DualCoinSpeed));
-                OnPropertyChanged(nameof(DualCoinSpeedText));
-                RefreshDualCoinIncome();
+                if (_data.DualCoinSpeed != value) {
+                    _data.DualCoinSpeed = value;
+                    OnPropertyChanged(nameof(DualCoinSpeed));
+                    OnPropertyChanged(nameof(DualCoinSpeedText));
+                    RefreshDualCoinIncome();
+                }
             }
         }
 
@@ -805,20 +841,24 @@ namespace NTMiner.Vms {
         public int DualCoinTotalShare {
             get { return _data.DualCoinTotalShare; }
             set {
-                _data.DualCoinTotalShare = value;
-                OnPropertyChanged(nameof(DualCoinTotalShare));
-                OnPropertyChanged(nameof(DualCoinRejectPercentText));
-                OnPropertyChanged(nameof(DualCoinRejectPercent));
+                if (_data.DualCoinTotalShare != value) {
+                    _data.DualCoinTotalShare = value;
+                    OnPropertyChanged(nameof(DualCoinTotalShare));
+                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                    OnPropertyChanged(nameof(DualCoinRejectPercent));
+                }
             }
         }
 
         public int DualCoinRejectShare {
             get { return _data.DualCoinRejectShare; }
             set {
-                _data.DualCoinRejectShare = value;
-                OnPropertyChanged(nameof(DualCoinRejectShare));
-                OnPropertyChanged(nameof(DualCoinRejectPercentText));
-                OnPropertyChanged(nameof(DualCoinRejectPercent));
+                if (_data.DualCoinRejectShare != value) {
+                    _data.DualCoinRejectShare = value;
+                    OnPropertyChanged(nameof(DualCoinRejectShare));
+                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                    OnPropertyChanged(nameof(DualCoinRejectPercent));
+                }
             }
         }
 
@@ -874,17 +914,21 @@ namespace NTMiner.Vms {
         public string OSName {
             get { return _data.OSName; }
             set {
-                _data.OSName = value;
-                OnPropertyChanged(nameof(OSName));
+                if (_data.OSName != value) {
+                    _data.OSName = value;
+                    OnPropertyChanged(nameof(OSName));
+                }
             }
         }
 
         public int OSVirtualMemoryMb {
             get => _data.OSVirtualMemoryMb;
             set {
-                _data.OSVirtualMemoryMb = value;
-                OnPropertyChanged(nameof(OSVirtualMemoryMb));
-                OnPropertyChanged(nameof(OSVirtualMemoryGbText));
+                if (_data.OSVirtualMemoryMb != value) {
+                    _data.OSVirtualMemoryMb = value;
+                    OnPropertyChanged(nameof(OSVirtualMemoryMb));
+                    OnPropertyChanged(nameof(OSVirtualMemoryGbText));
+                }
             }
         }
 
@@ -898,18 +942,22 @@ namespace NTMiner.Vms {
         public string DiskSpace {
             get { return _data.DiskSpace; }
             set {
-                _data.DiskSpace = value;
-                OnPropertyChanged(nameof(DiskSpace));
+                if (_data.DiskSpace != value) {
+                    _data.DiskSpace = value;
+                    OnPropertyChanged(nameof(DiskSpace));
+                }
             }
         }
 
         public GpuType GpuType {
             get => _data.GpuType;
             set {
-                _data.GpuType = value;
-                OnPropertyChanged(nameof(GpuType));
-                OnPropertyChanged(nameof(IsNvidiaIconVisible));
-                OnPropertyChanged(nameof(IsAMDIconVisible));
+                if (_data.GpuType != value) {
+                    _data.GpuType = value;
+                    OnPropertyChanged(nameof(GpuType));
+                    OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                    OnPropertyChanged(nameof(IsAMDIconVisible));
+                }
             }
         }
 
@@ -933,16 +981,20 @@ namespace NTMiner.Vms {
         public string GpuDriver {
             get => _data.GpuDriver;
             set {
-                _data.GpuDriver = value;
-                OnPropertyChanged(nameof(GpuDriver));
+                if (_data.GpuDriver != value) {
+                    _data.GpuDriver = value;
+                    OnPropertyChanged(nameof(GpuDriver));
+                }
             }
         }
 
         public string KernelCommandLine {
             get => _data.KernelCommandLine;
             set {
-                _data.KernelCommandLine = value;
-                OnPropertyChanged(nameof(KernelCommandLine));
+                if (_data.KernelCommandLine != value) {
+                    _data.KernelCommandLine = value;
+                    OnPropertyChanged(nameof(KernelCommandLine));
+                }
             }
         }
 
@@ -957,16 +1009,20 @@ namespace NTMiner.Vms {
         public SolidColorBrush MainCoinRejectPercentForeground {
             get => _mainCoinRejectPercentForeground;
             set {
-                _mainCoinRejectPercentForeground = value;
-                OnPropertyChanged(nameof(MainCoinRejectPercentForeground));
+                if (_mainCoinRejectPercentForeground != value) {
+                    _mainCoinRejectPercentForeground = value;
+                    OnPropertyChanged(nameof(MainCoinRejectPercentForeground));
+                }
             }
         }
 
         public SolidColorBrush DualCoinRejectPercentForeground {
             get => _dualCoinRejectPercentForeground;
             set {
-                _dualCoinRejectPercentForeground = value;
-                OnPropertyChanged(nameof(DualCoinRejectPercentForeground));
+                if (_dualCoinRejectPercentForeground != value) {
+                    _dualCoinRejectPercentForeground = value;
+                    OnPropertyChanged(nameof(DualCoinRejectPercentForeground));
+                }
             }
         }
 
@@ -1041,216 +1097,270 @@ namespace NTMiner.Vms {
         public bool IsAutoRestartKernel {
             get { return _data.IsAutoRestartKernel; }
             set {
-                _data.IsAutoRestartKernel = value;
-                OnPropertyChanged(nameof(IsAutoRestartKernel));
+                if (_data.IsAutoRestartKernel != value) {
+                    _data.IsAutoRestartKernel = value;
+                    OnPropertyChanged(nameof(IsAutoRestartKernel));
+                }
             }
         }
 
         public int AutoRestartKernelTimes {
             get { return _data.AutoRestartKernelTimes; }
             set {
-                _data.AutoRestartKernelTimes = value;
-                OnPropertyChanged(nameof(AutoRestartKernelTimes));
+                if (_data.AutoRestartKernelTimes != value) {
+                    _data.AutoRestartKernelTimes = value;
+                    OnPropertyChanged(nameof(AutoRestartKernelTimes));
+                }
             }
         }
 
         public bool IsNoShareRestartKernel {
             get { return _data.IsNoShareRestartKernel; }
             set {
-                _data.IsNoShareRestartKernel = value;
-                OnPropertyChanged(nameof(IsNoShareRestartKernel));
+                if (_data.IsNoShareRestartKernel != value) {
+                    _data.IsNoShareRestartKernel = value;
+                    OnPropertyChanged(nameof(IsNoShareRestartKernel));
+                }
             }
         }
 
         public bool IsNoShareRestartComputer {
             get { return _data.IsNoShareRestartComputer; }
             set {
-                _data.IsNoShareRestartComputer = value;
-                OnPropertyChanged(nameof(IsNoShareRestartComputer));
+                if (_data.IsNoShareRestartComputer != value) {
+                    _data.IsNoShareRestartComputer = value;
+                    OnPropertyChanged(nameof(IsNoShareRestartComputer));
+                }
             }
         }
 
         public int NoShareRestartComputerMinutes {
             get { return _data.NoShareRestartComputerMinutes; }
             set {
-                _data.NoShareRestartComputerMinutes = value;
-                OnPropertyChanged(nameof(NoShareRestartComputerMinutes));
+                if (_data.NoShareRestartComputerMinutes != value) {
+                    _data.NoShareRestartComputerMinutes = value;
+                    OnPropertyChanged(nameof(NoShareRestartComputerMinutes));
+                }
             }
         }
 
         public bool IsPeriodicRestartKernel {
             get { return _data.IsPeriodicRestartKernel; }
             set {
-                _data.IsPeriodicRestartKernel = value;
-                OnPropertyChanged(nameof(IsPeriodicRestartKernel));
+                if (_data.IsPeriodicRestartKernel != value) {
+                    _data.IsPeriodicRestartKernel = value;
+                    OnPropertyChanged(nameof(IsPeriodicRestartKernel));
+                }
             }
         }
 
         public bool IsPeriodicRestartComputer {
             get { return _data.IsPeriodicRestartComputer; }
             set {
-                _data.IsPeriodicRestartComputer = value;
-                OnPropertyChanged(nameof(IsPeriodicRestartComputer));
+                if (_data.IsPeriodicRestartComputer != value) {
+                    _data.IsPeriodicRestartComputer = value;
+                    OnPropertyChanged(nameof(IsPeriodicRestartComputer));
+                }
             }
         }
 
         public int NoShareRestartKernelMinutes {
             get { return _data.NoShareRestartKernelMinutes; }
             set {
-                _data.NoShareRestartKernelMinutes = value;
-                OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
+                if (_data.NoShareRestartKernelMinutes != value) {
+                    _data.NoShareRestartKernelMinutes = value;
+                    OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
+                }
             }
         }
 
         public int PeriodicRestartKernelHours {
             get { return _data.PeriodicRestartKernelHours; }
             set {
-                _data.PeriodicRestartKernelHours = value;
-                OnPropertyChanged(nameof(PeriodicRestartKernelHours));
+                if (_data.PeriodicRestartKernelHours != value) {
+                    _data.PeriodicRestartKernelHours = value;
+                    OnPropertyChanged(nameof(PeriodicRestartKernelHours));
+                }
             }
         }
 
         public int PeriodicRestartComputerHours {
             get { return _data.PeriodicRestartComputerHours; }
             set {
-                _data.PeriodicRestartComputerHours = value;
-                OnPropertyChanged(nameof(PeriodicRestartComputerHours));
+                if (_data.PeriodicRestartComputerHours != value) {
+                    _data.PeriodicRestartComputerHours = value;
+                    OnPropertyChanged(nameof(PeriodicRestartComputerHours));
+                }
             }
         }
 
         public int PeriodicRestartKernelMinutes {
             get { return _data.PeriodicRestartKernelMinutes; }
             set {
-                _data.PeriodicRestartKernelMinutes = value;
-                OnPropertyChanged(nameof(PeriodicRestartKernelMinutes));
+                if (_data.PeriodicRestartKernelMinutes != value) {
+                    _data.PeriodicRestartKernelMinutes = value;
+                    OnPropertyChanged(nameof(PeriodicRestartKernelMinutes));
+                }
             }
         }
 
         public int PeriodicRestartComputerMinutes {
             get { return _data.PeriodicRestartComputerMinutes; }
             set {
-                _data.PeriodicRestartComputerMinutes = value;
-                OnPropertyChanged(nameof(PeriodicRestartComputerMinutes));
+                if (_data.PeriodicRestartComputerMinutes != value) {
+                    _data.PeriodicRestartComputerMinutes = value;
+                    OnPropertyChanged(nameof(PeriodicRestartComputerMinutes));
+                }
             }
         }
 
         public string MainCoinPoolDelay {
             get { return _data.MainCoinPoolDelay; }
             set {
-                _data.MainCoinPoolDelay = value;
-                OnPropertyChanged(nameof(MainCoinPoolDelay));
+                if (_data.MainCoinPoolDelay != value) {
+                    _data.MainCoinPoolDelay = value;
+                    OnPropertyChanged(nameof(MainCoinPoolDelay));
+                }
             }
         }
 
         public string DualCoinPoolDelay {
             get { return _data.DualCoinPoolDelay; }
             set {
-                _data.DualCoinPoolDelay = value;
-                OnPropertyChanged(nameof(DualCoinPoolDelay));
+                if (_data.DualCoinPoolDelay != value) {
+                    _data.DualCoinPoolDelay = value;
+                    OnPropertyChanged(nameof(DualCoinPoolDelay));
+                }
             }
         }
 
         public int CpuPerformance {
             get { return _data.CpuPerformance; }
             set {
-                _data.CpuPerformance = value;
-                OnPropertyChanged(nameof(CpuPerformance));
+                if (_data.CpuPerformance != value) {
+                    _data.CpuPerformance = value;
+                    OnPropertyChanged(nameof(CpuPerformance));
+                }
             }
         }
 
         public int CpuTemperature {
             get { return _data.CpuTemperature; }
             set {
-                _data.CpuTemperature = value;
-                OnPropertyChanged(nameof(CpuTemperature));
+                if (_data.CpuTemperature != value) {
+                    _data.CpuTemperature = value;
+                    OnPropertyChanged(nameof(CpuTemperature));
+                }
             }
         }
 
         public bool IsAutoStopByCpu {
             get { return _data.IsAutoStopByCpu; }
             set {
-                _data.IsAutoStopByCpu = value;
-                OnPropertyChanged(nameof(IsAutoStopByCpu));
+                if (_data.IsAutoStopByCpu != value) {
+                    _data.IsAutoStopByCpu = value;
+                    OnPropertyChanged(nameof(IsAutoStopByCpu));
+                }
             }
         }
 
         public int CpuGETemperatureSeconds {
             get { return _data.CpuGETemperatureSeconds; }
             set {
-                _data.CpuGETemperatureSeconds = value;
-                OnPropertyChanged(nameof(CpuGETemperatureSeconds));
+                if (_data.CpuGETemperatureSeconds != value) {
+                    _data.CpuGETemperatureSeconds = value;
+                    OnPropertyChanged(nameof(CpuGETemperatureSeconds));
+                }
             }
         }
 
         public int CpuStopTemperature {
             get { return _data.CpuStopTemperature; }
             set {
-                _data.CpuStopTemperature = value;
-                OnPropertyChanged(nameof(CpuStopTemperature));
+                if (_data.CpuStopTemperature != value) {
+                    _data.CpuStopTemperature = value;
+                    OnPropertyChanged(nameof(CpuStopTemperature));
+                }
             }
         }
 
         public bool IsAutoStartByCpu {
             get { return _data.IsAutoStartByCpu; }
             set {
-                _data.IsAutoStartByCpu = value;
-                OnPropertyChanged(nameof(IsAutoStartByCpu));
+                if (_data.IsAutoStartByCpu != value) {
+                    _data.IsAutoStartByCpu = value;
+                    OnPropertyChanged(nameof(IsAutoStartByCpu));
+                }
             }
         }
 
         public int CpuLETemperatureSeconds {
             get { return _data.CpuLETemperatureSeconds; }
             set {
-                _data.CpuLETemperatureSeconds = value;
-                OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+                if (_data.CpuLETemperatureSeconds != value) {
+                    _data.CpuLETemperatureSeconds = value;
+                    OnPropertyChanged(nameof(CpuLETemperatureSeconds));
+                }
             }
         }
 
         public int CpuStartTemperature {
             get { return _data.CpuStartTemperature; }
             set {
-                _data.CpuStartTemperature = value;
-                OnPropertyChanged(nameof(CpuStartTemperature));
+                if (_data.CpuStartTemperature != value) {
+                    _data.CpuStartTemperature = value;
+                    OnPropertyChanged(nameof(CpuStartTemperature));
+                }
             }
         }
 
         public int KernelSelfRestartCount {
             get { return _data.KernelSelfRestartCount; }
             set {
-                _data.KernelSelfRestartCount = value;
-                OnPropertyChanged(nameof(KernelSelfRestartCount));
+                if (_data.KernelSelfRestartCount != value) {
+                    _data.KernelSelfRestartCount = value;
+                    OnPropertyChanged(nameof(KernelSelfRestartCount));
+                }
             }
         }
 
         public DateTime LocalServerMessageTimestamp {
             get { return _data.LocalServerMessageTimestamp; }
             set {
-                _data.LocalServerMessageTimestamp = value;
-                OnPropertyChanged(nameof(LocalServerMessageTimestamp));
+                if (_data.LocalServerMessageTimestamp != value) {
+                    _data.LocalServerMessageTimestamp = value;
+                    OnPropertyChanged(nameof(LocalServerMessageTimestamp));
+                }
             }
         }
 
         public bool IsRaiseHighCpuEvent {
             get { return _data.IsRaiseHighCpuEvent; }
             set {
-                _data.IsRaiseHighCpuEvent = value;
-                OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
+                if (_data.IsRaiseHighCpuEvent != value) {
+                    _data.IsRaiseHighCpuEvent = value;
+                    OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
+                }
             }
         }
 
         public int HighCpuPercent {
             get { return _data.HighCpuPercent; }
             set {
-                _data.HighCpuPercent = value;
-                OnPropertyChanged(nameof(HighCpuPercent));
+                if (_data.HighCpuPercent != value) {
+                    _data.HighCpuPercent = value;
+                    OnPropertyChanged(nameof(HighCpuPercent));
+                }
             }
         }
 
         public int HighCpuSeconds {
             get { return _data.HighCpuSeconds; }
             set {
-                _data.HighCpuSeconds = value;
-                OnPropertyChanged(nameof(HighCpuSeconds));
+                if (_data.HighCpuSeconds != value) {
+                    _data.HighCpuSeconds = value;
+                    OnPropertyChanged(nameof(HighCpuSeconds));
+                }
             }
         }
 
