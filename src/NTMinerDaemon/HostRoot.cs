@@ -113,7 +113,6 @@ namespace NTMiner {
             if (!_isClosed) {
                 _isClosed = true;
                 VirtualRoot.RaiseEvent(new AppExitEvent());
-                HttpServer.Stop();
                 _sMutexApp?.Dispose();
                 Environment.Exit(0);
             }

@@ -26,7 +26,7 @@ namespace NTMiner.Views {
             InitializeComponent();
             this.Loaded += (sender, e) => {
                 IntPtr parent = new WindowInteropHelper(this).Handle;
-                IntPtr console = NTMinerConsole.Alloc();
+                IntPtr console = NTMinerConsole.GetOrAlloc();
                 SafeNativeMethods.SetParent(console, parent);
                 SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;

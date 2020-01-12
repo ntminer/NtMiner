@@ -47,7 +47,7 @@ namespace NTMiner {
             }
         }
 
-        private static readonly string _serverDbFileFullName = Path.Combine(HomeDirFullName, ServerDbFileName);
+        private static string _serverDbFileFullName = Path.Combine(HomeDirFullName, ServerDbFileName);
         public static string ServerDbFileFullName {
             get {
                 return _serverDbFileFullName;
@@ -63,6 +63,7 @@ namespace NTMiner {
                 Directory.CreateDirectory(dirFullName);
             }
             _localDbFileFullName = Path.Combine(HomeDirFullName, LocalDbFileName);
+            _serverDbFileFullName = Path.Combine(HomeDirFullName, ServerDbFileName);
         }
 
         public static string GetServerJsonVersion(Version version) {

@@ -35,7 +35,7 @@ namespace NTMiner {
             SafeNativeMethods.SetConsoleMode(hStdin, mode);
         }
 
-        public static IntPtr Alloc() {
+        public static IntPtr GetOrAlloc() {
             IntPtr console = SafeNativeMethods.GetConsoleWindow();
             if (console == IntPtr.Zero) {
                 SafeNativeMethods.AllocConsole();

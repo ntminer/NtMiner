@@ -35,6 +35,14 @@ namespace NTMiner {
             if (VirtualRoot.IsMinerClient) {
                 SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
             }
+            VirtualRoot.AddEventPath<AppExitEvent>("程序退出时的NTMinerRoot退出逻辑", LogEnum.None,
+                message => {
+                    if (LockedMineContext != null) {
+                        StopMine(StopMineReason.ApplicationExit);
+                    }
+                    SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
+                    _computer?.Close();
+                }, typeof(NTMinerRoot));
         }
 
         private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e) {
@@ -345,16 +353,6 @@ namespace NTMiner {
                         GpuSet.LoadGpuState();
                     });
                 }, location: this.GetType());
-        }
-        #endregion
-
-        #region Exit
-        public void Exit() {
-            if (LockedMineContext != null) {
-                StopMine(StopMineReason.ApplicationExit);
-            }
-            SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;
-            _computer?.Close();
         }
         #endregion
 

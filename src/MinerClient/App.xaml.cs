@@ -26,9 +26,6 @@ namespace NTMiner {
 
         protected override void OnExit(ExitEventArgs e) {
             VirtualRoot.RaiseEvent(new AppExitEvent());
-            AppContext.NotifyIcon?.Dispose();
-            NTMinerRoot.Instance.Exit();
-            HttpServer.Stop();
             base.OnExit(e);
             NTMinerConsole.Free();
         }
