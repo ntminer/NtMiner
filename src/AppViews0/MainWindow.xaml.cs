@@ -86,7 +86,7 @@ namespace NTMiner.Views {
                 NTMinerRoot.RefreshArgsAssembly.Invoke();
             };
             InitializeComponent();
-
+            this.ResizeCursors.Visibility = Visibility.Visible;
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
             if (WpfUtil.IsInDesignMode) {
                 return;
