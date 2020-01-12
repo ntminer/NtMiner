@@ -28,8 +28,8 @@ namespace NTMiner {
                 }
                 if (DevMode.IsDevMode) {
                     string shareServerDbFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerDbFileName);
-                    if (File.Exists(shareServerDbFileFullName) && !File.Exists(VirtualRoot.ServerDbFileFullName)) {
-                        File.Copy(shareServerDbFileFullName, VirtualRoot.ServerDbFileFullName);
+                    if (File.Exists(shareServerDbFileFullName) && !File.Exists(EntryAssemblyInfo.ServerDbFileFullName)) {
+                        File.Copy(shareServerDbFileFullName, EntryAssemblyInfo.ServerDbFileFullName);
                     }
                 }
                 string shareServerJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerJsonFileName);
@@ -37,8 +37,8 @@ namespace NTMiner {
                     File.Copy(shareServerJsonFileFullName, ServerJsonFileFullName);
                 }
                 string shareLocalDbFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
-                if (File.Exists(shareLocalDbFileFullName) && !File.Exists(VirtualRoot.LocalDbFileFullName)) {
-                    File.Copy(shareLocalDbFileFullName, VirtualRoot.LocalDbFileFullName);
+                if (File.Exists(shareLocalDbFileFullName) && !File.Exists(EntryAssemblyInfo.LocalDbFileFullName)) {
+                    File.Copy(shareLocalDbFileFullName, EntryAssemblyInfo.LocalDbFileFullName);
                 }
                 string shareLocalJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LocalJsonFileName);
                 if (File.Exists(shareLocalJsonFileFullName) && !File.Exists(LocalJsonFileFullName)) {
@@ -166,15 +166,30 @@ namespace NTMiner {
             }
         }
 
-        private static bool _sIsFirstCallLogsDirFullName = true;
-        public static string LogsDirFullName {
+        private static bool _sIsFirstCallTempLogsDirFullName = true;
+        public static string TempLogsDirFullName {
             get {
                 string dirFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LogsDirName);
-                if (_sIsFirstCallLogsDirFullName) {
+                if (_sIsFirstCallTempLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _sIsFirstCallLogsDirFullName = false;
+                    _sIsFirstCallTempLogsDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
+        private static bool _sIsFirstCallHomeLogsDirFullName = true;
+        public static string HomeLogsDirFullName {
+            get {
+                string dirFullName = Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.LogsDirName);
+                if (_sIsFirstCallHomeLogsDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallHomeLogsDirFullName = false;
                 }
 
                 return dirFullName;

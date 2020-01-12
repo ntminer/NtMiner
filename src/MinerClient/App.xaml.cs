@@ -17,7 +17,7 @@ namespace NTMiner {
     public partial class App : Application {
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            Logger.SetDir(SpecialPath.LogsDirFullName);
+            Logger.SetDir(SpecialPath.TempLogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }

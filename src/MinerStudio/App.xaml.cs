@@ -14,7 +14,7 @@ namespace NTMiner {
         public App() {
             EntryAssemblyInfo.SetHomeDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            Logger.SetDir(SpecialPath.LogsDirFullName);
+            Logger.SetDir(SpecialPath.HomeLogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }

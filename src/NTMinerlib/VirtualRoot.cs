@@ -21,20 +21,6 @@ namespace NTMiner {
     /// <remarks>开源矿工代码较多，文档较少。程序员需要在脑子里构建系统的影像，面向这棵树的空间造型和运动景象编程。</remarks>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
-        private static readonly Lazy<string> _localDbFileFullName = new Lazy<string>(() => Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName));
-        public static string LocalDbFileFullName {
-            get {
-                return _localDbFileFullName.Value;
-            }
-        }
-
-        private static readonly Lazy<string> _serverDbFileFullName = new Lazy<string>(() => Path.Combine(EntryAssemblyInfo.HomeDirFullName, NTKeyword.ServerDbFileName));
-        public static string ServerDbFileFullName {
-            get {
-                return _serverDbFileFullName.Value;
-            }
-        }
-
         /// <summary>
         /// 矿机的唯一的持久的标识。持久在注册表。
         /// </summary>
@@ -173,7 +159,7 @@ namespace NTMiner {
             LocalIpSet = new LocalIpSet();
             JsonSerializer = new NTJsonSerializer();
             // 构造函数中会建造消息路径
-            LocalMessages = new LocalMessageSet(LocalDbFileFullName);
+            LocalMessages = new LocalMessageSet(EntryAssemblyInfo.LocalDbFileFullName);
         }
 
         #region LocalServerMessageSetTimestamp
@@ -221,7 +207,7 @@ namespace NTMiner {
         public static IAppSettingSet LocalAppSettingSet {
             get {
                 if (_appSettingSet == null) {
-                    _appSettingSet = new LocalAppSettingSet(LocalDbFileFullName);
+                    _appSettingSet = new LocalAppSettingSet(EntryAssemblyInfo.LocalDbFileFullName);
                 }
                 return _appSettingSet;
             }

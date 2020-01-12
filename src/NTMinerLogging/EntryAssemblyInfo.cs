@@ -10,6 +10,8 @@ namespace NTMiner {
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";
         public const string Copyright = "Copyright ©  NTMiner";
+        public const string ServerDbFileName = "server.litedb";
+        public const string LocalDbFileName = "local.litedb";
 
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionTag = string.Empty;
@@ -38,6 +40,20 @@ namespace NTMiner {
             }
         }
 
+        private static string _localDbFileFullName = Path.Combine(HomeDirFullName, LocalDbFileName);
+        public static string LocalDbFileFullName {
+            get {
+                return _localDbFileFullName;
+            }
+        }
+
+        private static readonly string _serverDbFileFullName = Path.Combine(HomeDirFullName, ServerDbFileName);
+        public static string ServerDbFileFullName {
+            get {
+                return _serverDbFileFullName;
+            }
+        }
+
         public static void SetHomeDirFullName(string dirFullName) {
             if (dirFullName.EndsWith("\\")) {
                 dirFullName = dirFullName.Substring(0, dirFullName.Length - 1);
@@ -46,10 +62,11 @@ namespace NTMiner {
             if (!Directory.Exists(dirFullName)) {
                 Directory.CreateDirectory(dirFullName);
             }
+            _localDbFileFullName = Path.Combine(HomeDirFullName, LocalDbFileName);
         }
 
         public static string GetServerJsonVersion(Version version) {
-            return $"server{CurrentVersion.Major.ToString()}.0.0.json";
+            return $"server{version.Major.ToString()}.0.0.json";
         }
 
         static EntryAssemblyInfo() {
