@@ -17,6 +17,10 @@ namespace NTMiner.Hub {
             return new PathId(id);
         }
 
+        public static implicit operator Guid(PathId pathId) {
+            return pathId.Id;
+        }
+
         public static bool operator==(PathId pathId, Guid id) {
             return pathId.Id == id;
         }
