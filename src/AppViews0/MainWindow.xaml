@@ -346,7 +346,7 @@
 								            FontFamily="Courier New"
 								            Text="{x:Static app:AppStatic.AppMinerIntro}"
 								            BorderThickness="0" IsReadOnly="True" 
-								            Padding="0 0 16 0" Foreground="White">
+								            Padding="0 2 16 0" Foreground="White">
                                         </controls:KbMuiltilineTextBox>
                                         <WrapPanel 
 								            Margin="0 2 4 0"
@@ -395,7 +395,7 @@
 									            IsReadOnly="True" 
 									            Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></controls:KbMuiltilineTextBox>
                                         </Grid>
-                                        <StackPanel Grid.Row="3">
+                                        <StackPanel Grid.Row="2">
                                             <WrapPanel Visibility="{Binding MinerProfile.CoinVm.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                                                 <Path
 										            Margin="2 2 2 0"
@@ -738,91 +738,93 @@
             </uc:StateBar>
             <Border x:Name="MaskLayer" Grid.RowSpan="3" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>
         </Grid>
-        <Grid Name="ResizeCursors">
-            <Rectangle 
-                Name="bottom" 
-                Height="4" 
-                Margin="4,0" 
-                Fill="#00FFFFFF" 
-                Stroke="{x:Null}" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" 
-                VerticalAlignment="Bottom" />
-            <Rectangle 
-                Name="left" 
-                Width="4" 
-                Margin="0,4,0,0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Stretch" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="right" 
-                Width="4" 
-                Margin="0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Stretch" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="topLeft" 
-                Height="8" 
-                Width="8" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="bottomLeft" 
-                Height="8" 
-                Width="8" 
-                Margin="0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Bottom" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="bottomRight" 
-                Height="8" 
-                Width="8" 
-                Margin="0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Bottom" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="top" 
-                Margin="4,0" 
-                Height="4" 
-                Fill="#00FFFFFF" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" 
-                VerticalAlignment="Top" 
-                AllowDrop="True"/>
-            <Rectangle 
-                Name="topRight" 
-                Height="8" 
-                Width="8" 
-                Margin="0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Top" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-        </Grid>
-        <Border BorderThickness="1" BorderBrush="{StaticResource IconFillColor}" CornerRadius="2"></Border>
+        <!--设计时置为Collapsed以避免遮罩下层视图导致鼠标无法选中下层的视图对象-->
+        <Border Name="ResizeCursors" BorderThickness="1" Visibility="Collapsed" BorderBrush="{StaticResource IconFillColor}" CornerRadius="2">
+            <Grid>
+                <Rectangle 
+                    Name="bottom" 
+                    Height="4" 
+                    Margin="4,0" 
+                    Fill="#00FFFFFF" 
+                    Stroke="{x:Null}" 
+                    MouseEnter="DisplayResizeCursor" 
+                    MouseLeave="ResetCursor" 
+                    PreviewMouseDown="Resize" 
+                    VerticalAlignment="Bottom" />
+                <Rectangle 
+                    Name="left" 
+                    Width="4" 
+                    Margin="0,4,0,0" 
+                    Fill="#00FFFFFF" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Stretch" 
+                    MouseEnter="DisplayResizeCursor" 
+                    MouseLeave="ResetCursor" 
+                    PreviewMouseDown="Resize" />
+                <Rectangle 
+                    Name="right" 
+                    Width="4" 
+                    Margin="0" 
+                    Fill="#00FFFFFF" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Stretch" 
+                    MouseEnter="DisplayResizeCursor" 
+                    MouseLeave="ResetCursor" 
+                    PreviewMouseDown="Resize" />
+                <Rectangle 
+                    Name="topLeft" 
+                    Height="8" 
+                    Width="8" 
+                    Fill="#00FFFFFF" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Top" 
+                    MouseEnter="DisplayResizeCursor" 
+                    MouseLeave="ResetCursor" 
+                    PreviewMouseDown="Resize" />
+                <Rectangle 
+                    Name="bottomLeft" 
+                    Height="8" 
+                    Width="8" 
+                    Margin="0" 
+                    Fill="#00FFFFFF" 
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom" 
+                    MouseEnter="DisplayResizeCursor" 
+                    MouseLeave="ResetCursor" 
+                    PreviewMouseDown="Resize" />
+                <Rectangle 
+                    Name="bottomRight" 
+                    Height="8" 
+                    Width="8" 
+                    Margin="0" 
+                    Fill="#00FFFFFF" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Bottom" 
+                    MouseEnter="DisplayResizeCursor" 
+                    MouseLeave="ResetCursor" 
+                    PreviewMouseDown="Resize" />
+                <Rectangle 
+                    Name="top" 
+                    Margin="4,0" 
+                    Height="4" 
+                    Fill="#00FFFFFF" 
+                    MouseEnter="DisplayResizeCursor" 
+                    MouseLeave="ResetCursor" 
+                    PreviewMouseDown="Resize" 
+                    VerticalAlignment="Top" 
+                    AllowDrop="True"/>
+                <Rectangle 
+                    Name="topRight" 
+                    Height="8" 
+                    Width="8" 
+                    Margin="0" 
+                    Fill="#00FFFFFF" 
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Top" 
+                    MouseEnter="DisplayResizeCursor" 
+                    MouseLeave="ResetCursor" 
+                    PreviewMouseDown="Resize" />
+            </Grid>
+        </Border>
     </Grid>
 </Window>
