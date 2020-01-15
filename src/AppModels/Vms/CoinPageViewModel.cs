@@ -48,8 +48,8 @@ namespace NTMiner.Vms {
         }
 
         private CoinViewModel _currentCoin;
-        private PoolViewModel currentPool;
-        private CoinKernelViewModel currentCoinKernel;
+        private PoolViewModel _currentPool;
+        private CoinKernelViewModel _currentCoinKernel;
 
         public CoinViewModel CurrentCoin {
             get { return _currentCoin; }
@@ -116,17 +116,17 @@ namespace NTMiner.Vms {
         }
 
         public PoolViewModel CurrentPool {
-            get => currentPool;
+            get => _currentPool;
             set {
-                currentPool = value;
+                _currentPool = value;
                 OnPropertyChanged(nameof(CurrentPool));
             }
         }
 
         public CoinKernelViewModel CurrentCoinKernel {
-            get => currentCoinKernel;
+            get => _currentCoinKernel;
             set {
-                currentCoinKernel = value;
+                _currentCoinKernel = value;
                 OnPropertyChanged(nameof(CurrentCoinKernel));
             }
         }

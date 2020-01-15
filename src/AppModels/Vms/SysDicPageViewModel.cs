@@ -20,6 +20,15 @@ namespace NTMiner.Vms {
             }
         }
 
+        private SysDicItemViewModel _currentSysDicItem;
+        public SysDicItemViewModel CurrentSysDicItem {
+            get { return _currentSysDicItem; }
+            set {
+                _currentSysDicItem = value;
+                OnPropertyChanged(nameof(CurrentSysDicItem));
+            }
+        }
+
         public AppContext.SysDicViewModels SysDicVms {
             get {
                 return AppContext.Instance.SysDicVms;

@@ -30,22 +30,6 @@
                 <DataGridTemplateColumn 
                     MinWidth="100" IsReadOnly="True"
                     Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
-                    <DataGridTemplateColumn.Header>
-                        <controls:KbButton  
-                            Command="{Binding Data.SysDicVms.Add, Source={StaticResource proxy}}" 
-                            Background="Transparent" BorderThickness="0"
-                            Margin="10 0"
-                            CornerRadius="2" ToolTip="添加">
-                            <WrapPanel>
-                                <Path
-                                    Width="18"
-                                    Height="18"
-                                    Data="{StaticResource Icon_Add}"
-                                    Fill="{StaticResource IconFillColor}"
-                                    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel 
@@ -125,36 +109,65 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <WrapPanel Grid.Column="0" Margin="0 4 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <controls:KbButton  
+                Command="{Binding SysDicVms.Add}" 
+                Background="Transparent" BorderThickness="0"
+                Margin="10 0"
+                CornerRadius="2" ToolTip="添加">
+                <WrapPanel>
+                    <Path
+                        Width="18"
+                        Height="18"
+                        Data="{StaticResource Icon_Add}"
+                        Fill="{StaticResource IconFillColor}"
+                        Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton 
+				Margin="2 0"
+                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+				Command="{Binding CurrentSysDic.SortDown}" ToolTip="下移" 
+				Background="Transparent" BorderThickness="0"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="8"
+						Height="18"
+						Data="{StaticResource Icon_SortDown}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton 
+				Margin="2 0"
+                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+				Command="{Binding CurrentSysDic.SortUp}" ToolTip="上移" 
+				Background="Transparent" BorderThickness="0"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="8"
+						Height="18"
+						Data="{StaticResource Icon_SortUp}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+        </WrapPanel>
         <TextBlock Grid.Column="0" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding SysDicVms, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
 
         <DataGrid 
             Grid.Column="2" 
             ItemsSource="{Binding CurrentSysDic.SysDicItems}" 
+            SelectedItem="{Binding CurrentSysDicItem}"
             BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"
             MouseDoubleClick="SysDicItemDataGrid_MouseDoubleClick">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding CurrentSysDic}" />
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTemplateColumn 
-                    Width="Auto" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <controls:KbButton 
-                            Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-                            Command="{Binding Data.AddSysDicItem, Source={StaticResource proxy}}" 
-                            Background="Transparent" BorderThickness="0"
-                            Margin="10 0"
-                            CornerRadius="2" ToolTip="添加">
-                            <WrapPanel>
-                                <Path
-                                    Width="18"
-                                    Height="18"
-                                    Data="{StaticResource Icon_Add}"
-                                    Fill="{StaticResource IconFillColor}"
-                                    Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn Width="Auto" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel 
@@ -237,6 +250,53 @@
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <WrapPanel Grid.Column="2" Margin="0 4 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <controls:KbButton 
+                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+                Command="{Binding AddSysDicItem}" 
+                Background="Transparent" BorderThickness="0"
+                Margin="10 0"
+                CornerRadius="2" ToolTip="添加">
+                <WrapPanel>
+                    <Path
+                        Width="18"
+                        Height="18"
+                        Data="{StaticResource Icon_Add}"
+                        Fill="{StaticResource IconFillColor}"
+                        Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton 
+				Margin="2 0"
+                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+				Command="{Binding CurrentSysDicItem.SortDown}" ToolTip="下移" 
+				Background="Transparent" BorderThickness="0"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="8"
+						Height="18"
+						Data="{StaticResource Icon_SortDown}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton 
+				Margin="2 0"
+                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+				Command="{Binding CurrentSysDicItem.SortUp}" ToolTip="上移" 
+				Background="Transparent" BorderThickness="0"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="8"
+						Height="18"
+						Data="{StaticResource Icon_SortUp}"
+						Fill="{StaticResource IconFillColor}"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+        </WrapPanel>
         <TextBlock Grid.Column="2" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding CurrentSysDic.SysDicItems, Converter={StaticResource NoRecordVisibilityConverter}}">没有记录</TextBlock>
     </Grid>
 </UserControl>
