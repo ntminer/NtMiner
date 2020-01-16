@@ -6,10 +6,14 @@ using System.Collections.Generic;
 namespace NTMiner {
     public partial class Server {
         public partial class MinerGroupServiceFace {
-            public static readonly MinerGroupServiceFace Instance = new MinerGroupServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IMinerGroupController>();
 
-            private MinerGroupServiceFace() { }
+            private readonly string _host;
+            private readonly int _port;
+            public MinerGroupServiceFace(string host, int port) {
+                _host = host;
+                _port = port;
+            }
 
             #region GetMinerGroups
             // TODO:异步化
@@ -21,7 +25,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IMinerGroupController.MinerGroups), request, request, timeout: 2000);
+                    DataResponse<List<MinerGroupData>> response = RpcRoot.Post<DataResponse<List<MinerGroupData>>>(_host, _port, SControllerName, nameof(IMinerGroupController.MinerGroups), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -40,7 +44,7 @@ namespace NTMiner {
                 DataRequest<MinerGroupData> request = new DataRequest<MinerGroupData> {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IMinerGroupController.AddOrUpdateMinerGroup), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IMinerGroupController.AddOrUpdateMinerGroup), request, request, callback);
             }
             #endregion
 
@@ -49,7 +53,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IMinerGroupController.RemoveMinerGroup), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IMinerGroupController.RemoveMinerGroup), request, request, callback);
             }
             #endregion
         }

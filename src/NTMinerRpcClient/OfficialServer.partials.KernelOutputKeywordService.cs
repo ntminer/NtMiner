@@ -2,22 +2,26 @@
 using NTMiner.Core;
 using NTMiner.MinerServer;
 using System;
-using System.Collections.Generic;
 
 namespace NTMiner {
     public partial class OfficialServer {
         public partial class KernelOutputKeywordServiceFace {
-            public static readonly KernelOutputKeywordServiceFace Instance = new KernelOutputKeywordServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IKernelOutputKeywordController>();
 
-            private KernelOutputKeywordServiceFace() { }
+            private readonly string _host;
+            private readonly int _port;
+
+            public KernelOutputKeywordServiceFace(string host, int port) {
+                _host = host;
+                _port = port;
+            }
 
             #region GetKernelOutputKeywords
             public void GetKernelOutputKeywords(Action<KernelOutputKeywordsResponse, Exception> callback) {
                 try {
                     KernelOutputKeywordsRequest request = new KernelOutputKeywordsRequest {
                     };
-                    PostAsync(SControllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), request, callback);
+                    RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), request, callback);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
@@ -31,7 +35,7 @@ namespace NTMiner {
                 DataRequest<KernelOutputKeywordData> request = new DataRequest<KernelOutputKeywordData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), request, request, callback);
             }
             #endregion
 
@@ -40,7 +44,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), request, request, callback);
             }
             #endregion
         }

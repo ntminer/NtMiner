@@ -6,10 +6,14 @@ using System.Collections.Generic;
 namespace NTMiner {
     public partial class Server {
         public partial class ColumnsShowServiceFace {
-            public static readonly ColumnsShowServiceFace Instance = new ColumnsShowServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IColumnsShowController>();
 
-            private ColumnsShowServiceFace() { }
+            private readonly string _host;
+            private readonly int _port;
+            public ColumnsShowServiceFace(string host, int port) {
+                _host = host;
+                _port = port;
+            }
 
             #region GetColumnsShows
             // TODO:异步化
@@ -21,7 +25,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IColumnsShowController.ColumnsShows), request, request, timeout: 2000);
+                    DataResponse<List<ColumnsShowData>> response = RpcRoot.Post<DataResponse<List<ColumnsShowData>>>(_host, _port, SControllerName, nameof(IColumnsShowController.ColumnsShows), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -39,7 +43,7 @@ namespace NTMiner {
                 DataRequest<ColumnsShowData> request = new DataRequest<ColumnsShowData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IColumnsShowController.AddOrUpdateColumnsShow), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IColumnsShowController.AddOrUpdateColumnsShow), request, request, callback);
             }
             #endregion
 
@@ -48,7 +52,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IColumnsShowController.RemoveColumnsShow), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IColumnsShowController.RemoveColumnsShow), request, request, callback);
             }
             #endregion
         }

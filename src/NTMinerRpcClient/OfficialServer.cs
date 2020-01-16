@@ -1,24 +1,32 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.MinerServer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace NTMiner {
     public partial class OfficialServer {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
         public const string NTMinerBucket = "https://ntminer.oss-cn-beijing.aliyuncs.com/";
-        public readonly FileUrlServiceFace FileUrlService = FileUrlServiceFace.Instance;
-        public readonly OverClockDataServiceFace OverClockDataService = OverClockDataServiceFace.Instance;
-        public readonly NTMinerWalletServiceFace NTMinerWalletService = NTMinerWalletServiceFace.Instance;
-        public readonly KernelOutputKeywordServiceFace KernelOutputKeywordService = KernelOutputKeywordServiceFace.Instance;
-        public readonly ControlCenterServiceFace ControlCenterService = ControlCenterServiceFace.Instance;
-        public readonly ServerMessageServiceFace ServerMessageService = ServerMessageServiceFace.Instance;
 
-        internal OfficialServer() { }
+        public readonly FileUrlServiceFace FileUrlService;
+        public readonly OverClockDataServiceFace OverClockDataService;
+        public readonly NTMinerWalletServiceFace NTMinerWalletService;
+        public readonly KernelOutputKeywordServiceFace KernelOutputKeywordService;
+        public readonly ControlCenterServiceFace ControlCenterService;
+        public readonly ServerMessageServiceFace ServerMessageService;
+
+        private readonly string _host;
+        private readonly int _port;
+        internal OfficialServer(string host, int port) {
+            _host = host;
+            _port = port;
+            FileUrlService = new FileUrlServiceFace(host, port);
+            OverClockDataService = new OverClockDataServiceFace(host, port);
+            NTMinerWalletService = new NTMinerWalletServiceFace(host, port);
+            KernelOutputKeywordService = new KernelOutputKeywordServiceFace(host, port);
+            ControlCenterService = new ControlCenterServiceFace(host, port);
+            ServerMessageService = new ServerMessageServiceFace(host, port);
+        }
 
         public static string SignatureSafeUrl(Uri uri) {
             // https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=
@@ -33,52 +41,18 @@ namespace NTMiner {
             return url;
         }
 
-        #region private methods
-        private static void PostAsync<T>(string controller, string action, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
-            RpcRoot.PostAsync<T>(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort, controller, action, null, null, callback, timeountMilliseconds);
-        }
-
-        private static void PostAsync<T>(string controller, string action, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
-            RpcRoot.PostAsync<T>(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort, controller, action, null, data, callback, timeountMilliseconds);
-        }
-
-        private static void PostAsync<T>(string controller, string action, IGetSignData signData, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
-            RpcRoot.PostAsync<T>(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort, controller, action, signData.ToQuery(), data, callback, timeountMilliseconds);
-        }
-
-        private static void GetAsync<T>(string controller, string action, Dictionary<string, string> data, Action<T, Exception> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = RpcRoot.Create()) {
-                        string queryString = string.Empty;
-                        if (data != null && data.Count != 0) {
-                            queryString = "?" + string.Join("&", data.Select(a => a.Key + "=" + a.Value));
-                        }
-
-                        Task<HttpResponseMessage> getHttpResponse = client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}");
-                        T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
-                        callback?.Invoke(response, null);
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(default, e);
-                }
-            });
-        }
-        #endregion
-
-        public static void GetTimeAsync(Action<DateTime> callback) {
-            GetAsync("AppSetting", nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
+        public void GetTimeAsync(Action<DateTime> callback) {
+            RpcRoot.GetAsync(_host, _port, "AppSetting", nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
                 callback?.Invoke(datetime);
             });
         }
 
         #region GetJsonFileVersionAsync
-        public static void GetJsonFileVersionAsync(string key, Action<ServerState> callback) {
+        public void GetJsonFileVersionAsync(string key, Action<ServerState> callback) {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
-            PostAsync("AppSetting", nameof(IAppSettingController.GetJsonFileVersion), request, (string text, Exception e) => {
+            RpcRoot.PostAsync(_host, _port, "AppSetting", nameof(IAppSettingController.GetJsonFileVersion), request, (string text, Exception e) => {
                 string jsonFileVersion = string.Empty;
                 string minerClientVersion = string.Empty;
                 ulong time = Timestamp.GetTimestamp();

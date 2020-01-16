@@ -6,10 +6,14 @@ using System.Collections.Generic;
 namespace NTMiner {
     public partial class Server {
         public partial class ClientServiceFace {
-            public static readonly ClientServiceFace Instance = new ClientServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IClientController>();
 
-            private ClientServiceFace() { }
+            private readonly string _host;
+            private readonly int _port;
+            public ClientServiceFace(string host, int port) {
+                _host = host;
+                _port = port;
+            }
 
             #region QueryClientsAsync
             public void QueryClientsAsync(
@@ -40,7 +44,7 @@ namespace NTMiner {
                     Version = version,
                     Kernel = kernel
                 };
-                PostAsync(SControllerName, nameof(IClientController.QueryClients), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IClientController.QueryClients), request, request, callback);
             }
             #endregion
 
@@ -49,7 +53,7 @@ namespace NTMiner {
                 AddClientRequest request = new AddClientRequest() {
                     ClientIps = clientIps
                 };
-                PostAsync(SControllerName, nameof(IClientController.AddClients), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IClientController.AddClients), request, request, callback);
             }
             #endregion
 
@@ -58,7 +62,7 @@ namespace NTMiner {
                 MinerIdsRequest request = new MinerIdsRequest() {
                     ObjectIds = objectIds
                 };
-                PostAsync(SControllerName, nameof(IClientController.RemoveClients), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IClientController.RemoveClients), request, request, callback);
             }
             #endregion
 
@@ -67,7 +71,7 @@ namespace NTMiner {
                 MinerIdsRequest request = new MinerIdsRequest() {
                     ObjectIds = objectIds
                 };
-                PostAsync(SControllerName, nameof(IClientController.RefreshClients), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IClientController.RefreshClients), request, request, callback);
             }
             #endregion
 
@@ -78,7 +82,7 @@ namespace NTMiner {
                     PropertyName = propertyName,
                     Value = value
                 };
-                PostAsync(SControllerName, nameof(IClientController.UpdateClient), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IClientController.UpdateClient), request, request, callback);
             }
             #endregion
 
@@ -88,7 +92,7 @@ namespace NTMiner {
                     PropertyName = propertyName,
                     Values = values
                 };
-                PostAsync(SControllerName, nameof(IClientController.UpdateClients), request, request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IClientController.UpdateClients), request, request, callback);
             }
             #endregion
         }
