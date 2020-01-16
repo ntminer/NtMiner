@@ -6,7 +6,6 @@ using System.Web;
 namespace NTMiner {
     public partial class OfficialServer {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
-        public const string NTMinerBucket = "https://ntminer.oss-cn-beijing.aliyuncs.com/";
 
         public readonly FileUrlServiceFace FileUrlService;
         public readonly OverClockDataServiceFace OverClockDataService;
@@ -28,7 +27,7 @@ namespace NTMiner {
             ServerMessageService = new ServerMessageServiceFace(host, port);
         }
 
-        public static string SignatureSafeUrl(Uri uri) {
+        public string SignatureSafeUrl(Uri uri) {
             // https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=
             // Signature的值长度是28
             string url = uri.ToString();

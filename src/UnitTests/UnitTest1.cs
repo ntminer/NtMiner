@@ -261,9 +261,9 @@ namespace UnitTests {
 
         [TestMethod]
         public void AliOSSUrlTest() {
-            Uri uri = new Uri($"{OfficialServer.NTMinerBucket}packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
+            Uri uri = new Uri($"https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
             Console.WriteLine(uri.ToString());
-            Console.WriteLine(OfficialServer.SignatureSafeUrl(uri));
+            Console.WriteLine(RpcRoot.OfficialServer.SignatureSafeUrl(uri));
         }
 
         [TestMethod]
