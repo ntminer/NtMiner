@@ -43,6 +43,7 @@ namespace NTMiner {
             createdNew = AppUtil.GetMutex(NTKeyword.MinerStudioAppMutex);
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                VirtualRoot.StartTimer(new WpfTimer());
                 NotiCenterWindow.Instance.ShowWindow();
                 LoginWindow.Login(() => {
                     bool isInnerIp = Net.IpUtil.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
@@ -86,7 +87,6 @@ namespace NTMiner {
                 #endregion
                 HttpServer.Start($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}");
                 Rdp.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
-                VirtualRoot.StartTimer(new WpfTimer());
             });
         }
     }
