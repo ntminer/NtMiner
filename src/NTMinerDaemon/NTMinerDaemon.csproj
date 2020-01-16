@@ -119,6 +119,9 @@
     <Compile Include="..\NTMinerlib\User\IUserSet.cs">
       <Link>User\IUserSet.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\User\RpcUser.cs">
+      <Link>User\RpcUser.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Common.cs">
       <Link>VirtualRoot.partials.Common.cs</Link>
     </Compile>

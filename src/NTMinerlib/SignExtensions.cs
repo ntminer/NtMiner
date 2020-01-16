@@ -45,11 +45,12 @@ namespace NTMiner {
             return HashUtil.Sha1(sb.ToString());
         }
 
-        public static Dictionary<string, string> ToQuery(this IGetSignData data, string loginName, string password) {
+        public static Dictionary<string, string> ToQuery(this IGetSignData data) {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
+            var rpcUser = VirtualRoot.RpcUser;
             return new Dictionary<string, string> {
-                    {"loginName", loginName },
-                    {"sign", GetSign(data, loginName, password, timestamp) },
+                    {"loginName", rpcUser.LoginName },
+                    {"sign", GetSign(data, rpcUser.LoginName, rpcUser.PasswordSha1, timestamp) },
                     {"timestamp", timestamp.ToString() }
                 };
         }

@@ -24,7 +24,7 @@ namespace NTMiner.Views {
         }
 
         private static bool IsLogined() {
-            return !string.IsNullOrEmpty(SingleUser.LoginName) && !string.IsNullOrEmpty(SingleUser.PasswordSha1);
+            return !string.IsNullOrEmpty(VirtualRoot.RpcUser.LoginName) && !string.IsNullOrEmpty(VirtualRoot.RpcUser.PasswordSha1);
         }
 
         private LoginWindowViewModel Vm {
@@ -75,8 +75,7 @@ namespace NTMiner.Views {
             NTMinerRegistry.SetControlCenterHosts(list);
             // 内网免登录
             if (Net.IpUtil.IsInnerIp(Vm.ServerHost)) {
-                SingleUser.LoginName = "localhost";
-                SingleUser.SetPasswordSha1("localhost");
+                VirtualRoot.SetRpcUser(new User.RpcUser("localhost", "localhost"));
                 this.Close();
                 // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调
                 // 则会导致弹窗的父窗口是本窗口，而本窗口随后立即关闭导致作为子窗口的弹窗也会被关闭。
@@ -90,8 +89,6 @@ namespace NTMiner.Views {
                         return;
                     }
                     if (response.IsSuccess()) {
-                        SingleUser.LoginName = Vm.LoginName;
-                        SingleUser.SetPasswordSha1(passwordSha1);
                         this.Close();
                         // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调
                         // 则会导致弹窗的父窗口是本窗口，而本窗口随后立即关闭导致作为子窗口的弹窗也会被关闭。

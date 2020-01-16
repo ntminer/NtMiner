@@ -4,10 +4,10 @@ namespace NTMiner.MinerClient {
     /// <remarks>持久层存的是枚举名</remarks>
     public enum LocalMessageType {
         [Description("消息")]
-        Info,
+        Info = 0,
         [Description("警告")]
-        Warn,
+        Warn = 1,
         [Description("错误")]
-        Error
+        Error = 2
     }
 }

@@ -72,6 +72,7 @@
     <Compile Include="Repositories\IRepository`1.cs" />
     <Compile Include="Serialization\INTSerializer.cs" />
     <Compile Include="Serialization\NTJsonSerializer.cs" />
+    <Compile Include="User\RpcUser.cs" />
     <Compile Include="VirtualRoot.cs" />
     <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />

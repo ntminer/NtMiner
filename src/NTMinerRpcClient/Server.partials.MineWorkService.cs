@@ -7,10 +7,14 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public partial class Server {
         public partial class MineWorkServiceFace {
-            public static readonly MineWorkServiceFace Instance = new MineWorkServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IMineWorkController>();
 
-            private MineWorkServiceFace() { }
+            private readonly string _host;
+            private readonly int _port;
+            public MineWorkServiceFace(string host, int port) {
+                _host = host;
+                _port = port;
+            }
 
             #region GetMineWorks
             // TODO:异步化
@@ -22,7 +26,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IMineWorkController.MineWorks), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
+                    DataResponse<List<MineWorkData>> response = RpcRoot.Post<DataResponse<List<MineWorkData>>>(_host, _port, SControllerName, nameof(IMineWorkController.MineWorks), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -55,7 +59,7 @@ namespace NTMiner {
                 DataRequest<MineWorkData> request = new DataRequest<MineWorkData> {
                     Data = entity
                 };
-                ResponseBase response = Post<ResponseBase>(SControllerName, nameof(IMineWorkController.AddOrUpdateMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request);
+                ResponseBase response = RpcRoot.Post<ResponseBase>(_host, _port, SControllerName, nameof(IMineWorkController.AddOrUpdateMineWork), request, request);
                 return response;
             }
             #endregion
@@ -65,7 +69,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid> {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IMineWorkController.RemoveMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IMineWorkController.RemoveMineWork), request, request, callback);
             }
             #endregion
 
@@ -76,7 +80,7 @@ namespace NTMiner {
                     LocalJson = localJson,
                     ServerJson = serverJson
                 };
-                PostAsync(SControllerName, nameof(IMineWorkController.ExportMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IMineWorkController.ExportMineWork), request, request, callback);
             }
             #endregion
 
@@ -86,7 +90,7 @@ namespace NTMiner {
                     DataRequest<Guid> request = new DataRequest<Guid>() {
                         Data = workId
                     };
-                    var response = Post<DataResponse<string>>(SControllerName, nameof(IMineWorkController.GetLocalJson), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request);
+                    var response = RpcRoot.Post<DataResponse<string>>(_host, _port, SControllerName, nameof(IMineWorkController.GetLocalJson), request, request);
                     if (response != null) {
                         return response.Data;
                     }

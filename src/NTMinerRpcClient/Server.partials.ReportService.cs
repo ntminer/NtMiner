@@ -8,10 +8,14 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public partial class Server {
         public partial class ReportServiceFace {
-            public static readonly ReportServiceFace Instance = new ReportServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IReportController>();
 
-            private ReportServiceFace() { }
+            private readonly string _host;
+            private readonly int _port;
+            public ReportServiceFace(string host, int port) {
+                _host = host;
+                _port = port;
+            }
 
             public void ReportSpeedAsync(string host, SpeedData data, Action<ReportResponse> callback) {
                 Task.Factory.StartNew(() => {

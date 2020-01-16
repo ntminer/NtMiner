@@ -84,7 +84,6 @@
     <Compile Include="Server.partials.ReportService.cs" />
     <Compile Include="ServerMessage\IServerMessageSet.cs" />
     <Compile Include="ServerMessage\ServerMessageSet.cs" />
-    <Compile Include="SingleUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">

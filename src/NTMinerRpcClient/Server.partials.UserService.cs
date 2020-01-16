@@ -5,10 +5,14 @@ using System.Collections.Generic;
 namespace NTMiner {
     public partial class Server {
         public partial class UserServiceFace {
-            public static readonly UserServiceFace Instance = new UserServiceFace();
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IUserController>();
 
-            private UserServiceFace() { }
+            private readonly string _host;
+            private readonly int _port;
+            public UserServiceFace(string host, int port) {
+                _host = host;
+                _port = port;
+            }
 
             #region GetUsers
             // TODO:异步化
@@ -22,7 +26,7 @@ namespace NTMiner {
                     DataRequest<Guid?> request = new DataRequest<Guid?> {
                         Data = clientId
                     };
-                    DataResponse<List<UserData>> response = Post<DataResponse<List<UserData>>>(SControllerName, nameof(IUserController.Users), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
+                    DataResponse<List<UserData>> response = RpcRoot.Post<DataResponse<List<UserData>>>(_host, _port, SControllerName, nameof(IUserController.Users), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -40,7 +44,7 @@ namespace NTMiner {
                 DataRequest<UserData> request = new DataRequest<UserData>() {
                     Data = userData
                 };
-                PostAsync(SControllerName, nameof(IUserController.AddUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IUserController.AddUser), request, request, callback);
             }
             #endregion
 
@@ -49,7 +53,7 @@ namespace NTMiner {
                 DataRequest<UserData> request = new DataRequest<UserData>() {
                     Data = userData
                 };
-                PostAsync(SControllerName, nameof(IUserController.UpdateUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IUserController.UpdateUser), request, request, callback);
             }
             #endregion
 
@@ -58,7 +62,7 @@ namespace NTMiner {
                 DataRequest<String> request = new DataRequest<String>() {
                     Data = loginName
                 };
-                PostAsync(SControllerName, nameof(IUserController.RemoveUser), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IUserController.RemoveUser), request, request, callback);
             }
             #endregion
         }

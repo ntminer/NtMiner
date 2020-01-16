@@ -48,7 +48,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.LoginName)) {
                     return;
                 }
-                if (VirtualRoot.IsMinerStudio && this.LoginName == SingleUser.LoginName) {
+                if (VirtualRoot.IsMinerStudio && this.LoginName == VirtualRoot.RpcUser.LoginName) {
                     throw new ValidationException("不能删除自己");
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {

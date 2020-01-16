@@ -143,8 +143,7 @@ namespace NTMiner {
 
         private static void Login() {
             // 本机运行，不验证用户名密码
-            SingleUser.LoginName = "CalcConfigUpdater";
-            SingleUser.SetPasswordSha1("123");
+            VirtualRoot.SetRpcUser(new User.RpcUser("CalcConfigUpdater", "123"));
             Console.WriteLine($"LoginName:CalcConfigUpdater");
             Console.Write($"Password:");
             Console.ForegroundColor = Console.BackgroundColor;

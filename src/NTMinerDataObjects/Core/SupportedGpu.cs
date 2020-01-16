@@ -3,11 +3,11 @@
 namespace NTMiner.Core {
     public enum SupportedGpu {
         [Description("N卡")]
-        NVIDIA,
+        NVIDIA = 0,
         [Description("A卡")]
-        AMD,
+        AMD = 1,
         [Description("N卡和A卡")]
-        Both
+        Both = 2
     }
 
     public static class SupportedGpuExtension {

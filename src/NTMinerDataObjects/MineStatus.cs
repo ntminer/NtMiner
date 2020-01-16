@@ -3,10 +3,10 @@
 namespace NTMiner {
     public enum MineStatus {
         [Description("全部")]
-        All,
+        All = 0,
         [Description("挖矿中")]
-        Mining,
+        Mining = 1,
         [Description("未挖矿")]
-        UnMining
+        UnMining = 2
     }
 }
