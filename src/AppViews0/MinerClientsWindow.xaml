@@ -411,7 +411,7 @@
                     </Grid.RowDefinitions>
                     <DataGrid 
 				        Grid.Row="0"
-				        Margin="0 0 0 28"
+				        Margin="0 0 0 34"
 				        BorderThickness="0"
 				        IsReadOnly="True"
 				        SelectionMode="Extended"
@@ -2450,7 +2450,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock Margin="4 0 0 28" HorizontalAlignment="Left" VerticalAlignment="Bottom">鼠标配合ctrl和shift可以多选矿机</TextBlock>
+                    <TextBlock Margin="4 0 0 34" HorizontalAlignment="Left" VerticalAlignment="Bottom">鼠标配合ctrl和shift可以多选矿机</TextBlock>
                     <WrapPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}">
                         <TextBlock VerticalAlignment="Center" Foreground="Red" Text="没有记录，请先添加矿机"></TextBlock>
                         <controls:KbButton Padding="4" Command="{Binding AddMinerClient}">
@@ -2465,7 +2465,7 @@
                             </WrapPanel>
                         </controls:KbButton>
                     </WrapPanel>
-                    <GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 24" Background="Transparent" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
+                    <GridSplitter Grid.Row="0" Height="6" Margin="0 0 0 28" BorderBrush="{StaticResource LineColor}" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"></GridSplitter>
                     <Grid Grid.Row="0" VerticalAlignment="Bottom">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
@@ -2579,7 +2579,7 @@
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-                        <WrapPanel Grid.Column="2" Visibility="{Binding ElementName=ColumnsShowScrollView,Path=ComputedHorizontalScrollBarVisibility}">
+                        <WrapPanel Grid.Column="2" VerticalAlignment="Center" Visibility="{Binding ElementName=ColumnsShowScrollView,Path=ComputedHorizontalScrollBarVisibility}">
                             <Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
                                 <Button.Template>
                                     <ControlTemplate>
@@ -2643,14 +2643,14 @@
                         </WrapPanel>
                     </Grid>
                     <ScrollViewer 
-                        Grid.Row="1" Margin="0 6 0 0"
+                        Grid.Row="1" Margin="0 4 0 0"
 				        Background="White"
 				        VerticalScrollBarVisibility="Disabled"
                         HorizontalScrollBarVisibility="Auto">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
-                                <ColumnDefinition Width="910"></ColumnDefinition>
+                                <ColumnDefinition Width="756" MinWidth="500"></ColumnDefinition>
+                                <ColumnDefinition MinWidth="910" Width="910"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Border BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}">
                                 <Grid>

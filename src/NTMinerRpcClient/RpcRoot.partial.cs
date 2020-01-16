@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class RpcRoot {
-        public static Server Server = new Server(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort);
+        public static Server Server = new Server();
         public static OfficialServer OfficialServer = new OfficialServer(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort);
         public static Client Client = new Client();
 

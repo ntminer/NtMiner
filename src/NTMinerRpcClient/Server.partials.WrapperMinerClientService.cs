@@ -9,11 +9,7 @@ namespace NTMiner {
         public class WrapperMinerClientServiceFace {
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IWrapperMinerClientController>();
 
-            private readonly string _host;
-            private readonly int _port;
-            public WrapperMinerClientServiceFace(string host, int port) {
-                _host = host;
-                _port = port;
+            public WrapperMinerClientServiceFace() {
             }
 
             public void RestartWindowsAsync(IMinerData client, Action<ResponseBase, Exception> callback) {
@@ -25,7 +21,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IWrapperMinerClientController.RestartWindows), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWrapperMinerClientController.RestartWindows), request, request, callback);
             }
 
             public void ShutdownWindowsAsync(IMinerData client, Action<ResponseBase, Exception> callback) {
@@ -37,7 +33,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IWrapperMinerClientController.ShutdownWindows), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWrapperMinerClientController.ShutdownWindows), request, request, callback);
             }
 
             // ReSharper disable once InconsistentNaming
@@ -51,7 +47,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IWrapperMinerClientController.RestartNTMiner), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWrapperMinerClientController.RestartNTMiner), request, request, callback);
             }
 
             // ReSharper disable once InconsistentNaming
@@ -65,7 +61,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request, request, callback);
             }
 
             public void StartMineAsync(IMinerData client, Guid workId, Action<ResponseBase, Exception> callback) {
@@ -78,7 +74,7 @@ namespace NTMiner {
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IWrapperMinerClientController.StartMine), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWrapperMinerClientController.StartMine), request, request, callback);
             }
 
             public void StopMineAsync(IMinerData client, Action<ResponseBase, Exception> callback) {
@@ -90,7 +86,7 @@ namespace NTMiner {
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IWrapperMinerClientController.StopMine), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWrapperMinerClientController.StopMine), request, request, callback);
             }
 
             public void SetClientMinerProfilePropertyAsync(IMinerData client, string propertyName, object value, Action<ResponseBase, Exception> callback) {
@@ -104,7 +100,7 @@ namespace NTMiner {
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), request, request, callback);
             }
         }
     }
