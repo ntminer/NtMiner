@@ -7,11 +7,7 @@ namespace NTMiner {
         public partial class UserServiceFace {
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IUserController>();
 
-            private readonly string _host;
-            private readonly int _port;
-            public UserServiceFace(string host, int port) {
-                _host = host;
-                _port = port;
+            public UserServiceFace() {
             }
 
             #region GetUsers
@@ -26,7 +22,7 @@ namespace NTMiner {
                     DataRequest<Guid?> request = new DataRequest<Guid?> {
                         Data = clientId
                     };
-                    DataResponse<List<UserData>> response = RpcRoot.Post<DataResponse<List<UserData>>>(_host, _port, SControllerName, nameof(IUserController.Users), request, request, timeout: 2000);
+                    DataResponse<List<UserData>> response = RpcRoot.Post<DataResponse<List<UserData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IUserController.Users), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -44,7 +40,7 @@ namespace NTMiner {
                 DataRequest<UserData> request = new DataRequest<UserData>() {
                     Data = userData
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IUserController.AddUser), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IUserController.AddUser), request, request, callback);
             }
             #endregion
 
@@ -53,7 +49,7 @@ namespace NTMiner {
                 DataRequest<UserData> request = new DataRequest<UserData>() {
                     Data = userData
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IUserController.UpdateUser), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IUserController.UpdateUser), request, request, callback);
             }
             #endregion
 
@@ -62,7 +58,7 @@ namespace NTMiner {
                 DataRequest<String> request = new DataRequest<String>() {
                     Data = loginName
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IUserController.RemoveUser), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IUserController.RemoveUser), request, request, callback);
             }
             #endregion
         }

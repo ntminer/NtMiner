@@ -8,11 +8,7 @@ namespace NTMiner {
         public partial class MinerGroupServiceFace {
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IMinerGroupController>();
 
-            private readonly string _host;
-            private readonly int _port;
-            public MinerGroupServiceFace(string host, int port) {
-                _host = host;
-                _port = port;
+            public MinerGroupServiceFace() {
             }
 
             #region GetMinerGroups
@@ -25,7 +21,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<MinerGroupData>> response = RpcRoot.Post<DataResponse<List<MinerGroupData>>>(_host, _port, SControllerName, nameof(IMinerGroupController.MinerGroups), request, request, timeout: 2000);
+                    DataResponse<List<MinerGroupData>> response = RpcRoot.Post<DataResponse<List<MinerGroupData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IMinerGroupController.MinerGroups), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -44,7 +40,7 @@ namespace NTMiner {
                 DataRequest<MinerGroupData> request = new DataRequest<MinerGroupData> {
                     Data = entity
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IMinerGroupController.AddOrUpdateMinerGroup), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IMinerGroupController.AddOrUpdateMinerGroup), request, request, callback);
             }
             #endregion
 
@@ -53,7 +49,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IMinerGroupController.RemoveMinerGroup), request, request, callback);
+                RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IMinerGroupController.RemoveMinerGroup), request, request, callback);
             }
             #endregion
         }

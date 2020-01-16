@@ -10,11 +10,7 @@ namespace NTMiner {
         public partial class ReportServiceFace {
             private static readonly string SControllerName = ControllerUtil.GetControllerName<IReportController>();
 
-            private readonly string _host;
-            private readonly int _port;
-            public ReportServiceFace(string host, int port) {
-                _host = host;
-                _port = port;
+            public ReportServiceFace() {
             }
 
             public void ReportSpeedAsync(string host, SpeedData data, Action<ReportResponse> callback) {

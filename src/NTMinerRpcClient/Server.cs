@@ -12,18 +12,18 @@
         public readonly ReportServiceFace ReportService;
         public readonly WrapperMinerClientServiceFace MinerClientService;
 
-        internal Server(string host, int port) {
-            ControlCenterService = new ControlCenterServiceFace(host, port);
-            UserService = new UserServiceFace(host, port);
-            MinerGroupService = new MinerGroupServiceFace(host, port);
-            MineWorkService = new MineWorkServiceFace(host, port);
-            WalletService = new WalletServiceFace(host, port);
-            PoolService = new PoolServiceFace(host, port);
-            ColumnsShowService = new ColumnsShowServiceFace(host, port);
-            ClientService = new ClientServiceFace(host, port);
-            AppSettingService = new AppSettingServiceFace(host, port);
-            ReportService = new ReportServiceFace(host, port);
-            MinerClientService = new WrapperMinerClientServiceFace(host, port);
+        internal Server() {
+            ControlCenterService = new ControlCenterServiceFace();
+            UserService = new UserServiceFace();
+            MinerGroupService = new MinerGroupServiceFace();
+            MineWorkService = new MineWorkServiceFace();
+            WalletService = new WalletServiceFace();
+            PoolService = new PoolServiceFace();
+            ColumnsShowService = new ColumnsShowServiceFace();
+            ClientService = new ClientServiceFace();
+            AppSettingService = new AppSettingServiceFace();
+            ReportService = new ReportServiceFace();
+            MinerClientService = new WrapperMinerClientServiceFace();
         }
     }
 }
