@@ -219,15 +219,15 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="100" Width="200" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="50" Width="100" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock Text="演员"></TextBlock>
+                            <TextBlock Text="发言人"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Provider}" Foreground="{Binding IconFill}"></TextBlock>
+                            <TextBlock Text="{Binding Provider}" ToolTip="{Binding Provider}" Foreground="{Binding IconFill}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
