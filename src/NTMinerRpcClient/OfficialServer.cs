@@ -34,7 +34,7 @@ namespace NTMiner {
         }
 
         #region private methods
-        private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object param, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+        private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.Create()) {
@@ -45,7 +45,7 @@ namespace NTMiner {
                         if (query != null && query.Count != 0) {
                             queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                         }
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}", param);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}", data);
                         T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -56,13 +56,25 @@ namespace NTMiner {
             });
         }
 
-        private static void GetAsync<T>(string controller, string action, Dictionary<string, string> param, Action<T, Exception> callback) {
+        private static void PostAsync<T>(string controller, string action, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+            PostAsync<T>(controller, action, (Dictionary<string, string>)null, null, callback, timeountMilliseconds);
+        }
+
+        private static void PostAsync<T>(string controller, string action, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+            PostAsync<T>(controller, action, (Dictionary<string, string>)null, data, callback, timeountMilliseconds);
+        }
+
+        private static void PostAsync<T>(string controller, string action, IGetSignData signData, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+            PostAsync<T>(controller, action, signData.ToQuery(), data, callback, timeountMilliseconds);
+        }
+
+        private static void GetAsync<T>(string controller, string action, Dictionary<string, string> data, Action<T, Exception> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.Create()) {
                         string queryString = string.Empty;
-                        if (param != null && param.Count != 0) {
-                            queryString = "?" + string.Join("&", param.Select(a => a.Key + "=" + a.Value));
+                        if (data != null && data.Count != 0) {
+                            queryString = "?" + string.Join("&", data.Select(a => a.Key + "=" + a.Value));
                         }
 
                         Task<HttpResponseMessage> getHttpResponse = client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}");
@@ -88,7 +100,7 @@ namespace NTMiner {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
-            PostAsync("AppSetting", nameof(IAppSettingController.GetJsonFileVersion), null, request, (string text, Exception e) => {
+            PostAsync("AppSetting", nameof(IAppSettingController.GetJsonFileVersion), request, (string text, Exception e) => {
                 string jsonFileVersion = string.Empty;
                 string minerClientVersion = string.Empty;
                 ulong time = Timestamp.GetTimestamp();

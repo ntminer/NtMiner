@@ -22,7 +22,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IMineWorkController.MineWorks), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
+                    DataResponse<List<MineWorkData>> response = Post<DataResponse<List<MineWorkData>>>(SControllerName, nameof(IMineWorkController.MineWorks), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -55,7 +55,7 @@ namespace NTMiner {
                 DataRequest<MineWorkData> request = new DataRequest<MineWorkData> {
                     Data = entity
                 };
-                ResponseBase response = Post<ResponseBase>(SControllerName, nameof(IMineWorkController.AddOrUpdateMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request);
+                ResponseBase response = Post<ResponseBase>(SControllerName, nameof(IMineWorkController.AddOrUpdateMineWork), request, request);
                 return response;
             }
             #endregion
@@ -65,7 +65,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid> {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IMineWorkController.RemoveMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IMineWorkController.RemoveMineWork), request, request, callback);
             }
             #endregion
 
@@ -76,7 +76,7 @@ namespace NTMiner {
                     LocalJson = localJson,
                     ServerJson = serverJson
                 };
-                PostAsync(SControllerName, nameof(IMineWorkController.ExportMineWork), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IMineWorkController.ExportMineWork), request, request, callback);
             }
             #endregion
 
@@ -86,7 +86,7 @@ namespace NTMiner {
                     DataRequest<Guid> request = new DataRequest<Guid>() {
                         Data = workId
                     };
-                    var response = Post<DataResponse<string>>(SControllerName, nameof(IMineWorkController.GetLocalJson), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request);
+                    var response = Post<DataResponse<string>>(SControllerName, nameof(IMineWorkController.GetLocalJson), request, request);
                     if (response != null) {
                         return response.Data;
                     }

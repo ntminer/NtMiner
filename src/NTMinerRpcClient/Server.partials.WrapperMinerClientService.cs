@@ -22,7 +22,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartWindows), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartWindows), request, request, callback);
             }
 
             public void ShutdownWindowsAsync(IMinerData client, Action<ResponseBase, Exception> callback) {
@@ -34,7 +34,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.ShutdownWindows), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.ShutdownWindows), request, request, callback);
             }
 
             // ReSharper disable once InconsistentNaming
@@ -48,7 +48,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartNTMiner), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.RestartNTMiner), request, request, callback);
             }
 
             // ReSharper disable once InconsistentNaming
@@ -62,7 +62,7 @@ namespace NTMiner {
                     InnerRequest = innerRequest,
                     ClientIp = client.MinerIp
                 };
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.UpgradeNTMiner), request, request, callback);
             }
 
             public void StartMineAsync(IMinerData client, Guid workId, Action<ResponseBase, Exception> callback) {
@@ -75,7 +75,7 @@ namespace NTMiner {
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StartMine), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StartMine), request, request, callback);
             }
 
             public void StopMineAsync(IMinerData client, Action<ResponseBase, Exception> callback) {
@@ -87,7 +87,7 @@ namespace NTMiner {
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StopMine), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.StopMine), request, request, callback);
             }
 
             public void SetClientMinerProfilePropertyAsync(IMinerData client, string propertyName, object value, Action<ResponseBase, Exception> callback) {
@@ -101,7 +101,7 @@ namespace NTMiner {
                     ClientIp = client.MinerIp,
                     InnerRequest = innerRequest
                 };
-                PostAsync(SControllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWrapperMinerClientController.SetClientMinerProfileProperty), request, request, callback);
             }
         }
     }

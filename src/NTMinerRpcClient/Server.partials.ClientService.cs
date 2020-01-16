@@ -40,7 +40,7 @@ namespace NTMiner {
                     Version = version,
                     Kernel = kernel
                 };
-                PostAsync(SControllerName, nameof(IClientController.QueryClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IClientController.QueryClients), request, request, callback);
             }
             #endregion
 
@@ -49,7 +49,7 @@ namespace NTMiner {
                 AddClientRequest request = new AddClientRequest() {
                     ClientIps = clientIps
                 };
-                PostAsync(SControllerName, nameof(IClientController.AddClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IClientController.AddClients), request, request, callback);
             }
             #endregion
 
@@ -58,7 +58,7 @@ namespace NTMiner {
                 MinerIdsRequest request = new MinerIdsRequest() {
                     ObjectIds = objectIds
                 };
-                PostAsync(SControllerName, nameof(IClientController.RemoveClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IClientController.RemoveClients), request, request, callback);
             }
             #endregion
 
@@ -67,7 +67,7 @@ namespace NTMiner {
                 MinerIdsRequest request = new MinerIdsRequest() {
                     ObjectIds = objectIds
                 };
-                PostAsync(SControllerName, nameof(IClientController.RefreshClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IClientController.RefreshClients), request, request, callback);
             }
             #endregion
 
@@ -78,7 +78,7 @@ namespace NTMiner {
                     PropertyName = propertyName,
                     Value = value
                 };
-                PostAsync(SControllerName, nameof(IClientController.UpdateClient), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IClientController.UpdateClient), request, request, callback);
             }
             #endregion
 
@@ -88,7 +88,7 @@ namespace NTMiner {
                     PropertyName = propertyName,
                     Values = values
                 };
-                PostAsync(SControllerName, nameof(IClientController.UpdateClients), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IClientController.UpdateClients), request, request, callback);
             }
             #endregion
         }

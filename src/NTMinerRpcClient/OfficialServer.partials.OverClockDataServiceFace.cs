@@ -16,7 +16,7 @@ namespace NTMiner {
                 try {
                     OverClockDatasRequest request = new OverClockDatasRequest {
                     };
-                    PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), null, request, callback);
+                    PostAsync(SControllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
@@ -30,7 +30,7 @@ namespace NTMiner {
                 DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), request, request, callback);
             }
             #endregion
 
@@ -39,7 +39,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IOverClockDataController.RemoveOverClockData), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IOverClockDataController.RemoveOverClockData), request, request, callback);
             }
             #endregion
         }

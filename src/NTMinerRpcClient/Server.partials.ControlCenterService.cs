@@ -62,15 +62,16 @@ namespace NTMiner {
 
             #region ActiveControlCenterAdminAsync
             public void ActiveControlCenterAdminAsync(string password, Action<ResponseBase, Exception> callback) {
-                PostAsync(SControllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), null, password, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), password, callback);
             }
             #endregion
 
             #region LoginAsync
             public void LoginAsync(string loginName, string password, Action<ResponseBase, Exception> callback) {
+                VirtualRoot.SetRpcUser(new User.RpcUser(loginName, password));
                 SignRequest request = new SignRequest() {
                 };
-                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), request.ToQuery(loginName, password), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.LoginControlCenter), request, request, callback);
             }
             #endregion
 
@@ -81,7 +82,7 @@ namespace NTMiner {
                 GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
                     Limit = limit
                 };
-                PostAsync(SControllerName, nameof(IControlCenterController.LatestSnapshots), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.LatestSnapshots), request, request, callback);
             }
             #endregion
         }

@@ -17,7 +17,7 @@ namespace NTMiner {
                 ServerMessagesRequest request = new ServerMessagesRequest {
                     Timestamp = Timestamp.GetTimestamp(timestamp)
                 };
-                PostAsync(SControllerName, nameof(IServerMessageController.ServerMessages), null, request, callback);
+                PostAsync(SControllerName, nameof(IServerMessageController.ServerMessages), request, callback);
             }
             #endregion
 
@@ -26,7 +26,7 @@ namespace NTMiner {
                 DataRequest<ServerMessageData> request = new DataRequest<ServerMessageData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), request, request, callback);
             }
             #endregion
 
@@ -35,7 +35,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IServerMessageController.MarkDeleteServerMessage), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IServerMessageController.MarkDeleteServerMessage), request, request, callback);
             }
             #endregion
         }

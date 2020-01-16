@@ -21,7 +21,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IMinerGroupController.MinerGroups), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
+                    DataResponse<List<MinerGroupData>> response = Post<DataResponse<List<MinerGroupData>>>(SControllerName, nameof(IMinerGroupController.MinerGroups), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -40,7 +40,7 @@ namespace NTMiner {
                 DataRequest<MinerGroupData> request = new DataRequest<MinerGroupData> {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IMinerGroupController.AddOrUpdateMinerGroup), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IMinerGroupController.AddOrUpdateMinerGroup), request, request, callback);
             }
             #endregion
 
@@ -49,7 +49,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IMinerGroupController.RemoveMinerGroup), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IMinerGroupController.RemoveMinerGroup), request, request, callback);
             }
             #endregion
         }

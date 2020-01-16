@@ -17,7 +17,7 @@ namespace NTMiner {
                 try {
                     AppSettingsRequest request = new AppSettingsRequest {
                     };
-                    DataResponse<List<AppSettingData>> response = Post<DataResponse<List<AppSettingData>>>(SControllerName, nameof(IAppSettingController.AppSettings), null, request);
+                    DataResponse<List<AppSettingData>> response = Post<DataResponse<List<AppSettingData>>>(SControllerName, nameof(IAppSettingController.AppSettings), request);
                     if (response.IsSuccess()) {
                         return response.Data;
                     }
@@ -35,7 +35,7 @@ namespace NTMiner {
                 DataRequest<AppSettingData> request = new DataRequest<AppSettingData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSetting), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSetting), request, request, callback);
             }
             #endregion
 
@@ -44,7 +44,7 @@ namespace NTMiner {
                 DataRequest<List<AppSettingData>> request = new DataRequest<List<AppSettingData>>() {
                     Data = entities
                 };
-                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSettings), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IAppSettingController.SetAppSettings), request, request, callback);
             }
             #endregion
         }

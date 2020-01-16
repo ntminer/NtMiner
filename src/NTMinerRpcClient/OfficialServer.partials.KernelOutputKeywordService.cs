@@ -17,7 +17,7 @@ namespace NTMiner {
                 try {
                     KernelOutputKeywordsRequest request = new KernelOutputKeywordsRequest {
                     };
-                    PostAsync(SControllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), null, request, callback);
+                    PostAsync(SControllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), request, callback);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
@@ -31,7 +31,7 @@ namespace NTMiner {
                 DataRequest<KernelOutputKeywordData> request = new DataRequest<KernelOutputKeywordData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), request, request, callback);
             }
             #endregion
 
@@ -40,7 +40,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), request, request, callback);
             }
             #endregion
         }

@@ -16,7 +16,7 @@ namespace NTMiner {
                 try {
                     NTMinerWalletsRequest request = new NTMinerWalletsRequest {
                     };
-                    PostAsync(SControllerName, nameof(INTMinerWalletController.NTMinerWallets), null, request, callback);
+                    PostAsync(SControllerName, nameof(INTMinerWalletController.NTMinerWallets), request, callback);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
@@ -30,7 +30,7 @@ namespace NTMiner {
                 DataRequest<NTMinerWalletData> request = new DataRequest<NTMinerWalletData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(INTMinerWalletController.AddOrUpdateNTMinerWallet), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(INTMinerWalletController.AddOrUpdateNTMinerWallet), request, request, callback);
             }
             #endregion
 
@@ -39,7 +39,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(INTMinerWalletController.RemoveNTMinerWallet), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(INTMinerWalletController.RemoveNTMinerWallet), request, request, callback);
             }
             #endregion
         }

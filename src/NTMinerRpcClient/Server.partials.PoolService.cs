@@ -21,7 +21,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IPoolController.Pools), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
+                    DataResponse<List<PoolData>> response = Post<DataResponse<List<PoolData>>>(SControllerName, nameof(IPoolController.Pools), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -39,7 +39,7 @@ namespace NTMiner {
                 DataRequest<PoolData> request = new DataRequest<PoolData> {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IPoolController.AddOrUpdatePool), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IPoolController.AddOrUpdatePool), request, request, callback);
             }
             #endregion
 
@@ -48,7 +48,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IPoolController.RemovePool), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IPoolController.RemovePool), request, request, callback);
             }
             #endregion
         }

@@ -18,7 +18,7 @@ namespace NTMiner {
                     try {
                         CalcConfigsRequest request = new CalcConfigsRequest {
                         };
-                        PostAsync(SControllerName, nameof(IControlCenterController.CalcConfigs), null, request, (DataResponse<List<CalcConfigData>> response, Exception e) => {
+                        PostAsync(SControllerName, nameof(IControlCenterController.CalcConfigs), request, (DataResponse<List<CalcConfigData>> response, Exception e) => {
                             if (response.IsSuccess()) {
                                 callback?.Invoke(response.Data);
                             }
@@ -43,7 +43,7 @@ namespace NTMiner {
                 SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
                     Data = configs
                 };
-                PostAsync(SControllerName, nameof(IControlCenterController.SaveCalcConfigs), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IControlCenterController.SaveCalcConfigs), request, request, callback);
             }
             #endregion
         }

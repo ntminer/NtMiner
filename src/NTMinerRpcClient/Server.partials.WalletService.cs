@@ -21,7 +21,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IWalletController.Wallets), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
+                    DataResponse<List<WalletData>> response = Post<DataResponse<List<WalletData>>>(SControllerName, nameof(IWalletController.Wallets), request, request, timeout: 2000);
                     return response;
                 }
                 catch (Exception e) {
@@ -36,7 +36,7 @@ namespace NTMiner {
                 DataRequest<WalletData> request = new DataRequest<WalletData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IWalletController.AddOrUpdateWallet), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWalletController.AddOrUpdateWallet), request, request, callback);
             }
             #endregion
 
@@ -45,7 +45,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IWalletController.RemoveWallet), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IWalletController.RemoveWallet), request, request, callback);
             }
             #endregion
         }

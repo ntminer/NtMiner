@@ -21,7 +21,7 @@ namespace NTMiner {
                 try {
                     SignRequest request = new SignRequest {
                     };
-                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IColumnsShowController.ColumnsShows), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, timeout: 2000);
+                    DataResponse<List<ColumnsShowData>> response = Post<DataResponse<List<ColumnsShowData>>>(SControllerName, nameof(IColumnsShowController.ColumnsShows), request, request, timeout: 2000);
                     if (response != null && response.Data != null) {
                         return response.Data;
                     }
@@ -39,7 +39,7 @@ namespace NTMiner {
                 DataRequest<ColumnsShowData> request = new DataRequest<ColumnsShowData>() {
                     Data = entity
                 };
-                PostAsync(SControllerName, nameof(IColumnsShowController.AddOrUpdateColumnsShow), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IColumnsShowController.AddOrUpdateColumnsShow), request, request, callback);
             }
             #endregion
 
@@ -48,7 +48,7 @@ namespace NTMiner {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = id
                 };
-                PostAsync(SControllerName, nameof(IColumnsShowController.RemoveColumnsShow), request.ToQuery(SingleUser.LoginName, SingleUser.PasswordSha1), request, callback);
+                PostAsync(SControllerName, nameof(IColumnsShowController.RemoveColumnsShow), request, request, callback);
             }
             #endregion
         }
