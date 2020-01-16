@@ -2649,8 +2649,8 @@
                         HorizontalScrollBarVisibility="Auto">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" MinWidth="500"></ColumnDefinition>
-                                <ColumnDefinition Width="910"></ColumnDefinition>
+                                <ColumnDefinition Width="756" MinWidth="500"></ColumnDefinition>
+                                <ColumnDefinition MinWidth="910" Width="910"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
                             <Border BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}">
                                 <Grid>
