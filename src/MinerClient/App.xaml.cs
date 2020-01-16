@@ -173,11 +173,14 @@ namespace NTMiner {
                     Daemon.DaemonUtil.RunNTMinerDaemon();
                 }, location: this.GetType());
             #endregion
-            #region 开始和停止挖矿后
-            VirtualRoot.AddEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
+            #region 开始和停止挖矿后 因为无界面模式不一定会构建挖矿状态按钮，所以放在这里而不放在挖矿按钮的VM中
+            VirtualRoot.AddEventPath<StartingMineEvent>("开始挖矿时更新挖矿按钮状态", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = true;
                     StartStopMineButtonViewModel.Instance.BtnStopText = "正在挖矿";
+                }, location: this.GetType());
+            VirtualRoot.AddEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
+                action: message => {
                     // 启动DevConsole
                     if (NTMinerRoot.IsUseDevConsole) {
                         var mineContext = message.MineContext;

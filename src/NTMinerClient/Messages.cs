@@ -78,6 +78,12 @@ namespace NTMiner {
         public KernelSelfRestartedEvent() { }
     }
 
+    [MessageType(description: "开始挖矿")]
+    public class StartingMineEvent : EventBase {
+        public StartingMineEvent() {
+        }
+    }
+
     [MessageType(description: "开始挖矿不成功")]
     public class StartingMineFailedEvent : EventBase {
         public StartingMineFailedEvent(string message) {
