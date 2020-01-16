@@ -43,6 +43,7 @@ namespace NTMiner {
             createdNew = AppUtil.GetMutex(NTKeyword.MinerStudioAppMutex);
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+                // 因为登录窗口会用到VirtualRoot.Out，而Out的延迟自动关闭消息会用到倒计时
                 VirtualRoot.StartTimer(new WpfTimer());
                 NotiCenterWindow.Instance.ShowWindow();
                 LoginWindow.Login(() => {
