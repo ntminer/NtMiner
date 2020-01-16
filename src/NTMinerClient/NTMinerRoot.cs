@@ -438,6 +438,7 @@ namespace NTMiner {
         #region StartMine
         public void StartMine(bool isRestart = false) {
             try {
+                VirtualRoot.RaiseEvent(new StartingMineEvent());
                 if (IsMining && isRestart) {
                     if (LockedMineContext.IsClosed) {
                         throw new InvalidProgramException();
