@@ -145,12 +145,12 @@ namespace NTMiner {
                 }
             }
 
-            public Task<SpeedData> GetSpeedAsync(string clientHost, Action<SpeedData, Exception> callback) {
+            public Task<SpeedData> GetSpeedAsync(string clientIp, Action<SpeedData, Exception> callback) {
                 return Task.Factory.StartNew(() => {
                     try {
                         using (HttpClient client = RpcRoot.Create()) {
                             client.Timeout = TimeSpan.FromSeconds(3);
-                            Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{clientHost}:{NTKeyword.MinerClientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
+                            Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{clientIp}:{NTKeyword.MinerClientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
                             SpeedData data = getHttpResponse.Result.Content.ReadAsAsync<SpeedData>().Result;
                             callback?.Invoke(data, null);
                             return data;
