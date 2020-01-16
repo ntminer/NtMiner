@@ -36,19 +36,7 @@ namespace NTMiner {
             /// <param name="request"></param>
             /// <param name="callback"></param>
             public void SetWalletAsync(SetWalletRequest request, Action<ResponseBase, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = RpcRoot.Create()) {
-                            client.Timeout = TimeSpan.FromSeconds(2);
-                            Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{s_controllerName}/{nameof(INTMinerDaemonController.SetWallet)}", request);
-                            ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                            callback?.Invoke(response, null);
-                        }
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                    }
-                });
+                RpcRoot.PostAsync("localhost", NTKeyword.NTMinerDaemonPort, s_controllerName, nameof(INTMinerDaemonController.SetWallet), request, callback, timeountMilliseconds: 2000);
             }
             #endregion
 
@@ -62,22 +50,10 @@ namespace NTMiner {
             }
 
             public void GetGpuProfilesJsonAsync(string clientIp, Action<GpuProfilesJsonDb, Exception> callback) {
-                Task.Factory.StartNew(() => {
-                    try {
-                        using (HttpClient client = RpcRoot.Create()) {
-                            client.Timeout = TimeSpan.FromSeconds(3);
-                            Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{s_controllerName}/{nameof(INTMinerDaemonController.GetGpuProfilesJson)}", null);
-                            string json = getHttpResponse.Result.Content.ReadAsAsync<string>().Result;
-                            GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
-                            callback?.Invoke(data, null);
-                            return data;
-                        }
-                    }
-                    catch (Exception e) {
-                        callback?.Invoke(null, e);
-                        return null;
-                    }
-                });
+                RpcRoot.PostAsync(clientIp, NTKeyword.NTMinerDaemonPort, s_controllerName, nameof(INTMinerDaemonController.GetGpuProfilesJson), null, (string json, Exception e) => {
+                    GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
+                    callback?.Invoke(data, null);
+                }, timeountMilliseconds: 3000);
             }
 
             public void SaveGpuProfilesJsonAsync(string clientIp, string json) {

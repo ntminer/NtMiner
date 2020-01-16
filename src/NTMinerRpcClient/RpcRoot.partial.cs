@@ -10,24 +10,24 @@ namespace NTMiner {
         public static OfficialServer OfficialServer = new OfficialServer(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort);
         public static Client Client = new Client();
 
-        public static void PostAsync<T>(string host, int port, string controller, string action, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+        public static void PostAsync<T>(string host, int port, string controller, string action, Action<T, Exception> callback, int timeountMilliseconds = 0) {
             PostAsync<T>(host, port, controller, action, (Dictionary<string, string>)null, null, callback, timeountMilliseconds);
         }
 
-        public static void PostAsync<T>(string host, int port, string controller, string action, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+        public static void PostAsync<T>(string host, int port, string controller, string action, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) {
             PostAsync<T>(host, port, controller, action, (Dictionary<string, string>)null, data, callback, timeountMilliseconds);
         }
 
-        public static void PostAsync<T>(string host, int port, string controller, string action, IGetSignData signData, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+        public static void PostAsync<T>(string host, int port, string controller, string action, IGetSignData signData, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) {
             PostAsync<T>(host, port, controller, action, signData.ToQuery(), data, callback, timeountMilliseconds);
         }
 
 
-        public static T Post<T>(string host, int port, string controller, string action, object data, int? timeout = null) where T : class {
+        public static T Post<T>(string host, int port, string controller, string action, object data, int? timeout = null) {
             return Post<T>(host, port, controller, action, (Dictionary<string, string>)null, data, timeout);
         }
 
-        public static T Post<T>(string host, int port, string controller, string action, IGetSignData signData, object data, int? timeout = null) where T : class {
+        public static T Post<T>(string host, int port, string controller, string action, IGetSignData signData, object data, int? timeout = null) {
             return Post<T>(host, port, controller, action, signData.ToQuery(), data, timeout);
         }
 
@@ -51,7 +51,7 @@ namespace NTMiner {
             });
         }
 
-        private static T Post<T>(string host, int port, string controller, string action, Dictionary<string, string> query, object data, int? timeout = null) where T : class {
+        private static T Post<T>(string host, int port, string controller, string action, Dictionary<string, string> query, object data, int? timeout = null) {
             try {
                 string queryString = string.Empty;
                 if (query != null && query.Count != 0) {
@@ -68,11 +68,11 @@ namespace NTMiner {
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
-                return null;
+                return default;
             }
         }
 
-        private static void PostAsync<T>(string host, int port, string controller, string action, Dictionary<string, string> query, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
+        private static void PostAsync<T>(string host, int port, string controller, string action, Dictionary<string, string> query, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = Create()) {
@@ -89,7 +89,7 @@ namespace NTMiner {
                     }
                 }
                 catch (Exception e) {
-                    callback?.Invoke(null, e);
+                    callback?.Invoke(default, e);
                 }
             });
         }
