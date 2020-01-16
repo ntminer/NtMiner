@@ -34,38 +34,16 @@ namespace NTMiner {
         }
 
         #region private methods
-        private static void PostAsync<T>(string controller, string action, Dictionary<string, string> query, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = RpcRoot.Create()) {
-                        if (timeountMilliseconds != 0) {
-                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
-                        }
-                        string queryString = string.Empty;
-                        if (query != null && query.Count != 0) {
-                            queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
-                        }
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/{controller}/{action}{queryString}", data);
-                        T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
-                        callback?.Invoke(response, null);
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(null, e);
-                }
-            });
-        }
-
         private static void PostAsync<T>(string controller, string action, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
-            PostAsync<T>(controller, action, (Dictionary<string, string>)null, null, callback, timeountMilliseconds);
+            RpcRoot.PostAsync<T>(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort, controller, action, null, null, callback, timeountMilliseconds);
         }
 
         private static void PostAsync<T>(string controller, string action, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
-            PostAsync<T>(controller, action, (Dictionary<string, string>)null, data, callback, timeountMilliseconds);
+            RpcRoot.PostAsync<T>(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort, controller, action, null, data, callback, timeountMilliseconds);
         }
 
         private static void PostAsync<T>(string controller, string action, IGetSignData signData, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) where T : class {
-            PostAsync<T>(controller, action, signData.ToQuery(), data, callback, timeountMilliseconds);
+            RpcRoot.PostAsync<T>(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort, controller, action, signData.ToQuery(), data, callback, timeountMilliseconds);
         }
 
         private static void GetAsync<T>(string controller, string action, Dictionary<string, string> data, Action<T, Exception> callback) {

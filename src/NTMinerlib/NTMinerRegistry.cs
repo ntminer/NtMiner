@@ -139,18 +139,25 @@ namespace NTMiner {
 
         #region ControlCenterHost
         public const string DefaultControlCenterHost = "localhost";
+        private static string _controlCenterHost;
         public static string GetControlCenterHost() {
+            if (_controlCenterHost != null) {
+                return _controlCenterHost;
+            }
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterHostRegistryKey);
             if (value == null) {
-                return DefaultControlCenterHost;
+                _controlCenterHost = DefaultControlCenterHost;
+                return _controlCenterHost;
             }
-            return (string)value;
+            _controlCenterHost = (string)value;
+            return _controlCenterHost;
         }
 
         public static void SetControlCenterHost(string host) {
             if (string.IsNullOrEmpty(host)) {
                 host = DefaultControlCenterHost;
             }
+            _controlCenterHost = host;
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterHostRegistryKey, host);
         }
         #endregion
