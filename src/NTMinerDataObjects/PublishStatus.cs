@@ -3,8 +3,8 @@
 namespace NTMiner {
     public enum PublishStatus {
         [Description("已发布")]
-        Published,
+        Published = 0,
         [Description("未发布")]
-        UnPublished
+        UnPublished = 1
     }
 }

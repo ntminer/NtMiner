@@ -5,8 +5,8 @@ namespace NTMiner {
         [Description("未定义")]
         UnDefined,
         [Description("系统级")]
-        Global,
+        Global = 1,
         [Description("用户级")]
-        Profile
+        Profile = 2
     }
 }
