@@ -14,7 +14,7 @@ namespace NTMiner.Controllers {
             try {
                 var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -31,7 +31,7 @@ namespace NTMiner.Controllers {
                 Expiration = DateTime.Now.AddMinutes(10)
             };
             var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-            return OfficialServer.SignatureSafeUrl(uri);
+            return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
         }
 
         [HttpPost]
@@ -88,7 +88,7 @@ namespace NTMiner.Controllers {
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -108,7 +108,7 @@ namespace NTMiner.Controllers {
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -121,7 +121,7 @@ namespace NTMiner.Controllers {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -139,7 +139,7 @@ namespace NTMiner.Controllers {
                     Expiration = DateTime.Now.AddMinutes(10)
                 };
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
