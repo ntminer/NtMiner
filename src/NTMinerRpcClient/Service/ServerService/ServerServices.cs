@@ -1,5 +1,5 @@
-﻿namespace NTMiner {
-    public partial class Server {
+﻿namespace NTMiner.Service.ServerService {
+    public class ServerServices {
         public readonly ControlCenterServiceFace ControlCenterService;
         public readonly UserServiceFace UserService;
         public readonly MinerGroupServiceFace MinerGroupService;
@@ -12,7 +12,7 @@
         public readonly ReportServiceFace ReportService;
         public readonly WrapperMinerClientServiceFace MinerClientService;
 
-        internal Server() {
+        internal ServerServices() {
             ControlCenterService = new ControlCenterServiceFace();
             UserService = new UserServiceFace();
             MinerGroupService = new MinerGroupServiceFace();

@@ -1,4 +1,7 @@
-﻿using System;
+﻿using NTMiner.Service.ClientService;
+using NTMiner.Service.OfficialService;
+using NTMiner.Service.ServerService;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class RpcRoot {
-        public static Server Server = new Server();
-        public static OfficialServer OfficialServer = new OfficialServer(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort);
-        public static Client Client = new Client();
+        public static ServerServices Server = new ServerServices();
+        public static OfficialServices OfficialServer = new OfficialServices(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort);
+        public static ClientServices Client = new ClientServices();
 
         public static void PostAsync<T>(string host, int port, string controller, string action, Action<T, Exception> callback, int timeountMilliseconds = 0) {
             PostAsync<T>(host, port, controller, action, (Dictionary<string, string>)null, null, callback, timeountMilliseconds);
@@ -92,6 +95,21 @@ namespace NTMiner {
                     callback?.Invoke(default, e);
                 }
             });
+        }
+
+        public static string GetControllerName<T>() {
+            Type t = typeof(T);
+            string name = t.Name;
+            if (!name.EndsWith("Controller")) {
+                throw new InvalidProgramException("控制器类型名需要以Controller为后缀");
+            }
+            if (t.IsInterface) {
+                if (name[0] != 'I') {
+                    throw new InvalidProgramException("接口类型名需要以I为开头");
+                }
+                name = name.Substring(1);
+            }
+            return name.Substring(0, name.Length - "Controller".Length);
         }
     }
 }

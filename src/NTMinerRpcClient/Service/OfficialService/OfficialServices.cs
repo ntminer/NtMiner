@@ -3,8 +3,8 @@ using NTMiner.MinerServer;
 using System;
 using System.Web;
 
-namespace NTMiner {
-    public partial class OfficialServer {
+namespace NTMiner.Service.OfficialService {
+    public class OfficialServices {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
 
         public readonly FileUrlServiceFace FileUrlService;
@@ -16,7 +16,7 @@ namespace NTMiner {
 
         private readonly string _host;
         private readonly int _port;
-        internal OfficialServer(string host, int port) {
+        internal OfficialServices(string host, int port) {
             _host = host;
             _port = port;
             FileUrlService = new FileUrlServiceFace(host, port);

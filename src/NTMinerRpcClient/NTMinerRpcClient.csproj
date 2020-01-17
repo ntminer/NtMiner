@@ -54,34 +54,33 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Client.cs" />
-    <Compile Include="Client.partials.MinerStudioService.cs" />
-    <Compile Include="Client.partials.NTMinerClientService.cs" />
-    <Compile Include="Client.partials.NTMinerDaemonService.cs" />
-    <Compile Include="ControllerUtil.cs" />
+    <Compile Include="Service\ClientService\ClientServices.cs" />
+    <Compile Include="Service\ClientService\MinerStudioService.cs" />
+    <Compile Include="Service\ClientService\NTMinerClientService.cs" />
+    <Compile Include="Service\ClientService\NTMinerDaemonService.cs" />
     <Compile Include="RpcRoot.partial.cs" />
     <Compile Include="RpcRoot.cs" />
     <Compile Include="KernelOutputKeyword\IKernelOutputKeywordSet.cs" />
     <Compile Include="KernelOutputKeyword\KernelOutputKeywordSet.cs" />
-    <Compile Include="OfficialServer.partials.FileUrlServiceFace.cs" />
-    <Compile Include="OfficialServer.partials.NTMinerWalletService.cs" />
-    <Compile Include="OfficialServer.partials.OverClockDataServiceFace.cs" />
-    <Compile Include="OfficialServer.partials.ControlCenterServiceFace.cs" />
+    <Compile Include="Service\OfficialService\FileUrlServiceFace.cs" />
+    <Compile Include="Service\OfficialService\NTMinerWalletService.cs" />
+    <Compile Include="Service\OfficialService\OfficialServices.cs" />
+    <Compile Include="Service\OfficialService\OverClockDataServiceFace.cs" />
+    <Compile Include="Service\OfficialService\ControlCenterServiceFace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.cs" />
-    <Compile Include="OfficialServer.partials.KernelOutputKeywordService.cs" />
-    <Compile Include="Server.partials.ClientService.cs" />
-    <Compile Include="Server.partials.ColumnsShowService.cs" />
-    <Compile Include="Server.partials.PoolService.cs" />
-    <Compile Include="Server.partials.MinerGroupService.cs" />
-    <Compile Include="Server.partials.MineWorkService.cs" />
-    <Compile Include="Server.partials.WalletService.cs" />
-    <Compile Include="Server.partials.UserService.cs" />
-    <Compile Include="Server.partials.AppSettingService.cs" />
-    <Compile Include="Server.partials.ControlCenterService.cs" />
-    <Compile Include="OfficialServer.cs" />
-    <Compile Include="Server.partials.WrapperMinerClientService.cs" />
-    <Compile Include="Server.partials.ReportService.cs" />
+    <Compile Include="Service\OfficialService\KernelOutputKeywordService.cs" />
+    <Compile Include="Service\ServerService\ClientService.cs" />
+    <Compile Include="Service\ServerService\ColumnsShowService.cs" />
+    <Compile Include="Service\ServerService\PoolService.cs" />
+    <Compile Include="Service\ServerService\MinerGroupService.cs" />
+    <Compile Include="Service\ServerService\MineWorkService.cs" />
+    <Compile Include="Service\ServerService\ServerServices.cs" />
+    <Compile Include="Service\ServerService\WalletService.cs" />
+    <Compile Include="Service\ServerService\UserService.cs" />
+    <Compile Include="Service\ServerService\AppSettingService.cs" />
+    <Compile Include="Service\ServerService\ControlCenterService.cs" />
+    <Compile Include="Service\ServerService\WrapperMinerClientService.cs" />
+    <Compile Include="Service\ServerService\ReportService.cs" />
     <Compile Include="ServerMessage\IServerMessageSet.cs" />
     <Compile Include="ServerMessage\ServerMessageSet.cs" />
   </ItemGroup>
@@ -109,8 +108,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Compile Include="OfficialServer.partials.ServerMessageServiceFace.cs" />
+    <Compile Include="Service\OfficialService\ServerMessageServiceFace.cs" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
