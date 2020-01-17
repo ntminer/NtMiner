@@ -35,19 +35,19 @@ namespace NTMiner {
             UIThread.InitializeWithDispatcher(app.Dispatcher);
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
             app.SessionEnding += (sender, e)=> {
-                WindowsSessionEndingEvent.ReasonSessionEnding reason;
+                OsSessionEndingEvent.ReasonSessionEnding reason;
                 switch (e.ReasonSessionEnding) {
                     case ReasonSessionEnding.Logoff:
-                        reason = WindowsSessionEndingEvent.ReasonSessionEnding.Logoff;
+                        reason = OsSessionEndingEvent.ReasonSessionEnding.Logoff;
                         break;
                     case ReasonSessionEnding.Shutdown:
-                        reason = WindowsSessionEndingEvent.ReasonSessionEnding.Shutdown;
+                        reason = OsSessionEndingEvent.ReasonSessionEnding.Shutdown;
                         break;
                     default:
-                        reason = WindowsSessionEndingEvent.ReasonSessionEnding.Unknown;
+                        reason = OsSessionEndingEvent.ReasonSessionEnding.Unknown;
                         break;
                 }
-                VirtualRoot.RaiseEvent(new WindowsSessionEndingEvent(reason));
+                VirtualRoot.RaiseEvent(new OsSessionEndingEvent(reason));
             };
         }
         #endregion

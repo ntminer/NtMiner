@@ -128,9 +128,6 @@
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Hub.cs">
       <Link>VirtualRoot.partials.Hub.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\WindowsSessionEndingEvent.cs">
-      <Link>WindowsSessionEndingEvent.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
     </Compile>

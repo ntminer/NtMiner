@@ -78,7 +78,6 @@
     <Compile Include="ValidationException.cs" />
     <Compile Include="VirtualRoot.partials.Common.cs" />
     <Compile Include="VirtualRoot.partials.Hub.cs" />
-    <Compile Include="WindowsSessionEndingEvent.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\WinRegistry.cs" />
     <Compile Include="Windows\Role.cs" />

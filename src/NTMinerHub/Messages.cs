@@ -1,6 +1,21 @@
 ﻿using NTMiner.Hub;
 
 namespace NTMiner {
+    [MessageType(description: "操作系统注销或关闭时")]
+    public class OsSessionEndingEvent : EventBase {
+        public enum ReasonSessionEnding {
+            Logoff,
+            Shutdown,
+            Unknown
+        }
+
+        public OsSessionEndingEvent(ReasonSessionEnding sessionEndingReason) {
+            this.SessionEndingReason = sessionEndingReason;
+        }
+
+        public ReasonSessionEnding SessionEndingReason { get; private set; }
+    }
+
     [MessageType(description: "已经启动1秒钟", isCanNoHandler: true)]
     public class HasBoot1SecondEvent : EventBase {
         public readonly int Seconds = 1;
