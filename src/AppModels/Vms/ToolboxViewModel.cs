@@ -7,15 +7,12 @@ namespace NTMiner.Vms {
     public class ToolboxViewModel : ViewModelBase {
         public ICommand SwitchRadeonGpu { get; private set; }
         public ICommand AtikmdagPatcher { get; private set; }
-        public ICommand NavigateToDriver { get; private set; }
         public ICommand RegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
-
         public ICommand OpenDevmgmt { get; private set; }
-
         public ICommand OpenEventvwr { get; private set; }
 
         public ToolboxViewModel() {
@@ -44,12 +41,6 @@ namespace NTMiner.Vms {
                     return;
                 }
                 VirtualRoot.Execute(new AtikmdagPatcherCommand());
-            });
-            this.NavigateToDriver = new DelegateCommand<SysDicItemViewModel>((item) => {
-                if (item == null) {
-                    return;
-                }
-                Process.Start(item.Value);
             });
             this.RegCmdHere = new DelegateCommand(() => {
                 if (IsRegedCmdHere) {
@@ -149,6 +140,28 @@ namespace NTMiner.Vms {
             }
         }
 
+        public SysDicItemViewModel VisualCpp0 {
+            get {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "VisualCpp0", out ISysDicItem item)) {
+                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                        return vm;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public SysDicItemViewModel VisualCpp1 {
+            get {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "VisualCpp1", out ISysDicItem item)) {
+                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                        return vm;
+                    }
+                }
+                return null;
+            }
+        }
+
         public bool IsAutoAdminLogon {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
         }
@@ -156,9 +169,9 @@ namespace NTMiner.Vms {
         public string AutoAdminLogonMessage {
             get {
                 if (IsAutoAdminLogon) {
-                    return "开机自动登录已启用";
+                    return "已开启";
                 }
-                return "开机自动登录未启用";
+                return "未开启";
             }
         }
 
@@ -171,9 +184,9 @@ namespace NTMiner.Vms {
         public string RemoteDesktopMessage {
             get {
                 if (IsRemoteDesktopEnabled) {
-                    return "远程桌面已启用";
+                    return "已开启";
                 }
-                return "远程桌面已禁用";
+                return "未开启";
             }
         }
     }
