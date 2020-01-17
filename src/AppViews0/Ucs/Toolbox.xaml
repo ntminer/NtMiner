@@ -82,7 +82,7 @@
 							Fill="Red"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
-                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding AmdDriverMore.Description}"></TextBlock>
+                            <TextBlock FontWeight="Bold" FontSize="14" Foreground="{StaticResource LinkForeground}" Text="{Binding AmdDriverMore.Description}"></TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">打开AMD官网下载A卡驱动</TextBlock>
 						</StackPanel>
 					</WrapPanel>
