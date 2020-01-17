@@ -14,7 +14,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="28"></RowDefinition>
-            <RowDefinition Height="26"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
 		<ScrollViewer 
 			VerticalScrollBarVisibility="Auto" 
@@ -107,19 +107,19 @@
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>
 		</ScrollViewer>
-        <WrapPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center">
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <TextBlock VerticalAlignment="Center">共设置了</TextBlock>
             <TextBlock VerticalAlignment="Center" FontSize="16" Margin="4 0" Text="{Binding VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
             <TextBlock VerticalAlignment="Center" Margin="0 0 20 0">虚拟内存</TextBlock>
         </WrapPanel>
-        <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="0 0 90 0">
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="0 0 20 0">
             <WrapPanel Visibility="{Binding VirtualMemorySet.IsStateChanged, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock VerticalAlignment="Center" Foreground="Red">虚拟内存已更改，重启电脑后生效</TextBlock>
 				<controls:KbButton 
 					Margin="8 0 0 0"
 					Padding="15 2"
                     VerticalAlignment="Center"
-					Background="{StaticResource ThemeBackground}"
+					Background="Red"
 					Command="{x:Static app:AppStatic.ShowRestartWindows}"
 					CornerRadius="2">
 					<WrapPanel>
@@ -132,7 +132,7 @@
 						<TextBlock 
 							Width="60"
 							Padding="4"
-							Background="{StaticResource ThemeBackground}"
+							Background="Red"
 							Foreground="{StaticResource ThemeForeground}"
 							VerticalAlignment="Center"
 							Text="立即重启" />
@@ -161,6 +161,6 @@
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
-        <TextBox Grid.Row="2" BorderThickness="0" IsReadOnly="True" VerticalAlignment="Center" Foreground="Red" Text="挖ETH每卡至少设置5G虚拟内存（4G不保险），建议按虚拟内存比显存1比1进行设置。比如6张6G的1060建议设置6 x 6 = 36G。"></TextBox>
+        <TextBox Grid.Row="2" Height="32" VerticalContentAlignment="Top" VerticalAlignment="Top" BorderThickness="0" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" Foreground="Red" Text="挖ETH每卡至少设置5G虚拟内存（4G不保险），建议按虚拟内存比显存1比1进行设置。比如6张6G的1060建议设置6 x 6 = 36G。"></TextBox>
     </Grid>
 </UserControl>
