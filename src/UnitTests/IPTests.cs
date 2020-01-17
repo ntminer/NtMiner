@@ -35,9 +35,12 @@ namespace UnitTests {
 
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
+        public void IpAddressTest1() {
+            IPAddress.Parse("localhost");
+        }
+
+        [TestMethod]
         public void IpAddressTest2() {
-            var ip = IPAddress.Parse("localhost");
-            Assert.AreEqual("localhost", ip.ToString());
             Assert.AreEqual(IPAddress.Any, IPAddress.Parse("0.0.0.0"));
             Assert.AreEqual("0.0.0.0", IPAddress.Any.ToString());
         }
