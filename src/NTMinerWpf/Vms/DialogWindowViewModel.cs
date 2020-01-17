@@ -16,18 +16,6 @@ namespace NTMiner.Vms {
         private string _btnNoToolTip;
         private bool _isConfirmNo;
 
-        public Visibility BtnOkVisible {
-            get {
-                if (WpfUtil.IsInDesignMode) {
-                    return Visibility.Visible;
-                }
-                if (_onYes != null || _onNo != null) {
-                    return Visibility.Collapsed;
-                }
-                return Visibility.Visible;
-            }
-        }
-
         public string BtnOkToolTip {
             get => _btnOkToolTip;
             set {
