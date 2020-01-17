@@ -54,6 +54,24 @@ namespace NTMiner {
             });
         }
 
+        public static string GetControllerName<T>() {
+            Type t = typeof(T);
+            string name = t.Name;
+            if (!name.EndsWith("Controller")) {
+                throw new InvalidProgramException("控制器类型名需要以Controller为后缀");
+            }
+            int startIndex = 0;
+            int length = name.Length - "Controller".Length;
+            if (t.IsInterface) {
+                if (name[0] != 'I') {
+                    throw new InvalidProgramException("接口类型名需要以I为开头");
+                }
+                startIndex = 1;
+                length -= 1;
+            }
+            return name.Substring(startIndex, length);
+        }
+
         private static T Post<T>(string host, int port, string controller, string action, Dictionary<string, string> query, object data, int? timeout = null) {
             try {
                 string queryString = string.Empty;
@@ -95,21 +113,6 @@ namespace NTMiner {
                     callback?.Invoke(default, e);
                 }
             });
-        }
-
-        public static string GetControllerName<T>() {
-            Type t = typeof(T);
-            string name = t.Name;
-            if (!name.EndsWith("Controller")) {
-                throw new InvalidProgramException("控制器类型名需要以Controller为后缀");
-            }
-            if (t.IsInterface) {
-                if (name[0] != 'I') {
-                    throw new InvalidProgramException("接口类型名需要以I为开头");
-                }
-                name = name.Substring(1);
-            }
-            return name.Substring(0, name.Length - "Controller".Length);
         }
     }
 }

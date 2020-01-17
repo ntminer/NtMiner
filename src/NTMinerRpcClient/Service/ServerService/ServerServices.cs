@@ -1,29 +1,29 @@
 ﻿namespace NTMiner.Service.ServerService {
     public class ServerServices {
-        public readonly ControlCenterServiceFace ControlCenterService;
-        public readonly UserServiceFace UserService;
-        public readonly MinerGroupServiceFace MinerGroupService;
-        public readonly MineWorkServiceFace MineWorkService;
-        public readonly WalletServiceFace WalletService;
-        public readonly PoolServiceFace PoolService;
+        public readonly ControlCenterService ControlCenterService;
+        public readonly UserService UserService;
+        public readonly MinerGroupService MinerGroupService;
+        public readonly MineWorkService MineWorkService;
+        public readonly WalletService WalletService;
+        public readonly PoolService PoolService;
         public readonly ColumnsShowServiceFace ColumnsShowService;
-        public readonly ClientServiceFace ClientService;
+        public readonly ClientService ClientService;
         public readonly AppSettingServiceFace AppSettingService;
-        public readonly ReportServiceFace ReportService;
-        public readonly WrapperMinerClientServiceFace MinerClientService;
+        public readonly ReportService ReportService;
+        public readonly WrapperMinerClientService MinerClientService;
 
         internal ServerServices() {
-            ControlCenterService = new ControlCenterServiceFace();
-            UserService = new UserServiceFace();
-            MinerGroupService = new MinerGroupServiceFace();
-            MineWorkService = new MineWorkServiceFace();
-            WalletService = new WalletServiceFace();
-            PoolService = new PoolServiceFace();
+            ControlCenterService = new ControlCenterService();
+            UserService = new UserService();
+            MinerGroupService = new MinerGroupService();
+            MineWorkService = new MineWorkService();
+            WalletService = new WalletService();
+            PoolService = new PoolService();
             ColumnsShowService = new ColumnsShowServiceFace();
-            ClientService = new ClientServiceFace();
+            ClientService = new ClientService();
             AppSettingService = new AppSettingServiceFace();
-            ReportService = new ReportServiceFace();
-            MinerClientService = new WrapperMinerClientServiceFace();
+            ReportService = new ReportService();
+            MinerClientService = new WrapperMinerClientService();
         }
     }
 }

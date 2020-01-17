@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Service.ServerService {
     public class ColumnsShowServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IColumnsShowController>();
+        private readonly string _controllerName = RpcRoot.GetControllerName<IColumnsShowController>();
 
         public ColumnsShowServiceFace() {
         }
@@ -20,7 +20,7 @@ namespace NTMiner.Service.ServerService {
             try {
                 SignRequest request = new SignRequest {
                 };
-                DataResponse<List<ColumnsShowData>> response = RpcRoot.Post<DataResponse<List<ColumnsShowData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IColumnsShowController.ColumnsShows), request, request, timeout: 2000);
+                DataResponse<List<ColumnsShowData>> response = RpcRoot.Post<DataResponse<List<ColumnsShowData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IColumnsShowController.ColumnsShows), request, request, timeout: 2000);
                 if (response != null && response.Data != null) {
                     return response.Data;
                 }
@@ -38,7 +38,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<ColumnsShowData> request = new DataRequest<ColumnsShowData>() {
                 Data = entity
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IColumnsShowController.AddOrUpdateColumnsShow), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IColumnsShowController.AddOrUpdateColumnsShow), request, request, callback);
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IColumnsShowController.RemoveColumnsShow), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IColumnsShowController.RemoveColumnsShow), request, request, callback);
         }
         #endregion
     }

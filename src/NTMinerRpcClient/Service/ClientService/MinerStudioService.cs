@@ -6,11 +6,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner.Service.ClientService {
-    public class MinerStudioServiceFace {
-        public static readonly MinerStudioServiceFace Instance = new MinerStudioServiceFace();
-        private static readonly string s_controllerName = RpcRoot.GetControllerName<IMinerStudioController>();
+    public class MinerStudioService {
+        public static readonly MinerStudioService Instance = new MinerStudioService();
 
-        private MinerStudioServiceFace() {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IMinerStudioController>();
+        private MinerStudioService() {
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace NTMiner.Service.ClientService {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.Create()) {
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{clientPort.ToString()}/api/{s_controllerName}/{nameof(IMinerStudioController.ShowMainWindow)}", null);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{clientPort.ToString()}/api/{_controllerName}/{nameof(IMinerStudioController.ShowMainWindow)}", null);
                         bool response = getHttpResponse.Result.Content.ReadAsAsync<bool>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -48,7 +48,7 @@ namespace NTMiner.Service.ClientService {
             bool isClosed = false;
             try {
                 using (HttpClient client = RpcRoot.Create()) {
-                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}/api/{s_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignRequest { });
+                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}/api/{_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignRequest { });
                     ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();
                 }

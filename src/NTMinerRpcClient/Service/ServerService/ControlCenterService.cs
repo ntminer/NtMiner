@@ -6,10 +6,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner.Service.ServerService {
-    public class ControlCenterServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IControlCenterController>();
+    public class ControlCenterService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IControlCenterController>();
 
-        public ControlCenterServiceFace() {
+        public ControlCenterService() {
         }
 
         #region GetServicesVersionAsync
@@ -25,7 +25,7 @@ namespace NTMiner.Service.ServerService {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.Create()) {
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IControlCenterController.GetServicesVersion)}", null);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{_controllerName}/{nameof(IControlCenterController.GetServicesVersion)}", null);
                         string response = getHttpResponse.Result.Content.ReadAsAsync<string>().Result;
                         callback?.Invoke(response, null);
                     }
@@ -48,7 +48,7 @@ namespace NTMiner.Service.ServerService {
                     return;
                 }
                 using (HttpClient client = RpcRoot.Create()) {
-                    Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IControlCenterController.CloseServices)}", null);
+                    Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{_controllerName}/{nameof(IControlCenterController.CloseServices)}", null);
                     Write.DevDebug($"{nameof(CloseServices)} {getHttpResponse.Result.ReasonPhrase}");
                 }
             }
@@ -60,7 +60,7 @@ namespace NTMiner.Service.ServerService {
 
         #region ActiveControlCenterAdminAsync
         public void ActiveControlCenterAdminAsync(string password, Action<ResponseBase, Exception> callback) {
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), password, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IControlCenterController.ActiveControlCenterAdmin), password, callback);
         }
         #endregion
 
@@ -69,7 +69,7 @@ namespace NTMiner.Service.ServerService {
             VirtualRoot.SetRpcUser(new User.RpcUser(loginName, password));
             SignRequest request = new SignRequest() {
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IControlCenterController.LoginControlCenter), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IControlCenterController.LoginControlCenter), request, request, callback);
         }
         #endregion
 
@@ -80,7 +80,7 @@ namespace NTMiner.Service.ServerService {
             GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
                 Limit = limit
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IControlCenterController.LatestSnapshots), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IControlCenterController.LatestSnapshots), request, request, callback);
         }
         #endregion
     }

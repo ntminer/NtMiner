@@ -5,10 +5,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NTMiner.Service.ServerService {
-    public class MineWorkServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IMineWorkController>();
+    public class MineWorkService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IMineWorkController>();
 
-        public MineWorkServiceFace() {
+        public MineWorkService() {
         }
 
         #region GetMineWorks
@@ -21,7 +21,7 @@ namespace NTMiner.Service.ServerService {
             try {
                 SignRequest request = new SignRequest {
                 };
-                DataResponse<List<MineWorkData>> response = RpcRoot.Post<DataResponse<List<MineWorkData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IMineWorkController.MineWorks), request, request, timeout: 2000);
+                DataResponse<List<MineWorkData>> response = RpcRoot.Post<DataResponse<List<MineWorkData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IMineWorkController.MineWorks), request, request, timeout: 2000);
                 if (response != null && response.Data != null) {
                     return response.Data;
                 }
@@ -54,7 +54,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<MineWorkData> request = new DataRequest<MineWorkData> {
                 Data = entity
             };
-            ResponseBase response = RpcRoot.Post<ResponseBase>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IMineWorkController.AddOrUpdateMineWork), request, request);
+            ResponseBase response = RpcRoot.Post<ResponseBase>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IMineWorkController.AddOrUpdateMineWork), request, request);
             return response;
         }
         #endregion
@@ -64,7 +64,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<Guid> request = new DataRequest<Guid> {
                 Data = id
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IMineWorkController.RemoveMineWork), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IMineWorkController.RemoveMineWork), request, request, callback);
         }
         #endregion
 
@@ -75,7 +75,7 @@ namespace NTMiner.Service.ServerService {
                 LocalJson = localJson,
                 ServerJson = serverJson
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IMineWorkController.ExportMineWork), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IMineWorkController.ExportMineWork), request, request, callback);
         }
         #endregion
 
@@ -85,7 +85,7 @@ namespace NTMiner.Service.ServerService {
                 DataRequest<Guid> request = new DataRequest<Guid>() {
                     Data = workId
                 };
-                var response = RpcRoot.Post<DataResponse<string>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IMineWorkController.GetLocalJson), request, request);
+                var response = RpcRoot.Post<DataResponse<string>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IMineWorkController.GetLocalJson), request, request);
                 if (response != null) {
                     return response.Data;
                 }

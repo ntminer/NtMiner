@@ -7,24 +7,24 @@ namespace NTMiner.Service.OfficialService {
     public class OfficialServices {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
 
-        public readonly FileUrlServiceFace FileUrlService;
-        public readonly OverClockDataServiceFace OverClockDataService;
-        public readonly NTMinerWalletServiceFace NTMinerWalletService;
-        public readonly KernelOutputKeywordServiceFace KernelOutputKeywordService;
-        public readonly ControlCenterServiceFace ControlCenterService;
-        public readonly ServerMessageServiceFace ServerMessageService;
+        public readonly FileUrlService FileUrlService;
+        public readonly OverClockDataService OverClockDataService;
+        public readonly NTMinerWalletService NTMinerWalletService;
+        public readonly KernelOutputKeywordService KernelOutputKeywordService;
+        public readonly ControlCenterService ControlCenterService;
+        public readonly ServerMessageService ServerMessageService;
 
         private readonly string _host;
         private readonly int _port;
         internal OfficialServices(string host, int port) {
             _host = host;
             _port = port;
-            FileUrlService = new FileUrlServiceFace(host, port);
-            OverClockDataService = new OverClockDataServiceFace(host, port);
-            NTMinerWalletService = new NTMinerWalletServiceFace(host, port);
-            KernelOutputKeywordService = new KernelOutputKeywordServiceFace(host, port);
-            ControlCenterService = new ControlCenterServiceFace(host, port);
-            ServerMessageService = new ServerMessageServiceFace(host, port);
+            FileUrlService = new FileUrlService(host, port);
+            OverClockDataService = new OverClockDataService(host, port);
+            NTMinerWalletService = new NTMinerWalletService(host, port);
+            KernelOutputKeywordService = new KernelOutputKeywordService(host, port);
+            ControlCenterService = new ControlCenterService(host, port);
+            ServerMessageService = new ServerMessageService(host, port);
         }
 
         public string SignatureSafeUrl(Uri uri) {

@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Service.ServerService {
-    public partial class ClientServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IClientController>();
+    public partial class ClientService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IClientController>();
 
-        public ClientServiceFace() {
+        public ClientService() {
         }
 
         #region QueryClientsAsync
@@ -39,7 +39,7 @@ namespace NTMiner.Service.ServerService {
                 Version = version,
                 Kernel = kernel
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IClientController.QueryClients), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IClientController.QueryClients), request, request, callback);
         }
         #endregion
 
@@ -48,7 +48,7 @@ namespace NTMiner.Service.ServerService {
             AddClientRequest request = new AddClientRequest() {
                 ClientIps = clientIps
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IClientController.AddClients), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IClientController.AddClients), request, request, callback);
         }
         #endregion
 
@@ -57,7 +57,7 @@ namespace NTMiner.Service.ServerService {
             MinerIdsRequest request = new MinerIdsRequest() {
                 ObjectIds = objectIds
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IClientController.RemoveClients), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IClientController.RemoveClients), request, request, callback);
         }
         #endregion
 
@@ -66,7 +66,7 @@ namespace NTMiner.Service.ServerService {
             MinerIdsRequest request = new MinerIdsRequest() {
                 ObjectIds = objectIds
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IClientController.RefreshClients), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IClientController.RefreshClients), request, request, callback);
         }
         #endregion
 
@@ -77,7 +77,7 @@ namespace NTMiner.Service.ServerService {
                 PropertyName = propertyName,
                 Value = value
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IClientController.UpdateClient), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IClientController.UpdateClient), request, request, callback);
         }
         #endregion
 
@@ -87,7 +87,7 @@ namespace NTMiner.Service.ServerService {
                 PropertyName = propertyName,
                 Values = values
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IClientController.UpdateClients), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IClientController.UpdateClients), request, request, callback);
         }
         #endregion
     }

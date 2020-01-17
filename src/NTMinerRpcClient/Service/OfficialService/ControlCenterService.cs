@@ -5,13 +5,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace NTMiner.Service.OfficialService {
-    public class ControlCenterServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IControlCenterController>();
-
+    public class ControlCenterService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IControlCenterController>();
         private readonly string _host;
         private readonly int _port;
 
-        public ControlCenterServiceFace(string host, int port) {
+        public ControlCenterService(string host, int port) {
             _host = host;
             _port = port;
         }
@@ -22,7 +21,7 @@ namespace NTMiner.Service.OfficialService {
                 try {
                     CalcConfigsRequest request = new CalcConfigsRequest {
                     };
-                    RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IControlCenterController.CalcConfigs), request, (DataResponse<List<CalcConfigData>> response, Exception e) => {
+                    RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IControlCenterController.CalcConfigs), request, (DataResponse<List<CalcConfigData>> response, Exception e) => {
                         if (response.IsSuccess()) {
                             callback?.Invoke(response.Data);
                         }
@@ -47,7 +46,7 @@ namespace NTMiner.Service.OfficialService {
             SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
                 Data = configs
             };
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IControlCenterController.SaveCalcConfigs), request, request, callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IControlCenterController.SaveCalcConfigs), request, request, callback);
         }
         #endregion
     }

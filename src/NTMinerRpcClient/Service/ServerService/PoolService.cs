@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Service.ServerService {
-    public class PoolServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IPoolController>();
+    public class PoolService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IPoolController>();
 
-        public PoolServiceFace() {
+        public PoolService() {
         }
 
         #region GetPools
@@ -20,7 +20,7 @@ namespace NTMiner.Service.ServerService {
             try {
                 SignRequest request = new SignRequest {
                 };
-                DataResponse<List<PoolData>> response = RpcRoot.Post<DataResponse<List<PoolData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IPoolController.Pools), request, request, timeout: 2000);
+                DataResponse<List<PoolData>> response = RpcRoot.Post<DataResponse<List<PoolData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IPoolController.Pools), request, request, timeout: 2000);
                 if (response != null && response.Data != null) {
                     return response.Data;
                 }
@@ -38,7 +38,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<PoolData> request = new DataRequest<PoolData> {
                 Data = entity
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IPoolController.AddOrUpdatePool), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IPoolController.AddOrUpdatePool), request, request, callback);
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IPoolController.RemovePool), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IPoolController.RemovePool), request, request, callback);
         }
         #endregion
     }

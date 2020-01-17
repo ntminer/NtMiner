@@ -1,8 +1,8 @@
 ﻿namespace NTMiner.Service.ClientService {
     public class ClientServices {
-        public readonly MinerClientServiceFace MinerClientService = MinerClientServiceFace.Instance;
-        public readonly NTMinerDaemonServiceFace NTMinerDaemonService = NTMinerDaemonServiceFace.Instance;
-        public readonly MinerStudioServiceFace MinerStudioService = MinerStudioServiceFace.Instance;
+        public readonly MinerClientService MinerClientService = MinerClientService.Instance;
+        public readonly NTMinerDaemonService NTMinerDaemonService = NTMinerDaemonService.Instance;
+        public readonly MinerStudioService MinerStudioService = MinerStudioService.Instance;
 
         internal ClientServices() { }
     }

@@ -4,13 +4,12 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Service.OfficialService {
-    public class ServerMessageServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IServerMessageController>();
-
+    public class ServerMessageService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IServerMessageController>();
         private readonly string _host;
         private readonly int _port;
 
-        public ServerMessageServiceFace(string host, int port) {
+        public ServerMessageService(string host, int port) {
             _host = host;
             _port = port;
         }
@@ -20,7 +19,7 @@ namespace NTMiner.Service.OfficialService {
             ServerMessagesRequest request = new ServerMessagesRequest {
                 Timestamp = Timestamp.GetTimestamp(timestamp)
             };
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IServerMessageController.ServerMessages), request, callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IServerMessageController.ServerMessages), request, callback);
         }
         #endregion
 
@@ -29,7 +28,7 @@ namespace NTMiner.Service.OfficialService {
             DataRequest<ServerMessageData> request = new DataRequest<ServerMessageData>() {
                 Data = entity
             };
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), request, request, callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), request, request, callback);
         }
         #endregion
 
@@ -38,7 +37,7 @@ namespace NTMiner.Service.OfficialService {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IServerMessageController.MarkDeleteServerMessage), request, request, callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IServerMessageController.MarkDeleteServerMessage), request, request, callback);
         }
         #endregion
     }

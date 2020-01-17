@@ -6,10 +6,10 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner.Service.ServerService {
-    public class ReportServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IReportController>();
+    public class ReportService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IReportController>();
 
-        public ReportServiceFace() {
+        public ReportService() {
         }
 
         public void ReportSpeedAsync(string host, SpeedData data, Action<ReportResponse> callback) {
@@ -19,7 +19,7 @@ namespace NTMiner.Service.ServerService {
                     using (HttpClient client = RpcRoot.Create()) {
                         // 可能超过3秒钟，查查原因。因为我的网络不稳经常断线。
                         client.Timeout = timeSpan;
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IReportController.ReportSpeed)}", data);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort.ToString()}/api/{_controllerName}/{nameof(IReportController.ReportSpeed)}", data);
                         ReportResponse response = getHttpResponse.Result.Content.ReadAsAsync<ReportResponse>().Result;
                         callback?.Invoke(response);
                     }
@@ -40,7 +40,7 @@ namespace NTMiner.Service.ServerService {
                             ClientId = clientId,
                             IsMining = isMining
                         };
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort.ToString()}/api/{SControllerName}/{nameof(IReportController.ReportState)}", request);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort.ToString()}/api/{_controllerName}/{nameof(IReportController.ReportState)}", request);
                         Write.DevDebug($"{nameof(ReportStateAsync)} {getHttpResponse.Result.ReasonPhrase}");
                     }
                 }

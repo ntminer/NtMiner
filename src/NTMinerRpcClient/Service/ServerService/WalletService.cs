@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Service.ServerService {
-    public class WalletServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IWalletController>();
+    public class WalletService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IWalletController>();
 
-        public WalletServiceFace() {
+        public WalletService() {
         }
 
         #region GetWallets
@@ -20,7 +20,7 @@ namespace NTMiner.Service.ServerService {
             try {
                 SignRequest request = new SignRequest {
                 };
-                DataResponse<List<WalletData>> response = RpcRoot.Post<DataResponse<List<WalletData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWalletController.Wallets), request, request, timeout: 2000);
+                DataResponse<List<WalletData>> response = RpcRoot.Post<DataResponse<List<WalletData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IWalletController.Wallets), request, request, timeout: 2000);
                 return response;
             }
             catch (Exception e) {
@@ -35,7 +35,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<WalletData> request = new DataRequest<WalletData>() {
                 Data = entity
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWalletController.AddOrUpdateWallet), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IWalletController.AddOrUpdateWallet), request, request, callback);
         }
         #endregion
 
@@ -44,7 +44,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IWalletController.RemoveWallet), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IWalletController.RemoveWallet), request, request, callback);
         }
         #endregion
     }

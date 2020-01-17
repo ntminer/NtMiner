@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Service.ServerService {
     public class AppSettingServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IAppSettingController>();
+        private readonly string _controllerName = RpcRoot.GetControllerName<IAppSettingController>();
 
         public AppSettingServiceFace() {
         }
@@ -16,7 +16,7 @@ namespace NTMiner.Service.ServerService {
             try {
                 AppSettingsRequest request = new AppSettingsRequest {
                 };
-                DataResponse<List<AppSettingData>> response = RpcRoot.Post<DataResponse<List<AppSettingData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IAppSettingController.AppSettings), request);
+                DataResponse<List<AppSettingData>> response = RpcRoot.Post<DataResponse<List<AppSettingData>>>(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IAppSettingController.AppSettings), request);
                 if (response.IsSuccess()) {
                     return response.Data;
                 }
@@ -34,7 +34,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<AppSettingData> request = new DataRequest<AppSettingData>() {
                 Data = entity
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IAppSettingController.SetAppSetting), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IAppSettingController.SetAppSetting), request, request, callback);
         }
         #endregion
 
@@ -43,7 +43,7 @@ namespace NTMiner.Service.ServerService {
             DataRequest<List<AppSettingData>> request = new DataRequest<List<AppSettingData>>() {
                 Data = entities
             };
-            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, SControllerName, nameof(IAppSettingController.SetAppSettings), request, request, callback);
+            RpcRoot.PostAsync(NTMinerRegistry.GetControlCenterHost(), NTKeyword.ControlCenterPort, _controllerName, nameof(IAppSettingController.SetAppSettings), request, request, callback);
         }
         #endregion
     }

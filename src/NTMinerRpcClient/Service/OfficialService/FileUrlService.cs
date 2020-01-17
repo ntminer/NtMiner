@@ -5,13 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Service.OfficialService {
-    public class FileUrlServiceFace {
-        private static readonly string SControllerName = RpcRoot.GetControllerName<IFileUrlController>();
-
+    public class FileUrlService {
+        private readonly string _controllerName = RpcRoot.GetControllerName<IFileUrlController>();
         private readonly string _host;
         private readonly int _port;
 
-        public FileUrlServiceFace(string host, int port) {
+        public FileUrlService(string host, int port) {
             _host = host;
             _port = port;
         }
@@ -22,14 +21,14 @@ namespace NTMiner.Service.OfficialService {
             NTMinerUrlRequest request = new NTMinerUrlRequest {
                 FileName = fileName
             };
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IFileUrlController.NTMinerUrl), request, callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IFileUrlController.NTMinerUrl), request, callback);
         }
         #endregion
 
         #region GetNTMinerFilesAsync
         // ReSharper disable once InconsistentNaming
         public void GetNTMinerFilesAsync(NTMinerAppType appType, Action<List<NTMinerFileData>, Exception> callback) {
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IFileUrlController.NTMinerFiles), callback: (List<NTMinerFileData> data, Exception e) => {
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IFileUrlController.NTMinerFiles), callback: (List<NTMinerFileData> data, Exception e) => {
                 if (data != null) {
                     data = data.Where(a => a.AppType == appType).ToList();
                 }
@@ -44,7 +43,7 @@ namespace NTMiner.Service.OfficialService {
             DataRequest<NTMinerFileData> request = new DataRequest<NTMinerFileData>() {
                 Data = entity
             };
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IFileUrlController.AddOrUpdateNTMinerFile), request, request, callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IFileUrlController.AddOrUpdateNTMinerFile), request, request, callback);
         }
         #endregion
 
@@ -54,26 +53,26 @@ namespace NTMiner.Service.OfficialService {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IFileUrlController.RemoveNTMinerFile), request, request, callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IFileUrlController.RemoveNTMinerFile), request, request, callback);
         }
         #endregion
 
         #region GetLiteDbExplorerUrlAsync
         public void GetLiteDbExplorerUrlAsync(Action<string, Exception> callback) {
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IFileUrlController.LiteDbExplorerUrl), callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IFileUrlController.LiteDbExplorerUrl), callback);
         }
         #endregion
 
         #region GetNTMinerUpdaterUrlAsync
         // ReSharper disable once InconsistentNaming
         public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IFileUrlController.NTMinerUpdaterUrl), callback, timeountMilliseconds: 2000);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IFileUrlController.NTMinerUpdaterUrl), callback, timeountMilliseconds: 2000);
         }
         #endregion
 
         #region GetMinerClientFinderUrlAsync
         public void GetMinerClientFinderUrlAsync(Action<string, Exception> callback) {
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IFileUrlController.MinerClientFinderUrl), callback, timeountMilliseconds: 2000);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IFileUrlController.MinerClientFinderUrl), callback, timeountMilliseconds: 2000);
         }
         #endregion
 
@@ -82,7 +81,7 @@ namespace NTMiner.Service.OfficialService {
             PackageUrlRequest request = new PackageUrlRequest {
                 Package = package
             };
-            RpcRoot.PostAsync(_host, _port, SControllerName, nameof(IFileUrlController.PackageUrl), request, callback);
+            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IFileUrlController.PackageUrl), request, callback);
         }
         #endregion
     }
