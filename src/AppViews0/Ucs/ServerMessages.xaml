@@ -201,7 +201,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="50" Width="100" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="50" Width="60" IsReadOnly="True">
                     <DataGridTemplateColumn.HeaderTemplate>
                         <DataTemplate>
                             <TextBlock Text="发言人"></TextBlock>

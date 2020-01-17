@@ -203,7 +203,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void GetControllerNameTest() {
-            Assert.AreEqual("FileUrl", ControllerUtil.GetControllerName<IFileUrlController>());
+            Assert.AreEqual("FileUrl", RpcRoot.GetControllerName<IFileUrlController>());
         }
 
         [TestMethod]
