@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                     }, onNo: () => {
                         VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
                         return true;
-                    }, yesText: "开启计算模式", noText: "关闭计算模式");
+                    }, btnYesText: "开启计算模式", btnNoText: "关闭计算模式");
                 this.ShowSoftDialog(config);
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
@@ -49,7 +49,7 @@ namespace NTMiner.Vms {
                             VirtualRoot.Execute(new UnRegCmdHereCommand());
                             OnPropertyChanged(nameof(IsRegedCmdHere));
                         });
-                    }));
+                    }, btnYesText: "移除"));
                 }
                 else {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
@@ -57,7 +57,7 @@ namespace NTMiner.Vms {
                             VirtualRoot.Execute(new RegCmdHereCommand());
                             OnPropertyChanged(nameof(IsRegedCmdHere));
                         });
-                    }));
+                    }, btnYesText: "添加"));
                 }
             });
             this.BlockWAU = new DelegateCommand(() => {

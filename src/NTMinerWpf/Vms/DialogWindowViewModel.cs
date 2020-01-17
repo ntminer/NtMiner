@@ -9,8 +9,8 @@ namespace NTMiner.Vms {
         private string _helpUrl;
         private Action _onYes;
         private Func<bool> _onNo;
-        private string _yesText;
-        private string _noText;
+        private string _btnYesText;
+        private string _btnNoText;
         private string _btnOkToolTip;
         private string _btnYesToolTip;
         private string _btnNoToolTip;
@@ -74,8 +74,8 @@ namespace NTMiner.Vms {
             string helpUrl = null,
             Action onYes = null,
             Func<bool> onNo = null,
-            string yesText = "是",
-            string noText = "否",
+            string btnYesText = "是",
+            string btnNoText = "否",
             string btnOkToolTip = null,
             string btnYesToolTip = null,
             string btnNoToolTip = null,
@@ -86,8 +86,8 @@ namespace NTMiner.Vms {
             _helpUrl = helpUrl;
             _onYes = onYes;
             _onNo = onNo;
-            _yesText = yesText;
-            _noText = noText;
+            _btnYesText = btnYesText;
+            _btnNoText = btnNoText;
             _btnOkToolTip = btnOkToolTip;
             _btnYesToolTip = btnYesToolTip;
             _btnNoToolTip = btnNoToolTip;
@@ -143,16 +143,16 @@ namespace NTMiner.Vms {
             }
         }
         public string YesText {
-            get => _yesText;
+            get => _btnYesText;
             set {
-                _yesText = value;
+                _btnYesText = value;
                 OnPropertyChanged(nameof(YesText));
             }
         }
         public string NoText {
-            get => _noText;
+            get => _btnNoText;
             set {
-                _noText = value;
+                _btnNoText = value;
                 OnPropertyChanged(nameof(NoText));
             }
         }
