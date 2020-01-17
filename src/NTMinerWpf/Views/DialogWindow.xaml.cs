@@ -1,5 +1,4 @@
 ﻿using NTMiner.Vms;
-using System;
 using System.Diagnostics;
 using System.Windows;
 
@@ -69,10 +68,6 @@ namespace NTMiner.Views {
             else {
                 this.Close();
             }
-        }
-
-        private void KbOkButton_Click(object sender, RoutedEventArgs e) {
-            this.Close();
         }
 
         private void Help_Click(object sender, RoutedEventArgs e) {

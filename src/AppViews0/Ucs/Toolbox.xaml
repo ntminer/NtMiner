@@ -71,8 +71,8 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Cursor="Hand"
-					Command="{Binding NavigateToDriver}"
-                    CommandParameter="{Binding AmdDriverMore}"
+					Command="{x:Static app:AppStatic.ViewUrl}"
+                    CommandParameter="{Binding AmdDriverMore.Value}"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
@@ -82,7 +82,7 @@
 							Fill="Red"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
-                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding AmdDriverMore.Description}"></TextBlock>
+                            <TextBlock FontWeight="Bold" FontSize="14" Foreground="{StaticResource LinkForeground}" Text="{Binding AmdDriverMore.Description}"></TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">打开AMD官网下载A卡驱动</TextBlock>
 						</StackPanel>
 					</WrapPanel>
@@ -95,7 +95,7 @@
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
-							Width="32"
+							Width="36"
 							Height="30"
 							Data="{StaticResource Icon_Nvidia}"
 							Fill="Green"
@@ -110,8 +110,8 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <controls:KbLinkButton
-								Command="{Binding NavigateToDriver}"
-                                CommandParameter="{Binding NvidiaDriverWin10}"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding NvidiaDriverWin10.Value}"
 								Padding="0"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
@@ -120,8 +120,8 @@
                             </controls:KbLinkButton>
                             <controls:KbLinkButton 
                                 Grid.Row="1"
-								Command="{Binding NavigateToDriver}"
-                                CommandParameter="{Binding NvidiaDriverWin7}"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding NvidiaDriverWin7.Value}"
 								Padding="0"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
@@ -131,8 +131,8 @@
                             <controls:KbLinkButton 
                                 Grid.Row="1"
                                 Grid.Column="1"
-								Command="{Binding NavigateToDriver}"
-                                CommandParameter="{Binding NvidiaDriverMore}"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding NvidiaDriverMore.Value}"
 								Padding="0"
 					            ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 								HorizontalAlignment="Right"
@@ -142,7 +142,43 @@
                             </controls:KbLinkButton>
                         </Grid>
 					</WrapPanel>
-				</Border>
+                </Border>
+                <Border 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
+					Margin="4"
+                    Padding="20 0 0 0"
+					Background="Transparent">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path 
+							Width="36"
+							Height="22"
+							Data="{StaticResource Icon_Cpp}"
+							Fill="Black"
+							Stretch="Fill" />
+                        <StackPanel Margin="8 0 0 0">
+                            <controls:KbLinkButton
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding VisualCpp0.Value}"
+								Padding="0"
+								HorizontalAlignment="Left"
+								KbDisplayLine="False"
+								Background="Transparent">
+                                <TextBlock Text="{Binding VisualCpp0.Description}" FontSize="14"></TextBlock>
+                            </controls:KbLinkButton>
+                            <controls:KbLinkButton 
+                                Grid.Row="1"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding VisualCpp1.Value}"
+								Padding="0"
+								HorizontalAlignment="Left"
+								KbDisplayLine="False"
+								Background="Transparent">
+                                <TextBlock Text="{Binding VisualCpp1.Description}" FontSize="14"></TextBlock>
+                            </controls:KbLinkButton>
+                        </StackPanel>
+                    </WrapPanel>
+                </Border>
                 <controls:KbButton 
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
@@ -234,14 +270,17 @@
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
-							Width="30"
+							Width="34"
 							Height="30"
 							Data="{StaticResource Icon_Command}"
 							Fill="Black"
 							Stretch="Fill" />
-						<StackPanel Margin="8 0 0 0" Width="152">
-							<TextBlock FontWeight="Bold" Foreground="{Binding IsRegedCmdHere,Converter={StaticResource BoolToBrushConverter}}" FontSize="14">Windows右键命令行</TextBlock>
-							<TextBlock Foreground="{StaticResource LableColor}">方便在当前目录打开命令行</TextBlock>
+                        <StackPanel Margin="8 0 0 0" Width="152" ToolTip="方便在当前目录打开命令行">
+							<TextBlock FontWeight="Bold" FontSize="14">Windows右键命令行</TextBlock>
+                            <WrapPanel>
+                                <TextBlock Foreground="Green" Visibility="{Binding IsRegedCmdHere,Converter={StaticResource BoolToVisibilityConverter}}">已添加</TextBlock>
+                                <TextBlock Foreground="Red" Visibility="{Binding IsRegedCmdHere,Converter={StaticResource BoolToVisibilityInvertConverter}}">未添加</TextBlock>
+                            </WrapPanel>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>

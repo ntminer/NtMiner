@@ -47,19 +47,19 @@ namespace NTMiner {
             }
             try {
                 SystemEvents.SessionEnding += (sender, e) => {
-                    WindowsSessionEndingEvent.ReasonSessionEnding reason;
+                    OsSessionEndingEvent.ReasonSessionEnding reason;
                     switch (e.Reason) {
                         case SessionEndReasons.Logoff:
-                            reason = WindowsSessionEndingEvent.ReasonSessionEnding.Logoff;
+                            reason = OsSessionEndingEvent.ReasonSessionEnding.Logoff;
                             break;
                         case SessionEndReasons.SystemShutdown:
-                            reason = WindowsSessionEndingEvent.ReasonSessionEnding.Shutdown;
+                            reason = OsSessionEndingEvent.ReasonSessionEnding.Shutdown;
                             break;
                         default:
-                            reason = WindowsSessionEndingEvent.ReasonSessionEnding.Unknown;
+                            reason = OsSessionEndingEvent.ReasonSessionEnding.Unknown;
                             break;
                     }
-                    VirtualRoot.RaiseEvent(new WindowsSessionEndingEvent(reason));
+                    VirtualRoot.RaiseEvent(new OsSessionEndingEvent(reason));
                 };
                 VirtualRoot.StartTimer();
                 _waitHandle = new AutoResetEvent(false);

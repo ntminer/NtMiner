@@ -253,7 +253,7 @@
         <WrapPanel Grid.Column="2" Margin="0 4 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
             <controls:KbButton 
                 Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-                Command="{Binding AddSysDicItem}" 
+                Command="{Binding CurrentSysDic.AddSysDicItem}" 
                 Background="Transparent" BorderThickness="0"
                 Margin="10 0"
                 CornerRadius="2" ToolTip="添加">

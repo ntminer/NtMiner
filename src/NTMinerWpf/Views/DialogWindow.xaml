@@ -76,31 +76,6 @@
             <controls:KbButton 
                 Padding="15 2"
                 Margin="20 0"
-                ToolTip="{Binding BtnOkToolTip}"
-                Visibility="{Binding BtnOkVisible}"
-                Click="KbOkButton_Click"
-                Background="{StaticResource ThemeBackground}"
-                Foreground="{StaticResource ThemeForeground}"
-                VerticalAlignment="Center"
-                CornerRadius="2">
-                <WrapPanel>
-                    <Path
-                        Width="14"
-                        Height="14"
-                        Data="{StaticResource Icon_Ok}"
-                        Fill="{StaticResource ThemeForeground}"
-                        Stretch="Fill" />
-                    <TextBlock
-                        FontSize="14"
-                        Padding="4"
-                        Foreground="{StaticResource ThemeForeground}"
-                        VerticalAlignment="Center"
-                        Text="好" />
-                </WrapPanel>
-            </controls:KbButton>
-            <controls:KbButton 
-                Padding="15 2"
-                Margin="20 0"
                 ToolTip="{Binding BtnYesToolTip}"
                 Visibility="{Binding BtnYesNoVisible}"
                 Click="KbYesButton_Click"

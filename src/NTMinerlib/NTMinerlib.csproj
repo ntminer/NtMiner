@@ -41,7 +41,6 @@
     <Reference Include="System.Management" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppExitEvent.cs" />
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
     <Compile Include="Net\Hosts.cs" />
@@ -78,7 +77,6 @@
     <Compile Include="ValidationException.cs" />
     <Compile Include="VirtualRoot.partials.Common.cs" />
     <Compile Include="VirtualRoot.partials.Hub.cs" />
-    <Compile Include="WindowsSessionEndingEvent.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\WinRegistry.cs" />
     <Compile Include="Windows\Role.cs" />
