@@ -2,6 +2,7 @@
 
 namespace NTMiner.Core {
     public interface IKernelOutput : IEntity<Guid> {
+        Guid Id { get; }
         string Name { get; }
         bool IsDualInSameLine { get; }
 

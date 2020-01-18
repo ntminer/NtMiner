@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core {
     public interface ICoinKernel : IEntity<Guid> {
+        Guid Id { get; }
         Guid CoinId { get; }
         Guid KernelId { get; }
         string Args { get; }

@@ -5,6 +5,7 @@ namespace NTMiner.Core {
     /// Fragment是片段，里面有变量
     /// </summary>
     public interface IFragmentWriter : IEntity<Guid> {
+        Guid Id { get; }
         string Name { get; }
 
         /// <summary>

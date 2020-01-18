@@ -2,6 +2,7 @@
 
 namespace NTMiner.Core {
     public interface IKernelInput : IEntity<Guid> {
+        Guid Id { get; }
         string Name { get; }
         string Args { get; }
         bool IsSupportDualMine { get; }
