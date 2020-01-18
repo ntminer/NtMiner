@@ -20,31 +20,31 @@ namespace NTMiner.JsonDb {
 
         public LocalJsonDb(INTMinerRoot root, MineWorkData mineWorkData) {
             var minerProfile = root.MinerProfile;
-            CoinProfileData mainCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(minerProfile.CoinId));
+            CoinProfileData mainCoinProfile = new CoinProfileData().Update(minerProfile.GetCoinProfile(minerProfile.CoinId));
             List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
             List<PoolProfileData> poolProfiles = new List<PoolProfileData>();
-            CoinKernelProfileData coinKernelProfile = new CoinKernelProfileData(minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId));
-            PoolProfileData mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId));
+            CoinKernelProfileData coinKernelProfile = new CoinKernelProfileData().Update(minerProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId));
+            PoolProfileData mainCoinPoolProfile = new PoolProfileData().Update(minerProfile.GetPoolProfile(mainCoinProfile.PoolId));
             poolProfiles.Add(mainCoinPoolProfile);
             if (mainCoinProfile.PoolId1 != Guid.Empty) {
-                mainCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(mainCoinProfile.PoolId1));
+                mainCoinPoolProfile = new PoolProfileData().Update(minerProfile.GetPoolProfile(mainCoinProfile.PoolId1));
                 poolProfiles.Add(mainCoinPoolProfile);
             }
             if (coinKernelProfile.IsDualCoinEnabled) {
-                CoinProfileData dualCoinProfile = new CoinProfileData(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
+                CoinProfileData dualCoinProfile = new CoinProfileData().Update(minerProfile.GetCoinProfile(coinKernelProfile.DualCoinId));
                 coinProfiles.Add(dualCoinProfile);
-                PoolProfileData dualCoinPoolProfile = new PoolProfileData(minerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId));
+                PoolProfileData dualCoinPoolProfile = new PoolProfileData().Update(minerProfile.GetPoolProfile(dualCoinProfile.DualCoinPoolId));
                 poolProfiles.Add(dualCoinPoolProfile);
             }
 
-            MinerProfile = MinerProfileData.Create(minerProfile);
+            MinerProfile = new MinerProfileData().Update(minerProfile);
             MinerProfile.MinerName = "{{MinerName}}";
             MineWork = mineWorkData;
             CoinProfiles = coinProfiles.ToArray();
             CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
             PoolProfiles = poolProfiles.ToArray();
-            Pools = root.ServerContext.PoolSet.AsEnumerable().Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray();
-            Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray();
+            Pools = root.ServerContext.PoolSet.AsEnumerable().Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData().Update(a)).ToArray();
+            Wallets = minerProfile.GetWallets().Select(a => new WalletData().Update(a)).ToArray();
             TimeStamp = Timestamp.GetTimestamp();
         }
 

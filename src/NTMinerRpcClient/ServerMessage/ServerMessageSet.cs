@@ -50,9 +50,8 @@ namespace NTMiner.ServerMessage {
                             _linkedList.AddFirst(exist);
                         }
                         else {
-                            data = new ServerMessageData(message.Input) {
-                                Timestamp = DateTime.Now
-                            };
+                            data = new ServerMessageData().Update(message.Input);
+                            data.Timestamp = DateTime.Now;
                             _linkedList.AddFirst(data);
                             while (_linkedList.Count > NTKeyword.ServerMessageSetCapacity) {
                                 toRemoves.Add(_linkedList.Last.Value);
@@ -90,7 +89,7 @@ namespace NTMiner.ServerMessage {
                     #endregion
                 }
                 else {
-                    RpcRoot.OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData(message.Input), (response, ex) => {
+                    RpcRoot.OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData().Update(message.Input), (response, ex) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
                         }

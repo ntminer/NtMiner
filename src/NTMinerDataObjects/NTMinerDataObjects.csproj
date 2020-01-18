@@ -73,6 +73,7 @@
     <Compile Include="Core\SysDicItemData.cs" />
     <Compile Include="Daemon\SetWalletRequest.cs" />
     <Compile Include="DataLevel.cs" />
+    <Compile Include="ICanUpdateByReflection.cs" />
     <Compile Include="SpeedDoubleExtension.cs" />
     <Compile Include="IGetSignData.cs" />
     <Compile Include="DataResponse`1.cs" />

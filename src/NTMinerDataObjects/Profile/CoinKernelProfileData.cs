@@ -6,16 +6,6 @@ namespace NTMiner.Profile {
     public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid>, IGetSignData {
         public CoinKernelProfileData() { }
 
-        public CoinKernelProfileData(ICoinKernelProfile data) {
-            this.CoinKernelId = data.CoinKernelId;
-            this.IsDualCoinEnabled = data.IsDualCoinEnabled;
-            this.IsAutoDualWeight = data.IsAutoDualWeight;
-            this.DualCoinId = data.DualCoinId;
-            this.DualCoinWeight = data.DualCoinWeight;
-            this.CustomArgs = data.CustomArgs;
-            this.TouchedArgs = data.TouchedArgs;
-        }
-
         public static CoinKernelProfileData CreateDefaultData(Guid coinKernelId, double dualCoinWeight) {
             return new CoinKernelProfileData() {
                 CoinKernelId = coinKernelId,

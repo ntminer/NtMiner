@@ -154,7 +154,7 @@
 							Width="36"
 							Height="22"
 							Data="{StaticResource Icon_Cpp}"
-							Fill="Black"
+							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
                         <StackPanel Margin="8 0 0 0">
                             <controls:KbLinkButton

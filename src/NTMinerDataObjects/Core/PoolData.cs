@@ -6,27 +6,6 @@ namespace NTMiner.Core {
         public PoolData() {
         }
 
-        public PoolData(IPool data) {
-            this.DataLevel = data.DataLevel;
-            this.Id = data.CoinId;
-            this.BrandId = data.BrandId;
-            this.CoinId = data.CoinId;
-            this.Name = data.Name;
-            this.Server = data.Server;
-            this.Url = data.Url;
-            this.Website = data.Website;
-            this.SortNumber = data.SortNumber;
-            this.IsUserMode = data.IsUserMode;
-            this.UserName = data.UserName;
-            this.Password = data.Password;
-            this.Notice = data.Notice;
-            this.TutorialUrl = data.TutorialUrl;
-            this.NoPool1 = data.NoPool1;
-            this.NotPool1 = data.NotPool1;
-            this.MinerNamePrefix = data.MinerNamePrefix;
-            this.MinerNamePostfix = data.MinerNamePostfix;
-        }
-
         public Guid GetId() {
             return this.Id;
         }

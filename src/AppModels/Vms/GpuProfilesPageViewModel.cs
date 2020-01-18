@@ -57,9 +57,9 @@ namespace NTMiner.Vms {
                             IsOverClockGpuAll = coinVm.IsOverClockGpuAll
                         });
                         if (CoinVm.IsOverClockGpuAll) {
-                            jsonObj.GpuProfiles.Add(new GpuProfileData(coinVm.GpuAllProfileVm));
+                            jsonObj.GpuProfiles.Add(new GpuProfileData().Update(coinVm.GpuAllProfileVm));
                         }
-                        jsonObj.GpuProfiles.AddRange(coinVm.GpuProfileVms.Select(a => new GpuProfileData(a)));
+                        jsonObj.GpuProfiles.AddRange(coinVm.GpuProfileVms.Select(a => new GpuProfileData().Update(a)));
                     }
                 }
                 string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);

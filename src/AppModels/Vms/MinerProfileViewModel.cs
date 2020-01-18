@@ -147,11 +147,11 @@ namespace NTMiner.Vms {
                 if (CoinVm.CoinKernel.IsSupportPool1) {
                     var mainCoinPool1 = CoinVm.CoinProfile.MainCoinPool1;
                     if (mainCoinPool1 == null) {
-                        return mainCoinPool != null && mainCoinPool.IsUserMode;
+                        return mainCoinPool.IsUserMode;
                     }
-                    return mainCoinPool != null && mainCoinPool.IsUserMode && mainCoinPool1 != null && mainCoinPool1.IsUserMode;
+                    return mainCoinPool.IsUserMode && mainCoinPool1.IsUserMode;
                 }
-                return mainCoinPool != null && mainCoinPool.IsUserMode;
+                return mainCoinPool.IsUserMode;
             }
         }
 

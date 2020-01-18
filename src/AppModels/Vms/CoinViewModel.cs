@@ -750,7 +750,20 @@ namespace NTMiner.Vms {
 
         public CoinKernelViewModel CoinKernel {
             get {
-                CoinKernelViewModel coinKernel = CoinKernels.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
+                var list = CoinKernels;
+                CoinKernelViewModel coinKernel = list.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
+                // 选中的记录可能已经不存在
+                if (coinKernel == null) {
+                    // 首先选择推荐的
+                    coinKernel = list.FirstOrDefault(a => a.IsRecommend);
+                    if (coinKernel == null) {
+                        // 推荐的不存在，选择第一个
+                        coinKernel = list.FirstOrDefault();
+                    }
+                    if (coinKernel != null) {
+                        this.CoinKernel = coinKernel;
+                    }
+                }
                 return coinKernel;
             }
             set {

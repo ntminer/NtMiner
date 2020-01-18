@@ -5,9 +5,9 @@ using System.Reflection;
 
 namespace NTMiner {
     public class IgnoreReflectionSetAttribute : Attribute { }
-    public static class EntityExtensions {
+    public static class ReflectionUpdate {
         private static readonly Dictionary<Type, PropertyInfo[]> SEntityPropertiesDic = new Dictionary<Type, PropertyInfo[]>();
-        public static T Update<T, TInput>(this T entity, TInput input) where T : class, IEntity {
+        public static T Update<T, TInput>(this T entity, TInput input) where T : class, ICanUpdateByReflection {
             if (entity == null) {
                 return null;
             }

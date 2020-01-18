@@ -11,58 +11,6 @@ namespace NTMiner.Profile {
             };
         }
 
-        public static MinerProfileData Create(IMinerProfile data) {
-            return new MinerProfileData {
-                Id = data.CoinId,
-                MinerName = data.MinerName,
-                CoinId = data.CoinId,
-                IsAutoRestartKernel = data.IsAutoRestartKernel,
-                AutoRestartKernelTimes = data.AutoRestartKernelTimes,
-                IsNoShareRestartKernel = data.IsNoShareRestartKernel,
-                NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes,
-                IsNetUnavailableStopMine = data.IsNetUnavailableStopMine,
-                IsNetAvailableStartMine = data.IsNetAvailableStartMine,
-                NetAvailableStartMineSeconds = data.NetAvailableStartMineSeconds,
-                NetUnavailableStopMineMinutes = data.NetUnavailableStopMineMinutes,
-                IsNoShareRestartComputer = data.IsNoShareRestartComputer,
-                NoShareRestartComputerMinutes = data.NoShareRestartComputerMinutes,
-                IsPeriodicRestartKernel = data.IsPeriodicRestartKernel,
-                PeriodicRestartKernelHours = data.PeriodicRestartKernelHours,
-                PeriodicRestartKernelMinutes = data.PeriodicRestartKernelMinutes,
-                IsPeriodicRestartComputer = data.IsPeriodicRestartComputer,
-                PeriodicRestartComputerHours = data.PeriodicRestartComputerHours,
-                PeriodicRestartComputerMinutes = data.PeriodicRestartComputerMinutes,
-                IsSpeedDownRestartComputer = data.IsSpeedDownRestartComputer,
-                RestartComputerSpeedDownPercent = data.RestartComputerSpeedDownPercent,
-                IsEChargeEnabled = data.IsEChargeEnabled,
-                EPrice = data.EPrice,
-                IsPowerAppend = data.IsPowerAppend,
-                PowerAppend = data.PowerAppend,
-                MaxTemp = data.MaxTemp,
-                AutoStartDelaySeconds = data.AutoStartDelaySeconds,
-                IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall,
-                IsShowInTaskbar = data.IsShowInTaskbar,
-                IsNoUi = data.IsNoUi,
-                IsAutoNoUi = data.IsAutoNoUi,
-                AutoNoUiMinutes = data.AutoNoUiMinutes,
-                IsShowNotifyIcon = data.IsShowNotifyIcon,
-                IsCloseMeanExit = data.IsCloseMeanExit,
-                IsShowCommandLine = data.IsShowCommandLine,
-                IsAutoBoot = data.IsAutoBoot,
-                IsAutoStart = data.IsAutoStart,
-                IsCreateShortcut = data.IsCreateShortcut,
-                IsAutoStopByCpu = data.IsAutoStopByCpu,
-                IsAutoStartByCpu = data.IsAutoStartByCpu,
-                CpuGETemperatureSeconds = data.CpuGETemperatureSeconds,
-                CpuLETemperatureSeconds = data.CpuLETemperatureSeconds,
-                CpuStartTemperature = data.CpuStartTemperature,
-                CpuStopTemperature = data.CpuStopTemperature,
-                IsRaiseHighCpuEvent = data.IsRaiseHighCpuEvent,
-                HighCpuBaseline = data.HighCpuBaseline,
-                HighCpuSeconds = data.HighCpuSeconds
-            };
-        }
-
         public MinerProfileData() {
             // 这些赋值的意义是为模型新增的属性提供默认值，因为新增的属性在数据库中没有值
             MinerName = string.Empty;

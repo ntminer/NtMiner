@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.MinerServer {
-    public interface ICalcConfig {
+    public interface ICalcConfig : ICanUpdateByReflection {
         string CoinCode { get; }
         double Speed { get; }
         string SpeedUnit { get; }
