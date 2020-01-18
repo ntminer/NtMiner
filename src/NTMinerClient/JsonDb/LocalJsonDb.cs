@@ -43,8 +43,8 @@ namespace NTMiner.JsonDb {
             CoinProfiles = coinProfiles.ToArray();
             CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
             PoolProfiles = poolProfiles.ToArray();
-            Pools = root.ServerContext.PoolSet.AsEnumerable().Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData(a)).ToArray();
-            Wallets = minerProfile.GetWallets().Select(a => new WalletData(a)).ToArray();
+            Pools = root.ServerContext.PoolSet.AsEnumerable().Where(a => poolProfiles.Any(b => b.PoolId == a.GetId())).Select(a => new PoolData().Update(a)).ToArray();
+            Wallets = minerProfile.GetWallets().Select(a => new WalletData().Update(a)).ToArray();
             TimeStamp = Timestamp.GetTimestamp();
         }
 

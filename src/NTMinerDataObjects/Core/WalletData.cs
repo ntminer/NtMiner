@@ -6,14 +6,6 @@ namespace NTMiner.Core {
         public WalletData() {
         }
 
-        public WalletData(IWallet data) {
-            this.Id = data.GetId();
-            this.CoinId = data.CoinId;
-            this.Name = data.Name;
-            this.Address = data.Address;
-            this.SortNumber = data.SortNumber;
-        }
-
         public Guid GetId() {
             return this.Id;
         }

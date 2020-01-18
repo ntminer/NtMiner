@@ -60,7 +60,7 @@
     <Compile Include="User\IUserSet.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />
-    <Compile Include="EntityExtensions.cs" />
+    <Compile Include="ReflectionUpdate.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="NTMinerException.cs" />
     <Compile Include="Messages.cs" />
