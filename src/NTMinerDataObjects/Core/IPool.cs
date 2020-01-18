@@ -2,6 +2,7 @@
 
 namespace NTMiner.Core {
     public interface IPool : ILevelEntity<Guid> {
+        Guid Id { get; }
         Guid CoinId { get; }
         Guid BrandId { get; }
         string Name { get; }

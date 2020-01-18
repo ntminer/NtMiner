@@ -2,6 +2,7 @@
 
 namespace NTMiner.Core {
     public interface IKernel : IEntity<Guid> {
+        Guid Id { get; }
         string Code { get; }
         Guid BrandId { get; }
         string Version { get; }

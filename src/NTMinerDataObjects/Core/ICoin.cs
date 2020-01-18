@@ -2,6 +2,7 @@
 
 namespace NTMiner.Core {
     public interface ICoin : IEntity<Guid> {
+        Guid Id { get; }
         string Code { get; }
         string EnName { get; }
         string CnName { get; }

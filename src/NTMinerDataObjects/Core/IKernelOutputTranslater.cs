@@ -6,6 +6,7 @@ namespace NTMiner.Core {
     // 台窗口，所以这个翻译器一半的功能已经无用了，前译在用。
     // 前译：通常用于将不标准的算力单位替换为标准算力单位，比如将sol/s替换为H/s
     public interface IKernelOutputTranslater : IEntity<Guid> {
+        Guid Id { get; }
         Guid KernelOutputId { get; }
         string RegexPattern { get; }
         string Replacement { get; }
