@@ -841,7 +841,7 @@ namespace NTMiner {
             }
             #endregion
 
-            #region ReadPrintLoopLogFile
+            #region ReadPrintLoopLogFileAsync
             private void ReadPrintLoopLogFileAsync(bool isWriteToConsole) {
                 Task.Factory.StartNew(() => {
                     bool isLogFileCreated = true;
@@ -872,35 +872,34 @@ namespace NTMiner {
                             sreader = new StreamReader(File.Open(logFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
                             while (Instance.LockedMineContext != null && logFileFullName == Instance.LockedMineContext.LogFileFullName) {
                                 string outline = sreader.ReadLine();
-                                if (string.IsNullOrEmpty(outline) && sreader.EndOfStream) {
+                                if (string.IsNullOrEmpty(outline)) {
                                     Thread.Sleep(1000);
                                 }
                                 else {
                                     string input = outline;
-                                    Guid kernelOutputId = Guid.Empty;
                                     if (this.KernelOutput != null) {
-                                        kernelOutputId = this.KernelOutput.GetId();
-                                    }
-                                    // 前译
-                                    Instance.ServerContext.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, isPre: true);
-                                    if (!string.IsNullOrEmpty(KernelOutput.KernelRestartKeyword) && input.Contains(KernelOutput.KernelRestartKeyword)) {
-                                        if (_kernelRestartKeywordOn.AddSeconds(1) < DateTime.Now) {
-                                            KernelSelfRestartCount += 1;
-                                            _kernelRestartKeywordOn = DateTime.Now;
-                                            VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
+                                        Guid kernelOutputId = this.KernelOutput.GetId();
+                                        // 前译
+                                        Instance.ServerContext.KernelOutputTranslaterSet.Translate(kernelOutputId, ref input, isPre: true);
+                                        if (!string.IsNullOrEmpty(KernelOutput.KernelRestartKeyword) && input.Contains(KernelOutput.KernelRestartKeyword)) {
+                                            if (_kernelRestartKeywordOn.AddSeconds(1) < DateTime.Now) {
+                                                KernelSelfRestartCount += 1;
+                                                _kernelRestartKeywordOn = DateTime.Now;
+                                                VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
+                                            }
                                         }
-                                    }
-                                    Instance.ServerContext.KernelOutputSet.Pick(ref input, this);
-                                    var kernelOutputKeywords = Instance.KernelOutputKeywordSet.GetKeywords(this.KernelOutput.GetId());
-                                    if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {
-                                        foreach (var keyword in kernelOutputKeywords) {
-                                            if (input.Contains(keyword.Keyword)) {
-                                                if (keyword.MessageType.TryParse(out LocalMessageType messageType)) {
-                                                    string content = input;
-                                                    if (!string.IsNullOrEmpty(keyword.Description)) {
-                                                        content = $" 大意：{keyword.Description} 详情：" + content;
+                                        Instance.ServerContext.KernelOutputSet.Pick(ref input, this);
+                                        var kernelOutputKeywords = Instance.KernelOutputKeywordSet.GetKeywords(this.KernelOutput.GetId());
+                                        if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {
+                                            foreach (var keyword in kernelOutputKeywords) {
+                                                if (input.Contains(keyword.Keyword)) {
+                                                    if (keyword.MessageType.TryParse(out LocalMessageType messageType)) {
+                                                        string content = input;
+                                                        if (!string.IsNullOrEmpty(keyword.Description)) {
+                                                            content = $" 大意：{keyword.Description} 详情：" + content;
+                                                        }
+                                                        VirtualRoot.LocalMessage(LocalMessageChannel.Kernel, this.GetType().Name, messageType, content, OutEnum.None, toConsole: false);
                                                     }
-                                                    VirtualRoot.LocalMessage(LocalMessageChannel.Kernel, this.GetType().Name, messageType, content, OutEnum.None, toConsole: false);
                                                 }
                                             }
                                         }
