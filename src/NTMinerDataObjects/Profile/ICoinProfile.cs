@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.Profile {
-    public interface ICoinProfile {
+    public interface ICoinProfile : ICanUpdateByReflection {
         Guid CoinId { get; }
         Guid PoolId { get; }
         Guid PoolId1 { get; }

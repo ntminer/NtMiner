@@ -1,5 +1,5 @@
 ﻿namespace NTMiner {
-    public interface IOverClockInput {
+    public interface IOverClockInput : ICanUpdateByReflection {
         int CoreClockDelta { get; set; }
 
         int MemoryClockDelta { get; set; }

@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                 }
                 bool isMineWorkChanged = false;
                 bool isMinerProfileChanged = false;
-                MineWorkData mineWorkData = new MineWorkData(this);
+                MineWorkData mineWorkData = new MineWorkData().Update(this);
                 if (NTMinerRoot.Instance.MineWorkSet.TryGetMineWork(this.Id, out IMineWork entity)) {
                     string sha1 = NTMinerRoot.Instance.MinerProfile.GetSha1();
                     // 如果作业设置变更了则一定变更了

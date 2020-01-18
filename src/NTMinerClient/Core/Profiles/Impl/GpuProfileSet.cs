@@ -19,7 +19,7 @@ namespace NTMiner.Core.Profiles.Impl {
                     Save();
                 }
                 else {
-                    data = new GpuProfileData(message.Input);
+                    data = new GpuProfileData().Update(message.Input);
                     _data.GpuProfiles.Add(data);
                     Save();
                 }

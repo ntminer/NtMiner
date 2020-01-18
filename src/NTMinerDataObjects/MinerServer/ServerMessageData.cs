@@ -3,17 +3,9 @@
 namespace NTMiner.MinerServer {
     public class ServerMessageData : IServerMessage {
         private string _content;
+        private DateTime _timestamp;
 
         public ServerMessageData() { }
-
-        public ServerMessageData(IServerMessage data) {
-            Id = data.Id == Guid.Empty ? Guid.NewGuid() : data.Id;
-            Provider = data.Provider;
-            MessageType = data.MessageType;
-            Content = data.Content;
-            Timestamp = data.Timestamp == DateTime.MinValue ? DateTime.Now : data.Timestamp;
-            IsDeleted = data.IsDeleted;
-        }
 
         public Guid GetId() {
             return this.Id;
@@ -32,7 +24,13 @@ namespace NTMiner.MinerServer {
             }
         }
 
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp {
+            get => _timestamp;
+            set {
+                value = value == DateTime.MinValue ? DateTime.Now : value;
+                _timestamp = value;
+            }
+        }
 
         public bool IsDeleted { get; set; }
     }

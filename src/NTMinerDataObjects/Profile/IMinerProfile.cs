@@ -2,6 +2,7 @@
 
 namespace NTMiner.Profile {
     public interface IMinerProfile : IEntity<Guid> {
+        Guid Id { get; }
         Guid CoinId { get; }
         string MinerName { get; }
 

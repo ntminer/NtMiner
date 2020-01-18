@@ -18,27 +18,6 @@ namespace NTMiner.Profile {
             this.Cool = 90;
         }
 
-        public GpuProfileData(IGpuProfile data) {
-            Update(data);
-        }
-
-        public void Update(IGpuProfile data) {
-            this.CoinId = data.CoinId;
-            this.Index = data.Index;
-            this.IsAutoFanSpeed = data.IsAutoFanSpeed;
-            Update((IOverClockInput)data);
-        }
-
-        private void Update(IOverClockInput input) {
-            this.CoreClockDelta = input.CoreClockDelta;
-            this.MemoryClockDelta = input.MemoryClockDelta;
-            this.CoreVoltage = input.CoreVoltage;
-            this.MemoryVoltage = input.MemoryVoltage;
-            this.PowerCapacity = input.PowerCapacity;
-            this.TempLimit = input.TempLimit;
-            this.Cool = input.Cool;
-        }
-
         public string GetId() {
             return $"{CoinId.ToString()}_{Index.ToString()}";
         }
