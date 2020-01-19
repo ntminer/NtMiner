@@ -3,7 +3,7 @@ using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Service.ServerService {
+namespace NTMiner.Services.Server {
     public partial class ClientService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IClientController>();
 

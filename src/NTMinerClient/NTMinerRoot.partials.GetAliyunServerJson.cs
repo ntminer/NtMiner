@@ -1,4 +1,4 @@
-﻿using NTMiner.Service.OfficialService;
+﻿using NTMiner.Services;
 using System;
 using System.IO;
 using System.IO.Compression;

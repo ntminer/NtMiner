@@ -5,7 +5,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NTMiner.Service.ServerService {
+namespace NTMiner.Services.Server {
     public class ReportService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IReportController>();
 

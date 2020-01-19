@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NTMiner.Service.OfficialService {
+namespace NTMiner.Services.Official {
     public class ControlCenterService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IControlCenterController>();
         private readonly string _host;

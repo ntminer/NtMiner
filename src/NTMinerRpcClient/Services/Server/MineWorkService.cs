@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NTMiner.Service.ServerService {
+namespace NTMiner.Services.Server {
     public class MineWorkService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IMineWorkController>();
 

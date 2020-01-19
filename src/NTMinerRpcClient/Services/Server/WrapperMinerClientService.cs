@@ -4,7 +4,7 @@ using NTMiner.MinerClient;
 using NTMiner.MinerServer;
 using System;
 
-namespace NTMiner.Service.ServerService {
+namespace NTMiner.Services.Server {
     public class WrapperMinerClientService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IWrapperMinerClientController>();
 

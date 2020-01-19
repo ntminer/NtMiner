@@ -3,7 +3,9 @@ using NTMiner.MinerServer;
 using System;
 using System.Web;
 
-namespace NTMiner.Service.OfficialService {
+namespace NTMiner.Services {
+    using Official;
+
     public class OfficialServices {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
 

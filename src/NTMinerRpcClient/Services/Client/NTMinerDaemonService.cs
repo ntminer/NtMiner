@@ -5,7 +5,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NTMiner.Service.ClientService {
+namespace NTMiner.Services.Client {
     public class NTMinerDaemonService {
         public static readonly NTMinerDaemonService Instance = new NTMinerDaemonService();
 
