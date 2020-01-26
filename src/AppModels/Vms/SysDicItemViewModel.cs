@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
         }
 
         public SysDicItemViewModel(ISysDicItem data) : this(data.GetId()) {
-            this.DataLevel = data.DataLevel;
+            this._dataLevel = data.GetDataLevel();
             _dicId = data.DicId;
             _code = data.Code;
             _value = data.Value;
@@ -95,11 +95,14 @@ namespace NTMiner.Vms {
             });
         }
 
-        public DataLevel DataLevel { get; set; }
+        private DataLevel _dataLevel;
+        public DataLevel GetDataLevel() {
+            return _dataLevel;
+        }
 
         public bool IsReadOnly {
             get {
-                if (!DevMode.IsDevMode && this.DataLevel == DataLevel.Global) {
+                if (!DevMode.IsDevMode && this._dataLevel == DataLevel.Global) {
                     return true;
                 }
                 return false;
@@ -108,12 +111,12 @@ namespace NTMiner.Vms {
 
         public string DataLevelText {
             get {
-                return this.DataLevel.GetDescription();
+                return this._dataLevel.GetDescription();
             }
         }
 
         public void SetDataLevel(DataLevel dataLevel) {
-            this.DataLevel = dataLevel;
+            this._dataLevel = dataLevel;
         }
 
         public Guid Id {

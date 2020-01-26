@@ -28,7 +28,7 @@ namespace NTMiner.Vms {
 
         private LocalMessageType _messageTypeEnum;
         public KernelOutputKeywordViewModel(IKernelOutputKeyword data) : this(data.GetId()) {
-            this.DataLevel = data.DataLevel;
+            this._dataLevel = data.GetDataLevel();
             _kernelOutputId = data.KernelOutputId;
             _messageType = data.MessageType;
             data.MessageType.TryParse(out _messageTypeEnum);
@@ -117,16 +117,19 @@ namespace NTMiner.Vms {
             }
         }
 
-        public DataLevel DataLevel { get; set; }
+        private DataLevel _dataLevel;
+        public DataLevel GetDataLevel() {
+            return _dataLevel;
+        }
 
         public bool IsReadOnly {
             get {
-                return !DevMode.IsDevMode && DataLevel == DataLevel.Global;
+                return !DevMode.IsDevMode && _dataLevel == DataLevel.Global;
             }
         }
 
         public void SetDataLevel(DataLevel dataLevel) {
-            this.DataLevel = dataLevel;
+            this._dataLevel = dataLevel;
         }
 
         public Guid GetId() {

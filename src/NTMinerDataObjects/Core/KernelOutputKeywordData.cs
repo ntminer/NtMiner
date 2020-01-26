@@ -14,7 +14,7 @@ namespace NTMiner.Core {
                 KernelOutputId = data.KernelOutputId,
                 MessageType = data.MessageType,
                 Keyword = data.Keyword,
-                DataLevel = data.DataLevel,
+                _dataLevel = data.GetDataLevel(),
                 Description = data.Description
             };
         }
@@ -25,11 +25,13 @@ namespace NTMiner.Core {
             return this.Id;
         }
 
-        [LiteDB.BsonIgnore]
-        public DataLevel DataLevel { get; set; }
+        private DataLevel _dataLevel;
+        public DataLevel GetDataLevel() {
+            return _dataLevel;
+        }
 
         public void SetDataLevel(DataLevel dataLevel) {
-            this.DataLevel = dataLevel;
+            this._dataLevel = dataLevel;
         }
 
         public Guid Id { get; set; }

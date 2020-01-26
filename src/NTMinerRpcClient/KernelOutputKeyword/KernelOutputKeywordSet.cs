@@ -28,7 +28,7 @@ namespace NTMiner.KernelOutputKeyword {
                     }
                     RpcRoot.OfficialServer.KernelOutputKeywordService.GetKernelOutputKeywords((response, e) => {
                         if (response.IsSuccess()) {
-                            KernelOutputKeywordData[] toRemoves = _dicById.Where(a => a.Value.DataLevel == DataLevel.Global).Select(a => a.Value).ToArray();
+                            KernelOutputKeywordData[] toRemoves = _dicById.Where(a => a.Value.GetDataLevel() == DataLevel.Global).Select(a => a.Value).ToArray();
                             foreach (var item in toRemoves) {
                                 _dicById.Remove(item.Id);
                                 if (_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {

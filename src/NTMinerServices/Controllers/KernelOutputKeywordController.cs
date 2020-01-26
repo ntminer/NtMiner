@@ -46,7 +46,7 @@ namespace NTMiner.Controllers {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
                 }
-                if (request.Data.DataLevel != DataLevel.Global) {
+                if (request.Data.GetDataLevel() != DataLevel.Global) {
                     return ResponseBase.InvalidInput("添加到服务器的内核输出关键字记录的DataLevel属性必须赋值为Global");
                 }
                 VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(request.Data));
