@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
@@ -83,6 +84,21 @@ namespace NTMiner.Views.Ucs {
                 if (process == null) {
                     this.IconCheckUpdate.Visibility = Visibility.Collapsed;
                     this.IconLoading.Visibility = Visibility.Visible;
+                    Interval.Start(
+                        per: TimeSpan.FromMilliseconds(100),
+                        perCallback: () => {
+                            UIThread.Execute(() => () => {
+                                ((RotateTransform)this.IconLoading.RenderTransform).Angle += 30;
+                            });
+                        }, stopCallback: () => {
+                            UIThread.Execute(() => () => {
+                                this.IconCheckUpdate.Visibility = Visibility.Visible;
+                                this.IconLoading.Visibility = Visibility.Collapsed;
+                                ((RotateTransform)this.IconLoading.RenderTransform).Angle = 0;
+                            });
+                        }, timeout: TimeSpan.FromSeconds(3), requestStop: () => {
+                            return Process.GetProcessesByName(NTKeyword.NTMinerUpdaterProcessName).FirstOrDefault() != null;
+                        });
                 }
             }
         }

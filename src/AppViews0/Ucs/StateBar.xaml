@@ -301,7 +301,11 @@
 							Height="14"
 							Data="{StaticResource Icon_Loading}"
 							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
+							Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0" CenterX="7" CenterY="7"></RotateTransform>
+                            </Path.RenderTransform>
+                        </Path>
                         <TextBlock Foreground="{Binding CheckUpdateForeground}">更新</TextBlock>
                         <TextBlock
 						    Margin="2 0 0 0"
