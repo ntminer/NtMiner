@@ -1,6 +1,4 @@
-﻿using NTMiner.Service.ClientService;
-using NTMiner.Service.OfficialService;
-using NTMiner.Service.ServerService;
+﻿using NTMiner.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -7,7 +7,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NTMiner.Service.ClientService {
+namespace NTMiner.Services.Client {
     public class MinerClientService {
         public static readonly MinerClientService Instance = new MinerClientService();
 

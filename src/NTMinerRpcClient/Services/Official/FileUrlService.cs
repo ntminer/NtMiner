@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NTMiner.Service.OfficialService {
+namespace NTMiner.Services.Official {
     public class FileUrlService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IFileUrlController>();
         private readonly string _host;

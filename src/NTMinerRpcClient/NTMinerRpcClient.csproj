@@ -54,33 +54,33 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Service\ClientService\ClientServices.cs" />
-    <Compile Include="Service\ClientService\MinerStudioService.cs" />
-    <Compile Include="Service\ClientService\NTMinerClientService.cs" />
-    <Compile Include="Service\ClientService\NTMinerDaemonService.cs" />
+    <Compile Include="Services\ClientServices.cs" />
+    <Compile Include="Services\Client\MinerStudioService.cs" />
+    <Compile Include="Services\Client\NTMinerClientService.cs" />
+    <Compile Include="Services\Client\NTMinerDaemonService.cs" />
     <Compile Include="RpcRoot.partial.cs" />
     <Compile Include="RpcRoot.cs" />
     <Compile Include="KernelOutputKeyword\IKernelOutputKeywordSet.cs" />
     <Compile Include="KernelOutputKeyword\KernelOutputKeywordSet.cs" />
-    <Compile Include="Service\OfficialService\FileUrlService.cs" />
-    <Compile Include="Service\OfficialService\NTMinerWalletService.cs" />
-    <Compile Include="Service\OfficialService\OfficialServices.cs" />
-    <Compile Include="Service\OfficialService\OverClockDataService.cs" />
-    <Compile Include="Service\OfficialService\ControlCenterService.cs" />
+    <Compile Include="Services\Official\FileUrlService.cs" />
+    <Compile Include="Services\Official\NTMinerWalletService.cs" />
+    <Compile Include="Services\OfficialServices.cs" />
+    <Compile Include="Services\Official\OverClockDataService.cs" />
+    <Compile Include="Services\Official\ControlCenterService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\OfficialService\KernelOutputKeywordService.cs" />
-    <Compile Include="Service\ServerService\ClientService.cs" />
-    <Compile Include="Service\ServerService\ColumnsShowService.cs" />
-    <Compile Include="Service\ServerService\PoolService.cs" />
-    <Compile Include="Service\ServerService\MinerGroupService.cs" />
-    <Compile Include="Service\ServerService\MineWorkService.cs" />
-    <Compile Include="Service\ServerService\ServerServices.cs" />
-    <Compile Include="Service\ServerService\WalletService.cs" />
-    <Compile Include="Service\ServerService\UserService.cs" />
-    <Compile Include="Service\ServerService\AppSettingService.cs" />
-    <Compile Include="Service\ServerService\ControlCenterService.cs" />
-    <Compile Include="Service\ServerService\WrapperMinerClientService.cs" />
-    <Compile Include="Service\ServerService\ReportService.cs" />
+    <Compile Include="Services\Official\KernelOutputKeywordService.cs" />
+    <Compile Include="Services\Server\ClientService.cs" />
+    <Compile Include="Services\Server\ColumnsShowService.cs" />
+    <Compile Include="Services\Server\PoolService.cs" />
+    <Compile Include="Services\Server\MinerGroupService.cs" />
+    <Compile Include="Services\Server\MineWorkService.cs" />
+    <Compile Include="Services\ServerServices.cs" />
+    <Compile Include="Services\Server\WalletService.cs" />
+    <Compile Include="Services\Server\UserService.cs" />
+    <Compile Include="Services\Server\AppSettingService.cs" />
+    <Compile Include="Services\Server\ControlCenterService.cs" />
+    <Compile Include="Services\Server\WrapperMinerClientService.cs" />
+    <Compile Include="Services\Server\ReportService.cs" />
     <Compile Include="ServerMessage\IServerMessageSet.cs" />
     <Compile Include="ServerMessage\ServerMessageSet.cs" />
   </ItemGroup>
@@ -108,7 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <Compile Include="Service\OfficialService\ServerMessageService.cs" />
+    <Compile Include="Services\Official\ServerMessageService.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />

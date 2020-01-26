@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Service.ServerService {
+namespace NTMiner.Services.Server {
     public class UserService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IUserController>();
 

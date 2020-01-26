@@ -1,4 +1,6 @@
-﻿namespace NTMiner.Service.ServerService {
+﻿namespace NTMiner.Services {
+    using Server;
+
     public class ServerServices {
         public readonly ControlCenterService ControlCenterService;
         public readonly UserService UserService;

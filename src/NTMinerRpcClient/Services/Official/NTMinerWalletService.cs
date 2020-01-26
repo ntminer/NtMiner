@@ -3,7 +3,7 @@ using NTMiner.MinerServer;
 using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Service.OfficialService {
+namespace NTMiner.Services.Official {
     public class NTMinerWalletService {
         private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerWalletController>();
         private readonly string _host;

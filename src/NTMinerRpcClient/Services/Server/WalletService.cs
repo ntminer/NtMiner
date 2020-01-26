@@ -3,7 +3,7 @@ using NTMiner.Core;
 using System;
 using System.Collections.Generic;
 
-namespace NTMiner.Service.ServerService {
+namespace NTMiner.Services.Server {
     public class WalletService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IWalletController>();
 

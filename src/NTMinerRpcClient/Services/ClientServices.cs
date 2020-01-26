@@ -1,4 +1,6 @@
-﻿namespace NTMiner.Service.ClientService {
+﻿namespace NTMiner.Services {
+    using Client;
+
     public class ClientServices {
         public readonly MinerClientService MinerClientService = MinerClientService.Instance;
         public readonly NTMinerDaemonService NTMinerDaemonService = NTMinerDaemonService.Instance;

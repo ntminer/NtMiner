@@ -404,7 +404,7 @@ namespace NTMiner.Vms {
                         File.Delete(iconFileFullName);
                     }
                 };
-                webClient.DownloadFileAsync(new Uri($"{Service.OfficialService.OfficialServices.MinerJsonBucket}coin_icons/{this.Icon}"), iconFileFullName);
+                webClient.DownloadFileAsync(new Uri($"{Services.OfficialServices.MinerJsonBucket}coin_icons/{this.Icon}"), iconFileFullName);
             }
         }
 

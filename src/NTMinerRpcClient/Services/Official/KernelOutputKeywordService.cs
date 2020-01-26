@@ -3,7 +3,7 @@ using NTMiner.Core;
 using NTMiner.MinerServer;
 using System;
 
-namespace NTMiner.Service.OfficialService {
+namespace NTMiner.Services.Official {
     public class KernelOutputKeywordService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IKernelOutputKeywordController>();
         private readonly string _host;
