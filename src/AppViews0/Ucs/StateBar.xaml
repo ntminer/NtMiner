@@ -284,12 +284,22 @@
                     ToolTip="检查更新"
 					Cursor="Hand"
 					Background="Transparent" 
+                    Click="BtnCheckUpdate_Click"
 					Command="{x:Static app:AppStatic.ShowOnlineUpdate}">
                     <WrapPanel>
                         <Path 
+                            x:Name="IconCheckUpdate"
 							Width="14"
 							Height="13"
 							Data="{StaticResource Icon_Update}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                        <Path 
+                            x:Name="IconLoading"
+                            Visibility="Collapsed"
+							Width="14"
+							Height="14"
+							Data="{StaticResource Icon_Loading}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
                         <TextBlock Foreground="{Binding CheckUpdateForeground}">更新</TextBlock>

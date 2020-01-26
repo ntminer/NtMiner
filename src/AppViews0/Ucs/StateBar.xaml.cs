@@ -1,5 +1,8 @@
 ﻿using NTMiner.Vms;
 using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -72,6 +75,16 @@ namespace NTMiner.Views.Ucs {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
 #endif
+        }
+
+        private void BtnCheckUpdate_Click(object sender, RoutedEventArgs e) {
+            if (this.IconCheckUpdate.Visibility == Visibility.Visible) {
+                Process process = Process.GetProcessesByName(NTKeyword.NTMinerUpdaterProcessName).FirstOrDefault();
+                if (process == null) {
+                    this.IconCheckUpdate.Visibility = Visibility.Collapsed;
+                    this.IconLoading.Visibility = Visibility.Visible;
+                }
+            }
         }
     }
 }

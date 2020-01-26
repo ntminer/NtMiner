@@ -11,20 +11,20 @@ using System.Threading.Tasks;
 /// </summary>
 namespace NTMiner.OhGodAnETHlargementPill {
     public static class OhGodAnETHlargementPillUtil {
-        private static readonly string s_processName = "OhGodAnETHlargementPill-r2";
-        private static readonly string s_fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, s_processName + ".exe");
+        private static readonly string _processName = "OhGodAnETHlargementPill-r2";
+        private static readonly string _fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, _processName + ".exe");
 
         public static void Start() {
             try {
                 if (NTMinerRoot.Instance.GpuSet.AsEnumerable().Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
                     ExtractResource();
-                    Process[] processes = Process.GetProcessesByName(s_processName);
+                    Process[] processes = Process.GetProcessesByName(_processName);
                     if (processes == null || processes.Length == 0) {
                         try {
                             using (Process proc = new Process()) {
                                 proc.StartInfo.CreateNoWindow = true;
                                 proc.StartInfo.UseShellExecute = false;
-                                proc.StartInfo.FileName = s_fileFullName;
+                                proc.StartInfo.FileName = _fileFullName;
                                 proc.Start();
                             }
                         }
@@ -47,7 +47,7 @@ namespace NTMiner.OhGodAnETHlargementPill {
             try {
                 if (NTMinerRoot.Instance.GpuSet.AsEnumerable().Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
                     Task.Factory.StartNew(() => {
-                        Windows.TaskKill.Kill(s_processName, waitForExit: true);
+                        Windows.TaskKill.Kill(_processName, waitForExit: true);
                         Logger.OkWriteLine("成功停止小药丸");
                     });
                 }
@@ -62,12 +62,12 @@ namespace NTMiner.OhGodAnETHlargementPill {
 
         private static void ExtractResource() {
             try {
-                if (File.Exists(s_fileFullName)) {
+                if (File.Exists(_fileFullName)) {
                     return;
                 }
                 Type type = typeof(OhGodAnETHlargementPillUtil);
                 Assembly assembly = type.Assembly;
-                assembly.ExtractManifestResource(type, s_processName + ".exe", s_fileFullName);
+                assembly.ExtractManifestResource(type, _processName + ".exe", _fileFullName);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
