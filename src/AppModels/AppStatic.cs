@@ -57,7 +57,7 @@ namespace NTMiner {
 
         #region Upgrade
         public static void Upgrade(string fileName, Action callback) {
-            try {
+            try {                
                 RpcRoot.OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
                         string argument = string.Empty;
