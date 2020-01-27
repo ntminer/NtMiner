@@ -17,6 +17,7 @@
     <UserControl.Resources>
         <sys:Double x:Key="ItemWidth">230</sys:Double>
         <sys:Double x:Key="ItemHeight">50</sys:Double>
+        <SolidColorBrush x:Key="KbButtonHoverBackground">#CCE8FF</SolidColorBrush>
     </UserControl.Resources>
 	<Grid>
 		<ScrollViewer
@@ -28,6 +29,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding SwitchRadeonGpu}"
 					Cursor="Hand"
@@ -49,6 +51,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding AtikmdagPatcher}"
 					Cursor="Hand"
@@ -71,6 +74,7 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Cursor="Hand"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ViewUrl}"
                     CommandParameter="{Binding AmdDriverMore.Value}"
 					Background="Transparent">
@@ -183,6 +187,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowVirtualMemory}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -203,6 +208,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					IsEnabled="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding EnableWindowsRemoteDesktop}"
 					Cursor="Hand"
@@ -224,6 +230,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					IsEnabled="{Binding IsAutoAdminLogon,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding WindowsAutoLogon}"
 					Cursor="Hand"
@@ -245,6 +252,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding Win10Optimize}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -265,6 +273,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding RegCmdHere}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -300,6 +309,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding BlockWAU}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -320,6 +330,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowCalc}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -341,6 +352,7 @@
 					Width="{StaticResource ItemWidth}"
                     Visibility="{Binding IsReturnEthDevFee,Converter={StaticResource BoolToVisibilityConverter}}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowEthNoDevFee}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -361,6 +373,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowLocalIps}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -381,6 +394,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding OpenDevmgmt}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -401,6 +415,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding OpenEventvwr}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -421,6 +436,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.WindowsProperty}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -441,6 +457,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     Click="BtnMinerClientFinder_Click"
 					Command="{x:Static app:AppStatic.OpenMinerClientFinder}"
 					Cursor="Hand"
