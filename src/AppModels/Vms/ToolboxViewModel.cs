@@ -1,10 +1,14 @@
 ﻿using NTMiner.Core;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ToolboxViewModel : ViewModelBase {
+        private bool _isWinCmdLoading = false;
+        private double _winCmdLodingIconAngle;
+
         public ICommand SwitchRadeonGpu { get; private set; }
         public ICommand AtikmdagPatcher { get; private set; }
         public ICommand RegCmdHere { get; private set; }
@@ -54,8 +58,16 @@ namespace NTMiner.Vms {
                 else {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
                         Task.Factory.StartNew(() => {
+                            this.IsWinCmdLoading = true;
+                            VirtualRoot.SetInterval(per: TimeSpan.FromMilliseconds(100), perCallback: () => {
+                                this.WinCmdLodingIconAngle += 30;
+                            }, stopCallback: () => {
+                                this.IsWinCmdLoading = false;
+                                OnPropertyChanged(nameof(IsRegedCmdHere));
+                            }, timeout: TimeSpan.FromSeconds(6), requestStop: () => {
+                                return IsRegedCmdHere;
+                            });
                             VirtualRoot.Execute(new RegCmdHereCommand());
-                            OnPropertyChanged(nameof(IsRegedCmdHere));
                         });
                     }, btnYesText: "添加"));
                 }
@@ -87,6 +99,22 @@ namespace NTMiner.Vms {
         public bool IsRegedCmdHere {
             get {
                 return Windows.Cmd.IsRegedCmdHere();
+            }
+        }
+
+        public bool IsWinCmdLoading {
+            get => _isWinCmdLoading;
+            set {
+                _isWinCmdLoading = value;
+                OnPropertyChanged(nameof(IsWinCmdLoading));
+            }
+        }
+
+        public double WinCmdLodingIconAngle {
+            get => _winCmdLodingIconAngle;
+            set {
+                _winCmdLodingIconAngle = value;
+                OnPropertyChanged(nameof(WinCmdLodingIconAngle));
             }
         }
 

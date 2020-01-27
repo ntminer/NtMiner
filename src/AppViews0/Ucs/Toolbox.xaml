@@ -272,9 +272,21 @@
 						<Path 
 							Width="34"
 							Height="30"
+                            Visibility="{Binding IsWinCmdLoading,Converter={StaticResource BoolToVisibilityInvertConverter}}"
 							Data="{StaticResource Icon_Command}"
 							Fill="Black"
 							Stretch="Fill" />
+                        <Path 
+                            Visibility="{Binding IsWinCmdLoading,Converter={StaticResource BoolToVisibilityConverter}}"
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Loading}"
+							Fill="Black"
+							Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="{Binding WinCmdLodingIconAngle}" CenterX="15" CenterY="15"></RotateTransform>
+                            </Path.RenderTransform>
+                        </Path>
                         <StackPanel Margin="8 0 0 0" Width="152" ToolTip="方便在当前目录打开命令行">
 							<TextBlock FontWeight="Bold" FontSize="14">Windows右键命令行</TextBlock>
                             <WrapPanel>
