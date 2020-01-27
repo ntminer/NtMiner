@@ -5,7 +5,7 @@
 ## 时间事件发生器
 时间事件发生器是挂载在虚拟根[VirtualRoot](<https://github.com/ntminer/ntminer/blob/master/src/NTMinerlib/VirtualRoot.cs>)上的一个组件，它负责在特定的时间将特定类型的事件发布到系统总线上去。时间事件发生器会发布的事件有：
 
-[代码位置](https://github.com/ntminer/ntminer/blob/master/src/NTMinerlib/Messages.cs)
+[代码位置](https://github.com/ntminer/ntminer/blob/master/src/NTMinerHub/Messages.cs)
 
 ```
 HasBoot1SecondEvent
