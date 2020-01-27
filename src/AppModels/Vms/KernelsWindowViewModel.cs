@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Kernels;
+﻿using NTMiner.Core;
+using NTMiner.Core.Kernels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

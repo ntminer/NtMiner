@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
 using NTMiner.Controllers;
-using NTMiner.MinerClient;
-using NTMiner.Profile;
+using NTMiner.Core;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.Profile;
 using NTMiner.Serialization;
 using System;
 using System.Collections.Generic;

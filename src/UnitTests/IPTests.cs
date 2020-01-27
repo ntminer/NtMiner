@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
-using NTMiner.MinerClient;
+using NTMiner.Core.MinerClient;
 using System;
 using System.Net;
 using System.Net.Sockets;

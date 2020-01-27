@@ -2,7 +2,7 @@
 using NTMiner.Core;
 using NTMiner.Hub;
 using NTMiner.LocalMessage;
-using NTMiner.MinerClient;
+using NTMiner.Core.MinerClient;
 using NTMiner.Net;
 using NTMiner.Out;
 using NTMiner.Serialization;

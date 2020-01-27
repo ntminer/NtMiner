@@ -121,7 +121,7 @@ namespace NTMiner {
                 }
                 else {
                     try {
-                        _appViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerClient);
+                        _appViewFactory.ShowMainWindow(this, NTMinerAppType.MinerClient);
                     }
                     catch (Exception) {
                         DialogWindow.ShowSoftDialog(new DialogWindowViewModel(

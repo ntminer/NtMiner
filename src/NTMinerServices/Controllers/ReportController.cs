@@ -1,5 +1,5 @@
-﻿using NTMiner.MinerClient;
-using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Web.Http;
 

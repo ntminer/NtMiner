@@ -1,6 +1,7 @@
-﻿using NTMiner.JsonDb;
-using NTMiner.MinerClient;
-using NTMiner.Profile;
+﻿using NTMiner.Core;
+using NTMiner.JsonDb;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;

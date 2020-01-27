@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Profile;
+using NTMiner.Core.Profile;
 using System;
 using System.Linq;
 using System.Windows;

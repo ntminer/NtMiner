@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerServer;
-using NTMiner.Profile;
+using NTMiner.Core.MinerServer;
+using NTMiner.Core.Profile;
 using System;
 using System.IO;
 using System.Linq;

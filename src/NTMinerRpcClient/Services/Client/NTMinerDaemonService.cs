@@ -1,5 +1,5 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Daemon;
+using NTMiner.Core.Daemon;
 using NTMiner.JsonDb;
 using System;
 using System.Net.Http;

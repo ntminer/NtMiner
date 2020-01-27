@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.JsonDb;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using System;
 using System.IO;
 using System.Linq;

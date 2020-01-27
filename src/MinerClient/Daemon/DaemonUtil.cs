@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Daemon;
 using System;
 using System.Diagnostics;
 using System.IO;

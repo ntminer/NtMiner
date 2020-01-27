@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
 using System;
 using System.Diagnostics;
 using System.Windows;

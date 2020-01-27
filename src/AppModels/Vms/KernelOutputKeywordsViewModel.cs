@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerClient;
+using NTMiner.Core.MinerClient;
 using System;
 using System.Windows.Input;
 

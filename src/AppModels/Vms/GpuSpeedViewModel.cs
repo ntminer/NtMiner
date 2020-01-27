@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Gpus;
+﻿using NTMiner.Core;
+using NTMiner.Core.Gpus;
 using System;
 using System.Linq;
 using System.Windows.Input;

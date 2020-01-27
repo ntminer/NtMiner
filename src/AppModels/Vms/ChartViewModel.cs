@@ -1,6 +1,7 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
+using NTMiner.Core;
 using System;
 using System.Linq;
 using System.Windows.Input;

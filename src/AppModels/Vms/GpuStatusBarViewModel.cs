@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using NTMiner.Core;
+using System.Linq;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {

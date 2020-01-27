@@ -1,5 +1,5 @@
-﻿using NTMiner.MinerClient;
-using NTMiner.Profile;
+﻿using NTMiner.Core.MinerClient;
+using NTMiner.Core.Profile;
 using System.Collections.Generic;
 
 namespace NTMiner.JsonDb {

@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Profile;
+using NTMiner.Core.Profile;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;

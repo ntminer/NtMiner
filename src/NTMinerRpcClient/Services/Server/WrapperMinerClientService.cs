@@ -1,7 +1,7 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Daemon;
-using NTMiner.MinerClient;
-using NTMiner.MinerServer;
+using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
 using System;
 
 namespace NTMiner.Services.Server {

@@ -1,7 +1,7 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Core.Profiles;
-using NTMiner.MinerClient;
-using NTMiner.Profile;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.Profile;
 using System;
 using System.Linq;
 

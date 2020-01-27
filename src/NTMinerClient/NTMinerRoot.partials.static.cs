@@ -1,8 +1,8 @@
 ﻿using NTMiner.Core;
 using NTMiner.JsonDb;
-using NTMiner.MinerClient;
-using NTMiner.MinerServer;
-using NTMiner.Profile;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
+using NTMiner.Core.Profile;
 using NTMiner.Repositories;
 using OpenHardwareMonitor.Hardware;
 using System;
