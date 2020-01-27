@@ -5,8 +5,14 @@ using System.Timers;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
+        /// <summary>
+        /// 是否是Win10或更新版本的windows
+        /// </summary>
         public static readonly bool IsGEWin10 = Environment.OSVersion.Version >= new Version(6, 2);
-        public static readonly bool IsLTWin10 = Environment.OSVersion.Version < new Version(6, 2);
+        /// <summary>
+        /// 是否是比Win10更旧版本的windows
+        /// </summary>
+        public static readonly bool IsLTWin10 = !IsGEWin10;
         public static RpcUser RpcUser { get; private set; } = RpcUser.Empty;
 
         public static void SetRpcUser(RpcUser rpcUser) {
@@ -48,6 +54,9 @@ namespace NTMiner {
             return tcs.Task;
         }
 
+        /// <summary>
+        /// 如果是在比如Wpf的界面线程中调用该方法，注意用UIThread回调
+        /// </summary>
         public static void SetInterval(TimeSpan per, Action perCallback, Action stopCallback, TimeSpan timeout, Func<bool> requestStop) {
             var timer = new Timer(per.TotalMilliseconds) { AutoReset = true };
             double milliseconds = 0;
