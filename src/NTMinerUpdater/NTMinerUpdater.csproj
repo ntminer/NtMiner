@@ -141,9 +141,9 @@
       <Project>{b7107a67-a76e-4313-8c5b-3265dde238b6}</Project>
       <Name>BlankWindow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+    <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
-      <Name>NTMinerDataObjects</Name>
+      <Name>NTMinerDataSchemas</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
