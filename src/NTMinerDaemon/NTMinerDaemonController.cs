@@ -1,5 +1,5 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Daemon;
+using NTMiner.Core.Daemon;
 using NTMiner.RemoteDesktop;
 using System;
 using System.Diagnostics;

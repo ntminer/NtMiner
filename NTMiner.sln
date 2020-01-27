@@ -29,8 +29,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppViews0", "src\AppViews0\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalcConfigUpdater", "src\CalcConfigUpdater\CalcConfigUpdater.csproj", "{5646CADA-FEAF-4991-ABDA-DBEBCD54D792}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerDataObjects", "src\NTMinerDataObjects\NTMinerDataObjects.csproj", "{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerLogging", "src\NTMinerLogging\NTMinerLogging.csproj", "{F5091B28-5BB6-4446-9B97-02B37125E340}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerRpcClient", "src\NTMinerRpcClient\NTMinerRpcClient.csproj", "{C7108D8F-EB73-4AE3-916F-BE817EDE37AF}"
@@ -58,8 +56,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E32C4009-7
 		docs\IncorrectShare.md = docs\IncorrectShare.md
 		docs\NTMiner0.md = docs\NTMiner0.md
 		docs\NTMiner1.md = docs\NTMiner1.md
+		docs\NTMiner2.md = docs\NTMiner2.md
+		docs\NTMiner3.md = docs\NTMiner3.md
 		docs\NTMinerBkPool.md = docs\NTMinerBkPool.md
-		docs\NTMinerInnerOuter.md = docs\NTMinerInnerOuter.md
 		docs\Overclock.md = docs\Overclock.md
 		docs\Timer.md = docs\Timer.md
 	EndProjectSection
@@ -89,6 +88,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSocketClientTests", "src\WebSocketClientTests\WebSocketClientTests.csproj", "{188484AC-C870-4F34-BE4C-9A0AF96DE2EA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerHub", "src\NTMinerHub\NTMinerHub.csproj", "{E17F278A-E393-403E-9D37-E371036D7A02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTMinerDataSchemas", "src\NTMinerDataSchemas\NTMinerDataSchemas.csproj", "{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -196,18 +197,6 @@ Global
 		{5646CADA-FEAF-4991-ABDA-DBEBCD54D792}.Release|x64.Build.0 = Release|Any CPU
 		{5646CADA-FEAF-4991-ABDA-DBEBCD54D792}.Release|x86.ActiveCfg = Release|Any CPU
 		{5646CADA-FEAF-4991-ABDA-DBEBCD54D792}.Release|x86.Build.0 = Release|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|x64.Build.0 = Debug|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|x86.Build.0 = Debug|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|x64.ActiveCfg = Release|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|x64.Build.0 = Release|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|x86.ActiveCfg = Release|Any CPU
-		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|x86.Build.0 = Release|Any CPU
 		{F5091B28-5BB6-4446-9B97-02B37125E340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F5091B28-5BB6-4446-9B97-02B37125E340}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5091B28-5BB6-4446-9B97-02B37125E340}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -400,6 +389,18 @@ Global
 		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x64.Build.0 = Release|Any CPU
 		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x86.ActiveCfg = Release|Any CPU
 		{E17F278A-E393-403E-9D37-E371036D7A02}.Release|x86.Build.0 = Release|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|x64.Build.0 = Debug|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Debug|x86.Build.0 = Debug|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|x64.ActiveCfg = Release|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|x64.Build.0 = Release|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|x86.ActiveCfg = Release|Any CPU
+		{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
-﻿using NTMiner.RemoteDesktop;
+﻿using NTMiner.Core;
+using NTMiner.RemoteDesktop;
 using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
@@ -60,7 +61,7 @@ namespace NTMiner {
             }
             else {
                 try {
-                    _appViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
+                    _appViewFactory.ShowMainWindow(this, NTMinerAppType.MinerStudio);
                 }
                 catch (Exception) {
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(

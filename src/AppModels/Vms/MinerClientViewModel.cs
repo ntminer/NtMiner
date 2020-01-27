@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerClient;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
 using NTMiner.RemoteDesktop;
 using System;
 using System.Collections.Generic;
@@ -159,7 +159,7 @@ namespace NTMiner.Vms {
 
         // 便于工具追踪代码
         public void Update(ClientData data) {
-            ReflectionUpdate.Update(this, data);
+            UpdateByReflection.Update(this, data);
         }
 
         public AppContext.MineWorkViewModels MineWorkVms {

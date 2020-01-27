@@ -12,7 +12,7 @@ using NTMiner.Core.MinerServer.Impl;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.KernelOutputKeyword;
-using NTMiner.Profile;
+using NTMiner.Core.Profile;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;

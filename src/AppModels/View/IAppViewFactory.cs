@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
 using System.Windows;
 
 namespace NTMiner.View {

@@ -1,4 +1,4 @@
-﻿using NTMiner.Daemon;
+﻿using NTMiner.Core.Daemon;
 
 namespace NTMiner.Controllers {
     public interface INTMinerDaemonController {

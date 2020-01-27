@@ -1,6 +1,6 @@
 ﻿using LiveCharts;
 using NTMiner.Core;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;

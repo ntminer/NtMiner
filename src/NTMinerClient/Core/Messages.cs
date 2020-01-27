@@ -1,7 +1,7 @@
 ﻿using NTMiner.Hub;
 using NTMiner.Core.Gpus;
-using NTMiner.MinerServer;
-using NTMiner.Profile;
+using NTMiner.Core.MinerServer;
+using NTMiner.Core.Profile;
 using System;
 
 namespace NTMiner.Core {

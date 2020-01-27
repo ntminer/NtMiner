@@ -2,8 +2,8 @@
 using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Hub;
-using NTMiner.MinerClient;
-using NTMiner.Profile;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.Profile;
 using System;
 using System.Collections;
 using System.Collections.Generic;

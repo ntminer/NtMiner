@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using NTMiner.Profile;
+using NTMiner.Core.Profile;
 using System.IO;
 
 namespace NTMiner {

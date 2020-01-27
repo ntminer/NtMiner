@@ -1,6 +1,6 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Daemon;
-using NTMiner.MinerClient;
+using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using System;
 using System.Web.Http;
 

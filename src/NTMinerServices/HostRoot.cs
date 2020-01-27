@@ -4,7 +4,7 @@ using NTMiner.Core;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.KernelOutputKeyword;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
@@ -169,7 +169,7 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.WalletSet = new WalletSet(this);
             this.PoolSet = new PoolSet(this);
-            this.NTMinerFileSet = new NTMinerFileSet(this);
+            this.NTMinerFileSet = new NTMinerFileSet();
             this.OverClockDataSet = new OverClockDataSet(this);
             this.KernelOutputKeywordSet = new KernelOutputKeywordSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName, isServer: true);

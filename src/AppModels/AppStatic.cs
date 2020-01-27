@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerClient;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
@@ -57,7 +57,7 @@ namespace NTMiner {
 
         #region Upgrade
         public static void Upgrade(string fileName, Action callback) {
-            try {
+            try {                
                 RpcRoot.OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                     try {
                         string argument = string.Empty;

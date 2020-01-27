@@ -1,5 +1,5 @@
-﻿using NTMiner.Daemon;
-using NTMiner.MinerClient;
+﻿using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 
 namespace NTMiner.Controllers {
     public interface IMinerClientController {

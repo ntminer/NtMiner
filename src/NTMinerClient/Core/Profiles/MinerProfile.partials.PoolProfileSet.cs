@@ -1,4 +1,4 @@
-﻿using NTMiner.Profile;
+﻿using NTMiner.Core.Profile;
 using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;

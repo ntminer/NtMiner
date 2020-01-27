@@ -9,6 +9,9 @@
         public const string MinerClientFinderAppMutex = "MinerClientFinderAppMutex";
         #endregion
 
+        public const string NTMinerServicesProcessName = "NTMinerServices";
+        public const string NTMinerUpdaterProcessName = "NTMinerUpdater";
+
         public const string HomeDirParameterName = "{家目录}";
         public const string TempDirParameterName = "{临时目录}";
         public const int MinerClientPort = 3336;

@@ -1,4 +1,5 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core.MinerServer;
+using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace NTMiner {
                 NTStopwatch.Start();
 #endif
                 foreach (var coinVm in AppContext.Instance.CoinVms.AllCoins) {
-                    _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(new MinerServer.CoinSnapshotData {
+                    _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(new CoinSnapshotData {
                         CoinCode = coinVm.Code,
                         MainCoinMiningCount = 0,
                         MainCoinOnlineCount = 0,

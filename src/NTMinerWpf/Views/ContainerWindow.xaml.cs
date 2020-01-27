@@ -16,13 +16,6 @@ namespace NTMiner.Views {
         static ContainerWindow() {
         }
 
-        public static ContainerWindow GetWindow(ContainerWindowViewModel vm) {
-            if (!s_windowDic.ContainsKey(vm)) {
-                return null;
-            }
-            return s_windowDic[vm];
-        }
-
         public static ContainerWindow ShowWindow<TUc>(
             ContainerWindowViewModel vm,
             Func<ContainerWindow, TUc> ucFactory,

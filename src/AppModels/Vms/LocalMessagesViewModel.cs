@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.Vms {
-    using NTMiner.MinerClient;
+    using NTMiner.Core.MinerClient;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
