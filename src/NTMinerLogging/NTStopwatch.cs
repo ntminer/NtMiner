@@ -4,6 +4,22 @@ using System.Threading;
 
 namespace NTMiner {
     public class NTStopwatch {
+        public struct ElapsedValue {
+            public static readonly ElapsedValue Empty = new ElapsedValue();
+
+            public ElapsedValue(long elapsedMilliseconds, int stackHeight) {
+                this.ElapsedMilliseconds = elapsedMilliseconds;
+                this.StackHeight = stackHeight;
+            }
+
+            public long ElapsedMilliseconds { get; private set; }
+            public int StackHeight { get; private set; }
+
+            public override string ToString() {
+                return $"[{StackHeight.ToString()}]{ElapsedMilliseconds.ToString()} 毫秒";
+            }
+        }
+
         /// <summary>
         /// 提供一个值，秒表的应用层可以通过耗时是否大于这个值来忽略打印一些耗时极短的过程段
         /// </summary>
@@ -50,21 +66,5 @@ namespace NTMiner {
             return new ElapsedValue(value, _stack.Count);
         }
         #endregion
-
-        public struct ElapsedValue {
-            public static readonly ElapsedValue Empty = new ElapsedValue();
-
-            public ElapsedValue(long elapsedMilliseconds, int stackHeight) {
-                this.ElapsedMilliseconds = elapsedMilliseconds;
-                this.StackHeight = stackHeight;
-            }
-
-            public long ElapsedMilliseconds { get; private set; }
-            public int StackHeight { get; private set; }
-
-            public override string ToString() {
-                return $"[{StackHeight.ToString()}]{ElapsedMilliseconds.ToString()} 毫秒";
-            }
-        }
     }
 }
