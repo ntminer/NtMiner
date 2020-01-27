@@ -86,7 +86,7 @@ namespace NTMiner.Views.Ucs {
                     this.IconLoading.Visibility = Visibility.Visible;
                     // 这里的逻辑是每100毫秒检查一次升级器进程是否存在，每检查一次将loading图标
                     // 旋转30度，如果升级器进程存在了或者已经检查了3秒钟了则停止检查。
-                    Interval.Start(
+                    VirtualRoot.SetInterval(
                         per: TimeSpan.FromMilliseconds(100),
                         perCallback: () => {
                             UIThread.Execute(() => () => {
