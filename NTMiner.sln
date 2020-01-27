@@ -57,6 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E32C4009-7
 		docs\NTMiner0.md = docs\NTMiner0.md
 		docs\NTMiner1.md = docs\NTMiner1.md
 		docs\NTMiner2.md = docs\NTMiner2.md
+		docs\NTMiner3.md = docs\NTMiner3.md
 		docs\NTMinerBkPool.md = docs\NTMinerBkPool.md
 		docs\Overclock.md = docs\Overclock.md
 		docs\Timer.md = docs\Timer.md
