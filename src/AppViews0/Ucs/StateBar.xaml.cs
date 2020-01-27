@@ -79,25 +79,25 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void BtnCheckUpdate_Click(object sender, RoutedEventArgs e) {
-            if (this.IconCheckUpdate.Visibility == Visibility.Visible) {
+            if (this.UpdateIcon.Visibility == Visibility.Visible) {
                 Process process = Process.GetProcessesByName(NTKeyword.NTMinerUpdaterProcessName).FirstOrDefault();
                 if (process == null) {
-                    this.IconCheckUpdate.Visibility = Visibility.Collapsed;
-                    this.IconLoading.Visibility = Visibility.Visible;
+                    this.UpdateIcon.Visibility = Visibility.Collapsed;
+                    this.LoadingIcon.Visibility = Visibility.Visible;
                     // 这里的逻辑是每100毫秒检查一次升级器进程是否存在，每检查一次将loading图标
                     // 旋转30度，如果升级器进程存在了或者已经检查了3秒钟了则停止检查。
                     VirtualRoot.SetInterval(
                         per: TimeSpan.FromMilliseconds(100),
                         perCallback: () => {
                             UIThread.Execute(() => () => {
-                                ((RotateTransform)this.IconLoading.RenderTransform).Angle += 30;
+                                ((RotateTransform)this.LoadingIcon.RenderTransform).Angle += 30;
                             });
                         },
                         stopCallback: () => {
                             UIThread.Execute(() => () => {
-                                this.IconCheckUpdate.Visibility = Visibility.Visible;
-                                this.IconLoading.Visibility = Visibility.Collapsed;
-                                ((RotateTransform)this.IconLoading.RenderTransform).Angle = 0;
+                                this.UpdateIcon.Visibility = Visibility.Visible;
+                                this.LoadingIcon.Visibility = Visibility.Collapsed;
+                                ((RotateTransform)this.LoadingIcon.RenderTransform).Angle = 0;
                             });
                         },
                         timeout: TimeSpan.FromSeconds(3),

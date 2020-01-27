@@ -429,16 +429,30 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    Click="BtnMinerClientFinder_Click"
 					Command="{x:Static app:AppStatic.OpenMinerClientFinder}"
 					Cursor="Hand"
 					Background="Transparent">
                     <WrapPanel VerticalAlignment="Center">
                         <Path 
+                            x:Name="MinerClientFinderIcon"
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_MinerClientFinder}"
 							Fill="Green"
 							Stretch="Fill" />
+                        <Path 
+                            x:Name="MinerClientFinderLoadingIcon"
+                            Visibility="Collapsed"
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Loading}"
+							Fill="Green"
+							Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0" CenterX="15" CenterY="15"></RotateTransform>
+                            </Path.RenderTransform>
+                        </Path>
                         <StackPanel Margin="8 0 0 0" Width="152">
                             <TextBlock FontWeight="Bold" FontSize="14">矿机雷达 - 开源矿工</TextBlock>
                             <TextBlock Foreground="{StaticResource LableColor}">发现局域网中的开源矿工</TextBlock>

@@ -11,6 +11,7 @@
 
         public const string NTMinerServicesProcessName = "NTMinerServices";
         public const string NTMinerUpdaterProcessName = "NTMinerUpdater";
+        public const string MinerClientFinderProcessName = "MinerClientFinder";
 
         public const string HomeDirParameterName = "{家目录}";
         public const string TempDirParameterName = "{临时目录}";
