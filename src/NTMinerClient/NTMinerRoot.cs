@@ -234,7 +234,7 @@ namespace NTMiner {
             VirtualRoot.AddCmdPath<RegCmdHereCommand>(action: message => {
                 try {
                     Windows.Cmd.RegCmdHere();
-                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "添加windows右键命令行成功", OutEnum.Success);
+                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "添加windows右键命令行成功");
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
@@ -244,7 +244,7 @@ namespace NTMiner {
             VirtualRoot.AddCmdPath<UnRegCmdHereCommand>(action: message => {
                 try {
                     Windows.Cmd.UnRegCmdHere();
-                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "移除windows右键命令行成功", OutEnum.Success);
+                    VirtualRoot.ThisLocalInfo(nameof(NTMinerRoot), "移除windows右键命令行成功");
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);

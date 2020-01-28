@@ -21,7 +21,7 @@ namespace NTMiner.Services.Client {
         public void ShowMainWindowAsync(int clientPort, Action<bool, Exception> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = RpcRoot.Create()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{clientPort.ToString()}/api/{_controllerName}/{nameof(IMinerStudioController.ShowMainWindow)}", null);
                         bool response = getHttpResponse.Result.Content.ReadAsAsync<bool>().Result;
                         callback?.Invoke(response, null);
@@ -47,7 +47,7 @@ namespace NTMiner.Services.Client {
             }
             bool isClosed = false;
             try {
-                using (HttpClient client = RpcRoot.Create()) {
+                using (HttpClient client = RpcRoot.CreateHttpClient()) {
                     Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}/api/{_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignRequest { });
                     ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();

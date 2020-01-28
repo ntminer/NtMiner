@@ -24,7 +24,7 @@ namespace NTMiner.Services.Server {
             }
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = RpcRoot.Create()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{_controllerName}/{nameof(IControlCenterController.GetServicesVersion)}", null);
                         string response = getHttpResponse.Result.Content.ReadAsAsync<string>().Result;
                         callback?.Invoke(response, null);
@@ -47,7 +47,7 @@ namespace NTMiner.Services.Server {
                 if (processes.Length == 0) {
                     return;
                 }
-                using (HttpClient client = RpcRoot.Create()) {
+                using (HttpClient client = RpcRoot.CreateHttpClient()) {
                     Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.ControlCenterPort.ToString()}/api/{_controllerName}/{nameof(IControlCenterController.CloseServices)}", null);
                     Write.DevDebug($"{nameof(CloseServices)} {getHttpResponse.Result.ReasonPhrase}");
                 }

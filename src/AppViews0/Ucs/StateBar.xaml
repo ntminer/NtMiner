@@ -288,14 +288,14 @@
 					Command="{x:Static app:AppStatic.ShowOnlineUpdate}">
                     <WrapPanel>
                         <Path 
-                            x:Name="IconCheckUpdate"
+                            x:Name="UpdateIcon"
 							Width="14"
 							Height="13"
 							Data="{StaticResource Icon_Update}"
 							Fill="{StaticResource IconFillColor}"
 							Stretch="Fill" />
                         <Path 
-                            x:Name="IconLoading"
+                            x:Name="LoadingIcon"
                             Visibility="Collapsed"
 							Width="14"
 							Height="14"

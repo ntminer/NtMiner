@@ -18,7 +18,7 @@ namespace NTMiner.Services.Client {
         /// </summary>
         public void CloseDaemon() {
             try {
-                using (HttpClient client = RpcRoot.Create()) {
+                using (HttpClient client = RpcRoot.CreateHttpClient()) {
                     client.Timeout = TimeSpan.FromSeconds(2);
                     Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.CloseDaemon)}", null);
                     Write.DevDebug($"{nameof(CloseDaemon)} {getHttpResponse.Result.ReasonPhrase}");
@@ -41,7 +41,7 @@ namespace NTMiner.Services.Client {
 
         #region ClientIp
         public ResponseBase EnableWindowsRemoteDesktop(string clientIp, SignRequest request) {
-            using (HttpClient client = RpcRoot.Create()) {
+            using (HttpClient client = RpcRoot.CreateHttpClient()) {
                 Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.EnableWindowsRemoteDesktop)}", request);
                 ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                 return response;
@@ -58,7 +58,7 @@ namespace NTMiner.Services.Client {
         public void SaveGpuProfilesJsonAsync(string clientIp, string json) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = RpcRoot.Create()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.Timeout = TimeSpan.FromSeconds(3);
                         HttpContent content = new StringContent(json);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.SaveGpuProfilesJson)}", content);
@@ -74,7 +74,7 @@ namespace NTMiner.Services.Client {
         public void SetAutoBootStartAsync(string clientIp, bool autoBoot, bool autoStart) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = RpcRoot.Create()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.Timeout = TimeSpan.FromSeconds(3);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.SetAutoBootStart)}?autoBoot={autoBoot}&autoStart={autoStart}", null);
                         Write.DevDebug($"{nameof(SetAutoBootStartAsync)} {getHttpResponse.Result.ReasonPhrase}");
@@ -87,7 +87,7 @@ namespace NTMiner.Services.Client {
         }
 
         public ResponseBase RestartWindows(string clientIp, SignRequest request) {
-            using (HttpClient client = RpcRoot.Create()) {
+            using (HttpClient client = RpcRoot.CreateHttpClient()) {
                 Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.RestartWindows)}", request);
                 ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                 return response;
@@ -95,7 +95,7 @@ namespace NTMiner.Services.Client {
         }
 
         public ResponseBase ShutdownWindows(string clientIp, SignRequest request) {
-            using (HttpClient client = RpcRoot.Create()) {
+            using (HttpClient client = RpcRoot.CreateHttpClient()) {
                 Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.ShutdownWindows)}", request);
                 ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                 return response;
@@ -103,7 +103,7 @@ namespace NTMiner.Services.Client {
         }
 
         public ResponseBase RestartNTMiner(string clientIp, WorkRequest request) {
-            using (HttpClient client = RpcRoot.Create()) {
+            using (HttpClient client = RpcRoot.CreateHttpClient()) {
                 Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.RestartNTMiner)}", request);
                 ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                 return response;
@@ -111,7 +111,7 @@ namespace NTMiner.Services.Client {
         }
 
         public ResponseBase UpgradeNTMiner(string clientIp, UpgradeNTMinerRequest request) {
-            using (HttpClient client = RpcRoot.Create()) {
+            using (HttpClient client = RpcRoot.CreateHttpClient()) {
                 Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.UpgradeNTMiner)}", request);
                 ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                 return response;
@@ -119,7 +119,7 @@ namespace NTMiner.Services.Client {
         }
 
         public ResponseBase StartMine(string clientIp, WorkRequest request) {
-            using (HttpClient client = RpcRoot.Create()) {
+            using (HttpClient client = RpcRoot.CreateHttpClient()) {
                 Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.StartMine)}", request);
                 ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                 return response;
@@ -127,7 +127,7 @@ namespace NTMiner.Services.Client {
         }
 
         public ResponseBase StopMine(string clientIp, SignRequest request) {
-            using (HttpClient client = RpcRoot.Create()) {
+            using (HttpClient client = RpcRoot.CreateHttpClient()) {
                 Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.NTMinerDaemonPort.ToString()}/api/{_controllerName}/{nameof(INTMinerDaemonController.StopMine)}", request);
                 ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                 return response;

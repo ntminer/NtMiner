@@ -17,6 +17,7 @@
     <UserControl.Resources>
         <sys:Double x:Key="ItemWidth">230</sys:Double>
         <sys:Double x:Key="ItemHeight">50</sys:Double>
+        <SolidColorBrush x:Key="KbButtonHoverBackground">#CCE8FF</SolidColorBrush>
     </UserControl.Resources>
 	<Grid>
 		<ScrollViewer
@@ -28,6 +29,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding SwitchRadeonGpu}"
 					Cursor="Hand"
@@ -49,6 +51,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding AtikmdagPatcher}"
 					Cursor="Hand"
@@ -71,6 +74,7 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Cursor="Hand"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ViewUrl}"
                     CommandParameter="{Binding AmdDriverMore.Value}"
 					Background="Transparent">
@@ -183,6 +187,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowVirtualMemory}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -203,6 +208,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					IsEnabled="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding EnableWindowsRemoteDesktop}"
 					Cursor="Hand"
@@ -224,6 +230,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					IsEnabled="{Binding IsAutoAdminLogon,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding WindowsAutoLogon}"
 					Cursor="Hand"
@@ -245,6 +252,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding Win10Optimize}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -265,6 +273,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding RegCmdHere}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -272,9 +281,21 @@
 						<Path 
 							Width="34"
 							Height="30"
+                            Visibility="{Binding IsWinCmdLoading,Converter={StaticResource BoolToVisibilityInvertConverter}}"
 							Data="{StaticResource Icon_Command}"
 							Fill="Black"
 							Stretch="Fill" />
+                        <Path 
+                            Visibility="{Binding IsWinCmdLoading,Converter={StaticResource BoolToVisibilityConverter}}"
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Loading}"
+							Fill="Black"
+							Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="{Binding WinCmdLodingIconAngle}" CenterX="15" CenterY="15"></RotateTransform>
+                            </Path.RenderTransform>
+                        </Path>
                         <StackPanel Margin="8 0 0 0" Width="152" ToolTip="方便在当前目录打开命令行">
 							<TextBlock FontWeight="Bold" FontSize="14">Windows右键命令行</TextBlock>
                             <WrapPanel>
@@ -288,6 +309,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding BlockWAU}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -308,6 +330,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowCalc}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -329,6 +352,7 @@
 					Width="{StaticResource ItemWidth}"
                     Visibility="{Binding IsReturnEthDevFee,Converter={StaticResource BoolToVisibilityConverter}}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowEthNoDevFee}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -349,6 +373,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowLocalIps}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -369,6 +394,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding OpenDevmgmt}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -389,6 +415,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding OpenEventvwr}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -409,6 +436,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.WindowsProperty}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -429,16 +457,31 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
+                    Click="BtnMinerClientFinder_Click"
 					Command="{x:Static app:AppStatic.OpenMinerClientFinder}"
 					Cursor="Hand"
 					Background="Transparent">
                     <WrapPanel VerticalAlignment="Center">
                         <Path 
+                            x:Name="MinerClientFinderIcon"
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_MinerClientFinder}"
 							Fill="Green"
 							Stretch="Fill" />
+                        <Path 
+                            x:Name="MinerClientFinderLoadingIcon"
+                            Visibility="Collapsed"
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Loading}"
+							Fill="Green"
+							Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0" CenterX="15" CenterY="15"></RotateTransform>
+                            </Path.RenderTransform>
+                        </Path>
                         <StackPanel Margin="8 0 0 0" Width="152">
                             <TextBlock FontWeight="Bold" FontSize="14">矿机雷达 - 开源矿工</TextBlock>
                             <TextBlock Foreground="{StaticResource LableColor}">发现局域网中的开源矿工</TextBlock>

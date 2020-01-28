@@ -35,7 +35,7 @@ namespace NTMiner {
         public static void GetAsync<T>(string host, int port, string controller, string action, Dictionary<string, string> data, Action<T, Exception> callback) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = Create()) {
+                    using (HttpClient client = CreateHttpClient()) {
                         string queryString = string.Empty;
                         if (data != null && data.Count != 0) {
                             queryString = "?" + string.Join("&", data.Select(a => a.Key + "=" + a.Value));
@@ -76,7 +76,7 @@ namespace NTMiner {
                 if (query != null && query.Count != 0) {
                     queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
                 }
-                using (HttpClient client = Create()) {
+                using (HttpClient client = CreateHttpClient()) {
                     if (timeout.HasValue) {
                         client.Timeout = TimeSpan.FromMilliseconds(timeout.Value);
                     }
@@ -94,7 +94,7 @@ namespace NTMiner {
         private static void PostAsync<T>(string host, int port, string controller, string action, Dictionary<string, string> query, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = Create()) {
+                    using (HttpClient client = CreateHttpClient()) {
                         if (timeountMilliseconds != 0) {
                             client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
