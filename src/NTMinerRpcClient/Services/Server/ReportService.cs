@@ -16,7 +16,7 @@ namespace NTMiner.Services.Server {
             Task.Factory.StartNew(() => {
                 TimeSpan timeSpan = TimeSpan.FromSeconds(3);
                 try {
-                    using (HttpClient client = RpcRoot.Create()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         // 可能超过3秒钟，查查原因。因为我的网络不稳经常断线。
                         client.Timeout = timeSpan;
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{NTKeyword.ControlCenterPort.ToString()}/api/{_controllerName}/{nameof(IReportController.ReportSpeed)}", data);
@@ -34,7 +34,7 @@ namespace NTMiner.Services.Server {
             Task.Factory.StartNew(() => {
                 TimeSpan timeSpan = TimeSpan.FromSeconds(3);
                 try {
-                    using (HttpClient client = RpcRoot.Create()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.Timeout = timeSpan;
                         ReportState request = new ReportState {
                             ClientId = clientId,

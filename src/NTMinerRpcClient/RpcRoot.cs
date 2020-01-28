@@ -3,7 +3,7 @@ using System.Net.Http;
 
 namespace NTMiner {
     public static partial class RpcRoot {
-        public static HttpClient Create() {
+        public static HttpClient CreateHttpClient() {
             return new HttpClient {
                 Timeout = TimeSpan.FromSeconds(60)
             };
