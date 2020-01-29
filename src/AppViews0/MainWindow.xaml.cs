@@ -75,17 +75,17 @@ namespace NTMiner.Views {
 #endif
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
             this.Loaded += (sender, e) => {
+                hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+                hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
                 ConsoleWindow.Instance.Show();
                 ConsoleWindow.Instance.MouseDown += (ss, ee) => {
                     MoveConsoleWindow();
                 };
                 this.Owner = ConsoleWindow.Instance;
-                hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-                hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
                 MoveConsoleWindow();
-                NTMinerRoot.RefreshArgsAssembly.Invoke();
             };
             InitializeComponent();
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
             this.ResizeCursors.Visibility = Visibility.Visible;
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
             if (WpfUtil.IsInDesignMode) {
