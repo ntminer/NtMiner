@@ -73,16 +73,16 @@ namespace NTMiner.Views {
 #if DEBUG
             NTStopwatch.Start();
 #endif
+            ConsoleWindow.Instance.Show();
+            ConsoleWindow.Instance.MouseDown += (ss, ee) => {
+                MoveConsoleWindow();
+            };
+            this.Owner = ConsoleWindow.Instance;
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
             this.Loaded += (sender, e) => {
+                MoveConsoleWindow();
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
-                ConsoleWindow.Instance.Show();
-                ConsoleWindow.Instance.MouseDown += (ss, ee) => {
-                    MoveConsoleWindow();
-                };
-                this.Owner = ConsoleWindow.Instance;
-                MoveConsoleWindow();
             };
             InitializeComponent();
             NTMinerRoot.RefreshArgsAssembly.Invoke();
