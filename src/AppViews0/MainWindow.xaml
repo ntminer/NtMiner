@@ -265,7 +265,7 @@
                         BorderThickness="0"
                         Padding="4 0" 
                         Background="{StaticResource MinerProfileBackground}"
-                        Click="BtnMinerProfileGrip_Click" 
+                        Click="BtnLeftDrawerGrip_Click" 
                         Content="挖矿设置" 
                         ToolTip="点击展开或折叠"/>
                 </StackPanel>
@@ -553,7 +553,7 @@
                             </TabItem>
                         </TabControl>
                         <Border 
-                            x:Name="minerProfileLayer"
+                            x:Name="leftDrawer"
                             HorizontalAlignment="Left"
 				            Background="{StaticResource MinerProfileBackground}"
 				            Padding="0 4 8 0"
@@ -643,7 +643,7 @@
                                         Margin="0 0 4 0" 
                                         ToolTip="自动隐藏"
                                         Background="Transparent" 
-                                        Click="BtnMinerProfilePin_Click">
+                                        Click="BtnLeftDrawerPin_Click">
                                         <Path
 							                Width="10"
 							                Height="16"
@@ -661,7 +661,7 @@
                                         Height="20" 
                                         ToolTip="关闭"
                                         Background="Transparent" 
-                                        Click="BtnMinerProfileClose_Click">
+                                        Click="BtnLeftDrawerClose_Click">
                                         <Path
 							                Width="10"
 							                Height="10"

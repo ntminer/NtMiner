@@ -165,10 +165,10 @@ namespace NTMiner.Views {
             };
             this.SizeChanged += (s, e) => {
                 if (this.Width < 860) {
-                    this.HideLeft();
+                    this.CloseLeftDrawer();
                 }
                 else {
-                    this.ShowLeft();
+                    this.OpenLeftLeftDrawer();
                 }
             };
             NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
@@ -319,35 +319,36 @@ namespace NTMiner.Views {
 
         #region 主界面左侧的抽屉
         // 点击pin按钮
-        public void BtnMinerProfilePin_Click(object sender, RoutedEventArgs e) {
+        public void BtnLeftDrawerPin_Click(object sender, RoutedEventArgs e) {
             if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
-                HideLeft();
+                CloseLeftDrawer();
             }
             else {
-                ShowLeft();
+                OpenLeftLeftDrawer();
             }
         }
 
         // 点击x按钮
-        private void BtnMinerProfileClose_Click(object sender, RoutedEventArgs e) {
-            HideLeft();
+        private void BtnLeftDrawerClose_Click(object sender, RoutedEventArgs e) {
+            CloseLeftDrawer();
         }
 
         // 点击抽屉按钮
-        private void BtnMinerProfileGrip_Click(object sender, RoutedEventArgs e) {
-            if (minerProfileLayer.Visibility == Visibility.Collapsed) {
-                minerProfileLayer.Visibility = Visibility.Visible;
+        private void BtnLeftDrawerGrip_Click(object sender, RoutedEventArgs e) {
+            if (leftDrawer.Visibility == Visibility.Collapsed) {
+                leftDrawer.Visibility = Visibility.Visible;
             }
             else {
-                minerProfileLayer.Visibility = Visibility.Collapsed;
+                leftDrawer.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void HideLeft() {
-            if (minerProfileLayer.Visibility == Visibility.Collapsed) {
+        // 打开左侧抽屉
+        private void CloseLeftDrawer() {
+            if (leftDrawer.Visibility == Visibility.Collapsed) {
                 return;
             }
-            minerProfileLayer.Visibility = Visibility.Collapsed;
+            leftDrawer.Visibility = Visibility.Collapsed;
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
 
@@ -355,11 +356,12 @@ namespace NTMiner.Views {
             MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
-        private void ShowLeft() {
+        // 关闭左侧抽屉
+        private void OpenLeftLeftDrawer() {
             if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
                 return;
             }
-            minerProfileLayer.Visibility = Visibility.Visible;
+            leftDrawer.Visibility = Visibility.Visible;
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
             PinRotateTransform.Angle = 0;
 
