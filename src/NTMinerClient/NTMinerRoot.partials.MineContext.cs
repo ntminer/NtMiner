@@ -892,7 +892,7 @@ namespace NTMiner {
                                         var kernelOutputKeywords = Instance.KernelOutputKeywordSet.GetKeywords(this.KernelOutput.GetId());
                                         if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {
                                             foreach (var keyword in kernelOutputKeywords) {
-                                                if (input.Contains(keyword.Keyword)) {
+                                                if (keyword != null && !string.IsNullOrEmpty(keyword.Keyword) && input.Contains(keyword.Keyword)) {
                                                     if (keyword.MessageType.TryParse(out LocalMessageType messageType)) {
                                                         string content = input;
                                                         if (!string.IsNullOrEmpty(keyword.Description)) {
