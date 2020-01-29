@@ -846,8 +846,7 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     bool isLogFileCreated = true;
                     int n = 0;
-                    string logFileFullName = this.LogFileFullName;
-                    while (!File.Exists(logFileFullName)) {
+                    while (!File.Exists(this.LogFileFullName)) {
                         if (n >= 20) {
                             // 20秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
@@ -858,7 +857,7 @@ namespace NTMiner {
                         if (n == 0) {
                             Write.UserInfo("等待内核出场");
                         }
-                        if (logFileFullName != Instance.LockedMineContext.LogFileFullName) {
+                        if (this != Instance.LockedMineContext) {
                             Write.UserWarn("结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
@@ -869,8 +868,8 @@ namespace NTMiner {
                         StreamReader sreader = null;
                         try {
                             DateTime _kernelRestartKeywordOn = DateTime.MinValue;
-                            sreader = new StreamReader(File.Open(logFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
-                            while (Instance.LockedMineContext != null && logFileFullName == Instance.LockedMineContext.LogFileFullName) {
+                            sreader = new StreamReader(File.Open(this.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
+                            while (this == Instance.LockedMineContext) {
                                 string outline = sreader.ReadLine();
                                 if (string.IsNullOrEmpty(outline)) {
                                     Thread.Sleep(1000);
@@ -892,7 +891,7 @@ namespace NTMiner {
                                         var kernelOutputKeywords = Instance.KernelOutputKeywordSet.GetKeywords(this.KernelOutput.GetId());
                                         if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {
                                             foreach (var keyword in kernelOutputKeywords) {
-                                                if (input.Contains(keyword.Keyword)) {
+                                                if (keyword != null && !string.IsNullOrEmpty(keyword.Keyword) && input.Contains(keyword.Keyword)) {
                                                     if (keyword.MessageType.TryParse(out LocalMessageType messageType)) {
                                                         string content = input;
                                                         if (!string.IsNullOrEmpty(keyword.Description)) {
