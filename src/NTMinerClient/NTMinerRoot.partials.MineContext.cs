@@ -846,7 +846,6 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     bool isLogFileCreated = true;
                     int n = 0;
-                    var lockedMineContext = Instance.LockedMineContext;
                     while (!File.Exists(this.LogFileFullName)) {
                         if (n >= 20) {
                             // 20秒钟都没有建立日志文件，不可能
@@ -858,7 +857,7 @@ namespace NTMiner {
                         if (n == 0) {
                             Write.UserInfo("等待内核出场");
                         }
-                        if (lockedMineContext != Instance.LockedMineContext) {
+                        if (this != Instance.LockedMineContext) {
                             Write.UserWarn("结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
@@ -870,7 +869,7 @@ namespace NTMiner {
                         try {
                             DateTime _kernelRestartKeywordOn = DateTime.MinValue;
                             sreader = new StreamReader(File.Open(this.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
-                            while (lockedMineContext != Instance.LockedMineContext) {
+                            while (this == Instance.LockedMineContext) {
                                 string outline = sreader.ReadLine();
                                 if (string.IsNullOrEmpty(outline)) {
                                     Thread.Sleep(1000);
