@@ -858,7 +858,7 @@ namespace NTMiner {
                         if (n == 0) {
                             Write.UserInfo("等待内核出场");
                         }
-                        if (logFileFullName != Instance.LockedMineContext.LogFileFullName) {
+                        if (Instance.LockedMineContext == null || logFileFullName != Instance.LockedMineContext.LogFileFullName) {
                             Write.UserWarn("结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
