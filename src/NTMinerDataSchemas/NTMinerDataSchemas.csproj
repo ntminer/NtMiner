@@ -131,7 +131,6 @@
     <Compile Include="Core\MinerServer\ClientData.cs" />
     <Compile Include="Core\MinerServer\ColumnsShowData.cs" />
     <Compile Include="Core\MinerServer\IColumnsShow.cs" />
-    <Compile Include="Core\Profile\SetWorkProfileRequest`1.cs" />
     <Compile Include="SignRequest.cs" />
     <Compile Include="Core\MinerServer\IOverClockData.cs" />
     <Compile Include="Core\Daemon\WorkRequest.cs" />
@@ -141,7 +140,6 @@
     <Compile Include="Core\Daemon\UpgradeNTMinerRequest.cs" />
     <Compile Include="Core\PoolData.cs" />
     <Compile Include="Core\Profile\CoinKernelProfileData.cs" />
-    <Compile Include="Core\Profile\WorkProfileRequest.cs" />
     <Compile Include="Core\Profile\CoinProfileData.cs" />
     <Compile Include="Core\MinerServer\CoinSnapshotData.cs" />
     <Compile Include="Core\MinerServer\GetCoinSnapshotsRequest.cs" />
@@ -180,10 +178,6 @@
     <Compile Include="ResponseBaseExtension.cs" />
     <Compile Include="Core\MinerServer\SaveCalcConfigsRequest.cs" />
     <Compile Include="Core\MinerClient\SetClientMinerProfilePropertyRequest.cs" />
-    <Compile Include="Core\Profile\SetCoinKernelProfilePropertyRequest.cs" />
-    <Compile Include="Core\Profile\SetCoinProfilePropertyRequest.cs" />
-    <Compile Include="Core\Profile\SetMinerProfilePropertyRequest.cs" />
-    <Compile Include="Core\Profile\SetPoolProfilePropertyRequest.cs" />
     <Compile Include="Core\MinerClient\SpeedData.cs" />
     <Compile Include="Timestamp.cs" />
     <Compile Include="Core\MinerServer\UpdateClientRequest.cs" />

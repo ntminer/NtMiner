@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Text;
 
 namespace NTMiner.Core {
-    public class KernelOutputKeywordData : IKernelOutputKeyword, ILevelEntity<Guid> {
+    public class KernelOutputKeywordData : IKernelOutputKeyword, ILevelEntity<Guid>, IGetSignData {
         public static KernelOutputKeywordData Create(IKernelOutputKeyword data) {
             if (data == null) {
                 return null;
@@ -42,5 +43,9 @@ namespace NTMiner.Core {
         public string Keyword { get; set; }
 
         public string Description { get; set; }
+
+        public StringBuilder GetSignData() {
+            return this.BuildSign();
+        }
     }
 }
