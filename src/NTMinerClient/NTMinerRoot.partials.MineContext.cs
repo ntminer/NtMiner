@@ -846,8 +846,8 @@ namespace NTMiner {
                 Task.Factory.StartNew(() => {
                     bool isLogFileCreated = true;
                     int n = 0;
-                    string logFileFullName = this.LogFileFullName;
-                    while (!File.Exists(logFileFullName)) {
+                    var lockedMineContext = Instance.LockedMineContext;
+                    while (!File.Exists(this.LogFileFullName)) {
                         if (n >= 20) {
                             // 20秒钟都没有建立日志文件，不可能
                             isLogFileCreated = false;
@@ -858,7 +858,7 @@ namespace NTMiner {
                         if (n == 0) {
                             Write.UserInfo("等待内核出场");
                         }
-                        if (Instance.LockedMineContext == null || logFileFullName != Instance.LockedMineContext.LogFileFullName) {
+                        if (lockedMineContext != Instance.LockedMineContext) {
                             Write.UserWarn("结束内核输出等待。");
                             isLogFileCreated = false;
                             break;
@@ -869,8 +869,8 @@ namespace NTMiner {
                         StreamReader sreader = null;
                         try {
                             DateTime _kernelRestartKeywordOn = DateTime.MinValue;
-                            sreader = new StreamReader(File.Open(logFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
-                            while (Instance.LockedMineContext != null && logFileFullName == Instance.LockedMineContext.LogFileFullName) {
+                            sreader = new StreamReader(File.Open(this.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
+                            while (lockedMineContext != Instance.LockedMineContext) {
                                 string outline = sreader.ReadLine();
                                 if (string.IsNullOrEmpty(outline)) {
                                     Thread.Sleep(1000);
