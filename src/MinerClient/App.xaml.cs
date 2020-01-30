@@ -48,13 +48,12 @@ namespace NTMiner {
                 if (AppUtil.GetMutex(NTKeyword.MinerClientAppMutex)) {
                     Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersion.ToString()}==================");
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
-                    SplashWindow splashWindow = null;
                     // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
                     // 注意：必须确保SplashWindow没有用到任何其它界面用到的依赖对象
+                    SplashWindow splashWindow = null;
                     SplashWindow.ShowWindowAsync(window => {
                         splashWindow = window;
                     });
-                    //ConsoleWindow.Instance.Show();
                     NotiCenterWindow.Instance.ShowWindow();
                     if (!NTMiner.Windows.WMI.IsWmiEnabled) {
                         DialogWindow.ShowHardDialog(new DialogWindowViewModel(
@@ -87,17 +86,21 @@ namespace NTMiner {
                             VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
                         UIThread.Execute(() => () => {
+                            Window mainWindow = null;
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 ConsoleWindow.Instance.Hide();
                                 VirtualRoot.Out.ShowSuccess("以无界面模式启动，可在选项页调整设置", header: "开源矿工");
                             }
                             else {
-                                _appViewFactory.ShowMainWindow(isToggle: false);
+                                _appViewFactory.ShowMainWindow(isToggle: false, out mainWindow);
                             }
+                            // 主窗口显式后退出SplashWindow
                             splashWindow?.Dispatcher.Invoke((Action)delegate () {
                                 splashWindow?.OkClose();
                             });
+                            // 启动时Windows状态栏显式的是SplashWindow的任务栏图标，SplashWindow关闭后激活主窗口的Windows任务栏图标
+                            mainWindow?.Activate();
                             StartStopMineButtonViewModel.Instance.AutoStart();
                             VirtualRoot.StartTimer(new WpfTimer());
                         });
@@ -138,7 +141,7 @@ namespace NTMiner {
 
         private void ShowMainWindow(bool isToggle) {
             UIThread.Execute(() => () => {
-                _appViewFactory.ShowMainWindow(isToggle);
+                _appViewFactory.ShowMainWindow(isToggle, out Window _);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {
                     var mainCoin = NTMinerRoot.Instance.LockedMineContext.MainCoin;
