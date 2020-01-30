@@ -260,7 +260,7 @@
                         <RotateTransform Angle="-90"/>
                     </StackPanel.LayoutTransform>
                     <Button 
-                        x:Name="BtnMinerProfileGrip" 
+                        x:Name="BtnLeftDrawerGrip" 
                         HorizontalAlignment="Right"
                         BorderThickness="0"
                         Padding="4 0" 
