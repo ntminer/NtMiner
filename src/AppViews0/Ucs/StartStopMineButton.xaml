@@ -22,7 +22,7 @@
 						x:Name="Content"
 						Height="28"
                         Padding="8 0"
-                        CornerRadius="2"
+                        CornerRadius="1"
 						Background="{Binding ElementName=Self,Path=StartButtonBackground}"
 						BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">
@@ -73,7 +73,7 @@
 						x:Name="Content"
 						Height="28"
                         Padding="8 0"
-                        CornerRadius="2"
+                        CornerRadius="1"
 						Background="Transparent"
 						BorderThickness="0" 
 						BorderBrush="{StaticResource LineColor}">

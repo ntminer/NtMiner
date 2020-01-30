@@ -64,6 +64,7 @@ namespace NTMiner.Views {
         }
 
         private HwndSource hwndSource;
+        private readonly GridLength _leftDrawerGripWidth;
         public MainWindow() {
             this.MinHeight = 430;
             this.MinWidth = 640;
@@ -85,9 +86,13 @@ namespace NTMiner.Views {
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
             };
             InitializeComponent();
+            _leftDrawerGripWidth = LeftDrawerGrip.Width;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
+            // 下面几行是为了看见设计视图
             this.ResizeCursors.Visibility = Visibility.Visible;
-            BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
+            this.HideLeftDrawerGrid();
+            // 上面几行是为了看见设计视图
+
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
@@ -165,7 +170,7 @@ namespace NTMiner.Views {
                     this.CloseLeftDrawer();
                 }
                 else {
-                    this.OpenLeftLeftDrawer();
+                    this.OpenLeftDrawer();
                 }
             };
             NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
@@ -313,11 +318,11 @@ namespace NTMiner.Views {
         #region 主界面左侧的抽屉
         // 点击pin按钮
         public void BtnLeftDrawerPin_Click(object sender, RoutedEventArgs e) {
-            if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
+            if (BtnLeftDrawerGrip.Visibility == Visibility.Collapsed) {
                 CloseLeftDrawer();
             }
             else {
-                OpenLeftLeftDrawer();
+                OpenLeftDrawer();
             }
         }
 
@@ -342,26 +347,36 @@ namespace NTMiner.Views {
                 return;
             }
             leftDrawer.Visibility = Visibility.Collapsed;
-            BtnMinerProfileGrip.Visibility = Visibility.Visible;
+            this.ShowLeftDrawerGrid();
             PinRotateTransform.Angle = 90;
 
             mainLayer.ColumnDefinitions.Remove(MinerProfileColumn);
             MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
+        private void ShowLeftDrawerGrid() {
+            LeftDrawerGrip.Width = _leftDrawerGripWidth;
+            BtnLeftDrawerGrip.Visibility = Visibility.Visible;
+        }
+
         // 关闭左侧抽屉
-        private void OpenLeftLeftDrawer() {
-            if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
+        private void OpenLeftDrawer() {
+            if (BtnLeftDrawerGrip.Visibility == Visibility.Collapsed) {
                 return;
             }
             leftDrawer.Visibility = Visibility.Visible;
-            BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
+            this.HideLeftDrawerGrid();
             PinRotateTransform.Angle = 0;
 
             if (!mainLayer.ColumnDefinitions.Contains(MinerProfileColumn)) {
                 mainLayer.ColumnDefinitions.Insert(0, MinerProfileColumn);
             }
             MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
+        }
+
+        private void HideLeftDrawerGrid() {
+            BtnLeftDrawerGrip.Visibility = Visibility.Collapsed;
+            LeftDrawerGrip.Width = new GridLength(0);
         }
         #endregion
 

@@ -251,7 +251,7 @@
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition x:Name="LeftDrawerGrip" Width="16"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel 
@@ -260,7 +260,7 @@
                         <RotateTransform Angle="-90"/>
                     </StackPanel.LayoutTransform>
                     <Button 
-                        x:Name="BtnMinerProfileGrip" 
+                        x:Name="BtnLeftDrawerGrip" 
                         HorizontalAlignment="Right"
                         BorderThickness="0"
                         Padding="4 0" 
