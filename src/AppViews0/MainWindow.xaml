@@ -262,6 +262,7 @@
                     <Label 
                         x:Name="BtnLeftDrawerGrip"
                         HorizontalAlignment="Right"
+                        Height="16"
                         BorderThickness="0"
                         Padding="4 0" 
                         Background="{StaticResource ThemeBackground}"
