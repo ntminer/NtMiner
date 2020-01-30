@@ -348,7 +348,6 @@ namespace NTMiner.Views {
                 return;
             }
             leftDrawer.Visibility = Visibility.Collapsed;
-            leftDrawer.Margin = new Thickness(-1, 0, 0, 0);
             LeftDrawerGrip.Width = _leftDrawerGripWidth;
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
@@ -363,7 +362,6 @@ namespace NTMiner.Views {
                 return;
             }
             leftDrawer.Visibility = Visibility.Visible;
-            leftDrawer.Margin = new Thickness(0);
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
             LeftDrawerGrip.Width = new GridLength(0);
             PinRotateTransform.Angle = 0;
