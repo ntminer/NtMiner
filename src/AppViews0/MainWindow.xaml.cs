@@ -73,6 +73,7 @@ namespace NTMiner.Views {
 #if DEBUG
             NTStopwatch.Start();
 #endif
+            // 控制台日志窗口最小化状态启动
             ConsoleWindow.Instance.Show();
             ConsoleWindow.Instance.MouseDown += (ss, ee) => {
                 MoveConsoleWindow();
@@ -83,6 +84,9 @@ namespace NTMiner.Views {
                 MoveConsoleWindow();
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
+            };
+            this.ContentRendered += (sender, e) => {
+                // 主窗口就绪后将最小化的控制台窗口恢复正常
                 ConsoleWindow.Instance.WindowState = WindowState.Normal;
             };
             InitializeComponent();
