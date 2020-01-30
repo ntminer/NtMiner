@@ -259,15 +259,18 @@
                     <StackPanel.LayoutTransform>
                         <RotateTransform Angle="-90"/>
                     </StackPanel.LayoutTransform>
-                    <Button 
-                        x:Name="BtnLeftDrawerGrip" 
+                    <Label 
+                        x:Name="BtnLeftDrawerGrip"
                         HorizontalAlignment="Right"
                         BorderThickness="0"
                         Padding="4 0" 
-                        Background="{StaticResource MinerProfileBackground}"
-                        Click="BtnLeftDrawerGrip_Click" 
-                        Content="挖矿设置" 
-                        ToolTip="点击展开或折叠"/>
+                        Background="{StaticResource ThemeBackground}"
+                        Foreground="{StaticResource ThemeForeground}"
+                        MouseDown="BtnLeftDrawerGrip_MouseDown"
+                        MouseEnter="BtnLeftDrawerGrip_MouseEnter"
+                        MouseLeave="BtnLeftDrawerGrip_MouseLeave"
+                        Content="挖矿设置">
+                    </Label>
                 </StackPanel>
                 <Grid Grid.Column="1" Grid.IsSharedSizeScope="True">
                     <Grid x:Name="mainLayer">
