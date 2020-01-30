@@ -64,6 +64,7 @@ namespace NTMiner.Views {
         }
 
         private HwndSource hwndSource;
+        private readonly GridLength _leftDrawerGripWidth;
         public MainWindow() {
             this.MinHeight = 430;
             this.MinWidth = 640;
@@ -85,9 +86,14 @@ namespace NTMiner.Views {
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
             };
             InitializeComponent();
+            _leftDrawerGripWidth = LeftDrawerGrip.Width;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
+            // 下面几行是为了看见设计视图
             this.ResizeCursors.Visibility = Visibility.Visible;
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
+            LeftDrawerGrip.Width = new GridLength(0);
+            // 上面几行是为了看见设计视图
+
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
@@ -165,7 +171,7 @@ namespace NTMiner.Views {
                     this.CloseLeftDrawer();
                 }
                 else {
-                    this.OpenLeftLeftDrawer();
+                    this.OpenLeftDrawer();
                 }
             };
             NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
@@ -317,7 +323,7 @@ namespace NTMiner.Views {
                 CloseLeftDrawer();
             }
             else {
-                OpenLeftLeftDrawer();
+                OpenLeftDrawer();
             }
         }
 
@@ -342,6 +348,8 @@ namespace NTMiner.Views {
                 return;
             }
             leftDrawer.Visibility = Visibility.Collapsed;
+            leftDrawer.Margin = new Thickness(-1, 0, 0, 0);
+            LeftDrawerGrip.Width = _leftDrawerGripWidth;
             BtnMinerProfileGrip.Visibility = Visibility.Visible;
             PinRotateTransform.Angle = 90;
 
@@ -350,12 +358,14 @@ namespace NTMiner.Views {
         }
 
         // 关闭左侧抽屉
-        private void OpenLeftLeftDrawer() {
+        private void OpenLeftDrawer() {
             if (BtnMinerProfileGrip.Visibility == Visibility.Collapsed) {
                 return;
             }
             leftDrawer.Visibility = Visibility.Visible;
+            leftDrawer.Margin = new Thickness(0);
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
+            LeftDrawerGrip.Width = new GridLength(0);
             PinRotateTransform.Angle = 0;
 
             if (!mainLayer.ColumnDefinitions.Contains(MinerProfileColumn)) {
