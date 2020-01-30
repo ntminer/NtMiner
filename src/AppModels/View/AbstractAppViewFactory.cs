@@ -24,27 +24,24 @@ namespace NTMiner.View {
             }, location: typeof(AbstractAppViewFactory));
         }
 
-        public void ShowMainWindow(bool isToggle) {
-            UIThread.Execute(() => () => {
-                if (_mainWindow == null) {
-                    lock (_locker) {
-                        if (_mainWindow == null) {
-                            _mainWindow = CreateMainWindow();
-                            _mainWindow.Show();
-                            // 激活从而切换NotiCenterWindow的Owner
-                            _mainWindow.Activate();
-                        }
+        public void ShowMainWindow(bool isToggle, out Window mainWindow) {
+            if (_mainWindow == null) {
+                lock (_locker) {
+                    if (_mainWindow == null) {
+                        _mainWindow = CreateMainWindow();
+                        _mainWindow.Show();
                     }
                 }
-                else {
-                    AppContext.Enable();
-                    bool needActive = _mainWindow.WindowState != WindowState.Minimized;
-                    _mainWindow.ShowWindow(isToggle);
-                    if (needActive) {
-                        _mainWindow.Activate();
-                    }
+            }
+            else {
+                AppContext.Enable();
+                bool needActive = _mainWindow.WindowState != WindowState.Minimized;
+                _mainWindow.ShowWindow(isToggle);
+                if (needActive) {
+                    _mainWindow.Activate();
                 }
-            });
+            }
+            mainWindow = _mainWindow;
         }
 
         public abstract void Link();
