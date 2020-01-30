@@ -736,7 +736,6 @@
                 Margin="0 -1 0 0"
 			    BorderThickness="0 1 0 0">
             </uc:StateBar>
-            <Border x:Name="MaskLayer" Grid.RowSpan="3" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>
         </Grid>
         <!--设计时置为Collapsed以避免遮罩下层视图导致鼠标无法选中下层的视图对象-->
         <Border Name="ResizeCursors" BorderThickness="1" Visibility="Collapsed" BorderBrush="{StaticResource IconFillColor}" CornerRadius="2">
@@ -826,5 +825,6 @@
                     PreviewMouseDown="Resize" />
             </Grid>
         </Border>
+        <Border x:Name="MaskLayer" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>
     </Grid>
 </Window>

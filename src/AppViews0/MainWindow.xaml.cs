@@ -64,7 +64,6 @@ namespace NTMiner.Views {
         }
 
         private HwndSource hwndSource;
-        private readonly Brush _borderBrush;
         public MainWindow() {
             this.MinHeight = 430;
             this.MinWidth = 640;
@@ -73,26 +72,26 @@ namespace NTMiner.Views {
 #if DEBUG
             NTStopwatch.Start();
 #endif
+            ConsoleWindow.Instance.Show();
+            ConsoleWindow.Instance.MouseDown += (ss, ee) => {
+                MoveConsoleWindow();
+            };
+            ConsoleWindow.Instance.Hide();
+            this.Owner = ConsoleWindow.Instance;
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
             this.Loaded += (sender, e) => {
-                ConsoleWindow.Instance.Show();
-                ConsoleWindow.Instance.MouseDown += (ss, ee) => {
-                    MoveConsoleWindow();
-                };
-                this.Owner = ConsoleWindow.Instance;
+                MoveConsoleWindow();
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
-                MoveConsoleWindow();
-                NTMinerRoot.RefreshArgsAssembly.Invoke();
             };
             InitializeComponent();
+            NTMinerRoot.RefreshArgsAssembly.Invoke();
             this.ResizeCursors.Visibility = Visibility.Visible;
             BtnMinerProfileGrip.Visibility = Visibility.Collapsed;
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
 
-            _borderBrush = this.BorderBrush;
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
@@ -152,11 +151,9 @@ namespace NTMiner.Views {
                 }
                 if (WindowState == WindowState.Maximized) {
                     ResizeCursors.Visibility = Visibility.Collapsed;
-                    this.BorderBrush = WpfUtil.BlackBrush;
                 }
                 else {
                     ResizeCursors.Visibility = Visibility.Visible;
-                    this.BorderBrush = _borderBrush;
                 }
                 MoveConsoleWindow();
             };
@@ -305,14 +302,10 @@ namespace NTMiner.Views {
         #region 显示或隐藏半透明遮罩层
         // 因为挖矿端主界面是透明的，遮罩方法和普通窗口不同，如果按照通用的方法遮罩的话会导致能透过窗口看见windows桌面或者下面的窗口。
         public void ShowMask() {
-            if (this.WindowState != WindowState.Maximized) {
-                this.BorderBrush = AppUtil.GetResource<SolidColorBrush>("WindowBorderBrush");
-            }
             MaskLayer.Visibility = Visibility.Visible;
         }
 
         public void HideMask() {
-            this.BorderBrush = _borderBrush;
             MaskLayer.Visibility = Visibility.Collapsed;
         }
         #endregion
