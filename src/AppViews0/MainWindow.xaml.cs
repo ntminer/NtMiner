@@ -65,6 +65,7 @@ namespace NTMiner.Views {
 
         private HwndSource hwndSource;
         private readonly GridLength _leftDrawerGripWidth;
+        private readonly Brush _btnLeftDrawerGripBrush;
         public MainWindow() {
             this.MinHeight = 430;
             this.MinWidth = 640;
@@ -87,6 +88,7 @@ namespace NTMiner.Views {
             };
             InitializeComponent();
             _leftDrawerGripWidth = LeftDrawerGrip.Width;
+            _btnLeftDrawerGripBrush = BtnLeftDrawerGrip.Background;
             NTMinerRoot.RefreshArgsAssembly.Invoke();
             // 下面几行是为了看见设计视图
             this.ResizeCursors.Visibility = Visibility.Visible;
@@ -318,7 +320,7 @@ namespace NTMiner.Views {
         #region 主界面左侧的抽屉
         // 点击pin按钮
         public void BtnLeftDrawerPin_Click(object sender, RoutedEventArgs e) {
-            if (BtnLeftDrawerGrip.Visibility == Visibility.Collapsed) {
+            if (LeftDrawerGrip.Width != _leftDrawerGripWidth) {
                 CloseLeftDrawer();
             }
             else {
@@ -331,14 +333,26 @@ namespace NTMiner.Views {
             CloseLeftDrawer();
         }
 
-        // 点击抽屉按钮
-        private void BtnLeftDrawerGrip_Click(object sender, RoutedEventArgs e) {
-            if (leftDrawer.Visibility == Visibility.Collapsed) {
-                leftDrawer.Visibility = Visibility.Visible;
+        private void BtnLeftDrawerGrip_MouseDown(object sender, MouseButtonEventArgs e) {
+            if (e.ClickCount != 2) {
+                if (leftDrawer.Visibility == Visibility.Collapsed) {
+                    leftDrawer.Visibility = Visibility.Visible;
+                }
+                else {
+                    leftDrawer.Visibility = Visibility.Collapsed;
+                }
             }
             else {
-                leftDrawer.Visibility = Visibility.Collapsed;
+                OpenLeftDrawer();
             }
+        }
+
+        private void BtnLeftDrawerGrip_MouseEnter(object sender, MouseEventArgs e) {
+            ((Control)sender).Background = WpfUtil.GreenBrush;
+        }
+
+        private void BtnLeftDrawerGrip_MouseLeave(object sender, MouseEventArgs e) {
+            ((Control)sender).Background = _btnLeftDrawerGripBrush;
         }
 
         // 打开左侧抽屉
@@ -356,12 +370,11 @@ namespace NTMiner.Views {
 
         private void ShowLeftDrawerGrid() {
             LeftDrawerGrip.Width = _leftDrawerGripWidth;
-            BtnLeftDrawerGrip.Visibility = Visibility.Visible;
         }
 
         // 关闭左侧抽屉
         private void OpenLeftDrawer() {
-            if (BtnLeftDrawerGrip.Visibility == Visibility.Collapsed) {
+            if (LeftDrawerGrip.Width != _leftDrawerGripWidth) {
                 return;
             }
             leftDrawer.Visibility = Visibility.Visible;
@@ -375,7 +388,6 @@ namespace NTMiner.Views {
         }
 
         private void HideLeftDrawerGrid() {
-            BtnLeftDrawerGrip.Visibility = Visibility.Collapsed;
             LeftDrawerGrip.Width = new GridLength(0);
         }
         #endregion
