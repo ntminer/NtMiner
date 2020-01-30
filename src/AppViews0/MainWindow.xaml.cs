@@ -83,6 +83,7 @@ namespace NTMiner.Views {
                 MoveConsoleWindow();
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
+                ConsoleWindow.Instance.WindowState = WindowState.Normal;
             };
             InitializeComponent();
             NTMinerRoot.RefreshArgsAssembly.Invoke();
