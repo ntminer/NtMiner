@@ -69,6 +69,10 @@ namespace NTMiner.Views {
         private readonly GridLength _leftDrawerGripWidth;
         private readonly Brush _btnLeftDrawerGripBrush;
         public MainWindow() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+
             this.MinHeight = 430;
             this.MinWidth = 640;
             this.Width = AppStatic.MainWindowWidth;
@@ -77,7 +81,7 @@ namespace NTMiner.Views {
             NTStopwatch.Start();
 #endif
             ConsoleWindow.Instance.Show();
-            ConsoleWindow.Instance.MouseDown += (ss, ee) => {
+            ConsoleWindow.Instance.MouseDown += (sender, e) => {
                 MoveConsoleWindow();
             };
             ConsoleWindow.Instance.Hide();
@@ -96,10 +100,6 @@ namespace NTMiner.Views {
             this.ResizeCursors.Visibility = Visibility.Visible;
             this.HideLeftDrawerGrid();
             // 上面几行是为了看见设计视图
-
-            if (WpfUtil.IsInDesignMode) {
-                return;
-            }
 
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             // 切换了主界面上的Tab时
@@ -137,6 +137,7 @@ namespace NTMiner.Views {
                 #endregion
             };
             this.IsVisibleChanged += (sender, e) => {
+                #region
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
                 }
@@ -144,6 +145,7 @@ namespace NTMiner.Views {
                     NTMinerRoot.IsUiVisible = false;
                 }
                 MoveConsoleWindow();
+                #endregion
             };
             this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
                 MoveConsoleWindow();
@@ -174,18 +176,22 @@ namespace NTMiner.Views {
                 MoveConsoleWindow();
             };
             this.SizeChanged += (s, e) => {
+                #region
                 if (this.Width < 860) {
                     this.CloseLeftDrawer();
                 }
                 else {
                     this.OpenLeftDrawer();
                 }
-                if (e.WidthChanged) {
-                    ConsoleWindow.Instance.Width = e.NewSize.Width;
+                if (!this.ConsoleRectangle.IsVisible) {
+                    if (e.WidthChanged) {
+                        ConsoleWindow.Instance.Width = e.NewSize.Width;
+                    }
+                    if (e.HeightChanged) {
+                        ConsoleWindow.Instance.Height = e.NewSize.Height;
+                    }
                 }
-                if (e.HeightChanged) {
-                    ConsoleWindow.Instance.Height = e.NewSize.Height;
-                }
+                #endregion
             };
             NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
             this.LocationChanged += (sender, e) => {
