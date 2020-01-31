@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 
 namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
+        #region SafeNativeMethods
         private static class SafeNativeMethods {
             #region enum struct class
             [StructLayout(LayoutKind.Sequential)]
@@ -54,6 +55,7 @@ namespace NTMiner.Views {
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool GetCursorPos(out POINT lpPoint);
         }
+        #endregion
 
         private bool mRestoreIfMove = false;
 
@@ -103,6 +105,7 @@ namespace NTMiner.Views {
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
                 // 延迟创建，以加快主界面的启动
+                #region
                 var selectedItem = MainArea.SelectedItem;
                 if (selectedItem == TabItemSpeedTable) {
                     if (SpeedTableContainer.Child == null) {
@@ -131,6 +134,7 @@ namespace NTMiner.Views {
                         VirtualRoot.Execute(new LoadNewServerMessageCommand());
                     }
                 }
+                #endregion
             };
             this.IsVisibleChanged += (sender, e) => {
                 if (this.IsVisible) {
@@ -145,6 +149,7 @@ namespace NTMiner.Views {
                 MoveConsoleWindow();
             };
             this.StateChanged += (s, e) => {
+                #region
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
                 }
@@ -163,6 +168,7 @@ namespace NTMiner.Views {
                     ResizeCursors.Visibility = Visibility.Visible;
                 }
                 MoveConsoleWindow();
+                #endregion
             };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
@@ -173,6 +179,12 @@ namespace NTMiner.Views {
                 }
                 else {
                     this.OpenLeftDrawer();
+                }
+                if (e.WidthChanged) {
+                    ConsoleWindow.Instance.Width = e.NewSize.Width;
+                }
+                if (e.HeightChanged) {
+                    ConsoleWindow.Instance.Height = e.NewSize.Height;
                 }
             };
             NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
