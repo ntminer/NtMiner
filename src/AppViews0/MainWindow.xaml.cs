@@ -14,6 +14,7 @@ using System.Windows.Shapes;
 
 namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
+        #region SafeNativeMethods
         private static class SafeNativeMethods {
             #region enum struct class
             [StructLayout(LayoutKind.Sequential)]
@@ -54,6 +55,7 @@ namespace NTMiner.Views {
             [return: MarshalAs(UnmanagedType.Bool)]
             internal static extern bool GetCursorPos(out POINT lpPoint);
         }
+        #endregion
 
         private bool mRestoreIfMove = false;
 
@@ -67,6 +69,10 @@ namespace NTMiner.Views {
         private readonly GridLength _leftDrawerGripWidth;
         private readonly Brush _btnLeftDrawerGripBrush;
         public MainWindow() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+
             this.MinHeight = 430;
             this.MinWidth = 640;
             this.Width = AppStatic.MainWindowWidth;
@@ -75,7 +81,7 @@ namespace NTMiner.Views {
             NTStopwatch.Start();
 #endif
             ConsoleWindow.Instance.Show();
-            ConsoleWindow.Instance.MouseDown += (ss, ee) => {
+            ConsoleWindow.Instance.MouseDown += (sender, e) => {
                 MoveConsoleWindow();
             };
             ConsoleWindow.Instance.Hide();
@@ -95,14 +101,11 @@ namespace NTMiner.Views {
             this.HideLeftDrawerGrid();
             // 上面几行是为了看见设计视图
 
-            if (WpfUtil.IsInDesignMode) {
-                return;
-            }
-
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             // 切换了主界面上的Tab时
             this.MainArea.SelectionChanged += (sender, e) => {
                 // 延迟创建，以加快主界面的启动
+                #region
                 var selectedItem = MainArea.SelectedItem;
                 if (selectedItem == TabItemSpeedTable) {
                     if (SpeedTableContainer.Child == null) {
@@ -131,8 +134,10 @@ namespace NTMiner.Views {
                         VirtualRoot.Execute(new LoadNewServerMessageCommand());
                     }
                 }
+                #endregion
             };
             this.IsVisibleChanged += (sender, e) => {
+                #region
                 if (this.IsVisible) {
                     NTMinerRoot.IsUiVisible = true;
                 }
@@ -140,11 +145,13 @@ namespace NTMiner.Views {
                     NTMinerRoot.IsUiVisible = false;
                 }
                 MoveConsoleWindow();
+                #endregion
             };
             this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
             this.StateChanged += (s, e) => {
+                #region
                 if (Vm.MinerProfile.IsShowInTaskbar) {
                     ShowInTaskbar = true;
                 }
@@ -163,17 +170,28 @@ namespace NTMiner.Views {
                     ResizeCursors.Visibility = Visibility.Visible;
                 }
                 MoveConsoleWindow();
+                #endregion
             };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
             this.SizeChanged += (s, e) => {
+                #region
                 if (this.Width < 860) {
                     this.CloseLeftDrawer();
                 }
                 else {
                     this.OpenLeftDrawer();
                 }
+                if (!this.ConsoleRectangle.IsVisible) {
+                    if (e.WidthChanged) {
+                        ConsoleWindow.Instance.Width = e.NewSize.Width;
+                    }
+                    if (e.HeightChanged) {
+                        ConsoleWindow.Instance.Height = e.NewSize.Height;
+                    }
+                }
+                #endregion
             };
             NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
             this.LocationChanged += (sender, e) => {
