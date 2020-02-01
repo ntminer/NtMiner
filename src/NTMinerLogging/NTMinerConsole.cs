@@ -10,6 +10,8 @@ namespace NTMiner {
             internal static extern bool FreeConsole();
             [DllImport(DllName.Kernel32Dll)]
             internal static extern IntPtr GetConsoleWindow();
+            [DllImport(DllName.User32Dll, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, ExactSpelling = true, SetLastError = true)]
+            internal static extern void MoveWindow(IntPtr hwnd, int x, int y, int nWidth, int nHeight, bool bRepaint);
 
             [DllImport(DllName.Kernel32Dll, SetLastError = true)]
             private static extern IntPtr GetStdHandle(int hConsoleHandle);
@@ -49,8 +51,8 @@ namespace NTMiner {
             return SafeNativeMethods.GetOrAlloc(disableQuickEditMode);
         }
 
-        public static IntPtr GetIntPtr() {
-            return SafeNativeMethods.GetConsoleWindow();
+        public static void MoveWindow(int x, int y, int nWidth, int nHeight, bool bRepaint) {
+            SafeNativeMethods.MoveWindow(SafeNativeMethods.GetConsoleWindow(), x, y, nWidth, nHeight, bRepaint);
         }
 
         /// <summary>
