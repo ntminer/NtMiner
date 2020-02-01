@@ -167,12 +167,12 @@ namespace NTMiner.Vms {
                         ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
                         File.Delete(saveFileFullName);
                         window?.Close();
-                        Windows.Cmd.RunClose(nppFileFullName, $"-nosession {fileFullName}");
+                        Windows.Cmd.RunClose(nppFileFullName, $"-nosession -ro {fileFullName}");
                     }
                 }));
             }
             else {
-                Windows.Cmd.RunClose(nppFileFullName, $"-nosession {fileFullName}");
+                Windows.Cmd.RunClose(nppFileFullName, $"-nosession -ro {fileFullName}");
             }
         }
     }
