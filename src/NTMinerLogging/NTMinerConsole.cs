@@ -17,8 +17,6 @@ namespace NTMiner {
             private static extern bool GetConsoleMode(IntPtr hConsoleHandle, out uint mode);
             [DllImport(DllName.Kernel32Dll, SetLastError = true)]
             private static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint mode);
-            [DllImport(DllName.User32Dll, SetLastError = true)]
-            internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
 
             private static void DisbleQuickEditMode() {
                 const int STD_INPUT_HANDLE = -10;
@@ -42,7 +40,6 @@ namespace NTMiner {
                         DisbleQuickEditMode();
                     }
                     console = GetConsoleWindow();
-                    ShowWindow(console, 0);
                 }
                 return console;
             }
@@ -54,27 +51,6 @@ namespace NTMiner {
 
         public static IntPtr GetIntPtr() {
             return SafeNativeMethods.GetConsoleWindow();
-        }
-
-        public static IntPtr Show() {
-            _isHided = false;
-            IntPtr console = SafeNativeMethods.GetConsoleWindow();
-            if (console != IntPtr.Zero) {
-                SafeNativeMethods.ShowWindow(console, 1);
-            }
-            return console;
-        }
-
-        private static bool _isHided = false;
-        public static void Hide() {
-            if (_isHided) {
-                return;
-            }
-            _isHided = true;
-            IntPtr console = SafeNativeMethods.GetConsoleWindow();
-            if (console != IntPtr.Zero) {
-                SafeNativeMethods.ShowWindow(console, 0);
-            }
         }
 
         /// <summary>
