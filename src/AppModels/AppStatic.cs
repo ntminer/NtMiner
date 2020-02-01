@@ -653,38 +653,6 @@ namespace NTMiner {
             Process.Start(dir);
         });
 
-        public static ICommand OpenKernelLogFile { get; private set; } = new DelegateCommand<string>(fileFullName => {
-            if (!Directory.Exists(Logger.Dir)) {
-                VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
-                return;
-            }
-            if (string.IsNullOrEmpty(fileFullName)) {
-                try {
-                    string latestOne = null;
-                    DateTime lastWriteTime = DateTime.MinValue;
-                    FileInfo fileInfo;
-                    foreach (var itemFullName in Directory.GetFiles(Logger.Dir)) {
-                        fileInfo = new FileInfo(itemFullName);
-                        if (fileInfo.Name.StartsWith("root")) {
-                            continue;
-                        }
-                        if (fileInfo.LastWriteTime > lastWriteTime) {
-                            lastWriteTime = fileInfo.LastWriteTime;
-                            latestOne = itemFullName;
-                        }
-                    }
-                    fileFullName = latestOne;
-                }
-                catch {
-                }
-            }
-            if (string.IsNullOrEmpty(fileFullName)) {
-                VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
-                return;
-            }
-            Process.Start(fileFullName);
-        });
-
         public static ICommand ViewUrl { get; private set; } = new DelegateCommand<string>(url => {
             if (string.IsNullOrEmpty(url)) {
                 return;

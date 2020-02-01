@@ -502,7 +502,7 @@
                                             Padding="4 0"
                                             ToolTip="打开最新的日志文件" 
                                             Background="Transparent" BorderThickness="0"
-                                            Command="{x:Static app:AppStatic.OpenKernelLogFile}">
+                                            Click="BtnOpenKernelLogFile_Click">
                                             <Path
 						                        Width="17"
 						                        Height="17"

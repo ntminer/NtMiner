@@ -4,6 +4,8 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -607,5 +609,37 @@ namespace NTMiner.Views {
             }
         }
         #endregion
+
+        private void BtnOpenKernelLogFile_Click(object sender, RoutedEventArgs e) {
+            if (!Directory.Exists(Logger.Dir)) {
+                VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
+                return;
+            }
+            string fileFullName = null;
+            try {
+                string latestOne = null;
+                DateTime lastWriteTime = DateTime.MinValue;
+                FileInfo fileInfo;
+                foreach (var itemFullName in Directory.GetFiles(Logger.Dir)) {
+                    fileInfo = new FileInfo(itemFullName);
+                    if (fileInfo.Name.StartsWith("root")) {
+                        continue;
+                    }
+                    if (fileInfo.LastWriteTime > lastWriteTime) {
+                        lastWriteTime = fileInfo.LastWriteTime;
+                        latestOne = itemFullName;
+                    }
+                }
+                fileFullName = latestOne;
+            }
+            catch {
+            }
+            if (string.IsNullOrEmpty(fileFullName)) {
+                VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
+                return;
+            }
+            this.Topmost = false;
+            Process.Start(fileFullName);
+        }
     }
 }
