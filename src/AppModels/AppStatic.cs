@@ -653,6 +653,13 @@ namespace NTMiner {
             Process.Start(dir);
         });
 
+        public static ICommand OpenKernelLogFile { get; private set; } = new DelegateCommand<string>(fileFullName => {
+            if (string.IsNullOrEmpty(fileFullName)) {
+
+            }
+            Process.Start(fileFullName);
+        });
+
         public static ICommand ViewUrl { get; private set; } = new DelegateCommand<string>(url => {
             if (string.IsNullOrEmpty(url)) {
                 return;

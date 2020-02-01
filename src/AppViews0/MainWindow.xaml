@@ -497,21 +497,33 @@
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Left" Width="4" Fill="Black"></Rectangle>
                                     <Rectangle Grid.Row="1" x:Name="ConsoleRectangle"></Rectangle>
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Right" Width="4" Fill="Black"></Rectangle>
-                                    <controls:KbButton 
-                                        Grid.Row="1"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Top"
-                                        ToolTip="打开日志文件夹" 
-                                        Background="Transparent" BorderThickness="0"
-                                        Command="{x:Static app:AppStatic.OpenDir}" 
-                                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
-                                        <Path
-						                    Width="17"
-						                    Height="17"
-						                    Data="{StaticResource Icon_LogDir}"
-						                    Fill="{StaticResource ThemeForeground}"
-						                    Stretch="Fill" />
-                                    </controls:KbButton>
+                                    <WrapPanel Grid.Row="1" Background="Black" HorizontalAlignment="Center" VerticalAlignment="Top">
+                                        <controls:KbButton 
+                                            Padding="4 0"
+                                            ToolTip="打开最新的日志文件" 
+                                            Background="Transparent" BorderThickness="0"
+                                            Command="{x:Static app:AppStatic.OpenKernelLogFile}">
+                                            <Path
+						                        Width="17"
+						                        Height="17"
+						                        Data="{StaticResource Icon_LogFile}"
+						                        Fill="White"
+						                        Stretch="Fill" />
+                                        </controls:KbButton>
+                                        <controls:KbButton 
+                                            Padding="4 0"
+                                            ToolTip="打开日志文件夹" 
+                                            Background="Transparent" BorderThickness="0"
+                                            Command="{x:Static app:AppStatic.OpenDir}" 
+                                            CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
+                                            <Path
+						                        Width="17"
+						                        Height="17"
+						                        Data="{StaticResource Icon_LogDir}"
+						                        Fill="White"
+						                        Stretch="Fill" />
+                                        </controls:KbButton>
+                                    </WrapPanel>
                                 </Grid>
                             </TabItem>
                             <TabItem x:Name="TabItemSpeedTable">
