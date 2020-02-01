@@ -4,6 +4,8 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -265,18 +267,15 @@ namespace NTMiner.Views {
             ConsoleWindow consoleWindow = ConsoleWindow.Instance;
             if (!this.IsVisible || this.WindowState == WindowState.Minimized) {
                 consoleWindow.Hide();
-                NTMinerConsole.Hide();
                 return;
             }
             if (!consoleWindow.IsVisible) {
                 consoleWindow.Show();
             }
-            if (MainArea.SelectedItem == ConsoleTabItem) {
-                NTMinerConsole.Show();
-            }
             if (consoleWindow.WindowState != this.WindowState) {
                 consoleWindow.WindowState = this.WindowState;
             }
+            // -2 -1是因为主窗口有圆角，但下层的控制台窗口不能透明所以不能圆角，把下层的控制台窗口的宽高缩小一点点从而避免看见下层控制台窗口的棱角
             if (consoleWindow.Width != this.Width - 2) {
                 consoleWindow.Width = this.Width - 2;
             }
@@ -610,5 +609,19 @@ namespace NTMiner.Views {
             }
         }
         #endregion
+
+        private void BtnOpenKernelLogFile_Click(object sender, RoutedEventArgs e) {
+            string fileFullName = Vm.GetLatestLogFileFullName();
+            if (string.IsNullOrEmpty(fileFullName)) {
+                VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
+                return;
+            }
+            Vm.OpenLogFileByNpp(fileFullName);
+        }
+
+        private void ButtonLogFiles_Click(object sender, RoutedEventArgs e) {
+            PopupLogFiles.IsOpen = true;
+            Vm.RefreshLogFiles();
+        }
     }
 }

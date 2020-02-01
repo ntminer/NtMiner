@@ -13,7 +13,7 @@
 	<WrapPanel>
         <Menu Background="Transparent" VerticalAlignment="Center">
             <MenuItem 
-                Width="26" Height="30" ToolTip="日志" 
+                Width="26" Height="30" ToolTip="打开日志文件夹" 
                 Command="{x:Static app:AppStatic.OpenDir}" 
                 CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
                 <MenuItem.Icon>

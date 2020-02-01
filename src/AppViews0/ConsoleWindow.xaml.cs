@@ -12,8 +12,6 @@ namespace NTMiner.Views {
         internal static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
         [DllImport(DllName.User32Dll, SetLastError = true)]
         internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-        [DllImport(DllName.User32Dll, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, ExactSpelling = true, SetLastError = true)]
-        internal static extern void MoveWindow(IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     }
 
     public partial class ConsoleWindow : Window {
@@ -70,8 +68,7 @@ namespace NTMiner.Views {
             if ((int)ConsoleBgRectangle.Margin.Top != marginTop) {
                 ConsoleBgRectangle.Margin = new Thickness(0, marginTop, 1, 0);
             }
-            IntPtr console = NTMinerConsole.GetIntPtr();
-            SafeNativeMethods.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, true);
+            NTMinerConsole.MoveWindow(paddingLeft + marginLeft, marginTop, width, height, true);
         }
     }
 }
