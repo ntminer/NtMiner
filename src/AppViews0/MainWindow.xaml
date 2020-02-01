@@ -500,7 +500,7 @@
                                     <WrapPanel Grid.Row="1" Margin="0 2 0 0" Background="Black" HorizontalAlignment="Left" VerticalAlignment="Top">
                                         <controls:KbButton 
                                             Padding="4 0"
-                                            ToolTip="打开最新的日志文件" 
+                                            ToolTip="打开最新的内核日志" 
                                             Background="Transparent" BorderThickness="0"
                                             Click="BtnOpenKernelLogFile_Click">
                                             <Path

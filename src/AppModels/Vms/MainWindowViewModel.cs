@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
             public LogFile(string fileName, DateTime lastWriteTime, string fileFullName) {
                 this.FileName = fileName;
                 this.LastWriteTime = lastWriteTime;
-                this.LastWriteTimeText = lastWriteTime.ToString("yyyy-MM-dd hh:MM:ss");
+                this.LastWriteTimeText = Timestamp.GetTimestampText(lastWriteTime);
                 this.FileFullName = fileFullName;
             }
 
