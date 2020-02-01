@@ -611,64 +611,17 @@ namespace NTMiner.Views {
         #endregion
 
         private void BtnOpenKernelLogFile_Click(object sender, RoutedEventArgs e) {
-            if (!Directory.Exists(Logger.Dir)) {
-                VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
-                return;
-            }
-            string fileFullName = null;
-            long fileSize = 0;
-            try {
-                string latestOne = null;
-                DateTime lastWriteTime = DateTime.MinValue;
-                FileInfo fileInfo;
-                foreach (var itemFullName in Directory.GetFiles(Logger.Dir)) {
-                    fileInfo = new FileInfo(itemFullName);
-                    if (fileInfo.Name.StartsWith("root")) {
-                        continue;
-                    }
-                    if (fileInfo.LastWriteTime > lastWriteTime) {
-                        lastWriteTime = fileInfo.LastWriteTime;
-                        latestOne = itemFullName;
-                        fileSize = fileInfo.Length;
-                    }
-                }
-                fileFullName = latestOne;
-            }
-            catch {
-            }
+            string fileFullName = Vm.GetLatestLogFileFullName();
             if (string.IsNullOrEmpty(fileFullName)) {
                 VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
                 return;
             }
-            // 大文件使用notepad++打开
-            if (fileSize > 10 * 1024 * 1024) {
-                OpenTxtFile(fileFullName);
-            }
-            else {
-                this.Topmost = false;
-                Process.Start(fileFullName);
-            }
+            Vm.OpenLogFileByNpp(fileFullName);
         }
 
-        private static void OpenTxtFile(string fileFullName) {
-            string nppDir = System.IO.Path.Combine(SpecialPath.ToolsDirFullName, "Npp");
-            string nppFileFullName = System.IO.Path.Combine(nppDir, "notepad++.exe");
-            if (!Directory.Exists(nppDir)) {
-                Directory.CreateDirectory(nppDir);
-            }
-            if (!File.Exists(nppFileFullName)) {
-                VirtualRoot.Execute(new ShowFileDownloaderCommand(AppStatic.NppPackageUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
-                    if (isSuccess) {
-                        ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
-                        File.Delete(saveFileFullName);
-                        window?.Close();
-                        Windows.Cmd.RunClose(nppFileFullName, $"-nosession {fileFullName}");
-                    }
-                }));
-            }
-            else {
-                Windows.Cmd.RunClose(nppFileFullName, $"-nosession {fileFullName}");
-            }
+        private void ButtonLogFiles_Click(object sender, RoutedEventArgs e) {
+            PopupLogFiles.IsOpen = true;
+            Vm.RefreshLogFiles();
         }
     }
 }

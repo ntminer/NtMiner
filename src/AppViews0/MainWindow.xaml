@@ -511,11 +511,12 @@
 						                        Stretch="Fill" />
                                         </controls:KbButton>
                                         <controls:KbButton 
+                                            x:Name="ButtonLogFiles"
+                                            IsEnabled="{Binding ElementName=PopupLogFiles,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
                                             Padding="4 0"
                                             ToolTip="日志列表" 
-                                            Background="Transparent" BorderThickness="0"
-                                            Command="{x:Static app:AppStatic.OpenDir}" 
-                                            CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
+                                            Click="ButtonLogFiles_Click"
+                                            Background="Transparent" BorderThickness="0">
                                             <Path
 						                        Width="18"
 						                        Height="16"
@@ -523,6 +524,42 @@
 						                        Fill="#F0F0F0"
 						                        Stretch="Fill" />
                                         </controls:KbButton>
+                                        <Popup 
+                                            x:Name="PopupLogFiles"
+					                        PopupAnimation="Slide" 
+					                        PlacementTarget="{Binding ElementName=ButtonLogFiles}" 
+					                        Placement="Bottom" 
+					                        StaysOpen="False">
+                                            <Grid>
+                                                <DataGrid 
+                                                    MinHeight="100"
+			                                        ItemsSource="{Binding LogFiles}" 
+			                                        SelectedItem="{Binding SelectedLogFile}"
+			                                        BorderThickness="0">
+                                                    <DataGrid.Resources>
+                                                        <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+                                                    </DataGrid.Resources>
+                                                    <DataGrid.Columns>
+                                                        <DataGridTemplateColumn Width="300" Header="名称" IsReadOnly="True">
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <DataTemplate>
+                                                                    <controls:KbLinkButton 
+                                                                        ToolTip="打开"
+						                                                KbDisplayLine="False"
+                                                                        Background="Transparent"
+                                                                        Content="{Binding FileName}" 
+                                                                        Command="{Binding Data.OpenLogFile,Source={StaticResource proxy}}" 
+                                                                        CommandParameter="{Binding FileFullName}" />
+                                                                </DataTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <DataGridTextColumn Width="140" Header="修改时间" Binding="{Binding LastWriteTimeText}" IsReadOnly="True">
+                                                        </DataGridTextColumn>
+                                                    </DataGrid.Columns>
+                                                </DataGrid>
+                                                <TextBlock Margin="0 26 0 0" Visibility="{Binding LogFiles, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有记录</TextBlock>
+                                            </Grid>
+                                        </Popup>
                                     </WrapPanel>
                                 </Grid>
                             </TabItem>
