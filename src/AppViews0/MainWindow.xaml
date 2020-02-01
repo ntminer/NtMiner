@@ -504,8 +504,8 @@
                                             Background="Transparent" BorderThickness="0"
                                             Click="BtnOpenKernelLogFile_Click">
                                             <Path
-						                        Width="17"
-						                        Height="17"
+						                        Width="14"
+						                        Height="16"
 						                        Data="{StaticResource Icon_LogFile}"
 						                        Fill="White"
 						                        Stretch="Fill" />
@@ -517,8 +517,8 @@
                                             Command="{x:Static app:AppStatic.OpenDir}" 
                                             CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
                                             <Path
-						                        Width="17"
-						                        Height="17"
+						                        Width="16"
+						                        Height="16"
 						                        Data="{StaticResource Icon_LogDir}"
 						                        Fill="White"
 						                        Stretch="Fill" />
