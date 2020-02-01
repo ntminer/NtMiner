@@ -497,15 +497,15 @@
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Left" Width="4" Fill="Black"></Rectangle>
                                     <Rectangle Grid.Row="1" x:Name="ConsoleRectangle"></Rectangle>
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Right" Width="4" Fill="Black"></Rectangle>
-                                    <WrapPanel Grid.Row="1" Margin="0 2 0 0" Background="Black" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                    <WrapPanel Grid.Row="1" Margin="0 0 24 0" Background="Black" HorizontalAlignment="Right" VerticalAlignment="Top">
                                         <controls:KbButton 
-                                            Padding="4 0"
+                                            Padding="4"
                                             ToolTip="打开最新的内核日志" 
                                             Background="Transparent" BorderThickness="0"
                                             Click="BtnOpenKernelLogFile_Click">
                                             <Path
-						                        Width="14"
-						                        Height="16"
+						                        Width="12"
+						                        Height="14"
 						                        Data="{StaticResource Icon_LogFile}"
 						                        Fill="#F0F0F0"
 						                        Stretch="Fill" />
@@ -513,13 +513,13 @@
                                         <controls:KbButton 
                                             x:Name="ButtonLogFiles"
                                             IsEnabled="{Binding ElementName=PopupLogFiles,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
-                                            Padding="4 0"
+                                            Padding="4"
                                             ToolTip="日志列表" 
                                             Click="ButtonLogFiles_Click"
                                             Background="Transparent" BorderThickness="0">
                                             <Path
-						                        Width="18"
-						                        Height="16"
+						                        Width="16"
+						                        Height="12"
 						                        Data="{StaticResource Icon_ComboBoxToogle}"
 						                        Fill="#F0F0F0"
 						                        Stretch="Fill" />
