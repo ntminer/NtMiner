@@ -273,6 +273,7 @@ namespace NTMiner.Views {
             if (consoleWindow.WindowState != this.WindowState) {
                 consoleWindow.WindowState = this.WindowState;
             }
+            // -2 -1是因为主窗口有圆角，但下层的控制台窗口不能透明所以不能圆角，把下层的控制台窗口的宽高缩小一点点从而避免看见下层控制台窗口的棱角
             if (consoleWindow.Width != this.Width - 2) {
                 consoleWindow.Width = this.Width - 2;
             }
