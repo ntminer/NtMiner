@@ -851,11 +851,7 @@ namespace NTMiner {
         }
         #endregion
 
-        public static ICommand OpenLogfile { get; private set; } = new DelegateCommand<string>((logfileFullName) => {
-            OpenTxtFile(logfileFullName);
-        });
-
-        private static string NppPackageUrl {
+        public static string NppPackageUrl {
             get {
                 const string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/npp.zip";
                 if (WpfUtil.IsDevMode) {
@@ -867,29 +863,6 @@ namespace NTMiner {
                 return url;
             }
         }
-
-        #region private method OpenTxtFile
-        private static void OpenTxtFile(string fileFullName) {
-            string nppDir = Path.Combine(SpecialPath.ToolsDirFullName, "Npp");
-            string nppFileFullName = Path.Combine(nppDir, "notepad++.exe");
-            if (!Directory.Exists(nppDir)) {
-                Directory.CreateDirectory(nppDir);
-            }
-            if (!File.Exists(nppFileFullName)) {
-                VirtualRoot.Execute(new ShowFileDownloaderCommand(NppPackageUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
-                    if (isSuccess) {
-                        ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
-                        File.Delete(saveFileFullName);
-                        window?.Close();
-                        Windows.Cmd.RunClose(nppFileFullName, fileFullName);
-                    }
-                }));
-            }
-            else {
-                Windows.Cmd.RunClose(nppFileFullName, fileFullName);
-            }
-        }
-        #endregion
 
         public static ICommand ShowCalc { get; private set; } = new DelegateCommand<CoinViewModel>(coinVm => {
             VirtualRoot.Execute(new ShowCalcCommand(coinVm));

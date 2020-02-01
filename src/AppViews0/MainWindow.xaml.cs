@@ -616,6 +616,7 @@ namespace NTMiner.Views {
                 return;
             }
             string fileFullName = null;
+            long fileSize = 0;
             try {
                 string latestOne = null;
                 DateTime lastWriteTime = DateTime.MinValue;
@@ -628,6 +629,7 @@ namespace NTMiner.Views {
                     if (fileInfo.LastWriteTime > lastWriteTime) {
                         lastWriteTime = fileInfo.LastWriteTime;
                         latestOne = itemFullName;
+                        fileSize = fileInfo.Length;
                     }
                 }
                 fileFullName = latestOne;
@@ -638,8 +640,35 @@ namespace NTMiner.Views {
                 VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
                 return;
             }
-            this.Topmost = false;
-            Process.Start(fileFullName);
+            // 大文件使用notepad++打开
+            if (fileSize > 10 * 1024 * 1024) {
+                OpenTxtFile(fileFullName);
+            }
+            else {
+                this.Topmost = false;
+                Process.Start(fileFullName);
+            }
+        }
+
+        private static void OpenTxtFile(string fileFullName) {
+            string nppDir = System.IO.Path.Combine(SpecialPath.ToolsDirFullName, "Npp");
+            string nppFileFullName = System.IO.Path.Combine(nppDir, "notepad++.exe");
+            if (!Directory.Exists(nppDir)) {
+                Directory.CreateDirectory(nppDir);
+            }
+            if (!File.Exists(nppFileFullName)) {
+                VirtualRoot.Execute(new ShowFileDownloaderCommand(AppStatic.NppPackageUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
+                    if (isSuccess) {
+                        ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
+                        File.Delete(saveFileFullName);
+                        window?.Close();
+                        Windows.Cmd.RunClose(nppFileFullName, $"-nosession {fileFullName}");
+                    }
+                }));
+            }
+            else {
+                Windows.Cmd.RunClose(nppFileFullName, $"-nosession {fileFullName}");
+            }
         }
     }
 }
