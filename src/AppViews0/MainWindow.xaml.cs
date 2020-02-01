@@ -610,6 +610,7 @@ namespace NTMiner.Views {
         }
         #endregion
 
+        #region 日志
         private void BtnOpenKernelLogFile_Click(object sender, RoutedEventArgs e) {
             string fileFullName = Vm.GetLatestLogFileFullName();
             if (string.IsNullOrEmpty(fileFullName)) {
@@ -623,5 +624,12 @@ namespace NTMiner.Views {
             PopupLogFiles.IsOpen = true;
             Vm.RefreshLogFiles();
         }
+
+        private void LogFilesDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            WpfUtil.DataGrid_MouseDoubleClick<MainWindowViewModel.LogFile>(sender, e, t => {
+                Vm.OpenLogFileByNpp(t.FileFullName);
+            });
+        }
+        #endregion
     }
 }

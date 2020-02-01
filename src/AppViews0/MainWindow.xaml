@@ -536,6 +536,7 @@
                                                         MinHeight="100"
 			                                            ItemsSource="{Binding LogFiles}" 
 			                                            SelectedItem="{Binding SelectedLogFile}"
+                                                        MouseDoubleClick="LogFilesDataGrid_MouseDoubleClick"
 			                                            BorderThickness="0">
                                                         <DataGrid.Resources>
                                                             <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
