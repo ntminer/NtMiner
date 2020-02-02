@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner.Net;
 using System;
+using System.Collections;
 using System.IO;
 
 namespace UnitTests {
@@ -31,6 +32,14 @@ namespace UnitTests {
                 Assert.IsTrue(sr.EndOfStream);
             }
             File.Delete(tempFile);
+        }
+
+        [TestMethod]
+        public void PathsTest() {
+            var values = Enum.GetValues(typeof(Environment.SpecialFolder)) as IEnumerable;
+            foreach (var value in values) {
+                Console.WriteLine(Environment.GetFolderPath((Environment.SpecialFolder)value));
+            }
         }
 
         [TestMethod]
