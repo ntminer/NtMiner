@@ -104,6 +104,9 @@
     <Compile Include="SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\AppMiner.xaml.cs">
+      <DependentUpon>AppMiner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\KernelOutputKeywords.xaml.cs">
       <DependentUpon>KernelOutputKeywords.xaml</DependentUpon>
     </Compile>
@@ -505,6 +508,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SplashWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\AppMiner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
