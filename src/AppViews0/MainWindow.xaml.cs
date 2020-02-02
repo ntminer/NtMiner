@@ -4,8 +4,6 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -607,28 +605,6 @@ namespace NTMiner.Views {
 
                 DragMove();
             }
-        }
-        #endregion
-
-        #region 日志
-        private void BtnOpenKernelLogFile_Click(object sender, RoutedEventArgs e) {
-            string fileFullName = Vm.GetLatestLogFileFullName();
-            if (string.IsNullOrEmpty(fileFullName)) {
-                VirtualRoot.Out.ShowWarn("没有日志", autoHideSeconds: 2);
-                return;
-            }
-            Vm.OpenLogFileByNpp(fileFullName);
-        }
-
-        private void ButtonLogFiles_Click(object sender, RoutedEventArgs e) {
-            PopupLogFiles.IsOpen = true;
-            Vm.RefreshLogFiles();
-        }
-
-        private void LogFilesDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<MainWindowViewModel.LogFile>(sender, e, t => {
-                Vm.OpenLogFileByNpp(t.FileFullName);
-            });
         }
         #endregion
     }
