@@ -104,6 +104,9 @@
     <Compile Include="SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\MinerClients.xaml.cs">
+      <DependentUpon>MinerClients.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\ResizeCursor.xaml.cs">
       <DependentUpon>ResizeCursor.xaml</DependentUpon>
     </Compile>
@@ -514,6 +517,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SplashWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\MinerClients.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
