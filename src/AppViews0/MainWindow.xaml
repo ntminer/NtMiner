@@ -530,6 +530,7 @@
 					                        PopupAnimation="Slide" 
 					                        PlacementTarget="{Binding ElementName=ButtonLogFiles}" 
 					                        Placement="Bottom" 
+                                            HorizontalOffset="-200"
 					                        StaysOpen="False">
                                             <Border BorderThickness="1" BorderBrush="{StaticResource WindowBorderBrush}">
                                                 <Grid>
