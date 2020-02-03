@@ -22,7 +22,7 @@
             inc.innerHTML += "connecting to server ..<br/>";
 
             // create a new websocket and connect
-            window.ws = new wsImpl('ws://localhost:8088/Echo');
+            window.ws = new wsImpl('ws://localhost:8088/');
 
             // when data is comming from the server, this metod is called
             ws.onmessage = function (evt) {
@@ -48,11 +48,22 @@
             function send(e) {
                 e.preventDefault();
                 var val = input.value;
+                if (!val) {
+                    return;
+                }
+                var index = val.indexOf(' ');
+                var action = '';
+                var json = '';
+                if (index == -1) {
+                    action = val;
+                }
+                else {
+                    action = val.substr(0, index);
+                    json = val.substr(index + 1);
+                }
                 ws.send(JSON.stringify({
-                    'action': val,
-                    'json': JSON.stringify({
-                        'messageId': guid()
-                    })
+                    'action': action,
+                    'json': json
                 }));
                 input.value = "";
             }

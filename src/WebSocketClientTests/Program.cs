@@ -4,7 +4,7 @@ using WebSocketSharp;
 namespace NTMiner {
     class Program {
         static void Main() {
-            using (var ws = new WebSocket("ws://localhost:8088/Echo")) {
+            using (var ws = new WebSocket("ws://localhost:8088/")) {
                 ws.OnOpen += (sender, e) => {
                     Write.UserWarn($"WebSocket Open");
                     ws.Send("Hi!");

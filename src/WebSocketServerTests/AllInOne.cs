@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using WebSocketSharp;
+using WebSocketSharp.Server;
+
+namespace NTMiner {
+    public class AllInOne : WebSocketBehavior {
+        protected override void OnOpen() {
+            base.OnOpen();
+            Write.DevWarn("ConnCount " + Sessions.Count);
+        }
+
+        protected override void OnClose(CloseEventArgs e) {
+            base.OnClose(e);
+            Write.DevWarn("ConnCount " + Sessions.Count);
+        }
+
+        protected override void OnError(ErrorEventArgs e) {
+            base.OnError(e);
+            Write.DevException(e.Exception);
+        }
+
+        protected override void OnMessage(MessageEventArgs e) {
+            if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
+                return;
+            }
+            JsonRequest request = VirtualRoot.JsonSerializer.Deserialize<JsonRequest>(e.Data);
+            if (request == null) {
+                return;
+            }
+            switch (request.action) {
+                case "getSpeed":
+                    Dictionary<string, object> data = request.Parse(out string messageId);
+                    base.Send(new JsonResponse {
+                        messageId = messageId,
+                        code = 200,
+                        phrase = "Ok",
+                        des = "成功",
+                        action = request.action,
+                        data = new Dictionary<string, object> {
+                                        {"str", "hello" },
+                                        {"num", 111 },
+                                        {"date", DateTime.Now }
+                                    }
+                    }.ToJson());
+                    break;
+                default:
+                    base.Send($"invalid action: {request.action}");
+                    break;
+            }
+            Write.DevWarn("ConnCount " + Sessions.Count);
+        }
+    }
+}

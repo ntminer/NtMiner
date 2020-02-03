@@ -8,7 +8,7 @@ namespace NTMiner {
 
             var wssv = new WebSocketServer("ws://0.0.0.0:8088");
             wssv.Log.Level = WebSocketSharp.LogLevel.Trace;
-            wssv.AddWebSocketService<Echo>("/Echo");
+            wssv.AddWebSocketService<AllInOne>("/");
             wssv.Start();
             Windows.ConsoleHandler.Register(wssv.Stop);
             Console.ReadKey(true);
