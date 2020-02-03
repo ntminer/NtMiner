@@ -61,6 +61,10 @@
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WsCommands\WsCommands.csproj">
+      <Project>{87cc250e-a1c6-4de4-a1ea-f7d250daf050}</Project>
+      <Name>WsCommands</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

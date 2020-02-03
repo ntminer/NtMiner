@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using WebSocketSharp;
+using WsCommands;
 
 namespace NTMiner {
     class Program {
@@ -10,7 +12,32 @@ namespace NTMiner {
                     ws.Send("Hi!");
                 };
                 ws.OnMessage += (sender, e) => {
-                    Write.UserInfo(e.Data);
+                    if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
+                        return;
+                    }
+                    JsonRequest request = VirtualRoot.JsonSerializer.Deserialize<JsonRequest>(e.Data);
+                    if (request == null) {
+                        return;
+                    }
+                    switch (request.action) {
+                        case GetSpeedWsCommand.RequestAction:
+                            request.Parse(out Guid messageId);
+                            ws.SendAsync(new JsonResponse(messageId) {
+                                code = 200,
+                                phrase = "Ok",
+                                des = "成功",
+                                action = GetSpeedWsCommand.ResponseAction,
+                                data = new Dictionary<string, object> {
+                                        {"str", "hello" },
+                                        {"num", 111 },
+                                        {"date", DateTime.Now }
+                                    }
+                            }.ToJson(), completed: null);
+                            break;
+                        default:
+                            Write.UserInfo(e.Data);
+                            break;
+                    }
                 };
                 ws.OnError += (sender, e) => {
                     Write.UserError(e.Message);

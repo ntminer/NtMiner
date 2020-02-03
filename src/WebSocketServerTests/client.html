@@ -31,6 +31,18 @@
                 ws.onmessage = function (evt) {
                     console.log(evt);
                     inc.innerHTML += evt.data + '<br/>';
+                    var data = JSON.parse(evt.data);
+                    if (data.action == "getSpeed") {
+                        ws.send(JSON.stringify({
+                            'action': "responseSpeed",
+                            "code": 200,
+                            "phrase": "Ok",
+                            "des": "成功",
+                            'data': JSON.stringify({
+                                "a": "啊啊啊"
+                            })
+                        }));
+                    }
                 };
 
                 // when the connection is established, this method is called

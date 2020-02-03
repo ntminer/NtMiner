@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public static class JsonRequestExtensions {
+        public static string ToJson(this JsonRequest request) {
+            return VirtualRoot.JsonSerializer.Serialize(request);
+        }
+
         public static Dictionary<string, object> Parse(this JsonRequest request, out Guid messageId) {
             Dictionary<string, object> data;
             if (string.IsNullOrEmpty(request.json)) {

@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using WebSocketSharp;
 using WebSocketSharp.Server;
+using WsCommands;
 
 namespace NTMiner {
     public class AllInOne : WebSocketBehavior {
         private static readonly HashSet<string> _holdSessionIds = new HashSet<string>();
         private static bool _isFirst = true;
-        private static object _locker = new object();
+        private static readonly object _locker = new object();
 
         protected override void OnOpen() {
             base.OnOpen();
@@ -43,17 +44,16 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
                 return;
             }
-            JsonRequest request = VirtualRoot.JsonSerializer.Deserialize<JsonRequest>(e.Data);
-            if (request == null) {
+            JsonResponse response = VirtualRoot.JsonSerializer.Deserialize<JsonResponse>(e.Data);
+            if (response == null) {
                 return;
             }
-            switch (request.action) {
-                case GetSpeedWsCommand.Action:
-                    request.Parse(out Guid messageId);
-                    VirtualRoot.Execute(new GetSpeedWsCommand(messageId, base.ID, base.Sessions));
+            switch (response.action) {
+                case GetSpeedWsCommand.ResponseAction:
+                    Write.DevDebug(e.Data);
                     break;
                 default:
-                    base.Send($"invalid action: {request.action}");
+                    base.Send($"invalid action: {response.action}");
                     break;
             }
             Write.DevWarn("ConnCount " + base.Sessions.Count);
