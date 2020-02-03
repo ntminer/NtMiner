@@ -44,7 +44,12 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
                 return;
             }
-            WsMessage message = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
+            WsMessage message = null;
+            try {
+                message = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
+            }
+            catch {
+            }
             if (message == null) {
                 return;
             }
