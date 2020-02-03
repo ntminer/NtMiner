@@ -579,7 +579,7 @@ namespace NTMiner {
 
         public static string TotalVirtualMemoryGbText {
             get {
-                return AppContext.Instance.VirtualMemorySetVm.TotalVirtualMemoryGbText;
+                return (AppContext.Instance.VirtualMemorySetVm.TotalVirtualMemoryMb / 1024.0).ToString("f1") + "G";
             }
         }
         #endregion

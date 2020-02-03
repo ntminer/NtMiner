@@ -109,7 +109,7 @@
 		</ScrollViewer>
         <WrapPanel Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Bottom">
             <TextBlock VerticalAlignment="Center">共设置了</TextBlock>
-            <TextBlock VerticalAlignment="Center" FontSize="16" Margin="4 0" Text="{Binding VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
+            <TextBlock VerticalAlignment="Center" FontSize="16" Margin="4 0" Text="{Binding VirtualMemorySet.TotalVirtualMemoryMb,Converter={StaticResource MbToGbConverter}}"></TextBlock>
             <TextBlock VerticalAlignment="Center" Margin="0 0 20 0">虚拟内存</TextBlock>
         </WrapPanel>
         <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Margin="0 0 20 0">

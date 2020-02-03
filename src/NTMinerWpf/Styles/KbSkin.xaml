@@ -20,9 +20,10 @@
 	<converters:StringLenConverter x:Key="StringLenConverter" />
 	<converters:BoolInvertConverter x:Key="BoolInvertConverter" />
 	<converters:ByteToGbConverter x:Key="ByteToGbConverter" />
-	<converters:ByteToMbConverter x:Key="ByteToMbConverter" />
+    <converters:ByteToMbConverter x:Key="ByteToMbConverter" />
+    <converters:MbToGbConverter x:Key="MbToGbConverter" />
 
-	<SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
+    <SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
     <SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
     <SolidColorBrush x:Key="InfoColor">#99000000</SolidColorBrush>
     <SolidColorBrush x:Key="WarnColor">#ECB443</SolidColorBrush>

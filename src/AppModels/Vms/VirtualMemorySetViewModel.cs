@@ -51,15 +51,9 @@ namespace NTMiner.Vms {
         }
 
 
-        public double TotalVirtualMemoryGb {
+        public int TotalVirtualMemoryMb {
             get {
-                return _dic.Values.Sum(a => a.MaxSizeGb);
-            }
-        }
-
-        public string TotalVirtualMemoryGbText {
-            get {
-                return TotalVirtualMemoryGb.ToString("f1") + " G";
+                return _dic.Values.Sum(a => a.MaxSizeMb);
             }
         }
 
@@ -69,8 +63,7 @@ namespace NTMiner.Vms {
             string[] value = virtualMemories.Select(a => a.ToString()).ToArray();
 
             Windows.WinRegistry.SetValue(Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
-            OnPropertyChanged(nameof(TotalVirtualMemoryGb));
-            OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
+            OnPropertyChanged(nameof(TotalVirtualMemoryMb));
             OnPropertyChanged(nameof(IsStateChanged));
             NTMinerRoot.SetOSVirtualMemoryMb(_dic.Values.Sum(a => a.MaxSizeMb));
         }

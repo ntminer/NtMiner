@@ -47,7 +47,7 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="虚拟内存"></TextBlock>
-					<TextBlock Text="{Binding DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
+					<TextBlock Text="{Binding DriveSet.VirtualMemorySet.TotalVirtualMemoryMb,Converter={StaticResource MbToGbConverter}}"></TextBlock>
 					<controls:KbButton 
 						Margin="8 0 0 0"
 						Padding="6 0"
