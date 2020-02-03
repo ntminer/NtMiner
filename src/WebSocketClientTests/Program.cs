@@ -24,15 +24,21 @@ namespace NTMiner {
                 Console.WriteLine("\nType 'exit' to exit.\n");
                 while (true) {
                     Console.Write("> ");
-                    var msg = Console.ReadLine();
-                    if (msg == "exit")
+                    var action = Console.ReadLine();
+                    if (action == "exit") {
                         break;
+                    }
 
                     if (!ws.IsAlive) {
                         ws.Connect();
                     }
-                    // Send a text message.
-                    ws.Send(msg);
+                    switch (action) {
+                        case "getSpeed":
+                            ws.Send(VirtualRoot.JsonSerializer.Serialize(new JsonRequest("getSpeed", json: string.Empty)));
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }
