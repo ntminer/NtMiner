@@ -102,8 +102,16 @@
 					IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedDualCoinGroup}">
-				</controls:KbComboBox>
-			</WrapPanel>
+                </controls:KbComboBox>
+                <controls:KbButton
+                    Padding="4"
+					Command="{x:Static app:AppStatic.ShowGroups}"
+					Background="{StaticResource ThemeBackground}"
+					Foreground="{StaticResource ThemeForeground}"
+                    Content="管理"
+					CornerRadius="2">
+                </controls:KbButton>
+            </WrapPanel>
 		</WrapPanel>
 
 		<WrapPanel Margin="0 2">
