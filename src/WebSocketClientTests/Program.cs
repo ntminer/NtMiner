@@ -15,24 +15,19 @@ namespace NTMiner {
                     if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
                         return;
                     }
-                    WsMessage request = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
-                    if (request == null) {
+                    WsMessage message = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
+                    if (message == null) {
                         return;
                     }
-                    switch (request.action) {
+                    switch (message.GetAction()) {
                         case GetSpeedWsCommand.RequestAction:
-                            ws.SendAsync(new WsMessage {
-                                messageId = request.messageId,
-                                code = 200,
-                                phrase = "Ok",
-                                des = "成功",
-                                action = GetSpeedWsCommand.ResponseAction,
-                                data = new Dictionary<string, object> {
+                            ws.SendAsync(new WsMessage().SetAction(GetSpeedWsCommand.ResponseAction)
+                                .SetMessageId(message.GetMessageId()).SetCode(200).SetPhrase("Ok").SetDes("成功")
+                                .SetData(new Dictionary<string, object> {
                                         {"str", "hello" },
                                         {"num", 111 },
                                         {"date", DateTime.Now }
-                                    }
-                            }.ToJson(), completed: null);
+                                    }).ToJson(), completed: null);
                             break;
                         default:
                             Write.UserInfo(e.Data);

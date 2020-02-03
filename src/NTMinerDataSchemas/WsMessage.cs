@@ -1,22 +1,74 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner {
-    public class WsMessage {
+    public class WsMessage : Dictionary<string, Object> {
         public WsMessage() { }
 
-        public WsMessage(Guid messageId) {
-            if (messageId != Guid.Empty) {
-                this.messageId = messageId.ToString();
+        public WsMessage SetMessageId(string value) {
+            base["messageId"] = value;
+            return this;
+        }
+        public string GetMessageId() {
+            if (base.TryGetValue("messageId", out object obj) && obj != null) {
+                return obj.ToString();
             }
+            return string.Empty;
         }
 
-        public string messageId { get; set; }
-        public string action { get; set; }
+        public WsMessage SetAction(string value) {
+            base["action"] = value;
+            return this;
+        }
+        public string GetAction() {
+            if (base.TryGetValue("action", out object obj) && obj != null) {
+                return obj.ToString();
+            }
+            return string.Empty;
+        }
 
-        public int code { get; set; }
-        public string phrase { get; set; }
-        public string des { get; set; }
+        public WsMessage SetCode(int value) {
+            base["code"] = value;
+            return this;
+        }
+        public int GetCode() {
+            if (base.TryGetValue("code", out object obj) && obj != null && int.TryParse(obj.ToString(), out int code)) {
+                return code;
+            }
+            return 0;
+        }
 
-        public object data { get; set; }
+        public WsMessage SetPhrase(string value) {
+            base["phrase"] = value;
+            return this;
+        }
+        public string GetPhrase() {
+            if (base.TryGetValue("phrase", out object obj) && obj != null) {
+                return obj.ToString();
+            }
+            return string.Empty;
+        }
+
+        public WsMessage SetDes(string value) {
+            base["des"] = value;
+            return this;
+        }
+        public string GetDes() {
+            if (base.TryGetValue("des", out object obj) && obj != null) {
+                return obj.ToString();
+            }
+            return string.Empty;
+        }
+
+        public WsMessage SetData(object value) {
+            base["data"] = value;
+            return this;
+        }
+        public object GetData() {
+            if (base.TryGetValue("des", out object obj)) {
+                return obj;
+            }
+            return null;
+        }
     }
 }

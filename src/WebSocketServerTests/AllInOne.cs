@@ -44,21 +44,16 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
                 return;
             }
-            WsMessage response = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
-            if (response == null) {
+            WsMessage message = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
+            if (message == null) {
                 return;
             }
-            switch (response.action) {
+            switch (message.GetAction()) {
                 case GetSpeedWsCommand.ResponseAction:
                     Write.DevDebug(e.Data);
                     break;
                 default:
-                    base.Send(new WsMessage {
-                        action=response.action,
-                        code = 400,
-                        des = "invalid action",
-                        phrase = "invalid action"
-                    }.ToJson());
+                    base.Send(new WsMessage().SetAction(message.GetAction()).SetCode(400).SetDes("invalid action").SetPhrase("invalid action").ToJson());
                     break;
             }
             Write.DevWarn("ConnCount " + base.Sessions.Count);
