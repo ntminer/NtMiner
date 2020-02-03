@@ -32,7 +32,11 @@ namespace NTMiner.Core.Impl {
                     _dicById.Add(entity.Id, entity);
 
                     if (VirtualRoot.IsMinerStudio) {
-                        RpcRoot.Server.PoolService.AddOrUpdatePoolAsync(entity, callback: null);
+                        RpcRoot.Server.PoolService.AddOrUpdatePoolAsync(entity, callback: (response, e) => {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
@@ -79,7 +83,11 @@ namespace NTMiner.Core.Impl {
                     }
                     entity.Update(message.Input);
                     if (VirtualRoot.IsMinerStudio) {
-                        RpcRoot.Server.PoolService.AddOrUpdatePoolAsync(entity, callback: null);
+                        RpcRoot.Server.PoolService.AddOrUpdatePoolAsync(entity, callback: (response, e) => {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
@@ -101,7 +109,11 @@ namespace NTMiner.Core.Impl {
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
                     if (VirtualRoot.IsMinerStudio) {
-                        RpcRoot.Server.PoolService.RemovePoolAsync(entity.Id, callback: null);
+                        RpcRoot.Server.PoolService.RemovePoolAsync(entity.Id, callback: (response, e) => {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();

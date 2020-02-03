@@ -22,7 +22,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.Id, entity));
                 }
                 else {
-                    Write.UserFail(response?.Description);
+                    Write.UserFail(response.Description);
                 }
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateMineWorkCommand>(action: (message) => {

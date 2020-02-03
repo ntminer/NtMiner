@@ -288,7 +288,11 @@ namespace NTMiner.Vms {
                                 Write.UserFail($"{item.MinerIp} {response.ReadMessage(e)}");
                             }
                         });
-                        RpcRoot.Server.ClientService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                        RpcRoot.Server.ClientService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, (response, e)=> {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                 }
             }, CanCommand);
@@ -305,7 +309,11 @@ namespace NTMiner.Vms {
                                     Write.UserFail($"{item.MinerIp} {response.ReadMessage(e)}");
                                 }
                             });
-                            RpcRoot.Server.ClientService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, null);
+                            RpcRoot.Server.ClientService.UpdateClientAsync(item.Id, nameof(item.IsMining), item.IsMining, (response, e) => {
+                                if (!response.IsSuccess()) {
+                                    Write.UserFail($"{item.MinerIp} {response.ReadMessage(e)}");
+                                }
+                            });
                         }
                     }));
                 }
@@ -569,7 +577,7 @@ namespace NTMiner.Vms {
                 wallet,
                 this.Version, this.Kernel, (response, exception) => {
                     this.CountDown = 10;
-                    if (response != null) {
+                    if (response.IsSuccess()) {
                         UIThread.Execute(() => () => {
                             if (response.Data.Count == 0) {
                                 _minerClients = new List<MinerClientViewModel>();

@@ -134,7 +134,11 @@ namespace NTMiner.Vms {
                         Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
                     }
                 });
-                RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
+                RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, (response, e) => {
+                    if (!response.IsSuccess()) {
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                    }
+                });
             });
             this.StopMine = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
@@ -144,7 +148,11 @@ namespace NTMiner.Vms {
                             Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
                         }
                     });
-                    RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, null);
+                    RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, (response, e) => {
+                        if (!response.IsSuccess()) {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                        }
+                    });
                 }));
             });
         }

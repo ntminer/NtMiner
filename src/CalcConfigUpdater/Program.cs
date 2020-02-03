@@ -114,6 +114,9 @@ namespace NTMiner {
                                     if (!res.IsSuccess()) {
                                         Write.UserFail(res.ReadMessage(e));
                                     }
+                                    else {
+                                        VirtualRoot.Out.ShowError(res.ReadMessage(e), autoHideSeconds: 4);
+                                    }
                                 });
                                 foreach (IncomeItem incomeItem in incomeItems) {
                                     if (coinCodes.Contains(incomeItem.CoinCode)) {

@@ -59,6 +59,9 @@ namespace NTMiner.Core.MinerServer.Impl {
                     VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.Id, entity));
                 }
                 RpcRoot.Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a => AppSettingData.Create(a)).ToList(), (response, exception) => {
+                    if (!response.IsSuccess()) {
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
+                    }
                 });
             }, location: this.GetType());
         }

@@ -28,6 +28,9 @@ namespace NTMiner.ServerMessage {
                         if (response.IsSuccess() && response.Data.Count > 0) {
                             ReceiveServerMessage(response.Data);
                         }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                        }
                     });
                 }, location: this.GetType());
                 VirtualRoot.AddCmdPath<ReceiveServerMessageCommand>(action: message => {
@@ -93,6 +96,9 @@ namespace NTMiner.ServerMessage {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
                         }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(ex), autoHideSeconds: 4);
+                        }
                     });
                 }
             }, location: this.GetType());
@@ -128,6 +134,9 @@ namespace NTMiner.ServerMessage {
                     RpcRoot.OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(ex), autoHideSeconds: 4);
                         }
                     });
                 }

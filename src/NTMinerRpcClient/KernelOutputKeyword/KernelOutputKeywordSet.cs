@@ -52,6 +52,9 @@ namespace NTMiner.KernelOutputKeyword {
                                 VirtualRoot.RaiseEvent(new KernelOutputKeywordLoadedEvent(response.Data));
                             }
                         }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                        }
                     });
                 }, location: this.GetType());
             }
@@ -94,6 +97,9 @@ namespace NTMiner.KernelOutputKeyword {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
                         }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                        }
                     });
                 }
             }, location: this.GetType());
@@ -123,6 +129,9 @@ namespace NTMiner.KernelOutputKeyword {
                     RpcRoot.OfficialServer.KernelOutputKeywordService.RemoveKernelOutputKeyword(message.EntityId, (response, e) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
                     });
                 }
