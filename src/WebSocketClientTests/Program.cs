@@ -15,14 +15,14 @@ namespace NTMiner {
                     if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
                         return;
                     }
-                    JsonRequest request = VirtualRoot.JsonSerializer.Deserialize<JsonRequest>(e.Data);
+                    WsMessage request = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
                     if (request == null) {
                         return;
                     }
                     switch (request.action) {
                         case GetSpeedWsCommand.RequestAction:
-                            request.Parse(out Guid messageId);
-                            ws.SendAsync(new JsonResponse(messageId) {
+                            ws.SendAsync(new WsMessage {
+                                messageId = request.messageId,
                                 code = 200,
                                 phrase = "Ok",
                                 des = "成功",
@@ -58,13 +58,6 @@ namespace NTMiner {
 
                     if (!ws.IsAlive) {
                         ws.Connect();
-                    }
-                    switch (action) {
-                        case "getSpeed":
-                            ws.Send(VirtualRoot.JsonSerializer.Serialize(new JsonRequest("getSpeed", json: string.Empty)));
-                            break;
-                        default:
-                            break;
                     }
                 }
             }

@@ -44,7 +44,7 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
                 return;
             }
-            JsonResponse response = VirtualRoot.JsonSerializer.Deserialize<JsonResponse>(e.Data);
+            WsMessage response = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
             if (response == null) {
                 return;
             }
@@ -53,7 +53,12 @@ namespace NTMiner {
                     Write.DevDebug(e.Data);
                     break;
                 default:
-                    base.Send($"invalid action: {response.action}");
+                    base.Send(new WsMessage {
+                        action=response.action,
+                        code = 400,
+                        des = "invalid action",
+                        phrase = "invalid action"
+                    }.ToJson());
                     break;
             }
             Write.DevWarn("ConnCount " + base.Sessions.Count);

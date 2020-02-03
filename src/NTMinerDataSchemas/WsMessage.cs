@@ -1,10 +1,10 @@
 ﻿using System;
 
 namespace NTMiner {
-    public class JsonResponse {
-        public JsonResponse() { }
+    public class WsMessage {
+        public WsMessage() { }
 
-        public JsonResponse(Guid messageId) {
+        public WsMessage(Guid messageId) {
             if (messageId != Guid.Empty) {
                 this.messageId = messageId.ToString();
             }

@@ -75,26 +75,26 @@
                 }
                 var index = val.indexOf(' ');
                 var action = '';
-                var json = '';
+                var data = '';
                 if (index == -1) {
                     action = val;
                 }
                 else {
                     action = val.substr(0, index);
-                    json = val.substr(index + 1);
+                    data = val.substr(index + 1);
                 }
                 if (ws.readyState != ws.OPEN) {
                     ws = createWs(function () {
                         ws.send(JSON.stringify({
                             'action': action,
-                            'json': json
+                            'data': json
                         }));
                     });
                 }
                 else {
                     ws.send(JSON.stringify({
                         'action': action,
-                        'json': json
+                        'data': data
                     }));
                 }
                 input.value = "";
