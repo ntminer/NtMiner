@@ -151,7 +151,7 @@
     <Compile Include="Vms\GpuSpeedDataViewModels.cs" />
     <Compile Include="Vms\GpuSpeedViewModel.cs" />
     <Compile Include="Vms\GpuViewModel.cs" />
-    <Compile Include="Vms\GroupPageViewModel.cs" />
+    <Compile Include="Vms\CoinGroupPageViewModel.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\InputSegmentEditViewModel.cs" />
     <Compile Include="Vms\InputSegmentViewModel.cs" />

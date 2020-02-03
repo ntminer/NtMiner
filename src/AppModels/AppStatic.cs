@@ -755,8 +755,8 @@ namespace NTMiner {
         public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowSysDicPageCommand());
         });
-        public static ICommand ShowGroups { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowGroupPageCommand());
+        public static ICommand ShowCoinGroups { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowCoinGroupsCommand());
         });
         public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
             VirtualRoot.Execute(new ShowCoinPageCommand(currentCoin, "coin"));

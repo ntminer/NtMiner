@@ -367,16 +367,6 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="币组" Command="{x:Static app:AppStatic.ShowGroups}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Group}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
 				<MenuItem Header="内核" Command="{x:Static app:AppStatic.ShowKernels}">
 					<MenuItem.Icon>
 						<Path

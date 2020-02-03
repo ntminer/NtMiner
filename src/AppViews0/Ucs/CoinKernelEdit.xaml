@@ -98,14 +98,14 @@
 				<TextBlock Style="{StaticResource LblTb}" Text="双挖币组"></TextBlock>
 				<controls:KbComboBox 
 					BorderThickness="0"
-					Width="146" ItemsSource="{Binding GroupVms.SelectionOptions}"
+					Width="180" ItemsSource="{Binding GroupVms.SelectionOptions}"
 					IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 					DisplayMemberPath="Name"
 					SelectedItem="{Binding SelectedDualCoinGroup}">
                 </controls:KbComboBox>
                 <controls:KbButton
                     Padding="4"
-					Command="{x:Static app:AppStatic.ShowGroups}"
+					Command="{x:Static app:AppStatic.ShowCoinGroups}"
 					Background="{StaticResource ThemeBackground}"
 					Foreground="{StaticResource ThemeForeground}"
                     Content="管理"

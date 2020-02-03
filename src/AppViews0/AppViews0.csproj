@@ -320,8 +320,8 @@
     <Compile Include="Ucs\GroupEdit.xaml.cs">
       <DependentUpon>GroupEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\GroupPage.xaml.cs">
-      <DependentUpon>GroupPage.xaml</DependentUpon>
+    <Compile Include="Ucs\CoinGroupPage.xaml.cs">
+      <DependentUpon>CoinGroupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\UserEdit.xaml.cs">
       <DependentUpon>UserEdit.xaml</DependentUpon>
@@ -864,7 +864,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\GroupPage.xaml">
+    <Page Include="Ucs\CoinGroupPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -86,9 +86,9 @@ namespace NTMiner.Views {
                     CoinPage.ShowWindow(message.CurrentCoin, message.TabType);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<ShowGroupPageCommand>(action: message => {
+            VirtualRoot.AddCmdPath<ShowCoinGroupsCommand>(action: message => {
                 UIThread.Execute(() => () => {
-                    GroupPage.ShowWindow();
+                    CoinGroupPage.ShowWindow();
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowSysDicPageCommand>(action: message => {
