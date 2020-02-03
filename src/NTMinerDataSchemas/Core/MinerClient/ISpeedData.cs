@@ -68,6 +68,7 @@ namespace NTMiner.Core.MinerClient {
         int NoShareRestartKernelMinutes { get; }
         string OSName { get; }
         int OSVirtualMemoryMb { get; }
+        int TotalPhysicalMemoryMb { get; }
         int PeriodicRestartComputerHours { get; }
         int PeriodicRestartComputerMinutes { get; }
         int PeriodicRestartKernelHours { get; }

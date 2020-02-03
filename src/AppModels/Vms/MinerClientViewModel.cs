@@ -939,6 +939,23 @@ namespace NTMiner.Vms {
             }
         }
 
+        public int TotalPhysicalMemoryMb {
+            get => _data.TotalPhysicalMemoryMb;
+            set {
+                if (_data.TotalPhysicalMemoryMb != value) {
+                    _data.TotalPhysicalMemoryMb = value;
+                    OnPropertyChanged(nameof(TotalPhysicalMemoryMb));
+                    OnPropertyChanged(nameof(TotalPhysicalMemoryMbText));
+                }
+            }
+        }
+
+        public string TotalPhysicalMemoryMbText {
+            get {
+                return (this.TotalPhysicalMemoryMb / 1024.0).ToString("f1") + " Gb";
+            }
+        }
+
         public string DiskSpace {
             get { return _data.DiskSpace; }
             set {

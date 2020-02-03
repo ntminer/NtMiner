@@ -56,6 +56,7 @@ namespace NTMiner.Core.MinerClient {
         public string OSName { get; set; }
         // ReSharper disable once InconsistentNaming
         public int OSVirtualMemoryMb { get; set; }
+        public int TotalPhysicalMemoryMb { get; set; }
         public string DiskSpace { get; set; }
 
         public Guid ClientId { get; set; }
