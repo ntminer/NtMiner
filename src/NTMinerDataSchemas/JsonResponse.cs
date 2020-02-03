@@ -1,6 +1,14 @@
-﻿namespace NTMiner {
+﻿using System;
+
+namespace NTMiner {
     public class JsonResponse {
         public JsonResponse() { }
+
+        public JsonResponse(Guid messageId) {
+            if (messageId != Guid.Empty) {
+                this.messageId = messageId.ToString();
+            }
+        }
 
         public string messageId { get; set; }
         public string action { get; set; }

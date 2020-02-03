@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
 namespace NTMiner {
-    public class AllInOne : WebSocketBehavior {
+    public class AllInOne : WebSocketBehaviorBase {
         protected override void OnOpen() {
             base.OnOpen();
             Write.DevWarn("ConnCount " + Sessions.Count);
@@ -30,19 +29,8 @@ namespace NTMiner {
             }
             switch (request.action) {
                 case "getSpeed":
-                    Dictionary<string, object> data = request.Parse(out string messageId);
-                    base.Send(new JsonResponse {
-                        messageId = messageId,
-                        code = 200,
-                        phrase = "Ok",
-                        des = "成功",
-                        action = request.action,
-                        data = new Dictionary<string, object> {
-                                        {"str", "hello" },
-                                        {"num", 111 },
-                                        {"date", DateTime.Now }
-                                    }
-                    }.ToJson());
+                    request.Parse(out Guid messageId);
+                    VirtualRoot.Execute(new GetSpeedWsCommand(request.action, messageId, this));
                     break;
                 default:
                     base.Send($"invalid action: {request.action}");

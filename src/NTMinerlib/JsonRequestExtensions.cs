@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public static class JsonRequestExtensions {
-        public static Dictionary<string, object> Parse(this JsonRequest request, out string messageId) {
+        public static Dictionary<string, object> Parse(this JsonRequest request, out Guid messageId) {
             Dictionary<string, object> data;
             if (string.IsNullOrEmpty(request.json)) {
                 data = new Dictionary<string, object>();
@@ -20,11 +20,13 @@ namespace NTMiner {
                     data = new Dictionary<string, object>();
                 }
             }
-            messageId = string.Empty;
+            messageId = Guid.Empty;
             if (data.TryGetValue("messageId", out object obj)) {
                 data.Remove("messageId");
                 if (obj != null) {
-                    messageId = obj.ToString();
+                    if (!Guid.TryParse(obj.ToString(), out messageId)) {
+                        messageId = Guid.Empty;
+                    }
                 }
             }
             data.Add("__action", request.action);
