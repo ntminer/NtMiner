@@ -23,7 +23,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             VirtualRoot.RaiseEvent(new UserAddedEvent(message.Id, entity));
                         }
                         else {
-                            Write.UserFail(response.ReadMessage(exception));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         }
                     });
                 }
@@ -42,7 +42,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
                             VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.Id, entity));
-                            Write.UserFail(response.ReadMessage(exception));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         }
                     });
                     VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.Id, entity));
@@ -57,7 +57,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                             VirtualRoot.RaiseEvent(new UserRemovedEvent(message.Id, entity));
                         }
                         else {
-                            Write.UserFail(response.ReadMessage(exception));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         }
                     });
                 }

@@ -121,7 +121,7 @@ namespace NTMiner.Vms {
             }
             RpcRoot.Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
                 if (!response.IsSuccess()) {
-                    Write.UserFail(response.ReadMessage(exception));
+                    VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                 }
             });
         }

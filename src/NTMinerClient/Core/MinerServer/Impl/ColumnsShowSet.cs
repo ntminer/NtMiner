@@ -22,7 +22,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.RaiseEvent(new ColumnsShowAddedEvent(message.Id, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -41,7 +41,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
                         VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
                 VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
@@ -61,7 +61,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.RaiseEvent(new ColumnsShowRemovedEvent(message.Id, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());

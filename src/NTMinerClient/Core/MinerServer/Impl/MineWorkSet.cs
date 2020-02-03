@@ -22,7 +22,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.Id, entity));
                 }
                 else {
-                    Write.UserFail(response.Description);
+                    VirtualRoot.Out.ShowError(response.Description, autoHideSeconds: 4);
                 }
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateMineWorkCommand>(action: (message) => {
@@ -40,7 +40,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
                         VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
                 VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
@@ -60,7 +60,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(message.Id, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());

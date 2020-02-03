@@ -32,7 +32,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         else {
                             entity.Value = oldValue.Value;
                         }
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.Id, entity));
                     }
                 });

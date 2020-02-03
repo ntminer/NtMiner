@@ -112,7 +112,7 @@ namespace NTMiner {
                                 }
                                 RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, callback: (res, e) => {
                                     if (!res.IsSuccess()) {
-                                        Write.UserFail(res.ReadMessage(e));
+                                        VirtualRoot.Out.ShowError(res.ReadMessage(e), autoHideSeconds: 4);
                                     }
                                     else {
                                         VirtualRoot.Out.ShowError(res.ReadMessage(e), autoHideSeconds: 4);

@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
                     RpcRoot.Server.ClientService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
-                            Write.UserFail(response.ReadMessage(e));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
                         else {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
@@ -62,7 +62,7 @@ namespace NTMiner.Vms {
             this.Refresh = new DelegateCommand(() => {
                 RpcRoot.Server.ClientService.RefreshClientsAsync(new List<string> { this.Id }, (response, e) => {
                     if (!response.IsSuccess()) {
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                     else {
                         var data = response.Data.FirstOrDefault(a => a.Id == this.Id);
@@ -104,7 +104,7 @@ namespace NTMiner.Vms {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     RpcRoot.Server.MinerClientService.RestartWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
-                            Write.UserFail(response.ReadMessage(e));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
                     });
                 }));
@@ -113,7 +113,7 @@ namespace NTMiner.Vms {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
                     RpcRoot.Server.MinerClientService.ShutdownWindowsAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
-                            Write.UserFail(response.ReadMessage(e));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
                     });
                 }));
@@ -122,7 +122,7 @@ namespace NTMiner.Vms {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定重启{this.MinerName}({this.MinerIp})挖矿客户端吗？", title: "确认", onYes: () => {
                     RpcRoot.Server.MinerClientService.RestartNTMinerAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
-                            Write.UserFail(response.ReadMessage(e));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
                     });
                 }));
@@ -131,7 +131,7 @@ namespace NTMiner.Vms {
                 IsMining = true;
                 RpcRoot.Server.MinerClientService.StartMineAsync(this, WorkId, (response, e) => {
                     if (!response.IsSuccess()) {
-                        Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
+                        VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(e)}");
                     }
                 });
                 RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, (response, e) => {
@@ -145,7 +145,7 @@ namespace NTMiner.Vms {
                     IsMining = false;
                     RpcRoot.Server.MinerClientService.StopMineAsync(this, (response, e) => {
                         if (!response.IsSuccess()) {
-                            Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
+                            VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(e)}");
                         }
                     });
                     RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(IsMining), IsMining, (response, e) => {
@@ -313,7 +313,7 @@ namespace NTMiner.Vms {
                                 if (!response.IsSuccess()) {
                                     _selectedMineWork = old;
                                     this.WorkId = old.Id;
-                                    Write.UserFail($"{this.MinerIp} {response.ReadMessage(exception)}");
+                                    VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}");
                                 }
                                 OnPropertyChanged(nameof(SelectedMineWork));
                             });
@@ -469,7 +469,7 @@ namespace NTMiner.Vms {
                     RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(MinerName), value, (response, e) => {
                         if (!response.IsSuccess()) {
                             _data.MinerName = old;
-                            Write.UserFail($"{this.MinerIp} {response.ReadMessage(e)}");
+                            VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(e)}");
                         }
                         OnPropertyChanged(nameof(MinerName));
                     });
@@ -513,7 +513,7 @@ namespace NTMiner.Vms {
                             if (!response.IsSuccess()) {
                                 _selectedMinerGroup = old;
                                 this.GroupId = old.Id;
-                                Write.UserFail($"{this.MinerIp} {response.ReadMessage(exception)}");
+                                VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}");
                             }
                             OnPropertyChanged(nameof(SelectedMinerGroup));
                         });
@@ -545,7 +545,7 @@ namespace NTMiner.Vms {
                     RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
-                            Write.UserFail($"{this.MinerIp} {response.ReadMessage(exception)}");
+                            VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}");
                         }
                         OnPropertyChanged(nameof(WindowsLoginName));
                     });
@@ -572,7 +572,7 @@ namespace NTMiner.Vms {
                     RpcRoot.Server.ClientService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
-                            Write.UserFail($"{this.MinerIp} {response.ReadMessage(exception)}");
+                            VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}");
                         }
                         OnPropertyChanged(nameof(WindowsPassword));
                         OnPropertyChanged(nameof(WindowsPasswordStar));

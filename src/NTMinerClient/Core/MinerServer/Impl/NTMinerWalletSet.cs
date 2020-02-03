@@ -24,7 +24,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.RaiseEvent(new NTMinerWalletAddedEvent(message.Id, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -45,7 +45,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
                         VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
                 VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.Id, entity));
@@ -64,7 +64,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         VirtualRoot.RaiseEvent(new NTMinerWalletRemovedEvent(message.Id, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
