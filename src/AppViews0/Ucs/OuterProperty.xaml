@@ -43,7 +43,7 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="物理内存"></TextBlock>
-					<TextBlock Text="{Binding Ram.TotalPhysicalMemory}"></TextBlock>
+					<TextBlock Text="{Binding Ram.TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}"></TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="虚拟内存"></TextBlock>

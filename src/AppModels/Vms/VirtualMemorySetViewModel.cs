@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
                     vm.MaxSizeMb = item.MaxSizeMb;
                 }
             }
-            NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
+            NTMinerRoot.SetOSVirtualMemoryMb(_dic.Values.Sum(a => a.MaxSizeMb));
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
@@ -72,7 +72,7 @@ namespace NTMiner.Vms {
             OnPropertyChanged(nameof(TotalVirtualMemoryGb));
             OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
             OnPropertyChanged(nameof(IsStateChanged));
-            NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
+            NTMinerRoot.SetOSVirtualMemoryMb(_dic.Values.Sum(a => a.MaxSizeMb));
         }
 
         private List<VirtualMemoryViewModel> GetPagingFiles() {

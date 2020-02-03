@@ -13,16 +13,14 @@ namespace NTMiner.Windows {
         /// <summary>
         /// Gets the total physical memory in bytes
         /// </summary>
-        public string TotalPhysicalMemory {
+        public ulong TotalPhysicalMemory {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
                 if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
-                    const double m = 1024 * 1024;
-                    const double g = (double)(m * 1024);
-                    return Math.Round(mEx.ullTotalPhys / g, 0).ToString() + $" GB";
+                    return mEx.ullTotalPhys;
                 }
 
-                return "";
+                return 0;
             }
         }
 

@@ -87,7 +87,10 @@ namespace NTMiner {
         }
 
         public static bool IsUseDevConsole = false;
-        public static int OSVirtualMemoryMb;
+        public static int OSVirtualMemoryMb { get; private set; }
+        public static void SetOSVirtualMemoryMb(int value) {
+            OSVirtualMemoryMb = value;
+        }
 
         public static bool IsAutoStartCanceled = false;
 
