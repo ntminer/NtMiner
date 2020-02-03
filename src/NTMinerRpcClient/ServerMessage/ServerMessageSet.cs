@@ -25,8 +25,10 @@ namespace NTMiner.ServerMessage {
                         return;
                     }
                     RpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
-                        if (response.IsSuccess() && response.Data.Count > 0) {
-                            ReceiveServerMessage(response.Data);
+                        if (response.IsSuccess()) {
+                            if (response.Data.Count > 0) {
+                                ReceiveServerMessage(response.Data);
+                            }
                         }
                         else {
                             VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
