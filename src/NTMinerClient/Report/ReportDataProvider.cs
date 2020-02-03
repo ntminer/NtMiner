@@ -4,8 +4,9 @@ using NTMiner.Core.MinerClient;
 using NTMiner.Core.Profile;
 using System;
 using System.Linq;
+using NTMiner.Core;
 
-namespace NTMiner.Core.Impl {
+namespace NTMiner.Report {
     public class ReportDataProvider : IReportDataProvider {
         public ReportDataProvider() {
             if (VirtualRoot.IsMinerClient) {
