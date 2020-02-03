@@ -21,24 +21,34 @@
 
             inc.innerHTML += "connecting to server ..<br/>";
 
-            // create a new websocket and connect
-            window.ws = new wsImpl('ws://localhost:8088/');
+            var ws = createWs();
 
-            // when data is comming from the server, this metod is called
-            ws.onmessage = function (evt) {
-                console.log(evt);
-                inc.innerHTML += evt.data + '<br/>';
-            };
+            function createWs(onopen) {
+                // create a new websocket and connect
+                var ws = new wsImpl('ws://localhost:8088/');
 
-            // when the connection is established, this method is called
-            ws.onopen = function () {
-                inc.innerHTML += '.. connection open<br/>';
-            };
+                // when data is comming from the server, this metod is called
+                ws.onmessage = function (evt) {
+                    console.log(evt);
+                    inc.innerHTML += evt.data + '<br/>';
+                };
 
-            // when the connection is closed, this method is called
-            ws.onclose = function () {
-                inc.innerHTML += '.. connection closed<br/>';
+                // when the connection is established, this method is called
+                ws.onopen = function () {
+                    inc.innerHTML += '.. connection open<br/>';
+                    if (onopen) {
+                        onopen();
+                    }
+                };
+
+                // when the connection is closed, this method is called
+                ws.onclose = function () {
+                    inc.innerHTML += '.. connection closed<br/>';
+                }
+
+                return ws;
             }
+
             function guid() {
                 return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
                     var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -61,10 +71,20 @@
                     action = val.substr(0, index);
                     json = val.substr(index + 1);
                 }
-                ws.send(JSON.stringify({
-                    'action': action,
-                    'json': json
-                }));
+                if (ws.readyState != ws.OPEN) {
+                    ws = createWs(function () {
+                        ws.send(JSON.stringify({
+                            'action': action,
+                            'json': json
+                        }));
+                    });
+                }
+                else {
+                    ws.send(JSON.stringify({
+                        'action': action,
+                        'json': json
+                    }));
+                }
                 input.value = "";
             }
 
