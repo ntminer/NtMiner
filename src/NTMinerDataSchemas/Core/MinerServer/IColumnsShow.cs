@@ -36,6 +36,7 @@ namespace NTMiner.Core.MinerServer {
         bool AutoStartDelaySeconds { get; }
         bool OSName { get; }
         bool OSVirtualMemoryGbText { get; }
+        bool TotalPhysicalMemoryGbText { get; }
         bool DiskSpace { get; }
         bool GpuType { get; }
         bool GpuDriver { get; }

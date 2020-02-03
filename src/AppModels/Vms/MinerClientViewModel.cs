@@ -945,12 +945,12 @@ namespace NTMiner.Vms {
                 if (_data.TotalPhysicalMemoryMb != value) {
                     _data.TotalPhysicalMemoryMb = value;
                     OnPropertyChanged(nameof(TotalPhysicalMemoryMb));
-                    OnPropertyChanged(nameof(TotalPhysicalMemoryMbText));
+                    OnPropertyChanged(nameof(TotalPhysicalMemoryGbText));
                 }
             }
         }
 
-        public string TotalPhysicalMemoryMbText {
+        public string TotalPhysicalMemoryGbText {
             get {
                 return (this.TotalPhysicalMemoryMb / 1024.0).ToString("f1") + " Gb";
             }

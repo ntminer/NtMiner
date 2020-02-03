@@ -1298,6 +1298,35 @@
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
+            <!--TotalPhysicalMemoryGbText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.TotalPhysicalMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.TOTAL_PHYSICAL_MEMORY_GB_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="TotalPhysicalMemoryGbText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="8"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding TotalPhysicalMemoryGbText, Mode=OneWay}"></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
             <!--OSVirtualMemoryGbText-->
             <DataGridTemplateColumn 
 				Visibility="{Binding Data.ColumnsShow.OSVirtualMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
