@@ -34,7 +34,7 @@
                     var data = JSON.parse(evt.data);
                     if (data.action == "getSpeed") {
                         ws.send(JSON.stringify({
-                            'action': "responseSpeed",
+                            'action': "speed",
                             "code": 200,
                             "phrase": "Ok",
                             "des": "成功",

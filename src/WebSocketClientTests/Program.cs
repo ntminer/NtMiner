@@ -20,8 +20,8 @@ namespace NTMiner {
                         return;
                     }
                     switch (message.GetAction()) {
-                        case GetSpeedWsCommand.RequestAction:
-                            ws.SendAsync(new WsMessage().SetAction(GetSpeedWsCommand.ResponseAction)
+                        case GetSpeedWsCommand.Action:
+                            ws.SendAsync(new WsMessage().SetAction(GetSpeedWsCommand.Result)
                                 .SetMessageId(message.GetMessageId()).SetCode(200).SetPhrase("Ok").SetDes("成功")
                                 .SetData(new Dictionary<string, object> {
                                         {"str", "hello" },

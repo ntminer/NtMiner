@@ -8,7 +8,7 @@ namespace NTMiner {
             DevMode.SetDevMode();
 
             VirtualRoot.AddCmdPath<GetSpeedWsCommand>(action: message => {
-                message.Sessions.SendToAsync(new WsMessage().SetAction(GetSpeedWsCommand.RequestAction).ToJson(), message.SessionId, completed: null);
+                message.Sessions.SendToAsync(new WsMessage().SetAction(GetSpeedWsCommand.Action).ToJson(), message.SessionId, completed: null);
             }, typeof(WsRoot), logType: LogEnum.None);
 
             var wssv = new WebSocketServer("ws://0.0.0.0:8088");

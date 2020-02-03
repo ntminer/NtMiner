@@ -3,8 +3,8 @@ using WebSocketSharp.Server;
 
 namespace WsCommands {
     public class GetSpeedWsCommand : WsCommandBase {
-        public const string RequestAction = "getSpeed";
-        public const string ResponseAction = "responseSpeed";
+        public const string Action = "getSpeed";
+        public const string Result = "speed";
         public GetSpeedWsCommand(Guid messageId, string sessionId, WebSocketSessionManager sessions) : base(messageId, sessionId, sessions) {
         }
     }

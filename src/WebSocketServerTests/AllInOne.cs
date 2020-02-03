@@ -49,7 +49,7 @@ namespace NTMiner {
                 return;
             }
             switch (message.GetAction()) {
-                case GetSpeedWsCommand.ResponseAction:
+                case GetSpeedWsCommand.Result:
                     Write.DevDebug(e.Data);
                     break;
                 default:
