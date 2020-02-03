@@ -3,28 +3,29 @@ using System.Collections.Generic;
 using WebSocketSharp.Server;
 
 namespace NTMiner {
-    class Program {
+    public class WsRoot {
         static void Main() {
             DevMode.SetDevMode();
 
             VirtualRoot.AddCmdPath<GetSpeedWsCommand>(action: message => {
-                message.Ws.Send(new JsonResponse(message.Id) {
+                message.Sessions.SendToAsync(new JsonResponse(message.MessageId) {
                     code = 200,
                     phrase = "Ok",
                     des = "成功",
-                    action = message.Action,
+                    action = GetSpeedWsCommand.Action,
                     data = new Dictionary<string, object> {
                                         {"str", "hello" },
                                         {"num", 111 },
                                         {"date", DateTime.Now }
                                     }
-                }.ToJson());
-            }, typeof(Program), logType: LogEnum.None);
+                }.ToJson(), message.SessionId, completed: null);
+            }, typeof(WsRoot), logType: LogEnum.None);
 
             var wssv = new WebSocketServer("ws://0.0.0.0:8088");
             wssv.Log.Level = WebSocketSharp.LogLevel.Trace;
             wssv.AddWebSocketService<AllInOne>("/");
             wssv.Start();
+            VirtualRoot.StartTimer();
             Windows.ConsoleHandler.Register(wssv.Stop);
             Console.ReadKey(true);
             wssv.Stop();

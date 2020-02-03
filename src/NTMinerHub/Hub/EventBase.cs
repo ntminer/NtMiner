@@ -3,7 +3,7 @@
 namespace NTMiner.Hub {
     public abstract class EventBase : IEvent {
         protected EventBase() {
-            this.Id = Guid.NewGuid();
+            this.MessageId = Guid.NewGuid();
             this.BornOn = DateTime.Now;
             this.TargetPathId = PathId.Empty;
         }
@@ -12,7 +12,7 @@ namespace NTMiner.Hub {
             this.TargetPathId = targetPathId;
         }
 
-        public Guid Id { get; private set; }
+        public Guid MessageId { get; private set; }
 
         public PathId TargetPathId { get; private set; }
 

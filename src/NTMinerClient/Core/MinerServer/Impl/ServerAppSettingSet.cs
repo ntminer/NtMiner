@@ -33,10 +33,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                             entity.Value = oldValue.Value;
                         }
                         VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
-                        VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.MessageId, entity));
                     }
                 });
-                VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<SetServerAppSettingsCommand>(action: message => {
                 if (message.AppSettings == null) {
@@ -56,7 +56,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         oldValue = null;
                         _dicByKey.Add(item.Key, entity);
                     }
-                    VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new ServerAppSettingSetedEvent(message.MessageId, entity));
                 }
                 RpcRoot.Server.AppSettingService.SetAppSettingsAsync(message.AppSettings.Select(a => AppSettingData.Create(a)).ToList(), (response, exception) => {
                     if (!response.IsSuccess()) {

@@ -29,7 +29,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new SysDicAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new SysDicAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<UpdateSysDicCommand>("更新系统字典", LogEnum.DevConsole,
                 action: message => {
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new SysDicUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new SysDicUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemoveSysDicCommand>("移除系统字典", LogEnum.DevConsole,
                 action: message => {
@@ -74,7 +74,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<SysDicData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.RaiseEvent(new SysDicRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new SysDicRemovedEvent(message.MessageId, entity));
                 }, location: this.GetType());
         }
 

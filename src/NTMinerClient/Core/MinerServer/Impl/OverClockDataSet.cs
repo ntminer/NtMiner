@@ -24,7 +24,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new OverClockDataAddedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataAddedEvent(message.MessageId, entity));
                     }
                     else {
                         VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
@@ -47,11 +47,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.MessageId, entity));
                         VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveOverClockDataCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -64,7 +64,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new OverClockDataRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataRemovedEvent(message.MessageId, entity));
                     }
                     else {
                         VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);

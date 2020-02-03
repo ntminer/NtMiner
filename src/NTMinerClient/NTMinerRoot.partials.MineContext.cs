@@ -585,7 +585,7 @@ namespace NTMiner {
                                     message => {
                                         // pathId是唯一的，从而可以断定该消息一定是因为该命令而引发的
                                         ContinueCreateProcess();
-                                    }, location: this.GetType(), pathId: cmd.Id);
+                                    }, location: this.GetType(), pathId: cmd.MessageId);
                                 // 超频是在另一个线程执行的，因为N卡超频当cpu性能非常差时较耗时
                                 VirtualRoot.Execute(cmd);
                             }

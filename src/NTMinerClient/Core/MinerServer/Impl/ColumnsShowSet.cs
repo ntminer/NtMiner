@@ -19,7 +19,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new ColumnsShowAddedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new ColumnsShowAddedEvent(message.MessageId, entity));
                     }
                     else {
                         VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
@@ -40,11 +40,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.MessageId, entity));
                         VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveColumnsShowCommand>(action: (message) => {
                 InitOnece();
@@ -58,7 +58,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.Server.ColumnsShowService.RemoveColumnsShowAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new ColumnsShowRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new ColumnsShowRemovedEvent(message.MessageId, entity));
                     }
                     else {
                         VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);

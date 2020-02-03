@@ -25,7 +25,7 @@ namespace NTMiner.AppSetting {
                     var col = db.GetCollection<AppSettingData>();
                     col.Upsert(entity);
                 }
-                VirtualRoot.RaiseEvent(new LocalAppSettingChangedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new LocalAppSettingChangedEvent(message.MessageId, entity));
             }, location: this.GetType());
         }
 

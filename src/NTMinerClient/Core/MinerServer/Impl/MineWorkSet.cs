@@ -19,7 +19,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 var response = RpcRoot.Server.MineWorkService.AddOrUpdateMineWork(entity);
                 if (response.IsSuccess()) {
                     _dicById.Add(entity.Id, entity);
-                    VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.MessageId, entity));
                 }
                 else {
                     VirtualRoot.Out.ShowError(response.Description, autoHideSeconds: 4);
@@ -39,11 +39,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.Server.MineWorkService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.MessageId, entity));
                         VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveMineWorkCommand>(action: (message) => {
                 InitOnece();
@@ -57,7 +57,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.Server.MineWorkService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(message.MessageId, entity));
                     }
                     else {
                         VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);

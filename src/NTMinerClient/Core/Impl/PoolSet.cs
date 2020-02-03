@@ -43,7 +43,7 @@ namespace NTMiner.Core.Impl {
                         repository.Add(entity);
                     }
 
-                    VirtualRoot.RaiseEvent(new PoolAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolAddedEvent(message.MessageId, entity));
 
                     if (context.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
                         ICoinKernel[] coinKernels = context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToArray();
@@ -94,7 +94,7 @@ namespace NTMiner.Core.Impl {
                         repository.Update(new PoolData().Update(message.Input));
                     }
 
-                    VirtualRoot.RaiseEvent(new PoolUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
                 action: (message) => {
@@ -119,7 +119,7 @@ namespace NTMiner.Core.Impl {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                         repository.Remove(message.EntityId);
                     }
-                    VirtualRoot.RaiseEvent(new PoolRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolRemovedEvent(message.MessageId, entity));
                     Guid[] toRemoves = context.PoolKernelSet.AsEnumerable().Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));

@@ -1,21 +1,23 @@
 ﻿using NTMiner.Hub;
 using System;
+using WebSocketSharp.Server;
 
 namespace NTMiner {
     public abstract class WsCommandBase : ICmd {
-        public WsCommandBase(string action, Guid id, WebSocketBehaviorBase ws) {
-            this.Action = action;
-            this.Id = id;
-            this.Ws = ws;
+        public WsCommandBase(Guid messageId, string sessionId, WebSocketSessionManager sessions) {
+            this.MessageId = messageId;
+            this.SessionId = sessionId;
+            this.Sessions = sessions;
         }
 
-        public string Action { get; private set; }
-        public Guid Id { get; private set; }
-        public WebSocketBehaviorBase Ws { get; private set; }
+        public Guid MessageId { get; private set; }
+        public string SessionId { get; private set; }
+        public WebSocketSessionManager Sessions { get; private set; }
     }
 
     public class GetSpeedWsCommand : WsCommandBase {
-        public GetSpeedWsCommand(string action, Guid id, WebSocketBehaviorBase ws) : base(action, id, ws) {
+        public const string Action = "getSpeed";
+        public GetSpeedWsCommand(Guid messageId, string sessionId, WebSocketSessionManager sessions) : base(messageId, sessionId, sessions) {
         }
     }
 }
