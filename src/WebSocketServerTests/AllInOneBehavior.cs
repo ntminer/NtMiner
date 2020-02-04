@@ -22,14 +22,14 @@ namespace NTMiner {
                     }
                 }
             }
-            Write.DevWarn("ConnCount " + base.Sessions.Count);
+            Write.DevWarn("Sessions Count: " + base.Sessions.Count);
             _holdSessionIds.Add(base.ID);
         }
 
         protected override void OnClose(CloseEventArgs e) {
             _holdSessionIds.Remove(base.ID);
             base.OnClose(e);
-            Write.DevWarn("ConnCount " + base.Sessions.Count);
+            Write.DevWarn("Sessions Count: " + base.Sessions.Count);
         }
 
         protected override void OnError(ErrorEventArgs e) {
@@ -54,7 +54,7 @@ namespace NTMiner {
                     base.Send(new WsMessage().SetType(message.GetType()).SetCode(400).SetDes("invalid action").SetPhrase("invalid action").ToJson());
                     break;
             }
-            Write.DevWarn("ConnCount " + base.Sessions.Count);
+            Write.DevWarn("Sessions Count: " + base.Sessions.Count);
         }
     }
 }
