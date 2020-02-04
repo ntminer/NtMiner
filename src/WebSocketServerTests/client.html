@@ -32,12 +32,9 @@
                     console.log(evt);
                     inc.innerHTML += evt.data + '<br/>';
                     var data = JSON.parse(evt.data);
-                    if (data.action == "getSpeed") {
+                    if (data.type == "getSpeed") {
                         ws.send(JSON.stringify({
-                            'action': "speed",
-                            "code": 200,
-                            "phrase": "Ok",
-                            "des": "成功",
+                            'type': "speed",
                             'data': JSON.stringify({
                                 "a": "啊啊啊"
                             })
@@ -68,26 +65,26 @@
                     return;
                 }
                 var index = val.indexOf(' ');
-                var action = '';
+                var type = '';
                 var data = '';
                 if (index == -1) {
-                    action = val;
+                    type = val;
                 }
                 else {
-                    action = val.substr(0, index);
+                    type = val.substr(0, index);
                     data = val.substr(index + 1);
                 }
                 if (ws.readyState != ws.OPEN) {
                     ws = createWs(function () {
                         ws.send(JSON.stringify({
-                            'action': action,
+                            'type': type,
                             'data': json
                         }));
                     });
                 }
                 else {
                     ws.send(JSON.stringify({
-                        'action': action,
+                        'type': type,
                         'data': data
                     }));
                 }

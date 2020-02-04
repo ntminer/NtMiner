@@ -5,18 +5,12 @@ namespace NTMiner {
     public class WsMessage : Dictionary<string, Object> {
         public WsMessage() { }
 
-        /// <summary>
-        /// 消息名称
-        /// </summary>
-        public WsMessage SetName(string value) {
-            base["name"] = value;
+        public WsMessage SetType(string value) {
+            base["type"] = value;
             return this;
         }
-        /// <summary>
-        /// 消息名称
-        /// </summary>
-        public string GetName() {
-            if (base.TryGetValue("name", out object obj) && obj != null) {
+        public new string GetType() {
+            if (base.TryGetValue("type", out object obj) && obj != null) {
                 return obj.ToString();
             }
             return string.Empty;

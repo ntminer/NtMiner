@@ -2,8 +2,8 @@
 
 namespace WsCommands {
     public class GetSpeedWsCommand : WsCommandBase {
-        public const string PingName = "getSpeed";
-        public const string PongName = "speed";
+        public const string Ping = "getSpeed";
+        public const string Pong = "speed";
         public GetSpeedWsCommand(string sessionId, WebSocketSessionManager sessions) : base(sessionId, sessions) {
         }
     }

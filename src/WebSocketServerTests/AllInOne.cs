@@ -11,7 +11,7 @@ namespace NTMiner {
 
         static AllInOne() {
             VirtualRoot.AddCmdPath<GetSpeedWsCommand>(action: message => {
-                message.Sessions.SendToAsync(new WsMessage().SetName(GetSpeedWsCommand.PingName).ToJson(), message.SessionId, completed: null);
+                message.Sessions.SendToAsync(new WsMessage().SetType(GetSpeedWsCommand.Ping).ToJson(), message.SessionId, completed: null);
             }, typeof(WsRoot), logType: LogEnum.None);
         }
 
@@ -53,12 +53,12 @@ namespace NTMiner {
             if (message == null) {
                 return;
             }
-            switch (message.GetName()) {
-                case GetSpeedWsCommand.PongName:
+            switch (message.GetType()) {
+                case GetSpeedWsCommand.Pong:
                     Write.DevDebug(e.Data);
                     break;
                 default:
-                    base.Send(new WsMessage().SetName(message.GetName()).SetCode(400).SetDes("invalid action").SetPhrase("invalid action").ToJson());
+                    base.Send(new WsMessage().SetType(message.GetType()).SetCode(400).SetDes("invalid action").SetPhrase("invalid action").ToJson());
                     break;
             }
             Write.DevWarn("ConnCount " + base.Sessions.Count);
