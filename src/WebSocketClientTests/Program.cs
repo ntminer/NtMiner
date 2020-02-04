@@ -15,19 +15,14 @@ namespace NTMiner {
                     if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
                         return;
                     }
-                    WsMessage message = null;
-                    try {
-                        message = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
-                    }
-                    catch {
-                    }
+                    WsMessage message = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
                     if (message == null) {
                         return;
                     }
                     switch (message.GetAction()) {
                         case GetSpeedWsCommand.Action:
                             ws.SendAsync(new WsMessage().SetAction(GetSpeedWsCommand.Result)
-                                .SetMessageId(message.GetMessageId()).SetCode(200).SetPhrase("Ok").SetDes("成功")
+                                .SetCode(200).SetPhrase("Ok").SetDes("成功")
                                 .SetData(new Dictionary<string, object> {
                                         {"str", "hello" },
                                         {"num", 111 },

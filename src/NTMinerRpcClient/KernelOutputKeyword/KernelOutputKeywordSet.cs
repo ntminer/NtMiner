@@ -158,12 +158,7 @@ namespace NTMiner.KernelOutputKeyword {
                         using (MemoryStream ms = new MemoryStream()) {
                             db.FileStorage.Download(GetFileId(), ms);
                             var json = Encoding.UTF8.GetString(ms.ToArray());
-                            try {
-                                return VirtualRoot.JsonSerializer.Deserialize<List<KernelOutputKeywordData>>(json);
-                            }
-                            catch {
-                                return new List<KernelOutputKeywordData>();
-                            }
+                            return VirtualRoot.JsonSerializer.Deserialize<List<KernelOutputKeywordData>>(json) ?? new List<KernelOutputKeywordData>();
                         }
                     }
                     else {

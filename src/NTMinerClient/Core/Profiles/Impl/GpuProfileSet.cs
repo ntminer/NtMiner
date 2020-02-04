@@ -195,12 +195,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (!_isInited) {
                     string json = SpecialPath.ReadGpuProfilesJsonFile();
                     if (!string.IsNullOrEmpty(json)) {
-                        GpuProfilesJsonDb data = null;
-                        try {
-                            data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
-                        }
-                        catch {
-                        }
+                        GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
                         if (data != null) {
                             _data = data;
                         }

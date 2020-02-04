@@ -15,7 +15,12 @@ namespace NTMiner.Serialization {
         }
 
         public virtual TObject Deserialize<TObject>(string json) {
-            return JsonConvert.DeserializeObject<TObject>(json, jsonSerializerSettings);
+            try {
+                return JsonConvert.DeserializeObject<TObject>(json, jsonSerializerSettings);
+            }
+            catch {
+                return default;
+            }
         }
     }
 }

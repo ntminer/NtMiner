@@ -80,7 +80,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IPTests.cs" />
     <Compile Include="MarshalTests.cs" />
-    <Compile Include="JsonTests.cs" />
     <Compile Include="RegexTests.cs" />
     <Compile Include="TimingTests.cs" />
     <Compile Include="RemoteDesktopTests.cs" />

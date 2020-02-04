@@ -19,7 +19,7 @@ namespace UnitTests {
                 raiseException = true;
             }
             finally {
-                Assert.IsTrue(raiseException);
+                Assert.IsFalse(raiseException);
             }
         }
     }

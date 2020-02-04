@@ -5,17 +5,6 @@ namespace NTMiner {
     public class WsMessage : Dictionary<string, Object> {
         public WsMessage() { }
 
-        public WsMessage SetMessageId(string value) {
-            base["messageId"] = value;
-            return this;
-        }
-        public string GetMessageId() {
-            if (base.TryGetValue("messageId", out object obj) && obj != null) {
-                return obj.ToString();
-            }
-            return string.Empty;
-        }
-
         public WsMessage SetAction(string value) {
             base["action"] = value;
             return this;
@@ -65,7 +54,7 @@ namespace NTMiner {
             return this;
         }
         public object GetData() {
-            if (base.TryGetValue("des", out object obj)) {
+            if (base.TryGetValue("data", out object obj)) {
                 return obj;
             }
             return null;
