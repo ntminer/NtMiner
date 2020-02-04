@@ -46,7 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AllInOne.cs" />
+    <Compile Include="AllInOneBehavior.cs" />
     <Compile Include="WsRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,12 +4,12 @@ using WebSocketSharp.Server;
 using WsCommands;
 
 namespace NTMiner {
-    public class AllInOne : WebSocketBehavior {
+    public class AllInOneBehavior : WebSocketBehavior {
         private static readonly HashSet<string> _holdSessionIds = new HashSet<string>();
         private static bool _isFirst = true;
         private static readonly object _locker = new object();
 
-        static AllInOne() {
+        static AllInOneBehavior() {
             VirtualRoot.AddCmdPath<GetSpeedWsCommand>(action: message => {
                 message.Sessions.SendToAsync(new WsMessage().SetType(GetSpeedWsCommand.Ping).ToJson(), message.SessionId, completed: null);
             }, typeof(WsRoot), logType: LogEnum.None);
