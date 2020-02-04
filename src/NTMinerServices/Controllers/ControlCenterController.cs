@@ -4,10 +4,26 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ControlCenterController : ApiControllerBase, IControlCenterController {
+        private static readonly string _indexHtmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "index.html");
+        [HttpGet]
+        public HttpResponseMessage Index() {
+            string html = "no content";
+            if (File.Exists(_indexHtmlPath)) {
+                html = File.ReadAllText(_indexHtmlPath);
+            }
+            var result = new HttpResponseMessage(HttpStatusCode.OK) {
+                Content = new StringContent(html, Encoding.UTF8, "text/html")
+            };
+            return result;
+        }
+
         #region GetServicesVersion
         private static string _sSha1 = null;
         public static string Sha1 {
