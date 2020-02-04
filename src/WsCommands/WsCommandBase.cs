@@ -4,13 +4,12 @@ using WebSocketSharp.Server;
 
 namespace WsCommands {
     public abstract class WsCommandBase : ICmd {
-        public WsCommandBase(Guid messageId, string sessionId, WebSocketSessionManager sessions) {
-            this.MessageId = messageId;
+        public WsCommandBase(string sessionId, WebSocketSessionManager sessions) {
             this.SessionId = sessionId;
             this.Sessions = sessions;
         }
 
-        public Guid MessageId { get; private set; }
+        public Guid MessageId { get; private set; } = Guid.NewGuid();
         public string SessionId { get; private set; }
         public WebSocketSessionManager Sessions { get; private set; }
     }

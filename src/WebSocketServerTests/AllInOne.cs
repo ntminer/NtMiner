@@ -17,7 +17,7 @@ namespace NTMiner {
                     if (_isFirst) {
                         VirtualRoot.AddEventPath<Per10SecondEvent>("测试，周期getSpeed", LogEnum.None, action: message => {
                             foreach (var sessionId in _holdSessionIds) {
-                                VirtualRoot.Execute(new GetSpeedWsCommand(Guid.Empty, sessionId, base.Sessions));
+                                VirtualRoot.Execute(new GetSpeedWsCommand(sessionId, base.Sessions));
                             }
                         }, location: this.GetType());
                         _isFirst = false;
@@ -48,12 +48,12 @@ namespace NTMiner {
             if (message == null) {
                 return;
             }
-            switch (message.GetAction()) {
-                case GetSpeedWsCommand.Result:
+            switch (message.GetName()) {
+                case GetSpeedWsCommand.PongName:
                     Write.DevDebug(e.Data);
                     break;
                 default:
-                    base.Send(new WsMessage().SetAction(message.GetAction()).SetCode(400).SetDes("invalid action").SetPhrase("invalid action").ToJson());
+                    base.Send(new WsMessage().SetName(message.GetName()).SetCode(400).SetDes("invalid action").SetPhrase("invalid action").ToJson());
                     break;
             }
             Write.DevWarn("ConnCount " + base.Sessions.Count);

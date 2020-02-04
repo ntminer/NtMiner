@@ -19,9 +19,9 @@ namespace NTMiner {
                     if (message == null) {
                         return;
                     }
-                    switch (message.GetAction()) {
-                        case GetSpeedWsCommand.Action:
-                            ws.SendAsync(new WsMessage().SetAction(GetSpeedWsCommand.Result)
+                    switch (message.GetName()) {
+                        case GetSpeedWsCommand.PingName:
+                            ws.SendAsync(new WsMessage().SetName(GetSpeedWsCommand.PongName)
                                 .SetCode(200).SetPhrase("Ok").SetDes("成功")
                                 .SetData(new Dictionary<string, object> {
                                         {"str", "hello" },
