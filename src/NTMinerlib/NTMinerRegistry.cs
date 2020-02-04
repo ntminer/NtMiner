@@ -247,15 +247,5 @@ namespace NTMiner {
             return (int)Windows.WinRegistry.GetValue(Registry.LocalMachine, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", "fDenyTSConnections") == 0;
         }
         #endregion
-
-        #region GetIndexHtmlFileFullName
-        public static string GetIndexHtmlFileFullName() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IndexHtmlFileFullName");
-            if (value == null) {
-                return string.Empty;
-            }
-            return (string)value;
-        }
-        #endregion
     }
 }

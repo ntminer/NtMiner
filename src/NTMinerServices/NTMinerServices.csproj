@@ -90,7 +90,6 @@
     <Compile Include="Controllers\ColumnsShowController.cs" />
     <Compile Include="Controllers\ControlCenterController.cs" />
     <Compile Include="Controllers\FileUrlController.cs" />
-    <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\KernelOutputKeywordController.cs" />
     <Compile Include="Controllers\MinerGroupController.cs" />
     <Compile Include="Controllers\MineWorkController.cs" />
@@ -166,9 +165,6 @@
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
       <Name>NTMinerRpcClient</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="index.html" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />
