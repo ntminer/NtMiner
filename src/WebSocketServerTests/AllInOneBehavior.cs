@@ -1,19 +1,12 @@
 ﻿using System.Collections.Generic;
 using WebSocketSharp;
 using WebSocketSharp.Server;
-using WsCommands;
 
 namespace NTMiner {
     public class AllInOneBehavior : WebSocketBehavior {
         private static readonly HashSet<string> _holdSessionIds = new HashSet<string>();
         private static bool _isFirst = true;
         private static readonly object _locker = new object();
-
-        static AllInOneBehavior() {
-            VirtualRoot.AddCmdPath<GetSpeedWsCommand>(action: message => {
-                message.Sessions.SendToAsync(new WsMessage().SetType(GetSpeedWsCommand.Ping).ToJson(), message.SessionId, completed: null);
-            }, typeof(WsRoot), logType: LogEnum.None);
-        }
 
         protected override void OnOpen() {
             base.OnOpen();
@@ -22,7 +15,7 @@ namespace NTMiner {
                     if (_isFirst) {
                         VirtualRoot.AddEventPath<Per10SecondEvent>("测试，周期getSpeed", LogEnum.None, action: message => {
                             foreach (var sessionId in _holdSessionIds) {
-                                VirtualRoot.Execute(new GetSpeedWsCommand(sessionId, base.Sessions));
+                                base.Sessions.SendToAsync(new WsMessage().SetType(WsMessageType.GetSpeed).ToJson(), sessionId, completed: null);
                             }
                         }, location: this.GetType());
                         _isFirst = false;
@@ -54,7 +47,7 @@ namespace NTMiner {
                 return;
             }
             switch (message.GetType()) {
-                case GetSpeedWsCommand.Pong:
+                case WsMessageType.Speed:
                     Write.DevDebug(e.Data);
                     break;
                 default:

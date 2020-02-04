@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using WebSocketSharp;
-using WsCommands;
 
 namespace NTMiner {
     class Program {
@@ -20,8 +19,8 @@ namespace NTMiner {
                         return;
                     }
                     switch (message.GetType()) {
-                        case GetSpeedWsCommand.Ping:
-                            ws.SendAsync(new WsMessage().SetType(GetSpeedWsCommand.Pong)
+                        case WsMessageType.GetSpeed:
+                            ws.SendAsync(new WsMessage().SetType(WsMessageType.Speed)
                                 .SetData(new Dictionary<string, object> {
                                         {"str", "hello" },
                                         {"num", 111 },
