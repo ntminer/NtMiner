@@ -35,9 +35,9 @@
                     if (data.type == "getSpeed") {
                         ws.send(JSON.stringify({
                             'type': "speed",
-                            'data': JSON.stringify({
+                            'data': {
                                 "a": "啊啊啊"
-                            })
+                            }
                         }));
                     }
                 };
