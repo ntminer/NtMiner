@@ -87,7 +87,10 @@ namespace NTMiner {
         }
 
         public static bool IsUseDevConsole = false;
-        public static int OSVirtualMemoryMb;
+        public static int OSVirtualMemoryMb { get; private set; }
+        public static void SetOSVirtualMemoryMb(int value) {
+            OSVirtualMemoryMb = value;
+        }
 
         public static bool IsAutoStartCanceled = false;
 
@@ -202,13 +205,8 @@ namespace NTMiner {
                     if (!_localJsonInited) {
                         string localJson = SpecialPath.ReadLocalJsonFile();
                         if (!string.IsNullOrEmpty(localJson)) {
-                            try {
-                                LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
-                                _localJson = data ?? new LocalJsonDb();
-                            }
-                            catch (Exception e) {
-                                Logger.ErrorDebugLine(e);
-                            }
+                            LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
+                            _localJson = data ?? new LocalJsonDb();
                         }
                         else {
                             _localJson = new LocalJsonDb();
@@ -264,8 +262,8 @@ namespace NTMiner {
                     if (!_serverJsonInited) {
                         string serverJson = SpecialPath.ReadServerJsonFile();
                         if (!string.IsNullOrEmpty(serverJson)) {
+                            ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson) ?? new ServerJsonDb();
                             try {
-                                ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson);
                                 _serverJson = data;
                                 if (KernelBrandId != Guid.Empty) {
                                     var kernelToRemoves = data.Kernels.Where(a => a.BrandId != KernelBrandId).ToArray();

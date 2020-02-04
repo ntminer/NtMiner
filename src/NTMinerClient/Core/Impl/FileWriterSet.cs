@@ -23,7 +23,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new FileWriterAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new FileWriterAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<UpdateFileWriterCommand>("更新文件书写器", LogEnum.DevConsole,
                 action: (message) => {
@@ -45,7 +45,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new FileWriterUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new FileWriterUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemoveFileWriterCommand>("移除文件书写器", LogEnum.DevConsole,
                 action: (message) => {
@@ -61,7 +61,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.RaiseEvent(new FileWriterRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new FileWriterRemovedEvent(message.MessageId, entity));
                 }, location: this.GetType());
         }
 

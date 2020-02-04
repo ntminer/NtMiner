@@ -579,7 +579,7 @@ namespace NTMiner {
 
         public static string TotalVirtualMemoryGbText {
             get {
-                return AppContext.Instance.VirtualMemorySetVm.TotalVirtualMemoryGbText;
+                return (AppContext.Instance.VirtualMemorySetVm.TotalVirtualMemoryMb / 1024.0).ToString("f1") + "G";
             }
         }
         #endregion
@@ -755,8 +755,8 @@ namespace NTMiner {
         public static ICommand ShowSysDic { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowSysDicPageCommand());
         });
-        public static ICommand ShowGroups { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowGroupPageCommand());
+        public static ICommand ShowCoinGroups { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowCoinGroupsCommand());
         });
         public static ICommand ShowCoins { get; private set; } = new DelegateCommand<CoinViewModel>((currentCoin) => {
             VirtualRoot.Execute(new ShowCoinPageCommand(currentCoin, "coin"));
@@ -970,7 +970,7 @@ namespace NTMiner {
         });
 
         public static ICommand OpenLGPL { get; private set; } = new DelegateCommand(() => {
-            string url = "https://raw.githubusercontent.com/ntminer/ntminer/master/docs/LGPL.png";
+            string url = "https://minerjson.oss-cn-beijing.aliyuncs.com/LGPL.png";
             if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "LGPL", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }

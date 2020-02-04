@@ -142,7 +142,7 @@
                             canGo = true;
                         }
                         else {
-                            canGo = messagePath.PathId == cmd.Id;
+                            canGo = messagePath.PathId == cmd.MessageId;
                         }
                     }
                     if (canGo && messagePath.ViaTimesLimit > 0) {

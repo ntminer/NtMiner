@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
+    <Compile Include="Converters\MbToGbConverter.cs" />
     <Compile Include="FrameworkElementExtension.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
@@ -153,6 +154,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Notifications\Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\LeftBarScrollViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

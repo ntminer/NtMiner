@@ -44,8 +44,7 @@
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
     <Compile Include="Net\Hosts.cs" />
-    <Compile Include="JsonRequestExtensions.cs" />
-    <Compile Include="JsonResponseExtension.cs" />
+    <Compile Include="WsMessageExtension.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="OutEnum.cs" />
     <Compile Include="Net\ILocalIpSet.cs" />

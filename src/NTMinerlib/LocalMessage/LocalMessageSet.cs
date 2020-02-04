@@ -47,7 +47,7 @@ namespace NTMiner.LocalMessage {
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
                 }
-                VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(message.Id, data, removes));
+                VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(message.MessageId, data, removes));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<ClearLocalMessageSetCommand>(action: message => {
                 if (string.IsNullOrEmpty(_connectionString)) {

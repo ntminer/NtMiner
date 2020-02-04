@@ -9,10 +9,11 @@ using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerServer.Impl;
+using NTMiner.Core.Profile;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
 using NTMiner.KernelOutputKeyword;
-using NTMiner.Core.Profile;
+using NTMiner.Report;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
@@ -81,10 +82,7 @@ namespace NTMiner {
                                 RpcRoot.OfficialServer.GetJsonFileVersionAsync(EntryAssemblyInfo.ServerJsonFileName, serverState => {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
-                                    if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) < Timestamp.DesyncSeconds) {
-                                        Logger.OkDebugLine($"本机和服务器时间一致或相差不超过 {Timestamp.DesyncSeconds.ToString()} 秒");
-                                    }
-                                    else {
+                                    if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) >= Timestamp.DesyncSeconds) {
                                         Write.UserWarn($"本机和服务器时间不同步，请调整，本地：{DateTime.Now.ToString()}，服务器：{Timestamp.FromTimestamp(serverState.Time).ToString()}。此问题不影响挖矿。");
                                     }
                                 });

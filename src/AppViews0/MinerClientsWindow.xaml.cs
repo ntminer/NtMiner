@@ -2,9 +2,7 @@
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
@@ -88,26 +86,12 @@ namespace NTMiner.Views {
             base.OnClosed(e);
         }
 
-        private void MinerClientsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            Vm.SelectedMinerClients = ((DataGrid)sender).SelectedItems.Cast<MinerClientViewModel>().ToArray();
-        }
-
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void MinerClientUcScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e, isLeftBar: true);
-        }
-
-        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<MinerClientViewModel>(sender, e, rowVm => {
-                rowVm.RemoteDesktop.Execute(Vm.SelectedMinerClients[0].GetRemoteDesktopIp());
-            });
-        }
-
-        private void DataGrid_OnSorting(object sender, DataGridSortingEventArgs e) {
-            e.Handled = true;
         }
 
         private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {

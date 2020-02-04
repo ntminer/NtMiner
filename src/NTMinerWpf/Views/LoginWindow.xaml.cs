@@ -96,12 +96,12 @@ namespace NTMiner.Views {
                     }
                     else if (Vm.LoginName == "admin" && response.StateCode == 404) {
                         Vm.IsPasswordAgainVisible = Visibility.Visible;
-                        Vm.ShowMessage(response.Description);
+                        Vm.ShowMessage(response.ReadMessage(exception));
                         this.PbPasswordAgain.Focus();
                     }
                     else {
                         Vm.IsPasswordAgainVisible = Visibility.Collapsed;
-                        Vm.ShowMessage(response.Description);
+                        Vm.ShowMessage(response.ReadMessage(exception));
                     }
                 });
             });

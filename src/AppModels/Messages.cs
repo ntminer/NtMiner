@@ -106,9 +106,9 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "打开组界面")]
-    public class ShowGroupPageCommand : Cmd {
-        public ShowGroupPageCommand() {
+    [MessageType(description: "打开币组界面")]
+    public class ShowCoinGroupsCommand : Cmd {
+        public ShowCoinGroupsCommand() {
         }
     }
 

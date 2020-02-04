@@ -4,8 +4,9 @@ using NTMiner.Core.MinerClient;
 using NTMiner.Core.Profile;
 using System;
 using System.Linq;
+using NTMiner.Core;
 
-namespace NTMiner.Core.Impl {
+namespace NTMiner.Report {
     public class ReportDataProvider : IReportDataProvider {
         public ReportDataProvider() {
             if (VirtualRoot.IsMinerClient) {
@@ -73,6 +74,7 @@ namespace NTMiner.Core.Impl {
                 GpuDriver = root.GpuSet.DriverVersion.ToString(),
                 GpuType = root.GpuSet.GpuType,
                 OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
+                TotalPhysicalMemoryMb = (int)(Windows.Ram.Instance.TotalPhysicalMemory / 1024),
                 KernelCommandLine = string.Empty,
                 DiskSpace = NTMinerRoot.DiskSpace,
                 IsAutoRestartKernel = workProfile.IsAutoRestartKernel,

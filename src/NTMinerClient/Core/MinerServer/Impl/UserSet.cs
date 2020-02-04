@@ -20,10 +20,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                         if (response.IsSuccess()) {
                             UserData entity = new UserData(message.User);
                             _dicByLoginName.Add(message.User.LoginName, entity);
-                            VirtualRoot.RaiseEvent(new UserAddedEvent(message.Id, entity));
+                            VirtualRoot.RaiseEvent(new UserAddedEvent(message.MessageId, entity));
                         }
                         else {
-                            Write.UserFail(response.ReadMessage(exception));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         }
                     });
                 }
@@ -41,11 +41,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                     }, (response, exception) => {
                         if (!response.IsSuccess()) {
                             entity.Update(oldValue);
-                            VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.Id, entity));
-                            Write.UserFail(response.ReadMessage(exception));
+                            VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.MessageId, entity));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         }
                     });
-                    VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new UserUpdatedEvent(message.MessageId, entity));
                 }
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveUserCommand>(action: message => {
@@ -54,10 +54,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                     RpcRoot.Server.UserService.RemoveUserAsync(message.LoginName, (response, exception) => {
                         if (response.IsSuccess()) {
                             _dicByLoginName.Remove(entity.LoginName);
-                            VirtualRoot.RaiseEvent(new UserRemovedEvent(message.Id, entity));
+                            VirtualRoot.RaiseEvent(new UserRemovedEvent(message.MessageId, entity));
                         }
                         else {
-                            Write.UserFail(response.ReadMessage(exception));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         }
                     });
                 }

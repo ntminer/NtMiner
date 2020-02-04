@@ -73,7 +73,7 @@ namespace NTMiner.Views {
                     }
 
                     if (!response.IsSuccess()) {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         return;
                     }
                     UIThread.Execute(() => () => {

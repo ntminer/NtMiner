@@ -50,6 +50,7 @@ namespace NTMiner.Core.MinerServer {
             MineTimeSpanText = true,
             OSName = true,
             OSVirtualMemoryGbText = true,
+            TotalPhysicalMemoryGbText = true,
             TotalPowerText = true,
             Version = true,
             WindowsLoginNameAndPassword = true,
@@ -136,6 +137,8 @@ namespace NTMiner.Core.MinerServer {
         public bool OSName { get; set; }
 
         public bool OSVirtualMemoryGbText { get; set; }
+
+        public bool TotalPhysicalMemoryGbText { get; set; }
 
         public bool GpuType { get; set; }
 

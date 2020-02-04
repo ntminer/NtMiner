@@ -21,10 +21,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new NTMinerWalletAddedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletAddedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -44,11 +44,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.MessageId, entity));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveNTMinerWalletCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -61,10 +61,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.OfficialServer.NTMinerWalletService.RemoveNTMinerWalletAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new NTMinerWalletRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new NTMinerWalletRemovedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());

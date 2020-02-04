@@ -22,10 +22,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.Server.MinerGroupService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new MinerGroupAddedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new MinerGroupAddedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -46,11 +46,11 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.Server.MinerGroupService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.MessageId, entity));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveMinerGroupCommand>(action: (message) => {
                 InitOnece();
@@ -64,10 +64,10 @@ namespace NTMiner.Core.MinerServer.Impl {
                 RpcRoot.Server.MinerGroupService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new MinerGroupRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new MinerGroupRemovedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());

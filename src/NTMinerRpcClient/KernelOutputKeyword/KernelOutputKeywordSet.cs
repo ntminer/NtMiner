@@ -52,6 +52,9 @@ namespace NTMiner.KernelOutputKeyword {
                                 VirtualRoot.RaiseEvent(new KernelOutputKeywordLoadedEvent(response.Data));
                             }
                         }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                        }
                     });
                 }, location: this.GetType());
             }
@@ -67,7 +70,7 @@ namespace NTMiner.KernelOutputKeyword {
                             col.Update(exist);
                         }
                         if (!isServer) {
-                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordUpdatedEvent(message.Id, exist));
+                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordUpdatedEvent(message.MessageId, exist));
                         }
                     }
                     else {
@@ -84,7 +87,7 @@ namespace NTMiner.KernelOutputKeyword {
                             col.Insert(entity);
                         }
                         if (!isServer) {
-                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordAddedEvent(message.Id, entity));
+                            VirtualRoot.RaiseEvent(new UserKernelOutputKeywordAddedEvent(message.MessageId, entity));
                         }
                     }
                 }
@@ -93,6 +96,9 @@ namespace NTMiner.KernelOutputKeyword {
                     RpcRoot.OfficialServer.KernelOutputKeywordService.AddOrUpdateKernelOutputKeywordAsync(KernelOutputKeywordData.Create(message.Input), (response, e) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
                     });
                 }
@@ -116,13 +122,16 @@ namespace NTMiner.KernelOutputKeyword {
                         col.Delete(message.EntityId);
                     }
                     if (!isServer) {
-                        VirtualRoot.RaiseEvent(new UserKernelOutputKeywordRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new UserKernelOutputKeywordRemovedEvent(message.MessageId, entity));
                     }
                 }
                 else if (DevMode.IsDevMode) {
                     RpcRoot.OfficialServer.KernelOutputKeywordService.RemoveKernelOutputKeyword(message.EntityId, (response, e) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
                     });
                 }
@@ -149,7 +158,7 @@ namespace NTMiner.KernelOutputKeyword {
                         using (MemoryStream ms = new MemoryStream()) {
                             db.FileStorage.Download(GetFileId(), ms);
                             var json = Encoding.UTF8.GetString(ms.ToArray());
-                            return VirtualRoot.JsonSerializer.Deserialize<List<KernelOutputKeywordData>>(json);
+                            return VirtualRoot.JsonSerializer.Deserialize<List<KernelOutputKeywordData>>(json) ?? new List<KernelOutputKeywordData>();
                         }
                     }
                     else {

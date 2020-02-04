@@ -1,8 +1,8 @@
 ﻿using System.Linq;
 
 namespace NTMiner.Vms {
-    public class GroupPageViewModel : ViewModelBase {
-        public GroupPageViewModel() {
+    public class CoinGroupPageViewModel : ViewModelBase {
+        public CoinGroupPageViewModel() {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }

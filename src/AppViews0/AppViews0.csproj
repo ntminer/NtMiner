@@ -104,6 +104,18 @@
     <Compile Include="SplashWindow.xaml.cs">
       <DependentUpon>SplashWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Ucs\MinerClients.xaml.cs">
+      <DependentUpon>MinerClients.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\ResizeCursor.xaml.cs">
+      <DependentUpon>ResizeCursor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\LogFiles.xaml.cs">
+      <DependentUpon>LogFiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Ucs\AppMiner.xaml.cs">
+      <DependentUpon>AppMiner.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Ucs\KernelOutputKeywords.xaml.cs">
       <DependentUpon>KernelOutputKeywords.xaml</DependentUpon>
     </Compile>
@@ -308,8 +320,8 @@
     <Compile Include="Ucs\GroupEdit.xaml.cs">
       <DependentUpon>GroupEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\GroupPage.xaml.cs">
-      <DependentUpon>GroupPage.xaml</DependentUpon>
+    <Compile Include="Ucs\CoinGroupPage.xaml.cs">
+      <DependentUpon>CoinGroupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\UserEdit.xaml.cs">
       <DependentUpon>UserEdit.xaml</DependentUpon>
@@ -505,6 +517,22 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SplashWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\MinerClients.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\ResizeCursor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\LogFiles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Ucs\AppMiner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -836,7 +864,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\GroupPage.xaml">
+    <Page Include="Ucs\CoinGroupPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

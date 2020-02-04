@@ -23,12 +23,12 @@ namespace NTMiner.Core.Profiles.Impl {
                     _data.GpuProfiles.Add(data);
                     Save();
                 }
-                VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(message.Id, data));
+                VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(message.MessageId, data));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<CoinOverClockCommand>(action: message => {
                 Task.Factory.StartNew(() => {
                     CoinOverClock(root, message.CoinId);
-                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(targetPathId: message.Id));
+                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(targetPathId: message.MessageId));
                 });
             }, location: this.GetType());
         }
@@ -195,7 +195,6 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (!_isInited) {
                     string json = SpecialPath.ReadGpuProfilesJsonFile();
                     if (!string.IsNullOrEmpty(json)) {
-                        // 反序列化不报异常，但如果格式不正确返回值可能为null
                         GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
                         if (data != null) {
                             _data = data;

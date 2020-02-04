@@ -90,7 +90,11 @@ namespace NTMiner.Core.Impl {
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {
             _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-            RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, null);
+            RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, (response, e) => {
+                if (!response.IsSuccess()) {
+                    VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                }
+            });
         }
 
         public IEnumerable<ICalcConfig> AsEnumerable() {

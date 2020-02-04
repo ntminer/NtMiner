@@ -176,10 +176,7 @@ namespace NTMiner.Vms {
                     if (e.Cancelled) {
                         message = "已取消";
                     }
-                    if (isSuccess) {
-                        // nothing need todo
-                    }
-                    else {
+                    if (!isSuccess) {
                         VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);

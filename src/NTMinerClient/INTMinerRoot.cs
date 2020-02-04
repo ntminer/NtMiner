@@ -5,6 +5,7 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.KernelOutputKeyword;
+using NTMiner.Report;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;

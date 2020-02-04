@@ -81,7 +81,11 @@ namespace NTMiner.Vms {
                     Write.DevDebug("检测到MinerProfile状态变更");
                     NTMinerRoot.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                     if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                        RpcRoot.Server.MineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
+                        RpcRoot.Server.MineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: (response, e) => {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                     if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
                         this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;

@@ -64,6 +64,25 @@ namespace NTMiner.Services.Client {
                 }
             });
         }
+
+        /// <summary>
+        /// 本机网络调用
+        /// </summary>
+        public void GetSpeedAsync(Action<string, Exception> callback) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
+                        client.Timeout = TimeSpan.FromSeconds(3);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/{_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
+                        string json = getHttpResponse.Result.Content.ReadAsStringAsync().Result;
+                        callback?.Invoke(json, null);
+                    }
+                }
+                catch (Exception e) {
+                    callback?.Invoke(null, e);
+                }
+            });
+        }
         #endregion
 
         #region ClientIp

@@ -50,7 +50,7 @@ namespace NTMiner.Services.Client {
 
         public void GetGpuProfilesJsonAsync(string clientIp, Action<GpuProfilesJsonDb, Exception> callback) {
             RpcRoot.PostAsync(clientIp, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetGpuProfilesJson), null, (string json, Exception e) => {
-                GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
+                GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json) ?? new GpuProfilesJsonDb();
                 callback?.Invoke(data, null);
             }, timeountMilliseconds: 3000);
         }

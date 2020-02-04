@@ -48,12 +48,17 @@ namespace NTMiner.Vms {
                 LoginWindow.Login(() => {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除{this.Version}({this.VersionTag})吗？", title: "确认", onYes: () => {
                         RpcRoot.OfficialServer.FileUrlService.RemoveNTMinerFileAsync(this.Id, (response, e) => {
-                            MainWindowViewModel.Instance.SelectedNTMinerFile = MainWindowViewModel.Instance.NTMinerFiles.FirstOrDefault();
-                            if (this == MainWindowViewModel.Instance.ServerLatestVm) {
-                                MainWindowViewModel.Instance.ServerLatestVm = MainWindowViewModel.Instance.NTMinerFiles
-                                    .FirstOrDefault(a => a != this && a.VersionData > MainWindowViewModel.Instance.LocalNTMinerVersion);
+                            if (response.IsSuccess()) {
+                                MainWindowViewModel.Instance.Refresh();
+                                MainWindowViewModel.Instance.SelectedNTMinerFile = MainWindowViewModel.Instance.NTMinerFiles.FirstOrDefault();
+                                if (this == MainWindowViewModel.Instance.ServerLatestVm) {
+                                    MainWindowViewModel.Instance.ServerLatestVm = MainWindowViewModel.Instance.NTMinerFiles
+                                        .FirstOrDefault(a => a != this && a.VersionData > MainWindowViewModel.Instance.LocalNTMinerVersion);
+                                }
                             }
-                            MainWindowViewModel.Instance.Refresh();
+                            else {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
                         });
                     }));
                 });

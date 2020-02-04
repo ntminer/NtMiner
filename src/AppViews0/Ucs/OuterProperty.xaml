@@ -43,11 +43,11 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="物理内存"></TextBlock>
-					<TextBlock Text="{Binding Ram.TotalPhysicalMemory}"></TextBlock>
+					<TextBlock Text="{Binding Ram.TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}"></TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="虚拟内存"></TextBlock>
-					<TextBlock Text="{Binding DriveSet.VirtualMemorySet.TotalVirtualMemoryGbText}"></TextBlock>
+					<TextBlock Text="{Binding DriveSet.VirtualMemorySet.TotalVirtualMemoryMb,Converter={StaticResource MbToGbConverter}}"></TextBlock>
 					<controls:KbButton 
 						Margin="8 0 0 0"
 						Padding="6 0"

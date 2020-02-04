@@ -113,6 +113,7 @@
     <Compile Include="Vms\InnerPropertyViewModel.cs" />
     <Compile Include="Vms\KernelOutputKeywordViewModel.cs" />
     <Compile Include="Vms\KernelOutputKeywordsViewModel.cs" />
+    <Compile Include="Vms\LogFilesViewModel.cs" />
     <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\MessageTypeItem`1.cs" />
     <Compile Include="Vms\MinerClientFinderConfigViewModel.cs" />
@@ -150,7 +151,7 @@
     <Compile Include="Vms\GpuSpeedDataViewModels.cs" />
     <Compile Include="Vms\GpuSpeedViewModel.cs" />
     <Compile Include="Vms\GpuViewModel.cs" />
-    <Compile Include="Vms\GroupPageViewModel.cs" />
+    <Compile Include="Vms\CoinGroupPageViewModel.cs" />
     <Compile Include="Vms\GroupViewModel.cs" />
     <Compile Include="Vms\InputSegmentEditViewModel.cs" />
     <Compile Include="Vms\InputSegmentViewModel.cs" />
