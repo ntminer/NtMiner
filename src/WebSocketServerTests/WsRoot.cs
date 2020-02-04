@@ -1,15 +1,10 @@
 ﻿using System;
 using WebSocketSharp.Server;
-using WsCommands;
 
 namespace NTMiner {
     public class WsRoot {
         static void Main() {
             DevMode.SetDevMode();
-
-            VirtualRoot.AddCmdPath<GetSpeedWsCommand>(action: message => {
-                message.Sessions.SendToAsync(new WsMessage().SetName(GetSpeedWsCommand.PingName).ToJson(), message.SessionId, completed: null);
-            }, typeof(WsRoot), logType: LogEnum.None);
 
             var wssv = new WebSocketServer("ws://0.0.0.0:8088");
             wssv.Log.Level = WebSocketSharp.LogLevel.Trace;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 using WsCommands;
@@ -9,6 +8,12 @@ namespace NTMiner {
         private static readonly HashSet<string> _holdSessionIds = new HashSet<string>();
         private static bool _isFirst = true;
         private static readonly object _locker = new object();
+
+        static AllInOne() {
+            VirtualRoot.AddCmdPath<GetSpeedWsCommand>(action: message => {
+                message.Sessions.SendToAsync(new WsMessage().SetName(GetSpeedWsCommand.PingName).ToJson(), message.SessionId, completed: null);
+            }, typeof(WsRoot), logType: LogEnum.None);
+        }
 
         protected override void OnOpen() {
             base.OnOpen();

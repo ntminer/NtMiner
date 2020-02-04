@@ -1,5 +1,4 @@
-﻿using System;
-using WebSocketSharp.Server;
+﻿using WebSocketSharp.Server;
 
 namespace WsCommands {
     public class GetSpeedWsCommand : WsCommandBase {
