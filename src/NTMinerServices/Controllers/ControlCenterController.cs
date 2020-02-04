@@ -13,7 +13,7 @@ namespace NTMiner.Controllers {
     public class ControlCenterController : ApiControllerBase, IControlCenterController {
         private static readonly string _indexHtmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "index.html");
         [HttpGet]
-        public HttpResponseMessage Get() {
+        public HttpResponseMessage Index() {
             string html = "no content";
             if (File.Exists(_indexHtmlPath)) {
                 html = File.ReadAllText(_indexHtmlPath);
