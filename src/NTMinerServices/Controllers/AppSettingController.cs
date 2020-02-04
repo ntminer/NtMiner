@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,7 +1,6 @@
 ﻿<Window x:Class="NTMiner.Views.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:blankWindow="http://NTMiner.com"
 		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,12 +16,9 @@
         WindowStyle="None"
         ResizeMode="CanMinimize"
 		Background="Transparent"
-        BorderThickness="1"
-        BorderBrush="{StaticResource IconFillColor}"
         AllowsTransparency="True"
 		WindowStartupLocation="CenterScreen"
-		MouseDown="Window_MouseDown"
-		TextOptions.TextFormattingMode="Display">
+		MouseDown="Window_MouseDown">
     <Window.DataContext>
         <vm:MainWindowViewModel></vm:MainWindowViewModel>
     </Window.DataContext>
@@ -42,15 +38,15 @@
 		</ResourceDictionary>
 	</Window.Resources>
     <Grid>
-        <Grid>
+        <Grid Margin="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="36"/>
+                <RowDefinition Height="34"/>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle 
                 Grid.RowSpan="2"
-                Height="70"
+                Height="62"
                 VerticalAlignment="Top" 
                 Fill="{StaticResource ThemeBackground}">
             </Rectangle>
@@ -120,22 +116,22 @@
                     </Menu>
                     <controls:KbLinkButton
 					    ToolTip="打开官网"
-					    FontSize="16"
+					    FontSize="15"
                         BorderThickness="0"
+                        VerticalAlignment="Center"
 					    Command="{x:Static app:AppStatic.OpenOfficialSite}"
 					    KbDisplayLine="False"
                         Foreground="{StaticResource ThemeForeground}"
                         Content="{x:Static app:AppStatic.OfficialSiteName}"
-					    KbSystemButtonHoverBackground="Transparent"
 					    Background="Transparent">
                     </controls:KbLinkButton>
                     <controls:KbLinkButton
                         Margin="2 0 0 0"
 					    ToolTip="关于开源矿工"
                         BorderThickness="0"
+                        VerticalAlignment="Center"
 					    Command="{x:Static app:AppStatic.ShowAbout}"
 					    KbDisplayLine="False"
-					    KbSystemButtonHoverBackground="Transparent"
 					    Background="Transparent"
 					    Foreground="{StaticResource ThemeForeground}">
                         <WrapPanel>
@@ -143,13 +139,13 @@
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{x:Static app:AppStatic.AppMinerName}" />
                             <TextBlock
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{Binding BrandTitle}" />
                             <TextBlock
                                 Visibility="{Binding BrandTitle,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
@@ -157,7 +153,7 @@
 							    Margin="0"
 							    HorizontalAlignment="Left"
 							    VerticalAlignment="Center"
-							    FontSize="16"
+							    FontSize="15"
 							    Text="{x:Static app:AppStatic.AppMinerDescription}" />
                         </WrapPanel>
                     </controls:KbLinkButton>
@@ -172,7 +168,6 @@
                     <CheckBox 
                         Margin="0 0 12 0"
 						Background="Transparent"
-                        VerticalAlignment="Center"
                         Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                         IsChecked="{Binding IsTestHost}"
 						Foreground="{StaticResource ThemeForeground}"
@@ -182,7 +177,6 @@
                         Margin="0 0 12 0"
 						FocusVisualStyle="{x:Null}"
 						Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-						VerticalAlignment="Center"
 						Cursor="Hand"
 						Foreground="{StaticResource ThemeForeground}"
 						IsChecked="{Binding IsUseDevConsole}">
@@ -190,14 +184,12 @@
                     </CheckBox>
                     <WrapPanel 
                         Margin="0 0 20 0" 
-                        VerticalAlignment="Center" 
+                        VerticalAlignment="Center"
                         Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
                         <Border
 					        Width="30"
 					        Height="30"
 					        Background="Red"
-					        HorizontalAlignment="Right" 
-					        VerticalAlignment="Top" 
 					        CornerRadius="15"
 					        Visibility="{Binding MinerProfile.IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
                             <TextBlock 
@@ -211,39 +203,16 @@
                         <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Text="{Binding MinerProfile.MineWork.Name}" ToolTip="{Binding MinerProfile.MineWork.Description}"></TextBlock>
                     </WrapPanel>
                     <controls:KbLinkButton
-                        Margin="0 0 20 0"
+                        Margin="0 0 12 0"
                         BorderThickness="0"
                         VerticalAlignment="Center"
                         Visibility="{Binding MinerProfile.MineWork,Converter={StaticResource NotNullOrEmptyVisibilityInvertConverter}}"
 				        Command="{x:Static app:AppStatic.DownloadMinerStudio}"
 				        KbDisplayLine="False"
 				        Foreground="{StaticResource ThemeForeground}"
-				        KbSystemButtonHoverBackground="Transparent"
+                        Content="下载群控"
 				        Background="Transparent">
-                        <WrapPanel>
-                            <Path 
-						        Width="14"
-						        Height="13"
-						        Data="{StaticResource Icon_ControlCenter}"
-						        Fill="{StaticResource ThemeForeground}"
-						        Stretch="Fill" />
-                            <TextBlock Foreground="{StaticResource ThemeForeground}">下载群控</TextBlock>
-                        </WrapPanel>
                     </controls:KbLinkButton>
-                    <controls:KbButton 
-						Margin="0 0 12 0"
-						ToolTip="属性"
-						Background="Transparent" BorderThickness="0"
-						Command="{x:Static app:AppStatic.ShowProperty}">
-                        <WrapPanel>
-                            <Path 
-								Height="18"
-								Width="18"
-								Data="{StaticResource Icon_Property}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-                        </WrapPanel>
-                    </controls:KbButton>
                     <controls:KbButton 
 						Margin="0 0 12 0"
 						ToolTip="算力图"
@@ -251,68 +220,57 @@
 						Command="{x:Static app:AppStatic.ShowSpeedChart}">
                         <WrapPanel>
                             <Path 
-								Height="18"
-								Width="18"
+								Height="14"
+								Width="14"
 								Data="{StaticResource Icon_Speed}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
                         </WrapPanel>
                     </controls:KbButton>
                     <controls:KbButton 
-						Margin="0 0 12 0"
+						Margin="0 0 8 0"
 						ToolTip="收益计算器"
 						Background="Transparent" BorderThickness="0"
 						Command="{x:Static app:AppStatic.ShowCalc}">
                         <WrapPanel>
                             <Path 
-								Height="18"
-								Width="18"
+								Height="14"
+								Width="14"
 								Data="{StaticResource Icon_Calc}"
-								Fill="{StaticResource ThemeForeground}"
-								Stretch="Fill" />
-                        </WrapPanel>
-                    </controls:KbButton>
-                    <controls:KbButton 
-						Margin="0 0 12 0"
-						ToolTip="内核"
-						Background="Transparent" BorderThickness="0"
-						Command="{x:Static app:AppStatic.ShowKernels}">
-                        <WrapPanel>
-                            <Path 
-								Height="18"
-								Width="18"
-								Data="{StaticResource Icon_Kernel}"
 								Fill="{StaticResource ThemeForeground}"
 								Stretch="Fill" />
                         </WrapPanel>
                     </controls:KbButton>
                     <uc:MainMenu VerticalAlignment="Center">
                     </uc:MainMenu>
-                    <controls:KbSystemMinButton Height="32" />
-                    <controls:KbSystemMaxButton Height="32" />
-                    <controls:KbSystemCloseButton Command="{Binding CloseMainWindow}" Height="32" />
+                    <controls:KbSystemMinButton />
+                    <controls:KbSystemMaxButton />
+                    <controls:KbSystemCloseButton Command="{Binding CloseMainWindow}" />
                 </WrapPanel>
             </Grid>
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition x:Name="LeftDrawerGrip" Width="16"></ColumnDefinition>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <StackPanel 
-                    Margin="0 2 0 0"
                     Background="White">
                     <StackPanel.LayoutTransform>
                         <RotateTransform Angle="-90"/>
                     </StackPanel.LayoutTransform>
-                    <Button 
-                        x:Name="BtnMinerProfileGrip" 
+                    <Label 
+                        x:Name="BtnLeftDrawerGrip"
                         HorizontalAlignment="Right"
+                        Height="16"
                         BorderThickness="0"
                         Padding="4 0" 
-                        Background="{StaticResource MinerProfileBackground}"
-                        Click="BtnMinerProfileGrip_Click" 
-                        Content="挖矿设置" 
-                        ToolTip="点击展开或折叠"/>
+                        Background="{StaticResource ThemeBackground}"
+                        Foreground="{StaticResource ThemeForeground}"
+                        MouseDown="BtnLeftDrawerGrip_MouseDown"
+                        MouseEnter="BtnLeftDrawerGrip_MouseEnter"
+                        MouseLeave="BtnLeftDrawerGrip_MouseLeave"
+                        Content="挖矿设置">
+                    </Label>
                 </StackPanel>
                 <Grid Grid.Column="1" Grid.IsSharedSizeScope="True">
                     <Grid x:Name="mainLayer">
@@ -322,6 +280,7 @@
                         </Grid.ColumnDefinitions>
                         <TabControl
                             x:Name="MainArea"
+                            FocusVisualStyle="{x:Null}"
                             Grid.Column="1"
 				            Padding="0"
                             Background="Transparent"
@@ -380,156 +339,12 @@
                                         <RowDefinition Height="Auto"></RowDefinition>
                                         <RowDefinition Height="*"></RowDefinition>
                                     </Grid.RowDefinitions>
-                                    <Grid Background="Black">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"></RowDefinition>
-                                            <RowDefinition Height="Auto"></RowDefinition>
-                                            <RowDefinition Height="Auto"></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <controls:KbMuiltilineTextBox 
-								            Background="Transparent"
-								            FontFamily="Courier New"
-								            Text="{x:Static app:AppStatic.AppMinerIntro}"
-								            BorderThickness="0" IsReadOnly="True" 
-								            Padding="0 0 16 0" Foreground="White">
-                                        </controls:KbMuiltilineTextBox>
-                                        <WrapPanel 
-								            Margin="0 2 4 0"
-								            HorizontalAlignment="Right" 
-								            VerticalAlignment="Top">
-                                            <CheckBox 
-									            FocusVisualStyle="{x:Null}"
-									            Margin="4 0 0 0"
-									            Width="16"
-									            ToolTip="显示命令行"
-									            IsChecked="{Binding MinerProfile.IsShowCommandLine}" />
-                                        </WrapPanel>
-                                        <Grid Grid.Row="1" Visibility="{Binding MinerProfile.IsShowCommandLine, Converter={StaticResource BoolToVisibilityConverter}}">
-                                            <TextBlock Foreground="LightGray" VerticalAlignment="Top">></TextBlock>
-                                            <controls:KbMuiltilineTextBox 
-									            Background="Transparent"
-									            FontFamily="Courier New"
-									            Padding="10 2 4 2"
-									            ToolTip="参数总成。这是高级用户的工具，通常我们无需关心这一块。"
-									            BorderThickness="0"
-									            Foreground="LightGray"						
-									            IsReadOnly="True" 
-									            Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></controls:KbMuiltilineTextBox>
-                                        </Grid>
-                                        <StackPanel Grid.Row="3">
-                                            <WrapPanel Visibility="{Binding MinerProfile.CoinVm.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-                                                <Path
-										            Margin="2 2 2 0"
-										            VerticalAlignment="Top"
-										            Width="14"
-										            Height="14"
-										            Data="{StaticResource Icon_Notice}"
-										            Fill="LightGray"
-										            Stretch="Fill" />
-                                                <TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
-                                                <controls:KbMuiltilineTextBox 
-										            FontFamily="Courier New"
-										            Background="Transparent"
-										            BorderThickness="0"
-										            Padding="0 2 16 2"
-										            Foreground="Yellow"
-										            IsReadOnly="True" 
-										            Text="{Binding MinerProfile.CoinVm.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
-                                            </WrapPanel>
-                                            <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-                                                <Path
-										            Margin="2 2 2 0"
-										            VerticalAlignment="Top"
-										            Width="14"
-										            Height="14"
-										            Data="{StaticResource Icon_Notice}"
-										            Fill="LightGray"
-										            Stretch="Fill" />
-                                                <TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Name}"></TextBlock>
-                                                <controls:KbMuiltilineTextBox 
-										            FontFamily="Courier New"
-										            Background="Transparent"
-										            BorderThickness="0"
-										            Padding="0 2 16 2"
-										            Foreground="Yellow"
-										            IsReadOnly="True" 
-										            Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
-                                            </WrapPanel>
-                                            <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-                                                    <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
-                                                        <Path
-												            Margin="2 2 2 0"
-												            VerticalAlignment="Top"
-												            Width="14"
-												            Height="14"
-												            Data="{StaticResource Icon_Notice}"
-												            Fill="LightGray"
-												            Stretch="Fill" />
-                                                        <TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Name}"></TextBlock>
-                                                        <controls:KbMuiltilineTextBox 
-												            FontFamily="Courier New"
-												            Background="Transparent"
-												            BorderThickness="0"
-												            Padding="0 2 16 2"
-												            Foreground="Yellow"
-												            IsReadOnly="True" 
-												            Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
-                                                    </WrapPanel>
-                                                </WrapPanel>
-                                            </WrapPanel>
-                                            <WrapPanel Margin="0 0 18 0">
-                                                <Path
-										            Margin="2 2 2 0"
-										            VerticalAlignment="Top"
-										            Width="14"
-										            Height="14"
-										            Data="{StaticResource Icon_Notice}"
-										            Fill="LightGray"
-										            Stretch="Fill" />
-                                                <TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName, Mode=OneWay}"></TextBlock>
-                                                <WrapPanel>
-                                                    <controls:KbMuiltilineTextBox 
-											            Background="Transparent"
-											            FontFamily="Courier New"
-											            ToolTip="币种内核公告"
-											            Text="{Binding MinerProfile.CoinVm.CoinKernel.Notice, Mode=OneWay}"
-											            Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-											            BorderThickness="0" IsReadOnly="True" 
-											            Padding="0 2 0 2" Foreground="Yellow">
-                                                    </controls:KbMuiltilineTextBox>
-                                                    <controls:KbMuiltilineTextBox 
-											            Background="Transparent"
-											            FontFamily="Courier New"
-											            ToolTip="内核公告"
-											            Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice, Mode=OneWay}"
-											            Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-											            BorderThickness="0" IsReadOnly="True" 
-											            Padding="0 2 16 2" Foreground="Yellow">
-                                                    </controls:KbMuiltilineTextBox>
-                                                </WrapPanel>
-                                            </WrapPanel>
-                                        </StackPanel>
-                                    </Grid>
-                                    <controls:KbButton 
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-							            ToolTip="打开日志文件夹"
-							            Background="White" 
-							            BorderThickness="0"
-                                        Margin="0 0 4 0"
-                                        Command="{x:Static app:AppStatic.OpenDir}" 
-                                        CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
-                                        <Path
-								            Width="15"
-								            Height="15"
-								            Data="{StaticResource Icon_LogDir}"
-								            Fill="Black"
-								            Stretch="Fill" />
-                                    </controls:KbButton>
+                                    <uc:AppMiner DataContext="{Binding}"></uc:AppMiner>
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Left" Width="4" Fill="Black"></Rectangle>
                                     <Rectangle Grid.Row="1" x:Name="ConsoleRectangle"></Rectangle>
                                     <Rectangle Grid.Row="1" HorizontalAlignment="Right" Width="4" Fill="Black"></Rectangle>
+                                    <uc:LogFiles Grid.Row="1" Margin="0 0 24 0" Background="Black" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                    </uc:LogFiles>
                                 </Grid>
                             </TabItem>
                             <TabItem x:Name="TabItemSpeedTable">
@@ -590,8 +405,7 @@
                             </TabItem>
                         </TabControl>
                         <Border 
-                            x:Name="minerProfileLayer"
-                            Margin="0 2 0 0"
+                            x:Name="leftDrawer"
                             HorizontalAlignment="Left"
 				            Background="{StaticResource MinerProfileBackground}"
 				            Padding="0 4 8 0"
@@ -606,16 +420,16 @@
                                 <WrapPanel>
                                     <WrapPanel VerticalAlignment="Center" IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
                                         <TextBlock 
-								            FontSize="12"
+								            FontSize="11"
 								            Foreground="{StaticResource LableColor}"
-								            Padding="0 0 4 0"
-								            Width="50"
+								            Padding="0 0 2 0"
+								            Width="40"
 								            VerticalAlignment="Center"
 								            TextAlignment="Right"
 								            TextWrapping="Wrap"
 								            Text="矿机名"></TextBlock>
                                         <TextBox 
-								            Width="86" 
+								            Width="96" 
 								            Padding="3 0 0 0"
 								            Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 								            Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
@@ -681,7 +495,7 @@
                                         Margin="0 0 4 0" 
                                         ToolTip="自动隐藏"
                                         Background="Transparent" 
-                                        Click="BtnMinerProfilePin_Click">
+                                        Click="BtnLeftDrawerPin_Click">
                                         <Path
 							                Width="10"
 							                Height="16"
@@ -699,7 +513,7 @@
                                         Height="20" 
                                         ToolTip="关闭"
                                         Background="Transparent" 
-                                        Click="BtnMinerProfileClose_Click">
+                                        Click="BtnLeftDrawerClose_Click">
                                         <Path
 							                Width="10"
 							                Height="10"
@@ -714,7 +528,7 @@
                     </Grid>
                 </Grid>
             </Grid>
-            <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Background="{StaticResource ThemeBackground}" Margin="0 -3 4 0" VerticalAlignment="Top">
+            <WrapPanel Grid.Row="1" HorizontalAlignment="Right" Background="{StaticResource ThemeBackground}" Margin="0 -4 4 0" VerticalAlignment="Top">
                 <StackPanel Margin="2 0 0 0">
                     <CheckBox 
                         Padding="0"
@@ -729,7 +543,6 @@
                     </CheckBox>
                     <CheckBox
                         Padding="0"
-                        Margin="0 -2 0 0"
 				        FocusVisualStyle="{x:Null}"
 				        VerticalContentAlignment="Center"
                         Foreground="{StaticResource ThemeForeground}"
@@ -772,94 +585,14 @@
 			    DataContext="{Binding StateBarVm}"
 			    Background="{StaticResource MinerProfileBackground}" 
 			    BorderBrush="{StaticResource LineColor}" 
+                Margin="0 -1 0 0"
 			    BorderThickness="0 1 0 0">
             </uc:StateBar>
-            <Border x:Name="MaskLayer" Grid.RowSpan="3" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>
         </Grid>
-        <Grid Name="ResizeCursors">
-            <Rectangle 
-                Name="bottom" 
-                Height="4" 
-                Margin="4,0" 
-                Fill="#00FFFFFF" 
-                Stroke="{x:Null}" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" 
-                VerticalAlignment="Bottom" />
-            <Rectangle 
-                Name="left" 
-                Width="4" 
-                Margin="0,4,0,0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Stretch" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="right" 
-                Width="4" 
-                Margin="0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Stretch" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="topLeft" 
-                Height="8" 
-                Width="8" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Top" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="bottomLeft" 
-                Height="8" 
-                Width="8" 
-                Margin="0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Bottom" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="bottomRight" 
-                Height="8" 
-                Width="8" 
-                Margin="0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Bottom" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-            <Rectangle 
-                Name="top" 
-                Margin="4,0" 
-                Height="4" 
-                Fill="#00FFFFFF" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" 
-                VerticalAlignment="Top" 
-                AllowDrop="True"/>
-            <Rectangle 
-                Name="topRight" 
-                Height="8" 
-                Width="8" 
-                Margin="0" 
-                Fill="#00FFFFFF" 
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Top" 
-                MouseEnter="DisplayResizeCursor" 
-                MouseLeave="ResetCursor" 
-                PreviewMouseDown="Resize" />
-        </Grid>
+        <!--设计时置为Collapsed以避免遮罩下层视图导致鼠标无法选中下层的视图对象-->
+        <Border Name="ResizeCursors" BorderThickness="1" Visibility="Collapsed" BorderBrush="{StaticResource IconFillColor}" CornerRadius="2">
+            <uc:ResizeCursor></uc:ResizeCursor>
+        </Border>
+        <Border x:Name="MaskLayer" Background="Black" Opacity="0.4" Visibility="Collapsed"></Border>
     </Grid>
 </Window>

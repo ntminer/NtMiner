@@ -18,9 +18,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 CoinKernelViewModel vm = new CoinKernelViewModel(source);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(CoinKernelEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new CoinKernelEdit(vm);
             }, fixedSize: true);
         }
@@ -37,25 +35,15 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < dg.ColumnHeaderHeight) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                Vm.EditEnvironmentVariable.Execute((EnvironmentVariable)dg.SelectedItem);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<EnvironmentVariable>(sender, e, rowVm => {
+                Vm.EditEnvironmentVariable.Execute(rowVm);
+            });
         }
 
         private void DataGridSegments_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < 30) {
-                return;
-            }
-            if (dg.SelectedItem != null) {
-                Vm.EditSegment.Execute((InputSegmentViewModel)dg.SelectedItem);
-            }
+            WpfUtil.DataGrid_MouseDoubleClick<InputSegmentViewModel>(sender, e, rowVm => {
+                Vm.EditSegment.Execute(rowVm);
+            });
         }
 
         private void ButtonAddFileWriter_Click(object sender, RoutedEventArgs e) {

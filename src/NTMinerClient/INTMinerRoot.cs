@@ -5,6 +5,7 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profiles;
 using NTMiner.KernelOutputKeyword;
+using NTMiner.Report;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
@@ -22,8 +23,6 @@ namespace NTMiner {
         IAppSettingSet ServerAppSettingSet { get; }
 
         void Init(Action callback);
-
-        void Exit();
 
         void StartMine(bool isRestart = false);
 
@@ -44,7 +43,7 @@ namespace NTMiner {
         /// </summary>
         bool IsMining { get; }
 
-        IReporter Reporter { get; }
+        IReportDataProvider ReporterDataProvider { get; }
 
         IServerContext ServerContext { get; }
 

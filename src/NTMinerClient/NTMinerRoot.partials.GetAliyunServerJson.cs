@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Services;
+using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public partial class NTMinerRoot {
         private static void GetAliyunServerJson(Action<byte[]> callback) {
-            string serverJsonFileUrl = $"{OfficialServer.MinerJsonBucket}{MainAssemblyInfo.ServerJsonFileName}";
+            string serverJsonFileUrl = $"{OfficialServices.MinerJsonBucket}{EntryAssemblyInfo.ServerJsonFileName}";
             string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
                 try {
@@ -17,8 +18,7 @@ namespace NTMiner {
                     // 因为有压缩和解压缩，server.json的尺寸已经不是问题
                     webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
                     var response = webRequest.GetResponse();
-                    using (MemoryStream ms = new MemoryStream())
-                    using (Stream stream = response.GetResponseStream()) {
+                    using (Stream ms = new MemoryStream(), stream = response.GetResponseStream()) {
                         byte[] buffer = new byte[1024];
                         int n = stream.Read(buffer, 0, buffer.Length);
                         while (n > 0) {
@@ -41,9 +41,9 @@ namespace NTMiner {
         }
 
         private static byte[] ZipDecompress(byte[] zippedData) {
-            MemoryStream ms = new MemoryStream(zippedData);
-            GZipStream compressedzipStream = new GZipStream(ms, CompressionMode.Decompress);
-            using (MemoryStream outBuffer = new MemoryStream()) {
+            using (Stream ms = new MemoryStream(zippedData), 
+                          compressedzipStream = new GZipStream(ms, CompressionMode.Decompress), 
+                          outBuffer = new MemoryStream()) {
                 byte[] block = new byte[1024];
                 while (true) {
                     int bytesRead = compressedzipStream.Read(block, 0, block.Length);
@@ -55,7 +55,7 @@ namespace NTMiner {
                     }
                 }
                 compressedzipStream.Close();
-                return outBuffer.ToArray();
+                return ((MemoryStream)outBuffer).ToArray();
             }
         }
     }

@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Linq;
 using System.Web.Http;
@@ -45,6 +45,9 @@ namespace NTMiner.Controllers {
             try {
                 if (!request.IsValid(User, Sign, Timestamp, ClientIp, out ResponseBase response)) {
                     return response;
+                }
+                if (request.Data.GetDataLevel() != DataLevel.Global) {
+                    return ResponseBase.InvalidInput("添加到服务器的内核输出关键字记录的DataLevel属性必须赋值为Global");
                 }
                 VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(request.Data));
                 HostRoot.Instance.UpdateKernelOutputKeywordTimestamp(DateTime.Now);

@@ -1,6 +1,6 @@
 ﻿using LiveCharts;
 using NTMiner.Core;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
@@ -33,7 +33,8 @@ namespace NTMiner.Views {
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();
-            NotiCenterWindow.Bind(this);
+            this.TbUcName.Text = nameof(ChartsWindow);
+            NotiCenterWindow.Instance.Bind(this);
             #region 总算力
             this.AddEventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
                 action: message => {
@@ -64,7 +65,7 @@ namespace NTMiner.Views {
         #region 刷新总算力图表
         private void RefreshTotalSpeedChart(int limit) {
             //NTMinerRoot.Current.DebugLine($"获取总算力数据，范围{leftTime} - {rightTime}");
-            Server.ControlCenterService.GetLatestSnapshotsAsync(
+            RpcRoot.Server.ControlCenterService.GetLatestSnapshotsAsync(
                 limit,
                 (response, exception) => {
                     if (response == null) {
@@ -72,10 +73,10 @@ namespace NTMiner.Views {
                     }
 
                     if (!response.IsSuccess()) {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         return;
                     }
-                    UIThread.Execute(() => {
+                    UIThread.Execute(() => () => {
                         bool isOnlyOne = limit == 1;
                         Vm.TotalMiningCount = response.TotalMiningCount;
                         Vm.TotalOnlineCount = response.TotalOnlineCount;
@@ -201,12 +202,6 @@ namespace NTMiner.Views {
         }
         #endregion
         
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }

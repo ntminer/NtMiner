@@ -1,9 +1,10 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerServer;
-using NTMiner.Profile;
+using NTMiner.Core.MinerServer;
+using NTMiner.Core.Profile;
 using System;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -11,64 +12,13 @@ namespace NTMiner.Vms {
         public static readonly MinerProfileViewModel Instance = new MinerProfileViewModel();
 
         private readonly string _linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "开源矿工.lnk");
-        private readonly string _linkFileDescription = "开源矿工 - 做最好的矿工 https://ntminer.com";
 
-        public ICommand AutoStartDelaySecondsUp { get; private set; }
-        public ICommand AutoStartDelaySecondsDown { get; private set; }
-
-        public ICommand AutoRestartKernelTimesUp { get; private set; }
-        public ICommand AutoRestartKernelTimesDown { get; private set; }
-
-        public ICommand NoShareRestartKernelMinutesUp { get; private set; }
-        public ICommand NoShareRestartKernelMinutesDown { get; private set; }
-        public ICommand NoShareRestartComputerMinutesUp { get; private set; }
-        public ICommand NoShareRestartComputerMinutesDown { get; private set; }
-
-        public ICommand PeriodicRestartKernelHoursUp { get; private set; }
-        public ICommand PeriodicRestartKernelHoursDown { get; private set; }
-
-        public ICommand PeriodicRestartKernelMinutesUp { get; private set; }
-        public ICommand PeriodicRestartKernelMinutesDown { get; private set; }
-
-        public ICommand PeriodicRestartComputerHoursUp { get; private set; }
-        public ICommand PeriodicRestartComputerHoursDown { get; private set; }
-
-        public ICommand PeriodicRestartComputerMinutesUp { get; private set; }
-        public ICommand PeriodicRestartComputerMinutesDown { get; private set; }
-
-        public ICommand CpuGETemperatureSecondsUp { get; private set; }
-        public ICommand CpuGETemperatureSecondsDown { get; private set; }
-
-        public ICommand CpuStopTemperatureUp { get; private set; }
-        public ICommand CpuStopTemperatureDown { get; private set; }
-
-        public ICommand CpuLETemperatureSecondsUp { get; private set; }
-        public ICommand CpuLETemperatureSecondsDown { get; private set; }
-
-        public ICommand CpuStartTemperatureUp { get; private set; }
-        public ICommand CpuStartTemperatureDown { get; private set; }
-
-        public ICommand EPriceUp { get; private set; }
-        public ICommand EPriceDown { get; private set; }
-
-        public ICommand PowerAppendUp { get; private set; }
-        public ICommand PowerAppendDown { get; private set; }
-
-        public ICommand MaxTempUp { get; private set; }
-        public ICommand MaxTempDown { get; private set; }
-
-        public ICommand AutoNoUiMinutesUp { get; private set; }
-        public ICommand AutoNoUiMinutesDown { get; private set; }
-
-        public ICommand HighCpuBaselineUp { get; private set; }
-        public ICommand HighCpuBaselineDown { get; private set; }
-
-        public ICommand HighCpuSecondsUp { get; private set; }
-        public ICommand HighCpuSecondsDown { get; private set; }
+        public ICommand Up { get; private set; }
+        public ICommand Down { get; private set; }
 
         public MinerProfileViewModel() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -79,145 +29,43 @@ namespace NTMiner.Vms {
             if (this.IsCreateShortcut) {
                 CreateShortcut();
             }
-            this.AutoStartDelaySecondsUp = new DelegateCommand(() => {
-                this.AutoStartDelaySeconds++;
-            });
-            this.AutoStartDelaySecondsDown = new DelegateCommand(() => {
-                if (this.AutoStartDelaySeconds > 0) {
-                    this.AutoStartDelaySeconds--;
+            this.Up = new DelegateCommand<string>(propertyName => {
+                PropertyInfo propertyInfo = this.GetType().GetProperty(propertyName);
+                if (propertyInfo != null) {
+                    if (propertyInfo.PropertyType == typeof(int)) {
+                        propertyInfo.SetValue(this, (int)propertyInfo.GetValue(this, null) + 1, null);
+                    }
+                    else if (propertyInfo.PropertyType == typeof(double)) {
+                        propertyInfo.SetValue(this, Math.Round((double)propertyInfo.GetValue(this, null) + 0.1, 2), null);
+                    }
+                }
+                else {
+                    Write.DevError($"类型{this.GetType().FullName}不具有名称为{propertyName}的属性");
                 }
             });
-            this.AutoRestartKernelTimesUp = new DelegateCommand(() => {
-                this.AutoRestartKernelTimes++;
-            });
-            this.AutoRestartKernelTimesDown = new DelegateCommand(() => {
-                if (this.AutoRestartKernelTimes > 0) {
-                    this.AutoRestartKernelTimes--;
+            this.Down = new DelegateCommand<string>(propertyName => {
+                PropertyInfo propertyInfo = this.GetType().GetProperty(propertyName);
+                if (propertyInfo != null) {
+                    if (propertyInfo.PropertyType == typeof(int)) {
+                        int value = (int)propertyInfo.GetValue(this, null);
+                        if (value > 0) {
+                            propertyInfo.SetValue(this, value - 1, null);
+                        }
+                    }
+                    else if (propertyInfo.PropertyType == typeof(double)) {
+                        double value = (double)propertyInfo.GetValue(this, null);
+                        if (value > 0.1) {
+                            propertyInfo.SetValue(this, Math.Round(value - 0.1, 2), null);
+                        }
+                    }
                 }
-            });
-            this.NoShareRestartKernelMinutesUp = new DelegateCommand(() => {
-                this.NoShareRestartKernelMinutes++;
-            });
-            this.NoShareRestartKernelMinutesDown = new DelegateCommand(() => {
-                if (this.NoShareRestartKernelMinutes > 0) {
-                    this.NoShareRestartKernelMinutes--;
-                }
-            });
-            this.NoShareRestartComputerMinutesUp = new DelegateCommand(() => {
-                this.NoShareRestartComputerMinutes++;
-            });
-            this.NoShareRestartComputerMinutesDown = new DelegateCommand(() => {
-                if (this.NoShareRestartComputerMinutes > 0) {
-                    this.NoShareRestartComputerMinutes--;
-                }
-            });
-            this.PeriodicRestartKernelHoursUp = new DelegateCommand(() => {
-                this.PeriodicRestartKernelHours++;
-            });
-            this.PeriodicRestartKernelHoursDown = new DelegateCommand(() => {
-                if (this.PeriodicRestartKernelHours > 0) {
-                    this.PeriodicRestartKernelHours--;
-                }
-            });
-            this.PeriodicRestartKernelMinutesUp = new DelegateCommand(() => {
-                this.PeriodicRestartKernelMinutes++;
-            });
-            this.PeriodicRestartKernelMinutesDown = new DelegateCommand(() => {
-                if (this.PeriodicRestartKernelMinutes > 0) {
-                    this.PeriodicRestartKernelMinutes--;
-                }
-            });
-            this.PeriodicRestartComputerHoursUp = new DelegateCommand(() => {
-                this.PeriodicRestartComputerHours++;
-            });
-            this.PeriodicRestartComputerHoursDown = new DelegateCommand(() => {
-                if (this.PeriodicRestartComputerHours > 0) {
-                    this.PeriodicRestartComputerHours--;
-                }
-            });
-            this.PeriodicRestartComputerMinutesUp = new DelegateCommand(() => {
-                this.PeriodicRestartComputerMinutes++;
-            });
-            this.PeriodicRestartComputerMinutesDown = new DelegateCommand(() => {
-                if (this.PeriodicRestartComputerMinutes > 0) {
-                    this.PeriodicRestartComputerMinutes--;
-                }
-            });
-            this.CpuGETemperatureSecondsUp = new DelegateCommand(() => {
-                this.CpuGETemperatureSeconds++;
-            });
-            this.CpuGETemperatureSecondsDown = new DelegateCommand(() => {
-                this.CpuGETemperatureSeconds--;
-            });
-            this.CpuStopTemperatureUp = new DelegateCommand(() => {
-                this.CpuStopTemperature++;
-            });
-            this.CpuStopTemperatureDown = new DelegateCommand(() => {
-                this.CpuStopTemperature--;
-            });
-            this.CpuLETemperatureSecondsUp = new DelegateCommand(() => {
-                this.CpuLETemperatureSeconds++;
-            });
-            this.CpuLETemperatureSecondsDown = new DelegateCommand(() => {
-                this.CpuLETemperatureSeconds--;
-            });
-            this.CpuStartTemperatureUp = new DelegateCommand(() => {
-                this.CpuStartTemperature++;
-            });
-            this.CpuStartTemperatureDown = new DelegateCommand(() => {
-                this.CpuStartTemperature--;
-            });
-            this.EPriceUp = new DelegateCommand(() => {
-                this.EPrice = Math.Round(this.EPrice + 0.1, 2);
-            });
-            this.EPriceDown = new DelegateCommand(() => {
-                if (this.EPrice > 0.1) {
-                    this.EPrice = Math.Round(this.EPrice - 0.1, 2);
-                }
-            });
-            this.PowerAppendUp = new DelegateCommand(() => {
-                this.PowerAppend++;
-            });
-            this.PowerAppendDown = new DelegateCommand(() => {
-                if (this.PowerAppend > 0) {
-                    this.PowerAppend--;
-                }
-            });
-            this.MaxTempUp = new DelegateCommand(() => {
-                this.MaxTemp++;
-            });
-            this.MaxTempDown = new DelegateCommand(() => {
-                if (this.MaxTemp > 0) {
-                    this.MaxTemp--;
-                }
-            });
-            this.AutoNoUiMinutesUp = new DelegateCommand(() => {
-                this.AutoNoUiMinutes++;
-            });
-            this.AutoNoUiMinutesDown = new DelegateCommand(() => {
-                if (this.AutoNoUiMinutes > 0) {
-                    this.AutoNoUiMinutes--;
-                }
-            });
-            this.HighCpuBaselineUp = new DelegateCommand(() => {
-                this.HighCpuBaseline++;
-            });
-            this.HighCpuBaselineDown = new DelegateCommand(() => {
-                if (this.HighCpuBaseline > 0) {
-                    this.HighCpuBaseline--;
-                }
-            });
-            this.HighCpuSecondsUp = new DelegateCommand(() => {
-                this.HighCpuSeconds++;
-            });
-            this.HighCpuSecondsDown = new DelegateCommand(() => {
-                if (this.HighCpuSeconds > 0) {
-                    this.HighCpuSeconds--;
+                else {
+                    Write.DevError($"类型{this.GetType().FullName}不具有名称为{propertyName}的属性");
                 }
             });
             NTMinerRoot.SetRefreshArgsAssembly(() => {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                     var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
@@ -242,7 +90,7 @@ namespace NTMiner.Vms {
                     this.ArgsAssembly = string.Empty;
                 }
 #if DEBUG
-                var milliseconds = Write.Stopwatch.Stop();
+                var milliseconds = NTStopwatch.Stop();
                 if (milliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{milliseconds} {this.GetType().Name}.SetRefreshArgsAssembly");
                 }
@@ -276,7 +124,7 @@ namespace NTMiner.Vms {
                     }
                 }, location: this.GetType());
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
@@ -299,11 +147,11 @@ namespace NTMiner.Vms {
                 if (CoinVm.CoinKernel.IsSupportPool1) {
                     var mainCoinPool1 = CoinVm.CoinProfile.MainCoinPool1;
                     if (mainCoinPool1 == null) {
-                        return mainCoinPool != null && mainCoinPool.IsUserMode;
+                        return mainCoinPool.IsUserMode;
                     }
-                    return mainCoinPool != null && mainCoinPool.IsUserMode && mainCoinPool1 != null && mainCoinPool1.IsUserMode;
+                    return mainCoinPool.IsUserMode && mainCoinPool1.IsUserMode;
                 }
-                return mainCoinPool != null && mainCoinPool.IsUserMode;
+                return mainCoinPool.IsUserMode;
             }
         }
 
@@ -610,6 +458,49 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsNetUnavailableStopMine {
+            get => NTMinerRoot.Instance.MinerProfile.IsNetUnavailableStopMine;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsNetUnavailableStopMine != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetUnavailableStopMine), value);
+                    OnPropertyChanged(nameof(IsNetUnavailableStopMine));
+                    if (value) {
+                        IsNetAvailableStartMine = true;
+                    }
+                }
+            }
+        }
+
+        public int NetUnavailableStopMineMinutes {
+            get => NTMinerRoot.Instance.MinerProfile.NetUnavailableStopMineMinutes;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.NetUnavailableStopMineMinutes != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NetUnavailableStopMineMinutes), value);
+                    OnPropertyChanged(nameof(NetUnavailableStopMineMinutes));
+                }
+            }
+        }
+
+        public bool IsNetAvailableStartMine {
+            get => NTMinerRoot.Instance.MinerProfile.IsNetAvailableStartMine;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.IsNetAvailableStartMine != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetAvailableStartMine), value);
+                    OnPropertyChanged(nameof(IsNetAvailableStartMine));
+                }
+            }
+        }
+
+        public int NetAvailableStartMineSeconds {
+            get => NTMinerRoot.Instance.MinerProfile.NetAvailableStartMineSeconds;
+            set {
+                if (NTMinerRoot.Instance.MinerProfile.NetAvailableStartMineSeconds != value) {
+                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NetAvailableStartMineSeconds), value);
+                    OnPropertyChanged(nameof(NetAvailableStartMineSeconds));
+                }
+            }
+        }
+
         public bool IsEChargeEnabled {
             get => NTMinerRoot.Instance.MinerProfile.IsEChargeEnabled;
             set {
@@ -670,7 +561,7 @@ namespace NTMiner.Vms {
                 isDo = !VirtualRoot.AppFileFullName.Equals(targetPath, StringComparison.OrdinalIgnoreCase);
             }
             if (isDo) {
-                WindowsShortcut.CreateShortcut(_linkFileFullName, VirtualRoot.AppFileFullName, _linkFileDescription);
+                WindowsShortcut.CreateShortcut(_linkFileFullName, VirtualRoot.AppFileFullName);
             }
         }
 

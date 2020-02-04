@@ -14,7 +14,6 @@
 		mc:Ignorable="d"
 		d:DataContext="{d:DesignData Source=Design/NTMinerFileViewModel.xaml}"
 		WindowStartupLocation="CenterOwner"
-		MouseDown="MetroWindow_MouseDown"
 		Title="编辑版本" SizeToContent="Height" Width="400">
 	<blankWindow:BlankWindow.Resources>
 		<ResourceDictionary>
@@ -38,32 +37,32 @@
 			<WrapPanel 
 				DockPanel.Dock="Right"
 				HorizontalAlignment="Right">
-				<controls:KbSystemCloseButton Height="30" />
+				<controls:KbSystemCloseButton />
 			</WrapPanel>
 		</DockPanel>
 		<StackPanel Grid.Row="1" Background="White" VerticalAlignment="Center">
 			<WrapPanel Margin="0 2">
 				<TextBlock Width="{StaticResource LblWidth}" VerticalAlignment="Center" TextAlignment="Right">版本号：</TextBlock>
-				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding Version, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}" Text="{Binding Version, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
 				<TextBlock Width="{StaticResource LblWidth}" VerticalAlignment="Center" TextAlignment="Right">文件名：</TextBlock>
-				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding FileName, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+                <TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}" Text="{Binding FileName, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
 				<TextBlock Width="{StaticResource LblWidth}" VerticalAlignment="Center" TextAlignment="Right">别名：</TextBlock>
-				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+                <TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}" Text="{Binding VersionTag, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
 				<TextBlock Width="{StaticResource LblWidth}" VerticalAlignment="Center" TextAlignment="Right">标题：</TextBlock>
-				<TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}" Text="{Binding Title, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
+                <TextBox Width="{StaticResource InputWidth}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}" Text="{Binding Title, ValidatesOnExceptions=True}" Background="White" VerticalContentAlignment="Center"></TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">
 				<TextBlock Width="{StaticResource LblWidth}" TextAlignment="Right">更新内容：</TextBlock>
 				<controls:KbMuiltilineTextBox 
 					Width="{StaticResource InputWidth}" 
 					Height="100"
-					IsReadOnly="{x:Static app:AppStatic.IsNotDebugMode}"
+					IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 					Text="{Binding Description, ValidatesOnExceptions=True}" Background="White"></controls:KbMuiltilineTextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">

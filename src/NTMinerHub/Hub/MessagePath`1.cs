@@ -1,57 +1,67 @@
 ﻿using System;
+using System.Threading;
+#if DEBUG
 using System.ComponentModel;
+#endif
 
 namespace NTMiner.Hub {
-    public class MessagePath<TMessage> : IMessagePathId
 #if DEBUG
-        , INotifyPropertyChanged
+    public class MessagePath<TMessage> : IMessagePathId, INotifyPropertyChanged {
+#else
+    public class MessagePath<TMessage> : IMessagePathId {
 #endif
-        {
-        internal readonly object Locker = new object();
-
         private readonly Action<TMessage> _path;
         private bool _isEnabled;
-        private int _viaLimit;
+        private int _viaTimesLimit;
 
 #if DEBUG
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> AddMessagePath(IMessageHub dispatcher, Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit = -1) {
-            if (path == null) {
-                throw new ArgumentNullException(nameof(path));
+        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, int viaTimesLimit = -1) {
+            if (action == null) {
+                throw new ArgumentNullException(nameof(action));
             }
-            MessagePath<TMessage> handler = new MessagePath<TMessage>(location, description, logType, path, pathId, viaLimit);
-            dispatcher.AddMessagePath(handler);
-            return handler;
+            MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, viaTimesLimit);
+            hub.AddMessagePath(path);
+            return path;
         }
 
-        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> path, Guid pathId, int viaLimit) {
-            if (viaLimit == 0) {
-                throw new InvalidProgramException("消息路径的viaLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
+        private MessagePath(Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, int viaTimesLimit) {
+            if (viaTimesLimit == 0) {
+                throw new InvalidProgramException("消息路径的viaTimesLimit不能为0，可以为负数表示不限制通过次数或为正数表示限定通过次数，但不能为0");
             }
-            this.IsEnabled = true;
+            _isEnabled = true;
             MessageType = typeof(TMessage);
             Location = location;
             Path = $"{location.FullName}[{MessageType.FullName}]";
             Description = description;
             LogType = logType;
-            _path = path;
+            _path = action;
             PathId = pathId;
-            ViaLimit = viaLimit;
+            _viaTimesLimit = viaTimesLimit;
+            CreatedOn = DateTime.Now;
         }
 
-        public int ViaLimit {
-            get => _viaLimit;
-            internal set {
-                _viaLimit = value;
-#if DEBUG
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaLimit)));
-#endif
+        public int ViaTimesLimit {
+            get => _viaTimesLimit;
+            private set {
+                _viaTimesLimit = value;
             }
         }
 
-        public Guid PathId { get; private set; }
+        internal void DecreaseViaTimesLimit(Action<IMessagePathId> onDownToZero) {
+            int newValue = Interlocked.Decrement(ref _viaTimesLimit);
+            if (newValue == 0) {
+                onDownToZero?.Invoke(this);
+            }
+#if DEBUG
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ViaTimesLimit)));
+#endif
+        }
+
+        public PathId PathId { get; private set; }
+        public DateTime CreatedOn { get; private set; }
         public Type MessageType { get; private set; }
         public Type Location { get; private set; }
         public string Path { get; private set; }

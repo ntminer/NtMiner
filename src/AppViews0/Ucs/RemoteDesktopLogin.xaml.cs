@@ -13,9 +13,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) => {
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(RemoteDesktopLogin));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new RemoteDesktopLogin(vm);
             }, fixedSize: true);
         }

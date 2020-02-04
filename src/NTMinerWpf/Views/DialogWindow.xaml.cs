@@ -1,8 +1,6 @@
 ﻿using NTMiner.Vms;
-using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class DialogWindow : BlankWindow {
@@ -10,6 +8,12 @@ namespace NTMiner.Views {
             Window window = new DialogWindow(vm);
             window.MousePosition();
             window.ShowSoftDialog();
+        }
+
+        public static void ShowHardDialog(DialogWindowViewModel vm) {
+            Window window = new DialogWindow(vm);
+            window.MousePosition();
+            window.ShowHardDialog();
         }
 
         public DialogWindowViewModel Vm {
@@ -22,8 +26,12 @@ namespace NTMiner.Views {
             this.DataContext = vm;
             this.Title = vm.Title;
             InitializeComponent();
-            if (!string.IsNullOrEmpty(vm.Icon) && Application.Current.Resources.Contains(vm.Icon)) {
-                this.Resources["Icon"] = Application.Current.Resources[vm.Icon];
+            this.TbUcName.Text = nameof(DialogWindow);
+            if (!string.IsNullOrEmpty(vm.Icon)) {
+                object obj = AppUtil.GetResource(vm.Icon);
+                if (obj != null) {
+                    this.Resources["Icon"] = obj;
+                }
             }
 
             var owner = WpfUtil.GetTopWindow();
@@ -41,15 +49,17 @@ namespace NTMiner.Views {
             if (Vm.OnNo != null) {
                 if (Vm.IsConfirmNo && !Vm.NoText.StartsWith("请再点一次")) {
                     string noText = Vm.NoText;
-                    TimeSpan.FromSeconds(4).Delay(perSecondCallback: n => {
-                        UIThread.Execute(() => {
+                    int n = 4;
+                    Vm.NoText = $"请再点一次({n.ToString()})";
+                    this.AddViaTimesLimitPath<Per1SecondEvent>("倒计时'请再点一次'", LogEnum.None, message => {
+                        UIThread.Execute(() => () => {
+                            n--;
                             Vm.NoText = $"请再点一次({n.ToString()})";
+                            if (n == 0) {
+                                Vm.NoText = noText;
+                            }
                         });
-                    }).ContinueWith(t => {
-                        UIThread.Execute(() => {
-                            Vm.NoText = noText;
-                        });
-                    });
+                    }, viaTimesLimit: n, this.GetType());
                 }
                 else if (Vm.OnNo.Invoke()) {
                     this.Close();
@@ -57,16 +67,6 @@ namespace NTMiner.Views {
             }
             else {
                 this.Close();
-            }
-        }
-
-        private void KbOkButton_Click(object sender, RoutedEventArgs e) {
-            this.Close();
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ButtonState == MouseButtonState.Pressed) {
-                this.DragMove();
             }
         }
 

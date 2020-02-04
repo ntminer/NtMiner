@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core.Profiles.Impl;
-using NTMiner.MinerServer;
-using NTMiner.Profile;
+using NTMiner.Core.MinerServer;
+using NTMiner.Core.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -264,6 +264,42 @@ namespace NTMiner.Core.Profiles {
             }
             private set {
                 _data.RestartComputerSpeedDownPercent = value;
+            }
+        }
+
+        public bool IsNetUnavailableStopMine {
+            get {
+                return _data.IsNetUnavailableStopMine;
+            }
+            private set {
+                _data.IsNetUnavailableStopMine = value;
+            }
+        }
+
+        public int NetUnavailableStopMineMinutes {
+            get {
+                return _data.NetUnavailableStopMineMinutes;
+            }
+            private set {
+                _data.NetUnavailableStopMineMinutes = value;
+            }
+        }
+
+        public bool IsNetAvailableStartMine {
+            get {
+                return _data.IsNetAvailableStartMine;
+            }
+            private set {
+                _data.IsNetAvailableStartMine = value;
+            }
+        }
+
+        public int NetAvailableStartMineSeconds {
+            get {
+                return _data.NetAvailableStartMineSeconds;
+            }
+            private set {
+                _data.NetAvailableStartMineSeconds = value;
             }
         }
 

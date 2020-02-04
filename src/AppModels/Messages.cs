@@ -39,8 +39,11 @@ namespace NTMiner {
 
     [MessageType(description: "关闭主界面")]
     public class CloseMainWindowCommand : Cmd {
-        public CloseMainWindowCommand() {
+        public CloseMainWindowCommand(bool isAutoNoUi) {
+            this.IsAutoNoUi = isAutoNoUi;
         }
+
+        public bool IsAutoNoUi { get; private set; }
     }
 
     [MessageType(description: "打开内核列表窗口")]
@@ -91,12 +94,6 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "打开windows重启倒计时界面")]
-    public class ShowRestartWindowsCommand : Cmd {
-        public ShowRestartWindowsCommand() {
-        }
-    }
-
     [MessageType(description: "打开虚拟内存管理界面")]
     public class ShowVirtualMemoryCommand : Cmd {
         public ShowVirtualMemoryCommand() {
@@ -109,9 +106,9 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "打开组界面")]
-    public class ShowGroupPageCommand : Cmd {
-        public ShowGroupPageCommand() {
+    [MessageType(description: "打开币组界面")]
+    public class ShowCoinGroupsCommand : Cmd {
+        public ShowCoinGroupsCommand() {
         }
     }
 
@@ -146,6 +143,12 @@ namespace NTMiner {
     [MessageType(description: "打开升级器设置页面")]
     public class ShowNTMinerUpdaterConfigCommand : Cmd {
         public ShowNTMinerUpdaterConfigCommand() {
+        }
+    }
+
+    [MessageType(description: "打开矿机雷达程序设置页面")]
+    public class ShowMinerClientFinderConfigCommand : Cmd {
+        public ShowMinerClientFinderConfigCommand() {
         }
     }
 
@@ -389,11 +392,6 @@ namespace NTMiner {
         }
 
         public CoinViewModel CoinVm { get; private set; }
-    }
-
-    [MessageType(description: "打开本机IP管理页")]
-    public class ShowLocalIpsCommand : Cmd {
-        public ShowLocalIpsCommand() { }
     }
 
     [MessageType(description: "打开ETH反抽水配置页")]

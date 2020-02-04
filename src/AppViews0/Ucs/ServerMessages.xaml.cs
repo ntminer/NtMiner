@@ -11,7 +11,7 @@ namespace NTMiner.Views.Ucs {
 
         public ServerMessages() {
             InitializeComponent();
-            this.RunOneceOnLoaded(window => {
+            this.OnLoaded(window => {
                 if (VirtualRoot.IsMinerStudio) {
                     window.AddEventPath<Per1MinuteEvent>("周期刷新群控客户端的服务器消息集", LogEnum.DevConsole,
                     action: message => {
@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
             if (!DevMode.IsDevMode) {
                 return;
             }
-            WpfUtil.DataGrid_MouseDoubleClick<ServerMessageViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<ServerMessageViewModel>(sender, e);
         }
     }
 }

@@ -27,7 +27,7 @@
             <TextBox 
                 IsReadOnly="{Binding IsTestWallet}"
                 ToolTip="别名用于帮助人类识别"
-                Width="420"
+                Width="380"
                 VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
             </TextBox>
         </WrapPanel>
@@ -47,8 +47,9 @@
             </WrapPanel>
         </WrapPanel>
         <StackPanel Margin="70 0 0 0" Visibility="{Binding IsAddressEditable, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock VerticalAlignment="Center" Foreground="Red">0. 别名随便填，别名是帮助自己区分钱包地址的个性名称；</TextBlock>
             <TextBlock VerticalAlignment="Center" Foreground="Red">1. 钱包地址保存后不可修改；</TextBlock>
-            <TextBlock VerticalAlignment="Center" Foreground="Red">2. 矿工通常使用交易所的充币地址挖矿。</TextBlock>
+            <TextBlock VerticalAlignment="Center" Foreground="Red">2. 矿工通常使用交易所为用户生成的充币地址挖矿。</TextBlock>
         </StackPanel>
         <controls:KbButton
             Command="{Binding Save}" 

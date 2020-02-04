@@ -10,7 +10,6 @@
 			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 			 mc:Ignorable="d"
 			 Background="White"
-			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="720" d:DesignWidth="1360">
 	<UserControl.DataContext>
 		<vm:KernelOutputPageViewModel></vm:KernelOutputPageViewModel>
@@ -160,49 +159,6 @@
 							BorderThickness="1 0 0 0"
 							MouseDoubleClick="KernelOutputTranslaterDataGrid_MouseDoubleClick">
 							<DataGrid.Resources>
-								<Style TargetType="DataGridRow">
-									<Setter Property="Foreground" Value="White" />
-									<Style.Triggers>
-										<Trigger Property="AlternationIndex" Value="0">
-											<Setter Property="Background" Value="Black" />
-										</Trigger>
-										<Trigger Property="AlternationIndex" Value="1">
-											<Setter Property="Background" Value="Black" />
-										</Trigger>
-
-										<Trigger Property="IsMouseOver" Value="True">
-											<Setter Property="Background" Value="DarkGray" />
-										</Trigger>
-
-										<Trigger Property="IsSelected" Value="True">
-											<Setter Property="Background" Value="DarkGray" />
-										</Trigger>
-									</Style.Triggers>
-								</Style>
-
-								<Style TargetType="DataGridCell">
-									<Setter Property="VerticalAlignment" Value="Stretch" />
-									<Setter Property="Foreground" Value="White" />
-									<Setter Property="FontSize" Value="12" />
-									<Setter Property="Template">
-										<Setter.Value>
-											<ControlTemplate TargetType="DataGridCell">
-												<Grid>
-													<TextBlock />
-													<ContentPresenter
-														Margin="5,0,0,0"
-														HorizontalAlignment="Left"
-														VerticalAlignment="Center" />
-												</Grid>
-											</ControlTemplate>
-										</Setter.Value>
-									</Setter>
-									<Style.Triggers>
-										<Trigger Property="IsSelected" Value="True">
-											<Setter Property="Background" Value="DarkGray" />
-										</Trigger>
-									</Style.Triggers>
-								</Style>
 								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 							</DataGrid.Resources>
                             <DataGrid.Columns>
@@ -285,16 +241,6 @@
 									<DataGridTemplateColumn.CellTemplate>
 										<DataTemplate>
 											<TextBlock Text="{Binding Replacement}"></TextBlock>
-										</DataTemplate>
-									</DataGridTemplateColumn.CellTemplate>
-								</DataGridTemplateColumn>
-								<DataGridTemplateColumn IsReadOnly="True">
-									<DataGridTemplateColumn.Header>
-										<TextBlock Text="前景色"></TextBlock>
-									</DataGridTemplateColumn.Header>
-									<DataGridTemplateColumn.CellTemplate>
-										<DataTemplate>
-											<TextBlock Text="{Binding ColorDescription}"></TextBlock>
 										</DataTemplate>
 									</DataGridTemplateColumn.CellTemplate>
 								</DataGridTemplateColumn>

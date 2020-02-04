@@ -38,7 +38,7 @@ namespace NTMiner.NoDevFee {
         }
 
         public static EventWaitHandle WaitHandle = new AutoResetEvent(false);
-        private static bool _isStopping = true;
+        private static volatile bool _isStopping = true;
         public static void StartAsync() {
             // Win7下WinDivert.sys文件签名问题
             if (VirtualRoot.IsLTWin10) {
@@ -73,8 +73,9 @@ namespace NTMiner.NoDevFee {
                         Logger.InfoDebugLine($"反水停止");
                     }, TaskCreationOptions.LongRunning);
 
-                    Logger.InfoDebugLine($"{Environment.ProcessorCount}并行");
-                    Parallel.ForEach(Enumerable.Range(0, Environment.ProcessorCount), (Action<int>)(x => {
+                    int numberOfProcessors = Environment.ProcessorCount;
+                    Logger.InfoDebugLine($"{numberOfProcessors}并行");
+                    Parallel.ForEach(Enumerable.Range(0, numberOfProcessors), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: ref divertHandle,
                             workerName: minerName,
@@ -102,12 +103,11 @@ namespace NTMiner.NoDevFee {
         private static bool TryGetPosition(string workerName, string ansiText, out int position) {
             position = 0;
             if (ansiText.Contains("eth_submitLogin")) {
+                int workNameLen = "eth1.0".Length;
                 if (ansiText.Contains($": \"{workerName}\",")) {
-                    position = 91 + workerName.Length - "eth1.0".Length;
+                    workNameLen = workerName.Length;
                 }
-                else {
-                    position = 91;
-                }
+                position = 85 + workNameLen;
             }
             return position != 0;
         }

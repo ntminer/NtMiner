@@ -15,9 +15,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 PoolViewModel vm = new PoolViewModel(source);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(PoolEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new PoolEdit(vm);
             }, fixedSize: true);
         }
@@ -34,7 +32,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KernelDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<PoolKernelViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<PoolKernelViewModel>(sender, e);
         }
 
         private void KbButtonBrand_Clicked(object sender, RoutedEventArgs e) {

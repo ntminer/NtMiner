@@ -30,6 +30,7 @@ namespace NTMiner.Gpus {
         private static readonly string _nvmlDllFileFullName2 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "nvml.dll");
         private static bool _isNvmlInited = false;
         private static readonly object _nvmlInitLocker = new object();
+        private static int _nvmlInitFailCount = 0;
         private static bool NvmlInit() {
             if (_isNvmlInited) {
                 return _isNvmlInited;
@@ -40,7 +41,7 @@ namespace NTMiner.Gpus {
                 }
                 try {
 #if DEBUG
-                    Write.Stopwatch.Start();
+                    NTStopwatch.Start();
 #endif
                     if (!Directory.Exists(_nvsmiDir)) {
                         Directory.CreateDirectory(_nvsmiDir);
@@ -52,8 +53,15 @@ namespace NTMiner.Gpus {
                     var nvmlReturn = NvmlNativeMethods.nvmlInit();
                     NvmlNativeMethods.SetDllDirectory(null);
                     _isNvmlInited = nvmlReturn == nvmlReturn.Success;
+                    // 没什么用，做个防御
+                    if (!_isNvmlInited) {
+                        _nvmlInitFailCount++;
+                        if (_nvmlInitFailCount >= 10) {
+                            _isNvmlInited = true;
+                        }
+                    }
 #if DEBUG
-                    var elapsedMilliseconds = Write.Stopwatch.Stop();
+                    var elapsedMilliseconds = NTStopwatch.Stop();
                     if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                         Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
                     }

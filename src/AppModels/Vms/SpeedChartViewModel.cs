@@ -1,8 +1,8 @@
 ﻿using LiveCharts;
 using LiveCharts.Configurations;
 using LiveCharts.Wpf;
+using NTMiner.Core;
 using System;
-using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class SpeedChartViewModel : ViewModelBase {

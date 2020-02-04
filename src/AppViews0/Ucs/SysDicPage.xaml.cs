@@ -9,7 +9,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_SysDic",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = 960,
+                Width = 1000,
                 Height = 520
             }, ucFactory: (window) => new SysDicPage(), fixedSize: false);
         }
@@ -25,11 +25,11 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<SysDicViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<SysDicViewModel>(sender, e);
         }
 
         private void SysDicItemDataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<SysDicItemViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<SysDicItemViewModel>(sender, e);
         }
     }
 }

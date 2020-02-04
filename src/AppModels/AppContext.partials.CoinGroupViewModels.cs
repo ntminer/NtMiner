@@ -2,7 +2,6 @@
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace NTMiner {
     public partial class AppContext {
@@ -13,7 +12,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();
             private CoinGroupViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -46,7 +45,7 @@ namespace NTMiner {
                     }, location: this.GetType());
                 Init();
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }
@@ -81,14 +80,6 @@ namespace NTMiner {
                     return new List<CoinGroupViewModel>();
                 }
                 return _listByGroupId[groupId];
-            }
-
-            public CoinGroupViewModel GetNextOne(Guid groupId, int sortNumber) {
-                return GetCoinGroupsByGroupId(groupId).OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
-            }
-
-            public CoinGroupViewModel GetUpOne(Guid groupId, int sortNumber) {
-                return GetCoinGroupsByGroupId(groupId).OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber);
             }
         }
     }

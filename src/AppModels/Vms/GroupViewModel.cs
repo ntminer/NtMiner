@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class GroupViewModel : ViewModelBase, IGroup, IEditableViewModel {
+    public class GroupViewModel : ViewModelBase, IGroup, IEditableViewModel, ISortable {
         public static readonly GroupViewModel PleaseSelect = new GroupViewModel(Guid.Empty) {
             _name = "不支持双挖",
             _sortNumber = 0
@@ -22,9 +22,10 @@ namespace NTMiner.Vms {
         public ICommand AddCoinGroup { get; private set; }
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public GroupViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
@@ -62,7 +63,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                GroupViewModel upOne = AppContext.Instance.GroupVms.GetUpOne(this.SortNumber);
+                GroupViewModel upOne = AppContext.Instance.GroupVms.List.GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -73,7 +74,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                GroupViewModel nextOne = AppContext.Instance.GroupVms.GetNextOne(this.SortNumber);
+                GroupViewModel nextOne = AppContext.Instance.GroupVms.List.GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;

@@ -26,7 +26,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 _dicById.Add(entity.Id, entity);
                 AddWallet(entity);
 
-                VirtualRoot.RaiseEvent(new WalletAddedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new WalletAddedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateWalletCommand>(action: message => {
                 InitOnece();
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 entity.Update(message.Input);
                 UpdateWallet(entity);
 
-                VirtualRoot.RaiseEvent(new WalletUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new WalletUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveWalletCommand>(action: (message) => {
                 InitOnece();
@@ -63,13 +63,17 @@ namespace NTMiner.Core.Profiles.Impl {
                 _dicById.Remove(entity.GetId());
                 RemoveWallet(entity.Id);
 
-                VirtualRoot.RaiseEvent(new WalletRemovedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new WalletRemovedEvent(message.MessageId, entity));
             }, location: this.GetType());
         }
 
         private void AddWallet(WalletData entity) {
             if (VirtualRoot.IsMinerStudio) {
-                Server.WalletService.AddOrUpdateWalletAsync(entity, null);
+                RpcRoot.Server.WalletService.AddOrUpdateWalletAsync(entity, (response, e) => {
+                    if (!response.IsSuccess()) {
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                    }
+                });
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
@@ -79,7 +83,11 @@ namespace NTMiner.Core.Profiles.Impl {
 
         private void UpdateWallet(WalletData entity) {
             if (VirtualRoot.IsMinerStudio) {
-                Server.WalletService.AddOrUpdateWalletAsync(entity, null);
+                RpcRoot.Server.WalletService.AddOrUpdateWalletAsync(entity, (response, e) => {
+                    if (!response.IsSuccess()) {
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                    }
+                });
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
@@ -89,7 +97,11 @@ namespace NTMiner.Core.Profiles.Impl {
 
         private void RemoveWallet(Guid id) {
             if (VirtualRoot.IsMinerStudio) {
-                Server.WalletService.RemoveWalletAsync(id, null);
+                RpcRoot.Server.WalletService.RemoveWalletAsync(id, (response, e) => {
+                    if (!response.IsSuccess()) {
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                    }
+                });
             }
             else {
                 var repository = NTMinerRoot.CreateLocalRepository<WalletData>();
@@ -117,7 +129,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (VirtualRoot.IsMinerStudio) {
                     lock (_locker) {
                         if (!_isInited) {
-                            var response = Server.WalletService.GetWallets();
+                            var response = RpcRoot.Server.WalletService.GetWallets();
                             if (response != null) {
                                 foreach (var item in response.Data) {
                                     if (!_dicById.ContainsKey(item.Id)) {

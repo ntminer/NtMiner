@@ -9,17 +9,9 @@ namespace NTMiner {
 
         public static ExtendedNotifyIcon NotifyIcon;
 
-        private static readonly List<IMessagePathId> _contextHandlers = new List<IMessagePathId>();
+        private static readonly List<IMessagePathId> _contextPathIds = new List<IMessagePathId>();
 
         private AppContext() {
-        }
-
-        // 预热内存，减小主界面上鼠标转圈的可能
-        public void VmsCtor() {
-            List<object> temp = new List<object> {
-                GpuVms,MinerProfileVm,PoolVms,CoinKernelVms,CoinVms,KernelVms,WalletVms
-            };
-            temp.Clear();
         }
 
         #region static methods
@@ -27,25 +19,25 @@ namespace NTMiner {
         public static void AddCmdPath<TCmd>(string description, LogEnum logType, Action<TCmd> action, Type location)
             where TCmd : ICmd {
             var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
-            _contextHandlers.Add(messagePathId);
+            _contextPathIds.Add(messagePathId);
         }
 
         // 因为是上下文路径，无需返回路径标识
         public static void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
             var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
-            _contextHandlers.Add(messagePathId);
+            _contextPathIds.Add(messagePathId);
         }
 
         public static void Enable() {
-            foreach (var handler in _contextHandlers) {
-                handler.IsEnabled = true;
+            foreach (var pathId in _contextPathIds) {
+                pathId.IsEnabled = true;
             }
         }
 
         public static void Disable() {
-            foreach (var handler in _contextHandlers) {
-                handler.IsEnabled = false;
+            foreach (var pathId in _contextPathIds) {
+                pathId.IsEnabled = false;
             }
         }
         #endregion

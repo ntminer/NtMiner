@@ -25,7 +25,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<NTMinerWalletViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<NTMinerWalletViewModel>(sender, e);
         }
     }
 }

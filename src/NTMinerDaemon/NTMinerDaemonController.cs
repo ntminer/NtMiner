@@ -1,5 +1,5 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Daemon;
+using NTMiner.Core.Daemon;
 using NTMiner.RemoteDesktop;
 using System;
 using System.Diagnostics;
@@ -31,7 +31,7 @@ namespace NTMiner {
         public void CloseDaemon() {
             Logger.InfoDebugLine("退出守护进程");
             // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应
-            TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
+            100.MillisecondsDelay().ContinueWith(t => {
                 HostRoot.Exit();
             });
         }
@@ -58,7 +58,7 @@ namespace NTMiner {
                 string json = Request.Content.ReadAsStringAsync().Result;
                 SpecialPath.SaveGpuProfilesJsonFile(json);
                 if (IsNTMinerOpened()) {
-                    using (HttpClient client = new HttpClient()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/OverClock", null);
                         Write.DevDebug($"{nameof(SaveGpuProfilesJson)} {getHttpResponse.Result.ReasonPhrase}");
                     }
@@ -75,7 +75,7 @@ namespace NTMiner {
             Logger.InfoDebugLine($"开机启动{(autoBoot ? "√" : "×")}，自动挖矿{(autoStart ? "√" : "×")}");
             MinerProfileUtil.SetAutoStart(autoBoot, autoStart);
             if (IsNTMinerOpened()) {
-                using (HttpClient client = new HttpClient()) {
+                using (HttpClient client = RpcRoot.CreateHttpClient()) {
                     Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/RefreshAutoBootStart", null);
                     Write.DevDebug($"{nameof(SetAutoBootStart)} {getHttpResponse.Result.ReasonPhrase}");
                 }
@@ -140,7 +140,7 @@ namespace NTMiner {
                 }
                 string location = NTMinerRegistry.GetLocation();
                 if (IsNTMinerOpened()) {
-                    using (HttpClient client = new HttpClient()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         WorkRequest innerRequest = new WorkRequest {
                             WorkId = request.WorkId
                         };
@@ -179,7 +179,7 @@ namespace NTMiner {
                     return ResponseBase.Ok();
                 }
                 try {
-                    using (HttpClient client = new HttpClient()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/StopMine", request);
                         response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                         return response;
@@ -232,7 +232,7 @@ namespace NTMiner {
             Logger.InfoDebugLine("退出挖矿端");
             bool isClosed = false;
             try {
-                using (HttpClient client = new HttpClient()) {
+                using (HttpClient client = RpcRoot.CreateHttpClient()) {
                     Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/CloseNTMiner", new SignRequest { });
                     ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
                     isClosed = response.IsSuccess();

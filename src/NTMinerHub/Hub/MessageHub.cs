@@ -1,23 +1,117 @@
 ﻿namespace NTMiner.Hub {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class MessageHub : IMessageHub {
-        private readonly Dictionary<Type, List<object>> _pathDicByMessageType = new Dictionary<Type, List<object>>();
-        private readonly Dictionary<string, List<IMessagePathId>> _paths = new Dictionary<string, List<IMessagePathId>>();
-        private readonly object _locker = new object();
+        #region 内部类
+        private interface IMessagePathSet {
+            Type MessageType { get; }
+            IEnumerable<IMessagePathId> GetMessagePaths();
+            void RemoveMessagePath(IMessagePathId messagePathId);
+        }
 
-        public event Action<IMessagePathId> MessagePathAdded;
-        public event Action<IMessagePathId> MessagePathRemoved;
+        private class MessagePathSet<TMessage> : IMessagePathSet {
+            private readonly List<MessagePath<TMessage>> _messagePaths = new List<MessagePath<TMessage>>();
+            private readonly object _locker = new object();
+            public MessagePathSet() {
+            }
 
-        #region IMessageDispatcher Members
-        public IEnumerable<IMessagePathId> GetAllPaths() {
-            lock (_locker) {
-                foreach (var item in _paths) {
-                    foreach (var path in item.Value) {
+            private readonly Type _messageType = typeof(TMessage);
+            public Type MessageType {
+                get {
+                    return _messageType;
+                }
+            }
+
+            public MessagePath<TMessage>[] GetMessagePaths() {
+                return _messagePaths.ToArray();
+            }
+
+            IEnumerable<IMessagePathId> IMessagePathSet.GetMessagePaths() {
+                return _messagePaths.ToArray();
+            }
+
+            public void AddMessagePath(MessagePath<TMessage> messagePath) {
+                lock (_locker) {
+                    if (typeof(ICmd).IsAssignableFrom(typeof(TMessage))) {
+                        bool isExist = _messagePaths.Any(a => messagePath.PathId == a.PathId);
+                        if (isExist) {
+                            // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
+                            // 之所以设计为统一走总线只是为了通过将命令类型集中表达以起文档作用。
+                            throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
+                        }
+                    }
+                    else if (_messagePaths.Any(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId)) {
+                        Write.DevWarn($"重复的路径:{messagePath.Path} {messagePath.Description}");
+                    }
+                    _messagePaths.Add(messagePath);
+                }
+            }
+
+            public void RemoveMessagePath(IMessagePathId messagePathId) {
+                lock (_locker) {
+                    var item = _messagePaths.FirstOrDefault(a => ReferenceEquals(a, messagePathId));
+                    if (item != null) {
+                        _messagePaths.Remove(item);
+                        Write.DevDebug("拆除路径" + messagePathId.Path + messagePathId.Description);
+                    }
+                }
+            }
+        }
+
+        private class MessagePathSetSet {
+            private readonly Dictionary<Type, IMessagePathSet> _dicByMessageType = new Dictionary<Type, IMessagePathSet>();
+
+            public MessagePathSetSet() { }
+
+            private readonly object _locker = new object();
+            public MessagePathSet<TMessage> GetMessagePathSet<TMessage>() {
+                Type messageType = typeof(TMessage);
+                if (_dicByMessageType.TryGetValue(messageType, out IMessagePathSet setSet)) {
+                    return (MessagePathSet<TMessage>)setSet;
+                }
+                else {
+                    lock (_locker) {
+                        if (!_dicByMessageType.TryGetValue(messageType, out setSet)) {
+                            MessagePathSet<TMessage> pathSet = new MessagePathSet<TMessage>();
+                            _dicByMessageType.Add(messageType, pathSet);
+                            return pathSet;
+                        }
+                        else {
+                            return (MessagePathSet<TMessage>)setSet;
+                        }
+                    }
+                }
+            }
+
+            public IEnumerable<IMessagePathId> GetAllMessagePathIds() {
+                foreach (var set in _dicByMessageType.Values.ToArray()) {
+                    foreach (var path in set.GetMessagePaths()) {
                         yield return path;
                     }
                 }
+            }
+
+            public void RemoveMessagePath(IMessagePathId messagePathId) {
+                if (_dicByMessageType.TryGetValue(messagePathId.MessageType, out IMessagePathSet set)) {
+                    set.RemoveMessagePath(messagePathId);
+                }
+            }
+        }
+        #endregion
+
+        private readonly MessagePathSetSet PathSetSet = new MessagePathSetSet();
+        public event Action<IMessagePathId> MessagePathAdded;
+        public event Action<IMessagePathId> MessagePathRemoved;
+
+        public MessageHub() {
+        }
+
+        #region IMessageDispatcher Members
+        public IEnumerable<IMessagePathId> GetAllPaths() {
+            foreach (var path in PathSetSet.GetAllMessagePathIds()) {
+                yield return path;
             }
         }
 
@@ -25,61 +119,55 @@
             if (message == null) {
                 throw new ArgumentNullException(nameof(message));
             }
-            var messageType = typeof(TMessage);
-            if (_pathDicByMessageType.TryGetValue(messageType, out List<object> list)) {
-                var messagePaths = list.ToArray();
+            MessagePath<TMessage>[] messagePaths = PathSetSet.GetMessagePathSet<TMessage>().GetMessagePaths();
+            if (messagePaths.Length == 0) {
+                Type messageType = typeof(TMessage);
+                MessageTypeAttribute messageTypeAttr = MessageTypeAttribute.GetMessageTypeAttribute(messageType);
+                if (!messageTypeAttr.IsCanNoHandler) {
+                    Write.DevWarn(messageType.FullName + "类型的消息没有对应的处理器");
+                }
+            }
+            else {
                 foreach (var messagePath in messagePaths) {
-                    var tMessagePath = (MessagePath<TMessage>)messagePath;
-                    // isMatch表示该处路径是否可以通过该消息，因为有些路径的PathId属性不为Guid.Empty，非空PathId的路径只允许特定标识造型的消息通过
-                    // PathId可以认为是路径的形状，唯一的PathId表明该路径具有唯一的形状从而只允许和路径的形状一样的消息结构体穿过
-                    bool isMatch = tMessagePath.PathId == Guid.Empty;
-                    if (!isMatch) {
-                        if (message is IEvent evt) {
-                            isMatch = tMessagePath.PathId == evt.BornPathId;
+                    bool canGo = false;
+                    if (message is IEvent evt) {
+                        canGo = 
+                            evt.TargetPathId == PathId.Empty // 事件不是特定路径的事件则放行
+                            || messagePath.PathId == PathId.Empty // 路径不是特定事件的路径则放行
+                            || evt.TargetPathId == messagePath.PathId; // 路径是特定事件的路径且路径和事件造型放行
+                    }
+                    else if (message is ICmd cmd) {
+                        // 路径不是特定命令的路径则放行
+                        if (messagePath.PathId == PathId.Empty) {
+                            canGo = true;
                         }
-                        else if (message is ICmd cmd) {
-                            isMatch = tMessagePath.PathId == cmd.Id;
+                        else {
+                            canGo = messagePath.PathId == cmd.MessageId;
                         }
                     }
-                    if (isMatch) {
-                        // ViaLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaLimit计数
-                        if (tMessagePath.ViaLimit > 0) {
-                            lock (tMessagePath.Locker) {
-                                if (tMessagePath.ViaLimit > 0) {
-                                    tMessagePath.ViaLimit--;
-                                    if (tMessagePath.ViaLimit == 0) {
-                                        // ViaLimit递减到0从路径列表中移除该路径
-                                        RemoveMessagePath(tMessagePath);
-                                    }
-                                }
-                            }
-                        }
+                    if (canGo && messagePath.ViaTimesLimit > 0) {
+                        // ViaTimesLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaTimesLimit计数
+                        messagePath.DecreaseViaTimesLimit(onDownToZero: RemoveMessagePath);
                     }
-                    if (!tMessagePath.IsEnabled) {
+                    if (!messagePath.IsEnabled) {
                         continue;
                     }
-                    if (isMatch) {
-                        switch (tMessagePath.LogType) {
+                    if (canGo) {
+                        switch (messagePath.LogType) {
                             case LogEnum.DevConsole:
                                 if (DevMode.IsDevMode) {
-                                    Write.DevDebug($"({messageType.Name})->({tMessagePath.Location.Name}){tMessagePath.Description}");
+                                    Write.DevDebug($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
                                 }
                                 break;
                             case LogEnum.Log:
-                                Logger.InfoDebugLine($"({messageType.Name})->({tMessagePath.Location.Name}){tMessagePath.Description}");
+                                Logger.InfoDebugLine($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
                                 break;
                             case LogEnum.None:
                             default:
                                 break;
                         }
-                        tMessagePath.Go(message);
+                        messagePath.Go(message);
                     }
-                }
-            }
-            else {
-                MessageTypeAttribute messageTypeAttr = MessageTypeAttribute.GetMessageTypeAttribute(messageType);
-                if (!messageTypeAttr.IsCanNoHandler) {
-                    Write.DevWarn(messageType.FullName + "类型的消息没有对应的处理器");
                 }
             }
         }
@@ -88,56 +176,16 @@
             if (path == null) {
                 throw new ArgumentNullException(nameof(path));
             }
-            lock (_locker) {
-                var messageType = typeof(TMessage);
-
-                var pathId = path;
-                if (!_paths.ContainsKey(pathId.Path)) {
-                    _paths.Add(pathId.Path, new List<IMessagePathId> { pathId });
-                }
-                else {
-                    List<IMessagePathId> handlerIds = _paths[pathId.Path];
-                    if (handlerIds.Count == 1) {
-                        Write.DevWarn($"重复的路径:{handlerIds[0].Path} {handlerIds[0].Description}");
-                    }
-                    handlerIds.Add(pathId);
-                    Write.DevWarn($"重复的路径:{pathId.Path} {pathId.Description}");
-                }
-                if (_pathDicByMessageType.ContainsKey(messageType)) {
-                    var registeredHandlers = _pathDicByMessageType[messageType];
-                    if (registeredHandlers.Count > 0 && path.PathId == Guid.Empty && typeof(ICmd).IsAssignableFrom(messageType)) {
-                        // 因为一种命令只应被一个处理器处理，命令实际上可以设计为不走总线，
-                        // 之所以设计为统一走总线只是为了通过将命令类型集中表达以起文档作用。
-                        throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
-                    }
-                    if (!registeredHandlers.Contains(path)) {
-                        registeredHandlers.Add(path);
-                    }
-                }
-                else {
-                    var registeredHandlers = new List<dynamic> { path };
-                    _pathDicByMessageType.Add(messageType, registeredHandlers);
-                }
-                MessagePathAdded?.Invoke(pathId);
-            }
+            PathSetSet.GetMessagePathSet<TMessage>().AddMessagePath(path);
+            MessagePathAdded?.Invoke(path);
         }
 
-        public void RemoveMessagePath(IMessagePathId handlerId) {
-            if (handlerId == null) {
+        public void RemoveMessagePath(IMessagePathId pathId) {
+            if (pathId == null) {
                 return;
             }
-            lock (_locker) {
-                _paths.Remove(handlerId.Path);
-                var messageType = handlerId.MessageType;
-                if (_pathDicByMessageType.ContainsKey(messageType) &&
-                    _pathDicByMessageType[messageType] != null &&
-                    _pathDicByMessageType[messageType].Count > 0 &&
-                    _pathDicByMessageType[messageType].Contains(handlerId)) {
-                    _pathDicByMessageType[messageType].Remove(handlerId);
-                    Write.DevDebug("拆除路径" + handlerId.Path);
-                    MessagePathRemoved?.Invoke(handlerId);
-                }
-            }
+            PathSetSet.RemoveMessagePath(pathId);
+            MessagePathRemoved?.Invoke(pathId);
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.Daemon;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -23,7 +24,7 @@ namespace NTMiner.Daemon {
                     string thisVersion = ThisNTMinerDaemonFileVersion;
                     if (thatVersion != thisVersion) {
                         Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
-                        Client.NTMinerDaemonService.CloseDaemon();
+                        RpcRoot.Client.NTMinerDaemonService.CloseDaemon();
                         System.Threading.Thread.Sleep(1000);
                         Windows.TaskKill.Kill(processName, waitForExit: true);
                         ExtractRunNTMinerDaemonAsync();
@@ -62,7 +63,7 @@ namespace NTMiner.Daemon {
             SetWalletRequest request = new SetWalletRequest {
                 TestWallet = testWallet
             };
-            Client.NTMinerDaemonService.SetWalletAsync(request, callback: null);
+            RpcRoot.Client.NTMinerDaemonService.SetWalletAsync(request, callback: null);
         }
 
         private static void ExtractRunNTMinerDaemonAsync() {

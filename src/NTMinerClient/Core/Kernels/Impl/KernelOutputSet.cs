@@ -24,7 +24,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -46,7 +46,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputRemovedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             #endregion
         }
@@ -117,7 +117,6 @@ namespace NTMiner.Core.Kernels.Impl {
             return _dicById.Values;
         }
 
-        private DateTime _kernelRestartKeywordOn = DateTime.MinValue;
         private string _preline;
         public void Pick(ref string line, IMineContext mineContext) {
             try {
@@ -129,13 +128,6 @@ namespace NTMiner.Core.Kernels.Impl {
                 if ("Claymore".Equals(mineContext.Kernel.Code, StringComparison.OrdinalIgnoreCase)) {
                     if (mineContext.MainCoin.Code != "ETH" && line.Contains("ETH")) {
                         line = line.Replace("ETH", mineContext.MainCoin.Code);
-                    }
-                }
-                if (!string.IsNullOrEmpty(mineContext.KernelOutput.KernelRestartKeyword) && line.Contains(mineContext.KernelOutput.KernelRestartKeyword)) {
-                    if (_kernelRestartKeywordOn.AddSeconds(10) < DateTime.Now) {
-                        mineContext.KernelSelfRestartCount += 1;
-                        _kernelRestartKeywordOn = DateTime.Now;
-                        VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
                     }
                 }
                 ICoin coin = mineContext.MainCoin;
@@ -298,7 +290,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         gpuSpeeds.SetCurrentSpeed(gpu, gpuSpeedL, isDual, now);
                     }
                 }
-                string totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
+                string totalSpeedPattern = kernelOutput.TotalSpeedPattern;
                 if (isDual) {
                     totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
                 }

@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
+using NTMiner.Core.MinerServer;
 using System;
 
 namespace NTMiner.Vms {

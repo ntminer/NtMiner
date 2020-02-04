@@ -2,13 +2,13 @@
 
 namespace NTMiner.Controls {
     public class KbSystemMinButton : KbSystemButton {
-        Window targetWindow;
+        Window window;
         public KbSystemMinButton() {
             Click += delegate {
-                if (targetWindow == null) {
-                    targetWindow = Window.GetWindow(this);
+                if (window == null) {
+                    window = Window.GetWindow(this);
                 }
-                targetWindow.WindowState = WindowState.Minimized;
+                Microsoft.Windows.Shell.SystemCommands.MinimizeWindow(window);
             };
         }
     }

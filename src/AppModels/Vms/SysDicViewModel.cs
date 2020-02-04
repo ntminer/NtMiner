@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class SysDicViewModel : ViewModelBase, ISysDic, IEditableViewModel {
+    public class SysDicViewModel : ViewModelBase, ISysDic, IEditableViewModel, ISortable {
         private Guid _id;
         private string _code;
         private string _name;
@@ -58,7 +58,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                SysDicViewModel upOne = AppContext.Instance.SysDicVms.GetUpOne(this.SortNumber);
+                SysDicViewModel upOne = AppContext.Instance.SysDicVms.List.GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                SysDicViewModel nextOne = AppContext.Instance.SysDicVms.GetNextOne(this.SortNumber);
+                SysDicViewModel nextOne = AppContext.Instance.SysDicVms.List.GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;

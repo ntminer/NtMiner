@@ -50,14 +50,28 @@
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenHardwareMonitorLib">
+      <HintPath>..\ThirdPartyDlls\OpenHardwareMonitorLib.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppTypeTests.cs" />
     <Compile Include="CpuTests.cs" />
+    <Compile Include="DependencyObjectTests.cs" />
     <Compile Include="DotNet45Tests.cs" />
     <Compile Include="EnvironmentTests.cs" />
     <Compile Include="LiteDBTests.cs" />
@@ -66,12 +80,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IPTests.cs" />
     <Compile Include="MarshalTests.cs" />
-    <Compile Include="JsonTests.cs" />
     <Compile Include="RegexTests.cs" />
     <Compile Include="TimingTests.cs" />
     <Compile Include="RemoteDesktopTests.cs" />
     <Compile Include="LocalMessageTests.cs" />
     <Compile Include="NetTests.cs" />
+    <Compile Include="JsonSerializerTests.cs" />
+    <Compile Include="HttpClientTests.cs" />
+    <Compile Include="DictionaryTests.cs" />
+    <Compile Include="ResourceDictionaryTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -83,13 +100,13 @@
       <Project>{3426f677-5026-4bb1-a0b2-dd5d9bd70d07}</Project>
       <Name>AppModels</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HardwareProviders.CPU\HardwareProviders.CPU.csproj">
-      <Project>{7de56519-4fc8-4a72-a143-098acc4de53c}</Project>
-      <Name>HardwareProviders.CPU</Name>
+    <ProjectReference Include="..\MinerClient\MinerClient.csproj">
+      <Project>{128b59a2-fa1a-479c-9136-7eb866b96fb4}</Project>
+      <Name>MinerClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\HardwareProviders\HardwareProviders.csproj">
-      <Project>{6cf39d75-a7d7-4546-b29a-888294dc3e38}</Project>
-      <Name>HardwareProviders</Name>
+    <ProjectReference Include="..\MinerStudio\MinerStudio.csproj">
+      <Project>{6ed1f43a-b43f-4be4-80dd-49297cf3dc4f}</Project>
+      <Name>MinerStudio</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">
       <Project>{5911457a-357a-412d-a20c-e77c1a56b4f6}</Project>
@@ -99,9 +116,13 @@
       <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
       <Name>NTMinerClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+    <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
-      <Name>NTMinerDataObjects</Name>
+      <Name>NTMinerDataSchemas</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerGpus\NTMinerGpus.csproj">
+      <Project>{035c9774-01fc-4df2-8225-769542a9fd5e}</Project>
+      <Name>NTMinerGpus</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>

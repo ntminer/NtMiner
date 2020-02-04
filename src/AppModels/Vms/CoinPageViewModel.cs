@@ -11,7 +11,6 @@ namespace NTMiner.Vms {
         private bool _isKernelTabSelected;
 
         public ICommand Add { get; private set; }
-        public ICommand AddHidedCoin { get; private set; }
         public ICommand ClearKeyword { get; private set; }
 
         public CoinPageViewModel() {
@@ -21,14 +20,10 @@ namespace NTMiner.Vms {
             this.Add = new DelegateCommand(() => {
                 new CoinViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
-            this.AddHidedCoin = new DelegateCommand(() => {
-
-            });
             this.ClearKeyword = new DelegateCommand(() => {
                 this.CoinKeyword = string.Empty;
             });
-            CoinViewModel coinVm;
-            if (AppContext.Instance.CoinVms.TryGetCoinVm(MinerProfile.CoinId, out coinVm)) {
+            if (AppContext.Instance.CoinVms.TryGetCoinVm(MinerProfile.CoinId, out CoinViewModel coinVm)) {
                 _currentCoin = coinVm;
             }
         }
@@ -53,8 +48,8 @@ namespace NTMiner.Vms {
         }
 
         private CoinViewModel _currentCoin;
-        private PoolViewModel currentPool;
-        private CoinKernelViewModel currentCoinKernel;
+        private PoolViewModel _currentPool;
+        private CoinKernelViewModel _currentCoinKernel;
 
         public CoinViewModel CurrentCoin {
             get { return _currentCoin; }
@@ -121,17 +116,17 @@ namespace NTMiner.Vms {
         }
 
         public PoolViewModel CurrentPool {
-            get => currentPool;
+            get => _currentPool;
             set {
-                currentPool = value;
+                _currentPool = value;
                 OnPropertyChanged(nameof(CurrentPool));
             }
         }
 
         public CoinKernelViewModel CurrentCoinKernel {
-            get => currentCoinKernel;
+            get => _currentCoinKernel;
             set {
-                currentCoinKernel = value;
+                _currentCoinKernel = value;
                 OnPropertyChanged(nameof(CurrentCoinKernel));
             }
         }

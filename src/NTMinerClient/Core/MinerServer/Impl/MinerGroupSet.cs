@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 
@@ -19,13 +19,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 MinerGroupData entity = new MinerGroupData().Update(message.Input);
-                Server.MinerGroupService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
+                RpcRoot.Server.MinerGroupService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new MinerGroupAddedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new MinerGroupAddedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -43,14 +43,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                 MinerGroupData entity = _dicById[message.Input.GetId()];
                 MinerGroupData oldValue = new MinerGroupData().Update(entity);
                 entity.Update(message.Input);
-                Server.MinerGroupService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
+                RpcRoot.Server.MinerGroupService.AddOrUpdateMinerGroupAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.MessageId, entity));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveMinerGroupCommand>(action: (message) => {
                 InitOnece();
@@ -61,13 +61,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 MinerGroupData entity = _dicById[message.EntityId];
-                Server.MinerGroupService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
+                RpcRoot.Server.MinerGroupService.RemoveMinerGroupAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new MinerGroupRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new MinerGroupRemovedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -87,7 +87,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        var result = Server.MinerGroupService.GetMinerGroups();
+                        var result = RpcRoot.Server.MinerGroupService.GetMinerGroups();
                         foreach (var item in result) {
                             if (!_dicById.ContainsKey(item.GetId())) {
                                 _dicById.Add(item.GetId(), item);

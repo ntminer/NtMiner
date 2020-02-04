@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
@@ -11,8 +10,6 @@ namespace NTMiner.Vms {
         private string _leftIp = "192.168.0.100";
         private string _rightIp = "192.168.0.200";
         private bool _isIpRange;
-        private string _message;
-        private Visibility _messageVisible = Visibility.Collapsed;
 
         public ICommand Save { get; private set; }
 
@@ -22,84 +19,54 @@ namespace NTMiner.Vms {
             }
             this.Save = new DelegateCommand(() => {
                 if (!IPAddress.TryParse(this.LeftIp, out _)) {
-                    this.ShowMessage("IP格式不正确");
+                    VirtualRoot.Out.ShowError("IP格式不正确", autoHideSeconds: 4);
                     return;
                 }
 
                 if (this.IsIpRange) {
                     if (!IPAddress.TryParse(this.RightIp, out _)) {
-                        this.ShowMessage("IP格式不正确");
+                        VirtualRoot.Out.ShowError("IP格式不正确", autoHideSeconds: 4);
                         return;
                     }
 
-                    List<string> clientIps = Net.Util.CreateIpRange(this.LeftIp, this.RightIp);
+                    List<string> clientIps = Net.IpUtil.CreateIpRange(this.LeftIp, this.RightIp);
 
                     if (clientIps.Count > 101) {
-                        this.ShowMessage("最多支持一次添加101个IP");
+                        VirtualRoot.Out.ShowError("最多支持一次添加101个IP", autoHideSeconds: 4);
                         return;
                     }
 
                     if (clientIps.Count == 0) {
-                        this.ShowMessage("没有IP");
+                        VirtualRoot.Out.ShowError("没有IP", autoHideSeconds: 4);
                         return;
                     }
-                    Server.ClientService.AddClientsAsync(clientIps, (response, e) => {
+                    RpcRoot.Server.ClientService.AddClientsAsync(clientIps, (response, e) => {
                         if (!response.IsSuccess()) {
-                            this.ShowMessage(response.ReadMessage(e));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e));
                         }
                         else {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                            UIThread.Execute(() => VirtualRoot.Execute(new CloseWindowCommand(this.Id)));
+                            VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                         }
                     });
                 }
                 else {
-                    Server.ClientService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
+                    RpcRoot.Server.ClientService.AddClientsAsync(new List<string> { this.LeftIp }, (response, e) => {
                         if (!response.IsSuccess()) {
-                            this.ShowMessage(response.ReadMessage(e));
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e));
                         }
                         else {
                             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-                            UIThread.Execute(() => VirtualRoot.Execute(new CloseWindowCommand(this.Id)));
+                            VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                         }
                     });
                 }
             });
             var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
             if (localIp != null) {
-                uint left = Net.Util.ConvertToIpNum(localIp.DefaultIPGateway) + 1;
-                this._leftIp = Net.Util.ConvertToIpString(left);
-                this._rightIp = Net.Util.ConvertToIpString(left + 100);
-            }
-        }
-
-        private void ShowMessage(string message) {
-            this.Message = message;
-            MessageVisible = Visibility.Visible;
-            TimeSpan.FromSeconds(4).Delay().ContinueWith(t => {
-                UIThread.Execute(() => {
-                    MessageVisible = Visibility.Collapsed;
-                });
-            });
-        }
-
-        public string Message {
-            get => _message;
-            set {
-                if (_message != value) {
-                    _message = value;
-                    OnPropertyChanged(nameof(Message));
-                }
-            }
-        }
-
-        public Visibility MessageVisible {
-            get => _messageVisible;
-            set {
-                if (_messageVisible != value) {
-                    _messageVisible = value;
-                    OnPropertyChanged(nameof(MessageVisible));
-                }
+                uint left = Net.IpUtil.ConvertToIpNum(localIp.DefaultIPGateway) + 1;
+                this._leftIp = Net.IpUtil.ConvertToIpString(left);
+                this._rightIp = Net.IpUtil.ConvertToIpString(left + 100);
             }
         }
 

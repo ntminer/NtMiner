@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Profile;
+using NTMiner.Core.Profile;
 using System;
 using System.Linq;
 using System.Windows;
@@ -22,12 +22,12 @@ namespace NTMiner.Vms {
             this.CopyWallet = new DelegateCommand(() => {
                 string wallet = this.Wallet ?? "无";
                 Clipboard.SetDataObject(wallet);
-                VirtualRoot.Out.ShowSuccess(wallet, "复制成功");
+                VirtualRoot.Out.ShowSuccess(wallet, header: "复制成功");
             });
             this.CopyDualCoinWallet = new DelegateCommand(() => {
                 string wallet = this.DualCoinWallet ?? "无";
                 Clipboard.SetDataObject(wallet);
-                VirtualRoot.Out.ShowSuccess(wallet, "复制成功");
+                VirtualRoot.Out.ShowSuccess(wallet, header: "复制成功");
             });
             this.HideWallet = new DelegateCommand(() => {
                 this.IsHideWallet = true;

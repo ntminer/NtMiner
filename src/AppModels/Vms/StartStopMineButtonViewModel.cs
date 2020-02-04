@@ -13,13 +13,11 @@ namespace NTMiner.Vms {
                 return;
             }
 #if DEBUG
-                Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             this.StartMine = new DelegateCommand(() => {
                 VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"手动开始挖矿", toConsole: true);
-                this.MinerProfile.IsMining = true;
                 NTMinerRoot.Instance.StartMine();
-                BtnStopText = "正在挖矿";
             });
             this.StopMine = new DelegateCommand(() => {
                 VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"手动停止挖矿", toConsole: true);
@@ -34,7 +32,7 @@ namespace NTMiner.Vms {
                 });
             });
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
@@ -45,24 +43,22 @@ namespace NTMiner.Vms {
             bool IsAutoStart = (MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart);
             if (IsAutoStart && !this.MinerProfile.IsMining) {
                 this.MinerProfile.IsMining = true;
-                IMessagePathId handler = null;
-                handler = VirtualRoot.AddViaLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
-                action: message => {
-                    if (NTMinerRoot.IsAutoStartCanceled) {
-                        BtnStopText = $"尚未开始";
-                    }
-                    else {
-                        BtnStopText = $"倒计时{handler.ViaLimit.ToString()}";
-                    }
-                    if (handler.ViaLimit == 0) {
-                        if (!NTMinerRoot.IsAutoStartCanceled) {
-                            BtnStopText = "正在挖矿";
-                            MinerProfile.IsMining = true;
-                            VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"自动开始挖矿", toConsole: true);
-                            NTMinerRoot.Instance.StartMine();
+                IMessagePathId pathId = null;
+                pathId = VirtualRoot.AddViaTimesLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
+                    action: message => {
+                        if (NTMinerRoot.IsAutoStartCanceled) {
+                            BtnStopText = $"尚未开始";
                         }
-                    }
-                }, location: this.GetType(), viaLimit: MinerProfile.AutoStartDelaySeconds);
+                        else {
+                            BtnStopText = $"倒计时{pathId.ViaTimesLimit.ToString()}";
+                        }
+                        if (pathId.ViaTimesLimit == 0) {
+                            if (!NTMinerRoot.IsAutoStartCanceled) {
+                                VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"自动开始挖矿", toConsole: true);
+                                NTMinerRoot.Instance.StartMine();
+                            }
+                        }
+                    }, location: this.GetType(), viaTimesLimit: MinerProfile.AutoStartDelaySeconds);
             }
         }
 

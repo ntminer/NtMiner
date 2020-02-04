@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Core.MinerClient;
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
@@ -20,9 +20,10 @@ namespace NTMiner.Vms {
         private SolidColorBrush _tempForeground;
         private int _maxTemp;
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public GpuSpeedDataViewModels() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 

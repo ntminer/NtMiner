@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
             // 如果未显示主界面则收益计算器也不用更新了
             if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible || VirtualRoot.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
-                OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
+                RpcRoot.OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
                     Init(data);
                     VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());
                 });
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Impl {
 
         private void Init(List<CalcConfigData> data) {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             var list = _root.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).Select(a => new CalcConfigData {
                 CoinCode = a.Code,
@@ -55,7 +55,7 @@ namespace NTMiner.Core.Impl {
             }
             _dicByCoinCode = list.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.Init");
             }
@@ -90,7 +90,11 @@ namespace NTMiner.Core.Impl {
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {
             _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-            OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, null);
+            RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, (response, e) => {
+                if (!response.IsSuccess()) {
+                    VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                }
+            });
         }
 
         public IEnumerable<ICalcConfig> AsEnumerable() {

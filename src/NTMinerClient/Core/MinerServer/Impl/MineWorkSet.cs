@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 
@@ -16,13 +16,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 MineWorkData entity = new MineWorkData().Update(message.Input);
-                var response = Server.MineWorkService.AddOrUpdateMineWork(entity);
+                var response = RpcRoot.Server.MineWorkService.AddOrUpdateMineWork(entity);
                 if (response.IsSuccess()) {
                     _dicById.Add(entity.Id, entity);
-                    VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.MessageId, entity));
                 }
                 else {
-                    Write.UserFail(response?.Description);
+                    VirtualRoot.Out.ShowError(response.Description, autoHideSeconds: 4);
                 }
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpdateMineWorkCommand>(action: (message) => {
@@ -36,14 +36,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                 MineWorkData entity = _dicById[message.Input.GetId()];
                 MineWorkData oldValue = new MineWorkData().Update(entity);
                 entity.Update(message.Input);
-                Server.MineWorkService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
+                RpcRoot.Server.MineWorkService.AddOrUpdateMineWorkAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.MessageId, entity));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveMineWorkCommand>(action: (message) => {
                 InitOnece();
@@ -54,13 +54,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 MineWorkData entity = _dicById[message.EntityId];
-                Server.MineWorkService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
+                RpcRoot.Server.MineWorkService.RemoveMineWorkAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -79,7 +79,7 @@ namespace NTMiner.Core.MinerServer.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var result = Server.MineWorkService.GetMineWorks();
+                    var result = RpcRoot.Server.MineWorkService.GetMineWorks();
                     foreach (var item in result) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -11,8 +12,8 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public class Program {
         static void Main() {
-            VirtualRoot.StartTimer();
             try {
+                VirtualRoot.StartTimer();
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
                 NTKeyword.SetOfficialServerHost("localhost");
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
@@ -75,7 +76,7 @@ namespace NTMiner {
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
                             Login();
-                            OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
+                            RpcRoot.OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
                                 Write.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
@@ -109,9 +110,9 @@ namespace NTMiner {
                                         }
                                     }
                                 }
-                                OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, callback: (res, e) => {
+                                RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, callback: (res, e) => {
                                     if (!res.IsSuccess()) {
-                                        Write.UserFail(res.ReadMessage(e));
+                                        VirtualRoot.Out.ShowError(res.ReadMessage(e), autoHideSeconds: 4);
                                     }
                                 });
                                 foreach (IncomeItem incomeItem in incomeItems) {
@@ -143,8 +144,7 @@ namespace NTMiner {
 
         private static void Login() {
             // 本机运行，不验证用户名密码
-            SingleUser.LoginName = "CalcConfigUpdater";
-            SingleUser.SetPasswordSha1("123");
+            VirtualRoot.SetRpcUser(new User.RpcUser("CalcConfigUpdater", "123"));
             Console.WriteLine($"LoginName:CalcConfigUpdater");
             Console.Write($"Password:");
             Console.ForegroundColor = Console.BackgroundColor;
@@ -228,14 +228,22 @@ namespace NTMiner {
                     index = html.IndexOf(splitText, index + splitText.Length);
                 }
                 Regex regex = VirtualRoot.GetRegex(pattern);
+                int maxLen = 0;
                 for (int i = 0; i < indexList.Count; i++) {
                     IncomeItem incomeItem;
                     if (i + 1 < indexList.Count) {
-                        incomeItem = PickIncomeItem(regex, html.Substring(indexList[i], indexList[i + 1] - indexList[i]));
+                        int len = indexList[i + 1] - indexList[i];
+                        if (len > maxLen) {
+                            maxLen = len;
+                        }
+                        incomeItem = PickIncomeItem(regex, html.Substring(indexList[i], len));
                     }
                     else {
                         string content = html.Substring(indexList[i]);
-                        incomeItem = PickIncomeItem(regex, content.Substring(0, content.IndexOf("<span class=\"info-title\">币价</span>")));
+                        if (content.Length > maxLen) {
+                            content = content.Substring(0, maxLen);
+                        }
+                        incomeItem = PickIncomeItem(regex, content);
                     }
                     if (incomeItem != null) {
                         results.Add(incomeItem);
@@ -312,7 +320,7 @@ namespace NTMiner {
 
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
-                using (HttpClient client = new HttpClient()) {
+                using (HttpClient client = RpcRoot.CreateHttpClient()) {
                     client.Timeout = TimeSpan.FromSeconds(20);
                     return await client.GetByteArrayAsync(url);
                 }

@@ -1,6 +1,6 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Daemon;
-using NTMiner.MinerClient;
+using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using System;
 using System.Web.Http;
 
@@ -27,7 +27,7 @@ namespace NTMiner {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                TimeSpan.FromMilliseconds(100).Delay().ContinueWith((t) => {
+                100.MillisecondsDelay().ContinueWith((t) => {
                     VirtualRoot.Execute(new CloseNTMinerCommand("挖矿端升级后关闭旧版挖矿端"));
                 });
                 return ResponseBase.Ok();
@@ -87,9 +87,10 @@ namespace NTMiner {
         }
 
         [HttpPost]
+        [HttpGet]
         public SpeedData GetSpeed() {
             try {
-                SpeedData data = NTMinerRoot.Instance.Reporter.CreateSpeedData();
+                SpeedData data = NTMinerRoot.Instance.ReporterDataProvider.CreateSpeedData();
                 return data;
             }
             catch (Exception e) {

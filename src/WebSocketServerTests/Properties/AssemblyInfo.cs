@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("WebSocketServerTests")]
-[assembly: AssemblyCopyright(NTMiner.MainAssemblyInfo.Copyright)]
+[assembly: AssemblyCopyright(NTMiner.EntryAssemblyInfo.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

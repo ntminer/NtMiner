@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class KernelMenu : ViewModelBase {
@@ -11,7 +10,7 @@ namespace NTMiner.Vms {
             _name = name;
             _iconName = iconName;
             if (!string.IsNullOrEmpty(iconName)) {
-                _icon = (Geometry)Application.Current.Resources[iconName];
+                _icon = AppUtil.GetResource<Geometry>(iconName);
             }
         }
 

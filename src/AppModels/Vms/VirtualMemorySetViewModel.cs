@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         private readonly Dictionary<string, VirtualMemoryViewModel> _initialVms = new Dictionary<string, VirtualMemoryViewModel>(StringComparer.OrdinalIgnoreCase);
         private VirtualMemorySetViewModel() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
             foreach (var item in GetPagingFiles()) {
                 _initialVms.Add(item.DriveName, item);
@@ -25,9 +25,9 @@ namespace NTMiner.Vms {
                     vm.MaxSizeMb = item.MaxSizeMb;
                 }
             }
-            NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
+            NTMinerRoot.SetOSVirtualMemoryMb(_dic.Values.Sum(a => a.MaxSizeMb));
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
@@ -51,15 +51,9 @@ namespace NTMiner.Vms {
         }
 
 
-        public double TotalVirtualMemoryGb {
+        public int TotalVirtualMemoryMb {
             get {
-                return _dic.Values.Sum(a => a.MaxSizeGb);
-            }
-        }
-
-        public string TotalVirtualMemoryGbText {
-            get {
-                return TotalVirtualMemoryGb.ToString("f1") + " G";
+                return _dic.Values.Sum(a => a.MaxSizeMb);
             }
         }
 
@@ -69,10 +63,9 @@ namespace NTMiner.Vms {
             string[] value = virtualMemories.Select(a => a.ToString()).ToArray();
 
             Windows.WinRegistry.SetValue(Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles", value);
-            OnPropertyChanged(nameof(TotalVirtualMemoryGb));
-            OnPropertyChanged(nameof(TotalVirtualMemoryGbText));
+            OnPropertyChanged(nameof(TotalVirtualMemoryMb));
             OnPropertyChanged(nameof(IsStateChanged));
-            NTMinerRoot.OSVirtualMemoryMb = _dic.Values.Sum(a => a.MaxSizeMb);
+            NTMinerRoot.SetOSVirtualMemoryMb(_dic.Values.Sum(a => a.MaxSizeMb));
         }
 
         private List<VirtualMemoryViewModel> GetPagingFiles() {

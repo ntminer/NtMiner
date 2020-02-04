@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using NTMiner.Core;
+using System.Linq;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
@@ -7,11 +8,11 @@ namespace NTMiner.Vms {
 
         private GpuStatusBarViewModel() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
             this.GpuAllVm = AppContext.Instance.GpuVms.Items.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
@@ -38,7 +39,7 @@ namespace NTMiner.Vms {
                             iconName = "Icon_GpuEmpty";
                             break;
                     }
-                    _icon = (Geometry)System.Windows.Application.Current.Resources[iconName];
+                    _icon = AppUtil.GetResource<Geometry>(iconName);
                 }
                 return _icon;
             }

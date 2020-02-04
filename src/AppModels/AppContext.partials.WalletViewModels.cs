@@ -11,7 +11,7 @@ namespace NTMiner {
             private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
             private WalletViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 VirtualRoot.AddEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新钱包Vm内存", LogEnum.None,
                     action: message=> {
@@ -22,8 +22,7 @@ namespace NTMiner {
                     action: (message) => {
                         _dicById.Add(message.Target.GetId(), new WalletViewModel(message.Target));
                         OnPropertyChanged(nameof(WalletList));
-                        CoinViewModel coin;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out coin)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
@@ -33,8 +32,7 @@ namespace NTMiner {
                     action: (message) => {
                         _dicById.Remove(message.Target.GetId());
                         OnPropertyChanged(nameof(WalletList));
-                        CoinViewModel coin;
-                        if (AppContext.Instance.CoinVms.TryGetCoinVm((Guid)message.Target.CoinId, out coin)) {
+                        if (AppContext.Instance.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
@@ -47,7 +45,7 @@ namespace NTMiner {
                     }, location: this.GetType());
                 Init();
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }
@@ -67,11 +65,11 @@ namespace NTMiner {
             }
 
             public WalletViewModel GetUpOne(Guid coinId, int sortNumber) {
-                return WalletList.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber < sortNumber);
+                return WalletList.Where(a => a.CoinId == coinId).GetUpOne(sortNumber);
             }
 
             public WalletViewModel GetNextOne(Guid coinId, int sortNumber) {
-                return WalletList.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.CoinId == coinId && a.SortNumber > sortNumber);
+                return WalletList.Where(a => a.CoinId == coinId).GetNextOne(sortNumber);
             }
         }
     }

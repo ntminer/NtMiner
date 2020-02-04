@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class SysDicItemViewModel : ViewModelBase, ISysDicItem, IEditableViewModel {
+    public class SysDicItemViewModel : ViewModelBase, ISysDicItem, IEditableViewModel, ISortable {
         public static readonly SysDicItemViewModel PleaseSelect = new SysDicItemViewModel(Guid.Empty) {
             _code = string.Empty,
             _value = "不指定",
@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
         }
 
         public SysDicItemViewModel(ISysDicItem data) : this(data.GetId()) {
-            this.DataLevel = data.DataLevel;
+            this._dataLevel = data.GetDataLevel();
             _dicId = data.DicId;
             _code = data.Code;
             _value = data.Value;
@@ -66,7 +66,7 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                SysDicItemViewModel upOne = AppContext.Instance.SysDicItemVms.GetUpOne(this.SortNumber);
+                SysDicItemViewModel upOne = AppContext.Instance.SysDicItemVms.List.GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
@@ -80,7 +80,7 @@ namespace NTMiner.Vms {
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                SysDicItemViewModel nextOne = AppContext.Instance.SysDicItemVms.GetNextOne(this.SortNumber);
+                SysDicItemViewModel nextOne = AppContext.Instance.SysDicItemVms.List.GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
@@ -95,11 +95,14 @@ namespace NTMiner.Vms {
             });
         }
 
-        public DataLevel DataLevel { get; set; }
+        private DataLevel _dataLevel;
+        public DataLevel GetDataLevel() {
+            return _dataLevel;
+        }
 
         public bool IsReadOnly {
             get {
-                if (!DevMode.IsDebugMode && this.DataLevel == DataLevel.Global) {
+                if (!DevMode.IsDevMode && this._dataLevel == DataLevel.Global) {
                     return true;
                 }
                 return false;
@@ -108,12 +111,12 @@ namespace NTMiner.Vms {
 
         public string DataLevelText {
             get {
-                return this.DataLevel.GetDescription();
+                return this._dataLevel.GetDescription();
             }
         }
 
         public void SetDataLevel(DataLevel dataLevel) {
-            this.DataLevel = dataLevel;
+            this._dataLevel = dataLevel;
         }
 
         public Guid Id {

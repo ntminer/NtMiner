@@ -7,23 +7,30 @@
     xmlns:local="clr-namespace:NTMiner.Views.Ucs"
     xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
     xmlns:vm="clr-namespace:NTMiner.Vms"
+    xmlns:app="clr-namespace:NTMiner"
     mc:Ignorable="d" 
 	DataContext="{x:Static vm:MainWindowViewModel.Instance}"
     d:DesignHeight="450" d:DesignWidth="800">
     <Grid Visibility="{Binding IsHistoryVisible}" Background="White">
         <DataGrid  
 			BorderThickness="0"
+            GridLinesVisibility="None"
 			ItemsSource="{Binding NTMinerFiles}"
 			SelectedItem="{Binding SelectedNTMinerFile}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>
+            <DataGrid.RowDetailsTemplate>
+                <DataTemplate>
+                    <TextBlock Margin="4 0 0 10" Text="{Binding Path=Description}" TextWrapping="Wrap" TextAlignment="Left" Width="290"></TextBlock>
+                </DataTemplate>
+            </DataGrid.RowDetailsTemplate>
             <DataGrid.Columns>
                 <DataGridTemplateColumn Width="*" IsReadOnly="True" Header="版本号">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Version}"></TextBlock>
+                            <TextBlock Text="{Binding Version}" FontSize="13"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
@@ -37,7 +44,7 @@
                 <DataGridTextColumn Width="100" IsReadOnly="True" Header="时间" Binding="{Binding PublishOnText}"></DataGridTextColumn>
                 <DataGridTemplateColumn 
 					IsReadOnly="True"
-					Visibility="{Binding Data.IsDevModeVisible,Source={StaticResource proxy}}">
+					Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
                     <DataGridTemplateColumn.Header>
                         <controls:KbButton  
 							Command="{Binding Data.AddNTMinerFile, Source={StaticResource proxy}}" 

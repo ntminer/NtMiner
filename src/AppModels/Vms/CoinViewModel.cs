@@ -82,9 +82,10 @@ namespace NTMiner.Vms {
 
         public ICommand FillOverClockForm { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public CoinViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
@@ -403,7 +404,7 @@ namespace NTMiner.Vms {
                         File.Delete(iconFileFullName);
                     }
                 };
-                webClient.DownloadFileAsync(new Uri($"{OfficialServer.MinerJsonBucket}coin_icons/{this.Icon}"), iconFileFullName);
+                webClient.DownloadFileAsync(new Uri($"{Services.OfficialServices.MinerJsonBucket}coin_icons/{this.Icon}"), iconFileFullName);
             }
         }
 
@@ -749,7 +750,20 @@ namespace NTMiner.Vms {
 
         public CoinKernelViewModel CoinKernel {
             get {
-                CoinKernelViewModel coinKernel = CoinKernels.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
+                var list = CoinKernels;
+                CoinKernelViewModel coinKernel = list.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
+                // 选中的记录可能已经不存在
+                if (coinKernel == null) {
+                    // 首先选择推荐的
+                    coinKernel = list.FirstOrDefault(a => a.IsRecommend);
+                    if (coinKernel == null) {
+                        // 推荐的不存在，选择第一个
+                        coinKernel = list.FirstOrDefault();
+                    }
+                    if (coinKernel != null) {
+                        this.CoinKernel = coinKernel;
+                    }
+                }
                 return coinKernel;
             }
             set {

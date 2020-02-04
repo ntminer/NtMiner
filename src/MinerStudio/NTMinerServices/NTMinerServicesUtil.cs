@@ -17,12 +17,12 @@ namespace NTMiner.NTMinerServices {
             string processName = "NTMinerServices";
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
-                Server.ControlCenterService.GetServicesVersionAsync((thatVersion, exception) => {
+                RpcRoot.Server.ControlCenterService.GetServicesVersionAsync((thatVersion, exception) => {
                     try {
                         string thisVersion = ThisNTMinerServicesFileVersion;
                         if (thatVersion != thisVersion) {
                             Logger.InfoDebugLine($"发现新版NTMinerServices：{thatVersion}->{thisVersion}");
-                            Server.ControlCenterService.CloseServices();
+                            RpcRoot.Server.ControlCenterService.CloseServices();
                             System.Threading.Thread.Sleep(1000);
                             Windows.TaskKill.Kill(processName, waitForExit: true);
                             ExtractRunNTMinerServicesAsync(callback);

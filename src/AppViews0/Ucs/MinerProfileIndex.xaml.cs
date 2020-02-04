@@ -14,53 +14,40 @@ namespace NTMiner.Views.Ucs {
 
         public MinerProfileIndex() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             InitializeComponent();
-            this.PopupKernel.Closed += Popup_Closed;
-            this.PopupMainCoinPool.Closed += Popup_Closed;
-            this.PopupMainCoin.Closed += Popup_Closed;
-            this.PopupMainCoinWallet.Closed += Popup_Closed;
-            this.RunOneceOnLoaded((window)=> {
-                window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        if (Vm.MinerProfile.MineWork != null) {
-                            return;
-                        }
-                        if (this.PopupKernel.Child != null && this.PopupKernel.IsOpen) {
-                            this.PopupKernel.IsOpen = false;
-                            OpenKernelPopup();
-                        }
-                        if (this.PopupMainCoinPool.Child != null && this.PopupMainCoinPool.IsOpen) {
-                            this.PopupMainCoinPool.IsOpen = false;
-                            OpenMainCoinPoolPopup();
-                        }
-                        if (this.PopupMainCoinPool1.Child != null && this.PopupMainCoinPool1.IsOpen) {
-                            this.PopupMainCoinPool1.IsOpen = false;
-                            OpenMainCoinPool1Popup();
-                        }
-                        if (this.PopupMainCoin != null && this.PopupMainCoin.IsOpen) {
-                            this.PopupMainCoin.IsOpen = false;
-                            OpenMainCoinPopup();
-                        }
-                        if (this.PopupMainCoinWallet != null && this.PopupMainCoinWallet.IsOpen) {
-                            this.PopupMainCoinWallet.IsOpen = false;
-                            OpenMainCoinWalletPopup();
-                        }
-                    });
+            this.OnLoaded((window) => {
+                window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole, 
+                    action: message => {
+                        UIThread.Execute(() => () => {
+                            if (Vm.MinerProfile.MineWork != null) {
+                                return;
+                            }
+                            if (this.PopupKernel.Child != null && this.PopupKernel.IsOpen) {
+                                OpenKernelPopup();
+                            }
+                            if (this.PopupMainCoinPool.Child != null && this.PopupMainCoinPool.IsOpen) {
+                                OpenMainCoinPoolPopup();
+                            }
+                            if (this.PopupMainCoinPool1.Child != null && this.PopupMainCoinPool1.IsOpen) {
+                                OpenMainCoinPool1Popup();
+                            }
+                            if (this.PopupMainCoin != null && this.PopupMainCoin.IsOpen) {
+                                OpenMainCoinPopup();
+                            }
+                            if (this.PopupMainCoinWallet != null && this.PopupMainCoinWallet.IsOpen) {
+                                OpenMainCoinWalletPopup();
+                            }
+                        });
                 }, location: this.GetType());
             });
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
 #endif
-        }
-
-        private void Popup_Closed(object sender, System.EventArgs e) {
-            ((Popup)sender).Child = null;
         }
 
         private void DualCoinWeightSlider_LostFocus(object sender, RoutedEventArgs e) {
@@ -84,8 +71,11 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupKernel;
             popup.IsOpen = true;
             var selected = coinVm.CoinKernel;
-            popup.Child = new CoinKernelSelect(
-                new CoinKernelSelectViewModel(coinVm, selected, onOk: selectedResult => {
+            CoinKernelSelectViewModel vm = null;
+            // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
+            bool newVm = popup.Child == null || ((CoinKernelSelectViewModel)((CoinKernelSelect)popup.Child).DataContext).Coin != coinVm;
+            if (newVm) {
+                vm = new CoinKernelSelectViewModel(coinVm, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (coinVm.CoinKernel != selectedResult) {
                             coinVm.CoinKernel = selectedResult;
@@ -99,7 +89,14 @@ namespace NTMiner.Views.Ucs {
                     HideView = new DelegateCommand(() => {
                         popup.IsOpen = false;
                     })
-                });
+                };
+            }
+            if (popup.Child == null) {
+                popup.Child = new CoinKernelSelect(vm);
+            }
+            else if (newVm) {
+                ((CoinKernelSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenMainCoinPoolPopup() {
@@ -110,8 +107,11 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupMainCoinPool;
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.MainCoinPool;
-            popup.Child = new PoolSelect(
-                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
+            PoolSelectViewModel vm = null;
+            // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
+            bool newVm = popup.Child == null || ((PoolSelectViewModel)((PoolSelect)popup.Child).DataContext).Coin != coinVm;
+            if (newVm) {
+                vm = new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (coinVm.CoinProfile.MainCoinPool != selectedResult) {
                             coinVm.CoinProfile.MainCoinPool = selectedResult;
@@ -125,7 +125,14 @@ namespace NTMiner.Views.Ucs {
                     HideView = new DelegateCommand(() => {
                         popup.IsOpen = false;
                     })
-                });
+                };
+            }
+            if (popup.Child == null) {
+                popup.Child = new PoolSelect(vm);
+            }
+            else if (newVm) {
+                ((PoolSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenMainCoinPool1Popup() {
@@ -136,8 +143,11 @@ namespace NTMiner.Views.Ucs {
             var popup = PopupMainCoinPool1;
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.MainCoinPool1;
-            popup.Child = new PoolSelect(
-                new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
+            PoolSelectViewModel vm = null;
+            // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
+            bool newVm = popup.Child == null || ((PoolSelectViewModel)((PoolSelect)popup.Child).DataContext).Coin != coinVm;
+            if (newVm) {
+                vm = new PoolSelectViewModel(coinVm, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (coinVm.CoinProfile.MainCoinPool1 != selectedResult) {
                             coinVm.CoinProfile.MainCoinPool1 = selectedResult;
@@ -151,15 +161,25 @@ namespace NTMiner.Views.Ucs {
                     HideView = new DelegateCommand(() => {
                         popup.IsOpen = false;
                     })
-                });
+                };
+            }
+            if (popup.Child == null) {
+                popup.Child = new PoolSelect(vm);
+            }
+            else if (newVm) {
+                ((PoolSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenMainCoinPopup() {
             var popup = PopupMainCoin;
             popup.IsOpen = true;
             var selected = Vm.MinerProfile.CoinVm;
-            popup.Child = new CoinSelect(
-                new CoinSelectViewModel(AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onOk: selectedResult => {
+            CoinSelectViewModel vm = null;
+            // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
+            bool newVm = popup.Child == null || ((CoinSelectViewModel)((CoinSelect)popup.Child).DataContext).SelectedResult != selected;
+            if (newVm) {
+                vm = new CoinSelectViewModel(AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (Vm.MinerProfile.CoinVm != selectedResult) {
                             Vm.MinerProfile.CoinVm = selectedResult;
@@ -173,7 +193,14 @@ namespace NTMiner.Views.Ucs {
                     HideView = new DelegateCommand(() => {
                         popup.IsOpen = false;
                     })
-                });
+                };
+            }
+            if (popup.Child == null) {
+                popup.Child = new CoinSelect(vm);
+            }
+            else if (newVm) {
+                ((CoinSelect)popup.Child).DataContext = vm;
+            }
         }
 
         private void OpenMainCoinWalletPopup() {
@@ -185,8 +212,11 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = coinVm.CoinProfile.SelectedWallet;
             bool isDualCoin = false;
-            popup.Child = new WalletSelect(
-                new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
+            WalletSelectViewModel vm = null;
+            // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
+            bool newVm = popup.Child == null || ((WalletSelectViewModel)((WalletSelect)popup.Child).DataContext).Coin != coinVm;
+            if (newVm) {
+                vm = new WalletSelectViewModel(coinVm, isDualCoin, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (coinVm.CoinProfile.SelectedWallet != selectedResult) {
                             coinVm.CoinProfile.SelectedWallet = selectedResult;
@@ -202,7 +232,14 @@ namespace NTMiner.Views.Ucs {
                     HideView = new DelegateCommand(() => {
                         popup.IsOpen = false;
                     })
-                });
+                };
+            }
+            if (popup.Child == null) {
+                popup.Child = new WalletSelect(vm);
+            }
+            else if (newVm) {
+                ((WalletSelect)popup.Child).DataContext = vm;
+            }
         }
 
         #endregion
@@ -241,7 +278,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private static void UserActionHappend() {
-            if (!DevMode.IsDebugMode) {
+            if (!DevMode.IsDevMode) {
                 VirtualRoot.RaiseEvent(new UserActionEvent());
             }
         }

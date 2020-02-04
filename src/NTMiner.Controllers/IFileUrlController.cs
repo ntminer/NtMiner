@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 
@@ -10,6 +10,7 @@ namespace NTMiner.Controllers {
         ResponseBase AddOrUpdateNTMinerFile(DataRequest<NTMinerFileData> request);
         ResponseBase RemoveNTMinerFile(DataRequest<Guid> request);
         string NTMinerUpdaterUrl();
+        string MinerClientFinderUrl();
         string LiteDbExplorerUrl();
         string PackageUrl(PackageUrlRequest request);
     }

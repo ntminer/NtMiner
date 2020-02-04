@@ -61,6 +61,7 @@
 
     <Style TargetType="{x:Type controls:KbSystemMinButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Height" Value="30"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbSystemMinButton}">
@@ -96,6 +97,7 @@
 
     <Style TargetType="{x:Type controls:KbSystemMaxButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Height" Value="30"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbSystemMaxButton}">
@@ -131,6 +133,7 @@
 
     <Style TargetType="{x:Type controls:KbSystemCloseButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Height" Value="30"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbSystemCloseButton}">
@@ -170,31 +173,22 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type controls:KbLinkButton}">
-                    <Grid x:Name="grid" Background="{TemplateBinding Background}">
+                    <Border
+                        x:Name="line"
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="0 0 0 1"
+                        BorderBrush="Transparent">
                         <ContentPresenter
                             x:Name="Content"
-                            Margin="0,0,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center" />
-                        <Border
-                            x:Name="line"
-                            Visibility="Collapsed"
-                            Width="{Binding ElementName=Content, Path=ActualWidth}"
-                            Height="1"
-                            VerticalAlignment="Bottom"
-                            Background="{TemplateBinding Foreground}" />
-                    </Grid>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{Binding KbSystemButtonHoverForeground, RelativeSource={RelativeSource TemplatedParent}}" />
-                            <Setter TargetName="line" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="grid" Property="Background" Value="{Binding KbSystemButtonHoverBackground, RelativeSource={RelativeSource TemplatedParent}}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="grid" Property="Opacity" Value="0.8" />
+                            <Setter TargetName="line" Property="BorderBrush" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                         <Trigger Property="KbDisplayLine" Value="True">
-                            <Setter TargetName="line" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="line" Property="BorderBrush" Value="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

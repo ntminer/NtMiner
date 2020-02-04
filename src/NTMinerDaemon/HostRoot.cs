@@ -1,4 +1,5 @@
-﻿using NTMiner.User;
+﻿using Microsoft.Win32;
+using NTMiner.User;
 using NTMiner.User.Impl;
 using System;
 using System.Diagnostics;
@@ -45,6 +46,21 @@ namespace NTMiner {
                 }
             }
             try {
+                SystemEvents.SessionEnding += (sender, e) => {
+                    OsSessionEndingEvent.ReasonSessionEnding reason;
+                    switch (e.Reason) {
+                        case SessionEndReasons.Logoff:
+                            reason = OsSessionEndingEvent.ReasonSessionEnding.Logoff;
+                            break;
+                        case SessionEndReasons.SystemShutdown:
+                            reason = OsSessionEndingEvent.ReasonSessionEnding.Shutdown;
+                            break;
+                        default:
+                            reason = OsSessionEndingEvent.ReasonSessionEnding.Unknown;
+                            break;
+                    }
+                    VirtualRoot.RaiseEvent(new OsSessionEndingEvent(reason));
+                };
                 VirtualRoot.StartTimer();
                 _waitHandle = new AutoResetEvent(false);
                 bool mutexCreated;
@@ -93,36 +109,32 @@ namespace NTMiner {
         }
 
         private static bool _isClosed = false;
-        private static void Close() {
+        public static void Exit() {
             if (!_isClosed) {
                 _isClosed = true;
-                HttpServer.Stop();
+                VirtualRoot.RaiseEvent(new AppExitEvent());
                 _sMutexApp?.Dispose();
+                Environment.Exit(0);
             }
-        }
-
-        public static void Exit() {
-            Close();
-            Environment.Exit(0);
         }
 
         private static void Run() {
             try {
                 HttpServer.Start($"http://localhost:{NTKeyword.NTMinerDaemonPort.ToString()}");
-                Windows.ConsoleHandler.Register(Close);
+                Windows.ConsoleHandler.Register(Exit);
                 VirtualRoot.AddEventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
                     action: message => {
                         NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
                         NoDevFee.NoDevFeeUtil.StartAsync();
                     }, typeof(HostRoot));
                 _waitHandle.WaitOne();
-                Close();
+                Exit();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
             finally {
-                Close();
+                Exit();
             }
         }
     }

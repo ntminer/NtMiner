@@ -53,6 +53,7 @@
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}" Text="运行时"></TextBlock>
                 <TextBlock Text="{x:Static app:AppStatic.AppRuntime}"></TextBlock>
+                <TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Text="(DevMode)"></TextBlock>
             </WrapPanel>
 
             <WrapPanel>

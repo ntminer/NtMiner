@@ -32,14 +32,18 @@ namespace NTMiner.Core.Impl {
                     _dicById.Add(entity.Id, entity);
 
                     if (VirtualRoot.IsMinerStudio) {
-                        Server.PoolService.AddOrUpdatePoolAsync(entity, callback: null);
+                        RpcRoot.Server.PoolService.AddOrUpdatePoolAsync(entity, callback: (response, e) => {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                         repository.Add(entity);
                     }
 
-                    VirtualRoot.RaiseEvent(new PoolAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolAddedEvent(message.MessageId, entity));
 
                     if (context.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
                         ICoinKernel[] coinKernels = context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToArray();
@@ -79,14 +83,18 @@ namespace NTMiner.Core.Impl {
                     }
                     entity.Update(message.Input);
                     if (VirtualRoot.IsMinerStudio) {
-                        Server.PoolService.AddOrUpdatePoolAsync(entity, callback: null);
+                        RpcRoot.Server.PoolService.AddOrUpdatePoolAsync(entity, callback: (response, e) => {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                         repository.Update(new PoolData().Update(message.Input));
                     }
 
-                    VirtualRoot.RaiseEvent(new PoolUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
                 action: (message) => {
@@ -101,13 +109,17 @@ namespace NTMiner.Core.Impl {
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
                     if (VirtualRoot.IsMinerStudio) {
-                        Server.PoolService.RemovePoolAsync(entity.Id, callback: null);
+                        RpcRoot.Server.PoolService.RemovePoolAsync(entity.Id, callback: (response, e) => {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                     else {
                         var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                         repository.Remove(message.EntityId);
                     }
-                    VirtualRoot.RaiseEvent(new PoolRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolRemovedEvent(message.MessageId, entity));
                     Guid[] toRemoves = context.PoolKernelSet.AsEnumerable().Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
@@ -156,7 +168,7 @@ namespace NTMiner.Core.Impl {
                     var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
                     List<PoolData> data = repository.GetAll().ToList();
                     if (VirtualRoot.IsMinerStudio) {
-                        foreach (var item in Server.PoolService.GetPools()) {
+                        foreach (var item in RpcRoot.Server.PoolService.GetPools()) {
                             data.Add(item);
                         }
                     }

@@ -1,22 +1,22 @@
-﻿using NTMiner.RemoteDesktop;
+﻿using NTMiner.Core;
+using NTMiner.RemoteDesktop;
 using NTMiner.View;
 using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace NTMiner {
-    public partial class App : Application, IDisposable {
+    public partial class App : Application {
         public App() {
-            MainAssemblyInfo.SetHomeDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
+            EntryAssemblyInfo.SetHomeDirFullName(System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "NTMiner"));
+            Write.Disable();
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            Logger.SetDir(SpecialPath.LogsDirFullName);
-            Write.UIThreadId = Dispatcher.Thread.ManagedThreadId;
+            Logger.SetDir(SpecialPath.HomeLogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }
@@ -24,15 +24,10 @@ namespace NTMiner {
         private readonly IAppViewFactory _appViewFactory = new AppViewFactory();
 
         private bool createdNew;
-        private Mutex appMutex;
-        private static readonly string s_appPipName = "ntminercontrol";
-
         protected override void OnExit(ExitEventArgs e) {
-            AppContext.NotifyIcon?.Dispose();
-            NTMinerRoot.Instance.Exit();
-            HttpServer.Stop();
+            VirtualRoot.RaiseEvent(new AppExitEvent());
             if (createdNew) {
-                Server.ControlCenterService.CloseServices();
+                RpcRoot.Server.ControlCenterService.CloseServices();
             }
             base.OnExit(e);
             NTMinerConsole.Free();
@@ -40,26 +35,21 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
+            // 之所以提前到这里是因为升级之前可能需要下载升级器，下载升级器时需要下载器
             VirtualRoot.AddCmdPath<ShowFileDownloaderCommand>(action: message => {
-                UIThread.Execute(() => {
-                    FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
-                });
+                FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
             }, location: this.GetType());
-            try {
-                appMutex = new Mutex(true, s_appPipName, out createdNew);
-            }
-            catch (Exception) {
-                createdNew = false;
-            }
-
+            createdNew = AppUtil.GetMutex(NTKeyword.MinerStudioAppMutex);
             if (createdNew) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
-                NotiCenterWindow.ShowWindow();
+                // 因为登录窗口会用到VirtualRoot.Out，而Out的延迟自动关闭消息会用到倒计时
+                VirtualRoot.StartTimer(new WpfTimer());
+                NotiCenterWindow.Instance.ShowWindow();
                 LoginWindow.Login(() => {
-                    bool isInnerIp = Net.Util.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
+                    bool isInnerIp = Net.IpUtil.IsInnerIp(NTMinerRegistry.GetControlCenterHost());
                     if (isInnerIp) {
                         NTMinerServices.NTMinerServicesUtil.RunNTMinerServices(() => {
                             Init();
@@ -72,12 +62,12 @@ namespace NTMiner {
             }
             else {
                 try {
-                    _appViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerStudio);
+                    _appViewFactory.ShowMainWindow(this, NTMinerAppType.MinerStudio);
                 }
                 catch (Exception) {
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                        message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。",
-                        title: "alert",
+                        message: "另一个群控客户端正在运行但唤醒失败，请重试。",
+                        title: "错误",
                         icon: "Icon_Error"));
                     Process currentProcess = Process.GetCurrentProcess();
                     NTMiner.Windows.TaskKill.KillOtherProcess(currentProcess);
@@ -89,7 +79,7 @@ namespace NTMiner {
         private void Init() {
             NTMinerRoot.Instance.Init(() => {
                 _appViewFactory.Link();
-                UIThread.Execute(() => {
+                UIThread.Execute(() => () => {
                     VirtualRoot.Execute(new ShowMinerClientsWindowCommand());
                     AppContext.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                 });
@@ -101,19 +91,6 @@ namespace NTMiner {
                 HttpServer.Start($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}");
                 Rdp.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
             });
-        }
-
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing) {
-            if (disposing) {
-                if (appMutex != null) {
-                    appMutex.Dispose();
-                }
-            }
         }
     }
 }

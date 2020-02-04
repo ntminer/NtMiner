@@ -12,9 +12,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new EthNoDevFeeEdit();
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: uc.Vm.Id, location: typeof(EthNoDevFeeEdit));
+                window.AddCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
             }, fixedSize: true);
         }
@@ -30,7 +28,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void Help_Click(object sender, System.Windows.RoutedEventArgs e) {
-            Process.Start("https://www.loserhub.cn/posts/details/92");
+            Process.Start("https://www.cnblogs.com/ntminer/p/11162986.html");
         }
     }
 }

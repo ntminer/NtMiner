@@ -1,5 +1,18 @@
 ﻿namespace NTMiner {
     public static class NTKeyword {
+        public const string WpfDesignOnly = "这是供WPF设计时使用的构造，不应在业务代码中被调用";
+
+        #region AppMutex
+        public const string MinerClientAppMutex = "ntminerclient";
+        public const string MinerStudioAppMutex = "ntminercontrol";
+        public const string MinerUpdaterAppMutex = "NTMinerUpdaterAppMutex";
+        public const string MinerClientFinderAppMutex = "MinerClientFinderAppMutex";
+        #endregion
+
+        public const string NTMinerServicesProcessName = "NTMinerServices";
+        public const string NTMinerUpdaterProcessName = "NTMinerUpdater";
+        public const string MinerClientFinderProcessName = "MinerClientFinder";
+
         public const string HomeDirParameterName = "{家目录}";
         public const string TempDirParameterName = "{临时目录}";
         public const int MinerClientPort = 3336;
@@ -7,18 +20,21 @@
         public const int MinerStudioPort = 3338;
         public const int ControlCenterPort = 3339;
         public const string ServerHost = "server.ntminer.com";
+        public const string DNSServer0 = "119.29.29.29";
+        public const string DNSServer1 = "223.5.5.5";
         public static string OfficialServerHost { get; private set; } = ServerHost;
         public static void SetOfficialServerHost(string host) {
             OfficialServerHost = host;
         }
 
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
+        public const string MinerClientFinderFileName = "MinerClientFinder.exe";
         public const string NTMinerServicesFileName = "NTMinerServices.exe";
         public const string GpuProfilesFileName = "gpuProfiles.json";
         public const string LocalJsonFileName = "local.json";
-        public const string LocalDbFileName = "local.litedb";
+        public const string LocalDbFileName = EntryAssemblyInfo.LocalDbFileName;
         public const string ServerJsonFileName = "server.json";
-        public const string ServerDbFileName = "server.litedb";
+        public const string ServerDbFileName = EntryAssemblyInfo.ServerDbFileName;
         public const string DevConsoleFileName = "DevConsole.exe";
         public const string NTMinerDaemonFileName = "NTMinerDaemon.exe";
 
@@ -34,6 +50,17 @@
         public const int ServerMessageSetCapacity = 1000;
         // 矿工名中不可以包含的字符
         public static readonly char[] InvalidMinerNameChars = { '.', ' ', '-', '_' };
+        // 因为界面上输入框不好体现输入的空格，所以这里对空格进行转义
+        public const string SpaceKeyword = "space";
+
+        // 如果没有使用分隔符分割序号的话无法表达两位数的序号，此时这种情况基本都是用ABCDEFGH……表达的后续的两位数
+        private static readonly string[] IndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n" };
+        public static string GetIndexChar(int index, string separator) {
+            if (index <= 9 || !string.IsNullOrEmpty(separator)) {
+                return index.ToString();
+            }
+            return IndexChars[index - 10];
+        }
 
         #region 目录名
         public const string DaemonDirName = "Daemon";
@@ -64,6 +91,7 @@
         #region LocalAppSettingKey
         public const string UseDevicesAppSettingKey = "UseDevices";
         public const string UpdaterVersionAppSettingKey = "UpdaterVersion";
+        public const string MinerClientFinderVersionAppSettingKey = "MinerClientFinderVersion";
         public const string ServerJsonVersionAppSettingKey = "ServerJsonVersion";
         #endregion
 
@@ -74,6 +102,7 @@
         public const string MinTempAppSettingKey = "MinTemp";
         public const string RejectPercentAppSettingKey = "RejectPercent";
         public const string NTMinerUpdaterFileNameAppSettingKey = "NTMinerUpdaterFileName";
+        public const string MinerClientFinderFileNameAppSettingKey = " MinerClientFinderFileName";
         #endregion
 
         #region 系统字典编码

@@ -12,9 +12,10 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public FragmentWriterViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 

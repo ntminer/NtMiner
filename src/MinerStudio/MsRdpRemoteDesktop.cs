@@ -12,7 +12,7 @@ namespace NTMiner {
         /// 打开远程桌面窗口连接给定ip的windows主机
         /// </summary>
         public static void OpenRemoteDesktop(RdpInput input) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 string serverIp = input.ServerIp;
                 string userName = input.UserName;
                 string password = input.Password;
@@ -77,7 +77,7 @@ namespace NTMiner {
                     string disconnectedText = $"{formText}远程桌面连接已断开！";
                     axMsRdp.DisconnectedText = disconnectedText;
                     axMsRdp.FindForm().Close();
-                    Write.UserFail(disconnectedText);
+                    VirtualRoot.Out.ShowError(disconnectedText, autoHideSeconds: 4);
                     onDisconnected?.Invoke(disconnectedText);
                 };
 

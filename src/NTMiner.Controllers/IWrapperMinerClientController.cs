@@ -1,6 +1,6 @@
-﻿using NTMiner.Daemon;
-using NTMiner.MinerClient;
-using NTMiner.MinerServer;
+﻿using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
 
 namespace NTMiner.Controllers {
     public interface IWrapperMinerClientController {

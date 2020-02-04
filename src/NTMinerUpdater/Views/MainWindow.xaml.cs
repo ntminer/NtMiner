@@ -11,17 +11,11 @@ namespace NTMiner.Views {
 
         public MainWindow() {
             InitializeComponent();
-            NotiCenterWindow.Bind(this);
+            NotiCenterWindow.Instance.Bind(this);
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e) {
             this.Close();
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
     }
 }

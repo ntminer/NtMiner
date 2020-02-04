@@ -1,7 +1,7 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.JsonDb;
-using NTMiner.MinerClient;
-using NTMiner.Profile;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,16 +19,16 @@ namespace NTMiner.Core.Profiles.Impl {
                     Save();
                 }
                 else {
-                    data = new GpuProfileData(message.Input);
+                    data = new GpuProfileData().Update(message.Input);
                     _data.GpuProfiles.Add(data);
                     Save();
                 }
-                VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(message.Id, data));
+                VirtualRoot.RaiseEvent(new GpuProfileAddedOrUpdatedEvent(message.MessageId, data));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<CoinOverClockCommand>(action: message => {
                 Task.Factory.StartNew(() => {
                     CoinOverClock(root, message.CoinId);
-                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(bornPathId: message.Id));
+                    VirtualRoot.RaiseEvent(new CoinOverClockDoneEvent(targetPathId: message.MessageId));
                 });
             }, location: this.GetType());
         }
@@ -145,7 +145,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
         private void OverClock(INTMinerRoot root, IGpuProfile data) {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
                 IOverClock overClock = root.GpuSet.OverClock;
@@ -162,12 +162,12 @@ namespace NTMiner.Core.Profiles.Impl {
                 else {
                     Write.UserOk($"GPU{gpu.Index}超频：{data.ToOverClockString()}");
                 }
-                TimeSpan.FromSeconds(1).Delay().ContinueWith(t => {
+                1.SecondsDelay().ContinueWith(t => {
                     overClock.RefreshGpuState(data.Index);
                 });
             }
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.OverClock");
             }
@@ -195,7 +195,6 @@ namespace NTMiner.Core.Profiles.Impl {
                 if (!_isInited) {
                     string json = SpecialPath.ReadGpuProfilesJsonFile();
                     if (!string.IsNullOrEmpty(json)) {
-                        // 反序列化不报异常，但如果格式不正确返回值可能为null
                         GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
                         if (data != null) {
                             _data = data;

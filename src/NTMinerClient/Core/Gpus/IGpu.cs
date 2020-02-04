@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Core.MinerClient;
 
 namespace NTMiner.Core.Gpus {
     public interface IGpu : IGpuStaticData, IOverClockInput {

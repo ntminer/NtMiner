@@ -1,9 +1,10 @@
 ﻿using NTMiner.AppSetting;
-using NTMiner.Hub;
 using NTMiner.Core;
+using NTMiner.Hub;
 using NTMiner.LocalMessage;
-using NTMiner.MinerClient;
+using NTMiner.Core.MinerClient;
 using NTMiner.Net;
+using NTMiner.Out;
 using NTMiner.Serialization;
 using System;
 using System.Diagnostics;
@@ -20,17 +21,11 @@ namespace NTMiner {
     /// <remarks>开源矿工代码较多，文档较少。程序员需要在脑子里构建系统的影像，面向这棵树的空间造型和运动景象编程。</remarks>
     public static partial class VirtualRoot {
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
-        public static string LocalDbFileFullName {
-            get {
-                return Path.Combine(MainAssemblyInfo.HomeDirFullName, NTKeyword.LocalDbFileName);
-            }
-        }
-
         /// <summary>
         /// 矿机的唯一的持久的标识。持久在注册表。
         /// </summary>
         public static Guid Id { get; private set; }
-        
+
         #region IsMinerClient
         private static bool _isMinerClient;
         private static bool _isMinerClientDetected = false;
@@ -43,11 +38,15 @@ namespace NTMiner {
                 if (_isMinerClientDetected) {
                     return _isMinerClient;
                 }
+                if (_isMinerStudioDetected && IsMinerStudio) {
+                    _isMinerClientDetected = true;
+                    return false;
+                }
                 lock (_isMinerClientLocker) {
                     if (_isMinerClientDetected) {
                         return _isMinerClient;
                     }
-                    if (DevMode.IsInUnitTest) { 
+                    if (DevMode.IsInUnitTest) {
                         _isMinerClient = true;
                     }
                     else {
@@ -73,6 +72,10 @@ namespace NTMiner {
             get {
                 if (_isMinerStudioDetected) {
                     return _isMinerStudio;
+                }
+                if (_isMinerClientDetected && IsMinerClient) {
+                    _isMinerStudioDetected = true;
+                    return false;
                 }
                 lock (_isMinerStudioLocker) {
                     if (_isMinerStudioDetected) {
@@ -110,8 +113,24 @@ namespace NTMiner {
             _isServerMessagesVisible = value;
         }
 
+        public static string GetLocalIps(out string macAddress) {
+            string localIp = string.Empty;
+            macAddress = string.Empty;
+            foreach (var item in LocalIpSet.AsEnumerable()) {
+                if (macAddress.Length != 0) {
+                    macAddress += "," + item.MACAddress;
+                    localIp += "," + item.IPAddress + (item.DHCPEnabled ? "(动态)" : "(🔒)");
+                }
+                else {
+                    macAddress = item.MACAddress;
+                    localIp = item.IPAddress + (item.DHCPEnabled ? "(动态)" : "(🔒)");
+                }
+            }
+            return localIp;
+        }
+
         public static ILocalIpSet LocalIpSet { get; private set; }
-        public static IObjectSerializer JsonSerializer { get; private set; }
+        public static INTSerializer JsonSerializer { get; private set; }
 
         // 视图层有个界面提供给开发者观察系统的消息路径情况所以是public的。
         // 系统根上的一些状态集的构造时最好都放在MessageHub初始化之后，因为状态集的构造
@@ -130,30 +149,6 @@ namespace NTMiner {
             }
         }
 
-        #region 这是一个外部不需要知道的类型
-        private class EmptyOut : IOut {
-            public static readonly EmptyOut Instance = new EmptyOut();
-
-            private EmptyOut() { }
-
-            public void ShowError(string message, int? delaySeconds = null) {
-                // nothing need todo
-            }
-
-            public void ShowInfo(string message) {
-                // nothing need todo
-            }
-
-            public void ShowSuccess(string message, string header = "成功") {
-                // nothing need todo
-            }
-
-            public void ShowWarn(string message, int? delaySeconds = null) {
-                // nothing need todo
-            }
-        }
-        #endregion
-
         public static void SetOut(IOut ntOut) {
             _out = ntOut;
         }
@@ -162,9 +157,9 @@ namespace NTMiner {
         static VirtualRoot() {
             Id = NTMinerRegistry.GetClientId();
             LocalIpSet = new LocalIpSet();
-            JsonSerializer = new ObjectJsonSerializer();
+            JsonSerializer = new NTJsonSerializer();
             // 构造函数中会建造消息路径
-            LocalMessages = new LocalMessageSet(LocalDbFileFullName);
+            LocalMessages = new LocalMessageSet(EntryAssemblyInfo.LocalDbFileFullName);
         }
 
         #region LocalServerMessageSetTimestamp
@@ -212,7 +207,7 @@ namespace NTMiner {
         public static IAppSettingSet LocalAppSettingSet {
             get {
                 if (_appSettingSet == null) {
-                    _appSettingSet = new LocalAppSettingSet(LocalDbFileFullName);
+                    _appSettingSet = new LocalAppSettingSet(EntryAssemblyInfo.LocalDbFileFullName);
                 }
                 return _appSettingSet;
             }
@@ -297,7 +292,7 @@ namespace NTMiner {
                 throw new InvalidProgramException("不支持单元测试这个方法，因为该方法的逻辑依赖于主程序集而单元测试时主程序集是null");
             }
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             Guid guid = Guid.Empty;
             int LEN = keyword.Length;
@@ -337,7 +332,7 @@ namespace NTMiner {
                 Guid.TryParse(guidString, out guid);
             }
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {typeof(VirtualRoot).Name}.GetBrandId");
             }
@@ -367,10 +362,10 @@ namespace NTMiner {
                     Out.ShowInfo(content);
                     break;
                 case OutEnum.Warn:
-                    Out.ShowWarn(content, delaySeconds: 4);
+                    Out.ShowWarn(content, autoHideSeconds: 4);
                     break;
                 case OutEnum.Error:
-                    Out.ShowError(content, delaySeconds: 4);
+                    Out.ShowError(content, autoHideSeconds: 4);
                     break;
                 case OutEnum.Success:
                     Out.ShowSuccess(content);
@@ -404,19 +399,8 @@ namespace NTMiner {
         }
         #endregion
 
-        public static WebClient CreateWebClient(int timeoutSeconds = 180) {
+        public static WebClient CreateWebClient(int timeoutSeconds = 60) {
             return new NTMinerWebClient(timeoutSeconds);
-        }
-
-        // 因为界面上输入框不好体现输入的空格，所以这里对空格进行转义
-        public const string SpaceKeyword = "space";
-        // 如果没有使用分隔符分割序号的话无法表达两位数的序号，此时这种情况基本都是用ABCDEFGH……表达的后续的两位数
-        private static readonly string[] IndexChars = new string[] { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n" };
-        public static string GetIndexChar(int index, string separator) {
-            if (index <= 9 || !string.IsNullOrEmpty(separator)) {
-                return index.ToString();
-            }
-            return IndexChars[index - 10];
         }
 
         #region 内部类

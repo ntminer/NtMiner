@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
+using NTMiner.Core.MinerServer;
 using NTMiner.Vms;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +27,8 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void MenuItemUpgrade_Click(object sender, RoutedEventArgs e) {
-            OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntMinerFiles, ex) => {
-                UIThread.Execute(() => {
+            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntMinerFiles, ex) => {
+                UIThread.Execute(() => () => {
                     Vm.NTMinerFileList = (ntMinerFiles ?? new List<NTMinerFileData>()).OrderByDescending(a => a.GetVersion()).ToList();
                 });
             });

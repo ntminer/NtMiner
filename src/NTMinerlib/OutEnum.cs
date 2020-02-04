@@ -1,9 +1,9 @@
 ﻿namespace NTMiner {
     public enum OutEnum {
-        None,
-        Info,
-        Warn,
-        Error,
-        Success
+        None = 0,
+        Info = 1,
+        Warn = 2,
+        Error = 3,
+        Success = 4
     }
 }

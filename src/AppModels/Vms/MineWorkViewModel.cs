@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.JsonDb;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using System;
 using System.IO;
 using System.Linq;
@@ -23,9 +23,10 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public MineWorkViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
@@ -46,11 +47,11 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (string.IsNullOrEmpty(this.Name)) {
-                    VirtualRoot.Out.ShowError("作业名称是必须的");
+                    VirtualRoot.Out.ShowError("作业名称是必须的", autoHideSeconds: 4);
                 }
                 bool isMineWorkChanged = false;
                 bool isMinerProfileChanged = false;
-                MineWorkData mineWorkData = new MineWorkData(this);
+                MineWorkData mineWorkData = new MineWorkData().Update(this);
                 if (NTMinerRoot.Instance.MineWorkSet.TryGetMineWork(this.Id, out IMineWork entity)) {
                     string sha1 = NTMinerRoot.Instance.MinerProfile.GetSha1();
                     // 如果作业设置变更了则一定变更了
@@ -80,7 +81,11 @@ namespace NTMiner.Vms {
                     Write.DevDebug("检测到MinerProfile状态变更");
                     NTMinerRoot.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                     if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                        Server.MineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: null);
+                        RpcRoot.Server.MineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, callback: (response, e) => {
+                            if (!response.IsSuccess()) {
+                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                            }
+                        });
                     }
                     if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
                         this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
@@ -108,7 +113,7 @@ namespace NTMiner.Vms {
                 else {
                     // 编辑作业前切换上下文
                     // 根据workId下载json保存到本地并调用LocalJson.Instance.ReInit()
-                    string json = Server.MineWorkService.GetLocalJson(this.Id);
+                    string json = RpcRoot.Server.MineWorkService.GetLocalJson(this.Id);
                     if (!string.IsNullOrEmpty(json)) {
                         File.WriteAllText(SpecialPath.LocalJsonFileFullName, json);
                     }

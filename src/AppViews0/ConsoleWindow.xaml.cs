@@ -12,8 +12,6 @@ namespace NTMiner.Views {
         internal static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
         [DllImport(DllName.User32Dll, SetLastError = true)]
         internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-        [DllImport(DllName.User32Dll, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, ExactSpelling = true, SetLastError = true)]
-        internal static extern void MoveWindow(IntPtr hwnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
     }
 
     public partial class ConsoleWindow : Window {
@@ -26,11 +24,11 @@ namespace NTMiner.Views {
             InitializeComponent();
             this.Loaded += (sender, e) => {
                 IntPtr parent = new WindowInteropHelper(this).Handle;
-                IntPtr console = NTMinerConsole.Alloc();
+                IntPtr console = NTMinerConsole.GetOrAlloc();
                 SafeNativeMethods.SetParent(console, parent);
                 SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-                hwndSource.AddHook(new HwndSourceHook(Win32MessageProc.WindowProc));
+                hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
             };
         }
 
@@ -49,7 +47,7 @@ namespace NTMiner.Views {
             }
             const int paddingLeft = 4;
             const int paddingRight = 5;
-            int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft;
+            int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft + 1;
             if (width < 0) {
                 width = 0;
             }
@@ -70,8 +68,7 @@ namespace NTMiner.Views {
             if ((int)ConsoleBgRectangle.Margin.Top != marginTop) {
                 ConsoleBgRectangle.Margin = new Thickness(0, marginTop, 1, 0);
             }
-            IntPtr console = NTMinerConsole.Show();
-            SafeNativeMethods.MoveWindow(console, paddingLeft + marginLeft, marginTop, width, height, true);
+            NTMinerConsole.MoveWindow(paddingLeft + marginLeft, marginTop, width, height, true);
         }
     }
 }

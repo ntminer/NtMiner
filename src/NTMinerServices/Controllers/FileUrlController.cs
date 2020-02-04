@@ -1,5 +1,5 @@
 ﻿using Aliyun.OSS;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -14,7 +14,7 @@ namespace NTMiner.Controllers {
             try {
                 var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -31,7 +31,7 @@ namespace NTMiner.Controllers {
                 Expiration = DateTime.Now.AddMinutes(10)
             };
             var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-            return OfficialServer.SignatureSafeUrl(uri);
+            return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
         }
 
         [HttpPost]
@@ -79,16 +79,36 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string NTMinerUpdaterUrl() {
             try {
-                string ntminerUpdaterFileName;
-                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting ntminerUpdaterFileNameSetting)) {
-                    ntminerUpdaterFileName = NTKeyword.NTMinerUpdaterFileName;
+                string fileName;
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting setting)) {
+                    fileName = NTKeyword.NTMinerUpdaterFileName;
                 }
                 else {
-                    ntminerUpdaterFileName = (string)ntminerUpdaterFileNameSetting.Value;
+                    fileName = (string)setting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", ntminerUpdaterFileName, SignHttpMethod.Get);
+                var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return string.Empty;
+            }
+        }
+
+        [HttpPost]
+        public string MinerClientFinderUrl() {
+            try {
+                string fileName;
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.MinerClientFinderFileNameAppSettingKey, out IAppSetting setting)) {
+                    fileName = NTKeyword.MinerClientFinderFileName;
+                }
+                else {
+                    fileName = (string)setting.Value;
+                }
+                var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get);
+                var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -101,7 +121,7 @@ namespace NTMiner.Controllers {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -119,7 +139,7 @@ namespace NTMiner.Controllers {
                     Expiration = DateTime.Now.AddMinutes(10)
                 };
                 var uri = HostRoot.Instance.OssClient.GeneratePresignedUri(req);
-                return OfficialServer.SignatureSafeUrl(uri);
+                return RpcRoot.OfficialServer.SignatureSafeUrl(uri);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

@@ -18,9 +18,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source);
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: vm.Id, location: typeof(KernelEdit));
+                window.AddCloseWindowOnecePath(vm.Id);
                 return new KernelEdit(vm);
             }, fixedSize: false);
         }
@@ -37,7 +35,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void CoinKernelDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<CoinKernelViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<CoinKernelViewModel>(sender, e);
         }
 
         private void KbButtonBrand_Clicked(object sender, RoutedEventArgs e) {

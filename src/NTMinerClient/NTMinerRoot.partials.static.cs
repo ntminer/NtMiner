@@ -1,9 +1,10 @@
 ﻿using NTMiner.Core;
 using NTMiner.JsonDb;
-using NTMiner.MinerClient;
-using NTMiner.MinerServer;
-using NTMiner.Profile;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
+using NTMiner.Core.Profile;
 using NTMiner.Repositories;
+using OpenHardwareMonitor.Hardware;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,7 +14,7 @@ using System.Text;
 namespace NTMiner {
     public partial class NTMinerRoot {
         static NTMinerRoot() {
-            ServerVersion = MainAssemblyInfo.CurrentVersion;
+            ServerVersion = EntryAssemblyInfo.CurrentVersion;
         }
 
         public const int SpeedHistoryLengthByMinute = 10;
@@ -34,6 +35,27 @@ namespace NTMiner {
             private set { _isJsonLocal = value; }
         }
 
+        #region 电脑硬件
+        private static Computer _computer = null;
+        private static bool _isComputerFirst = true;
+        private static readonly object _computerLocker = new object();
+        public static Computer Computer {
+            get {
+                if (_isComputerFirst) {
+                    lock (_computerLocker) {
+                        if (_isComputerFirst) {
+                            _isComputerFirst = false;
+                            _computer = new Computer();
+                            _computer.Open();
+                            _computer.CPUEnabled = true;
+                        }
+                    }
+                }
+                return _computer;
+            }
+        }
+        #endregion
+
         public static string ThisPcName {
             get {
                 string value = Environment.MachineName;
@@ -46,11 +68,29 @@ namespace NTMiner {
         public static void SetRefreshArgsAssembly(Action action) {
             RefreshArgsAssembly = action;
         }
-        public static bool IsUiVisible;
-        public static DateTime MainWindowRendedOn = DateTime.MinValue;
+        private static bool _isUiVisible = false;
+        public static bool IsUiVisible {
+            get { return _isUiVisible; }
+            set {
+                _isUiVisible = value;
+                if (value) {
+                    MainWindowRendedOn = DateTime.Now;
+                }
+            }
+        }
+        private static DateTime _mainWindowRendedOn = DateTime.MinValue;
+        public static DateTime MainWindowRendedOn {
+            get { return _mainWindowRendedOn; }
+            private set {
+                _mainWindowRendedOn = value;
+            }
+        }
 
         public static bool IsUseDevConsole = false;
-        public static int OSVirtualMemoryMb;
+        public static int OSVirtualMemoryMb { get; private set; }
+        public static void SetOSVirtualMemoryMb(int value) {
+            OSVirtualMemoryMb = value;
+        }
 
         public static bool IsAutoStartCanceled = false;
 
@@ -165,19 +205,14 @@ namespace NTMiner {
                     if (!_localJsonInited) {
                         string localJson = SpecialPath.ReadLocalJsonFile();
                         if (!string.IsNullOrEmpty(localJson)) {
-                            try {
-                                LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
-                                _localJson = data ?? new LocalJsonDb();
-                            }
-                            catch (Exception e) {
-                                Logger.ErrorDebugLine(e);
-                            }
+                            LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
+                            _localJson = data ?? new LocalJsonDb();
                         }
                         else {
                             _localJson = new LocalJsonDb();
                         }
                         // 因为是群控作业，将开机启动和自动挖矿设置为true
-                        var repository = new LiteDbReadWriteRepository<MinerProfileData>(VirtualRoot.LocalDbFileFullName);
+                        var repository = new LiteDbReadWriteRepository<MinerProfileData>(EntryAssemblyInfo.LocalDbFileFullName);
                         MinerProfileData localProfile = repository.GetByKey(MinerProfileData.DefaultId);
                         if (localProfile != null) {
                             if (localProfile.IsAutoStart == false || localProfile.IsAutoBoot == false) {
@@ -227,8 +262,8 @@ namespace NTMiner {
                     if (!_serverJsonInited) {
                         string serverJson = SpecialPath.ReadServerJsonFile();
                         if (!string.IsNullOrEmpty(serverJson)) {
+                            ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson) ?? new ServerJsonDb();
                             try {
-                                ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson);
                                 _serverJson = data;
                                 if (KernelBrandId != Guid.Empty) {
                                     var kernelToRemoves = data.Kernels.Where(a => a.BrandId != KernelBrandId).ToArray();
@@ -311,7 +346,7 @@ namespace NTMiner {
 
         public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
             if (!IsJsonLocal) {
-                return new LiteDbReadWriteRepository<T>(VirtualRoot.LocalDbFileFullName);
+                return new LiteDbReadWriteRepository<T>(EntryAssemblyInfo.LocalDbFileFullName);
             }
             else {
                 return new JsonReadOnlyRepository<T>(LocalJson);
@@ -320,7 +355,7 @@ namespace NTMiner {
 
         public static IRepository<T> CreateServerRepository<T>() where T : class, IDbEntity<Guid> {
             if (!IsJsonServer) {
-                return new LiteDbReadWriteRepository<T>(SpecialPath.ServerDbFileFullName);
+                return new LiteDbReadWriteRepository<T>(EntryAssemblyInfo.ServerDbFileFullName);
             }
             else {
                 return new JsonReadOnlyRepository<T>(ServerJson);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class InputWindow : BlankWindow {
@@ -14,6 +13,7 @@ namespace NTMiner.Views {
             Action<string> onOk) {
             this.Title = title;
             InitializeComponent();
+            this.TbUcName.Text = nameof(InputWindow);
             TbTitle.Text = title;
             TbText.Text = text;
 
@@ -35,8 +35,8 @@ namespace NTMiner.Views {
                 else {
                     this.TbMessage.Text = message;
                     this.TbMessage.Visibility = Visibility.Visible;
-                    TimeSpan.FromSeconds(4).Delay().ContinueWith(t => {
-                        UIThread.Execute(() => {
+                    4.SecondsDelay().ContinueWith(t => {
+                        UIThread.Execute(() => () => {
                             this.TbMessage.Text = string.Empty;
                             this.TbMessage.Visibility = Visibility.Hidden;
                         });
@@ -46,12 +46,6 @@ namespace NTMiner.Views {
             else {
                 this.Close();
                 _onOk.Invoke(this.TbText.Text);
-            }
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ButtonState == MouseButtonState.Pressed) {
-                this.DragMove();
             }
         }
     }

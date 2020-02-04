@@ -1,15 +1,14 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Core.MinerClient;
 using System;
-using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class LocalMessageViewModel : ViewModelBase, ILocalMessage {
-        private static readonly StreamGeometry ErrorIcon = (StreamGeometry)Application.Current.Resources["Icon_Error"];
-        private static readonly StreamGeometry WarnIcon = (StreamGeometry)Application.Current.Resources["Icon_Warn"];
-        private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Message"];
-        private static readonly SolidColorBrush InfoColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
-        private static readonly SolidColorBrush WarnColor = (SolidColorBrush)Application.Current.Resources["WarnColor"];
+        private static readonly StreamGeometry ErrorIcon = AppUtil.GetResource<StreamGeometry>("Icon_Error");
+        private static readonly StreamGeometry WarnIcon = AppUtil.GetResource<StreamGeometry>("Icon_Warn");
+        private static readonly StreamGeometry InfoIcon = AppUtil.GetResource<StreamGeometry>("Icon_Message");
+        private static readonly SolidColorBrush InfoColor = AppUtil.GetResource<SolidColorBrush>("InfoColor");
+        private static readonly SolidColorBrush WarnColor = AppUtil.GetResource<SolidColorBrush>("WarnColor");
 
         public static StreamGeometry GetIcon(LocalMessageType messageType) {
             switch (messageType) {
@@ -124,17 +123,7 @@ namespace NTMiner.Vms {
 
         public string TimestampText {
             get {
-                int offDay = (DateTime.Now.Date - Timestamp.Date).Days;
-                switch (offDay) {
-                    case 0:
-                        return $"今天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    case 1:
-                        return $"昨天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    case 2:
-                        return $"前天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    default:
-                        return Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
-                }
+                return NTMiner.Timestamp.GetTimestampText(this.Timestamp);
             }
         }
     }

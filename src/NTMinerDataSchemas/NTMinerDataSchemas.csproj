@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{DEFC7387-F9FA-4651-A281-6612EFB7FBB6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NTMiner</RootNamespace>
+    <AssemblyName>NTMinerDataSchemas</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>false</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\MinerServer\ChangePasswordRequest.cs" />
+    <Compile Include="Core\CoinData.cs" />
+    <Compile Include="Core\CoinGroupData.cs" />
+    <Compile Include="Core\CoinKernelData.cs" />
+    <Compile Include="Core\EnvironmentVariable.cs" />
+    <Compile Include="Core\FileWriterData.cs" />
+    <Compile Include="Core\FragmentWriterData.cs" />
+    <Compile Include="Core\GroupData.cs" />
+    <Compile Include="Core\IFragmentWriter.cs" />
+    <Compile Include="Core\ICoin.cs" />
+    <Compile Include="Core\ICoinGroup.cs" />
+    <Compile Include="Core\ICoinKernel.cs" />
+    <Compile Include="Core\IFileWriter.cs" />
+    <Compile Include="Core\IGroup.cs" />
+    <Compile Include="Core\IKernel.cs" />
+    <Compile Include="Core\IKernelInput.cs" />
+    <Compile Include="Core\IInputSegment.cs" />
+    <Compile Include="Core\IKernelOutput.cs" />
+    <Compile Include="Core\IKernelOutputTranslater.cs" />
+    <Compile Include="Core\IPackage.cs" />
+    <Compile Include="Core\IPoolKernel.cs" />
+    <Compile Include="Core\ISysDic.cs" />
+    <Compile Include="Core\ISysDicItem.cs" />
+    <Compile Include="Core\KernelData.cs" />
+    <Compile Include="Core\KernelExtension.cs" />
+    <Compile Include="Core\KernelInputData.cs" />
+    <Compile Include="Core\InputSegment.cs" />
+    <Compile Include="Core\KernelOutputData.cs" />
+    <Compile Include="Core\KernelOutputTranslaterData.cs" />
+    <Compile Include="Core\PackageData.cs" />
+    <Compile Include="Core\PoolKernelData.cs" />
+    <Compile Include="Core\SupportedGpu.cs" />
+    <Compile Include="Core\SysDicData.cs" />
+    <Compile Include="Core\SysDicItemData.cs" />
+    <Compile Include="Core\Daemon\SetWalletRequest.cs" />
+    <Compile Include="DataLevel.cs" />
+    <Compile Include="ICanUpdateByReflection.cs" />
+    <Compile Include="Core\SpeedDoubleExtension.cs" />
+    <Compile Include="IGetSignData.cs" />
+    <Compile Include="DataResponse`1.cs" />
+    <Compile Include="Core\IOverClockInput.cs" />
+    <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
+    <Compile Include="JsonDb\IJsonDb.cs" />
+    <Compile Include="WsMessage.cs" />
+    <Compile Include="Core\MinerClient\IGpuSpeedData.cs" />
+    <Compile Include="Core\MinerClient\ILocalIp.cs" />
+    <Compile Include="Core\MinerClient\ISpeedData.cs" />
+    <Compile Include="Core\MinerClient\LocalIpData.cs" />
+    <Compile Include="Core\MinerServer\IMinerData.cs" />
+    <Compile Include="Core\MinerServer\INTMinerWallet.cs" />
+    <Compile Include="Core\MinerServer\IServerMessage.cs" />
+    <Compile Include="Core\MinerServer\KernelOutputKeywordsRequest.cs" />
+    <Compile Include="Core\MinerServer\KernelOutputKeywordsResponse.cs" />
+    <Compile Include="Core\MinerServer\NTMinerWalletData.cs" />
+    <Compile Include="Core\MinerServer\NTMinerWalletsRequest.cs" />
+    <Compile Include="Core\MinerClient\LocalMessageChannel.cs" />
+    <Compile Include="Core\MinerServer\ReportResponse.cs" />
+    <Compile Include="Core\MinerServer\ServerMessageData.cs" />
+    <Compile Include="Core\MinerServer\ServerMessagesRequest.cs" />
+    <Compile Include="Core\MinerServer\ServerMessageType.cs" />
+    <Compile Include="Core\MinerServer\ServerState.cs" />
+    <Compile Include="Core\Profile\GpuProfileExtension.cs" />
+    <Compile Include="Core\IKernelOutputKeyword.cs" />
+    <Compile Include="Core\MinerClient\ILocalMessage.cs" />
+    <Compile Include="Core\KernelOutputKeywordData.cs" />
+    <Compile Include="Core\MinerClient\LocalMessageData.cs" />
+    <Compile Include="Core\MinerClient\GpuData.cs" />
+    <Compile Include="Core\MinerClient\IGpuStaticData.cs" />
+    <Compile Include="Core\MinerServer\AddClientRequest.cs" />
+    <Compile Include="Core\MinerServer\MinerData.cs" />
+    <Compile Include="Core\MinerServer\MinerIdsRequest.cs" />
+    <Compile Include="Core\MinerClient\CoinOverClockData.cs" />
+    <Compile Include="Core\Profile\GpuProfileData.cs" />
+    <Compile Include="Core\GpuType.cs" />
+    <Compile Include="JsonDb\GpuProfilesJsonDb.cs" />
+    <Compile Include="Core\Profile\IGpuProfile.cs" />
+    <Compile Include="ILevelEntity`1.cs" />
+    <Compile Include="Core\IPool.cs" />
+    <Compile Include="ISortable.cs" />
+    <Compile Include="Core\MinerClient\GpuSpeedData.cs" />
+    <Compile Include="Core\MinerClient\SetMinerProfilePropertyRequest.cs" />
+    <Compile Include="DataRequest`1.cs" />
+    <Compile Include="Core\AppSettingData.cs" />
+    <Compile Include="Core\MinerServer\AppSettingRequest.cs" />
+    <Compile Include="Core\MinerServer\AppSettingsRequest.cs" />
+    <Compile Include="Core\MinerServer\ExportMineWorkRequest.cs" />
+    <Compile Include="Core\NTMinerAppType.cs" />
+    <Compile Include="Core\MinerServer\WrapperRequest.cs" />
+    <Compile Include="Core\MinerServer\CalcConfigData.cs" />
+    <Compile Include="Core\MinerServer\CalcConfigsRequest.cs" />
+    <Compile Include="Core\MinerServer\ClientData.cs" />
+    <Compile Include="Core\MinerServer\ColumnsShowData.cs" />
+    <Compile Include="Core\MinerServer\IColumnsShow.cs" />
+    <Compile Include="SignRequest.cs" />
+    <Compile Include="Core\MinerServer\IOverClockData.cs" />
+    <Compile Include="Core\Daemon\WorkRequest.cs" />
+    <Compile Include="Core\MinerServer\OverClockData.cs" />
+    <Compile Include="Core\MinerServer\OverClockDatasRequest.cs" />
+    <Compile Include="Core\MinerServer\UpdateClientsRequest.cs" />
+    <Compile Include="Core\Daemon\UpgradeNTMinerRequest.cs" />
+    <Compile Include="Core\PoolData.cs" />
+    <Compile Include="Core\Profile\CoinKernelProfileData.cs" />
+    <Compile Include="Core\Profile\CoinProfileData.cs" />
+    <Compile Include="Core\MinerServer\CoinSnapshotData.cs" />
+    <Compile Include="Core\MinerServer\GetCoinSnapshotsRequest.cs" />
+    <Compile Include="Core\MinerServer\GetCoinSnapshotsResponse.cs" />
+    <Compile Include="HashUtil.cs" />
+    <Compile Include="IAppSetting.cs" />
+    <Compile Include="Core\MinerServer\ICalcConfig.cs" />
+    <Compile Include="Core\Profile\ICoinKernelProfile.cs" />
+    <Compile Include="Core\Profile\ICoinProfile.cs" />
+    <Compile Include="IEntity`1.cs" />
+    <Compile Include="Core\MinerServer\IMinerGroup.cs" />
+    <Compile Include="Core\Profile\IMinerProfile.cs" />
+    <Compile Include="Core\MinerServer\IMineWork.cs" />
+    <Compile Include="Core\MinerServer\INTMinerFile.cs" />
+    <Compile Include="Core\Profile\IPoolProfile.cs" />
+    <Compile Include="ITimestampEntity·1.cs" />
+    <Compile Include="IUser.cs" />
+    <Compile Include="Core\IWallet.cs" />
+    <Compile Include="Core\MinerServer\LoadClientRequest.cs" />
+    <Compile Include="Core\MinerServer\MinerGroupData.cs" />
+    <Compile Include="Core\MinerServer\MinerJsonPutUrlRequest.cs" />
+    <Compile Include="Core\Profile\MinerProfileData.cs" />
+    <Compile Include="Core\MineStatus.cs" />
+    <Compile Include="Core\MinerServer\MineWorkData.cs" />
+    <Compile Include="Core\MinerServer\NTMinerFileData.cs" />
+    <Compile Include="Core\MinerServer\NTMinerUrlRequest.cs" />
+    <Compile Include="Core\MinerServer\PackageUrlRequest.cs" />
+    <Compile Include="Core\Profile\PoolProfileData.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Core\MinerServer\QueryClientsRequest.cs" />
+    <Compile Include="Core\MinerServer\QueryClientsResponse.cs" />
+    <Compile Include="Core\MinerClient\ReportState.cs" />
+    <Compile Include="Core\PublishStatus.cs" />
+    <Compile Include="RequestBase.cs" />
+    <Compile Include="ResponseBase.cs" />
+    <Compile Include="ResponseBaseExtension.cs" />
+    <Compile Include="Core\MinerServer\SaveCalcConfigsRequest.cs" />
+    <Compile Include="Core\MinerClient\SetClientMinerProfilePropertyRequest.cs" />
+    <Compile Include="Core\MinerClient\SpeedData.cs" />
+    <Compile Include="Timestamp.cs" />
+    <Compile Include="Core\MinerServer\UpdateClientRequest.cs" />
+    <Compile Include="UserData.cs" />
+    <Compile Include="Core\WalletData.cs" />
+    <Compile Include="Core\MinerClient\LocalMessageType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

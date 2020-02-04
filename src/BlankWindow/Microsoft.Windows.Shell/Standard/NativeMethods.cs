@@ -1786,16 +1786,16 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         #region IDisposable Pattern
 
         public void Dispose() {
-            Dispose(true);
+            CleanUp(true);
             GC.SuppressFinalize(this);
         }
 
         ~PROPVARIANT() {
-            Dispose(false);
+            CleanUp(false);
         }
 
         [SuppressMessage("Microsoft.Usage", "CA1801:ReviewUnusedParameters", MessageId = "disposing")]
-        private void Dispose(bool disposing) {
+        private void CleanUp(bool disposing) {
             Clear();
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -17,6 +16,7 @@ namespace NTMiner.Vms {
         private string _localIps;
         private readonly DateTime _bootTime = DateTime.MinValue;
         private string _cpuPerformanceText = "0 %";
+        private string _cpuPowerText = "0 W";
         private string _cpuTemperatureText = "0 ℃";
 
         public ICommand WindowsAutoLogon { get; private set; }
@@ -39,12 +39,17 @@ namespace NTMiner.Vms {
                 }
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
             });
-            _localIps = GetLocalIps();
-            SetCheckUpdateForeground(isLatest: MainAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
+            _localIps = VirtualRoot.GetLocalIps(out string _);
+            SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
         }
 
         public bool IsAutoAdminLogon {
-            get { return Windows.OS.Instance.IsAutoAdminLogon; }
+            get {
+                if (WpfUtil.IsInDesignMode) {
+                    return false;
+                }
+                return Windows.OS.Instance.IsAutoAdminLogon;
+            }
         }
 
         public string AutoAdminLogonToolTip {
@@ -58,6 +63,9 @@ namespace NTMiner.Vms {
 
         public bool IsRemoteDesktopEnabled {
             get {
+                if (WpfUtil.IsInDesignMode) {
+                    return false;
+                }
                 return NTMinerRegistry.GetIsRemoteDesktopEnabled();
             }
         }
@@ -106,6 +114,16 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string CpuPowerText {
+            get => _cpuPowerText;
+            set {
+                if (_cpuPowerText != value) {
+                    _cpuPowerText = value;
+                    OnPropertyChanged(nameof(CpuPowerText));
+                }
+            }
+        }
+
         public string CpuTemperatureText {
             get => _cpuTemperatureText;
             set {
@@ -116,25 +134,13 @@ namespace NTMiner.Vms {
             }
         }
 
-        private string GetLocalIps() {
-            StringBuilder sb = new StringBuilder();
-            int len = sb.Length;
-            foreach (var localIp in VirtualRoot.LocalIpSet.AsEnumerable()) {
-                if (len != sb.Length) {
-                    sb.Append("，");
-                }
-                sb.Append(localIp.IPAddress).Append(localIp.DHCPEnabled ? "(动态)" : "🔒");
-            }
-            return sb.ToString();
-        }
-
         public void RefreshLocalIps() {
-            LocalIps = GetLocalIps();
+            LocalIps = VirtualRoot.GetLocalIps(out string _);
         }
 
         public void SetCheckUpdateForeground(bool isLatest) {
             if (isLatest) {
-                CheckUpdateForeground = (SolidColorBrush)Application.Current.Resources["LableColor"];
+                CheckUpdateForeground = AppUtil.GetResource<SolidColorBrush>("LableColor");
             }
             else {
                 CheckUpdateForeground = WpfUtil.RedBrush;
@@ -243,7 +249,12 @@ namespace NTMiner.Vms {
         }
 
         public string LocalIps {
-            get { return _localIps; }
+            get {
+                if (WpfUtil.IsInDesignMode) {
+                    return "192.168.1.111";
+                }
+                return _localIps;
+            }
             set {
                 _localIps = value;
                 OnPropertyChanged(nameof(LocalIps));

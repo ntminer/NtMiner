@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System.Collections.Generic;
 
 namespace NTMiner.Core {

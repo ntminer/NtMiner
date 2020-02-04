@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,21 +44,30 @@ namespace NTMiner.Vms {
             });
             VirtualRoot.AddEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
-                        Init();
-                    });
+                    UIThread.Execute(() => Init);
                 }, location: this.GetType());
             VirtualRoot.AddEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
+                    UIThread.Execute(() => () => {
                         foreach (var item in message.Data) {
                             var vm = new ServerMessageViewModel(item);
                             var exist = _serverMessageVms.FirstOrDefault(a => a.Id == item.Id);
                             if (exist != null) {
                                 _serverMessageVms.Remove(exist);
+                                if (item.IsDeleted) {
+                                    _count[exist.MessageTypeEnum].Count--;
+                                }
+                                else {
+                                    _serverMessageVms.Insert(0, vm);
+                                    if (exist.MessageType != item.MessageType) {
+                                        _count[exist.MessageTypeEnum].Count--;
+                                        _count[vm.MessageTypeEnum].Count++;
+                                    }
+                                }
                             }
-                            if (!vm.IsDeleted) {
+                            else if (!vm.IsDeleted) {
                                 _serverMessageVms.Insert(0, vm);
+                                _count[vm.MessageTypeEnum].Count++;
                             }
                             if (IsSatisfyQuery(vm)) {
                                 exist = _queyResults.FirstOrDefault(a => a.Id == item.Id);

@@ -8,7 +8,7 @@ namespace NTMiner.Views {
         private static readonly object _locker = new object();
         private static KernelsWindow _instance = null;
         public static void ShowWindow() {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 if (_instance == null) {
                     lock (_locker) {
                         if (_instance == null) {
@@ -34,6 +34,7 @@ namespace NTMiner.Views {
             if (DevMode.IsDevMode) {
                 this.Width += 600;
             }
+            this.TbUcName.Text = nameof(KernelsWindow);
             this.AddEventPath<MineStopedEvent>("当内核宝库窗口开着时如果是本地手动停止的挖矿则引发UserActionEvent事件", LogEnum.DevConsole,
                 action: message => {
                     if (message.StopReason == StopMineReason.LocalUserAction) {
@@ -42,12 +43,12 @@ namespace NTMiner.Views {
                 }, location: this.GetType());
             this.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的Vm集刷新后刷新内核宝库", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
+                    UIThread.Execute(() => () => {
                         Vm.OnPropertyChanged(nameof(Vm.QueryResults));
                     });
                 }, location: this.GetType());
             AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
-            NotiCenterWindow.Bind(this);
+            NotiCenterWindow.Instance.Bind(this);
             if (!Vm.MinerProfile.IsMining) {
                 VirtualRoot.RaiseEvent(new UserActionEvent());
             }
@@ -69,14 +70,8 @@ namespace NTMiner.Views {
             Vm.Search.Execute(null);
         }
 
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<KernelViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<KernelViewModel>(sender, e);
         }
 
         private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {

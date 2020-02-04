@@ -1,15 +1,26 @@
 ﻿using NTMiner.Views;
 using NTMiner.Vms;
 using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace NTMiner {
     public static class AppUtil {
+        private static class SafeNativeMethods {
+            [DllImport(DllName.User32Dll)]
+            public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
+
+            [DllImport(DllName.User32Dll)]
+            public static extern bool SetForegroundWindow(IntPtr hWnd);
+        }
+
+        private static Application _app;
         #region Init
         public static void Init(Application app) {
+            _app = app;
             AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
                 if (e.ExceptionObject is Exception exception) {
                     Handle(exception);
@@ -21,28 +32,57 @@ namespace NTMiner {
                 e.Handled = true;
             };
 
-            UIThread.InitializeWithDispatcher();
-            UIThread.StartTimer();
+            UIThread.InitializeWithDispatcher(app.Dispatcher);
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
+            app.SessionEnding += (sender, e)=> {
+                OsSessionEndingEvent.ReasonSessionEnding reason;
+                switch (e.ReasonSessionEnding) {
+                    case ReasonSessionEnding.Logoff:
+                        reason = OsSessionEndingEvent.ReasonSessionEnding.Logoff;
+                        break;
+                    case ReasonSessionEnding.Shutdown:
+                        reason = OsSessionEndingEvent.ReasonSessionEnding.Shutdown;
+                        break;
+                    default:
+                        reason = OsSessionEndingEvent.ReasonSessionEnding.Unknown;
+                        break;
+                }
+                VirtualRoot.RaiseEvent(new OsSessionEndingEvent(reason));
+            };
         }
         #endregion
 
-        public static void RunOneceOnLoaded(this UserControl uc, Action<Window> onLoad, Action<Window> onUnload = null) {
-            uc.Loaded += (sender, e) => {
-                if (uc.Resources == null) {
-                    uc.Resources = new ResourceDictionary();
-                }
-                if (uc.Resources.Contains("isNotFirstTimeLoaded")) {
-                    return;
-                }
-                uc.Resources.Add("isNotFirstTimeLoaded", true);
-                onLoad?.Invoke(Window.GetWindow(uc));
-            };
-            if (onUnload != null) {
-                uc.Unloaded += (sender, e)=> {
-                    onUnload?.Invoke(Window.GetWindow(uc));
-                };
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("代码质量", "IDE0052:删除未读的私有成员", Justification = "这个成员是供下层操作系统访问的")]
+        private static Mutex _mutexApp;
+        public static bool GetMutex(string name) {
+            bool result;
+            try {
+                _mutexApp = new Mutex(true, name, out result);
             }
+            catch {
+                result = false;
+            }
+            return result;
+        }
+        
+        private const int SW_SHOWNOMAL = 1;
+        public static void Show(Process instance) {
+            SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
+            SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
+        }
+
+        public static T GetResource<T>(string key) {
+            if (_app == null) {
+                return (T)Application.Current.Resources[key];
+            }
+            return (T)_app.Resources[key];
+        }
+
+        public static object GetResource(string key) {
+            if (_app == null) {
+                return Application.Current.Resources[key];
+            }
+            return _app.Resources[key];
         }
 
         #region private methods

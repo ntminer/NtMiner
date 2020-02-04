@@ -7,16 +7,16 @@
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:blankWindow="http://NTMiner.com"
     xmlns:controls="clr-namespace:NTMiner.Controls"
+    xmlns:app="clr-namespace:NTMiner"
     xmlns:vm="clr-namespace:NTMiner.Vms"
     xmlns:local="clr-namespace:NTMiner.Views"
     ResizeMode="NoResize"
     SizeToContent="Height"
     BorderBrush="{StaticResource IconFillColor}"
     WindowStartupLocation="CenterOwner"
-    MouseDown="Window_MouseDown"
     Background="White"
     d:DataContext="{d:DesignData Source=./Design/DialogWindowViewModel.xaml}"
-    mc:Ignorable="d" Width="400" MinHeight="200">
+    mc:Ignorable="d" Width="400">
     <blankWindow:BlankWindow.Resources>
         <ResourceDictionary>
             <StreamGeometry x:Key="Icon">
@@ -29,7 +29,7 @@
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <DockPanel Background="{StaticResource ThemeBackground}" Height="30">
+        <DockPanel Background="{StaticResource ThemeBackground}">
             <WrapPanel DockPanel.Dock="Left">
                 <Path 
                     Margin="4 4 0 0"
@@ -46,8 +46,7 @@
             </WrapPanel>
             <controls:KbSystemCloseButton
                 DockPanel.Dock="Right" 
-                HorizontalAlignment="Right" 
-				Height="30" />
+                HorizontalAlignment="Right" />
             <controls:KbLinkButton 
                 Margin="0 0 4 0"
                 Visibility="{Binding HelpUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
@@ -56,7 +55,6 @@
                 VerticalAlignment="Center"
 				KbDisplayLine="False"
                 Click="Help_Click"
-				KbSystemButtonHoverBackground="Transparent"
 				Background="Transparent"
 				Foreground="{StaticResource ThemeForeground}">
                 <WrapPanel>
@@ -70,35 +68,11 @@
                 </WrapPanel>
             </controls:KbLinkButton>
         </DockPanel>
-        <StackPanel Grid.Row="1" Margin="10 20 10 10" HorizontalAlignment="Center" VerticalAlignment="Top">
+        <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
+        <StackPanel Grid.Row="1" Margin="10 20" HorizontalAlignment="Center" VerticalAlignment="Top">
             <TextBlock Text="{Binding Message}" FontSize="16" VerticalAlignment="Center" TextWrapping="Wrap"></TextBlock>
         </StackPanel>
-        <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 30">
-            <controls:KbButton 
-                Padding="15 2"
-                Margin="20 0"
-                ToolTip="{Binding BtnOkToolTip}"
-                Visibility="{Binding BtnOkVisible}"
-                Click="KbOkButton_Click"
-                Background="{StaticResource ThemeBackground}"
-                Foreground="{StaticResource ThemeForeground}"
-                VerticalAlignment="Center"
-                CornerRadius="2">
-                <WrapPanel>
-                    <Path
-                        Width="14"
-                        Height="14"
-                        Data="{StaticResource Icon_Ok}"
-                        Fill="{StaticResource ThemeForeground}"
-                        Stretch="Fill" />
-                    <TextBlock
-                        FontSize="14"
-                        Padding="0 4"
-                        Foreground="{StaticResource ThemeForeground}"
-                        VerticalAlignment="Center"
-                        Text="好" />
-                </WrapPanel>
-            </controls:KbButton>
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="0 0 0 26">
             <controls:KbButton 
                 Padding="15 2"
                 Margin="20 0"
@@ -118,7 +92,7 @@
                         Stretch="Fill" />
                     <TextBlock
                         FontSize="14"
-                        Padding="0 4"
+                        Padding="4"
                         Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
                         Text="{Binding YesText}" />
@@ -142,7 +116,7 @@
                         Stretch="Fill" />
                     <TextBlock
                         FontSize="14"
-                        Padding="0 4"
+                        Padding="4"
                         Foreground="White"
                         VerticalAlignment="Center"
                         Text="{Binding NoText}" />

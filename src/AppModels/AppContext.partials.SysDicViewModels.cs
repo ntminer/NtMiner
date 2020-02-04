@@ -15,7 +15,7 @@ namespace NTMiner {
             public ICommand Add { get; private set; }
             private SysDicViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
@@ -60,7 +60,7 @@ namespace NTMiner {
                     }, location: this.GetType());
                 Init();
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }
@@ -98,14 +98,6 @@ namespace NTMiner {
                 get {
                     return _dicById.Values.OrderBy(a => a.SortNumber).ToList();
                 }
-            }
-
-            public SysDicViewModel GetUpOne(int sortNumber) {
-                return List.OrderByDescending(a => a.SortNumber).FirstOrDefault(a => a.SortNumber < sortNumber); ;
-            }
-
-            public SysDicViewModel GetNextOne(int sortNumber) {
-                return List.OrderBy(a => a.SortNumber).FirstOrDefault(a => a.SortNumber > sortNumber);
             }
         }
     }

@@ -12,25 +12,19 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         };
 
-        private readonly INTMinerRoot _root;
-
         public int Count {
             get {
                 return _gpus.Count - 1;
             }
         }
 
-        private AMDGpuSet() {
-            this.Properties = new List<GpuSetProperty>();
-        }
-
         private readonly AdlHelper adlHelper = new AdlHelper();
-        public AMDGpuSet(INTMinerRoot root) : this() {
+        public AMDGpuSet() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
-            _root = root;
             adlHelper.Init();
+            this.Properties = new List<GpuSetProperty>();
             this.OverClock = new GpuOverClock(adlHelper);
             int deviceCount = 0;
             deviceCount = adlHelper.GpuCount;
@@ -75,7 +69,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
             }
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
@@ -84,13 +78,13 @@ namespace NTMiner.Core.Gpus.Impl {
 
         public void LoadGpuState() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             for (int i = 0; i < Count; i++) {
                 LoadGpuState(i);
             }
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(LoadGpuState)}");
             }
@@ -125,8 +119,7 @@ namespace NTMiner.Core.Gpus.Impl {
         public Version DriverVersion { get; private set; }
 
         public bool TryGetGpu(int index, out IGpu gpu) {
-            Gpu temp;
-            var r = _gpus.TryGetValue(index, out temp);
+            var r = _gpus.TryGetValue(index, out Gpu temp);
             gpu = temp;
             return r;
         }

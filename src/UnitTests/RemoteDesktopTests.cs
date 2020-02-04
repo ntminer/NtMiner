@@ -42,7 +42,8 @@ namespace UnitTests {
             Firewall.DisableFirewall();
             Assert.IsTrue(Firewall.IsRdpRuleExists());
             Firewall.RemoveRdpRule();
-            Assert.IsFalse(Firewall.IsRdpRuleExists());
+            // 防火墙处在关闭状态时认为规则存在
+            Assert.IsTrue(Firewall.IsRdpRuleExists());
         }
 
         [TestMethod]
@@ -53,7 +54,8 @@ namespace UnitTests {
             Firewall.DisableFirewall();
             Assert.IsTrue(Firewall.IsMinerClientRuleExists());
             Firewall.RemoveMinerClientRule();
-            Assert.IsFalse(Firewall.IsMinerClientRuleExists());
+            // 防火墙处在关闭状态时认为规则存在
+            Assert.IsTrue(Firewall.IsMinerClientRuleExists());
         }
     }
 }

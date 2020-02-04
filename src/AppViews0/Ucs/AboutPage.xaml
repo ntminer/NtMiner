@@ -15,13 +15,14 @@
 	</UserControl.DataContext>
 	<Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="120"></RowDefinition>
+            <RowDefinition Height="100"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
-			<RowDefinition Height="58"></RowDefinition>
-		</Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
 		<StackPanel Grid.Row="0">
 			<WrapPanel HorizontalAlignment="Center">
-				<Image Width="100" Height="100" Margin="0 10 0 0" Source="{x:Static app:AppStatic.BigLogoImageSource}">
+                <Image Width="80" Height="80" Margin="0 4 0 0" Source="{x:Static app:AppStatic.BigLogoImageSource}">
 				</Image>
 				<StackPanel VerticalAlignment="Center">
 					<WrapPanel>
@@ -29,12 +30,12 @@
                         <TextBlock FontSize="20" VerticalAlignment="Bottom" Margin="6 0 0 0" Text="{Binding CurrentVersion}"></TextBlock>
                     </WrapPanel>
                     <controls:KbLinkButton
+                        FontSize="16"
 						Command="{x:Static app:AppStatic.OpenOfficialSite}"
 						KbDisplayLine="False"
 						HorizontalAlignment="Left"
-						KbSystemButtonHoverBackground="Transparent"
 						Background="Transparent">
-						<TextBlock Text="https://ntminer.com/" Foreground="{StaticResource LinkForeground}"></TextBlock>
+						<TextBlock Text="https://ntminer.com/"></TextBlock>
 					</controls:KbLinkButton>
 				</StackPanel>
 			</WrapPanel>
@@ -48,43 +49,48 @@
 				Command="{x:Static app:AppStatic.BusinessModel}"
 				KbDisplayLine="False"
 				HorizontalAlignment="Left"
-				KbSystemButtonHoverBackground="Transparent"
 				Background="Transparent">
-                <TextBlock Text="4，如何盈利/商业模式" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                <TextBlock Text="4，如何盈利/商业模式"></TextBlock>
             </controls:KbLinkButton>
-            <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">5，开源矿工不是第一个矿工，但会是最后一个矿工。</TextBlock>
         </StackPanel>
-		<StackPanel Grid.Row="2" HorizontalAlignment="Center">
-            <WrapPanel HorizontalAlignment="Center">
-                <controls:KbLinkButton
-			            ToolTip="源代码"
-                        VerticalAlignment="Center"
-                        Background="Transparent"
-			            Command="{x:Static app:AppStatic.OpenGithub}"
-			            Foreground="{StaticResource ThemeBackground}"
-			            KbSystemButtonHoverBackground="Transparent"
-			            KbDisplayLine="False">
-                    <WrapPanel Margin="4">
-                        <Path 
-				            Width="14"
-				            Height="14"
-				            Data="{StaticResource Icon_Github}"
-				            Fill="{StaticResource ThemeBackground}"
-				            Stretch="Fill" />
-                        <TextBlock>NTMiner</TextBlock>
-                    </WrapPanel>
-                </controls:KbLinkButton>
-				<TextBlock Padding="4">|</TextBlock>
-				<TextBlock Padding="4" Text="版权所有"></TextBlock>
-				<TextBlock Padding="4">|</TextBlock>
-				<TextBlock Padding="4" Text="LGPL"></TextBlock>
-			</WrapPanel>
-			<WrapPanel>
-				<TextBlock>Copyright</TextBlock>
-				<TextBlock Margin="4 0 0 0">©</TextBlock>
-				<TextBlock Margin="4 0" Text="{Binding ThisYear}"></TextBlock>
-				<TextBlock>NTMiner.com. All Rights Reserved.</TextBlock>
-			</WrapPanel>
-		</StackPanel>
-	</Grid>
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Center">
+            <controls:KbLinkButton
+			    ToolTip="源代码"
+                Margin="0 0 4 0"
+                Background="Transparent"
+                VerticalAlignment="Center"
+			    Command="{x:Static app:AppStatic.OpenGithub}"
+			    Foreground="{StaticResource ThemeBackground}"
+			    KbDisplayLine="False">
+                <WrapPanel>
+                    <Path 
+				        Width="14"
+				        Height="14"
+				        Data="{StaticResource Icon_Github}"
+				        Fill="{StaticResource ThemeBackground}"
+				        Stretch="Fill" />
+                    <TextBlock>NTMiner</TextBlock>
+                </WrapPanel>
+            </controls:KbLinkButton>
+            <TextBlock Padding="4">|</TextBlock>
+            <TextBlock Padding="4" Text="版权所有"></TextBlock>
+            <TextBlock Padding="4">|</TextBlock>
+            <controls:KbLinkButton
+			    ToolTip="开源协议"
+                Margin="4 0 0 0"
+                Background="Transparent"
+                VerticalAlignment="Center"
+			    Command="{x:Static app:AppStatic.OpenLGPL}"
+			    Foreground="{StaticResource ThemeBackground}"
+			    KbDisplayLine="False">
+                <TextBlock>LGPL</TextBlock>
+            </controls:KbLinkButton>
+        </WrapPanel>
+        <WrapPanel Grid.Row="3" HorizontalAlignment="Center">
+            <TextBlock>Copyright</TextBlock>
+            <TextBlock Margin="4 0 0 0">©</TextBlock>
+            <TextBlock Margin="4 0" Text="{Binding ThisYear}"></TextBlock>
+            <TextBlock>NTMiner.com. All Rights Reserved.</TextBlock>
+        </WrapPanel>
+    </Grid>
 </UserControl>

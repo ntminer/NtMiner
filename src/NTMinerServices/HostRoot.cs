@@ -1,11 +1,10 @@
 ﻿using Aliyun.OSS;
 using LiteDB;
-using NTMiner.AppSetting;
 using NTMiner.Core;
 using NTMiner.Data;
 using NTMiner.Data.Impl;
 using NTMiner.KernelOutputKeyword;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using NTMiner.ServerMessage;
 using NTMiner.User;
 using System;
@@ -23,7 +22,6 @@ namespace NTMiner {
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]
         static void Main() {
-            VirtualRoot.StartTimer();
             try {
                 Console.Title = "NTMinerServices";
                 bool mutexCreated;
@@ -34,6 +32,7 @@ namespace NTMiner {
                     mutexCreated = false;
                 }
                 if (mutexCreated) {
+                    VirtualRoot.StartTimer();
                     if (!EnableInnerIp) {
                         NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
                     }
@@ -50,7 +49,6 @@ namespace NTMiner {
         private static void Close() {
             if (!_isClosed) {
                 _isClosed = true;
-                HttpServer.Stop();
                 _sMutexApp?.Dispose();
             }
         }
@@ -126,12 +124,12 @@ namespace NTMiner {
         #endregion
 
         public static LiteDatabase CreateLocalDb() {
-            return new LiteDatabase($"filename={SpecialPath.LocalDbFileFullName};journal=false");
+            return new LiteDatabase($"filename={SpecialPath.LocalDbFileFullName}");
         }
 
         public static LiteDatabase CreateReportDb() {
             string dbFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"report{DateTime.Now.ToString("yyyy-MM-dd")}.litedb");
-            return new LiteDatabase($"filename={dbFileFullName};journal=false");
+            return new LiteDatabase($"filename={dbFileFullName}");
         }
 
         public static ServerState GetServerState(string jsonVersionKey) {
@@ -171,7 +169,7 @@ namespace NTMiner {
             this.MinerGroupSet = new MinerGroupSet(this);
             this.WalletSet = new WalletSet(this);
             this.PoolSet = new PoolSet(this);
-            this.NTMinerFileSet = new NTMinerFileSet(this);
+            this.NTMinerFileSet = new NTMinerFileSet();
             this.OverClockDataSet = new OverClockDataSet(this);
             this.KernelOutputKeywordSet = new KernelOutputKeywordSet(SpecialPath.LocalDbFileFullName, isServer: true);
             this.ServerMessageSet = new ServerMessageSet(SpecialPath.LocalDbFileFullName, isServer: true);

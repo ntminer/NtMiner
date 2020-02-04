@@ -1,11 +1,10 @@
 ﻿using NTMiner.Hub;
 using NTMiner.Vms;
-using System;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class RestartWindows : UserControl {
-        public static void ShowDialog() {
+        public static void ShowDialog(RestartWindowsViewModel vm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "重启电脑",
                 Width = 400,
@@ -14,10 +13,8 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_Restart"
             }, ucFactory: (window) => {
-                RestartWindows uc = new RestartWindows();
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: uc.Id, location: typeof(RestartWindows));
+                RestartWindows uc = new RestartWindows(vm);
+                window.AddCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
             }, fixedSize: true);
         }
@@ -28,22 +25,19 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
-        public readonly Guid Id = Guid.NewGuid();
-
         private bool _isCanceled = false;
-        public RestartWindows() {
+        public RestartWindows(RestartWindowsViewModel vm) {
+            this.DataContext = vm;
             InitializeComponent();
-            this.RunOneceOnLoaded(window => {
+            this.OnLoaded(window => {
                 IMessagePathId messagePathId = null;
-                messagePathId = window.AddViaLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, action: message => {
+                messagePathId = window.AddViaTimesLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, action: message => {
                     if (_isCanceled) {
                         return;
                     }
                     Vm.Seconds = Vm.Seconds - 1;
-                    if (messagePathId.ViaLimit == 0) {
-                        UIThread.Execute(() => {
-                            Windows.Power.Restart();
-                        });
+                    if (messagePathId.ViaTimesLimit == 0) {
+                        Windows.Power.Restart();
                     }
                 }, Vm.Seconds, location: this.GetType());
             });
@@ -51,19 +45,8 @@ namespace NTMiner.Views.Ucs {
 
         private void KbCancelButton_Click(object sender, System.Windows.RoutedEventArgs e) {
             _isCanceled = true;
-            VirtualRoot.Execute(new CloseWindowCommand(this.Id));
-        }
-    }
-
-    public class RestartWindowsViewModel : ViewModelBase {
-        private int _seconds = 4;
-
-        public int Seconds {
-            get => _seconds;
-            set {
-                _seconds = value;
-                OnPropertyChanged(nameof(Seconds));
-            }
+            VirtualRoot.Execute(new CloseWindowCommand(this.Vm.Id));
+            VirtualRoot.ThisLocalInfo(nameof(RestartWindows), "取消重启电脑");
         }
     }
 }

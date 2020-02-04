@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
@@ -32,7 +32,7 @@ namespace NTMiner.Controllers {
                 return;
             }
             // 确保request得到response后再Exit
-            TimeSpan.FromSeconds(1).Delay().ContinueWith(t => {
+            1.SecondsDelay().ContinueWith(t => {
                 HostRoot.Exit();
             });
         }

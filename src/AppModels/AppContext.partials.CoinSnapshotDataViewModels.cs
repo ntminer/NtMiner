@@ -1,4 +1,5 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core.MinerServer;
+using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,10 +13,10 @@ namespace NTMiner {
 
             private CoinSnapshotDataViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 foreach (var coinVm in AppContext.Instance.CoinVms.AllCoins) {
-                    _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(new MinerServer.CoinSnapshotData {
+                    _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(new CoinSnapshotData {
                         CoinCode = coinVm.Code,
                         MainCoinMiningCount = 0,
                         MainCoinOnlineCount = 0,
@@ -28,7 +29,7 @@ namespace NTMiner {
                     }));
                 }
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }

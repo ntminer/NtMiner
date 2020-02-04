@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 
@@ -16,13 +16,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 ColumnsShowData entity = new ColumnsShowData().Update(message.Input);
-                Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
+                RpcRoot.Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new ColumnsShowAddedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new ColumnsShowAddedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -37,14 +37,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                 ColumnsShowData entity = _dicById[message.Input.GetId()];
                 ColumnsShowData oldValue = new ColumnsShowData().Update(entity);
                 entity.Update(message.Input);
-                Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
+                RpcRoot.Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.MessageId, entity));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new ColumnsShowUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveColumnsShowCommand>(action: (message) => {
                 InitOnece();
@@ -55,13 +55,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 ColumnsShowData entity = _dicById[message.EntityId];
-                Server.ColumnsShowService.RemoveColumnsShowAsync(entity.Id, (response, exception) => {
+                RpcRoot.Server.ColumnsShowService.RemoveColumnsShowAsync(entity.Id, (response, exception) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new ColumnsShowRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new ColumnsShowRemovedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(exception));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -81,7 +81,7 @@ namespace NTMiner.Core.MinerServer.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        var result = Server.ColumnsShowService.GetColumnsShows();
+                        var result = RpcRoot.Server.ColumnsShowService.GetColumnsShows();
                         foreach (var item in result) {
                             if (!_dicById.ContainsKey(item.GetId())) {
                                 _dicById.Add(item.GetId(), item);
@@ -89,7 +89,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                         }
                         if (!_dicById.ContainsKey(ColumnsShowData.PleaseSelect.Id)) {
                             _dicById.Add(ColumnsShowData.PleaseSelect.Id, ColumnsShowData.PleaseSelect);
-                            Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(ColumnsShowData.PleaseSelect, (response, exception) => {
+                            RpcRoot.Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(ColumnsShowData.PleaseSelect, (response, exception) => {
                                 if (!response.IsSuccess()) {
                                     Logger.ErrorDebugLine("AddOrUpdateColumnsShowAsync " + response.ReadMessage(exception));
                                 }

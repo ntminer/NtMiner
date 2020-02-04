@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using NTMiner.Views;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,6 @@ namespace NTMiner.Vms {
         private NTMinerFileViewModel _serverLatestVm;
         private bool _isReady;
         private bool _localIsLatest;
-        private Visibility _serverLatestDescriptionVisible = Visibility.Collapsed;
 
         private List<NTMinerFileViewModel> _nTMinerFiles;
         private Visibility _isHistoryVisible = Visibility.Collapsed;
@@ -33,20 +32,15 @@ namespace NTMiner.Vms {
         public ICommand ShowHistory { get; private set; }
         // ReSharper disable once InconsistentNaming
         public ICommand AddNTMinerFile { get; private set; }
-        public ICommand ShowOrHideServerLatestDescription { get; private set; }
+        public ICommand ShowServerLatestDescription { get; private set; }
 
         private MainWindowViewModel() {
-            if (App.IsInDesignMode) {
+            if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.Refresh();
-            this.ShowOrHideServerLatestDescription = new DelegateCommand(() => {
-                if (ServerLatestDescriptionVisible == Visibility.Visible) {
-                    ServerLatestDescriptionVisible = Visibility.Collapsed;
-                }
-                else {
-                    ServerLatestDescriptionVisible = Visibility.Visible;
-                }
+            this.ShowServerLatestDescription = new DelegateCommand(() => {
+                VirtualRoot.Out.ShowInfo(ServerLatestVm.Description, header: $"{ServerLatestVm.Version}({ServerLatestVm.VersionTag})", autoHideSeconds: 0);
             });
             this.CancelDownload = new DelegateCommand(() => {
                 this._cancel?.Invoke();
@@ -76,12 +70,12 @@ namespace NTMiner.Vms {
                         if (isSuccess) {
                             this.DownloadMessage = "更新成功，正在重启";
                             if (VirtualRoot.IsMinerStudio) {
-                                Client.MinerStudioService.CloseMinerStudio();
+                                RpcRoot.Client.MinerStudioService.CloseMinerStudio();
                             }
                             else {
-                                Client.MinerClientService.CloseNTMiner();
+                                RpcRoot.Client.MinerClientService.CloseNTMiner();
                             }
-                            TimeSpan.FromSeconds(3).Delay().ContinueWith((t) => {
+                            3.SecondsDelay().ContinueWith((t) => {
                                 string location = NTMinerRegistry.GetLocation();
                                 if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
                                     location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
@@ -118,17 +112,24 @@ namespace NTMiner.Vms {
                                         }
                                     }
                                 }
-                                File.Delete(saveFileFullName);
+                                try {
+                                    File.Delete(saveFileFullName);
+                                }
+                                catch(Exception e) {
+                                    Logger.ErrorDebugLine(e);
+                                }
                                 string arguments = NTMinerRegistry.GetArguments();
                                 Process.Start(location, arguments);
                                 this.IsDownloading = false;
-                                UIThread.Execute(() => {
-                                    Application.Current.MainWindow?.Close();
+                                2.SecondsDelay().ContinueWith(_ => {
+                                    UIThread.Execute(() => () => {
+                                        Application.Current.MainWindow?.Close();
+                                    });
                                 });
                             });
                         }
                         else {
-                            TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                            2.SecondsDelay().ContinueWith((t) => {
                                 this.IsDownloading = false;
                             });
                         }
@@ -175,22 +176,19 @@ namespace NTMiner.Vms {
                     if (e.Cancelled) {
                         message = "已取消";
                     }
-                    if (isSuccess) {
-                        // nothing need todo
-                    }
-                    else {
-                        VirtualRoot.Out.ShowError(message, 4);
+                    if (!isSuccess) {
+                        VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };
-                OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
+                RpcRoot.OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
                     webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
                 });
             }
         }
 
         public void Refresh() {
-            OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntMinerFiles, e) => {
+            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntMinerFiles, e) => {
                 this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;
@@ -221,23 +219,6 @@ namespace NTMiner.Vms {
         public BitmapImage BigLogoImageSource {
             get {
                 return new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
-            }
-        }
-
-        public Visibility ServerLatestDescriptionVisible {
-            get { return _serverLatestDescriptionVisible; }
-            set {
-                _serverLatestDescriptionVisible = value;
-                OnPropertyChanged(nameof(ServerLatestDescriptionVisible));
-            }
-        }
-
-        public Visibility IsDebugModeVisible {
-            get {
-                if (DevMode.IsDebugMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
             }
         }
 

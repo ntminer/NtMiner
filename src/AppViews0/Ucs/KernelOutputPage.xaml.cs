@@ -30,11 +30,11 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<KernelOutputViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<KernelOutputViewModel>(sender, e);
         }
 
         private void KernelOutputTranslaterDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<KernelOutputTranslaterViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<KernelOutputTranslaterViewModel>(sender, e);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerClient;
+﻿using NTMiner.Core.MinerClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,8 @@ using System.Net.NetworkInformation;
 namespace NTMiner.Net {
     public class LocalIpSet : ILocalIpSet {
         public static IEnumerable<ManagementObject> GetNetCardInfo() {
-            using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
-                ManagementObjectCollection moc = mc.GetInstances();
+            using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
+            using (ManagementObjectCollection moc = mc.GetInstances()) {
                 foreach (ManagementObject mo in moc) {
                     if (!(bool)mo["IPEnabled"] || mo["DefaultIPGateway"] == null) {
                         continue;
@@ -98,7 +98,7 @@ namespace NTMiner.Net {
         public LocalIpSet() {
             NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
                 // 延迟获取网络信息以防止立即获取时获取不到
-                TimeSpan.FromSeconds(1).Delay().ContinueWith(t => {
+                1.SecondsDelay().ContinueWith(t => {
                     var old = _localIps;
                     _isInited = false;
                     InitOnece();
@@ -139,8 +139,8 @@ namespace NTMiner.Net {
             };
             VirtualRoot.AddCmdPath<SetLocalIpCommand>(action: message => {
                 ManagementObject mo = null; 
-                using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration")) {
-                    ManagementObjectCollection moc = mc.GetInstances();
+                using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
+                using (ManagementObjectCollection moc = mc.GetInstances()) {
                     foreach (ManagementObject item in moc) {
                         if ((string)item["SettingID"] == message.Input.SettingID) {
                             mo = item;
@@ -153,6 +153,10 @@ namespace NTMiner.Net {
                         mo.InvokeMethod("EnableStatic", null);
                         mo.InvokeMethod("SetGateways", null);
                         mo.InvokeMethod("EnableDHCP", null);
+                        1.SecondsDelay().ContinueWith(t => {
+                            _isInited = false;
+                            InitOnece();
+                        });
                     }
                     else {
                         ManagementBaseObject inPar = mo.GetMethodParameters("EnableStatic");
@@ -188,7 +192,7 @@ namespace NTMiner.Net {
 
         private void Init() {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             lock (_locker) {
                 if (!_isInited) {
@@ -199,7 +203,7 @@ namespace NTMiner.Net {
             }
 #if DEBUG
             // 将近300毫秒
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
             }
@@ -217,11 +221,11 @@ namespace NTMiner.Net {
             if (localIp != null) {
                 var fromIp = localIp.DefaultIPGateway;
                 if (!string.IsNullOrEmpty(fromIp)) {
-                    fromIp = Util.ConvertToIpString(Util.ConvertToIpNum(fromIp) + 1);
+                    fromIp = IpUtil.ConvertToIpString(IpUtil.ConvertToIpNum(fromIp) + 1);
                     string[] parts = fromIp.Split('.');
                     parts[parts.Length - 1] = "255";
                     var toIp = string.Join(".", parts);
-                    return Util.CreateIpRange(fromIp, toIp);
+                    return IpUtil.CreateIpRange(fromIp, toIp);
                 }
             }
 

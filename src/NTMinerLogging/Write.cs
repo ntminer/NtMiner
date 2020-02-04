@@ -3,14 +3,22 @@ using System.Threading;
 
 namespace NTMiner {
     public static class Write {
-        public static int UIThreadId;
-        private static readonly ThreadLocal<NTStopwatch> _stopwatch = new ThreadLocal<NTStopwatch>(() => {
-            return new NTStopwatch();
-        });
-        public static NTStopwatch Stopwatch {
-            get {
-                return _stopwatch.Value;
-            }
+        private static int _uiThreadId;
+
+        public static void SetUIThreadId(int value) {
+            _uiThreadId = value;
+        }
+
+        private static bool _isEnabled = true;
+        public static void Enable() {
+            _isEnabled = true;
+        }
+
+        /// <summary>
+        /// 禁用Write则可以避免行走到NTMinerConsole中去，从而避免创建出Windows控制台
+        /// </summary>
+        public static void Disable() {
+            _isEnabled = false;
         }
 
         private static readonly Action<string, ConsoleColor> _consoleUserLineMethod = (line, color) => {
@@ -29,7 +37,7 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_isInited) {
                         _isInited = true;
-                        NTMinerConsole.Alloc();
+                        NTMinerConsole.GetOrAlloc();
                     }
                 }
             }
@@ -68,15 +76,21 @@ namespace NTMiner {
         }
 
         public static void UserLine(string text, ConsoleColor foreground) {
-            UserLineMethod?.Invoke($"{(Thread.CurrentThread.ManagedThreadId == UIThreadId ? "UI " : "   ")}{text}", foreground);
+            if (!_isEnabled) {
+                return;
+            }
+            UserLineMethod?.Invoke($"{(Thread.CurrentThread.ManagedThreadId == _uiThreadId ? "UI " : "   ")}{text}", foreground);
         }
 
         public static void DevLine(string text, MessageType messageType = MessageType.Default) {
             if (!DevMode.IsDevMode) {
                 return;
             }
+            if (!_isEnabled) {
+                return;
+            }
             InitOnece();
-            text = $"{(Thread.CurrentThread.ManagedThreadId == UIThreadId ? "UI " : "   ")}{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
+            text = $"{(Thread.CurrentThread.ManagedThreadId == _uiThreadId ? "UI " : "   ")}{DateTime.Now.ToString("HH:mm:ss fff")}  {messageType.ToString()} {text}";
             ConsoleColor oldColor = Console.ForegroundColor;
             Console.ForegroundColor = messageType.ToConsoleColor();
             Console.WriteLine(text);

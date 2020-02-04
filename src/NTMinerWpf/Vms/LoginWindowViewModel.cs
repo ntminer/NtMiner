@@ -1,5 +1,4 @@
-﻿using NTMiner.Notifications;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,7 +15,7 @@ namespace NTMiner.Vms {
         public LoginWindowViewModel() {
             this._loginName = "admin";
             this._serverHost = NTMinerRegistry.GetControlCenterHost();
-            this.IsInnerIp = Net.Util.IsInnerIp(_serverHost);
+            this.IsInnerIp = Net.IpUtil.IsInnerIp(_serverHost);
             this.ActiveAdmin = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Password)) {
                     this.ShowMessage("密码不能为空");
@@ -27,7 +26,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 string passwordSha1 = HashUtil.Sha1(Password);
-                Server.ControlCenterService.ActiveControlCenterAdminAsync(passwordSha1, (response, e) => {
+                RpcRoot.Server.ControlCenterService.ActiveControlCenterAdminAsync(passwordSha1, (response, e) => {
                     if (response.IsSuccess()) {
                         IsPasswordAgainVisible = Visibility.Collapsed;
                         this.ShowMessage("激活成功", isSuccess: true);
@@ -40,12 +39,12 @@ namespace NTMiner.Vms {
         }
 
         public void ShowMessage(string message, bool isSuccess = false) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 if (isSuccess) {
                     VirtualRoot.Out.ShowSuccess(message);
                 }
                 else {
-                    VirtualRoot.Out.ShowError(message, delaySeconds: 4);
+                    VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
                 }
             });
         }
@@ -55,7 +54,7 @@ namespace NTMiner.Vms {
             set {
                 _serverHost = value;
                 OnPropertyChanged(nameof(ServerHost));
-                this.IsInnerIp = Net.Util.IsInnerIp(value);
+                this.IsInnerIp = Net.IpUtil.IsInnerIp(value);
                 OnPropertyChanged(nameof(IsInnerIp));
             }
         }

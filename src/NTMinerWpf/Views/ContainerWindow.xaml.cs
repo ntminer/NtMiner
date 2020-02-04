@@ -16,13 +16,6 @@ namespace NTMiner.Views {
         static ContainerWindow() {
         }
 
-        public static ContainerWindow GetWindow(ContainerWindowViewModel vm) {
-            if (!s_windowDic.ContainsKey(vm)) {
-                return null;
-            }
-            return s_windowDic[vm];
-        }
-
         public static ContainerWindow ShowWindow<TUc>(
             ContainerWindowViewModel vm,
             Func<ContainerWindow, TUc> ucFactory,
@@ -77,8 +70,7 @@ namespace NTMiner.Views {
             ContainerWindowViewModel vm,
             Func<ContainerWindow, UserControl> ucFactory,
             Action afterClose,
-            bool fixedSize = false,
-            bool dragMove = true) {
+            bool fixedSize = false) {
             _uc = ucFactory(this);
             vm.UcResourceDic = _uc.Resources;
             _vm = vm;
@@ -114,7 +106,7 @@ namespace NTMiner.Views {
             }
 
             InitializeComponent();
-
+            this.TbUcName.Text = _uc.GetType().Name;
             this.Closed += (object sender, EventArgs e) => {
                 s_windowDic.Remove(vm);
                 afterClose?.Invoke();
@@ -127,13 +119,6 @@ namespace NTMiner.Views {
                     this.ResizeMode = ResizeMode.CanMinimize;
                 }
                 vm.MaxVisible = Visibility.Collapsed;
-            }
-            if (dragMove) {
-                this.MouseDown += (object sender, MouseButtonEventArgs e) => {
-                    if (e.LeftButton == MouseButtonState.Pressed) {
-                        this.DragMove();
-                    }
-                };
             }
             this.Container.Children.Add(_uc);
         }

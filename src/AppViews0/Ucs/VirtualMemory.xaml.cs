@@ -14,7 +14,8 @@ namespace NTMiner.Views.Ucs {
                 Width = 800,
                 MinWidth = 450,
                 Height = 360,
-                MinHeight = 360
+                MinHeight = 360,
+                FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => new VirtualMemory(), fixedSize: false);
         }
 

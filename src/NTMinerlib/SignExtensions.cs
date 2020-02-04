@@ -10,7 +10,7 @@ namespace NTMiner {
                 response = null;
                 return true;
             }
-            if (_isInnerIpEnabled && Net.Util.IsInnerIp(clientIp)) {
+            if (_isInnerIpEnabled && Net.IpUtil.IsInnerIp(clientIp)) {
                 response = null;
                 return true;
             }
@@ -24,7 +24,7 @@ namespace NTMiner {
                 response = ResponseBase.NotExist<TResponse>(message);
                 return false;
             }
-            if (!timestamp.IsInTime()) {
+            if (!Timestamp.IsInTime(timestamp)) {
                 response = ResponseBase.Expired<TResponse>();
                 return false;
             }
@@ -45,11 +45,12 @@ namespace NTMiner {
             return HashUtil.Sha1(sb.ToString());
         }
 
-        public static Dictionary<string, string> ToQuery(this IGetSignData data, string loginName, string password) {
+        public static Dictionary<string, string> ToQuery(this IGetSignData data) {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
+            var rpcUser = VirtualRoot.RpcUser;
             return new Dictionary<string, string> {
-                    {"loginName", loginName },
-                    {"sign", GetSign(data, loginName, password, timestamp) },
+                    {"loginName", rpcUser.LoginName },
+                    {"sign", GetSign(data, rpcUser.LoginName, rpcUser.PasswordSha1, timestamp) },
                     {"timestamp", timestamp.ToString() }
                 };
         }

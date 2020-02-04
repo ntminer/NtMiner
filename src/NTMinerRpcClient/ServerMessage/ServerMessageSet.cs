@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +13,7 @@ namespace NTMiner.ServerMessage {
             if (string.IsNullOrEmpty(dbFileFullName)) {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
-            _connectionString = $"filename={dbFileFullName};journal=false";
+            _connectionString = $"filename={dbFileFullName}";
             if (!isServer) {
                 VirtualRoot.AddCmdPath<LoadNewServerMessageCommand>(action: message => {
                     if (!VirtualRoot.IsServerMessagesVisible) {
@@ -24,9 +24,14 @@ namespace NTMiner.ServerMessage {
                     if (message.KnowServerMessageTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
                         return;
                     }
-                    OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
-                        if (response.IsSuccess() && response.Data.Count > 0) {
-                            ReceiveServerMessage(response.Data);
+                    RpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
+                        if (response.IsSuccess()) {
+                            if (response.Data.Count > 0) {
+                                ReceiveServerMessage(response.Data);
+                            }
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
                     });
                 }, location: this.GetType());
@@ -50,9 +55,8 @@ namespace NTMiner.ServerMessage {
                             _linkedList.AddFirst(exist);
                         }
                         else {
-                            data = new ServerMessageData(message.Input) {
-                                Timestamp = DateTime.Now
-                            };
+                            data = new ServerMessageData().Update(message.Input);
+                            data.Timestamp = DateTime.Now;
                             _linkedList.AddFirst(data);
                             while (_linkedList.Count > NTKeyword.ServerMessageSetCapacity) {
                                 toRemoves.Add(_linkedList.Last.Value);
@@ -61,28 +65,41 @@ namespace NTMiner.ServerMessage {
                         }
                     }
                     if (exist != null) {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<ServerMessageData>();
-                            col.Update(exist);
+                        try {
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                var col = db.GetCollection<ServerMessageData>();
+                                col.Update(exist);
+                            }
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                     else {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<ServerMessageData>();
-                            if (toRemoves.Count != 0) {
-                                foreach (var item in toRemoves) {
-                                    col.Delete(item.Id);
+                        try {
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                var col = db.GetCollection<ServerMessageData>();
+                                if (toRemoves.Count != 0) {
+                                    foreach (var item in toRemoves) {
+                                        col.Delete(item.Id);
+                                    }
                                 }
+                                col.Insert(data);
                             }
-                            col.Insert(data);
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                     #endregion
                 }
                 else {
-                    OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData(message.Input), (response, ex) => {
+                    RpcRoot.OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData().Update(message.Input), (response, ex) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(ex), autoHideSeconds: 4);
                         }
                     });
                 }
@@ -103,17 +120,25 @@ namespace NTMiner.ServerMessage {
                         }
                     }
                     if (exist != null) {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<ServerMessageData>();
-                            col.Update(exist);
+                        try {
+                            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                                var col = db.GetCollection<ServerMessageData>();
+                                col.Update(exist);
+                            }
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
                         }
                     }
                     #endregion
                 }
                 else {
-                    OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
+                    RpcRoot.OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(ex), autoHideSeconds: 4);
                         }
                     });
                 }
@@ -124,11 +149,16 @@ namespace NTMiner.ServerMessage {
                 if (isServer) {
                     return;
                 }
-                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                    lock (_locker) {
-                        _linkedList.Clear();
+                try {
+                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                        lock (_locker) {
+                            _linkedList.Clear();
+                        }
+                        db.DropCollection(nameof(ServerMessageData));
                     }
-                    db.DropCollection(nameof(ServerMessageData));
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
                 }
                 VirtualRoot.RaiseEvent(new ServerMessagesClearedEvent());
             }, location: this.GetType());
@@ -160,16 +190,21 @@ namespace NTMiner.ServerMessage {
                     VirtualRoot.LocalServerMessageSetTimestamp = maxTime;
                 }
             }
-            using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                var col = db.GetCollection<ServerMessageData>();
-                foreach (var item in newDatas) {
-                    if (item.IsDeleted) {
-                        col.Delete(item.Id);
-                    }
-                    else {
-                        col.Upsert(item);
+            try {
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<ServerMessageData>();
+                    foreach (var item in newDatas) {
+                        if (item.IsDeleted) {
+                            col.Delete(item.Id);
+                        }
+                        else {
+                            col.Upsert(item);
+                        }
                     }
                 }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
             }
             VirtualRoot.RaiseEvent(new NewServerMessageLoadedEvent(newDatas));
         }
@@ -202,16 +237,21 @@ namespace NTMiner.ServerMessage {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        var col = db.GetCollection<ServerMessageData>();
-                        foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                            if (_linkedList.Count < NTKeyword.ServerMessageSetCapacity) {
-                                _linkedList.AddFirst(item);
-                            }
-                            else {
-                                col.Delete(_linkedList.Last.Value.Id);
+                    try {
+                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                            var col = db.GetCollection<ServerMessageData>();
+                            foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
+                                if (_linkedList.Count < NTKeyword.ServerMessageSetCapacity) {
+                                    _linkedList.AddFirst(item);
+                                }
+                                else {
+                                    col.Delete(_linkedList.Last.Value.Id);
+                                }
                             }
                         }
+                    }
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
                     }
                     _isInited = true;
                 }

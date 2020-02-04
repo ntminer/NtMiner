@@ -40,7 +40,7 @@ namespace NTMiner {
 
             private GpuSpeedViewModels() {
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 if (WpfUtil.IsInDesignMode) {
                     return;
@@ -147,7 +147,7 @@ namespace NTMiner {
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                     }, location: this.GetType());
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
                 }
@@ -194,9 +194,11 @@ namespace NTMiner {
             public double IncomeMainCoinPerDay {
                 get => _incomeMainCoinPerDay;
                 set {
-                    _incomeMainCoinPerDay = value;
-                    OnPropertyChanged(nameof(IncomeMainCoinPerDay));
-                    OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+                    if (_incomeMainCoinPerDay != value) {
+                        _incomeMainCoinPerDay = value;
+                        OnPropertyChanged(nameof(IncomeMainCoinPerDay));
+                        OnPropertyChanged(nameof(IncomeMainCoinPerDayText));
+                    }
                 }
             }
 
@@ -209,9 +211,11 @@ namespace NTMiner {
             public double IncomeMainCoinUsdPerDay {
                 get { return _incomeMainCoinUsdPerDay; }
                 set {
-                    _incomeMainCoinUsdPerDay = value;
-                    OnPropertyChanged(nameof(IncomeMainCoinUsdPerDay));
-                    OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
+                    if (_incomeMainCoinUsdPerDay != value) {
+                        _incomeMainCoinUsdPerDay = value;
+                        OnPropertyChanged(nameof(IncomeMainCoinUsdPerDay));
+                        OnPropertyChanged(nameof(IncomeMainCoinUsdPerDayText));
+                    }
                 }
             }
 
@@ -224,10 +228,12 @@ namespace NTMiner {
             public double IncomeMainCoinCnyPerDay {
                 get { return _incomeMainCoinCnyPerDay; }
                 set {
-                    _incomeMainCoinCnyPerDay = value;
-                    OnPropertyChanged(nameof(IncomeMainCoinCnyPerDay));
-                    OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
-                    OnPropertyChanged(nameof(ProfitCnyPerDayText));
+                    if (_incomeMainCoinCnyPerDay != value) {
+                        _incomeMainCoinCnyPerDay = value;
+                        OnPropertyChanged(nameof(IncomeMainCoinCnyPerDay));
+                        OnPropertyChanged(nameof(IncomeMainCoinCnyPerDayText));
+                        OnPropertyChanged(nameof(ProfitCnyPerDayText));
+                    }
                 }
             }
 
@@ -240,9 +246,11 @@ namespace NTMiner {
             public double IncomeDualCoinPerDay {
                 get => _incomeDualCoinPerDay;
                 set {
-                    _incomeDualCoinPerDay = value;
-                    OnPropertyChanged(nameof(IncomeDualCoinPerDay));
-                    OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
+                    if (_incomeDualCoinPerDay != value) {
+                        _incomeDualCoinPerDay = value;
+                        OnPropertyChanged(nameof(IncomeDualCoinPerDay));
+                        OnPropertyChanged(nameof(IncomeDualCoinPerDayText));
+                    }
                 }
             }
 
@@ -255,9 +263,11 @@ namespace NTMiner {
             public double IncomeDualCoinUsdPerDay {
                 get { return _incomeDualCoinUsdPerDay; }
                 set {
-                    _incomeDualCoinUsdPerDay = value;
-                    OnPropertyChanged(nameof(IncomeDualCoinUsdPerDay));
-                    OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
+                    if (_incomeDualCoinUsdPerDay != value) {
+                        _incomeDualCoinUsdPerDay = value;
+                        OnPropertyChanged(nameof(IncomeDualCoinUsdPerDay));
+                        OnPropertyChanged(nameof(IncomeDualCoinUsdPerDayText));
+                    }
                 }
             }
 
@@ -270,10 +280,12 @@ namespace NTMiner {
             public double IncomeDualCoinCnyPerDay {
                 get { return _incomeDualCoinCnyPerDay; }
                 set {
-                    _incomeDualCoinCnyPerDay = value;
-                    OnPropertyChanged(nameof(IncomeDualCoinCnyPerDay));
-                    OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
-                    OnPropertyChanged(nameof(ProfitCnyPerDayText));
+                    if (_incomeDualCoinCnyPerDay != value) {
+                        _incomeDualCoinCnyPerDay = value;
+                        OnPropertyChanged(nameof(IncomeDualCoinCnyPerDay));
+                        OnPropertyChanged(nameof(IncomeDualCoinCnyPerDayText));
+                        OnPropertyChanged(nameof(ProfitCnyPerDayText));
+                    }
                 }
             }
 

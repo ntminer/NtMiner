@@ -15,9 +15,7 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();
-                window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                    window.Close();
-                }, pathId: uc.Vm.Id, location: typeof(CalcConfig));
+                window.AddCloseWindowOnecePath(uc.Vm.Id);
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();
@@ -35,10 +33,10 @@ namespace NTMiner.Views.Ucs {
 
         private CalcConfig() {
             InitializeComponent();
-            this.RunOneceOnLoaded((window) => {
+            this.OnLoaded((window) => {
                 window.AddEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(()=> Vm.Refresh());
+                        UIThread.Execute(()=> Vm.Refresh);
                     }, location: this.GetType());
             });
         }

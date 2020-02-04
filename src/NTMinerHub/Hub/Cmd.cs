@@ -4,13 +4,13 @@ namespace NTMiner.Hub {
 
     public abstract class Cmd : ICmd {
         protected Cmd() {
-            Id = Guid.NewGuid();
+            MessageId = Guid.NewGuid();
         }
 
         protected Cmd(Guid id) {
-            this.Id = id;
+            this.MessageId = id;
         }
 
-        public Guid Id { get; private set; }
+        public Guid MessageId { get; private set; }
     }
 }

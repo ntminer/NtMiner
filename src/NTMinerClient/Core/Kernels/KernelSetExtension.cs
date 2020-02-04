@@ -10,14 +10,14 @@ namespace NTMiner.Core.Kernels {
         /// <returns></returns>
         public static HashSet<string> GetAllKernelProcessNames(this IKernelSet kernelSet) {
 #if DEBUG
-            Write.Stopwatch.Start();
+            NTStopwatch.Start();
 #endif
             HashSet<string> hashSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
             foreach (var kernel in kernelSet.AsEnumerable()) {
                 hashSet.Add(kernel.GetProcessName());
             }
 #if DEBUG
-            var elapsedMilliseconds = Write.Stopwatch.Stop();
+            var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                 Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(KernelSetExtension)}.{nameof(GetAllKernelProcessNames)}()");
             }

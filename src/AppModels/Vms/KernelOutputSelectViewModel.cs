@@ -9,9 +9,10 @@ namespace NTMiner.Vms {
 
         public ICommand HideView { get; set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public KernelOutputSelectViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 

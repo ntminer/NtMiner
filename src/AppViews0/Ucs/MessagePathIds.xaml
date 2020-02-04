@@ -12,7 +12,6 @@
 			 mc:Ignorable="d" 
              x:Name="Uc"
 			 Background="White"
-			 TextOptions.TextFormattingMode="Display" 
 			 d:DesignHeight="450" d:DesignWidth="1200">
     <UserControl.DataContext>
         <vm:MessagePathIdsViewModel></vm:MessagePathIdsViewModel>
@@ -35,7 +34,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="ViaLimit" Binding="{Binding ViaLimit}"></DataGridTextColumn>
+                <DataGridTextColumn Header="ViaTimesLimit" Binding="{Binding ViaTimesLimit}"></DataGridTextColumn>
                 <DataGridTextColumn Header="MessageType" Binding="{Binding MessageType.FullName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="Location" Binding="{Binding Location.FullName}"></DataGridTextColumn>
                 <DataGridTextColumn Header="LogType" Binding="{Binding LogType}"></DataGridTextColumn>

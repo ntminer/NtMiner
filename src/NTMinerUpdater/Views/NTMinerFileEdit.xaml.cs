@@ -13,14 +13,8 @@ namespace NTMiner.Views {
         public NTMinerFileEdit(string iconName, NTMinerFileViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
-            this.PathIcon.Data = (Geometry)Application.Current.Resources[iconName];
+            this.PathIcon.Data = AppUtil.GetResource<Geometry>(iconName);
             this.Owner = WpfUtil.GetTopWindow();
-        }
-
-        private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed) {
-                this.DragMove();
-            }
         }
     }
 }

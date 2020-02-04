@@ -3,8 +3,8 @@
 namespace NTMiner.Core.Kernels {
     public enum InstallStatus {
         [Description("未安装")]
-        Uninstalled,
+        Uninstalled = 0,
         [Description("已安装")]
-        Installed
+        Installed = 1
     }
 }

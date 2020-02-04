@@ -40,40 +40,47 @@ namespace NTMiner.Vms {
                 _cancelDownload?.Invoke();
             });
             this.Install = new DelegateCommand(() => {
+                if (!VirtualRoot.IsMinerClient) {
+                    VirtualRoot.Out.ShowWarn("非挖矿端不需要安装内核", autoHideSeconds: 4);
+                    return;
+                }
                 this.Download();
             });
             this.UnInstall = new DelegateCommand(() => {
                 if (this.UnInstallText == "确认卸载") {
                     string processName = _kernelVm.GetProcessName();
-                    if (!string.IsNullOrEmpty(processName)) {
-                        Windows.TaskKill.Kill(processName, waitForExit: true);
-                        string packageFileFullName = _kernelVm.GetPackageFileFullName();
-                        if (!string.IsNullOrEmpty(packageFileFullName)) {
-                            File.Delete(packageFileFullName);
+                    if (NTMinerRoot.Instance.IsMining) {
+                        if (NTMinerRoot.Instance.LockedMineContext.Kernel.Package == _kernelVm.Package) {
+                            VirtualRoot.Out.ShowWarn("该内核正在挖矿，请停止挖矿后再卸载", autoHideSeconds: 4);
+                            return;
                         }
-                        string kernelDirFullName = _kernelVm.GetKernelDirFullName();
-                        if (!string.IsNullOrEmpty(kernelDirFullName) && Directory.Exists(kernelDirFullName)) {
-                            try {
-                                Directory.Delete(kernelDirFullName, recursive: true);
-                            }
-                            catch (Exception e) {
-                                Logger.ErrorDebugLine(e);
-                            }
+                    }
+                    string packageFileFullName = _kernelVm.GetPackageFileFullName();
+                    if (!string.IsNullOrEmpty(packageFileFullName)) {
+                        File.Delete(packageFileFullName);
+                    }
+                    string kernelDirFullName = _kernelVm.GetKernelDirFullName();
+                    if (!string.IsNullOrEmpty(kernelDirFullName) && Directory.Exists(kernelDirFullName)) {
+                        try {
+                            Directory.Delete(kernelDirFullName, recursive: true);
                         }
-                        string downloadFileFullName = _kernelVm.GetDownloadFileFullName();
-                        if (!string.IsNullOrEmpty(downloadFileFullName)) {
-                            File.Delete(downloadFileFullName);
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
                         }
+                    }
+                    string downloadFileFullName = _kernelVm.GetDownloadFileFullName();
+                    if (!string.IsNullOrEmpty(downloadFileFullName)) {
+                        File.Delete(downloadFileFullName);
                     }
                     Refresh();
                     this.InstallText = "卸载成功";
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    2.SecondsDelay().ContinueWith(t => {
                         this.InstallText = "安装";
                     });
                 }
                 else {
                     this.UnInstallText = "确认卸载";
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    2.SecondsDelay().ContinueWith(t => {
                         this.UnInstallText = "卸载";
                     });
                 }
@@ -193,6 +200,9 @@ namespace NTMiner.Vms {
                 this.DownloadMessage = message;
                 this.DownloadPercent = 0;
                 if (isSuccess) {
+                    if (!Directory.Exists(SpecialPath.PackagesDirFullName)) {
+                        Directory.CreateDirectory(SpecialPath.PackagesDirFullName);
+                    }
                     File.Copy(saveFileFullName, Path.Combine(SpecialPath.PackagesDirFullName, package), overwrite: true);
                     File.Delete(saveFileFullName);
                     this.IsDownloading = false;
@@ -200,12 +210,12 @@ namespace NTMiner.Vms {
                         kernelVm.KernelProfileVm.IsDownloading = false;
                     }
                     this.UnInstallText = "安装成功";
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith(t => {
+                    2.SecondsDelay().ContinueWith(t => {
                         this.UnInstallText = "卸载";
                     });
                 }
                 else {
-                    TimeSpan.FromSeconds(2).Delay().ContinueWith((t) => {
+                    2.SecondsDelay().ContinueWith((t) => {
                         this.IsDownloading = false;
                         foreach (var kernelVm in otherSamePackageKernelVms) {
                             kernelVm.KernelProfileVm.IsDownloading = false;
@@ -228,12 +238,12 @@ namespace NTMiner.Vms {
                     webClient.CancelAsync();
                 };
                 webClient.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) => {
-                    UIThread.Execute(() => {
+                    UIThread.Execute(() => () => {
                         progressChanged?.Invoke(e.ProgressPercentage);
                     });
                 };
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                    UIThread.Execute(() => {
+                    UIThread.Execute(() => () => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
                             VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), package + "下载成功", toConsole: true);
@@ -251,7 +261,7 @@ namespace NTMiner.Vms {
                         downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                     });
                 };
-                OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
+                RpcRoot.OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
                     if (string.IsNullOrEmpty(packageUrl)) {
                         string msg = $"未获取到{package}内核包下载地址";
                         downloadComplete?.Invoke(false, msg, saveFileFullName);

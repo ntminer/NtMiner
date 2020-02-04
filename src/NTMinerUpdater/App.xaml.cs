@@ -1,26 +1,14 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core;
 using NTMiner.Views;
 using NTMiner.Vms;
 using System;
-using System.ComponentModel;
 using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Threading;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Threading;
 
 namespace NTMiner {
-    public partial class App : Application, IDisposable {
-        private static class SafeNativeMethods {
-            [DllImport(DllName.User32Dll)]
-            public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
-
-            [DllImport(DllName.User32Dll)]
-            public static extern bool SetForegroundWindow(IntPtr hWnd);
-        }
-
+    public partial class App : Application {
         public static NTMinerAppType AppType {
             get {
                 if (VirtualRoot.IsMinerStudio) {
@@ -29,92 +17,50 @@ namespace NTMiner {
                 return NTMinerAppType.MinerClient;
             }
         }
-        public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
-
-        private Mutex mutexApp;
 
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            AppDomain.CurrentDomain.UnhandledException += (object sender, UnhandledExceptionEventArgs e) => {
-                if (e.ExceptionObject is Exception exception) {
-                    Handle(exception);
-                }
-            };
-
-            DispatcherUnhandledException += (object sender, DispatcherUnhandledExceptionEventArgs e) => {
-                Handle(e.Exception);
-                e.Handled = true;
-            };
-
-            Write.UIThreadId = Dispatcher.Thread.ManagedThreadId;
-            UIThread.InitializeWithDispatcher();
-            UIThread.StartTimer();
-            Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
+            AppUtil.Init(this);
             InitializeComponent();
         }
 
-        private void Handle(Exception e) {
-            if (e == null) {
-                return;
-            }
-            Logger.ErrorDebugLine(e);
+        protected override void OnExit(ExitEventArgs e) {
+            VirtualRoot.RaiseEvent(new AppExitEvent());
+            base.OnExit(e);
+            NTMinerConsole.Free();
         }
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
 
-            bool mutexCreated;
-            try {
-                mutexApp = new Mutex(true, "NTMinerUpdaterAppMutex", out mutexCreated);
+            if (AppUtil.GetMutex(NTKeyword.MinerUpdaterAppMutex)) {
+                NotiCenterWindow.Instance.ShowWindow();
+                this.MainWindow = new MainWindow();
+                this.MainWindow.Show();
+                VirtualRoot.StartTimer(new WpfTimer());
             }
-            catch {
-                mutexCreated = false;
-            }
-            if (mutexCreated == false) {
+            else {
                 Process thatProcess = null;
                 Process currentProcess = Process.GetCurrentProcess();
                 Process[] Processes = Process.GetProcessesByName(currentProcess.ProcessName);
                 foreach (Process process in Processes) {
                     if (process.Id != currentProcess.Id) {
+                        // 因为挖矿端和群控端的升级器是同一份程序所以区分一下
                         if (typeof(App).Assembly.Location.Equals(currentProcess.MainModule.FileName, StringComparison.OrdinalIgnoreCase)) {
                             thatProcess = process;
                         }
                     }
                 }
                 if (thatProcess != null) {
-                    Show(thatProcess);
+                    AppUtil.Show(thatProcess);
                 }
                 else {
-                    MessageBox.Show("Another Updater is running", "alert", MessageBoxButton.OKCancel);
+                    MessageBox.Show("另一个升级器已在运行", "提示", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 }
-                Environment.Exit(-1);
+                Environment.Exit(0);
                 return;
             }
-
             base.OnStartup(e);
-
-            NotiCenterWindow.ShowWindow();
-            this.MainWindow = new MainWindow();
-            this.MainWindow.Show();
-        }
-
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing) {
-            if (disposing) {
-                if (mutexApp != null) {
-                    mutexApp.Dispose();
-                }
-            }
-        }
-
-        private const int SW_SHOWNOMAL = 1;
-        private static void Show(Process instance) {
-            SafeNativeMethods.ShowWindowAsync(instance.MainWindowHandle, SW_SHOWNOMAL);
-            SafeNativeMethods.SetForegroundWindow(instance.MainWindowHandle);
         }
     }
 }

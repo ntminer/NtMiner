@@ -2,22 +2,13 @@
 
 namespace NTMiner {
     public static class AppStatic {
-        public static bool IsDebugMode {
+        public static bool IsDevMode {
             get {
                 return WpfUtil.IsDevMode;
             }
         }
 
-        public static bool IsNotDebugMode => !WpfUtil.IsDevMode;
-
-        public static Visibility IsDebugModeVisible {
-            get {
-                if (WpfUtil.IsDevMode) {
-                    return Visibility.Visible;
-                }
-                return Visibility.Collapsed;
-            }
-        }
+        public static bool IsNotDevMode => !WpfUtil.IsDevMode;
 
         public static Visibility IsDevModeVisible {
             get {

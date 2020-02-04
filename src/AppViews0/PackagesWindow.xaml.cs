@@ -7,7 +7,7 @@ namespace NTMiner.Views {
         private static readonly object _locker = new object();
         private static PackagesWindow _instance = null;
         public static void ShowWindow() {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 if (_instance == null) {
                     lock (_locker) {
                         if (_instance == null) {
@@ -30,6 +30,7 @@ namespace NTMiner.Views {
 
         public PackagesWindow() {
             InitializeComponent();
+            this.TbUcName.Text = nameof(PackagesWindow);
         }
 
         protected override void OnClosed(EventArgs e) {
@@ -37,14 +38,8 @@ namespace NTMiner.Views {
             _instance = null;
         }
 
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            WpfUtil.DataGrid_MouseDoubleClick<PackageViewModel>(sender, e);
+            WpfUtil.DataGrid_EditRow<PackageViewModel>(sender, e);
         }
     }
 }

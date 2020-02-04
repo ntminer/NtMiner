@@ -17,6 +17,7 @@
     <UserControl.Resources>
         <sys:Double x:Key="ItemWidth">230</sys:Double>
         <sys:Double x:Key="ItemHeight">50</sys:Double>
+        <SolidColorBrush x:Key="KbButtonHoverBackground">#CCE8FF</SolidColorBrush>
     </UserControl.Resources>
 	<Grid>
 		<ScrollViewer
@@ -28,6 +29,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding SwitchRadeonGpu}"
 					Cursor="Hand"
@@ -49,6 +51,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
 					Command="{Binding AtikmdagPatcher}"
 					Cursor="Hand"
@@ -71,8 +74,9 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
 					Cursor="Hand"
-					Command="{Binding NavigateToDriver}"
-                    CommandParameter="{Binding AmdDriverMore}"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
+					Command="{x:Static app:AppStatic.ViewUrl}"
+                    CommandParameter="{Binding AmdDriverMore.Value}"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
@@ -82,7 +86,7 @@
 							Fill="Red"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
-                            <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding AmdDriverMore.Description}"></TextBlock>
+                            <TextBlock FontWeight="Bold" FontSize="14" Foreground="{StaticResource LinkForeground}" Text="{Binding AmdDriverMore.Description}"></TextBlock>
 							<TextBlock Foreground="{StaticResource LableColor}">打开AMD官网下载A卡驱动</TextBlock>
 						</StackPanel>
 					</WrapPanel>
@@ -95,7 +99,7 @@
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
-							Width="32"
+							Width="36"
 							Height="30"
 							Data="{StaticResource Icon_Nvidia}"
 							Fill="Green"
@@ -110,46 +114,80 @@
                                 <RowDefinition></RowDefinition>
                             </Grid.RowDefinitions>
                             <controls:KbLinkButton
-								Command="{Binding NavigateToDriver}"
-                                CommandParameter="{Binding NvidiaDriverWin10}"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding NvidiaDriverWin10.Value}"
 								Padding="0"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
-								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent">
-                                <TextBlock Text="{Binding NvidiaDriverWin10.Description}" FontSize="14" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                                <TextBlock Text="{Binding NvidiaDriverWin10.Description}" FontSize="14"></TextBlock>
                             </controls:KbLinkButton>
                             <controls:KbLinkButton 
                                 Grid.Row="1"
-								Command="{Binding NavigateToDriver}"
-                                CommandParameter="{Binding NvidiaDriverWin7}"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding NvidiaDriverWin7.Value}"
 								Padding="0"
 								HorizontalAlignment="Left"
 								KbDisplayLine="False"
-								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent">
-                                <TextBlock Text="{Binding NvidiaDriverWin7.Description}" FontSize="14" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                                <TextBlock Text="{Binding NvidiaDriverWin7.Description}" FontSize="14"></TextBlock>
                             </controls:KbLinkButton>
                             <controls:KbLinkButton 
                                 Grid.Row="1"
                                 Grid.Column="1"
-								Command="{Binding NavigateToDriver}"
-                                CommandParameter="{Binding NvidiaDriverMore}"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding NvidiaDriverMore.Value}"
 								Padding="0"
 					            ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 								HorizontalAlignment="Right"
 								KbDisplayLine="False"
-								KbSystemButtonHoverBackground="Transparent"
 								Background="Transparent">
-                                <TextBlock Text="{Binding NvidiaDriverMore.Description}" Foreground="{StaticResource LinkForeground}"></TextBlock>
+                                <TextBlock Text="{Binding NvidiaDriverMore.Description}"></TextBlock>
                             </controls:KbLinkButton>
                         </Grid>
 					</WrapPanel>
-				</Border>
+                </Border>
+                <Border 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
+					Margin="4"
+                    Padding="20 0 0 0"
+					Background="Transparent">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path 
+							Width="36"
+							Height="22"
+							Data="{StaticResource Icon_Cpp}"
+							Fill="{StaticResource IconFillColor}"
+							Stretch="Fill" />
+                        <StackPanel Margin="8 0 0 0">
+                            <controls:KbLinkButton
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding VisualCpp0.Value}"
+								Padding="0"
+								HorizontalAlignment="Left"
+								KbDisplayLine="False"
+								Background="Transparent">
+                                <TextBlock Text="{Binding VisualCpp0.Description}" FontSize="14"></TextBlock>
+                            </controls:KbLinkButton>
+                            <controls:KbLinkButton 
+                                Grid.Row="1"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+                                CommandParameter="{Binding VisualCpp1.Value}"
+								Padding="0"
+								HorizontalAlignment="Left"
+								KbDisplayLine="False"
+								Background="Transparent">
+                                <TextBlock Text="{Binding VisualCpp1.Description}" FontSize="14"></TextBlock>
+                            </controls:KbLinkButton>
+                        </StackPanel>
+                    </WrapPanel>
+                </Border>
                 <controls:KbButton 
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowVirtualMemory}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -170,6 +208,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					IsEnabled="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding EnableWindowsRemoteDesktop}"
 					Cursor="Hand"
@@ -191,6 +230,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					IsEnabled="{Binding IsAutoAdminLogon,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding WindowsAutoLogon}"
 					Cursor="Hand"
@@ -212,6 +252,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding Win10Optimize}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -232,19 +273,35 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding RegCmdHere}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
-							Width="30"
+							Width="34"
 							Height="30"
+                            Visibility="{Binding IsWinCmdLoading,Converter={StaticResource BoolToVisibilityInvertConverter}}"
 							Data="{StaticResource Icon_Command}"
 							Fill="Black"
 							Stretch="Fill" />
-						<StackPanel Margin="8 0 0 0" Width="152">
+                        <Path 
+                            Visibility="{Binding IsWinCmdLoading,Converter={StaticResource BoolToVisibilityConverter}}"
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Loading}"
+							Fill="Black"
+							Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="{Binding WinCmdLodingIconAngle}" CenterX="15" CenterY="15"></RotateTransform>
+                            </Path.RenderTransform>
+                        </Path>
+                        <StackPanel Margin="8 0 0 0" Width="152" ToolTip="方便在当前目录打开命令行">
 							<TextBlock FontWeight="Bold" FontSize="14">Windows右键命令行</TextBlock>
-							<TextBlock Foreground="{StaticResource LableColor}">方便在当前目录打开命令行</TextBlock>
+                            <WrapPanel>
+                                <TextBlock Foreground="Green" Visibility="{Binding IsRegedCmdHere,Converter={StaticResource BoolToVisibilityConverter}}">已添加</TextBlock>
+                                <TextBlock Foreground="Red" Visibility="{Binding IsRegedCmdHere,Converter={StaticResource BoolToVisibilityInvertConverter}}">未添加</TextBlock>
+                            </WrapPanel>
 						</StackPanel>
 					</WrapPanel>
 				</controls:KbButton>
@@ -252,6 +309,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding BlockWAU}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -259,7 +317,7 @@
 						<Path 
 							Width="30"
 							Height="30"
-							Data="{StaticResource Icon_WindowsUpdate}"
+							Data="{StaticResource Icon_DisableWindowsUpdate}"
 							Fill="Black"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
@@ -272,6 +330,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowCalc}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -293,6 +352,7 @@
 					Width="{StaticResource ItemWidth}"
                     Visibility="{Binding IsReturnEthDevFee,Converter={StaticResource BoolToVisibilityConverter}}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowEthNoDevFee}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -313,6 +373,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowLocalIps}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -333,6 +394,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{Binding OpenDevmgmt}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -353,6 +415,28 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
+					Command="{Binding OpenEventvwr}"
+					Cursor="Hand"
+					Background="Transparent">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path 
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Eventvwr}"
+							Fill="#C42C2D"
+							Stretch="Fill" />
+                        <StackPanel Margin="8 0 0 0" Width="152">
+                            <TextBlock FontWeight="Bold" FontSize="14">Windows 事件查看器</TextBlock>
+                            <TextBlock Foreground="{StaticResource LableColor}">打开 Windows 事件查看器</TextBlock>
+                        </StackPanel>
+                    </WrapPanel>
+                </controls:KbButton>
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
+					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.WindowsProperty}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -366,6 +450,41 @@
                         <StackPanel Margin="8 0 0 0" Width="152">
                             <TextBlock FontWeight="Bold" FontSize="14">Windows 系统属性</TextBlock>
                             <TextBlock Foreground="{StaticResource LableColor}">打开 Windows 系统属性</TextBlock>
+                        </StackPanel>
+                    </WrapPanel>
+                </controls:KbButton>
+                <controls:KbButton 
+					Height="{StaticResource ItemHeight}" 
+					Width="{StaticResource ItemWidth}"
+					Margin="4"
+                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
+                    Click="BtnMinerClientFinder_Click"
+					Command="{x:Static app:AppStatic.OpenMinerClientFinder}"
+					Cursor="Hand"
+					Background="Transparent">
+                    <WrapPanel VerticalAlignment="Center">
+                        <Path 
+                            x:Name="MinerClientFinderIcon"
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_MinerClientFinder}"
+							Fill="Green"
+							Stretch="Fill" />
+                        <Path 
+                            x:Name="MinerClientFinderLoadingIcon"
+                            Visibility="Collapsed"
+							Width="30"
+							Height="30"
+							Data="{StaticResource Icon_Loading}"
+							Fill="Green"
+							Stretch="Fill">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0" CenterX="15" CenterY="15"></RotateTransform>
+                            </Path.RenderTransform>
+                        </Path>
+                        <StackPanel Margin="8 0 0 0" Width="152">
+                            <TextBlock FontWeight="Bold" FontSize="14">矿机雷达 - 开源矿工</TextBlock>
+                            <TextBlock Foreground="{StaticResource LableColor}">发现局域网中的开源矿工</TextBlock>
                         </StackPanel>
                     </WrapPanel>
                 </controls:KbButton>

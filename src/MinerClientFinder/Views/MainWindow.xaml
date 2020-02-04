@@ -1,0 +1,118 @@
+﻿<blankWindow:BlankWindow x:Class="NTMiner.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+		xmlns:blankWindow="http://NTMiner.com"
+        xmlns:local="clr-namespace:NTMiner.Views"
+        xmlns:vm="clr-namespace:NTMiner.Vms"
+        mc:Ignorable="d"
+		Background="{StaticResource ThemeBackground}"
+        d:DataContext="{d:DesignData Source=Design/MainWindowViewModel.xaml}"
+        WindowStartupLocation="CenterScreen"
+        FontSize="14"
+        Title="矿机雷达(敖江) - 开源矿工" Height="800" Width="600">
+    <blankWindow:BlankWindow.DataContext>
+        <vm:MainWindowViewModel></vm:MainWindowViewModel>
+    </blankWindow:BlankWindow.DataContext>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="24"></RowDefinition>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0">
+            <WrapPanel DockPanel.Dock="Left" VerticalAlignment="Center" Margin="4 0 0 0">
+                <Image Width="17" Height="18" Source="/NTMinerWpf;component/Styles/Images/aojiang.png"></Image>
+                <TextBlock Margin="2 0 0 0" Foreground="{StaticResource ThemeForeground}">矿机雷达(敖江) - 开源矿工</TextBlock>
+            </WrapPanel>
+            <WrapPanel DockPanel.Dock="Right" HorizontalAlignment="Right">
+                <controls:KbSystemMinButton />
+                <controls:KbSystemMaxButton />
+                <controls:KbSystemCloseButton />
+            </WrapPanel>
+        </DockPanel>
+        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center">从</TextBlock>
+            <controls:IpAddressControl Margin="4 0 0 0" DataContext="{Binding FromIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
+            <TextBlock Foreground="{StaticResource ThemeForeground}" VerticalAlignment="Center" Margin="4 0">到</TextBlock>
+            <controls:IpAddressControl DataContext="{Binding ToIpAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
+            <Button Margin="4 0 0 0" Padding="8 0" Height="26" FocusVisualStyle="{x:Null}" Command="{Binding Start}" Content="{Binding BtnStartText}"></Button>
+            <TextBlock Foreground="{StaticResource ThemeForeground}" Width="26" TextAlignment="Right" VerticalAlignment="Center" Text="{Binding Percent}"></TextBlock>
+            <TextBlock Foreground="{StaticResource ThemeForeground}" Margin="2 0 0 0" VerticalAlignment="Center" Text="%"></TextBlock>
+            <RadioButton x:Name="RbFast" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="8 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">快</RadioButton>
+            <RadioButton x:Name="RbNormal" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="4 0 0 0" IsChecked="True" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">中</RadioButton>
+            <RadioButton x:Name="RbSlow" FocusVisualStyle="{x:Null}" Checked="RbSpeed_Checked" Margin="4 0 0 0" GroupName="Speed" VerticalAlignment="Center" Foreground="{StaticResource ThemeForeground}" Padding="0">慢</RadioButton>
+        </WrapPanel>
+        <DataGrid
+            Grid.Row="2"
+            BorderThickness="1 0"
+			ColumnHeaderHeight="34"
+			MouseDoubleClick="DataGrid_MouseDoubleClick"
+            ItemsSource="{Binding Results}">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="150" Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding Data.Results.Count,Source={StaticResource proxy}}"></TextBlock>
+                                <TextBlock Margin="10 0 0 0" Foreground="Red" FontWeight="Normal" Text="双击行复制"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding Ip}"></TextBlock>
+                                <TextBlock Text="（本机）" Visibility="{Binding IsSelf, Converter={StaticResource BoolToVisibilityConverter}}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="40" Width="40" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="状态"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <Path
+                                    Width="12"
+                                    Height="12"
+                                    Data="{StaticResource Icon_Ok}"
+                                    Fill="Green"
+                                    Stretch="Fill" />
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <TextBlock Height="22" Margin="4 3 0 0" FontSize="13" Foreground="{StaticResource ThemeForeground}">注意：1. 仅支持内网；2. 仅能找到运行过开源矿工的矿机。</TextBlock>
+            <controls:KbButton 
+                Grid.Column="1"
+                Height="22"
+				Margin="4 0 2 0"
+				Background="Transparent"
+				ToolTip="管理本机 IP"
+                Cursor="Hand"
+                Command="{Binding ShowLocalIps}"
+                Foreground="White"
+                FontSize="13"
+                Content="{Binding LocalIps}">
+            </controls:KbButton>
+        </Grid>
+    </Grid>
+</blankWindow:BlankWindow>

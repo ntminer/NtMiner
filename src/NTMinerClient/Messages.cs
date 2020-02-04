@@ -2,6 +2,15 @@
 using System;
 
 namespace NTMiner {
+    [MessageType(description: "打开windows重启倒计时界面")]
+    public class ShowRestartWindowsCommand : Cmd {
+        public ShowRestartWindowsCommand(int countDownSeconds) {
+            this.CountDownSeconds = countDownSeconds;
+        }
+
+        public int CountDownSeconds { get; private set; }
+    }
+
     [MessageType(description: "打开内核下载界面")]
     public class ShowKernelDownloaderCommand : Cmd {
         public ShowKernelDownloaderCommand(Guid kernelId, Action<bool, string> downloadComplete) {
@@ -51,9 +60,9 @@ namespace NTMiner {
         /// </summary>
         /// <param name="serverVersion"></param>
         public static void PublishIfNewVersion(string serverVersion) {
-            if (!string.IsNullOrEmpty(serverVersion) && serverVersion != MainAssemblyInfo.CurrentVersion.ToString()) {
+            if (!string.IsNullOrEmpty(serverVersion) && serverVersion != EntryAssemblyInfo.CurrentVersion.ToString()) {
                 if (Version.TryParse(serverVersion, out Version v)) {
-                    if (v > MainAssemblyInfo.CurrentVersion) {
+                    if (v > EntryAssemblyInfo.CurrentVersion) {
                         NTMinerRoot.ServerVersion = v;
                         VirtualRoot.RaiseEvent(new AppVersionChangedEvent());
                     }
@@ -67,6 +76,12 @@ namespace NTMiner {
     [MessageType(description: "内核自我重启")]
     public class KernelSelfRestartedEvent : EventBase {
         public KernelSelfRestartedEvent() { }
+    }
+
+    [MessageType(description: "开始挖矿")]
+    public class StartingMineEvent : EventBase {
+        public StartingMineEvent() {
+        }
     }
 
     [MessageType(description: "开始挖矿不成功")]

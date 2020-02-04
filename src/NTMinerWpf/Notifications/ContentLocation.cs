@@ -2,8 +2,7 @@
     /// <summary>
     /// The additional content location.
     /// </summary>
-    public enum ContentLocation
-    {
+    public enum ContentLocation {
         Top,
         Bottom,
         Left,

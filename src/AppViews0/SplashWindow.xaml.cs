@@ -11,7 +11,12 @@ namespace NTMiner.Views {
             Thread t = new Thread(() => {
                 SplashWindow win = new SplashWindow();
                 win.Closed += (d, k) => {
-                    System.Windows.Threading.Dispatcher.ExitAllFrames();
+                    if (!win._isOkClose) {
+                        Environment.Exit(0);
+                    }
+                    else {
+                        System.Windows.Threading.Dispatcher.ExitAllFrames();
+                    }
                 };
                 win.Show();
                 callback?.Invoke(win);
@@ -23,10 +28,30 @@ namespace NTMiner.Views {
 
         private SplashWindow() {
             InitializeComponent();
+            #region 使SplashWindow和SplashWindow.png完全重合
+            var windowsTaskbarEdge = Win32Proc.GetWindowsTaskbarEdge(out double value);
+            value /= 2;
+            double left = (SystemParameters.WorkArea.Width - this.Width) / 2;
+            double top = (SystemParameters.WorkArea.Height - this.Height) / 2;
+            switch (windowsTaskbarEdge) {
+                case Win32Proc.WindowsTaskbarEdge.Left:
+                case Win32Proc.WindowsTaskbarEdge.Right:
+                    left += value;
+                    break;
+                case Win32Proc.WindowsTaskbarEdge.Top:
+                case Win32Proc.WindowsTaskbarEdge.Bottom:
+                    top += value;
+                    break;
+                default:
+                    break;
+            }
+            this.Left = left;
+            this.Top = top;
+            #endregion
             // BitmapImage是依赖对象，而SplashWindow是在单独的线程中使用的，所以SplashWindow不能使用任何其它界面用到的依赖对象
             this.BigLogo.Source = new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
-            this.TbFullVersion.Text = $"v{MainAssemblyInfo.CurrentVersion}({MainAssemblyInfo.CurrentVersionTag})";
-    }
+            this.TbFullVersion.Text = $"v{EntryAssemblyInfo.CurrentVersion}({EntryAssemblyInfo.CurrentVersionTag})";
+        }
 
         private void Window_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
@@ -34,8 +59,14 @@ namespace NTMiner.Views {
             }
         }
 
+        private bool _isOkClose = false;
+        public void OkClose() {
+            _isOkClose = true;
+            this.Close();
+        }
+
         private void BtnClose_Click(object sender, RoutedEventArgs e) {
-            Application.Current.Shutdown();
+            this.Close();
         }
     }
 }

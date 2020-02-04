@@ -1,16 +1,15 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using NTMiner.Views;
 using System;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class ServerMessageViewModel : ViewModelBase, IServerMessage, IEditableViewModel {
-        private static readonly StreamGeometry InfoIcon = (StreamGeometry)Application.Current.Resources["Icon_Message"];
-        private static readonly SolidColorBrush InfoColor = (SolidColorBrush)Application.Current.Resources["InfoColor"];
-        private static readonly StreamGeometry NewVersionIcon = (StreamGeometry)Application.Current.Resources["Icon_NewVersion"];
-        private static readonly SolidColorBrush NewVersionColor = (SolidColorBrush)Application.Current.Resources["NewVersionColor"];
+        private static readonly StreamGeometry InfoIcon = AppUtil.GetResource<StreamGeometry>("Icon_Message");
+        private static readonly SolidColorBrush InfoColor = AppUtil.GetResource<SolidColorBrush>("InfoColor");
+        private static readonly StreamGeometry NewVersionIcon = AppUtil.GetResource<StreamGeometry>("Icon_NewVersion");
+        private static readonly SolidColorBrush NewVersionColor = AppUtil.GetResource<SolidColorBrush>("NewVersionColor");
 
         public static StreamGeometry GetIcon(ServerMessageType messageType) {
             switch (messageType) {
@@ -61,9 +60,10 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public ServerMessageViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
@@ -176,17 +176,7 @@ namespace NTMiner.Vms {
 
         public string TimestampText {
             get {
-                int offDay = (DateTime.Now.Date - Timestamp.Date).Days;
-                switch (offDay) {
-                    case 0:
-                        return $"今天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    case 1:
-                        return $"昨天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    case 2:
-                        return $"前天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    default:
-                        return Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
-                }
+                return NTMiner.Timestamp.GetTimestampText(this.Timestamp);
             }
         }
 

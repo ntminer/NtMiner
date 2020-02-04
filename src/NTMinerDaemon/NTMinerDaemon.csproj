@@ -41,8 +41,7 @@
     <StartupObject />
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
@@ -98,26 +97,23 @@
     <Compile Include="..\NTMinerlib\EnumExtension.cs">
       <Link>EnumExtension.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Messages.Timing.cs">
-      <Link>Messages.Timing.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\NTKeyword.cs">
       <Link>NTKeyword.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Serialization\IObjectSerializer.cs">
-      <Link>Serialization\IObjectSerializer.cs</Link>
+    <Compile Include="..\NTMinerlib\Serialization\INTSerializer.cs">
+      <Link>Serialization\INTSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Serialization\ObjectJsonSerializer.cs">
-      <Link>Serialization\ObjectJsonSerializer.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\TimeSpanExtensions.cs">
-      <Link>TimeSpanExtensions.cs</Link>
+    <Compile Include="..\NTMinerlib\Serialization\NTJsonSerializer.cs">
+      <Link>Serialization\NTJsonSerializer.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\User\IUserSet.cs">
       <Link>User\IUserSet.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\User\RpcUser.cs">
+      <Link>User\RpcUser.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Common.cs">
       <Link>VirtualRoot.partials.Common.cs</Link>
@@ -136,6 +132,9 @@
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
       <Link>Windows\WinRegistry.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerRpcClient\RpcRoot.cs">
+      <Link>RpcRoot.cs</Link>
     </Compile>
     <Compile Include="HostRoot.cs" />
     <Compile Include="IHostRoot.cs" />
@@ -163,9 +162,9 @@
       <Project>{5911457a-357a-412d-a20c-e77c1a56b4f6}</Project>
       <Name>NTMiner.Controllers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+    <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
-      <Name>NTMinerDataObjects</Name>
+      <Name>NTMinerDataSchemas</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>

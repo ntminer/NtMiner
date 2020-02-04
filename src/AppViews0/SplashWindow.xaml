@@ -6,13 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     ResizeMode="NoResize"
-    Background="{StaticResource IconFillColor}"
     Foreground="White"
     WindowStyle="None"
-    Height="260" 
+    Background="{StaticResource IconFillColor}"
+    Height="260"
     Width="520"
 	MouseDown="Window_MouseDown"
-    WindowStartupLocation="CenterScreen"
     Title="欢迎使用开源矿工">
     <Grid>
         <WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">

@@ -5,12 +5,13 @@ namespace NTMiner.Windows {
         public static object GetValue(RegistryKey root, string subkey, string valueName) {
             object registData = "";
             try {
-                RegistryKey myKey = root.OpenSubKey(subkey, true);
-                if (myKey != null) {
-                    registData = myKey.GetValue(valueName);
+                using (RegistryKey registryKey = root.OpenSubKey(subkey, true)) {
+                    if (registryKey != null) {
+                        registData = registryKey.GetValue(valueName);
+                        registryKey.Close();
+                    }
+                    return registData;
                 }
-
-                return registData;
             }
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -20,9 +21,10 @@ namespace NTMiner.Windows {
 
         public static void SetValue(RegistryKey root, string subkey, string valueName, object value) {
             try {
-                RegistryKey registryKey = root.CreateSubKey(subkey);
-                registryKey.SetValue(valueName, value);
-                registryKey.Close();
+                using (RegistryKey registryKey = root.CreateSubKey(subkey)) {
+                    registryKey.SetValue(valueName, value);
+                    registryKey.Close();
+                }
             }
             catch (System.Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -31,10 +33,11 @@ namespace NTMiner.Windows {
 
         public static void DeleteValue(RegistryKey root, string subkey, string valueName) {
             try {
-                RegistryKey myKey = root.OpenSubKey(subkey, true);
-                if (myKey != null) {
-                    myKey.DeleteValue(valueName, throwOnMissingValue: false);
-                    myKey.Close();
+                using (RegistryKey registryKey = root.OpenSubKey(subkey, true)) {
+                    if (registryKey != null) {
+                        registryKey.DeleteValue(valueName, throwOnMissingValue: false);
+                        registryKey.Close();
+                    }
                 }
             }
             catch (System.Exception e) {

@@ -42,13 +42,13 @@ namespace NTMiner.Vms {
 
         public Version CurrentVersion {
             get {
-                return MainAssemblyInfo.CurrentVersion;
+                return EntryAssemblyInfo.CurrentVersion;
             }
         }
 
         public string VersionTag {
             get {
-                return MainAssemblyInfo.CurrentVersionTag;
+                return EntryAssemblyInfo.CurrentVersionTag;
             }
         }
 
@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
                 if (_iconName != value) {
                     _iconName = value;
                     if (!string.IsNullOrEmpty(value)) {
-                        Icon = (Geometry)Application.Current.Resources[value];
+                        Icon = AppUtil.GetResource<Geometry>(value);
                     }
                     OnPropertyChanged(nameof(IconName));
                 }

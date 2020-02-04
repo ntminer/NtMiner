@@ -2,9 +2,7 @@
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.Views {
@@ -34,8 +32,9 @@ namespace NTMiner.Views {
             this.DataContext = Vm;
             this.DataContext = AppContext.Instance.MinerClientsWindowVm;
             InitializeComponent();
+            this.TbUcName.Text = nameof(MinerClientsWindow);
             DateTime lastGetServerMessageOn = DateTime.MinValue;
-            this.ServerMessagesUc.IsVisibleChanged += (sender, e)=> {
+            this.ServerMessagesUc.IsVisibleChanged += (sender, e) => {
                 VirtualRoot.SetIsServerMessagesVisible(this.ServerMessagesUc.IsVisible);
                 if (this.ServerMessagesUc.IsVisible) {
                     if (lastGetServerMessageOn.AddSeconds(10) < DateTime.Now) {
@@ -58,9 +57,8 @@ namespace NTMiner.Views {
                 action: message => {
                     AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
                 }, location: this.GetType());
-            NotiCenterWindow.Bind(this);
+            NotiCenterWindow.Instance.Bind(this);
             AppContext.Instance.MinerClientsWindowVm.QueryMinerClients();
-            Write.UserLine("小提示：鼠标配合ctrl和shift可以多选矿机", ConsoleColor.Yellow);
         }
 
         protected override void OnClosing(CancelEventArgs e) {
@@ -88,51 +86,12 @@ namespace NTMiner.Views {
             base.OnClosed(e);
         }
 
-        private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed) {
-                this.DragMove();
-            }
-        }
-
-        private void MinerClientsGrid_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
-            Vm.SelectedMinerClients = ((DataGrid)sender).SelectedItems.Cast<MinerClientViewModel>().ToArray();
-        }
-
         private void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
 
         private void MinerClientUcScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.LeftButton == MouseButtonState.Pressed && e.Source.GetType() == typeof(ScrollViewer)) {
-                ScrollViewer scrollViewer = (ScrollViewer)sender;
-                Point p = e.GetPosition(scrollViewer);
-                if (p.X < SystemParameters.ScrollWidth) {
-                    return;
-                }
-                if (scrollViewer.ComputedHorizontalScrollBarVisibility == Visibility.Visible) {
-                    p = e.GetPosition(scrollViewer);
-                    if (p.Y > scrollViewer.ActualHeight - SystemParameters.ScrollHeight) {
-                        return;
-                    }
-                }
-                this.DragMove();
-                e.Handled = true;
-            }
-        }
-
-        private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            DataGrid dg = (DataGrid)sender;
-            Point p = e.GetPosition(dg);
-            if (p.Y < dg.ColumnHeaderHeight) {
-                return;
-            }
-            if (Vm.SelectedMinerClients != null && Vm.SelectedMinerClients.Length != 0) {
-                Vm.SelectedMinerClients[0].RemoteDesktop.Execute(Vm.SelectedMinerClients[0].GetRemoteDesktopIp());
-            }
-        }
-
-        private void DataGrid_OnSorting(object sender, DataGridSortingEventArgs e) {
-            e.Handled = true;
+            WpfUtil.ScrollViewer_PreviewMouseDown(sender, e, isLeftBar: true);
         }
 
         private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {

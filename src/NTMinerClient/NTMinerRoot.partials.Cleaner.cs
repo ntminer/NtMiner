@@ -76,7 +76,7 @@ namespace NTMiner {
             private void CleanKernels() {
                 try {
                     foreach (var kernelProcessName in NTMinerRoot.Instance.ServerContext.KernelSet.GetAllKernelProcessNames()) {
-                        if (NTMinerRoot.Instance.LockedMineContext == null || NTMinerRoot.Instance.LockedMineContext.Kernel.GetProcessName() != kernelProcessName) {
+                        if (!NTMinerRoot.Instance.IsMining || NTMinerRoot.Instance.LockedMineContext.Kernel.GetProcessName() != kernelProcessName) {
                             Windows.TaskKill.Kill(kernelProcessName, waitForExit: true);
                         }
                     }
@@ -104,7 +104,7 @@ namespace NTMiner {
             private void ClearLogs() {
                 try {
                     List<string> toRemoves = new List<string>();
-                    foreach (var file in Directory.GetFiles(SpecialPath.LogsDirFullName)) {
+                    foreach (var file in Directory.GetFiles(SpecialPath.TempLogsDirFullName)) {
                         FileInfo fileInfo = new FileInfo(file);
                         if (fileInfo.LastWriteTime.AddDays(7) < DateTime.Now) {
                             toRemoves.Add(file);

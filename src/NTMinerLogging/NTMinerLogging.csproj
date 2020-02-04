@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DllName.cs" />
-    <Compile Include="MainAssemblyInfo.cs" />
+    <Compile Include="EntryAssemblyInfo.cs" />
     <Compile Include="LogEnum.cs" />
     <Compile Include="NTMinerConsole.cs" />
     <Compile Include="DevMode.cs" />

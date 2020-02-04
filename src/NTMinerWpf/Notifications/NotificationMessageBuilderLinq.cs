@@ -136,14 +136,14 @@ namespace NTMiner.Notifications {
         /// Dismisses the notification message after specified time.
         /// </summary>
         /// <param name="dismiss">The dismiss.</param>
-        /// <param name="delayMilliseconds">The delay in milliseconds.</param>
+        /// <param name="seconds">The delay in seconds.</param>
         /// <param name="callback">The callback.</param>
         /// <returns>Returns the notification message builder.</returns>
         public static NotificationMessageBuilder WithDelay(
             this NotificationMessageBuilder.DismissNotificationMessage dismiss,
-            int delayMilliseconds,
+            int seconds,
             Action<INotificationMessage> callback = null) {
-            dismiss.Builder.Delay(delayMilliseconds, dismiss.Builder.DismissBefore(callback));
+            dismiss.Builder.Delay(seconds, dismiss.Builder.DismissBefore(callback));
 
             return dismiss.Builder;
         }

@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerClient;
+using NTMiner.Core.MinerClient;
 using NTMiner.Views;
 using System;
 using System.Linq;
@@ -16,17 +16,19 @@ namespace NTMiner.Vms {
 
         public ICommand Remove { get; private set; }
         public ICommand Edit { get; private set; }
+        public ICommand ToGlobal { get; private set; }
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public KernelOutputKeywordViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
         private LocalMessageType _messageTypeEnum;
         public KernelOutputKeywordViewModel(IKernelOutputKeyword data) : this(data.GetId()) {
-            this.DataLevel = data.DataLevel;
+            this._dataLevel = data.GetDataLevel();
             _kernelOutputId = data.KernelOutputId;
             _messageType = data.MessageType;
             data.MessageType.TryParse(out _messageTypeEnum);
@@ -38,7 +40,7 @@ namespace NTMiner.Vms {
             _id = id;
             this.Save = new DelegateCommand(() => {
                 if (string.IsNullOrEmpty(this.Keyword)) {
-                    VirtualRoot.Out.ShowError("关键字不能为空", delaySeconds: 4);
+                    VirtualRoot.Out.ShowError("关键字不能为空", autoHideSeconds: 4);
                     return;
                 }
                 if (AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.KernelOutputId).Any(a => a.Id != this.Id && a.Keyword == this.Keyword)) {
@@ -79,6 +81,9 @@ namespace NTMiner.Vms {
                     }
                 }));
             });
+            this.ToGlobal = new DelegateCommand(() => {
+                // TODO:
+            });
         }
 
         public LocalMessageType MessageTypeEnum {
@@ -112,16 +117,19 @@ namespace NTMiner.Vms {
             }
         }
 
-        public DataLevel DataLevel { get; set; }
+        private DataLevel _dataLevel;
+        public DataLevel GetDataLevel() {
+            return _dataLevel;
+        }
 
         public bool IsReadOnly {
             get {
-                return !DevMode.IsDevMode && DataLevel == DataLevel.Global;
+                return !DevMode.IsDevMode && _dataLevel == DataLevel.Global;
             }
         }
 
         public void SetDataLevel(DataLevel dataLevel) {
-            this.DataLevel = dataLevel;
+            this._dataLevel = dataLevel;
         }
 
         public Guid GetId() {

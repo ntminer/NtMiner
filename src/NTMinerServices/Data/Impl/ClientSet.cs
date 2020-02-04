@@ -1,5 +1,6 @@
 ﻿using LiteDB;
-using NTMiner.MinerServer;
+using NTMiner.Core;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -291,7 +292,7 @@ namespace NTMiner.Data.Impl {
         }
 
         public Task CreatePullTask(ClientData clientData) {
-            return Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
+            return RpcRoot.Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
                 if (exception != null) {
                     clientData.IsMining = false;
                     clientData.MainCoinSpeed = 0;

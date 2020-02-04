@@ -1,8 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
 using NTMiner.Controllers;
-using NTMiner.MinerClient;
-using NTMiner.Profile;
+using NTMiner.Core;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.Profile;
 using NTMiner.Serialization;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,12 @@ using System.Windows;
 namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void FileTest() {
+            new FileInfo(string.Empty);
+        }
+
         [TestMethod]
         public void IsInUnitTestTest() {
             Assert.IsTrue(DevMode.IsInUnitTest);
@@ -66,23 +73,6 @@ namespace UnitTests {
 
         private string GetNameofT<T>() {
             return nameof(T);
-        }
-
-        [TestMethod]
-        public void DictionarySetTest() {
-            var dic = new Dictionary<string, string>();
-            // 与指定的键相关联的值。 如果指定键未找到，则 Get 操作引发 System.Collections.Generic.KeyNotFoundException，而
-            // Set 操作创建一个带指定键的新元素。
-            dic["test1"] = "value1";
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(KeyNotFoundException))]
-        public void DictionaryGetTest() {
-            var dic = new Dictionary<string, string>();
-            // 与指定的键相关联的值。 如果指定键未找到，则 Get 操作引发 System.Collections.Generic.KeyNotFoundException，而
-            // Set 操作创建一个带指定键的新元素。
-            var v = dic["test1"];
         }
 
         [TestMethod]
@@ -189,13 +179,15 @@ namespace UnitTests {
 
         [TestMethod]
         public void Sha1Test() {
-            Assert.AreEqual(string.Empty, NTMiner.HashUtil.Sha1(string.Empty));
-            Assert.AreEqual(string.Empty, NTMiner.HashUtil.Sha1((string)null));
+            Assert.AreEqual(string.Empty, HashUtil.Sha1(string.Empty));
+            Assert.AreEqual(string.Empty, HashUtil.Sha1((string)null));
         }
 
         [TestMethod]
         public void ResourceDictionaryTest() {
+#pragma warning disable IDE0028 // 简化集合初始化
             ResourceDictionary dic = new ResourceDictionary();
+#pragma warning restore IDE0028 // 简化集合初始化
             dic["aaa"] = "aaa";
         }
 
@@ -212,7 +204,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void GetControllerNameTest() {
-            Assert.AreEqual("FileUrl", ControllerUtil.GetControllerName<IFileUrlController>());
+            Assert.AreEqual("FileUrl", RpcRoot.GetControllerName<IFileUrlController>());
         }
 
         [TestMethod]
@@ -235,7 +227,7 @@ namespace UnitTests {
                 PoolId = Guid.NewGuid(),
                 UserName = "test"
             };
-            Console.WriteLine(new ObjectJsonSerializer().Serialize(data));
+            Console.WriteLine(new NTJsonSerializer().Serialize(data));
         }
 
         [TestMethod]
@@ -260,8 +252,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void IntTest() {
-            int i;
-            Assert.IsTrue(int.TryParse("001", out i));
+            Assert.IsTrue(int.TryParse("001", out int _));
         }
 
         [TestMethod]
@@ -271,9 +262,9 @@ namespace UnitTests {
 
         [TestMethod]
         public void AliOSSUrlTest() {
-            Uri uri = new Uri($"{OfficialServer.NTMinerBucket}packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
+            Uri uri = new Uri($"https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
             Console.WriteLine(uri.ToString());
-            Console.WriteLine(OfficialServer.SignatureSafeUrl(uri));
+            Console.WriteLine(RpcRoot.OfficialServer.SignatureSafeUrl(uri));
         }
 
         [TestMethod]
@@ -291,11 +282,17 @@ namespace UnitTests {
             List<string> chars1 = new List<string>();
             List<string> chars2 = new List<string>();
             for (int i = 0; i < 12; i++) {
-                chars1.Add(VirtualRoot.GetIndexChar(i, string.Empty));
-                chars2.Add(VirtualRoot.GetIndexChar(i, ","));
+                chars1.Add(NTKeyword.GetIndexChar(i, string.Empty));
+                chars2.Add(NTKeyword.GetIndexChar(i, ","));
             }
             Assert.AreEqual("0123456789ab", string.Join(string.Empty, chars1));
             Assert.AreEqual("0,1,2,3,4,5,6,7,8,9,10,11", string.Join(",", chars2));
+        }
+
+        [TestMethod]
+        public void GetWindowsTaskbarPositionTest() {
+            var edge = Win32Proc.GetWindowsTaskbarEdge(out double value);
+            Console.WriteLine($"{edge.ToString()} {value}");
         }
     }
 }

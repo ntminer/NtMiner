@@ -159,9 +159,9 @@
       <Project>{85d052ab-44b8-46f3-9d7b-f624c24fd8ba}</Project>
       <Name>NTMinerClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+    <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
-      <Name>NTMinerDataObjects</Name>
+      <Name>NTMinerDataSchemas</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>
@@ -206,7 +206,9 @@
   <ItemGroup>
     <EmbeddedResource Include="AtikmdagPatcher\atikmdag-patcher1.4.7.exe" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SplashScreen Include="splashWindow.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

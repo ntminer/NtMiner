@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -13,9 +14,10 @@ namespace NTMiner.Vms {
         public ICommand ClearKeyword { get; private set; }
         public ICommand HideView { get; set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public CoinKernelSelectViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 

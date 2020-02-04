@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.Vms {
-    using NTMiner.MinerClient;
+    using NTMiner.Core.MinerClient;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -70,15 +70,13 @@
                     VirtualRoot.Execute(new ClearLocalMessageSetCommand());
                 }));
             });
-            VirtualRoot.AddEventPath<LocalMessageSetClearedEvent>("清空挖矿消息集后刷新VM内存", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<LocalMessageSetClearedEvent>("清空本地消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
-                        Init();
-                    });
+                    UIThread.Execute(() => Init);
                 }, location: this.GetType());
-            VirtualRoot.AddEventPath<LocalMessageAddedEvent>("发生了挖矿事件后刷新Vm内存", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<LocalMessageAddedEvent>("发生了本地消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
+                    UIThread.Execute(() => () => {
                         var vm = new LocalMessageViewModel(message.Target);
                         _localMessageVms.Insert(0, vm);
                         if (IsSatisfyQuery(vm)) {
@@ -166,7 +164,7 @@
             if (_queyResults == _localMessageVms) {
                 return false;
             }
-            if (_count[SelectedChannel][vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.Contains(Keyword))) {
+            if (SelectedChannel == vm.ChannelEnum.GetEnumItem() && _count[SelectedChannel][vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.Contains(Keyword))) {
                 return true;
             }
             return false;

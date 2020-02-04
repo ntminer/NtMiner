@@ -17,7 +17,7 @@ namespace NTMiner.Views.Ucs {
                 Title = "算力图",
                 IconName = "Icon_Speed",
                 Width = 760,
-                Height = 520,
+                Height = 460,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
@@ -46,10 +46,10 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             Guid mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
-            this.RunOneceOnLoaded((window) => {
+            this.OnLoaded((window) => {
                 window.AddEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新算力图界面", LogEnum.DevConsole,
                     action: (message) => {
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
                             if (mainCoinId != NTMinerRoot.Instance.MinerProfile.CoinId) {
                                 mainCoinId = NTMinerRoot.Instance.MinerProfile.CoinId;
                                 foreach (var speedChartVm in Vm.SpeedChartVms.Items) {

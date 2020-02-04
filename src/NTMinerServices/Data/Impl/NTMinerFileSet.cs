@@ -1,5 +1,6 @@
 ﻿using LiteDB;
-using NTMiner.MinerServer;
+using NTMiner.Core;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,7 @@ namespace NTMiner.Data.Impl {
     public class NTMinerFileSet : INTMinerFileSet {
         private readonly Dictionary<Guid, NTMinerFileData> _dicById = new Dictionary<Guid, NTMinerFileData>();
 
-        private readonly IHostRoot _root;
-        public NTMinerFileSet(IHostRoot root) {
-            _root = root;
+        public NTMinerFileSet() {
         }
 
         private bool _isInited = false;

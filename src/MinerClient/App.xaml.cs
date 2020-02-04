@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Hub;
 using NTMiner.Notifications;
 using NTMiner.RemoteDesktop;
 using NTMiner.View;
@@ -7,71 +8,55 @@ using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace NTMiner {
-    public partial class App : Application, IDisposable {
+    public partial class App : Application {
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            Logger.SetDir(SpecialPath.LogsDirFullName);
-            Write.UIThreadId = Dispatcher.Thread.ManagedThreadId;
+            Logger.SetDir(SpecialPath.TempLogsDirFullName);
             AppUtil.Init(this);
             InitializeComponent();
         }
 
         private readonly IAppViewFactory _appViewFactory = new AppViewFactory();
 
-        private bool createdNew;
-        private Mutex appMutex;
-        private static readonly string s_appPipName = "ntminerclient";
         protected override void OnExit(ExitEventArgs e) {
-            AppContext.NotifyIcon?.Dispose();
-            NTMinerRoot.Instance.Exit();
-            HttpServer.Stop();
+            VirtualRoot.RaiseEvent(new AppExitEvent());
             base.OnExit(e);
             NTMinerConsole.Free();
         }
 
         protected override void OnStartup(StartupEventArgs e) {
             RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            // 通过群控升级挖矿端的时候升级器可能不存在所以需要下载，下载的时候需要用到下载器所以下载器需要提前注册
+            // 之所以提前到这里是因为升级之前可能需要下载升级器，下载升级器时需要下载器
             VirtualRoot.AddCmdPath<ShowFileDownloaderCommand>(action: message => {
-                UIThread.Execute(() => {
-                    FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
-                });
+                FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppStatic.Upgrade(message.FileName, message.Callback);
             }, location: this.GetType());
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
-                    UIThread.Execute(() => { Environment.Exit(0); });
+                    UIThread.Execute(() => () => { Environment.Exit(0); });
                 }));
             }
             else {
-                try {
-                    appMutex = new Mutex(true, s_appPipName, out createdNew);
-                }
-                catch (Exception) {
-                    createdNew = false;
-                }
-                if (createdNew) {
-                    Logger.InfoDebugLine($"==================NTMiner.exe {MainAssemblyInfo.CurrentVersion.ToString()}==================");
+                if (AppUtil.GetMutex(NTKeyword.MinerClientAppMutex)) {
+                    Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersion.ToString()}==================");
                     NotiCenterWindowViewModel.IsHotKeyEnabled = true;
-                    SplashWindow splashWindow = null;
                     // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
                     // 注意：必须确保SplashWindow没有用到任何其它界面用到的依赖对象
+                    SplashWindow splashWindow = null;
                     SplashWindow.ShowWindowAsync(window => {
                         splashWindow = window;
                     });
-                    //ConsoleWindow.Instance.Show();
-                    NotiCenterWindow.ShowWindow();
+                    NotiCenterWindow.Instance.ShowWindow();
                     if (!NTMiner.Windows.WMI.IsWmiEnabled) {
-                        DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
+                        DialogWindow.ShowHardDialog(new DialogWindowViewModel(
                             message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
                             title: "提醒",
                             icon: "Icon_Error"));
@@ -81,7 +66,7 @@ namespace NTMiner {
                     if (!NTMiner.Windows.Role.IsAdministrator) {
                         NotiCenterWindowViewModel.Instance.Manager
                             .CreateMessage()
-                            .Warning("请以管理员身份运行。")
+                            .Warning("提示", "请以管理员身份运行。")
                             .WithButton("点击以管理员身份运行", button => {
                                 WpfUtil.RunAsAdministrator();
                             })
@@ -100,21 +85,24 @@ namespace NTMiner {
                         if (NTMinerRoot.Instance.ServerContext.CoinSet.Count == 0) {
                             VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
-                        UIThread.Execute(() => {
+                        UIThread.Execute(() => () => {
+                            Window mainWindow = null;
                             AppContext.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             if (NTMinerRoot.Instance.MinerProfile.IsNoUi && NTMinerRoot.Instance.MinerProfile.IsAutoStart) {
                                 ConsoleWindow.Instance.Hide();
-                                VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行，可在选项页调整设置", "开源矿工");
+                                VirtualRoot.Out.ShowSuccess("以无界面模式启动，可在选项页调整设置", header: "开源矿工");
                             }
                             else {
-                                // 预热视图模型
-                                AppContext.Instance.VmsCtor();
-                                _appViewFactory.ShowMainWindow(isToggle: false);
+                                _appViewFactory.ShowMainWindow(isToggle: false, out mainWindow);
                             }
-                            StartStopMineButtonViewModel.Instance.AutoStart();
+                            // 主窗口显式后退出SplashWindow
                             splashWindow?.Dispatcher.Invoke((Action)delegate () {
-                                splashWindow?.Close();
+                                splashWindow?.OkClose();
                             });
+                            // 启动时Windows状态栏显式的是SplashWindow的任务栏图标，SplashWindow关闭后激活主窗口的Windows任务栏图标
+                            mainWindow?.Activate();
+                            StartStopMineButtonViewModel.Instance.AutoStart();
+                            VirtualRoot.StartTimer(new WpfTimer());
                         });
                         Task.Factory.StartNew(() => {
                             if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall) {
@@ -136,12 +124,12 @@ namespace NTMiner {
                 }
                 else {
                     try {
-                        _appViewFactory.ShowMainWindow(this, MinerServer.NTMinerAppType.MinerClient);
+                        _appViewFactory.ShowMainWindow(this, NTMinerAppType.MinerClient);
                     }
                     catch (Exception) {
                         DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                            message: "另一个NTMiner正在运行，请手动结束正在运行的NTMiner进程后再次尝试。",
-                            title: "提醒",
+                            message: "另一个开源矿工正在运行但唤醒失败，请重试。",
+                            title: "错误",
                             icon: "Icon_Error"));
                         Process currentProcess = Process.GetCurrentProcess();
                         NTMiner.Windows.TaskKill.KillOtherProcess(currentProcess);
@@ -152,8 +140,8 @@ namespace NTMiner {
         }
 
         private void ShowMainWindow(bool isToggle) {
-            UIThread.Execute(() => {
-                _appViewFactory.ShowMainWindow(isToggle);
+            UIThread.Execute(() => () => {
+                _appViewFactory.ShowMainWindow(isToggle, out Window _);
                 // 使状态栏显示显示最新状态
                 if (NTMinerRoot.Instance.IsMining) {
                     var mainCoin = NTMinerRoot.Instance.LockedMineContext.MainCoin;
@@ -161,10 +149,10 @@ namespace NTMiner {
                         return;
                     }
                     var coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
-                    VirtualRoot.RaiseEvent(new ShareChangedEvent(Guid.Empty, coinShare));
+                    VirtualRoot.RaiseEvent(new ShareChangedEvent(PathId.Empty, coinShare));
                     if ((NTMinerRoot.Instance.LockedMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
                         coinShare = NTMinerRoot.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                        VirtualRoot.RaiseEvent(new ShareChangedEvent(Guid.Empty, coinShare));
+                        VirtualRoot.RaiseEvent(new ShareChangedEvent(PathId.Empty, coinShare));
                     }
                     AppContext.Instance.GpuSpeedVms.Refresh();
                 }
@@ -189,10 +177,14 @@ namespace NTMiner {
                 }, location: this.GetType());
             #endregion
             #region 开始和停止挖矿后
-            VirtualRoot.AddEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<StartingMineEvent>("开始挖矿时更新挖矿按钮状态", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = true;
+                    // 因为无界面模式不一定会构建挖矿状态按钮，所以放在这里而不放在挖矿按钮的VM中
                     StartStopMineButtonViewModel.Instance.BtnStopText = "正在挖矿";
+                }, location: this.GetType());
+            VirtualRoot.AddEventPath<MineStartedEvent>("启动1080ti小药丸、启动DevConsole? 更新挖矿按钮状态", LogEnum.DevConsole,
+                action: message => {
                     // 启动DevConsole
                     if (NTMinerRoot.IsUseDevConsole) {
                         var mineContext = message.MineContext;
@@ -205,6 +197,7 @@ namespace NTMiner {
             VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后停止1080ti小药丸 挖矿停止后更新界面挖矿状态", LogEnum.DevConsole,
                 action: message => {
                     AppContext.Instance.MinerProfileVm.IsMining = false;
+                    // 因为无界面模式不一定会构建挖矿状态按钮，所以放在这里而不放在挖矿按钮的VM中
                     StartStopMineButtonViewModel.Instance.BtnStopText = "尚未开始";
                     OhGodAnETHlargementPill.OhGodAnETHlargementPillUtil.Stop();
                 }, location: this.GetType());
@@ -269,7 +262,7 @@ namespace NTMiner {
                     }
                 }
                 else if (e != null) {
-                    VirtualRoot.Out.ShowError(e.Message, delaySeconds: 4);
+                    VirtualRoot.Out.ShowError(e.Message, autoHideSeconds: 4);
                 }
                 else {
                     if (on) {
@@ -280,19 +273,6 @@ namespace NTMiner {
                     }
                 }
             });
-        }
-
-        public void Dispose() {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing) {
-            if (disposing) {
-                if (appMutex != null) {
-                    appMutex.Dispose();
-                }
-            }
         }
     }
 }

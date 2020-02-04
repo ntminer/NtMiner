@@ -50,9 +50,10 @@ namespace NTMiner.Vms {
 
         public ICommand ClearTranslaterKeyword { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public KernelOutputViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 

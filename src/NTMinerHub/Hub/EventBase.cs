@@ -3,18 +3,18 @@
 namespace NTMiner.Hub {
     public abstract class EventBase : IEvent {
         protected EventBase() {
-            this.Id = Guid.NewGuid();
+            this.MessageId = Guid.NewGuid();
             this.BornOn = DateTime.Now;
-            this.BornPathId = Guid.Empty;
+            this.TargetPathId = PathId.Empty;
         }
 
-        protected EventBase(Guid bornPathId) : this() {
-            this.BornPathId = bornPathId;
+        protected EventBase(PathId targetPathId) : this() {
+            this.TargetPathId = targetPathId;
         }
 
-        public Guid Id { get; private set; }
+        public Guid MessageId { get; private set; }
 
-        public Guid BornPathId { get; private set; }
+        public PathId TargetPathId { get; private set; }
 
         public DateTime BornOn { get; private set; }
     }

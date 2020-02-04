@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using NTMiner.Core;
+using System.Windows;
 
 namespace NTMiner.Vms {
     public class SpeedTableViewModel : ViewModelBase {

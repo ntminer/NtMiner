@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.MinerServer;
+using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -70,6 +70,7 @@ namespace NTMiner.Vms {
         private bool _autoStartDelaySeconds;
         private bool _oSName;
         private bool _oSVirtualMemoryGbText;
+        private bool _totalPhysicalMemoryGbText;
         private bool _gpuType;
         private bool _gpuDriver;
         private bool _totalPowerText;
@@ -118,9 +119,9 @@ namespace NTMiner.Vms {
             if (item != null) {
                 item.OnPropertyChanged(nameof(item.IsChecked));
             }
-            Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
+            RpcRoot.Server.ColumnsShowService.AddOrUpdateColumnsShowAsync(new ColumnsShowData().Update(this), (response, exception) => {
                 if (!response.IsSuccess()) {
-                    Write.UserFail(response.ReadMessage(exception));
+                    VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                 }
             });
         }
@@ -131,9 +132,10 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public ColumnsShowViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
@@ -201,6 +203,7 @@ namespace NTMiner.Vms {
             _autoStartDelaySeconds = data.AutoStartDelaySeconds;
             _oSName = data.OSName;
             _oSVirtualMemoryGbText = data.OSVirtualMemoryGbText;
+            _totalPhysicalMemoryGbText = data.TotalPhysicalMemoryGbText;
             _gpuType = data.GpuType;
             _gpuDriver = data.GpuDriver;
             _totalPowerText = data.TotalPowerText;
@@ -628,6 +631,18 @@ namespace NTMiner.Vms {
                 if (_oSVirtualMemoryGbText != value) {
                     _oSVirtualMemoryGbText = value;
                     OnColumnItemChanged(nameof(OSVirtualMemoryGbText));
+                }
+            }
+        }
+
+        public const string TOTAL_PHYSICAL_MEMORY_GB_TEXT = "物理内存";
+        [Description(TOTAL_PHYSICAL_MEMORY_GB_TEXT)]
+        public bool TotalPhysicalMemoryGbText {
+            get => _totalPhysicalMemoryGbText;
+            set {
+                if (_totalPhysicalMemoryGbText != value) {
+                    _totalPhysicalMemoryGbText = value;
+                    OnColumnItemChanged(nameof(TotalPhysicalMemoryGbText));
                 }
             }
         }

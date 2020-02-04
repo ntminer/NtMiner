@@ -116,7 +116,9 @@
             </MenuItem>
             <MenuItem 
 				x:Name="MenuItemUpgrade" 
-				Header="升级" Padding="4" Margin="0 0 6 0" 
+				Header="升级" 
+                ToolTip="升级开源矿工挖矿端"
+                Padding="4" Margin="0 0 6 0" 
 				IsEnabled="{Binding ElementName=MenuItemRefresh, Path=IsEnabled}" 
 				Click="MenuItemUpgrade_Click">
                 <MenuItem.Icon>
@@ -128,7 +130,7 @@
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Header="重启" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
+            <MenuItem Header="重启" ToolTip="重启开源矿工挖矿端" Padding="4" Margin="0 0 6 0" Command="{Binding RestartNTMiner}">
                 <MenuItem.Icon>
                     <Path
 						Width="16"

@@ -1,5 +1,5 @@
 ﻿using LiteDB;
-using NTMiner.Profile;
+using NTMiner.Core.Profile;
 using System.IO;
 
 namespace NTMiner {
@@ -42,13 +42,13 @@ namespace NTMiner {
                 string dbFile = Path.Combine(Path.GetDirectoryName(location), NTKeyword.LocalDbFileName);
                 bool isDbFileExist = File.Exists(dbFile);
                 if (!isDbFileExist) {
-                    dbFile = Path.Combine(MainAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
+                    dbFile = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
                     isDbFileExist = File.Exists(dbFile);
                 }
                 if (!isDbFileExist) {
                     return null;
                 }
-                return new LiteDatabase($"filename={dbFile};journal=false");
+                return new LiteDatabase($"filename={dbFile}");
             }
             else {
                 return null;

@@ -54,8 +54,8 @@
     <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
-    <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
+    <Reference Include="OpenHardwareMonitorLib">
+      <HintPath>..\ThirdPartyDlls\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Management" />
@@ -106,7 +106,7 @@
     <Compile Include="Core\Impl\FragmentWriterSet.cs" />
     <Compile Include="Core\Impl\FileWriterSet.cs" />
     <Compile Include="Core\Impl\ServerContext.cs" />
-    <Compile Include="Core\IReporter.cs" />
+    <Compile Include="Report\IReportDataProvider.cs" />
     <Compile Include="Core\KernelProcessType.cs" />
     <Compile Include="Core\Kernels\CoinKernelExtension.cs" />
     <Compile Include="Core\Kernels\Impl\PackageSet.cs" />
@@ -158,8 +158,7 @@
     <Compile Include="NTMinerRoot.partials.Cleaner.cs" />
     <Compile Include="NTMinerRoot.partials.GetAliyunServerJson.cs" />
     <Compile Include="NTMinerRoot.partials.MineContext.cs" />
-    <Compile Include="NTMinerRoot.partials.MinerProcess.cs" />
-    <Compile Include="Core\Impl\Reporter.cs" />
+    <Compile Include="Report\ReportDataProvider.cs" />
     <Compile Include="Core\Gpus\Impl\NVIDIAGpuSet.cs" />
     <Compile Include="Core\Gpus\Impl\GpuSpeed.cs" />
     <Compile Include="Core\Gpus\Impl\GpusSpeed.cs" />
@@ -209,7 +208,6 @@
     <None Include="app.config" />
     <Compile Include="Core\Profiles\Impl\WalletSet.cs" />
     <None Include="packages.config" />
-    <Compile Include="NTMinerRoot.partials.BuildAssembleArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -226,17 +224,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\HardwareProviders.CPU\HardwareProviders.CPU.csproj">
-      <Project>{7de56519-4fc8-4a72-a143-098acc4de53c}</Project>
-      <Name>HardwareProviders.CPU</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\HardwareProviders\HardwareProviders.csproj">
-      <Project>{6cf39d75-a7d7-4546-b29a-888294dc3e38}</Project>
-      <Name>HardwareProviders</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+    <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
-      <Name>NTMinerDataObjects</Name>
+      <Name>NTMinerDataSchemas</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerGpus\NTMinerGpus.csproj">
       <Project>{035c9774-01fc-4df2-8225-769542a9fd5e}</Project>

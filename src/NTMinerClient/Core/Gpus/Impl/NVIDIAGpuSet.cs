@@ -12,7 +12,6 @@ namespace NTMiner.Core.Gpus.Impl {
             }
         };
 
-        private readonly INTMinerRoot _root;
         private readonly Version _driverVersion;
 
         public int Count {
@@ -24,7 +23,6 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly NvapiHelper _nvapiHelper = new NvapiHelper();
         private readonly NvmlHelper _nvmlHelper = new NvmlHelper();
         public NVIDIAGpuSet(INTMinerRoot root) {
-            _root = root;
             this.OverClock = new GpuOverClock(_nvapiHelper);
             this.Properties = new List<GpuSetProperty>();
             var gpus = _nvmlHelper.GetGpus();

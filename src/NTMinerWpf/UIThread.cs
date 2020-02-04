@@ -3,38 +3,44 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class UIThread {
-        private static Action<Action> s_executor = action => action();
+        private static Dispatcher _dispatcher;
 
-        public static void InitializeWithDispatcher() {
-            var dispatcher = Dispatcher.CurrentDispatcher;
-            s_executor = action => {
-                if (action == null) {
-                    return;
-                }
-                if (dispatcher.CheckAccess()) {
-                    action();
-                }
-                else {
-                    dispatcher.BeginInvoke(action);
-                }
-            };
+        public static Dispatcher Dispatcher {
+            get { return _dispatcher; }
         }
 
         /// <summary>
-        /// 在UI线程上执行给定的行为。注意action不应是Vm上的方法，如果是Vm上的方法必须包裹一次。
+        /// 执行两个操作：
+        /// 1，记下对Dispatcher.CurrentDispatcher的引用，因为Splash会另开一个UI线程，防止访问到Splash线程的Dispatcher.CurrentDispatcher；
+        /// 2，设置Writer.UIThreadId；
         /// </summary>
-        public static void Execute(this Action action) {
-            s_executor(action);
+        public static void InitializeWithDispatcher(Dispatcher dispatcher) {
+            _dispatcher = dispatcher;
+            Write.SetUIThreadId(_dispatcher.Thread.ManagedThreadId);
         }
 
-        private static DispatcherTimer _dispatcherTimer;
-        public static void StartTimer() {
-            if (_dispatcherTimer != null) {
-                return;
+        public static bool CheckAccess() {
+            if (_dispatcher == null) {
+                throw new InvalidProgramException();
             }
-            _dispatcherTimer = new DispatcherTimer(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, (sender, e)=> {
-                VirtualRoot.Elapsed();
-            }, Dispatcher.CurrentDispatcher);
+            return _dispatcher.CheckAccess();
+        }
+
+        /// <summary>
+        /// 因为该方法可能会在非UI线程被调用，所以是这个风格。
+        /// 详解：当以UIThread.Execute(Vm.Method1)这个风格调用时，因为Vm实例可能来自
+        /// 于(TVm)this.DataContext，而this.DataContext是依赖属性，依赖属性在Wpf中是
+        /// 通过GetValue()静态方法访问的，而GetValue()方法中会VerifyAccess()。
+        /// </summary>
+        public static void Execute(Func<Action> getAction) {
+            if (CheckAccess()) {
+                getAction()();
+            }
+            else {
+                _dispatcher.BeginInvoke(new Action(()=> {
+                    getAction()();
+                }));
+            }
         }
     }
 }

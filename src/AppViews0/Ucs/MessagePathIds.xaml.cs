@@ -26,7 +26,7 @@ namespace NTMiner.Views.Ucs {
 
         public MessagePathIds() {
             InitializeComponent();
-            this.RunOneceOnLoaded(onLoad: window => {
+            this.OnLoaded(onLoad: window => {
                 VirtualRoot.MessageHub.MessagePathAdded += OnPathConnected;
                 VirtualRoot.MessageHub.MessagePathRemoved += OnPathDisconnected;
             }, onUnload: window => {
@@ -36,13 +36,13 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void OnPathConnected(IMessagePathId pathId) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 Vm.PathIds.Add(pathId);
             });
         }
 
         private void OnPathDisconnected(IMessagePathId pathId) {
-            UIThread.Execute(() => {
+            UIThread.Execute(() => () => {
                 Vm.PathIds.Remove(pathId);
             });
         }

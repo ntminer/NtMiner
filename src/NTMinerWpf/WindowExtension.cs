@@ -47,6 +47,14 @@ namespace NTMiner {
         /// </summary>
         /// <param name="window"></param>
         public static void ShowSoftDialog(this Window window) {
+            ShowDialog(window, useSoftDialog: true);
+        }
+
+        public static void ShowHardDialog(this Window window) {
+            ShowDialog(window, useSoftDialog: false);
+        }
+
+        private static void ShowDialog(Window window, bool useSoftDialog) {
             if (window.Owner == null) {
                 var owner = WpfUtil.GetTopWindow();
                 if (owner != null && owner != window && owner.GetType() != typeof(NotiCenterWindow)) {
@@ -76,7 +84,12 @@ namespace NTMiner {
                     window.Owner.Activate();
                 };
             }
-            window.Show();
+            if (useSoftDialog) {
+                window.Show();
+            }
+            else {
+                window.ShowDialog();
+            }
         }
 
         public static void ShowWindow(this Window window, bool isToggle) {
@@ -101,7 +114,7 @@ namespace NTMiner {
 
         private const string messagePathIdsResourceKey = "messagePathIds";
 
-        public static void AddCmdPath<TCmd>(this Window window, string description, LogEnum logType, Action<TCmd> action, Type location)
+        public static void AddCmdPath<TCmd>(this Window window, LogEnum logType, Action<TCmd> action, Type location)
             where TCmd : ICmd {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -115,6 +128,8 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed;
             }
+            MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
+            string description = "处理" + messageTypeDescription.Description;
             var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
             messagePathIds.Add(messagePathId);
         }
@@ -155,7 +170,13 @@ namespace NTMiner {
             messagePathIds.Add(messagePathId);
         }
 
-        public static IMessagePathId AddViaLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, int viaLimit, Type location)
+        public static void AddCloseWindowOnecePath(this Window window, Guid pathId) {
+            window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+                UIThread.Execute(() => window.Close);
+            }, pathId: pathId, location: typeof(WindowExtension));
+        }
+
+        public static IMessagePathId AddViaTimesLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, int viaTimesLimit, Type location)
             where TMessage : IMessage {
             if (WpfUtil.IsInDesignMode) {
                 return null;
@@ -169,16 +190,16 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.AddViaLimitPath(description, logType, action, viaLimit, location);
+            var messagePathId = VirtualRoot.AddViaTimesLimitPath(description, logType, action, viaTimesLimit, location);
             messagePathIds.Add(messagePathId);
             return messagePathId;
         }
 
         private static void UiElement_Closed(object sender, EventArgs e) {
             Window uiElement = (Window)sender;
-            List<IMessagePathId> messageIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
-            foreach (var handler in messageIds) {
-                VirtualRoot.DeletePath(handler);
+            List<IMessagePathId> pathIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
+            foreach (var pathId in pathIds) {
+                VirtualRoot.RemoveMessagePath(pathId);
             }
         }
     }

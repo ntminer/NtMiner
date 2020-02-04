@@ -42,8 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
-    <Compile Include="CloseWindowCommand.cs" />
-    <Compile Include="ColorMapper.cs" />
+    <Compile Include="Converters\MbToGbConverter.cs" />
+    <Compile Include="FrameworkElementExtension.cs" />
+    <Compile Include="Messages.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
     <Compile Include="Controls\IpAddressControl.xaml.cs">
       <DependentUpon>IpAddressControl.xaml</DependentUpon>
@@ -53,6 +54,9 @@
     <Compile Include="ViewModelExtension.cs" />
     <Compile Include="Views\ContainerWindow.xaml.cs">
       <DependentUpon>ContainerWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LocalIpConfig.xaml.cs">
+      <DependentUpon>LocalIpConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\Icons.xaml.cs">
       <DependentUpon>Icons.xaml</DependentUpon>
@@ -65,7 +69,6 @@
     <Compile Include="Controls\KbButton.cs" />
     <Compile Include="Controls\KbComboBox.cs" />
     <Compile Include="Controls\KbLinkButton.cs" />
-    <Compile Include="Controls\KbRadioButton.cs" />
     <Compile Include="Controls\KbSystemButton.cs" />
     <Compile Include="Controls\KbSystemCloseButton.cs" />
     <Compile Include="Controls\KbSystemMaxButton.cs" />
@@ -83,7 +86,6 @@
     <Compile Include="Converters\BoolToVisibilityInvertConverter.cs" />
     <Compile Include="Converters\ByteToGbConverter.cs" />
     <Compile Include="Converters\ByteToMbConverter.cs" />
-    <Compile Include="Converters\ConsoleColorToMediaColorConverter.cs" />
     <Compile Include="Converters\NoRecordVisibilityConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyBooleanConverter.cs" />
     <Compile Include="Converters\NotNullOrEmptyVisibilityConverter.cs" />
@@ -119,12 +121,13 @@
     <Compile Include="Views\Ucs\ServerHostSelect.xaml.cs">
       <DependentUpon>ServerHostSelect.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Vms\LocalIpConfigViewModel.cs" />
+    <Compile Include="Vms\LocalIpViewModel.cs" />
     <Compile Include="Vms\ServerHostSelectViewModel.cs" />
     <Compile Include="Vms\ServerHostItem.cs" />
     <Compile Include="WindowExtension.cs" />
-    <Compile Include="Win32MessageProc.cs" />
+    <Compile Include="Win32Proc.cs" />
     <Compile Include="WindowsShortcut.cs" />
-    <Compile Include="DataGridExtesnsion.cs" />
     <Compile Include="NativeMethods.cs" />
     <Compile Include="Views\NotiCenterWindow.xaml.cs">
       <DependentUpon>NotiCenterWindow.xaml</DependentUpon>
@@ -141,6 +144,7 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WpfTimer.cs" />
     <Compile Include="WpfUtil.cs" />
     <Compile Include="Controls\BindingProxy.cs" />
   </ItemGroup>
@@ -150,6 +154,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Notifications\Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\LeftBarScrollViewer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -189,11 +197,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Design\LocalIpConfigViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\InputWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\DialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LocalIpConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -230,15 +246,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Controls\Kb.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BlankWindow\BlankWindow.csproj">
       <Project>{b7107a67-a76e-4313-8c5b-3265dde238b6}</Project>
       <Name>BlankWindow</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerDataObjects\NTMinerDataObjects.csproj">
+    <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">
       <Project>{defc7387-f9fa-4651-a281-6612efb7fbb6}</Project>
-      <Name>NTMinerDataObjects</Name>
+      <Name>NTMinerDataSchemas</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerHub\NTMinerHub.csproj">
       <Project>{e17f278a-e393-403e-9d37-e371036d7a02}</Project>

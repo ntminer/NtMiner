@@ -33,9 +33,10 @@ namespace NTMiner.Vms {
         public ICommand Edit { get; private set; }
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public KernelInputViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
@@ -161,7 +162,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsSupportDualMineVisible {
             get {
-                if (DevMode.IsDebugMode) {
+                if (DevMode.IsDevMode) {
                     return Visibility.Visible;
                 }
                 if (IsSupportDualMine) {
@@ -262,7 +263,7 @@ namespace NTMiner.Vms {
 
         public bool IsDevicesSpaceSeparator {
             get {
-                return DevicesSeparator == VirtualRoot.SpaceKeyword;
+                return DevicesSeparator == NTKeyword.SpaceKeyword;
             }
         }
 

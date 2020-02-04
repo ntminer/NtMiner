@@ -9,9 +9,10 @@ namespace NTMiner.Vms {
 
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public MinerClientSettingViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
@@ -23,7 +24,7 @@ namespace NTMiner.Vms {
             this.Save = new DelegateCommand(() => {
                 if (minerClients != null && minerClients.Length != 0) {
                     foreach (var item in minerClients) {
-                        Client.NTMinerDaemonService.SetAutoBootStartAsync(item.MinerIp, this.IsAutoBoot, this.IsAutoStart);
+                        RpcRoot.Client.NTMinerDaemonService.SetAutoBootStartAsync(item.MinerIp, this.IsAutoBoot, this.IsAutoStart);
                         item.Refresh.Execute(null);
                     }
                 }

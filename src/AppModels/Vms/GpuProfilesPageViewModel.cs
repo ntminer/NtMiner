@@ -1,6 +1,7 @@
-﻿using NTMiner.JsonDb;
-using NTMiner.MinerClient;
-using NTMiner.Profile;
+﻿using NTMiner.Core;
+using NTMiner.JsonDb;
+using NTMiner.Core.MinerClient;
+using NTMiner.Core.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,9 +24,10 @@ namespace NTMiner.Vms {
 
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public GpuProfilesPageViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
@@ -56,19 +58,19 @@ namespace NTMiner.Vms {
                             IsOverClockGpuAll = coinVm.IsOverClockGpuAll
                         });
                         if (CoinVm.IsOverClockGpuAll) {
-                            jsonObj.GpuProfiles.Add(new GpuProfileData(coinVm.GpuAllProfileVm));
+                            jsonObj.GpuProfiles.Add(new GpuProfileData().Update(coinVm.GpuAllProfileVm));
                         }
-                        jsonObj.GpuProfiles.AddRange(coinVm.GpuProfileVms.Select(a => new GpuProfileData(a)));
+                        jsonObj.GpuProfiles.AddRange(coinVm.GpuProfileVms.Select(a => new GpuProfileData().Update(a)));
                     }
                 }
                 string json = VirtualRoot.JsonSerializer.Serialize(jsonObj);
                 foreach (var client in minerClientsWindowVm.SelectedMinerClients) {
-                    Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
+                    RpcRoot.Client.NTMinerDaemonService.SaveGpuProfilesJsonAsync(client.MinerIp, json);
                 }
                 VirtualRoot.Out.ShowSuccess("应用成功，请观察效果");
                 VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
-            Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
+            RpcRoot.Client.NTMinerDaemonService.GetGpuProfilesJsonAsync(_minerClientVm.MinerIp, (data, e) => {
                 _data = data;
                 if (e != null) {
                     Write.UserError(e.Message);
@@ -91,7 +93,7 @@ namespace NTMiner.Vms {
                             IsEnabled = false;
                             break;
                     }
-                    GpuIcon = (Geometry)System.Windows.Application.Current.Resources[iconName];
+                    GpuIcon = AppUtil.GetResource<Geometry>(iconName);
                     foreach (var coinVm in AppContext.Instance.CoinVms.MainCoins) {
                         var coinOverClock = data.CoinOverClocks.FirstOrDefault(a => a.CoinId == coinVm.Id);
                         var gpuProfiles = data.GpuProfiles.Where(a => a.CoinId == coinVm.Id).ToArray();

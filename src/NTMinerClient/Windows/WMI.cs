@@ -13,7 +13,7 @@ namespace NTMiner.Windows {
                 }
                 _isFirstCall = false;
 #if DEBUG
-                Write.Stopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 try {
                     using (new ManagementObjectSearcher("root\\CIMV2", "SELECT FreePhysicalMemory FROM Win32_OperatingSystem").Get()) {
@@ -26,7 +26,7 @@ namespace NTMiner.Windows {
                     _isWmiEnabled = false;
                 }
 #if DEBUG
-                var elapsedMilliseconds = Write.Stopwatch.Stop();
+                var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
                     Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(WMI)}.IsWmiEnabled");
                 }
@@ -35,6 +35,11 @@ namespace NTMiner.Windows {
             }
         }
 
+        /// <summary>
+        /// 获取给定进程的完整命令行参数
+        /// </summary>
+        /// <param name="processName">可带.exe后缀也可不带，不带时方法内部会自动补上</param>
+        /// <returns></returns>
         public static List<string> GetCommandLines(string processName) {
             if (!IsWmiEnabled) {
                 return new List<string>();
@@ -47,11 +52,10 @@ namespace NTMiner.Windows {
                 processName += ".exe";
             }
             string wmiQuery = $"select CommandLine from Win32_Process where Name='{processName}'";
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery)) {
-                using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
-                    foreach (ManagementObject retObject in retObjectCollection) {
-                        results.Add((string)retObject["CommandLine"]);
-                    }
+            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(wmiQuery))
+            using (ManagementObjectCollection retObjectCollection = searcher.Get()) {
+                foreach (ManagementObject retObject in retObjectCollection) {
+                    results.Add((string)retObject["CommandLine"]);
                 }
             }
 

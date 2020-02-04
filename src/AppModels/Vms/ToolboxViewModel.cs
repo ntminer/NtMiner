@@ -1,19 +1,23 @@
 ﻿using NTMiner.Core;
+using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class ToolboxViewModel : ViewModelBase {
+        private bool _isWinCmdLoading = false;
+        private double _winCmdLodingIconAngle;
+
         public ICommand SwitchRadeonGpu { get; private set; }
         public ICommand AtikmdagPatcher { get; private set; }
-        public ICommand NavigateToDriver { get; private set; }
         public ICommand RegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
         public ICommand EnableWindowsRemoteDesktop { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
-
         public ICommand OpenDevmgmt { get; private set; }
+        public ICommand OpenEventvwr { get; private set; }
 
         public ToolboxViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -32,7 +36,7 @@ namespace NTMiner.Vms {
                     }, onNo: () => {
                         VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
                         return true;
-                    }, yesText: "开启计算模式", noText: "关闭计算模式");
+                    }, btnYesText: "开启计算模式", btnNoText: "关闭计算模式");
                 this.ShowSoftDialog(config);
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
@@ -42,26 +46,41 @@ namespace NTMiner.Vms {
                 }
                 VirtualRoot.Execute(new AtikmdagPatcherCommand());
             });
-            this.NavigateToDriver = new DelegateCommand<SysDicItemViewModel>((item) => {
-                if (item == null) {
-                    return;
-                }
-                Process.Start(item.Value);
-            });
             this.RegCmdHere = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RegCmdHereCommand());
-                }));
+                if (IsRegedCmdHere) {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定移除windows右键上下文菜单中的\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                        Task.Factory.StartNew(() => {
+                            VirtualRoot.Execute(new UnRegCmdHereCommand());
+                            OnPropertyChanged(nameof(IsRegedCmdHere));
+                        });
+                    }, btnYesText: "移除"));
+                }
+                else {
+                    this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
+                        Task.Factory.StartNew(() => {
+                            this.IsWinCmdLoading = true;
+                            VirtualRoot.SetInterval(per: TimeSpan.FromMilliseconds(100), perCallback: () => {
+                                this.WinCmdLodingIconAngle += 30;
+                            }, stopCallback: () => {
+                                this.IsWinCmdLoading = false;
+                                OnPropertyChanged(nameof(IsRegedCmdHere));
+                            }, timeout: TimeSpan.FromSeconds(6), requestStop: () => {
+                                return IsRegedCmdHere;
+                            });
+                            VirtualRoot.Execute(new RegCmdHereCommand());
+                        });
+                    }, btnYesText: "添加"));
+                }
             });
             this.BlockWAU = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
-                }, helpUrl: "https://www.loserhub.cn/posts/details/91"));
+                }, helpUrl: "https://www.cnblogs.com/ntminer/p/12155769.html"));
             });
             this.Win10Optimize = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
-                }, helpUrl: "https://www.loserhub.cn/posts/details/83"));
+                }, helpUrl: "https://www.cnblogs.com/ntminer/p/12155773.html"));
             });
             this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
@@ -72,6 +91,31 @@ namespace NTMiner.Vms {
             this.OpenDevmgmt = new DelegateCommand(() => {
                 Process.Start("devmgmt.msc");
             });
+            this.OpenEventvwr = new DelegateCommand(() => {
+                Process.Start("eventvwr.msc", "/c:Application");
+            });
+        }
+
+        public bool IsRegedCmdHere {
+            get {
+                return Windows.Cmd.IsRegedCmdHere();
+            }
+        }
+
+        public bool IsWinCmdLoading {
+            get => _isWinCmdLoading;
+            set {
+                _isWinCmdLoading = value;
+                OnPropertyChanged(nameof(IsWinCmdLoading));
+            }
+        }
+
+        public double WinCmdLodingIconAngle {
+            get => _winCmdLodingIconAngle;
+            set {
+                _winCmdLodingIconAngle = value;
+                OnPropertyChanged(nameof(WinCmdLodingIconAngle));
+            }
         }
 
         public bool IsReturnEthDevFee {
@@ -124,6 +168,28 @@ namespace NTMiner.Vms {
             }
         }
 
+        public SysDicItemViewModel VisualCpp0 {
+            get {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "VisualCpp0", out ISysDicItem item)) {
+                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                        return vm;
+                    }
+                }
+                return null;
+            }
+        }
+
+        public SysDicItemViewModel VisualCpp1 {
+            get {
+                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "VisualCpp1", out ISysDicItem item)) {
+                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                        return vm;
+                    }
+                }
+                return null;
+            }
+        }
+
         public bool IsAutoAdminLogon {
             get { return Windows.OS.Instance.IsAutoAdminLogon; }
         }
@@ -131,9 +197,9 @@ namespace NTMiner.Vms {
         public string AutoAdminLogonMessage {
             get {
                 if (IsAutoAdminLogon) {
-                    return "开机自动登录已启用";
+                    return "已开启";
                 }
-                return "开机自动登录未启用";
+                return "未开启";
             }
         }
 
@@ -146,9 +212,9 @@ namespace NTMiner.Vms {
         public string RemoteDesktopMessage {
             get {
                 if (IsRemoteDesktopEnabled) {
-                    return "远程桌面已启用";
+                    return "已开启";
                 }
-                return "远程桌面已禁用";
+                return "未开启";
             }
         }
     }

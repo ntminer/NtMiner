@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Profile;
+using NTMiner.Core.Profile;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class PoolViewModel : ViewModelBase, IPool, IEditableViewModel {
+    public class PoolViewModel : ViewModelBase, IPool, IEditableViewModel, ISortable {
         public static readonly PoolViewModel Empty = new PoolViewModel(Guid.Empty) {
             _coinId = Guid.Empty,
             _name = "无"
@@ -47,14 +47,15 @@ namespace NTMiner.Vms {
         public ICommand ViewPoolIncome { get; private set; }
         public ICommand Save { get; private set; }
 
+        [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public PoolViewModel() {
             if (!WpfUtil.IsInDesignMode) {
-                throw new InvalidProgramException();
+                throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
         public PoolViewModel(IPool data) : this(data.GetId()) {
-            this.DataLevel = data.DataLevel;
+            this._dataLevel = data.GetDataLevel();
             _brandId = data.BrandId;
             _name = data.Name;
             _coinId = data.CoinId;
@@ -163,11 +164,14 @@ namespace NTMiner.Vms {
             }
         }
 
-        public DataLevel DataLevel { get; set; }
+        private DataLevel _dataLevel;
+        public DataLevel GetDataLevel() {
+            return _dataLevel;
+        }
 
         public bool IsReadOnly {
             get {
-                if (!DevMode.IsDebugMode && this.DataLevel == DataLevel.Global) {
+                if (!DevMode.IsDevMode && this._dataLevel == DataLevel.Global) {
                     return true;
                 }
                 return false;
@@ -176,12 +180,12 @@ namespace NTMiner.Vms {
 
         public string DataLevelText {
             get {
-                return this.DataLevel.GetDescription();
+                return this._dataLevel.GetDescription();
             }
         }
 
         public void SetDataLevel(DataLevel dataLevel) {
-            this.DataLevel = dataLevel;
+            this._dataLevel = dataLevel;
         }
 
         public Guid Id {

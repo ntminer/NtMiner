@@ -1,4 +1,4 @@
-﻿using NTMiner.MinerServer;
+﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +21,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 OverClockData entity = new OverClockData().Update(message.Input);
-                OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
+                RpcRoot.OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
-                        VirtualRoot.RaiseEvent(new OverClockDataAddedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataAddedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -44,14 +44,14 @@ namespace NTMiner.Core.MinerServer.Impl {
                 OverClockData entity = _dicById[message.Input.GetId()];
                 OverClockData oldValue = new OverClockData().Update(entity);
                 entity.Update(message.Input);
-                OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
+                RpcRoot.OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
-                        VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.Id, entity));
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.MessageId, entity));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
-                VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.Id, entity));
+                VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<RemoveOverClockDataCommand>(action: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
@@ -61,13 +61,13 @@ namespace NTMiner.Core.MinerServer.Impl {
                     return;
                 }
                 OverClockData entity = _dicById[message.EntityId];
-                OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
+                RpcRoot.OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
-                        VirtualRoot.RaiseEvent(new OverClockDataRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new OverClockDataRemovedEvent(message.MessageId, entity));
                     }
                     else {
-                        Write.UserFail(response.ReadMessage(e));
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                     }
                 });
             }, location: this.GetType());
@@ -79,7 +79,7 @@ namespace NTMiner.Core.MinerServer.Impl {
                 return;
             }
             _isInited = true;
-            OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
+            RpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
                 if (response.IsSuccess()) {
                     IEnumerable<OverClockData> query;
                     if (_root.GpuSet.GpuType == GpuType.Empty) {
