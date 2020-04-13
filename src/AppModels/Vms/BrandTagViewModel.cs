@@ -26,9 +26,9 @@ namespace NTMiner.Vms {
             }, brandItem => brandItem != SysDicItemViewModel.PleaseSelect);
         }
 
-        public AppContext.SysDicItemViewModels SysDicItemVms {
+        public AppRoot.SysDicItemViewModels SysDicItemVms {
             get {
-                return AppContext.Instance.SysDicItemVms;
+                return AppRoot.SysDicItemVms;
             }
         }
     }

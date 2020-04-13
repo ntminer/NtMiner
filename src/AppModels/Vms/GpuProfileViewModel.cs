@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.MinerClient;
 using NTMiner.Core.Profile;
 using System;
 
@@ -89,13 +88,13 @@ namespace NTMiner.Vms {
                 if (this.CoinId == Guid.Empty) {
                     return false;
                 }
-                return this.Index == NTMinerRoot.GpuAllId;
+                return this.Index == NTMinerContext.GpuAllId;
             }
         }
 
         public string IndexText {
             get {
-                if (Index == NTMinerRoot.GpuAllId || GpuVm == null) {
+                if (Index == NTMinerContext.GpuAllId || GpuVm == null) {
                     return "all#统一超频";
                 }
                 return $"{Index.ToString()}#{GpuVm.Name}";
@@ -193,7 +192,7 @@ namespace NTMiner.Vms {
         public GpuViewModel GpuVm {
             get {
                 if (_gpuVm == null) {
-                    AppContext.Instance.GpuVms.TryGetGpuVm(Index, out _gpuVm);
+                    AppRoot.GpuVms.TryGetGpuVm(Index, out _gpuVm);
                 }
                 return _gpuVm;
             }

@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Save = new DelegateCommand(() => {
-                NTMinerRoot.Instance.CalcConfigSet.SaveCalcConfigs(this.CalcConfigVms.Select(a => CalcConfigData.Create(a)).ToList());
+                NTMinerContext.Instance.CalcConfigSet.SaveCalcConfigs(this.CalcConfigVms.Select(a => CalcConfigData.Create(a)).ToList());
                 VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             Refresh();
@@ -23,7 +23,7 @@ namespace NTMiner.Vms {
 
         public void Refresh() {
             var list = new List<CalcConfigViewModel>();
-            foreach (var item in NTMinerRoot.Instance.CalcConfigSet.AsEnumerable()) {
+            foreach (var item in NTMinerContext.Instance.CalcConfigSet.AsEnumerable()) {
                 list.Add(new CalcConfigViewModel(item));
             }
             CalcConfigVms = list;

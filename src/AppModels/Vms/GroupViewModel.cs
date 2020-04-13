@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.ServerContext.GroupSet.Contains(this.Id)) {
+                if (NTMinerContext.Instance.ServerContext.GroupSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
                 }
                 else {
@@ -52,7 +52,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new GroupEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditGroupCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -63,32 +63,32 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                GroupViewModel upOne = AppContext.Instance.GroupVms.List.GetUpOne(this.SortNumber);
+                GroupViewModel upOne = AppRoot.GroupVms.List.GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
-                    AppContext.Instance.GroupVms.OnPropertyChanged(nameof(AppContext.GroupViewModels.List));
+                    AppRoot.GroupVms.OnPropertyChanged(nameof(AppRoot.GroupViewModels.List));
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                GroupViewModel nextOne = AppContext.Instance.GroupVms.List.GetNextOne(this.SortNumber);
+                GroupViewModel nextOne = AppRoot.GroupVms.List.GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateGroupCommand(this));
-                    AppContext.Instance.GroupVms.OnPropertyChanged(nameof(AppContext.GroupViewModels.List));
+                    AppRoot.GroupVms.OnPropertyChanged(nameof(AppRoot.GroupViewModels.List));
                 }
             });
             this.AddCoinGroup = new DelegateCommand<CoinViewModel>((coinVm) => {
                 if (coinVm == null) {
                     return;
                 }
-                var coinGroupVms = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                var coinGroupVms = AppRoot.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
                 int sortNumber = coinGroupVms.Count == 0 ? 1 : coinGroupVms.Count + 1;
                 CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(Guid.NewGuid()) {
                     CoinId = coinVm.Id,
@@ -101,15 +101,15 @@ namespace NTMiner.Vms {
 
         public List<CoinGroupViewModel> CoinGroupVms {
             get {
-                return AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppRoot.CoinGroupVms.GetCoinGroupsByGroupId(this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
         public List<CoinViewModel> CoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                var coinGroupVms = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
-                foreach (var item in AppContext.Instance.CoinVms.AllCoins) {
+                var coinGroupVms = AppRoot.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                foreach (var item in AppRoot.CoinVms.AllCoins) {
                     if (coinGroupVms.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
                     }
@@ -120,7 +120,7 @@ namespace NTMiner.Vms {
 
         public List<CoinViewModel> DualCoinVms {
             get {
-                var coinGroupVms = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
+                var coinGroupVms = AppRoot.CoinGroupVms.GetCoinGroupsByGroupId(this.Id);
                 return coinGroupVms.Where(a => a.CoinVm != CoinViewModel.Empty).Select(a => a.CoinVm).OrderBy(a => a.Code).ToList();
             }
         }

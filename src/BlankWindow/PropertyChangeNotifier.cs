@@ -80,9 +80,7 @@ namespace NTMiner {
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e) {
             var notifier = (PropertyChangeNotifier)d;
-            if (null != notifier.ValueChanged) {
-                notifier.ValueChanged(notifier.PropertySource, EventArgs.Empty);
-            }
+            notifier.ValueChanged?.Invoke(notifier.PropertySource, EventArgs.Empty);
         }
 
         public event EventHandler ValueChanged;

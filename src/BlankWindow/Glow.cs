@@ -8,8 +8,6 @@ namespace NTMiner {
     /// </summary>
     public class Glow : Control {
         public static readonly DependencyProperty GlowBrushProperty = DependencyProperty.Register(nameof(GlowBrush), typeof(Brush), typeof(Glow), new UIPropertyMetadata(Brushes.Transparent));
-        public static readonly DependencyProperty NonActiveGlowBrushProperty = DependencyProperty.Register(nameof(NonActiveGlowBrush), typeof(Brush), typeof(Glow), new UIPropertyMetadata(Brushes.Transparent));
-        public static readonly DependencyProperty IsGlowProperty = DependencyProperty.Register(nameof(IsGlow), typeof(bool), typeof(Glow), new UIPropertyMetadata(true));
         public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(nameof(Orientation), typeof(Orientation), typeof(Glow), new UIPropertyMetadata(Orientation.Vertical));
         public static readonly DependencyProperty DirectionProperty = DependencyProperty.Register(nameof(Direction), typeof(GlowDirection), typeof(Glow), new UIPropertyMetadata(GlowDirection.Top));
 
@@ -22,16 +20,6 @@ namespace NTMiner {
         public Brush GlowBrush {
             get { return (Brush)this.GetValue(GlowBrushProperty); }
             set { this.SetValue(GlowBrushProperty, value); }
-        }
-
-        public Brush NonActiveGlowBrush {
-            get { return (Brush)this.GetValue(NonActiveGlowBrushProperty); }
-            set { this.SetValue(NonActiveGlowBrushProperty, value); }
-        }
-
-        public bool IsGlow {
-            get { return (bool)this.GetValue(IsGlowProperty); }
-            set { this.SetValue(IsGlowProperty, value); }
         }
 
         public Orientation Orientation {

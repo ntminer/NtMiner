@@ -3,7 +3,7 @@ using System;
 using System.Text;
 
 namespace NTMiner.Core.Profile {
-    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid>, IGetSignData {
+    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid>, ISignableData {
         public CoinKernelProfileData() { }
 
         public static CoinKernelProfileData CreateDefaultData(Guid coinKernelId, double dualCoinWeight) {

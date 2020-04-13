@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
 
         public GpuSpeedViewModel(IGpuSpeed gpuSpeed) {
             GpuViewModel gpuVm;
-            AppContext.Instance.GpuVms.TryGetGpuVm(gpuSpeed.Gpu.Index, out gpuVm);
+            AppRoot.GpuVms.TryGetGpuVm(gpuSpeed.Gpu.Index, out gpuVm);
             _gpuVm = gpuVm;
             this._mainCoinSpeed = new SpeedViewModel(gpuSpeed.MainCoinSpeed);
             this._dualCoinSpeed = new SpeedViewModel(gpuSpeed.DualCoinSpeed);
@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
         private GpuProfileViewModel _gpuProfileVm;
         public GpuProfileViewModel GpuProfileVm {
             get {
-                var coinId = NTMinerRoot.Instance.MinerProfile.CoinId;
+                var coinId = NTMinerContext.Instance.MinerProfile.CoinId;
                 if (coinId == Guid.Empty) {
                     return null;
                 }
@@ -41,21 +41,21 @@ namespace NTMiner.Vms {
                     return _gpuProfileVm;
                 }
                 _coinId = coinId;
-                _gpuProfileVm = AppContext.GpuProfileViewModels.Instance.List(coinId).FirstOrDefault(a => a.Index == this.GpuVm.Index);
+                _gpuProfileVm = AppRoot.GpuProfileViewModels.Instance.List(coinId).FirstOrDefault(a => a.Index == this.GpuVm.Index);
                 return _gpuProfileVm;
             }
         }
 
         public string AverageMainCoinSpeedText {
             get {
-                var averageSpeed = NTMinerRoot.Instance.GpusSpeed.GetAverageSpeed(GpuVm.Index);
+                var averageSpeed = NTMinerContext.Instance.GpusSpeed.GetAverageSpeed(GpuVm.Index);
                 return averageSpeed.Speed.ToUnitSpeedText();
             }
         }
 
         public string AverageDualCoinSpeedText {
             get {
-                var averageSpeed = NTMinerRoot.Instance.GpusSpeed.GetAverageSpeed(GpuVm.Index);
+                var averageSpeed = NTMinerContext.Instance.GpusSpeed.GetAverageSpeed(GpuVm.Index);
                 return averageSpeed.DualSpeed.ToUnitSpeedText();
             }
         }

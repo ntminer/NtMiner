@@ -64,7 +64,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.ServerContext.KernelInputSet.Contains(this.Id)) {
+                if (NTMinerContext.Instance.ServerContext.KernelInputSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelInputCommand(this));
                 }
                 else {
@@ -76,7 +76,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new KernelInputEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditKernelInputCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -88,9 +88,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        public AppContext.GroupViewModels GroupVms {
+        public AppRoot.GroupViewModels GroupVms {
             get {
-                return AppContext.Instance.GroupVms;
+                return AppRoot.GroupVms;
             }
         }
 
@@ -216,7 +216,7 @@ namespace NTMiner.Vms {
 
         public string KernelFullNames {
             get {
-                string names = string.Join(";", AppContext.Instance.KernelVms.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
+                string names = string.Join(";", AppRoot.KernelVms.AllKernels.Where(a => a.KernelInputId == this.Id).Select(a => a.FullName));
                 if (string.IsNullOrEmpty(names)) {
                     return "无";
                 }
@@ -286,7 +286,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupportDevicesArg {
             get {
-                if (VirtualRoot.IsMinerStudio) {
+                if (ClientAppType.IsMinerStudio) {
                     return false;
                 }
                 return !string.IsNullOrWhiteSpace(DevicesArg);

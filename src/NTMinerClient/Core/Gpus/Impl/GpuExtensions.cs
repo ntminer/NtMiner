@@ -4,7 +4,7 @@ using System;
 namespace NTMiner.Core.Gpus.Impl {
     public static class GpuExtensions {
         public static int GetOverClockId(this IGpu gpu) {
-            if (NTMinerRoot.Instance.GpuSet.GpuType != GpuType.NVIDIA) {
+            if (NTMinerContext.Instance.GpuSet.GpuType != GpuType.NVIDIA) {
                 return gpu.Index;
             }
             if (int.TryParse(gpu.BusId, out int busId)) {
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Gpus.Impl {
 
             gpu.CoolMin = range.FanSpeedMin;
             gpu.CoolMax = range.FanSpeedMax;
-            NTMinerRoot.Instance.GpuSet.LoadGpuState(gpu.Index);
+            NTMinerContext.Instance.GpuSet.LoadGpuState(gpu.Index);
         }
     }
 }

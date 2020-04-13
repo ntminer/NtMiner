@@ -1,15 +1,16 @@
-﻿using NTMiner.Core.Gpus;
-using NTMiner.Core.Profiles;
-using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core;
+using NTMiner.Core.Gpus;
+using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profile;
+using NTMiner.Core.Profiles;
+using NTMiner.Mine;
 using System;
 using System.Linq;
-using NTMiner.Core;
 
 namespace NTMiner.Report {
     public class ReportDataProvider : IReportDataProvider {
         public ReportDataProvider() {
-            if (VirtualRoot.IsMinerClient) {
+            if (ClientAppType.IsMinerClient) {
                 VirtualRoot.AddOnecePath<HasBoot10SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
@@ -18,6 +19,12 @@ namespace NTMiner.Report {
 
                 VirtualRoot.AddEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
                     action: message => {
+                        // 如果服务端通过Ws通道最近获取过算力就不用上报算力了，因为获取的算力会通过Mq走内网传播给这里上报的目的服务器，
+                        // 而Daemon进程也会每2分钟周期走Ws通道上报一次算力，从而结果就是优先使用Ws通道上报算力，只要Ws通道在周期地上报
+                        // 算力则就不会走Http通道上报算力了。
+                        if (WsGetSpeedOn.AddSeconds(130) < message.BornOn) {
+                            return;
+                        }
                         ReportSpeed();
                     }, location: this.GetType());
 
@@ -28,24 +35,37 @@ namespace NTMiner.Report {
 
                 VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
                     action: message => {
-                        RpcRoot.Server.ReportService.ReportStateAsync(NTKeyword.OfficialServerHost, VirtualRoot.Id, isMining: false);
+                        RpcRoot.OfficialServer.ReportService.ReportStateAsync(NTMinerContext.Id, isMining: false);
                     }, location: this.GetType());
             }
         }
 
+        public DateTime WsGetSpeedOn { get; set; }
+
         private ICoin _sLastSpeedMainCoin;
         private ICoin _sLastSpeedDualCoin;
         public SpeedData CreateSpeedData() {
-            INTMinerRoot root = NTMinerRoot.Instance;
+            INTMinerContext root = NTMinerContext.Instance;
             IWorkProfile workProfile = root.MinerProfile;
-            string localIps = VirtualRoot.GetLocalIps(out string macAddress);
+            string localIps = VirtualRoot.FormatLocalIps(out string macAddress);
+            Guid mineContextId = Guid.Empty;
+            if (root.CurrentMineContext != null) {
+                mineContextId = root.CurrentMineContext.Id;
+            }
             SpeedData data = new SpeedData {
+                MineContextId = mineContextId,
+                MainCoinSpeedOn = DateTime.MinValue,
+                DualCoinSpeedOn = DateTime.MinValue,
+                IsAutoDisableWindowsFirewall = workProfile.IsAutoDisableWindowsFirewall,
+                IsDisableAntiSpyware = workProfile.IsDisableAntiSpyware,
+                IsDisableUAC = workProfile.IsDisableUAC,
+                IsDisableWAU = workProfile.IsDisableWAU,
                 LocalServerMessageTimestamp = VirtualRoot.LocalServerMessageSetTimestamp,
                 KernelSelfRestartCount = 0,
                 IsAutoBoot = workProfile.IsAutoBoot,
                 IsAutoStart = workProfile.IsAutoStart,
                 AutoStartDelaySeconds = workProfile.AutoStartDelaySeconds,
-                Version = EntryAssemblyInfo.CurrentVersion.ToString(4),
+                Version = EntryAssemblyInfo.CurrentVersionStr,
                 BootOn = root.CreatedOn,
                 MineStartedOn = null,
                 IsMining = root.IsMining,
@@ -53,7 +73,7 @@ namespace NTMiner.Report {
                 MineWorkName = string.Empty,
                 MinerName = workProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
-                ClientId = VirtualRoot.Id,
+                ClientId = NTMinerContext.Id,
                 MACAddress = macAddress,
                 LocalIp = localIps,
                 MainCoinCode = string.Empty,
@@ -73,10 +93,10 @@ namespace NTMiner.Report {
                 OSName = Windows.OS.Instance.WindowsEdition,
                 GpuDriver = root.GpuSet.DriverVersion.ToString(),
                 GpuType = root.GpuSet.GpuType,
-                OSVirtualMemoryMb = NTMinerRoot.OSVirtualMemoryMb,
-                TotalPhysicalMemoryMb = (int)(Windows.Ram.Instance.TotalPhysicalMemory / 1024),
+                OSVirtualMemoryMb = VirtualRoot.DriveSet.OSVirtualMemoryMb,
+                TotalPhysicalMemoryMb = (int)(Windows.Ram.Instance.TotalPhysicalMemory / (1024 * 1024)),
                 KernelCommandLine = string.Empty,
-                DiskSpace = NTMinerRoot.DiskSpace,
+                DiskSpace = VirtualRoot.DriveSet.ToDiskSpaceString(),
                 IsAutoRestartKernel = workProfile.IsAutoRestartKernel,
                 AutoRestartKernelTimes = workProfile.AutoRestartKernelTimes,
                 IsNoShareRestartKernel = workProfile.IsNoShareRestartKernel,
@@ -106,7 +126,8 @@ namespace NTMiner.Report {
                 IsRaiseHighCpuEvent = workProfile.IsRaiseHighCpuEvent,
                 HighCpuPercent = workProfile.HighCpuBaseline,
                 HighCpuSeconds = workProfile.HighCpuSeconds,
-                GpuTable = root.GpusSpeed.AsEnumerable().Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
+                IsOuterUserEnabled = workProfile.IsOuterUserEnabled,
+                GpuTable = root.GpusSpeed.AsEnumerable().Where(a => a.Gpu.Index != NTMinerContext.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             if (workProfile.MineWork != null) {
                 data.MineWorkId = workProfile.MineWork.GetId();
@@ -178,9 +199,10 @@ namespace NTMiner.Report {
                 if (_sLastSpeedMainCoin == null || _sLastSpeedMainCoin == root.LockedMineContext.MainCoin) {
                     _sLastSpeedMainCoin = root.LockedMineContext.MainCoin;
                     Guid coinId = root.LockedMineContext.MainCoin.GetId();
-                    IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
-                    IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
+                    IGpusSpeed gpuSpeeds = root.GpusSpeed;
+                    IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerContext.GpuAllId);
                     data.MainCoinSpeed = totalSpeed.MainCoinSpeed.Value;
+                    data.MainCoinSpeedOn = totalSpeed.MainCoinSpeed.SpeedOn;
                     ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                     data.MainCoinTotalShare = share.TotalShareCount;
                     data.MainCoinRejectShare = share.RejectShareCount;
@@ -193,9 +215,10 @@ namespace NTMiner.Report {
                     if (_sLastSpeedDualCoin == null || _sLastSpeedDualCoin == dualMineContext.DualCoin) {
                         _sLastSpeedDualCoin = dualMineContext.DualCoin;
                         Guid coinId = dualMineContext.DualCoin.GetId();
-                        IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
-                        IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerRoot.GpuAllId);
+                        IGpusSpeed gpuSpeeds = root.GpusSpeed;
+                        IGpuSpeed totalSpeed = gpuSpeeds.CurrentSpeed(NTMinerContext.GpuAllId);
                         data.DualCoinSpeed = totalSpeed.DualCoinSpeed.Value;
+                        data.DualCoinSpeedOn = totalSpeed.DualCoinSpeed.SpeedOn;
                         ICoinShare share = root.CoinShareSet.GetOrCreate(coinId);
                         data.DualCoinTotalShare = share.TotalShareCount;
                         data.DualCoinRejectShare = share.RejectShareCount;
@@ -211,7 +234,7 @@ namespace NTMiner.Report {
         private void ReportSpeed() {
             try {
                 SpeedData data = CreateSpeedData();
-                RpcRoot.Server.ReportService.ReportSpeedAsync(NTKeyword.OfficialServerHost, data, response => {
+                RpcRoot.OfficialServer.ReportService.ReportSpeedAsync(data, (response, e) => {
                     if (response.IsSuccess()) {
                         AppVersionChangedEvent.PublishIfNewVersion(response.ServerState.MinerClientVersion);
                         if (response.NewServerMessages.Count != 0) {
@@ -221,6 +244,9 @@ namespace NTMiner.Report {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand(response.ServerState.MessageTimestamp));
                         }
                         VirtualRoot.Execute(new LoadKernelOutputKeywordCommand(response.ServerState.OutputKeywordTimestamp));
+                    }
+                    else {
+                        Logger.ErrorDebugLine(e);
                     }
                 });
             }

@@ -40,6 +40,9 @@
   <PropertyGroup>
     <ApplicationIcon>logo.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>NTMiner.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Costura.Fody.4.0.0\lib\net40\Costura.dll</HintPath>

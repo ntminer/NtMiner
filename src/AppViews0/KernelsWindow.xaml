@@ -13,19 +13,15 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	mc:Ignorable="d"
 	Title="内核宝库"
-	Width="{x:Static app:AppStatic.MainWindowWidth}"
-	Height="{x:Static app:AppStatic.MainWindowHeight}"
-	MinHeight="430"
-	MinWidth="640"
 	d:DesignHeight="520" 
-	d:DesignWidth="1200"
+	d:DesignWidth="1300"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen">
 	<blankWindow:BlankWindow.DataContext>
 		<vm:KernelsWindowViewModel></vm:KernelsWindowViewModel>
 	</blankWindow:BlankWindow.DataContext>
 	<DockPanel>
-		<StackPanel DockPanel.Dock="Left" Background="{StaticResource IconFillColor}" Margin="0 0 10 0">
+		<StackPanel DockPanel.Dock="Left" Background="{StaticResource BtnBackground}" Margin="0 0 10 0">
 			<controls:KbButton 
 				Command="{Binding Home}"
 				Height="60"
@@ -96,19 +92,21 @@
 				<Path Margin="4 0 0 0"
 					Width="12"
 					Height="12"
-					Fill="{StaticResource IconFillColor}"
+					Fill="{StaticResource BtnBackground}"
 					Stretch="Fill"
-					Data="{StaticResource Icon_Serach}"></Path>
+					Data="{StaticResource Icon_Search}"></Path>
 				<TextBlock Padding="2 6">搜索</TextBlock>
 				<controls:KbTextBox 
 					x:Name="TbKeyword" Width="154" Height="24"
-					Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+					Text="{Binding Keyword, UpdateSourceTrigger=LostFocus}" 
 					LostFocus="TbKeyword_LostFocus"
 					VerticalContentAlignment="Center"
-					Hint="请输入想搜索的内核"
-					BorderBrush="{StaticResource LineColor}"
+					Hint="输入内核关键字然后回车"
+                    ToolTip="输入内核关键字然后回车"
+					BorderBrush="{StaticResource LightLineColor}"
 					BorderThickness="1"
 					Background="White"
+                    KeyUp="TbKeyword_KeyUp"
 					SelectedColor="#409EFF" />
 				<controls:KbButton 
 					Height="20"
@@ -120,7 +118,7 @@
 						Width="8"
 						Height="8"
 						Data="{StaticResource Icon_Close}"
-						Fill="{StaticResource IconFillColor}"
+						Fill="{StaticResource BtnBackground}"
 						Stretch="Fill" />
 				</controls:KbButton>
 				<controls:KbButton  
@@ -134,7 +132,7 @@
 							Width="18"
 							Height="18"
 							Data="{StaticResource Icon_Add}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -149,7 +147,7 @@
 							Width="18"
 							Height="18"
 							Data="{StaticResource Icon_Package}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</WrapPanel>
                 </controls:KbButton>
@@ -222,9 +220,9 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource BtnBackground}"></Setter>
+                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LightLineColor}"></Setter>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnForeground}"></Setter>
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter Property="Opacity" Value="0.5"></Setter>
@@ -252,9 +250,9 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource BtnBackground}"></Setter>
+                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LightLineColor}"></Setter>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnForeground}"></Setter>
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter Property="Opacity" Value="0.5"></Setter>
@@ -379,7 +377,7 @@
 											    Width="18"
 											    Height="18"
 											    Data="{StaticResource Icon_Publish}"
-											    Fill="{StaticResource IconFillColor}"
+											    Fill="{StaticResource BtnBackground}"
 											    Stretch="Fill" />
                                         </WrapPanel>
                                     </controls:KbButton>
@@ -395,7 +393,7 @@
 											    Width="18"
 											    Height="18"
 											    Data="{StaticResource Icon_UnPublish}"
-											    Fill="{StaticResource IconFillColor}"
+											    Fill="{StaticResource BtnBackground}"
 											    Stretch="Fill" />
                                         </WrapPanel>
                                     </controls:KbButton>
@@ -409,7 +407,7 @@
 											    Width="18"
 											    Height="18"
 											    Data="{StaticResource Icon_Edit}"
-											    Fill="{StaticResource IconFillColor}"
+											    Fill="{StaticResource BtnBackground}"
 											    Stretch="Fill" />
                                         </WrapPanel>
                                     </controls:KbButton>
@@ -423,7 +421,7 @@
 											    Width="18"
 											    Height="18"
 											    Data="{StaticResource Icon_Delete}"
-											    Fill="{StaticResource IconFillColor}"
+											    Fill="{StaticResource BtnBackground}"
 											    Stretch="Fill" />
                                         </WrapPanel>
                                     </controls:KbButton>
@@ -449,7 +447,7 @@
 												    Command="{Binding KernelProfileVm.Install}"
 										            Content="{Binding KernelProfileVm.InstallText}"
 												    Foreground="White"
-												    Background="{StaticResource ThemeBackground}">
+												    Background="{StaticResource BtnBackground}">
                                                 </controls:KbButton>
                                             </WrapPanel>
                                         </WrapPanel>
@@ -469,7 +467,7 @@
 											    Width="14"
 											    Height="14"
 											    Data="{StaticResource Icon_Cancel}"
-											    Fill="{StaticResource IconFillColor}"
+											    Fill="{StaticResource BtnBackground}"
 											    Stretch="Fill" />
                                         </controls:KbButton>
                                         <controls:KbButton HorizontalAlignment="Center"
@@ -550,9 +548,9 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource BtnBackground}"></Setter>
+                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LightLineColor}"></Setter>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnForeground}"></Setter>
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter Property="Opacity" Value="0.5"></Setter>
@@ -580,9 +578,9 @@
                                 </Border>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource ThemeBackground}"></Setter>
-                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
-                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeForeground}"></Setter>
+                                        <Setter TargetName="Content" Property="Background" Value="{StaticResource BtnBackground}"></Setter>
+                                        <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LightLineColor}"></Setter>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnForeground}"></Setter>
                                     </Trigger>
                                     <Trigger Property="IsEnabled" Value="False">
                                         <Setter Property="Opacity" Value="0.5"></Setter>
@@ -614,7 +612,7 @@
                                         <Setter Property="Opacity" Value="0.5"></Setter>
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeBackground}"/>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnBackground}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
@@ -633,7 +631,7 @@
                                         <ControlTemplate TargetType="ListBoxItem">
                                             <Border 
 											    BorderThickness="1"
-											    BorderBrush="{StaticResource LineColor}"
+											    BorderBrush="{StaticResource LightLineColor}"
 											    Margin="4 0"
 											    Background="{TemplateBinding Background}" 
 											    Width="24" 
@@ -647,12 +645,12 @@
                                             </Border>
                                             <ControlTemplate.Triggers>
                                                 <Trigger Property="IsSelected" Value="true">
-                                                    <Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
-                                                    <Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
+                                                    <Setter Property="Background" Value="{StaticResource BtnBackground}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource BtnForeground}"/>
                                                 </Trigger>
                                                 <Trigger Property="IsMouseOver" Value="true">
-                                                    <Setter Property="Background" Value="{StaticResource ThemeBackground}"/>
-                                                    <Setter Property="Foreground" Value="{StaticResource ThemeForeground}"/>
+                                                    <Setter Property="Background" Value="{StaticResource BtnBackground}"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource BtnForeground}"/>
                                                 </Trigger>
                                             </ControlTemplate.Triggers>
                                         </ControlTemplate>
@@ -688,7 +686,7 @@
                                         <Setter Property="Opacity" Value="0.5"></Setter>
                                     </Trigger>
                                     <Trigger Property="IsMouseOver" Value="true">
-                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource ThemeBackground}"/>
+                                        <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnBackground}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>

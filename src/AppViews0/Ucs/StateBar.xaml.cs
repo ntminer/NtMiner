@@ -26,8 +26,7 @@ namespace NTMiner.Views.Ucs {
                 window.Activated += (object sender, EventArgs e) => {
                     Vm.OnPropertyChanged(nameof(Vm.IsAutoAdminLogon));
                     Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonToolTip));
-                    Vm.OnPropertyChanged(nameof(Vm.IsRemoteDesktopEnabled));
-                    Vm.OnPropertyChanged(nameof(Vm.RemoteDesktopToolTip));
+                    VirtualRoot.Execute(new RefreshIsRemoteDesktopEnabledCommand());
                 };
                 window.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
@@ -40,8 +39,8 @@ namespace NTMiner.Views.Ucs {
                 window.AddEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
                         DateTime now = DateTime.Now;
-                        Vm.UpdateBootTimeSpan(now - NTMinerRoot.Instance.CreatedOn);
-                        var mineContext = NTMinerRoot.Instance.LockedMineContext;
+                        Vm.UpdateBootTimeSpan(now - NTMinerContext.Instance.CreatedOn);
+                        var mineContext = NTMinerContext.Instance.LockedMineContext;
                         if (mineContext != null && mineContext.MineStartedOn != DateTime.MinValue) {
                             Vm.UpdateMineTimeSpan(now - mineContext.MineStartedOn);
                         }
@@ -49,7 +48,7 @@ namespace NTMiner.Views.Ucs {
                 window.AddEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
                         UIThread.Execute(() => () => {
-                            Vm.SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
+                            Vm.SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerContext.ServerVersion);
                         });
                     }, location: this.GetType());
                 window.AddEventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
@@ -64,10 +63,16 @@ namespace NTMiner.Views.Ucs {
                             Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                         });
                     }, location: this.GetType());
+                window.AddCmdPath<RefreshIsRemoteDesktopEnabledCommand>(LogEnum.DevConsole, 
+                    action: message => {
+                        UIThread.Execute(() => () => {
+                            Vm.RefreshIsRemoteDesktopEnabled();
+                        });
+                    }, location: this.GetType());
             });
-            var gpuSet = NTMinerRoot.Instance.GpuSet;
+            var gpuSet = NTMinerContext.Instance.GpuSet;
             // 建议每张显卡至少对应4G虚拟内存，否则标红
-            if (NTMinerRoot.OSVirtualMemoryMb < gpuSet.Count * 4) {
+            if (VirtualRoot.DriveSet.OSVirtualMemoryMb < gpuSet.Count * 4) {
                 BtnShowVirtualMemory.Foreground = WpfUtil.RedBrush;
             }
 #if DEBUG
@@ -107,6 +112,17 @@ namespace NTMiner.Views.Ucs {
                     );
                 }
             }
+        }
+
+        private void PanelEprice_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            WpfUtil.ShowInputDialog("电价", Vm.MinerProfile.EPrice.ToString("f2"), "￥ / 度", eprice => {
+                if (!double.TryParse(eprice, out _)) {
+                    return "电价必须是数字";
+                }
+                return string.Empty;
+            }, onOk: eprice => {
+                Vm.MinerProfile.EPrice = double.Parse(eprice);
+            });
         }
     }
 }

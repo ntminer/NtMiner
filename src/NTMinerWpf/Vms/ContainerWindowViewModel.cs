@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
         private double _height = 0;
         private Geometry _icon;
         private bool _isMaskTheParent;
+        private bool _isChildWindow = false;
         private ImageSource _iconImageSource = null;
         private double _minHeight;
         private double _minWidth;
@@ -40,15 +41,9 @@ namespace NTMiner.Vms {
 
         public ResourceDictionary UcResourceDic { get; set; }
 
-        public Version CurrentVersion {
+        public string NTMinerVersion {
             get {
-                return EntryAssemblyInfo.CurrentVersion;
-            }
-        }
-
-        public string VersionTag {
-            get {
-                return EntryAssemblyInfo.CurrentVersionTag;
+                return $"开源矿工v{EntryAssemblyInfo.CurrentVersionStr}({EntryAssemblyInfo.CurrentVersionTag})";
             }
         }
 
@@ -63,6 +58,18 @@ namespace NTMiner.Vms {
                 if (_isMaskTheParent != value) {
                     _isMaskTheParent = value;
                 }
+            }
+        }
+
+        public bool IsChildWindow {
+            get {
+                if (_isChildWindow || IsMaskTheParent) {
+                    return true;
+                }
+                return false;
+            }
+            set {
+                _isChildWindow = value;
             }
         }
 

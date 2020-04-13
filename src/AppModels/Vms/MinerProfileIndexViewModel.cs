@@ -8,13 +8,13 @@ namespace NTMiner.Vms {
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Instance.MinerProfileVm;
+                return AppRoot.MinerProfileVm;
             }
         }
 
         public List<GpuViewModel> GpuVms {
             get {
-                return AppContext.Instance.GpuVms.Items.Where(a => a.Index != NTMinerRoot.GpuAllId).OrderBy(a => a.Index).ToList();
+                return AppRoot.GpuVms.Items.Where(a => a.Index != NTMinerContext.GpuAllId).OrderBy(a => a.Index).ToList();
             }
         }
     }

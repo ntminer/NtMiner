@@ -13,10 +13,9 @@ namespace NTMiner.Views.Ucs {
         public InnerProperty() {
             InitializeComponent();
             this.OnLoaded(window => {
-                window.AddEventPath<ServerJsonVersionChangedEvent>("刷新展示的ServerJsonVersion", LogEnum.DevConsole,
-                action: message => {
+                window.AddEventPath<ServerJsonVersionChangedEvent>("刷新展示的ServerJsonVersion", LogEnum.DevConsole, action: message => {
                     UIThread.Execute(() => () => {
-                        Vm.ServerJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
+                        Vm.ServerJsonVersion = NTMinerContext.Instance.GetServerJsonVersion();
                     });
                 }, location: this.GetType());
             });

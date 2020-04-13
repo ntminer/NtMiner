@@ -15,14 +15,14 @@
         /// <summary>
         /// 服务器当前时间
         /// </summary>
-        public ulong Time { get; set; }
+        public long Time { get; set; }
         /// <summary>
         /// 服务端消息时间戳
         /// </summary>
-        public ulong MessageTimestamp { get; set; }
+        public long MessageTimestamp { get; set; }
         /// <summary>
         /// 内核输出关键字时间戳
         /// </summary>
-        public ulong OutputKeywordTimestamp { get; set; }
+        public long OutputKeywordTimestamp { get; set; }
     }
 }

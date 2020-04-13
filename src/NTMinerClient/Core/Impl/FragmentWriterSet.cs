@@ -5,7 +5,9 @@ namespace NTMiner.Core.Impl {
     public class FragmentWriterSet : IFragmentWriterSet {
         private readonly Dictionary<Guid, FragmentWriterData> _dicById = new Dictionary<Guid, FragmentWriterData>();
 
+        private readonly IServerContext _context;
         public FragmentWriterSet(IServerContext context) {
+            _context = context;
             context.AddCmdPath<AddFragmentWriterCommand>("添加命令行片段书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -20,7 +22,7 @@ namespace NTMiner.Core.Impl {
                     }
                     FragmentWriterData entity = new FragmentWriterData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
+                    var repository = context.CreateServerRepository<FragmentWriterData>();
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new FragmentWriterAddedEvent(message.MessageId, entity));
@@ -34,15 +36,14 @@ namespace NTMiner.Core.Impl {
                     if (string.IsNullOrEmpty(message.Input.Body)) {
                         throw new ValidationException("FragmentWriter body can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out FragmentWriterData entity)) {
                         return;
                     }
-                    FragmentWriterData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
+                    var repository = context.CreateServerRepository<FragmentWriterData>();
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new FragmentWriterUpdatedEvent(message.MessageId, entity));
@@ -58,7 +59,7 @@ namespace NTMiner.Core.Impl {
                     }
                     FragmentWriterData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
+                    var repository = context.CreateServerRepository<FragmentWriterData>();
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.RaiseEvent(new FragmentWriterRemovedEvent(message.MessageId, entity));
@@ -78,7 +79,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<FragmentWriterData>();
+                    var repository = _context.CreateServerRepository<FragmentWriterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

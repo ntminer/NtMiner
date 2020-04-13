@@ -8,9 +8,9 @@ namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile {
         private class CoinProfileSet {
             private readonly Dictionary<Guid, CoinProfile> _dicById = new Dictionary<Guid, CoinProfile>();
-            private readonly INTMinerRoot _root;
+            private readonly INTMinerContext _root;
             private readonly object _locker = new object();
-            public CoinProfileSet(INTMinerRoot root) {
+            public CoinProfileSet(INTMinerContext root) {
                 _root = root;
             }
 
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Profiles {
             private class CoinProfile : ICoinProfile {
                 private static readonly CoinProfile Empty = new CoinProfile(new CoinProfileData());
 
-                public static CoinProfile Create(INTMinerRoot root, Guid coinId) {
+                public static CoinProfile Create(INTMinerContext root, Guid coinId) {
                     if (root.ServerContext.CoinSet.TryGetCoin(coinId, out ICoin coin)) {
                         var data = GetCoinProfileData(coin.GetId());
                         if (data == null) {
@@ -77,7 +77,7 @@ namespace NTMiner.Core.Profiles {
                 /// <param name="coin"></param>
                 /// <returns></returns>
                 private static Guid GetDefaultCoinKernelId(ICoin coin) {
-                    var root = NTMinerRoot.Instance;
+                    var root = NTMinerContext.Instance;
                     Guid coinKernelId = Guid.Empty;
                     bool noneGpu = false;
                     if (root.GpuSet.GpuType == GpuType.Empty) {
@@ -110,7 +110,7 @@ namespace NTMiner.Core.Profiles {
                 private readonly CoinProfileData _data;
 
                 private static CoinProfileData GetCoinProfileData(Guid coinId) {
-                    var repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();
+                    var repository = NTMinerContext.Instance.ServerContext.CreateLocalRepository<CoinProfileData>();
                     var result = repository.GetByKey(coinId);
                     return result;
                 }
@@ -203,13 +203,11 @@ namespace NTMiner.Core.Profiles {
                 public void SetValue(string propertyName, object value) {
                     if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                         if (propertyInfo.CanWrite) {
-                            if (propertyInfo.PropertyType == typeof(Guid)) {
-                                value = VirtualRoot.ConvertToGuid(value);
-                            }
+                            // 这里的反射赋值没有经过序列化和反序列化且由接口约束了类型一定相同所以可以直接赋值和比较
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                var repository = NTMinerRoot.CreateLocalRepository<CoinProfileData>();
+                                var repository = NTMinerContext.Instance.ServerContext.CreateLocalRepository<CoinProfileData>();
                                 repository.Update(_data);
                                 VirtualRoot.RaiseEvent(new CoinProfilePropertyChangedEvent(this.CoinId, propertyName));
                             }

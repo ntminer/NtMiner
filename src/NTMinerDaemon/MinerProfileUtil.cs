@@ -37,7 +37,7 @@ namespace NTMiner {
         }
 
         private static LiteDatabase GetDb() {
-            string location = NTMinerRegistry.GetLocation();
+            string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
             if (!string.IsNullOrEmpty(location)) {
                 string dbFile = Path.Combine(Path.GetDirectoryName(location), NTKeyword.LocalDbFileName);
                 bool isDbFileExist = File.Exists(dbFile);

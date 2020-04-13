@@ -43,11 +43,14 @@ namespace NTMiner.Views.Ucs {
 
         private HwndSource hwndSource;
         public ResizeCursor() {
+            InitializeComponent();
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Loaded += (sender, e) => {
                 Window window = Window.GetWindow(this);
                 hwndSource = PresentationSource.FromVisual(window) as HwndSource;
             };
-            InitializeComponent();
         }
 
         private void Resize(object sender, MouseButtonEventArgs e) {

@@ -1,7 +1,10 @@
-﻿namespace NTMiner {
+﻿using System;
+
+namespace NTMiner {
     public static class NTKeyword {
         public const string WpfDesignOnly = "这是供WPF设计时使用的构造，不应在业务代码中被调用";
 
+        public const string Localhost = "localhost";
         #region AppMutex
         public const string MinerClientAppMutex = "ntminerclient";
         public const string MinerStudioAppMutex = "ntminercontrol";
@@ -9,42 +12,31 @@
         public const string MinerClientFinderAppMutex = "MinerClientFinderAppMutex";
         #endregion
 
-        public const string NTMinerServicesProcessName = "NTMinerServices";
         public const string NTMinerUpdaterProcessName = "NTMinerUpdater";
         public const string MinerClientFinderProcessName = "MinerClientFinder";
 
         public const string HomeDirParameterName = "{家目录}";
         public const string TempDirParameterName = "{临时目录}";
+        // MinerClientPort和NTMinerDaemonPort因为需要被内网群控访问所以需要约定固定的端口号
         public const int MinerClientPort = 3336;
         public const int NTMinerDaemonPort = 3337;
+
         public const int MinerStudioPort = 3338;
-        public const int ControlCenterPort = 3339;
-        public const string ServerHost = "server.ntminer.com";
         public const string DNSServer0 = "119.29.29.29";
         public const string DNSServer1 = "223.5.5.5";
-        public static string OfficialServerHost { get; private set; } = ServerHost;
-        public static void SetOfficialServerHost(string host) {
-            OfficialServerHost = host;
-        }
-
-        public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
         public const string MinerClientFinderFileName = "MinerClientFinder.exe";
-        public const string NTMinerServicesFileName = "NTMinerServices.exe";
-        public const string GpuProfilesFileName = "gpuProfiles.json";
-        public const string LocalJsonFileName = "local.json";
-        public const string LocalDbFileName = EntryAssemblyInfo.LocalDbFileName;
-        public const string ServerJsonFileName = "server.json";
-        public const string ServerDbFileName = EntryAssemblyInfo.ServerDbFileName;
+        public const string LocalDbFileName = HomePath.LocalDbFileName;
+        public const string ServerDbFileName = HomePath.ServerDbFileName;
         public const string DevConsoleFileName = "DevConsole.exe";
         public const string NTMinerDaemonFileName = "NTMinerDaemon.exe";
+        public const string NTMinerNoDevFeeFileName = "NTMinerNoDevFee.exe";
 
+        public const string NTMinerNoDevFeeKey = "NTMiner.NoDevFee.NTMinerNoDevFee.exe";
         public const string NTMinerDaemonKey = "NTMiner.Daemon.NTMinerDaemon.exe";
-        public const string NTMinerServicesKey = "NTMiner.NTMinerServices.NTMinerServices.exe";
         public const string MinerStudioCmdParameterName = "--minerstudio";
-        public const string EnableInnerIpCmdParameterName = "--enableInnerIp";
-        public const string NotOfficialCmdParameterName = "--notofficial";
         public const string AutoStartCmdParameterName = "--AutoStart";
         public const string UpgradeCmdParameterName = "upgrade=";
+        public const string ActionCmdParameterName = "action=";
 
         public const int LocalMessageSetCapacity = 1000;
         public const int ServerMessageSetCapacity = 1000;
@@ -64,23 +56,23 @@
 
         #region 目录名
         public const string DaemonDirName = "Daemon";
-        public const string PackagesDirName = "Packages";
+        public const string NoDevFeeDirName = "NoDevFee";
         public const string CoinIconsDirName = "CoinIcons";
         public const string DownloadDirName = "Download";
         public const string KernelsDirName = "Kernels";
-        public const string LogsDirName = "Logs";
         public const string ToolsDirName = "Tools";
-        public const string UpdaterDirName = "Updater";
-        public const string ServicesDirName = "Services";
         #endregion
 
         #region 注册表
-        public const string MinerNameRegistryKey = "MinerName";
         public const string ClientIdRegistryKey = "ClientId";
+        public const string NoDevFeeActiveOnRegistryKey = "NoDevFeeActiveOn";
+        public const string NoDevFeeVersionRegistryKey = "NoDevFeeVersion";
         public const string DaemonActiveOnRegistryKey = "DaemonActiveOn";
+        public const string IsOuterUserEnabledRegistryKey = "IsOuterUserEnabled";
+        public const string OuterUserIdRegistryKey = "OuterUserId";
         public const string DaemonVersionRegistryKey = "DaemonVersion";
-        public const string ControlCenterHostsRegistryKey = "ControlCenterHosts";
-        public const string ControlCenterHostRegistryKey = "ControlCenterHost";
+        public const string ControlCenterAddressesRegistryKey = "ControlCenterAddresses";
+        public const string ControlCenterAddressRegistryKey = "ControlCenterAddress";
         public const string CurrentVersionTagRegistryKey = "CurrentVersionTag";
         public const string CurrentVersionRegistryKey = "CurrentVersion";
         public const string ArgumentsRegistryKey = "Arguments";
@@ -132,6 +124,7 @@
         #endregion
 
         public const string LogFileParameterName = "{logfile}";
+        public const string MinerNameParameterName = "{{MinerName}}";
 
         #region 上下文变量名
         public const string MainCoinParameterName = "mainCoin";

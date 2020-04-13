@@ -10,7 +10,9 @@ namespace NTMiner.Views.Ucs {
                 Width = 520,
                 Height = 320,
                 CloseVisible = System.Windows.Visibility.Visible,
-                FooterVisible = System.Windows.Visibility.Collapsed
+                FooterVisible = System.Windows.Visibility.Collapsed,
+                IsMaskTheParent = false,
+                IsChildWindow = true
             }, ucFactory: (window) => {
                 return new AboutPage();
             }, fixedSize: true);

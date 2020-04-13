@@ -17,7 +17,7 @@ namespace UnitTests {
 
         [TestMethod]
         public void PrintNetCardInfo() {
-            foreach (var item in NTMiner.Net.LocalIpSet.GetNetCardInfo()) {
+            foreach (var item in VirtualRoot.LocalIpSetImpl.GetNetCardInfo()) {
                 Console.WriteLine("-------------------start---------------------");
                 foreach (var kv in item.Properties) {
                     Console.WriteLine($"{kv.Name}: {kv.Value}");
@@ -36,7 +36,7 @@ namespace UnitTests {
         [TestMethod]
         [ExpectedException(typeof(FormatException))]
         public void IpAddressTest1() {
-            IPAddress.Parse("localhost");
+            IPAddress.Parse(NTKeyword.Localhost);
         }
 
         [TestMethod]

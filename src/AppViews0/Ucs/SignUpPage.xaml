@@ -1,0 +1,120 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.SignUpPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+    d:DataContext="{d:DesignData Source=../Design/SignUpPageViewModel.xaml}"
+	mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="370">
+    <UserControl.Resources>
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+            <Setter Property="Width" Value="70"></Setter>
+            <Setter Property="Padding" Value="4 2 4 2"></Setter>
+        </Style>
+        <Style x:Key="TxtTb" TargetType="TextBox">
+            <Setter Property="Background" Value="White"></Setter>
+            <Setter Property="Padding" Value="4 6"></Setter>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel>
+        <WrapPanel Margin="0 10 0 3">
+            <TextBlock Style="{StaticResource LblTb}">登录名</TextBlock>
+            <TextBox x:Name="TbLoginName" Text="{Binding LoginName}" Width="270" Style="{StaticResource TxtTb}"></TextBox>
+            <TextBlock VerticalAlignment="Center" Foreground="Red">*</TextBlock>
+        </WrapPanel>
+        <WrapPanel Visibility="{Binding LoginNameExistMessage,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
+            <TextBlock Style="{StaticResource LblTb}"></TextBlock>
+            <TextBlock Foreground="Red" Text="{Binding LoginNameExistMessage}"></TextBlock>
+        </WrapPanel>
+        <WrapPanel Margin="0 3">
+            <TextBlock Style="{StaticResource LblTb}">密码</TextBlock>
+            <PasswordBox
+                Width="270"
+                Padding="4 6"
+				Background="White" 
+                controls:PasswordBoxHelper.Attach="true" 
+                controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+            <TextBlock VerticalAlignment="Center" Foreground="Red">*</TextBlock>
+        </WrapPanel>
+        <WrapPanel Margin="0 3">
+            <TextBlock Style="{StaticResource LblTb}">重复密码</TextBlock>
+            <PasswordBox
+                Width="270"
+                Padding="4 6"
+				Background="White" 
+                controls:PasswordBoxHelper.Attach="true" 
+                controls:PasswordBoxHelper.Password="{Binding PasswordAgain, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+            <TextBlock VerticalAlignment="Center" Foreground="Red">*</TextBlock>
+        </WrapPanel>
+        <WrapPanel Margin="0 3">
+            <TextBlock Style="{StaticResource LblTb}">验证码</TextBlock>
+            <TextBox Text="{Binding ActionCaptcha}" Width="166" ToolTip="验证码不区分大小写" Style="{StaticResource TxtTb}"></TextBox>
+            <TextBlock Width="10" VerticalAlignment="Center" Foreground="Red">*</TextBlock>
+            <WrapPanel VerticalAlignment="Center">
+                <Image Source="{Binding CaptchaUrl}" Height="27" Width="64"></Image>
+                <controls:KbButton
+                    Padding="4 0"
+                    ToolTip="点击刷新"
+                    Command="{Binding RefreshCaptcha}"
+                    Background="{StaticResource BtnBackground}">
+                    <Path
+					    Width="12"
+					    Height="12"
+					    Data="{StaticResource Icon_Refresh}"
+					    Fill="White"
+					    Stretch="Fill" />
+                </controls:KbButton>
+            </WrapPanel>
+        </WrapPanel>
+        <TextBlock Margin="70 10 0 0">以下为选填项</TextBlock>
+        <WrapPanel Margin="0 3">
+            <TextBlock Style="{StaticResource LblTb}">邮箱</TextBlock>
+            <TextBox Text="{Binding Email}" Width="270" Style="{StaticResource TxtTb}"></TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 3">
+            <TextBlock Style="{StaticResource LblTb}">验证码</TextBlock>
+            <TextBox Text="{Binding EmailCode}" Width="166" ToolTip="验证码不区分大小写" Style="{StaticResource TxtTb}"></TextBox>
+            <controls:KbButton
+                Margin="10 0 0 0"
+                Width="94"
+                Background="{StaticResource BtnBackground}"
+                Foreground="White"
+                CornerRadius="2"
+                Content="发送验证码">
+            </controls:KbButton>
+        </WrapPanel>
+        <WrapPanel Margin="0 3">
+            <TextBlock Style="{StaticResource LblTb}">手机</TextBlock>
+            <TextBox Text="{Binding Mobile}" Width="270" Style="{StaticResource TxtTb}"></TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 3">
+            <TextBlock Style="{StaticResource LblTb}">验证码</TextBlock>
+            <TextBox Text="{Binding MobileCode}" Width="166" ToolTip="验证码不区分大小写" Style="{StaticResource TxtTb}"></TextBox>
+            <controls:KbButton
+                Margin="10 0 0 0"
+                Width="94"
+                Background="{StaticResource BtnBackground}"
+                Foreground="White"
+                CornerRadius="2"
+                Content="发送验证码">
+            </controls:KbButton>
+        </WrapPanel>
+        <controls:KbButton
+			Command="{Binding SignUp}" 
+			Margin="30 10 30 10"
+			Padding="15 8"
+			Background="{StaticResource BtnBackground}"
+			Foreground="White"
+			CornerRadius="2"
+            Content="注册">
+        </controls:KbButton>
+        <WrapPanel Margin="30 0 0 0">
+        </WrapPanel>
+    </StackPanel>
+</UserControl>

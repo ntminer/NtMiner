@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 namespace NTMiner.Core {
-    public class AppSettingData : IAppSetting, IGetSignData {
+    public class AppSettingData : IAppSetting, ISignableData {
         public AppSettingData() { }
 
         public static AppSettingData Create(IAppSetting appSetting) {

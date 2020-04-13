@@ -61,9 +61,11 @@ namespace NTMiner {
         public static void ShowInputDialog(
             string title,
             string text,
+            string tail,
             Func<string, string> check,
-            Action<string> onOk) {
-            Window window = new InputWindow(title, text, check, onOk);
+            Action<string> onOk,
+            bool isPassword = false) {
+            Window window = new InputWindow(title, text, tail, check, onOk, isPassword);
             window.MousePosition();
             window.ShowSoftDialog();
         }

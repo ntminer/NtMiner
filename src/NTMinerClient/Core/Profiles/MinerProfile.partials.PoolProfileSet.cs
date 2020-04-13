@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.Profile;
-using NTMiner.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -8,10 +7,10 @@ namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile {
         private class PoolProfileSet {
             private readonly Dictionary<Guid, PoolProfile> _dicById = new Dictionary<Guid, PoolProfile>();
-            private readonly INTMinerRoot _root;
+            private readonly INTMinerContext _root;
             private readonly object _locker = new object();
 
-            public PoolProfileSet(INTMinerRoot root) {
+            public PoolProfileSet(INTMinerContext root) {
                 _root = root;
             }
 
@@ -45,7 +44,7 @@ namespace NTMiner.Core.Profiles {
             public class PoolProfile : IPoolProfile {
                 private static readonly PoolProfile Empty = new PoolProfile(new PoolProfileData());
 
-                public static PoolProfile Create(INTMinerRoot root, Guid poolIdId) {
+                public static PoolProfile Create(INTMinerContext root, Guid poolIdId) {
                     if (root.ServerContext.PoolSet.TryGetPool(poolIdId, out IPool pool)) {
                         var data = GetPoolProfileData(root, pool.GetId());
                         if (data == null) {
@@ -62,8 +61,8 @@ namespace NTMiner.Core.Profiles {
 
                 private readonly PoolProfileData _data;
 
-                private static PoolProfileData GetPoolProfileData(INTMinerRoot root, Guid poolId) {
-                    var repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
+                private static PoolProfileData GetPoolProfileData(INTMinerContext root, Guid poolId) {
+                    var repository = root.ServerContext.CreateLocalRepository<PoolProfileData>();
                     var result = repository.GetByKey(poolId);
                     if (result == null) {
                         if (root.ServerContext.PoolSet.TryGetPool(poolId, out IPool pool)) {
@@ -114,13 +113,11 @@ namespace NTMiner.Core.Profiles {
                 public void SetValue(string propertyName, object value) {
                     if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                         if (propertyInfo.CanWrite) {
-                            if (propertyInfo.PropertyType == typeof(Guid)) {
-                                value = VirtualRoot.ConvertToGuid(value);
-                            }
+                            // 这里的反射赋值没有经过序列化和反序列化且由接口约束了类型一定相同所以可以直接赋值和比较
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                var repository = NTMinerRoot.CreateLocalRepository<PoolProfileData>();
+                                var repository = NTMinerContext.Instance.ServerContext.CreateLocalRepository<PoolProfileData>();
                                 repository.Update(_data);
                                 VirtualRoot.RaiseEvent(new PoolProfilePropertyChangedEvent(this.PoolId, propertyName));
                             }

@@ -7,43 +7,155 @@ using System.Threading.Tasks;
 
 namespace NTMiner {
     public static partial class RpcRoot {
-        public static ServerServices Server = new ServerServices();
-        public static OfficialServices OfficialServer = new OfficialServices(NTKeyword.OfficialServerHost, NTKeyword.ControlCenterPort);
+        public static RpcUser RpcUser { get; private set; } = RpcUser.Empty;
+        public static bool IsOuterNet { get; private set; } = false;
+        public static bool IsLogined {
+            get {
+                if (RpcUser == null || RpcUser == RpcUser.Empty) {
+                    return false;
+                }
+                return !string.IsNullOrEmpty(RpcUser.LoginName) && !string.IsNullOrEmpty(RpcUser.Password);
+            }
+        }
+
+        public static void SetRpcUser(RpcUser rpcUser, bool isOuterNet) {
+            RpcUser = rpcUser;
+            IsOuterNet = isOuterNet;
+        }
+
+        public static OfficialServices OfficialServer = new OfficialServices();
         public static ClientServices Client = new ClientServices();
 
-        public static void PostAsync<T>(string host, int port, string controller, string action, Action<T, Exception> callback, int timeountMilliseconds = 0) {
-            PostAsync<T>(host, port, controller, action, (Dictionary<string, string>)null, null, callback, timeountMilliseconds);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="host">用于组装Url</param>
+        /// <param name="port">用于组装Url</param>
+        /// <param name="controller">用于组装Url</param>
+        /// <param name="action">用于组装Url</param>
+        /// <param name="callback"></param>
+        /// <param name="timeountMilliseconds"></param>
+        public static void PostAsync<TResponse>(
+            string host,
+            int port,
+            string controller,
+            string action,
+            Action<TResponse, Exception> callback,
+            int timeountMilliseconds = 0) {
+            PostAsync(host, port, controller, action, query: null, data: null, callback, timeountMilliseconds);
         }
 
-        public static void PostAsync<T>(string host, int port, string controller, string action, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) {
-            PostAsync<T>(host, port, controller, action, (Dictionary<string, string>)null, data, callback, timeountMilliseconds);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="host">用于组装Url</param>
+        /// <param name="port">用于组装Url</param>
+        /// <param name="controller">用于组装Url</param>
+        /// <param name="action">用于组装Url</param>
+        /// <param name="data">post的数据</param>
+        /// <param name="callback"></param>
+        /// <param name="timeountMilliseconds"></param>
+        public static void PostAsync<TResponse>(
+            string host,
+            int port,
+            string controller,
+            string action,
+            object data,
+            Action<TResponse, Exception> callback,
+            int timeountMilliseconds = 0) {
+            PostAsync(host, port, controller, action, query: null, data, callback, timeountMilliseconds);
         }
 
-        public static void PostAsync<T>(string host, int port, string controller, string action, IGetSignData signData, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) {
-            PostAsync<T>(host, port, controller, action, signData.ToQuery(), data, callback, timeountMilliseconds);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="host">用于组装Url</param>
+        /// <param name="port">用于组装Url</param>
+        /// <param name="controller">用于组装Url</param>
+        /// <param name="action">用于组装Url</param>
+        /// <param name="signData">用于组装url查询字符串</param>
+        /// <param name="data">post的数据</param>
+        /// <param name="callback"></param>
+        /// <param name="timeountMilliseconds"></param>
+        public static void SignPostAsync<TResponse>(
+            string host,
+            int port,
+            string controller,
+            string action,
+            ISignableData data,
+            Action<TResponse, Exception> callback,
+            int timeountMilliseconds = 0) {
+            PostAsync(host, port, controller, action, query: RpcUser.GetSignData(data), data, callback, timeountMilliseconds);
         }
 
-
-        public static T Post<T>(string host, int port, string controller, string action, object data, int? timeout = null) {
-            return Post<T>(host, port, controller, action, (Dictionary<string, string>)null, data, timeout);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="host">用于组装Url</param>
+        /// <param name="port">用于组装Url</param>
+        /// <param name="controller">用于组装Url</param>
+        /// <param name="action">用于组装Url</param>
+        /// <param name="data">post的数据</param>
+        /// <param name="timeountMilliseconds"></param>
+        /// <returns></returns>
+        public static TResponse Post<TResponse>(
+            string host,
+            int port,
+            string controller,
+            string action,
+            object data,
+            int? timeountMilliseconds = null) {
+            return Post<TResponse>(host, port, controller, action, query: null, data, timeountMilliseconds);
         }
 
-        public static T Post<T>(string host, int port, string controller, string action, IGetSignData signData, object data, int? timeout = null) {
-            return Post<T>(host, port, controller, action, signData.ToQuery(), data, timeout);
+        public static TResponse SignPost<TResponse>(
+            string host,
+            int port,
+            string controller,
+            string action,
+            ISignableData data,
+            int? timeountMilliseconds = null) {
+            return Post<TResponse>(host, port, controller, action, query: RpcUser.GetSignData(data), data, timeountMilliseconds);
         }
 
-        public static void GetAsync<T>(string host, int port, string controller, string action, Dictionary<string, string> data, Action<T, Exception> callback) {
+        /// <summary>
+        /// 异步Post
+        /// </summary>
+        /// <typeparam name="TResponse">post的data的类型</typeparam>
+        /// <param name="host">用于组装Url</param>
+        /// <param name="port">用于组装Url</param>
+        /// <param name="controller">用于组装Url</param>
+        /// <param name="action">用于组装Url</param>
+        /// <param name="query">Url上的查询参数，承载登录名、时间戳、签名</param>
+        /// <param name="data">post的数据</param>
+        /// <param name="callback"></param>
+        /// <param name="timeountMilliseconds"></param>
+        public static void PostAsync<TResponse>(
+            string host,
+            int port,
+            string controller,
+            string action,
+            Dictionary<string, string> query,
+            object data,
+            Action<TResponse, Exception> callback,
+            int timeountMilliseconds = 0) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = CreateHttpClient()) {
-                        string queryString = string.Empty;
-                        if (data != null && data.Count != 0) {
-                            queryString = "?" + string.Join("&", data.Select(a => a.Key + "=" + a.Value));
+                        if (timeountMilliseconds != 0) {
+                            if (timeountMilliseconds < 100) {
+                                timeountMilliseconds *= 1000;
+                            }
+                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
-
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{queryString}");
-                        T response = message.Result.Content.ReadAsAsync<T>().Result;
-                        callback?.Invoke(response, null);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", data);
+                        getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
+                            callback?.Invoke(t.Result, null);
+                        });
                     }
                 }
                 catch (Exception e) {
@@ -52,9 +164,115 @@ namespace NTMiner {
             });
         }
 
+        public static void FirePostAsync(
+            string host,
+            int port,
+            string controller,
+            string action,
+            Dictionary<string, string> query,
+            object data,
+            Action callback = null,
+            int timeountMilliseconds = 0) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = CreateHttpClient()) {
+                        if (timeountMilliseconds != 0) {
+                            if (timeountMilliseconds < 100) {
+                                timeountMilliseconds *= 1000;
+                            }
+                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
+                        }
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", data);
+                        Write.DevDebug($"{action} {getHttpResponse.Result.ReasonPhrase}");
+                        callback?.Invoke();
+                    }
+                }
+                catch {
+                    callback?.Invoke();
+                }
+            });
+        }
+
+        public static void FirePostAsync(
+            string host,
+            int port,
+            string controller,
+            string action,
+            Dictionary<string, string> query,
+            HttpContent content,
+            Action callback = null,
+            int timeountMilliseconds = 0) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = CreateHttpClient()) {
+                        if (timeountMilliseconds != 0) {
+                            if (timeountMilliseconds < 100) {
+                                timeountMilliseconds *= 1000;
+                            }
+                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
+                        }
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", content);
+                        Write.DevDebug($"{action} {getHttpResponse.Result.ReasonPhrase}");
+                        callback?.Invoke();
+                    }
+                }
+                catch {
+                    callback?.Invoke();
+                }
+            });
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TResponse"></typeparam>
+        /// <param name="host">用于组装Url</param>
+        /// <param name="port">用于组装Url</param>
+        /// <param name="controller">用于组装Url</param>
+        /// <param name="action">用于组装Url</param>
+        /// <param name="query">Url上的查询参数，承载登录名、时间戳、签名</param>
+        /// <param name="callback"></param>
+        public static void GetAsync<TResponse>(
+            string host,
+            int port,
+            string controller,
+            string action,
+            Dictionary<string, string> query,
+            Action<TResponse, Exception> callback,
+            int? timeountMilliseconds = null) {
+            Task.Factory.StartNew(() => {
+                try {
+                    using (HttpClient client = CreateHttpClient()) {
+                        if (timeountMilliseconds.HasValue) {
+                            if (timeountMilliseconds.Value < 100) {
+                                timeountMilliseconds *= 1000;
+                            }
+                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds.Value);
+                        }
+                        Task<HttpResponseMessage> message = client.GetAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}");
+                        message.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
+                            callback?.Invoke(t.Result, null);
+                        });
+                    }
+                }
+                catch (Exception e) {
+                    callback?.Invoke(default, e);
+                }
+            });
+        }
+
+        /// <summary>
+        /// 给定一个类型，返回基于命名约定的控制器名。如果给定的类型名不以Consoller为后缀则引发
+        /// InvalidProgramException异常，如果给定的类型是接口类型但不以I开头同样会异常。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         public static string GetControllerName<T>() {
             Type t = typeof(T);
             string name = t.Name;
+            if (t.IsGenericType) {
+                name = name.Substring(0, name.IndexOf('`'));
+            }
             if (!name.EndsWith("Controller")) {
                 throw new InvalidProgramException("控制器类型名需要以Controller为后缀");
             }
@@ -70,18 +288,36 @@ namespace NTMiner {
             return name.Substring(startIndex, length);
         }
 
-        private static T Post<T>(string host, int port, string controller, string action, Dictionary<string, string> query, object data, int? timeout = null) {
+        /// <summary>
+        /// 同步Post
+        /// </summary>
+        /// <typeparam name="TResponse">post的data的类型</typeparam>
+        /// <param name="host">用于组装Url</param>
+        /// <param name="port">用于组装Url</param>
+        /// <param name="controller">用于组装Url</param>
+        /// <param name="action">用于组装Url</param>
+        /// <param name="query">Url上的查询参数，承载登录名、时间戳、签名</param>
+        /// <param name="data">post的数据</param>
+        /// <param name="timeountMilliseconds"></param>
+        /// <returns></returns>
+        private static TResponse Post<TResponse>(
+            string host,
+            int port,
+            string controller,
+            string action,
+            Dictionary<string, string> query,
+            object data,
+            int? timeountMilliseconds = null) {
             try {
-                string queryString = string.Empty;
-                if (query != null && query.Count != 0) {
-                    queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
-                }
                 using (HttpClient client = CreateHttpClient()) {
-                    if (timeout.HasValue) {
-                        client.Timeout = TimeSpan.FromMilliseconds(timeout.Value);
+                    if (timeountMilliseconds.HasValue) {
+                        if (timeountMilliseconds.Value < 100) {
+                            timeountMilliseconds *= 1000;
+                        }
+                        client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds.Value);
                     }
-                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{queryString}", data);
-                    T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
+                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", data);
+                    TResponse response = getHttpResponse.Result.Content.ReadAsAsync<TResponse>().Result;
                     return response;
                 }
             }
@@ -91,26 +327,17 @@ namespace NTMiner {
             }
         }
 
-        private static void PostAsync<T>(string host, int port, string controller, string action, Dictionary<string, string> query, object data, Action<T, Exception> callback, int timeountMilliseconds = 0) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = CreateHttpClient()) {
-                        if (timeountMilliseconds != 0) {
-                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
-                        }
-                        string queryString = string.Empty;
-                        if (query != null && query.Count != 0) {
-                            queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
-                        }
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{queryString}", data);
-                        T response = getHttpResponse.Result.Content.ReadAsAsync<T>().Result;
-                        callback?.Invoke(response, null);
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(default, e);
-                }
-            });
+        /// <summary>
+        /// 将字典转化为url查询字符串，返回的字符串以'?'问好开头。
+        /// </summary>
+        /// <param name="query"></param>
+        /// <returns></returns>
+        private static string ToQueryString(this Dictionary<string, string> query) {
+            string queryString = string.Empty;
+            if (query != null && query.Count != 0) {
+                queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
+            }
+            return queryString;
         }
     }
 }

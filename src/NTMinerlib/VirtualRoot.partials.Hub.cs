@@ -6,16 +6,21 @@ using System.Text.RegularExpressions;
 
 namespace NTMiner {
     public static partial class VirtualRoot {
-        private static ITimer _timer = null;
-        public static void StartTimer(ITimer timer = null) {
-            if (_timer != null) {
+        // 视图层有个界面提供给开发者观察系统的消息路径情况所以是public的。
+        // 系统根上的一些状态集的构造时最好都放在MessageHub初始化之后，因为状态集的构造
+        // 函数中可能会建造消息路径，所以这里保证在访问MessageHub之前一定完成了构造。
+        public static readonly IMessagePathHub MessageHub = new MessagePathHub();
+
+        private static ITimingEventProducer _timingEventProducer = null;
+        public static void StartTimer(ITimingEventProducer timingEventProducer = null) {
+            if (_timingEventProducer != null) {
                 throw new InvalidProgramException("秒表已经启动，不能重复启动");
             }
-            if (timer == null) {
-                timer = new DefaultTimer(MessageHub);
+            if (timingEventProducer == null) {
+                timingEventProducer = new DefaultTimingEventProducer(MessageHub);
             }
-            _timer = timer;
-            timer.Start();
+            _timingEventProducer = timingEventProducer;
+            timingEventProducer.Start();
         }
 
         public static void RaiseEvent<TEvent>(TEvent evnt) where TEvent : class, IEvent {
@@ -55,11 +60,10 @@ namespace NTMiner {
             if (pathId == null) {
                 return;
             }
-            MessageHub.RemoveMessagePath(pathId);
+            MessageHub.RemovePath(pathId);
         }
 
         private static readonly Dictionary<string, Regex> _regexDic = new Dictionary<string, Regex>();
-        private static readonly object _regexDicLocker = new object();
         // 【性能】缓存构建的正则对象
         public static Regex GetRegex(string pattern) {
             if (string.IsNullOrEmpty(pattern)) {
@@ -68,7 +72,7 @@ namespace NTMiner {
             if (_regexDic.TryGetValue(pattern, out Regex regex)) {
                 return regex;
             }
-            lock (_regexDicLocker) {
+            lock (_locker) {
                 if (!_regexDic.TryGetValue(pattern, out regex)) {
                     regex = new Regex(pattern, RegexOptions.Compiled);
                     _regexDic.Add(pattern, regex);

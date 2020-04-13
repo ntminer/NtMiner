@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Views;
+﻿using NTMiner.Views;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
@@ -11,7 +10,7 @@ namespace NTMiner {
     public partial class App : Application {
         public static NTMinerAppType AppType {
             get {
-                if (VirtualRoot.IsMinerStudio) {
+                if (AppStatic.IsMinerStudio) {
                     return NTMinerAppType.MinerStudio;
                 }
                 return NTMinerAppType.MinerClient;
@@ -19,6 +18,7 @@ namespace NTMiner {
         }
 
         public App() {
+            HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             AppUtil.Init(this);
             InitializeComponent();
@@ -31,13 +31,11 @@ namespace NTMiner {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
-            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-
             if (AppUtil.GetMutex(NTKeyword.MinerUpdaterAppMutex)) {
-                NotiCenterWindow.Instance.ShowWindow();
+                NotiCenterWindow.ShowWindow();
                 this.MainWindow = new MainWindow();
                 this.MainWindow.Show();
-                VirtualRoot.StartTimer(new WpfTimer());
+                VirtualRoot.StartTimer(new WpfTimingEventProducer());
             }
             else {
                 Process thatProcess = null;

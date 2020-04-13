@@ -45,7 +45,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.BrandItem;
             popup.Child = new SysDicItemSelect(
-                new SysDicItemSelectViewModel(AppContext.Instance.SysDicItemVms.PoolBrandItems, selected, onOk: selectedResult => {
+                new SysDicItemSelectViewModel(AppRoot.SysDicItemVms.PoolBrandItems, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (Vm.BrandItem != selectedResult) {
                             Vm.BrandItem = selectedResult;

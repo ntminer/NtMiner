@@ -1,6 +1,4 @@
-﻿using NTMiner.Controllers;
-using NTMiner.Core.MinerServer;
-using System;
+﻿using System;
 using System.Web;
 
 namespace NTMiner.Services {
@@ -9,24 +7,23 @@ namespace NTMiner.Services {
     public class OfficialServices {
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
 
-        public readonly FileUrlService FileUrlService;
-        public readonly OverClockDataService OverClockDataService;
-        public readonly NTMinerWalletService NTMinerWalletService;
-        public readonly KernelOutputKeywordService KernelOutputKeywordService;
-        public readonly ControlCenterService ControlCenterService;
-        public readonly ServerMessageService ServerMessageService;
+        public readonly WsServerNodeService WsServerNodeService = new WsServerNodeService();
+        public readonly FileUrlService FileUrlService = new FileUrlService();
+        public readonly OverClockDataService OverClockDataService = new OverClockDataService();
+        public readonly NTMinerWalletService NTMinerWalletService = new NTMinerWalletService();
+        public readonly KernelOutputKeywordService KernelOutputKeywordService = new KernelOutputKeywordService();
+        public readonly CalcConfigService CalcConfigService = new CalcConfigService();
+        public readonly CoinSnapshotService CoinSnapshotService = new CoinSnapshotService();
+        public readonly ServerMessageService ServerMessageService = new ServerMessageService();
+        public readonly ReportService ReportService = new ReportService();
+        public readonly UserService UserService = new UserService();
+        public readonly AppSettingService AppSettingService = new AppSettingService();
+        public readonly UserAppSettingService UserAppSettingService = new UserAppSettingService();
+        public readonly ClientDataService ClientDataService = new ClientDataService();
+        public readonly UserMinerGroupService UserMinerGroupService = new UserMinerGroupService();
+        public readonly UserMineWorkService UserMineWorkService = new UserMineWorkService();
 
-        private readonly string _host;
-        private readonly int _port;
-        internal OfficialServices(string host, int port) {
-            _host = host;
-            _port = port;
-            FileUrlService = new FileUrlService(host, port);
-            OverClockDataService = new OverClockDataService(host, port);
-            NTMinerWalletService = new NTMinerWalletService(host, port);
-            KernelOutputKeywordService = new KernelOutputKeywordService(host, port);
-            ControlCenterService = new ControlCenterService(host, port);
-            ServerMessageService = new ServerMessageService(host, port);
+        internal OfficialServices() {
         }
 
         public string SignatureSafeUrl(Uri uri) {
@@ -41,52 +38,5 @@ namespace NTMiner.Services {
             }
             return url;
         }
-
-        public void GetTimeAsync(Action<DateTime> callback) {
-            RpcRoot.GetAsync(_host, _port, "AppSetting", nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
-                callback?.Invoke(datetime);
-            });
-        }
-
-        #region GetJsonFileVersionAsync
-        public void GetJsonFileVersionAsync(string key, Action<ServerState> callback) {
-            AppSettingRequest request = new AppSettingRequest {
-                Key = key
-            };
-            RpcRoot.PostAsync(_host, _port, "AppSetting", nameof(IAppSettingController.GetJsonFileVersion), request, (string text, Exception e) => {
-                string jsonFileVersion = string.Empty;
-                string minerClientVersion = string.Empty;
-                ulong time = Timestamp.GetTimestamp();
-                ulong messageTimestamp = 0;
-                ulong kernelOutputKeywordTimestamp = 0;
-                if (!string.IsNullOrEmpty(text)) {
-                    text = text.Trim();
-                    string[] parts = text.Split(new char[] { '|' });
-                    if (parts.Length > 0) {
-                        jsonFileVersion = parts[0];
-                    }
-                    if (parts.Length > 1) {
-                        minerClientVersion = parts[1];
-                    }
-                    if (parts.Length > 2) {
-                        ulong.TryParse(parts[2], out time);
-                    }
-                    if (parts.Length > 3) {
-                        ulong.TryParse(parts[3], out messageTimestamp);
-                    }
-                    if (parts.Length > 4) {
-                        ulong.TryParse(parts[4], out kernelOutputKeywordTimestamp);
-                    }
-                }
-                callback?.Invoke(new ServerState {
-                    JsonFileVersion = jsonFileVersion,
-                    MinerClientVersion = minerClientVersion,
-                    Time = time,
-                    MessageTimestamp = messageTimestamp,
-                    OutputKeywordTimestamp = kernelOutputKeywordTimestamp
-                });
-            }, timeountMilliseconds: 10 * 1000);
-        }
-        #endregion
     }
 }

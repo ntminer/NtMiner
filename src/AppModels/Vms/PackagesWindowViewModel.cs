@@ -14,9 +14,9 @@ namespace NTMiner.Vms {
             });
         }
 
-        public AppContext.PackageViewModels PackageVms {
+        public AppRoot.PackageViewModels PackageVms {
             get {
-                return AppContext.Instance.PackageVms;
+                return AppRoot.PackageVms;
             }
         }
     }

@@ -73,7 +73,7 @@ namespace NTMiner.Windows {
         /// <summary>
         /// 注意cmdName参数中不能带参数，参数必须放在args中
         /// </summary>
-        public static void RunClose(string cmdName, string args, bool waitForExit = false) {
+        public static void RunClose(string cmdName, string args, bool waitForExit = false, bool createNoWindow = true) {
             if (string.IsNullOrEmpty(cmdName)) {
                 return;
             }
@@ -83,20 +83,20 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine($"cmdName={cmdName} {cmdMsg}");
-                Logger.ErrorDebugLine(e);
+                Logger.ErrorDebugLine($"cmdName={cmdName} {cmdMsg}", e);
             }
             try {
                 using (Process proc = new Process()) {
-                    proc.StartInfo.CreateNoWindow = true;
+                    proc.StartInfo.CreateNoWindow = createNoWindow;
                     proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {cmdName}{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
+                    proc.StartInfo.FileName = cmdName;
+                    proc.StartInfo.Arguments = $"{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
                     proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
                     proc.Start();
                     if (waitForExit) {
                         proc.WaitForExit(10 * 1000);
                     }
+                    proc.Close();
                 }
             }
             catch (Exception e) {
@@ -117,19 +117,19 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine($"cmdName={cmdName} {cmdMsg}");
-                Logger.ErrorDebugLine(e);
+                Logger.ErrorDebugLine($"cmdName={cmdName} {cmdMsg}", e);
             }
             try {
                 using (Process proc = new Process()) {
                     proc.StartInfo.CreateNoWindow = true;
                     proc.StartInfo.UseShellExecute = false;
-                    proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {cmdName}{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
+                    proc.StartInfo.FileName = cmdName;
+                    proc.StartInfo.Arguments = $"{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
                     proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
                     proc.Start();
                     proc.WaitForExit(10 * 1000);
                     exitCode = proc.ExitCode;
+                    proc.Close();
                 }
             }
             catch (Exception e) {
@@ -151,8 +151,7 @@ namespace NTMiner.Windows {
                 }
             }
             catch (Exception e) {
-                Logger.ErrorDebugLine($"cmdName={cmdName} {cmdMsg}");
-                Logger.ErrorDebugLine(e);
+                Logger.ErrorDebugLine($"cmdName={cmdName} {cmdMsg}", e);
             }
             try {
                 using (Process proc = new Process()) {
@@ -161,14 +160,15 @@ namespace NTMiner.Windows {
                     proc.StartInfo.RedirectStandardInput = true;
                     proc.StartInfo.RedirectStandardOutput = true;
                     proc.StartInfo.RedirectStandardError = true;
-                    proc.StartInfo.FileName = "cmd.exe";
-                    proc.StartInfo.Arguments = $"/C {cmdName}{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
+                    proc.StartInfo.FileName = cmdName;
+                    proc.StartInfo.Arguments = $"{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
                     proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
                     proc.Start();
 
                     output = proc.StandardOutput.ReadToEnd();// 注意：读取输出可能被阻塞
                     proc.WaitForExit(10 * 1000);
                     exitCode = proc.ExitCode;
+                    proc.Close();
                 }
             }
             catch (Exception e) {

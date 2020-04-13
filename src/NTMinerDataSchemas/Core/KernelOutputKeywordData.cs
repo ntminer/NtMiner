@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core {
-    public class KernelOutputKeywordData : IKernelOutputKeyword, ILevelEntity<Guid>, IGetSignData {
+    public class KernelOutputKeywordData : IKernelOutputKeyword, ILevelEntity<Guid>, ISignableData {
         public static KernelOutputKeywordData Create(IKernelOutputKeyword data) {
             if (data == null) {
                 return null;

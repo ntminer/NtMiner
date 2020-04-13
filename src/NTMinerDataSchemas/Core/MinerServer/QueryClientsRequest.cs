@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class QueryClientsRequest : RequestBase, IGetSignData {
+    public class QueryClientsRequest : IRequest, ISignableData {
         public QueryClientsRequest() { }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
@@ -16,6 +16,7 @@ namespace NTMiner.Core.MinerServer {
         public string Wallet { get; set; }
         public string Version { get; set; }
         public string Kernel { get; set; }
+        public SortDirection SortDirection { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();

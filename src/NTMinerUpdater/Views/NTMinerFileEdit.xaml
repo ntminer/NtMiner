@@ -75,8 +75,8 @@
 				<controls:KbButton
 					Command="{Binding Save}"
 					Padding="15 2"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
+					Background="{StaticResource BtnBackground}"
+					Foreground="{StaticResource BtnForeground}"
 					Margin="0 4 10 4"
 					CornerRadius="2">
 					<WrapPanel>
@@ -84,12 +84,11 @@
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Ok}"
-							Fill="{StaticResource ThemeForeground}"
+							Fill="{StaticResource BtnForeground}"
 							Stretch="Fill" />
 						<TextBlock
 							Padding="0 4"
 							VerticalAlignment="Center"
-							Foreground="{StaticResource ThemeForeground}"
 							Text="保存" />
 					</WrapPanel>
 				</controls:KbButton>

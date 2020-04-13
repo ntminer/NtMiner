@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core;
 using System;
 using System.Windows.Media;
 

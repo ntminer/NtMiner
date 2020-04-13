@@ -39,7 +39,7 @@
 		<DataGrid 
 			Grid.Row="1"
 			Margin="0" ItemsSource="{Binding PackageVms.AllPackages}" 
-			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
+			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LightLineColor}"
 			AutoGenerateColumns="False"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
@@ -60,7 +60,7 @@
 									Width="18"
 									Height="18"
 									Data="{StaticResource Icon_Add}"
-									Fill="{StaticResource IconFillColor}"
+									Fill="{StaticResource BtnBackground}"
 									Stretch="Fill" />
 							</WrapPanel>
 						</controls:KbButton>
@@ -77,7 +77,7 @@
 											Width="18"
 											Height="18"
 											Data="{StaticResource Icon_Edit}"
-											Fill="{StaticResource IconFillColor}"
+											Fill="{StaticResource BtnBackground}"
 											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>
@@ -90,7 +90,7 @@
 											Width="18"
 											Height="18"
 											Data="{StaticResource Icon_Delete}"
-											Fill="{StaticResource IconFillColor}"
+											Fill="{StaticResource BtnBackground}"
 											Stretch="Fill" />
 									</WrapPanel>
 								</controls:KbButton>

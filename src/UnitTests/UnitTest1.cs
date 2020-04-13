@@ -2,7 +2,6 @@
 using NTMiner;
 using NTMiner.Controllers;
 using NTMiner.Core;
-using NTMiner.Core.MinerClient;
 using NTMiner.Core.Profile;
 using NTMiner.Serialization;
 using System;
@@ -17,9 +16,23 @@ namespace UnitTests {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void FileTest() {
-            new FileInfo(string.Empty);
+        public void MaxValueText() {
+            Console.WriteLine(ushort.MaxValue);
+        }
+
+        [TestMethod]
+        public void ModTest() {
+            // 有目的性的构建一个Id用于测试分片用
+            int n = Guid.Parse("AB149B6F-C3C1-4532-AD66-0E62F7036354").GetHashCode();
+            Assert.AreEqual(1, n % 2);
+        }
+
+        [TestMethod]
+        public void UriPathTest() {
+            string url = "http://ntminer.oss-cn-beijing.aliyuncs.com/NTMinerUpdater.exe?Expires=1583773008&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=0XnsSp5SvbznvsteogbFhsPRm6k%3d";
+            Uri uri = new Uri(url);
+            Console.WriteLine(uri.LocalPath);
+            Console.WriteLine(Path.GetFileName(uri.LocalPath));
         }
 
         [TestMethod]
@@ -50,8 +63,9 @@ namespace UnitTests {
 
         [TestMethod]
         public void TimestampTest() {
-            Assert.AreEqual(0ul, Timestamp.GetTimestamp(Timestamp.UnixBaseTime));
-            Assert.AreEqual(0ul, Timestamp.GetTimestamp(new DateTime(1970, 1, 1)));
+            Assert.AreEqual(0, Timestamp.GetTimestamp(Timestamp.UnixBaseTime));
+            Assert.AreEqual(0, Timestamp.GetTimestamp(new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)));
+            Assert.AreNotEqual(0, Timestamp.GetTimestamp(new DateTime(1970, 1, 1)));
             DateTime n = DateTime.Now;
             DateTime now = new DateTime(n.Year, n.Month, n.Day, n.Hour, n.Minute, n.Second);
             Assert.AreEqual(now, Timestamp.FromTimestamp(Timestamp.GetTimestamp(now)));
@@ -123,27 +137,8 @@ namespace UnitTests {
         }
 
         [TestMethod]
-        public void Test() {
-            Assert.IsTrue(Path.IsPathRooted("C:test"));
-            Assert.IsTrue(Path.IsPathRooted("C:test/txt.txt"));
-            Assert.IsTrue(Path.IsPathRooted("C:test\\txt.txt"));
-            Assert.IsFalse(Path.IsPathRooted("txt.txt"));
-        }
-
-        [TestMethod]
         public void MathTest() {
             Assert.AreEqual(8, Math.Pow(2, 3));
-        }
-
-        [TestMethod]
-        public void GetFileNameTest() {
-            Assert.AreEqual("a", Path.GetFileNameWithoutExtension("a.txt"));
-            Assert.AreEqual("a", Path.GetFileNameWithoutExtension("a"));
-        }
-
-        [TestMethod]
-        public void FileDeleteTest() {
-            File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString()));
         }
 
         [TestMethod]
@@ -205,6 +200,9 @@ namespace UnitTests {
         [TestMethod]
         public void GetControllerNameTest() {
             Assert.AreEqual("FileUrl", RpcRoot.GetControllerName<IFileUrlController>());
+            string typeName = typeof(ICaptchaController<string>).Name;
+            Console.WriteLine(typeName);
+            Assert.AreEqual("Captcha", RpcRoot.GetControllerName<ICaptchaController<string>>());
         }
 
         [TestMethod]
@@ -231,26 +229,6 @@ namespace UnitTests {
         }
 
         [TestMethod]
-        public void RandomTest() {
-            Random r = new Random((int)DateTime.Now.Ticks);
-            int total = 1000;
-            int userWalletCount = 0;
-            int ntminerWalletCount = 0;
-            for (int i = 0; i < 1000; i++) {
-                int n = r.Next(2);
-                if (n == 0) {
-                    userWalletCount++;
-                }
-                else {
-                    ntminerWalletCount++;
-                }
-            }
-            Console.WriteLine($"测试{total.ToString()}次");
-            Console.WriteLine($"选中用户的钱包    {userWalletCount.ToString()}次，{((double)userWalletCount / total * 100).ToString()} %");
-            Console.WriteLine($"选中NTMiner的钱包 {ntminerWalletCount.ToString()}次，{((double)ntminerWalletCount / total * 100).ToString()} %");
-        }
-
-        [TestMethod]
         public void IntTest() {
             Assert.IsTrue(int.TryParse("001", out int _));
         }
@@ -265,16 +243,6 @@ namespace UnitTests {
             Uri uri = new Uri($"https://ntminer.oss-cn-beijing.aliyuncs.com/packages/HSPMinerAE2.1.2.zip?Expires=1554472712&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=FVTf+nX4grLKcPRxpJd9nf3Py7I=");
             Console.WriteLine(uri.ToString());
             Console.WriteLine(RpcRoot.OfficialServer.SignatureSafeUrl(uri));
-        }
-
-        [TestMethod]
-        public void FileStreamTest() {
-            using (FileStream fs = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.log"), FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
-                byte[] buffer = { (byte)'a', (byte)'\r', (byte)'b', (byte)'\n', (byte)'c', (byte)'\r', (byte)'\n', (byte)'d' };
-                fs.Write(buffer, 0, buffer.Length);
-                buffer = new byte[0];
-                fs.Write(buffer, 0, buffer.Length);
-            }
         }
 
         [TestMethod]

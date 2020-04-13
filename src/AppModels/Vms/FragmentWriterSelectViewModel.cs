@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
 
         public List<FragmentWriterViewModel> FragmentWriterVms {
             get {
-                return AppContext.Instance.FragmentWriterVms.List;
+                return AppRoot.FragmentWriterVms.List;
             }
         }
     }

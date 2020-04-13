@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profile;
 using System;
 using System.Collections.Generic;
@@ -18,7 +17,7 @@ namespace NTMiner.JsonDb {
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
-        public LocalJsonDb(INTMinerRoot root, MineWorkData mineWorkData) {
+        public LocalJsonDb(INTMinerContext root, MineWorkData mineWorkData) {
             var minerProfile = root.MinerProfile;
             CoinProfileData mainCoinProfile = new CoinProfileData().Update(minerProfile.GetCoinProfile(minerProfile.CoinId));
             List<CoinProfileData> coinProfiles = new List<CoinProfileData> { mainCoinProfile };
@@ -38,7 +37,7 @@ namespace NTMiner.JsonDb {
             }
 
             MinerProfile = new MinerProfileData().Update(minerProfile);
-            MinerProfile.MinerName = "{{MinerName}}";
+            MinerProfile.MinerName = NTKeyword.MinerNameParameterName;
             MineWork = mineWorkData;
             CoinProfiles = coinProfiles.ToArray();
             CoinKernelProfiles = new CoinKernelProfileData[] { coinKernelProfile };
@@ -78,7 +77,7 @@ namespace NTMiner.JsonDb {
             }
         }
 
-        public ulong TimeStamp { get; set; }
+        public long TimeStamp { get; set; }
 
         public CoinKernelProfileData[] CoinKernelProfiles { get; set; }
 

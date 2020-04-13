@@ -8,19 +8,17 @@ namespace NTMiner.Views {
         private static readonly object _locker = new object();
         private static KernelsWindow _instance = null;
         public static void ShowWindow() {
-            UIThread.Execute(() => () => {
-                if (_instance == null) {
-                    lock (_locker) {
-                        if (_instance == null) {
-                            _instance = new KernelsWindow();
-                            _instance.Show();
-                        }
+            if (_instance == null) {
+                lock (_locker) {
+                    if (_instance == null) {
+                        _instance = new KernelsWindow();
+                        _instance.Show();
                     }
                 }
-                else {
-                    _instance.ShowWindow(false);
-                }
-            });
+            }
+            else {
+                _instance.ShowWindow(false);
+            }
         }
 
         public KernelsWindowViewModel Vm {
@@ -30,6 +28,11 @@ namespace NTMiner.Views {
         }
 
         public KernelsWindow() {
+            // 为了使设计视图的宽高生效以下几个属性的赋值挪到这里
+            Width = AppStatic.MainWindowWidth;
+            Height = AppStatic.MainWindowHeight;
+            MinHeight = 430;
+            MinWidth = 640;
             InitializeComponent();
             if (DevMode.IsDevMode) {
                 this.Width += 600;
@@ -47,21 +50,21 @@ namespace NTMiner.Views {
                         Vm.OnPropertyChanged(nameof(Vm.QueryResults));
                     });
                 }, location: this.GetType());
-            AppContext.Instance.KernelVms.PropertyChanged += Current_PropertyChanged;
-            NotiCenterWindow.Instance.Bind(this);
+            AppRoot.KernelVms.PropertyChanged += Current_PropertyChanged;
+            NotiCenterWindow.Bind(this);
             if (!Vm.MinerProfile.IsMining) {
                 VirtualRoot.RaiseEvent(new UserActionEvent());
             }
         }
 
         protected override void OnClosed(EventArgs e) {
-            AppContext.Instance.KernelVms.PropertyChanged -= Current_PropertyChanged;
+            AppRoot.KernelVms.PropertyChanged -= Current_PropertyChanged;
             base.OnClosed(e);
             _instance = null;
         }
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            if (e.PropertyName == nameof(AppContext.KernelViewModels.AllKernels)) {
+            if (e.PropertyName == nameof(AppRoot.KernelViewModels.AllKernels)) {
                 Vm.OnPropertyChanged(nameof(Vm.QueryResults));
             }
         }
@@ -115,6 +118,12 @@ namespace NTMiner.Views {
 
         private void BrandsScrollView_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
+        }
+
+        private void TbKeyword_KeyUp(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                Vm.Keyword = this.TbKeyword.Text;
+            }
         }
     }
 }

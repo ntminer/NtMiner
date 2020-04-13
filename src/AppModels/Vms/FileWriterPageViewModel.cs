@@ -2,9 +2,9 @@
     public class FileWriterPageViewModel : ViewModelBase {
         public FileWriterPageViewModel() { }
 
-        public AppContext.FileWriterViewModels FileWriterVms {
+        public AppRoot.FileWriterViewModels FileWriterVms {
             get {
-                return AppContext.FileWriterViewModels.Instance;
+                return AppRoot.FileWriterViewModels.Instance;
             }
         }
     }

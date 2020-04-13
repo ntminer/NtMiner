@@ -42,6 +42,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>NTMiner.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Costura.Fody.4.0.0\lib\net40\Costura.dll</HintPath>
@@ -69,9 +72,6 @@
     </Page>
     <Compile Include="..\NTMinerClient\CommandLineArgs.cs">
       <Link>CommandLineArgs.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerClient\SpecialPath.cs">
-      <Link>SpecialPath.cs</Link>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

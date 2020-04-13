@@ -6,11 +6,11 @@ using System.Linq;
 namespace NTMiner.Core.Impl {
     public class CalcConfigSet : ICalcConfigSet {
         private Dictionary<string, CalcConfigData> _dicByCoinCode = new Dictionary<string, CalcConfigData>(StringComparer.OrdinalIgnoreCase);
-        private readonly INTMinerRoot _root;
+        private readonly INTMinerContext _root;
 
-        public CalcConfigSet(INTMinerRoot root) {
+        public CalcConfigSet(INTMinerContext root) {
             _root = root;
-            if (VirtualRoot.IsMinerClient) {
+            if (ClientAppType.IsMinerClient) {
                 VirtualRoot.AddOnecePath<HasBoot20SecondEvent>("启动一定时间后初始化收益计算器", LogEnum.DevConsole,
                     action: message => {
                         Init(forceRefresh: true);
@@ -23,9 +23,9 @@ namespace NTMiner.Core.Impl {
         public void Init(bool forceRefresh = false) {
             DateTime now = DateTime.Now;
             // 如果未显示主界面则收益计算器也不用更新了
-            if ((_initedOn == DateTime.MinValue || NTMinerRoot.IsUiVisible || VirtualRoot.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
+            if ((_initedOn == DateTime.MinValue || NTMinerContext.IsUiVisible || ClientAppType.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
-                RpcRoot.OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
+                RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                     Init(data);
                     VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());
                 });
@@ -90,7 +90,7 @@ namespace NTMiner.Core.Impl {
 
         public void SaveCalcConfigs(List<CalcConfigData> data) {
             _dicByCoinCode = data.ToDictionary(a => a.CoinCode, a => a, StringComparer.OrdinalIgnoreCase);
-            RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, (response, e) => {
+            RpcRoot.OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, (response, e) => {
                 if (!response.IsSuccess()) {
                     VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                 }

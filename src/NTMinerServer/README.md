@@ -1,0 +1,1 @@
+﻿该项目放置一些通用的设施，为WebApiServer和WsServer所用。通用的设施包括：发送和订阅Mq消息、读写Redis、一致性分片Hash环算法器等

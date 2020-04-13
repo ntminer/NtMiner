@@ -57,8 +57,8 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             CoinKernelProfileViewModel coinKernelProfileVm = Vm.MinerProfile.CoinVm.CoinKernel.CoinKernelProfile;
-            NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfileVm.CoinKernelId, nameof(coinKernelProfileVm.DualCoinWeight), coinKernelProfileVm.DualCoinWeight);
-            NTMinerRoot.RefreshArgsAssembly.Invoke();
+            NTMinerContext.Instance.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfileVm.CoinKernelId, nameof(coinKernelProfileVm.DualCoinWeight), coinKernelProfileVm.DualCoinWeight);
+            NTMinerContext.RefreshArgsAssembly.Invoke("主界面上的双挖权重拖动条失去焦点时");
         }
 
         #region OpenPopup
@@ -97,11 +97,14 @@ namespace NTMiner.Views.Ucs {
             else if (newVm) {
                 ((CoinKernelSelect)popup.Child).DataContext = vm;
             }
+            else {
+                ((CoinKernelSelect)popup.Child).Vm.SelectedResult = selected;
+            }
         }
 
         private void OpenMainCoinPoolPopup() {
             var coinVm = Vm.MinerProfile.CoinVm;
-            if (coinVm == null) {
+            if (coinVm == null || coinVm.CoinProfile == null) {
                 return;
             }
             var popup = PopupMainCoinPool;
@@ -133,11 +136,14 @@ namespace NTMiner.Views.Ucs {
             else if (newVm) {
                 ((PoolSelect)popup.Child).DataContext = vm;
             }
+            else {
+                ((PoolSelect)popup.Child).Vm.SelectedResult = selected;
+            }
         }
 
         private void OpenMainCoinPool1Popup() {
             var coinVm = Vm.MinerProfile.CoinVm;
-            if (coinVm == null) {
+            if (coinVm == null || coinVm.CoinProfile == null) {
                 return;
             }
             var popup = PopupMainCoinPool1;
@@ -169,6 +175,9 @@ namespace NTMiner.Views.Ucs {
             else if (newVm) {
                 ((PoolSelect)popup.Child).DataContext = vm;
             }
+            else {
+                ((PoolSelect)popup.Child).Vm.SelectedResult = selected;
+            }
         }
 
         private void OpenMainCoinPopup() {
@@ -179,7 +188,7 @@ namespace NTMiner.Views.Ucs {
             // 如果服务器上下文刷新了则视图模型一定不等，因为上下文刷新后服务器视图模型会清空重建
             bool newVm = popup.Child == null || ((CoinSelectViewModel)((CoinSelect)popup.Child).DataContext).SelectedResult != selected;
             if (newVm) {
-                vm = new CoinSelectViewModel(AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onOk: selectedResult => {
+                vm = new CoinSelectViewModel(AppRoot.CoinVms.MainCoins.Where(a => a.IsSupported), selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (Vm.MinerProfile.CoinVm != selectedResult) {
                             Vm.MinerProfile.CoinVm = selectedResult;
@@ -201,11 +210,14 @@ namespace NTMiner.Views.Ucs {
             else if (newVm) {
                 ((CoinSelect)popup.Child).DataContext = vm;
             }
+            else {
+                ((CoinSelect)popup.Child).Vm.SelectedResult = selected;
+            }
         }
 
         private void OpenMainCoinWalletPopup() {
             var coinVm = Vm.MinerProfile.CoinVm;
-            if (coinVm == null) {
+            if (coinVm == null || coinVm.CoinProfile == null) {
                 return;
             }
             var popup = PopupMainCoinWallet;
@@ -268,7 +280,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             if (coinVm.Wallets.Count == 0) {
-                coinVm.CoinProfile.AddWallet.Execute(null);
+                coinVm.CoinProfile?.AddWallet.Execute(null);
             }
             else {
                 OpenMainCoinWalletPopup();

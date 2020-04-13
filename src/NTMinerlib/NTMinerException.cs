@@ -14,7 +14,5 @@ namespace NTMiner {
         public NTMinerException(string format, params object[] args) : base(string.Format(format, args)) { }
 
         protected NTMinerException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        protected Exception Cause => InnerException;
     }
 }

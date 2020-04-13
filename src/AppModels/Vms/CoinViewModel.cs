@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core;
+using NTMiner.MinerStudio;
+using NTMiner.MinerStudio.Vms;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +29,8 @@ namespace NTMiner.Vms {
             _kernelBrand = string.Empty
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
-            _code = "不指定"
+            _code = "不指定",
+            _iconImageSource = TempPath.GetIconFileFullName("ETH.png")
         };
         public static readonly CoinViewModel DualCoinEnabled = new CoinViewModel(Guid.Empty) {
             _code = "启用了双挖"
@@ -103,7 +106,7 @@ namespace NTMiner.Vms {
             _isHot = data.IsHot;
             _kernelBrand = data.KernelBrand;
             _minGpuMemoryGb = data.MinGpuMemoryGb;
-            string iconFileFullName = SpecialPath.GetIconFileFullName(data);
+            string iconFileFullName = TempPath.GetIconFileFullName(data.Icon);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
             }
@@ -124,7 +127,7 @@ namespace NTMiner.Vms {
             }
             else {
                 foreach (var item in GpuProfileVms) {
-                    if (item.Index == NTMinerRoot.GpuAllId) {
+                    if (item.Index == NTMinerContext.GpuAllId) {
                         continue;
                     }
                     item.Update(data);
@@ -150,7 +153,7 @@ namespace NTMiner.Vms {
                         string iconFileFullName = openFileDialog.FileName;
                         this.IconImageSource = new Uri(iconFileFullName, UriKind.Absolute).ToString();
                         string pngFileName = Path.GetFileName(iconFileFullName);
-                        if (AppContext.Instance.CoinVms.AllCoins.Any(a => a.Icon == pngFileName && a.Id != this.Id)) {
+                        if (AppRoot.CoinVms.AllCoins.Any(a => a.Icon == pngFileName && a.Id != this.Id)) {
                             throw new ValidationException("币种图标不能重名");
                         }
                         this.Icon = pngFileName;
@@ -173,7 +176,7 @@ namespace NTMiner.Vms {
             });
             this.RestoreOverClock = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定恢复默认吗？", title: "确认", onYes: () => {
-                    NTMinerRoot.Instance.GpuSet.OverClock.Restore();
+                    NTMinerContext.Instance.GpuSet.OverClock.Restore();
                     this.IsOverClockEnabled = false;
                 }));
             });
@@ -184,7 +187,7 @@ namespace NTMiner.Vms {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: "确定将统一超频的数据一键填充到每张卡吗？", title: "一键填充表单", onYes: () => {
                     var data = GpuAllProfileVm;
                     foreach (var item in GpuProfileVms) {
-                        if (item.Index == NTMinerRoot.GpuAllId) {
+                        if (item.Index == NTMinerContext.GpuAllId) {
                             continue;
                         }
                         item.Update((IOverClockInput)data);
@@ -206,7 +209,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.ServerContext.CoinSet.Contains(this.Id)) {
+                if (NTMinerContext.Instance.ServerContext.CoinSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinCommand(this));
                 }
                 else {
@@ -218,7 +221,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new CoinEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditCoinCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -255,17 +258,17 @@ namespace NTMiner.Vms {
         }
 
         public bool IsOverClockEnabled {
-            get { return NTMinerRoot.Instance.GpuProfileSet.IsOverClockEnabled(this.Id); }
+            get { return NTMinerContext.Instance.GpuProfileSet.IsOverClockEnabled(this.Id); }
             set {
-                NTMinerRoot.Instance.GpuProfileSet.SetIsOverClockEnabled(this.Id, value);
+                NTMinerContext.Instance.GpuProfileSet.SetIsOverClockEnabled(this.Id, value);
                 OnPropertyChanged(nameof(IsOverClockEnabled));
             }
         }
 
         public bool IsOverClockGpuAll {
-            get { return NTMinerRoot.Instance.GpuProfileSet.IsOverClockGpuAll(this.Id); }
+            get { return NTMinerContext.Instance.GpuProfileSet.IsOverClockGpuAll(this.Id); }
             set {
-                NTMinerRoot.Instance.GpuProfileSet.SetIsOverClockGpuAll(this.Id, value);
+                NTMinerContext.Instance.GpuProfileSet.SetIsOverClockGpuAll(this.Id, value);
                 OnPropertyChanged(nameof(IsOverClockGpuAll));
             }
         }
@@ -274,7 +277,7 @@ namespace NTMiner.Vms {
         public GpuProfileViewModel GpuAllProfileVm {
             get {
                 if (_gpuAllProfileVm == null) {
-                    _gpuAllProfileVm = AppContext.Instance.GpuProfileVms.GpuAllVm(this.Id);
+                    _gpuAllProfileVm = AppRoot.GpuProfileVms.GpuAllVm(this.Id);
                 }
                 return _gpuAllProfileVm;
             }
@@ -287,7 +290,7 @@ namespace NTMiner.Vms {
         public List<GpuProfileViewModel> GpuProfileVms {
             get {
                 if (_gpuProfileVms == null) {
-                    _gpuProfileVms = AppContext.Instance.GpuProfileVms.List(this.Id);
+                    _gpuProfileVms = AppRoot.GpuProfileVms.List(this.Id);
                 }
                 return _gpuProfileVms;
             }
@@ -299,7 +302,7 @@ namespace NTMiner.Vms {
 
         public ShareViewModel ShareVm {
             get {
-                return AppContext.Instance.ShareVms.GetOrCreate(this.Id);
+                return AppRoot.ShareVms.GetOrCreate(this.Id);
             }
         }
 
@@ -315,11 +318,11 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (this == PleaseSelect || NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
+                if (this == PleaseSelect || NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
-                foreach (var coinKernel in NTMinerRoot.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id)) {
-                    if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
+                foreach (var coinKernel in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id)) {
+                    if (coinKernel.SupportedGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)) {
                         return true;
                     }
                 }
@@ -340,7 +343,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("编码是必须的");
                     }
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(value, out CoinViewModel coinVm) && coinVm.Id != this.Id) {
+                    if (AppRoot.CoinVms.TryGetCoinVm(value, out CoinViewModel coinVm) && coinVm.Id != this.Id) {
                         throw new ValidationException("重复的币种编码");
                     }
                 }
@@ -387,7 +390,7 @@ namespace NTMiner.Vms {
         }
 
         public void RefreshIcon() {
-            string iconFileFullName = SpecialPath.GetIconFileFullName(this);
+            string iconFileFullName = TempPath.GetIconFileFullName(this.Icon);
             // 如果磁盘上存在则不再下载，所以如果要更新币种图标则需重命名Icon文件
             if (string.IsNullOrEmpty(iconFileFullName)) {
                 return;
@@ -438,7 +441,7 @@ namespace NTMiner.Vms {
                 if (this.AlgoId == Guid.Empty) {
                     return SysDicItemViewModel.PleaseSelect;
                 }
-                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.AlgoId, out SysDicItemViewModel item)) {
+                if (AppRoot.SysDicItemVms.TryGetValue(this.AlgoId, out SysDicItemViewModel item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;
@@ -451,9 +454,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.SysDicItemViewModels SysDicItemVms {
+        public AppRoot.SysDicItemViewModels SysDicItemVms {
             get {
-                return AppContext.Instance.SysDicItemVms;
+                return AppRoot.SysDicItemVms;
             }
         }
 
@@ -585,7 +588,7 @@ namespace NTMiner.Vms {
         public SysDicItemViewModel NKernelBrand {
             get {
                 if (KernelBrandDic.TryGetValue(GpuType.NVIDIA, out Guid id)) {
-                    if (AppContext.SysDicItemViewModels.Instance.TryGetValue(id, out SysDicItemViewModel sysDicItemVm)) {
+                    if (AppRoot.SysDicItemViewModels.Instance.TryGetValue(id, out SysDicItemViewModel sysDicItemVm)) {
                         return sysDicItemVm;
                     }
                     return null;
@@ -606,7 +609,7 @@ namespace NTMiner.Vms {
         public SysDicItemViewModel AKernelBrand {
             get {
                 if (KernelBrandDic.TryGetValue(GpuType.AMD, out Guid id)) {
-                    if (AppContext.SysDicItemViewModels.Instance.TryGetValue(id, out SysDicItemViewModel sysDicItemVm)) {
+                    if (AppRoot.SysDicItemViewModels.Instance.TryGetValue(id, out SysDicItemViewModel sysDicItemVm)) {
                         return sysDicItemVm;
                     }
                     return null;
@@ -645,16 +648,16 @@ namespace NTMiner.Vms {
 
         public CoinProfileViewModel CoinProfile {
             get {
-                if (!NTMinerRoot.Instance.ServerContext.CoinSet.Contains(this.Id)) {
+                if (!NTMinerContext.Instance.ServerContext.CoinSet.Contains(this.Id)) {
                     return null;
                 }
-                return AppContext.Instance.CoinProfileVms.GetOrCreateCoinProfile(this.Id);
+                return AppRoot.CoinProfileVms.GetOrCreateCoinProfile(this.Id);
             }
         }
 
         public List<PoolViewModel> Pools {
             get {
-                return AppContext.Instance.PoolVms.AllPools.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
+                return AppRoot.PoolVms.AllPools.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList();
             }
         }
 
@@ -696,13 +699,13 @@ namespace NTMiner.Vms {
 
         public List<OverClockDataViewModel> OverClockDatas {
             get {
-                return AppContext.Instance.OverClockDataVms.Items.Where(a => a.CoinId == this.Id).ToList();
+                return MinerStudioRoot.OverClockDataVms.Items.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 
         public List<NTMinerWalletViewModel> NTMinerWallets {
             get {
-                return AppContext.Instance.NTMinerWalletVms.Items.Where(a => a.CoinId == this.Id).ToList();
+                return MinerStudioRoot.NTMinerWalletVms.Items.Where(a => a.CoinId == this.Id).ToList();
             }
         }
 
@@ -713,7 +716,7 @@ namespace NTMiner.Vms {
                     yield return TestWalletVm;
                 }
             }
-            foreach (var item in AppContext.Instance.WalletVms.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
+            foreach (var item in AppRoot.WalletVms.WalletList.Where(a => a.CoinId == this.Id).OrderBy(a => a.SortNumber).ToList()) {
                 yield return item;
             }
         }
@@ -741,7 +744,7 @@ namespace NTMiner.Vms {
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return AppContext.Instance.CoinKernelVms.AllCoinKernels
+                return AppRoot.CoinKernelVms.AllCoinKernels
                     .Where(a => a.CoinId == this.Id && a.Kernel != null && a.Kernel.PublishState == PublishStatus.Published)
                     .OrderBy(a => a.Kernel.Code)
                     .ThenByDescending(a => a.Kernel.Version).ToList();
@@ -751,7 +754,10 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel CoinKernel {
             get {
                 var list = CoinKernels;
-                CoinKernelViewModel coinKernel = list.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
+                CoinKernelViewModel coinKernel = null;
+                if (CoinProfile != null) {
+                    coinKernel = list.FirstOrDefault(a => a.Id == CoinProfile.CoinKernelId);
+                }
                 // 选中的记录可能已经不存在
                 if (coinKernel == null) {
                     // 首先选择推荐的
@@ -767,10 +773,14 @@ namespace NTMiner.Vms {
                 return coinKernel;
             }
             set {
+                if (CoinProfile == null) {
+                    return;
+                }
                 if (value != null && value.Id != Guid.Empty) {
                     CoinProfile.CoinKernelId = value.Id;
                     OnPropertyChanged(nameof(CoinKernel));
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    // 不必判断该对象是否是主界面上当前展示的对象，因为若不是主界面上当前显式的对象的话没有机会变更
+                    NTMinerContext.RefreshArgsAssembly.Invoke("币种Profile上引用的币种内核发生了切换");
                 }
             }
         }

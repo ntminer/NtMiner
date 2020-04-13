@@ -2,8 +2,6 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace NTMiner.Services.Client {
     public class MinerStudioService {
@@ -16,54 +14,36 @@ namespace NTMiner.Services.Client {
         /// <summary>
         /// 本机网络调用
         /// </summary>
-        /// <param name="clientPort"></param>
         /// <param name="callback"></param>
-        public void ShowMainWindowAsync(int clientPort, Action<bool, Exception> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{clientPort.ToString()}/api/{_controllerName}/{nameof(IMinerStudioController.ShowMainWindow)}", null);
-                        bool response = getHttpResponse.Result.Content.ReadAsAsync<bool>().Result;
-                        callback?.Invoke(response, null);
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(false, e);
-                }
-            });
+        public void ShowMainWindowAsync(Action<bool, Exception> callback) {
+            RpcRoot.PostAsync<bool>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.ShowMainWindow), callback);
         }
 
         /// <summary>
         /// 本机同步网络调用
         /// </summary>
-        public void CloseMinerStudio() {
-            string location = NTMinerRegistry.GetLocation();
+        public void CloseMinerStudioAsync(Action callback) {
+            string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerStudio);
             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
+                callback?.Invoke();
                 return;
             }
             string processName = Path.GetFileNameWithoutExtension(location);
             if (Process.GetProcessesByName(processName).Length == 0) {
+                callback?.Invoke();
                 return;
             }
-            bool isClosed = false;
-            try {
-                using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}/api/{_controllerName}/{nameof(IMinerStudioController.CloseMinerStudio)}", new SignRequest { });
-                    ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                    isClosed = response.IsSuccess();
+            RpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.CloseMinerStudio), new SignRequest(), (response, e) => {
+                if (!response.IsSuccess()) {
+                    try {
+                        Windows.TaskKill.Kill(processName, waitForExit: true);
+                    }
+                    catch (Exception ex) {
+                        Logger.ErrorDebugLine(ex);
+                    }
                 }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
-            if (!isClosed) {
-                try {
-                    Windows.TaskKill.Kill(processName, waitForExit: true);
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-            }
+                callback?.Invoke();
+            }, timeountMilliseconds: 2000);
         }
     }
 }

@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.CoinKernelEdit"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		mc:Ignorable="d"
-		d:DesignWidth="700"
-		d:DataContext="{d:DesignData Source=/Design/CoinKernelViewModel.xaml}"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.CoinKernelEdit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d"
+	d:DesignWidth="700"
+	d:DataContext="{d:DesignData Source=../Design/CoinKernelViewModel.xaml}"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
@@ -63,7 +64,8 @@
 			<TextBlock Style="{StaticResource LblTb}" Text="支持显卡"></TextBlock>
 			<WrapPanel VerticalAlignment="Center">
 				<controls:KbComboBox 
-					Width="100" ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
+					Width="100" 
+                    ItemsSource="{x:Static app:AppStatic.SupportedGpuEnumItems}"
 					IsEnabled="{x:Static app:AppStatic.IsDevMode}"
 					DisplayMemberPath="Description"
 					SelectedItem="{Binding SupportedGpuEnumItem}">
@@ -106,8 +108,8 @@
                 <controls:KbButton
                     Padding="4"
 					Command="{x:Static app:AppStatic.ShowCoinGroups}"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
+					Background="{StaticResource BtnBackground}"
+					Foreground="{StaticResource BtnForeground}"
                     Content="管理"
 					CornerRadius="2">
                 </controls:KbButton>
@@ -126,7 +128,7 @@
 							Width="12"
 							Height="12"
 							Data="{StaticResource Icon_Kernel}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 						<TextBlock
 							Text="内核级参数"
@@ -165,7 +167,7 @@
         </WrapPanel>
 
         <WrapPanel Margin="0 2">
-			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="通知"></TextBlock>
+            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="须知"></TextBlock>
 			<controls:KbMuiltilineTextBox 
 				Width="536" Background="Transparent"
 				IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
@@ -198,7 +200,7 @@
 										Width="18"
 										Height="18"
 										Data="{StaticResource Icon_Add}"
-										Fill="{StaticResource IconFillColor}"
+										Fill="{StaticResource BtnBackground}"
 										Stretch="Fill" />
 								</WrapPanel>
 							</controls:KbButton>
@@ -217,7 +219,7 @@
 												Width="18"
 												Height="18"
 												Data="{StaticResource Icon_Edit}"
-												Fill="{StaticResource IconFillColor}"
+												Fill="{StaticResource BtnBackground}"
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
@@ -232,7 +234,7 @@
 												Width="18"
 												Height="18"
 												Data="{StaticResource Icon_Delete}"
-												Fill="{StaticResource IconFillColor}"
+												Fill="{StaticResource BtnBackground}"
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
@@ -272,7 +274,7 @@
 										Width="18"
 										Height="18"
 										Data="{StaticResource Icon_Add}"
-										Fill="{StaticResource IconFillColor}"
+										Fill="{StaticResource BtnBackground}"
 										Stretch="Fill" />
 								</WrapPanel>
 							</controls:KbButton>
@@ -291,7 +293,7 @@
 												Width="18"
 												Height="18"
 												Data="{StaticResource Icon_Edit}"
-												Fill="{StaticResource IconFillColor}"
+												Fill="{StaticResource BtnBackground}"
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
@@ -306,7 +308,7 @@
 												Width="18"
 												Height="18"
 												Data="{StaticResource Icon_Delete}"
-												Fill="{StaticResource IconFillColor}"
+												Fill="{StaticResource BtnBackground}"
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
@@ -383,7 +385,7 @@
 												Width="18"
 												Height="18"
 												Data="{StaticResource Icon_Delete}"
-												Fill="{StaticResource IconFillColor}"
+												Fill="{StaticResource BtnBackground}"
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
@@ -418,7 +420,7 @@
 							Width="18"
 							Height="18"
 							Data="{StaticResource Icon_Add}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -457,7 +459,7 @@
 												Width="18"
 												Height="18"
 												Data="{StaticResource Icon_Delete}"
-												Fill="{StaticResource IconFillColor}"
+												Fill="{StaticResource BtnBackground}"
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
@@ -490,7 +492,7 @@
 							Width="18"
 							Height="18"
 							Data="{StaticResource Icon_Add}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</WrapPanel>
 				</controls:KbButton>
@@ -508,20 +510,19 @@
 			HorizontalAlignment="Center"
 			Margin="0 10 0 0"
 			Padding="15 2"
-			Background="{StaticResource ThemeBackground}"
-			Foreground="{StaticResource ThemeForeground}"
+			Background="{StaticResource BtnBackground}"
+			Foreground="{StaticResource BtnForeground}"
 			CornerRadius="2">
 			<WrapPanel>
 				<Path
 					Width="12"
 					Height="12"
 					Data="{StaticResource Icon_Ok}"
-					Fill="{StaticResource ThemeForeground}"
+					Fill="{StaticResource BtnForeground}"
 					Stretch="Fill" />
 				<TextBlock
 					Padding="4"
 					VerticalAlignment="Center"
-					Foreground="{StaticResource ThemeForeground}"
 					Text="确定" />
 			</WrapPanel>
 		</controls:KbButton>

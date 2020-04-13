@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Windows.Controls;
 
@@ -11,7 +10,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Coin",
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
-                Width = DevMode.IsDevMode ? AppStatic.MainWindowWidth : 1000,
+                Width = DevMode.IsDevMode ? AppRoot.MainWindowWidth : 1000,
                 Height = 520
             },
             ucFactory: (window) => new CoinPage(),
@@ -40,16 +39,16 @@ namespace NTMiner.Views.Ucs {
 
         public CoinPage() {
             InitializeComponent();
-            AppContext.Instance.CoinVms.PropertyChanged += Current_PropertyChanged;
+            AppRoot.CoinVms.PropertyChanged += Current_PropertyChanged;
             this.Unloaded += CoinPage_Unloaded;
         }
 
         private void CoinPage_Unloaded(object sender, System.Windows.RoutedEventArgs e) {
-            AppContext.Instance.CoinVms.PropertyChanged -= Current_PropertyChanged;
+            AppRoot.CoinVms.PropertyChanged -= Current_PropertyChanged;
         }
 
         private void Current_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) {
-            if (e.PropertyName == nameof(AppContext.Instance.CoinVms.AllCoins)) {
+            if (e.PropertyName == nameof(AppRoot.CoinVms.AllCoins)) {
                 Vm.OnPropertyChanged(nameof(Vm.QueryResults));
             }
         }

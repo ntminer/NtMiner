@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.KernelOutputPage"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-			 mc:Ignorable="d"
-			 Background="White"
-			 d:DesignHeight="720" d:DesignWidth="1360">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.KernelOutputPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d"
+	Background="White"
+	d:DesignHeight="720" d:DesignWidth="1360">
 	<UserControl.DataContext>
 		<vm:KernelOutputPageViewModel></vm:KernelOutputPageViewModel>
 	</UserControl.DataContext>
@@ -27,7 +28,7 @@
 			</Grid.RowDefinitions>
 			<DataGrid 
 				Grid.Row="1" Margin="0" ItemsSource="{Binding KernelOutputVms.AllKernelOutputVms}" 
-				BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
+				BorderThickness="0 1 1 0" BorderBrush="{StaticResource LightLineColor}"
 				SelectedItem="{Binding CurrentKernelOutputVm}" AutoGenerateColumns="False"
 				MouseDoubleClick="DataGrid_MouseDoubleClick">
 				<DataGrid.Resources>
@@ -49,7 +50,7 @@
 												Width="18"
 												Height="18"
 												Data="{StaticResource Icon_Edit}"
-												Fill="{StaticResource IconFillColor}"
+												Fill="{StaticResource BtnBackground}"
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
@@ -62,7 +63,7 @@
 												Width="18"
 												Height="18"
 												Data="{StaticResource Icon_Delete}"
-												Fill="{StaticResource IconFillColor}"
+												Fill="{StaticResource BtnBackground}"
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
@@ -97,7 +98,7 @@
 						Width="18"
 						Height="18"
 						Data="{StaticResource Icon_Add}"
-						Fill="{StaticResource IconFillColor}"
+						Fill="{StaticResource BtnBackground}"
 						Stretch="Fill" />
                 </WrapPanel>
             </controls:KbButton>
@@ -108,7 +109,7 @@
 				Margin="0 2 0 0"
 				Padding="0"
 				BorderThickness="1"
-				BorderBrush="{StaticResource LineColor}"
+				BorderBrush="{StaticResource LightLineColor}"
 				Background="Transparent">
 				<!--start翻译-->
 				<TabItem>
@@ -117,46 +118,48 @@
 					</TabItem.Header>
 					<Grid>
 						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto"></RowDefinition>
+							<RowDefinition Height="28"></RowDefinition>
 							<RowDefinition Height="*"></RowDefinition>
 						</Grid.RowDefinitions>
-						<WrapPanel Margin="0 2">
-							<Path
-								Width="12"
-								Height="12"
-								Fill="{StaticResource IconFillColor}"
-								Stretch="Fill"
-								Data="{StaticResource Icon_Serach}"></Path>
-							<TextBlock VerticalAlignment="Center" Text="搜索" Margin="0 0 2 0"></TextBlock>
-							<controls:KbTextBox 
-								x:Name="TbTranslaterKeyword" 
-								Width="134" 
-								Height="20"
-								Text="{Binding CurrentKernelOutputVm.TranslaterKeyword, UpdateSourceTrigger=PropertyChanged}" 
-								VerticalContentAlignment="Center"
-								Hint="请输入关键字"
-								BorderBrush="{StaticResource LineColor}"
-								BorderThickness="1"
-								Background="White"
-								SelectedColor="#409EFF" />
-							<controls:KbButton 
-								Background="Transparent" BorderThickness="0"
-								Height="20"
-								Command="{Binding CurrentKernelOutputVm.ClearTranslaterKeyword}"
-								Visibility="{Binding ElementName=TbTranslaterKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-								Margin="-14 0 0 0" HorizontalAlignment="Left">
-								<Path
-									Width="8"
-									Height="8"
-									Data="{StaticResource Icon_Close}"
-									Fill="{StaticResource IconFillColor}"
-									Stretch="Fill" />
-							</controls:KbButton>
-						</WrapPanel>
+                        <Border Background="{StaticResource ToolbarBackground}">
+                            <WrapPanel VerticalAlignment="Center">
+                                <Path
+									Width="12"
+									Height="12"
+									Fill="{StaticResource BtnBackground}"
+									Stretch="Fill"
+									Data="{StaticResource Icon_Search}"></Path>
+                                <TextBlock VerticalAlignment="Center" Text="搜索" Margin="0 0 2 0"></TextBlock>
+                                <controls:KbTextBox 
+									x:Name="TbTranslaterKeyword" 
+									Width="134" 
+									Height="24"
+									Text="{Binding CurrentKernelOutputVm.TranslaterKeyword, UpdateSourceTrigger=PropertyChanged}" 
+									VerticalContentAlignment="Center"
+									Hint="请输入关键字"
+									BorderBrush="{StaticResource LightLineColor}"
+									BorderThickness="1"
+									Background="White"
+									SelectedColor="#409EFF" />
+                                <controls:KbButton 
+									Background="Transparent" BorderThickness="0"
+									Height="20"
+									Command="{Binding CurrentKernelOutputVm.ClearTranslaterKeyword}"
+									Visibility="{Binding ElementName=TbTranslaterKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+									Margin="-14 0 0 0" HorizontalAlignment="Left">
+                                    <Path
+										Width="8"
+										Height="8"
+										Data="{StaticResource Icon_Close}"
+										Fill="{StaticResource BtnBackground}"
+										Stretch="Fill" />
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </Border>
 						<DataGrid
 							Grid.Row="1"
 							ItemsSource="{Binding CurrentKernelOutputVm.KernelOutputTranslaters}" 
-							BorderThickness="1 0 0 0"
+							BorderThickness="1 1 0 0"
 							MouseDoubleClick="KernelOutputTranslaterDataGrid_MouseDoubleClick">
 							<DataGrid.Resources>
 								<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -175,7 +178,7 @@
 															Width="18"
 															Height="18"
 															Data="{StaticResource Icon_Edit}"
-															Fill="{StaticResource IconFillColor}"
+															Fill="{StaticResource BtnBackground}"
 															Stretch="Fill" />
                                                     </WrapPanel>
                                                 </controls:KbButton>
@@ -188,7 +191,7 @@
 															Width="18"
 															Height="18"
 															Data="{StaticResource Icon_Delete}"
-															Fill="{StaticResource IconFillColor}"
+															Fill="{StaticResource BtnBackground}"
 															Stretch="Fill" />
                                                     </WrapPanel>
                                                 </controls:KbButton>
@@ -203,7 +206,7 @@
 																Width="8"
 																Height="18"
 																Data="{StaticResource Icon_SortDown}"
-																Fill="{StaticResource IconFillColor}"
+																Fill="{StaticResource BtnBackground}"
 																Stretch="Fill" />
                                                         </WrapPanel>
                                                     </controls:KbButton>
@@ -217,7 +220,7 @@
 																Width="8"
 																Height="18"
 																Data="{StaticResource Icon_SortUp}"
-																Fill="{StaticResource IconFillColor}"
+																Fill="{StaticResource BtnBackground}"
 																Stretch="Fill" />
                                                         </WrapPanel>
                                                     </controls:KbButton>
@@ -276,7 +279,7 @@
 									Width="18"
 									Height="18"
 									Data="{StaticResource Icon_Add}"
-									Fill="{StaticResource IconFillColor}"
+									Fill="{StaticResource BtnBackground}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>

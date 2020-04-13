@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.SysDicItemEdit"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
-		mc:Ignorable="d"
-        d:DesignWidth="520"
-        Background="White">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.SysDicItemEdit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+	mc:Ignorable="d"
+    d:DesignWidth="520"
+    Background="White">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="60"></Setter>
@@ -55,20 +56,19 @@
 			Margin="0 10 0 0"
 			Padding="15 2"
 			HorizontalAlignment="Center"
-			Background="{StaticResource ThemeBackground}"
-			Foreground="{StaticResource ThemeForeground}"
+			Background="{StaticResource BtnBackground}"
+			Foreground="{StaticResource BtnForeground}"
 			CornerRadius="2">
 			<WrapPanel>
 				<Path
 					Width="12"
 					Height="12"
 					Data="{StaticResource Icon_Ok}"
-					Fill="{StaticResource ThemeForeground}"
+					Fill="{StaticResource BtnForeground}"
 					Stretch="Fill" />
 				<TextBlock
 					Padding="4"
 					VerticalAlignment="Center"
-					Foreground="{StaticResource ThemeForeground}"
 					Text="确定" />
 			</WrapPanel>
 		</controls:KbButton>

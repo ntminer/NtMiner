@@ -80,28 +80,12 @@
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<WrapPanel>
-				<TextBlock
-					Margin="0" 
-                    Padding="4 0 0 0"
-					Text="NTMiner" />
-				<TextBlock
-					Margin="2 0 0 0"
-					Text="v" />
-				<TextBlock
-					Margin="0"
-					Text="{Binding CurrentVersion}" />
-				<TextBlock
-					Margin="2 0 0 0"
-					Text="(" />
-				<TextBlock
-					Margin="0"
-					Text="{Binding VersionTag}" />
-				<TextBlock
-					Text=")" />
-			</WrapPanel>
-			<TextBlock Grid.Column="1" Margin="20 0 0 0" Text="{Binding FooterText}"></TextBlock>
+            </Grid.ColumnDefinitions>
+            <TextBlock
+				Margin="0" 
+                Padding="4 0 0 0"
+				Text="{Binding NTMinerVersion}" />
+            <TextBlock Grid.Column="1" Margin="20 0 0 0" Text="{Binding FooterText}"></TextBlock>
 		</Grid>
 	</Grid>
 </blankWindow:BlankWindow>

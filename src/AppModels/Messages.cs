@@ -1,5 +1,7 @@
-﻿using NTMiner.Hub;
-using NTMiner.Core;
+﻿using NTMiner.Core;
+using NTMiner.Core.MinerClient;
+using NTMiner.Hub;
+using NTMiner.MinerStudio.Vms;
 using NTMiner.Vms;
 using System;
 using System.Windows;
@@ -16,9 +18,18 @@ namespace NTMiner {
         public Action Callback { get; private set; }
     }
 
+    [MessageType(description: "释放并执行挖矿端嵌入的工具")]
+    public class MinerClientActionCommand : Cmd {
+        public MinerClientActionCommand(MinerClientActionType actionType) {
+            this.ActionType = actionType;
+        }
+
+        public MinerClientActionType ActionType { get; private set; }
+    }
+
     [MessageType(description: "启用windows远程桌面")]
-    public class EnableWindowsRemoteDesktopCommand : Cmd {
-        public EnableWindowsRemoteDesktopCommand() {
+    public class EnableRemoteDesktopCommand : Cmd {
+        public EnableRemoteDesktopCommand() {
         }
     }
 
@@ -55,30 +66,6 @@ namespace NTMiner {
     [MessageType(description: "打开集线器页")]
     public class ShowMessagePathIdsCommand : Cmd {
         public ShowMessagePathIdsCommand() {
-        }
-    }
-
-    [MessageType(description: "打开用户列表页")]
-    public class ShowUserPageCommand : Cmd {
-        public ShowUserPageCommand() {
-        }
-    }
-
-    [MessageType(description: "打开超频菜谱列表页")]
-    public class ShowOverClockDataPageCommand : Cmd {
-        public ShowOverClockDataPageCommand() {
-        }
-    }
-
-    [MessageType(description: "打开NTMiner钱包列表页")]
-    public class ShowNTMinerWalletPageCommand : Cmd {
-        public ShowNTMinerWalletPageCommand() {
-        }
-    }
-
-    [MessageType(description: "打开群控算力图表窗口")]
-    public class ShowChartsWindowCommand : Cmd {
-        public ShowChartsWindowCommand() {
         }
     }
 
@@ -128,21 +115,9 @@ namespace NTMiner {
         public string TabType { get; private set; }
     }
 
-    [MessageType(description: "打开列显页面")]
-    public class ShowColumnsShowPageCommand : Cmd {
-        public ShowColumnsShowPageCommand() {
-        }
-    }
-
     [MessageType(description: "打开关于页面")]
     public class ShowAboutPageCommand : Cmd {
         public ShowAboutPageCommand() {
-        }
-    }
-
-    [MessageType(description: "打开升级器设置页面")]
-    public class ShowNTMinerUpdaterConfigCommand : Cmd {
-        public ShowNTMinerUpdaterConfigCommand() {
         }
     }
 
@@ -168,8 +143,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "打开环境变量编辑界面")]
-    public class EnvironmentVariableEditCommand : Cmd {
-        public EnvironmentVariableEditCommand(CoinKernelViewModel coinKernelVm, EnvironmentVariable environmentVariable) {
+    public class EditEnvironmentVariableCommand : Cmd {
+        public EditEnvironmentVariableCommand(CoinKernelViewModel coinKernelVm, EnvironmentVariable environmentVariable) {
             this.CoinKernelVm = coinKernelVm;
             this.EnvironmentVariable = environmentVariable;
         }
@@ -179,8 +154,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "打开内核输入片段编辑界面")]
-    public class InputSegmentEditCommand : Cmd {
-        public InputSegmentEditCommand(CoinKernelViewModel coinKernelVm, InputSegmentViewModel segment) {
+    public class EditInputSegmentCommand : Cmd {
+        public EditInputSegmentCommand(CoinKernelViewModel coinKernelVm, InputSegmentViewModel segment) {
             this.CoinKernelVm = coinKernelVm;
             this.Segment = segment;
         }
@@ -189,37 +164,26 @@ namespace NTMiner {
         public InputSegmentViewModel Segment { get; private set; }
     }
 
-    [MessageType(description: "打开币种级内核编辑界面")]
-    public class CoinKernelEditCommand : Cmd {
-        public CoinKernelEditCommand(FormType formType, CoinKernelViewModel source) {
+    public abstract class EditCommand<T> : Cmd {
+        public EditCommand(FormType formType, T source) {
             this.FormType = formType;
             this.Source = source;
         }
 
         public FormType FormType { get; private set; }
-        public CoinKernelViewModel Source { get; private set; }
+        public T Source { get; private set; }
+    }
+
+    [MessageType(description: "打开币种级内核编辑界面")]
+    public class EditCoinKernelCommand : EditCommand<CoinKernelViewModel> {
+        public EditCoinKernelCommand(FormType formType, CoinKernelViewModel source) : base(formType, source) {
+        }
     }
 
     [MessageType(description: "打开币种编辑界面")]
-    public class CoinEditCommand : Cmd {
-        public CoinEditCommand(FormType formType, CoinViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditCoinCommand : EditCommand<CoinViewModel> {
+        public EditCoinCommand(FormType formType, CoinViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public CoinViewModel Source { get; private set; }
-    }
-
-    [MessageType(description: "打开列显编辑界面")]
-    public class ColumnsShowEditCommand : Cmd {
-        public ColumnsShowEditCommand(FormType formType, ColumnsShowViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
-        }
-
-        public FormType FormType { get; private set; }
-        public ColumnsShowViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开算力图界面")]
@@ -232,14 +196,9 @@ namespace NTMiner {
     }
 
     [MessageType(description: "打开币组编辑界面")]
-    public class GroupEditCommand : Cmd {
-        public GroupEditCommand(FormType formType, GroupViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditGroupCommand : EditCommand<GroupViewModel> {
+        public EditGroupCommand(FormType formType, GroupViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public GroupViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开文件书写器列表页")]
@@ -249,14 +208,9 @@ namespace NTMiner {
     }
 
     [MessageType(description: "打开文件书写器编辑界面")]
-    public class FileWriterEditCommand : Cmd {
-        public FileWriterEditCommand(FormType formType, FileWriterViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditFileWriterCommand : EditCommand<FileWriterViewModel> {
+        public EditFileWriterCommand(FormType formType, FileWriterViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public FileWriterViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开命令行片段书写器列表页")]
@@ -266,69 +220,39 @@ namespace NTMiner {
     }
 
     [MessageType(description: "打开命令行片段书写器编辑界面")]
-    public class FragmentWriterEditCommand : Cmd {
-        public FragmentWriterEditCommand(FormType formType, FragmentWriterViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditFragmentWriterCommand : EditCommand<FragmentWriterViewModel> {
+        public EditFragmentWriterCommand(FormType formType, FragmentWriterViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public FragmentWriterViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开服务器消息编辑界面")]
-    public class ServerMessageEditCommand : Cmd {
-        public ServerMessageEditCommand(FormType formType, ServerMessageViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditServerMessageCommand : EditCommand<ServerMessageViewModel> {
+        public EditServerMessageCommand(FormType formType, ServerMessageViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public ServerMessageViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开内核输入编辑界面")]
-    public class KernelInputEditCommand : Cmd {
-        public KernelInputEditCommand(FormType formType, KernelInputViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditKernelInputCommand : EditCommand<KernelInputViewModel> {
+        public EditKernelInputCommand(FormType formType, KernelInputViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public KernelInputViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开内核输出关键字编辑界面")]
-    public class KernelOutputKeywordEditCommand : Cmd {
-        public KernelOutputKeywordEditCommand(FormType formType, KernelOutputKeywordViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditKernelOutputKeywordCommand : EditCommand<KernelOutputKeywordViewModel> {
+        public EditKernelOutputKeywordCommand(FormType formType, KernelOutputKeywordViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public KernelOutputKeywordViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开内核输出翻译器编辑界面")]
-    public class KernelOutputTranslaterEditCommand : Cmd {
-        public KernelOutputTranslaterEditCommand(FormType formType, KernelOutputTranslaterViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditKernelOutputTranslaterCommand : EditCommand<KernelOutputTranslaterViewModel> {
+        public EditKernelOutputTranslaterCommand(FormType formType, KernelOutputTranslaterViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public KernelOutputTranslaterViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开内核输出编辑界面")]
-    public class KernelOutputEditCommand : Cmd {
-        public KernelOutputEditCommand(FormType formType, KernelOutputViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditKernelOutputCommand : EditCommand<KernelOutputViewModel> {
+        public EditKernelOutputCommand(FormType formType, KernelOutputViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public KernelOutputViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开内核包窗口")]
@@ -338,28 +262,8 @@ namespace NTMiner {
     }
 
     [MessageType(description: "打开内核编辑界面")]
-    public class KernelEditCommand : Cmd {
-        public KernelEditCommand(FormType formType, KernelViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
-        }
-
-        public FormType FormType { get; private set; }
-        public KernelViewModel Source { get; private set; }
-    }
-
-    [MessageType(description: "打开挖矿端远程设置界面")]
-    public class ShowMinerClientSettingCommand : Cmd {
-        public ShowMinerClientSettingCommand(MinerClientSettingViewModel vm) {
-            this.Vm = vm;
-        }
-
-        public MinerClientSettingViewModel Vm { get; private set; }
-    }
-
-    [MessageType(description: "打开群控矿机列表页")]
-    public class ShowMinerClientsWindowCommand : Cmd {
-        public ShowMinerClientsWindowCommand() {
+    public class EditKernelCommand : EditCommand<KernelViewModel> {
+        public EditKernelCommand(FormType formType, KernelViewModel source) : base(formType, source) {
         }
     }
 
@@ -394,11 +298,6 @@ namespace NTMiner {
         public CoinViewModel CoinVm { get; private set; }
     }
 
-    [MessageType(description: "打开ETH反抽水配置页")]
-    public class ShowEthNoDevFeeCommand : Cmd {
-        public ShowEthNoDevFeeCommand() { }
-    }
-
     [MessageType(description: "打开QQ群二维码")]
     public class ShowQQGroupQrCodeCommand : Cmd {
         public ShowQQGroupQrCodeCommand() {
@@ -425,127 +324,34 @@ namespace NTMiner {
         public Action OnNo { get; private set; }
     }
 
-    [MessageType(description: "打开作群控名设置界面")]
-    public class ShowMinerNamesSeterCommand : Cmd {
-        public ShowMinerNamesSeterCommand(MinerNamesSeterViewModel vm) {
-            this.Vm = vm;
-        }
-
-        public MinerNamesSeterViewModel Vm { get; private set; }
-    }
-
-    [MessageType(description: "打开群控超频界面")]
-    public class ShowGpuProfilesPageCommand : Cmd {
-        public ShowGpuProfilesPageCommand(MinerClientsWindowViewModel minerClientsWindowVm) {
-            this.MinerClientsWindowVm = minerClientsWindowVm;
-        }
-
-        public MinerClientsWindowViewModel MinerClientsWindowVm { get; private set; }
-    }
-
-    [MessageType(description: "打开添加矿机界面")]
-    public class ShowMinerClientAddCommand : Cmd {
-        public ShowMinerClientAddCommand() {
-        }
-    }
-
-    [MessageType(description: "打开矿工组编辑界面")]
-    public class MinerGroupEditCommand : Cmd {
-        public MinerGroupEditCommand(FormType formType, MinerGroupViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
-        }
-
-        public FormType FormType { get; private set; }
-        public MinerGroupViewModel Source { get; private set; }
-    }
-
-    [MessageType(description: "打开NTMiner钱包编辑界面")]
-    public class NTMinerWalletEditCommand : Cmd {
-        public NTMinerWalletEditCommand(FormType formType, NTMinerWalletViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
-        }
-
-        public FormType FormType { get; private set; }
-        public NTMinerWalletViewModel Source { get; private set; }
-    }
-
-    [MessageType(description: "打开作业编辑界面")]
-    public class MineWorkEditCommand : Cmd {
-        public MineWorkEditCommand(FormType formType, MineWorkViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
-        }
-
-        public FormType FormType { get; private set; }
-        public MineWorkViewModel Source { get; private set; }
-    }
-
-    [MessageType(description: "打开超频菜谱编辑界面")]
-    public class OverClockDataEditCommand : Cmd {
-        public OverClockDataEditCommand(FormType formType, OverClockDataViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
-        }
-
-        public FormType FormType { get; private set; }
-        public OverClockDataViewModel Source { get; private set; }
-    }
-
     [MessageType(description: "打开内核包编辑界面")]
-    public class PackageEditCommand : Cmd {
-        public PackageEditCommand(FormType formType, PackageViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditPackageCommand : EditCommand<PackageViewModel> {
+        public EditPackageCommand(FormType formType, PackageViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public PackageViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开矿池级内核编辑界面")]
-    public class PoolKernelEditCommand : Cmd {
-        public PoolKernelEditCommand(FormType formType, PoolKernelViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditPoolKernelCommand : EditCommand<PoolKernelViewModel> {
+        public EditPoolKernelCommand(FormType formType, PoolKernelViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public PoolKernelViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开矿池编辑界面")]
-    public class PoolEditCommand : Cmd {
-        public PoolEditCommand(FormType formType, PoolViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditPoolCommand : EditCommand<PoolViewModel> {
+        public EditPoolCommand(FormType formType, PoolViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public PoolViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开字典项编辑界面")]
-    public class SysDicItemEditCommand : Cmd {
-        public SysDicItemEditCommand(FormType formType, SysDicItemViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditSysDicItemCommand : EditCommand<SysDicItemViewModel> {
+        public EditSysDicItemCommand(FormType formType, SysDicItemViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public SysDicItemViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开字典编辑界面")]
-    public class SysDicEditCommand : Cmd {
-        public SysDicEditCommand(FormType formType, SysDicViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditSysDicCommand : EditCommand<SysDicViewModel> {
+        public EditSysDicCommand(FormType formType, SysDicViewModel source) : base(formType, source) {
         }
-
-        public FormType FormType { get; private set; }
-        public SysDicViewModel Source { get; private set; }
     }
 
     [MessageType(description: "打开内核输出关键字列表页")]
@@ -554,25 +360,50 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "打开用户编辑界面")]
-    public class UserEditCommand : Cmd {
-        public UserEditCommand(FormType formType, UserViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
-        }
-
-        public FormType FormType { get; private set; }
-        public UserViewModel Source { get; private set; }
+    [MessageType(description: "打开用户注册页")]
+    public class ShowSignUpPageCommand : Cmd {
+        public ShowSignUpPageCommand() { }
     }
 
     [MessageType(description: "打开钱包地址编辑界面")]
-    public class WalletEditCommand : Cmd {
-        public WalletEditCommand(FormType formType, WalletViewModel source) {
-            this.FormType = formType;
-            this.Source = source;
+    public class EditWalletCommand : EditCommand<WalletViewModel> {
+        public EditWalletCommand(FormType formType, WalletViewModel source) : base(formType, source) {
         }
+    }
 
-        public FormType FormType { get; private set; }
-        public WalletViewModel Source { get; private set; }
+    [MessageType(description: "添加了币种后")]
+    public class CoinVmAddedEvent : VmEventBase<CoinAddedEvent> {
+        public CoinVmAddedEvent(CoinAddedEvent evt) : base(evt) {
+        }
+    }
+
+    [MessageType(description: "移除了币种后")]
+    public class CoinVmRemovedEvent : VmEventBase<CoinRemovedEvent> {
+        public CoinVmRemovedEvent(CoinRemovedEvent evt) : base(evt) {
+        }
+    }
+
+    [MessageType(description: "添加了钱包后")]
+    public class WalletVmAddedEvent : VmEventBase<WalletAddedEvent> {
+        public WalletVmAddedEvent(WalletAddedEvent evt) : base(evt) {
+        }
+    }
+
+    [MessageType(description: "移除了钱包后")]
+    public class WalletVmRemovedEvent : VmEventBase<WalletRemovedEvent> {
+        public WalletVmRemovedEvent(WalletRemovedEvent evt) : base(evt) {
+        }
+    }
+
+    [MessageType(description: "添加了币种级内核后")]
+    public class CoinKernelVmAddedEvent : VmEventBase<CoinKernelAddedEvent> {
+        public CoinKernelVmAddedEvent(CoinKernelAddedEvent evt) : base(evt) {
+        }
+    }
+
+    [MessageType(description: "移除了币种级内核后")]
+    public class CoinKernelVmRemovedEvent : VmEventBase<CoinKernelRemovedEvent> {
+        public CoinKernelVmRemovedEvent(CoinKernelRemovedEvent evt) : base(evt) {
+        }
     }
 }

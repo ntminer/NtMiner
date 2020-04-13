@@ -1,7 +1,7 @@
 ﻿using NTMiner.Core;
-using NTMiner.Hub;
-using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
+using NTMiner.Hub;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 
@@ -52,20 +52,14 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "设置ServerAppSetting")]
-    public class SetServerAppSettingsCommand : Cmd {
-        public SetServerAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
-            this.AppSettings = appSettings;
+    [MessageType(description: "设置UserAppSetting")]
+    public class SetUserAppSettingCommand : Cmd {
+        public SetUserAppSettingCommand(IUserAppSetting appSetting) {
+            this.AppSetting = appSetting;
         }
 
-        public IEnumerable<IAppSetting> AppSettings {
+        public IUserAppSetting AppSetting {
             get; private set;
-        }
-    }
-
-    [MessageType(description: "ServerAppSetting变更后")]
-    public class ServerAppSettingSetedEvent : DomainEvent<IAppSetting> {
-        public ServerAppSettingSetedEvent(PathId targetPathId, IAppSetting source) : base(targetPathId, source) {
         }
     }
 
@@ -91,11 +85,6 @@ namespace NTMiner {
         }
     }
 
-    [MessageType(description: "本机IP集初始化后")]
-    public class LocalIpSetInitedEvent : EventBase {
-        public LocalIpSetInitedEvent() { }
-    }
-
     [MessageType(description: "LocalAppSetting变更后")]
     public class LocalAppSettingChangedEvent : DomainEvent<IAppSetting> {
         public LocalAppSettingChangedEvent(PathId targetPathId, IAppSetting source) : base(targetPathId, source) {
@@ -106,17 +95,6 @@ namespace NTMiner {
     public class UserActionEvent : EventBase {
         public UserActionEvent() {
         }
-    }
-
-    [MessageType(description: "设置本机Ip")]
-    public class SetLocalIpCommand : Cmd {
-        public SetLocalIpCommand(ILocalIp input, bool isAutoDNSServer) {
-            this.Input = input;
-            this.IsAutoDNSServer = isAutoDNSServer;
-        }
-
-        public ILocalIp Input { get; private set; }
-        public bool IsAutoDNSServer { get; private set; }
     }
 
     #region KernelOutputKeyword Messages
@@ -156,11 +134,6 @@ namespace NTMiner {
     #endregion
 
     #region LocalMessage
-    [MessageType(description: "添加本地消息")]
-    public class AddLocalMessageCommand : AddEntityCommand<ILocalMessage> {
-        public AddLocalMessageCommand(ILocalMessage input) : base(input) { }
-    }
-
     [MessageType(description: "记录了本地事件后")]
     public class LocalMessageAddedEvent : DomainEvent<ILocalMessage> {
         public LocalMessageAddedEvent(PathId targetPathId, ILocalMessage source, List<ILocalMessage> removes) : base(targetPathId, source) {
@@ -207,11 +180,11 @@ namespace NTMiner {
             this.KnowServerMessageTimestamp = Timestamp.GetTimestamp();
         }
 
-        public LoadNewServerMessageCommand(ulong knowServerMessageTimestamp) {
+        public LoadNewServerMessageCommand(long knowServerMessageTimestamp) {
             this.KnowServerMessageTimestamp = knowServerMessageTimestamp;
         }
 
-        public ulong KnowServerMessageTimestamp { get; private set; }
+        public long KnowServerMessageTimestamp { get; private set; }
     }
 
     [MessageType(description: "从服务器获取内核输出关键字")]
@@ -219,11 +192,11 @@ namespace NTMiner {
         public LoadKernelOutputKeywordCommand() {
             this.KnowKernelOutputKeywordTimestamp = Timestamp.GetTimestamp();
         }
-        public LoadKernelOutputKeywordCommand(ulong knowKernelOutputKeywordTimestamp) {
+        public LoadKernelOutputKeywordCommand(long knowKernelOutputKeywordTimestamp) {
             this.KnowKernelOutputKeywordTimestamp = knowKernelOutputKeywordTimestamp;
         }
 
-        public ulong KnowKernelOutputKeywordTimestamp { get; private set; }
+        public long KnowKernelOutputKeywordTimestamp { get; private set; }
     }
 
     [MessageType(description: "从服务器获取到新的服务器消息后")]
@@ -257,4 +230,24 @@ namespace NTMiner {
         }
     }
     #endregion
+
+    [MessageType(description: "矿工集已初始化完成")]
+    public class ClientSetInitedEvent : EventBase {
+        public ClientSetInitedEvent() { }
+    }
+
+    [MessageType(description: "用户集已初始化完成")]
+    public class UserSetInitedEvent : EventBase {
+        public UserSetInitedEvent() { }
+    }
+
+    [MessageType(description: "矿机签名集已初始化完成")]
+    public class MinerSignSetInitedEvent: EventBase {
+        public MinerSignSetInitedEvent() { }
+    }
+
+    [MessageType(description: "Ws服务器节点地址集已初始化完成")]
+    public class WsServerNodeAddressSetInitedEvent : EventBase {
+        public WsServerNodeAddressSetInitedEvent() { }
+    }
 }

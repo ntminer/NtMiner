@@ -6,7 +6,7 @@ namespace NTMiner.Core {
         string Code { get; }
         Guid BrandId { get; }
         string Version { get; }
-        ulong PublishOn { get; }
+        long PublishOn { get; }
         string Package { get; }
         long Size { get; }
         PublishStatus PublishState { get; }

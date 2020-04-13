@@ -11,10 +11,10 @@ namespace NTMiner.Core.Profiles {
         private class CoinKernelProfileSet {
             private readonly Dictionary<Guid, CoinKernelProfile> _dicById = new Dictionary<Guid, CoinKernelProfile>();
 
-            private readonly INTMinerRoot _root;
+            private readonly INTMinerContext _root;
             private readonly object _locker = new object();
 
-            public CoinKernelProfileSet(INTMinerRoot root) {
+            public CoinKernelProfileSet(INTMinerContext root) {
                 _root = root;
             }
 
@@ -48,9 +48,9 @@ namespace NTMiner.Core.Profiles {
 
             private class CoinKernelProfile : ICoinKernelProfile {
                 private static readonly CoinKernelProfile Empty = new CoinKernelProfile(new CoinKernelProfileData());
-                public static CoinKernelProfile Create(INTMinerRoot root, Guid coinKernelId) {
+                public static CoinKernelProfile Create(INTMinerContext root, Guid coinKernelId) {
                     if (root.ServerContext.CoinKernelSet.TryGetCoinKernel(coinKernelId, out ICoinKernel coinKernel)) {
-                        var repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
+                        var repository = root.ServerContext.CreateLocalRepository<CoinKernelProfileData>();
                         CoinKernelProfileData data = repository.GetByKey(coinKernelId);
                         if (data == null) {
                             double dualCoinWeight = GetDualCoinWeight(root, coinKernel.KernelId);
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Profiles {
                         }
                         CoinKernelProfile coinProfile = new CoinKernelProfile(data);
 
-                        var defaultInputSegments = coinKernel.InputSegments.Where(a => a.IsDefault && a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)).ToArray();
+                        var defaultInputSegments = coinKernel.InputSegments.Where(a => a.IsDefault && a.TargetGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)).ToArray();
                         string touchedArgs = coinProfile.TouchedArgs;
                         if (coinProfile.CustomArgs == null) {
                             coinProfile.CustomArgs = string.Empty;
@@ -101,7 +101,7 @@ namespace NTMiner.Core.Profiles {
                 }
 
                 // 获取默认双挖权重
-                private static double GetDualCoinWeight(INTMinerRoot root, Guid kernelId) {
+                private static double GetDualCoinWeight(INTMinerContext root, Guid kernelId) {
                     double dualCoinWeight = 0;
                     if (root.ServerContext.KernelSet.TryGetKernel(kernelId, out IKernel kernel)) {
                         if (root.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput)) {
@@ -179,13 +179,11 @@ namespace NTMiner.Core.Profiles {
                 public void SetValue(string propertyName, object value) {
                     if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                         if (propertyInfo.CanWrite) {
-                            if (propertyInfo.PropertyType == typeof(Guid)) {
-                                value = VirtualRoot.ConvertToGuid(value);
-                            }
+                            // 这里的反射赋值没有经过序列化和反序列化且由接口约束了类型一定相同所以可以直接赋值和比较
                             var oldValue = propertyInfo.GetValue(this, null);
                             if (oldValue != value) {
                                 propertyInfo.SetValue(this, value, null);
-                                var repository = NTMinerRoot.CreateLocalRepository<CoinKernelProfileData>();
+                                var repository = NTMinerContext.Instance.ServerContext.CreateLocalRepository<CoinKernelProfileData>();
                                 repository.Update(_data);
                                 VirtualRoot.RaiseEvent(new CoinKernelProfilePropertyChangedEvent(this.CoinKernelId, propertyName));
                             }

@@ -43,7 +43,7 @@ namespace NTMiner.Vms {
                     VirtualRoot.Out.ShowError("关键字不能为空", autoHideSeconds: 4);
                     return;
                 }
-                if (AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.KernelOutputId).Any(a => a.Id != this.Id && a.Keyword == this.Keyword)) {
+                if (AppRoot.KernelOutputKeywordVms.GetListByKernelId(this.KernelOutputId).Any(a => a.Id != this.Id && a.Keyword == this.Keyword)) {
                     throw new ValidationException($"关键字 {this.Keyword} 已经存在");
                 }
                 if (DevMode.IsDevMode) {
@@ -61,7 +61,7 @@ namespace NTMiner.Vms {
                 if (this.IsReadOnly) {
                     return;
                 }
-                VirtualRoot.Execute(new KernelOutputKeywordEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditKernelOutputKeywordCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

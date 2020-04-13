@@ -1,0 +1,246 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.MinerStudio.Ucs.MinerClientsSearchBar"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+    d:DataContext="{d:DesignData Source=../Design/MinerClientsWindowViewModel.xaml}"
+	mc:Ignorable="d">
+    <WrapPanel>
+        <ListBox 
+            Margin="0 0 10 0"
+			Background="Transparent"
+			ItemsSource="{x:Static app:AppStatic.MineStatusEnumItems}"
+			SelectedItem="{Binding MineStatusEnumItem}"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.VerticalScrollBarVisibility="Disabled"
+			ItemContainerStyle="{StaticResource ListBoxBarItem}"
+			BorderThickness="0">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel>
+                    </WrapPanel>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Padding="10 2" Text="{Binding Description}"></TextBlock>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <WrapPanel Margin="0 0 10 0">
+            <TextBlock Style="{StaticResource LblTbBase}">作业</TextBlock>
+            <controls:KbButton 
+				x:Name="ButtonMineWork"
+				BorderThickness="1"
+                Padding="0"
+                BorderBrush="{StaticResource LightLineColor}"
+				IsEnabled="{Binding ElementName=PopupMineWork,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+				Click="KbButtonMineWork_Clicked">
+                <controls:KbButton.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="新建作业" Command="{Binding MineWorkVms.Add}">
+                        </MenuItem>
+                    </ContextMenu>
+                </controls:KbButton.ContextMenu>
+                <WrapPanel>
+                    <TextBlock 
+                        Width="120" 
+                        Padding="3 3 16 3" 
+                        Foreground="Black" 
+                        Background="White" 
+                        Text="{Binding SelectedMineWork.Name}"></TextBlock>
+                    <Path
+						Margin="-16 6 0 6"
+						Width="12"
+						Height="8"
+						Data="{StaticResource Icon_ComboBoxToogle}"
+						Fill="Black"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+            <Popup 
+                x:Name="PopupMineWork" 
+                Placement="Bottom" 
+                PlacementTarget="{Binding ElementName=ButtonMineWork}" 
+                PopupAnimation="Slide"
+                StaysOpen="False">
+            </Popup>
+        </WrapPanel>
+        <WrapPanel Margin="0 0 10 0">
+            <TextBlock Style="{StaticResource LblTbBase}">分组</TextBlock>
+            <controls:KbButton 
+				x:Name="ButtonMinerGroup"
+				BorderThickness="1"
+                Padding="0"
+                BorderBrush="{StaticResource LightLineColor}"
+				IsEnabled="{Binding ElementName=PopupMinerGroup,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+				Click="KbButtonMinerGroup_Clicked">
+                <controls:KbButton.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="新建分组" Command="{Binding MinerGroupVms.Add}">
+                        </MenuItem>
+                    </ContextMenu>
+                </controls:KbButton.ContextMenu>
+                <WrapPanel>
+                    <TextBlock 
+                        Width="120" 
+                        Padding="3 3 16 3" 
+                        Foreground="Black" 
+                        Background="White" 
+                        Text="{Binding SelectedMinerGroup.Name}"></TextBlock>
+                    <Path
+						Margin="-16 6 0 6"
+						Width="12"
+						Height="8"
+						Data="{StaticResource Icon_ComboBoxToogle}"
+						Fill="Black"
+						Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
+            <Popup 
+                x:Name="PopupMinerGroup" 
+                Placement="Bottom" 
+                PlacementTarget="{Binding ElementName=ButtonMinerGroup}" 
+                PopupAnimation="Slide"
+                StaysOpen="False">
+            </Popup>
+        </WrapPanel>
+        <WrapPanel Margin="0 0 10 0">
+            <TextBlock Style="{StaticResource LblTbBase}">矿机名</TextBlock>
+            <TextBox 
+                VerticalContentAlignment="Center" 
+                Width="70" 
+                Height="24"
+                Text="{Binding MinerName}" 
+                Background="White"></TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 0 10 0">
+            <TextBlock Style="{StaticResource LblTbBase}">IP</TextBlock>
+            <TextBox 
+                VerticalContentAlignment="Center" 
+                Width="100" 
+                Height="24"
+                Text="{Binding MinerIp, ValidatesOnExceptions=True}" 
+                Background="White"></TextBox>
+        </WrapPanel>
+        <WrapPanel Visibility="{Binding IsMineWorkSelected, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+            <WrapPanel Margin="0 0 10 0">
+                <TextBlock Style="{StaticResource LblTbBase}">矿池</TextBlock>
+                <TextBox 
+                    x:Name="TbPool"
+                    ToolTip="选定具体币种后可见下拉列表"
+                    HorizontalAlignment="Left" 
+                    VerticalContentAlignment="Center" 
+                    Text="{Binding Pool}" 
+                    Width="160" 
+                    Height="24"
+                    Padding="0 0 16 0"
+                    Background="White"></TextBox>
+                <controls:KbButton 
+                    x:Name="BtnPoolPop"
+                    Width="18"
+                    Margin="-20 1 0 1" 
+                    Background="White"
+                    Visibility="{Binding IsMainCoinSelected,Converter={StaticResource BoolToVisibilityConverter}}"
+					IsEnabled="{Binding ElementName=PopupPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
+                    Click="BtnPoolPop_Click">
+                    <Path
+						Width="12"
+						Height="8"
+						Data="{StaticResource Icon_ComboBoxToogle}"
+						Fill="Black"
+						Stretch="Fill" />
+                </controls:KbButton>
+                <Popup 
+                    x:Name="PopupPool" 
+				    PopupAnimation="Slide" 
+                    PlacementTarget="{Binding ElementName=TbPool}" 
+                    Placement="Bottom" 
+				    StaysOpen="False">
+                    <ListBox 
+                        Width="300"
+                        BorderThickness="1"
+                        BorderBrush="{StaticResource WindowBorderBrush}"
+					    ItemsSource="{Binding MineCoinVm.CoinVm.OptionPools}"
+					    SelectedItem="{Binding PoolVm}"
+                        SelectionChanged="LbPool_SelectionChanged"
+					    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+				        ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox.Resources>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ListBoxItem">
+                                            <Border Padding="4" Background="{TemplateBinding Background}">
+                                                <ContentPresenter 
+								                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" Value="{StaticResource MouseOverRowBackground}"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" Value="{StaticResource SelectedRowBackground}"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListBox.Resources>
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel>
+                                </WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Padding="10 2" Text="{Binding Name}"></TextBlock>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Popup>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 10 0">
+                <TextBlock Style="{StaticResource LblTbBase}">钱包</TextBlock>
+                <TextBox 
+                    ToolTip="填完整的钱包地址"
+                    HorizontalAlignment="Left" 
+                    VerticalContentAlignment="Center" 
+                    Text="{Binding Wallet}" 
+                    Width="130" 
+                    Height="24"
+                    Background="White"></TextBox>
+            </WrapPanel>
+            <WrapPanel Margin="0 0 10 0">
+                <TextBlock Style="{StaticResource LblTbBase}">内核</TextBlock>
+                <TextBox 
+                    VerticalContentAlignment="Center" 
+                    ToolTip="内核名以此为前缀的内核" 
+                    Width="90" 
+                    Height="24"
+                    Text="{Binding Kernel}" 
+                    Background="White"></TextBox>
+            </WrapPanel>
+        </WrapPanel>
+        <WrapPanel Margin="0 0 10 0">
+            <TextBlock Style="{StaticResource LblTbBase}">开源版本</TextBlock>
+            <TextBox 
+                VerticalContentAlignment="Center" 
+                ToolTip="版本号以此为前缀的挖矿端" 
+                Width="60" 
+                Height="24"
+                Text="{Binding Version}" 
+                Background="White"></TextBox>
+        </WrapPanel>
+    </WrapPanel>
+</UserControl>

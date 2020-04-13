@@ -1,4 +1,5 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core;
+using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
@@ -12,6 +13,16 @@ namespace NTMiner.Views.Ucs {
         public CoinSelect(CoinSelectViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+            this.OnLoaded(window => {
+                window.AddEventPath<CoinVmAddedEvent>("添加了币种后，刷新币种选择下拉列表的Vm内存", LogEnum.DevConsole, action: message => {
+                    vm.OnPropertyChanged(nameof(vm.QueryResults));
+                    vm.OnPropertyChanged(nameof(vm.HotCoins));
+                }, this.GetType());
+                window.AddEventPath<CoinVmRemovedEvent>("删除了币种后，刷新币种选择下拉列表的Vm内存", LogEnum.DevConsole, action: message => {
+                    vm.OnPropertyChanged(nameof(vm.QueryResults));
+                    vm.OnPropertyChanged(nameof(vm.HotCoins));
+                }, this.GetType());
+            });
         }
 
         private void KbButtonManageCoins_Click(object sender, System.Windows.RoutedEventArgs e) {

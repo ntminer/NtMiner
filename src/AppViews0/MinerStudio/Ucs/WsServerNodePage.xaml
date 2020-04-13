@@ -1,0 +1,39 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.MinerStudio.Ucs.WsServerNodePage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="1000">
+	<UserControl.DataContext>
+        <vm:WsServerNodePageViewModel></vm:WsServerNodePageViewModel>
+	</UserControl.DataContext>
+	<Grid>
+		<DataGrid 
+			Margin="0" ItemsSource="{Binding WsServerNodeVms}" 
+			BorderThickness="0">
+			<DataGrid.Resources>
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+			</DataGrid.Resources>
+			<DataGrid.Columns>
+				<DataGridTextColumn IsReadOnly="True" Width="140" Header="节点地址" Binding="{Binding Address}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="100" Header="挖矿端Ws会话数" Binding="{Binding MinerClientWsSessionCount}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="100" Header="挖矿端会话数" Binding="{Binding MinerClientSessionCount}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="124" Header="群控客户端Ws会话数" Binding="{Binding MinerStudioWsSessionCount}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="106" Header="群控客户端会话数" Binding="{Binding MinerStudioSessionCount}">
+                </DataGridTextColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
+				</DataGridTextColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+        <TextBlock Visibility="{Binding IsNodeRecordVisible}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+	</Grid>
+</UserControl>

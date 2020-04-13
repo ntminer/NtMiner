@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Linq;
 using System.Windows;
@@ -9,7 +8,7 @@ namespace NTMiner.Views.Ucs {
     public partial class Calc : UserControl {
         public static void ShowWindow(CoinViewModel coin) {
             if (coin == null) {
-                coin = AppContext.Instance.MinerProfileVm.CoinVm;
+                coin = AppRoot.MinerProfileVm.CoinVm;
             }
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "收益计算器",
@@ -47,10 +46,10 @@ namespace NTMiner.Views.Ucs {
                             return;
                         }
                         if (Vm.CoinVms.AllCoins.Max(a => a.CoinIncomeVm.ModifiedOn).AddMinutes(10) < DateTime.Now) {
-                            NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
+                            NTMinerContext.Instance.CalcConfigSet.Init(forceRefresh: true);
                         }
                     }, location: this.GetType());
-                NTMinerRoot.Instance.CalcConfigSet.Init(forceRefresh: true);
+                NTMinerContext.Instance.CalcConfigSet.Init(forceRefresh: true);
             });
         }
 

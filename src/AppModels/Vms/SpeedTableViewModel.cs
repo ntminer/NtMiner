@@ -8,16 +8,16 @@ namespace NTMiner.Vms {
 
         public Visibility IsVoltVisible {
             get {
-                if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.AMD) {
+                if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.AMD) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;
             }
         }
 
-        public AppContext.GpuSpeedViewModels GpuSpeedVms {
+        public AppRoot.GpuSpeedViewModels GpuSpeedVms {
             get {
-                return AppContext.GpuSpeedViewModels.Instance;
+                return AppRoot.GpuSpeedViewModels.Instance;
             }
         }
     }

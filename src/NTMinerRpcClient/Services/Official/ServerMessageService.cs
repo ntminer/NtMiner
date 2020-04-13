@@ -6,12 +6,8 @@ using System.Collections.Generic;
 namespace NTMiner.Services.Official {
     public class ServerMessageService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IServerMessageController>();
-        private readonly string _host;
-        private readonly int _port;
 
-        public ServerMessageService(string host, int port) {
-            _host = host;
-            _port = port;
+        public ServerMessageService() {
         }
 
         #region GetServerMessagesAsync
@@ -19,7 +15,7 @@ namespace NTMiner.Services.Official {
             ServerMessagesRequest request = new ServerMessagesRequest {
                 Timestamp = Timestamp.GetTimestamp(timestamp)
             };
-            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IServerMessageController.ServerMessages), request, callback);
+            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.ServerMessages), request, callback);
         }
         #endregion
 
@@ -28,7 +24,7 @@ namespace NTMiner.Services.Official {
             DataRequest<ServerMessageData> request = new DataRequest<ServerMessageData>() {
                 Data = entity
             };
-            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), request, request, callback);
+            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), data: request, callback);
         }
         #endregion
 
@@ -37,7 +33,7 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.PostAsync(_host, _port, _controllerName, nameof(IServerMessageController.MarkDeleteServerMessage), request, request, callback);
+            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.MarkDeleteServerMessage), data: request, callback);
         }
         #endregion
     }

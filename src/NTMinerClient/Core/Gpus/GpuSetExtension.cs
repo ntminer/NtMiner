@@ -36,7 +36,7 @@ namespace NTMiner.Core.Gpus {
             // 全不选等于全选
             if (list.Count == 0) {
                 foreach (var gpu in gpuSet.AsEnumerable()) {
-                    if (gpu.Index == NTMinerRoot.GpuAllId) {
+                    if (gpu.Index == NTMinerContext.GpuAllId) {
                         continue;
                     }
                     list.Add(gpu.Index);

@@ -13,7 +13,7 @@ namespace NTMiner.Vms {
             _inner = innerProfile;
             this.CopyWallet = new DelegateCommand(() => {
                 string wallet = this.UserName ?? "无";
-                Clipboard.SetDataObject(wallet);
+                Clipboard.SetDataObject(wallet, true);
                 VirtualRoot.Out.ShowSuccess(wallet, header: "复制成功");
             });
         }
@@ -26,9 +26,10 @@ namespace NTMiner.Vms {
             get => _inner.UserName;
             set {
                 if (_inner.UserName != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(UserName), value ?? string.Empty);
+                    NTMinerContext.Instance.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(UserName), value ?? string.Empty);
                     OnPropertyChanged(nameof(UserName));
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    // 不必判断该对象是否是主界面上当前展示的对象，因为若不是主界面上当前显式的对象的话没有机会变更
+                    NTMinerContext.RefreshArgsAssembly.Invoke("矿池级内核Profile上放置的矿池的挖矿用户名发生了变更");
                 }
             }
         }
@@ -37,9 +38,10 @@ namespace NTMiner.Vms {
             get => _inner.Password;
             set {
                 if (_inner.Password != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(Password), value ?? string.Empty);
+                    NTMinerContext.Instance.MinerProfile.SetPoolProfileProperty(this.PoolId, nameof(Password), value ?? string.Empty);
                     OnPropertyChanged(nameof(Password));
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    // 不必判断该对象是否是主界面上当前展示的对象，因为若不是主界面上当前显式的对象的话没有机会变更
+                    NTMinerContext.RefreshArgsAssembly.Invoke("矿池级内核Profile上放置的矿池的挖矿密码发生了变更");
                 }
             }
         }

@@ -1,0 +1,98 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+    <title>websocket client</title>
+    <script type="text/javascript">
+        String.prototype.startWith = function (s) {
+            if (s == null || s == "" || this.length == 0 || s.length > this.length)
+                return false;
+            if (this.substr(0, s.length) == s)
+                return true;
+            else
+                return false;
+            return true;
+        }
+        var start = function () {
+            var inc = document.getElementById('incomming');
+            var wsImpl = window.WebSocket || window.MozWebSocket;
+            var form = document.getElementById('sendForm');
+            var input = document.getElementById('sendText');
+            var btnSend = document.getElementById('btnSend');
+
+            inc.innerHTML += "connecting to server ..<br/>";
+
+            var ws = createWs();
+
+            function createWs(onopen) {
+                // create a new websocket and connect
+                var ws = new wsImpl('ws://localhost:3340/');
+
+                // when data is comming from the server, this metod is called
+                ws.onmessage = function (evt) {
+                    console.log(evt);
+                    inc.innerHTML += evt.data + '<br/>';
+                };
+
+                // when the connection is established, this method is called
+                ws.onopen = function () {
+                    inc.innerHTML += '.. connection open<br/>';
+                    if (onopen) {
+                        onopen();
+                    }
+                };
+
+                // when the connection is closed, this method is called
+                ws.onclose = function () {
+                    inc.innerHTML += '.. connection closed<br/>';
+                }
+
+                return ws;
+            }
+
+            function send(e) {
+                e.preventDefault();
+                var val = input.value;
+                if (!val) {
+                    return;
+                }
+                var index = val.indexOf(' ');
+                var type = '';
+                var data = '';
+                if (index == -1) {
+                    type = val;
+                }
+                else {
+                    type = val.substr(0, index);
+                    data = val.substr(index + 1);
+                }
+                if (ws.readyState != ws.OPEN) {
+                    ws = createWs(function () {
+                        ws.send(JSON.stringify({
+                            'type': type,
+                            'data': json
+                        }));
+                    });
+                }
+                else {
+                    ws.send(JSON.stringify({
+                        'type': type,
+                        'data': data
+                    }));
+                }
+                input.value = "";
+            }
+
+            form.addEventListener('submit', send);
+            btnSend.addEventListener("click", send);
+        }
+        window.onload = start;
+    </script>
+</head>
+<body>
+    <form id="sendForm">
+        <input id="sendText" placeholder="Text to send" />
+        <input id="btnSend" type="button" value="send" />
+    </form>
+    <pre id="incomming"></pre>
+</body>
+</html>

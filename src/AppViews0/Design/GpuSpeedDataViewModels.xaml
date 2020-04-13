@@ -1,2 +1,2 @@
-﻿<vm:GpuSpeedDataViewModels xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
+﻿<vm:GpuSpeedDataViewModels xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels">
 </vm:GpuSpeedDataViewModels>

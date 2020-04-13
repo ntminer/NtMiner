@@ -12,36 +12,53 @@
 	mc:Ignorable="d">
 	<WrapPanel>
         <Menu Background="Transparent" VerticalAlignment="Center">
-            <MenuItem 
-                Width="26" Height="30" ToolTip="打开日志文件夹" 
-                Command="{x:Static app:AppStatic.OpenDir}" 
-                CommandParameter="{x:Static app:AppStatic.LogsDirFullName}">
-                <MenuItem.Icon>
-                    <Path
-						Width="14"
-						Height="14"
-						Data="{StaticResource Icon_LogDir}"
-						Fill="{StaticResource ThemeForeground}"
-						Stretch="Fill" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Width="26" Height="30" ToolTip="属性" Command="{x:Static app:AppStatic.ShowProperty}">
+            <MenuItem Width="26" Height="26" ToolTip="属性" Command="{x:Static app:AppStatic.ShowProperty}">
                 <MenuItem.Icon>
                     <Path
 						Width="14"
 						Height="14"
 						Data="{StaticResource Icon_Property}"
-						Fill="{StaticResource ThemeForeground}"
+						Fill="{Binding TopItemForeground}"
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+            <MenuItem Width="26" Height="26" ToolTip="矿机雷达" Command="{x:Static app:AppStatic.OpenMinerClientFinder}" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
+                <MenuItem.Icon>
+                    <Path 
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_MinerClientFinder}"
+						Fill="{Binding TopItemForeground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Width="26" Height="26" ToolTip="算力图" Command="{x:Static app:AppStatic.ShowSpeedChart}">
+                <MenuItem.Icon>
+                    <Path 
+						Height="14"
+						Width="14"
+						Data="{StaticResource Icon_SpeedChart}"
+						Fill="{Binding TopItemForeground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Width="26" Height="26" ToolTip="收益计算器" Command="{x:Static app:AppStatic.ShowCalc}">
+                <MenuItem.Icon>
+                    <Path 
+						Height="14"
+						Width="14"
+						Data="{StaticResource Icon_Calc}"
+						Fill="{Binding TopItemForeground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem Width="26" Height="26" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
 						Height="14"
 						Data="{StaticResource Icon_Developer}"
-						Fill="{StaticResource ThemeForeground}"
+						Fill="{Binding TopItemForeground}"
 						Stretch="Fill" />
                 </MenuItem.Icon>
                 <MenuItem Header="集线器" Command="{x:Static app:AppStatic.ShowMessagePathIds}">
@@ -50,27 +67,17 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Message}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="家目录" Command="{x:Static app:AppStatic.ShowHomeDir}">
-					<MenuItem.Icon>
-						<Path
-							Width="14"
-							Height="14"
-							Data="{StaticResource Icon_Dir}"
-							Fill="{StaticResource IconFillColor}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
                 <MenuItem Header="{x:Static app:AppStatic.ExportServerJsonMenuName}" Command="{x:Static app:AppStatic.ExportServerJson}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Json}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
@@ -80,7 +87,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Db}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
@@ -90,7 +97,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Db}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -100,7 +107,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_SysDic}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -110,7 +117,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_KernelInput}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -120,7 +127,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_KernelOutput}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -130,7 +137,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_FileWriter}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -140,7 +147,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_FragmentWriter}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -150,18 +157,18 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Message}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-            <MenuItem Visibility="{x:Static app:AppStatic.IsMinerStudioDevVisible}" Width="26" Height="30">
+            <MenuItem Visibility="{Binding IsMinerStudioOuterAdminLoginedVisible}" Width="26" Height="26">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
 						Height="14"
 						Data="{StaticResource Icon_Server}"
-						Fill="{StaticResource ThemeForeground}"
+						Fill="{Binding TopItemForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
 				<MenuItem Header="超频建议" Command="{x:Static app:AppStatic.ShowOverClockDatas}">
@@ -170,7 +177,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_OverClock}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
@@ -180,7 +187,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Wallet}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
@@ -190,7 +197,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_KernelOutput}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
@@ -200,55 +207,48 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Calc}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem 
-					Header="刷新server.json版本" 
-					ToolTip="{x:Static app:AppStatic.ServerJsonFileName}"
-					Command="{x:Static app:AppStatic.SetServerJsonVersion}">
+				<MenuItem Header="刷新server.json版本" ToolTip="{x:Static app:AppStatic.ExportServerJsonFileName}" Command="{x:Static app:AppStatic.SetServerJsonVersion}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Refresh}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem 
-					Header="升级器版本" 
-					Command="{x:Static app:AppStatic.ShowNTMinerUpdaterConfig}">
+				<MenuItem Header="升级器版本" Command="{x:Static app:AppStatic.ShowNTMinerUpdaterConfig}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Update}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem 
-					Header="矿机雷达版本" 
-					Command="{x:Static app:AppStatic.ShowMinerClientFinderConfig}">
+                <MenuItem Header="矿机雷达版本" Command="{x:Static app:AppStatic.ShowMinerClientFinderConfig}">
                     <MenuItem.Icon>
                         <Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_MinerClientFinder}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-			<MenuItem ToolTip="菜单" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Width="26" Height="30">
+			<MenuItem ToolTip="菜单" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Width="26" Height="26">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
 						Height="8"
 						Data="{StaticResource Icon_Menu}"
-						Fill="{StaticResource ThemeForeground}"
+						Fill="{Binding TopItemForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
 				<MenuItem Header="币种" Command="{x:Static app:AppStatic.ShowCoins}">
@@ -257,7 +257,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Coin}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -267,7 +267,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Kernel}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -276,8 +276,8 @@
 						<Path
 							Width="16"
 							Height="16"
-							Data="{StaticResource Icon_Speed}"
-							Fill="{StaticResource IconFillColor}"
+							Data="{StaticResource Icon_SpeedChart}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -287,7 +287,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_VirtualMemory}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -297,7 +297,7 @@
 							Width="14"
 							Height="16"
 							Data="{StaticResource Icon_Update}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
@@ -307,7 +307,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Help}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -317,7 +317,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_About}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -327,18 +327,18 @@
 							Width="16"
 							Height="18"
 							Data="{StaticResource Icon_Exit}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-            <MenuItem ToolTip="菜单" Width="26" Height="30" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
+            <MenuItem ToolTip="菜单" Width="26" Height="26" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
 						Height="8"
 						Data="{StaticResource Icon_Menu}"
-						Fill="{StaticResource ThemeForeground}"
+						Fill="{Binding TopItemForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
 				<MenuItem Header="矿工列表" Command="{x:Static app:AppStatic.ShowMinerClients}">
@@ -347,14 +347,8 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Miner}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
-				<MenuItem Header="算力图" Command="{x:Static app:AppStatic.ShowChartsWindow}">
-					<MenuItem.Icon>
-						<Image Width="18" Height="18" Source="/NTMinerWpf;component/Styles/Images/cc32.png">
-						</Image>
 					</MenuItem.Icon>
 				</MenuItem>
 				<MenuItem Header="币种" Command="{x:Static app:AppStatic.ShowCoins}">
@@ -363,7 +357,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Coin}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -373,7 +367,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Kernel}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -383,7 +377,7 @@
 							Width="14"
 							Height="16"
 							Data="{StaticResource Icon_Update}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
@@ -393,7 +387,7 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_Help}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
@@ -403,19 +397,29 @@
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_About}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="用户" Command="{x:Static app:AppStatic.ShowUsers}">
+                <MenuItem Header="用户" Visibility="{Binding IsMinerStudioOuterAdminLoginedVisible}" Command="{x:Static app:AppStatic.ShowUsers}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
 							Height="16"
 							Data="{StaticResource Icon_User}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="外网群控服务器节点" Visibility="{Binding IsMinerStudioOuterAdminLoginedVisible}" Command="{x:Static app:AppStatic.ShowWsServerNodes}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Server}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="退出" Command="{x:Static app:AppStatic.AppExit}">
 					<MenuItem.Icon>
@@ -423,7 +427,7 @@
 							Width="16"
 							Height="18"
 							Data="{StaticResource Icon_Exit}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>

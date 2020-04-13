@@ -25,7 +25,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn MinWidth="40" IsReadOnly="True" FontSize="16" FontWeight="Bold" Header="编码" Binding="{Binding Code}">
                 </DataGridTextColumn>
-                <DataGridTemplateColumn MinWidth="40" IsReadOnly="True">
+                <DataGridTemplateColumn MinWidth="40" Header="图标" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image HorizontalAlignment="Center" Width="30" Height="30" Source="{Binding IconImageSource}">
@@ -49,10 +49,11 @@
                             <WrapPanel>
                                 <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.NetSpeedText}"></TextBlock>
                                 <TextBlock Margin="2 0 0 0" FontSize="13" Foreground="{StaticResource LableColor}" Text="{Binding CoinIncomeVm.NetSpeedUnit}"></TextBlock>
-                                <TextBlock Margin="2 0 0 0" Padding="4 2" 
-                                           Text="{Binding CoinIncomeVm.DayWaveText}" 
-                                           Foreground="White" 
-                                           Background="{Binding CoinIncomeVm.DayWaveBrush}"></TextBlock>
+                                <TextBlock 
+                                    Margin="2 0 0 0" Padding="4 2" 
+                                    Text="{Binding CoinIncomeVm.DayWaveText}" 
+                                    Foreground="White" 
+                                    Background="{Binding CoinIncomeVm.DayWaveBrush}"></TextBlock>
                             </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -65,7 +66,7 @@
                                 <controls:KbButton 
 					                Padding="4 0"
 					                BorderThickness="1"
-					                BorderBrush="{StaticResource LineColor}"
+					                BorderBrush="{StaticResource LightLineColor}"
 					                Height="26"
                                     Tag="{Binding CoinIncomeVm}"
                                     Click="UnitButton_Click">

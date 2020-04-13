@@ -1,0 +1,123 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenHardwareMonitorLib</name>
+    </assembly>
+    <members>
+        <member name="M:OpenHardwareMonitor.Hardware.HDD.SmartAttribute.#ctor(System.Byte,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenHardwareMonitor.Hardware.HDD.SmartAttribute"/> class.
+            </summary>
+            <param name="identifier">The SMART identifier of the attribute.</param>
+            <param name="name">The name of the attribute.</param>
+        </member>
+        <member name="M:OpenHardwareMonitor.Hardware.HDD.SmartAttribute.#ctor(System.Byte,System.String,OpenHardwareMonitor.Hardware.HDD.SmartAttribute.RawValueConversion)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenHardwareMonitor.Hardware.HDD.SmartAttribute"/> class.
+            </summary>
+            <param name="identifier">The SMART identifier of the attribute.</param>
+            <param name="name">The name of the attribute.</param>
+            <param name="rawValueConversion">A delegate for converting the raw byte 
+            array into a value (or null to use the attribute value).</param>
+        </member>
+        <member name="M:OpenHardwareMonitor.Hardware.HDD.SmartAttribute.#ctor(System.Byte,System.String,OpenHardwareMonitor.Hardware.HDD.SmartAttribute.RawValueConversion,System.Nullable{OpenHardwareMonitor.Hardware.SensorType},System.Int32,System.String,System.Boolean,OpenHardwareMonitor.Hardware.ParameterDescription[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenHardwareMonitor.Hardware.HDD.SmartAttribute"/> class.
+            </summary>
+            <param name="identifier">The SMART identifier of the attribute.</param>
+            <param name="name">The name of the attribute.</param>
+            <param name="rawValueConversion">A delegate for converting the raw byte 
+            array into a value (or null to use the attribute value).</param>
+            <param name="sensorType">Type of the sensor or null if no sensor is to 
+            be created.</param>
+            <param name="sensorChannel">If there exists more than one attribute with 
+            the same sensor channel and type, then a sensor is created only for the  
+            first attribute.</param>
+            <param name="sensorName">The name to be used for the sensor, or null if 
+            no sensor is created.</param>
+            <param name="defaultHiddenSensor">True to hide the sensor initially.</param>
+            <param name="parameterDescriptions">Description for the parameters of the sensor 
+            (or null).</param>
+        </member>
+        <member name="P:OpenHardwareMonitor.Hardware.HDD.SmartAttribute.Identifier">
+            <summary>
+            Gets the SMART identifier.
+            </summary>
+        </member>
+        <member name="T:OpenHardwareMonitor.Hardware.HDD.SmartNames">
+            <summary>
+            Localization class for SMART attribute names.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterCommand.SmartCmd">
+            <summary>
+            SMART data requested.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterCommand.IdCmd">
+            <summary>
+            Identify data is requested.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartReadData">
+            <summary>
+            Read SMART data.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartReadThresholds">
+            <summary>
+            Read SMART thresholds.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartAutosave">
+            <summary>
+            Autosave SMART data.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartSaveAttr">
+            <summary>
+            Save SMART attributes.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartImmediateOffline">
+            <summary>
+            Set SMART to offline immediately.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartReadLog">
+            <summary>
+            Read SMART log.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartWriteLog">
+            <summary>
+            Write SMART log.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartWriteThresholds">
+            <summary>
+            Write SMART thresholds.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartEnableOperations">
+            <summary>
+            Enable SMART.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartDisableOperations">
+            <summary>
+            Disable SMART.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartStatus">
+            <summary>
+            Get SMART status.
+            </summary>
+        </member>
+        <member name="F:OpenHardwareMonitor.Hardware.HDD.WindowsSmart.RegisterFeature.SmartAutoOffline">
+            <summary>
+            Set SMART to offline automatically.
+            </summary>
+        </member>
+    </members>
+</doc>

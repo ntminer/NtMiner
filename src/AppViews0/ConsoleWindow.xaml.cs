@@ -1,26 +1,16 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace NTMiner.Views {
-    internal class SafeNativeMethods {
-        internal const int GWL_STYLE = -16;
-        internal const int WS_VISIBLE = 0x10000000;
-        [DllImport(DllName.User32Dll)]
-        internal static extern int SetWindowLong(IntPtr hwnd, int index, int newStyle);
-        [DllImport(DllName.User32Dll, SetLastError = true)]
-        internal static extern IntPtr SetParent(IntPtr hWndChild, IntPtr hWndNewParent);
-    }
-
     public partial class ConsoleWindow : Window {
         public static readonly ConsoleWindow Instance = new ConsoleWindow();
 
         private HwndSource hwndSource;
         private ConsoleWindow() {
-            this.Width = AppStatic.MainWindowWidth;
-            this.Height = AppStatic.MainWindowHeight;
+            this.Width = AppRoot.MainWindowWidth;
+            this.Height = AppRoot.MainWindowHeight;
             InitializeComponent();
             this.Loaded += (sender, e) => {
                 IntPtr parent = new WindowInteropHelper(this).Handle;
@@ -41,13 +31,10 @@ namespace NTMiner.Views {
 
         private int _marginLeft, _marginTop, _height, _width;
 
-        public void MoveWindow(int marginLeft, int marginTop, int height) {
+        public void MoveWindow(int marginLeft, int marginTop, int width, int height) {
             if (!this.IsLoaded) {
                 return;
             }
-            const int paddingLeft = 4;
-            const int paddingRight = 5;
-            int width = (int)this.ActualWidth - paddingLeft - paddingRight - marginLeft + 1;
             if (width < 0) {
                 width = 0;
             }
@@ -68,7 +55,7 @@ namespace NTMiner.Views {
             if ((int)ConsoleBgRectangle.Margin.Top != marginTop) {
                 ConsoleBgRectangle.Margin = new Thickness(0, marginTop, 1, 0);
             }
-            NTMinerConsole.MoveWindow(paddingLeft + marginLeft, marginTop, width, height, true);
+            NTMinerConsole.MoveWindow(marginLeft, marginTop, width, height, true);
         }
     }
 }

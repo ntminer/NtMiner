@@ -86,13 +86,13 @@ namespace NTMiner.Vms {
         }
 
         public void OpenLogFileByNpp(string fileFullName) {
-            string nppDir = Path.Combine(SpecialPath.ToolsDirFullName, "Npp");
+            string nppDir = Path.Combine(TempPath.ToolsDirFullName, "Npp");
             string nppFileFullName = Path.Combine(nppDir, "notepad++.exe");
             if (!Directory.Exists(nppDir)) {
                 Directory.CreateDirectory(nppDir);
             }
             if (!File.Exists(nppFileFullName)) {
-                VirtualRoot.Execute(new ShowFileDownloaderCommand(AppStatic.NppPackageUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
+                VirtualRoot.Execute(new ShowFileDownloaderCommand(AppRoot.NppPackageUrl, "Notepad++", (window, isSuccess, message, saveFileFullName) => {
                     if (isSuccess) {
                         ZipUtil.DecompressZipFile(saveFileFullName, nppDir);
                         File.Delete(saveFileFullName);

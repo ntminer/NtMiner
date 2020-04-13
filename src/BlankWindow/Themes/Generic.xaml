@@ -211,11 +211,6 @@
         <Setter Property="Template"
                 Value="{StaticResource TopGlowTemplate}" />
         <Style.Triggers>
-            <Trigger Property="IsGlow"
-                     Value="False">
-                <Setter Property="Background"
-                        Value="{Binding RelativeSource={RelativeSource Self}, Path=NonActiveGlowBrush}" />
-            </Trigger>
             <Trigger Property="Direction"
                      Value="Bottom">
                 <Setter Property="Template"

@@ -1,17 +1,15 @@
 ﻿using NTMiner.AppSetting;
 using NTMiner.Core;
-using NTMiner.Hub;
-using NTMiner.LocalMessage;
-using NTMiner.Core.MinerClient;
-using NTMiner.Net;
-using NTMiner.Out;
+using NTMiner.Core.MinerServer;
+using NTMiner.Repositories;
 using NTMiner.Serialization;
 using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace NTMiner {
@@ -20,100 +18,13 @@ namespace NTMiner {
     /// </summary>
     /// <remarks>开源矿工代码较多，文档较少。程序员需要在脑子里构建系统的影像，面向这棵树的空间造型和运动景象编程。</remarks>
     public static partial class VirtualRoot {
-        public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
+        #region FormatLocalIps
         /// <summary>
-        /// 矿机的唯一的持久的标识。持久在注册表。
+        /// 获取本机的Ip地址和网卡地址，Ip地址以字符串返回，形如：192.168.1.11(动态),192.168.1.33(🔒)
         /// </summary>
-        public static Guid Id { get; private set; }
-
-        #region IsMinerClient
-        private static bool _isMinerClient;
-        private static bool _isMinerClientDetected = false;
-        private static readonly object _isMinerClientLocker = new object();
-        /// <summary>
-        /// 表示是否是挖矿端。true表示是挖矿端，否则不是。
-        /// </summary>
-        public static bool IsMinerClient {
-            get {
-                if (_isMinerClientDetected) {
-                    return _isMinerClient;
-                }
-                if (_isMinerStudioDetected && IsMinerStudio) {
-                    _isMinerClientDetected = true;
-                    return false;
-                }
-                lock (_isMinerClientLocker) {
-                    if (_isMinerClientDetected) {
-                        return _isMinerClient;
-                    }
-                    if (DevMode.IsInUnitTest) {
-                        _isMinerClient = true;
-                    }
-                    else {
-                        var assembly = Assembly.GetEntryAssembly();
-                        // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是挖矿客户端
-                        _isMinerClient = assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null;
-                    }
-                    _isMinerClientDetected = true;
-                }
-                return _isMinerClient;
-            }
-        }
-        #endregion
-
-        #region IsMinerStudio
-        private static bool _isMinerStudio;
-        private static bool _isMinerStudioDetected = false;
-        private static readonly object _isMinerStudioLocker = new object();
-        /// <summary>
-        /// 表示是否是群控客户端。true表示是群控客户端，否则不是。
-        /// </summary>
-        public static bool IsMinerStudio {
-            get {
-                if (_isMinerStudioDetected) {
-                    return _isMinerStudio;
-                }
-                if (_isMinerClientDetected && IsMinerClient) {
-                    _isMinerStudioDetected = true;
-                    return false;
-                }
-                lock (_isMinerStudioLocker) {
-                    if (_isMinerStudioDetected) {
-                        return _isMinerStudio;
-                    }
-                    if (Environment.CommandLine.IndexOf(NTKeyword.MinerStudioCmdParameterName, StringComparison.OrdinalIgnoreCase) != -1) {
-                        _isMinerStudio = true;
-                    }
-                    else {
-                        // 基于约定，根据主程序集中是否有给定名称的资源文件判断是否是群控客户端
-                        if (DevMode.IsInUnitTest) {
-                            return false;
-                        }
-                        var assembly = Assembly.GetEntryAssembly();
-                        _isMinerStudio = assembly.GetManifestResourceInfo(NTKeyword.NTMinerServicesKey) != null;
-                    }
-                    _isMinerStudioDetected = true;
-                }
-                return _isMinerStudio;
-            }
-        }
-        #endregion
-
-        private static bool _isServerMessagesVisible = false;
-        /// <summary>
-        /// 表示服务器消息在界面上当前是否是可见的。true表示是可见的，反之不是。
-        /// </summary>
-        /// <remarks>本地会根据服务器消息在界面山是否可见优化网络传输，不可见的时候不从服务器加载消息。</remarks>
-        public static bool IsServerMessagesVisible {
-            get { return _isServerMessagesVisible; }
-        }
-
-        // 独立一个方法是为了方便编程工具走查代码，这算是个模式吧，不只出现这一次。编程的用户有三个：1，人；2，编程工具；3，运行时；
-        public static void SetIsServerMessagesVisible(bool value) {
-            _isServerMessagesVisible = value;
-        }
-
-        public static string GetLocalIps(out string macAddress) {
+        /// <param name="macAddress"></param>
+        /// <returns></returns>
+        public static string FormatLocalIps(out string macAddress) {
             string localIp = string.Empty;
             macAddress = string.Empty;
             foreach (var item in LocalIpSet.AsEnumerable()) {
@@ -128,38 +39,36 @@ namespace NTMiner {
             }
             return localIp;
         }
-
-        public static ILocalIpSet LocalIpSet { get; private set; }
-        public static INTSerializer JsonSerializer { get; private set; }
-
-        // 视图层有个界面提供给开发者观察系统的消息路径情况所以是public的。
-        // 系统根上的一些状态集的构造时最好都放在MessageHub初始化之后，因为状态集的构造
-        // 函数中可能会建造消息路径，所以这里保证在访问MessageHub之前一定完成了构造。
-        public static readonly IMessageHub MessageHub = new MessageHub();
-        public static readonly ILocalMessageSet LocalMessages;
-
-        #region Out
-        private static IOut _out;
-        /// <summary>
-        /// 输出到系统之外去
-        /// </summary>
-        public static IOut Out {
-            get {
-                return _out ?? EmptyOut.Instance;
-            }
-        }
-
-        public static void SetOut(IOut ntOut) {
-            _out = ntOut;
-        }
         #endregion
 
+        public static Random GetRandom() {
+            byte[] rndBytes = new byte[4];
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            rng.GetBytes(rndBytes);
+            return new Random(BitConverter.ToInt32(rndBytes, 0));
+        }
+
+        // 因为也用于生成验证码，所以去掉了容易肉眼误判的字符
+        private const string _allChar = "23456789ABCDEabcdefghgkmnpqrFGHGKMNPQRSTUVWXYZstuvwxyz";
+        private static readonly char[] _allCharArray = _allChar.ToCharArray();
+        /// <summary>
+        /// 生成8位随机数
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static string GetRandomString(int len) {
+            Random rnd = GetRandom();
+            char[] chars = new char[len];
+            for (int i = 0; i < len; i++) {
+                chars[i] = _allCharArray[rnd.Next(0, _allCharArray.Length)];
+            }
+            return new string(chars);
+        }
+
+        public static INTSerializer JsonSerializer { get; private set; }
+
         static VirtualRoot() {
-            Id = NTMinerRegistry.GetClientId();
-            LocalIpSet = new LocalIpSet();
             JsonSerializer = new NTJsonSerializer();
-            // 构造函数中会建造消息路径
-            LocalMessages = new LocalMessageSet(EntryAssemblyInfo.LocalDbFileFullName);
         }
 
         #region LocalServerMessageSetTimestamp
@@ -207,10 +116,25 @@ namespace NTMiner {
         public static IAppSettingSet LocalAppSettingSet {
             get {
                 if (_appSettingSet == null) {
-                    _appSettingSet = new LocalAppSettingSet(EntryAssemblyInfo.LocalDbFileFullName);
+                    lock (_locker) {
+                        if (_appSettingSet == null) {
+                            _appSettingSet = new LocalAppSettingSet(HomePath.LocalDbFileFullName);
+                        }
+                    }
                 }
                 return _appSettingSet;
             }
+        }
+        #endregion
+
+        #region CreateLocalRepository
+        /// <summary>
+        /// 创建基于EntryAssemblyInfo.LocalDbFileFullName的给定数据元素类型的读写仓储
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IRepository<T> CreateLocalRepository<T>() where T : class, IDbEntity<Guid> {
+            return new LiteDbReadWriteRepository<T>(HomePath.LocalDbFileFullName);
         }
         #endregion
 
@@ -236,23 +160,6 @@ namespace NTMiner {
                 }
                 return _appName;
             }
-        }
-        #endregion
-
-        #region ConvertToGuid
-        public static Guid ConvertToGuid(object obj) {
-            if (obj == null) {
-                return Guid.Empty;
-            }
-            if (obj is Guid guid1) {
-                return guid1;
-            }
-            if (obj is string s) {
-                if (Guid.TryParse(s, out Guid guid)) {
-                    return guid;
-                }
-            }
-            return Guid.Empty;
         }
         #endregion
 
@@ -341,61 +248,153 @@ namespace NTMiner {
         }
         #endregion
 
-        #region LocalMessage
-        public static void ThisLocalInfo(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            LocalMessage(LocalMessageChannel.This, provider, LocalMessageType.Info, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
-        public static void ThisLocalWarn(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            LocalMessage(LocalMessageChannel.This, provider, LocalMessageType.Warn, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
-        public static void ThisLocalError(string provider, string content, OutEnum outEnum = OutEnum.None, bool toConsole = false) {
-            LocalMessage(LocalMessageChannel.This, provider, LocalMessageType.Error, content, outEnum: outEnum, toConsole: toConsole);
-        }
-
-        public static void LocalMessage(LocalMessageChannel channel, string provider, LocalMessageType messageType, string content, OutEnum outEnum, bool toConsole) {
-            switch (outEnum) {
-                case OutEnum.None:
-                    break;
-                case OutEnum.Info:
-                    Out.ShowInfo(content);
-                    break;
-                case OutEnum.Warn:
-                    Out.ShowWarn(content, autoHideSeconds: 4);
-                    break;
-                case OutEnum.Error:
-                    Out.ShowError(content, autoHideSeconds: 4);
-                    break;
-                case OutEnum.Success:
-                    Out.ShowSuccess(content);
-                    break;
-                default:
-                    break;
+        #region ConvertValue
+        /// <summary>
+        /// 用于转型经过序列化和反序列化网络传输的数据类型
+        /// </summary>
+        public static object ConvertValue(Type toType, object value) {
+            if (value == null) {
+                return value;
             }
-            if (toConsole) {
-                switch (messageType) {
-                    case LocalMessageType.Info:
-                        Write.UserInfo(content);
-                        break;
-                    case LocalMessageType.Warn:
-                        Write.UserWarn(content);
-                        break;
-                    case LocalMessageType.Error:
-                        Write.UserError(content);
-                        break;
-                    default:
-                        break;
+            if (toType == typeof(Guid)) {
+                if (value is Guid guid1) {
+                    return guid1;
+                }
+                if (value is string s) {
+                    if (Guid.TryParse(s, out Guid guid)) {
+                        return guid;
+                    }
+                }
+                return Guid.Empty;
+            }
+            else if (toType == typeof(bool)) {
+                return Convert.ToBoolean(value);
+            }
+            else if (toType == typeof(byte)) {
+                return Convert.ToByte(value);
+            }
+            else if (toType == typeof(char)) {
+                return Convert.ToChar(value);
+            }
+            else if (toType == typeof(short)) {
+                return Convert.ToInt16(value);
+            }
+            else if (toType == typeof(int)) {
+                return Convert.ToInt32(value);
+            }
+            else if (toType == typeof(long)) {
+                return Convert.ToInt64(value);
+            }
+            else if (toType == typeof(sbyte)) {
+                return Convert.ToSByte(value);
+            }
+            else if (toType == typeof(ushort)) {
+                return Convert.ToUInt16(value);
+            }
+            else if (toType == typeof(uint)) {
+                return Convert.ToUInt32(value);
+            }
+            else if (toType == typeof(ulong)) {
+                return Convert.ToUInt64(value);
+            }
+            else if (toType == typeof(double)) {
+                return Convert.ToDouble(value);
+            }
+            else if (toType == typeof(float)) {
+                return Convert.ToSingle(value);
+            }
+            else if (toType == typeof(Decimal)) {
+                return Convert.ToDecimal(value);
+            }
+            else if (toType == typeof(DateTime)) {
+                return Convert.ToDateTime(value);
+            }
+            else {
+                return value;
+            }
+        }
+
+        public static void ChangeValueType(this Dictionary<string, object> dic, Type toType) {
+            if (dic == null || dic.Count == 0) {
+                return;
+            }
+            foreach (var key in dic.Keys.ToArray()) {
+                dic[key] = ConvertValue(toType, dic[key]);
+            }
+        }
+
+        public static void ChangeValueType(this Dictionary<string, object> dic, Func<string, Type> getTypeByKey) {
+            if (dic == null || dic.Count == 0) {
+                return;
+            }
+            foreach (var key in dic.Keys.ToArray()) {
+                dic[key] = ConvertValue(getTypeByKey(key), dic[key]);
+            }
+        }
+        #endregion
+
+        #region CreateCoinSnapshots
+        public static ICollection<CoinSnapshotData> CreateCoinSnapshots(bool isPull, DateTime now, IEnumerable<ClientData> data, out int onlineCount, out int miningCount) {
+            onlineCount = 0;
+            miningCount = 0;
+            Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
+            foreach (var clientData in data) {
+                if (isPull) {
+                    if (clientData.MinerActiveOn.AddSeconds(15) < now) {
+                        continue;
+                    }
+                }
+                else {
+                    if (clientData.MinerActiveOn.AddSeconds(130) < now) {
+                        continue;
+                    }
+                }
+
+                onlineCount++;
+
+                if (string.IsNullOrEmpty(clientData.MainCoinCode)) {
+                    continue;
+                }
+
+                if (!dicByCoinCode.TryGetValue(clientData.MainCoinCode, out CoinSnapshotData mainCoinSnapshotData)) {
+                    mainCoinSnapshotData = new CoinSnapshotData() {
+                        Timestamp = now,
+                        CoinCode = clientData.MainCoinCode
+                    };
+                    dicByCoinCode.Add(clientData.MainCoinCode, mainCoinSnapshotData);
+                }
+
+                if (clientData.IsMining) {
+                    miningCount++;
+                    mainCoinSnapshotData.MainCoinMiningCount += 1;
+                    mainCoinSnapshotData.Speed += clientData.MainCoinSpeed;
+                    mainCoinSnapshotData.ShareDelta += clientData.GetMainCoinShareDelta(isPull);
+                    mainCoinSnapshotData.RejectShareDelta += clientData.GetMainCoinRejectShareDelta(isPull);
+                }
+
+                mainCoinSnapshotData.MainCoinOnlineCount += 1;
+
+                if (!string.IsNullOrEmpty(clientData.DualCoinCode) && clientData.IsDualCoinEnabled) {
+                    if (!dicByCoinCode.TryGetValue(clientData.DualCoinCode, out CoinSnapshotData dualCoinSnapshotData)) {
+                        dualCoinSnapshotData = new CoinSnapshotData() {
+                            Timestamp = now,
+                            CoinCode = clientData.DualCoinCode
+                        };
+                        dicByCoinCode.Add(clientData.DualCoinCode, dualCoinSnapshotData);
+                    }
+
+                    if (clientData.IsMining) {
+                        dualCoinSnapshotData.DualCoinMiningCount += 1;
+                        dualCoinSnapshotData.Speed += clientData.DualCoinSpeed;
+                        dualCoinSnapshotData.ShareDelta += clientData.GetDualCoinShareDelta(isPull);
+                        dualCoinSnapshotData.RejectShareDelta += clientData.GetDualCoinRejectShareDelta(isPull);
+                    }
+
+                    dualCoinSnapshotData.DualCoinOnlineCount += 1;
                 }
             }
-            Execute(new AddLocalMessageCommand(new LocalMessageData {
-                Id = Guid.NewGuid(),
-                Channel = channel.GetName(),
-                Provider = provider,
-                MessageType = messageType.GetName(),
-                Content = content,
-                Timestamp = DateTime.Now
-            }));
+
+            return dicByCoinCode.Values;
         }
         #endregion
 

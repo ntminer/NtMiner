@@ -12,7 +12,7 @@
     xmlns:local="clr-namespace:NTMiner.Views"
     ResizeMode="NoResize"
     SizeToContent="Height"
-    BorderBrush="{StaticResource IconFillColor}"
+    BorderBrush="{StaticResource BtnBackground}"
     WindowStartupLocation="CenterOwner"
     Background="White"
     d:DataContext="{d:DesignData Source=./Design/DialogWindowViewModel.xaml}"
@@ -48,7 +48,7 @@
                 DockPanel.Dock="Right" 
                 HorizontalAlignment="Right" />
             <controls:KbLinkButton 
-                Margin="0 0 4 0"
+                Margin="0 0 8 0"
                 Visibility="{Binding HelpUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
                 DockPanel.Dock="Right" 
                 HorizontalAlignment="Right" 
@@ -57,15 +57,7 @@
                 Click="Help_Click"
 				Background="Transparent"
 				Foreground="{StaticResource ThemeForeground}">
-                <WrapPanel>
-                    <Path 
-                        Width="14"
-                        Height="14"
-                        Fill="{StaticResource ThemeForeground}"
-                        Data="{StaticResource Icon_Help}"
-                        Stretch="Fill"/>
-                    <TextBlock Margin="2 0 0 0" FontSize="13" Foreground="{StaticResource ThemeForeground}">帮助</TextBlock>
-                </WrapPanel>
+                <TextBlock FontSize="13" Padding="4 0" Foreground="{StaticResource ThemeForeground}">?</TextBlock>
             </controls:KbLinkButton>
         </DockPanel>
         <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
@@ -79,8 +71,8 @@
                 ToolTip="{Binding BtnYesToolTip}"
                 Visibility="{Binding BtnYesNoVisible}"
                 Click="KbYesButton_Click"
-                Background="{StaticResource ThemeBackground}"
-                Foreground="{StaticResource ThemeForeground}"
+                Background="{StaticResource BtnBackground}"
+                Foreground="{StaticResource BtnForeground}"
                 VerticalAlignment="Center"
                 CornerRadius="2">
                 <WrapPanel>
@@ -88,12 +80,11 @@
                         Width="14"
                         Height="14"
                         Data="{StaticResource Icon_Ok}"
-                        Fill="{StaticResource ThemeForeground}"
+                        Fill="{StaticResource BtnForeground}"
                         Stretch="Fill" />
                     <TextBlock
                         FontSize="14"
                         Padding="4"
-                        Foreground="{StaticResource ThemeForeground}"
                         VerticalAlignment="Center"
                         Text="{Binding YesText}" />
                 </WrapPanel>

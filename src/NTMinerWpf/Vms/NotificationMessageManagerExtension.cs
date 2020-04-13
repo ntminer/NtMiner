@@ -5,8 +5,8 @@ namespace NTMiner.Vms {
         public static NotificationMessageBuilder Info(this NotificationMessageBuilder builder, string header, string message) {
             builder
                 .Accent("#1751C3")
-                .Background("#D5EAFF")
-                .Foreground("Black")
+                .Background("#333333")
+                .Foreground("White")
                 .HasHeader(header);
             builder.SetMessage(message);
 

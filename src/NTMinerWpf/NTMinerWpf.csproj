@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppUtil.cs" />
+    <Compile Include="Converters\IntToHiddenConverter.cs" />
     <Compile Include="Converters\MbToGbConverter.cs" />
     <Compile Include="FrameworkElementExtension.cs" />
     <Compile Include="Messages.cs" />
@@ -144,7 +145,7 @@
     <Compile Include="Views\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WpfTimer.cs" />
+    <Compile Include="WpfTimingEventProducer.cs" />
     <Compile Include="WpfUtil.cs" />
     <Compile Include="Controls\BindingProxy.cs" />
   </ItemGroup>
@@ -198,6 +199,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Design\LocalIpConfigViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\LoginWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

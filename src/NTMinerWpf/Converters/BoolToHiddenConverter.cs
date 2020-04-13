@@ -14,7 +14,7 @@ namespace NTMiner.Converters {
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {
-            return value != null && value.Equals(true) ? parameter : Binding.DoNothing;
+            throw new NotSupportedException();
         }
     }
 }

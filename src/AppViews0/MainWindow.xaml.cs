@@ -1,48 +1,16 @@
 ﻿using Microsoft.Win32;
-using NTMiner.Core;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System;
 using System.ComponentModel;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Shapes;
 
 namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
-        #region SafeNativeMethods
-        private static class SafeNativeMethods {
-            #region enum struct class
-            [StructLayout(LayoutKind.Sequential)]
-            public struct POINT {
-                public int X;
-                public int Y;
-            }
-
-            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-            public class MONITORINFO {
-                public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
-                public RECT rcMonitor = new RECT();
-                public RECT rcWork = new RECT();
-                public int dwFlags = 0;
-            }
-
-            [StructLayout(LayoutKind.Sequential)]
-            public struct RECT {
-                public int Left, Top, Right, Bottom;
-            }
-            #endregion
-
-            [DllImport(DllName.User32Dll)]
-            [return: MarshalAs(UnmanagedType.Bool)]
-            internal static extern bool GetCursorPos(out POINT lpPoint);
-        }
-        #endregion
-
         private bool mRestoreIfMove = false;
 
         private MainWindowViewModel Vm {
@@ -53,7 +21,7 @@ namespace NTMiner.Views {
 
         private HwndSource hwndSource;
         private readonly GridLength _leftDrawerGripWidth;
-        private readonly Brush _btnLeftDrawerGripBrush;
+        private readonly Brush _btnOverClockBackground;
         public MainWindow() {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -61,8 +29,8 @@ namespace NTMiner.Views {
 
             this.MinHeight = 430;
             this.MinWidth = 640;
-            this.Width = AppStatic.MainWindowWidth;
-            this.Height = AppStatic.MainWindowHeight;
+            this.Width = AppRoot.MainWindowWidth;
+            this.Height = AppRoot.MainWindowHeight;
 #if DEBUG
             NTStopwatch.Start();
 #endif
@@ -70,18 +38,17 @@ namespace NTMiner.Views {
             ConsoleWindow.Instance.MouseDown += (sender, e) => {
                 MoveConsoleWindow();
             };
-            ConsoleWindow.Instance.Hide();
             this.Owner = ConsoleWindow.Instance;
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
             this.Loaded += (sender, e) => {
+                ConsoleTabItemTopBorder.Margin = new Thickness(0, ConsoleTabItem.ActualHeight - 1, 0, 0);
                 MoveConsoleWindow();
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
             };
             InitializeComponent();
             _leftDrawerGripWidth = LeftDrawerGrip.Width;
-            _btnLeftDrawerGripBrush = BtnLeftDrawerGrip.Background;
-            NTMinerRoot.RefreshArgsAssembly.Invoke();
+            _btnOverClockBackground = BtnOverClock.Background;
             // 下面几行是为了看见设计视图
             this.ResizeCursors.Visibility = Visibility.Visible;
             this.HideLeftDrawerGrid();
@@ -89,10 +56,10 @@ namespace NTMiner.Views {
 
             DateTime lastGetServerMessageOn = DateTime.MinValue;
             // 切换了主界面上的Tab时
-            this.MainArea.SelectionChanged += (sender, e) => {
+            this.MainTabControl.SelectionChanged += (sender, e) => {
                 // 延迟创建，以加快主界面的启动
                 #region
-                var selectedItem = MainArea.SelectedItem;
+                var selectedItem = MainTabControl.SelectedItem;
                 if (selectedItem == TabItemSpeedTable) {
                     if (SpeedTableContainer.Child == null) {
                         SpeedTableContainer.Child = GetSpeedTable();
@@ -113,28 +80,31 @@ namespace NTMiner.Views {
                         MinerProfileOptionContainer.Child = new MinerProfileOption();
                     }
                 }
-                VirtualRoot.SetIsServerMessagesVisible(selectedItem == TabItemMessage);
+                RpcRoot.SetIsServerMessagesVisible(selectedItem == TabItemMessage);
                 if (selectedItem == TabItemMessage) {
                     if (lastGetServerMessageOn.AddSeconds(10) < DateTime.Now) {
                         lastGetServerMessageOn = DateTime.Now;
                         VirtualRoot.Execute(new LoadNewServerMessageCommand());
                     }
                 }
+                if (selectedItem == ConsoleTabItem) {
+                    ConsoleTabItemTopBorder.Visibility = Visibility.Visible;
+                }
+                else {
+                    ConsoleTabItemTopBorder.Visibility = Visibility.Collapsed;
+                }
                 #endregion
             };
             this.IsVisibleChanged += (sender, e) => {
                 #region
                 if (this.IsVisible) {
-                    NTMinerRoot.IsUiVisible = true;
+                    NTMinerContext.IsUiVisible = true;
                 }
                 else {
-                    NTMinerRoot.IsUiVisible = false;
+                    NTMinerContext.IsUiVisible = false;
                 }
                 MoveConsoleWindow();
                 #endregion
-            };
-            this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
-                MoveConsoleWindow();
             };
             this.StateChanged += (s, e) => {
                 #region
@@ -158,6 +128,9 @@ namespace NTMiner.Views {
                 MoveConsoleWindow();
                 #endregion
             };
+            this.ConsoleRectangle.IsVisibleChanged += (sender, e) => {
+                MoveConsoleWindow();
+            };
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
@@ -165,9 +138,11 @@ namespace NTMiner.Views {
                 #region
                 if (this.Width < 860) {
                     this.CloseLeftDrawer();
+                    this.BtnAboutNTMiner.Visibility = Visibility.Collapsed;
                 }
                 else {
                     this.OpenLeftDrawer();
+                    this.BtnAboutNTMiner.Visibility = Visibility.Visible;
                 }
                 if (!this.ConsoleRectangle.IsVisible) {
                     if (e.WidthChanged) {
@@ -179,7 +154,7 @@ namespace NTMiner.Views {
                 }
                 #endregion
             };
-            NotiCenterWindow.Instance.Bind(this, ownerIsTopMost: true);
+            NotiCenterWindow.Bind(this, ownerIsTopMost: true);
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
@@ -220,9 +195,9 @@ namespace NTMiner.Views {
                 }, location: this.GetType());
             this.AddEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
-                    if (NTMinerRoot.IsUiVisible && NTMinerRoot.Instance.MinerProfile.IsAutoNoUi && NTMinerRoot.Instance.IsMining) {
-                        if (NTMinerRoot.MainWindowRendedOn.AddMinutes(NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
-                            VirtualRoot.ThisLocalInfo(nameof(MainWindow), $"挖矿中界面展示{NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置");
+                    if (NTMinerContext.IsUiVisible && NTMinerContext.Instance.MinerProfile.IsAutoNoUi && NTMinerContext.Instance.IsMining) {
+                        if (NTMinerContext.MainWindowRendedOn.AddMinutes(NTMinerContext.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
+                            VirtualRoot.ThisLocalInfo(nameof(MainWindow), $"挖矿中界面展示{NTMinerContext.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置");
                             VirtualRoot.Execute(new CloseMainWindowCommand(isAutoNoUi: true));
                         }
                     }
@@ -276,7 +251,11 @@ namespace NTMiner.Views {
             }
             if (ConsoleRectangle != null && ConsoleRectangle.IsVisible) {
                 Point point = ConsoleRectangle.TransformToAncestor(this).Transform(new Point(0, 0));
-                consoleWindow.MoveWindow(marginLeft: (int)point.X, marginTop: (int)point.Y, height: (int)ConsoleRectangle.ActualHeight);
+                const int paddingLeft = 4;
+                const int paddingRight = 5;
+                int marginLeft = paddingLeft + (int)point.X;
+                int width = (int)this.ActualWidth - marginLeft - paddingRight;
+                consoleWindow.MoveWindow(marginLeft: marginLeft, marginTop: (int)point.Y, width, height: (int)ConsoleRectangle.ActualHeight);
             }
         }
         #endregion
@@ -286,9 +265,9 @@ namespace NTMiner.Views {
         private int _cpuTemperature = 0;
         private int _cpuPower = 0;
         private void UpdateCpuView() {
-            int performance = NTMinerRoot.Instance.CpuPackage.Performance;
-            int temperature = NTMinerRoot.Instance.CpuPackage.Temperature;
-            int cpuPower = NTMinerRoot.Instance.CpuPackage.Power;
+            int performance = NTMinerContext.Instance.CpuPackage.Performance;
+            int temperature = NTMinerContext.Instance.CpuPackage.Temperature;
+            int cpuPower = NTMinerContext.Instance.CpuPackage.Power;
             if (temperature < 0) {
                 temperature = 0;
             }
@@ -334,26 +313,17 @@ namespace NTMiner.Views {
             CloseLeftDrawer();
         }
 
-        private void BtnLeftDrawerGrip_MouseDown(object sender, MouseButtonEventArgs e) {
-            if (e.ClickCount != 2) {
-                if (leftDrawer.Visibility == Visibility.Collapsed) {
-                    leftDrawer.Visibility = Visibility.Visible;
-                }
-                else {
-                    leftDrawer.Visibility = Visibility.Collapsed;
-                }
+        private void BtnLeftDrawerGrip_Click(object sender, RoutedEventArgs e) {
+            if (leftDrawer.Visibility == Visibility.Collapsed) {
+                leftDrawer.Visibility = Visibility.Visible;
             }
             else {
-                OpenLeftDrawer();
+                leftDrawer.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void BtnLeftDrawerGrip_MouseEnter(object sender, MouseEventArgs e) {
-            ((Control)sender).Background = WpfUtil.GreenBrush;
-        }
-
-        private void BtnLeftDrawerGrip_MouseLeave(object sender, MouseEventArgs e) {
-            ((Control)sender).Background = _btnLeftDrawerGripBrush;
+        private void BtnLeftDrawerGrip_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
+            OpenLeftDrawer();
         }
 
         // 打开左侧抽屉
@@ -366,7 +336,7 @@ namespace NTMiner.Views {
             PinRotateTransform.Angle = 90;
 
             mainLayer.ColumnDefinitions.Remove(MinerProfileColumn);
-            MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
+            MainTabControl.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
         private void ShowLeftDrawerGrid() {
@@ -385,7 +355,7 @@ namespace NTMiner.Views {
             if (!mainLayer.ColumnDefinitions.Contains(MinerProfileColumn)) {
                 mainLayer.ColumnDefinitions.Insert(0, MinerProfileColumn);
             }
-            MainArea.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
+            MainTabControl.SetValue(Grid.ColumnProperty, mainLayer.ColumnDefinitions.Count - 1);
         }
 
         private void HideLeftDrawerGrid() {
@@ -394,8 +364,8 @@ namespace NTMiner.Views {
         #endregion
 
         protected override void OnClosing(CancelEventArgs e) {
-            if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit) {
-                AppStatic.AppExit.Execute(null);
+            if (NTMinerContext.Instance.MinerProfile.IsCloseMeanExit) {
+                VirtualRoot.Execute(new CloseNTMinerCommand("手动操作，关闭主界面意为退出"));
             }
             else {
                 e.Cancel = true;
@@ -404,7 +374,7 @@ namespace NTMiner.Views {
         }
 
         private void SwitchToNoUi() {
-            AppContext.Disable();
+            AppRoot.Disable();
             this.Hide();
             VirtualRoot.Out.ShowSuccess("已切换为无界面模式运行");
         }
@@ -427,14 +397,30 @@ namespace NTMiner.Views {
 
         private void BtnOverClockVisible_Click(object sender, RoutedEventArgs e) {
             var speedTableUc = this.GetSpeedTable();
-            if (MainArea.SelectedItem == TabItemSpeedTable) {
+            if (MainTabControl.SelectedItem == TabItemSpeedTable) {
                 speedTableUc.ShowOrHideOverClock(isShow: speedTableUc.IsOverClockVisible == Visibility.Collapsed);
             }
             else {
                 speedTableUc.ShowOrHideOverClock(isShow: true);
             }
-            MainArea.SelectedItem = TabItemSpeedTable;
+            MainTabControl.SelectedItem = TabItemSpeedTable;
             IconOverClockEyeClosed.Visibility = speedTableUc.IsOverClockVisible == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            if (IconOverClockEyeClosed.Visibility == Visibility.Visible) {
+                BtnOverClock.Background = _btnOverClockBackground;
+            }
+            else {
+                BtnOverClock.Background = WpfUtil.WhiteBrush;
+            }
+        }
+
+        private void BtnOuterUserShowOption_Click(object sender, RoutedEventArgs e) {
+            MainTabControl.SelectedItem = TabItemMinerProfileOption;
+            ((MinerProfileOption)MinerProfileOptionContainer.Child).HighlightOuterUser();
+        }
+
+        private void BtnAutomationShowOption_Click(object sender, RoutedEventArgs e) {
+            MainTabControl.SelectedItem = TabItemMinerProfileOption;
+            ((MinerProfileOption)MinerProfileOptionContainer.Child).HighlightAutomation();
         }
 
         private SpeedTable _speedTable;

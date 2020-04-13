@@ -20,7 +20,7 @@ namespace NTMiner {
             [DllImport(DllName.Kernel32Dll, SetLastError = true)]
             private static extern bool SetConsoleMode(IntPtr hConsoleHandle, uint mode);
 
-            private static void DisbleQuickEditMode() {
+            internal static void DisbleQuickEditMode() {
                 const int STD_INPUT_HANDLE = -10;
                 const uint ENABLE_PROCESSED_INPUT = 0x0001;
                 const uint ENABLE_QUICK_EDIT_MODE = 0x0040;
@@ -42,9 +42,17 @@ namespace NTMiner {
                         DisbleQuickEditMode();
                     }
                     console = GetConsoleWindow();
+                    Console.WriteLine();
                 }
                 return console;
             }
+        }
+
+        /// <summary>
+        /// 禁止编辑控制台窗口
+        /// </summary>
+        public static void DisbleQuickEditMode() {
+            SafeNativeMethods.DisbleQuickEditMode();
         }
 
         public static IntPtr GetOrAlloc(bool disableQuickEditMode = true) {

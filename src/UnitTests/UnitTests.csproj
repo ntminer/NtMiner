@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UnitTests</RootNamespace>
     <AssemblyName>UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
@@ -20,6 +20,7 @@
     <TestProjectType>UnitTest</TestProjectType>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -57,8 +58,12 @@
       <HintPath>..\ThirdPartyDlls\OpenHardwareMonitorLib.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
+    <Reference Include="StackExchange.Redis, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.1.2.1\lib\net45\StackExchange.Redis.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -66,15 +71,27 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
+    <Reference Include="websocket-sharp">
+      <HintPath>..\ThirdPartyDlls\websocket-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppTypeTests.cs" />
+    <Compile Include="ConvertTests.cs" />
     <Compile Include="CpuTests.cs" />
     <Compile Include="DependencyObjectTests.cs" />
     <Compile Include="DotNet45Tests.cs" />
+    <Compile Include="EnumTests.cs" />
     <Compile Include="EnvironmentTests.cs" />
+    <Compile Include="FuncTests.cs" />
+    <Compile Include="GuidTests.cs" />
+    <Compile Include="IoTests.cs" />
     <Compile Include="LiteDBTests.cs" />
+    <Compile Include="RamTests.cs" />
+    <Compile Include="CryptographyTests.cs" />
+    <Compile Include="RandomTests.cs" />
+    <Compile Include="ReflectionTests.cs" />
     <Compile Include="StackTraceTests.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,6 +106,7 @@
     <Compile Include="HttpClientTests.cs" />
     <Compile Include="DictionaryTests.cs" />
     <Compile Include="ResourceDictionaryTests.cs" />
+    <Compile Include="RedisTests.cs" />
     <Compile Include="WMITests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +157,10 @@
     <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
       <Name>NTMinerRpcClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerServer\NTMinerServer.csproj">
+      <Project>{cb2619b7-3f59-41b7-a562-4a3f117822ce}</Project>
+      <Name>NTMinerServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\NTMinerWpf\NTMinerWpf.csproj">
       <Project>{dd8e010e-d5e9-47cf-9cb4-8dc6e13d483d}</Project>

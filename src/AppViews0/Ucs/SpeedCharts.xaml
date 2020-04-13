@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.SpeedCharts"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-			 xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-			 xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-			 mc:Ignorable="d" 
-			 d:DesignHeight="520" d:DesignWidth="760">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.SpeedCharts"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	mc:Ignorable="d" 
+	d:DesignHeight="520" d:DesignWidth="760">
 	<UserControl.DataContext>
 		<vm:SpeedChartsViewModel></vm:SpeedChartsViewModel>
 	</UserControl.DataContext>

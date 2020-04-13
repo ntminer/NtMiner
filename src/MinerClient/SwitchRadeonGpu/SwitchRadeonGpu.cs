@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -9,22 +8,17 @@ using System.Threading.Tasks;
 /// </summary>
 namespace NTMiner.SwitchRadeonGpu {
     public static class SwitchRadeonGpu {
-        public static void Run(bool on, Action<bool, Exception> callback) {
-            try {
-                Task.Factory.StartNew(() => {
-                    Type type = typeof(SwitchRadeonGpu);
-                    Assembly assembly = type.Assembly;
-                    string name = "switch-radeon-gpu.exe";
-                    string fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, name);
-                    assembly.ExtractManifestResource(type, name, fileFullName);
-                    Windows.Cmd.RunClose(fileFullName, $"--compute={(on ? "on" : "off")} --admin --restart", waitForExit: true);
-                    callback?.Invoke(true, null);
-                });
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                callback?.Invoke(false, e);
-            }
+        public static Task Run(bool on) {
+            return Task.Factory.StartNew(() => {
+                ExtractManifestResource();
+                Windows.Cmd.RunClose(EntryAssemblyInfo.SwitchRadeonGpuFileFullName, $"--compute={(on ? "on" : "off")} --admin --restart", waitForExit: true);
+            });
+        }
+
+        private static void ExtractManifestResource() {
+            Type type = typeof(SwitchRadeonGpu);
+            Assembly assembly = type.Assembly;
+            assembly.ExtractManifestResource(type, EntryAssemblyInfo.SwitchRadeonGpuResourceName, EntryAssemblyInfo.SwitchRadeonGpuFileFullName);
         }
     }
 }

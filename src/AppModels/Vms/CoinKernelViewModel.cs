@@ -68,18 +68,18 @@ namespace NTMiner.Vms {
             // 复制，视为值对象，防止直接修改引用
             _inputSegments.AddRange(data.InputSegments.Select(a => new InputSegment(a)));
             _inputSegmentVms.AddRange(_inputSegments.Select(a => new InputSegmentViewModel(a)));
-            _gpuInputSegmentVms.AddRange(_inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)));
+            _gpuInputSegmentVms.AddRange(_inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)));
             _fileWriterIds = data.FileWriterIds;
             _fragmentWriterIds = data.FragmentWriterIds;
             _isHot = data.IsHot;
             _isRecommend = data.IsRecommend;
             foreach (var writerId in _fileWriterIds) {
-                if (AppContext.Instance.FileWriterVms.TryGetFileWriterVm(writerId, out FileWriterViewModel writerVm)) {
+                if (AppRoot.FileWriterVms.TryGetFileWriterVm(writerId, out FileWriterViewModel writerVm)) {
                     _fileWriterVms.Add(writerVm);
                 }
             }
             foreach (var writerId in _fragmentWriterIds) {
-                if (AppContext.Instance.FragmentWriterVms.TryGetFragmentWriterVm(writerId, out FragmentWriterViewModel writerVm)) {
+                if (AppRoot.FragmentWriterVms.TryGetFragmentWriterVm(writerId, out FragmentWriterViewModel writerVm)) {
                     _fragmentWriterVms.Add(writerVm);
                 }
             }
@@ -88,10 +88,10 @@ namespace NTMiner.Vms {
         public CoinKernelViewModel(Guid id) {
             _id = id;
             this.AddEnvironmentVariable = new DelegateCommand(() => {
-                VirtualRoot.Execute(new EnvironmentVariableEditCommand(this, new EnvironmentVariable()));
+                VirtualRoot.Execute(new EditEnvironmentVariableCommand(this, new EnvironmentVariable()));
             });
             this.EditEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
-                VirtualRoot.Execute(new EnvironmentVariableEditCommand(this, environmentVariable));
+                VirtualRoot.Execute(new EditEnvironmentVariableCommand(this, environmentVariable));
             });
             this.RemoveEnvironmentVariable = new DelegateCommand<EnvironmentVariable>(environmentVariable => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除环境变量{environmentVariable.Key}吗？", title: "确认", onYes: () => {
@@ -100,10 +100,10 @@ namespace NTMiner.Vms {
                 }));
             });
             this.AddSegment = new DelegateCommand(() => {
-                VirtualRoot.Execute(new InputSegmentEditCommand(this, new InputSegmentViewModel()));
+                VirtualRoot.Execute(new EditInputSegmentCommand(this, new InputSegmentViewModel()));
             });
             this.EditSegment = new DelegateCommand<InputSegmentViewModel>((segment) => {
-                VirtualRoot.Execute(new InputSegmentEditCommand(this, segment));
+                VirtualRoot.Execute(new EditInputSegmentCommand(this, segment));
             });
             this.RemoveSegment = new DelegateCommand<InputSegmentViewModel>((segment) => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除片段{segment.Name}吗？", title: "确认", onYes: () => {
@@ -128,13 +128,13 @@ namespace NTMiner.Vms {
                 }));
             });
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Instance.ServerContext.CoinKernelSet.Contains(this.Id)) {
+                if (NTMinerContext.Instance.ServerContext.CoinKernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateCoinKernelCommand(this));
                 }
                 VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                VirtualRoot.Execute(new CoinKernelEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditCoinKernelCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -179,7 +179,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || this.CoinId != _coinVm.Id) {
-                    AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
+                    AppRoot.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
                     if (_coinVm == null) {
                         _coinVm = CoinViewModel.Empty;
                     }
@@ -206,7 +206,7 @@ namespace NTMiner.Vms {
 
         public KernelViewModel Kernel {
             get {
-                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.KernelId, out KernelViewModel kernel)) {
+                if (AppRoot.KernelVms.TryGetKernelVm(this.KernelId, out KernelViewModel kernel)) {
                     return kernel;
                 }
                 return KernelViewModel.Empty;
@@ -231,7 +231,7 @@ namespace NTMiner.Vms {
                     return GroupViewModel.PleaseSelect;
                 }
                 if (_selectedDualCoinGroup == null || _selectedDualCoinGroup.Id != this.DualCoinGroupId) {
-                    AppContext.Instance.GroupVms.TryGetGroupVm(DualCoinGroupId, out _selectedDualCoinGroup);
+                    AppRoot.GroupVms.TryGetGroupVm(DualCoinGroupId, out _selectedDualCoinGroup);
                     if (_selectedDualCoinGroup == null) {
                         _selectedDualCoinGroup = GroupViewModel.PleaseSelect;
                     }
@@ -245,9 +245,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.GroupViewModels GroupVms {
+        public AppRoot.GroupViewModels GroupVms {
             get {
-                return AppContext.Instance.GroupVms;
+                return AppRoot.GroupVms;
             }
         }
 
@@ -323,7 +323,7 @@ namespace NTMiner.Vms {
             }
             set {
                 _inputSegmentVms = value;
-                _gpuInputSegmentVms = _inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)).ToList();
+                _gpuInputSegmentVms = _inputSegmentVms.Where(a => a.TargetGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)).ToList();
                 OnPropertyChanged(nameof(InputSegmentVms));
                 OnPropertyChanged(nameof(GpuInputSegmentVms));
             }
@@ -341,7 +341,7 @@ namespace NTMiner.Vms {
                 _fileWriterIds = value;
                 OnPropertyChanged(nameof(FileWriterIds));
                 if (value != null) {
-                    this.FileWriterVms = AppContext.Instance.FileWriterVms.List.Where(a => value.Contains(a.Id)).ToList();
+                    this.FileWriterVms = AppRoot.FileWriterVms.List.Where(a => value.Contains(a.Id)).ToList();
                 }
                 else {
                     this.FileWriterVms = new List<FileWriterViewModel>();
@@ -367,7 +367,7 @@ namespace NTMiner.Vms {
                 _fragmentWriterIds = value;
                 OnPropertyChanged(nameof(FragmentWriterIds));
                 if (value != null) {
-                    this.FragmentWriterVms = AppContext.Instance.FragmentWriterVms.List.Where(a => value.Contains(a.Id)).ToList();
+                    this.FragmentWriterVms = AppRoot.FragmentWriterVms.List.Where(a => value.Contains(a.Id)).ToList();
                 }
                 else {
                     this.FragmentWriterVms = new List<FragmentWriterViewModel>();
@@ -397,7 +397,7 @@ namespace NTMiner.Vms {
                 if (_isSupportPool1 != value) {
                     _isSupportPool1 = value;
                     OnPropertyChanged(nameof(IsSupportPool1));
-                    AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
+                    AppRoot.MinerProfileVm.OnPropertyChanged(nameof(AppRoot.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
                 }
             }
         }
@@ -418,7 +418,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                return this.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType);
+                return this.SupportedGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType);
             }
         }
 
@@ -442,7 +442,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<SupportedGpu> SupportedGpuEnumItem {
             get {
-                return NTMinerRoot.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
+                return NTMinerContext.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
             }
             set {
                 if (SupportedGpu != value.Value) {
@@ -453,7 +453,7 @@ namespace NTMiner.Vms {
 
         public CoinKernelProfileViewModel CoinKernelProfile {
             get {
-                return AppContext.Instance.CoinProfileVms.GetOrCreateCoinKernelProfileVm(this.Id);
+                return AppRoot.CoinProfileVms.GetOrCreateCoinKernelProfileVm(this.Id);
             }
         }
     }

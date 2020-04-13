@@ -12,11 +12,11 @@
             return InvalidInput<ResponseBase>(description);
         }
 
-        public static ResponseBase Ok() {
+        public static ResponseBase Ok(string description = null) {
             return new ResponseBase() {
                 StateCode = 200,
                 ReasonPhrase = "Ok",
-                Description = "成功"
+                Description = description ?? "成功"
             };
         }
 
@@ -26,6 +26,14 @@
 
         public static ResponseBase ClientError(string description) {
             return ClientError<ResponseBase>(description);
+        }
+
+        public static ResponseBase NotExist(string description = "访问的对象不存在") {
+            return new ResponseBase {
+                StateCode = 404,
+                ReasonPhrase = "NotExist",
+                Description = description
+            };
         }
 
         public static T NotExist<T>(string description = "访问的对象不存在") where T : ResponseBase, new() {

@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        .request {
+            background: #FB9D87;
+        }
+
+        .requestResponseGroup {
+            margin: 0 0 0 20px;
+            word-wrap: break-word;
+            word-break: break-all;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="myCtrl">
+        <b>ControlCenter</b>
+        <div class="requestResponseGroup">
+            <div>
+                <div class="request">GetServicesVersionResult</div>
+                <span>
+                    {{GetServicesVersionResult}}
+                </span>
+            </div>
+            <div>
+                <div class="request">
+                    LatestSnapshotsResult
+                </div>
+                <span>{{LatestSnapshotsResult}}</span>
+            </div>
+            <div>
+                <div class="request">
+                    QueryClientsResult
+                </div>
+                {{QueryClientsResult}}
+            </div>
+            <div>
+                <div class="request">
+                    MinerGroupsResult
+                </div>
+                {{MinerGroupsResult}}
+            </div>
+            <div>
+                <div class="request">
+                    MineWorksResult
+                </div>
+                {{MineWorksResult}}
+            </div>
+            <div>
+                <div class="request">
+                    PoolsResult
+                </div>
+                {{PoolsResult}}
+            </div>
+            <div>
+                <div class="request">
+                    WalletsResult
+                </div>
+                {{WalletsResult}}
+            </div>
+            <div>
+                <div class="request">
+                    CalcConfigsResult
+                </div>
+                {{CalcConfigsResult}}
+            </div>
+            <p>
+                <div class="request">
+                    ColumnsShowsResult
+                </div>
+                {{ColumnsShowsResult}}
+            </p>
+        </div>
+        <b>AppSetting</b>
+        <div class="requestResponseGroup">
+            <div>
+                <div class="request">GetTimeResult</div>
+                {{GetTimeResult}}
+            </div>
+            <div>
+                <div class="request">AppSettingsResult</div>
+                {{AppSettingsResult}}
+            </div>
+        </div>
+        <b>OverClockData</b>
+        <div class="requestResponseGroup">
+            <div>
+                <div class="request">OverClockDatasResult</div>
+                {{OverClockDatasResult}}
+            </div>
+        </div>
+        <b>NTMinerUrl</b>
+        <div class="requestResponseGroup">
+            <div>
+                <div class="request">NTMinerUrlResult</div>
+                {{NTMinerUrlResult}}
+            </div>
+            <div>
+                <div class="request">NTMinerFilesResult</div>
+                {{NTMinerFilesResult}}
+            </div>
+            <div>
+                <div class="request">NTMinerUpdaterUrlResult</div>
+                {{NTMinerUpdaterUrlResult}}
+            </div>
+            <div>
+                <div class="request">LiteDbExplorerUrlResult</div>
+                {{LiteDbExplorerUrlResult}}
+            </div>
+            <div>
+                <div class="request">PackageUrlResult</div>
+                {{PackageUrlResult}}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('myCtrl', function ($scope, $http) {
+            $scope.name = "NTMiner";
+            $http.post("/api/ControlCenter/GetServicesVersion").then(function (response) {
+                $scope.GetServicesVersionResult = response.data;
+            });
+            $http.post("/api/ControlCenter/LatestSnapshots", { Limit: 10 }).then(function (response) {
+                $scope.LatestSnapshotsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/QueryClients", { PageIndex: 0, PageSize: 20 }).then(function (response) {
+                $scope.QueryClientsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/MinerGroups", {}).then(function (response) {
+                $scope.MinerGroupsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/MineWorks", {}).then(function (response) {
+                $scope.MineWorksResult = response.data;
+            });
+            $http.post("/api/ControlCenter/Pools", {}).then(function (response) {
+                $scope.PoolsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/Wallets", {}).then(function (response) {
+                $scope.WalletsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/CalcConfigs", {}).then(function (response) {
+                $scope.CalcConfigsResult = response.data;
+            });
+            $http.post("/api/ControlCenter/ColumnsShows", {}).then(function (response) {
+                $scope.ColumnsShowsResult = response.data;
+            });
+
+            $http.get("/api/AppSetting/GetTime").then(function (response) {
+                $scope.GetTimeResult = response.data;
+            });
+            $http.post("/api/AppSetting/AppSettings", {}).then(function (response) {
+                $scope.AppSettingsResult = response.data;
+            });
+
+            $http.post("/api/OverClockData/OverClockDatas", {}).then(function (response) {
+                $scope.OverClockDatasResult = response.data;
+            });
+
+
+            $http.post("/api/FileUrl/NTMinerUrl", { FileName: 'test.exe' }).then(function (response) {
+                $scope.NTMinerUrlResult = response.data;
+            });
+            $http.post("/api/FileUrl/NTMinerFiles").then(function (response) {
+                $scope.NTMinerFilesResult = response.data;
+            });
+            $http.post("/api/FileUrl/NTMinerUpdaterUrl").then(function (response) {
+                $scope.NTMinerUpdaterUrlResult = response.data;
+            });
+            $http.post("/api/FileUrl/LiteDbExplorerUrl").then(function (response) {
+                $scope.LiteDbExplorerUrlResult = response.data;
+            });
+            $http.post("/api/FileUrl/PackageUrl", { Package: 'test.zip' }).then(function (response) {
+                $scope.PackageUrlResult = response.data;
+            });
+        });
+    </script>
+</body>
+</html>

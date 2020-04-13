@@ -44,13 +44,6 @@ namespace NTMiner {
 
         public static readonly DependencyProperty GlowBrushProperty = DependencyProperty.Register(nameof(GlowBrush), typeof(Brush), typeof(BlankWindow), new PropertyMetadata(null));
 
-        public Brush NonActiveGlowBrush {
-            get { return (Brush)GetValue(NonActiveGlowBrushProperty); }
-            set { SetValue(NonActiveGlowBrushProperty, value); }
-        }
-
-        public static readonly DependencyProperty NonActiveGlowBrushProperty = DependencyProperty.Register(nameof(NonActiveGlowBrush), typeof(Brush), typeof(BlankWindow), new PropertyMetadata(new SolidColorBrush(Color.FromRgb(153, 153, 153)))); // #999999
-
         public bool HasMaximized {
             get { return (bool)GetValue(HasMaximizedProperty); }
             set { SetValue(HasMaximizedProperty, value); }

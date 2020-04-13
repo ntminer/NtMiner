@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class ServerMessageData : IServerMessage, IGetSignData {
+    public class ServerMessageData : IServerMessage, ISignableData {
         private string _content;
         private DateTime _timestamp;
 

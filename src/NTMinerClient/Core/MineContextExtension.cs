@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Kernels;
+using NTMiner.Mine;
 using System;
 using System.IO;
 
@@ -8,7 +9,7 @@ namespace NTMiner.Core {
             try {
                 // 执行文件书写器
                 foreach (var fileWriterId in mineContext.CoinKernel.FileWriterIds) {
-                    if (NTMinerRoot.Instance.ServerContext.FileWriterSet.TryGetFileWriter(fileWriterId, out IFileWriter fileWriter)) {
+                    if (NTMinerContext.Instance.ServerContext.FileWriterSet.TryGetFileWriter(fileWriterId, out IFileWriter fileWriter)) {
                         Execute(mineContext, fileWriter);
                     }
                 }

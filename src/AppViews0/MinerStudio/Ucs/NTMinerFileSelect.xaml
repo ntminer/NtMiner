@@ -1,0 +1,92 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.MinerStudio.Ucs.NTMinerFileSelect"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	BorderBrush="{StaticResource WindowBorderBrush}"
+	BorderThickness="1"
+	Background="White"
+	mc:Ignorable="d" 
+	Width="390"
+	d:DesignHeight="300"
+    d:DataContext="{d:DesignData Source=../Design/NTMinerFileSelectViewModel.xaml}">
+    <Grid Background="{StaticResource ToolbarBackground}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="26"></RowDefinition>
+			<RowDefinition Height="*"></RowDefinition>
+		</Grid.RowDefinitions>
+        <TextBlock 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Center" 
+            Padding="4"
+            Text="鼠标悬停在行上可以查看版本详情"
+            Foreground="{StaticResource LableColor}"></TextBlock>
+		<controls:KbButton 
+			Background="Transparent" 
+			BorderThickness="0" 
+			Padding="0 0 4 0"
+			Command="{Binding HideView}"
+			HorizontalAlignment="Right">
+			<Path
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_Close}"
+				Fill="Black"
+				Stretch="Fill" />
+		</controls:KbButton>
+        <ListBox 
+            Grid.Row="1"
+			ItemsSource="{Binding NTMinerFileVms}"
+            SelectedItem="{Binding SelectedResult}"
+			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			ScrollViewer.VerticalScrollBarVisibility="Auto"
+            SelectionChanged="Lb_SelectionChanged"
+			BorderThickness="0 1 0 0">
+            <ListBox.Resources>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border Padding="2" BorderThickness="0 1 0 0" BorderBrush="{StaticResource LightLineColor}" Background="{TemplateBinding Background}">
+                                    <ContentPresenter 
+								        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+								        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" Value="{StaticResource MouseOverRowBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Background" Value="{StaticResource SelectedRowBackground}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <WrapPanel ToolTip="{Binding Description}">
+                        <TextBlock Width="110" Padding="4" VerticalAlignment="Center" Text="{Binding Version}"></TextBlock>
+                        <TextBlock Width="140" Padding="4" VerticalAlignment="Center" Text="{Binding VersionTag}"></TextBlock>
+                        <TextBlock Width="120" Padding="4" VerticalAlignment="Center" Text="{Binding PublishOnText}"></TextBlock>
+                    </WrapPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <TextBlock 
+            Grid.Row="1" 
+            Visibility="{Binding NTMinerFileVms, Converter={StaticResource NoRecordVisibilityConverter}}" 
+            Foreground="Red" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center">没有记录</TextBlock>
+	</Grid>
+</UserControl>

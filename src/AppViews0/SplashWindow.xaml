@@ -8,7 +8,7 @@
     ResizeMode="NoResize"
     Foreground="White"
     WindowStyle="None"
-    Background="{StaticResource IconFillColor}"
+    Background="{StaticResource BtnBackground}"
     Height="260"
     Width="520"
 	MouseDown="Window_MouseDown"

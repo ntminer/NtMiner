@@ -1,25 +1,26 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.KernelOutputSelect"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:blankWindow="http://NTMiner.com"
-		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		BorderBrush="{StaticResource WindowBorderBrush}"
-		BorderThickness="1"
-		Background="White"
-        d:DataContext="{d:DesignData Source=/Design/KernelOutputSelectViewModel.xaml}"
-		mc:Ignorable="d" 
-		d:DesignHeight="300"
-		MaxHeight="400"
-		Width="300">
-	<Grid>
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.KernelOutputSelect"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	BorderBrush="{StaticResource WindowBorderBrush}"
+	BorderThickness="1"
+	Background="White"
+    d:DataContext="{d:DesignData Source=../Design/KernelOutputSelectViewModel.xaml}"
+	mc:Ignorable="d" 
+	d:DesignHeight="300"
+	MaxHeight="400"
+	Width="300">
+    <Grid Background="{StaticResource ToolbarBackground}">
 		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="20"></RowDefinition>
 			<RowDefinition Height="*" MinHeight="100"></RowDefinition>
 		</Grid.RowDefinitions>
 		<controls:KbButton 
@@ -38,7 +39,7 @@
 		<DataGrid 
 			Grid.Row="1"
 			Margin="0" ItemsSource="{Binding PleaseSelectVms}" 
-			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LineColor}"
+			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LightLineColor}"
 			AutoGenerateColumns="False"
 			SelectedItem="{Binding SelectedResult}"
 			VerticalScrollBarVisibility="Auto"
@@ -60,6 +61,13 @@
 				</DataGridTemplateColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-		<TextBlock Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding PleaseSelectVms, Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="沒有记录"></TextBlock>
+		<TextBlock 
+            Grid.Row="1" 
+            Margin="0 30 0 0"
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center" 
+            Visibility="{Binding PleaseSelectVms, Converter={StaticResource NoRecordVisibilityConverter}}" 
+            Foreground="Red" 
+            Text="沒有记录"></TextBlock>
 	</Grid>
 </UserControl>

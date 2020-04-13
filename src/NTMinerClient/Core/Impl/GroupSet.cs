@@ -5,7 +5,9 @@ namespace NTMiner.Core.Impl {
     public class GroupSet : IGroupSet {
         private readonly Dictionary<Guid, GroupData> _dicById = new Dictionary<Guid, GroupData>();
 
+        private readonly IServerContext _context;
         public GroupSet(IServerContext context) {
+            _context = context;
             context.AddCmdPath<AddGroupCommand>("添加组", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -20,7 +22,7 @@ namespace NTMiner.Core.Impl {
                     }
                     GroupData entity = new GroupData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
+                    var repository = context.CreateServerRepository<GroupData>();
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new GroupAddedEvent(message.MessageId, entity));
@@ -34,15 +36,14 @@ namespace NTMiner.Core.Impl {
                     if (string.IsNullOrEmpty(message.Input.Name)) {
                         throw new ValidationException("Group name can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out GroupData entity)) {
                         return;
                     }
-                    GroupData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
+                    var repository = context.CreateServerRepository<GroupData>();
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new GroupUpdatedEvent(message.MessageId, entity));
@@ -62,7 +63,7 @@ namespace NTMiner.Core.Impl {
                         VirtualRoot.Execute(new RemoveCoinGroupCommand(id));
                     }
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
+                    var repository = context.CreateServerRepository<GroupData>();
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.RaiseEvent(new GroupRemovedEvent(message.MessageId, entity));
@@ -82,7 +83,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<GroupData>();
+                    var repository = _context.CreateServerRepository<GroupData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -107,8 +108,7 @@ namespace NTMiner.Core.Impl {
 
         public bool TryGetGroup(Guid groupId, out IGroup group) {
             InitOnece();
-            GroupData g;
-            bool r = _dicById.TryGetValue(groupId, out g);
+            bool r = _dicById.TryGetValue(groupId, out GroupData g);
             group = g;
             return r;
         }

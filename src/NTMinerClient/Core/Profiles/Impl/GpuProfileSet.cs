@@ -11,7 +11,7 @@ namespace NTMiner.Core.Profiles.Impl {
     public class GpuProfileSet : IGpuProfileSet {
         private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
-        public GpuProfileSet(INTMinerRoot root) {
+        public GpuProfileSet(INTMinerContext root) {
             VirtualRoot.AddCmdPath<AddOrUpdateGpuProfileCommand>(action: message => {
                 GpuProfileData data = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == message.Input.CoinId && a.Index == message.Input.Index);
                 if (data != null) {
@@ -102,8 +102,9 @@ namespace NTMiner.Core.Profiles.Impl {
         #region private methods
         private GpuData[] CreateGpus() {
             List<GpuData> list = new List<GpuData>();
-            foreach (var gpu in NTMinerRoot.Instance.GpuSet.AsEnumerable()) {
+            foreach (var gpu in NTMinerContext.Instance.GpuSet.AsEnumerable()) {
                 list.Add(new GpuData {
+                    GpuType = gpu.GpuType,
                     Index = gpu.Index,
                     Name = gpu.Name,
                     CoreClockDeltaMax = gpu.CoreClockDeltaMax,
@@ -122,17 +123,17 @@ namespace NTMiner.Core.Profiles.Impl {
             return list.ToArray();
         }
 
-        private void CoinOverClock(INTMinerRoot root, Guid coinId) {
+        private void CoinOverClock(INTMinerContext root, Guid coinId) {
             try {
                 if (IsOverClockGpuAll(coinId)) {
-                    GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinId && a.Index == NTMinerRoot.GpuAllId);
+                    GpuProfileData overClockData = _data.GpuProfiles.FirstOrDefault(a => a.CoinId == coinId && a.Index == NTMinerContext.GpuAllId);
                     if (overClockData != null) {
                         OverClock(root, overClockData);
                     }
                 }
                 else {
                     foreach (var overClockData in _data.GpuProfiles.Where(a => a.CoinId == coinId)) {
-                        if (overClockData.Index != NTMinerRoot.GpuAllId) {
+                        if (overClockData.Index != NTMinerContext.GpuAllId) {
                             OverClock(root, overClockData);
                         }
                     }
@@ -143,7 +144,7 @@ namespace NTMiner.Core.Profiles.Impl {
             }
         }
 
-        private void OverClock(INTMinerRoot root, IGpuProfile data) {
+        private void OverClock(INTMinerContext root, IGpuProfile data) {
 #if DEBUG
             NTStopwatch.Start();
 #endif
@@ -156,7 +157,7 @@ namespace NTMiner.Core.Profiles.Impl {
                 overClock.SetMemoryClock(data.Index, data.MemoryClockDelta, data.MemoryVoltage);
                 overClock.SetPowerLimit(data.Index, data.PowerCapacity);
                 overClock.SetTempLimit(data.Index, data.TempLimit);
-                if (data.Index == NTMinerRoot.GpuAllId) {
+                if (data.Index == NTMinerContext.GpuAllId) {
                     Write.UserOk($"统一超频：{data.ToOverClockString()}");
                 }
                 else {
@@ -175,9 +176,10 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         private void Save() {
+            _data.GpuType = NTMinerContext.Instance.GpuSet.GpuType;
             _data.Gpus = CreateGpus();
             string json = VirtualRoot.JsonSerializer.Serialize(_data);
-            SpecialPath.WriteGpuProfilesJsonFile(json);
+            HomePath.WriteGpuProfilesJsonFile(json);
         }
 
         private bool _isInited = false;
@@ -193,7 +195,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    string json = SpecialPath.ReadGpuProfilesJsonFile();
+                    string json = HomePath.ReadGpuProfilesJsonFile();
                     if (!string.IsNullOrEmpty(json)) {
                         GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
                         if (data != null) {

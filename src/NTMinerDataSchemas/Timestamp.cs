@@ -5,24 +5,21 @@ namespace NTMiner {
         public const int DesyncSeconds = 180;
         public static readonly DateTime UnixBaseTime = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        public static ulong GetTimestamp() {
+        public static long GetTimestamp() {
             return GetTimestamp(DateTime.Now);
         }
 
-        public static ulong GetTimestamp(DateTime dateTime) {
+        public static long GetTimestamp(DateTime dateTime) {
             var span = (dateTime.ToUniversalTime() - UnixBaseTime).TotalSeconds;
-            if (span < 0) {
-                return 0;
-            }
-            return (ulong)span;
+            return (long)span;
         }
 
-        public static DateTime FromTimestamp(ulong timestamp) {
+        public static DateTime FromTimestamp(long timestamp) {
             return UnixBaseTime.AddSeconds(timestamp).ToLocalTime();
         }
 
-        public static bool IsInTime(ulong timestamp) {
-            ulong now = GetTimestamp(DateTime.Now);
+        public static bool IsInTime(long timestamp) {
+            long now = GetTimestamp(DateTime.Now);
             if (now > timestamp) {
                 return timestamp + DesyncSeconds > now;
             }
@@ -43,6 +40,20 @@ namespace NTMiner {
                 default:
                     return dateTime.ToString("yyyy-MM-dd HH:mm:ss");
             }
+        }
+
+        public static string GetTimeSpanText(DateTime dateTime) {
+            TimeSpan timeSpan = DateTime.Now - dateTime;
+            if (timeSpan.Days >= 1) {
+                return timeSpan.Days + " 天前";
+            }
+            if (timeSpan.Hours > 0) {
+                return timeSpan.Hours + " 小时前";
+            }
+            if (timeSpan.Minutes > 2) {
+                return timeSpan.Minutes + " 分钟前";
+            }
+            return (int)timeSpan.TotalSeconds + " 秒前";
         }
     }
 }

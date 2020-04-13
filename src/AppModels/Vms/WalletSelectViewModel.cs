@@ -21,10 +21,10 @@ namespace NTMiner.Vms {
             this.AddWallet = new DelegateCommand(() => {
                 this.HideView.Execute(null);
                 if (_isDualCoin) {
-                    _coin.CoinProfile.AddDualCoinWallet.Execute(null);
+                    _coin.CoinProfile?.AddDualCoinWallet.Execute(null);
                 }
                 else {
-                    _coin.CoinProfile.AddWallet.Execute(null);
+                    _coin.CoinProfile?.AddWallet.Execute(null);
                 }
             });
         }

@@ -3,7 +3,7 @@ using System;
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class CalcConfigData : ICalcConfig, IGetSignData {
+    public class CalcConfigData : ICalcConfig, ISignableData {
         public static CalcConfigData Create(ICalcConfig data) {
             return new CalcConfigData {
                 CoinCode = data.CoinCode,

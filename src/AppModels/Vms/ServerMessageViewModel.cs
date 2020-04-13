@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new ServerMessageEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditServerMessageCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

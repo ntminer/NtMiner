@@ -65,7 +65,5 @@ namespace NTMiner.Native {
         public static bool operator !=(RECT rect1, RECT rect2) {
             return !(rect1 == rect2);
         }
-
-
     }
 }

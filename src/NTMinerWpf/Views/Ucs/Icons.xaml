@@ -1,17 +1,18 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.Icons"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:blankWindow="http://NTMiner.com"
-		xmlns:controls="clr-namespace:NTMiner.Controls"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
-		Background="White"
-		mc:Ignorable="d" 
-		d:DesignWidth="960"
-		d:DesignHeight="520">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.Icons"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms"
+	Background="White"
+	mc:Ignorable="d" 
+	d:DesignWidth="960"
+	d:DesignHeight="520">
     <UserControl.DataContext>
         <vm:IconsViewModel></vm:IconsViewModel>
     </UserControl.DataContext>
@@ -24,9 +25,9 @@
             <Path 
 				Width="30"
 				Height="30"
-				Fill="{StaticResource IconFillColor}"
+				Fill="{StaticResource BtnBackground}"
 				Stretch="Fill"
-				Data="{StaticResource Icon_Serach}"></Path>
+				Data="{StaticResource Icon_Search}"></Path>
             <controls:KbTextBox 
                 Margin="4 0 0 0"
 				x:Name="TbKeyword" 
@@ -36,7 +37,7 @@
 				Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
 				VerticalContentAlignment="Center"
 				Hint="请输入关键字"
-				BorderBrush="{StaticResource LineColor}"
+				BorderBrush="{StaticResource LightLineColor}"
 				BorderThickness="1"
 				Background="White"
 				SelectedColor="#409EFF" />
@@ -52,7 +53,7 @@
 					Width="16"
 					Height="16"
 					Data="{StaticResource Icon_Close}"
-					Fill="{StaticResource IconFillColor}"
+					Fill="{StaticResource BtnBackground}"
 					Stretch="Fill" />
             </controls:KbButton>
         </WrapPanel>
@@ -85,7 +86,7 @@
                                 <Path 
 					                Height="40"
 					                Data="{Binding Data}"
-					                Fill="{StaticResource IconFillColor}"
+					                Fill="{StaticResource BtnBackground}"
 					                Stretch="Uniform" />
                                 <TextBox 
                                     HorizontalAlignment="Center" 

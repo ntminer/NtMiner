@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Linq;
 using System.Windows;
@@ -48,7 +47,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.BrandItem;
             popup.Child = new SysDicItemSelect(
-                new SysDicItemSelectViewModel(AppContext.Instance.SysDicItemVms.KernelBrandItems, selected, onOk: selectedResult => {
+                new SysDicItemSelectViewModel(AppRoot.SysDicItemVms.KernelBrandItems, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (Vm.BrandItem != selectedResult) {
                             Vm.BrandItem = selectedResult;
@@ -63,7 +62,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void ButtonAddCoinKernel_Click(object sender, RoutedEventArgs e) {
-            var coins = AppContext.Instance.CoinVms.AllCoins.Where(a => Vm.PackageVm.AlgoIds.Contains(a.AlgoId) && Vm.CoinKernels.All(b => b.CoinId != a.Id));
+            var coins = AppRoot.CoinVms.AllCoins.Where(a => Vm.PackageVm.AlgoIds.Contains(a.AlgoId) && Vm.CoinKernels.All(b => b.CoinId != a.Id));
             PopupKernel.Child = new CoinSelect(
                 new CoinSelectViewModel(coins, null, onOk: selectedResult => {
                     if (selectedResult == null || selectedResult.Id == Guid.Empty) {

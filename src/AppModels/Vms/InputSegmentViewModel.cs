@@ -82,7 +82,7 @@ namespace NTMiner.Vms {
         public bool IsChecked {
             get {
                 if (this.IsDefault) {
-                    CoinKernelProfileViewModel coinKernelProfileVm = AppContext.Instance.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile;
+                    CoinKernelProfileViewModel coinKernelProfileVm = AppRoot.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile;
                     if (coinKernelProfileVm != null) {
                         if (string.IsNullOrEmpty(coinKernelProfileVm.TouchedArgs)) {
                             return true;
@@ -93,13 +93,13 @@ namespace NTMiner.Vms {
                         }
                     }
                 }
-                if (AppContext.Instance.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile?.CustomArgs?.Contains(this.Segment) ?? false) {
+                if (AppRoot.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile?.CustomArgs?.Contains(this.Segment) ?? false) {
                     return true;
                 }
                 return false;
             }
             set {
-                CoinKernelProfileViewModel coinKernelProfileVm = AppContext.Instance.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile;
+                CoinKernelProfileViewModel coinKernelProfileVm = AppRoot.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile;
                 string customArgs = (coinKernelProfileVm?.CustomArgs ?? string.Empty).Trim();
                 if (coinKernelProfileVm != null) {
                     if (coinKernelProfileVm.TouchedArgs == null) {

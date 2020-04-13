@@ -15,7 +15,7 @@ namespace NTMiner.Vms {
             get => _inner.CoinKernelId;
             set {
                 if (_inner.CoinKernelId != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CoinKernelId), value);
+                    NTMinerContext.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CoinKernelId), value);
                     OnPropertyChanged(nameof(CoinKernelId));
                 }
             }
@@ -23,16 +23,17 @@ namespace NTMiner.Vms {
 
         public bool IsDualCoinEnabled {
             get {
-                if (AppContext.Instance.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm) && !coinKernelVm.IsSupportDualMine) {
+                if (AppRoot.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm) && !coinKernelVm.IsSupportDualMine) {
                     return false;
                 }
                 return _inner.IsDualCoinEnabled;
             }
             set {
                 if (_inner.IsDualCoinEnabled != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsDualCoinEnabled), value);
+                    NTMinerContext.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsDualCoinEnabled), value);
                     OnPropertyChanged(nameof(IsDualCoinEnabled));
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    // 不必判断该对象是否是主界面上当前展示的对象，因为若不是主界面上当前显式的对象的话没有机会变更
+                    NTMinerContext.RefreshArgsAssembly.Invoke("币种内核Profile上放置的挖矿双挖启用状态发生了变更");
                 }
             }
         }
@@ -40,7 +41,7 @@ namespace NTMiner.Vms {
             get => _inner.DualCoinId;
             set {
                 if (_inner.DualCoinId != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(DualCoinId), value);
+                    NTMinerContext.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(DualCoinId), value);
                     OnPropertyChanged(nameof(DualCoinId));
                 }
             }
@@ -60,11 +61,11 @@ namespace NTMiner.Vms {
         public bool IsAutoDualWeight {
             get {
                 ICoinKernel coinKernel;
-                if (NTMinerRoot.Instance.ServerContext.CoinKernelSet.TryGetCoinKernel(this.CoinKernelId, out coinKernel)) {
+                if (NTMinerContext.Instance.ServerContext.CoinKernelSet.TryGetCoinKernel(this.CoinKernelId, out coinKernel)) {
                     IKernel kernel;
-                    if (NTMinerRoot.Instance.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
+                    if (NTMinerContext.Instance.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out kernel)) {
                         IKernelInput kernelInput;
-                        if (NTMinerRoot.Instance.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
+                        if (NTMinerContext.Instance.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out kernelInput)) {
                             if (!kernelInput.IsAutoDualWeight) {
                                 return false;
                             }
@@ -75,9 +76,10 @@ namespace NTMiner.Vms {
             }
             set {
                 if (_inner.IsAutoDualWeight != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
+                    NTMinerContext.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(IsAutoDualWeight), value);
                     OnPropertyChanged(nameof(IsAutoDualWeight));
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    // 不必判断该对象是否是主界面上当前展示的对象，因为若不是主界面上当前显式的对象的话没有机会变更
+                    NTMinerContext.RefreshArgsAssembly.Invoke("币种内核Profile上放置的挖矿双挖权重发生了变更");
                 }
             }
         }
@@ -86,15 +88,16 @@ namespace NTMiner.Vms {
             get => _inner.CustomArgs;
             set {
                 if (_inner.CustomArgs != value) {
-                    if (AppContext.Instance.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
-                        NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
+                    if (AppRoot.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
+                        NTMinerContext.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(CustomArgs), value);
                         OnPropertyChanged(nameof(CustomArgs));
-                        NTMinerRoot.RefreshArgsAssembly.Invoke();
+                        // 不必判断该对象是否是主界面上当前展示的对象，因为若不是主界面上当前显式的对象的话没有机会变更
+                        NTMinerContext.RefreshArgsAssembly.Invoke("币种内核Profile上放置的用户自定义挖矿参数发生了变更");
                         foreach (var inputSegmentVm in coinKernelVm.InputSegmentVms) {
                             inputSegmentVm.OnPropertyChanged(nameof(inputSegmentVm.IsChecked));
                         }
-                        foreach (var gpuVm in AppContext.Instance.GpuVms.Items) {
-                            if (gpuVm.Index == NTMinerRoot.GpuAllId) {
+                        foreach (var gpuVm in AppRoot.GpuVms.Items) {
+                            if (gpuVm.Index == NTMinerContext.GpuAllId) {
                                 continue;
                             }
                             gpuVm.OnPropertyChanged(nameof(gpuVm.IsDeviceArgInclude));
@@ -107,15 +110,15 @@ namespace NTMiner.Vms {
         public string TouchedArgs {
             get { return _inner.TouchedArgs; }
             set {
-                NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(TouchedArgs), value);
+                NTMinerContext.Instance.MinerProfile.SetCoinKernelProfileProperty(this.CoinKernelId, nameof(TouchedArgs), value);
                 OnPropertyChanged(nameof(TouchedArgs));
             }
         }
 
         public CoinViewModel SelectedDualCoin {
             get {
-                if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.DualCoinId, out CoinViewModel coin)) {
-                    if (AppContext.Instance.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
+                if (!AppRoot.CoinVms.TryGetCoinVm(this.DualCoinId, out CoinViewModel coin)) {
+                    if (AppRoot.CoinKernelVms.TryGetCoinKernelVm(this.CoinKernelId, out CoinKernelViewModel coinKernelVm)) {
                         coin = coinKernelVm.SelectedDualCoinGroup.DualCoinVms.FirstOrDefault();
                     }
                     if (coin != null) {
@@ -128,7 +131,8 @@ namespace NTMiner.Vms {
                 if (value != null && value.Id != Guid.Empty) {
                     DualCoinId = value.Id;
                     OnPropertyChanged(nameof(SelectedDualCoin));
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    // 不必判断该对象是否是主界面上当前展示的对象，因为若不是主界面上当前显式的对象的话没有机会变更
+                    NTMinerContext.RefreshArgsAssembly.Invoke("币种内核Profile上放置的挖矿选用的双挖币种发生了变更");
                 }
             }
         }

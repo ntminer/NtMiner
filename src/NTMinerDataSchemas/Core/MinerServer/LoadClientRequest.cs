@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class LoadClientRequest : RequestBase, IGetSignData {
+    public class LoadClientRequest : IRequest, ISignableData {
         public LoadClientRequest() { }
         public Guid ClientId { get; set; }
 

@@ -21,7 +21,7 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            foreach (var messageType in NTMinerRoot.ServerMessageTypeEnumItems) {
+            foreach (var messageType in NTMinerContext.ServerMessageTypeEnumItems) {
                 _count.Add(messageType.Value, new MessageTypeItem<ServerMessageType>(messageType, ServerMessageViewModel.GetIcon, ServerMessageViewModel.GetIconFill, RefreshQueryResults));
             }
             Init();
@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
             });
             VirtualRoot.AddEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => Init);
+                    Init();
                 }, location: this.GetType());
             VirtualRoot.AddEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
@@ -100,7 +100,7 @@ namespace NTMiner.Vms {
         }
 
         private void Init() {
-            var data = NTMinerRoot.Instance.ServerMessageSet.AsEnumerable().Where(a => !a.IsDeleted).Select(a => new ServerMessageViewModel(a));
+            var data = NTMinerContext.Instance.ServerMessageSet.AsEnumerable().Where(a => !a.IsDeleted).Select(a => new ServerMessageViewModel(a));
             _serverMessageVms = new ObservableCollection<ServerMessageViewModel>(data);
             foreach (var key in _count.Keys) {
                 _count[key].Count = 0;

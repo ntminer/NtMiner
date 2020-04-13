@@ -2,9 +2,9 @@
     public class FragmentWriterPageViewModel : ViewModelBase {
         public FragmentWriterPageViewModel() { }
 
-        public AppContext.FragmentWriterViewModels FragmentWriterVms {
+        public AppRoot.FragmentWriterViewModels FragmentWriterVms {
             get {
-                return AppContext.FragmentWriterViewModels.Instance;
+                return AppRoot.FragmentWriterViewModels.Instance;
             }
         }
     }

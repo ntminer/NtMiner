@@ -93,7 +93,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.ServerContext.KernelOutputSet.Contains(this.Id)) {
+                if (NTMinerContext.Instance.ServerContext.KernelOutputSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelOutputCommand(this));
                 }
                 else {
@@ -105,7 +105,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new KernelOutputEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditKernelOutputCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -129,7 +129,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputKeywordViewModel> KernelOutputKeywords {
             get {
-                return new List<KernelOutputKeywordViewModel>(AppContext.Instance.KernelOutputKeywordVms.GetListByKernelId(this.Id).OrderBy(a => a.Keyword));
+                return new List<KernelOutputKeywordViewModel>(AppRoot.KernelOutputKeywordVms.GetListByKernelId(this.Id).OrderBy(a => a.Keyword));
             }
         }
 
@@ -146,7 +146,7 @@ namespace NTMiner.Vms {
 
         public List<KernelOutputTranslaterViewModel> KernelOutputTranslaters {
             get {
-                var query = AppContext.Instance.KernelOutputTranslaterVms.GetListByKernelId(this.Id).AsQueryable();
+                var query = AppRoot.KernelOutputTranslaterVms.GetListByKernelId(this.Id).AsQueryable();
                 if (!string.IsNullOrEmpty(TranslaterKeyword)) {
                     query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.Contains(TranslaterKeyword))
                         || (a.Replacement != null && a.Replacement.Contains(TranslaterKeyword)));
@@ -488,7 +488,7 @@ namespace NTMiner.Vms {
 
         public string KernelFullNames {
             get {
-                string names = string.Join(";", AppContext.Instance.KernelVms.AllKernels
+                string names = string.Join(";", AppRoot.KernelVms.AllKernels
                     .Where(a => a.KernelOutputId == this.Id)
                     .OrderBy(a => a.Code)
                     .ThenByDescending(a => a.Version)

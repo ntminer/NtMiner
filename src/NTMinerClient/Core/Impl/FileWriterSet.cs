@@ -5,7 +5,9 @@ namespace NTMiner.Core.Impl {
     public class FileWriterSet : IFileWriterSet {
         private readonly Dictionary<Guid, FileWriterData> _dicById = new Dictionary<Guid, FileWriterData>();
 
+        private readonly IServerContext _context;
         public FileWriterSet(IServerContext context) {
+            _context = context;
             context.AddCmdPath<AddFileWriterCommand>("添加文件书写器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -20,7 +22,7 @@ namespace NTMiner.Core.Impl {
                     }
                     FileWriterData entity = new FileWriterData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
+                    var repository = context.CreateServerRepository<FileWriterData>();
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new FileWriterAddedEvent(message.MessageId, entity));
@@ -34,15 +36,14 @@ namespace NTMiner.Core.Impl {
                     if (string.IsNullOrEmpty(message.Input.FileUrl) || string.IsNullOrEmpty(message.Input.Body)) {
                         throw new ValidationException("FileWriter name and body can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out FileWriterData entity)) {
                         return;
                     }
-                    FileWriterData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
+                    var repository = context.CreateServerRepository<FileWriterData>();
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new FileWriterUpdatedEvent(message.MessageId, entity));
@@ -58,7 +59,7 @@ namespace NTMiner.Core.Impl {
                     }
                     FileWriterData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
+                    var repository = context.CreateServerRepository<FileWriterData>();
                     repository.Remove(message.EntityId);
 
                     VirtualRoot.RaiseEvent(new FileWriterRemovedEvent(message.MessageId, entity));
@@ -78,7 +79,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<FileWriterData>();
+                    var repository = _context.CreateServerRepository<FileWriterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -91,8 +92,7 @@ namespace NTMiner.Core.Impl {
 
         public bool TryGetFileWriter(Guid writerId, out IFileWriter writer) {
             InitOnece();
-            FileWriterData g;
-            bool r = _dicById.TryGetValue(writerId, out g);
+            bool r = _dicById.TryGetValue(writerId, out FileWriterData g);
             writer = g;
             return r;
         }

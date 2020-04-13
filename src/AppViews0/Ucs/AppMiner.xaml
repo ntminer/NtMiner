@@ -1,13 +1,14 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.AppMiner"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-        Background="Black"
-        d:DataContext="{d:DesignData Source=/Design/MainWindowViewModel.xaml}"
-		mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="520">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.AppMiner"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+    Background="Black"
+    d:DataContext="{d:DesignData Source=../Design/MainWindowViewModel.xaml}"
+	mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="520">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

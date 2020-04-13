@@ -6,7 +6,9 @@ namespace NTMiner.Core.Kernels.Impl {
     public class PackageSet : IPackageSet {
         private readonly Dictionary<Guid, PackageData> _dicById = new Dictionary<Guid, PackageData>();
 
+        private readonly IServerContext _context;
         public PackageSet(IServerContext context) {
+            _context = context;
             context.AddCmdPath<AddPackageCommand>("添加包", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -24,7 +26,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     PackageData entity = new PackageData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<PackageData>();
+                    var repository = context.CreateServerRepository<PackageData>();
                     repository.Add(entity);
 
                     VirtualRoot.RaiseEvent(new PackageAddedEvent(message.MessageId, entity));
@@ -38,18 +40,17 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (string.IsNullOrEmpty(message.Input.Name)) {
                         throw new ValidationException($"{nameof(message.Input.Name)} can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out PackageData entity)) {
                         return;
                     }
                     if (_dicById.Values.Any(a => a.Id != message.Input.Id && string.Equals(message.Input.Name, a.Name, StringComparison.OrdinalIgnoreCase))) {
                         throw new ValidationException("包名重复");
                     }
-                    PackageData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<PackageData>();
+                    var repository = context.CreateServerRepository<PackageData>();
                     repository.Update(entity);
 
                     VirtualRoot.RaiseEvent(new PackageUpdatedEvent(message.MessageId, entity));
@@ -65,7 +66,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     PackageData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.Id);
-                    var repository = NTMinerRoot.CreateServerRepository<PackageData>();
+                    var repository = context.CreateServerRepository<PackageData>();
                     repository.Remove(entity.Id);
 
                     VirtualRoot.RaiseEvent(new PackageRemovedEvent(message.MessageId, entity));
@@ -92,7 +93,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<PackageData>();
+                    var repository = _context.CreateServerRepository<PackageData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

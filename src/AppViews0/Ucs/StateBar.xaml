@@ -1,15 +1,16 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.StateBar"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-			 xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-			 d:DataContext="{d:DesignData Source=/Design/StateBarViewModel.xaml}"
-			 mc:Ignorable="d" d:DesignWidth="1000">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.StateBar"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	d:DataContext="{d:DesignData Source=../Design/StateBarViewModel.xaml}"
+	mc:Ignorable="d" d:DesignWidth="1200">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="Lbl" TargetType="TextBlock">
@@ -64,7 +65,7 @@
 							    Width="20"
 							    Height="16"
 							    Data="{StaticResource Icon_Cpu}"
-							    Fill="{StaticResource IconFillColor}"
+							    Fill="{StaticResource BtnBackground}"
 							    Stretch="Fill">
                             </Path>
                         </Border>
@@ -81,7 +82,7 @@
 							    Width="6"
 							    Height="14"
 							    Data="{StaticResource Icon_Temperature}"
-							    Fill="{StaticResource IconFillColor}"
+							    Fill="{StaticResource BtnBackground}"
 							    Stretch="Fill" />
                         </Border>
 						<StackPanel Margin="2 0 0 0">
@@ -93,7 +94,7 @@
 							    Width="14"
 							    Height="14"
 							    Data="{StaticResource Icon_Fan}"
-							    Fill="{StaticResource IconFillColor}"
+							    Fill="{StaticResource BtnBackground}"
 							    Stretch="Fill">
                             </Path>
                         </Border>
@@ -107,7 +108,7 @@
 							    Height="14"
 							    Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityInvertConverter}}"
 							    Data="{StaticResource Icon_Power}"
-							    Fill="{StaticResource IconFillColor}"
+							    Fill="{StaticResource BtnBackground}"
 							    Stretch="Fill" />
                         </Border>
                         <Border Margin="0 0 2 0" ToolTip="显卡功耗" Background="Transparent">
@@ -116,10 +117,10 @@
 							    Height="14"
 							    Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
 							    Data="{StaticResource Icon_ECharge}"
-							    Fill="{StaticResource IconFillColor}"
+							    Fill="{StaticResource BtnBackground}"
 							    Stretch="Fill" />
                         </Border>
-						<StackPanel Margin="2 0 0 0" VerticalAlignment="Center" ToolTip="可在'选项'页调整电价">
+						<StackPanel Margin="2 0 0 0" VerticalAlignment="Center" ToolTip="点击调整电价" Cursor="Hand" MouseDown="PanelEprice_MouseDown">
 							<TextBlock Width="64" Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" />
 							<TextBlock 
 								Width="64"
@@ -213,11 +214,15 @@
 					</WrapPanel>
 					<WrapPanel Width="150" VerticalAlignment="Center">
                         <TextBlock ToolTip="总算力" Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.SpeedText}" />
-						<TextBlock Margin="4 0 0 0" Foreground="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnForeground}" Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText}"></TextBlock>
+						<TextBlock 
+                            Margin="4 0 0 0" 
+                            Foreground="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnForeground}" 
+                            Text="{Binding GpuSpeedVms.TotalSpeedVm.MainCoinSpeed.LastSpeedOnText}"></TextBlock>
 					</WrapPanel>
 				</WrapPanel>
 				<Border Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportDualMine, Converter={StaticResource BoolToVisibilityConverter}}">
-					<WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+					<WrapPanel 
+                        Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
 						<controls:KbLinkButton
 							VerticalAlignment="Center"
 							Padding="0"
@@ -262,15 +267,36 @@
 						</controls:KbButton>
 						<WrapPanel Width="190">
 							<TextBlock Padding="0 0 4 0" VerticalAlignment="Center" Text="拒绝" Style="{StaticResource Lbl}" />
-							<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" ToolTip="拒绝次数" />
-							<TextBlock VerticalAlignment="Center" Padding="1" Text="/" Foreground="{StaticResource LableColor}" />
-							<TextBlock VerticalAlignment="Center" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" ToolTip="提交次数" />
-							<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="拒绝率" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
-							<TextBlock VerticalAlignment="Center" Margin="8 0 0 0" ToolTip="矿池延时" Text="{Binding DualPoolDelayText}" />
+							<TextBlock 
+                                VerticalAlignment="Center" 
+                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectShareCount}" 
+                                ToolTip="拒绝次数" />
+							<TextBlock 
+                                VerticalAlignment="Center" 
+                                Padding="1" 
+                                Text="/" 
+                                Foreground="{StaticResource LableColor}" />
+							<TextBlock 
+                                VerticalAlignment="Center" 
+                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.TotalShareCount}" 
+                                ToolTip="提交次数" />
+							<TextBlock 
+                                VerticalAlignment="Center" 
+                                Margin="8 0 0 0" 
+                                ToolTip="拒绝率" 
+                                Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.ShareVm.RejectPercentText}" />
+							<TextBlock 
+                                VerticalAlignment="Center" 
+                                Margin="8 0 0 0" 
+                                ToolTip="矿池延时" 
+                                Text="{Binding DualPoolDelayText}" />
 						</WrapPanel>
 						<WrapPanel Width="150" VerticalAlignment="Center">
 							<TextBlock ToolTip="总算力" Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.SpeedText}" />
-							<TextBlock Margin="4 0 0 0" Foreground="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnForeground}" Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText}"></TextBlock>
+							<TextBlock 
+                                Margin="4 0 0 0" 
+                                Foreground="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnForeground}" 
+                                Text="{Binding GpuSpeedVms.TotalSpeedVm.DualCoinSpeed.LastSpeedOnText}"></TextBlock>
 						</WrapPanel>
 					</WrapPanel>
 				</Border>
@@ -292,7 +318,7 @@
 							Width="14"
 							Height="13"
 							Data="{StaticResource Icon_Update}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                         <Path 
                             x:Name="LoadingIcon"
@@ -300,7 +326,7 @@
 							Width="14"
 							Height="14"
 							Data="{StaticResource Icon_Loading}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill">
                             <Path.RenderTransform>
                                 <RotateTransform Angle="0" CenterX="7" CenterY="7"></RotateTransform>
@@ -342,7 +368,7 @@
 						Background="Transparent"
 						Margin="4 0 0 0"
 						ToolTip="{Binding RemoteDesktopToolTip}"
-						Command="{Binding EnableWindowsRemoteDesktop}"
+						Command="{Binding EnableRemoteDesktop}"
 						CornerRadius="2">
 						<Path
 							Width="14"
@@ -371,12 +397,23 @@
 						ToolTip="虚拟内存" 
 						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-                    <TextBlock Text="{x:Static app:AppStatic.DriverVersion}" ToolTip="{x:Static app:AppStatic.DriverVersionToolTip}" Foreground="{x:Static app:AppStatic.DriverVersionColor}"></TextBlock>
-                    <TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
-                    <TextBlock Text="{x:Static app:AppStatic.GpuSetInfo}" MaxWidth="260" ToolTip="{x:Static app:AppStatic.GpuSetInfo}" Foreground="{StaticResource LableColor}"></TextBlock>
+                    <TextBlock 
+                        Text="{x:Static app:AppStatic.DriverVersion}" 
+                        ToolTip="{x:Static app:AppStatic.DriverVersionToolTip}" 
+                        Foreground="{x:Static app:AppStatic.DriverVersionColor}"></TextBlock>
+                    <TextBlock 
+                        Text=" / " 
+                        Foreground="{StaticResource LableColor}"></TextBlock>
+                    <TextBlock 
+                        Text="{x:Static app:AppStatic.GpuSetInfo}" 
+                        MaxWidth="260" 
+                        ToolTip="{x:Static app:AppStatic.GpuSetInfo}" 
+                        Foreground="{StaticResource LableColor}"></TextBlock>
 					<WrapPanel 
+						ToolTip="点击调整电价"
+                        Cursor="Hand"
 						Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
-						ToolTip="可在'选项'页调整电价">
+                        MouseDown="PanelEprice_MouseDown">
 						<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
 						<TextBlock Text="{Binding MinerProfile.EPrice}" ToolTip="电价" Foreground="{StaticResource LableColor}"></TextBlock>
 						<TextBlock Text="￥每度" Foreground="{StaticResource LableColor}"></TextBlock>

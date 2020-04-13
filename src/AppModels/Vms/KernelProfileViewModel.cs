@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class KernelProfileViewModel : ViewModelBase, IKernelProfile {
-        public static readonly KernelProfileViewModel Empty = new KernelProfileViewModel(KernelViewModel.Empty, NTMinerRoot.Instance.KernelProfileSet?.EmptyKernelProfile/*设计视图才可能为null*/) {
+        public static readonly KernelProfileViewModel Empty = new KernelProfileViewModel(KernelViewModel.Empty, NTMinerContext.Instance.KernelProfileSet?.EmptyKernelProfile/*设计视图才可能为null*/) {
             _cancelDownload = null,
             _downloadMessage = string.Empty,
             _downloadPercent = 0,
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
                 _cancelDownload?.Invoke();
             });
             this.Install = new DelegateCommand(() => {
-                if (!VirtualRoot.IsMinerClient) {
+                if (!ClientAppType.IsMinerClient) {
                     VirtualRoot.Out.ShowWarn("非挖矿端不需要安装内核", autoHideSeconds: 4);
                     return;
                 }
@@ -49,8 +49,8 @@ namespace NTMiner.Vms {
             this.UnInstall = new DelegateCommand(() => {
                 if (this.UnInstallText == "确认卸载") {
                     string processName = _kernelVm.GetProcessName();
-                    if (NTMinerRoot.Instance.IsMining) {
-                        if (NTMinerRoot.Instance.LockedMineContext.Kernel.Package == _kernelVm.Package) {
+                    if (NTMinerContext.Instance.IsMining) {
+                        if (NTMinerContext.Instance.LockedMineContext.Kernel.Package == _kernelVm.Package) {
                             VirtualRoot.Out.ShowWarn("该内核正在挖矿，请停止挖矿后再卸载", autoHideSeconds: 4);
                             return;
                         }
@@ -133,7 +133,7 @@ namespace NTMiner.Vms {
                     _isDownloading = value;
                     OnPropertyChanged(nameof(IsDownloading));
                     Refresh();
-                    AppContext.Instance.KernelVms.OnIsDownloadingChanged(_kernelVm);
+                    AppRoot.KernelVms.OnIsDownloadingChanged(_kernelVm);
                 }
             }
         }
@@ -188,7 +188,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.IsDownloading = true;
-            var otherSamePackageKernelVms = AppContext.Instance.KernelVms.AllKernels.Where(a => a.Package == this._kernelVm.Package && a != this._kernelVm).ToList();
+            var otherSamePackageKernelVms = AppRoot.KernelVms.AllKernels.Where(a => a.Package == this._kernelVm.Package && a != this._kernelVm).ToList();
             foreach (var kernelVm in otherSamePackageKernelVms) {
                 kernelVm.KernelProfileVm.IsDownloading = true;
             }
@@ -200,10 +200,10 @@ namespace NTMiner.Vms {
                 this.DownloadMessage = message;
                 this.DownloadPercent = 0;
                 if (isSuccess) {
-                    if (!Directory.Exists(SpecialPath.PackagesDirFullName)) {
-                        Directory.CreateDirectory(SpecialPath.PackagesDirFullName);
+                    if (!Directory.Exists(HomePath.PackagesDirFullName)) {
+                        Directory.CreateDirectory(HomePath.PackagesDirFullName);
                     }
-                    File.Copy(saveFileFullName, Path.Combine(SpecialPath.PackagesDirFullName, package), overwrite: true);
+                    File.Copy(saveFileFullName, Path.Combine(HomePath.PackagesDirFullName, package), overwrite: true);
                     File.Delete(saveFileFullName);
                     this.IsDownloading = false;
                     foreach (var kernelVm in otherSamePackageKernelVms) {
@@ -225,13 +225,14 @@ namespace NTMiner.Vms {
                 downloadComplete?.Invoke(isSuccess, message);
             }, cancel: out _cancelDownload);
         }
-        public void Download(
+
+        private static void Download(
             string package,
             Action<int> progressChanged,
             // isSuccess, message, saveFileFullName
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
-            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, package);
+            string saveFileFullName = Path.Combine(TempPath.DownloadDirFullName, package);
             progressChanged?.Invoke(0);
             using (var webClient = VirtualRoot.CreateWebClient()) {
                 cancel = () => {
@@ -250,7 +251,7 @@ namespace NTMiner.Vms {
                         }
                         string message = "下载成功";
                         if (e.Error != null) {
-                            message = "下载失败";
+                            message = "下载失败，请检查网络";
                             string errorMessage = e.Error.GetInnerMessage();
                             VirtualRoot.Out.ShowError(errorMessage);
                             // 这里就不记录异常了，因为异常很可能是因为磁盘空间不足

@@ -6,7 +6,7 @@ namespace NTMiner.Views.Ucs {
     public partial class BrandTag : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "打码生成品牌专版",
+                Title = "生成品牌专版（在品牌上右键）",
                 IsMaskTheParent = true,
                 Width = 800,
                 CloseVisible = Visibility.Visible,

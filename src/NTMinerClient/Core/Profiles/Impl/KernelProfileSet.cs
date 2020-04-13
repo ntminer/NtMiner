@@ -7,10 +7,8 @@ namespace NTMiner.Core.Profiles.Impl {
     public class KernelProfileSet : IKernelProfileSet {
         private readonly Dictionary<Guid, KernelProfile> _dicByKernelId = new Dictionary<Guid, KernelProfile>();
 
-        private readonly INTMinerRoot _root;
         private readonly object _locker = new object();
-        public KernelProfileSet(INTMinerRoot root) {
-            _root = root;
+        public KernelProfileSet() {
         }
 
         public IKernelProfile EmptyKernelProfile {
@@ -46,7 +44,7 @@ namespace NTMiner.Core.Profiles.Impl {
             public IKernel Kernel {
                 get {
                     if (_kernel == null) {
-                        NTMinerRoot.Instance.ServerContext.KernelSet.TryGetKernel(this.KernelId, out _kernel);
+                        NTMinerContext.Instance.ServerContext.KernelSet.TryGetKernel(this.KernelId, out _kernel);
                     }
                     return _kernel;
                 }

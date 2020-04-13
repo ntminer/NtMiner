@@ -1,18 +1,19 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.PoolEdit"
-			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
-			 xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-			 xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-			 xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-			 mc:Ignorable="d"
-			 d:DataContext="{d:DesignData Source=/Design/PoolViewModel.xaml}"
-			 xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
-			 d:DesignWidth="540" d:DesignHeight="400"
-             MinHeight="200"
-			 Background="White">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.PoolEdit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d"
+	d:DataContext="{d:DesignData Source=../Design/PoolViewModel.xaml}"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+	d:DesignWidth="540" d:DesignHeight="450"
+    MinHeight="200"
+	Background="White">
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
@@ -22,8 +23,8 @@
 	</UserControl.Resources>
 	<Grid>
 		<TabControl 
-			Padding="0" BorderThickness="0" Background="White"
-			BorderBrush="{StaticResource LineColor}">
+			Padding="0" BorderThickness="0 1 0 0" Background="White"
+			BorderBrush="{StaticResource LightLineColor}">
 			<TabItem>
 				<TabItem.Header>
 					<TextBlock Text="矿池" Padding="10 0"></TextBlock>
@@ -45,7 +46,7 @@
 										x:Name="ButtonBrand"
 										Padding="4 0"
 										BorderThickness="1"
-										BorderBrush="{StaticResource LineColor}"
+										BorderBrush="{StaticResource LightLineColor}"
 										Height="26"
 										IsEnabled="{Binding ElementName=PopupBrand,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 										Background="Transparent"
@@ -98,7 +99,7 @@
 						</WrapPanel>
 
 						<WrapPanel Margin="0 2">
-							<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">通知</TextBlock>
+                            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">须知</TextBlock>
 							<controls:KbMuiltilineTextBox 
 								Width="420" Background="Transparent" Padding="0 4"
 								IsReadOnly="{Binding IsReadOnly}"
@@ -147,26 +148,25 @@
 							Visibility="{Binding IsNew,Converter={StaticResource BoolToVisibilityConverter}}"
 							VerticalAlignment="Center" 
 							Foreground="Red" 
-							Text="保存后请根据自带矿池判断是否需要填写矿池级参数"></TextBlock>
+							Text="请选用系统自带矿池，如确有需求自定义矿池可联系管理员添加。"></TextBlock>
 						<controls:KbButton
 							Margin="4 0 0 0"
 							Command="{Binding Save}" 
 							Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVisibilityInvertConverter}}"
 							Padding="15 2"
-							Background="{StaticResource ThemeBackground}"
-							Foreground="{StaticResource ThemeForeground}"
+							Background="{StaticResource BtnBackground}"
+							Foreground="{StaticResource BtnForeground}"
 							CornerRadius="2">
 							<WrapPanel>
 								<Path
 									Width="12"
 									Height="12"
 									Data="{StaticResource Icon_Ok}"
-									Fill="{StaticResource ThemeForeground}"
+									Fill="{StaticResource BtnForeground}"
 									Stretch="Fill" />
 								<TextBlock
 									Padding="4"
 									VerticalAlignment="Center"
-									Foreground="{StaticResource ThemeForeground}"
 									Text="确定" />
 							</WrapPanel>
 						</controls:KbButton>
@@ -183,7 +183,7 @@
 					<DataGrid 
 						ItemsSource="{Binding PoolKernels}" 
 						BorderThickness="1 0 0 0" 
-						BorderBrush="{StaticResource LineColor}"
+						BorderBrush="{StaticResource LightLineColor}"
 						MouseDoubleClick="KernelDataGrid_MouseDoubleClick">
 						<DataGrid.Resources>
 							<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -220,7 +220,7 @@
 														Width="18"
 														Height="18"
 														Data="{StaticResource Icon_Edit}"
-														Fill="{StaticResource IconFillColor}"
+														Fill="{StaticResource BtnBackground}"
 														Stretch="Fill" />
 												</WrapPanel>
 											</controls:KbButton>

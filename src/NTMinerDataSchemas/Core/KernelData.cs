@@ -17,7 +17,7 @@ namespace NTMiner.Core {
 
         public string Version { get; set; }
 
-        public ulong PublishOn { get; set; }
+        public long PublishOn { get; set; }
 
         public string Package { get; set; }
 

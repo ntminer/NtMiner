@@ -38,7 +38,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 _algoIds = this.AlgoSelectItems.Where(a => a.IsChecked).Select(a => a.SysDicItemVm.Id).ToList();
-                if (NTMinerRoot.Instance.ServerContext.PackageSet.Contains(this.Id)) {
+                if (NTMinerContext.Instance.ServerContext.PackageSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePackageCommand(this));
                 }
                 else {
@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new PackageEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditPackageCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -99,7 +99,7 @@ namespace NTMiner.Vms {
                 _algoIds = value;
                 OnPropertyChanged(nameof(AlgoIds));
                 var list = new List<AlgoSelectItem>();
-                foreach (var item in AppContext.Instance.SysDicItemVms.AlgoItems) {
+                foreach (var item in AppRoot.SysDicItemVms.AlgoItems) {
                     list.Add(new AlgoSelectItem(item, value != null && value.Contains(item.Id)));
                 }
                 AlgoSelectItems = list;

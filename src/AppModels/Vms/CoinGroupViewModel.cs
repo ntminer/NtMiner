@@ -30,27 +30,27 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                CoinGroupViewModel upOne = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.GroupId).GetUpOne(this.SortNumber);
+                CoinGroupViewModel upOne = AppRoot.CoinGroupVms.GetCoinGroupsByGroupId(this.GroupId).GetUpOne(this.SortNumber);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
-                    if (AppContext.Instance.GroupVms.TryGetGroupVm(this.GroupId, out GroupViewModel groupVm)) {
+                    if (AppRoot.GroupVms.TryGetGroupVm(this.GroupId, out GroupViewModel groupVm)) {
                         groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
                     }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                CoinGroupViewModel nextOne = AppContext.Instance.CoinGroupVms.GetCoinGroupsByGroupId(this.GroupId).GetNextOne(this.SortNumber);
+                CoinGroupViewModel nextOne = AppRoot.CoinGroupVms.GetCoinGroupsByGroupId(this.GroupId).GetNextOne(this.SortNumber);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateCoinGroupCommand(this));
-                    if (AppContext.Instance.GroupVms.TryGetGroupVm(this.GroupId, out GroupViewModel groupVm)) {
+                    if (AppRoot.GroupVms.TryGetGroupVm(this.GroupId, out GroupViewModel groupVm)) {
                         groupVm.OnPropertyChanged(nameof(groupVm.CoinGroupVms));
                     }
                 }
@@ -93,7 +93,7 @@ namespace NTMiner.Vms {
 
         public CoinViewModel CoinVm {
             get {
-                if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel vm)) {
+                if (AppRoot.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel vm)) {
                     return vm;
                 }
                 return CoinViewModel.Empty;

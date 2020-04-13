@@ -29,12 +29,13 @@ namespace NTMiner.View {
                 lock (_locker) {
                     if (_mainWindow == null) {
                         _mainWindow = CreateMainWindow();
+                        NTMinerContext.RefreshArgsAssembly.Invoke("主界面创建后");
                         _mainWindow.Show();
                     }
                 }
             }
             else {
-                AppContext.Enable();
+                AppRoot.Enable();
                 bool needActive = _mainWindow.WindowState != WindowState.Minimized;
                 _mainWindow.ShowWindow(isToggle);
                 if (needActive) {
@@ -51,7 +52,7 @@ namespace NTMiner.View {
             try {
                 switch (appType) {
                     case NTMinerAppType.MinerClient:
-                        RpcRoot.Client.MinerClientService.ShowMainWindowAsync(NTKeyword.MinerClientPort, (isSuccess, exception) => {
+                        RpcRoot.Client.MinerClientService.ShowMainWindowAsync((isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }
@@ -59,7 +60,7 @@ namespace NTMiner.View {
                         });
                         break;
                     case NTMinerAppType.MinerStudio:
-                        RpcRoot.Client.MinerStudioService.ShowMainWindowAsync(NTKeyword.MinerStudioPort, (isSuccess, exception) => {
+                        RpcRoot.Client.MinerStudioService.ShowMainWindowAsync((isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }

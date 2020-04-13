@@ -40,7 +40,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.AlgoItem;
             popup.Child = new SysDicItemSelect(
-                new SysDicItemSelectViewModel(AppContext.Instance.SysDicItemVms.AlgoItems, selected, onOk: selectedResult => {
+                new SysDicItemSelectViewModel(AppRoot.SysDicItemVms.AlgoItems, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (Vm.AlgoItem != selectedResult) {
                             Vm.AlgoItem = selectedResult;
@@ -59,7 +59,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.NKernelBrand;
             popup.Child = new SysDicItemSelect(
-                new SysDicItemSelectViewModel(AppContext.Instance.SysDicItemVms.KernelBrandsSelect, selected, onOk: selectedResult => {
+                new SysDicItemSelectViewModel(AppRoot.SysDicItemVms.KernelBrandsSelect, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (Vm.NKernelBrand != selectedResult) {
                             Vm.NKernelBrand = selectedResult;
@@ -78,7 +78,7 @@ namespace NTMiner.Views.Ucs {
             popup.IsOpen = true;
             var selected = Vm.AKernelBrand;
             popup.Child = new SysDicItemSelect(
-                new SysDicItemSelectViewModel(AppContext.Instance.SysDicItemVms.KernelBrandsSelect, selected, onOk: selectedResult => {
+                new SysDicItemSelectViewModel(AppRoot.SysDicItemVms.KernelBrandsSelect, selected, onOk: selectedResult => {
                     if (selectedResult != null) {
                         if (Vm.AKernelBrand != selectedResult) {
                             Vm.AKernelBrand = selectedResult;

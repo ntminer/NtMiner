@@ -25,7 +25,7 @@ namespace NTMiner.Core.Kernels {
                 if (kernel == null || kernel.KernelInputId == Guid.Empty) {
                     return string.Empty;
                 }
-                NTMinerRoot.Instance.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput);
+                NTMinerContext.Instance.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput);
                 if (kernelInput == null) {
                     Write.UserError("意外！没有正确配置内核输入，请QQ群联系小编解决。");
                     return string.Empty;
@@ -77,11 +77,11 @@ namespace NTMiner.Core.Kernels {
 
         public static bool IsSupported(this IKernel kernel, ICoin coin) {
             // 群控客户端和无显卡的电脑的GpuSet类型都是空
-            if (NTMinerRoot.Instance.GpuSet.GpuType == GpuType.Empty) {
+            if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
                 return true;
             }
-            foreach (var item in NTMinerRoot.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {
-                if (item.SupportedGpu.IsSupportedGpu(NTMinerRoot.Instance.GpuSet.GpuType)) {
+            foreach (var item in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId() && a.KernelId == kernel.GetId())) {
+                if (item.SupportedGpu.IsSupportedGpu(NTMinerContext.Instance.GpuSet.GpuType)) {
                     return true;
                 }
             }
@@ -92,14 +92,14 @@ namespace NTMiner.Core.Kernels {
             if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
                 return string.Empty;
             }
-            return Path.Combine(SpecialPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(kernel.Package));
+            return Path.Combine(TempPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(kernel.Package));
         }
 
         public static string GetPackageFileFullName(this IKernel kernel) {
             if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
                 return string.Empty;
             }
-            return Path.Combine(SpecialPath.PackagesDirFullName, kernel.Package);
+            return Path.Combine(HomePath.PackagesDirFullName, kernel.Package);
         }
 
         public static bool IsPackageFileExist(this IKernel kernel) {
@@ -114,7 +114,7 @@ namespace NTMiner.Core.Kernels {
             if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
                 return string.Empty;
             }
-            return Path.Combine(SpecialPath.DownloadDirFullName, kernel.Package);
+            return Path.Combine(TempPath.DownloadDirFullName, kernel.Package);
         }
 
         public static bool ExtractPackage(this IKernel kernel) {
@@ -131,7 +131,7 @@ namespace NTMiner.Core.Kernels {
                     return false;
                 }
                 if (!File.Exists(packageZipFileFullName)) {
-                    Write.DevDebug($"试图解压的{packageZipFileFullName}文件不存在");
+                    Write.DevDebug(() => $"试图解压的{packageZipFileFullName}文件不存在");
                     return false;
                 }
                 ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);

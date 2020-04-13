@@ -8,8 +8,8 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            if (AppContext.Instance.MinerProfileVm.CoinVm != null) {
-                foreach (var item in AppContext.Instance.GpuSpeedVms.All) {
+            if (AppRoot.MinerProfileVm.CoinVm != null) {
+                foreach (var item in AppRoot.GpuSpeedVms.All) {
                     _dicByGpuIndex.Add(item.GpuVm.Index, new SpeedChartViewModel(item));
                 }
             }

@@ -46,7 +46,7 @@ namespace UnitTests {
         public void HostsTest() {
             string hostsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "hosts");
             File.Delete(hostsPath);
-            string host = "server.ntminer.com";
+            string host = NTMiner.RpcRoot.OfficialServerHost;
             string ip = "127.0.0.1";
             Hosts.GetIp(host, out long r, hostsPath);
             Assert.AreEqual(-2, r);

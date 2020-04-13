@@ -48,7 +48,7 @@ namespace NTMiner.Net {
             if (string.IsNullOrEmpty(ipAddress)) {
                 return false;
             }
-            if (ipAddress == "localhost" || ipAddress == "127.0.0.1") {
+            if (ipAddress == NTKeyword.Localhost || ipAddress == "127.0.0.1") {
                 return true;
             }
             return false;
@@ -63,7 +63,7 @@ namespace NTMiner.Net {
             if (string.IsNullOrEmpty(ipAddress)) {
                 throw new ArgumentNullException(nameof(ipAddress));
             }
-            if (ipAddress == "localhost") {
+            if (ipAddress == NTKeyword.Localhost) {
                 ipAddress = "127.0.0.1";
             }
             string[] parts = ipAddress.Split('.');

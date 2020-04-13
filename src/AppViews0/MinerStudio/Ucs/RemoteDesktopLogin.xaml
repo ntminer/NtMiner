@@ -1,0 +1,73 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.MinerStudio.Ucs.RemoteDesktopLogin"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+    d:DataContext="{d:DesignData Source=../Design/RemoteDesktopLoginViewModel.xaml}"
+	mc:Ignorable="d" d:DesignHeight="150" d:DesignWidth="400">
+	<Grid Margin="0 8 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <TextBlock 
+			Grid.Row="0" Grid.Column="0" Margin="0 2" 
+			Text="登录名" Style="{StaticResource LblTbBase}"></TextBlock>
+        <TextBox 
+            x:Name="TbLoginName"
+			Grid.Row="0" Grid.Column="1" Margin="0 2"
+			Text="{Binding LoginName, ValidatesOnExceptions=True}" 
+            Background="White" 
+			VerticalContentAlignment="Center"></TextBox>
+
+        <TextBlock 
+			Grid.Row="1" Grid.Column="0" Margin="0 2" 
+			Text="密码" Style="{StaticResource LblTbBase}"></TextBlock>
+        <PasswordBox 
+            x:Name="PbPassword"
+			Grid.Row="1" Grid.Column="1" Margin="0 2" Height="26"
+			VerticalContentAlignment="Center" 
+            Background="White" 
+            controls:PasswordBoxHelper.Attach="true" 
+            controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <StackPanel Grid.Row="2" Grid.Column="1" Margin="0 6 0 0">
+            <TextBlock Foreground="Red">1. 仅支持内网；</TextBlock>
+            <TextBlock Foreground="Red">2. 双击矿机即可远程桌面。</TextBlock>
+            <controls:KbButton
+                Margin="0 6 0 0"
+				IsDefault="True"
+				Padding="15 2"
+                HorizontalAlignment="Center"
+				Command="{Binding Ok}"
+				Background="{StaticResource BtnBackground}"
+				Foreground="{StaticResource BtnForeground}"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Ok}"
+						Fill="{StaticResource BtnForeground}"
+						Stretch="Fill" />
+                    <TextBlock
+						Padding="0 4"
+						VerticalAlignment="Center"
+						Text="确定" />
+                </WrapPanel>
+            </controls:KbButton>
+        </StackPanel>
+    </Grid>
+</UserControl>

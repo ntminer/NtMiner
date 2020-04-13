@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.ServerContext.FileWriterSet.TryGetFileWriter(this.Id, out IFileWriter writer)) {
+                if (NTMinerContext.Instance.ServerContext.FileWriterSet.TryGetFileWriter(this.Id, out IFileWriter writer)) {
                     VirtualRoot.Execute(new UpdateFileWriterCommand(this));
                 }
                 else {
@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new FileWriterEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditFileWriterCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

@@ -15,18 +15,20 @@ namespace NTMiner.Views.Ucs {
                 MinWidth = 450,
                 Height = 360,
                 MinHeight = 360,
+                IsChildWindow = true,
+                IsMaskTheParent = false,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => new VirtualMemory(), fixedSize: false);
         }
 
-        private AppContext.DriveSetViewModel Vm {
+        private AppRoot.DriveSetViewModel Vm {
             get {
-                return AppContext.Instance.DriveSetVm;
+                return AppRoot.DriveSetVm;
             }
         }
 
         public VirtualMemory() {
-            this.DataContext = AppContext.Instance.DriveSetVm;
+            this.DataContext = AppRoot.DriveSetVm;
             InitializeComponent();
         }
 

@@ -67,7 +67,7 @@
 								Width="30"
 								Height="20"
 								Data="{StaticResource Icon_ArrowRight}"
-								Fill="{StaticResource IconFillColor}"
+								Fill="{StaticResource BtnBackground}"
 								Stretch="Fill"/>
 							<TextBlock Text="收益" VerticalAlignment="Center"></TextBlock>
 							<TextBox Text="{Binding IncomePerDay, ValidatesOnExceptions=True}" VerticalAlignment="Center"></TextBox>
@@ -86,20 +86,19 @@
 			HorizontalAlignment="Center"
 			Margin="0 10 0 0"
 			Padding="15 2"
-			Background="{StaticResource ThemeBackground}"
-			Foreground="{StaticResource ThemeForeground}"
+			Background="{StaticResource BtnBackground}"
+			Foreground="{StaticResource BtnForeground}"
 			CornerRadius="2">
 			<WrapPanel>
 				<Path
 					Width="12"
 					Height="12"
 					Data="{StaticResource Icon_Ok}"
-					Fill="{StaticResource ThemeForeground}"
+					Fill="{StaticResource BtnForeground}"
 					Stretch="Fill" />
 				<TextBlock
 					Padding="4"
 					VerticalAlignment="Center"
-					Foreground="{StaticResource ThemeForeground}"
 					Text="确定" />
 			</WrapPanel>
 		</controls:KbButton>

@@ -35,22 +35,11 @@ namespace NTMiner.Views.Ucs {
             });
         }
 
-        private void DualCoinWeightSlider_LostFocus(object sender, RoutedEventArgs e) {
-            if (Vm.CoinVm == null
-                || Vm.CoinVm.CoinKernel == null
-                || Vm.CoinVm.CoinKernel.CoinKernelProfile == null) {
-                return;
-            }
-            CoinKernelProfileViewModel coinKernelProfileVm = Vm.CoinVm.CoinKernel.CoinKernelProfile;
-            NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfileVm.CoinKernelId, nameof(coinKernelProfileVm.DualCoinWeight), coinKernelProfileVm.DualCoinWeight);
-            NTMinerRoot.RefreshArgsAssembly.Invoke();
-        }
-
         #region OpenPopup
 
         private void OpenDualCoinPoolPopup() {
             var coinVm = Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
-            if (coinVm == null) {
+            if (coinVm == null || coinVm.CoinProfile == null) {
                 return;
             }
             var popup = PopupDualCoinPool;
@@ -78,6 +67,9 @@ namespace NTMiner.Views.Ucs {
             }
             else if (newVm) {
                 ((PoolSelect)popup.Child).DataContext = vm;
+            }
+            else {
+                ((PoolSelect)popup.Child).Vm.SelectedResult = selected;
             }
         }
 
@@ -111,11 +103,14 @@ namespace NTMiner.Views.Ucs {
             else if (newVm) {
                 ((CoinSelect)popup.Child).DataContext = vm;
             }
+            else {
+                ((CoinSelect)popup.Child).Vm.SelectedResult = selected;
+            }
         }
 
         private void OpenDualCoinWalletPopup() {
             var coinVm = Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
-            if (coinVm == null) {
+            if (coinVm == null || coinVm.CoinProfile == null) {
                 return;
             }
             var popup = PopupDualCoinWallet;
@@ -172,7 +167,7 @@ namespace NTMiner.Views.Ucs {
                 return;
             }
             if (coinVm.Wallets.Count == 0) {
-                coinVm.CoinProfile.AddDualCoinWallet.Execute(null);
+                coinVm.CoinProfile?.AddDualCoinWallet.Execute(null);
             }
             else {
                 OpenDualCoinWalletPopup();

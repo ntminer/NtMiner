@@ -1,16 +1,17 @@
-﻿<UserControl x:Class="NTMiner.Views.Ucs.Toolbox"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:sys="clr-namespace:System;assembly=mscorlib"
-		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-		xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-		xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-		Background="White"
-		mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="740">
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.Toolbox"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	Background="White"
+	mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="740">
 	<UserControl.DataContext>
 		<vm:ToolboxViewModel></vm:ToolboxViewModel>
 	</UserControl.DataContext>
@@ -158,7 +159,7 @@
 							Width="36"
 							Height="22"
 							Data="{StaticResource Icon_Cpp}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                         <StackPanel Margin="8 0 0 0">
                             <controls:KbLinkButton
@@ -196,7 +197,7 @@
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_VirtualMemory}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">管理虚拟内存</TextBlock>
@@ -210,7 +211,7 @@
 					Margin="4"
                     KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					IsEnabled="{Binding IsRemoteDesktopEnabled,Converter={StaticResource BoolInvertConverter}}"
-					Command="{Binding EnableWindowsRemoteDesktop}"
+					Command="{Binding EnableRemoteDesktop}"
 					Cursor="Hand"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
@@ -218,7 +219,7 @@
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_RemoteDesktop}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">Windows远程桌面</TextBlock>
@@ -240,7 +241,7 @@
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_Login}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">Windows开机自动登录</TextBlock>
@@ -261,7 +262,7 @@
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_Windows}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 						<StackPanel Margin="8 0 0 0" Width="152">
 							<TextBlock FontWeight="Bold" FontSize="14">一键优化Windows</TextBlock>
@@ -350,28 +351,6 @@
                 <controls:KbButton 
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
-                    Visibility="{Binding IsReturnEthDevFee,Converter={StaticResource BoolToVisibilityConverter}}"
-					Margin="4"
-                    KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
-					Command="{x:Static app:AppStatic.ShowEthNoDevFee}"
-					Cursor="Hand"
-					Background="Transparent">
-                    <WrapPanel VerticalAlignment="Center">
-                        <Path 
-							Width="30"
-							Height="30"
-							Data="{StaticResource Icon_NoDevFee}"
-							Fill="Black"
-							Stretch="Fill" />
-                        <StackPanel Margin="8 0 0 0" Width="152">
-                            <TextBlock FontWeight="Bold" FontSize="14">Claymore ETH反抽水</TextBlock>
-                            <TextBlock Foreground="{StaticResource LableColor}">拦截老外的内核开发费</TextBlock>
-                        </StackPanel>
-                    </WrapPanel>
-                </controls:KbButton>
-                <controls:KbButton 
-					Height="{StaticResource ItemHeight}" 
-					Width="{StaticResource ItemWidth}"
 					Margin="4"
                     KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
 					Command="{x:Static app:AppStatic.ShowLocalIps}"
@@ -382,7 +361,7 @@
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_Ip}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                         <StackPanel Margin="8 0 0 0" Width="152">
                             <TextBlock FontWeight="Bold" FontSize="14">管理本机 IP</TextBlock>
@@ -403,7 +382,7 @@
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_Devmgmt}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                         <StackPanel Margin="8 0 0 0" Width="152">
                             <TextBlock FontWeight="Bold" FontSize="14">Windows 设备管理器</TextBlock>
@@ -445,7 +424,7 @@
 							Width="30"
 							Height="30"
 							Data="{StaticResource Icon_WindowsProperty}"
-							Fill="{StaticResource IconFillColor}"
+							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
                         <StackPanel Margin="8 0 0 0" Width="152">
                             <TextBlock FontWeight="Bold" FontSize="14">Windows 系统属性</TextBlock>

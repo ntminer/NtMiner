@@ -29,9 +29,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.SysDicViewModels SysDicVms {
+        public AppRoot.SysDicViewModels SysDicVms {
             get {
-                return AppContext.Instance.SysDicVms;
+                return AppRoot.SysDicVms;
             }
         }
     }

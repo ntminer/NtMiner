@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.Profile;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,12 @@ using System.Linq;
 
 namespace NTMiner.JsonDb {
     public class GpuProfilesJsonDb : IGpuProfilesJsonDb {
+        public GpuType GpuType { get; set; }
         public GpuData[] Gpus { get; set; }
         public List<GpuProfileData> GpuProfiles { get; set; }
         public List<CoinOverClockData> CoinOverClocks { get; set; }
 
-        public ulong TimeStamp { get; set; }
+        public long TimeStamp { get; set; }
 
         public GpuProfilesJsonDb() {
             Gpus = new GpuData[0];

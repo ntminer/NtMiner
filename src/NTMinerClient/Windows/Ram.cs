@@ -9,32 +9,41 @@ namespace NTMiner.Windows {
         public static readonly Ram Instance = new Ram();
 
         #region Properties
-
+        private ulong _totalPhysicalMemory = ulong.MinValue;
         /// <summary>
         /// Gets the total physical memory in bytes
         /// </summary>
         public ulong TotalPhysicalMemory {
             get {
+                if (_totalPhysicalMemory != ulong.MinValue) {
+                    return _totalPhysicalMemory;
+                }
                 MemoryStatusEx mEx = new MemoryStatusEx();
                 if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
-                    return mEx.ullTotalPhys;
+                    _totalPhysicalMemory = mEx.ullTotalPhys;
+                    if (_totalPhysicalMemory == ulong.MinValue) {
+                        _totalPhysicalMemory = 0;
+                    }
+                }
+                else {
+                    _totalPhysicalMemory = 0;
                 }
 
-                return 0;
+                return _totalPhysicalMemory;
             }
         }
 
         /// <summary>
         /// Gets the available physical memory in bytes
         /// </summary>
-        public string AvailablePhysicalMemory {
+        public ulong AvailablePhysicalMemory {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
                 if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
-                    return Convert.ToString(mEx.ullAvailPhys);
+                    return mEx.ullAvailPhys;
                 }
 
-                return "";
+                return 0;
             }
         }
 

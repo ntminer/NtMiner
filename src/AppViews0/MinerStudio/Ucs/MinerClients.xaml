@@ -1,0 +1,2335 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.MinerStudio.Ucs.MinerClients"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+    d:DataContext="{d:DesignData Source=../Design/MinerClientsWindowViewModel.xaml}"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="5300">
+    <DataGrid 
+		BorderThickness="0 1 0 0"
+		IsReadOnly="True"
+		SelectionMode="Extended"
+		SelectionChanged="MinerClientsGrid_OnSelectionChanged"
+		Sorting="DataGrid_OnSorting"
+		HeadersVisibility="All"
+		RowHeaderWidth="10"
+		FrozenColumnCount="{Binding FrozenColumnCount}"
+		ItemsSource="{Binding MinerClients}"
+		SelectedItem="{Binding CurrentMinerClient}"
+		MouseDoubleClick="DataGrid_MouseDoubleClick"
+		AutoGenerateColumns="False">
+        <DataGrid.Resources>
+            <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+        </DataGrid.Resources>
+        <DataGrid.ContextMenu>
+            <ContextMenu>
+                <MenuItem Header="开始挖矿" Command="{Binding Data.StartMine,Source={StaticResource proxy}}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Start}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="停止挖矿" Command="{Binding Data.StopMine,Source={StaticResource proxy}}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Stop}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="重启电脑" Command="{Binding Data.RestartWindows,Source={StaticResource proxy}}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Restart2}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="关闭电脑" Command="{Binding Data.ShutdownWindows,Source={StaticResource proxy}}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Shutdown}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem 
+                    Header="添加矿机" 
+                    Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}"
+                    Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Add}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem 
+                    Header="删除矿机" 
+                    Command="{Binding Data.RemoveMinerClients,Source={StaticResource proxy}}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Delete}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+        </DataGrid.ContextMenu>
+        <DataGrid.Columns>
+            <!--VmIsOnline-->
+            <DataGridTemplateColumn IsReadOnly="True" Header="在线">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel 
+                            Visibility="{Binding VmIsOnlineVisible}" 
+                            Background="#01ffffff"
+                            ToolTip="{Binding VmIsOnlineText}">
+                            <Path
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Online}"
+                                Visibility="{Binding VmIsOnline,Converter={StaticResource BoolToVisibilityConverter}}"
+								Fill="Green"
+								Stretch="Fill" />
+                            <Path
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Offline}"
+                                Visibility="{Binding VmIsOnline,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+								Fill="Red"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--LastActivedOnText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.LastActivedOnText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <StackPanel>
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.LAST_ACTIVED_ON_TEXT}"></TextBlock>
+                            <controls:KbButton
+								ToolTip="不展示"
+								Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+								CommandParameter="LastActivedOnText"
+								Background="Transparent">
+                                <WrapPanel>
+                                    <Path
+										Width="14"
+										Height="12"
+										Data="{StaticResource Icon_Hide}"
+										Fill="#FF5A5A5A"
+										Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                            <TextBlock Margin="4 0 0 0" Text="{Binding Data.CountDown,Source={StaticResource proxy}}"></TextBlock>
+                        </WrapPanel>
+                    </StackPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <Border Width="10" Height="10" Background="{Binding IsMining,Converter={StaticResource BoolToBrushConverter}}" ToolTip="{Binding IsMiningText}"></Border>
+                            <TextBlock Text="{Binding LastActivedOnText}" Margin="4 0 0 0"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--BootTimeSpanText-->
+            <DataGridTextColumn 
+				Binding="{Binding BootTimeSpanText}"
+				Visibility="{Binding Data.ColumnsShow.BootTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTextColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.BOOT_TIME_SPAN_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="BootTimeSpanText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!--MineTimeSpanText-->
+            <DataGridTextColumn 
+				Binding="{Binding MineTimeSpanText}"
+				Visibility="{Binding Data.ColumnsShow.MineTimeSpanText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTextColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINE_TIME_SPAN_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MineTimeSpanText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!--Work-->
+            <DataGridTextColumn 
+				Binding="{Binding SelectedMineWork.Name}"
+				Visibility="{Binding Data.ColumnsShow.Work, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}" 
+				IsReadOnly="True">
+                <DataGridTextColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.WORK}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="Work"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!--MinerGroup-->
+            <DataGridTextColumn 
+				Binding="{Binding SelectedMinerGroup.Name}"
+				Visibility="{Binding Data.ColumnsShow.MinerGroup,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTextColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_GROUP}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MinerGroup"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!--MinerName-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_NAME}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="排序"
+                            Command="{Binding Data.SortByMinerName, Source={StaticResource proxy}}"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortAscending}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                                <Path
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityInvertConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortDescending}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding MinerName,Mode=OneWay}"></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--WorkerName-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.WorkerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="False">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.WORKER_NAME}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="WorkerName"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding WorkerNameText,Mode=OneWay}"></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--LocalIp-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.LocalIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.LOCAL_IP}" ToolTip="{x:Static vm:ColumnsShowViewModel.LOCAL_IP_TOOLTIP}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="LocalIp"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <controls:KbButton
+								BorderThickness="0"
+								Background="Transparent"
+								Command="{Binding RemoteDesktop}"
+								CornerRadius="2">
+                                <Path
+									Width="14"
+									Height="14"
+									Data="{StaticResource Icon_RemoteDesktop}"
+									Fill="{StaticResource BtnBackground}"
+									Stretch="Fill" />
+                            </controls:KbButton>
+                            <TextBox 
+								ToolTip="双击连接远程桌面"
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding LocalIp, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MinerIp-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_IP}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MinerIp"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox 
+							ToolTip="双击连接远程桌面"
+							BorderThickness="0"
+							Background="Transparent"
+							IsReadOnly="True"
+							Text="{Binding MinerIp, Mode=OneWay}"></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MACAddress-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MACAddress,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAC_ADDRESS}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MACAddress"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBox 
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding MACAddress, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsOuterUserEnabled-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsOuterUserEnabled,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_OUTER_USER_ENABLED}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsOuterUserEnabled"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsOuterUserEnabled,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--OuterUserId-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.OuterUserId,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.OUTER_USERID}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="OuterUserId"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock 
+								Background="Transparent"
+								Text="{Binding OuterUserId, Mode=OneWay}"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--WindowsLoginName-->
+            <DataGridTextColumn 
+				Binding="{Binding WindowsLoginName}"
+				Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="False">
+                <DataGridTextColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.WINDOWS_LOGIN_NAME}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="WindowsLoginNameAndPassword"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!--WindowsLoginPassword-->
+            <DataGridTextColumn 
+				Binding="{Binding WindowsPasswordStar}"
+				Visibility="{Binding Data.ColumnsShow.WindowsLoginNameAndPassword,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="False">
+                <DataGridTextColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.WINDOWS_LOGIN_PASSWORD}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="WindowsLoginNameAndPassword"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTextColumn.Header>
+            </DataGridTextColumn>
+            <!--GpuType-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.GpuType,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.GPU_TYPE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="GpuType"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <Path
+								Margin="4 0 0 0"
+								Width="18"
+								Height="14"
+								ToolTip="NVIDIA"
+								Visibility="{Binding IsNvidiaIconVisible}"
+								Data="{StaticResource Icon_Nvidia}"
+								Fill="Green"
+								Stretch="Fill" />
+                            <Path
+								Margin="4 0 0 0"
+								Width="16"
+								Height="14"
+								ToolTip="AMD"
+								Visibility="{Binding IsAMDIconVisible}"
+								Data="{StaticResource Icon_AMD}"
+								Fill="Red"
+								Stretch="Fill" />
+                            <TextBlock Text=" x "></TextBlock>
+                            <TextBlock Text="{Binding GpuCount}"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--GpuInfo-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.GpuInfo,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.GPU_INFO}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="GpuInfo"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock 
+								Background="Transparent"
+								ToolTip="{Binding GpuInfo}"
+								Text="{Binding GpuInfo, Mode=OneWay}"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--GpuDriver-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.GpuDriver,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.GPU_DRIVER}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="GpuDriver"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock 
+								Background="Transparent"
+								Text="{Binding GpuDriver, Mode=OneWay}"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MainCoinCode-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MainCoinCode, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_CODE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MainCoinCode"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding MainCoinCode}"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MainCoinSpeedText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_SPEED_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MainCoinSpeedText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding MainCoinSpeedText}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MainCoinRejectPercentText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MainCoinRejectPercentText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding MainCoinRejectShare}"></TextBlock>
+                            <TextBlock Text="/"></TextBlock>
+                            <TextBlock Text="{Binding MainCoinTotalShare}"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MainCoinRejectPercentText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MainCoinRejectPercentText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding MainCoinRejectPercentText}" Foreground="{Binding MainCoinRejectPercentForeground}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MainCoinPoolDelay-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_POOL_DELAY}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MainCoinPoolDelay"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding MainCoinPoolDelay}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--DualCoinCode-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.DualCoinCode,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_CODE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="DualCoinCode"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBox 
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding DualCoinCode, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--DualCoinSpeedText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.DualCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_SPEED_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="DualCoinSpeedText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBox 
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding DualCoinSpeedText, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--DualCoinRejectPercentText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="DualCoinRejectPercentText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding DualCoinRejectShare}"></TextBlock>
+                            <TextBlock Text="/"></TextBlock>
+                            <TextBlock Text="{Binding DualCoinTotalShare}"></TextBlock>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--DualCoinRejectPercentText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="DualCoinRejectPercentText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DualCoinRejectPercentText}" Foreground="{Binding DualCoinRejectPercentForeground}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--DualCoinPoolDelay-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.DualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_POOL_DELAY}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="DualCoinPoolDelay"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DualCoinPoolDelay}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--TotalPowerText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.TotalPowerText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.TOTAL_POWER_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="TotalPowerText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding TotalPowerText}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MaxTempText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MaxTempText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAX_TEMP_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MaxTempText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding GpuTableVm.MaxTempText}" Foreground="{Binding GpuTableVm.TempForeground}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IncomeMainCoinPerDayText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IncomeMainCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.INCOME_MAIN_COIN_PER_DAY_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IncomeMainCoinPerDayText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBlock Text="{Binding IncomeMainCoinPerDayText}"></TextBlock>
+                            <TextBlock 
+								Text="{Binding MainCoinCode}" 
+								Margin="2 0 0 0"
+								Padding="0"
+								Foreground="{StaticResource LableColor}"></TextBlock>
+                            <TextBlock Text=", "></TextBlock>
+                            <TextBlock Text="{Binding IncomeMainCoinCnyPerDayText}"></TextBlock>
+                            <TextBlock 
+								Text="￥" 
+								Margin="2 0 0 0"
+								Padding="0"
+								Foreground="{StaticResource LableColor}"></TextBlock>
+                            <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+                            <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IncomeDualCoinPerDayText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IncomeDualCoinPerDayText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.INCOME_DUAL_COIN_PER_DAY_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IncomeDualCoinPerDayText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBlock Text="{Binding IncomeDualCoinPerDayText}"></TextBlock>
+                            <TextBlock 
+								Text="{Binding DualCoinCode}" 
+								Margin="2 0 0 0"
+								Padding="0"
+								Foreground="{StaticResource LableColor}"></TextBlock>
+                            <TextBlock Text=", "></TextBlock>
+                            <TextBlock Text="{Binding IncomeDualCoinCnyPerDayText}"></TextBlock>
+                            <TextBlock 
+								Text="CNY" 
+								Margin="2 0 0 0"
+								Padding="0"
+								Foreground="{StaticResource LableColor}"></TextBlock>
+                            <TextBlock Padding="1 0" Text="/" Foreground="{StaticResource LableColor}" />
+                            <TextBlock Padding="0" Text="天" Foreground="{StaticResource LableColor}" />
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MainCoinWallet-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MainCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_WALLET}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MainCoinWallet"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBox 
+								BorderThickness="0"
+								Background="Transparent"
+								Text="{Binding MainCoinWallet, Mode=OneWay}" 
+								IsReadOnly="True"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--MainCoinPool-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.MainCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_POOL}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="MainCoinPool"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBox 
+								ToolTip="{Binding MainCoinPool}"
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding MainCoinPool, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--Kernel-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.Kernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.KERNEL}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="Kernel"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBox 
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding Kernel, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--KernelSelfRestartCount-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.KernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.KERNEL_SELF_RESTART_COUNT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="KernelSelfRestartCount"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBox 
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding KernelSelfRestartCount, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--DualCoinWallet-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.DualCoinWallet,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_WALLET}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="DualCoinWallet"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel Visibility="{Binding IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <TextBox 
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding DualCoinWallet, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--DualCoinPool-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.DualCoinPool,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_POOL}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="DualCoinPool"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBox 
+								ToolTip="{Binding DualCoinPool}"
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								Text="{Binding DualCoinPool, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--Version-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.Version,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.VERSION}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="Version"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox IsReadOnly="True" Background="Transparent" BorderThickness="0" Text="{Binding Version, Mode=OneWay}"></TextBox>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--OSName-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.OSName,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.OS_NAME}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="OSName"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding OSName, Mode=OneWay}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--TotalPhysicalMemoryGbText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.TotalPhysicalMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.TOTAL_PHYSICAL_MEMORY_GB_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="TotalPhysicalMemoryGbText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding TotalPhysicalMemoryGbText, Mode=OneWay}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--OSVirtualMemoryGbText-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.OSVirtualMemoryGbText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.OS_VIRTUAL_MEMORY_GB_TEXT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="OSVirtualMemoryGbText"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding OSVirtualMemoryGbText, Mode=OneWay}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--DiskSpace-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.DiskSpace,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DISK_SPACE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="DiskSpace"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DiskSpace, Mode=OneWay}"></TextBlock>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsAutoBoot-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsAutoBoot,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_BOOT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsAutoBoot"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsAutoBoot,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsAutoStart-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsAutoStart,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_START}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsAutoStart"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsAutoStart,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--AutoStartDelaySeconds-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.AutoStartDelaySeconds,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.AUTO_START_DELAY_SECONDS}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="AutoStartDelaySeconds"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding AutoStartDelaySeconds}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsAutoRestartKernel-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsAutoRestartKernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_RESTART_KERNEL}" ToolTip="如果内核进程意外消失，自动重启内核"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsAutoRestartKernel"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsAutoRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--AutoRestartKernelTimes-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.AutoRestartKernelTimes,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.AUTO_RESTART_KERNEL_TIMES}" ToolTip="内核进程意外消失时尝试重启次数上限"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="AutoRestartKernelTimes"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding AutoRestartKernelTimes}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsNoShareRestartKernel-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsNoShareRestartKernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_NO_SHARE_RESTART_KERNEL}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsNoShareRestartKernel"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsNoShareRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--NoShareRestartKernelMinutes-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.NoShareRestartKernelMinutes,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.NO_SHARE_RESTART_KERNEL_MINUTES}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="NoShareRestartKernelMinutes"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding NoShareRestartKernelMinutes}" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsNoShareRestartComputer-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsNoShareRestartComputer,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_NO_SHARE_RESTART_COMPUTER}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsNoShareRestartComputer"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsNoShareRestartComputer,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--NoShareRestartComputerMinutes-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.NoShareRestartComputerMinutes,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.NO_SHARE_RESTART_COMPUTER_MINUTES}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="NoShareRestartComputerMinutes"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding NoShareRestartComputerMinutes}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsPeriodicRestartKernel-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsPeriodicRestartKernel,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_PERIODIC_RESTART_KERNEL}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsPeriodicRestartKernel"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsPeriodicRestartKernel,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--PeriodicRestartKernelHours-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.PeriodicRestartKernelHours,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.PERIODIC_RESTART_KERNEL_HOURS}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="PeriodicRestartKernelHours"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding PeriodicRestartKernelHours}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--PeriodicRestartKernelMinutes-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.PeriodicRestartKernelMinutes,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.PERIODIC_RESTART_COMPUTER_MINUTES}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="PeriodicRestartKernelMinutes"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding PeriodicRestartKernelMinutes}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsPeriodicRestartComputer-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsPeriodicRestartComputer,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_PERIODIC_RESTART_COMPUTER}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsPeriodicRestartComputer"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsPeriodicRestartComputer,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--PeriodicRestartComputerHours-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.PeriodicRestartComputerHours,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.PERIODIC_RESTART_COMPUTER_HOURS}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="PeriodicRestartComputerHours"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+								    Width="14"
+								    Height="12"
+								    Data="{StaticResource Icon_Hide}"
+								    Fill="#FF5A5A5A"
+								    Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding PeriodicRestartComputerHours}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--PeriodicRestartComputerMinutes-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.PeriodicRestartComputerMinutes,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.PERIODIC_RESTART_COMPUTER_MINUTES}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="PeriodicRestartComputerMinutes"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding PeriodicRestartComputerMinutes}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--CpuPerformance-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.CpuPerformance,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_PERFORMANCE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="CpuPerformance"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding CpuPerformance}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--CpuTemperature-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.CpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_TEMPERATURE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="CpuTemperature"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding CpuTemperature}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsRaiseHighCpuEvent-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsRaiseHighCpuEvent,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_RAISE_HIGH_CPU_EVENT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsRaiseHighCpuEvent"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsRaiseHighCpuEvent,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--HighCpuPercent-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.HighCpuPercent,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.HIGH_CPU_PERCENT}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="HighCpuPercent"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding HighCpuPercent}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--HighCpuSeconds-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.HighCpuSeconds,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.HIGH_CPU_SECONDS}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="HighCpuSeconds"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding HighCpuSeconds}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsAutoStopByCpu-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsAutoStopByCpu,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_STOP_BY_CPU}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsAutoStopByCpu"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsAutoStopByCpu,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--CpuGETemperatureSeconds-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.CpuGETemperatureSeconds,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_GE_TEMPERATURE_SECONDS}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="CpuGETemperatureSeconds"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding CpuGETemperatureSeconds}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--CpuStopTemperature-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.CpuStopTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_STOP_TEMPERATURE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="CpuStopTemperature"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding CpuStopTemperature}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--IsAutoStartByCpu-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.IsAutoStartByCpu,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.IS_AUTO_START_BY_CPU}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="IsAutoStartByCpu"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{Binding IsAutoStartByCpu,Converter={StaticResource BoolToStreamGeometryConverter}}"
+							Fill="{StaticResource LableColor}"
+							Stretch="Fill" />
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--CpuLETemperatureSeconds-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.CpuLETemperatureSeconds,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_LE_TEMPERATURE_SECONDS}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="CpuLETemperatureSeconds"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding CpuLETemperatureSeconds}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--CpuStartTemperature-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.CpuStartTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_START_TEMPERATURE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="CpuStartTemperature"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding CpuStartTemperature}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--KernelCommandLine-->
+            <DataGridTemplateColumn 
+				Visibility="{Binding Data.ColumnsShow.KernelCommandLine,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
+				IsReadOnly="True">
+                <DataGridTemplateColumn.Header>
+                    <WrapPanel>
+                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.KERNEL_COMMAND_LINE}"></TextBlock>
+                        <controls:KbButton
+							ToolTip="不展示"
+							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
+							CommandParameter="KernelCommandLine"
+							Background="Transparent">
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="12"
+									Data="{StaticResource Icon_Hide}"
+									Fill="#FF5A5A5A"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </WrapPanel>
+                </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <WrapPanel>
+                            <TextBox 
+								BorderThickness="0"
+								Background="Transparent"
+								IsReadOnly="True"
+								ToolTip="{Binding KernelCommandLine}"
+								Text="{Binding KernelCommandLine, Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+        </DataGrid.Columns>
+    </DataGrid>
+</UserControl>
