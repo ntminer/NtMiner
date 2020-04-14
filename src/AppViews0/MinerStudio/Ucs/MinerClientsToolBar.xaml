@@ -21,7 +21,7 @@
                 <Style x:Key="TopPopupMenuItem" TargetType="MenuItem" BasedOn="{StaticResource TopMenuItem}">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False">
-                            <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+                            <Setter Property="Opacity" Value="0.6"></Setter>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
