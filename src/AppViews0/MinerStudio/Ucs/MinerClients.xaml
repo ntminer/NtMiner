@@ -69,6 +69,18 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem 
+                    Header="复制主币钱包" 
+                    Command="{Binding Data.CopyMainCoinWallet,Source={StaticResource proxy}}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Copy}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem 
                     Header="添加矿机" 
                     Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}"
                     Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">

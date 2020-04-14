@@ -46,6 +46,7 @@ namespace NTMiner.MinerStudio.Vms {
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
             this.Remove = new DelegateCommand(() => {
+                #region
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
                     MinerStudioRoot.MinerStudioService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
@@ -56,8 +57,10 @@ namespace NTMiner.MinerStudio.Vms {
                         }
                     });
                 }));
+                #endregion
             });
             this.RemoteDesktop = new DelegateCommand(() => {
+                #region
                 if (!MinerIpExtensions.TryGetFirstIp(this.LocalIp, out string ip)) {
                     if (MinerIpExtensions.TryGetFirstIp(this.MinerIp, out string minerIp) && Net.IpUtil.IsInnerIp(minerIp)) {
                         ip = minerIp;
@@ -84,6 +87,7 @@ namespace NTMiner.MinerStudio.Vms {
                         VirtualRoot.Out.ShowError(message, autoHideSeconds: 4, toConsole: true);
                     }));
                 }
+                #endregion
             });
             this.RestartWindows = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {

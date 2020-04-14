@@ -76,6 +76,7 @@ namespace NTMiner.MinerStudio.Vms {
         public ICommand AtikmdagPatcher { get; private set; }
         public ICommand SortByMinerName { get; private set; }
         public ICommand WsRetry { get; private set; }
+        public ICommand CopyMainCoinWallet { get; private set; }
         #endregion
 
         #region ctor
@@ -127,7 +128,7 @@ namespace NTMiner.MinerStudio.Vms {
             this._wallet = string.Empty;
             this.OneKeySetting = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowMinerClientSettingCommand(new MinerClientSettingViewModel(this.SelectedMinerClients)));
-            }, CanCommand);
+            }, IsSelectedAny);
             this.OneKeyWorkerNames = new DelegateCommand(() => {
                 #region
                 if (this.SelectedMinerClients.Length == 1) {
@@ -160,17 +161,17 @@ namespace NTMiner.MinerStudio.Vms {
                     VirtualRoot.Execute(new ShowMinerNamesSeterCommand(vm));
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.OneKeyWork = new DelegateCommand<MineWorkViewModel>((work) => {
                 foreach (var item in SelectedMinerClients) {
                     item.SelectedMineWork = work;
                 }
-            });
+            }, (work)=> IsSelectedAny());
             this.OneKeyGroup = new DelegateCommand<MinerGroupViewModel>((group) => {
                 foreach (var item in SelectedMinerClients) {
                     item.SelectedMinerGroup = group;
                 }
-            });
+            }, (group) => IsSelectedAny());
             this.OneKeyOverClock = new DelegateCommand(() => {
                 if (this.SelectedMinerClients.Length == 1) {
                     VirtualRoot.Execute(new ShowGpuProfilesPageCommand(this));
@@ -198,7 +199,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }));
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.RestartWindows = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -212,7 +213,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }));
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.ShutdownWindows = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -226,7 +227,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }));
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.StartMine = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -241,7 +242,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }));
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.StopMine = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -256,7 +257,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }));
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.EnableRemoteDesktop = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -270,8 +271,9 @@ namespace NTMiner.MinerStudio.Vms {
                     }));
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.RemoteDesktop = new DelegateCommand(() => {
+                #region
                 string windowsLoginName = string.Empty;
                 string windowsPassword = string.Empty;
                 if (SelectedMinerClients.Length == 0) {
@@ -293,7 +295,8 @@ namespace NTMiner.MinerStudio.Vms {
                         VirtualRoot.Out.ShowSuccess("设置成功，双击矿机可直接远程桌面。", toConsole: true);
                     }
                 }));
-            }, CanCommand);
+                #endregion
+            }, IsSelectedAny);
             this.BlockWAU = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -307,10 +310,10 @@ namespace NTMiner.MinerStudio.Vms {
                     }));
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.PowerCfgOff = new DelegateCommand(() => {
                 VirtualRoot.Out.ShowSuccess("挖矿端启动时已自动关闭系统休眠", header: "提示", autoHideSeconds: 0);
-            }, CanCommand);
+            }, IsSelectedAny);
             this.VirtualMemory = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -342,7 +345,7 @@ namespace NTMiner.MinerStudio.Vms {
                     });
                 }
                 #endregion
-            }, CanCommand);
+            }, IsSelectedAny);
             this.LocalIpConfig = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -352,8 +355,9 @@ namespace NTMiner.MinerStudio.Vms {
                     VirtualRoot.Execute(new ShowMinerStudioLocalIpsCommand(new LocalIpConfigViewModel(SelectedMinerClients[0])));
                 }
                 #endregion
-            }, () => this.SelectedMinerClients != null && this.SelectedMinerClients.Length == 1);
+            }, IsSelectedOne);
             this.SwitchRadeonGpu = new DelegateCommand(() => {
+                #region
                 var config = new DialogWindowViewModel(
                     isConfirmNo: true,
                     btnNoToolTip: "注意：关闭计算模式挖矿算力会减半",
@@ -368,14 +372,27 @@ namespace NTMiner.MinerStudio.Vms {
                         return true;
                     }, btnYesText: "开启计算模式", btnNoText: "关闭计算模式");
                 this.ShowSoftDialog(config);
-            }, CanCommand);
+                #endregion
+            }, IsSelectedAny);
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定对选中的矿机进行A卡驱动签名吗？", title: "确认", onYes: () => {
                     foreach (var item in SelectedMinerClients) {
                         MinerStudioRoot.MinerStudioService.AtikmdagPatcherAsync(item);
                     }
                 }));
-            }, CanCommand);
+            }, IsSelectedAny);
+            this.CopyMainCoinWallet = new DelegateCommand(() => {
+                #region
+                if (SelectedMinerClients.Length == 0) {
+                    ShowNoRecordSelected();
+                }
+                else if (SelectedMinerClients.Length == 1) {
+                    string wallet = SelectedMinerClients[0].MainCoinWallet ?? "无";
+                    Clipboard.SetDataObject(wallet, true);
+                    VirtualRoot.Out.ShowSuccess(wallet, header: "复制成功");
+                }
+                #endregion
+            }, IsSelectedOne);
             this.PageUp = new DelegateCommand(() => {
                 this.PageIndex -= 1;
             });
@@ -447,8 +464,12 @@ namespace NTMiner.MinerStudio.Vms {
         }
         #endregion
 
-        private bool CanCommand() {
+        private bool IsSelectedAny() {
             return this.SelectedMinerClients != null && this.SelectedMinerClients.Length != 0;
+        }
+
+        private bool IsSelectedOne() {
+            return this.SelectedMinerClients != null && this.SelectedMinerClients.Length == 1;
         }
 
         private bool OnlySelectedOne() {
