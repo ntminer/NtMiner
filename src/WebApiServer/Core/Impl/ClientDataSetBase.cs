@@ -117,6 +117,10 @@ namespace NTMiner.Core.Impl {
             }
             coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, data, out onlineCount, out miningCount).ToList();
             var results = data.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
+            foreach (var item in results) {
+                // 去除AESPassword避免在网络上传输
+                item.AESPassword = string.Empty;
+            }
             DoCheckIsOnline(results);
             return results;
         }
