@@ -18,6 +18,13 @@
                     <Setter Property="Padding" Value="0 4 4 4"></Setter>
                     <Setter Property="Margin" Value="6 0"></Setter>
                 </Style>
+                <Style x:Key="TopPopupMenuItem" TargetType="MenuItem" BasedOn="{StaticResource TopMenuItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource LableColor}"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
             </Menu.Resources>
             <MenuItem 
                 x:Name="MenuItemStartMine"
@@ -51,7 +58,7 @@
             <MenuItem 
                 ToolTip="为选中的矿机指定作业" 
                 x:Name="MenuItemMineWork" 
-                Style="{StaticResource TopMenuItem}"
+                Style="{StaticResource TopPopupMenuItem}"
                 IsEnabled="{Binding ElementName=MenuItemStartMine, Path=IsEnabled}" 
                 Click="MenuItemWork_Click">
                 <MenuItem.Icon>
@@ -77,6 +84,7 @@
             </MenuItem>
             <MenuItem 
                 Style="{StaticResource TopMenuItem}"
+                Foreground="{StaticResource LableColor}"
                 Visibility="{Binding ElementName=MenuItemMineWork,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}"
                 IsEnabled="False">
                 <MenuItem.Icon>
@@ -103,7 +111,7 @@
             <MenuItem 
                 ToolTip="将选中的矿机放入分组" 
                 x:Name="MenuItemMinerGroup" 
-                Style="{StaticResource TopMenuItem}"
+                Style="{StaticResource TopPopupMenuItem}"
                 IsEnabled="{Binding ElementName=MenuItemStartMine, Path=IsEnabled}" 
                 Click="MenuItemGroup_Click">
                 <MenuItem.Icon>
@@ -129,6 +137,7 @@
             </MenuItem>
             <MenuItem 
                 Style="{StaticResource TopMenuItem}"
+                Foreground="{StaticResource LableColor}"
                 Visibility="{Binding ElementName=MenuItemMinerGroup,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}"
                 IsEnabled="False">
                 <MenuItem.Icon>
@@ -197,7 +206,7 @@
             <MenuItem 
                 ToolTip="升级选中的矿机的开源矿工挖矿端" 
                 x:Name="MenuItemUpgrade" 
-                Style="{StaticResource TopMenuItem}"
+                Style="{StaticResource TopPopupMenuItem}"
                 IsEnabled="{Binding ElementName=MenuItemStartMine, Path=IsEnabled}" 
                 Click="MenuItemUpgrade_Click">
                 <MenuItem.Icon>
@@ -223,6 +232,7 @@
             </MenuItem>
             <MenuItem 
                 Style="{StaticResource TopMenuItem}"
+                Foreground="{StaticResource LableColor}"
                 Visibility="{Binding ElementName=MenuItemUpgrade,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}"
                 IsEnabled="False">
                 <MenuItem.Icon>
