@@ -52,7 +52,7 @@ namespace NTMiner {
         private const string _allChar = "23456789ABCDEabcdefghgkmnpqrFGHGKMNPQRSTUVWXYZstuvwxyz";
         private static readonly char[] _allCharArray = _allChar.ToCharArray();
         /// <summary>
-        /// 生成8位随机数
+        /// 生成给定个字符长度的随机字符串
         /// </summary>
         /// <param name="length"></param>
         /// <returns></returns>
