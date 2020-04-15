@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NTMiner.Controllers;
+using NTMiner.Core.MinerServer;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.NoDevFee {
-    // TODO:从服务器获取NTMinerWallet
     public class EthWalletSet {
         public static readonly EthWalletSet Instance = new EthWalletSet();
 
@@ -11,7 +12,15 @@ namespace NTMiner.NoDevFee {
             _defaultEthWallet
         };
         private readonly Random _random = new Random((int)DateTime.Now.Ticks);
-        private EthWalletSet() { }
+        private EthWalletSet() {
+            Init();
+        }
+
+        private void Init() {
+            RpcRoot.GetAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, RpcRoot.GetControllerName<INTMinerWalletController>(), nameof(INTMinerWalletController.NTMinerWallets), null, (DataResponse<List<NTMinerWalletData>> response, Exception e) => {
+
+            });
+        }
 
         public string GetOneWallet() {
             try {

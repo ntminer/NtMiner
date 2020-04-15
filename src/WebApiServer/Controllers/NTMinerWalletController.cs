@@ -47,6 +47,7 @@ namespace NTMiner.Controllers {
 
         #region NTMinerWallets
         [HttpPost]
+        [HttpGet]
         public DataResponse<List<NTMinerWalletData>> NTMinerWallets() {
             try {
                 var data = WebApiRoot.NTMinerWalletSet.GetAll();
