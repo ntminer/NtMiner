@@ -202,7 +202,7 @@ namespace NTMiner.Vms {
             });
             this.AddNTMinerWallet = new DelegateCommand(() => {
                 new NTMinerWalletViewModel(Guid.NewGuid()) {
-                    CoinId = this.Id
+                    CoinCode = this.Code
                 }.Edit.Execute(FormType.Add);
             });
             this.Save = new DelegateCommand(() => {
@@ -705,7 +705,7 @@ namespace NTMiner.Vms {
 
         public List<NTMinerWalletViewModel> NTMinerWallets {
             get {
-                return MinerStudioRoot.NTMinerWalletVms.Items.Where(a => a.CoinId == this.Id).ToList();
+                return MinerStudioRoot.NTMinerWalletVms.Items.Where(a => a.CoinCode == this.Code).ToList();
             }
         }
 

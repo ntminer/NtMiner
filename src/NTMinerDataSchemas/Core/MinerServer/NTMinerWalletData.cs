@@ -10,7 +10,7 @@ namespace NTMiner.Core.MinerServer {
         }
 
         public Guid Id { get; set; }
-        public Guid CoinId { get; set; }
+        public string CoinCode { get; set; }
         public string Wallet { get; set; }
 
         public StringBuilder GetSignData() {

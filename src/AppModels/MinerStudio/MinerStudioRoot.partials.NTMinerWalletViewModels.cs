@@ -31,7 +31,7 @@ namespace NTMiner.MinerStudio {
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new NTMinerWalletViewModel(message.Source));
-                            if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
+                            if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinCode, out CoinViewModel coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.NTMinerWallets));
                             }
                         }
@@ -45,7 +45,7 @@ namespace NTMiner.MinerStudio {
                 AppRoot.AddEventPath<NTMinerWalletRemovedEvent>("删除NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
-                        if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
+                        if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinCode, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.NTMinerWallets));
                         }
                     }, location: this.GetType());

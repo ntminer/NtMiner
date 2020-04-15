@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace NTMiner.MinerStudio.Vms {
     public class NTMinerWalletViewModel : ViewModelBase, INTMinerWallet, IEditableViewModel {
         private Guid _id;
-        private Guid _coinId;
+        private string _coinCode;
         private string _wallet;
 
         public ICommand Remove { get; private set; }
@@ -51,7 +51,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public NTMinerWalletViewModel(INTMinerWallet data) : this(data.GetId()) {
-            _coinId = data.CoinId;
+            _coinCode = data.CoinCode;
             _wallet = data.Wallet;
         }
 
@@ -67,11 +67,11 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public Guid CoinId {
-            get => _coinId;
+        public string CoinCode {
+            get => _coinCode;
             set {
-                _coinId = value;
-                OnPropertyChanged(nameof(CoinId));
+                _coinCode = value;
+                OnPropertyChanged(nameof(CoinCode));
             }
         }
 

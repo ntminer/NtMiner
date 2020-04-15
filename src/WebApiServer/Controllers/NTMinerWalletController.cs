@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core.MinerServer;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -48,7 +47,7 @@ namespace NTMiner.Controllers {
 
         #region NTMinerWallets
         [HttpPost]
-        public DataResponse<List<NTMinerWalletData>> NTMinerWallets(SignRequest request) {
+        public DataResponse<List<NTMinerWalletData>> NTMinerWallets() {
             try {
                 var data = WebApiRoot.NTMinerWalletSet.GetAll();
                 return DataResponse<List<NTMinerWalletData>>.Ok(data);
