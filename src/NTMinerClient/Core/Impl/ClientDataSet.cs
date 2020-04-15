@@ -18,7 +18,7 @@ namespace NTMiner.Core.Impl {
         }) {
             VirtualRoot.AddOnecePath<ClientSetInitedEvent>("矿机集初始化后开始拉取矿机算力的进程", LogEnum.UserConsole, action: message => {
                 PullSpeedInit();
-            }, Guid.Empty, this.GetType());
+            }, PathId.Empty, this.GetType());
         }
 
         private static LiteDatabase CreateLocalDb() {

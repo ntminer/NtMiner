@@ -15,7 +15,7 @@ namespace NTMiner.Report {
                 action: message => {
                     // 报告0算力从而告知服务器该客户端当前在线的币种
                     ReportSpeed();
-                }, location: this.GetType(), pathId: Guid.Empty);
+                }, location: this.GetType(), pathId: PathId.Empty);
 
                 VirtualRoot.AddEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
                     action: message => {

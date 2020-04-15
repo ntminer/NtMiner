@@ -56,7 +56,7 @@ namespace NTMiner {
                             else {
                                 VirtualRoot.AddOnecePath<ClientSetInitedEvent>("矿工集合初始化完成后刷新矿机列表界面", LogEnum.DevConsole, action: message => {
                                     MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
-                                }, pathId: Guid.Empty, this.GetType());
+                                }, pathId: PathId.Empty, this.GetType());
                             }
                             AppRoot.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                             VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: false));

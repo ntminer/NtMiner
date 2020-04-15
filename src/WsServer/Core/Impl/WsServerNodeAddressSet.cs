@@ -8,7 +8,7 @@ namespace NTMiner.Core.Impl {
     public class WsServerNodeAddressSet : IWsServerNodeAddressSet {
         private string[] _nodeAddresses = new string[0];
         public WsServerNodeAddressSet() {
-            VirtualRoot.AddOnecePath<WebSocketServerStatedEvent>("WebSocket服务启动后初始化WsServerNodeAddressSet", LogEnum.UserConsole, action: _ => {
+            VirtualRoot.AddOnecePath<WebSocketServerStatedEvent>("WebSocket服务启动后上报节点信息，获取节点列表", LogEnum.UserConsole, action: _ => {
                 ReportNodeAsync(callback: () => {
                     RefreshNodes(callback: () => {
                         Write.UserOk("Ws服务器节点地址集初始化完成");
@@ -34,7 +34,7 @@ namespace NTMiner.Core.Impl {
                     }
                     RefreshNodes();
                 }, typeof(WsRoot));
-            }, Guid.Empty, this.GetType());
+            }, PathId.Empty, this.GetType());
         }
 
         private void RefreshNodes(Action callback = null) {

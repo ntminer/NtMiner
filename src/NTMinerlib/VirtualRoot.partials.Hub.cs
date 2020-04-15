@@ -31,15 +31,24 @@ namespace NTMiner {
             MessageHub.Route(command);
         }
 
-        // 修建消息（命令或事件）的运动路径
+        /// <summary>
+        /// 修建消息的运动路径
+        /// </summary>
         public static IMessagePathId AddMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Type location) {
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: PathId.Empty);
         }
 
+        /// <summary>
+        /// 消息通过路径一次后路径即消失。
+        /// 注意该路径具有特定的路径标识pathId，pathId可以看作是路径的形状，只有和该路径的形状相同的消息才能通过路径。
+        /// </summary>
         public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, PathId pathId, Type location) {
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId, viaTimesLimit: 1);
         }
 
+        /// <summary>
+        /// 消息通过路径指定的次数后路径即消失
+        /// </summary>
         public static IMessagePathId AddViaTimesLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaTimesLimit, Type location) {
             return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: PathId.Empty, viaTimesLimit: viaTimesLimit);
         }
