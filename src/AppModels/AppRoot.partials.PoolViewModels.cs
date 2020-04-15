@@ -26,9 +26,9 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Target.GetId(), new PoolViewModel(message.Target));
+                        _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
                         OnPropertyChanged(nameof(AllPools));
-                        if (CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
+                        if (CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                             coinVm.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
@@ -37,9 +37,9 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Target.GetId());
+                        _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllPools));
-                        if (CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
+                        if (CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                             coinVm.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.MainCoinPool));
                             coinVm.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.DualCoinPool));
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.Pools));
@@ -48,8 +48,8 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out PoolViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out PoolViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 Init();

@@ -24,9 +24,9 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Target);
-                            _dicById.Add(message.Target.GetId(), coinGroupVm);
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
+                            _dicById.Add(message.Source.GetId(), coinGroupVm);
                             if (!_listByGroupId.ContainsKey(coinGroupVm.GroupId)) {
                                 _listByGroupId.Add(coinGroupVm.GroupId, new List<CoinGroupViewModel>());
                             }
@@ -36,9 +36,9 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Target.GetId())) {
-                            var entity = _dicById[message.Target.GetId()];
-                            _dicById.Remove(message.Target.GetId());
+                        if (_dicById.ContainsKey(message.Source.GetId())) {
+                            var entity = _dicById[message.Source.GetId()];
+                            _dicById.Remove(message.Source.GetId());
                             if (_listByGroupId.ContainsKey(entity.GroupId)) {
                                 _listByGroupId[entity.GroupId].Remove(entity);
                             }

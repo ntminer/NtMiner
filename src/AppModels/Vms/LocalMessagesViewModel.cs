@@ -77,7 +77,7 @@
             VirtualRoot.AddEventPath<LocalMessageAddedEvent>("发生了本地消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => () => {
-                        var vm = new LocalMessageViewModel(message.Target);
+                        var vm = new LocalMessageViewModel(message.Source);
                         _localMessageVms.Insert(0, vm);
                         if (IsSatisfyQuery(vm)) {
                             _queyResults.Insert(0, vm);

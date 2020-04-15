@@ -33,17 +33,17 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<GroupAddedEvent>("添加了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            GroupViewModel groupVm = new GroupViewModel(message.Target);
-                            _dicById.Add(message.Target.GetId(), groupVm);
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            GroupViewModel groupVm = new GroupViewModel(message.Source);
+                            _dicById.Add(message.Source.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
                     }, location: this.GetType());
                 AddEventPath<GroupUpdatedEvent>("更新了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out GroupViewModel vm)) {
+                        if (_dicById.TryGetValue(message.Source.GetId(), out GroupViewModel vm)) {
                             int sortNumber = vm.SortNumber;
-                            vm.Update(message.Target);
+                            vm.Update(message.Source);
                             if (sortNumber != vm.SortNumber) {
                                 this.OnPropertyChanged(nameof(List));
                                 OnPropertyChanged(nameof(SelectionOptions));
@@ -52,7 +52,7 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<GroupRemovedEvent>("删除了组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Target.GetId());
+                        _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
                     }, location: this.GetType());
                 Init();

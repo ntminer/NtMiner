@@ -48,8 +48,8 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(message.Target);
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(message.Source);
                             _dicById.Add(vm.Id, vm);
                             if (KernelOutputVms.TryGetKernelOutputVm(vm.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {
                                 if (!_dicByKernelOutputId.ContainsKey(vm.KernelOutputId)) {
@@ -62,13 +62,13 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<UserKernelOutputKeywordUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out KernelOutputKeywordViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 AddEventPath<UserKernelOutputKeywordRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out KernelOutputKeywordViewModel vm)) {
+                        if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
                             _dicById.Remove(vm.Id);
                             _dicByKernelOutputId[vm.KernelOutputId].Remove(vm);
                             if (KernelOutputVms.TryGetKernelOutputVm(vm.KernelOutputId, out KernelOutputViewModel kernelOutputVm)) {

@@ -86,7 +86,7 @@ namespace NTMiner {
     }
 
     [MessageType(description: "LocalAppSetting变更后")]
-    public class LocalAppSettingChangedEvent : DomainEvent<IAppSetting> {
+    public class LocalAppSettingChangedEvent : SourcedEvent<IAppSetting> {
         public LocalAppSettingChangedEvent(PathId targetPathId, IAppSetting source) : base(targetPathId, source) {
         }
     }
@@ -108,13 +108,13 @@ namespace NTMiner {
     }
 
     [MessageType(description: "添加了用户自定义内核输出关键字后")]
-    public class UserKernelOutputKeywordAddedEvent : DomainEvent<IKernelOutputKeyword> {
+    public class UserKernelOutputKeywordAddedEvent : SourcedEvent<IKernelOutputKeyword> {
         public UserKernelOutputKeywordAddedEvent(PathId targetPathId, IKernelOutputKeyword source) : base(targetPathId, source) {
         }
     }
 
     [MessageType(description: "更新了用户自定义内核输出关键字后")]
-    public class UserKernelOutputKeywordUpdatedEvent : DomainEvent<IKernelOutputKeyword> {
+    public class UserKernelOutputKeywordUpdatedEvent : SourcedEvent<IKernelOutputKeyword> {
         public UserKernelOutputKeywordUpdatedEvent(PathId targetPathId, IKernelOutputKeyword source) : base(targetPathId, source) {
         }
     }
@@ -126,7 +126,7 @@ namespace NTMiner {
     }
 
     [MessageType(description: "移除了用户自定义内核输出关键字后")]
-    public class UserKernelOutputKeywordRemovedEvent : DomainEvent<IKernelOutputKeyword> {
+    public class UserKernelOutputKeywordRemovedEvent : SourcedEvent<IKernelOutputKeyword> {
         public UserKernelOutputKeywordRemovedEvent(PathId targetPathId, IKernelOutputKeyword source) : base(targetPathId, source) {
 
         }
@@ -135,7 +135,7 @@ namespace NTMiner {
 
     #region LocalMessage
     [MessageType(description: "记录了本地事件后")]
-    public class LocalMessageAddedEvent : DomainEvent<ILocalMessage> {
+    public class LocalMessageAddedEvent : SourcedEvent<ILocalMessage> {
         public LocalMessageAddedEvent(PathId targetPathId, ILocalMessage source, List<ILocalMessage> removes) : base(targetPathId, source) {
             this.Removes = removes ?? new List<ILocalMessage>();
         }

@@ -23,7 +23,7 @@ namespace NTMiner.Core.Gpus.Impl {
             _isInited = true;
             VirtualRoot.AddEventPath<GpuStateChangedEvent>("当显卡温度变更时守卫温度防线", LogEnum.None,
                 action: message => {
-                    IGpu gpu = message.Target;
+                    IGpu gpu = message.Source;
                     if (gpu.Index == NTMinerContext.GpuAllId || root.MinerProfile.CoinId == Guid.Empty) {
                         return;
                     }

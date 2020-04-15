@@ -22,9 +22,9 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<WalletAddedEvent>("添加了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Target.GetId(), new WalletViewModel(message.Target));
+                        _dicById.Add(message.Source.GetId(), new WalletViewModel(message.Source));
                         OnPropertyChanged(nameof(WalletList));
-                        if (CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coin)) {
+                        if (CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinKernel?.CoinKernelProfile?.SelectedDualCoin?.OnPropertyChanged(nameof(CoinViewModel.Wallets));
@@ -33,9 +33,9 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<WalletRemovedEvent>("删除了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Target.GetId());
+                        _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(WalletList));
-                        if (CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coin)) {
+                        if (CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coin)) {
                             coin.OnPropertyChanged(nameof(CoinViewModel.Wallets));
                             coin.OnPropertyChanged(nameof(CoinViewModel.WalletItems));
                             coin.CoinProfile?.OnPropertyChanged(nameof(CoinProfileViewModel.SelectedWallet));
@@ -45,8 +45,8 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<WalletUpdatedEvent>("更新了钱包后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out WalletViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out WalletViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 Init();

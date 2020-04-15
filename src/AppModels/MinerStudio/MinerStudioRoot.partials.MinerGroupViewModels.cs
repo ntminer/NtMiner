@@ -39,21 +39,21 @@ namespace NTMiner.MinerStudio {
                 });
                 AppRoot.AddEventPath<MinerGroupAddedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.TryGetValue(message.Target.GetId(), out MinerGroupViewModel vm)) {
-                            vm = new MinerGroupViewModel(message.Target);
-                            _dicById.Add(message.Target.GetId(), vm);
+                        if (!_dicById.TryGetValue(message.Source.GetId(), out MinerGroupViewModel vm)) {
+                            vm = new MinerGroupViewModel(message.Source);
+                            _dicById.Add(message.Source.GetId(), vm);
                             OnPropertyChangeds();
                             MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));
                         }
                     }, location: this.GetType());
                 AppRoot.AddEventPath<MinerGroupUpdatedEvent>("添加矿机分组后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out MinerGroupViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out MinerGroupViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 AppRoot.AddEventPath<MinerGroupRemovedEvent>("移除了矿机组后刷新Vm内容", LogEnum.DevConsole, action: message => {
-                    if (_dicById.TryGetValue(message.Target.Id, out MinerGroupViewModel vm)) {
+                    if (_dicById.TryGetValue(message.Source.Id, out MinerGroupViewModel vm)) {
                         _dicById.Remove(vm.Id);
                         OnPropertyChangeds();
                         MinerClientsWindowVm.OnPropertyChanged(nameof(MinerClientsWindowViewModel.SelectedMinerGroup));

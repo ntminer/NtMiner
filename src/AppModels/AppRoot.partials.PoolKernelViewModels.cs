@@ -19,18 +19,18 @@ namespace NTMiner {
 #endif
                 AddEventPath<PoolKernelAddedEvent>("新添了矿池内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            if (PoolVms.TryGetPoolVm(message.Target.PoolId, out PoolViewModel poolVm)) {
-                                _dicById.Add(message.Target.GetId(), new PoolKernelViewModel(message.Target));
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            if (PoolVms.TryGetPoolVm(message.Source.PoolId, out PoolViewModel poolVm)) {
+                                _dicById.Add(message.Source.GetId(), new PoolKernelViewModel(message.Source));
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
                         }
                     }, location: this.GetType());
                 AddEventPath<PoolKernelRemovedEvent>("移除了币种内核后刷新矿池内核VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.ContainsKey(message.Target.GetId())) {
-                            var vm = _dicById[message.Target.GetId()];
-                            _dicById.Remove(message.Target.GetId());
+                        if (_dicById.ContainsKey(message.Source.GetId())) {
+                            var vm = _dicById[message.Source.GetId()];
+                            _dicById.Remove(message.Source.GetId());
                             if (PoolVms.TryGetPoolVm(vm.PoolId, out PoolViewModel poolVm)) {
                                 poolVm.OnPropertyChanged(nameof(poolVm.PoolKernels));
                             }
@@ -38,8 +38,8 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<PoolKernelUpdatedEvent>("更新了矿池内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out PoolKernelViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out PoolKernelViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 Init();

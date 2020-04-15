@@ -27,10 +27,10 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<SysDicItemAddedEvent>("添加了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            _dicById.Add(message.Target.GetId(), new SysDicItemViewModel(message.Target));
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
                             OnPropertyChangeds();
-                            if (SysDicVms.TryGetSysDicVm(message.Target.DicId, out SysDicViewModel sysDicVm)) {
+                            if (SysDicVms.TryGetSysDicVm(message.Source.DicId, out SysDicViewModel sysDicVm)) {
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                             }
@@ -38,9 +38,9 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<SysDicItemUpdatedEvent>("更新了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out SysDicItemViewModel vm)) {
+                        if (_dicById.TryGetValue(message.Source.GetId(), out SysDicItemViewModel vm)) {
                             int sortNumber = vm.SortNumber;
-                            vm.Update(message.Target);
+                            vm.Update(message.Source);
                             if (sortNumber != vm.SortNumber) {
                                 if (SysDicVms.TryGetSysDicVm(vm.DicId, out SysDicViewModel sysDicVm)) {
                                     sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
@@ -51,9 +51,9 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Target.GetId());
+                        _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
-                        if (SysDicVms.TryGetSysDicVm(message.Target.DicId, out SysDicViewModel sysDicVm)) {
+                        if (SysDicVms.TryGetSysDicVm(message.Source.DicId, out SysDicViewModel sysDicVm)) {
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
                         }

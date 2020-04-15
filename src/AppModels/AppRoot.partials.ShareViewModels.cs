@@ -17,8 +17,8 @@ namespace NTMiner {
 #endif
                 AddEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicByCoinId.TryGetValue(message.Target.CoinId, out ShareViewModel shareVm)) {
-                            shareVm.Update(message.Target);
+                        if (_dicByCoinId.TryGetValue(message.Source.CoinId, out ShareViewModel shareVm)) {
+                            shareVm.Update(message.Source);
                         }
                     }, location: this.GetType());
 #if DEBUG

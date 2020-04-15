@@ -34,33 +34,33 @@ namespace NTMiner {
                 AddEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
-                            if (_listByCoinId.TryGetValue(message.Target.CoinId, out List<GpuProfileViewModel> list)) {
-                                var vm = list.FirstOrDefault(a => a.Index == message.Target.Index);
+                            if (_listByCoinId.TryGetValue(message.Source.CoinId, out List<GpuProfileViewModel> list)) {
+                                var vm = list.FirstOrDefault(a => a.Index == message.Source.Index);
                                 if (vm != null) {
-                                    vm.Update(message.Target);
+                                    vm.Update(message.Source);
                                 }
                                 else {
-                                    if (GpuVms.TryGetGpuVm(message.Target.Index, out GpuViewModel gpuVm)) {
-                                        var item = new GpuProfileViewModel(message.Target, gpuVm);
+                                    if (GpuVms.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
+                                        var item = new GpuProfileViewModel(message.Source, gpuVm);
                                         list.Add(item);
                                         list.Sort(new CompareByGpuIndex());
                                         if (item.Index == NTMinerContext.GpuAllId) {
-                                            _gpuAllVmDicByCoinId.Add(message.Target.CoinId, item);
+                                            _gpuAllVmDicByCoinId.Add(message.Source.CoinId, item);
                                         }
                                     }
                                 }
                             }
                             else {
                                 list = new List<GpuProfileViewModel>();
-                                if (GpuVms.TryGetGpuVm(message.Target.Index, out GpuViewModel gpuVm)) {
-                                    var item = new GpuProfileViewModel(message.Target, gpuVm);
+                                if (GpuVms.TryGetGpuVm(message.Source.Index, out GpuViewModel gpuVm)) {
+                                    var item = new GpuProfileViewModel(message.Source, gpuVm);
                                     list.Add(item);
                                     list.Sort(new CompareByGpuIndex());
                                     if (item.Index == NTMinerContext.GpuAllId) {
-                                        _gpuAllVmDicByCoinId.Add(message.Target.CoinId, item);
+                                        _gpuAllVmDicByCoinId.Add(message.Source.CoinId, item);
                                     }
                                 }
-                                _listByCoinId.Add(message.Target.CoinId, list);
+                                _listByCoinId.Add(message.Source.CoinId, list);
                             }
                         }
                     }, location: this.GetType());

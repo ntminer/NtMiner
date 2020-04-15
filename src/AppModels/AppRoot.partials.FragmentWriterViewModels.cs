@@ -31,21 +31,21 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            FragmentWriterViewModel groupVm = new FragmentWriterViewModel(message.Target);
-                            _dicById.Add(message.Target.GetId(), groupVm);
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            FragmentWriterViewModel groupVm = new FragmentWriterViewModel(message.Source);
+                            _dicById.Add(message.Source.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
                     }, location: this.GetType());
                 AddEventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out FragmentWriterViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out FragmentWriterViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 AddEventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Target.GetId());
+                        _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
                     }, location: this.GetType());
                 Init();

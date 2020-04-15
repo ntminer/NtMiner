@@ -31,21 +31,21 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<FileWriterAddedEvent>("添加了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            FileWriterViewModel groupVm = new FileWriterViewModel(message.Target);
-                            _dicById.Add(message.Target.GetId(), groupVm);
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            FileWriterViewModel groupVm = new FileWriterViewModel(message.Source);
+                            _dicById.Add(message.Source.GetId(), groupVm);
                             OnPropertyChangeds();
                         }
                     }, location: this.GetType());
                 AddEventPath<FileWriterUpdatedEvent>("更新了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out FileWriterViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out FileWriterViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 AddEventPath<FileWriterRemovedEvent>("删除了文件书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Target.GetId());
+                        _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
                     }, location: this.GetType());
                 Init();

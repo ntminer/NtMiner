@@ -27,8 +27,8 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<CoinKernelAddedEvent>("添加了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        var coinKernelVm = new CoinKernelViewModel(message.Target);
-                        _dicById.Add(message.Target.GetId(), coinKernelVm);
+                        var coinKernelVm = new CoinKernelViewModel(message.Source);
+                        _dicById.Add(message.Source.GetId(), coinKernelVm);
                         OnPropertyChanged(nameof(AllCoinKernels));
                         var kernelVm = coinKernelVm.Kernel;
                         if (kernelVm != null) {
@@ -41,10 +41,10 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<CoinKernelUpdatedEvent>("更新了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out CoinKernelViewModel vm)) {
+                        if (_dicById.TryGetValue(message.Source.GetId(), out CoinKernelViewModel vm)) {
                             var supportedGpu = vm.SupportedGpu;
                             Guid dualCoinGroupId = vm.DualCoinGroupId;
-                            vm.Update(message.Target);
+                            vm.Update(message.Source);
                             if (supportedGpu != vm.SupportedGpu) {
                                 var coinKernels = AllCoinKernels.Where(a => a.KernelId == vm.Id);
                                 foreach (var coinKernel in coinKernels) {
@@ -60,8 +60,8 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<CoinKernelRemovedEvent>("移除了币种内核后刷新VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out CoinKernelViewModel coinKernelVm)) {
-                            _dicById.Remove(message.Target.GetId());
+                        if (_dicById.TryGetValue(message.Source.GetId(), out CoinKernelViewModel coinKernelVm)) {
+                            _dicById.Remove(message.Source.GetId());
                             OnPropertyChanged(nameof(AllCoinKernels));
                             var kernelVm = coinKernelVm.Kernel;
                             kernelVm.OnPropertyChanged(nameof(kernelVm.CoinKernels));

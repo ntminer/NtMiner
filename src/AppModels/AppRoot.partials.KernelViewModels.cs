@@ -33,26 +33,26 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Add(message.Target.GetId(), new KernelViewModel(message.Target));
+                        _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                         OnPropertyChanged(nameof(AllKernels));
-                        foreach (var coinKernelVm in CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Target.GetId())) {
+                        foreach (var coinKernelVm in CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     }, location: this.GetType());
                 AddEventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Target.GetId());
+                        _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernels));
-                        foreach (var coinKernelVm in CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Target.GetId())) {
+                        foreach (var coinKernelVm in CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     }, location: this.GetType());
                 AddEventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out KernelViewModel vm)) {
+                        if (_dicById.TryGetValue(message.Source.GetId(), out KernelViewModel vm)) {
                             PublishStatus publishStatus = vm.PublishState;
                             Guid kernelInputId = vm.KernelInputId;
-                            vm.Update(message.Target);
+                            vm.Update(message.Source);
                             if (publishStatus != vm.PublishState) {
                                 foreach (var coinKernelVm in CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == vm.Id)) {
                                     foreach (var coinVm in CoinVms.AllCoins.Where(a => a.Id == coinKernelVm.CoinId)) {

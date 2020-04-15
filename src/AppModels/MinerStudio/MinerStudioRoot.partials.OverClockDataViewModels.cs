@@ -23,23 +23,23 @@ namespace NTMiner.MinerStudio {
                     }, location: this.GetType());
                 AppRoot.AddEventPath<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            _dicById.Add(message.Target.GetId(), new OverClockDataViewModel(message.Target));
-                            if (AppRoot.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
+                            if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                             }
                         }
                     }, location: this.GetType());
                 AppRoot.AddEventPath<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out OverClockDataViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out OverClockDataViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 AppRoot.AddEventPath<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Target.GetId());
-                        if (AppRoot.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
+                        _dicById.Remove(message.Source.GetId());
+                        if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                         }
                     }, location: this.GetType());

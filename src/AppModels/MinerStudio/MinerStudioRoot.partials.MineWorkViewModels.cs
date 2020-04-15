@@ -40,23 +40,23 @@ namespace NTMiner.MinerStudio {
                 });
                 AppRoot.AddEventPath<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.TryGetValue(message.Target.GetId(), out MineWorkViewModel vm)) {
-                            vm = new MineWorkViewModel(message.Target);
-                            _dicById.Add(message.Target.GetId(), vm);
+                        if (!_dicById.TryGetValue(message.Source.GetId(), out MineWorkViewModel vm)) {
+                            vm = new MineWorkViewModel(message.Source);
+                            _dicById.Add(message.Source.GetId(), vm);
                             OnPropertyChangeds();
-                            if (message.Target.GetId() == MinerClientsWindowVm.SelectedMineWork.GetId()) {
+                            if (message.Source.GetId() == MinerClientsWindowVm.SelectedMineWork.GetId()) {
                                 MinerClientsWindowVm.SelectedMineWork = MineWorkViewModel.PleaseSelect;
                             }
                         }
                     }, location: this.GetType());
                 AppRoot.AddEventPath<MineWorkUpdatedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out MineWorkViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out MineWorkViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 AppRoot.AddEventPath<MineWorkRemovedEvent>("移除了作业后刷新Vm内存", LogEnum.DevConsole, action: message => {
-                    if (_dicById.TryGetValue(message.Target.Id, out MineWorkViewModel vm)) {
+                    if (_dicById.TryGetValue(message.Source.Id, out MineWorkViewModel vm)) {
                         _dicById.Remove(vm.Id);
                         OnPropertyChangeds();
                         if (vm.Id == MinerClientsWindowVm.SelectedMineWork.GetId()) {

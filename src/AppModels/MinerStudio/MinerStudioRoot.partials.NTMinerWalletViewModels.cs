@@ -29,23 +29,23 @@ namespace NTMiner.MinerStudio {
                 });
                 AppRoot.AddEventPath<NTMinerWalletAddedEvent>("添加NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            _dicById.Add(message.Target.GetId(), new NTMinerWalletViewModel(message.Target));
-                            if (AppRoot.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            _dicById.Add(message.Source.GetId(), new NTMinerWalletViewModel(message.Source));
+                            if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                                 coinVm.OnPropertyChanged(nameof(coinVm.NTMinerWallets));
                             }
                         }
                     }, location: this.GetType());
                 AppRoot.AddEventPath<NTMinerWalletUpdatedEvent>("更新NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out NTMinerWalletViewModel vm)) {
-                            vm.Update(message.Target);
+                        if (_dicById.TryGetValue(message.Source.GetId(), out NTMinerWalletViewModel vm)) {
+                            vm.Update(message.Source);
                         }
                     }, location: this.GetType());
                 AppRoot.AddEventPath<NTMinerWalletRemovedEvent>("删除NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
-                        _dicById.Remove(message.Target.GetId());
-                        if (AppRoot.CoinVms.TryGetCoinVm(message.Target.CoinId, out CoinViewModel coinVm)) {
+                        _dicById.Remove(message.Source.GetId());
+                        if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.NTMinerWallets));
                         }
                     }, location: this.GetType());

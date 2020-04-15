@@ -31,7 +31,7 @@ namespace NTMiner.Views.MinerStudio.Ucs {
                 }, this.GetType());
                 window.AddEventPath<UserEnabledEvent>("外网群控用户列表页面打开着时，用户启用后刷新Vm内存", LogEnum.DevConsole, action: message => {
                     UIThread.Execute(() => () => {
-                        var userVm = Vm.QueryResults.FirstOrDefault(a => a.LoginName == message.Target.LoginName);
+                        var userVm = Vm.QueryResults.FirstOrDefault(a => a.LoginName == message.Source.LoginName);
                         if (userVm != null) {
                             userVm.IsEnabled = true;
                         }
@@ -39,7 +39,7 @@ namespace NTMiner.Views.MinerStudio.Ucs {
                 }, this.GetType());
                 window.AddEventPath<UserDisabledEvent>("外网群控用户列表页面打开着时，用户禁用后刷新Vm内存", LogEnum.DevConsole, action: message => {
                     UIThread.Execute(() => () => {
-                        var userVm = Vm.QueryResults.FirstOrDefault(a => a.LoginName == message.Target.LoginName);
+                        var userVm = Vm.QueryResults.FirstOrDefault(a => a.LoginName == message.Source.LoginName);
                         if (userVm != null) {
                             userVm.IsEnabled = false;
                         }

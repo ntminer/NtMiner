@@ -34,20 +34,20 @@ namespace NTMiner {
                 });
                 AddEventPath<SysDicAddedEvent>("添加了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (!_dicById.ContainsKey(message.Target.GetId())) {
-                            SysDicViewModel sysDicVm = new SysDicViewModel(message.Target);
-                            _dicById.Add(message.Target.GetId(), sysDicVm);
-                            if (!_dicByCode.ContainsKey(message.Target.Code)) {
-                                _dicByCode.Add(message.Target.Code, sysDicVm);
+                        if (!_dicById.ContainsKey(message.Source.GetId())) {
+                            SysDicViewModel sysDicVm = new SysDicViewModel(message.Source);
+                            _dicById.Add(message.Source.GetId(), sysDicVm);
+                            if (!_dicByCode.ContainsKey(message.Source.Code)) {
+                                _dicByCode.Add(message.Source.Code, sysDicVm);
                             }
                             OnPropertyChangeds();
                         }
                     }, location: this.GetType());
                 AddEventPath<SysDicUpdatedEvent>("更新了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        if (_dicById.TryGetValue(message.Target.GetId(), out SysDicViewModel vm)) {
+                        if (_dicById.TryGetValue(message.Source.GetId(), out SysDicViewModel vm)) {
                             int sortNumber = vm.SortNumber;
-                            vm.Update(message.Target);
+                            vm.Update(message.Source);
                             if (sortNumber != vm.SortNumber) {
                                 this.OnPropertyChanged(nameof(List));
                             }
@@ -55,8 +55,8 @@ namespace NTMiner {
                     }, location: this.GetType());
                 AddEventPath<SysDicRemovedEvent>("删除了系统字典后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
-                        _dicById.Remove(message.Target.GetId());
-                        _dicByCode.Remove(message.Target.Code);
+                        _dicById.Remove(message.Source.GetId());
+                        _dicByCode.Remove(message.Source.Code);
                         OnPropertyChangeds();
                     }, location: this.GetType());
                 Init();
