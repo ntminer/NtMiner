@@ -41,7 +41,7 @@
                             throw new Exception($"一种命令只应被一个处理器处理:{typeof(TMessage).Name}");
                         }
                     }
-                    else if (messagePath.Location != MessagePath.Anonymous && _messagePaths.Any(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId)) {
+                    else if (messagePath.Location != AnonymousMessagePath.Location && _messagePaths.Any(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId)) {
                         Write.DevWarn(() => $"重复的路径:{messagePath.Path} {messagePath.Description}");
                     }
                     _messagePaths.Add(messagePath);

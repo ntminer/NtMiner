@@ -67,7 +67,7 @@ namespace NTMiner {
                 if (n == 0) {
                     tcs.SetResult(null);
                 }
-            }, viaTimesLimit: n, MessagePath.Anonymous);
+            }, viaTimesLimit: n, AnonymousMessagePath.Location);
             return tcs.Task;
         }
 
