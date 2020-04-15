@@ -22,7 +22,7 @@ namespace NTMiner.Report {
                         // 如果服务端通过Ws通道最近获取过算力就不用上报算力了，因为获取的算力会通过Mq走内网传播给这里上报的目的服务器，
                         // 而Daemon进程也会每2分钟周期走Ws通道上报一次算力，从而结果就是优先使用Ws通道上报算力，只要Ws通道在周期地上报
                         // 算力则就不会走Http通道上报算力了。
-                        if (WsGetSpeedOn.AddSeconds(130) < message.BornOn) {
+                        if (WsGetSpeedOn.AddSeconds(130) > message.BornOn) {
                             return;
                         }
                         ReportSpeed();
