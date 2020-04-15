@@ -10,8 +10,17 @@ namespace NTMiner.Hub {
         }
 
         public Guid MessageId { get; private set; }
+
+        /// <summary>
+        /// <see cref="IEvent.TargetPathId"/>
+        /// </summary>
         public PathId TargetPathId { get; private set; }
+
+        /// <summary>
+        /// <see cref="IEvent.BornOn"/>
+        /// </summary>
         public DateTime BornOn { get; private set; }
+
         public TEntity Target { get; private set; }
     }
 }
