@@ -12,8 +12,7 @@ namespace NTMiner.Services.Official {
 
         #region GetNTMinerWalletsAsync
         public void GetNTMinerWalletsAsync(Action<DataResponse<List<NTMinerWalletData>>, Exception> callback) {
-            NTMinerWalletsRequest request = new NTMinerWalletsRequest();
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(INTMinerWalletController.NTMinerWallets), request, callback);
+            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(INTMinerWalletController.NTMinerWallets), null, callback);
         }
         #endregion
 

@@ -6,6 +6,6 @@ namespace NTMiner.Controllers {
     public interface INTMinerWalletController {
         ResponseBase AddOrUpdateNTMinerWallet(DataRequest<NTMinerWalletData> request);
         ResponseBase RemoveNTMinerWallet(DataRequest<Guid> request);
-        DataResponse<List<NTMinerWalletData>> NTMinerWallets(NTMinerWalletsRequest request);
+        DataResponse<List<NTMinerWalletData>> NTMinerWallets();
     }
 }
