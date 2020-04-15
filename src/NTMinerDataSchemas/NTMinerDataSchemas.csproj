@@ -51,6 +51,7 @@
     <Compile Include="Core\MinerServer\IMinerSign.cs" />
     <Compile Include="Core\MinerServer\MinerComparerByMinerName.cs" />
     <Compile Include="Core\MinerServer\MinerSign.cs" />
+    <Compile Include="Core\MinerServer\NTMinerWalletDto.cs" />
     <Compile Include="Core\OperationResultDto.cs" />
     <Compile Include="Core\OperationResultData.cs" />
     <Compile Include="Core\Profile\WorkIgnoreAttribute.cs" />
