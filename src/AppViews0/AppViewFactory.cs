@@ -149,6 +149,11 @@ namespace NTMiner.Views {
                     UserPage.ShowWindow();
                 });
             }, location: location);
+            VirtualRoot.AddCmdPath<ShowChangePassword>(action: message => {
+                UIThread.Execute(() => () => {
+                    ChangePassword.ShowWindow();
+                });
+            }, location: location);
             VirtualRoot.AddCmdPath<ShowWsServerNodePageCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     WsServerNodePage.ShowWindow();

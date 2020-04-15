@@ -101,6 +101,9 @@
     <Compile Include="MinerStudio\Ucs\LocalIpConfig.xaml.cs">
       <DependentUpon>LocalIpConfig.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MinerStudio\Ucs\ChangePassword.xaml.cs">
+      <DependentUpon>ChangePassword.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MinerStudio\Ucs\NTMinerFileSelect.xaml.cs">
       <DependentUpon>NTMinerFileSelect.xaml</DependentUpon>
     </Compile>
@@ -404,6 +407,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="MinerStudio\Design\ChangePasswordViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MinerStudio\Design\NTMinerFileSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -559,6 +566,10 @@
     <Page Include="MinerStudio\Ucs\LocalIpConfig.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MinerStudio\Ucs\ChangePassword.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MinerStudio\Ucs\NTMinerFileSelect.xaml">
       <Generator>MSBuild:Compile</Generator>

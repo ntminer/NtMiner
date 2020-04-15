@@ -42,9 +42,6 @@ namespace NTMiner.Vms {
                 if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
-                if (ClientAppType.IsMinerClient) {
-                    return Visibility.Collapsed;
-                }
                 if (ClientAppType.IsMinerStudio) {
                     if (!RpcRoot.IsLogined) {
                         return Visibility.Collapsed;
@@ -69,11 +66,8 @@ namespace NTMiner.Vms {
                 if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
-                if (ClientAppType.IsMinerClient) {
-                    return Visibility.Collapsed;
-                }
                 if (ClientAppType.IsMinerStudio) {
-                    if (RpcRoot.IsLogined) {
+                    if (!RpcRoot.IsLogined) {
                         return Visibility.Collapsed;
                     }
                     if (RpcRoot.RpcUser.LoginedUser.IsAdmin()) {
@@ -83,6 +77,23 @@ namespace NTMiner.Vms {
                         return Visibility.Visible;
                     }
                     return Visibility.Collapsed;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        /// <summary>
+        /// 是外网登录用户，包括普通用户和Admin
+        /// </summary>
+        public Visibility IsMinerStudioOuterLoginedVisible {
+            get {
+                if (WpfUtil.IsInDesignMode) {
+                    return Visibility.Visible;
+                }
+                if (ClientAppType.IsMinerStudio) {
+                    if (RpcRoot.IsLogined && RpcRoot.IsOuterNet) {
+                        return Visibility.Visible;
+                    }
                 }
                 return Visibility.Collapsed;
             }

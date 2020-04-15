@@ -411,7 +411,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="修改密码" Visibility="{Binding IsMinerStudioOuterUserLoginedVisible}" Command="{x:Static app:AppStatic.ChangePassword}">
+                <MenuItem Header="修改密码" Visibility="{Binding IsMinerStudioOuterLoginedVisible}" Command="{x:Static app:AppStatic.ShowChangePassword}">
                     <MenuItem.Icon>
                         <Path
 							Width="16"

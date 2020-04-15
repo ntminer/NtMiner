@@ -16,6 +16,11 @@ namespace NTMiner.MinerStudio {
         }
     }
 
+    [MessageType(description: "打开密码修改界面")]
+    public class ShowChangePassword : Cmd {
+        public ShowChangePassword() { }
+    }
+
     [MessageType(description: "打开外网群控服务器节点列表页")]
     public class ShowWsServerNodePageCommand : Cmd {
         public ShowWsServerNodePageCommand() {

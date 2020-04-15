@@ -427,6 +427,7 @@
                 </WrapPanel>
             </WrapPanel>
             <WrapPanel Grid.Column="2" VerticalAlignment="Center">
+                <TextBlock Text="{Binding LoginName}"></TextBlock>
                 <uc0:MainMenu Background="Transparent" VerticalAlignment="Center">
                 </uc0:MainMenu>
                 <controls:KbSystemMinButton KbSystemButtonForeground="Black" />
