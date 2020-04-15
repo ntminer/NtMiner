@@ -586,6 +586,10 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowUserPageCommand());
         });
 
+        public static ICommand ChangePassword { get; private set; } = new DelegateCommand(() => {
+
+        });
+
         public static ICommand ShowWsServerNodes { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowWsServerNodePageCommand());
         });
