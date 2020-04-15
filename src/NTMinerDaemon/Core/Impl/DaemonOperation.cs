@@ -14,6 +14,7 @@ namespace NTMiner.Core.Impl {
 
         public DaemonOperation() { }
 
+        #region EnableRemoteDesktop
         public ResponseBase EnableRemoteDesktop() {
             ResponseBase response;
             try {
@@ -31,7 +32,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
+        #region BlockWAU
         public ResponseBase BlockWAU() {
             if (TryGetMinerClientLocation(out string location)) {
                 Windows.Cmd.RunClose(location, $"{NTKeyword.ActionCmdParameterName}{MinerClient.MinerClientActionType.BlockWAU.ToString()}");
@@ -40,7 +43,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
+        #region AtikmdagPatcher
         public ResponseBase AtikmdagPatcher() {
             if (TryGetMinerClientLocation(out string location)) {
                 Windows.Cmd.RunClose(location, $"{NTKeyword.ActionCmdParameterName}{MinerClient.MinerClientActionType.AtikmdagPatcher.ToString()}");
@@ -49,7 +54,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
+        #region SwitchRadeonGpu
         public ResponseBase SwitchRadeonGpu(bool on) {
             if (TryGetMinerClientLocation(out string location)) {
                 MinerClientActionType actionType = MinerClientActionType.SwitchRadeonGpuOn;
@@ -62,17 +69,16 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
-        public ResponseBase FixIp() {
-            throw new NotImplementedException();
-        }
-
+        #region CloseDaemon
         public void CloseDaemon() {
             // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应
             100.MillisecondsDelay().ContinueWith(t => {
                 VirtualRoot.Exit();
             });
         }
+        #endregion
 
         #region GetGpuProfilesJson
         public string GetGpuProfilesJson() {
@@ -113,6 +119,7 @@ namespace NTMiner.Core.Impl {
         }
         #endregion
 
+        #region SetAutoBootStart
         public bool SetAutoBootStart(bool autoBoot, bool autoStart) {
             bool isSuccess = false;
             try {
@@ -133,7 +140,9 @@ namespace NTMiner.Core.Impl {
             });
             return isSuccess;
         }
+        #endregion
 
+        #region RestartWindows
         public ResponseBase RestartWindows() {
             ResponseBase response;
             try {
@@ -148,7 +157,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
+        #region ShutdownWindows
         public ResponseBase ShutdownWindows() {
             ResponseBase response;
             try {
@@ -163,7 +174,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
+        #region IsNTMinerOpened
         public bool IsNTMinerOpened() {
             if (TryGetMinerClientLocation(out string location)) {
                 string processName = Path.GetFileNameWithoutExtension(location);
@@ -172,12 +185,9 @@ namespace NTMiner.Core.Impl {
             }
             return false;
         }
+        #endregion
 
-        private bool TryGetMinerClientLocation(out string location) {
-            location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
-            return !string.IsNullOrEmpty(location) && File.Exists(location);
-        }
-
+        #region StartMine
         public ResponseBase StartMine(WorkRequest request) {
             ResponseBase response;
             if (request == null) {
@@ -219,7 +229,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
+        #region StopMine
         public ResponseBase StopMine() {
             ResponseBase response;
             try {
@@ -238,25 +250,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
-        private void CloseNTMiner() {
-            bool isClosed = false;
-            ResponseBase response = RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.CloseNTMiner), new SignRequest { });
-            isClosed = response.IsSuccess();
-            if (!isClosed) {
-                try {
-                    string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string processName = Path.GetFileNameWithoutExtension(location);
-                        Windows.TaskKill.Kill(processName);
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-            }
-        }
-
+        #region UpgradeNTMiner
         public ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request) {
             ResponseBase response;
             if (request == null || string.IsNullOrEmpty(request.NTMinerFileName)) {
@@ -280,7 +276,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
+        #region SetVirtualMemory
         public ResponseBase SetVirtualMemory(Dictionary<string, int> data) {
             ResponseBase response;
             if (data == null || data.Count == 0) {
@@ -299,7 +297,9 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
 
+        #region SetLocalIps
         public ResponseBase SetLocalIps(List<LocalIpInput> data) {
             ResponseBase response;
             if (data == null || data.Count == 0) {
@@ -320,5 +320,31 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
+        #endregion
+
+        #region private static methods
+        private static bool TryGetMinerClientLocation(out string location) {
+            location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
+            return !string.IsNullOrEmpty(location) && File.Exists(location);
+        }
+
+        private static void CloseNTMiner() {
+            bool isClosed = false;
+            ResponseBase response = RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.CloseNTMiner), new SignRequest { });
+            isClosed = response.IsSuccess();
+            if (!isClosed) {
+                try {
+                    string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
+                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                        string processName = Path.GetFileNameWithoutExtension(location);
+                        Windows.TaskKill.Kill(processName);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                }
+            }
+        }
+        #endregion
     }
 }
