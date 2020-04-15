@@ -7,6 +7,7 @@ using System.Text;
 
 namespace NTMiner.Core.Mq {
     public static class OperationMqBodyUtil {
+        #region GetConsoleOutLines
         public static byte[] GetGetConsoleOutLinesMqSendBody(long afterTime) {
             return Encoding.UTF8.GetBytes(afterTime.ToString());
         }
@@ -17,29 +18,9 @@ namespace NTMiner.Core.Mq {
             }
             return 0;
         }
+        #endregion
 
-        public static byte[] GetGetLocalMessagesMqSendBody(long afterTime) {
-            return Encoding.UTF8.GetBytes(afterTime.ToString());
-        }
-        public static long GetGetLocalMessagesMqReceiveBody(byte[] body) {
-            string s = Encoding.UTF8.GetString(body);
-            if (long.TryParse(s, out long value)) {
-                return value;
-            }
-            return 0;
-        }
-
-        public static byte[] GetGetOperationResultsMqSendBody(long afterTime) {
-            return Encoding.UTF8.GetBytes(afterTime.ToString());
-        }
-        public static long GetGetOperationResultsMqReceiveBody(byte[] body) {
-            string s = Encoding.UTF8.GetString(body);
-            if (long.TryParse(s, out long value)) {
-                return value;
-            }
-            return 0;
-        }
-
+        #region ConsoleOutLines
         public static byte[] GetConsoleOutLinesMqSendBody(List<ConsoleOutLine> datas) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
         }
@@ -54,7 +35,22 @@ namespace NTMiner.Core.Mq {
             }
             return result;
         }
+        #endregion
 
+        #region GetLocalMessages
+        public static byte[] GetGetLocalMessagesMqSendBody(long afterTime) {
+            return Encoding.UTF8.GetBytes(afterTime.ToString());
+        }
+        public static long GetGetLocalMessagesMqReceiveBody(byte[] body) {
+            string s = Encoding.UTF8.GetString(body);
+            if (long.TryParse(s, out long value)) {
+                return value;
+            }
+            return 0;
+        }
+        #endregion
+
+        #region LocalMessages
         public static byte[] GetLocalMessagesMqSendBody(List<LocalMessageDto> datas) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
         }
@@ -69,7 +65,22 @@ namespace NTMiner.Core.Mq {
             }
             return result;
         }
+        #endregion
 
+        #region GetOperationResults
+        public static byte[] GetGetOperationResultsMqSendBody(long afterTime) {
+            return Encoding.UTF8.GetBytes(afterTime.ToString());
+        }
+        public static long GetGetOperationResultsMqReceiveBody(byte[] body) {
+            string s = Encoding.UTF8.GetString(body);
+            if (long.TryParse(s, out long value)) {
+                return value;
+            }
+            return 0;
+        }
+        #endregion
+
+        #region Drives
         public static byte[] GetDrivesMqSendBody(List<DriveDto> datas) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
         }
@@ -84,7 +95,9 @@ namespace NTMiner.Core.Mq {
             }
             return result;
         }
+        #endregion
 
+        #region LocalIps
         public static byte[] GetLocalIpsMqSendBody(List<LocalIpDto> datas) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
         }
@@ -99,7 +112,9 @@ namespace NTMiner.Core.Mq {
             }
             return result;
         }
+        #endregion
 
+        #region OperationResults
         public static byte[] GetOperationResultsMqSendBody(List<OperationResultData> datas) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
         }
@@ -114,7 +129,9 @@ namespace NTMiner.Core.Mq {
             }
             return result;
         }
+        #endregion
 
+        #region GetSpeed
         public static byte[] GetGetSpeedMqSendBody(List<Guid> clientIds) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(clientIds));
         }
@@ -122,15 +139,19 @@ namespace NTMiner.Core.Mq {
             string json = Encoding.UTF8.GetString(body);
             return VirtualRoot.JsonSerializer.Deserialize<List<Guid>>(json);
         }
-        
-        public static byte[] GetSpeedDataMqSendBody(SpeedData data) {
+        #endregion
+
+        #region Speed
+        public static byte[] GetSpeedMqSendBody(SpeedData data) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(data));
         }
-        public static SpeedData GetSpeedDataMqReceiveBody(byte[] body) {
+        public static SpeedData GetSpeedMqReceiveBody(byte[] body) {
             string json = Encoding.UTF8.GetString(body);
             return VirtualRoot.JsonSerializer.Deserialize<SpeedData>(json);
         }
+        #endregion
 
+        #region SwitchRadeonGpu
         public static byte[] GetSwitchRadeonGpuMqSendBody(bool on) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(on.ToString()));
         }
@@ -139,7 +160,9 @@ namespace NTMiner.Core.Mq {
             bool.TryParse(str, out bool result);
             return result;
         }
+        #endregion
 
+        #region SetVirtualMemory
         public static byte[] GetSetVirtualMemoryMqSendBody(Dictionary<string, int> datas) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
         }
@@ -147,7 +170,9 @@ namespace NTMiner.Core.Mq {
             string json = Encoding.UTF8.GetString(body);
             return VirtualRoot.JsonSerializer.Deserialize<Dictionary<string, int>>(json);
         }
+        #endregion
 
+        #region SetLocalIps
         public static byte[] GetSetLocalIpsMqSendBody(List<LocalIpInput> datas) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(datas));
         }
@@ -155,28 +180,36 @@ namespace NTMiner.Core.Mq {
             string json = Encoding.UTF8.GetString(body);
             return VirtualRoot.JsonSerializer.Deserialize<List<LocalIpInput>>(json);
         }
+        #endregion
 
+        #region GpuProfilesJson
         public static byte[] GetGpuProfilesJsonMqSendBody(string json) {
             return Encoding.UTF8.GetBytes(json);
         }
         public static string GetGpuProfilesJsonMqReceiveBody(byte[] body) {
             return Encoding.UTF8.GetString(body);
         }
+        #endregion
 
+        #region SaveGpuProfilesJson
         public static byte[] GetSaveGpuProfilesJsonMqSendBody(string json) {
             return Encoding.UTF8.GetBytes(json);
         }
         public static string GetSaveGpuProfilesJsonMqReceiveBody(byte[] body) {
             return Encoding.UTF8.GetString(body);
         }
+        #endregion
 
+        #region UpgradeNTMiner
         public static byte[] GetUpgradeNTMinerMqSendBody(string ntminerFileName) {
             return Encoding.UTF8.GetBytes(ntminerFileName);
         }
         public static string GetUpgradeNTMinerMqReceiveBody(byte[] body) {
             return Encoding.UTF8.GetString(body);
         }
+        #endregion
 
+        #region SetAutoBootStart
         public static byte[] GetSetAutoBootStartMqSendBody(SetAutoBootStartRequest body) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(body));
         }
@@ -187,7 +220,9 @@ namespace NTMiner.Core.Mq {
             }
             return VirtualRoot.JsonSerializer.Deserialize<SetAutoBootStartRequest>(json);
         }
+        #endregion
 
+        #region StartMine
         public static byte[] GetStartMineMqSendBody(Guid workId) {
             return Encoding.UTF8.GetBytes(workId.ToString());
         }
@@ -201,5 +236,6 @@ namespace NTMiner.Core.Mq {
             }
             return Guid.Empty;
         }
+        #endregion
     }
 }

@@ -95,6 +95,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Core\Mq\README.md" />
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>

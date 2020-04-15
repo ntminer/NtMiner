@@ -145,7 +145,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetGetSpeedMqSendBody(clientIds));
         }
 
-        public void SendSpeedData(string loginName, SpeedData speedData, string minerIp) {
+        public void SendSpeed(string loginName, SpeedData speedData, string minerIp) {
             if (string.IsNullOrEmpty(loginName) || speedData == null || string.IsNullOrEmpty(minerIp)) {
                 return;
             }
@@ -155,7 +155,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.SpeedRoutingKey,
                 basicProperties: basicProperties,
-                body: OperationMqBodyUtil.GetSpeedDataMqSendBody(speedData));
+                body: OperationMqBodyUtil.GetSpeedMqSendBody(speedData));
         }
 
         public void SendEnableRemoteDesktop(string loginName, Guid clientId) {

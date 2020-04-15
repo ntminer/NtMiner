@@ -53,7 +53,7 @@ namespace NTMiner {
             {WsMessage.Speed,
                 (wsBehavior, loginName, clientId, message) => {
                     if (message.TryGetData(out SpeedData speedData)) {
-                        WsRoot.OperationMqSender.SendSpeedData(loginName, speedData, wsBehavior.Context.UserEndPoint.ToString());
+                        WsRoot.OperationMqSender.SendSpeed(loginName, speedData, wsBehavior.Context.UserEndPoint.ToString());
                     }
                 }
             },

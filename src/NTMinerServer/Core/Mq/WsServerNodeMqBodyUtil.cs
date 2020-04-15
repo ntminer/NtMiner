@@ -2,11 +2,13 @@
 
 namespace NTMiner.Core.Mq {
     public static class WsServerNodeMqBodyUtil {
+        #region WsServerNodeAddress
         public static byte[] GetWsServerNodeAddressMqSendBody(string wsServerNodeAddress) {
             return Encoding.UTF8.GetBytes(wsServerNodeAddress);
         }
         public static string GetWsServerNodeAddressMqReceiveBody(byte[] body) {
             return Encoding.UTF8.GetString(body);
         }
+        #endregion
     }
 }

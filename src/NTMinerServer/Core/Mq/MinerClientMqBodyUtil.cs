@@ -4,6 +4,7 @@ using System.Text;
 
 namespace NTMiner.Core.Mq {
     public static class MinerClientMqBodyUtil {
+        #region ClientId
         public static byte[] GetClientIdMqSendBody(Guid clientId) {
             return Encoding.UTF8.GetBytes(clientId.ToString());
         }
@@ -17,14 +18,18 @@ namespace NTMiner.Core.Mq {
             }
             return Guid.Empty;
         }
+        #endregion
 
+        #region MinerId
         public static byte[] GetMinerIdMqSendBody(string minerId) {
             return Encoding.UTF8.GetBytes(minerId);
         }
         public static string GetMinerIdMqReciveBody(byte[] body) {
             return Encoding.UTF8.GetString(body);
         }
+        #endregion
 
+        #region ChangeMinerSign
         public static byte[] GetChangeMinerSignMqSendBody(MinerSign minerSign) {
             return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(minerSign));
         }
@@ -33,5 +38,6 @@ namespace NTMiner.Core.Mq {
             string json = Encoding.UTF8.GetString(body);
             return VirtualRoot.JsonSerializer.Deserialize<MinerSign>(json);
         }
+        #endregion
     }
 }

@@ -22,7 +22,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             switch (ea.RoutingKey) {
                 // 上报的算力放在这里消费，因为只有WebApiServer消费该类型的消息，WsServer不消费该类型的消息
                 case MqKeyword.SpeedRoutingKey: {
-                        SpeedData speedData = OperationMqBodyUtil.GetSpeedDataMqReceiveBody(ea.Body);
+                        SpeedData speedData = OperationMqBodyUtil.GetSpeedMqReceiveBody(ea.Body);
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
                         string appId = ea.BasicProperties.AppId;
                         string minerIp = ea.BasicProperties.ReadHeaderString(MqKeyword.MinerIpHeaderName);
