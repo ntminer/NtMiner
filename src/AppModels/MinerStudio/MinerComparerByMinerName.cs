@@ -1,6 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.Core.MinerServer;
+using System.Collections.Generic;
 
-namespace NTMiner.Core.MinerServer {
+namespace NTMiner.MinerStudio {
     public class MinerComparerByMinerName : IComparer<IMinerData> {
         private readonly SortDirection _sortDirection;
         public MinerComparerByMinerName(SortDirection sortDirection) {
