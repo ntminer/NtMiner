@@ -145,10 +145,6 @@ namespace NTMiner {
 
             public IEnumerable<LocalIpDto> AsEnumerable() {
                 InitOnece();
-                if (_localIps.Length == 0) {
-                    _isInited = false;
-                    InitOnece();
-                }
                 return _localIps;
             }
 
