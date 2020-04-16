@@ -32,7 +32,12 @@ namespace NTMiner.Controllers {
             }
             else {
                 code = VirtualRoot.GetRandomString(4);
-                if (!WebApiRoot.CaptchaSet.SetCaptcha(CaptchaData.Create(id, code, DateTime.Now, base.MinerIp))) {
+                if (!WebApiRoot.CaptchaSet.SetCaptcha(new CaptchaData {
+                    Id = id,
+                    Code = code,
+                    CreatedOn = DateTime.Now,
+                    Ip = base.MinerIp
+                })) {
                     bytes = CreateValidateGraphic("无效");
                 }
                 else {
