@@ -38,7 +38,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\CaptchaData.cs" />
-    <Compile Include="Core\ClientCount.cs" />
     <Compile Include="Core\ICaptcha.cs" />
     <Compile Include="Core\IOperationResult.cs" />
     <Compile Include="Core\LocalMessageDto.cs" />
@@ -134,7 +133,6 @@
     <Compile Include="User\UserUpdateData.cs" />
     <Compile Include="User\UserUpdateInput.cs" />
     <Compile Include="User\WsUserName.cs" />
-    <Compile Include="Ws\EmptyWsClient.cs" />
     <Compile Include="Ws\IWsClient.cs" />
     <Compile Include="Ws\WsClientState.cs" />
     <Compile Include="Ws\WsMessage.cs" />

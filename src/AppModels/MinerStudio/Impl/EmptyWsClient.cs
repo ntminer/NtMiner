@@ -1,8 +1,9 @@
-﻿using System;
+﻿using NTMiner.Ws;
+using System;
 
-namespace NTMiner.Ws {
+namespace NTMiner.MinerStudio.Impl {
     public class EmptyWsClient : IWsClient {
-        public static readonly IWsClient Empty = new EmptyWsClient {
+        public static readonly IWsClient Instance = new EmptyWsClient {
             IsOpen = false
         };
 

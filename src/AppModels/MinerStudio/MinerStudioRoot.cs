@@ -4,7 +4,7 @@ using NTMiner.Ws;
 
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
-        public static IWsClient WsClient { get; private set; } = EmptyWsClient.Empty;
+        public static IWsClient WsClient { get; private set; } = EmptyWsClient.Instance;
         public static IMinerStudioService MinerStudioService { get; private set; } = EmptyMinerStudioService.Instance;
         public static MinerClientConsoleViewModel MinerClientConsoleVm { get; private set; } = new MinerClientConsoleViewModel();
         public static MinerClientMessagesViewModel MinerClientMessagesVm { get; private set; } = new MinerClientMessagesViewModel();
