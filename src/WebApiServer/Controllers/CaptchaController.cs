@@ -20,7 +20,8 @@ namespace NTMiner.Controllers {
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        public HttpResponseMessage Get([FromUri]Guid id) {
+        [HttpPost]
+        public HttpResponseMessage Get(Guid id) {
             string code;
             byte[] bytes;
             if (id == Guid.Empty) {

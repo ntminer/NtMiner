@@ -45,7 +45,7 @@ namespace NTMiner.Core.Impl {
                 return false;
             }
             if (data == null || data.Id == Guid.Empty) {
-                throw new InvalidProgramException();
+                return false;
             }
             lock (_locker) {
                 if (_dicById.ContainsKey(data.Id)) {
