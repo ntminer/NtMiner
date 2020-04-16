@@ -18,6 +18,8 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 var uc = new ChangePassword();
                 window.AddCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
+            }, beforeShow: (window, uc)=> {
+                uc.DoFocus();
             }, fixedSize: true);
         }
 
@@ -29,6 +31,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
 
         public ChangePassword() {
             InitializeComponent();
+        }
+
+        private void DoFocus() {
+            this.TbOldPassword.Focus();
         }
     }
 }
