@@ -7,6 +7,7 @@
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
 	xmlns:blankWindow="http://NTMiner.com"
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="800">
@@ -125,7 +126,7 @@
             <ListBox
                 Width="56"
                 Padding="0"
-			    ItemsSource="{x:Static vm:SpeedUnitViewModel.SpeedUnitVms}"
+			    ItemsSource="{x:Static app:AppStatic.SpeedUnitVms}"
 			    SelectedItem="{Binding SpeedUnitVm}"
                 SelectionChanged="ListBox_SelectionChanged"
 			    ScrollViewer.HorizontalScrollBarVisibility="Disabled"

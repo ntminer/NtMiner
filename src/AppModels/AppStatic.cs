@@ -27,6 +27,14 @@ namespace NTMiner {
             }
         }
 
+        public static readonly List<SpeedUnitViewModel> SpeedUnitVms = new List<SpeedUnitViewModel> {
+            SpeedUnitViewModel.HPerSecond,
+            SpeedUnitViewModel.KhPerSecond,
+            SpeedUnitViewModel.MhPerSecond,
+            SpeedUnitViewModel.GhPerSecond,
+            SpeedUnitViewModel.ThPerSecond
+        };
+
         #region IsWin10
         public static bool IsGEWin10 {
             get { return VirtualRoot.IsGEWin10; }

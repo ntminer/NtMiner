@@ -17,11 +17,11 @@ namespace NTMiner.MinerStudio {
                     return;
                 }
                 Init(refresh: false);
-                AppRoot.AddEventPath<OverClockDataSetInitedEvent>("超频建议集初始化后", LogEnum.DevConsole,
+                AppRoot.AddEventPath<OverClockDataSetInitedEvent>("超频菜谱集初始化后", LogEnum.DevConsole,
                     action: message => {
                         Init(refresh: true);
                     }, location: this.GetType());
-                AppRoot.AddEventPath<OverClockDataAddedEvent>("添加超频建议后刷新VM内存", LogEnum.DevConsole,
+                AppRoot.AddEventPath<OverClockDataAddedEvent>("添加超频菜谱后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
@@ -30,13 +30,13 @@ namespace NTMiner.MinerStudio {
                             }
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<OverClockDataUpdatedEvent>("更新超频建议后刷新VM内存", LogEnum.DevConsole,
+                AppRoot.AddEventPath<OverClockDataUpdatedEvent>("更新超频菜谱后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out OverClockDataViewModel vm)) {
                             vm.Update(message.Source);
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<OverClockDataRemovedEvent>("删除超频建议后刷新VM内存", LogEnum.DevConsole,
+                AppRoot.AddEventPath<OverClockDataRemovedEvent>("删除超频菜谱后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         _dicById.Remove(message.Source.GetId());
                         if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {

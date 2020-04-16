@@ -1,10 +1,11 @@
 ﻿using NTMiner.Core.MinerServer;
+using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 
-namespace NTMiner.Vms {
+namespace NTMiner.MinerStudio.Vms {
     public class CalcConfigViewModels : ViewModelBase {
         private List<CalcConfigViewModel> _calcConfigVms = new List<CalcConfigViewModel>();
         public readonly Guid Id = Guid.NewGuid();

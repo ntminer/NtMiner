@@ -111,8 +111,8 @@
     <Compile Include="Vms\AboutPageViewModel.cs" />
     <Compile Include="Vms\AlgoSelectItem.cs" />
     <Compile Include="Vms\BrandTagViewModel.cs" />
-    <Compile Include="Vms\CalcConfigViewModel.cs" />
-    <Compile Include="Vms\CalcConfigViewModels.cs" />
+    <Compile Include="MinerStudio\Vms\CalcConfigViewModel.cs" />
+    <Compile Include="MinerStudio\Vms\CalcConfigViewModels.cs" />
     <Compile Include="Vms\CalcViewModel.cs" />
     <Compile Include="MinerStudio\Vms\ChartsWindowViewModel.cs" />
     <Compile Include="MinerStudio\Vms\ChartViewModel.cs" />

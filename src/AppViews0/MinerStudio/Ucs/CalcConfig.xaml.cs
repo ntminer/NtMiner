@@ -1,10 +1,10 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.MinerStudio.Vms;
 using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace NTMiner.Views.Ucs {
+namespace NTMiner.Views.MinerStudio.Ucs {
     public partial class CalcConfig : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
@@ -12,6 +12,8 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Calc",
                 Width = 600,
                 Height = 600,
+                IsMaskTheParent = false,
+                IsChildWindow = true,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();

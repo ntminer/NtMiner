@@ -11,6 +11,8 @@ namespace NTMiner.Views.MinerStudio.Ucs {
                 IconName = "Icon_Wallet",
                 Width = 800,
                 Height = 400,
+                IsMaskTheParent = false,
+                IsChildWindow = true,
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => new NTMinerWalletPage(), fixedSize: true);
         }

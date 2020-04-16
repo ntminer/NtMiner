@@ -10,6 +10,8 @@ namespace NTMiner.Views.MinerStudio.Ucs {
                 IconName = "Icon_Update",
                 Width = 500,
                 Height = 180,
+                IsMaskTheParent = false,
+                IsChildWindow = true,
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new NTMinerUpdaterConfig();

@@ -318,7 +318,7 @@
     <Compile Include="MinerStudio\MinerClientsWindow.xaml.cs">
       <DependentUpon>MinerClientsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\CalcConfig.xaml.cs">
+    <Compile Include="MinerStudio\Ucs\CalcConfig.xaml.cs">
       <DependentUpon>CalcConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Ucs\KernelSelect.xaml.cs">
@@ -903,7 +903,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\CalcConfig.xaml">
+    <Page Include="MinerStudio\Ucs\CalcConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

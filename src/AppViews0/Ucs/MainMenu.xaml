@@ -171,7 +171,7 @@
 						Fill="{Binding TopItemForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="超频建议" Command="{x:Static app:AppStatic.ShowOverClockDatas}">
+				<MenuItem Header="超频菜谱" Command="{x:Static app:AppStatic.ShowOverClockDatas}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"

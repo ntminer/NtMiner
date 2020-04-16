@@ -341,43 +341,43 @@ namespace NTMiner {
     #endregion
 
     #region OverClockData Messages
-    [MessageType(description: "添加超频建议")]
+    [MessageType(description: "添加超频菜谱")]
     public class AddOverClockDataCommand : AddEntityCommand<IOverClockData> {
         public AddOverClockDataCommand(IOverClockData input) : base(input) {
         }
     }
 
-    [MessageType(description: "更新超频建议")]
+    [MessageType(description: "更新超频菜谱")]
     public class UpdateOverClockDataCommand : UpdateEntityCommand<IOverClockData> {
         public UpdateOverClockDataCommand(IOverClockData input) : base(input) {
         }
     }
 
-    [MessageType(description: "删除超频建议")]
+    [MessageType(description: "删除超频菜谱")]
     public class RemoveOverClockDataCommand : RemoveEntityCommand {
         public RemoveOverClockDataCommand(Guid entityId) : base(entityId) {
         }
     }
 
-    [MessageType(description: "添加超频建议后")]
+    [MessageType(description: "添加超频菜谱后")]
     public class OverClockDataAddedEvent : SourcedEvent<IOverClockData> {
         public OverClockDataAddedEvent(PathId targetPathId, IOverClockData source) : base(targetPathId, source) {
         }
     }
 
-    [MessageType(description: "更新超频建议后")]
+    [MessageType(description: "更新超频菜谱后")]
     public class OverClockDataUpdatedEvent : SourcedEvent<IOverClockData> {
         public OverClockDataUpdatedEvent(PathId targetPathId, IOverClockData source) : base(targetPathId, source) {
         }
     }
 
-    [MessageType(description: "删除超频建议后")]
+    [MessageType(description: "删除超频菜谱后")]
     public class OverClockDataRemovedEvent : SourcedEvent<IOverClockData> {
         public OverClockDataRemovedEvent(PathId targetPathId, IOverClockData source) : base(targetPathId, source) {
         }
     }
 
-    [MessageType(description: "超频建议集初始化后")]
+    [MessageType(description: "超频菜谱集初始化后")]
     public class OverClockDataSetInitedEvent : EventBase {
         public OverClockDataSetInitedEvent() {
         }
