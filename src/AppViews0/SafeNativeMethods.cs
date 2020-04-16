@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace NTMiner.Views {
+namespace NTMiner {
     internal class SafeNativeMethods {
         internal const int GWL_STYLE = -16;
         internal const int WS_VISIBLE = 0x10000000;

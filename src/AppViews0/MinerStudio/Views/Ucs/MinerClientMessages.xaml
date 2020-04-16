@@ -1,0 +1,100 @@
+﻿<UserControl 
+    x:Class="NTMiner.MinerStudio.Views.Ucs.MinerClientMessages"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	mc:Ignorable="d" 
+    x:Name="Uc"
+	Background="White"
+	d:DesignHeight="450" d:DesignWidth="1200">
+    <Grid>
+        <DataGrid 
+			ItemsSource="{Binding ClientLocalMessages}" 
+            EnableRowVirtualization="True"
+			Background="Transparent" 
+			HorizontalScrollBarVisibility="Auto"
+            BorderThickness="0 1 0 0">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="20" Width="20" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Path
+						        Width="14"
+						        Height="14"
+						        Data="{Binding MessageTypeIcon}"
+						        Fill="{Binding IconFill}"
+						        Stretch="Fill" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="60" Width="60" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="频道"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ChannelText}" Foreground="{Binding IconFill}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="时间"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TimestampText}" Foreground="{Binding IconFill}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="400" Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock>内容</TextBlock>
+                                <TextBlock Margin="10 0 0 0" Foreground="{StaticResource LableColor}">仅展示挖矿端最近的本地消息</TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Content}" ToolTip="{Binding Content}" Foreground="{Binding IconFill}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="50" Width="100" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="发言人"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Provider}" ToolTip="{Binding Provider}" Foreground="{Binding IconFill}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock 
+            Margin="0 30 0 0"
+            Visibility="{Binding IsNoRecord, Converter={StaticResource BoolToVisibilityConverter}}" 
+            Foreground="Red" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center">没有消息</TextBlock>
+    </Grid>
+</UserControl>
