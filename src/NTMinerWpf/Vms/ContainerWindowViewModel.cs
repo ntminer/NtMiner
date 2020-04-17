@@ -48,7 +48,7 @@ namespace NTMiner.Vms {
         }
 
         /// <summary>
-        /// 是否遮罩住父窗口
+        /// 是否遮罩住父窗口。如果为true则会为该窗口设置父窗口。IsMaskTheParent和IsChildWindow配合着使用可以实现有父窗口但不遮罩父窗口的效果。
         /// </summary>
         public bool IsMaskTheParent {
             get {
@@ -61,6 +61,9 @@ namespace NTMiner.Vms {
             }
         }
 
+        /// <summary>
+        /// 是否为该窗口设置父窗口。IsMaskTheParent和IsChildWindow配合着使用可以实现有父窗口但不遮罩父窗口的效果。
+        /// </summary>
         public bool IsChildWindow {
             get {
                 if (_isChildWindow || IsMaskTheParent) {

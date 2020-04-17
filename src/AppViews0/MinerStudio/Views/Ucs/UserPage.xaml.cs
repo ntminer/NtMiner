@@ -13,6 +13,8 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IconName = "Icon_User",
                 Width = 1200,
                 Height = 700,
+                IsMaskTheParent = false,
+                IsChildWindow = true,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => new UserPage());

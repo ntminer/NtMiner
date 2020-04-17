@@ -12,6 +12,8 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IconName = "Icon_Server",
                 Width = 1000,
                 Height = 400,
+                IsMaskTheParent = false,
+                IsChildWindow = true,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => new WsServerNodePage(), fixedSize: false);
