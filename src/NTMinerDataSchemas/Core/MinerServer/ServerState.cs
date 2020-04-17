@@ -1,11 +1,14 @@
-﻿namespace NTMiner.Core.MinerServer {
+﻿using System;
+
+namespace NTMiner.Core.MinerServer {
     public class ServerState {
         public static readonly ServerState Empty = new ServerState {
             JsonFileVersion = string.Empty,
             MinerClientVersion = string.Empty,
             Time = 0,
             MessageTimestamp = 0,
-            OutputKeywordTimestamp = 0
+            OutputKeywordTimestamp = 0,
+            WsStatus = WsStatus.Undefined
         };
 
         public static ServerState FromLine(string line) {
@@ -14,6 +17,7 @@
             long time = Timestamp.GetTimestamp();
             long messageTimestamp = 0;
             long kernelOutputKeywordTimestamp = 0;
+            WsStatus wsStatus = WsStatus.Undefined;
             if (!string.IsNullOrEmpty(line)) {
                 line = line.Trim();
                 string[] parts = line.Split(new char[] { '|' });
@@ -32,20 +36,24 @@
                 if (parts.Length > 4) {
                     long.TryParse(parts[4], out kernelOutputKeywordTimestamp);
                 }
+                if (parts.Length > 5) {
+                    Enum.TryParse(parts[5], out wsStatus);
+                }
             }
             return new ServerState {
                 JsonFileVersion = jsonFileVersion,
                 MinerClientVersion = minerClientVersion,
                 Time = time,
                 MessageTimestamp = messageTimestamp,
-                OutputKeywordTimestamp = kernelOutputKeywordTimestamp
+                OutputKeywordTimestamp = kernelOutputKeywordTimestamp,
+                WsStatus = wsStatus
             };
         }
 
         public ServerState() { }
 
         public string ToLine() {
-            return $"{this.JsonFileVersion}|{this.MinerClientVersion}|{this.Time.ToString()}|{this.MessageTimestamp.ToString()}|{this.OutputKeywordTimestamp.ToString()}";
+            return $"{JsonFileVersion}|{MinerClientVersion}|{Time.ToString()}|{MessageTimestamp.ToString()}|{OutputKeywordTimestamp.ToString()}|{WsStatus.ToString()}";
         }
 
         /// <summary>
@@ -68,5 +76,9 @@
         /// 内核输出关键字时间戳
         /// </summary>
         public long OutputKeywordTimestamp { get; set; }
+        /// <summary>
+        /// <see cref="MinerServer.WsStatus"/>
+        /// </summary>
+        public WsStatus WsStatus { get; set; }
     }
 }

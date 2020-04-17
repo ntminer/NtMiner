@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Mq.Senders;
+﻿using NTMiner.Core.MinerServer;
+using NTMiner.Core.Mq.Senders;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,12 @@ namespace NTMiner.Core.Impl {
                     this.RemoveNode(item.Address);
                 }
             }, this.GetType());
+        }
+
+        public WsStatus WsStatus {
+            get {
+                return _dicByIp.Count != 0 ? WsStatus.Online : WsStatus.Offline;
+            }
         }
 
         public string GetTargetNode(Guid clientId) {

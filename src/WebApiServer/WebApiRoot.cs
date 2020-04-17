@@ -156,7 +156,8 @@ namespace NTMiner {
                 MinerClientVersion = minerClientVersion,
                 Time = Timestamp.GetTimestamp(),
                 MessageTimestamp = Timestamp.GetTimestamp(ServerMessageTimestamp),
-                OutputKeywordTimestamp = Timestamp.GetTimestamp(KernelOutputKeywordTimestamp)
+                OutputKeywordTimestamp = Timestamp.GetTimestamp(KernelOutputKeywordTimestamp),
+                WsStatus = WsServerNodeSet.WsStatus
             };
         }
 
