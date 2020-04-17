@@ -21,38 +21,8 @@ namespace NTMiner.Services.Official {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetJsonFileVersion), request, (string text, Exception e) => {
-                string jsonFileVersion = string.Empty;
-                string minerClientVersion = string.Empty;
-                long time = Timestamp.GetTimestamp();
-                long messageTimestamp = 0;
-                long kernelOutputKeywordTimestamp = 0;
-                if (!string.IsNullOrEmpty(text)) {
-                    text = text.Trim();
-                    string[] parts = text.Split(new char[] { '|' });
-                    if (parts.Length > 0) {
-                        jsonFileVersion = parts[0];
-                    }
-                    if (parts.Length > 1) {
-                        minerClientVersion = parts[1];
-                    }
-                    if (parts.Length > 2) {
-                        long.TryParse(parts[2], out time);
-                    }
-                    if (parts.Length > 3) {
-                        long.TryParse(parts[3], out messageTimestamp);
-                    }
-                    if (parts.Length > 4) {
-                        long.TryParse(parts[4], out kernelOutputKeywordTimestamp);
-                    }
-                }
-                callback?.Invoke(new ServerState {
-                    JsonFileVersion = jsonFileVersion,
-                    MinerClientVersion = minerClientVersion,
-                    Time = time,
-                    MessageTimestamp = messageTimestamp,
-                    OutputKeywordTimestamp = kernelOutputKeywordTimestamp
-                });
+            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetJsonFileVersion), request, (string line, Exception e) => {
+                callback?.Invoke(ServerState.FromLine(line));
             }, timeountMilliseconds: 10 * 1000);
         }
         #endregion

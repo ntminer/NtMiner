@@ -13,7 +13,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string GetJsonFileVersion([FromBody]AppSettingRequest request) {
             ServerState serverState = WebApiRoot.GetServerState(request.Key);
-            return $"{serverState.JsonFileVersion}|{serverState.MinerClientVersion}|{serverState.Time.ToString()}|{serverState.MessageTimestamp.ToString()}|{serverState.OutputKeywordTimestamp.ToString()}";
+            return serverState.ToLine();
         }
 
         [HttpPost]
