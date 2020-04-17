@@ -244,6 +244,9 @@ namespace NTMiner.Report {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand(response.ServerState.MessageTimestamp));
                         }
                         VirtualRoot.Execute(new LoadKernelOutputKeywordCommand(response.ServerState.OutputKeywordTimestamp));
+                        if (response.ServerState.WsStatus == WsStatus.Online) {
+                            VirtualRoot.RaiseEvent(new WsServerOkEvent());
+                        }
                     }
                     else {
                         Logger.ErrorDebugLine(e);

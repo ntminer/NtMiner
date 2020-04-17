@@ -199,6 +199,11 @@ namespace NTMiner {
         public long KnowKernelOutputKeywordTimestamp { get; private set; }
     }
 
+    [MessageType(description: "服务器Ws服务可用了")]
+    public class WsServerOkEvent : EventBase {
+        public WsServerOkEvent() { }
+    }
+
     [MessageType(description: "从服务器获取到新的服务器消息后")]
     public class NewServerMessageLoadedEvent : EventBase {
         public NewServerMessageLoadedEvent(LinkedList<ServerMessageData> data) {
