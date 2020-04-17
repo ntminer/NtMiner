@@ -121,6 +121,11 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(WsLastTryOnText));
                     }
                 }, this.GetType());
+                VirtualRoot.AddEventPath<WsServerOkEvent>("服务器Ws服务已可用", LogEnum.DevConsole, action: message => {
+                    if (IsOuterUserEnabled && !IsWsOnline) {
+                        StartOrStopWs();
+                    }
+                }, this.GetType());
                 if (IsOuterUserEnabled) {
                     RpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
                         if (state != null && !isRefreshed) {
