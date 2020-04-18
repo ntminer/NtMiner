@@ -109,6 +109,7 @@ namespace NTMiner.MinerStudio.Vms {
         private List<ColumnItem> _columnItems = null;
 
         public ICommand Hide { get; private set; }
+        public ICommand Edit { get; private set; }
         public ICommand Remove { get; private set; }
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
@@ -125,6 +126,9 @@ namespace NTMiner.MinerStudio.Vms {
                 if (propertyInfo != null) {
                     propertyInfo.SetValue(this, false, null);
                 }
+            });
+            this.Edit = new DelegateCommand(() => {
+
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

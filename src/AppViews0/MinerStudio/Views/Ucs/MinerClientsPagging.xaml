@@ -35,7 +35,9 @@
 				ToolTip="下一页">
             </Button>
             <Button
-				Width="26" Margin="4 0 0 0"
+				Width="26" 
+                Margin="4 0 0 0"
+                ToolTip="刷新本页"
 				Command="{Binding PageRefresh}">
                 <Path 
 					Width="14"
@@ -85,6 +87,19 @@
 						Fill="Black"
 						Stretch="Fill" />
                 </WrapPanel>
+            </controls:KbButton>
+            <controls:KbButton
+				Width="26" 
+                ToolTip="定制列分组"
+                Background="Transparent"
+                BorderThickness="0"
+				Command="{Binding ColumnsShow.Edit}">
+                <Path 
+					Width="14"
+					Height="14"
+					Stretch="Fill"
+					Fill="{StaticResource BtnBackground}"
+					Data="{StaticResource Icon_Edit}"></Path>
             </controls:KbButton>
             <Popup 
                 x:Name="PopupColumnsShow" 
