@@ -269,14 +269,18 @@
 				</ItemsControl>
 			</ScrollViewer>
 		</Grid>
-		<TextBlock Grid.Row="2" Foreground="Red">应用于以下矿机，请在该窗口后面的主窗口中选中要应用的其他矿机。</TextBlock>
+		<TextBlock Grid.Row="2" Margin="4 0 0 0" Foreground="Red">应用于以下矿机，请在该窗口后面的主窗口中选中要应用的矿机。</TextBlock>
 		<Grid Grid.Row="3">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"></ColumnDefinition>
 				<ColumnDefinition Width="*"></ColumnDefinition>
 			</Grid.ColumnDefinitions>
 			<Border 
-                Grid.Column="0" BorderBrush="{StaticResource LightLineColor}" BorderThickness="1" Margin="4"
+                Grid.Column="0" 
+                BorderBrush="{StaticResource LightLineColor}" 
+                BorderThickness="1" 
+                Margin="4"
+                Padding="4"
 				Visibility="{Binding IsMinerClientVmVisible}" Background="{StaticResource BtnBackground}">
 				<StackPanel>
                     <TextBlock Text="{Binding MinerClientVm.MinerName}" VerticalAlignment="Center" Foreground="{StaticResource BtnForeground}"></TextBlock>
@@ -299,7 +303,12 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-                        <Border BorderBrush="{StaticResource LightLineColor}" BorderThickness="1" Margin="4" Background="{StaticResource BtnBackground}">
+                        <Border 
+                            BorderBrush="{StaticResource LightLineColor}" 
+                            BorderThickness="1" 
+                            Margin="4" 
+                            Padding="4"
+                            Background="{StaticResource BtnBackground}">
 							<StackPanel>
                                 <TextBlock Text="{Binding MinerName}" VerticalAlignment="Center" Foreground="{StaticResource BtnForeground}"></TextBlock>
                                 <TextBlock Text="{Binding MinerIp}" VerticalAlignment="Center" Foreground="{StaticResource BtnForeground}"></TextBlock>
