@@ -9,6 +9,14 @@ using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
     public class ColumnsShowViewModel : ViewModelBase, IColumnsShow {
+        [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
+        public class ToolTipAttribute : Attribute {
+            public ToolTipAttribute(string toolTip) {
+                this.ToolTip = toolTip;
+            }
+
+            public string ToolTip { get; private set; }
+        }
         public class ColumnItem : ViewModelBase {
             private readonly ColumnsShowViewModel _vm;
 
@@ -23,7 +31,21 @@ namespace NTMiner.MinerStudio.Vms {
 
             public string Name {
                 get {
-                    return ((DescriptionAttribute)(this.PropertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), inherit: false)[0])).Description;
+                    var attrs = this.PropertyInfo.GetCustomAttributes(typeof(DescriptionAttribute), inherit: false);
+                    if (attrs.Length == 0) {
+                        return "未知";
+                    }
+                    return ((DescriptionAttribute)attrs[0]).Description;
+                }
+            }
+
+            public string ToolTip {
+                get {
+                    var attrs = this.PropertyInfo.GetCustomAttributes(typeof(ToolTipAttribute), inherit: false);
+                    if (attrs.Length == 0) {
+                        return string.Empty;
+                    }
+                    return ((ToolTipAttribute)attrs[0]).ToolTip;
                 }
             }
 
@@ -382,6 +404,7 @@ namespace NTMiner.MinerStudio.Vms {
         public const string LOCAL_IP = "内网IP?";
         public const string LOCAL_IP_TOOLTIP = "内网IP，挖矿端从2.6.6.6开始上报内网IP";
         [Description(LOCAL_IP)]
+        [ToolTip(LOCAL_IP_TOOLTIP)]
         public bool LocalIp {
             get { return _localIp; }
             set {

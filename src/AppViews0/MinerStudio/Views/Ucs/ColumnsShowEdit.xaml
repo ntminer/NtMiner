@@ -39,6 +39,7 @@
                             Width="200"
                             IsChecked="{Binding IsChecked}" 
                             Foreground="{StaticResource LableColor}"
+                            ToolTip="{Binding ToolTip}"
                             Content="{Binding Name}"></CheckBox>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

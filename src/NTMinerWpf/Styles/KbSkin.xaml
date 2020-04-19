@@ -51,11 +51,15 @@
             <Setter.Value>
                 <ControlTemplate>
                     <Border 
-                        Padding="4"
+                        Padding="4" 
+                        Visibility="{TemplateBinding ContentControl.Content,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
                         Background="{TemplateBinding Background}" 
                         BorderBrush="{TemplateBinding BorderBrush}" 
                         BorderThickness="{TemplateBinding BorderThickness}">
-                        <TextBlock TextWrapping="Wrap" Foreground="Black" Text="{TemplateBinding ContentControl.Content}"/>
+                        <TextBlock 
+                            TextWrapping="Wrap" 
+                            Foreground="Black" 
+                            Text="{TemplateBinding ContentControl.Content}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
