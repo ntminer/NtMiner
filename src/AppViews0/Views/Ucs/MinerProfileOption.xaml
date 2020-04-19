@@ -12,7 +12,7 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
     Background="White"
     d:DataContext="{d:DesignData Source=../Design/MinerProfileViewModel.xaml}"
-	mc:Ignorable="d" d:DesignHeight="880" d:DesignWidth="600">
+	mc:Ignorable="d" d:DesignHeight="930" d:DesignWidth="600">
     <UserControl.Resources>
         <ResourceDictionary>
             <StreamGeometry x:Key="Icon_Up">M4,0 L0,4 L8,4 z</StreamGeometry>
@@ -70,7 +70,7 @@
                     </GroupBox.Header>
                     <StackPanel>
                         <WrapPanel Margin="{StaticResource RowThickness}">
-                            <TextBlock Width="100" VerticalAlignment="Center">登录名/邮箱/手机</TextBlock>
+                            <TextBlock Style="{StaticResource LblTbBase}">登录名</TextBlock>
                             <TextBox 
                                 x:Name="TbOuterUserId"
                                 Margin="8 0 0 0"
@@ -86,7 +86,7 @@
                                 VerticalAlignment="Center"
                                 BorderThickness="1"
 							    Command="{x:Static app:AppStatic.ShowSignUpPage}"
-							    Content="注册用户"
+							    Content="注册"
                                 ToolTip="注册群控用户"
                                 CornerRadius="2">
                             </controls:KbButton>

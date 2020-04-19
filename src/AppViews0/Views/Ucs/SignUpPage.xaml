@@ -11,7 +11,7 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
     d:DataContext="{d:DesignData Source=../Design/SignUpPageViewModel.xaml}"
-	mc:Ignorable="d" d:DesignHeight="430" d:DesignWidth="370">
+	mc:Ignorable="d" d:DesignWidth="370">
     <UserControl.Resources>
         <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="70"></Setter>
@@ -72,49 +72,14 @@
                 </controls:KbButton>
             </WrapPanel>
         </WrapPanel>
-        <TextBlock Margin="70 10 0 0">以下为选填项</TextBlock>
-        <WrapPanel Margin="0 3">
-            <TextBlock Style="{StaticResource LblTb}">邮箱</TextBlock>
-            <TextBox Text="{Binding Email}" Width="270" Style="{StaticResource TxtTb}"></TextBox>
-        </WrapPanel>
-        <WrapPanel Margin="0 3">
-            <TextBlock Style="{StaticResource LblTb}">验证码</TextBlock>
-            <TextBox Text="{Binding EmailCode}" Width="166" ToolTip="验证码不区分大小写" Style="{StaticResource TxtTb}"></TextBox>
-            <controls:KbButton
-                Margin="10 0 0 0"
-                Width="94"
-                Background="{StaticResource BtnBackground}"
-                Foreground="White"
-                CornerRadius="2"
-                Content="发送验证码">
-            </controls:KbButton>
-        </WrapPanel>
-        <WrapPanel Margin="0 3">
-            <TextBlock Style="{StaticResource LblTb}">手机</TextBlock>
-            <TextBox Text="{Binding Mobile}" Width="270" Style="{StaticResource TxtTb}"></TextBox>
-        </WrapPanel>
-        <WrapPanel Margin="0 3">
-            <TextBlock Style="{StaticResource LblTb}">验证码</TextBlock>
-            <TextBox Text="{Binding MobileCode}" Width="166" ToolTip="验证码不区分大小写" Style="{StaticResource TxtTb}"></TextBox>
-            <controls:KbButton
-                Margin="10 0 0 0"
-                Width="94"
-                Background="{StaticResource BtnBackground}"
-                Foreground="White"
-                CornerRadius="2"
-                Content="发送验证码">
-            </controls:KbButton>
-        </WrapPanel>
         <controls:KbButton
 			Command="{Binding SignUp}" 
-			Margin="30 10 30 10"
+			Margin="70 10 30 10"
 			Padding="15 8"
 			Background="{StaticResource BtnBackground}"
 			Foreground="White"
 			CornerRadius="2"
             Content="注册">
         </controls:KbButton>
-        <WrapPanel Margin="30 0 0 0">
-        </WrapPanel>
     </StackPanel>
 </UserControl>

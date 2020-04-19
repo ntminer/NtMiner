@@ -2,6 +2,7 @@
 
 namespace NTMiner.User {
     public class UserUpdateInput : UserUpdateData {
+        public UserUpdateInput() { }
 
         public Guid ActionCaptchaId { get; set; }
         /// <summary>

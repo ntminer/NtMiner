@@ -8,7 +8,6 @@ namespace NTMiner.Views.Ucs {
                 Title = "创建账号",
                 IconName = "Icon_SignUp",
                 Width = 370,
-                Height = 450,
                 IsMaskTheParent = true,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed

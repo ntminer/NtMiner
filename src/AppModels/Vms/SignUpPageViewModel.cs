@@ -9,10 +9,6 @@ namespace NTMiner.Vms {
         private Guid _actionCaptchaId = Guid.NewGuid();
         private string _password;
         private string _passwordAgain;
-        private string _email;
-        private string _emailCode;
-        private string _mobile;
-        private string _mobileCode;
         private string _actionCaptcha;
         private string _loginNameExistMessage;
 
@@ -117,22 +113,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string Email {
-            get => _email;
-            set {
-                _email = value;
-                OnPropertyChanged(nameof(Email));
-            }
-        }
-
-        public string Mobile {
-            get => _mobile;
-            set {
-                _mobile = value;
-                OnPropertyChanged(nameof(Mobile));
-            }
-        }
-
         public Guid ActionCaptchaId {
             get => _actionCaptchaId;
             set {
@@ -148,26 +128,6 @@ namespace NTMiner.Vms {
             set {
                 _actionCaptcha = value;
                 OnPropertyChanged(nameof(ActionCaptcha));
-            }
-        }
-        /// <summary>
-        /// <see cref="ISignUpInput.EmailCode"/>
-        /// </summary>
-        public string EmailCode {
-            get => _emailCode;
-            set {
-                _emailCode = value;
-                OnPropertyChanged(nameof(EmailCode));
-            }
-        }
-        /// <summary>
-        /// <see cref="ISignUpInput.MobileCode"/>
-        /// </summary>
-        public string MobileCode {
-            get => _mobileCode;
-            set {
-                _mobileCode = value;
-                OnPropertyChanged(nameof(MobileCode));
             }
         }
 

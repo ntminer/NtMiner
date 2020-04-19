@@ -3,7 +3,6 @@
 namespace NTMiner.User {
     public class UserUpdateData : ISignableData {
         public UserUpdateData() {
-
         }
 
         public string LoginName { get; set; }
