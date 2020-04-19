@@ -9,7 +9,7 @@
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            this._loginName = Role.RoleEnum.admin.GetName();
+            this._loginName = NTMinerRegistry.GetLoginName();
             this._serverHost = NTMinerRegistry.GetControlCenterAddress();
             this._isInnerIp = Net.IpUtil.IsInnerIp(_serverHost);
         }
@@ -45,6 +45,7 @@
             set {
                 if (_loginName != value) {
                     _loginName = value;
+                    NTMinerRegistry.SetLoginName(value);
                     OnPropertyChanged(nameof(LoginName));
                 }
             }

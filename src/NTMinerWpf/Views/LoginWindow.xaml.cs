@@ -39,7 +39,12 @@ namespace NTMiner.Views {
         }
 
         public void PasswordFocus() {
-            this.PbPassword.Focus();
+            if (string.IsNullOrEmpty(this.TbLoginName.Text)) {
+                this.TbLoginName.Focus();
+            }
+            else {
+                this.PbPassword.Focus();
+            }
         }
 
         private void MetroWindow_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {

@@ -73,6 +73,7 @@ namespace NTMiner {
         public const string DaemonVersionRegistryKey = "DaemonVersion";
         public const string ControlCenterAddressesRegistryKey = "ControlCenterAddresses";
         public const string ControlCenterAddressRegistryKey = "ControlCenterAddress";
+        public const string ControlCenterLoginName = "ControlCenterLoginName";
         public const string CurrentVersionTagRegistryKey = "CurrentVersionTag";
         public const string CurrentVersionRegistryKey = "CurrentVersion";
         public const string ArgumentsRegistryKey = "Arguments";

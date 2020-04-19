@@ -128,6 +128,23 @@ namespace NTMiner {
         }
         #endregion
 
+        #region LoginName
+        public static string GetLoginName() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterLoginName);
+            if (value == null) {
+                return string.Empty;
+            }
+            return (string)value;
+        }
+
+        public static void SetLoginName(string daemonVersion) {
+            if (daemonVersion == null) {
+                daemonVersion = string.Empty;
+            }
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterLoginName, daemonVersion);
+        }
+        #endregion
+
         #region ControlCenterAddress
         private const string DefaultControlCenterAddress = NTKeyword.Localhost;
         private static string _controlCenterAddress;

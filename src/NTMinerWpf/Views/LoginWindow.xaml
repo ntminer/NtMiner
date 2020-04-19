@@ -91,6 +91,7 @@
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
 					Text="登录名"></TextBlock>
 				<TextBox 
+                    x:Name="TbLoginName"
 					Grid.Row="1" Grid.Column="1" Margin="0 2"
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
 					Text="{Binding LoginName}" Background="White" 
