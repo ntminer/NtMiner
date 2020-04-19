@@ -4,7 +4,7 @@ using System.Collections;
 using System.Management;
 using System.Text;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class WMITests {
         [TestMethod]

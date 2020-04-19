@@ -2,7 +2,7 @@
 using StackExchange.Redis;
 using System;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class RedisTests {
         [TestMethod]

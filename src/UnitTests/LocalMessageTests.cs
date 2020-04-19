@@ -2,7 +2,7 @@
 using NTMiner;
 using System.Linq;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class LocalMessageTests {
         [TestMethod]

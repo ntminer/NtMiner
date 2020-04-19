@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner.RemoteDesktop;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class RemoteDesktopTests {
         [TestMethod]

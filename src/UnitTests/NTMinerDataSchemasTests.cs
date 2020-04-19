@@ -3,7 +3,7 @@ using NTMiner;
 using System;
 using System.Linq;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class NTMinerDataSchemasTests {
         [TestMethod]

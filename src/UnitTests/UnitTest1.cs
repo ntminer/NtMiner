@@ -12,7 +12,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Windows;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]

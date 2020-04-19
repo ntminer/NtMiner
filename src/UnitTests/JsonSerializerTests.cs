@@ -6,7 +6,7 @@ using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
 
-namespace UnitTests {
+namespace NTMiner {
     public class ClassA {
         public ClassA() { }
 

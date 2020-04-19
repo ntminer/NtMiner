@@ -2,7 +2,7 @@
 using NTMiner;
 using System;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class EnumTests {
         [TestMethod]

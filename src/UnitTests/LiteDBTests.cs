@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class LiteDBTests {
         [TestMethod]

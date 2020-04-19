@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class StackTraceTests {
         [TestMethod]

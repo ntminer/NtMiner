@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class TimingTests {
         [TestMethod]

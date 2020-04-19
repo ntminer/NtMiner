@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.IO;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class EnvironmentTests {
         [TestMethod]

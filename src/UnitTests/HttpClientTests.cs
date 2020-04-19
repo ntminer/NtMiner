@@ -4,7 +4,7 @@ using NTMiner.Controllers;
 using System;
 using System.Net.Http;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class HttpClientTests {
         [TestMethod]

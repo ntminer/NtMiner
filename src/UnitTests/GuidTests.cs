@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class GuidTests {
         [TestMethod]

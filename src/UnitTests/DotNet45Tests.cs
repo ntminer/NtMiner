@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace UnitTests {
+namespace NTMiner {
     // 注意：开源矿工客户端使用.NET 4.0，服务端和单元测试项目使用.NET 4.5
     [TestClass]
     public class DotNet45Tests {
