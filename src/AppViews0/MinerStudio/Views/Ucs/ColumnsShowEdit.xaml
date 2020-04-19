@@ -44,7 +44,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-        <WrapPanel Grid.Row="1" Margin="0 0 0 10">
+        <WrapPanel Grid.Row="1" Margin="0 0 0 4">
             <TextBlock Style="{StaticResource LblTbBase}">列分组名称</TextBlock>
             <TextBox Width="200" Text="{Binding ColumnsShowName,UpdateSourceTrigger=LostFocus}"></TextBox>
         </WrapPanel>

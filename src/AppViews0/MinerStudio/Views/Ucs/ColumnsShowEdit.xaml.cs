@@ -11,8 +11,8 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 FormType = FormType.Edit,
                 IsMaskTheParent = false,
                 IsChildWindow = true,
-                Width = 650,
-                Height = 400,
+                Width = 850,
+                Height = 340,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_ColumnsShow"
