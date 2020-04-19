@@ -45,6 +45,11 @@
             </ItemsControl>
         </ScrollViewer>
         <WrapPanel Grid.Row="1" Margin="0 0 0 4">
+            <CheckBox 
+                Width="200"
+                IsChecked="{Binding IsAllChecked}" 
+                Foreground="{StaticResource LableColor}"
+                Content="全选"></CheckBox>
             <TextBlock Style="{StaticResource LblTbBase}">列分组名称</TextBlock>
             <TextBox Width="200" Text="{Binding ColumnsShowName,UpdateSourceTrigger=LostFocus}"></TextBox>
         </WrapPanel>

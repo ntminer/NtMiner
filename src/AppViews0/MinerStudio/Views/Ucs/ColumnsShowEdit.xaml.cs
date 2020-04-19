@@ -5,7 +5,7 @@ using System.Windows.Controls;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class ColumnsShowEdit : UserControl {
-        public static void ShowWindow(ColumnsShowViewModel source) {
+        public static void ShowWindow(ColumnsShowViewModel vm) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "定制列分组",
                 FormType = FormType.Edit,
@@ -17,7 +17,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 FooterVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_ColumnsShow"
             }, ucFactory: (window) => {
-                ColumnsShowViewModel vm = new ColumnsShowViewModel(source);
+                // 这里没有深拷贝传入的vm，因为在矿机DataGrid的列头上也可以隐藏列，所以两个地方操作的需要是同一个vm。
                 window.AddCloseWindowOnecePath(vm.Id);
                 return new ColumnsShowEdit(vm);
             }, fixedSize: false);

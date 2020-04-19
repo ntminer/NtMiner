@@ -224,18 +224,40 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        private bool _isSave = true;
         private void OnColumnItemChanged(string propertyName) {
             OnPropertyChanged(propertyName);
+            OnPropertyChanged(nameof(IsAllChecked));
             ColumnItem item = this.ColumnItems.FirstOrDefault(a => a.PropertyInfo.Name == propertyName);
             if (item != null) {
                 item.OnPropertyChanged(nameof(item.IsChecked));
             }
-            NTMinerContext.Instance.MinerStudioContext.ColumnsShowSet.AddOrUpdate(new ColumnsShowData().Update(this));
+            Save();
+        }
+
+        private void Save() {
+            if (_isSave) {
+                NTMinerContext.Instance.MinerStudioContext.ColumnsShowSet.AddOrUpdate(new ColumnsShowData().Update(this));
+            }
         }
 
         public bool IsPleaseSelect {
             get {
                 return this.Id == ColumnsShowData.PleaseSelect.Id;
+            }
+        }
+
+        public bool IsAllChecked {
+            get {
+                return ColumnItems.All(a => a.IsChecked);
+            }
+            set {
+                _isSave = false;
+                foreach (var item in ColumnItems) {
+                    item.IsChecked = value;
+                }
+                _isSave = true;
+                Save();
             }
         }
 
