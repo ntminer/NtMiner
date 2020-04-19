@@ -31,10 +31,10 @@ namespace NTMiner.MinerStudio.Vms {
             RpcRoot.OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((fileDownloadUrl, e) => {
                 if (!string.IsNullOrEmpty(fileDownloadUrl)) {
                     Uri uri = new Uri(fileDownloadUrl);
-                    _fileName = Path.GetFileName(uri.LocalPath);
+                    FileName = Path.GetFileName(uri.LocalPath);
                 }
                 else {
-                    _fileName = HomePath.NTMinerUpdaterFileName;
+                    FileName = HomePath.NTMinerUpdaterFileName;
                 }
             });
         }
