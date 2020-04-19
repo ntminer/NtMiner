@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerStudio.Vms;
 using NTMiner.Views;
 using NTMiner.Vms;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
@@ -19,21 +20,38 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IconName = "Icon_OverClock",
                 Width = 800,
                 Height = 700,
+                IsMaskTheParent = false,
+                IsChildWindow = true,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
-                window.Owner = WpfUtil.GetTopWindow();
                 var vm = new GpuProfilesPageViewModel(minerClientsWindowVm);
                 window.AddCloseWindowOnecePath(vm.Id);
                 var uc = new GpuProfilesPage(vm);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];
                 void handler(object sender, PropertyChangedEventArgs e) {
                     if (e.PropertyName == nameof(minerClientsWindowVm.SelectedMinerClients)) {
-                        if (minerClientsWindowVm.SelectedMinerClients.Contains(minerClientVm)) {
-                            vm.IsMinerClientVmVisible = Visibility.Collapsed;
+                        List<MinerClientViewModel> toRemoves = new List<MinerClientViewModel>();
+                        foreach (var item in vm.MinerClientVms) {
+                            if (item != minerClientVm) {
+                                var exist = minerClientsWindowVm.SelectedMinerClients.FirstOrDefault(a => a == item);
+                                if (exist == null) {
+                                    toRemoves.Add(item);
+                                }
+                            }
                         }
-                        else {
-                            vm.IsMinerClientVmVisible = Visibility.Visible;
+                        foreach (var item in toRemoves) {
+                            vm.MinerClientVms.Remove(item);
+                        }
+                        List<MinerClientViewModel> toAdds = new List<MinerClientViewModel>();
+                        foreach (var item in minerClientsWindowVm.SelectedMinerClients) {
+                            var exist = vm.MinerClientVms.FirstOrDefault(a => a == item);
+                            if (exist == null) {
+                                toAdds.Add(item);
+                            }
+                        }
+                        foreach (var item in toAdds) {
+                            vm.MinerClientVms.Add(item);
                         }
                     }
                 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace NTMiner.MinerStudio.Vms {
     public class GpuProfilesPageViewModel : ViewModelBase {
@@ -20,8 +21,8 @@ namespace NTMiner.MinerStudio.Vms {
         private GpuProfilesJsonDb _data;
         private bool _isEnabled = false;
         private Visibility _isMinerClientVmVisible = Visibility.Collapsed;
-        private readonly MinerClientsWindowViewModel _minerClientsWindowVm;
         private readonly MinerClientViewModel _minerClientVm;
+        private readonly ObservableCollection<MinerClientViewModel> _minerClientVms;
 
         public ICommand Save { get; private set; }
 
@@ -33,11 +34,11 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public GpuProfilesPageViewModel(MinerClientsWindowViewModel minerClientsWindowVm) {
-            _minerClientsWindowVm = minerClientsWindowVm;
-            if (minerClientsWindowVm.SelectedMinerClients == null && minerClientsWindowVm.SelectedMinerClients.Length != 1) {
+            if (minerClientsWindowVm.SelectedMinerClients == null || minerClientsWindowVm.SelectedMinerClients.Length == 0) {
                 throw new InvalidProgramException();
             }
             _minerClientVm = minerClientsWindowVm.SelectedMinerClients[0];
+            _minerClientVms = new ObservableCollection<MinerClientViewModel>(minerClientsWindowVm.SelectedMinerClients);
             if (AppRoot.CoinVms.TryGetCoinVm(_minerClientVm.MainCoinCode, out CoinViewModel outCoinVm)) {
                 this._coinVm = outCoinVm;
             }
@@ -147,17 +148,9 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public Visibility IsMinerClientVmVisible {
-            get => _isMinerClientVmVisible;
-            set {
-                _isMinerClientVmVisible = value;
-                OnPropertyChanged(nameof(IsMinerClientVmVisible));
-            }
-        }
-
-        public MinerClientsWindowViewModel MinerClientsWindowVm {
+        public ObservableCollection<MinerClientViewModel> MinerClientVms {
             get {
-                return _minerClientsWindowVm;
+                return _minerClientVms;
             }
         }
 
