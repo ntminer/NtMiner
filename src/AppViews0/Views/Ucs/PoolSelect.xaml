@@ -1,0 +1,203 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.PoolSelect"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	BorderBrush="{StaticResource WindowBorderBrush}"
+	BorderThickness="1"
+	Background="White"
+	mc:Ignorable="d" 
+	d:DesignHeight="300">
+    <Grid Background="{StaticResource ToolbarBackground}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*" MinHeight="100"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+        <WrapPanel HorizontalAlignment="Left">
+            <WrapPanel>
+                <Path 
+					Margin="4 0 0 0"
+					Width="12"
+					Height="12"
+					Fill="{StaticResource BtnBackground}"
+					Stretch="Fill"
+					Data="{StaticResource Icon_Search}"></Path>
+                <TextBlock Padding="2 6">搜索</TextBlock>
+                <controls:KbTextBox 
+					x:Name="TbKeyword" Width="154" Height="24"
+					Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+					VerticalContentAlignment="Center"
+					Hint="请输入想搜索的矿池"
+					BorderBrush="{StaticResource LightLineColor}"
+					BorderThickness="1"
+					Background="White"
+					SelectedColor="#409EFF" />
+                <controls:KbButton 
+					Height="20"
+					Background="Transparent" 
+					BorderThickness="0"
+					Command="{Binding ClearKeyword}"
+					Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+					Margin="-14 0 0 0" 
+					HorizontalAlignment="Left">
+                    <Path
+						Width="8"
+						Height="8"
+						Data="{StaticResource Icon_Close}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </controls:KbButton>
+            </WrapPanel>
+            <controls:KbButton
+				Margin="4 2"
+				BorderThickness="0"
+				Height="24"
+				Padding="4 0"
+				Background="{StaticResource BtnBackground}"
+                Foreground="{StaticResource ThemeForeground}"
+                Click="KbButtonAddPool_Click"
+				Command="{Binding Coin.AddPool}"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Add}"
+						Fill="{StaticResource BtnForeground}"
+						Stretch="Fill" />
+					<TextBlock Margin="4 0 0 0" Text="添加"></TextBlock>
+				</WrapPanel>
+			</controls:KbButton>
+			<controls:KbButton
+				Margin="4 2"
+				BorderThickness="0"
+				Height="24"
+				Padding="4 0"
+				Click="KbButtonManagePools_Click"
+				Background="{StaticResource BtnBackground}"
+                Foreground="{StaticResource BtnForeground}"
+				Command="{x:Static app:AppStatic.ManagePools}"
+				CommandParameter="{Binding Coin}"
+				CornerRadius="2">
+				<WrapPanel>
+					<Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_Pool}"
+						Fill="{StaticResource BtnForeground}"
+						Stretch="Fill" />
+					<TextBlock Margin="4 0 0 0" Text="管理"></TextBlock>
+				</WrapPanel>
+			</controls:KbButton>
+		</WrapPanel>
+		<controls:KbButton 
+			Background="Transparent" 
+			BorderThickness="0" 
+			Padding="0 0 4 0"
+			Command="{Binding HideView}"
+			HorizontalAlignment="Right">
+			<Path
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_Close}"
+				Fill="Black"
+				Stretch="Fill" />
+		</controls:KbButton>
+		<DataGrid 
+			Grid.Row="1"
+			Margin="0" 
+			ItemsSource="{Binding QueryResults}" 
+			SelectedItem="{Binding SelectedResult}"
+			MouseUp="DataGrid_MouseUp"
+			PreviewKeyDown="DataGrid_PreviewKeyDown"
+			BorderThickness="0 1">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+				<DataGridTemplateColumn Width="130" Header="名称" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+                            <WrapPanel>
+                                <Path
+									Width="14"
+									Height="14"
+									ToolTip="用户名密码模式"
+									Visibility="{Binding IsUserMode, Converter={StaticResource BoolToVisibilityConverter}}"
+									Data="{StaticResource Icon_User}"
+									Fill="{StaticResource LableColor}"
+									Stretch="Fill" />
+                                <TextBlock Margin="4 0 0 0" Text="{Binding Name}"></TextBlock>
+                            </WrapPanel>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="230" IsReadOnly="True">
+					<DataGridTemplateColumn.Header>
+						<TextBlock Text="地址"></TextBlock>
+					</DataGridTemplateColumn.Header>
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Server}"></TextBlock>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+				</DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="40" IsReadOnly="True">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+                            <controls:KbLinkButton
+								VerticalAlignment="Center"
+								Padding="0"
+								Visibility="{Binding TutorialUrl,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+								Command="{x:Static app:AppStatic.ViewUrl}"
+								CommandParameter="{Binding TutorialUrl}"
+								KbDisplayLine="False"
+								Content="教程"
+								Background="Transparent">
+                            </controls:KbLinkButton>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="40" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls:KbLinkButton
+								VerticalAlignment="Center"
+								Padding="0"
+								Visibility="{Binding Url,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+								Command="{Binding ViewPoolIncome}"
+								CommandParameter="{Binding Data.Wallet,Source={StaticResource proxy}}"
+								KbDisplayLine="False"
+								Content="收益"
+								Background="Transparent">
+                            </controls:KbLinkButton>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+		</DataGrid>
+		<TextBlock 
+            Grid.Row="1" 
+            Margin="0 30 0 0"
+            Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" 
+            Foreground="Red" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center">没有记录</TextBlock>
+		<TextBox 
+            Grid.Row="2" 
+            Visibility="{x:Static app:AppStatic.IsBrandSpecifiedCollapsed}" 
+            IsReadOnly="True" 
+            FontSize="12" 
+            Background="White"
+            Foreground="{StaticResource LableColor}" 
+            BorderThickness="0">没有你喜欢的矿池？Q群2362120103报小编</TextBox>
+	</Grid>
+</UserControl>

@@ -5,9 +5,9 @@ namespace NTMiner.Core.Impl {
     public class CoinShareSet : ICoinShareSet {
         private readonly Dictionary<Guid, CoinShare> _dicByCoinId = new Dictionary<Guid, CoinShare>();
         private readonly object _locker = new object();
-        private readonly INTMinerRoot _root;
+        private readonly INTMinerContext _root;
 
-        public CoinShareSet(INTMinerRoot root) {
+        public CoinShareSet(INTMinerContext root) {
             _root = root;
         }
 

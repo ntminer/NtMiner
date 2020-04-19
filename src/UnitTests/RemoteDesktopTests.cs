@@ -1,15 +1,15 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner.RemoteDesktop;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class RemoteDesktopTests {
         [TestMethod]
         public void TestMethod1() {
-            Rdp.SetRdpEnabled(true);
-            Assert.IsTrue(Rdp.GetRdpEnabled());
-            Rdp.SetRdpEnabled(false);
-            Assert.IsFalse(Rdp.GetRdpEnabled());
+            NTMiner.NTMinerRegistry.SetIsRdpEnabled(true);
+            Assert.IsTrue(NTMiner.NTMinerRegistry.GetIsRdpEnabled());
+            NTMiner.NTMinerRegistry.SetIsRdpEnabled(false);
+            Assert.IsFalse(NTMiner.NTMinerRegistry.GetIsRdpEnabled());
         }
 
         [TestMethod]

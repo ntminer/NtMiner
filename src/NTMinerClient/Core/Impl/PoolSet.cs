@@ -12,7 +12,9 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, PoolData> _dicById = new Dictionary<Guid, PoolData>();
         private readonly Dictionary<Guid, PoolDelay> _poolDelayById = new Dictionary<Guid, PoolDelay>();
 
+        private readonly IServerContext _context;
         public PoolSet(IServerContext context) {
+            _context = context;
             context.AddCmdPath<AddPoolCommand>("添加矿池", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -31,15 +33,10 @@ namespace NTMiner.Core.Impl {
                     PoolData entity = new PoolData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
 
-                    if (VirtualRoot.IsMinerStudio) {
-                        RpcRoot.Server.PoolService.AddOrUpdatePoolAsync(entity, callback: null);
-                    }
-                    else {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
-                        repository.Add(entity);
-                    }
+                    var repository = context.CreateCompositeRepository<PoolData>();
+                    repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new PoolAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolAddedEvent(message.MessageId, entity));
 
                     if (context.CoinSet.TryGetCoin(message.Input.CoinId, out ICoin coin)) {
                         ICoinKernel[] coinKernels = context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == coin.GetId()).ToArray();
@@ -70,23 +67,17 @@ namespace NTMiner.Core.Impl {
                     if (string.IsNullOrEmpty(message.Input.Name)) {
                         throw new ValidationException("pool name can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out PoolData entity)) {
                         return;
                     }
-                    PoolData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    if (VirtualRoot.IsMinerStudio) {
-                        RpcRoot.Server.PoolService.AddOrUpdatePoolAsync(entity, callback: null);
-                    }
-                    else {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
-                        repository.Update(new PoolData().Update(message.Input));
-                    }
+                    var repository = context.CreateCompositeRepository<PoolData>();
+                    repository.Update(new PoolData().Update(message.Input));
 
-                    VirtualRoot.RaiseEvent(new PoolUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemovePoolCommand>("移除矿池", LogEnum.DevConsole,
                 action: (message) => {
@@ -100,14 +91,9 @@ namespace NTMiner.Core.Impl {
 
                     PoolData entity = _dicById[message.EntityId];
                     _dicById.Remove(entity.GetId());
-                    if (VirtualRoot.IsMinerStudio) {
-                        RpcRoot.Server.PoolService.RemovePoolAsync(entity.Id, callback: null);
-                    }
-                    else {
-                        var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
-                        repository.Remove(message.EntityId);
-                    }
-                    VirtualRoot.RaiseEvent(new PoolRemovedEvent(message.Id, entity));
+                    var repository = context.CreateCompositeRepository<PoolData>();
+                    repository.Remove(message.EntityId);
+                    VirtualRoot.RaiseEvent(new PoolRemovedEvent(message.MessageId, entity));
                     Guid[] toRemoves = context.PoolKernelSet.AsEnumerable().Where(a => a.PoolId == message.EntityId).Select(a => a.GetId()).ToArray();
                     foreach (Guid poolKernelId in toRemoves) {
                         VirtualRoot.Execute(new RemovePoolKernelCommand(poolKernelId));
@@ -153,13 +139,8 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<PoolData>();
+                    var repository = _context.CreateCompositeRepository<PoolData>();
                     List<PoolData> data = repository.GetAll().ToList();
-                    if (VirtualRoot.IsMinerStudio) {
-                        foreach (var item in RpcRoot.Server.PoolService.GetPools()) {
-                            data.Add(item);
-                        }
-                    }
                     foreach (var item in data) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -167,13 +148,6 @@ namespace NTMiner.Core.Impl {
                     }
                     _isInited = true;
                 }
-            }
-        }
-
-        public int Count {
-            get {
-                InitOnece();
-                return _dicById.Count;
             }
         }
 
@@ -191,31 +165,13 @@ namespace NTMiner.Core.Impl {
 
         public string GetPoolDelayText(Guid poolId, bool isDual) {
             InitOnece();
-            if (_poolDelayById.TryGetValue(poolId, out PoolDelay tuple)) {
+            if (_poolDelayById.TryGetValue(poolId, out PoolDelay poolDelay)) {
                 if (isDual) {
-                    return tuple.DualCoinPoolDelayText;
+                    return poolDelay.DualCoinPoolDelayText;
                 }
-                return tuple.MainCoinPoolDelayText;
+                return poolDelay.MainCoinPoolDelayText;
             }
             return string.Empty;
-        }
-
-        public void SetPoolDelayText(Guid poolId, bool isDual, string delayText) {
-            InitOnece();
-            if (_poolDelayById.TryGetValue(poolId, out PoolDelay tuple)) {
-                if (isDual) {
-                    tuple.DualCoinPoolDelayText = delayText;
-                }
-                else {
-                    tuple.MainCoinPoolDelayText = delayText;
-                }
-            }
-            else {
-                _poolDelayById.Add(poolId, new PoolDelay() {
-                    MainCoinPoolDelayText = isDual ? string.Empty : delayText,
-                    DualCoinPoolDelayText = isDual ? delayText : string.Empty
-                });
-            }
         }
 
         public IEnumerable<IPool> AsEnumerable() {

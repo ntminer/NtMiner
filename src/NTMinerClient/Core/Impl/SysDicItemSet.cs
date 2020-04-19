@@ -31,10 +31,10 @@ namespace NTMiner.Core.Impl {
                     SysDicItemData entity = new SysDicItemData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
                     _dicByDicId[message.Input.DicId].Add(entity.Code, entity);
-                    var repository = NTMinerRoot.CreateCompositeRepository<SysDicItemData>();
+                    var repository = context.CreateCompositeRepository<SysDicItemData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new SysDicItemAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new SysDicItemAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             _context.AddCmdPath<UpdateSysDicItemCommand>("更新系统字典项", LogEnum.DevConsole,
                 action: (message) => {
@@ -45,10 +45,9 @@ namespace NTMiner.Core.Impl {
                     if (string.IsNullOrEmpty(message.Input.Code)) {
                         throw new ValidationException("sysDicItem code can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out SysDicItemData entity)) {
                         return;
                     }
-                    SysDicItemData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
@@ -59,10 +58,10 @@ namespace NTMiner.Core.Impl {
                         _dicByDicId[entity.DicId].Remove(oldCode);
                         _dicByDicId[entity.DicId].Add(entity.Code, entity);
                     }
-                    var repository = NTMinerRoot.CreateCompositeRepository<SysDicItemData>();
+                    var repository = context.CreateCompositeRepository<SysDicItemData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new SysDicItemUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new SysDicItemUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             _context.AddCmdPath<RemoveSysDicItemCommand>("移除系统字典项", LogEnum.DevConsole,
                 action: (message) => {
@@ -80,10 +79,10 @@ namespace NTMiner.Core.Impl {
                             _dicByDicId[entity.DicId].Remove(entity.Code);
                         }
                     }
-                    var repository = NTMinerRoot.CreateCompositeRepository<SysDicItemData>();
+                    var repository = context.CreateCompositeRepository<SysDicItemData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.RaiseEvent(new SysDicItemRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new SysDicItemRemovedEvent(message.MessageId, entity));
                 }, location: this.GetType());
         }
 
@@ -100,7 +99,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateCompositeRepository<SysDicItemData>();
+                    var repository = _context.CreateCompositeRepository<SysDicItemData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

@@ -3,7 +3,7 @@ using NTMiner;
 using System;
 using System.Text.RegularExpressions;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class RegexTests {
         // 编译的正则大约比非编译的快10倍

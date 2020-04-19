@@ -33,7 +33,7 @@ namespace NTMiner.Vms {
 
         public List<KernelInputViewModel> PleaseSelectVms {
             get {
-                return AppContext.Instance.KernelInputVms.PleaseSelectVms;
+                return AppRoot.KernelInputVms.PleaseSelectVms;
             }
         }
     }

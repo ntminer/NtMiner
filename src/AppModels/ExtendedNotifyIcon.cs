@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Drawing;
+using System.Reflection;
 using System.Windows.Forms;
 
 namespace NTMiner {
     public class ExtendedNotifyIcon {
         public static ExtendedNotifyIcon Create(string text, bool isMinerStudio) {
             string url;
-            if (isMinerStudio) {
-                url = "pack://application:,,,/MinerStudio;component/logo.ico";
+            Assembly mainAssembly = Assembly.GetEntryAssembly();
+            if (mainAssembly == null) {
+                throw new InvalidProgramException();
             }
-            else {
-                url = "pack://application:,,,/NTMiner;component/logo.ico";
-            }
+            var name = mainAssembly.GetName().Name;
+            url = $"pack://application:,,,/{name};component/logo.ico";
             Icon icon = new Icon(System.Windows.Application.GetResourceStream(new Uri(url)).Stream);
             return new ExtendedNotifyIcon(icon, text, isMinerStudio);
         }
@@ -22,7 +23,7 @@ namespace NTMiner {
             _isMinerStudio = isMinerStudio;
             _targetNotifyIcon = new NotifyIcon {
                 Icon = icon,
-                Visible = isMinerStudio || NTMinerRoot.Instance.MinerProfile.IsShowNotifyIcon,
+                Visible = isMinerStudio || NTMinerContext.Instance.MinerProfile.IsShowNotifyIcon,
                 Text = text,
                 ContextMenuStrip = new ContextMenuStrip {
                     BackColor = Color.White,
@@ -30,7 +31,7 @@ namespace NTMiner {
                 }
             };
             _targetNotifyIcon.ContextMenuStrip.Items.Add("退出" + text, null, (sender, e)=> {
-                AppStatic.AppExit.Execute(null);
+                VirtualRoot.Execute(new CloseNTMinerCommand("手动操作"));
             });
             _targetNotifyIcon.MouseDown += (object sender, MouseEventArgs e) => {
                 if (e.Button == MouseButtons.Left) {
@@ -43,7 +44,7 @@ namespace NTMiner {
         }
 
         public void RefreshIcon() {
-            _targetNotifyIcon.Visible = _isMinerStudio || NTMinerRoot.Instance.MinerProfile.IsShowNotifyIcon;
+            _targetNotifyIcon.Visible = _isMinerStudio || NTMinerContext.Instance.MinerProfile.IsShowNotifyIcon;
         }
     }
 }

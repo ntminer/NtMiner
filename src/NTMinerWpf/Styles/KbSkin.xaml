@@ -16,28 +16,56 @@
 	<converters:BoolToHiddenConverter x:Key="BoolToHiddenConverter" />
 	<converters:BoolToHiddenInvertConverter x:Key="BoolToHiddenInvertConverter" />
     <converters:BoolToStreamGeometryConverter x:Key="BoolToStreamGeometryConverter"></converters:BoolToStreamGeometryConverter>
+    <converters:IntToHiddenConverter x:Key="IntToHiddenConverter"></converters:IntToHiddenConverter>
 	<converters:VisibilityInvertConverter x:Key="VisibilityInvertConverter" />
 	<converters:StringLenConverter x:Key="StringLenConverter" />
 	<converters:BoolInvertConverter x:Key="BoolInvertConverter" />
 	<converters:ByteToGbConverter x:Key="ByteToGbConverter" />
-	<converters:ByteToMbConverter x:Key="ByteToMbConverter" />
+    <converters:ByteToMbConverter x:Key="ByteToMbConverter" />
+    <converters:MbToGbConverter x:Key="MbToGbConverter" />
 
-	<SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
-    <SolidColorBrush x:Key="IconFillColor">#278CDE</SolidColorBrush>
+    <SolidColorBrush x:Key="ThemeBackground">#009AD9</SolidColorBrush>
+    <SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnBackground">#009AD9</SolidColorBrush>
+    <SolidColorBrush x:Key="BtnForeground">White</SolidColorBrush>
+    <SolidColorBrush x:Key="LinkForeground">#0072C1</SolidColorBrush>
     <SolidColorBrush x:Key="InfoColor">#99000000</SolidColorBrush>
     <SolidColorBrush x:Key="WarnColor">#ECB443</SolidColorBrush>
     <SolidColorBrush x:Key="NewVersionColor">Red</SolidColorBrush>
     <SolidColorBrush x:Key="TransparentColor">#00FFFFFF</SolidColorBrush>
     <SolidColorBrush x:Key="LableColor">#99000000</SolidColorBrush>
-	<SolidColorBrush x:Key="LineColor">#D9D9D9</SolidColorBrush>
-    <SolidColorBrush x:Key="ThemeBackground">#009AD9</SolidColorBrush>
-	<SolidColorBrush x:Key="ThemeForeground">White</SolidColorBrush>
-	<SolidColorBrush x:Key="StateBarForeground">White</SolidColorBrush>
+    <SolidColorBrush x:Key="LightLineColor">#D9D9D9</SolidColorBrush>
+    <SolidColorBrush x:Key="DarkLineColor">#CCCEDB</SolidColorBrush>
     <SolidColorBrush x:Key="MinerProfileBackground">#EBF2F9</SolidColorBrush>
     <SolidColorBrush x:Key="WindowBorderBrush">#9B9FB9</SolidColorBrush>
-    <SolidColorBrush x:Key="TableHeaderBackground">#F5F4F5</SolidColorBrush>
-    <SolidColorBrush x:Key="TableHeaderForeground">#FF5A5A5A</SolidColorBrush>
+    <!--用于隐藏密码的封条-->
+    <SolidColorBrush x:Key="OpacityTapeBrush">#009AD9</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedRowBackground">#D5EAFF</SolidColorBrush>
+    <SolidColorBrush x:Key="MouseOverRowBackground">#F3F3F4</SolidColorBrush>
+    <SolidColorBrush x:Key="ToolbarBackground">#EEEEF2</SolidColorBrush>
 
+    <Style TargetType="{x:Type ToolTip}">
+        <Setter Property="MaxWidth" Value="300"/>
+        <Setter Property="Background" Value="#FEFCC8"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border 
+                        Padding="4" 
+                        Visibility="{TemplateBinding ContentControl.Content,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+                        Background="{TemplateBinding Background}" 
+                        BorderBrush="{TemplateBinding BorderBrush}" 
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                        <TextBlock 
+                            TextWrapping="Wrap" 
+                            Foreground="Black" 
+                            Text="{TemplateBinding ContentControl.Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <ControlTemplate x:Key="ErrorTemplate">
 		<DockPanel LastChildFill="true">
 			<Border Background="Red" DockPanel.Dock="right" Margin="-20,0,0,0" Width="16" Height="16" CornerRadius="8"
@@ -63,16 +91,10 @@
         <Setter Property="Height" Value="26"></Setter>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-        <Setter Property="BorderBrush" Value="{StaticResource LineColor}"></Setter>
+        <Setter Property="BorderBrush" Value="{StaticResource LightLineColor}"></Setter>
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ErrorTemplate}">
         </Setter>
-        <Style.Triggers>
-            <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip"
-						Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
-            </Trigger>
-        </Style.Triggers>
     </Style>
     <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxBase}">		
     </Style>
@@ -97,17 +119,17 @@
 								HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 								VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
 						</Border>
-						<Border Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LineColor}"></Border>
+						<Border Grid.Column="1" Margin="0 5" BorderThickness="1 0 0 0" BorderBrush="{StaticResource LightLineColor}"></Border>
 					</Grid>
 				</ControlTemplate>
 			</Setter.Value>
 		</Setter>
 		<Style.Triggers>
 			<Trigger Property="IsMouseOver" Value="true">
-				<Setter Property="BorderBrush" Value="{DynamicResource LineColor}"/>
+				<Setter Property="BorderBrush" Value="{StaticResource LightLineColor}"/>
 			</Trigger>
 			<Trigger Property="IsSelected" Value="true">
-				<Setter Property="BorderBrush" Value="{DynamicResource ThemeBackground}"/>
+                <Setter Property="BorderBrush" Value="{StaticResource BtnBackground}"/>
 			</Trigger>
 		</Style.Triggers>
 	</Style>

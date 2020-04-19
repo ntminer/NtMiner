@@ -2,6 +2,6 @@
     public class ServerMessagesRequest {
         public ServerMessagesRequest() { }
 
-        public ulong Timestamp { get; set; }
+        public long Timestamp { get; set; }
     }
 }

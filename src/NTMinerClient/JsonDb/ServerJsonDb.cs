@@ -24,7 +24,7 @@ namespace NTMiner.JsonDb {
             this.TimeStamp = Timestamp.GetTimestamp();
         }
 
-        public ServerJsonDb(INTMinerRoot root) {
+        public ServerJsonDb(INTMinerContext root) {
             Coins = root.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().ToArray();
             // json向后兼容
             foreach (var coin in Coins) {
@@ -86,7 +86,7 @@ namespace NTMiner.JsonDb {
             }
         }
 
-        public ServerJsonDb(INTMinerRoot root, LocalJsonDb localJsonObj) {
+        public ServerJsonDb(INTMinerContext root, LocalJsonDb localJsonObj) {
             var minerProfile = root.MinerProfile;
             var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
             root.ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel coinKernel);
@@ -116,7 +116,7 @@ namespace NTMiner.JsonDb {
             PoolKernels = root.ServerContext.PoolKernelSet.AsEnumerable().Cast<PoolKernelData>().Where(a => !string.IsNullOrEmpty(a.Args) && pools.Any(b => b.Id == a.PoolId)).ToList();
             SysDicItems = root.ServerContext.SysDicItemSet.AsEnumerable().Cast<SysDicItemData>().ToArray();
             SysDics = root.ServerContext.SysDicSet.AsEnumerable().Cast<SysDicData>().ToArray();
-            TimeStamp = NTMinerRoot.ServerJson.TimeStamp;
+            TimeStamp = NTMinerContext.ServerJson.TimeStamp;
         }
 
         public bool Exists<T>(Guid key) where T : IDbEntity<Guid> {
@@ -167,7 +167,7 @@ namespace NTMiner.JsonDb {
 
         // List<T>类型暗示系统可能会根据内核品牌或矿池品牌或作业做过滤
 
-        public ulong TimeStamp { get; set; }
+        public long TimeStamp { get; set; }
 
         public CoinData[] Coins { get; set; }
 

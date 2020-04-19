@@ -15,10 +15,21 @@ namespace NTMiner {
             }
 
             if (e != null) {
-                return e.Message;
+                return GetInnerException(e).Message;
             }
 
             return string.Empty;
+        }
+
+        // 记录异常时不应直接记录InnerException，因为InnerException的StackTrace上缺少行号
+        private static Exception GetInnerException(Exception e) {
+            if (e == null) {
+                return null;
+            }
+            while (e.InnerException != null) {
+                e = e.InnerException;
+            }
+            return e;
         }
     }
 }

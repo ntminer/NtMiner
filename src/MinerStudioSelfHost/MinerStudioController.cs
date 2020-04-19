@@ -4,7 +4,7 @@ using System.Web.Http;
 
 namespace NTMiner {
     /// <summary>
-    /// 端口号：<see cref="Consts.MinerStudioPort"/>
+    /// 端口号：<see cref="NTKeyword.MinerStudioPort"/>
     /// </summary>
     public class MinerStudioController : ApiController, IMinerStudioController {
         [HttpPost]

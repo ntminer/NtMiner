@@ -1,5 +1,6 @@
 ﻿namespace NTMiner.Core.MinerClient {
     public interface IGpuStaticData {
+        GpuType GpuType { get; }
         int Index { get; }
         /// <summary>
         /// 必须是数字格式

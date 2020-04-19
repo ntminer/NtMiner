@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class ExportMineWorkRequest : RequestBase, IGetSignData {
+    public class ExportMineWorkRequest : IRequest, ISignableData {
         public ExportMineWorkRequest() { }
         public Guid MineWorkId { get; set; }
         public string LocalJson { get; set; }

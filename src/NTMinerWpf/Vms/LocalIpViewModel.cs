@@ -1,4 +1,6 @@
 ﻿using NTMiner.Core.MinerClient;
+using System.Windows;
+using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class LocalIpViewModel : ViewModelBase, ILocalIp {
@@ -15,6 +17,9 @@ namespace NTMiner.Vms {
 
         private readonly ILocalIp _data;
         private readonly bool _isAutoDNSServerInitial;
+
+        public ICommand CopyIp { get; private set; }
+
         public LocalIpViewModel(ILocalIp data) {
             _data = data;
             _settingID = data.SettingID;
@@ -33,6 +38,11 @@ namespace NTMiner.Vms {
             _defaultIPGatewayVm = new IpAddressViewModel(data.DefaultIPGateway);
             _dNSServer0Vm = new IpAddressViewModel(data.DNSServer0);
             _dNSServer1Vm = new IpAddressViewModel(data.DNSServer1);
+            this.CopyIp = new DelegateCommand(() => {
+                string ip = _iPAddressVm.AddressText ?? "无";
+                Clipboard.SetDataObject(ip, true);
+                VirtualRoot.Out.ShowSuccess(ip, header: "复制成功");
+            });
         }
 
         public void Update(ILocalIp data) {

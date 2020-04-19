@@ -1,0 +1,98 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.SysDicItemSelect"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	BorderBrush="{StaticResource WindowBorderBrush}"
+	BorderThickness="1"
+	Background="White"
+	mc:Ignorable="d" 
+	d:DesignHeight="300"
+	MaxHeight="320">
+    <Grid Background="{StaticResource ToolbarBackground}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*" MinHeight="100"></RowDefinition>
+		</Grid.RowDefinitions>
+		<Border Grid.Row="0" HorizontalAlignment="Left">
+			<WrapPanel>
+				<Path 
+					Margin="4 0 0 0"
+					Width="12"
+					Height="12"
+					Fill="{StaticResource BtnBackground}"
+					Stretch="Fill"
+					Data="{StaticResource Icon_Search}"></Path>
+				<TextBlock Padding="2 0" VerticalAlignment="Center">搜索</TextBlock>
+				<controls:KbTextBox 
+					x:Name="TbKeyword" Width="154" Height="24"
+					Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" 
+					VerticalContentAlignment="Center"
+					Hint="请输入想搜索的关键字"
+					BorderBrush="{StaticResource LightLineColor}"
+					BorderThickness="1"
+					Background="White"
+					SelectedColor="#409EFF" />
+				<controls:KbButton 
+					Height="20"
+					Background="Transparent" 
+					BorderThickness="0"
+					Command="{Binding ClearKeyword}"
+					Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+					Margin="-14 0 0 0" 
+					HorizontalAlignment="Left">
+					<Path
+						Width="8"
+						Height="8"
+						Data="{StaticResource Icon_Close}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+				</controls:KbButton>
+			</WrapPanel>
+		</Border>
+		<controls:KbButton 
+			Background="Transparent" 
+			BorderThickness="0" 
+			Padding="0 0 4 0"
+			Command="{Binding HideView}"
+			HorizontalAlignment="Right">
+			<Path
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_Close}"
+				Fill="Black"
+				Stretch="Fill" />
+		</controls:KbButton>
+		<DataGrid 
+			Grid.Row="1"
+			Margin="0" 
+			ItemsSource="{Binding QueryResults}" 
+			SelectedItem="{Binding SelectedResult}"
+			MouseUp="DataGrid_MouseUp"
+			PreviewKeyDown="DataGrid_PreviewKeyDown"
+			BorderThickness="0">
+			<DataGrid.Columns>
+				<DataGridTextColumn Width="140" Header="键" Binding="{Binding Code}" IsReadOnly="True">
+				</DataGridTextColumn>
+				<DataGridTextColumn Width="140" Header="值" Binding="{Binding Value}" IsReadOnly="True">
+				</DataGridTextColumn>
+				<DataGridTextColumn Width="140" Header="描述" Binding="{Binding Description}" IsReadOnly="True">
+				</DataGridTextColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+		<TextBlock 
+            Grid.Row="1" 
+            Margin="0 30 0 0"
+            Visibility="{Binding QueryResults, Converter={StaticResource NoRecordVisibilityConverter}}" 
+            Foreground="Red" 
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center">没有记录</TextBlock>
+	</Grid>
+</UserControl>

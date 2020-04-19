@@ -18,7 +18,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new CloseMainWindowCommand(isAutoNoUi: false));
             });
             this.UseThisPcName = new DelegateCommand(() => {
-                string thisPcName = NTMinerRoot.ThisPcName;
+                string thisPcName = NTMinerContext.ThisPcName;
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
                     MinerProfile.MinerName = thisPcName;
                 }));
@@ -27,14 +27,14 @@ namespace NTMiner.Vms {
 
         public bool IsTestHost {
             get {
-                return !string.IsNullOrEmpty(Hosts.GetIp(NTKeyword.ServerHost, out long _));
+                return !string.IsNullOrEmpty(Hosts.GetIp(RpcRoot.OfficialServerHost, out long _));
             }
             set {
                 if (value) {
-                    Hosts.SetHost(NTKeyword.ServerHost, "127.0.0.1");
+                    Hosts.SetHost(RpcRoot.OfficialServerHost, "127.0.0.1");
                 }
                 else {
-                    Hosts.SetHost(NTKeyword.ServerHost, string.Empty);
+                    Hosts.SetHost(RpcRoot.OfficialServerHost, string.Empty);
                 }
                 OnPropertyChanged(nameof(IsTestHost));
             }
@@ -42,16 +42,16 @@ namespace NTMiner.Vms {
 
         public string BrandTitle {
             get {
-                if (NTMinerRoot.KernelBrandId == Guid.Empty && NTMinerRoot.PoolBrandId == Guid.Empty) {
+                if (NTMinerContext.KernelBrandId == Guid.Empty && NTMinerContext.PoolBrandId == Guid.Empty) {
                     return string.Empty;
                 }
-                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTMinerRoot.KernelBrandId, out ISysDicItem dicItem)) {
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTMinerContext.KernelBrandId, out ISysDicItem dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }
                     return dicItem.Code + "专版";
                 }
-                else if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTMinerRoot.PoolBrandId, out dicItem)) {
+                else if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTMinerContext.PoolBrandId, out dicItem)) {
                     if (!string.IsNullOrEmpty(dicItem.Value)) {
                         return dicItem.Value + "专版";
                     }
@@ -66,16 +66,16 @@ namespace NTMiner.Vms {
         }
 
         public bool IsUseDevConsole {
-            get { return NTMinerRoot.IsUseDevConsole; }
+            get { return NTMinerContext.IsUseDevConsole; }
             set {
-                NTMinerRoot.IsUseDevConsole = value;
+                NTMinerContext.IsUseDevConsole = value;
                 OnPropertyChanged(nameof(IsUseDevConsole));
             }
         }
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Instance.MinerProfileVm;
+                return AppRoot.MinerProfileVm;
             }
         }
     }

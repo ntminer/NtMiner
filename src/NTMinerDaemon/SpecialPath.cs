@@ -9,26 +9,27 @@ namespace NTMiner {
         public static readonly string GpuProfilesJsonFileFullName;
 
         static SpecialPath() {
-            string location = NTMinerRegistry.GetLocation();
+            string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
+            string globalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
             if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                 try {
                     if (File.Exists(Path.Combine(Path.GetDirectoryName(location), "home.lock"))) {
                         _homeDirFullName = Path.GetDirectoryName(location);
                     }
                     else {
-                        _homeDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+                        _homeDirFullName = globalPath;
                     }
                 }
                 catch {
-                    _homeDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+                    _homeDirFullName = globalPath;
                 }
             }
             else {
-                _homeDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+                _homeDirFullName = globalPath;
             }
-            NTMinerLocalJsonFileFullName = Path.Combine(_homeDirFullName, NTKeyword.LocalJsonFileName);
-            NTMinerServerJsonFileFullName = Path.Combine(_homeDirFullName, NTKeyword.ServerJsonFileName);
-            GpuProfilesJsonFileFullName = Path.Combine(_homeDirFullName, NTKeyword.GpuProfilesFileName);
+            NTMinerLocalJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.LocalJsonFileName);
+            NTMinerServerJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.ServerJsonFileName);
+            GpuProfilesJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.GpuProfilesFileName);
         }
 
         public static string ReadGpuProfilesJsonFile() {

@@ -32,7 +32,7 @@ namespace NTMiner.Vms {
 
         public List<FileWriterViewModel> FileWriterVms {
             get {
-                return AppContext.Instance.FileWriterVms.List;
+                return AppRoot.FileWriterVms.List;
             }
         }
     }

@@ -8,7 +8,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class NVIDIAGpuSet : IGpuSet {
         private readonly Dictionary<int, Gpu> _gpus = new Dictionary<int, Gpu>() {
             {
-                NTMinerRoot.GpuAllId, Gpu.GpuAll
+                NTMinerContext.GpuAllId, Gpu.GpuAll
             }
         };
 
@@ -22,13 +22,13 @@ namespace NTMiner.Core.Gpus.Impl {
 
         private readonly NvapiHelper _nvapiHelper = new NvapiHelper();
         private readonly NvmlHelper _nvmlHelper = new NvmlHelper();
-        public NVIDIAGpuSet(INTMinerRoot root) {
+        public NVIDIAGpuSet(INTMinerContext root) {
             this.OverClock = new GpuOverClock(_nvapiHelper);
             this.Properties = new List<GpuSetProperty>();
             var gpus = _nvmlHelper.GetGpus();
             if (gpus.Count > 0) {
                 foreach (var item in gpus) {
-                    var gpu = Gpu.Create(item.GpuIndex, item.BusId.ToString(), item.Name);
+                    var gpu = Gpu.Create(GpuType.NVIDIA, item.GpuIndex, item.BusId.ToString(), item.Name);
                     gpu.TotalMemory = item.TotalMemory;
                     _gpus.Add(item.GpuIndex, gpu);
                 }
@@ -55,7 +55,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     this.Properties.Add(property);
                 }
                 Task.Factory.StartNew(() => {
-                    OverClock.RefreshGpuState(NTMinerRoot.GpuAllId);
+                    OverClock.RefreshGpuState(NTMinerContext.GpuAllId);
                     // 这里会耗时5秒
                     foreach (var kv in kvs) {
                         Environment.SetEnvironmentVariable(kv.Key, kv.Value);
@@ -71,7 +71,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void LoadGpuState(int gpuIndex) {
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
+            if (gpuIndex == NTMinerContext.GpuAllId) {
                 return;
             }
             var gpu = _gpus[gpuIndex];

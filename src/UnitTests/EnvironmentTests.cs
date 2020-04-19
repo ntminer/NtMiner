@@ -1,9 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner.Net;
 using System;
+using System.Collections;
 using System.IO;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class EnvironmentTests {
         [TestMethod]
@@ -34,10 +35,18 @@ namespace UnitTests {
         }
 
         [TestMethod]
+        public void PathsTest() {
+            var values = Enum.GetValues(typeof(Environment.SpecialFolder)) as IEnumerable;
+            foreach (var value in values) {
+                Console.WriteLine(Environment.GetFolderPath((Environment.SpecialFolder)value));
+            }
+        }
+
+        [TestMethod]
         public void HostsTest() {
             string hostsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "hosts");
             File.Delete(hostsPath);
-            string host = "server.ntminer.com";
+            string host = NTMiner.RpcRoot.OfficialServerHost;
             string ip = "127.0.0.1";
             Hosts.GetIp(host, out long r, hostsPath);
             Assert.AreEqual(-2, r);

@@ -14,6 +14,7 @@ namespace NTMiner.Vms {
         private double _height = 0;
         private Geometry _icon;
         private bool _isMaskTheParent;
+        private bool _isChildWindow = false;
         private ImageSource _iconImageSource = null;
         private double _minHeight;
         private double _minWidth;
@@ -40,20 +41,14 @@ namespace NTMiner.Vms {
 
         public ResourceDictionary UcResourceDic { get; set; }
 
-        public Version CurrentVersion {
+        public string NTMinerVersion {
             get {
-                return EntryAssemblyInfo.CurrentVersion;
-            }
-        }
-
-        public string VersionTag {
-            get {
-                return EntryAssemblyInfo.CurrentVersionTag;
+                return $"开源矿工v{EntryAssemblyInfo.CurrentVersionStr}({EntryAssemblyInfo.CurrentVersionTag})";
             }
         }
 
         /// <summary>
-        /// 是否遮罩住父窗口
+        /// 是否遮罩住父窗口。如果为true则会为该窗口设置父窗口。IsMaskTheParent和IsChildWindow配合着使用可以实现有父窗口但不遮罩父窗口的效果。
         /// </summary>
         public bool IsMaskTheParent {
             get {
@@ -63,6 +58,21 @@ namespace NTMiner.Vms {
                 if (_isMaskTheParent != value) {
                     _isMaskTheParent = value;
                 }
+            }
+        }
+
+        /// <summary>
+        /// 是否为该窗口设置父窗口。IsMaskTheParent和IsChildWindow配合着使用可以实现有父窗口但不遮罩父窗口的效果。
+        /// </summary>
+        public bool IsChildWindow {
+            get {
+                if (_isChildWindow || IsMaskTheParent) {
+                    return true;
+                }
+                return false;
+            }
+            set {
+                _isChildWindow = value;
             }
         }
 

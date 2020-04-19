@@ -12,10 +12,12 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public class Program {
         static void Main() {
+            HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
+            NTMinerConsole.DisbleQuickEditMode();
             try {
                 VirtualRoot.StartTimer();
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
-                NTKeyword.SetOfficialServerHost("localhost");
+                RpcRoot.SetOfficialServerAddress(NTKeyword.Localhost);
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
                 VirtualRoot.AddEventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
                     action: message => {
@@ -39,44 +41,26 @@ namespace NTMiner {
         private static void UpdateAsync() {
             Task.Factory.StartNew(() => {
                 try {
-                    var vdsUUDataTask = GetHtmlAsync("https://uupool.cn/api/getAllInfo.php");
-                    var vdsZtDataTask = GetHtmlAsync("https://www.zt.com/api/v1/symbol");
-                    var htmlDataTask = GetHtmlAsync("https://www.f2pool.com/");
+                    Task<byte[]> htmlDataTask = GetHtmlAsync("https://www.f2pool.com/");
                     byte[] htmlData = null;
-                    byte[] vdsUUData = null;
-                    byte[] vdsZtData = null;
                     try {
-                        Task.WaitAll(new Task[] { vdsUUDataTask, vdsZtDataTask, htmlDataTask }, 30 * 1000);
+                        Task.WaitAll(new Task[] { htmlDataTask }, 60 * 1000);
                         htmlData = htmlDataTask.Result;
-                        vdsUUData = vdsUUDataTask.Result;
-                        vdsZtData = vdsZtDataTask.Result;
                     }
                     catch {
                     }
                     if (htmlData != null && htmlData.Length != 0) {
                         Write.UserOk($"{DateTime.Now.ToString()} - 鱼池首页html获取成功");
                         string html = Encoding.UTF8.GetString(htmlData);
-                        string vdsUUHtml = string.Empty;
-                        string vdsZtHtml = string.Empty;
-                        if (vdsUUData != null && vdsUUData.Length != 0) {
-                            vdsUUHtml = Encoding.UTF8.GetString(vdsUUData);
-                        }
-                        if (vdsZtData != null && vdsZtData.Length != 0) {
-                            vdsZtHtml = Encoding.UTF8.GetString(vdsZtData);
-                        }
                         double usdCny = PickUsdCny(html);
                         Write.UserInfo($"usdCny={usdCny.ToString()}");
                         List<IncomeItem> incomeItems = PickIncomeItems(html);
-                        IncomeItem vdsIncomeItem = PickVDSIncomeItem(vdsUUHtml, vdsZtHtml, usdCny);
-                        if (vdsIncomeItem != null && incomeItems.All(a => a.CoinCode != "VDS")) {
-                            incomeItems.Add(vdsIncomeItem);
-                        }
                         Write.UserInfo($"鱼池首页有{incomeItems.Count.ToString()}个币种");
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
-                            Login();
-                            RpcRoot.OfficialServer.ControlCenterService.GetCalcConfigsAsync(data => {
+                            RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)), isOuterNet: false);
+                            RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                                 Write.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
@@ -110,9 +94,9 @@ namespace NTMiner {
                                         }
                                     }
                                 }
-                                RpcRoot.OfficialServer.ControlCenterService.SaveCalcConfigsAsync(data, callback: (res, e) => {
+                                RpcRoot.OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
                                     if (!res.IsSuccess()) {
-                                        Write.UserFail(res.ReadMessage(e));
+                                        VirtualRoot.Out.ShowError(res.ReadMessage(e), autoHideSeconds: 4);
                                     }
                                 });
                                 foreach (IncomeItem incomeItem in incomeItems) {
@@ -142,16 +126,6 @@ namespace NTMiner {
             });
         }
 
-        private static void Login() {
-            // 本机运行，不验证用户名密码
-            VirtualRoot.SetRpcUser(new User.RpcUser("CalcConfigUpdater", "123"));
-            Console.WriteLine($"LoginName:CalcConfigUpdater");
-            Console.Write($"Password:");
-            Console.ForegroundColor = Console.BackgroundColor;
-            Console.WriteLine("123");
-            Console.ResetColor();
-        }
-
         private static void FillCny(List<IncomeItem> incomeItems, double usdCny) {
             foreach (var incomeItem in incomeItems) {
                 incomeItem.IncomeCny = usdCny * incomeItem.IncomeUsd;
@@ -169,41 +143,6 @@ namespace NTMiner {
                     incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("sol/s", "h/s");
                 }
             }
-        }
-
-        private static IncomeItem PickVDSIncomeItem(string vdsUUHtml, string vdsZtHtml, double usdCny) {
-            const string pattern = "\"symbol\":\"vds\",.+,\"hr\":\"(?<netSpeed>[\\d\\.]+)\\s(?<netSpeedUnit>\\w+)\",\"est\":\"(?<incomeCoin>[\\d\\.]+) VDS\\\\/(?<speedUnit>\\w+)\",";
-            IncomeItem result = new IncomeItem {
-                CoinCode = "VDS",
-                DataCode = "VDS",
-                Speed = 1,
-            };
-            var regex = VirtualRoot.GetRegex(pattern);
-            var match = regex.Match(vdsUUHtml);
-            if (match.Success) {
-                string incomeCoinText = match.Groups["incomeCoin"].Value;
-                result.SpeedUnit = match.Groups["speedUnit"].Value + "h/s";
-                string netSpeedText = match.Groups["netSpeed"].Value;
-                result.NetSpeedUnit = match.Groups["netSpeedUnit"].Value + "h/s";
-                if (double.TryParse(incomeCoinText, out double incomeCoin)) {
-                    result.IncomeCoin = incomeCoin;
-                }
-                if (double.TryParse(netSpeedText, out double netSpeed)) {
-                    result.NetSpeed = netSpeed;
-                }
-            }
-            const string pattern1 = "\"VDS\",.+?,\"last\":\"(?<incomeCny>[\\d\\.]+)\"";
-            regex = VirtualRoot.GetRegex(pattern1);
-            match = regex.Match(vdsZtHtml);
-            if (match.Success) {
-                string incomeCnyText = match.Groups["incomeCny"].Value;
-                if (double.TryParse(incomeCnyText, out double incomeCny)) {
-                    result.IncomeCny = incomeCny * result.IncomeCoin;
-                    result.IncomeUsd = result.IncomeCny / usdCny;
-                }
-            }
-
-            return result;
         }
 
         private static List<IncomeItem> PickIncomeItems(string html) {

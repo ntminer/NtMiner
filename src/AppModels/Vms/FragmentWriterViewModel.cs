@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.ServerContext.FragmentWriterSet.TryGetFragmentWriter(this.Id, out IFragmentWriter writer)) {
+                if (NTMinerContext.Instance.ServerContext.FragmentWriterSet.TryGetFragmentWriter(this.Id, out IFragmentWriter writer)) {
                     VirtualRoot.Execute(new UpdateFragmentWriterCommand(this));
                 }
                 else {
@@ -42,7 +42,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new FragmentWriterEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditFragmentWriterCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {

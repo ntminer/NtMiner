@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
 
         private static readonly SolidColorBrush LightRed = new SolidColorBrush(Color.FromRgb(0xFF, 0xCC, 0x00));
         public void Refresh() {
-            if (NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
+            if (NTMinerContext.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
                 NetSpeedText = calcConfig.NetSpeed > 0 ? calcConfig.NetSpeed.ToString() : string.Empty;
                 NetSpeedUnit = calcConfig.NetSpeedUnit;
                 if (calcConfig.DayWave > 0) {
@@ -40,7 +40,7 @@ namespace NTMiner.Vms {
                     DayWaveText = $"{(calcConfig.DayWave * 100).ToString("f2")}%";
                     DayWaveBrush = WpfUtil.RedBrush;
                 }
-                var incomePerDay = NTMinerRoot.Instance.CalcConfigSet.GetIncomePerHashPerDay(_coinVm.Code);
+                var incomePerDay = NTMinerContext.Instance.CalcConfigSet.GetIncomePerHashPerDay(_coinVm.Code);
                 var v = this.Speed.FromUnitSpeed(this.SpeedUnitVm.Unit) * incomePerDay.IncomeCoin;
                 if (v >= 100) {
                     IncomePerDaySumText = v.ToString("f2");
@@ -83,6 +83,9 @@ namespace NTMiner.Vms {
 
         public double Speed {
             get {
+                if (_coinVm.CoinProfile == null) {
+                    return 1;
+                }
                 double input = _coinVm.CoinProfile.CalcInput;
                 if (input == 0) {
                     return 1;
@@ -90,6 +93,9 @@ namespace NTMiner.Vms {
                 return input;
             }
             set {
+                if (_coinVm.CoinProfile == null) {
+                    return;
+                }
                 if (_coinVm.CoinProfile.CalcInput != value) {
                     _coinVm.CoinProfile.CalcInput = value;
                     Refresh();
@@ -101,7 +107,7 @@ namespace NTMiner.Vms {
 
         public SpeedUnitViewModel SpeedUnitVm {
             get {
-                if (_speedUnitVm == null && NTMinerRoot.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
+                if (_speedUnitVm == null && NTMinerContext.Instance.CalcConfigSet.TryGetCalcConfig(_coinVm, out ICalcConfig calcConfig)) {
                     _speedUnitVm = SpeedUnitViewModel.GetSpeedUnitVm(calcConfig.SpeedUnit);
                 }
                 return _speedUnitVm;

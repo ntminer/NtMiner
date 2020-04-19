@@ -2,7 +2,7 @@
 using NTMiner.Windows;
 using System;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class CpuTests {
         [TestMethod]

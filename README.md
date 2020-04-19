@@ -4,7 +4,7 @@
 2. 开源矿工永远开源；
 3. 开源矿工永远不会去破解国人开发的内核；
 
-## [下载地址1](https://www.cnblogs.com/ntminer/p/11923722.html)   [下载地址2](https://github.com/ntminer/ntminer/wiki)
+## [下载地址1](https://www.cnblogs.com/ntminer/p/11923722.html)   [下载地址2](https://github.com/ntminer/NtMiner/wikis/download)
 ### 从源码编译：Visual Studio 2019
 
 ## 开源软件
@@ -15,7 +15,7 @@
 
 ## 使用说明
 ### 注意：显卡币普遍对显存有要求，90%的家用和办公电脑的显卡达不到大部分币种挖矿的最低要求。
-[在线下载](https://gitee.com/ntminer/NTMiner/wikis)或者拷贝到矿机上打开即可开始挖矿了。下图是软件主界面，这是一台具有8张p106显卡的矿机：
+[在线下载](https://github.com/ntminer/NtMiner/wikis)或者拷贝到矿机上打开即可开始挖矿了。下图是软件主界面，这是一台具有8张p106显卡的矿机：
 ![视图](https://ntminer.com/assets/img/index-pic.png "NTMiner视图")
 从图上可以看到，这台矿机挖了31分钟了，它在挖ETH，连接的鱼池的矿池，使用鱼池的挖矿账户名挖矿，也可以选择鱼池pps矿池使用ETH钱包地址挖矿，这个挖矿账户名或钱包地址也是用户唯一需要填写的东西，其它的都不用填默认即可开挖。从图上可以看到这台矿机一天能挖0.015个ETH，约等于20块钱，去除电费（0.56元每度）后盈利10块钱。
 

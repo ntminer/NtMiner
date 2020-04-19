@@ -3,7 +3,7 @@ using NTMiner.Core.MinerClient;
 using System;
 
 namespace NTMiner.Core.MinerServer {
-    public class ClientData : SpeedData, IMinerData, ISpeedData, IDbEntity<string>, ITimestampEntity<string> {
+    public class ClientData : SpeedData, IClientData, IDbEntity<string> {
         public ClientData() : base() {
         }
 
@@ -11,15 +11,16 @@ namespace NTMiner.Core.MinerServer {
             return this.Id;
         }
 
-        public static ClientData CreateClientData(IMinerData data) {
+        public static ClientData Create(IMinerData data) {
             return new ClientData() {
                 Id = data.Id,
+                MineContextId = Guid.Empty,
                 ClientId = data.ClientId,
-                MACAddress = string.Empty,
-                LocalIp = string.Empty,
+                MACAddress = data.MACAddress,
+                LocalIp = data.LocalIp,
                 MinerIp = data.MinerIp,
                 MinerName = data.MinerName,
-                ClientName = data.ClientName,
+                WorkerName = data.WorkerName,
                 CreatedOn = data.CreatedOn,
                 GroupId = data.GroupId,
                 WorkId = data.WorkId,
@@ -48,57 +49,175 @@ namespace NTMiner.Core.MinerServer {
                 CpuLETemperatureSeconds = 60,
                 CpuStartTemperature = 40,
                 CpuStopTemperature = 65,
-                GpuDriver = String.Empty,
+                CpuPerformance = 0,
+                CpuTemperature = 0,
+                IsRaiseHighCpuEvent = false,
+                HighCpuPercent = 80,
+                HighCpuSeconds = 10,
+                GpuDriver = string.Empty,
                 GpuType = GpuType.Empty,
-                OSName = String.Empty,
+                OSName = string.Empty,
                 OSVirtualMemoryMb = 0,
-                GpuInfo = String.Empty,
-                Version = String.Empty,
+                GpuInfo = string.Empty,
+                Version = string.Empty,
                 IsMining = false,
                 BootOn = DateTime.MinValue,
                 MineStartedOn = DateTime.MinValue,
-                ModifiedOn = DateTime.MinValue,
-                MainCoinCode = String.Empty,
+                MinerActiveOn = DateTime.MinValue,
+                MainCoinCode = string.Empty,
                 MainCoinTotalShare = 0,
                 MainCoinRejectShare = 0,
                 MainCoinSpeed = 0,
-                MainCoinPool = String.Empty,
-                MainCoinWallet = String.Empty,
-                Kernel = String.Empty,
+                MainCoinPool = string.Empty,
+                MainCoinWallet = string.Empty,
+                Kernel = string.Empty,
                 IsDualCoinEnabled = false,
-                DualCoinPool = String.Empty,
-                DualCoinWallet = String.Empty,
-                DualCoinCode = String.Empty,
+                DualCoinPool = string.Empty,
+                DualCoinWallet = string.Empty,
+                DualCoinCode = string.Empty,
                 DualCoinTotalShare = 0,
                 DualCoinRejectShare = 0,
                 DualCoinSpeed = 0,
-                KernelCommandLine = String.Empty,
+                KernelCommandLine = string.Empty,
                 MainCoinPoolDelay = string.Empty,
                 DualCoinPoolDelay = string.Empty,
                 DiskSpace = string.Empty,
                 IsFoundOneGpuShare = false,
                 IsRejectOneGpuShare = false,
                 IsGotOneIncorrectGpuShare = false,
-                CpuPerformance = 0,
-                CpuTemperature = 0,
                 KernelSelfRestartCount = 0,
-                IsRaiseHighCpuEvent = false,
-                HighCpuPercent = 80,
-                HighCpuSeconds = 10,
+                IsOuterUserEnabled = data.IsOuterUserEnabled,
+                OuterUserId = data.OuterUserId,
+                TotalPhysicalMemoryMb = 0,
                 LocalServerMessageTimestamp = Timestamp.UnixBaseTime,
+                NetActiveOn = DateTime.MinValue,
+                IsOnline = false,
+                AESPassword = string.Empty,
+                AESPasswordOn = DateTime.MinValue,
+                IsAutoDisableWindowsFirewall = true,
+                IsDisableAntiSpyware = true,
+                IsDisableUAC = true,
+                IsDisableWAU = true,
+                MainCoinSpeedOn = DateTime.MinValue,
+                DualCoinSpeedOn = DateTime.MinValue,
                 GpuTable = new GpuSpeedData[0]
+            };
+        }
+
+        public static ClientData Clone(ClientData data) {
+            return new ClientData() {
+                Id = data.Id,
+                MineContextId = data.MineContextId,
+                MinerName = data.MinerName,
+                MinerIp = data.MinerIp,
+                CreatedOn = data.CreatedOn,
+                MinerActiveOn = data.MinerActiveOn,
+                GroupId = data.GroupId,
+                WorkId = data.WorkId,
+                WindowsLoginName = data.WindowsLoginName,
+                WindowsPassword = data.WindowsPassword,
+                MACAddress = data.MACAddress,
+                LocalIp = data.LocalIp,
+                ClientId = data.ClientId,
+                IsAutoBoot = data.IsAutoBoot,
+                IsAutoStart = data.IsAutoStart,
+                AutoStartDelaySeconds = data.AutoStartDelaySeconds,
+                IsAutoRestartKernel = data.IsAutoRestartKernel,
+                AutoRestartKernelTimes = data.AutoRestartKernelTimes,
+                IsNoShareRestartKernel = data.IsNoShareRestartKernel,
+                NoShareRestartKernelMinutes = data.NoShareRestartKernelMinutes,
+                IsNoShareRestartComputer = data.IsNoShareRestartComputer,
+                NoShareRestartComputerMinutes = data.NoShareRestartComputerMinutes,
+                IsPeriodicRestartKernel = data.IsPeriodicRestartKernel,
+                PeriodicRestartKernelHours = data.PeriodicRestartKernelHours,
+                IsPeriodicRestartComputer = data.IsPeriodicRestartComputer,
+                PeriodicRestartComputerHours = data.PeriodicRestartComputerHours,
+                PeriodicRestartComputerMinutes = data.PeriodicRestartComputerMinutes,
+                PeriodicRestartKernelMinutes = data.PeriodicRestartKernelMinutes,
+                IsAutoStopByCpu = data.IsAutoStopByCpu,
+                IsAutoStartByCpu = data.IsAutoStartByCpu,
+                CpuStopTemperature = data.CpuStopTemperature,
+                CpuStartTemperature = data.CpuStartTemperature,
+                CpuLETemperatureSeconds = data.CpuLETemperatureSeconds,
+                CpuGETemperatureSeconds = data.CpuGETemperatureSeconds,
+                CpuTemperature = data.CpuTemperature,
+                CpuPerformance = data.CpuPerformance,
+                IsRaiseHighCpuEvent = data.IsRaiseHighCpuEvent,
+                HighCpuPercent = data.HighCpuPercent,
+                HighCpuSeconds = data.HighCpuSeconds,
+                GpuDriver = data.GpuDriver,
+                GpuType = data.GpuType,
+                OSName = data.OSName,
+                OSVirtualMemoryMb = data.OSVirtualMemoryMb,
+                TotalPhysicalMemoryMb = data.TotalPhysicalMemoryMb,
+                GpuInfo = data.GpuInfo,
+                Version = data.Version,
+                IsMining = data.IsMining,
+                BootOn = data.BootOn,
+                MineStartedOn = data.MineStartedOn,
+                MainCoinCode = data.MainCoinCode,
+                MainCoinTotalShare = data.MainCoinTotalShare,
+                MainCoinRejectShare = data.MainCoinRejectShare,
+                MainCoinSpeed = data.MainCoinSpeed,
+                MainCoinPool = data.MainCoinPool,
+                MainCoinWallet = data.MainCoinWallet,
+                Kernel = data.Kernel,
+                IsDualCoinEnabled = data.IsDualCoinEnabled,
+                DualCoinPool = data.DualCoinPool,
+                DualCoinWallet = data.DualCoinWallet,
+                DualCoinCode = data.DualCoinCode,
+                DualCoinTotalShare = data.DualCoinTotalShare,
+                DualCoinRejectShare = data.DualCoinRejectShare,
+                DualCoinSpeed = data.DualCoinSpeed,
+                KernelCommandLine = data.KernelCommandLine,
+                GpuTable = data.GpuTable,
+                MineWorkId = data.MineWorkId,
+                MineWorkName = data.MineWorkName,
+                WorkerName = data.WorkerName,
+                DiskSpace = data.DiskSpace,
+                MainCoinPoolDelay = data.MainCoinPoolDelay,
+                DualCoinPoolDelay = data.DualCoinPoolDelay,
+                IsFoundOneGpuShare = data.IsFoundOneGpuShare,
+                IsRejectOneGpuShare = data.IsRejectOneGpuShare,
+                IsGotOneIncorrectGpuShare = data.IsGotOneIncorrectGpuShare,
+                KernelSelfRestartCount = data.KernelSelfRestartCount,
+                LocalServerMessageTimestamp = data.LocalServerMessageTimestamp,
+                IsOuterUserEnabled = data.IsOuterUserEnabled,
+                OuterUserId = data.OuterUserId,
+                NetActiveOn = data.NetActiveOn,
+                IsOnline = data.IsOnline,
+                IsDisableWAU = data.IsDisableWAU,
+                IsDisableUAC = data.IsDisableUAC,
+                AESPassword = data.AESPassword,
+                AESPasswordOn = data.AESPasswordOn,
+                IsDisableAntiSpyware = data.IsDisableAntiSpyware,
+                IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall,
+                MainCoinSpeedOn = data.MainCoinSpeedOn,
+                DualCoinSpeedOn = data.DualCoinSpeedOn
+            };
+        }
+
+        public static ClientData Create(ReportState state, string minerIp) {
+            return new ClientData {
+                Id = ObjectId.NewObjectId().ToString(),
+                ClientId = state.ClientId,
+                IsMining = state.IsMining,
+                CreatedOn = DateTime.Now,
+                MinerActiveOn = DateTime.Now,
+                MinerIp = minerIp
             };
         }
 
         public static ClientData Create(ISpeedData speedData, string minerIp) {
             return new ClientData() {
                 Id = ObjectId.NewObjectId().ToString(),
-                MinerName = string.Empty,
+                MineContextId = speedData.MineContextId,
+                MinerName = speedData.MinerName,
                 MinerIp = minerIp,
                 CreatedOn = DateTime.Now,
-                ModifiedOn = DateTime.Now,
+                MinerActiveOn = DateTime.Now,
                 GroupId = Guid.Empty,
-                WorkId = Guid.Empty,
+                WorkId = Guid.Empty,// 这是服务端指定的作业，不受客户端的影响
                 WindowsLoginName = string.Empty,
                 WindowsPassword = string.Empty,
                 MACAddress = speedData.MACAddress,
@@ -125,10 +244,16 @@ namespace NTMiner.Core.MinerServer {
                 CpuStartTemperature = speedData.CpuStartTemperature,
                 CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds,
                 CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds,
+                CpuTemperature = speedData.CpuTemperature,
+                CpuPerformance = speedData.CpuPerformance,
+                IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent,
+                HighCpuPercent = speedData.HighCpuPercent,
+                HighCpuSeconds = speedData.HighCpuSeconds,
                 GpuDriver = speedData.GpuDriver,
                 GpuType = speedData.GpuType,
                 OSName = speedData.OSName,
                 OSVirtualMemoryMb = speedData.OSVirtualMemoryMb,
+                TotalPhysicalMemoryMb = speedData.TotalPhysicalMemoryMb,
                 GpuInfo = speedData.GpuInfo,
                 Version = speedData.Version,
                 IsMining = speedData.IsMining,
@@ -149,24 +274,82 @@ namespace NTMiner.Core.MinerServer {
                 DualCoinRejectShare = speedData.DualCoinRejectShare,
                 DualCoinSpeed = speedData.DualCoinSpeed,
                 KernelCommandLine = speedData.KernelCommandLine,
+                MainCoinSpeedOn = speedData.MainCoinSpeedOn,
+                DualCoinSpeedOn = speedData.DualCoinSpeedOn,
                 GpuTable = speedData.GpuTable,
                 MineWorkId = speedData.MineWorkId,
                 MineWorkName = speedData.MineWorkName,
-                ClientName = speedData.MinerName,
                 DiskSpace = speedData.DiskSpace,
                 MainCoinPoolDelay = speedData.MainCoinPoolDelay,
                 DualCoinPoolDelay = speedData.DualCoinPoolDelay,
                 IsFoundOneGpuShare = speedData.IsFoundOneGpuShare,
                 IsRejectOneGpuShare = speedData.IsRejectOneGpuShare,
                 IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare,
-                CpuTemperature = speedData.CpuTemperature,
-                CpuPerformance = speedData.CpuPerformance,
-                KernelSelfRestartCount = speedData.KernelSelfRestartCount,
+                KernelSelfRestartCount = speedData.KernelSelfRestartCount - 1,// 需要减1
                 LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp,
-                IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent,
-                HighCpuPercent = speedData.HighCpuPercent,
-                HighCpuSeconds = speedData.HighCpuSeconds
+                IsOuterUserEnabled = speedData.IsOuterUserEnabled,
+                AESPassword = string.Empty,
+                AESPasswordOn = DateTime.MinValue,
+                IsAutoDisableWindowsFirewall = speedData.IsAutoDisableWindowsFirewall,
+                IsDisableAntiSpyware = speedData.IsDisableAntiSpyware,
+                IsDisableUAC = speedData.IsDisableUAC,
+                IsDisableWAU = speedData.IsDisableWAU,
+                IsOnline = false,
+                NetActiveOn = DateTime.MinValue,
+                OuterUserId = string.Empty,
+                WorkerName = string.Empty
             };
+        }
+
+        public void Update(MinerSign minerSign, out bool isChanged) {
+            isChanged = false;
+            if (!isChanged) {
+                isChanged = this.ClientId != minerSign.ClientId;
+            }
+            this.ClientId = minerSign.ClientId;
+            if (!isChanged) {
+                isChanged = this.OuterUserId != minerSign.OuterUserId;
+            }
+            this.OuterUserId = minerSign.OuterUserId;
+            if (!isChanged) {
+                isChanged = this.AESPassword != minerSign.AESPassword;
+            }
+            this.AESPassword = minerSign.AESPassword;
+            if (!isChanged) {
+                isChanged = this.AESPasswordOn != minerSign.AESPasswordOn;
+            }
+            this.AESPasswordOn = minerSign.AESPasswordOn;
+        }
+
+        /// <summary>
+        /// 上报算力时。
+        /// 因为只有MinerData具有的成员发生了变化时才需要持久化所以该非法输出isMinerDataChanged参数以表示MinerData的成员是否发生了变化。
+        /// </summary>
+        /// <param name="speedData"></param>
+        /// <param name="minerIp"></param>
+        /// <param name="isMinerDataChanged"></param>
+        public void Update(ISpeedData speedData, string minerIp, out bool isMinerDataChanged) {
+            Update(speedData, out isMinerDataChanged);
+            if (!isMinerDataChanged && minerIp != this.MinerIp) {
+                isMinerDataChanged = true;
+            }
+            this.MinerIp = minerIp;
+        }
+
+        /// <summary>
+        /// 因为只有MinerData具有的成员发生了变化时才需要持久化所以该非法输出isMinerDataChanged参数以表示MinerData的成员是否发生了变化。
+        /// </summary>
+        /// <param name="state"></param>
+        /// <param name="minerIp"></param>
+        /// <param name="isMinerDataChanged"></param>
+        public void Update(ReportState state, string minerIp, out bool isMinerDataChanged) {
+            isMinerDataChanged = false;
+            this.IsMining = state.IsMining;
+            this.MinerActiveOn = DateTime.Now;
+            if (!isMinerDataChanged && minerIp != this.MinerIp) {
+                isMinerDataChanged = true;
+            }
+            this.MinerIp = minerIp;
         }
 
         private DateTime _preUpdateOn = DateTime.Now;
@@ -176,13 +359,14 @@ namespace NTMiner.Core.MinerServer {
         private int _preDualCoinRejectShare = 0;
         private string _preMainCoin;
         private string _preDualCoin;
-
-        public void Update(ISpeedData speedData, string minerIp) {
-            this.MinerIp = minerIp;
-            Update(speedData);
-        }
-
-        public void Update(ISpeedData speedData) {
+        /// <summary>
+        /// 上报算力时和拉取算力时。
+        /// 因为只有MinerData具有的成员发生了变化时才需要持久化所以该非法输出isMinerDataChanged参数以表示MinerData的成员是否发生了变化。
+        /// </summary>
+        /// <param name="speedData"></param>
+        /// <param name="isMinerDataChanged"></param>
+        public void Update(ISpeedData speedData, out bool isMinerDataChanged) {
+            isMinerDataChanged = false;
             if (speedData == null) {
                 return;
             }
@@ -205,14 +389,29 @@ namespace NTMiner.Core.MinerServer {
                 _preDualCoinRejectShare = this.DualCoinRejectShare;
             }
             _preDualCoin = this.DualCoinCode;
-
+            #region MinerData
+            if (!isMinerDataChanged) {
+                isMinerDataChanged = this.ClientId != speedData.ClientId;
+            }
             this.ClientId = speedData.ClientId;
-            if (!string.IsNullOrEmpty(speedData.MACAddress)) {
-                this.MACAddress = speedData.MACAddress;
+            if (!isMinerDataChanged) {
+                isMinerDataChanged = this.MACAddress != speedData.MACAddress;
             }
-            if (!string.IsNullOrEmpty(speedData.LocalIp)) {
-                this.LocalIp = speedData.LocalIp;
+            this.MACAddress = speedData.MACAddress;
+            if (!isMinerDataChanged) {
+                isMinerDataChanged = this.LocalIp != speedData.LocalIp;
             }
+            this.LocalIp = speedData.LocalIp;
+            if (!isMinerDataChanged) {
+                isMinerDataChanged = this.MinerName != speedData.MinerName;
+            }
+            this.MinerName = speedData.MinerName;
+            if (!isMinerDataChanged) {
+                isMinerDataChanged = this.IsOuterUserEnabled != speedData.IsOuterUserEnabled;
+            }
+            this.IsOuterUserEnabled = speedData.IsOuterUserEnabled;
+            #endregion
+            this.MineContextId = speedData.MineContextId;
             this.IsAutoBoot = speedData.IsAutoBoot;
             this.IsAutoStart = speedData.IsAutoStart;
             this.AutoStartDelaySeconds = speedData.AutoStartDelaySeconds;
@@ -234,19 +433,21 @@ namespace NTMiner.Core.MinerServer {
             this.CpuStartTemperature = speedData.CpuStartTemperature;
             this.CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds;
             this.CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds;
+            this.CpuPerformance = speedData.CpuPerformance;
+            this.CpuTemperature = speedData.CpuTemperature;
+            this.IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent;
+            this.HighCpuPercent = speedData.HighCpuPercent;
+            this.HighCpuSeconds = speedData.HighCpuSeconds;
             this.GpuDriver = speedData.GpuDriver;
             this.GpuType = speedData.GpuType;
             this.OSName = speedData.OSName;
             this.OSVirtualMemoryMb = speedData.OSVirtualMemoryMb;
             this.GpuInfo = speedData.GpuInfo;
-
             this.Version = speedData.Version;
             this.IsMining = speedData.IsMining;
             this.BootOn = speedData.BootOn;
             this.MineStartedOn = speedData.MineStartedOn;
-            this.ClientName = speedData.MinerName;
             this.DiskSpace = speedData.DiskSpace;
-            this.ModifiedOn = DateTime.Now;
             this.MainCoinCode = speedData.MainCoinCode;
             this.MainCoinTotalShare = speedData.MainCoinTotalShare;
             this.MainCoinRejectShare = speedData.MainCoinRejectShare;
@@ -262,21 +463,24 @@ namespace NTMiner.Core.MinerServer {
             this.DualCoinRejectShare = speedData.DualCoinRejectShare;
             this.DualCoinSpeed = speedData.DualCoinSpeed;
             this.KernelCommandLine = speedData.KernelCommandLine;
+            this.MainCoinSpeedOn = speedData.MainCoinSpeedOn;
+            this.DualCoinSpeedOn = speedData.DualCoinSpeedOn;
             this.GpuTable = speedData.GpuTable;
             this.MainCoinPoolDelay = speedData.MainCoinPoolDelay;
             this.DualCoinPoolDelay = speedData.DualCoinPoolDelay;
             this.IsFoundOneGpuShare = speedData.IsFoundOneGpuShare;
             this.IsRejectOneGpuShare = speedData.IsRejectOneGpuShare;
             this.IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare;
-            this.CpuPerformance = speedData.CpuPerformance;
-            this.CpuTemperature = speedData.CpuTemperature;
             this.MineWorkId = speedData.MineWorkId;
             this.MineWorkName = speedData.MineWorkName;
-            this.KernelSelfRestartCount = speedData.KernelSelfRestartCount;
+            this.KernelSelfRestartCount = speedData.KernelSelfRestartCount - 1;// 需要减1
             this.LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp;
-            this.IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent;
-            this.HighCpuPercent = speedData.HighCpuPercent;
-            this.HighCpuSeconds = speedData.HighCpuSeconds;
+            this.TotalPhysicalMemoryMb = speedData.TotalPhysicalMemoryMb;
+            this.MinerActiveOn = DateTime.Now;// 现在时间
+            this.IsAutoDisableWindowsFirewall = speedData.IsAutoDisableWindowsFirewall;
+            this.IsDisableAntiSpyware = speedData.IsDisableAntiSpyware;
+            this.IsDisableUAC = speedData.IsDisableUAC;
+            this.IsDisableWAU = speedData.IsDisableWAU;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
@@ -376,7 +580,7 @@ namespace NTMiner.Core.MinerServer {
         /// </summary>
         public Guid WorkId { get; set; }
 
-        public string ClientName { get; set; }
+        public string WorkerName { get; set; }
 
         public string WindowsLoginName { get; set; }
 
@@ -384,8 +588,18 @@ namespace NTMiner.Core.MinerServer {
 
         public DateTime CreatedOn { get; set; }
 
-        public DateTime ModifiedOn { get; set; }
+        public DateTime MinerActiveOn { get; set; }
 
         public Guid GroupId { get; set; }
+        
+        public DateTime NetActiveOn { get; set; }
+
+        public bool IsOnline { get; set; }
+
+        public string OuterUserId { get; set; }
+
+        public string AESPassword { get; set; }
+
+        public DateTime AESPasswordOn { get; set; }
     }
 }

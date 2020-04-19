@@ -1,85 +1,84 @@
 ﻿using NTMiner.Controllers;
+using NTMiner.Core;
 using NTMiner.Core.Daemon;
-using NTMiner.RemoteDesktop;
+using NTMiner.Core.MinerClient;
+using NTMiner.VirtualMemory;
+using NTMiner.Ws;
 using System;
-using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner {
     /// <summary>
-    /// 端口号：<see cref="Consts.NTMinerDaemonPort"/>
+    /// 端口号：<see cref="NTKeyword.NTMinerDaemonPort"/>
     /// </summary>
     public class NTMinerDaemonController : ApiController, INTMinerDaemonController {
         [HttpPost]
-        public ResponseBase EnableWindowsRemoteDesktop() {
-            try {
-                Logger.InfoDebugLine("启用Windows远程桌面");
-                Rdp.SetRdpEnabled(true);
-                Firewall.AddRdpRule();
-                return ResponseBase.Ok();
+        public DataResponse<IntPtr> ShowConsole() {
+            if (!Write.IsEnabled) {
+                Write.Enable();
+                Write.UserOk("打开控制台窗口");
+                Console.Title = "开源矿工守护程序";
             }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError(e.Message);
-            }
+            IntPtr intPtr = NTMinerConsole.GetOrAlloc();
+            return DataResponse<IntPtr>.Ok(intPtr);
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public WsClientState GetWsDaemonState() {
+            return VirtualRoot.DaemonWsClient.GetState();
+        }
+
+        [HttpPost]
+        public ResponseBase EnableRemoteDesktop() {
+            return VirtualRoot.DaemonOperation.EnableRemoteDesktop();
+        }
+
+        [HttpPost]
+        public ResponseBase BlockWAU() {
+            return VirtualRoot.DaemonOperation.BlockWAU();
+        }
+
+        [HttpPost]
+        public ResponseBase AtikmdagPatcher() {
+            return VirtualRoot.DaemonOperation.AtikmdagPatcher();
+        }
+
+        [HttpPost]
+        public ResponseBase SwitchRadeonGpu(bool on) {
+            return VirtualRoot.DaemonOperation.SwitchRadeonGpu(on);
         }
 
         [HttpPost]
         public void CloseDaemon() {
-            Logger.InfoDebugLine("退出守护进程");
-            // 延迟100毫秒再退出从而避免当前的CloseDaemon请求尚未收到响应
-            100.MillisecondsDelay().ContinueWith(t => {
-                HostRoot.Exit();
-            });
+            VirtualRoot.DaemonOperation.CloseDaemon();
         }
 
         #region GetGpuProfilesJson
         [HttpPost]
         public string GetGpuProfilesJson() {
-            try {
-                Logger.InfoDebugLine("获取显卡参数");
-                return SpecialPath.ReadGpuProfilesJsonFile();
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return string.Empty;
-            }
+            return VirtualRoot.DaemonOperation.GetGpuProfilesJson();
         }
         #endregion
 
         #region SaveGpuProfilesJson
         [HttpPost]
         public void SaveGpuProfilesJson() {
-            try {
-                Logger.InfoDebugLine("保存显卡参数");
-                string json = Request.Content.ReadAsStringAsync().Result;
-                SpecialPath.SaveGpuProfilesJsonFile(json);
-                if (IsNTMinerOpened()) {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/OverClock", null);
-                        Write.DevDebug($"{nameof(SaveGpuProfilesJson)} {getHttpResponse.Result.ReasonPhrase}");
-                    }
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
+            string json = Request.Content.ReadAsStringAsync().Result;
+            VirtualRoot.DaemonOperation.SaveGpuProfilesJson(json);
         }
         #endregion
 
         [HttpPost]
         public void SetAutoBootStart([FromUri]bool autoBoot, [FromUri]bool autoStart) {
-            Logger.InfoDebugLine($"开机启动{(autoBoot ? "√" : "×")}，自动挖矿{(autoStart ? "√" : "×")}");
-            MinerProfileUtil.SetAutoStart(autoBoot, autoStart);
-            if (IsNTMinerOpened()) {
-                using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                    Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/RefreshAutoBootStart", null);
-                    Write.DevDebug($"{nameof(SetAutoBootStart)} {getHttpResponse.Result.ReasonPhrase}");
-                }
-            }
+            VirtualRoot.DaemonOperation.SetAutoBootStart(autoBoot, autoStart);
+        }
+
+        [HttpPost]
+        public void StartOrCloseWs([FromUri]bool isResetFailCount) {
+            VirtualRoot.DaemonWsClient.OpenOrCloseWs(isResetFailCount);
         }
 
         [HttpPost]
@@ -87,16 +86,7 @@ namespace NTMiner {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
-            try {
-                Logger.InfoDebugLine("重启矿机");
-                Windows.Power.Restart(10);
-                CloseNTMiner();
-                return ResponseBase.Ok();
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError(e.Message);
-            }
+            return VirtualRoot.DaemonOperation.RestartWindows();
         }
 
         [HttpPost]
@@ -104,67 +94,12 @@ namespace NTMiner {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
-            try {
-                Logger.InfoDebugLine("关机");
-                Windows.Power.Shutdown(10);
-                CloseNTMiner();
-                return ResponseBase.Ok();
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError(e.Message);
-            }
-        }
-
-        private static bool IsNTMinerOpened() {
-            string location = NTMinerRegistry.GetLocation();
-            if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                string processName = Path.GetFileNameWithoutExtension(location);
-                Process[] processes = Process.GetProcessesByName(processName);
-                return processes.Length != 0;
-            }
-            return false;
+            return VirtualRoot.DaemonOperation.ShutdownWindows();
         }
 
         [HttpPost]
         public ResponseBase StartMine([FromBody]WorkRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput("参数错误");
-            }
-            try {
-                Logger.InfoDebugLine("开始挖矿");
-                ResponseBase response;
-                if (request.WorkId != Guid.Empty) {
-                    File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
-                    File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
-                }
-                string location = NTMinerRegistry.GetLocation();
-                if (IsNTMinerOpened()) {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        WorkRequest innerRequest = new WorkRequest {
-                            WorkId = request.WorkId
-                        };
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/StartMine", innerRequest);
-                        response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                        return response;
-                    }
-                }
-                else {
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string arguments = NTKeyword.AutoStartCmdParameterName;
-                        if (request.WorkId != Guid.Empty) {
-                            arguments += " --work";
-                        }
-                        Windows.Cmd.RunClose(location, arguments);
-                        return ResponseBase.Ok();
-                    }
-                    return ResponseBase.ServerError("挖矿端程序不存在");
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError(e.Message);
-            }
+            return VirtualRoot.DaemonOperation.StartMine(request);
         }
 
         [HttpPost]
@@ -172,114 +107,46 @@ namespace NTMiner {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
-            try {
-                Logger.InfoDebugLine("停止挖矿");
-                ResponseBase response;
-                if (!IsNTMinerOpened()) {
-                    return ResponseBase.Ok();
-                }
-                try {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/StopMine", request);
-                        response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                        return response;
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-                return ResponseBase.Ok();
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError(e.Message);
-            }
-        }
-
-        [HttpPost]
-        public ResponseBase RestartNTMiner([FromBody]WorkRequest request) {
-            if (request == null) {
-                return ResponseBase.InvalidInput("参数错误");
-            }
-            Logger.InfoDebugLine("重启挖矿端");
-            if (request.WorkId != Guid.Empty) {
-                File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
-                File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
-            }
-            Task.Factory.StartNew(() => {
-                try {
-                    if (IsNTMinerOpened()) {
-                        CloseNTMiner();
-                        System.Threading.Thread.Sleep(1000);
-                    }
-                    string arguments = string.Empty;
-                    if (request.WorkId != Guid.Empty) {
-                        arguments = "--work";
-                    }
-                    string location = NTMinerRegistry.GetLocation();
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        Windows.Cmd.RunClose(location, arguments);
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-            });
-            return ResponseBase.Ok();
-        }
-
-        private void CloseNTMiner() {
-            Logger.InfoDebugLine("退出挖矿端");
-            bool isClosed = false;
-            try {
-                using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                    Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/MinerClient/CloseNTMiner", new SignRequest { });
-                    ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                    isClosed = response.IsSuccess();
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
-            if (!isClosed) {
-                try {
-                    string location = NTMinerRegistry.GetLocation();
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string processName = Path.GetFileNameWithoutExtension(location);
-                        Windows.TaskKill.Kill(processName);
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-            }
+            return VirtualRoot.DaemonOperation.StopMine();
         }
 
         [HttpPost]
         public ResponseBase UpgradeNTMiner([FromBody]UpgradeNTMinerRequest request) {
-            if (request == null || string.IsNullOrEmpty(request.NTMinerFileName)) {
-                return ResponseBase.InvalidInput("参数错误");
-            }
-            Logger.InfoDebugLine($"升级挖矿端至{request.NTMinerFileName}");
-            Task.Factory.StartNew(() => {
-                try {
-                    string location = NTMinerRegistry.GetLocation();
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string arguments = NTKeyword.UpgradeCmdParameterName + request.NTMinerFileName;
-                        Windows.Cmd.RunClose(location, arguments);
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-            });
-            return ResponseBase.Ok();
+            return VirtualRoot.DaemonOperation.UpgradeNTMiner(request);
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public List<OperationResultDto> GetOperationResults(long afterTime) {
+            return VirtualRoot.OperationResultSet.Gets(afterTime);
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public List<DriveDto> GetDrives() {
+            return VirtualRoot.DriveSet.AsEnumerable().ToList();
         }
 
         [HttpPost]
-        public ResponseBase SetWallet([FromBody]SetWalletRequest request) {
-            NoDevFee.EthWalletSet.Instance.SetWallet(request.TestWallet);
-            return ResponseBase.Ok();
+        public ResponseBase SetVirtualMemory([FromBody]DataRequest<Dictionary<string, int>> request) {
+            if (request == null || request.Data == null || request.Data.Count == 0) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            return VirtualRoot.DaemonOperation.SetVirtualMemory(request.Data);
+        }
+
+        [HttpGet]
+        [HttpPost]
+        public List<LocalIpDto> GetLocalIps() {
+            return VirtualRoot.LocalIpSet.AsEnumerable().ToList();
+        }
+
+        [HttpPost]
+        public ResponseBase SetLocalIps(DataRequest<List<LocalIpInput>> request) {
+            if (request == null || request.Data == null || request.Data.Count == 0) {
+                return ResponseBase.InvalidInput("参数错误");
+            }
+            return VirtualRoot.DaemonOperation.SetLocalIps(request.Data);
         }
     }
 }

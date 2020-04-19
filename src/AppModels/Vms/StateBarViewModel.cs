@@ -20,7 +20,7 @@ namespace NTMiner.Vms {
         private string _cpuTemperatureText = "0 ℃";
 
         public ICommand WindowsAutoLogon { get; private set; }
-        public ICommand EnableWindowsRemoteDesktop { get; private set; }
+        public ICommand EnableRemoteDesktop { get; private set; }
 
         public StateBarViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -33,14 +33,14 @@ namespace NTMiner.Vms {
                 }
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
             });
-            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
+            this.EnableRemoteDesktop = new DelegateCommand(() => {
                 if (IsRemoteDesktopEnabled) {
                     return;
                 }
-                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
+                VirtualRoot.Execute(new EnableRemoteDesktopCommand());
             });
-            _localIps = VirtualRoot.GetLocalIps(out string _);
-            SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerRoot.ServerVersion);
+            _localIps = VirtualRoot.FormatLocalIps(out string _);
+            SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerContext.ServerVersion);
         }
 
         public bool IsAutoAdminLogon {
@@ -61,12 +61,17 @@ namespace NTMiner.Vms {
             }
         }
 
+        public void RefreshIsRemoteDesktopEnabled() {
+            OnPropertyChanged(nameof(IsRemoteDesktopEnabled));
+            OnPropertyChanged(nameof(RemoteDesktopToolTip));
+        }
+
         public bool IsRemoteDesktopEnabled {
             get {
                 if (WpfUtil.IsInDesignMode) {
                     return false;
                 }
-                return NTMinerRegistry.GetIsRemoteDesktopEnabled();
+                return NTMinerRegistry.GetIsRdpEnabled();
             }
         }
 
@@ -135,7 +140,7 @@ namespace NTMiner.Vms {
         }
 
         public void RefreshLocalIps() {
-            LocalIps = VirtualRoot.GetLocalIps(out string _);
+            LocalIps = VirtualRoot.FormatLocalIps(out string _);
         }
 
         public void SetCheckUpdateForeground(bool isLatest) {
@@ -155,11 +160,11 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppContext.Instance.GpuSpeedVms;
+        public AppRoot.GpuSpeedViewModels GpuSpeedVms { get; private set; } = AppRoot.GpuSpeedVms;
 
         public string KernelSelfRestartCountText {
             get {
-                var mineContext = NTMinerRoot.Instance.LockedMineContext;
+                var mineContext = NTMinerContext.Instance.LockedMineContext;
                 if (mineContext == null || mineContext.KernelSelfRestartCount <= 0) {
                     return string.Empty;
                 }
@@ -232,19 +237,19 @@ namespace NTMiner.Vms {
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Instance.MinerProfileVm;
+                return AppRoot.MinerProfileVm;
             }
         }
 
         public GpuStatusBarViewModel GpuStatusBarVm {
             get {
-                return AppContext.Instance.GpuStatusBarVm;
+                return AppRoot.GpuStatusBarVm;
             }
         }
 
-        public AppContext.GpuViewModels GpuVms {
+        public AppRoot.GpuViewModels GpuVms {
             get {
-                return AppContext.Instance.GpuVms;
+                return AppRoot.GpuVms;
             }
         }
 

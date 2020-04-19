@@ -1,0 +1,744 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.MinerProfileOption"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+    Background="White"
+    d:DataContext="{d:DesignData Source=../Design/MinerProfileViewModel.xaml}"
+	mc:Ignorable="d" d:DesignHeight="930" d:DesignWidth="600">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <StreamGeometry x:Key="Icon_Up">M4,0 L0,4 L8,4 z</StreamGeometry>
+            <StreamGeometry x:Key="Icon_Down">M0,0 L8,0 L4,4 z</StreamGeometry>
+            <Thickness x:Key="RowThickness">0 3</Thickness>
+            <Style x:Key="GroupHeader" TargetType="TextBlock">
+                <Setter Property="FontSize" Value="16"></Setter>
+                <Setter Property="FontWeight" Value="Bold"></Setter>
+            </Style>
+            <Style x:Key="TbUpDown" TargetType="TextBox">
+                <Setter Property="Height" Value="24"></Setter>
+                <Setter Property="Width" Value="50"></Setter>
+                <Setter Property="Margin" Value="2 0 0 0"></Setter>
+                <Setter Property="Background" Value="Transparent"></Setter>
+                <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer 
+		VerticalScrollBarVisibility="Auto" 
+		PreviewMouseDown="ScrollViewer_PreviewMouseDown">
+        <StackPanel Margin="6 10 10 10">
+            <Grid Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                <GroupBox x:Name="OuterUserGroup" Padding="10 2" Background="White">
+                    <GroupBox.Header>
+                        <WrapPanel>
+                            <CheckBox 
+							    FocusVisualStyle="{x:Null}"
+							    Padding="0"
+							    FontSize="16"
+							    FontWeight="Bold"
+							    IsChecked="{Binding IsOuterUserEnabled}"
+                                ToolTip="启用或禁用群控"
+							    Content="启用群控">
+                            </CheckBox>
+                            <WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" ToolTip="{Binding WsStateText}">
+                                <Path 
+								    Height="14"
+								    Width="14"
+                                    Visibility="{Binding IsWsOnline,Converter={StaticResource BoolToVisibilityConverter}}"
+								    Data="{StaticResource Icon_Online}"
+								    Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
+								    Stretch="Fill" />
+                                <Path 
+								    Height="14"
+								    Width="14"
+                                    Visibility="{Binding IsWsOnline,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+								    Data="{StaticResource Icon_Offline}"
+								    Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
+								    Stretch="Fill" />
+                                <TextBlock Margin="2 0 0 0" Foreground="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding WsDescription}"></TextBlock>
+                            </WrapPanel>
+                        </WrapPanel>
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <TextBlock Style="{StaticResource LblTbBase}">登录名</TextBlock>
+                            <TextBox 
+                                x:Name="TbOuterUserId"
+                                Margin="8 0 0 0"
+                                Padding="2 0" 
+                                Width="180" 
+                                Height="26" 
+                                ToolTip="填注册的登录名，或绑定的邮箱或手机号码"
+                                Text="{Binding OuterUserId}"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <controls:KbButton
+							    Padding="7 3"
+                                VerticalAlignment="Center"
+                                BorderThickness="1"
+							    Command="{x:Static app:AppStatic.ShowSignUpPage}"
+							    Content="注册"
+                                ToolTip="注册群控用户"
+                                CornerRadius="2">
+                            </controls:KbButton>
+                            <controls:KbLinkButton
+                                Margin="10 0 0 0"
+							    VerticalAlignment="Center"
+							    Command="{x:Static app:AppStatic.MinerStudioTutorial}"
+							    KbDisplayLine="False"
+							    Content="教程"
+                                ToolTip="群空教程"
+							    Background="Transparent">
+                            </controls:KbLinkButton>
+                            <controls:KbLinkButton
+                                Margin="10 0 0 0"
+							    VerticalAlignment="Center"
+							    Command="{x:Static app:AppStatic.DownloadMinerStudio}"
+							    KbDisplayLine="False"
+							    Content="下载群控客户端"
+                                ToolTip="矿机上不需要运行群控客户端，群控客户端只需运行在自己喜欢的电脑上。"
+							    Background="Transparent">
+                            </controls:KbLinkButton>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+                <WrapPanel 
+                    Margin="0 2 8 0"
+                    Background="White"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Visibility="{Binding WsNextTrySecondsDelayVisible}">
+                    <WrapPanel Visibility="{Binding IsConnecting,Converter={StaticResource BoolToVisibilityInvertConverter}}" VerticalAlignment="Center" ToolTip="每重试失败1次重试间隔加时10秒直到重试成功或手动刷新时重置回10秒">
+                        <TextBlock Text="{Binding WsLastTryOnText}"></TextBlock>
+                        <TextBlock>，</TextBlock>
+                        <TextBlock Text="{Binding WsNextTrySecondsDelayText}"></TextBlock>
+                        <TextBlock>重试</TextBlock>
+                    </WrapPanel>
+                    <controls:KbButton
+                        Margin="2 0 0 0"
+                        Padding="2"
+                        VerticalAlignment="Center"
+                        BorderThickness="1"
+						Command="{Binding WsRetry}"
+                        CornerRadius="2">
+                        <WrapPanel>
+                            <Border Width="16" Height="16">
+                                <Path Width="12" Height="12"
+								    Data="{StaticResource Icon_Refresh}"
+								    Fill="{StaticResource BtnBackground}"
+								    Stretch="Fill">
+                                    <Path.LayoutTransform>
+                                        <RotateTransform Angle="{Binding WsRetryIconAngle}"/>
+                                    </Path.LayoutTransform>
+                                </Path>
+                            </Border>
+                            <TextBlock Padding="0 0 2 0" Text="{Binding WsRetryText}"></TextBlock>
+                        </WrapPanel>
+                    </controls:KbButton>
+                </WrapPanel>
+            </Grid>
+            <Grid>
+                <GroupBox x:Name="AutomationGroup" Margin="0 6 0 0" Padding="10 2" IsEnabled="{Binding IsFreeClient}" Background="White">
+                    <GroupBox.Header>
+                        <TextBlock Style="{StaticResource GroupHeader}">自动化</TextBlock>
+                    </GroupBox.Header>
+                    <StackPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}" VerticalAlignment="Center" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox
+                                VerticalAlignment="Center"
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								IsChecked="{Binding IsAutoBoot}">
+                                <TextBlock>开机启动</TextBlock>
+                            </CheckBox>
+                            <CheckBox
+								Margin="20 0 0 0"
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoStart}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">自动挖矿，延迟</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding AutoStartDelaySeconds}"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="AutoStartDelaySeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="AutoStartDelaySeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								IsChecked="{Binding IsAutoDisableWindowsFirewall}">
+                                <TextBlock VerticalAlignment="Center">启动时自动关闭 Windows 防火墙</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								IsChecked="{Binding IsDisableUAC}">
+                                <TextBlock VerticalAlignment="Center">启动时自动关闭 Windows UAC</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								IsChecked="{Binding IsDisableWAU}">
+                                <TextBlock VerticalAlignment="Center">启动时自动关闭 Windows 自动更新</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								IsChecked="{Binding IsDisableAntiSpyware}">
+                                <TextBlock VerticalAlignment="Center">启动时自动关闭 Windows Defender</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox
+								Padding="0"
+                                IsEnabled="False"
+								FocusVisualStyle="{x:Null}"
+								IsChecked="True">
+                                <TextBlock VerticalAlignment="Center">启动时自动关闭 Windows 系统休眠</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox
+								Padding="0"
+                                IsEnabled="False"
+								FocusVisualStyle="{x:Null}"
+								IsChecked="True">
+                                <TextBlock VerticalAlignment="Center">有1080/1080ti显卡时启动小药丸加速算力</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoRestartKernel}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">如果内核进程意外消失，尝试重启内核</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding AutoRestartKernelTimes}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="AutoRestartKernelTimes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="AutoRestartKernelTimes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">次</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsNoShareRestartKernel}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">如果</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NoShareRestartKernelMinutes}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="NoShareRestartKernelMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="NoShareRestartKernelMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟无份额重启内核</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsNoShareRestartComputer}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">如果</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NoShareRestartComputerMinutes}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="NoShareRestartComputerMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="NoShareRestartComputerMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟无份额重启电脑</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="0 3" Visibility="Collapsed">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsNetUnavailableStopMine}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">挖矿中断网</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NetUnavailableStopMineMinutes}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="NetUnavailableStopMineMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="NetUnavailableStopMineMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟后自动停止挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}" Visibility="Collapsed">
+                            <CheckBox
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								VerticalContentAlignment="Center"
+                                IsEnabled="{Binding IsNetUnavailableStopMine}"
+								IsChecked="{Binding IsNetAvailableStartMine}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">因断网停止挖矿后，网络恢复</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding NetAvailableStartMineSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="NetAvailableStartMineSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="NetAvailableStartMineSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒钟后自动开始挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsPeriodicRestartKernel}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">每运行</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding PeriodicRestartKernelHours}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="PeriodicRestartKernelHours">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="PeriodicRestartKernelHours">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">小时</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding PeriodicRestartKernelMinutes,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="PeriodicRestartKernelMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="PeriodicRestartKernelMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟重启内核</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsPeriodicRestartComputer}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">每运行</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding PeriodicRestartComputerHours}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="PeriodicRestartComputerHours">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="PeriodicRestartComputerHours">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">小时</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding PeriodicRestartComputerMinutes,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="PeriodicRestartComputerMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="PeriodicRestartComputerMinutes">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">分钟重启电脑</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoStopByCpu}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">CPU 温度持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuGETemperatureSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="CpuGETemperatureSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="CpuGETemperatureSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒不低于</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuStopTemperature,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="CpuStopTemperature">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="CpuStopTemperature">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">℃ 停止挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+                                IsEnabled="{Binding IsAutoStopByCpu}"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsAutoStartByCpu}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">CPU 温度持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuLETemperatureSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="CpuLETemperatureSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="CpuLETemperatureSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒不高于</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding CpuStartTemperature,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="CpuStartTemperature">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="CpuStartTemperature">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">℃ 开始挖矿</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                        <WrapPanel Margin="{StaticResource RowThickness}">
+                            <CheckBox
+								FocusVisualStyle="{x:Null}"
+								Padding="0"
+								VerticalContentAlignment="Center"
+								IsChecked="{Binding IsRaiseHighCpuEvent}">
+                                <WrapPanel>
+                                    <TextBlock VerticalAlignment="Center">CPU 使用率持续</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding HighCpuSeconds}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="HighCpuSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="HighCpuSeconds">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">秒达到</TextBlock>
+                                    <TextBox Style="{StaticResource TbUpDown}" Text="{Binding HighCpuBaseline,ValidatesOnExceptions=True}" HorizontalAlignment="Left"></TextBox>
+                                    <StackPanel Margin="0 0 2 0">
+                                        <Button Height="12" Command="{Binding Up}" CommandParameter="HighCpuBaseline">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                            </Button.Content>
+                                        </Button>
+                                        <Button Height="12" Command="{Binding Down}" CommandParameter="HighCpuBaseline">
+                                            <Button.Content>
+                                                <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                            </Button.Content>
+                                        </Button>
+                                    </StackPanel>
+                                    <TextBlock VerticalAlignment="Center">% 产生告警消息</TextBlock>
+                                </WrapPanel>
+                            </CheckBox>
+                        </WrapPanel>
+                    </StackPanel>
+                </GroupBox>
+                <Border
+					Margin="0 10 10 0"
+					Width="30"
+					Height="30"
+					Background="Red"
+					HorizontalAlignment="Right" 
+					VerticalAlignment="Top" 
+					CornerRadius="15"
+					Visibility="{Binding IsWorker,Converter={StaticResource BoolToVisibilityConverter}}">
+                    <TextBlock 
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center"
+						Foreground="White" 
+						FontWeight="Bold"
+						Text="群控"></TextBlock>
+                </Border>
+            </Grid>
+            <GroupBox Margin="0 6 0 0" Padding="10 2" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Background="White">
+                <GroupBox.Header>
+                    <TextBlock Style="{StaticResource GroupHeader}">显示</TextBlock>
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel Margin="0 5">
+                        <CheckBox 
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							IsChecked="{Binding IsShowInTaskbar, Converter={StaticResource BoolInvertConverter}}"
+							Content="最小化开源矿工主窗口时隐藏任务栏图标">
+                        </CheckBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 5">
+                        <CheckBox 
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							IsChecked="{Binding IsNoUi}"
+							Content="以无界面模式启动（同时勾选了自动挖矿时生效）">
+                        </CheckBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="{StaticResource RowThickness}">
+                        <CheckBox 
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							VerticalContentAlignment="Center"
+							IsChecked="{Binding IsAutoNoUi}">
+                            <WrapPanel>
+                                <TextBlock VerticalAlignment="Center">挖矿中时界面展示</TextBlock>
+                                <TextBox Style="{StaticResource TbUpDown}" Text="{Binding AutoNoUiMinutes}" HorizontalAlignment="Left"></TextBox>
+                                <StackPanel Margin="0 0 2 0">
+                                    <Button Height="12" Command="{Binding Up}" CommandParameter="AutoNoUiMinutes">
+                                        <Button.Content>
+                                            <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                        </Button.Content>
+                                    </Button>
+                                    <Button Height="12" Command="{Binding Down}" CommandParameter="AutoNoUiMinutes">
+                                        <Button.Content>
+                                            <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                        </Button.Content>
+                                    </Button>
+                                </StackPanel>
+                                <TextBlock VerticalAlignment="Center">分钟后自动切换为无界面模式运行</TextBlock>
+                            </WrapPanel>
+                        </CheckBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 5">
+                        <CheckBox 
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							IsChecked="{Binding IsShowNotifyIcon}"
+							Content="显示托盘图标">
+                        </CheckBox>
+                        <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}">（点击托盘图标可以打开/隐藏主界面）</TextBlock>
+                    </WrapPanel>
+                    <WrapPanel Margin="{StaticResource RowThickness}">
+                        <TextBlock VerticalAlignment="Center">打开/隐藏主界面快捷键 Ctrl + Alt +</TextBlock>
+                        <TextBox Margin="4 0 0 0" Padding="4 0" Height="24" IsReadOnly="True" Text="{Binding HotKey}" ToolTip="可选范围A-Z" KeyDown="ButtonHotKey_KeyDown"></TextBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="{StaticResource RowThickness}">
+                        <CheckBox 
+                            VerticalContentAlignment="Center"
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							IsChecked="{Binding IsCloseMeanExit}">
+                            <WrapPanel>
+                                <TextBlock VerticalAlignment="Center">点击主界面右上角的</TextBlock>
+                                <Path
+                                    Margin="6 0"
+									Width="11"
+									Height="11"
+									Data="{StaticResource Icon_Close}"
+									Fill="Black"
+									UseLayoutRounding="True"
+									Stretch="Fill" />
+                                <TextBlock VerticalAlignment="Center">时直接退出开源矿工</TextBlock>
+                            </WrapPanel>
+                        </CheckBox>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox Margin="0 6 0 0" Padding="10 2" Background="White">
+                <GroupBox.Header>
+                    <TextBlock Style="{StaticResource GroupHeader}">其它</TextBlock>
+                </GroupBox.Header>
+                <StackPanel>
+                    <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                        <CheckBox
+							Padding="0"
+							FocusVisualStyle="{x:Null}"
+							VerticalContentAlignment="Center"
+							IsChecked="{Binding IsCreateShortcut}">
+                            <TextBlock VerticalAlignment="Center">创建桌面快捷方式</TextBlock>
+                        </CheckBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="{StaticResource RowThickness}" VerticalAlignment="Center">
+                        <CheckBox
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							VerticalAlignment="Center"
+							IsChecked="{Binding IsEChargeEnabled}">
+                            <TextBlock>在状态栏展示电费</TextBlock>
+                        </CheckBox>
+                        <TextBlock Margin="10 0 0 0" VerticalAlignment="Center">电价</TextBlock>
+                        <TextBox Style="{StaticResource TbUpDown}" Text="{Binding EPrice}" HorizontalAlignment="Left"></TextBox>
+                        <StackPanel Margin="0 0 2 0">
+                            <Button Height="12" Command="{Binding Up}" CommandParameter="EPrice">
+                                <Button.Content>
+                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Height="12" Command="{Binding Down}" CommandParameter="EPrice">
+                                <Button.Content>
+                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                        <TextBlock VerticalAlignment="Center">￥ / 度</TextBlock>
+                    </WrapPanel>
+                    <WrapPanel Margin="{StaticResource RowThickness}" VerticalAlignment="Center">
+                        <CheckBox
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							VerticalAlignment="Center"
+							IsChecked="{Binding IsPowerAppend}">
+                            <TextBlock>功耗补偿</TextBlock>
+                        </CheckBox>
+                        <TextBlock Margin="10 0 0 0" VerticalAlignment="Center">每卡补偿</TextBlock>
+                        <TextBox Style="{StaticResource TbUpDown}" Text="{Binding PowerAppend}" HorizontalAlignment="Left"></TextBox>
+                        <StackPanel Margin="0 0 2 0">
+                            <Button Height="12" Command="{Binding Up}" CommandParameter="PowerAppend">
+                                <Button.Content>
+                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Height="12" Command="{Binding Down}" CommandParameter="PowerAppend">
+                                <Button.Content>
+                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                        <TextBlock VerticalAlignment="Center">瓦</TextBlock>
+                        <TextBlock Foreground="{StaticResource LableColor}" VerticalAlignment="Center">（由于A卡的功耗不准，可以通过功耗补偿修正）</TextBlock>
+                    </WrapPanel>
+                    <WrapPanel Margin="{StaticResource RowThickness}">
+                        <TextBlock VerticalAlignment="Center">显卡温度达到</TextBlock>
+                        <TextBox Style="{StaticResource TbUpDown}" Text="{Binding MaxTemp}" HorizontalAlignment="Left"></TextBox>
+                        <StackPanel Margin="0 0 2 0">
+                            <Button Height="12" Command="{Binding Up}" CommandParameter="MaxTemp">
+                                <Button.Content>
+                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Up}"/>
+                                </Button.Content>
+                            </Button>
+                            <Button Height="12" Command="{Binding Down}" CommandParameter="MaxTemp">
+                                <Button.Content>
+                                    <Path HorizontalAlignment="Center" VerticalAlignment="Center" Fill="Black" Data="{StaticResource Icon_Down}"/>
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                        <TextBlock VerticalAlignment="Center">℃红色</TextBlock>
+                    </WrapPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

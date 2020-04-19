@@ -68,12 +68,6 @@ namespace NTMiner.Vms {
             this.Home.Execute(null);
         }
 
-        public void Download(Guid kernelId, Action<bool, string> downloadComplete) {
-            if (AppContext.Instance.KernelVms.TryGetKernelVm(kernelId, out KernelViewModel kernelVm)) {
-                kernelVm.KernelProfileVm.Download(downloadComplete);
-            }
-        }
-
         private SysDicItemViewModel _brandItem = SysDicItemViewModel.PleaseSelect;
         public SysDicItemViewModel BrandItem {
             get {
@@ -89,15 +83,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.SysDicItemViewModels SysDicItemVms {
+        public AppRoot.SysDicItemViewModels SysDicItemVms {
             get {
-                return AppContext.Instance.SysDicItemVms;
+                return AppRoot.SysDicItemVms;
             }
         }
 
         public Visibility IsBrandVisible {
             get {
-                if (NTMinerRoot.KernelBrandId != Guid.Empty) {
+                if (NTMinerContext.KernelBrandId != Guid.Empty) {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;
@@ -116,15 +110,15 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.CoinViewModels CoinVms {
+        public AppRoot.CoinViewModels CoinVms {
             get {
-                return AppContext.Instance.CoinVms;
+                return AppRoot.CoinVms;
             }
         }
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Instance.MinerProfileVm;
+                return AppRoot.MinerProfileVm;
             }
         }
 
@@ -197,7 +191,7 @@ namespace NTMiner.Vms {
 
         public List<KernelViewModel> QueryResults {
             get {
-                IQueryable<KernelViewModel> query = AppContext.Instance.KernelVms.AllKernels.AsQueryable();
+                IQueryable<KernelViewModel> query = AppRoot.KernelVms.AllKernels.AsQueryable();
                 if (!WpfUtil.IsDevMode) {
                     query = query.Where(a => a.PublishState == PublishStatus.Published);
                 }

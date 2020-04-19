@@ -6,7 +6,7 @@
     <Style TargetType="{x:Type controls:KbComboBox}">
         <Setter Property="Background" Value="White" />
         <Setter Property="Height" Value="26" />
-        <Setter Property="BorderBrush" Value="{StaticResource LineColor}" />
+        <Setter Property="BorderBrush" Value="{StaticResource LightLineColor}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
@@ -40,7 +40,7 @@
                                 <Border
                                     x:Name="DropDownBorder"
                                     Margin="0 2 0 0"
-                                    BorderBrush="{StaticResource IconFillColor}" BorderThickness="1"
+                                    BorderBrush="{StaticResource BtnBackground}" BorderThickness="1"
                                     CornerRadius="0,0,3,3">
                                     <StackPanel>
                                         <ScrollViewer x:Name="DropDownScrollViewer" MaxHeight="300">

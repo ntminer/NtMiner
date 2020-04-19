@@ -7,7 +7,9 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<string, CoinData> _dicByCode = new Dictionary<string, CoinData>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, CoinData> _dicById = new Dictionary<Guid, CoinData>();
 
+        private readonly IServerContext _context;
         public CoinSet(IServerContext context) {
+            _context = context;
             context.AddCmdPath<AddCoinCommand>("添加币种", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -26,10 +28,10 @@ namespace NTMiner.Core.Impl {
                     CoinData entity = new CoinData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
                     _dicByCode.Add(entity.Code, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
+                    var repository = context.CreateServerRepository<CoinData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new CoinAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new CoinAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<UpdateCoinCommand>("更新币种", LogEnum.DevConsole,
                 action: message => {
@@ -40,18 +42,17 @@ namespace NTMiner.Core.Impl {
                     if (string.IsNullOrEmpty(message.Input.Code)) {
                         throw new ValidationException("coin code can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out CoinData entity)) {
                         return;
                     }
-                    CoinData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
+                    var repository = context.CreateServerRepository<CoinData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new CoinUpdatedEvent(message.Id, message.Input));
+                    VirtualRoot.RaiseEvent(new CoinUpdatedEvent(message.MessageId, message.Input));
                 }, location: this.GetType());
             context.AddCmdPath<RemoveCoinCommand>("移除币种", LogEnum.DevConsole,
                 action: message => {
@@ -71,7 +72,7 @@ namespace NTMiner.Core.Impl {
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(id));
                     }
-                    toRemoves = NTMinerRoot.Instance.MinerProfile.GetWallets().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
+                    toRemoves = NTMinerContext.Instance.MinerProfile.GetWallets().Where(a => a.CoinId == entity.Id).Select(a => a.GetId()).ToArray();
                     foreach (var id in toRemoves) {
                         VirtualRoot.Execute(new RemoveWalletCommand(id));
                     }
@@ -83,10 +84,10 @@ namespace NTMiner.Core.Impl {
                     if (_dicByCode.ContainsKey(entity.Code)) {
                         _dicByCode.Remove(entity.Code);
                     }
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
+                    var repository = context.CreateServerRepository<CoinData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.RaiseEvent(new CoinRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new CoinRemovedEvent(message.MessageId, entity));
                 }, location: this.GetType());
         }
 
@@ -110,7 +111,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<CoinData>();
+                    var repository = _context.CreateServerRepository<CoinData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

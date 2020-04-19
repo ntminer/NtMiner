@@ -43,20 +43,17 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="Cryptography\AESHelper.cs" />
+    <Compile Include="Cryptography\AESHelper.partials.cs" />
+    <Compile Include="Cryptography\BigInteger.cs" />
+    <Compile Include="Cryptography\RSAKey.cs" />
     <Compile Include="Net\Hosts.cs" />
-    <Compile Include="JsonRequestExtensions.cs" />
-    <Compile Include="JsonResponseExtension.cs" />
     <Compile Include="NTKeyword.cs" />
-    <Compile Include="OutEnum.cs" />
-    <Compile Include="Net\ILocalIpSet.cs" />
-    <Compile Include="Net\LocalIpSet.cs" />
+    <Compile Include="NTMinerRegistry.partials.cs" />
     <Compile Include="Net\IpUtil.cs" />
-    <Compile Include="Out\EmptyOut.cs" />
-    <Compile Include="Out\IOut.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
-    <Compile Include="SignExtensions.cs" />
+    <Compile Include="Cryptography\RSAHelper.cs" />
     <Compile Include="StringExtensions.cs" />
-    <Compile Include="User\IUserSet.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />
     <Compile Include="EnumExtension.cs" />
@@ -69,19 +66,23 @@
     <Compile Include="Repositories\IRepository`1.cs" />
     <Compile Include="Serialization\INTSerializer.cs" />
     <Compile Include="Serialization\NTJsonSerializer.cs" />
-    <Compile Include="User\RpcUser.cs" />
+    <Compile Include="TaskEx.cs" />
+    <Compile Include="User\LoginedUserExtensions.cs" />
+    <Compile Include="User\UserId.cs" />
+    <Compile Include="User\UserIdType.cs" />
     <Compile Include="VirtualRoot.cs" />
-    <Compile Include="User\Messages.cs" />
     <Compile Include="ValidationException.cs" />
     <Compile Include="VirtualRoot.partials.Common.cs" />
+    <Compile Include="VirtualRoot.partials.DriveSet.cs" />
     <Compile Include="VirtualRoot.partials.Hub.cs" />
+    <Compile Include="VirtualRoot.partials.LocalIpSet.cs" />
+    <Compile Include="VirtualRoot.partials.LocalMessage.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
     <Compile Include="Windows\WinRegistry.cs" />
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />
     <Compile Include="Windows\TaskKill.cs" />
-    <Compile Include="LocalMessage\ILocalMessageSet.cs" />
-    <Compile Include="LocalMessage\LocalMessageSet.cs" />
+    <Compile Include="DataExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

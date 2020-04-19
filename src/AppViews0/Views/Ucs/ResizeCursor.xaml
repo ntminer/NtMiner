@@ -1,0 +1,96 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.ResizeCursor"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d" d:DesignHeight="100" d:DesignWidth="100">
+    <Grid>
+        <Rectangle 
+            Name="bottom" 
+            Height="4" 
+            Margin="4,0" 
+            Fill="#00FFFFFF" 
+            Stroke="{x:Null}" 
+            MouseEnter="DisplayResizeCursor" 
+            MouseLeave="ResetCursor" 
+            PreviewMouseDown="Resize" 
+            VerticalAlignment="Bottom" />
+        <Rectangle 
+            Name="left" 
+            Width="4" 
+            Margin="0,4,0,0" 
+            Fill="#00FFFFFF" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Stretch" 
+            MouseEnter="DisplayResizeCursor" 
+            MouseLeave="ResetCursor" 
+            PreviewMouseDown="Resize" />
+        <Rectangle 
+            Name="right" 
+            Width="4" 
+            Margin="0" 
+            Fill="#00FFFFFF" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Stretch" 
+            MouseEnter="DisplayResizeCursor" 
+            MouseLeave="ResetCursor" 
+            PreviewMouseDown="Resize" />
+        <Rectangle 
+            Name="topLeft" 
+            Height="8" 
+            Width="8" 
+            Fill="#00FFFFFF" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Top" 
+            MouseEnter="DisplayResizeCursor" 
+            MouseLeave="ResetCursor" 
+            PreviewMouseDown="Resize" />
+        <Rectangle 
+            Name="bottomLeft" 
+            Height="8" 
+            Width="8" 
+            Margin="0" 
+            Fill="#00FFFFFF" 
+            HorizontalAlignment="Left" 
+            VerticalAlignment="Bottom" 
+            MouseEnter="DisplayResizeCursor" 
+            MouseLeave="ResetCursor" 
+            PreviewMouseDown="Resize" />
+        <Rectangle 
+            Name="bottomRight" 
+            Height="8" 
+            Width="8" 
+            Margin="0" 
+            Fill="#00FFFFFF" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Bottom" 
+            MouseEnter="DisplayResizeCursor" 
+            MouseLeave="ResetCursor" 
+            PreviewMouseDown="Resize" />
+        <Rectangle 
+            Name="top" 
+            Margin="4,0" 
+            Height="4" 
+            Fill="#00FFFFFF" 
+            MouseEnter="DisplayResizeCursor" 
+            MouseLeave="ResetCursor" 
+            PreviewMouseDown="Resize" 
+            VerticalAlignment="Top" 
+            AllowDrop="True"/>
+        <Rectangle 
+            Name="topRight" 
+            Height="8" 
+            Width="8" 
+            Margin="0" 
+            Fill="#00FFFFFF" 
+            HorizontalAlignment="Right" 
+            VerticalAlignment="Top" 
+            MouseEnter="DisplayResizeCursor" 
+            MouseLeave="ResetCursor" 
+            PreviewMouseDown="Resize" />
+    </Grid>
+</UserControl>

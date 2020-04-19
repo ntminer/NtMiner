@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.Gpus;
+﻿using NTMiner.Core;
+using NTMiner.Core.Gpus;
 using NTMiner.Core.MinerClient;
 using System;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class GpuViewModel : ViewModelBase, IGpu {
+        private GpuType _gpuType;
         private int _index;
         private string _busId;
         private string _name;
@@ -37,6 +39,7 @@ namespace NTMiner.Vms {
         private int _voltDefault;
 
         public GpuViewModel(IGpu data) {
+            _gpuType = data.GpuType;
             _index = data.Index;
             _busId = data.BusId;
             _name = data.Name;
@@ -78,7 +81,8 @@ namespace NTMiner.Vms {
                 throw new ArgumentNullException(nameof(gpuDatas));
             }
             _isGpuData = true;
-            _gpuDatas = gpuDatas.Where(a => a.Index != NTMinerRoot.GpuAllId).ToArray();
+            _gpuDatas = gpuDatas.Where(a => a.Index != NTMinerContext.GpuAllId).ToArray();
+            _gpuType = data.GpuType;
             _index = data.Index;
             _busId = data.BusId;
             _name = data.Name;
@@ -109,6 +113,16 @@ namespace NTMiner.Vms {
             _voltDefault = data.VoltDefault;
         }
 
+        public GpuType GpuType {
+            get { return _gpuType; }
+            set {
+                if (_gpuType != value) {
+                    _gpuType = value;
+                    OnPropertyChanged(nameof(GpuType));
+                }
+            }
+        }
+
         public int Index {
             get => _index;
             set {
@@ -121,7 +135,7 @@ namespace NTMiner.Vms {
 
         public string IndexText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerContext.GpuAllId) {
                     return "All";
                 }
                 return $"GPU{Index.ToString()}";
@@ -130,7 +144,7 @@ namespace NTMiner.Vms {
 
         public string SharpIndexText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerContext.GpuAllId) {
                     return "All";
                 }
                 return $"#{Index.ToString()}";
@@ -193,11 +207,11 @@ namespace NTMiner.Vms {
                 if (_isGpuData) {
                     return "0℃";
                 }
-                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
+                if (NTMinerContext.Instance.GpuSet == EmptyGpuSet.Instance) {
                     return "0℃";
                 }
-                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return $"{AppContext.Instance.GpuVms.TemperatureMinText} - {AppContext.Instance.GpuVms.TemperatureMaxText}";
+                if (this.Index == NTMinerContext.GpuAllId && NTMinerContext.Instance.GpuSet.Count != 0) {
+                    return $"{AppRoot.GpuVms.TemperatureMinText} - {AppRoot.GpuVms.TemperatureMaxText}";
                 }
                 return this.Temperature.ToString() + "℃";
             }
@@ -205,7 +219,7 @@ namespace NTMiner.Vms {
 
         public SolidColorBrush TemperatureForeground {
             get {
-                if (this.Temperature >= AppContext.Instance.MinerProfileVm.MaxTemp) {
+                if (this.Temperature >= AppRoot.MinerProfileVm.MaxTemp) {
                     return WpfUtil.RedBrush;
                 }
                 return WpfUtil.BlackBrush;
@@ -228,11 +242,11 @@ namespace NTMiner.Vms {
                 if (_isGpuData) {
                     return "0%";
                 }
-                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
+                if (NTMinerContext.Instance.GpuSet == EmptyGpuSet.Instance) {
                     return "0%";
                 }
-                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return $"{AppContext.Instance.GpuVms.FanSpeedMinText} - {AppContext.Instance.GpuVms.FanSpeedMaxText}";
+                if (this.Index == NTMinerContext.GpuAllId && NTMinerContext.Instance.GpuSet.Count != 0) {
+                    return $"{AppRoot.GpuVms.FanSpeedMinText} - {AppRoot.GpuVms.FanSpeedMaxText}";
                 }
                 return this.FanSpeed.ToString() + "%";
             }
@@ -264,10 +278,10 @@ namespace NTMiner.Vms {
                 if (_isGpuData) {
                     return "0W";
                 }
-                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
+                if (NTMinerContext.Instance.GpuSet == EmptyGpuSet.Instance) {
                     return "0W";
                 }
-                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
+                if (this.Index == NTMinerContext.GpuAllId && NTMinerContext.Instance.GpuSet.Count != 0) {
                     return $"{GetSumPower().ToString("f0")}W";
                 }
                 return PowerUsageW.ToString("f0") + "W";
@@ -275,9 +289,9 @@ namespace NTMiner.Vms {
         }
 
         private static long GetSumPower() {
-            var sum = AppContext.Instance.GpuVms.Items.Sum(a => a.PowerUsage);
-            if (AppContext.Instance.MinerProfileVm.IsPowerAppend) {
-                sum += AppContext.Instance.MinerProfileVm.PowerAppend * AppContext.Instance.GpuVms.Count;
+            var sum = AppRoot.GpuVms.Items.Sum(a => a.PowerUsage);
+            if (AppRoot.MinerProfileVm.IsPowerAppend) {
+                sum += AppRoot.MinerProfileVm.PowerAppend * AppRoot.GpuVms.Count;
                 if (sum <= 0) {
                     sum = 0;
                 }
@@ -290,13 +304,13 @@ namespace NTMiner.Vms {
                 if (_isGpuData) {
                     return 0;
                 }
-                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
+                if (NTMinerContext.Instance.GpuSet == EmptyGpuSet.Instance) {
                     return 0;
                 }
-                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
-                    return GetSumPower() * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
+                if (this.Index == NTMinerContext.GpuAllId && NTMinerContext.Instance.GpuSet.Count != 0) {
+                    return GetSumPower() * NTMinerContext.Instance.MinerProfile.EPrice / 1000 * 24;
                 }
-                return (double)PowerUsageW * NTMinerRoot.Instance.MinerProfile.EPrice / 1000 * 24;
+                return (double)PowerUsageW * NTMinerContext.Instance.MinerProfile.EPrice / 1000 * 24;
             }
         }
 
@@ -322,13 +336,13 @@ namespace NTMiner.Vms {
                 if (_isGpuData) {
                     return "0M";
                 }
-                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
+                if (NTMinerContext.Instance.GpuSet == EmptyGpuSet.Instance) {
                     return "0M";
                 }
-                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
+                if (this.Index == NTMinerContext.GpuAllId && NTMinerContext.Instance.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in AppContext.Instance.GpuVms.Items) {
-                        if (item.Index == NTMinerRoot.GpuAllId) {
+                    foreach (var item in AppRoot.GpuVms.Items) {
+                        if (item.Index == NTMinerContext.GpuAllId) {
                             continue;
                         }
                         if (item.CoreClockDelta > max) {
@@ -360,13 +374,13 @@ namespace NTMiner.Vms {
                 if (_isGpuData) {
                     return "0M";
                 }
-                if (NTMinerRoot.Instance.GpuSet == EmptyGpuSet.Instance) {
+                if (NTMinerContext.Instance.GpuSet == EmptyGpuSet.Instance) {
                     return "0M";
                 }
-                if (this.Index == NTMinerRoot.GpuAllId && NTMinerRoot.Instance.GpuSet.Count != 0) {
+                if (this.Index == NTMinerContext.GpuAllId && NTMinerContext.Instance.GpuSet.Count != 0) {
                     int min = int.MaxValue, max = int.MinValue;
-                    foreach (var item in AppContext.Instance.GpuVms.Items) {
-                        if (item.Index == NTMinerRoot.GpuAllId) {
+                    foreach (var item in AppRoot.GpuVms.Items) {
+                        if (item.Index == NTMinerContext.GpuAllId) {
                             continue;
                         }
                         if (item.MemoryClockDelta > max) {
@@ -384,12 +398,12 @@ namespace NTMiner.Vms {
 
         public string CoreClockDeltaMinMaxMText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerContext.GpuAllId) {
                     if (_isGpuData) {
                         return $"{(_gpuDatas.Max(a => a.CoreClockDeltaMin) / 1000).ToString()}至{(_gpuDatas.Min(a => a.CoreClockDeltaMax) / 1000).ToString()}，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerContext.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerContext.GpuAllId);
                         if (query.Any()) {
                             return $"{(query.Max(a => a.CoreClockDeltaMin) / 1000).ToString()}至{(query.Min(a => a.CoreClockDeltaMax) / 1000).ToString()}，默认：0";
                         }
@@ -402,12 +416,12 @@ namespace NTMiner.Vms {
 
         public string MemoryClockDeltaMinMaxMText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerContext.GpuAllId) {
                     if (_isGpuData) {
                         return $"{(_gpuDatas.Max(a => a.MemoryClockDeltaMin) / 1000).ToString()}至{(_gpuDatas.Min(a => a.MemoryClockDeltaMax) / 1000).ToString()}，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerContext.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerContext.GpuAllId);
                         if (query.Any()) {
                             return $"{(query.Max(a => a.MemoryClockDeltaMin) / 1000).ToString()}至{(query.Min(a => a.MemoryClockDeltaMax) / 1000).ToString()}，默认：0";
                         }
@@ -422,12 +436,12 @@ namespace NTMiner.Vms {
 
         public string CoolMinMaxText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerContext.GpuAllId) {
                     if (_isGpuData) {
                         return $"{(_gpuDatas.Max(a => a.CoolMin)).ToString()} - {(_gpuDatas.Min(a => a.CoolMax)).ToString()}%，默认：0（表示驱动自控）";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerContext.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerContext.GpuAllId);
                         if (query.Any()) {
                             return $"{(query.Max(a => a.CoolMin)).ToString()} - {(query.Min(a => a.CoolMax)).ToString()}%，默认：0（表示驱动自控）";
                         }
@@ -440,12 +454,12 @@ namespace NTMiner.Vms {
 
         public string PowerMinMaxText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerContext.GpuAllId) {
                     if (_isGpuData) {
                         return $"{Math.Ceiling(_gpuDatas.Max(a => a.PowerMin)).ToString()} - {((int)_gpuDatas.Min(a => a.PowerMax)).ToString()}%，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerContext.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerContext.GpuAllId);
                         if (query.Any()) {
                             return $"{Math.Ceiling(query.Max(a => a.PowerMin)).ToString()} - {((int)query.Min(a => a.PowerMax)).ToString()}%，默认：0";
                         }
@@ -458,12 +472,12 @@ namespace NTMiner.Vms {
 
         public string TempLimitMinMaxText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerContext.GpuAllId) {
                     if (_isGpuData) {
                         return $"{_gpuDatas.Max(a => a.TempLimitMin).ToString()} - {_gpuDatas.Min(a => a.TempLimitMax).ToString()}℃，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerContext.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerContext.GpuAllId);
                         if (query.Any()) {
                             return $"{query.Max(a => a.TempLimitMin).ToString()} - {query.Min(a => a.TempLimitMax).ToString()}℃，默认：0";
                         }
@@ -476,12 +490,12 @@ namespace NTMiner.Vms {
 
         public string VoltageMinMaxText {
             get {
-                if (Index == NTMinerRoot.GpuAllId) {
+                if (Index == NTMinerContext.GpuAllId) {
                     if (_isGpuData) {
                         return $"{_gpuDatas.Max(a => a.VoltMin).ToString()} - {_gpuDatas.Min(a => a.VoltMax).ToString()}，默认：0";
                     }
                     else {
-                        var query = NTMinerRoot.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerRoot.GpuAllId);
+                        var query = NTMinerContext.Instance.GpuSet.AsEnumerable().Where(a => a.Index != NTMinerContext.GpuAllId);
                         if (query.Any()) {
                             return $"{query.Max(a => a.VoltMin).ToString()} - {query.Min(a => a.VoltMax).ToString()}%，默认：0";
                         }
@@ -722,15 +736,15 @@ namespace NTMiner.Vms {
         }
 
         public bool IsDeviceArgInclude {
-            get => NTMinerRoot.Instance.GpuSet.GetIsUseDevice(this.Index);
+            get => NTMinerContext.Instance.GpuSet.GetIsUseDevice(this.Index);
             set {
-                int[] old = NTMinerRoot.Instance.GpuSet.GetUseDevices();
+                int[] old = NTMinerContext.Instance.GpuSet.GetUseDevices();
                 bool refreshAllGpu = !value && old.Length <= 1;
-                NTMinerRoot.Instance.GpuSet.SetIsUseDevice(this.Index, value);
+                NTMinerContext.Instance.GpuSet.SetIsUseDevice(this.Index, value);
                 if (refreshAllGpu) {
                     VirtualRoot.Out.ShowInfo("全不选等于全选");
-                    foreach (var gpuVm in AppContext.Instance.GpuVms.Items) {
-                        if (gpuVm.Index == NTMinerRoot.GpuAllId) {
+                    foreach (var gpuVm in AppRoot.GpuVms.Items) {
+                        if (gpuVm.Index == NTMinerContext.GpuAllId) {
                             continue;
                         }
                         gpuVm.OnPropertyChanged(nameof(IsDeviceArgInclude));
@@ -739,7 +753,7 @@ namespace NTMiner.Vms {
                 else {
                     OnPropertyChanged(nameof(IsDeviceArgInclude));
                 }
-                NTMinerRoot.RefreshArgsAssembly();
+                NTMinerContext.RefreshArgsAssembly.Invoke("勾选或反勾选了显卡");
             }
         }
     }

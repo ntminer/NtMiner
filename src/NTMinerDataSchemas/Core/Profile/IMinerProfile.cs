@@ -40,6 +40,9 @@ namespace NTMiner.Core.Profile {
         int MaxTemp { get; }
         int AutoStartDelaySeconds { get; }
         bool IsAutoDisableWindowsFirewall { get; }
+        bool IsDisableUAC { get; }
+        bool IsDisableWAU { get; }
+        bool IsDisableAntiSpyware { get; }
         bool IsShowInTaskbar { get; }
         bool IsNoUi { get; }
         bool IsAutoNoUi { get; }
@@ -59,5 +62,10 @@ namespace NTMiner.Core.Profile {
         bool IsRaiseHighCpuEvent { get; }
         int HighCpuBaseline { get; }
         int HighCpuSeconds { get; }
+        bool IsOuterUserEnabled { get; }
+        /// <summary>
+        /// LoginName、Email或Mobile
+        /// </summary>
+        string OuterUserId { get; }
     }
 }

@@ -1,0 +1,20 @@
+﻿<Window 
+    x:Class="NTMiner.Views.ConsoleWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    ShowInTaskbar="False"
+    ResizeMode="NoResize"
+    Background="Black"
+    WindowStyle="None"
+    WindowStartupLocation="CenterScreen"
+    Title="Windows控制台窗口">
+    <!--窗口不能透明否则在远程桌面时无法显现-->
+    <Grid>
+        <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="50" Text="Windows控制台窗口"></TextBlock>
+        <Rectangle x:Name="ConsoleBgRectangle" Fill="#01000000">
+        </Rectangle>
+    </Grid>
+</Window>

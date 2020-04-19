@@ -8,7 +8,7 @@
     <ProjectGuid>{B3667589-D9B1-489E-AB4F-D1EC06A40A9D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NTMiner.Views</RootNamespace>
+    <RootNamespace>NTMiner</RootNamespace>
     <AssemblyName>AppViews0</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -92,828 +92,958 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppViewFactory.cs" />
-    <Compile Include="ConsoleWindow.xaml.cs">
-      <DependentUpon>ConsoleWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ChartsWindow.xaml.cs">
-      <DependentUpon>ChartsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PackagesWindow.xaml.cs">
-      <DependentUpon>PackagesWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SplashWindow.xaml.cs">
-      <DependentUpon>SplashWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelOutputKeywords.xaml.cs">
-      <DependentUpon>KernelOutputKeywords.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelOutputKeywordEdit.xaml.cs">
-      <DependentUpon>KernelOutputKeywordEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\Messages.xaml.cs">
-      <DependentUpon>Messages.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerClientFinderConfig.xaml.cs">
-      <DependentUpon>MinerClientFinderConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\ServerMessageEdit.xaml.cs">
-      <DependentUpon>ServerMessageEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\RemoteDesktopLogin.xaml.cs">
-      <DependentUpon>RemoteDesktopLogin.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\BrandTag.xaml.cs">
-      <DependentUpon>BrandTag.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\FragmentWriterEdit.xaml.cs">
-      <DependentUpon>FragmentWriterEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\FragmentWriterPage.xaml.cs">
-      <DependentUpon>FragmentWriterPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\FragmentWriterSelect.xaml.cs">
-      <DependentUpon>FragmentWriterSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\FileWriterSelect.xaml.cs">
-      <DependentUpon>FileWriterSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\EthNoDevFeeEdit.xaml.cs">
-      <DependentUpon>EthNoDevFeeEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelOutputSelect.xaml.cs">
-      <DependentUpon>KernelOutputSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelInputSelect.xaml.cs">
-      <DependentUpon>KernelInputSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerClientsToolBar.xaml.cs">
-      <DependentUpon>MinerClientsToolBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\NTMinerWalletEdit.xaml.cs">
-      <DependentUpon>NTMinerWalletEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\NTMinerWalletPage.xaml.cs">
-      <DependentUpon>NTMinerWalletPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\Property.xaml.cs">
-      <DependentUpon>Property.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MessagePathIds.xaml.cs">
-      <DependentUpon>MessagePathIds.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\ServerMessages.xaml.cs">
-      <DependentUpon>ServerMessages.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\LocalMessages.xaml.cs">
-      <DependentUpon>LocalMessages.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\SysDicItemSelect.xaml.cs">
-      <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\FileWriterEdit.xaml.cs">
-      <DependentUpon>FileWriterEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\FileWriterPage.xaml.cs">
-      <DependentUpon>FileWriterPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\PackageEdit.xaml.cs">
-      <DependentUpon>PackageEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MainBar.xaml.cs">
-      <DependentUpon>MainBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MainMenu.xaml.cs">
-      <DependentUpon>MainMenu.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="NotificationSample.xaml.cs">
-      <DependentUpon>NotificationSample.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\CoinSelect.xaml.cs">
-      <DependentUpon>CoinSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerProfileDual.xaml.cs">
-      <DependentUpon>MinerProfileDual.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\StartStopMineButton.xaml.cs">
-      <DependentUpon>StartStopMineButton.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\Toolbox.xaml.cs">
-      <DependentUpon>Toolbox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\WalletSelect.xaml.cs">
-      <DependentUpon>WalletSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\PoolSelect.xaml.cs">
-      <DependentUpon>PoolSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\InputSegmentEdit.xaml.cs">
-      <DependentUpon>InputSegmentEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\CoinKernelSelect.xaml.cs">
-      <DependentUpon>CoinKernelSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerClientSetting.xaml.cs">
-      <DependentUpon>MinerClientSetting.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerNamesSeter.xaml.cs">
-      <DependentUpon>MinerNamesSeter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerClientUc.xaml.cs">
-      <DependentUpon>MinerClientUc.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\Calc.xaml.cs">
-      <DependentUpon>Calc.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\ColumnsShowEdit.xaml.cs">
+    <Compile Include="MinerStudio\Views\Ucs\ColumnsShowEdit.xaml.cs">
       <DependentUpon>ColumnsShowEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\InnerProperty.xaml.cs">
-      <DependentUpon>InnerProperty.xaml</DependentUpon>
+    <Compile Include="SafeNativeMethods.cs" />
+    <Compile Include="Views\ConsoleWindow.xaml.cs">
+      <DependentUpon>ConsoleWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\EnvironmentVariableEdit.xaml.cs">
-      <DependentUpon>EnvironmentVariableEdit.xaml</DependentUpon>
+    <Compile Include="MinerStudio\Views\ChartsWindow.xaml.cs">
+      <DependentUpon>ChartsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\GpuProfilesPage.xaml.cs">
-      <DependentUpon>GpuProfilesPage.xaml</DependentUpon>
+    <Compile Include="MinerStudio\Views\Ucs\LocalIpConfig.xaml.cs">
+      <DependentUpon>LocalIpConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\UserPage.xaml.cs">
-      <DependentUpon>UserPage.xaml</DependentUpon>
+    <Compile Include="MinerStudio\Views\Ucs\ChangePassword.xaml.cs">
+      <DependentUpon>ChangePassword.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\OverClockDataPage.xaml.cs">
-      <DependentUpon>OverClockDataPage.xaml</DependentUpon>
+    <Compile Include="MinerStudio\Views\Ucs\NTMinerFileSelect.xaml.cs">
+      <DependentUpon>NTMinerFileSelect.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\OverClockDataEdit.xaml.cs">
-      <DependentUpon>OverClockDataEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerClientAdd.xaml.cs">
-      <DependentUpon>MinerClientAdd.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\NTMinerUpdaterConfig.xaml.cs">
-      <DependentUpon>NTMinerUpdaterConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\PoolKernelEdit.xaml.cs">
-      <DependentUpon>PoolKernelEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelInputEdit.xaml.cs">
-      <DependentUpon>KernelInputEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelInputPage.xaml.cs">
-      <DependentUpon>KernelInputPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelOutputPage.xaml.cs">
-      <DependentUpon>KernelOutputPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelOutputEdit.xaml.cs">
-      <DependentUpon>KernelOutputEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\QQGroupQrCode.xaml.cs">
-      <DependentUpon>QQGroupQrCode.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MinerClientsWindow.xaml.cs">
-      <DependentUpon>MinerClientsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\CalcConfig.xaml.cs">
-      <DependentUpon>CalcConfig.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelSelect.xaml.cs">
-      <DependentUpon>KernelSelect.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\FileDownloader.xaml.cs">
-      <DependentUpon>FileDownloader.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelDownloading.xaml.cs">
-      <DependentUpon>KernelDownloading.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MineWorkEdit.xaml.cs">
-      <DependentUpon>MineWorkEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\MinerGroupEdit.xaml.cs">
-      <DependentUpon>MinerGroupEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\StateBar.xaml.cs">
-      <DependentUpon>StateBar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelOutputTranslaterEdit.xaml.cs">
-      <DependentUpon>KernelOutputTranslaterEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\RestartWindows.xaml.cs">
-      <DependentUpon>RestartWindows.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\KernelEdit.xaml.cs">
-      <DependentUpon>KernelEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\OuterProperty.xaml.cs">
-      <DependentUpon>OuterProperty.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\GroupEdit.xaml.cs">
-      <DependentUpon>GroupEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\GroupPage.xaml.cs">
-      <DependentUpon>GroupPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\UserEdit.xaml.cs">
-      <DependentUpon>UserEdit.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Ucs\VirtualMemory.xaml.cs">
+    <Compile Include="MinerStudio\Views\Ucs\VirtualMemory.xaml.cs">
       <DependentUpon>VirtualMemory.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\SpeedCharts.xaml.cs">
+    <Compile Include="Views\PackagesWindow.xaml.cs">
+      <DependentUpon>PackagesWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClientOperationResults.xaml.cs">
+      <DependentUpon>MinerClientOperationResults.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClientMessages.xaml.cs">
+      <DependentUpon>MinerClientMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClientsPagging.xaml.cs">
+      <DependentUpon>MinerClientsPagging.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\ColumnsShowSelect.xaml.cs">
+      <DependentUpon>ColumnsShowSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerGroupSelect.xaml.cs">
+      <DependentUpon>MinerGroupSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MineWorkSelect.xaml.cs">
+      <DependentUpon>MineWorkSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClientsSearchBar.xaml.cs">
+      <DependentUpon>MinerClientsSearchBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\WsServerNodePage.xaml.cs">
+      <DependentUpon>WsServerNodePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\SignUpPage.xaml.cs">
+      <DependentUpon>SignUpPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClients.xaml.cs">
+      <DependentUpon>MinerClients.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\ResizeCursor.xaml.cs">
+      <DependentUpon>ResizeCursor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\LogFiles.xaml.cs">
+      <DependentUpon>LogFiles.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\AppMiner.xaml.cs">
+      <DependentUpon>AppMiner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelOutputKeywords.xaml.cs">
+      <DependentUpon>KernelOutputKeywords.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelOutputKeywordEdit.xaml.cs">
+      <DependentUpon>KernelOutputKeywordEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\Messages.xaml.cs">
+      <DependentUpon>Messages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClientFinderConfig.xaml.cs">
+      <DependentUpon>MinerClientFinderConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\ServerMessageEdit.xaml.cs">
+      <DependentUpon>ServerMessageEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\RemoteDesktopLogin.xaml.cs">
+      <DependentUpon>RemoteDesktopLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\BrandTag.xaml.cs">
+      <DependentUpon>BrandTag.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\FragmentWriterEdit.xaml.cs">
+      <DependentUpon>FragmentWriterEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\FragmentWriterPage.xaml.cs">
+      <DependentUpon>FragmentWriterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\FragmentWriterSelect.xaml.cs">
+      <DependentUpon>FragmentWriterSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\FileWriterSelect.xaml.cs">
+      <DependentUpon>FileWriterSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelOutputSelect.xaml.cs">
+      <DependentUpon>KernelOutputSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelInputSelect.xaml.cs">
+      <DependentUpon>KernelInputSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClientsToolBar.xaml.cs">
+      <DependentUpon>MinerClientsToolBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\NTMinerWalletEdit.xaml.cs">
+      <DependentUpon>NTMinerWalletEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\NTMinerWalletPage.xaml.cs">
+      <DependentUpon>NTMinerWalletPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\Property.xaml.cs">
+      <DependentUpon>Property.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\MessagePathIds.xaml.cs">
+      <DependentUpon>MessagePathIds.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\ServerMessages.xaml.cs">
+      <DependentUpon>ServerMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\LocalMessages.xaml.cs">
+      <DependentUpon>LocalMessages.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\SysDicItemSelect.xaml.cs">
+      <DependentUpon>SysDicItemSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\FileWriterEdit.xaml.cs">
+      <DependentUpon>FileWriterEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\FileWriterPage.xaml.cs">
+      <DependentUpon>FileWriterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\PackageEdit.xaml.cs">
+      <DependentUpon>PackageEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MainBar.xaml.cs">
+      <DependentUpon>MainBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NotificationSample.xaml.cs">
+      <DependentUpon>NotificationSample.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\CoinSelect.xaml.cs">
+      <DependentUpon>CoinSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\MinerProfileDual.xaml.cs">
+      <DependentUpon>MinerProfileDual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\StartStopMineButton.xaml.cs">
+      <DependentUpon>StartStopMineButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\Toolbox.xaml.cs">
+      <DependentUpon>Toolbox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\WalletSelect.xaml.cs">
+      <DependentUpon>WalletSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\PoolSelect.xaml.cs">
+      <DependentUpon>PoolSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\InputSegmentEdit.xaml.cs">
+      <DependentUpon>InputSegmentEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\CoinKernelSelect.xaml.cs">
+      <DependentUpon>CoinKernelSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClientSetting.xaml.cs">
+      <DependentUpon>MinerClientSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerNamesSeter.xaml.cs">
+      <DependentUpon>MinerNamesSeter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClient.xaml.cs">
+      <DependentUpon>MinerClient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\Calc.xaml.cs">
+      <DependentUpon>Calc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\InnerProperty.xaml.cs">
+      <DependentUpon>InnerProperty.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\EnvironmentVariableEdit.xaml.cs">
+      <DependentUpon>EnvironmentVariableEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\GpuProfilesPage.xaml.cs">
+      <DependentUpon>GpuProfilesPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\UserPage.xaml.cs">
+      <DependentUpon>UserPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\OverClockDataPage.xaml.cs">
+      <DependentUpon>OverClockDataPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\OverClockDataEdit.xaml.cs">
+      <DependentUpon>OverClockDataEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerClientAdd.xaml.cs">
+      <DependentUpon>MinerClientAdd.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\NTMinerUpdaterConfig.xaml.cs">
+      <DependentUpon>NTMinerUpdaterConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\PoolKernelEdit.xaml.cs">
+      <DependentUpon>PoolKernelEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelInputEdit.xaml.cs">
+      <DependentUpon>KernelInputEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelInputPage.xaml.cs">
+      <DependentUpon>KernelInputPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelOutputPage.xaml.cs">
+      <DependentUpon>KernelOutputPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelOutputEdit.xaml.cs">
+      <DependentUpon>KernelOutputEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\QQGroupQrCode.xaml.cs">
+      <DependentUpon>QQGroupQrCode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\MinerClientsWindow.xaml.cs">
+      <DependentUpon>MinerClientsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\CalcConfig.xaml.cs">
+      <DependentUpon>CalcConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelSelect.xaml.cs">
+      <DependentUpon>KernelSelect.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\FileDownloader.xaml.cs">
+      <DependentUpon>FileDownloader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelDownloading.xaml.cs">
+      <DependentUpon>KernelDownloading.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MineWorkEdit.xaml.cs">
+      <DependentUpon>MineWorkEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\MinerGroupEdit.xaml.cs">
+      <DependentUpon>MinerGroupEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\StateBar.xaml.cs">
+      <DependentUpon>StateBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelOutputTranslaterEdit.xaml.cs">
+      <DependentUpon>KernelOutputTranslaterEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\RestartWindows.xaml.cs">
+      <DependentUpon>RestartWindows.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\KernelEdit.xaml.cs">
+      <DependentUpon>KernelEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\OuterProperty.xaml.cs">
+      <DependentUpon>OuterProperty.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\GroupEdit.xaml.cs">
+      <DependentUpon>GroupEdit.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\CoinGroupPage.xaml.cs">
+      <DependentUpon>CoinGroupPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\VirtualMemory.xaml.cs">
+      <DependentUpon>VirtualMemory.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\SpeedCharts.xaml.cs">
       <DependentUpon>SpeedCharts.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\SysDicItemEdit.xaml.cs">
+    <Compile Include="Views\Ucs\SysDicItemEdit.xaml.cs">
       <DependentUpon>SysDicItemEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\SysDicEdit.xaml.cs">
+    <Compile Include="Views\Ucs\SysDicEdit.xaml.cs">
       <DependentUpon>SysDicEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\MinerProfileOption.xaml.cs">
+    <Compile Include="Views\Ucs\MinerProfileOption.xaml.cs">
       <DependentUpon>MinerProfileOption.xaml</DependentUpon>
     </Compile>
-    <Compile Include="KernelsWindow.xaml.cs">
+    <Compile Include="Views\KernelsWindow.xaml.cs">
       <DependentUpon>KernelsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\WalletEdit.xaml.cs">
+    <Compile Include="Views\Ucs\WalletEdit.xaml.cs">
       <DependentUpon>WalletEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\SysDicPage.xaml.cs">
+    <Compile Include="Views\Ucs\SysDicPage.xaml.cs">
       <DependentUpon>SysDicPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\CoinKernelEdit.xaml.cs">
+    <Compile Include="Views\Ucs\CoinKernelEdit.xaml.cs">
       <DependentUpon>CoinKernelEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\PoolEdit.xaml.cs">
+    <Compile Include="Views\Ucs\PoolEdit.xaml.cs">
       <DependentUpon>PoolEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\CoinEdit.xaml.cs">
+    <Compile Include="Views\Ucs\CoinEdit.xaml.cs">
       <DependentUpon>CoinEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\SpeedTable.xaml.cs">
+    <Compile Include="Views\Ucs\SpeedTable.xaml.cs">
       <DependentUpon>SpeedTable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\AboutPage.xaml.cs">
+    <Compile Include="Views\Ucs\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Ucs\CoinPage.xaml.cs">
+    <Compile Include="Views\Ucs\CoinPage.xaml.cs">
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="ConsoleWindow.xaml">
+    <Page Include="MinerStudio\Views\Design\ColumnsShowViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Ucs\ColumnsShowEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ConsoleWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MinerStudio\Views\ChartsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MinerStudio\Views\Design\ChangePasswordViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Design\NTMinerFileSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Design\ColumnsShowSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Design\MinerGroupSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Design\MineWorkSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\SignUpPageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\RestartWindowsViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\KernelOutputKeywordViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\KernelOutputKeywordsViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\ServerMessageViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\LocalMessagesViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="ChartsWindow.xaml">
+    <Page Include="Views\Design\ServerMessagesViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Design\RemoteDesktopLoginViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\RestartWindowsViewModel.xaml">
+    <Page Include="MinerStudio\Views\Design\CalcConfigViewModels.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelOutputKeywordViewModel.xaml">
+    <Page Include="Views\Design\MainWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelOutputKeywordsViewModel.xaml">
+    <Page Include="MinerStudio\Views\Design\NTMinerWalletViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\ServerMessageViewModel.xaml">
+    <Page Include="Views\Design\StartStopMineButtonViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\LocalMessagesViewModel.xaml">
+    <Page Include="Views\Design\MinerProfileIndexViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\ServerMessagesViewModel.xaml">
+    <Page Include="MinerStudio\Views\Design\MinerClientsWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\RemoteDesktopLoginViewModel.xaml">
+    <Page Include="MinerStudio\Views\Design\MinerNamesSeterViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\CalcConfigViewModels.xaml">
+    <Page Include="MinerStudio\Views\Design\MinerClientSettingViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MainWindowViewModel.xaml">
+    <Page Include="MinerStudio\Views\Design\MinerClientAddViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\NTMinerWalletViewModel.xaml">
+    <Page Include="Views\Design\KernelSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\StartStopMineButtonViewModel.xaml">
+    <Page Include="Views\Design\KernelOutputSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerProfileIndexViewModel.xaml">
+    <Page Include="Views\Design\KernelInputSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerClientsWindowViewModel.xaml">
+    <Page Include="Views\Design\InputSegmentEditViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerNamesSeterViewModel.xaml">
+    <Page Include="Views\Design\GroupViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerClientSettingViewModel.xaml">
+    <Page Include="Views\Design\GpuSpeedDataViewModels.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerClientAddViewModel.xaml">
+    <Page Include="MinerStudio\Views\Design\GpuProfilesPageViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelSelectViewModel.xaml">
+    <Page Include="Views\Design\MinerProfileViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelOutputSelectViewModel.xaml">
+    <Page Include="Views\Design\FragmentWriterSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelInputSelectViewModel.xaml">
+    <Page Include="Views\Design\FragmentWriterViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\InputSegmentEditViewModel.xaml">
+    <Page Include="Views\Design\FileWriterSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\GroupViewModel.xaml">
+    <Page Include="Views\Design\FileWriterViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\GpuSpeedDataViewModels.xaml">
+    <Page Include="Views\Design\FileDownloaderViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\GpuProfilesPageViewModel.xaml">
+    <Page Include="Views\Design\EnvironmentVariableEditViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerProfileViewModel.xaml">
+    <Page Include="Views\Design\CoinKernelSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\FragmentWriterSelectViewModel.xaml">
+    <Page Include="Views\Design\CoinSelectViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\FragmentWriterViewModel.xaml">
+    <Page Include="Views\Design\StateBarViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Ucs\LocalIpConfig.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Design\FileWriterSelectViewModel.xaml">
+    <Page Include="MinerStudio\Views\Ucs\ChangePassword.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\FileWriterViewModel.xaml">
+    <Page Include="MinerStudio\Views\Ucs\NTMinerFileSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Ucs\VirtualMemory.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Design\FileDownloaderViewModel.xaml">
+    <Page Include="Views\PackagesWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\EnvironmentVariableEditViewModel.xaml">
+    <Page Include="Views\Design\PackageViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\CoinKernelSelectViewModel.xaml">
+    <Page Include="Views\SplashWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\CoinSelectViewModel.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClientOperationResults.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\StateBarViewModel.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClientMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="PackagesWindow.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClientsPagging.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\PackageViewModel.xaml">
+    <Page Include="MinerStudio\Views\Ucs\ColumnsShowSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SplashWindow.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerGroupSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelOutputKeywords.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MineWorkSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelOutputKeywordEdit.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClientsSearchBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\Messages.xaml">
+    <Page Include="MinerStudio\Views\Ucs\WsServerNodePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerClientFinderConfig.xaml">
+    <Page Include="Views\Ucs\SignUpPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\ServerMessageEdit.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClients.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\RemoteDesktopLogin.xaml">
+    <Page Include="Views\Ucs\ResizeCursor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\BrandTag.xaml">
+    <Page Include="Views\Ucs\LogFiles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\FragmentWriterEdit.xaml">
+    <Page Include="Views\Ucs\AppMiner.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\FragmentWriterPage.xaml">
+    <Page Include="Views\Ucs\KernelOutputKeywords.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\FragmentWriterSelect.xaml">
+    <Page Include="Views\Ucs\KernelOutputKeywordEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\FileWriterSelect.xaml">
+    <Page Include="Views\Ucs\Messages.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\EthNoDevFeeEdit.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClientFinderConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelOutputSelect.xaml">
+    <Page Include="Views\Ucs\ServerMessageEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelInputSelect.xaml">
+    <Page Include="MinerStudio\Views\Ucs\RemoteDesktopLogin.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerClientsToolBar.xaml">
+    <Page Include="Views\Ucs\BrandTag.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\NTMinerWalletEdit.xaml">
+    <Page Include="Views\Ucs\FragmentWriterEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\NTMinerWalletPage.xaml">
+    <Page Include="Views\Ucs\FragmentWriterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\Property.xaml">
+    <Page Include="Views\Ucs\FragmentWriterSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MessagePathIds.xaml">
+    <Page Include="Views\Ucs\FileWriterSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\ServerMessages.xaml">
+    <Page Include="Views\Ucs\KernelOutputSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\LocalMessages.xaml">
+    <Page Include="Views\Ucs\KernelInputSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\SysDicItemSelect.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClientsToolBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\FileWriterEdit.xaml">
+    <Page Include="MinerStudio\Views\Ucs\NTMinerWalletEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\FileWriterPage.xaml">
+    <Page Include="MinerStudio\Views\Ucs\NTMinerWalletPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\PackageEdit.xaml">
+    <Page Include="Views\Ucs\Property.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MainBar.xaml">
+    <Page Include="Views\Ucs\MessagePathIds.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MainMenu.xaml">
+    <Page Include="Views\Ucs\ServerMessages.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\LocalMessages.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="NotificationSample.xaml">
+    <Page Include="Views\Ucs\SysDicItemSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\CoinSelect.xaml">
+    <Page Include="Views\Ucs\FileWriterEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerProfileDual.xaml">
+    <Page Include="Views\Ucs\FileWriterPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\StartStopMineButton.xaml">
+    <Page Include="Views\Ucs\PackageEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelsWindowViewModel.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MainBar.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\MainMenu.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ucs\Toolbox.xaml">
+    <Page Include="Views\NotificationSample.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\WalletSelect.xaml">
+    <Page Include="Views\Ucs\CoinSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\PoolSelect.xaml">
+    <Page Include="Views\Ucs\MinerProfileDual.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\InputSegmentEdit.xaml">
+    <Page Include="Views\Ucs\StartStopMineButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\CoinKernelSelect.xaml">
+    <Page Include="Views\Design\KernelsWindowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\CoinKernelViewModel.xaml">
+    <Page Include="Views\Ucs\Toolbox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerClientViewModel.xaml">
+    <Page Include="Views\Ucs\WalletSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerClientSetting.xaml">
+    <Page Include="Views\Ucs\PoolSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerNamesSeter.xaml">
+    <Page Include="Views\Ucs\InputSegmentEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerClientUc.xaml">
+    <Page Include="Views\Ucs\CoinKernelSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\UserViewModel.xaml">
+    <Page Include="Views\Design\CoinKernelViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\OverClockDataViewModel.xaml">
+    <Page Include="MinerStudio\Views\Design\MinerClientViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\Calc.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClientSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\ColumnsShowEdit.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerNamesSeter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MineWorkViewModel.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClient.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\ColumnsShowViewModel.xaml">
+    <Page Include="MinerStudio\Views\Design\OverClockDataViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\InnerProperty.xaml">
+    <Page Include="Views\Ucs\Calc.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\EnvironmentVariableEdit.xaml">
+    <Page Include="MinerStudio\Views\Design\MineWorkViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\GpuProfilesPage.xaml">
+    <Page Include="Views\Design\ColumnsShowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\UserPage.xaml">
+    <Page Include="Views\Ucs\InnerProperty.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\OverClockDataPage.xaml">
+    <Page Include="Views\Ucs\EnvironmentVariableEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\OverClockDataEdit.xaml">
+    <Page Include="MinerStudio\Views\Ucs\GpuProfilesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerClientAdd.xaml">
+    <Page Include="MinerStudio\Views\Ucs\UserPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\NTMinerUpdaterConfig.xaml">
+    <Page Include="MinerStudio\Views\Ucs\OverClockDataPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\PoolKernelEdit.xaml">
+    <Page Include="MinerStudio\Views\Ucs\OverClockDataEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelInputViewModel.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerClientAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelInputEdit.xaml">
+    <Page Include="MinerStudio\Views\Ucs\NTMinerUpdaterConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelInputPage.xaml">
+    <Page Include="Views\Ucs\PoolKernelEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelOutputPage.xaml">
+    <Page Include="Views\Design\KernelInputViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelOutputViewModel.xaml">
+    <Page Include="Views\Ucs\KernelInputEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\PoolViewModel.xaml">
+    <Page Include="Views\Ucs\KernelInputPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelOutputEdit.xaml">
+    <Page Include="Views\Ucs\KernelOutputPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\QQGroupQrCode.xaml">
+    <Page Include="Views\Design\KernelOutputViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\MinerGroupViewModel.xaml">
+    <Page Include="Views\Design\PoolViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\CoinViewModel.xaml">
+    <Page Include="Views\Ucs\KernelOutputEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MinerClientsWindow.xaml">
+    <Page Include="MinerStudio\Views\Ucs\QQGroupQrCode.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\CalcConfig.xaml">
+    <Page Include="MinerStudio\Views\Design\MinerGroupViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelOutputTranslaterViewModel.xaml">
+    <Page Include="Views\Design\CoinViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelSelect.xaml">
+    <Page Include="MinerStudio\Views\MinerClientsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\FileDownloader.xaml">
+    <Page Include="MinerStudio\Views\Ucs\CalcConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelDownloading.xaml">
+    <Page Include="Views\Design\KernelOutputTranslaterViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MineWorkEdit.xaml">
+    <Page Include="Views\Ucs\KernelSelect.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerGroupEdit.xaml">
+    <Page Include="Views\Ucs\FileDownloader.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Design\KernelViewModel.xaml">
+    <Page Include="Views\Ucs\KernelDownloading.xaml">
+      <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Ucs\MineWorkEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\StateBar.xaml">
+    <Page Include="MinerStudio\Views\Ucs\MinerGroupEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\KernelViewModel.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ucs\KernelOutputTranslaterEdit.xaml">
+    <Page Include="Views\Ucs\StateBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\RestartWindows.xaml">
+    <Page Include="Views\Ucs\KernelOutputTranslaterEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\KernelEdit.xaml">
+    <Page Include="Views\Ucs\RestartWindows.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\OuterProperty.xaml">
+    <Page Include="Views\Ucs\KernelEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\GroupEdit.xaml">
+    <Page Include="Views\Ucs\OuterProperty.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\GroupPage.xaml">
+    <Page Include="Views\Ucs\GroupEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\UserEdit.xaml">
+    <Page Include="Views\Ucs\CoinGroupPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\VirtualMemory.xaml">
+    <Page Include="Views\Ucs\VirtualMemory.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\SpeedCharts.xaml">
+    <Page Include="Views\Ucs\SpeedCharts.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\SysDicItemEdit.xaml">
+    <Page Include="Views\Ucs\SysDicItemEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\SysDicEdit.xaml">
+    <Page Include="Views\Ucs\SysDicEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\MinerProfileOption.xaml">
+    <Page Include="Views\Ucs\MinerProfileOption.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="KernelsWindow.xaml">
+    <Page Include="Views\KernelsWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\WalletEdit.xaml">
+    <Page Include="Views\Ucs\WalletEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\SysDicPage.xaml">
+    <Page Include="Views\Ucs\SysDicPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\CoinKernelEdit.xaml">
+    <Page Include="Views\Ucs\CoinKernelEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\PoolEdit.xaml">
+    <Page Include="Views\Ucs\PoolEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\CoinEdit.xaml">
+    <Page Include="Views\Ucs\CoinEdit.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ucs\SpeedTable.xaml">
+    <Page Include="Views\Ucs\SpeedTable.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Ucs\AboutPage.xaml">
+    <Page Include="Views\Ucs\AboutPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Page Include="Ucs\MinerProfileIndex.xaml">
+    <Page Include="Views\Ucs\MinerProfileIndex.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Ucs\CoinPage.xaml">
+    <Page Include="Views\Ucs\CoinPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Ucs\MinerProfileIndex.xaml.cs">
+    <Compile Include="Views\Ucs\MinerProfileIndex.xaml.cs">
       <DependentUpon>MinerProfileIndex.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -979,6 +1109,7 @@
       <Name>NTMinerWpf</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

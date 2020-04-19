@@ -9,7 +9,7 @@
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Instance.MinerProfileVm;
+                return AppRoot.MinerProfileVm;
             }
         }
 

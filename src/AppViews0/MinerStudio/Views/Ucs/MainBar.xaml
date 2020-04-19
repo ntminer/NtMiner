@@ -1,0 +1,121 @@
+﻿<UserControl 
+	x:Class="NTMiner.MinerStudio.Views.Ucs.MainBar"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d">
+	<WrapPanel>
+        <controls:KbLinkButton
+			Foreground="White"
+			ToolTip="检查更新"
+			Background="Transparent"
+			KbDisplayLine="False"
+            VerticalAlignment="Center"
+			Command="{x:Static app:AppStatic.ShowOnlineUpdate}">
+            <WrapPanel>
+                <Path 
+					Width="14"
+					Height="13"
+					Data="{StaticResource Icon_Update}"
+					Fill="White"
+					Stretch="Fill" />
+                <TextBlock
+					Margin="2 0 0 0"
+					Foreground="White"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					Text="v" />
+                <TextBlock
+					Margin="0"
+					Foreground="White"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					Text="{x:Static app:AppStatic.CurrentVersion}" />
+                <TextBlock
+					Margin="2 0 0 0"
+					Foreground="White"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					Text="(" />
+                <TextBlock
+					Margin="0"
+					Foreground="White"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					Text="{x:Static app:AppStatic.VersionTag}" />
+                <TextBlock
+					Foreground="White"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+					Text=")" />
+            </WrapPanel>
+        </controls:KbLinkButton>
+		<controls:KbLinkButton
+			Margin="8 0 0 0"
+			Foreground="White"
+			ToolTip="点击加入QQ群"
+			Background="Transparent"
+			KbDisplayLine="False"
+            VerticalAlignment="Center"
+			Command="{x:Static app:AppStatic.JoinQQGroup}"
+            Content="Q群">
+		</controls:KbLinkButton>
+		<TextBox 
+			IsReadOnly="True" 
+			Foreground="White"
+			Background="Transparent" 
+			BorderThickness="0" 
+            Text="{x:Static app:AppStatic.QQGroup}">
+		</TextBox>
+		<controls:KbButton 
+			Cursor="Hand"
+			ToolTip="点击显示QQ群二维码"
+			Background="Transparent" 
+			Foreground="White"
+			BorderThickness="0"
+			Command="{x:Static app:AppStatic.ShowQQGroupQrCode}">
+			<Path 
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_QRCode}"
+				Fill="White"
+				Stretch="Fill" />
+		</controls:KbButton>
+		<controls:KbLinkButton
+			Margin="8 0 8 0"
+			ToolTip="源代码"
+            VerticalAlignment="Center"
+			Command="{x:Static app:AppStatic.OpenGithub}"
+			Background="Transparent"
+			Foreground="White"
+			KbDisplayLine="False">
+			<Path 
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_Github}"
+				Fill="White"
+				Stretch="Fill" />
+		</controls:KbLinkButton>
+		<controls:KbLinkButton
+			ToolTip="讨论"
+			Margin="0 0 8 0"
+            VerticalAlignment="Center"
+			Foreground="White"
+			Command="{x:Static app:AppStatic.OpenDiscussSite}"
+			Background="Transparent"
+			KbDisplayLine="False">
+			<Path 
+				Width="14"
+				Height="14"
+				Data="{StaticResource Icon_Discuss}"
+				Fill="White"
+				Stretch="Fill" />
+		</controls:KbLinkButton>
+	</WrapPanel>
+</UserControl>

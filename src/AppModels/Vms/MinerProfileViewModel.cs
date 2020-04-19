@@ -1,21 +1,35 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profile;
+using NTMiner.MinerStudio.Vms;
+using NTMiner.Ws;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class MinerProfileViewModel : ViewModelBase, IMinerProfile {
+    public class MinerProfileViewModel : ViewModelBase, IMinerProfile, IWsStateViewModel {
         public static readonly MinerProfileViewModel Instance = new MinerProfileViewModel();
 
         private readonly string _linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "开源矿工.lnk");
 
+        private string _argsAssembly;
+        private bool _isMining = NTMinerContext.Instance.IsMining;
+        private bool _isWsOnline;
+        private string _wsDescription;
+        private int _wsNextTrySecondsDelay;
+        private DateTime _wsLastTryOn;
+        private bool _isConnecting;
+        private double _wsRetryIconAngle;
+
         public ICommand Up { get; private set; }
         public ICommand Down { get; private set; }
+        public ICommand WsRetry { get; private set; }
 
+        private readonly Dictionary<string, PropertyInfo> _propertyInfos = new Dictionary<string, PropertyInfo>();
         public MinerProfileViewModel() {
 #if DEBUG
             NTStopwatch.Start();
@@ -30,43 +44,107 @@ namespace NTMiner.Vms {
                 CreateShortcut();
             }
             this.Up = new DelegateCommand<string>(propertyName => {
-                PropertyInfo propertyInfo = this.GetType().GetProperty(propertyName);
-                if (propertyInfo != null) {
-                    if (propertyInfo.PropertyType == typeof(int)) {
-                        propertyInfo.SetValue(this, (int)propertyInfo.GetValue(this, null) + 1, null);
+                if (!_propertyInfos.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
+                    propertyInfo = this.GetType().GetProperty(propertyName);
+                    if (propertyInfo == null) {
+                        Write.DevError(() => $"类型{this.GetType().FullName}不具有名称为{propertyName}的属性");
+                        return;
                     }
-                    else if (propertyInfo.PropertyType == typeof(double)) {
-                        propertyInfo.SetValue(this, Math.Round((double)propertyInfo.GetValue(this, null) + 0.1, 2), null);
-                    }
+                    _propertyInfos.Add(propertyName, propertyInfo);
                 }
-                else {
-                    Write.DevError($"类型{this.GetType().FullName}不具有名称为{propertyName}的属性");
+                if (propertyInfo.PropertyType == typeof(int)) {
+                    propertyInfo.SetValue(this, (int)propertyInfo.GetValue(this, null) + 1, null);
+                }
+                else if (propertyInfo.PropertyType == typeof(double)) {
+                    propertyInfo.SetValue(this, Math.Round((double)propertyInfo.GetValue(this, null) + 0.1, 2), null);
                 }
             });
             this.Down = new DelegateCommand<string>(propertyName => {
-                PropertyInfo propertyInfo = this.GetType().GetProperty(propertyName);
-                if (propertyInfo != null) {
-                    if (propertyInfo.PropertyType == typeof(int)) {
-                        int value = (int)propertyInfo.GetValue(this, null);
-                        if (value > 0) {
-                            propertyInfo.SetValue(this, value - 1, null);
-                        }
+                if (!_propertyInfos.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
+                    propertyInfo = this.GetType().GetProperty(propertyName);
+                    if (propertyInfo == null) {
+                        Write.DevError(() => $"类型{this.GetType().FullName}不具有名称为{propertyName}的属性");
+                        return;
                     }
-                    else if (propertyInfo.PropertyType == typeof(double)) {
-                        double value = (double)propertyInfo.GetValue(this, null);
-                        if (value > 0.1) {
-                            propertyInfo.SetValue(this, Math.Round(value - 0.1, 2), null);
-                        }
+                    _propertyInfos.Add(propertyName, propertyInfo);
+                }
+                if (propertyInfo.PropertyType == typeof(int)) {
+                    int value = (int)propertyInfo.GetValue(this, null);
+                    if (value > 0) {
+                        propertyInfo.SetValue(this, value - 1, null);
                     }
                 }
-                else {
-                    Write.DevError($"类型{this.GetType().FullName}不具有名称为{propertyName}的属性");
+                else if (propertyInfo.PropertyType == typeof(double)) {
+                    double value = (double)propertyInfo.GetValue(this, null);
+                    if (value > 0.1) {
+                        propertyInfo.SetValue(this, Math.Round(value - 0.1, 2), null);
+                    }
                 }
             });
-            NTMinerRoot.SetRefreshArgsAssembly(() => {
+            this.WsRetry = new DelegateCommand(() => {
+                RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: true);
+                IsConnecting = true;
+            });
+            bool isRefreshed = false;
+            if (ClientAppType.IsMinerClient) {
+                VirtualRoot.AddEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+                    action: message => {
+                        IsMining = false;
+                        Write.UserError(message.Message);
+                    }, location: this.GetType());
+                // 群控客户端已经有一个执行RefreshWsStateCommand命令的路径了
+                VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
+                    if (message.WsClientState != null) {
+                        isRefreshed = true;
+                        this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
+                        if (message.WsClientState.ToOut) {
+                            VirtualRoot.Out.ShowWarn(message.WsClientState.Description, autoHideSeconds: 3);
+                        }
+                        if (!message.WsClientState.ToOut || !this.IsWsOnline) {
+                            this.WsDescription = message.WsClientState.Description;
+                        }
+                        if (!this.IsWsOnline) {
+                            if (message.WsClientState.LastTryOn != DateTime.MinValue) {
+                                this.WsLastTryOn = message.WsClientState.LastTryOn;
+                            }
+                            if (message.WsClientState.NextTrySecondsDelay > 0) {
+                                WsNextTrySecondsDelay = message.WsClientState.NextTrySecondsDelay;
+                            }
+                        }
+                    }
+                }, this.GetType(), LogEnum.DevConsole);
+                VirtualRoot.AddEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, action: message => {
+                    if (IsOuterUserEnabled && !IsWsOnline) {
+                        if (WsNextTrySecondsDelay > 0) {
+                            WsNextTrySecondsDelay--;
+                        }
+                        OnPropertyChanged(nameof(WsLastTryOnText));
+                    }
+                }, this.GetType());
+                VirtualRoot.AddEventPath<WsServerOkEvent>("服务器Ws服务已可用", LogEnum.DevConsole, action: message => {
+                    if (IsOuterUserEnabled && !IsWsOnline) {
+                        StartOrStopWs();
+                    }
+                }, this.GetType());
+                if (IsOuterUserEnabled) {
+                    RpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
+                        if (state != null && !isRefreshed) {
+                            this.IsWsOnline = state.Status == WsClientStatus.Open;
+                            this.WsDescription = state.Description;
+                            if (state.NextTrySecondsDelay > 0) {
+                                this.WsNextTrySecondsDelay = state.NextTrySecondsDelay;
+                            }
+                            this.WsLastTryOn = state.LastTryOn;
+                        }
+                    });
+                }
+            }
+            NTMinerContext.SetRefreshArgsAssembly((reason) => {
+                Write.DevDebug(() => $"RefreshArgsAssembly" + reason, ConsoleColor.Cyan);
 #if DEBUG
                 NTStopwatch.Start();
 #endif
+                #region 确保双挖权重在合法的范围内
                 if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                     var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
                     var kernelInput = CoinVm.CoinKernel.Kernel.KernelInputVm;
@@ -78,13 +156,14 @@ namespace NTMiner.Vms {
                             else if (coinKernelProfile.DualCoinWeight < kernelInput.DualWeightMin) {
                                 coinKernelProfile.DualCoinWeight = kernelInput.DualWeightMin;
                             }
-                            NTMinerRoot.Instance.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfile.CoinKernelId, nameof(coinKernelProfile.DualCoinWeight), coinKernelProfile.DualCoinWeight);
+                            NTMinerContext.Instance.MinerProfile.SetCoinKernelProfileProperty(coinKernelProfile.CoinKernelId, nameof(coinKernelProfile.DualCoinWeight), coinKernelProfile.DualCoinWeight);
                         }
                     }
                 }
-                NTMinerRoot.Instance.CurrentMineContext = NTMinerRoot.Instance.CreateMineContext();
-                if (NTMinerRoot.Instance.CurrentMineContext != null) {
-                    this.ArgsAssembly = NTMinerRoot.Instance.CurrentMineContext.CommandLine;
+                #endregion
+                NTMinerContext.Instance.CurrentMineContext = NTMinerContext.Instance.CreateMineContext();
+                if (NTMinerContext.Instance.CurrentMineContext != null) {
+                    this.ArgsAssembly = NTMinerContext.Instance.CurrentMineContext.CommandLine;
                 }
                 else {
                     this.ArgsAssembly = string.Empty;
@@ -100,15 +179,15 @@ namespace NTMiner.Vms {
                 action: message => {
                     OnPropertyChanged(nameof(CoinVm));
                 }, location: this.GetType());
-            AppContext.AddCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
+            AppRoot.AddCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
                 action: message => {
-                    MinerProfileData data = NTMinerRoot.CreateLocalRepository<MinerProfileData>().GetByKey(this.Id);
+                    MinerProfileData data = NTMinerContext.Instance.ServerContext.CreateLocalRepository<MinerProfileData>().GetByKey(this.Id);
                     if (data != null) {
                         this.IsAutoBoot = data.IsAutoBoot;
                         this.IsAutoStart = data.IsAutoStart;
                     }
                 }, location: this.GetType());
-            AppContext.AddEventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
+            AppRoot.AddEventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
                     OnPropertyChanged(message.PropertyName);
                 }, location: this.GetType());
@@ -119,10 +198,16 @@ namespace NTMiner.Vms {
                     if (CoinVm != null) {
                         CoinVm.OnPropertyChanged(nameof(CoinVm.Wallets));
                         CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.OnPropertyChanged(nameof(CoinVm.Wallets));
-                        CoinVm.CoinProfile.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedWallet));
-                        CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.CoinProfile.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedDualCoinWallet));
+                        CoinVm.CoinProfile?.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedWallet));
+                        CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.CoinProfile?.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedDualCoinWallet));
                     }
                 }, location: this.GetType());
+            VirtualRoot.AddEventPath<CoinVmAddedEvent>("Vm集添加了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, action: message => {
+                OnPropertyChanged(nameof(CoinVm));
+            }, this.GetType());
+            VirtualRoot.AddEventPath<CoinVmRemovedEvent>("Vm集删除了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, action: message => {
+                OnPropertyChanged(nameof(CoinVm));
+            }, this.GetType());
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
@@ -131,10 +216,187 @@ namespace NTMiner.Vms {
 #endif
         }
 
+        #region IWsStateViewModel的成员
+
+        // 由守护进程根据外网群控是否正常更新
+        public bool IsWsOnline {
+            get => _isWsOnline;
+            set {
+                if (_isWsOnline != value) {
+                    _isWsOnline = value;
+                    OnPropertyChanged(nameof(IsWsOnline));
+                    OnPropertyChanged(nameof(WsStateText));
+                    OnPropertyChanged(nameof(WsNextTrySecondsDelayVisible));
+                }
+            }
+        }
+
+        public string WsDescription {
+            get {
+                if (!IsOuterUserEnabled) {
+                    return "未启用";
+                }
+                if (string.IsNullOrEmpty(OuterUserId)) {
+                    return "未填写用户";
+                }
+                if (string.IsNullOrEmpty(_wsDescription)) {
+                    return WsStateText;
+                }
+                return _wsDescription;
+            }
+            set {
+                if (_wsDescription != value) {
+                    _wsDescription = value;
+                    OnPropertyChanged(nameof(WsDescription));
+                }
+            }
+        }
+
+        public int WsNextTrySecondsDelay {
+            get {
+                if (_wsNextTrySecondsDelay < 0) {
+                    return 0;
+                }
+                return _wsNextTrySecondsDelay;
+            }
+            set {
+                if (_wsNextTrySecondsDelay != value) {
+                    _wsNextTrySecondsDelay = value;
+                    OnPropertyChanged(nameof(WsNextTrySecondsDelay));
+                    OnPropertyChanged(nameof(WsNextTrySecondsDelayText));
+                    OnPropertyChanged(nameof(WsNextTrySecondsDelayVisible));
+                    IsConnecting = value <= 0;
+                }
+            }
+        }
+
+        public DateTime WsLastTryOn {
+            get => _wsLastTryOn;
+            set {
+                if (_wsLastTryOn != value) {
+                    _wsLastTryOn = value;
+                    OnPropertyChanged(nameof(WsLastTryOn));
+                    OnPropertyChanged(nameof(WsLastTryOnText));
+                }
+            }
+        }
+
+        public bool IsConnecting {
+            get => _isConnecting;
+            set {
+                if (_isConnecting != value) {
+                    _isConnecting = value;
+                    OnPropertyChanged(nameof(IsConnecting));
+                    OnPropertyChanged(nameof(WsRetryText));
+                    if (value) {
+                        VirtualRoot.SetInterval(TimeSpan.FromMilliseconds(100), perCallback: () => {
+                            WsRetryIconAngle += 40;
+                        }, stopCallback: () => {
+                            WsRetryIconAngle = 0;
+                            IsConnecting = false;
+                        }, timeout: TimeSpan.FromSeconds(10), requestStop: () => {
+                            return !IsConnecting;
+                        });
+                    }
+                }
+            }
+        }
+
+        #endregion
+
+        public double WsRetryIconAngle {
+            get { return _wsRetryIconAngle; }
+            set {
+                _wsRetryIconAngle = value;
+                OnPropertyChanged(nameof(WsRetryIconAngle));
+            }
+        }
+
+        public string WsRetryText {
+            get {
+                if (IsConnecting) {
+                    return "重试中";
+                }
+                return "立即重试";
+            }
+        }
+
+        public string WsLastTryOnText {
+            get {
+                if (IsWsOnline || WsLastTryOn == DateTime.MinValue) {
+                    return string.Empty;
+                }
+                return Timestamp.GetTimeSpanText(WsLastTryOn);
+            }
+        }
+
+        public string WsNextTrySecondsDelayText {
+            get {
+                int seconds = WsNextTrySecondsDelay;
+                if (!IsOuterUserEnabled || IsWsOnline) {
+                    return string.Empty;
+                }
+                if (seconds >= 3600) {
+                    return $"{(seconds / 3600).ToString()} 小时 {(seconds % 3600 / 60).ToString()} 分钟 {(seconds % 3600 % 60).ToString()} 秒后";
+                }
+                if (seconds > 60) {
+                    return $"{(seconds / 60).ToString()} 分 {(seconds % 60).ToString()} 秒后";
+                }
+                return $"{seconds.ToString()} 秒后";
+            }
+        }
+
+        public Visibility WsNextTrySecondsDelayVisible {
+            get {
+                if (!IsOuterUserEnabled || IsWsOnline) {
+                    return Visibility.Collapsed;
+                }
+                return Visibility.Visible;
+            }
+        }
+
+        public string WsStateText {
+            get {
+                if (IsWsOnline) {
+                    return "连接服务器成功";
+                }
+                return "离线";
+            }
+        }
+
+        public bool IsOuterUserEnabled {
+            get => NTMinerContext.Instance.MinerProfile.IsOuterUserEnabled;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.IsOuterUserEnabled != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsOuterUserEnabled), value);
+                    OnPropertyChanged(nameof(IsOuterUserEnabled));
+                    OnPropertyChanged(nameof(WsNextTrySecondsDelayVisible));
+                    StartOrStopWs();
+                }
+            }
+        }
+
+        public string OuterUserId {
+            get => NTMinerContext.Instance.MinerProfile.OuterUserId;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.OuterUserId != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(OuterUserId), value);
+                    OnPropertyChanged(nameof(OuterUserId));
+                    StartOrStopWs();
+                }
+            }
+        }
+
+        public void StartOrStopWs() {
+            // 只要外网启用状态变更或用户变更就调用，不管是启用还是禁用也不管用户是否正确是否为空都要调用
+            // 未启用时以及不正确的用户时调用是为了通知守护进程关闭连接
+            RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: false);
+        }
+
         // 是否主矿池和备矿池都是用户名密码模式的矿池
         public bool IsAllMainCoinPoolIsUserMode {
             get {
-                if (CoinVm == null) {
+                if (CoinVm == null || CoinVm.CoinProfile == null) {
                     return false;
                 }
                 var mainCoinPool = CoinVm.CoinProfile.MainCoinPool;
@@ -157,18 +419,18 @@ namespace NTMiner.Vms {
 
         public IMineWork MineWork {
             get {
-                return NTMinerRoot.Instance.MinerProfile.MineWork;
+                return NTMinerContext.Instance.MinerProfile.MineWork;
             }
         }
 
         public bool IsFreeClient {
             get {
-                return MineWork == null || VirtualRoot.IsMinerStudio;
+                return MineWork == null || ClientAppType.IsMinerStudio;
             }
         }
 
         public Guid Id {
-            get { return NTMinerRoot.Instance.MinerProfile.GetId(); }
+            get { return NTMinerContext.Instance.MinerProfile.GetId(); }
         }
 
         public Guid GetId() {
@@ -177,79 +439,74 @@ namespace NTMiner.Vms {
 
         public string MinerName {
             get {
-                string minerName = NTMinerRoot.Instance.MinerProfile.MinerName;
-                // 群控模式时可能未指定群控矿工名，此时使用本地模式交换到注册表的本地矿工名
-                if (string.IsNullOrEmpty(minerName)) {
-                    return NTMinerRegistry.GetMinerName();
-                }
+                string minerName = NTMinerContext.Instance.MinerProfile.MinerName;
                 return minerName;
             }
             set {
-                if (NTMinerRoot.Instance.MinerProfile.MinerName != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(MinerName), value);
-                    NTMinerRegistry.SetMinerName(value);
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                if (NTMinerContext.Instance.MinerProfile.MinerName != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(MinerName), value);
+                    NTMinerContext.RefreshArgsAssembly.Invoke("MinerProfile上放置的挖矿矿机名发生了变更");
                     OnPropertyChanged(nameof(MinerName));
                 }
             }
         }
 
         public bool IsShowInTaskbar {
-            get => NTMinerRoot.Instance.MinerProfile.IsShowInTaskbar;
+            get => NTMinerContext.Instance.MinerProfile.IsShowInTaskbar;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsShowInTaskbar != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowInTaskbar), value);
+                if (NTMinerContext.Instance.MinerProfile.IsShowInTaskbar != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowInTaskbar), value);
                     OnPropertyChanged(nameof(IsShowInTaskbar));
                 }
             }
         }
 
         public bool IsNoUi {
-            get { return NTMinerRoot.Instance.MinerProfile.IsNoUi; }
+            get { return NTMinerContext.Instance.MinerProfile.IsNoUi; }
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsNoUi != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNoUi), value);
+                if (NTMinerContext.Instance.MinerProfile.IsNoUi != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNoUi), value);
                     OnPropertyChanged(nameof(IsNoUi));
                 }
             }
         }
 
         public bool IsAutoNoUi {
-            get { return NTMinerRoot.Instance.MinerProfile.IsAutoNoUi; }
+            get { return NTMinerContext.Instance.MinerProfile.IsAutoNoUi; }
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsAutoNoUi != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoNoUi), value);
+                if (NTMinerContext.Instance.MinerProfile.IsAutoNoUi != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoNoUi), value);
                     OnPropertyChanged(nameof(IsAutoNoUi));
                 }
             }
         }
 
         public int AutoNoUiMinutes {
-            get { return NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes; }
+            get { return NTMinerContext.Instance.MinerProfile.AutoNoUiMinutes; }
             set {
-                if (NTMinerRoot.Instance.MinerProfile.AutoNoUiMinutes != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoNoUiMinutes), value);
+                if (NTMinerContext.Instance.MinerProfile.AutoNoUiMinutes != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoNoUiMinutes), value);
                     OnPropertyChanged(nameof(AutoNoUiMinutes));
                 }
             }
         }
 
         public bool IsShowNotifyIcon {
-            get => NTMinerRoot.Instance.MinerProfile.IsShowNotifyIcon;
+            get => NTMinerContext.Instance.MinerProfile.IsShowNotifyIcon;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsShowNotifyIcon != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowNotifyIcon), value);
+                if (NTMinerContext.Instance.MinerProfile.IsShowNotifyIcon != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowNotifyIcon), value);
                     OnPropertyChanged(nameof(IsShowNotifyIcon));
-                    AppContext.NotifyIcon?.RefreshIcon();
+                    AppRoot.NotifyIcon?.RefreshIcon();
                 }
             }
         }
 
         public bool IsCloseMeanExit {
-            get => NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit;
+            get => NTMinerContext.Instance.MinerProfile.IsCloseMeanExit;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsCloseMeanExit != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsCloseMeanExit), value);
+                if (NTMinerContext.Instance.MinerProfile.IsCloseMeanExit != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsCloseMeanExit), value);
                     OnPropertyChanged(nameof(IsCloseMeanExit));
                 }
             }
@@ -266,9 +523,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private string _argsAssembly;
-        private bool _isMining = NTMinerRoot.Instance.IsMining;
-
         public string ArgsAssembly {
             get {
                 return _argsAssembly;
@@ -280,153 +534,183 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoBoot {
-            get => NTMinerRoot.Instance.MinerProfile.IsAutoBoot;
+            get => NTMinerContext.Instance.MinerProfile.IsAutoBoot;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsAutoBoot != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoBoot), value);
+                if (NTMinerContext.Instance.MinerProfile.IsAutoBoot != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoBoot), value);
                     OnPropertyChanged(nameof(IsAutoBoot));
                 }
             }
         }
 
         public bool IsAutoStart {
-            get => NTMinerRoot.Instance.MinerProfile.IsAutoStart;
+            get => NTMinerContext.Instance.MinerProfile.IsAutoStart;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsAutoStart != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStart), value);
+                if (NTMinerContext.Instance.MinerProfile.IsAutoStart != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStart), value);
                     OnPropertyChanged(nameof(IsAutoStart));
                 }
             }
         }
 
         public bool IsAutoDisableWindowsFirewall {
-            get => NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall;
+            get => NTMinerContext.Instance.MinerProfile.IsAutoDisableWindowsFirewall;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsAutoDisableWindowsFirewall != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoDisableWindowsFirewall), value);
+                if (NTMinerContext.Instance.MinerProfile.IsAutoDisableWindowsFirewall != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoDisableWindowsFirewall), value);
                     OnPropertyChanged(nameof(IsAutoDisableWindowsFirewall));
                 }
             }
         }
 
-        public bool IsNoShareRestartKernel {
-            get => NTMinerRoot.Instance.MinerProfile.IsNoShareRestartKernel;
+        public bool IsDisableUAC {
+            get => NTMinerContext.Instance.MinerProfile.IsDisableUAC;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsNoShareRestartKernel != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNoShareRestartKernel), value);
+                if (NTMinerContext.Instance.MinerProfile.IsDisableUAC != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsDisableUAC), value);
+                    OnPropertyChanged(nameof(IsDisableUAC));
+                }
+            }
+        }
+
+        public bool IsDisableWAU {
+            get => NTMinerContext.Instance.MinerProfile.IsDisableWAU;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.IsDisableWAU != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsDisableWAU), value);
+                    OnPropertyChanged(nameof(IsDisableWAU));
+                }
+            }
+        }
+
+        public bool IsDisableAntiSpyware {
+            get => NTMinerContext.Instance.MinerProfile.IsDisableAntiSpyware;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.IsDisableAntiSpyware != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsDisableAntiSpyware), value);
+                    OnPropertyChanged(nameof(IsDisableAntiSpyware));
+                }
+            }
+        }
+
+        public bool IsNoShareRestartKernel {
+            get => NTMinerContext.Instance.MinerProfile.IsNoShareRestartKernel;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.IsNoShareRestartKernel != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNoShareRestartKernel), value);
                     OnPropertyChanged(nameof(IsNoShareRestartKernel));
                 }
             }
         }
 
         public int NoShareRestartKernelMinutes {
-            get => NTMinerRoot.Instance.MinerProfile.NoShareRestartKernelMinutes;
+            get => NTMinerContext.Instance.MinerProfile.NoShareRestartKernelMinutes;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.NoShareRestartKernelMinutes != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NoShareRestartKernelMinutes), value);
+                if (NTMinerContext.Instance.MinerProfile.NoShareRestartKernelMinutes != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(NoShareRestartKernelMinutes), value);
                     OnPropertyChanged(nameof(NoShareRestartKernelMinutes));
                 }
             }
         }
 
         public bool IsNoShareRestartComputer {
-            get => NTMinerRoot.Instance.MinerProfile.IsNoShareRestartComputer;
+            get => NTMinerContext.Instance.MinerProfile.IsNoShareRestartComputer;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsNoShareRestartComputer != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNoShareRestartComputer), value);
+                if (NTMinerContext.Instance.MinerProfile.IsNoShareRestartComputer != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNoShareRestartComputer), value);
                     OnPropertyChanged(nameof(IsNoShareRestartComputer));
                 }
             }
         }
 
         public int NoShareRestartComputerMinutes {
-            get => NTMinerRoot.Instance.MinerProfile.NoShareRestartComputerMinutes;
+            get => NTMinerContext.Instance.MinerProfile.NoShareRestartComputerMinutes;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.NoShareRestartComputerMinutes != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NoShareRestartComputerMinutes), value);
+                if (NTMinerContext.Instance.MinerProfile.NoShareRestartComputerMinutes != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(NoShareRestartComputerMinutes), value);
                     OnPropertyChanged(nameof(NoShareRestartComputerMinutes));
                 }
             }
         }
 
         public bool IsPeriodicRestartKernel {
-            get => NTMinerRoot.Instance.MinerProfile.IsPeriodicRestartKernel;
+            get => NTMinerContext.Instance.MinerProfile.IsPeriodicRestartKernel;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsPeriodicRestartKernel != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsPeriodicRestartKernel), value);
+                if (NTMinerContext.Instance.MinerProfile.IsPeriodicRestartKernel != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsPeriodicRestartKernel), value);
                     OnPropertyChanged(nameof(IsPeriodicRestartKernel));
                 }
             }
         }
 
         public int PeriodicRestartKernelHours {
-            get => NTMinerRoot.Instance.MinerProfile.PeriodicRestartKernelHours;
+            get => NTMinerContext.Instance.MinerProfile.PeriodicRestartKernelHours;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.PeriodicRestartKernelHours != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartKernelHours), value);
+                if (NTMinerContext.Instance.MinerProfile.PeriodicRestartKernelHours != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartKernelHours), value);
                     OnPropertyChanged(nameof(PeriodicRestartKernelHours));
                 }
             }
         }
 
         public bool IsPeriodicRestartComputer {
-            get => NTMinerRoot.Instance.MinerProfile.IsPeriodicRestartComputer;
+            get => NTMinerContext.Instance.MinerProfile.IsPeriodicRestartComputer;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsPeriodicRestartComputer != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsPeriodicRestartComputer), value);
+                if (NTMinerContext.Instance.MinerProfile.IsPeriodicRestartComputer != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsPeriodicRestartComputer), value);
                     OnPropertyChanged(nameof(IsPeriodicRestartComputer));
                 }
             }
         }
 
         public int PeriodicRestartComputerHours {
-            get => NTMinerRoot.Instance.MinerProfile.PeriodicRestartComputerHours;
+            get => NTMinerContext.Instance.MinerProfile.PeriodicRestartComputerHours;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.PeriodicRestartComputerHours != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerHours), value);
+                if (NTMinerContext.Instance.MinerProfile.PeriodicRestartComputerHours != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerHours), value);
                     OnPropertyChanged(nameof(PeriodicRestartComputerHours));
                 }
             }
         }
 
         public bool IsAutoRestartKernel {
-            get => NTMinerRoot.Instance.MinerProfile.IsAutoRestartKernel;
+            get => NTMinerContext.Instance.MinerProfile.IsAutoRestartKernel;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsAutoRestartKernel != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoRestartKernel), value);
+                if (NTMinerContext.Instance.MinerProfile.IsAutoRestartKernel != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoRestartKernel), value);
                     OnPropertyChanged(nameof(IsAutoRestartKernel));
                 }
             }
         }
 
         public int AutoRestartKernelTimes {
-            get => NTMinerRoot.Instance.MinerProfile.AutoRestartKernelTimes;
+            get => NTMinerContext.Instance.MinerProfile.AutoRestartKernelTimes;
             set {
                 if (value < 3) {
                     value = 3;
                 }
-                if (NTMinerRoot.Instance.MinerProfile.AutoRestartKernelTimes != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoRestartKernelTimes), value);
+                if (NTMinerContext.Instance.MinerProfile.AutoRestartKernelTimes != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoRestartKernelTimes), value);
                     OnPropertyChanged(nameof(AutoRestartKernelTimes));
                 }
             }
         }
 
         public bool IsSpeedDownRestartComputer {
-            get => NTMinerRoot.Instance.MinerProfile.IsSpeedDownRestartComputer;
+            get => NTMinerContext.Instance.MinerProfile.IsSpeedDownRestartComputer;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsSpeedDownRestartComputer != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsSpeedDownRestartComputer), value);
+                if (NTMinerContext.Instance.MinerProfile.IsSpeedDownRestartComputer != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsSpeedDownRestartComputer), value);
                     OnPropertyChanged(nameof(IsSpeedDownRestartComputer));
                 }
             }
         }
 
         public int PeriodicRestartKernelMinutes {
-            get => NTMinerRoot.Instance.MinerProfile.PeriodicRestartKernelMinutes;
+            get => NTMinerContext.Instance.MinerProfile.PeriodicRestartKernelMinutes;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.PeriodicRestartKernelMinutes != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartKernelMinutes), value);
+                if (NTMinerContext.Instance.MinerProfile.PeriodicRestartKernelMinutes != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartKernelMinutes), value);
                     OnPropertyChanged(nameof(PeriodicRestartKernelMinutes));
                     if (value < 0 || value > 60) {
                         throw new ValidationException("无效的值");
@@ -436,10 +720,10 @@ namespace NTMiner.Vms {
         }
 
         public int PeriodicRestartComputerMinutes {
-            get => NTMinerRoot.Instance.MinerProfile.PeriodicRestartComputerMinutes;
+            get => NTMinerContext.Instance.MinerProfile.PeriodicRestartComputerMinutes;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.PeriodicRestartComputerMinutes != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerMinutes), value);
+                if (NTMinerContext.Instance.MinerProfile.PeriodicRestartComputerMinutes != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(PeriodicRestartComputerMinutes), value);
                     OnPropertyChanged(nameof(PeriodicRestartComputerMinutes));
                     if (value < 0 || value > 60) {
                         throw new ValidationException("无效的值");
@@ -449,20 +733,20 @@ namespace NTMiner.Vms {
         }
 
         public int RestartComputerSpeedDownPercent {
-            get => NTMinerRoot.Instance.MinerProfile.RestartComputerSpeedDownPercent;
+            get => NTMinerContext.Instance.MinerProfile.RestartComputerSpeedDownPercent;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.RestartComputerSpeedDownPercent != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(RestartComputerSpeedDownPercent), value);
+                if (NTMinerContext.Instance.MinerProfile.RestartComputerSpeedDownPercent != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(RestartComputerSpeedDownPercent), value);
                     OnPropertyChanged(nameof(RestartComputerSpeedDownPercent));
                 }
             }
         }
 
         public bool IsNetUnavailableStopMine {
-            get => NTMinerRoot.Instance.MinerProfile.IsNetUnavailableStopMine;
+            get => NTMinerContext.Instance.MinerProfile.IsNetUnavailableStopMine;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsNetUnavailableStopMine != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetUnavailableStopMine), value);
+                if (NTMinerContext.Instance.MinerProfile.IsNetUnavailableStopMine != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetUnavailableStopMine), value);
                     OnPropertyChanged(nameof(IsNetUnavailableStopMine));
                     if (value) {
                         IsNetAvailableStartMine = true;
@@ -472,87 +756,87 @@ namespace NTMiner.Vms {
         }
 
         public int NetUnavailableStopMineMinutes {
-            get => NTMinerRoot.Instance.MinerProfile.NetUnavailableStopMineMinutes;
+            get => NTMinerContext.Instance.MinerProfile.NetUnavailableStopMineMinutes;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.NetUnavailableStopMineMinutes != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NetUnavailableStopMineMinutes), value);
+                if (NTMinerContext.Instance.MinerProfile.NetUnavailableStopMineMinutes != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(NetUnavailableStopMineMinutes), value);
                     OnPropertyChanged(nameof(NetUnavailableStopMineMinutes));
                 }
             }
         }
 
         public bool IsNetAvailableStartMine {
-            get => NTMinerRoot.Instance.MinerProfile.IsNetAvailableStartMine;
+            get => NTMinerContext.Instance.MinerProfile.IsNetAvailableStartMine;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsNetAvailableStartMine != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetAvailableStartMine), value);
+                if (NTMinerContext.Instance.MinerProfile.IsNetAvailableStartMine != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNetAvailableStartMine), value);
                     OnPropertyChanged(nameof(IsNetAvailableStartMine));
                 }
             }
         }
 
         public int NetAvailableStartMineSeconds {
-            get => NTMinerRoot.Instance.MinerProfile.NetAvailableStartMineSeconds;
+            get => NTMinerContext.Instance.MinerProfile.NetAvailableStartMineSeconds;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.NetAvailableStartMineSeconds != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(NetAvailableStartMineSeconds), value);
+                if (NTMinerContext.Instance.MinerProfile.NetAvailableStartMineSeconds != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(NetAvailableStartMineSeconds), value);
                     OnPropertyChanged(nameof(NetAvailableStartMineSeconds));
                 }
             }
         }
 
         public bool IsEChargeEnabled {
-            get => NTMinerRoot.Instance.MinerProfile.IsEChargeEnabled;
+            get => NTMinerContext.Instance.MinerProfile.IsEChargeEnabled;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsEChargeEnabled != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsEChargeEnabled), value);
+                if (NTMinerContext.Instance.MinerProfile.IsEChargeEnabled != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsEChargeEnabled), value);
                     OnPropertyChanged(nameof(IsEChargeEnabled));
                 }
             }
         }
 
         public double EPrice {
-            get => NTMinerRoot.Instance.MinerProfile.EPrice;
+            get => NTMinerContext.Instance.MinerProfile.EPrice;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.EPrice != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(EPrice), value);
+                if (NTMinerContext.Instance.MinerProfile.EPrice != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(EPrice), value);
                     OnPropertyChanged(nameof(EPrice));
                 }
             }
         }
 
         public bool IsPowerAppend {
-            get => NTMinerRoot.Instance.MinerProfile.IsPowerAppend;
+            get => NTMinerContext.Instance.MinerProfile.IsPowerAppend;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsPowerAppend != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsPowerAppend), value);
+                if (NTMinerContext.Instance.MinerProfile.IsPowerAppend != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsPowerAppend), value);
                     OnPropertyChanged(nameof(IsPowerAppend));
                 }
             }
         }
 
         public int PowerAppend {
-            get => NTMinerRoot.Instance.MinerProfile.PowerAppend;
+            get => NTMinerContext.Instance.MinerProfile.PowerAppend;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.PowerAppend != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(PowerAppend), value);
+                if (NTMinerContext.Instance.MinerProfile.PowerAppend != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(PowerAppend), value);
                     OnPropertyChanged(nameof(PowerAppend));
                 }
             }
         }
 
         public bool IsShowCommandLine {
-            get { return NTMinerRoot.Instance.MinerProfile.IsShowCommandLine; }
+            get { return NTMinerContext.Instance.MinerProfile.IsShowCommandLine; }
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsShowCommandLine != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowCommandLine), value);
+                if (NTMinerContext.Instance.MinerProfile.IsShowCommandLine != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowCommandLine), value);
                     OnPropertyChanged(nameof(IsShowCommandLine));
                 }
             }
         }
 
         private void CreateShortcut() {
-            if (!VirtualRoot.IsMinerClient) {
+            if (!ClientAppType.IsMinerClient) {
                 return;
             }
             bool isDo = !File.Exists(_linkFileFullName);
@@ -566,12 +850,12 @@ namespace NTMiner.Vms {
         }
 
         public bool IsCreateShortcut {
-            get { return NTMinerRoot.Instance.MinerProfile.IsCreateShortcut; }
+            get { return NTMinerContext.Instance.MinerProfile.IsCreateShortcut; }
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsCreateShortcut != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsCreateShortcut), value);
+                if (NTMinerContext.Instance.MinerProfile.IsCreateShortcut != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsCreateShortcut), value);
                     OnPropertyChanged(nameof(IsCreateShortcut));
-                    if (VirtualRoot.IsMinerClient) {
+                    if (ClientAppType.IsMinerClient) {
                         if (value) {
                             CreateShortcut();
                         }
@@ -584,129 +868,129 @@ namespace NTMiner.Vms {
         }
 
         public Guid CoinId {
-            get => NTMinerRoot.Instance.MinerProfile.CoinId;
+            get => NTMinerContext.Instance.MinerProfile.CoinId;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.CoinId != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CoinId), value);
+                if (NTMinerContext.Instance.MinerProfile.CoinId != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(CoinId), value);
                     OnPropertyChanged(nameof(CoinId));
                 }
             }
         }
 
         public int MaxTemp {
-            get => NTMinerRoot.Instance.MinerProfile.MaxTemp;
+            get => NTMinerContext.Instance.MinerProfile.MaxTemp;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.MaxTemp != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(MaxTemp), value);
+                if (NTMinerContext.Instance.MinerProfile.MaxTemp != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(MaxTemp), value);
                     OnPropertyChanged(nameof(MaxTemp));
                 }
             }
         }
 
         public int AutoStartDelaySeconds {
-            get => NTMinerRoot.Instance.MinerProfile.AutoStartDelaySeconds;
+            get => NTMinerContext.Instance.MinerProfile.AutoStartDelaySeconds;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.AutoStartDelaySeconds != value) {
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoStartDelaySeconds), value);
+                if (NTMinerContext.Instance.MinerProfile.AutoStartDelaySeconds != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(AutoStartDelaySeconds), value);
                     OnPropertyChanged(nameof(AutoStartDelaySeconds));
                 }
             }
         }
 
         public bool IsAutoStopByCpu {
-            get => NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu;
+            get => NTMinerContext.Instance.MinerProfile.IsAutoStopByCpu;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsAutoStopByCpu != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStopByCpu), value);
+                if (NTMinerContext.Instance.MinerProfile.IsAutoStopByCpu != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStopByCpu), value);
                     OnPropertyChanged(nameof(IsAutoStopByCpu));
                 }
             }
         }
 
         public int CpuStopTemperature {
-            get => NTMinerRoot.Instance.MinerProfile.CpuStopTemperature;
+            get => NTMinerContext.Instance.MinerProfile.CpuStopTemperature;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.CpuStopTemperature != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStopTemperature), value);
+                if (NTMinerContext.Instance.MinerProfile.CpuStopTemperature != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStopTemperature), value);
                     OnPropertyChanged(nameof(CpuStopTemperature));
                 }
             }
         }
 
         public int CpuGETemperatureSeconds {
-            get => NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds;
+            get => NTMinerContext.Instance.MinerProfile.CpuGETemperatureSeconds;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.CpuGETemperatureSeconds != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuGETemperatureSeconds), value);
+                if (NTMinerContext.Instance.MinerProfile.CpuGETemperatureSeconds != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuGETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuGETemperatureSeconds));
                 }
             }
         }
 
         public bool IsAutoStartByCpu {
-            get => NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu;
+            get => NTMinerContext.Instance.MinerProfile.IsAutoStartByCpu;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsAutoStartByCpu != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStartByCpu), value);
+                if (NTMinerContext.Instance.MinerProfile.IsAutoStartByCpu != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStartByCpu), value);
                     OnPropertyChanged(nameof(IsAutoStartByCpu));
                 }
             }
         }
 
         public int CpuStartTemperature {
-            get => NTMinerRoot.Instance.MinerProfile.CpuStartTemperature;
+            get => NTMinerContext.Instance.MinerProfile.CpuStartTemperature;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.CpuStartTemperature != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStartTemperature), value);
+                if (NTMinerContext.Instance.MinerProfile.CpuStartTemperature != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuStartTemperature), value);
                     OnPropertyChanged(nameof(CpuStartTemperature));
                 }
             }
         }
 
         public int CpuLETemperatureSeconds {
-            get => NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds;
+            get => NTMinerContext.Instance.MinerProfile.CpuLETemperatureSeconds;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.CpuLETemperatureSeconds != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuLETemperatureSeconds), value);
+                if (NTMinerContext.Instance.MinerProfile.CpuLETemperatureSeconds != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(CpuLETemperatureSeconds), value);
                     OnPropertyChanged(nameof(CpuLETemperatureSeconds));
                 }
             }
         }
 
         public bool IsRaiseHighCpuEvent {
-            get => NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent;
+            get => NTMinerContext.Instance.MinerProfile.IsRaiseHighCpuEvent;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.IsRaiseHighCpuEvent != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsRaiseHighCpuEvent), value);
+                if (NTMinerContext.Instance.MinerProfile.IsRaiseHighCpuEvent != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsRaiseHighCpuEvent), value);
                     OnPropertyChanged(nameof(IsRaiseHighCpuEvent));
                 }
             }
         }
 
         public int HighCpuBaseline {
-            get => NTMinerRoot.Instance.MinerProfile.HighCpuBaseline;
+            get => NTMinerContext.Instance.MinerProfile.HighCpuBaseline;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.HighCpuBaseline != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuBaseline), value);
+                if (NTMinerContext.Instance.MinerProfile.HighCpuBaseline != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuBaseline), value);
                     OnPropertyChanged(nameof(HighCpuBaseline));
                 }
             }
         }
 
         public int HighCpuSeconds {
-            get => NTMinerRoot.Instance.MinerProfile.HighCpuSeconds;
+            get => NTMinerContext.Instance.MinerProfile.HighCpuSeconds;
             set {
-                if (NTMinerRoot.Instance.MinerProfile.HighCpuSeconds != value) {
-                    NTMinerRoot.Instance.CpuPackage.Reset();
-                    NTMinerRoot.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuSeconds), value);
+                if (NTMinerContext.Instance.MinerProfile.HighCpuSeconds != value) {
+                    NTMinerContext.Instance.CpuPackage.Reset();
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(HighCpuSeconds), value);
                     OnPropertyChanged(nameof(HighCpuSeconds));
                 }
             }
@@ -714,8 +998,8 @@ namespace NTMiner.Vms {
 
         public CoinViewModel CoinVm {
             get {
-                if (!AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm) || !coinVm.IsSupported) {
-                    coinVm = AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported).FirstOrDefault();
+                if (!AppRoot.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm) || !coinVm.IsSupported) {
+                    coinVm = AppRoot.CoinVms.MainCoins.Where(a => a.IsSupported).FirstOrDefault();
                     if (coinVm != null) {
                         CoinId = coinVm.Id;
                     }
@@ -724,14 +1008,14 @@ namespace NTMiner.Vms {
             }
             set {
                 if (value == null) {
-                    value = AppContext.Instance.CoinVms.MainCoins.Where(a => a.IsSupported).OrderBy(a => a.Code).FirstOrDefault();
+                    value = AppRoot.CoinVms.MainCoins.Where(a => a.IsSupported).OrderBy(a => a.Code).FirstOrDefault();
                 }
                 if (value != null) {
                     this.CoinId = value.Id;
                     OnPropertyChanged(nameof(CoinVm));
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
-                    AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
-                    foreach (var item in AppContext.GpuSpeedViewModels.Instance.List) {
+                    NTMinerContext.RefreshArgsAssembly.Invoke("MinerProfile上引用的主挖币种发生了切换");
+                    AppRoot.MinerProfileVm.OnPropertyChanged(nameof(AppRoot.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
+                    foreach (var item in AppRoot.GpuSpeedViewModels.Instance.List) {
                         item.OnPropertyChanged(nameof(item.GpuProfileVm));
                     }
                 }
@@ -740,7 +1024,7 @@ namespace NTMiner.Vms {
 
         public bool IsWorker {
             get {
-                return MineWork != null && !VirtualRoot.IsMinerStudio;
+                return MineWork != null && !ClientAppType.IsMinerStudio;
             }
         }
 

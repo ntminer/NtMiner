@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core.Daemon {
-    public class WorkRequest : RequestBase, IGetSignData {
+    public class WorkRequest : IRequest, ISignableData {
         public WorkRequest() { }
 
         public Guid WorkId { get; set; }

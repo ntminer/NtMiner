@@ -1,0 +1,76 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.SysDicItemEdit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+	mc:Ignorable="d"
+    d:DesignWidth="520"
+    Background="White">
+	<UserControl.Resources>
+		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+			<Setter Property="Width" Value="60"></Setter>
+		</Style>
+	</UserControl.Resources>
+	<StackPanel Margin="10">
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}">所属字典:</TextBlock>
+			<TextBlock Text="{Binding SysDicVm.Name}" Width="300" VerticalAlignment="Center"></TextBlock>
+			<TextBlock Style="{StaticResource LblTb}">排序:</TextBlock>
+			<TextBox Width="60" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
+			</TextBox>
+		</WrapPanel>
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}">编码:</TextBlock>
+			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
+			</TextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">值:</TextBlock>
+			<controls:KbMuiltilineTextBox 
+				Width="420" Background="Transparent" Padding="0 4"
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Value, Mode=TwoWay}" 
+				Height="150">
+			</controls:KbMuiltilineTextBox>
+		</WrapPanel>
+
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">备注:</TextBlock>
+			<controls:KbMuiltilineTextBox 
+				Width="420" Background="Transparent" Padding="0 4"
+				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+				Text="{Binding Description, Mode=TwoWay}" 
+				Height="50">                
+			</controls:KbMuiltilineTextBox>
+		</WrapPanel>
+		<controls:KbButton
+			Command="{Binding Save}" 
+			Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+			Margin="0 10 0 0"
+			Padding="15 2"
+			HorizontalAlignment="Center"
+			Background="{StaticResource BtnBackground}"
+			Foreground="{StaticResource BtnForeground}"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource BtnForeground}"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+	</StackPanel>
+</UserControl>

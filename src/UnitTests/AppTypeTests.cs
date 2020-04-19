@@ -1,7 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
+using System;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class AppTypeTests {
         [TestMethod]
@@ -11,7 +12,11 @@ namespace UnitTests {
 
         [TestMethod]
         public void IsMinerStudioTest() {
-            Assert.IsTrue(typeof(NTMiner.NTMinerServices.NTMinerServicesUtil).Assembly.GetManifestResourceInfo(NTKeyword.NTMinerServicesKey) != null);
+            var assembly = typeof(MsRdpRemoteDesktop).Assembly;
+            Type type = assembly.GetType("NTMiner.MsRdpRemoteDesktop");
+            Assert.IsNotNull(type);
+            type = assembly.GetType("NTMiner.aaaaa");
+            Assert.IsNull(type);
         }
     }
 }

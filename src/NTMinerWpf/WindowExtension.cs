@@ -196,7 +196,7 @@ namespace NTMiner {
         }
 
         private static void UiElement_Closed(object sender, EventArgs e) {
-            Window uiElement = (Window)sender;
+            FrameworkElement uiElement = (FrameworkElement)sender;
             List<IMessagePathId> pathIds = (List<IMessagePathId>)uiElement.Resources[messagePathIdsResourceKey];
             foreach (var pathId in pathIds) {
                 VirtualRoot.RemoveMessagePath(pathId);

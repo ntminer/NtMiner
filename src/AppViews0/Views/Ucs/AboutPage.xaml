@@ -1,0 +1,93 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.AboutPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="520">
+	<UserControl.DataContext>
+		<vm:AboutPageViewModel></vm:AboutPageViewModel>
+	</UserControl.DataContext>
+	<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+        </Grid.RowDefinitions>
+		<StackPanel Grid.Row="0">
+			<WrapPanel Margin="60 0 0 0">
+                <Image Width="90" Height="90" Margin="0 4 0 0" Source="{x:Static app:AppStatic.BigLogoImageSource}">
+				</Image>
+                <StackPanel Margin="16 0 0 0" VerticalAlignment="Center">
+                    <TextBlock FontSize="30" Text="{x:Static app:AppStatic.AppName}"></TextBlock>
+                    <WrapPanel>
+                        <TextBlock FontSize="16" Text="版本："></TextBlock>
+                        <TextBlock FontSize="16" Text="{x:Static app:AppStatic.CurrentVersion}"></TextBlock>
+                    </WrapPanel>
+                    <WrapPanel>
+                        <TextBlock FontSize="16" Text="官网："></TextBlock>
+                        <controls:KbLinkButton
+                            FontSize="16"
+						    Command="{x:Static app:AppStatic.OpenOfficialSite}"
+						    KbDisplayLine="False"
+						    HorizontalAlignment="Left"
+						    Background="Transparent">
+                            <TextBlock Text="https://ntminer.com/"></TextBlock>
+                        </controls:KbLinkButton>
+                    </WrapPanel>
+				</StackPanel>
+			</WrapPanel>
+		</StackPanel>
+		<StackPanel Grid.Row="1">
+			<TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">1，开源矿工内置的所有内核均为原版，永不增加矿工支出；</TextBlock>
+            <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">2，开源矿工永远开源；</TextBlock>
+            <TextBlock Margin="70 0 0 0" FontSize="15" Padding="0 4">3，开源矿工永不破解国人开发的内核；</TextBlock>
+            <controls:KbLinkButton
+                Margin="70 0 0 0" FontSize="15" Padding="0 4"
+				Command="{x:Static app:AppStatic.BusinessModel}"
+				KbDisplayLine="False"
+				HorizontalAlignment="Left"
+				Background="Transparent">
+                <TextBlock Text="4，如何盈利/商业模式"></TextBlock>
+            </controls:KbLinkButton>
+        </StackPanel>
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Center">
+            <controls:KbLinkButton
+			    ToolTip="源代码"
+                Margin="0 0 4 0"
+                Background="Transparent"
+                VerticalAlignment="Center"
+			    Command="{x:Static app:AppStatic.OpenGithub}"
+			    Foreground="{StaticResource LinkForeground}"
+                Content="程序源码"
+			    KbDisplayLine="False">
+            </controls:KbLinkButton>
+            <TextBlock Padding="4">|</TextBlock>
+            <TextBlock Padding="4" Text="版权所有"></TextBlock>
+            <TextBlock Padding="4">|</TextBlock>
+            <controls:KbLinkButton
+			    ToolTip="开源协议"
+                Margin="4 0 0 0"
+                Background="Transparent"
+                VerticalAlignment="Center"
+			    Command="{x:Static app:AppStatic.OpenLGPL}"
+			    Foreground="{StaticResource LinkForeground}"
+			    KbDisplayLine="False">
+                <TextBlock>LGPL</TextBlock>
+            </controls:KbLinkButton>
+        </WrapPanel>
+        <WrapPanel Grid.Row="3" HorizontalAlignment="Center">
+            <TextBlock>Copyright</TextBlock>
+            <TextBlock Margin="4 0 0 0">©</TextBlock>
+            <TextBlock Margin="4 0" Text="{Binding ThisYear}"></TextBlock>
+            <TextBlock>NTMiner.com. All Rights Reserved.</TextBlock>
+        </WrapPanel>
+    </Grid>
+</UserControl>

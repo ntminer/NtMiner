@@ -1,5 +1,5 @@
-﻿using NTMiner.Core;
-using NTMiner.Core.Daemon;
+﻿using NTMiner.Vms;
+using NTMiner.Ws;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 namespace NTMiner.Daemon {
     public static class DaemonUtil {
         public static void RunNTMinerDaemon() {
-            if (VirtualRoot.IsMinerStudio) {
+            if (ClientAppType.IsMinerStudio) {
                 return;
             }
-            string processName = "NTMinerDaemon";
+            string processName = Path.GetFileNameWithoutExtension(NTKeyword.NTMinerDaemonFileName);
             Process[] processes = Process.GetProcessesByName(processName);
             if (processes.Length != 0) {
                 string thatVersion = NTMinerRegistry.GetDaemonVersion();
@@ -24,13 +24,17 @@ namespace NTMiner.Daemon {
                     string thisVersion = ThisNTMinerDaemonFileVersion;
                     if (thatVersion != thisVersion) {
                         Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
-                        RpcRoot.Client.NTMinerDaemonService.CloseDaemon();
-                        System.Threading.Thread.Sleep(1000);
-                        Windows.TaskKill.Kill(processName, waitForExit: true);
-                        ExtractRunNTMinerDaemonAsync();
-                    }
-                    else {
-                        SetWalletAsync();
+                        RpcRoot.Client.NTMinerDaemonService.CloseDaemonAsync(() => {
+                            System.Threading.Thread.Sleep(1000);
+                            Windows.TaskKill.Kill(processName, waitForExit: true);
+                            VirtualRoot.Execute(new RefreshWsStateCommand(new WsClientState {
+                                Status = WsClientStatus.Closed,
+                                Description = "更新守护程序中…",
+                                LastTryOn = DateTime.Now,
+                                NextTrySecondsDelay = 10
+                            }));
+                            ExtractRunNTMinerDaemonAsync();
+                        });
                     }
                 }
                 catch (Exception e) {
@@ -42,55 +46,33 @@ namespace NTMiner.Daemon {
             }
         }
 
-        private static string GetEthNoDevFeeWallet() {
-            string wallet = Vms.EthNoDevFeeEditViewModel.GetEthNoDevFeeWallet();
-            if (string.IsNullOrEmpty(wallet)) {
-                if (NTMinerRoot.Instance.ServerContext.CoinSet == null) {
-                    return wallet;
-                }
-                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin("ETH", out ICoin coin)) {
-                    wallet = coin.TestWallet;
-                }
-            }
-            return wallet;
-        }
-
-        private static void SetWalletAsync() {
-            string testWallet = GetEthNoDevFeeWallet();
-            if (string.IsNullOrEmpty(testWallet)) {
-                return;
-            }
-            SetWalletRequest request = new SetWalletRequest {
-                TestWallet = testWallet
-            };
-            RpcRoot.Client.NTMinerDaemonService.SetWalletAsync(request, callback: null);
-        }
-
         private static void ExtractRunNTMinerDaemonAsync() {
             Task.Factory.StartNew(() => {
                 ExtractResource(NTKeyword.NTMinerDaemonFileName);
-                Windows.Cmd.RunClose(SpecialPath.DaemonFileFullName, string.Empty, waitForExit: true);
+                Windows.Cmd.RunClose(TempPath.DaemonFileFullName, string.Empty, waitForExit: true, createNoWindow: !DevMode.IsDevMode);
                 Logger.OkDebugLine("守护进程启动成功");
-                SetWalletAsync();
+                2.SecondsDelay().ContinueWith(t => {
+                    MinerProfileViewModel.Instance.StartOrStopWs();
+                });
             });
         }
 
         public static void RunDevConsoleAsync(string poolIp, string consoleTitle) {
-            if (VirtualRoot.IsMinerStudio) {
+            if (ClientAppType.IsMinerStudio) {
                 return;
             }
             Task.Factory.StartNew(() => {
-                if (!File.Exists(SpecialPath.DevConsoleFileFullName)) {
+                if (!File.Exists(TempPath.DevConsoleFileFullName)) {
                     ExtractResource(NTKeyword.DevConsoleFileName);
                     Logger.OkDebugLine("DevConsole解压成功");
                 }
-                else if (HashUtil.Sha1(File.ReadAllBytes(SpecialPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
+                else if (HashUtil.Sha1(File.ReadAllBytes(TempPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
                     Windows.TaskKill.Kill(NTKeyword.DevConsoleFileName, waitForExit: true);
                     ExtractResource(NTKeyword.DevConsoleFileName);
                     Logger.OkDebugLine("发现新版DevConsole，更新成功");
                 }
                 string argument = poolIp + " " + consoleTitle;
-                Process.Start(SpecialPath.DevConsoleFileFullName, argument);
+                Process.Start(TempPath.DevConsoleFileFullName, argument);
                 Logger.OkDebugLine("DevConsole启动成功");
             });
         }
@@ -99,7 +81,7 @@ namespace NTMiner.Daemon {
             try {
                 Type type = typeof(DaemonUtil);
                 Assembly assembly = type.Assembly;
-                string daemonDir = Path.GetDirectoryName(SpecialPath.DaemonFileFullName);
+                string daemonDir = Path.GetDirectoryName(TempPath.DaemonFileFullName);
                 assembly.ExtractManifestResource(type, name, Path.Combine(daemonDir, name));
             }
             catch (Exception e) {

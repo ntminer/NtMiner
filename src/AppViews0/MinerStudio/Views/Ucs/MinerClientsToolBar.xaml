@@ -1,0 +1,460 @@
+﻿<UserControl 
+    x:Class="NTMiner.MinerStudio.Views.Ucs.MinerClientsToolBar"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+    d:DataContext="{d:DesignData Source=../Design/MinerClientsWindowViewModel.xaml}"
+	mc:Ignorable="d">
+    <Grid>
+        <Menu>
+            <Menu.Resources>
+                <Style x:Key="TopMenuItem" TargetType="MenuItem">
+                    <Setter Property="Padding" Value="0 4 4 4"></Setter>
+                    <Setter Property="Margin" Value="6 0"></Setter>
+                </Style>
+                <Style x:Key="TopPopupMenuItem" TargetType="MenuItem" BasedOn="{StaticResource TopMenuItem}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="False">
+                            <Setter Property="Opacity" Value="0.6"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Menu.Resources>
+            <MenuItem 
+                x:Name="MenuItemStartMine"
+                Style="{StaticResource TopMenuItem}"
+                Header="开挖" 
+                ToolTip="选中的矿机开始挖矿" 
+                Command="{Binding StartMine}">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Start}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Header="停挖" 
+                ToolTip="选中的矿机停止挖矿" 
+                Command="{Binding StopMine}">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Stop}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem 
+                ToolTip="为选中的矿机指定作业" 
+                x:Name="MenuItemMineWork" 
+                Style="{StaticResource TopPopupMenuItem}"
+                IsEnabled="{Binding ElementName=MenuItemStartMine, Path=IsEnabled}" 
+                Click="MenuItemWork_Click">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_MineWork}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock>挖矿作业</TextBlock>
+                        <Path
+                            Margin="4 0 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+                    </WrapPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Foreground="{StaticResource LableColor}"
+                Visibility="{Binding ElementName=MenuItemMineWork,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}"
+                IsEnabled="False">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_MineWork}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock>挖矿作业</TextBlock>
+                        <Path
+                            Margin="4 0 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+                    </WrapPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem 
+                ToolTip="将选中的矿机放入分组" 
+                x:Name="MenuItemMinerGroup" 
+                Style="{StaticResource TopPopupMenuItem}"
+                IsEnabled="{Binding ElementName=MenuItemStartMine, Path=IsEnabled}" 
+                Click="MenuItemGroup_Click">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_MinerGroup}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock>矿机分组</TextBlock>
+                        <Path
+                            Margin="4 0 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+                    </WrapPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Foreground="{StaticResource LableColor}"
+                Visibility="{Binding ElementName=MenuItemMinerGroup,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}"
+                IsEnabled="False">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_MinerGroup}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock>矿机分组</TextBlock>
+                        <Path
+                            Margin="4 0 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+                    </WrapPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Command="{Binding OneKeyWorkerNames}" 
+                Header="群控名" 
+                ToolTip="为选中的矿机设置矿机名">
+                <MenuItem.Icon>
+                    <Path
+					    Width="16"
+					    Height="16"
+					    Data="{StaticResource Icon_MinerName}"
+					    Fill="{StaticResource BtnBackground}"
+					    Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Command="{Binding OneKeySetting}" 
+                Header="矿机设置" 
+                ToolTip="设置选中的矿机">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Setting}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Header="超频" 
+                Command="{Binding OneKeyOverClock}" 
+                ToolTip="超频选中的矿机">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_OverClock}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem 
+                ToolTip="升级选中的矿机的开源矿工挖矿端" 
+                x:Name="MenuItemUpgrade" 
+                Style="{StaticResource TopPopupMenuItem}"
+                IsEnabled="{Binding ElementName=MenuItemStartMine, Path=IsEnabled}" 
+                Click="MenuItemUpgrade_Click">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Update}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock>升级挖矿端</TextBlock>
+                        <Path
+                            Margin="4 0 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+                    </WrapPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Foreground="{StaticResource LableColor}"
+                Visibility="{Binding ElementName=MenuItemUpgrade,Path=Visibility,Converter={StaticResource VisibilityInvertConverter}}"
+                IsEnabled="False">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Update}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock>升级挖矿端</TextBlock>
+                        <Path
+                            Margin="4 0 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+                    </WrapPanel>
+                </MenuItem.Header>
+            </MenuItem>
+            <MenuItem Style="{StaticResource TopMenuItem}">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Windows}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock>操作系统</TextBlock>
+                        <Path
+                            Margin="4 0 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+                    </WrapPanel>
+                </MenuItem.Header>
+                <MenuItem Header="重启电脑" ToolTip="重启选中的矿机" Command="{Binding RestartWindows}">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_Restart2}"
+						    Fill="{StaticResource BtnBackground}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="关闭电脑" ToolTip="关机选中的矿机" Command="{Binding ShutdownWindows}">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_Shutdown}"
+						    Fill="{StaticResource BtnBackground}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding EnableRemoteDesktop}" Header="启用远程桌面" ToolTip="开启选中的矿机的Windows远程桌面功能">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_Enable}"
+						    Fill="{StaticResource BtnBackground}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding RemoteDesktop}" Header="设置远程桌面" ToolTip="设置选中的矿机的远程桌面用户名密码">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_RemoteDesktop}"
+						    Fill="{StaticResource BtnBackground}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding BlockWAU}" Header="禁用Windows系统更新" ToolTip="禁用选中的矿机的Windows自动更新服务">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_DisableWindowsUpdate}"
+						    Fill="{StaticResource BtnBackground}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding PowerCfgOff}" Header="关闭Windows系统休眠" ToolTip="挖矿端启动时已自动关闭系统休眠">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="14"
+						    Height="16"
+						    Data="{StaticResource Icon_Power}"
+						    Fill="{StaticResource BtnBackground}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding VirtualMemory}" Header="设置虚拟内存" ToolTip="设置选中的矿机的虚拟内存">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_VirtualMemory}"
+						    Fill="{StaticResource BtnBackground}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding LocalIpConfig}" Header="动态/固定IP" ToolTip="设置选中的矿机的IP模式">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_Ip}"
+						    Fill="{StaticResource BtnBackground}"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Style="{StaticResource TopMenuItem}">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_AMD}"
+						Fill="Red"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <WrapPanel>
+                        <TextBlock>A卡</TextBlock>
+                        <Path
+                            Margin="4 0 0 0"
+						    Width="12"
+						    Height="8"
+						    Data="{StaticResource Icon_ComboBoxToogle}"
+						    Fill="Black"
+						    Stretch="Fill" />
+                    </WrapPanel>
+                </MenuItem.Header>
+                <MenuItem Command="{Binding SwitchRadeonGpu}" Header="A卡计算模式" ToolTip="开启选中的矿机的A卡计算模式">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_AMD}"
+						    Fill="Red"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Command="{Binding AtikmdagPatcher}" Header="A卡驱动签名" ToolTip="签名选中的矿机的A卡驱动">
+                    <MenuItem.Icon>
+                        <Path
+						    Width="16"
+						    Height="16"
+						    Data="{StaticResource Icon_AMD}"
+						    Fill="Red"
+						    Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Header="添加矿机" 
+                Command="{Binding AddMinerClient}"
+                Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Add}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Header="删除矿机" 
+                ToolTip="删除选中的矿机" 
+                Command="{Binding RemoveMinerClients}">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Delete}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
+        <Popup 
+            x:Name="PopupMineWork" 
+            Placement="Bottom" 
+            PlacementTarget="{Binding ElementName=MenuItemMineWork}" 
+            PopupAnimation="Slide"
+            StaysOpen="False"
+            Opened="PopupMineWork_Opened"
+            Closed="PopupMineWork_Closed">
+        </Popup>
+        <Popup 
+            x:Name="PopupMinerGroup" 
+            Placement="Bottom" 
+            PlacementTarget="{Binding ElementName=MenuItemMinerGroup}" 
+            PopupAnimation="Slide"
+            StaysOpen="False"
+            Opened="PopupMinerGroup_Opened"
+            Closed="PopupMinerGroup_Closed">
+        </Popup>
+        <Popup 
+            x:Name="PopUpgrade" 
+            Placement="Bottom" 
+            PlacementTarget="{Binding ElementName=MenuItemUpgrade}" 
+            PopupAnimation="Slide" 
+            StaysOpen="False"
+            Opened="PopUpgrade_Opened"
+            Closed="PopUpgrade_Closed">
+        </Popup>
+    </Grid>
+</UserControl>

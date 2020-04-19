@@ -49,7 +49,6 @@
         <DataGrid
             Grid.Row="2"
             BorderThickness="1 0"
-			ColumnHeaderHeight="34"
 			MouseDoubleClick="DataGrid_MouseDoubleClick"
             ItemsSource="{Binding Results}">
             <DataGrid.Resources>

@@ -24,6 +24,7 @@ namespace NTMiner.RemoteDesktop {
         private const NET_FW_SCOPE_ MinerClientScope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
         private const string MinerClientRuleName = "MinerClient";
         private const string NTMinerDaemonRuleName = "NTMinerDaemon";
+        private const string WsServerRuleName = "WsServer";
 
         #region DisableFirewall
         public static bool DisableFirewall() {
@@ -51,6 +52,9 @@ namespace NTMiner.RemoteDesktop {
         #endregion
 
         #region EnableFirewall
+        /// <summary>
+        /// 仅供单元测试
+        /// </summary>
         public static bool EnableFirewall() {
             FirewallStatus state = Status(FirewallDomain.Domain);
             if (state == RemoteDesktop.FirewallStatus.Enabled) {
@@ -101,6 +105,9 @@ namespace NTMiner.RemoteDesktop {
             }
         }
 
+        /// <summary>
+        /// 仅供单元测试
+        /// </summary>
         public static void RemoveMinerClientRule() {
             FirewallStatus state = Status(FirewallDomain.Domain);
             if (state == RemoteDesktop.FirewallStatus.Disabled) {
@@ -154,6 +161,9 @@ namespace NTMiner.RemoteDesktop {
             }
         }
 
+        /// <summary>
+        /// 仅供单元测试
+        /// </summary>
         public static void RemoveRdpRule() {
             FirewallStatus state = Status(FirewallDomain.Domain);
             if (state == RemoteDesktop.FirewallStatus.Disabled) {
@@ -172,6 +182,9 @@ namespace NTMiner.RemoteDesktop {
             }
         }
 
+        /// <summary>
+        /// 仅供单元测试
+        /// </summary>
         public static bool IsRdpRuleExists() {
             FirewallStatus state = Status(FirewallDomain.Domain);
             if (state == RemoteDesktop.FirewallStatus.Disabled) {

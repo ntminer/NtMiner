@@ -6,7 +6,7 @@
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            _serverJsonVersion = NTMinerRoot.Instance.GetServerJsonVersion();
+            _serverJsonVersion = NTMinerContext.Instance.GetServerJsonVersion();
         }
 
         public string ServerJsonVersion {

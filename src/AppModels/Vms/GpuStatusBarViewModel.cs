@@ -10,7 +10,10 @@ namespace NTMiner.Vms {
 #if DEBUG
                 NTStopwatch.Start();
 #endif
-            this.GpuAllVm = AppContext.Instance.GpuVms.Items.FirstOrDefault(a => a.Index == NTMinerRoot.GpuAllId);
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+            this.GpuAllVm = AppRoot.GpuVms.Items.FirstOrDefault(a => a.Index == NTMinerContext.GpuAllId);
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
@@ -28,7 +31,11 @@ namespace NTMiner.Vms {
             get {
                 if (_icon == null) {
                     string iconName;
-                    switch (NTMinerRoot.Instance.GpuSet.GpuType) {
+                    GpuType gpuType = GpuType.NVIDIA;
+                    if (!WpfUtil.IsInDesignMode) {
+                        gpuType = NTMinerContext.Instance.GpuSet.GpuType;
+                    }
+                    switch (gpuType) {
                         case GpuType.NVIDIA:
                             iconName = "Icon_Nvidia";
                             break;
@@ -48,7 +55,11 @@ namespace NTMiner.Vms {
         public string IconFill {
             get {
                 string iconFill;
-                switch (NTMinerRoot.Instance.GpuSet.GpuType) {
+                GpuType gpuType = GpuType.NVIDIA;
+                if (!WpfUtil.IsInDesignMode) {
+                    gpuType = NTMinerContext.Instance.GpuSet.GpuType;
+                }
+                switch (gpuType) {
                     case GpuType.NVIDIA:
                         iconFill = "Green";
                         break;
@@ -66,19 +77,19 @@ namespace NTMiner.Vms {
 
         public string GpuSetName {
             get {
-                return NTMinerRoot.Instance.GpuSet.GpuType.GetDescription();
+                if (WpfUtil.IsInDesignMode) {
+                    return string.Empty;
+                }
+                return NTMinerContext.Instance.GpuSet.GpuType.GetDescription();
             }
         }
 
         public string GpuSetInfo {
             get {
-                return NTMinerRoot.Instance.GpuSetInfo;
-            }
-        }
-
-        public string GpuCountText {
-            get {
-                return $"x{NTMinerRoot.Instance.GpuSet.Count.ToString()}";
+                if (WpfUtil.IsInDesignMode) {
+                    return "p106-100 x 8";
+                }
+                return NTMinerContext.Instance.GpuSetInfo;
             }
         }
     }

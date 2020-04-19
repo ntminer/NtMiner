@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class DependencyObjectTests {
         [TestMethod]

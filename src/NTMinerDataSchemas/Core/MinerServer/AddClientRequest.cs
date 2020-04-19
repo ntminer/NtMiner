@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class AddClientRequest : RequestBase, IGetSignData {
+    public class AddClientRequest : IRequest, ISignableData {
         public AddClientRequest() {
             this.ClientIps = new List<string>();
         }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Net.Sockets;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class NetTests {
         [TestMethod]

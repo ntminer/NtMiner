@@ -1,6 +1,6 @@
-﻿using NTMiner.Core.Profiles.Impl;
-using NTMiner.Core.MinerServer;
+﻿using Microsoft.Win32;
 using NTMiner.Core.Profile;
+using NTMiner.Core.Profiles.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Text;
 
 namespace NTMiner.Core.Profiles {
     internal partial class MinerProfile : IWorkProfile {
-        private readonly INTMinerRoot _root;
+        private readonly INTMinerContext _root;
 
         private MinerProfileData _data = null;
         private CoinKernelProfileSet _coinKernelProfileSet;
@@ -17,20 +17,20 @@ namespace NTMiner.Core.Profiles {
         private PoolProfileSet _poolProfileSet;
         private WalletSet _walletSet;
 
-        public MinerProfile(INTMinerRoot root) {
+        public MinerProfile(INTMinerContext root) {
             _root = root;
             Init(root);
         }
 
-        public void ReInit(INTMinerRoot root) {
+        public void ReInit(INTMinerContext root) {
             Init(root);
         }
 
         #region Init
-        private void Init(INTMinerRoot root) {
-            var minerProfileRepository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
+        private void Init(INTMinerContext root) {
+            var minerProfileRepository = root.ServerContext.CreateLocalRepository<MinerProfileData>();
             _data = minerProfileRepository.GetAll().FirstOrDefault();
-            var mineWorkRepository = NTMinerRoot.CreateLocalRepository<MineWorkData>();
+            var mineWorkRepository = root.ServerContext.CreateLocalRepository<MineWorkData>();
             MineWork = mineWorkRepository.GetAll().FirstOrDefault();
             if (_data == null) {
                 Guid coinId = Guid.Empty;
@@ -39,6 +39,13 @@ namespace NTMiner.Core.Profiles {
                     coinId = coin.GetId();
                 }
                 _data = MinerProfileData.CreateDefaultData(coinId);
+            }
+            else {
+                // 交换到注册表以供守护进程访问
+                if (ClientAppType.IsMinerClient && !NTMinerContext.IsJsonLocal) {
+                    SetIsOuterUserEnabled(_data.IsOuterUserEnabled);
+                    SetOuterUserId(_data.OuterUserId);
+                }
             }
             if (_coinProfileSet == null) {
                 _coinProfileSet = new CoinProfileSet(root);
@@ -146,14 +153,15 @@ namespace NTMiner.Core.Profiles {
         public string MinerName {
             get {
                 if (string.IsNullOrEmpty(_data.MinerName)) {
-                    _data.MinerName = NTMinerRoot.ThisPcName;
+                    _data.MinerName = NTMinerContext.ThisPcName;
                 }
                 return _data.MinerName;
             }
             set {
                 if (string.IsNullOrEmpty(value)) {
-                    value = NTMinerRoot.ThisPcName;
+                    value = NTMinerContext.ThisPcName;
                 }
+                value = new string(value.ToCharArray().Where(a => !NTKeyword.InvalidMinerNameChars.Contains(a)).ToArray());
                 _data.MinerName = value;
             }
         }
@@ -379,6 +387,27 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsDisableUAC {
+            get => _data.IsDisableUAC;
+            private set {
+                _data.IsDisableUAC = value;
+            }
+        }
+
+        public bool IsDisableWAU {
+            get => _data.IsDisableWAU;
+            private set {
+                _data.IsDisableWAU = value;
+            }
+        }
+
+        public bool IsDisableAntiSpyware {
+            get => _data.IsDisableAntiSpyware;
+            private set {
+                _data.IsDisableAntiSpyware = value;
+            }
+        }
+
         public bool IsShowInTaskbar {
             get => _data.IsShowInTaskbar;
             private set {
@@ -511,7 +540,38 @@ namespace NTMiner.Core.Profiles {
                 _data.HighCpuSeconds = value;
             }
         }
+
+        public bool IsOuterUserEnabled {
+            get => _data.IsOuterUserEnabled;
+            private set {
+                _data.IsOuterUserEnabled = value;
+                SetIsOuterUserEnabled(value);
+            }
+        }
+
+        public string OuterUserId {
+            get => _data.OuterUserId;
+            private set {
+                _data.OuterUserId = value;
+                SetOuterUserId(value);
+            }
+        }
+
         #endregion
+
+        private static void SetIsOuterUserEnabled(bool isOuterUserEnabled) {
+            if (!ClientAppType.IsMinerClient) {
+                return;
+            }
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, NTKeyword.IsOuterUserEnabledRegistryKey, isOuterUserEnabled.ToString());
+        }
+
+        private static void SetOuterUserId(string outerUserId) {
+            if (!ClientAppType.IsMinerClient) {
+                return;
+            }
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistry.NTMinerRegistrySubKey, NTKeyword.OuterUserIdRegistryKey, outerUserId);
+        }
 
         private static Dictionary<string, PropertyInfo> s_properties;
         [IgnoreReflectionSet]
@@ -539,27 +599,16 @@ namespace NTMiner.Core.Profiles {
         public void SetMinerProfileProperty(string propertyName, object value) {
             if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                 if (propertyInfo.CanWrite) {
-                    if (propertyInfo.PropertyType == typeof(Guid)) {
-                        value = VirtualRoot.ConvertToGuid(value);
-                    }
+                    // 这里的反射赋值没有经过序列化和反序列化且由接口约束类型一定相同所以可以直接赋值和比较
                     object oldValue = propertyInfo.GetValue(this, null);
                     if (oldValue != value) {
                         propertyInfo.SetValue(this, value, null);
-                        var repository = NTMinerRoot.CreateLocalRepository<MinerProfileData>();
+                        var repository = _root.ServerContext.CreateLocalRepository<MinerProfileData>();
                         repository.Update(_data);
                         VirtualRoot.RaiseEvent(new MinerProfilePropertyChangedEvent(propertyName));
                     }
                 }
             }
-        }
-
-        public object GetValue(string propertyName) {
-            if (Properties.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
-                if (propertyInfo.CanRead) {
-                    return propertyInfo.GetValue(this, null);
-                }
-            }
-            return null;
         }
 
         public string GetSha1() {

@@ -14,9 +14,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (!_dicById.ContainsKey(message.Input.GetId())) {
                         var entity = new PoolKernelData().Update(message.Input);
                         _dicById.Add(message.Input.GetId(), entity);
-                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
+                        var repository = context.CreateServerRepository<PoolKernelData>();
                         repository.Add(entity);
-                        VirtualRoot.RaiseEvent(new PoolKernelAddedEvent(message.Id, message.Input));
+                        VirtualRoot.RaiseEvent(new PoolKernelAddedEvent(message.MessageId, message.Input));
                     }
                 }, location: this.GetType());
             _context.AddCmdPath<RemovePoolKernelCommand>("处理移除矿池级内核命令", LogEnum.DevConsole,
@@ -24,9 +24,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (_dicById.ContainsKey(message.EntityId)) {
                         var entity = _dicById[message.EntityId];
                         _dicById.Remove(message.EntityId);
-                        var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
+                        var repository = context.CreateServerRepository<PoolKernelData>();
                         repository.Remove(message.EntityId);
-                        VirtualRoot.RaiseEvent(new PoolKernelRemovedEvent(message.Id, entity));
+                        VirtualRoot.RaiseEvent(new PoolKernelRemovedEvent(message.MessageId, entity));
                     }
                 }, location: this.GetType());
             _context.AddCmdPath<UpdatePoolKernelCommand>("更新矿池内核", LogEnum.DevConsole,
@@ -38,18 +38,17 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (!_context.PoolSet.Contains(message.Input.PoolId)) {
                         throw new ValidationException("there is no pool with id" + message.Input.PoolId);
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out PoolKernelData entity)) {
                         return;
                     }
-                    PoolKernelData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
+                    var repository = context.CreateServerRepository<PoolKernelData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new PoolKernelUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new PoolKernelUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
         }
 
@@ -73,7 +72,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<PoolKernelData>();
+                    var repository = _context.CreateServerRepository<PoolKernelData>();
                     List<PoolKernelData> list = repository.GetAll().ToList();
                     foreach (IPool pool in _context.PoolSet.AsEnumerable()) {
                         foreach (ICoinKernel coinKernel in _context.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == pool.CoinId)) {

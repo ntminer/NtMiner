@@ -16,7 +16,9 @@ namespace NTMiner.Core.Kernels.Impl {
 
         private readonly Dictionary<Guid, KernelOutputTranslaterData> _dicById = new Dictionary<Guid, KernelOutputTranslaterData>();
         private readonly Dictionary<Guid, List<KernelOutputTranslaterData>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputTranslaterData>>();
+        private readonly IServerContext _context;
         public KernelOutputTranslaterSet(IServerContext context) {
+            _context = context;
             context.AddCmdPath<AddKernelOutputTranslaterCommand>("添加内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
                     InitOnece();
@@ -35,10 +37,10 @@ namespace NTMiner.Core.Kernels.Impl {
                         _dicByKernelOutputId.Add(entity.KernelOutputId, new List<KernelOutputTranslaterData>());
                     }
                     _dicByKernelOutputId[entity.KernelOutputId].Add(entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = context.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<UpdateKernelOutputTranslaterCommand>("更新内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
@@ -49,20 +51,19 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (string.IsNullOrEmpty(message.Input.RegexPattern)) {
                         throw new ValidationException($"{nameof(message.Input.RegexPattern)} can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out KernelOutputTranslaterData entity)) {
                         return;
                     }
-                    KernelOutputTranslaterData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     string regexPattern = entity.RegexPattern;
                     entity.Update(message.Input);
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = context.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemoveKernelOutputTranslaterCommand>("移除内核输出翻译器", LogEnum.DevConsole,
                 action: (message) => {
@@ -77,10 +78,10 @@ namespace NTMiner.Core.Kernels.Impl {
                     _dicById.Remove(entity.Id);
                     _dicByKernelOutputId[entity.KernelOutputId].Remove(entity);
                     _dicByKernelOutputId[entity.KernelOutputId].Sort(new SortNumberComparer());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = context.CreateServerRepository<KernelOutputTranslaterData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputTranslaterRemovedEvent(message.MessageId, entity));
                 }, location: this.GetType());
         }
 
@@ -97,7 +98,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputTranslaterData>();
+                    var repository = _context.CreateServerRepository<KernelOutputTranslaterData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

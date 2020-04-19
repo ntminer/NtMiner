@@ -2,9 +2,9 @@
     public class CalcViewModel : ViewModelBase {
         private SpeedUnitViewModel speedUnitVm;
 
-        public AppContext.CoinViewModels CoinVms {
+        public AppRoot.CoinViewModels CoinVms {
             get {
-                return AppContext.Instance.CoinVms;
+                return AppRoot.CoinVms;
             }
         }
 

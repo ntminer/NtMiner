@@ -1,10 +1,14 @@
-﻿using NTMiner.Views;
+﻿using Microsoft.Win32;
+using NTMiner.Views;
 using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace NTMiner {
@@ -16,6 +20,9 @@ namespace NTMiner {
             [DllImport(DllName.User32Dll)]
             public static extern bool SetForegroundWindow(IntPtr hWnd);
         }
+
+        // 因为每个App都配备有个NotiCenterWindow，所以热键的逻辑放在NotiCenterWindow中完成
+        public static bool IsHotKeyEnabled { get; set; }
 
         private static Application _app;
         #region Init
@@ -33,21 +40,29 @@ namespace NTMiner {
             };
 
             UIThread.InitializeWithDispatcher(app.Dispatcher);
+            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
             Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("zh-CN");
+            ToolTipService.ShowDurationProperty.OverrideMetadata(typeof(DependencyObject), new FrameworkPropertyMetadata(60000));
+            app.Exit += (sender, e) => {
+                _mutexApp?.Dispose();
+            };
             app.SessionEnding += (sender, e)=> {
-                OsSessionEndingEvent.ReasonSessionEnding reason;
+                SessionEndReasons reason;
                 switch (e.ReasonSessionEnding) {
                     case ReasonSessionEnding.Logoff:
-                        reason = OsSessionEndingEvent.ReasonSessionEnding.Logoff;
+                        reason = SessionEndReasons.Logoff;
                         break;
                     case ReasonSessionEnding.Shutdown:
-                        reason = OsSessionEndingEvent.ReasonSessionEnding.Shutdown;
+                        reason = SessionEndReasons.SystemShutdown;
                         break;
                     default:
-                        reason = OsSessionEndingEvent.ReasonSessionEnding.Unknown;
+                        reason = SessionEndReasons.Logoff;
                         break;
                 }
-                VirtualRoot.RaiseEvent(new OsSessionEndingEvent(reason));
+                SessionEndingEventArgs args = new SessionEndingEventArgs(reason) {
+                    Cancel = e.Cancel
+                };
+                VirtualRoot.SessionEndingEventHandler?.Invoke(sender, args);
             };
         }
         #endregion

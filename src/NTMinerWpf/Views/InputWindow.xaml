@@ -1,17 +1,18 @@
-﻿<blankWindow:BlankWindow x:Class="NTMiner.Views.InputWindow"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:blankWindow="http://NTMiner.com"
-		xmlns:controls="clr-namespace:NTMiner.Controls"
-		xmlns:app="clr-namespace:NTMiner"
-		ResizeMode="NoResize"
-		SizeToContent="Height"
-		BorderBrush="{StaticResource IconFillColor}"
-		WindowStartupLocation="CenterOwner"
-		Background="White"
-		mc:Ignorable="d" Width="400" MinHeight="130">
+﻿<blankWindow:BlankWindow 
+    x:Class="NTMiner.Views.InputWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls"
+	xmlns:app="clr-namespace:NTMiner"
+	ResizeMode="NoResize"
+	SizeToContent="Height"
+	BorderBrush="{StaticResource BtnBackground}"
+	WindowStartupLocation="CenterOwner"
+	Background="White"
+	mc:Ignorable="d" Width="400" MinHeight="130">
 	<Grid> 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -31,38 +32,46 @@
 					Foreground="{StaticResource ThemeForeground}"
 					Margin="4 4 0 0"
 					FontSize="16" />
-			</WrapPanel>
+                <TextBlock
+					Text="{Binding ElementName=TbTitle, Path=Text}"
+					Foreground="{StaticResource ThemeForeground}"
+					Margin="0 4 0 0"
+					FontSize="16" />
+            </WrapPanel>
 			<controls:KbSystemCloseButton HorizontalAlignment="Right" />
 		</DockPanel>
         <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:WpfUtil.IsDevModeVisible}" HorizontalAlignment="Center"></TextBlock>
-		<StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+		<StackPanel Grid.Row="1" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center">
 			<WrapPanel>
 				<TextBlock x:Name="TbTitle" Margin="0 0 4 0" VerticalAlignment="Center"></TextBlock>
-				<TextBox x:Name="TbText" Background="White" Width="200" VerticalContentAlignment="Center"></TextBox>
-			</WrapPanel>
-			<TextBlock x:Name="TbMessage" HorizontalAlignment="Center" Visibility="Hidden" Foreground="Red"></TextBlock>
-			<controls:KbButton
-				IsDefault="True"
-				Click="KbOkButton_Click"
-				HorizontalAlignment="Center"
-				Padding="15 2"
-				Background="{StaticResource ThemeBackground}"
-				Foreground="{StaticResource ThemeForeground}"
-				CornerRadius="2">
-				<WrapPanel>
-					<Path
-						Width="12"
-						Height="12"
-						Data="{StaticResource Icon_Ok}"
-						Fill="{StaticResource ThemeForeground}"
-						Stretch="Fill" />
-					<TextBlock
-						Padding="4"
-						VerticalAlignment="Center"
-						Foreground="{StaticResource ThemeForeground}"
-						Text="确定" />
-				</WrapPanel>
-			</controls:KbButton>
+                <TextBox x:Name="TbText" Background="White" Width="200" VerticalContentAlignment="Center"></TextBox>
+                <PasswordBox x:Name="PbPassword" Height="26" Width="200" VerticalContentAlignment="Center" Visibility="Collapsed" Background="White"/>
+                <TextBlock x:Name="TbTail" TextWrapping="Wrap" Foreground="Red" Padding="4" VerticalAlignment="Center"></TextBlock>
+            </WrapPanel>
+            <WrapPanel Margin="0 10 4 0" HorizontalAlignment="Right">
+                <TextBlock x:Name="TbMessage" Visibility="Hidden" Foreground="Red"></TextBlock>
+                <controls:KbButton
+                    Margin="20 0 0 0"
+					IsDefault="True"
+					Click="KbOkButton_Click"
+					Padding="15 2"
+					Background="{StaticResource BtnBackground}"
+					Foreground="{StaticResource BtnForeground}"
+					CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+							Width="12"
+							Height="12"
+							Data="{StaticResource Icon_Ok}"
+							Fill="{StaticResource BtnForeground}"
+							Stretch="Fill" />
+                        <TextBlock
+							Padding="4"
+							VerticalAlignment="Center"
+							Text="确定" />
+                    </WrapPanel>
+                </controls:KbButton>
+            </WrapPanel>
 		</StackPanel>
 	</Grid>
 </blankWindow:BlankWindow>

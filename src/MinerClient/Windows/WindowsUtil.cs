@@ -9,40 +9,34 @@ using System.Threading.Tasks;
 /// </summary>
 namespace NTMiner.Windows {
     public static class WindowsUtil {
-        public static void BlockWAU() {
-            try {
-                Task.Factory.StartNew(() => {
-                    Type type = typeof(WindowsUtil);
-                    Assembly assembly = type.Assembly;
-                    string name = "BlockWAU.bat";
-                    string fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, name);
-                    assembly.ExtractManifestResource(type, name, fileFullName);
-                    Cmd.RunClose(fileFullName, string.Empty, waitForExit: true);
-                    VirtualRoot.ThisLocalInfo(nameof(WindowsUtil), "禁用windows系统更新成功", OutEnum.Success);
-                });
-            }
-            catch (Exception e) {
-                VirtualRoot.ThisLocalError(nameof(WindowsUtil), "禁用windows系统更新失败", OutEnum.Warn);
-                Logger.ErrorDebugLine(e);
-            }
+        public static Task BlockWAU() {
+            return Task.Factory.StartNew(() => {
+                ExtractBlockWAUManifestResource();
+                Cmd.RunClose(EntryAssemblyInfo.BlockWAUFileFullName, string.Empty, waitForExit: true);
+            });
         }
 
-        public static void Win10Optimize() {
-            try {
-                Task.Factory.StartNew(() => {
+        private static void ExtractBlockWAUManifestResource() {
+            Type type = typeof(WindowsUtil);
+            Assembly assembly = type.Assembly;
+            assembly.ExtractManifestResource(type, EntryAssemblyInfo.BlockWAUResourceName, EntryAssemblyInfo.BlockWAUFileFullName);
+        }
+
+        public static void Win10Optimize(Action<Exception> callback) {
+            Task.Factory.StartNew(() => {
+                try {
                     Type type = typeof(WindowsUtil);
                     Assembly assembly = type.Assembly;
                     string name = "Win10Optimize.reg";
                     string fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
                     Cmd.RunClose("regedit", $"/s \"{fileFullName}\"", waitForExit: true);
-                    VirtualRoot.ThisLocalInfo(nameof(WindowsUtil), "优化Windows成功", OutEnum.Success);
-                });
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                VirtualRoot.ThisLocalError(nameof(WindowsUtil), "优化Windows失败", OutEnum.Warn);
-            }
+                    callback?.Invoke(null);
+                }
+                catch (Exception e) {
+                    callback?.Invoke(e);
+                }
+            });
         }
     }
 }

@@ -18,12 +18,12 @@ namespace NTMiner.Hub {
         public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-        public static MessagePath<TMessage> AddMessagePath(IMessageHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, int viaTimesLimit = -1) {
+        public static MessagePath<TMessage> AddMessagePath(IMessagePathHub hub, Type location, string description, LogEnum logType, Action<TMessage> action, PathId pathId, int viaTimesLimit = -1) {
             if (action == null) {
                 throw new ArgumentNullException(nameof(action));
             }
             MessagePath<TMessage> path = new MessagePath<TMessage>(location, description, logType, action, pathId, viaTimesLimit);
-            hub.AddMessagePath(path);
+            hub.AddPath(path);
             return path;
         }
 

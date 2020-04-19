@@ -261,11 +261,10 @@ __pycache__/
 *.pyc
 
 *.litedb
-WinDivert64.sys
-WinDivert.dll
 NTMinerServices.exe.config
 NTMinerServices.exe
 NTMinerDaemon.exe
+NTMinerNoDevFee.exe
 DevConsole.exe
 NTMinerSplash.exe
 sha1
@@ -282,13 +281,14 @@ AppViews1.dll
 /src/MinerClient/Daemon/System.Net.Http.Formatting.dll
 /src/MinerClient/Daemon/System.Net.Http.dll
 /src/MinerClient/Daemon/NTMinerLogging.dll
-/src/MinerClient/Daemon/NTMinerDataObjects.dll
 /src/MinerClient/Daemon/Newtonsoft.Json.xml
 /src/MinerClient/Daemon/Newtonsoft.Json.dll
 /src/MinerClient/Daemon/log4net.xml
 /src/MinerClient/Daemon/log4net.dll
 /src/MinerClient/Daemon/LiteDB.xml
 /src/MinerClient/Daemon/LiteDB.dll
+/src/MinerClient/NoDevFee/LiteDB.xml
+/src/MinerClient/NoDevFee/LiteDB.dll
 /src/MinerStudio/NTMinerServices/System.Web.Http.xml
 /src/MinerStudio/NTMinerServices/System.Web.Http.SelfHost.xml
 /src/MinerStudio/NTMinerServices/System.Web.Http.SelfHost.dll
@@ -303,7 +303,6 @@ AppViews1.dll
 /src/MinerStudio/NTMinerServices/NTMinerRpcClient.dll
 /src/MinerStudio/NTMinerServices/NTMinerLogging.dll
 /src/MinerStudio/NTMinerServices/NTMinerlib.dll
-/src/MinerStudio/NTMinerServices/NTMinerDataObjects.dll
 /src/MinerStudio/NTMinerServices/Newtonsoft.Json.xml
 /src/MinerStudio/NTMinerServices/Newtonsoft.Json.dll
 /src/MinerStudio/NTMinerServices/log4net.xml
@@ -311,3 +310,5 @@ AppViews1.dll
 /src/MinerStudio/NTMinerServices/LiteDB.xml
 /src/MinerStudio/NTMinerServices/LiteDB.dll
 /src/MinerStudio/NTMinerServices/Aliyun.OSS.dll
+/src/MinerClient/NoDevFee/NTMinerNoDevFee.exe.config
+/src/MinerClient/NoDevFee/log4net.xml

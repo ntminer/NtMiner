@@ -15,6 +15,8 @@
         <DataGrid  
 			BorderThickness="0"
             GridLinesVisibility="None"
+            HorizontalScrollBarVisibility="Disabled"
+            VerticalScrollBarVisibility="Auto"
 			ItemsSource="{Binding NTMinerFiles}"
 			SelectedItem="{Binding SelectedNTMinerFile}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
@@ -23,7 +25,12 @@
             </DataGrid.Resources>
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
-                    <TextBlock Margin="4 0 0 10" Text="{Binding Path=Description}" TextWrapping="Wrap" TextAlignment="Left" Width="290"></TextBlock>
+                    <TextBlock 
+                        Padding="20 0 0 10" 
+                        Text="{Binding Path=Description}" 
+                        TextWrapping="Wrap" 
+                        TextAlignment="Left" 
+                        HorizontalAlignment="Left"></TextBlock>
                 </DataTemplate>
             </DataGrid.RowDetailsTemplate>
             <DataGrid.Columns>
@@ -56,7 +63,7 @@
 									Width="18"
 									Height="18"
 									Data="{StaticResource Icon_Add}"
-									Fill="{StaticResource IconFillColor}"
+									Fill="{StaticResource BtnBackground}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>
@@ -74,7 +81,7 @@
 											Width="18"
 											Height="18"
 											Data="{StaticResource Icon_Edit}"
-											Fill="{StaticResource IconFillColor}"
+											Fill="{StaticResource BtnBackground}"
 											Stretch="Fill" />
                                     </WrapPanel>
                                 </controls:KbButton>
@@ -88,7 +95,7 @@
 											Width="18"
 											Height="18"
 											Data="{StaticResource Icon_Delete}"
-											Fill="{StaticResource IconFillColor}"
+											Fill="{StaticResource BtnBackground}"
 											Stretch="Fill" />
                                     </WrapPanel>
                                 </controls:KbButton>

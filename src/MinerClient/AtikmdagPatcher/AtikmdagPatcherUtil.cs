@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -9,20 +8,17 @@ using System.Threading.Tasks;
 /// </summary>
 namespace NTMiner.AtikmdagPatcher {
     public static class AtikmdagPatcherUtil {
-        public static void Run() {
-            try {
-                Task.Factory.StartNew(() => {
-                    Type type = typeof(AtikmdagPatcherUtil);
-                    Assembly assembly = type.Assembly;
-                    string name = "atikmdag-patcher1.4.7.exe";
-                    string fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, name);
-                    assembly.ExtractManifestResource(type, name, fileFullName);
-                    Windows.Cmd.RunClose(fileFullName, string.Empty, waitForExit: false);
-                });
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
+        public static Task Run() {
+            return Task.Factory.StartNew(() => {
+                ExtractManifestResource();
+                Windows.Cmd.RunClose(EntryAssemblyInfo.AtikmdagPatcherFileFullName, string.Empty, waitForExit: false);
+            });
+        }
+
+        private static void ExtractManifestResource() {
+            Type type = typeof(AtikmdagPatcherUtil);
+            Assembly assembly = type.Assembly;
+            assembly.ExtractManifestResource(type, EntryAssemblyInfo.AtikmdagPatcherResourceName, EntryAssemblyInfo.AtikmdagPatcherFileFullName);
         }
     }
 }

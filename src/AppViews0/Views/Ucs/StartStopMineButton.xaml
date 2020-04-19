@@ -1,0 +1,113 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.StartStopMineButton"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	mc:Ignorable="d"
+	d:DataContext="{d:DesignData Source=../Design/StartStopMineButtonViewModel.xaml}"
+	x:Name="Self"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels">
+	<WrapPanel Height="28">
+		<Button
+			IsDefault="True"
+            ToolTip="尚未开始"
+			Command="{Binding StartMine}" 
+			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityInvertConverter}}">
+			<Button.Template>
+				<ControlTemplate>
+					<Border 
+						x:Name="Content"
+						Height="28"
+                        Padding="8 0"
+                        CornerRadius="1"
+						Background="{Binding ElementName=Self,Path=StartButtonBackground}"
+						BorderThickness="0" 
+						BorderBrush="{StaticResource LightLineColor}">
+						<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+							<Path
+								x:Name="Icon2"
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Mining1}"
+								Fill="{Binding ElementName=Self,Path=StartButtonForeground}"
+								Stretch="Fill">
+							</Path>
+                            <TextBlock
+								x:Name="Text"
+                                Width="66"
+								Padding="4 0 0 0"
+                                Visibility="{Binding ElementName=Self,Path=TextVisible}"
+								VerticalAlignment="Center"
+								Foreground="{Binding ElementName=Self,Path=StartButtonForeground}"
+								FontSize="15"
+								Text="尚未开始" />
+						</WrapPanel>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="Icon2" Property="RenderTransform">
+								<Setter.Value>
+									<RotateTransform Angle="-40" CenterX="7" CenterY="7"></RotateTransform>
+								</Setter.Value>
+							</Setter>
+							<Setter TargetName="Content" Property="Background" Value="Green"></Setter>
+							<Setter TargetName="Content" Property="BorderBrush" Value="Green"></Setter>
+							<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
+							<Setter TargetName="Text" Property="Text" Value="开始挖矿"></Setter>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+		<Button                        
+			Command="{Binding StopMine}" 
+            ToolTip="正在挖矿"
+			Visibility="{Binding MinerProfile.IsMining, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Button.Template>
+				<ControlTemplate>
+					<Border 
+						x:Name="Content"
+						Height="28"
+                        Padding="8 0"
+                        CornerRadius="1"
+						Background="Transparent"
+						BorderThickness="0" 
+						BorderBrush="{StaticResource LightLineColor}">
+						<WrapPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+							<Path
+								x:Name="Icon2"
+								Width="14"
+								Height="14"
+								Data="{StaticResource Icon_Mining2}"
+								Fill="{StaticResource BtnBackground}"
+								Stretch="Fill">
+							</Path>
+                            <TextBlock
+								x:Name="Text"
+                                Width="66"
+								Padding="4 0 0 0"
+                                Visibility="{Binding ElementName=Self,Path=TextVisible}"
+								VerticalAlignment="Center"
+								Foreground="{StaticResource BtnBackground}"
+								FontSize="15"
+								Text="{Binding BtnStopText}" />
+						</WrapPanel>
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="IsMouseOver" Value="True">
+							<Setter TargetName="Icon2" Property="Fill" Value="White"></Setter>
+							<Setter TargetName="Content" Property="Background" Value="Red"></Setter>
+							<Setter TargetName="Content" Property="BorderBrush" Value="Red"></Setter>
+							<Setter TargetName="Text" Property="Foreground" Value="White"></Setter>
+							<Setter TargetName="Text" Property="Text" Value="停止挖矿"></Setter>
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Button.Template>
+		</Button>
+	</WrapPanel>
+</UserControl>

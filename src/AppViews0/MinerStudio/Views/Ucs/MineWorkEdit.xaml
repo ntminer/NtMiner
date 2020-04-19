@@ -1,0 +1,58 @@
+﻿<UserControl 
+    x:Class="NTMiner.MinerStudio.Views.Ucs.MineWorkEdit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	mc:Ignorable="d"
+	d:DataContext="{d:DesignData Source=../Design/MineWorkViewModel.xaml}"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs" Background="White" 
+    d:DesignWidth="1000"
+    d:DesignHeight="600">
+	<UserControl.Resources>
+		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+			<Setter Property="Width" Value="60"></Setter>
+		</Style>
+	</UserControl.Resources>
+	<Grid Background="{StaticResource MinerProfileBackground}">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="330"></ColumnDefinition>
+			<ColumnDefinition Width="*"></ColumnDefinition>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"></RowDefinition>
+			<RowDefinition Height="*" MinHeight="410"></RowDefinition>
+			<RowDefinition Height="Auto"></RowDefinition>
+		</Grid.RowDefinitions>
+        <StackPanel Grid.ColumnSpan="2" Margin="0 2" HorizontalAlignment="Center">
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}">作业名称</TextBlock>
+                <TextBox Width="220" VerticalContentAlignment="Center" Background="White" Text="{Binding Name, ValidatesOnExceptions=True}">
+                </TextBox>
+                <TextBlock Style="{StaticResource LblTb}">作业备注</TextBlock>
+                <controls:KbMuiltilineTextBox 
+					Width="320" Background="White" Padding="0 4"
+					VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
+					Text="{Binding Description, Mode=TwoWay}">
+                </controls:KbMuiltilineTextBox>
+            </WrapPanel>
+            <TextBlock Foreground="Red" FontSize="14" HorizontalAlignment="Center">注意：作业是个蓝图。修改作业，然后将作业分配给矿机，直到点击“开始”按钮开始挖矿时作业才被矿机施工。</TextBlock>
+        </StackPanel>
+        <uc:MinerProfileIndex Grid.Row="1" Grid.Column="0" BorderBrush="{StaticResource LightLineColor}" />
+		<uc:MinerProfileOption Grid.Row="1" Grid.Column="1">
+		</uc:MinerProfileOption>
+		<controls:KbMuiltilineTextBox 
+			Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" 
+			IsReadOnly="True"
+			Background="Transparent" Padding="0 4"
+			BorderBrush="{StaticResource LightLineColor}"
+			BorderThickness="0 1 0 0"
+			VerticalContentAlignment="Top"
+			Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}">
+		</controls:KbMuiltilineTextBox>
+	</Grid>
+</UserControl>

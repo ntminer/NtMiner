@@ -3,7 +3,7 @@
 namespace NTMiner.Serialization {
     public class NTJsonSerializer : INTSerializer {
         private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings() {
-            MissingMemberHandling = MissingMemberHandling.Ignore,// 默认值也是Ignore
+            MissingMemberHandling = MissingMemberHandling.Ignore,// 默认值也是Ignore，复述一遍起文档作用
             NullValueHandling = NullValueHandling.Ignore
         };
 
@@ -15,7 +15,12 @@ namespace NTMiner.Serialization {
         }
 
         public virtual TObject Deserialize<TObject>(string json) {
-            return JsonConvert.DeserializeObject<TObject>(json, jsonSerializerSettings);
+            try {
+                return JsonConvert.DeserializeObject<TObject>(json, jsonSerializerSettings);
+            }
+            catch {
+                return default;
+            }
         }
     }
 }

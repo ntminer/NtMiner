@@ -1,0 +1,63 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.KernelOutputTranslaterEdit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d"
+	d:DataContext="{d:DesignData Source=../Design/KernelOutputTranslaterViewModel.xaml}"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+    Background="White"
+    d:DesignWidth="520">
+	<UserControl.Resources>
+		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+			<Setter Property="Width" Value="80"></Setter>
+		</Style>
+	</UserControl.Resources>
+	<StackPanel Margin="10">
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}">排序:</TextBlock>
+			<TextBox Width="92" VerticalContentAlignment="Center" Text="{Binding SortNumber}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
+			</TextBox>
+			<TextBlock Style="{StaticResource LblTb}">是前译:</TextBlock>
+			<CheckBox IsChecked="{Binding IsPre}" VerticalContentAlignment="Center"
+				FocusVisualStyle="{x:Null}" IsEnabled="{x:Static app:AppStatic.IsDevMode}">
+			</CheckBox>
+		</WrapPanel>
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}">正则表达式:</TextBlock>
+            <TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding RegexPattern}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
+			</TextBox>
+		</WrapPanel>
+		<WrapPanel Margin="0 2">
+			<TextBlock Style="{StaticResource LblTb}">替换为:</TextBlock>
+            <TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Replacement}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
+			</TextBox>
+		</WrapPanel>
+		<controls:KbButton
+            Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
+			Command="{Binding Save}" 
+			Margin="0 10 0 0"
+			Padding="15 2"
+			HorizontalAlignment="Center"
+			Background="{StaticResource BtnBackground}"
+			Foreground="{StaticResource BtnForeground}"
+			CornerRadius="2">
+			<WrapPanel>
+				<Path
+					Width="12"
+					Height="12"
+					Data="{StaticResource Icon_Ok}"
+					Fill="{StaticResource BtnForeground}"
+					Stretch="Fill" />
+				<TextBlock
+					Padding="4"
+					VerticalAlignment="Center"
+					Text="确定" />
+			</WrapPanel>
+		</controls:KbButton>
+	</StackPanel>
+</UserControl>

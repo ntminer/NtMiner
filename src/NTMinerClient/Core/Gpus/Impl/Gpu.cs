@@ -1,14 +1,15 @@
 ﻿namespace NTMiner.Core.Gpus.Impl {
     public class Gpu : IGpu {
         public static readonly Gpu GpuAll = new Gpu {
-            Index = NTMinerRoot.GpuAllId,
+            Index = NTMinerContext.GpuAllId,
             BusId = "",
             Name = "全部显卡"
             // 因为其余字段全部是数值类型，留空默认值即可
         };
 
-        public static Gpu Create(int index, string busId, string name) {
+        public static Gpu Create(GpuType gpuType, int index, string busId, string name) {
             return new Gpu {
+                GpuType = gpuType,
                 Index = index,
                 BusId = busId,
                 Name = name
@@ -19,6 +20,7 @@
         private Gpu() {
         }
 
+        public GpuType GpuType { get; set; }
         public int Index { get; set; }
         public string BusId { get; set; }
         public string Name { get; set; }

@@ -1,0 +1,89 @@
+﻿<UserControl 
+    x:Class="NTMiner.MinerStudio.Views.Ucs.MinerClientOperationResults"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	mc:Ignorable="d" 
+    x:Name="Uc"
+	Background="White"
+	d:DesignHeight="450" d:DesignWidth="1200">
+    <Grid>
+        <DataGrid 
+			ItemsSource="{Binding ClientOperationResults}" 
+            EnableRowVirtualization="True"
+			Background="Transparent" 
+			HorizontalScrollBarVisibility="Auto"
+            BorderThickness="0 1 0 0">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn MinWidth="20" Width="20" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Path
+						        Width="14"
+						        Height="14"
+						        Data="{Binding StateCodeIcon}"
+						        Fill="{Binding IconFill}"
+						        Stretch="Fill" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="时间"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding TimestampText}" Foreground="{Binding IconFill}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="90" Width="90" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="短语"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ReasonPhrase}" Foreground="{Binding IconFill}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="400" Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock>说明</TextBlock>
+                                <TextBlock Margin="10 0 0 0" Foreground="{StaticResource LableColor}">仅展示挖矿端最近的群控操作记录</TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Description}" Foreground="{Binding IconFill}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <TextBlock 
+            Margin="0 30 0 0"
+            Visibility="{Binding IsNoRecord, Converter={StaticResource BoolToVisibilityConverter}}" 
+            Foreground="Red" 
+            Text="{Binding NoRecordText}"
+            VerticalAlignment="Center" 
+            HorizontalAlignment="Center"></TextBlock>
+    </Grid>
+</UserControl>

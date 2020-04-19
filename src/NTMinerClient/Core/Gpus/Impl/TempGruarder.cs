@@ -16,23 +16,23 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly int _fanSpeedDownSeconds = 20;
         private readonly uint _fanSpeedDownStep = 2;
         private static readonly int _guardTemp = 60;
-        public void Init(INTMinerRoot root) {
+        public void Init(INTMinerContext root) {
             if (_isInited) {
                 return;
             }
             _isInited = true;
             VirtualRoot.AddEventPath<GpuStateChangedEvent>("当显卡温度变更时守卫温度防线", LogEnum.None,
                 action: message => {
-                    IGpu gpu = message.Target;
-                    if (gpu.Index == NTMinerRoot.GpuAllId || root.MinerProfile.CoinId == Guid.Empty) {
+                    IGpu gpu = message.Source;
+                    if (gpu.Index == NTMinerContext.GpuAllId || root.MinerProfile.CoinId == Guid.Empty) {
                         return;
                     }
                     IGpuProfile gpuProfile;
-                    if (NTMinerRoot.Instance.GpuProfileSet.IsOverClockGpuAll(root.MinerProfile.CoinId)) {
-                        gpuProfile = NTMinerRoot.Instance.GpuProfileSet.GetGpuProfile(root.MinerProfile.CoinId, NTMinerRoot.GpuAllId);
+                    if (NTMinerContext.Instance.GpuProfileSet.IsOverClockGpuAll(root.MinerProfile.CoinId)) {
+                        gpuProfile = NTMinerContext.Instance.GpuProfileSet.GetGpuProfile(root.MinerProfile.CoinId, NTMinerContext.GpuAllId);
                     }
                     else {
-                        gpuProfile = NTMinerRoot.Instance.GpuProfileSet.GetGpuProfile(root.MinerProfile.CoinId, gpu.Index);
+                        gpuProfile = NTMinerContext.Instance.GpuProfileSet.GetGpuProfile(root.MinerProfile.CoinId, gpu.Index);
                     }
                     if (!gpuProfile.IsAutoFanSpeed) {
                         return;
@@ -43,7 +43,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         _fightedOnDic.Add(gpu.Index, fightedOn);
                     }
                     if (gpu.FanSpeed == 100 && gpu.Temperature > _guardTemp) {
-                        Write.DevDebug($"GPU{gpu.Index.ToString()} 温度{gpu.Temperature.ToString()}大于防线温度{_guardTemp.ToString()}，但风扇转速已达100%");
+                        Write.DevDebug(() => $"GPU{gpu.Index.ToString()} 温度{gpu.Temperature.ToString()}大于防线温度{_guardTemp.ToString()}，但风扇转速已达100%");
                     }
                     else if (gpu.Temperature < _guardTemp) {
                         if (!_preTempDic.ContainsKey(gpu.Index)) {
@@ -65,7 +65,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             if (cool >= gpu.CoolMin) {
                                 _fightedOnDic[gpu.Index] = DateTime.Now;
                                 root.GpuSet.OverClock.SetFanSpeed(gpu.Index, cool);
-                                Write.DevDebug($"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调低至{cool.ToString()}%");
+                                Write.DevDebug(() => $"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调低至{cool.ToString()}%");
                             }
                         }
                     }
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         }
                         if (cool <= 100) {
                             root.GpuSet.OverClock.SetFanSpeed(gpu.Index, (int)cool);
-                            Write.DevDebug($"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调高至{cool.ToString()}%");
+                            Write.DevDebug(()=> $"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调高至{cool.ToString()}%");
                         }
                     }
                 }, location: this.GetType());

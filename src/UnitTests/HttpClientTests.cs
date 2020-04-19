@@ -1,9 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner;
+using NTMiner.Controllers;
 using System;
 using System.Net.Http;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class HttpClientTests {
         [TestMethod]
@@ -19,7 +20,7 @@ namespace UnitTests {
         [TestMethod]
         public void TaskTest() {
             HttpClient client = RpcRoot.CreateHttpClient();
-            client.GetAsync($"http://{NTKeyword.OfficialServerHost}:{NTKeyword.ControlCenterPort.ToString()}/api/AppSetting/GetTime")
+            client.GetAsync($"http://{RpcRoot.OfficialServerAddress}/api/{RpcRoot.GetControllerName<IAppSettingController>()}/{nameof(IAppSettingController.GetTime)}")
                 .ContinueWith(t => {
                     Console.WriteLine(t.Result.Content.ReadAsAsync<DateTime>().Result);
                 }).Wait();

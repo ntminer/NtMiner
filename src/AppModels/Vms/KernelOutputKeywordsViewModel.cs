@@ -36,10 +36,10 @@ namespace NTMiner.Vms {
 
         public KernelOutputViewModel KernelOutputVm {
             get {
-                if (NTMinerRoot.Instance.CurrentMineContext == null) {
+                if (NTMinerContext.Instance.CurrentMineContext == null) {
                     return null;
                 }
-                if (AppContext.KernelOutputViewModels.Instance.TryGetKernelOutputVm(NTMinerRoot.Instance.CurrentMineContext.KernelOutput.GetId(), out KernelOutputViewModel kernelOutputVm)) {
+                if (AppRoot.KernelOutputViewModels.Instance.TryGetKernelOutputVm(NTMinerContext.Instance.CurrentMineContext.KernelOutput.GetId(), out KernelOutputViewModel kernelOutputVm)) {
                     return kernelOutputVm;
                 }
                 return null;

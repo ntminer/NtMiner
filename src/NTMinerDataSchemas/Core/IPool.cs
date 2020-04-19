@@ -7,6 +7,9 @@ namespace NTMiner.Core {
         Guid BrandId { get; }
         string Name { get; }
         string Server { get; }
+        /// <summary>
+        /// 收益查看地址
+        /// </summary>
         string Url { get; }
         string Website { get; }
         int SortNumber { get; }

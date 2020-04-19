@@ -1,19 +1,24 @@
-﻿<blankWindow:BlankWindow x:Class="NTMiner.Views.MainWindow"
-		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:blankWindow="http://NTMiner.com"
-		xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
-		xmlns:vm="clr-namespace:NTMiner.Vms"
-		xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
-		mc:Ignorable="d"
-		ResizeMode="NoResize"
-		Background="{StaticResource ThemeBackground}"
-		Foreground="{StaticResource ThemeForeground}"
-		WindowStartupLocation="CenterScreen"
-		DataContext="{x:Static vm:MainWindowViewModel.Instance}"
-		Title="开源矿工升级器" Height="440" Width="333">
+﻿<blankWindow:BlankWindow 
+    x:Class="NTMiner.Views.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:vm="clr-namespace:NTMiner.Vms"
+	xmlns:uc="clr-namespace:NTMiner.Views.Ucs"
+	mc:Ignorable="d"
+	ResizeMode="CanResize"
+	Background="{StaticResource ThemeBackground}"
+	Foreground="{StaticResource ThemeForeground}"
+	WindowStartupLocation="CenterScreen"
+	DataContext="{x:Static vm:MainWindowViewModel.Instance}"
+	Title="开源矿工升级器" 
+    Height="440" 
+    Width="333" 
+    MinHeight="440" 
+    MinWidth="333">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
@@ -44,13 +49,12 @@
 					Width="170" 
 					Height="44" 
 					FontSize="22"
-					Background="{StaticResource ThemeBackground}"
-					Foreground="{StaticResource ThemeForeground}"
+					Background="{StaticResource BtnBackground}"
+					Foreground="{StaticResource BtnForeground}"
 					BorderThickness="0"
 					Click="CloseButton_Click">
 					<WrapPanel>
 						<TextBlock
-							Foreground="{StaticResource ThemeForeground}"
 							VerticalAlignment="Center"
 							Text="好的" />
 					</WrapPanel>
@@ -65,12 +69,11 @@
 						Width="170" 
 						Height="45" 
 						FontSize="22"
-						Background="{StaticResource ThemeBackground}"
-						Foreground="{StaticResource ThemeForeground}"
+						Background="{StaticResource BtnBackground}"
+						Foreground="{StaticResource BtnForeground}"
 						BorderThickness="0">
 						<WrapPanel>
 							<TextBlock
-								Foreground="{StaticResource ThemeForeground}"
 								VerticalAlignment="Center"
 								Text="一键更新" />
 						</WrapPanel>
@@ -99,7 +102,7 @@
 									Width="20"
 									Height="20"
 									Data="{StaticResource Icon_Cancel}"
-									Fill="{StaticResource IconFillColor}"
+									Fill="{StaticResource BtnBackground}"
 									Stretch="Fill" />
 							</controls:KbButton>
 						</WrapPanel>

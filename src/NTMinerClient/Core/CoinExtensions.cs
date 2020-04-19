@@ -6,8 +6,8 @@ namespace NTMiner.Core {
             if (coin == null || string.IsNullOrEmpty(coin.KernelBrand)) {
                 return Guid.Empty;
             }
-            if (NTMinerRoot.IsKernelBrand) {
-                return NTMinerRoot.KernelBrandId;
+            if (NTMinerContext.IsKernelBrand) {
+                return NTMinerContext.KernelBrandId;
             }
             string[] items = coin.KernelBrand.Split(';');
             foreach (var item in items) {

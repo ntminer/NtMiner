@@ -1,0 +1,143 @@
+﻿<UserControl 
+	x:Class="NTMiner.Views.Ucs.Calc"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="800">
+	<UserControl.DataContext>
+		<vm:CalcViewModel></vm:CalcViewModel>
+	</UserControl.DataContext>
+    <Grid>
+        <DataGrid 
+			ItemsSource="{Binding CoinVms.AllCoins}" 
+            RowHeight="50" AutoGenerateColumns="False">
+            <DataGrid.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Width="*" IsReadOnly="True">
+                </DataGridTextColumn>
+                <DataGridTextColumn MinWidth="40" IsReadOnly="True" FontSize="16" FontWeight="Bold" Header="编码" Binding="{Binding Code}">
+                </DataGridTextColumn>
+                <DataGridTemplateColumn MinWidth="40" Header="图标" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image HorizontalAlignment="Center" Width="30" Height="30" Source="{Binding IconImageSource}">
+                            </Image>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="110" IsReadOnly="True" Header="币价">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel Background="{Binding CoinIncomeVm.BackgroundBrush}">
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.CoinPriceCnyText}"></TextBlock>
+                                <TextBlock Text="￥" Foreground="{StaticResource LableColor}" FontSize="16"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="170" Header="全网算力" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock FontSize="16" FontWeight="Bold" Text="{Binding CoinIncomeVm.NetSpeedText}"></TextBlock>
+                                <TextBlock Margin="2 0 0 0" FontSize="13" Foreground="{StaticResource LableColor}" Text="{Binding CoinIncomeVm.NetSpeedUnit}"></TextBlock>
+                                <TextBlock 
+                                    Margin="2 0 0 0" Padding="4 2" 
+                                    Text="{Binding CoinIncomeVm.DayWaveText}" 
+                                    Foreground="White" 
+                                    Background="{Binding CoinIncomeVm.DayWaveBrush}"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="160" IsReadOnly="True" Header="总算力">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBox Width="60" Text="{Binding CoinIncomeVm.Speed, ValidatesOnExceptions=True, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center"></TextBox>
+                                <controls:KbButton 
+					                Padding="4 0"
+					                BorderThickness="1"
+					                BorderBrush="{StaticResource LightLineColor}"
+					                Height="26"
+                                    Tag="{Binding CoinIncomeVm}"
+                                    Click="UnitButton_Click">
+                                    <WrapPanel>
+                                        <TextBlock Width="34" Padding="0 0 10 0" Foreground="Black" Text="{Binding CoinIncomeVm.SpeedUnitVm.Unit}"></TextBlock>
+                                        <Path
+							                Margin="0 2 0 0"
+							                Width="12"
+							                Height="8"
+							                Data="{StaticResource Icon_ComboBoxToogle}"
+							                Fill="Black"
+							                Stretch="Fill" />
+                                    </WrapPanel>
+                                </controls:KbButton>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="总算力日收益" MinWidth="160" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBox Width="160" FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDaySumText, Mode=OneWay}"></TextBox>
+                                <WrapPanel>
+                                    <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                                    <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDaySumText, Mode=OneWay}"></TextBox>
+                                </WrapPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="单位算力日收益" MinWidth="160" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBox FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomePerDayText, Mode=OneWay}"></TextBox>
+                                <WrapPanel>
+                                    <TextBlock Text="≈ ￥" FontSize="16" VerticalAlignment="Center"></TextBlock>
+                                    <TextBox IsReadOnly="True" FontSize="16" VerticalAlignment="Center" BorderThickness="0" Text="{Binding CoinIncomeVm.IncomeCnyPerDayText, Mode=OneWay}"></TextBox>
+                                </WrapPanel>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Width="*" IsReadOnly="True">
+                </DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Popup 
+		    x:Name="PopupMain" 
+		    PopupAnimation="Slide" 
+		    Placement="Bottom" 
+            Opened="PopupMain_Opened"
+            Closed="PopupMain_Closed"
+		    StaysOpen="False">
+            <ListBox
+                Width="56"
+                Padding="0"
+			    ItemsSource="{x:Static app:AppStatic.SpeedUnitVms}"
+			    SelectedItem="{Binding SpeedUnitVm}"
+                SelectionChanged="ListBox_SelectionChanged"
+			    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+			    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+			    BorderThickness="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Padding="4" Text="{Binding Unit}"></TextBlock>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Popup>
+    </Grid>
+</UserControl>

@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.Vms {
-    using NTMiner.Core.MinerClient;
+    using NTMiner.Core;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -27,8 +27,8 @@
         public IEnumerable<EnumItem<LocalMessageChannel>> LocalMessageChannelEnumItems {
             get {
                 // 只有挖矿端有This和Kernel两个频道
-                if (VirtualRoot.IsMinerClient) {
-                    foreach (var item in NTMinerRoot.LocalMessageChannelEnumItems) {
+                if (ClientAppType.IsMinerClient) {
+                    foreach (var item in NTMinerContext.LocalMessageChannelEnumItems) {
                         yield return item;
                     }
                 }
@@ -54,7 +54,7 @@
             }
             foreach (var messageChannel in LocalMessageChannelEnumItems) {
                 var values = new Dictionary<LocalMessageType, MessageTypeItem<LocalMessageType>>();
-                foreach (var messageType in NTMinerRoot.LocalMessageTypeEnumItems) {
+                foreach (var messageType in NTMinerContext.LocalMessageTypeEnumItems) {
                     values.Add(messageType.Value, new MessageTypeItem<LocalMessageType>(messageType, LocalMessageViewModel.GetIcon, LocalMessageViewModel.GetIconFill, RefreshQueryResults));
                 }
                 _count.Add(messageChannel, values);
@@ -72,12 +72,12 @@
             });
             VirtualRoot.AddEventPath<LocalMessageSetClearedEvent>("清空本地消息集后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => Init);
+                    Init();
                 }, location: this.GetType());
             VirtualRoot.AddEventPath<LocalMessageAddedEvent>("发生了本地消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => () => {
-                        var vm = new LocalMessageViewModel(message.Target);
+                        var vm = new LocalMessageViewModel(message.Source);
                         _localMessageVms.Insert(0, vm);
                         if (IsSatisfyQuery(vm)) {
                             _queyResults.Insert(0, vm);
@@ -117,7 +117,7 @@
         }
 
         private void Init() {
-            var data = VirtualRoot.LocalMessages.AsEnumerable().Select(a => new LocalMessageViewModel(a));
+            var data = NTMinerContext.Instance.LocalMessageSet.AsEnumerable().Select(a => new LocalMessageViewModel(a));
             _localMessageVms = new ObservableCollection<LocalMessageViewModel>(data);
             foreach (var dic in _count.Values) {
                 foreach (var key in dic.Keys) {

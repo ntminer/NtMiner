@@ -18,7 +18,7 @@ namespace NTMiner.Windows {
             performance = _performance;
             temperature = 0.0f;
             power = 0.0f;
-            var computer = NTMinerRoot.Computer;
+            var computer = NTMinerContext.Computer;
             for (int i = 0; i < computer.Hardware.Length; i++) {
                 var hardware = computer.Hardware[i];
                 if (hardware.HardwareType == HardwareType.CPU) {

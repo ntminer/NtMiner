@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class OverClockData : IOverClockData, IDbEntity<Guid>, IGetSignData {
+    public class OverClockData : IOverClockData, IDbEntity<Guid>, ISignableData {
         public OverClockData() { }
 
         public Guid GetId() {

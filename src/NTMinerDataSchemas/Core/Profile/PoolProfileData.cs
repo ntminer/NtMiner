@@ -3,7 +3,7 @@ using System;
 using System.Text;
 
 namespace NTMiner.Core.Profile {
-    public class PoolProfileData : IPoolProfile, IDbEntity<Guid>, IGetSignData {
+    public class PoolProfileData : IPoolProfile, IDbEntity<Guid>, ISignableData {
         public PoolProfileData() { }
 
         public static PoolProfileData CreateDefaultData(IPool pool) {

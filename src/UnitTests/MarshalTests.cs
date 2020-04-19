@@ -1,10 +1,23 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Runtime.InteropServices;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class MarshalTests {
+        [TestMethod]
+        public void IntPtrTest() {
+            Assert.AreEqual(IntPtr.Zero, default);
+        }
+
+        [TestMethod]
+        public void TestMethod1() {
+            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNPerformanceLevelsX2)));
+            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNPerformanceLevelX2)));
+            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNParameterRange)));
+            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNCapabilitiesX2)));
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         struct ADLODNPerformanceLevelX2 {
             public int iClock;
@@ -45,14 +58,6 @@ namespace UnitTests {
             public ADLODNParameterRange minimumPerformanceClock;
             public ADLODNParameterRange throttleNotificaion;
             public ADLODNParameterRange autoSystemClock;
-        }
-
-        [TestMethod]
-        public void TestMethod1() {
-            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNPerformanceLevelsX2)));
-            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNPerformanceLevelX2)));
-            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNParameterRange)));
-            Console.WriteLine(Marshal.SizeOf(typeof(ADLODNCapabilitiesX2)));
         }
     }
 }

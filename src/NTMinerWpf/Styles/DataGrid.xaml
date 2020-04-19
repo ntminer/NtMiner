@@ -12,7 +12,7 @@
         <Setter Property="CanUserSortColumns" Value="False" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="HeadersVisibility" Value="Column"></Setter>
-        <Setter Property="ColumnHeaderHeight" Value="28"></Setter>
+        <Setter Property="ColumnHeaderHeight" Value="26"></Setter>
         <Setter Property="AutoGenerateColumns" Value="False"></Setter>
         <Setter Property="CanUserResizeRows" Value="False"></Setter>
         <Setter Property="IsReadOnly" Value="True"></Setter>
@@ -30,27 +30,18 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style TargetType="DataGridColumnHeader">
-        <Style.Resources>
-            <ResourceDictionary />
-        </Style.Resources>
-        <Setter Property="UseLayoutRounding" Value="True" />
-        <Setter Property="Foreground" Value="{StaticResource TableHeaderForeground}" />
-        <Setter Property="Background" Value="{StaticResource TableHeaderBackground}"></Setter>
-        <Setter Property="FontSize" Value="14" />
         <Setter Property="Padding" Value="4 0" />
-        <Setter Property="FontWeight" Value="Bold"></Setter>
-        <Setter Property="Focusable" Value="False"></Setter>
     </Style>
-    
-    <!--  行样式触发  -->
-    <!--  背景色改变必须先设置cellStyle 因为cellStyle会覆盖rowStyle样式  -->
+
+    <!--行样式触发-->
+    <!--背景色改变必须先设置cellStyle 因为cellStyle会覆盖rowStyle样式-->
     <Style TargetType="DataGridRow">
         <Setter Property="Foreground" Value="#FF666666" />
         <Setter Property="Background" Value="Transparent"></Setter>
         <Style.Triggers>
-            <!--  隔行换色  -->
+            <!--隔行换色-->
             <Trigger Property="AlternationIndex" Value="0">
                 <Setter Property="Background" Value="White" />
             </Trigger>
@@ -59,16 +50,16 @@
             </Trigger>
 
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="#F3F3F4" />
+                <Setter Property="Background" Value="{StaticResource MouseOverRowBackground}" />
             </Trigger>
 
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#D5EAFF" />
+                <Setter Property="Background" Value="{StaticResource SelectedRowBackground}" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
-    <!--  单元格样式触发  -->
+    <!--单元格样式触发-->
     <Style TargetType="DataGridCell">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -91,7 +82,7 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="#D5EAFF" />
+                <Setter Property="Background" Value="{StaticResource SelectedRowBackground}" />
             </Trigger>
         </Style.Triggers>
     </Style>

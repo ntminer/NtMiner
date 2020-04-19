@@ -1,14 +1,38 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace NTMiner.Core.Profile {
-    public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, IGetSignData {
+    public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, ISignableData {
         public static readonly Guid DefaultId = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0");
         public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
                 Id = DefaultId,
                 CoinId = coinId
             };
+        }
+
+        private static PropertyInfo[] _workIgnoreProperties;
+        private static object _locker = new object();
+        private static PropertyInfo[] WorkIgnoreProperties {
+            get {
+                if (_workIgnoreProperties == null) {
+                    lock (_locker) {
+                        if (_workIgnoreProperties == null) {
+                            Type attributeType = typeof(WorkIgnoreAttribute);
+                            _workIgnoreProperties = typeof(MinerProfileData).GetProperties().Where(a => a.GetCustomAttributes(attributeType, inherit: false).Length != 0).ToArray();
+                        }
+                    }
+                }
+                return _workIgnoreProperties;
+            }
+        }
+
+        public static void CopyWorkIgnoreValues(MinerProfileData from, MinerProfileData to) {
+            foreach (var propertyInfo in WorkIgnoreProperties) {
+                propertyInfo.SetValue(to, propertyInfo.GetValue(from, null), null);
+            }
         }
 
         public MinerProfileData() {
@@ -39,6 +63,9 @@ namespace NTMiner.Core.Profile {
             MaxTemp = 80;
             AutoStartDelaySeconds = 15;
             IsAutoDisableWindowsFirewall = true;
+            IsDisableAntiSpyware = true;
+            IsDisableUAC = true;
+            IsDisableWAU = true;
             IsShowInTaskbar = true;
             IsNoUi = false;
             IsAutoNoUi = false;
@@ -58,6 +85,8 @@ namespace NTMiner.Core.Profile {
             IsRaiseHighCpuEvent = true;
             HighCpuBaseline = 80;
             HighCpuSeconds = 10;
+            IsOuterUserEnabled = false;
+            OuterUserId = string.Empty;
         }
 
         public Guid GetId() {
@@ -99,28 +128,48 @@ namespace NTMiner.Core.Profile {
 
         public int MaxTemp { get; set; }
 
+        [WorkIgnore]
         public int AutoStartDelaySeconds { get; set; }
 
+        [WorkIgnore]
         public bool IsAutoDisableWindowsFirewall { get; set; }
 
+        [WorkIgnore]
+        public bool IsDisableUAC { get; set; }
+
+        [WorkIgnore]
+        public bool IsDisableWAU { get; set; }
+
+        [WorkIgnore]
+        public bool IsDisableAntiSpyware { get; set; }
+
+        [WorkIgnore]
         public bool IsShowInTaskbar { get; set; }
 
+        [WorkIgnore]
         public bool IsNoUi { get; set; }
 
+        [WorkIgnore]
         public bool IsAutoNoUi { get; set; }
 
+        [WorkIgnore]
         public int AutoNoUiMinutes { get; set; }
 
+        [WorkIgnore]
         public bool IsShowNotifyIcon { get; set; }
 
+        [WorkIgnore]
         public bool IsCloseMeanExit { get; set; }
 
+        [WorkIgnore]
         public bool IsShowCommandLine { get; set; }
 
+        [WorkIgnore]
         public bool IsAutoBoot { get; set; }
-
+        [WorkIgnore]
         public bool IsAutoStart { get; set; }
 
+        [WorkIgnore]
         public bool IsCreateShortcut { get; set; }
 
         public bool IsAutoStopByCpu { get; set; }
@@ -140,6 +189,12 @@ namespace NTMiner.Core.Profile {
         public int HighCpuBaseline { get; set; }
 
         public int HighCpuSeconds { get; set; }
+
+        [WorkIgnore]
+        public bool IsOuterUserEnabled { get; set; }
+
+        [WorkIgnore]
+        public string OuterUserId { get; set; }
 
         public override string ToString() {
             return this.BuildSign().ToString();

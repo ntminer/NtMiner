@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core.MinerServer;
 using NTMiner.Views;
 using System;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -74,7 +73,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new ServerMessageEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditServerMessageCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -177,17 +176,7 @@ namespace NTMiner.Vms {
 
         public string TimestampText {
             get {
-                int offDay = (DateTime.Now.Date - Timestamp.Date).Days;
-                switch (offDay) {
-                    case 0:
-                        return $"今天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    case 1:
-                        return $"昨天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    case 2:
-                        return $"前天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    default:
-                        return Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
-                }
+                return NTMiner.Timestamp.GetTimestampText(this.Timestamp);
             }
         }
 

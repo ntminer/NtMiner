@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core {
-    public class WalletData : IWallet, IDbEntity<Guid>, IGetSignData {
+    public class WalletData : IWallet, IDbEntity<Guid>, ISignableData {
         public WalletData() {
         }
 

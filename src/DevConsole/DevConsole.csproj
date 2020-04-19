@@ -36,6 +36,9 @@
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>NTMiner.Program</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Costura, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Costura.Fody.4.0.0\lib\net40\Costura.dll</HintPath>
@@ -43,27 +46,17 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NTMinerDaemon\NoDevFee\WinDivert.cs">
-      <Link>NoDevFee\WinDivert.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerDaemon\NoDevFee\WinDivertExtract.cs">
-      <Link>NoDevFee\WinDivertExtract.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerDataSchemas\HashUtil.cs">
       <Link>HashUtil.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerNoDevFee\NoDevFee\WinDivert.cs">
+      <Link>NoDevFee\WinDivert.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerNoDevFee\NoDevFee\WinDivertExtract.cs">
+      <Link>NoDevFee\WinDivertExtract.cs</Link>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\NTMinerDaemon\NoDevFee\WinDivert.dll">
-      <Link>NoDevFee\WinDivert.dll</Link>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="..\NTMinerDaemon\NoDevFee\WinDivert64.sys">
-      <Link>NoDevFee\WinDivert64.sys</Link>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
@@ -72,7 +65,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\NTMinerNoDevFee\NoDevFee\WinDivert64.sys">
+      <Link>NoDevFee\WinDivert64.sys</Link>
+    </None>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\NTMinerNoDevFee\NoDevFee\WinDivert.dll">
+      <Link>NoDevFee\WinDivert.dll</Link>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />

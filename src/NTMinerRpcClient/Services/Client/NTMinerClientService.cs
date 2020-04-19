@@ -1,11 +1,10 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Core.Daemon;
-using NTMiner.Core.MinerClient;
+using NTMiner.Core;
+using NTMiner.Core.MinerServer;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace NTMiner.Services.Client {
     public class MinerClientService {
@@ -15,27 +14,28 @@ namespace NTMiner.Services.Client {
         private MinerClientService() {
         }
 
-        #region Localhost
         /// <summary>
         /// 本机网络调用
         /// </summary>
-        public void ShowMainWindowAsync(int clientPort, Action<bool, Exception> callback) {
-            RpcRoot.PostAsync("localhost", clientPort, _controllerName, nameof(IMinerClientController.ShowMainWindow), callback);
+        public void ShowMainWindowAsync(Action<bool, Exception> callback) {
+            RpcRoot.PostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.ShowMainWindow), callback);
         }
 
         /// <summary>
         /// 本机同步网络调用
         /// </summary>
-        public void CloseNTMiner() {
-            string location = NTMinerRegistry.GetLocation();
+        public void CloseNTMinerAsync(Action callback) {
+            string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
             if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
+                callback?.Invoke();
                 return;
             }
             string processName = Path.GetFileNameWithoutExtension(location);
             if (Process.GetProcessesByName(processName).Length == 0) {
+                callback?.Invoke();
                 return;
             }
-            RpcRoot.PostAsync("localhost", NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.CloseNTMiner), new SignRequest { }, (ResponseBase response, Exception e) => {
+            RpcRoot.PostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.CloseNTMiner), new SignRequest { }, (ResponseBase response, Exception e) => {
                 if (!response.IsSuccess()) {
                     try {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
@@ -44,91 +44,28 @@ namespace NTMiner.Services.Client {
                         Logger.ErrorDebugLine(ex);
                     }
                 }
+                callback?.Invoke();
             }, timeountMilliseconds: 2000);
         }
 
-        /// <summary>
-        /// 本机网络调用
-        /// </summary>
-        public void RefreshAutoBootStartAsync() {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        client.Timeout = TimeSpan.FromSeconds(3);
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://localhost:{NTKeyword.MinerClientPort.ToString()}/api/{_controllerName}/{nameof(IMinerClientController.RefreshAutoBootStart)}", null);
-                        Write.DevDebug($"{nameof(RefreshAutoBootStartAsync)} {getHttpResponse.Result.ReasonPhrase}");
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-            });
-        }
-        #endregion
-
-        #region ClientIp
-        public void StartMineAsync(string clientIp, WorkRequest request, Action<ResponseBase, Exception> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    var response = StartMine(clientIp, request);
-                    callback?.Invoke(response, null);
-                }
-                catch (Exception e) {
-                    callback?.Invoke(null, e);
-                }
-            });
+        public void GetSpeedAsync(string clientIp, Action<SpeedData, Exception> callback) {
+            RpcRoot.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetSpeed), null, callback, timeountMilliseconds: 3000);
         }
 
-        public ResponseBase StartMine(string clientIp, WorkRequest request) {
-            using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.MinerClientPort.ToString()}/api/{_controllerName}/{nameof(IMinerClientController.StartMine)}", request);
-                ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                return response;
-            }
+        public void WsGetSpeedAsync(Action<SpeedData, Exception> callback) {
+            RpcRoot.GetAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.WsGetSpeed), null, callback, timeountMilliseconds: 3000);
         }
 
-        public void StopMineAsync(string clientIp, SignRequest request, Action<ResponseBase, Exception> callback) {
-            RpcRoot.PostAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.StopMine), request, callback);
+        public void GetConsoleOutLinesAsync(string clientIp, long afterTime, Action<List<ConsoleOutLine>, Exception> callback) {
+            RpcRoot.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetConsoleOutLines), new Dictionary<string, string> {
+                {"afterTime",afterTime.ToString() }
+            }, callback, timeountMilliseconds: 3000);
         }
 
-        public void SetMinerProfilePropertyAsync(string clientIp, SetClientMinerProfilePropertyRequest request, Action<ResponseBase, Exception> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    var response = SetMinerProfileProperty(clientIp, request);
-                    callback?.Invoke(response, null);
-                }
-                catch (Exception e) {
-                    callback?.Invoke(null, e);
-                }
-            });
+        public void GetLocalMessagesAsync(string clientIp, long afterTime, Action<List<LocalMessageDto>, Exception> callback) {
+            RpcRoot.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetLocalMessages), new Dictionary<string, string> {
+                {"afterTime",afterTime.ToString() }
+            }, callback, timeountMilliseconds: 3000);
         }
-
-        public ResponseBase SetMinerProfileProperty(string clientIp, SetClientMinerProfilePropertyRequest request) {
-            using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                client.Timeout = TimeSpan.FromSeconds(3);
-                Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{clientIp}:{NTKeyword.MinerClientPort.ToString()}/api/{_controllerName}/{nameof(IMinerClientController.SetMinerProfileProperty)}", request);
-                ResponseBase response = getHttpResponse.Result.Content.ReadAsAsync<ResponseBase>().Result;
-                return response;
-            }
-        }
-
-        public Task<SpeedData> GetSpeedAsync(string clientIp, Action<SpeedData, Exception> callback) {
-            return Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        client.Timeout = TimeSpan.FromSeconds(3);
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{clientIp}:{NTKeyword.MinerClientPort.ToString()}/api/{_controllerName}/{nameof(IMinerClientController.GetSpeed)}", null);
-                        SpeedData data = getHttpResponse.Result.Content.ReadAsAsync<SpeedData>().Result;
-                        callback?.Invoke(data, null);
-                        return data;
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(null, e);
-                    return null;
-                }
-            });
-        }
-        #endregion
     }
 }

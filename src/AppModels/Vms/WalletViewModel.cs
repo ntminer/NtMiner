@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 if (!this.IsTestWallet) {
-                    if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out IWallet wallet)) {
+                    if (NTMinerContext.Instance.MinerProfile.TryGetWallet(this.Id, out IWallet wallet)) {
                         VirtualRoot.Execute(new UpdateWalletCommand(this));
                     }
                     else {
@@ -65,7 +65,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new WalletEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditWalletCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -79,28 +79,28 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                WalletViewModel upOne = AppContext.Instance.WalletVms.GetUpOne(this.CoinId, this.SortNumber);
+                WalletViewModel upOne = AppRoot.WalletVms.WalletList.GetUpOne(SortNumber, a => a.CoinId == CoinId);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(this));
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppRoot.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                WalletViewModel nextOne = AppContext.Instance.WalletVms.GetNextOne(this.CoinId, this.SortNumber);
+                WalletViewModel nextOne = AppRoot.WalletVms.WalletList.GetNextOne(SortNumber, a => a.CoinId == CoinId);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdateWalletCommand(this));
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppRoot.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Wallets));
                         coinVm.OnPropertyChanged(nameof(coinVm.WalletItems));
                     }
@@ -154,7 +154,7 @@ namespace NTMiner.Vms {
 
         public string CoinCode {
             get {
-                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
+                if (NTMinerContext.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin.Code;
                 }
                 return string.Empty;
@@ -163,7 +163,7 @@ namespace NTMiner.Vms {
 
         public ICoin Coin {
             get {
-                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
+                if (NTMinerContext.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin;
                 }
                 return CoinViewModel.Empty;
@@ -204,7 +204,7 @@ namespace NTMiner.Vms {
                 if (IsTestWallet) {
                     return false;
                 }
-                if (NTMinerRoot.Instance.MinerProfile.TryGetWallet(this.Id, out IWallet _)) {
+                if (NTMinerContext.Instance.MinerProfile.TryGetWallet(this.Id, out IWallet _)) {
                     return false;
                 }
                 return true;

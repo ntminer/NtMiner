@@ -35,23 +35,24 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AnonymousMessagePath.cs" />
     <Compile Include="Hub\Cmd.cs" />
     <Compile Include="Hub\MessagePath`1.cs" />
-    <Compile Include="Hub\DomainEvent`1.cs" />
+    <Compile Include="Hub\SourcedEvent`1.cs" />
     <Compile Include="Hub\EventBase.cs" />
     <Compile Include="Hub\ICmd.cs" />
     <Compile Include="Hub\IEvent.cs" />
     <Compile Include="Hub\IMessagePathId.cs" />
     <Compile Include="Hub\IMessage.cs" />
-    <Compile Include="Hub\IMessageHub.cs" />
-    <Compile Include="Hub\MessageHub.cs" />
+    <Compile Include="Hub\IMessagePathHub.cs" />
+    <Compile Include="Hub\MessagePathHub.cs" />
     <Compile Include="Hub\MessageTypeAttribute.cs" />
-    <Compile Include="Hub\PathId.cs" />
+    <Compile Include="PathId.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Timing\AbstractTimer.cs" />
-    <Compile Include="Timing\DefaultTimer.cs" />
-    <Compile Include="Timing\ITimer.cs" />
+    <Compile Include="Timing\AbstractTimingEventProducer.cs" />
+    <Compile Include="Timing\DefaultTimingEventProducer.cs" />
+    <Compile Include="Timing\ITimingEventProducer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">

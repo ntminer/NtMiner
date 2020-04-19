@@ -35,6 +35,11 @@ namespace NTMiner.Windows {
             }
         }
 
+        /// <summary>
+        /// 获取给定进程的完整命令行参数
+        /// </summary>
+        /// <param name="processName">可带.exe后缀也可不带，不带时方法内部会自动补上</param>
+        /// <returns></returns>
         public static List<string> GetCommandLines(string processName) {
             if (!IsWmiEnabled) {
                 return new List<string>();

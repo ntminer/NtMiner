@@ -14,7 +14,7 @@ namespace NTMiner.Vms {
         public ICommand RegCmdHere { get; private set; }
         public ICommand BlockWAU { get; private set; }
         public ICommand Win10Optimize { get; private set; }
-        public ICommand EnableWindowsRemoteDesktop { get; private set; }
+        public ICommand EnableRemoteDesktop { get; private set; }
         public ICommand WindowsAutoLogon { get; private set; }
         public ICommand OpenDevmgmt { get; private set; }
         public ICommand OpenEventvwr { get; private set; }
@@ -82,8 +82,8 @@ namespace NTMiner.Vms {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
                 }, helpUrl: "https://www.cnblogs.com/ntminer/p/12155773.html"));
             });
-            this.EnableWindowsRemoteDesktop = new DelegateCommand(() => {
-                VirtualRoot.Execute(new EnableWindowsRemoteDesktopCommand());
+            this.EnableRemoteDesktop = new DelegateCommand(() => {
+                VirtualRoot.Execute(new EnableRemoteDesktopCommand());
             });
             this.WindowsAutoLogon = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableOrDisableWindowsAutoLoginCommand());
@@ -126,8 +126,8 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel NvidiaDriverWin10 {
             get {
-                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverWin10", out ISysDicItem item)) {
-                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverWin10", out ISysDicItem item)) {
+                    if (AppRoot.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
                 }
@@ -137,8 +137,8 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel NvidiaDriverWin7 {
             get {
-                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverWin7", out ISysDicItem item)) {
-                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverWin7", out ISysDicItem item)) {
+                    if (AppRoot.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
                 }
@@ -148,8 +148,8 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel NvidiaDriverMore {
             get {
-                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverMore", out ISysDicItem item)) {
-                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "NvidiaDriverMore", out ISysDicItem item)) {
+                    if (AppRoot.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
                 }
@@ -159,8 +159,8 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel AmdDriverMore {
             get {
-                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AmdDriverMore", out ISysDicItem item)) {
-                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "AmdDriverMore", out ISysDicItem item)) {
+                    if (AppRoot.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
                 }
@@ -170,8 +170,8 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel VisualCpp0 {
             get {
-                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "VisualCpp0", out ISysDicItem item)) {
-                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "VisualCpp0", out ISysDicItem item)) {
+                    if (AppRoot.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
                 }
@@ -181,8 +181,8 @@ namespace NTMiner.Vms {
 
         public SysDicItemViewModel VisualCpp1 {
             get {
-                if (NTMinerRoot.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "VisualCpp1", out ISysDicItem item)) {
-                    if (AppContext.Instance.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "VisualCpp1", out ISysDicItem item)) {
+                    if (AppRoot.SysDicItemVms.TryGetValue(item.GetId(), out SysDicItemViewModel vm)) {
                         return vm;
                     }
                 }
@@ -205,7 +205,7 @@ namespace NTMiner.Vms {
 
         public bool IsRemoteDesktopEnabled {
             get {
-                return NTMinerRegistry.GetIsRemoteDesktopEnabled();
+                return NTMinerRegistry.GetIsRdpEnabled();
             }
         }
 

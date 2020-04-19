@@ -60,6 +60,18 @@ namespace NTMiner.Vms {
             }
         }
 
+        public string DNSServer0Tooltip {
+            get {
+                return "留空表示使用腾讯：" + NTKeyword.DNSServer0;
+            }
+        }
+
+        public string DNSServer1Tooltip {
+            get {
+                return "留空表示使用阿里：" + NTKeyword.DNSServer1;
+            }
+        }
+
         public List<LocalIpViewModel> LocalIpVms {
             get => _localIpVms;
             set {

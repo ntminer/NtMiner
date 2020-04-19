@@ -14,7 +14,7 @@ namespace NTMiner.Views {
 
         public MainWindow() {
             InitializeComponent();
-            NotiCenterWindow.Instance.Bind(this);
+            NotiCenterWindow.Bind(this);
             this.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => Vm.RefreshLocalIps);
@@ -26,7 +26,7 @@ namespace NTMiner.Views {
 
         private void DataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             WpfUtil.DataGrid_MouseDoubleClick<MainWindowViewModel.IpResult>(sender, e, ipResult => {
-                Clipboard.SetDataObject(ipResult.Ip);
+                Clipboard.SetDataObject(ipResult.Ip, true);
                 VirtualRoot.Out.ShowSuccess(ipResult.Ip, "复制成功", autoHideSeconds: 1);
             });
         }

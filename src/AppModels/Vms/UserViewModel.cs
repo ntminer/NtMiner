@@ -3,17 +3,22 @@ using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class UserViewModel : ViewModelBase, IUser, IEditableViewModel {
+    public class UserViewModel : ViewModelBase, IUser, ICanUpdateByReflection {
         public readonly Guid Id = Guid.NewGuid();
 
         private string _loginName;
         private string _password;
         private bool _isEnabled;
         private string _description;
+        private const string _stars = "●●●●●●●●●●";
+        private string _passwordStar;
+        private string _email;
+        private string _mobile;
+        private string _publicKey;
+        private string _privateKey;
+        private string _roles;
+        private DateTime _createdOn;
 
-        public ICommand Remove { get; private set; }
-        public ICommand Edit { get; private set; }
-        public ICommand Save { get; private set; }
         public ICommand Enable { get; private set; }
         public ICommand Disable { get; private set; }
 
@@ -22,61 +27,40 @@ namespace NTMiner.Vms {
         }
 
         public UserViewModel() {
-            this.Save = new DelegateCommand(() => {
-                if (!VirtualRoot.IsMinerStudio) {
-                    return;
-                }
-                if (string.IsNullOrEmpty(this.LoginName)) {
-                    return;
-                }
-                IUser user = NTMinerRoot.Instance.UserSet.GetUser(this.LoginName);
-                if (user != null) {
-                    VirtualRoot.Execute(new UpdateUserCommand(this));
-                }
-                else {
-                    VirtualRoot.Execute(new AddUserCommand(this));
-                }
-                VirtualRoot.Execute(new CloseWindowCommand(this.Id));
-            });
-            this.Edit = new DelegateCommand<FormType?>((formType) => {
-                VirtualRoot.Execute(new UserEditCommand(formType ?? FormType.Edit, this));
-            });
-            this.Remove = new DelegateCommand(() => {
-                if (!VirtualRoot.IsMinerStudio) {
-                    return;
-                }
-                if (string.IsNullOrEmpty(this.LoginName)) {
-                    return;
-                }
-                if (VirtualRoot.IsMinerStudio && this.LoginName == VirtualRoot.RpcUser.LoginName) {
-                    throw new ValidationException("不能删除自己");
-                }
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.LoginName}吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RemoveUserCommand(this.LoginName));
-                }));
-            });
             this.Enable = new DelegateCommand(() => {
-                if (!VirtualRoot.IsMinerStudio) {
+                if (!ClientAppType.IsMinerStudio) {
                     return;
                 }
                 if (this.IsEnabled) {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
-                    this.IsEnabled = true;
-                    VirtualRoot.Execute(new UpdateUserCommand(this));
+                    RpcRoot.OfficialServer.UserService.EnableUserAsync(this.LoginName, (response, exception) => {
+                        if (response.IsSuccess()) {
+                            VirtualRoot.RaiseEvent(new UserEnabledEvent(Guid.Empty, this));
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
+                        }
+                    });
                 }));
             });
             this.Disable = new DelegateCommand(() => {
-                if (!VirtualRoot.IsMinerStudio) {
+                if (!ClientAppType.IsMinerStudio) {
                     return;
                 }
                 if (!this.IsEnabled) {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
-                    this.IsEnabled = false;
-                    VirtualRoot.Execute(new UpdateUserCommand(this));
+                    RpcRoot.OfficialServer.UserService.DisableUserAsync(this.LoginName, (response, exception) => {
+                        if (response.IsSuccess()) {
+                            VirtualRoot.RaiseEvent(new UserDisabledEvent(Guid.Empty, this));
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
+                        }
+                    });
                 }));
             });
         }
@@ -85,12 +69,12 @@ namespace NTMiner.Vms {
             _password = data.Password;
             _isEnabled = data.IsEnabled;
             _description = data.Description;
-        }
-
-        public void Update(IUser data) {
-            this.Password = data.Password;
-            this.IsEnabled = data.IsEnabled;
-            this.Description = data.Description;
+            _email = data.Email;
+            _mobile = data.Mobile;
+            _publicKey = data.PublicKey;
+            _privateKey = data.PrivateKey;
+            _roles = data.Roles;
+            _createdOn = data.CreatedOn;
         }
 
         public string LoginName {
@@ -112,7 +96,7 @@ namespace NTMiner.Vms {
 
         public bool IsMinerStudio {
             get {
-                return VirtualRoot.IsMinerStudio;
+                return ClientAppType.IsMinerStudio;
             }
         }
 
@@ -124,8 +108,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private const string _stars = "●●●●●●●●●●";
-        private string _passwordStar;
         public string PasswordStar {
             get {
                 if (string.IsNullOrEmpty(this.Password)) {
@@ -140,11 +122,11 @@ namespace NTMiner.Vms {
                 if (_passwordStar != value) {
                     _passwordStar = value;
                     OnPropertyChanged(nameof(PasswordStar));
-                    if (VirtualRoot.IsMinerStudio) {
+                    if (ClientAppType.IsMinerStudio) {
                         this.Password = HashUtil.Sha1(value);
                     }
                     else {
-                        this.Password = HashUtil.Sha1($"{HashUtil.Sha1(HashUtil.Sha1(value))}{VirtualRoot.Id.ToString()}");
+                        this.Password = HashUtil.Sha1($"{HashUtil.Sha1(HashUtil.Sha1(value))}{NTMinerContext.Id.ToString()}");
                     }
                 }
             }
@@ -170,6 +152,58 @@ namespace NTMiner.Vms {
             set {
                 _description = value;
                 OnPropertyChanged(nameof(Description));
+            }
+        }
+
+        public string Email {
+            get => _email;
+            set {
+                _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
+
+        public string Mobile {
+            get => _mobile;
+            set {
+                _mobile = value;
+                OnPropertyChanged(nameof(Mobile));
+            }
+        }
+
+        public string PublicKey {
+            get {
+                return _publicKey;
+            }
+            set {
+                _publicKey = value;
+                OnPropertyChanged(nameof(PublicKey));
+            }
+        }
+
+        public string PrivateKey {
+            get {
+                return _privateKey;
+            }
+            set {
+                _privateKey = value;
+                OnPropertyChanged(nameof(PrivateKey));
+            }
+        }
+
+        public string Roles {
+            get => _roles;
+            set {
+                _roles = value;
+                OnPropertyChanged(nameof(Roles));
+            }
+        }
+
+        public DateTime CreatedOn {
+            get => _createdOn;
+            set {
+                _createdOn = value;
+                OnPropertyChanged(nameof(CreatedOn));
             }
         }
     }

@@ -23,14 +23,14 @@ namespace NTMiner.Vms {
             this.ClearKeyword = new DelegateCommand(() => {
                 this.CoinKeyword = string.Empty;
             });
-            if (AppContext.Instance.CoinVms.TryGetCoinVm(MinerProfile.CoinId, out CoinViewModel coinVm)) {
+            if (AppRoot.CoinVms.TryGetCoinVm(MinerProfile.CoinId, out CoinViewModel coinVm)) {
                 _currentCoin = coinVm;
             }
         }
 
         public MinerProfileViewModel MinerProfile {
             get {
-                return AppContext.Instance.MinerProfileVm;
+                return AppRoot.MinerProfileVm;
             }
         }
 
@@ -65,12 +65,12 @@ namespace NTMiner.Vms {
             get {
                 List<CoinViewModel> list;
                 if (!string.IsNullOrEmpty(CoinKeyword)) {
-                    list = AppContext.Instance.CoinVms.AllCoins.
+                    list = AppRoot.CoinVms.AllCoins.
                         Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.IgnoreCaseContains(CoinKeyword))
                             || (!string.IsNullOrEmpty(a.EnName) && a.EnName.IgnoreCaseContains(CoinKeyword))).OrderBy(a => a.Code).ToList();
                 }
                 else {
-                    list = AppContext.Instance.CoinVms.AllCoins.OrderBy(a => a.Code).ToList();
+                    list = AppRoot.CoinVms.AllCoins.OrderBy(a => a.Code).ToList();
                 }
                 if (list.Count == 1) {
                     CurrentCoin = list.FirstOrDefault();

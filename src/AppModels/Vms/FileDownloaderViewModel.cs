@@ -37,15 +37,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string DownloadFileName {
-            get {
-                if (string.IsNullOrEmpty(_downloadFileUrl)) {
-                    return string.Empty;
-                }
-                return Path.GetFileName(_downloadFileUrl);
-            }
-        }
-
         private double _downloadPercent;
         public double DownloadPercent {
             get {
@@ -83,7 +74,7 @@ namespace NTMiner.Vms {
 
         private void Download(Action<bool, string, string> downloadComplete) {
             Logger.InfoDebugLine("下载：" + _downloadFileUrl);
-            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, Guid.NewGuid().ToString());
+            string saveFileFullName = Path.Combine(TempPath.DownloadDirFullName, Guid.NewGuid().ToString());
             using (var webClient = VirtualRoot.CreateWebClient()) {
                 _cancel = () => {
                     webClient.CancelAsync();
@@ -99,7 +90,7 @@ namespace NTMiner.Vms {
                     }
                     string message = "下载成功";
                     if (e.Error != null) {
-                        message = "下载失败";
+                        message = "下载失败，请检查网络";
                         Logger.ErrorDebugLine(e.Error.Message, e.Error);
                     }
                     if (e.Cancelled) {

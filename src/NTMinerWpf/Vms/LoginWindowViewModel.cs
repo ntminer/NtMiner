@@ -1,52 +1,26 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Input;
-
-namespace NTMiner.Vms {
+﻿namespace NTMiner.Vms {
     public class LoginWindowViewModel : ViewModelBase {
         private string _loginName;
         private string _password;
-        private Visibility _isPasswordAgainVisible = Visibility.Collapsed;
-        private string _passwordAgain;
-        private String _serverHost;
-
-        public ICommand ActiveAdmin { get; private set; }
+        private string _serverHost;
+        private bool _isInnerIp;
 
         public LoginWindowViewModel() {
-            this._loginName = "admin";
-            this._serverHost = NTMinerRegistry.GetControlCenterHost();
-            this.IsInnerIp = Net.IpUtil.IsInnerIp(_serverHost);
-            this.ActiveAdmin = new DelegateCommand(() => {
-                if (string.IsNullOrEmpty(this.Password)) {
-                    this.ShowMessage("密码不能为空");
-                    return;
-                }
-                else if (this.Password != this.PasswordAgain) {
-                    this.ShowMessage("两次输入的密码不一致");
-                    return;
-                }
-                string passwordSha1 = HashUtil.Sha1(Password);
-                RpcRoot.Server.ControlCenterService.ActiveControlCenterAdminAsync(passwordSha1, (response, e) => {
-                    if (response.IsSuccess()) {
-                        IsPasswordAgainVisible = Visibility.Collapsed;
-                        this.ShowMessage("激活成功", isSuccess: true);
-                    }
-                    else {
-                        this.ShowMessage(response.ReadMessage(e));
-                    }
-                });
-            });
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+            this._loginName = NTMinerRegistry.GetLoginName();
+            this._serverHost = NTMinerRegistry.GetControlCenterAddress();
+            this._isInnerIp = Net.IpUtil.IsInnerIp(_serverHost);
         }
 
         public void ShowMessage(string message, bool isSuccess = false) {
-            UIThread.Execute(() => () => {
-                if (isSuccess) {
-                    VirtualRoot.Out.ShowSuccess(message);
-                }
-                else {
-                    VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
-                }
-            });
+            if (isSuccess) {
+                VirtualRoot.Out.ShowSuccess(message);
+            }
+            else {
+                VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
+            }
         }
 
         public string ServerHost {
@@ -55,23 +29,14 @@ namespace NTMiner.Vms {
                 _serverHost = value;
                 OnPropertyChanged(nameof(ServerHost));
                 this.IsInnerIp = Net.IpUtil.IsInnerIp(value);
-                OnPropertyChanged(nameof(IsInnerIp));
             }
         }
 
         public bool IsInnerIp {
-            get;set;
-        }
-
-        public int Port {
-            get { return NTKeyword.ControlCenterPort; }
-        }
-
-        public Visibility IsPasswordAgainVisible {
-            get => _isPasswordAgainVisible;
+            get => _isInnerIp;
             set {
-                _isPasswordAgainVisible = value;
-                OnPropertyChanged(nameof(IsPasswordAgainVisible));
+                _isInnerIp = value;
+                OnPropertyChanged(nameof(IsInnerIp));
             }
         }
 
@@ -80,6 +45,7 @@ namespace NTMiner.Vms {
             set {
                 if (_loginName != value) {
                     _loginName = value;
+                    NTMinerRegistry.SetLoginName(value);
                     OnPropertyChanged(nameof(LoginName));
                 }
             }
@@ -90,14 +56,6 @@ namespace NTMiner.Vms {
             set {
                 _password = value;
                 OnPropertyChanged(nameof(Password));
-            }
-        }
-
-        public string PasswordAgain {
-            get => _passwordAgain;
-            set {
-                _passwordAgain = value;
-                OnPropertyChanged(nameof(PasswordAgain));
             }
         }
     }

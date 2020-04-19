@@ -38,7 +38,7 @@
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup>
-    <StartupObject />
+    <StartupObject>NTMiner.VirtualRoot</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>logo.ico</ApplicationIcon>
@@ -77,13 +77,13 @@
     <Reference Include="System.Web.Http.SelfHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.SelfHost.4.0.30506.0\lib\net40\System.Web.Http.SelfHost.dll</HintPath>
     </Reference>
+    <Reference Include="websocket-sharp">
+      <HintPath>..\ThirdPartyDlls\websocket-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AppModels\RemoteDesktop\Firewall.cs">
       <Link>RemoteDesktop\Firewall.cs</Link>
-    </Compile>
-    <Compile Include="..\AppModels\RemoteDesktop\Rdp.cs">
-      <Link>RemoteDesktop\Rdp.cs</Link>
     </Compile>
     <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
@@ -94,6 +94,21 @@
     <Compile Include="..\NTMinerClient\Windows\WMI.cs">
       <Link>Windows\WMI.cs</Link>
     </Compile>
+    <Compile Include="..\ntminerlib\cryptography\AESHelper.cs">
+      <Link>Cryptography\AESHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\ntminerlib\cryptography\BigInteger.cs">
+      <Link>Cryptography\BigInteger.cs</Link>
+    </Compile>
+    <Compile Include="..\ntminerlib\cryptography\RSAHelper.cs">
+      <Link>Cryptography\RSAHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\ntminerlib\cryptography\RSAKey.cs">
+      <Link>Cryptography\RSAKey.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\DataExtensions.cs">
+      <Link>DataExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\EnumExtension.cs">
       <Link>EnumExtension.cs</Link>
     </Compile>
@@ -103,23 +118,29 @@
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\NTMinerRegistry.partials.cs">
+      <Link>NTMinerRegistry.partials.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\Serialization\INTSerializer.cs">
       <Link>Serialization\INTSerializer.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Serialization\NTJsonSerializer.cs">
       <Link>Serialization\NTJsonSerializer.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\User\IUserSet.cs">
-      <Link>User\IUserSet.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\User\RpcUser.cs">
-      <Link>User\RpcUser.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Common.cs">
       <Link>VirtualRoot.partials.Common.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.DriveSet.cs">
+      <Link>VirtualRoot.partials.DriveSet.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Hub.cs">
       <Link>VirtualRoot.partials.Hub.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.LocalIpSet.cs">
+      <Link>VirtualRoot.partials.LocalIpSet.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\VirtualRoot.partials.LocalMessage.cs">
+      <Link>VirtualRoot.partials.LocalMessage.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Windows\Cmd.cs">
       <Link>Windows\Cmd.cs</Link>
@@ -133,29 +154,24 @@
     <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
       <Link>Windows\WinRegistry.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerRpcClient\RpcRoot.cs">
-      <Link>RpcRoot.cs</Link>
-    </Compile>
-    <Compile Include="HostRoot.cs" />
-    <Compile Include="IHostRoot.cs" />
+    <Compile Include="Core\IDaemonOperation.cs" />
+    <Compile Include="Core\IOperationResultSet.cs" />
+    <Compile Include="Core\Impl\OperationResultSet.cs" />
+    <Compile Include="Ws\AbstractWsClient.cs" />
+    <Compile Include="Ws\DaemonWsClient.cs" />
+    <Compile Include="Core\Impl\DaemonOperation.cs" />
     <Compile Include="MinerProfileUtil.cs" />
-    <Compile Include="NoDevFee\EthWalletSet.cs" />
-    <Compile Include="NoDevFee\WinDivert.cs" />
-    <Compile Include="NoDevFee\NoDevFeeUtil.cs" />
-    <Compile Include="NoDevFee\WinDivertExtract.cs" />
     <Compile Include="NTMinerDaemonController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialPath.cs" />
-    <Compile Include="User\Impl\UserSet.cs" />
     <Compile Include="VirtualRoot.cs" />
+    <Compile Include="Ws\DaemonWsMessageHandler.cs" />
+    <Compile Include="Core\Impl\ResponseBaseExtensions.cs" />
+    <Compile Include="Ws\WebSocketStateExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="NoDevFee\WinDivert64.sys" />
     <None Include="app.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="NoDevFee\WinDivert.dll" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">
@@ -173,6 +189,10 @@
     <ProjectReference Include="..\NTMinerLogging\NTMinerLogging.csproj">
       <Project>{f5091b28-5bb6-4446-9b97-02b37125e340}</Project>
       <Name>NTMinerLogging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
+      <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
+      <Name>NTMinerRpcClient</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

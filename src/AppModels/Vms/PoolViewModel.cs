@@ -80,7 +80,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerRoot.Instance.ServerContext.PoolSet.Contains(this.Id)) {
+                if (NTMinerContext.Instance.ServerContext.PoolSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
                 }
                 else {
@@ -92,7 +92,7 @@ namespace NTMiner.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new PoolEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditPoolCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -103,28 +103,28 @@ namespace NTMiner.Vms {
                 }));
             });
             this.SortUp = new DelegateCommand(() => {
-                PoolViewModel upOne = AppContext.Instance.PoolVms.GetUpOne(this.CoinId, this.SortNumber);
+                PoolViewModel upOne = AppRoot.PoolVms.AllPools.GetUpOne(SortNumber, a => a.CoinId == CoinId);
                 if (upOne != null) {
                     int sortNumber = upOne.SortNumber;
                     upOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(upOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppRoot.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Pools));
                         coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
                     }
                 }
             });
             this.SortDown = new DelegateCommand(() => {
-                PoolViewModel nextOne = AppContext.Instance.PoolVms.GetNextOne(this.CoinId, this.SortNumber);
+                PoolViewModel nextOne = AppRoot.PoolVms.AllPools.GetNextOne(SortNumber, a => a.CoinId == CoinId);
                 if (nextOne != null) {
                     int sortNumber = nextOne.SortNumber;
                     nextOne.SortNumber = this.SortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(nextOne));
                     this.SortNumber = sortNumber;
                     VirtualRoot.Execute(new UpdatePoolCommand(this));
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
+                    if (AppRoot.CoinVms.TryGetCoinVm(this.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(coinVm.Pools));
                         coinVm.OnPropertyChanged(nameof(coinVm.OptionPools));
                     }
@@ -146,7 +146,7 @@ namespace NTMiner.Vms {
                     else {
                         url = url.Replace("{wallet}", wallet.Address);
                     }
-                    url = url.Replace("{worker}", NTMinerRoot.Instance.MinerProfile.MinerName);
+                    url = url.Replace("{worker}", NTMinerContext.Instance.MinerProfile.MinerName);
                     Process.Start(url);
                 }
             });
@@ -154,13 +154,13 @@ namespace NTMiner.Vms {
 
         public bool IsNew {
             get {
-                return !NTMinerRoot.Instance.ServerContext.PoolSet.Contains(this.Id);
+                return !NTMinerContext.Instance.ServerContext.PoolSet.Contains(this.Id);
             }
         }
 
         public List<PoolKernelViewModel> PoolKernels {
             get {
-                return AppContext.Instance.PoolKernelVms.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.Code + a.Kernel.Version).ToList();
+                return AppRoot.PoolKernelVms.AllPoolKernels.Where(a => a.PoolId == this.Id).OrderBy(a => a.Kernel.Code + a.Kernel.Version).ToList();
             }
         }
 
@@ -214,7 +214,7 @@ namespace NTMiner.Vms {
                 if (this.BrandId == Guid.Empty) {
                     return SysDicItemViewModel.PleaseSelect;
                 }
-                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out SysDicItemViewModel item)) {
+                if (AppRoot.SysDicItemVms.TryGetValue(this.BrandId, out SysDicItemViewModel item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;
@@ -227,9 +227,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.SysDicItemViewModels SysDicItemVms {
+        public AppRoot.SysDicItemViewModels SysDicItemVms {
             get {
-                return AppContext.Instance.SysDicItemVms;
+                return AppRoot.SysDicItemVms;
             }
         }
 
@@ -245,7 +245,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("名称是必须的");
                     }
-                    if (AppContext.Instance.PoolVms.AllPools.Any(a => a.Name == value && a.Id != this.Id && a.CoinId == this.CoinId)) {
+                    if (AppRoot.PoolVms.AllPools.Any(a => a.Name == value && a.Id != this.Id && a.CoinId == this.CoinId)) {
                         throw new ValidationException("名称重复");
                     }
                 }
@@ -268,7 +268,7 @@ namespace NTMiner.Vms {
         public CoinViewModel CoinVm {
             get {
                 if (_coinVm == null || _coinVm.Id != this.CoinId) {
-                    AppContext.Instance.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
+                    AppRoot.CoinVms.TryGetCoinVm(this.CoinId, out _coinVm);
                     if (_coinVm == null) {
                         _coinVm = CoinViewModel.PleaseSelect;
                     }
@@ -279,7 +279,7 @@ namespace NTMiner.Vms {
 
         public string CoinCode {
             get {
-                if (NTMinerRoot.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
+                if (NTMinerContext.Instance.ServerContext.CoinSet.TryGetCoin(this.CoinId, out ICoin coin)) {
                     return coin.Code;
                 }
                 return string.Empty;
@@ -295,11 +295,14 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(value)) {
                         throw new ValidationException("矿池地址是必须的");
                     }
-                    RefreshArgsAssembly();
+                    RefreshArgsAssembly("矿池的矿池地址发生了变更");
                 }
             }
         }
-
+        
+        /// <summary>
+        /// <see cref="IPool.Url"/>
+        /// </summary>
         public string Url {
             get => _url;
             set {
@@ -354,28 +357,28 @@ namespace NTMiner.Vms {
                 if (_isUserMode != value) {
                     _isUserMode = value;
                     OnPropertyChanged(nameof(IsUserMode));
-                    AppContext.Instance.MinerProfileVm.OnPropertyChanged(nameof(AppContext.Instance.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
-                    RefreshArgsAssembly();
+                    AppRoot.MinerProfileVm.OnPropertyChanged(nameof(AppRoot.MinerProfileVm.IsAllMainCoinPoolIsUserMode));
+                    RefreshArgsAssembly("矿池的是否是用户挖矿模式发生了变更");
                 }
             }
         }
 
         private static ICoinProfile GetDualCoinProfile() {
-            var workProfile = NTMinerRoot.Instance.MinerProfile;
+            var workProfile = NTMinerContext.Instance.MinerProfile;
             var mainCoinProfile = workProfile.GetCoinProfile(workProfile.CoinId);
             var coinKernelProfile = workProfile.GetCoinKernelProfile(mainCoinProfile.CoinKernelId);
             return workProfile.GetCoinProfile(coinKernelProfile.DualCoinId);
         }
 
-        private void RefreshArgsAssembly() {
-            var mainCoinProfile = NTMinerRoot.Instance.MinerProfile.GetCoinProfile(NTMinerRoot.Instance.MinerProfile.CoinId);
+        private void RefreshArgsAssembly(string reason) {
+            var mainCoinProfile = NTMinerContext.Instance.MinerProfile.GetCoinProfile(NTMinerContext.Instance.MinerProfile.CoinId);
             if (mainCoinProfile.PoolId == this.Id || mainCoinProfile.PoolId1 == this.Id) {
-                NTMinerRoot.RefreshArgsAssembly.Invoke();
+                NTMinerContext.RefreshArgsAssembly.Invoke(reason);
             }
             else {
                 var dualCoinProfile = GetDualCoinProfile();
                 if (dualCoinProfile.PoolId == this.Id || dualCoinProfile.PoolId1 == this.Id) {
-                    NTMinerRoot.RefreshArgsAssembly.Invoke();
+                    NTMinerContext.RefreshArgsAssembly.Invoke(reason);
                 }
             }
         }
@@ -405,7 +408,7 @@ namespace NTMiner.Vms {
             set {
                 _noPool1 = value;
                 OnPropertyChanged(nameof(NoPool1));
-                RefreshArgsAssembly();
+                RefreshArgsAssembly("矿池的是否不能有备用矿池发生了变更");
             }
         }
 
@@ -414,7 +417,7 @@ namespace NTMiner.Vms {
             set {
                 _notPool1 = value;
                 OnPropertyChanged(nameof(NotPool1));
-                RefreshArgsAssembly();
+                RefreshArgsAssembly("矿池的是否不能作为备用矿池发生了变更");
             }
         }
 
@@ -423,7 +426,7 @@ namespace NTMiner.Vms {
             set {
                 _minerNamePrefix = value;
                 OnPropertyChanged(nameof(MinerNamePrefix));
-                RefreshArgsAssembly();
+                RefreshArgsAssembly("矿池上放置的矿机名前缀发生了变更");
             }
         }
 
@@ -432,13 +435,13 @@ namespace NTMiner.Vms {
             set {
                 _minerNamePostfix = value;
                 OnPropertyChanged(nameof(MinerNamePostfix));
-                RefreshArgsAssembly();
+                RefreshArgsAssembly("矿池上放置的矿机名后缀发生了变更");
             }
         }
 
         public PoolProfileViewModel PoolProfileVm {
             get {
-                return AppContext.Instance.PoolProfileVms.GetOrCreatePoolProfile(this.Id);
+                return AppRoot.PoolProfileVms.GetOrCreatePoolProfile(this.Id);
             }
         }
     }

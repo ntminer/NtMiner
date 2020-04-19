@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
+using NTMiner.Mine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,9 @@ namespace NTMiner.Core.Kernels.Impl {
     public class KernelOutputSet : IKernelOutputSet {
         private readonly Dictionary<Guid, KernelOutputData> _dicById = new Dictionary<Guid, KernelOutputData>();
 
+        private readonly IServerContext _context;
         public KernelOutputSet(IServerContext context) {
+            _context = context;
             #region 接线
             context.AddCmdPath<AddKernelOutputCommand>("添加内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -21,10 +24,10 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelOutputData entity = new KernelOutputData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = context.CreateServerRepository<KernelOutputData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<UpdateKernelOutputCommand>("更新内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -35,18 +38,17 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (string.IsNullOrEmpty(message.Input.Name)) {
                         throw new ValidationException($"{nameof(message.Input.Name)} can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out KernelOutputData entity)) {
                         return;
                     }
-                    KernelOutputData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = context.CreateServerRepository<KernelOutputData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemoveKernelOutputCommand>("移除内核输出组", LogEnum.DevConsole,
                 action: (message) => {
@@ -57,9 +59,9 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (!_dicById.ContainsKey(message.EntityId)) {
                         return;
                     }
-                    IKernel[] outputUsers = context.KernelSet.AsEnumerable().Where(a => a.KernelOutputId == message.EntityId).ToArray();
-                    if (outputUsers.Length != 0) {
-                        throw new ValidationException($"这些内核在使用该内核输出组，删除前请先解除使用：{string.Join(",", outputUsers.Select(a => a.GetFullName()))}");
+                    IKernel[] outputUses = context.KernelSet.AsEnumerable().Where(a => a.KernelOutputId == message.EntityId).ToArray();
+                    if (outputUses.Length != 0) {
+                        throw new ValidationException($"这些内核在使用该内核输出组，删除前请先解除使用：{string.Join(",", outputUses.Select(a => a.GetFullName()))}");
                     }
                     KernelOutputData entity = _dicById[message.EntityId];
                     List<Guid> kernelOutputTranslaterIds = context.KernelOutputTranslaterSet.AsEnumerable().Where(a => a.KernelOutputId == entity.Id).Select(a => a.GetId()).ToList();
@@ -67,10 +69,10 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Execute(new RemoveKernelOutputTranslaterCommand(kernelOutputTranslaterId));
                     }
                     _dicById.Remove(entity.GetId());
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = context.CreateServerRepository<KernelOutputData>();
                     repository.Remove(message.EntityId);
 
-                    VirtualRoot.RaiseEvent(new KernelOutputRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelOutputRemovedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             #endregion
         }
@@ -89,7 +91,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelOutputData>();
+                    var repository = _context.CreateServerRepository<KernelOutputData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);
@@ -139,7 +141,7 @@ namespace NTMiner.Core.Kernels.Impl {
                     coin = dualMineContext.DualCoin;
                     poolId = dualMineContext.DualCoinPool.GetId();
                 }
-                INTMinerRoot root = NTMinerRoot.Instance;
+                INTMinerContext root = NTMinerContext.Instance;
                 // 这些方法输出的是事件消息
                 PickTotalSpeed(root, line, mineContext.KernelOutput, isDual);
                 PickGpuSpeed(root, mineContext, line, mineContext.KernelOutput, isDual);
@@ -178,7 +180,7 @@ namespace NTMiner.Core.Kernels.Impl {
 
         #region private methods
         #region PickTotalSpeed
-        private static void PickTotalSpeed(INTMinerRoot root, string input, IKernelOutput kernelOutput, bool isDual) {
+        private static void PickTotalSpeed(INTMinerContext root, string input, IKernelOutput kernelOutput, bool isDual) {
             string totalSpeedPattern = kernelOutput.TotalSpeedPattern;
             if (isDual) {
                 totalSpeedPattern = kernelOutput.DualTotalSpeedPattern;
@@ -202,8 +204,8 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (double.TryParse(totalSpeedText, out double totalSpeed)) {
                     double totalSpeedL = totalSpeed.FromUnitSpeed(totalSpeedUnit);
                     var now = DateTime.Now;
-                    IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
-                    gpuSpeeds.SetCurrentSpeed(NTMinerRoot.GpuAllId, totalSpeedL, isDual, now);
+                    IGpusSpeed gpuSpeeds = NTMinerContext.Instance.GpusSpeed;
+                    gpuSpeeds.SetCurrentSpeed(NTMinerContext.GpuAllId, totalSpeedL, isDual, now);
                     string gpuSpeedPattern = kernelOutput.GpuSpeedPattern;
                     if (isDual) {
                         gpuSpeedPattern = kernelOutput.DualGpuSpeedPattern;
@@ -212,7 +214,7 @@ namespace NTMiner.Core.Kernels.Impl {
                         // 平分总算力
                         double gpuSpeedL = totalSpeedL / root.GpuSet.Count;
                         foreach (var item in gpuSpeeds.AsEnumerable()) {
-                            if (item.Gpu.Index != NTMinerRoot.GpuAllId) {
+                            if (item.Gpu.Index != NTMinerContext.GpuAllId) {
                                 gpuSpeeds.SetCurrentSpeed(item.Gpu.Index, gpuSpeedL, isDual, now);
                             }
                         }
@@ -241,7 +243,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickGpuSpeed
-        private static void PickGpuSpeed(INTMinerRoot root, IMineContext mineContext, string input, IKernelOutput kernelOutput, bool isDual) {
+        private static void PickGpuSpeed(INTMinerContext root, IMineContext mineContext, string input, IKernelOutput kernelOutput, bool isDual) {
             string gpuSpeedPattern = kernelOutput.GpuSpeedPattern;
             if (isDual) {
                 gpuSpeedPattern = kernelOutput.DualGpuSpeedPattern;
@@ -254,7 +256,7 @@ namespace NTMiner.Core.Kernels.Impl {
             Regex regex = VirtualRoot.GetRegex(gpuSpeedPattern);
             MatchCollection matches = regex.Matches(input);
             if (matches.Count > 0) {
-                IGpusSpeed gpuSpeeds = NTMinerRoot.Instance.GpusSpeed;
+                IGpusSpeed gpuSpeeds = NTMinerContext.Instance.GpusSpeed;
                 for (int i = 0; i < matches.Count; i++) {
                     Match match = matches[i];
                     string gpuSpeedText = match.Groups[NTKeyword.GpuSpeedGroupName].Value;
@@ -296,16 +298,16 @@ namespace NTMiner.Core.Kernels.Impl {
                 }
                 if (string.IsNullOrEmpty(totalSpeedPattern)) {
                     // 求和分算力
-                    double speed = isDual? gpuSpeeds.AsEnumerable().Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.DualCoinSpeed.Value) 
-                                         : gpuSpeeds.AsEnumerable().Where(a => a.Gpu.Index != NTMinerRoot.GpuAllId).Sum(a => a.MainCoinSpeed.Value);
-                    gpuSpeeds.SetCurrentSpeed(NTMinerRoot.GpuAllId, speed, isDual, now);
+                    double speed = isDual? gpuSpeeds.AsEnumerable().Where(a => a.Gpu.Index != NTMinerContext.GpuAllId).Sum(a => a.DualCoinSpeed.Value) 
+                                         : gpuSpeeds.AsEnumerable().Where(a => a.Gpu.Index != NTMinerContext.GpuAllId).Sum(a => a.MainCoinSpeed.Value);
+                    gpuSpeeds.SetCurrentSpeed(NTMinerContext.GpuAllId, speed, isDual, now);
                 }
             }
         }
         #endregion
 
         #region PickTotalShare
-        private static void PickTotalShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickTotalShare(INTMinerContext root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string totalSharePattern = kernelOutput.TotalSharePattern;
             if (isDual) {
                 totalSharePattern = kernelOutput.DualTotalSharePattern;
@@ -326,7 +328,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickAcceptShare
-        private static void PickAcceptShare(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickAcceptShare(INTMinerContext root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string acceptSharePattern = kernelOutput.AcceptSharePattern;
             if (isDual) {
                 acceptSharePattern = kernelOutput.DualAcceptSharePattern;
@@ -346,7 +348,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PicFoundOneShare
-        private static void PicFoundOneShare(INTMinerRoot root, IMineContext mineContext, string input, string preline, IKernelOutput kernelOutput) {
+        private static void PicFoundOneShare(INTMinerContext root, IMineContext mineContext, string input, string preline, IKernelOutput kernelOutput) {
             string foundOneShare = kernelOutput.FoundOneShare;
             if (string.IsNullOrEmpty(foundOneShare)) {
                 return;
@@ -373,7 +375,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PicGotOneIncorrectShare
-        private static void PicGotOneIncorrectShare(INTMinerRoot root, IMineContext mineContext, string input, string preline, IKernelOutput kernelOutput) {
+        private static void PicGotOneIncorrectShare(INTMinerContext root, IMineContext mineContext, string input, string preline, IKernelOutput kernelOutput) {
             string pattern = kernelOutput.GpuGotOneIncorrectShare;
             if (string.IsNullOrEmpty(pattern)) {
                 return;
@@ -400,7 +402,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickAcceptOneShare
-        private static void PickAcceptOneShare(INTMinerRoot root, IMineContext mineContext, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickAcceptOneShare(INTMinerContext root, IMineContext mineContext, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string acceptOneShare = kernelOutput.AcceptOneShare;
             if (isDual) {
                 acceptOneShare = kernelOutput.DualAcceptOneShare;
@@ -438,7 +440,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickRejectPattern
-        private static void PickRejectPattern(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickRejectPattern(INTMinerContext root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string rejectSharePattern = kernelOutput.RejectSharePattern;
             if (isDual) {
                 rejectSharePattern = kernelOutput.DualRejectSharePattern;
@@ -459,7 +461,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickRejectOneShare
-        private static void PickRejectOneShare(INTMinerRoot root, IMineContext mineContext, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickRejectOneShare(INTMinerContext root, IMineContext mineContext, string input, string preline, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string rejectOneShare = kernelOutput.RejectOneShare;
             if (isDual) {
                 rejectOneShare = kernelOutput.DualRejectOneShare;
@@ -497,7 +499,7 @@ namespace NTMiner.Core.Kernels.Impl {
         #endregion
 
         #region PickRejectPercent
-        private static void PickRejectPercent(INTMinerRoot root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
+        private static void PickRejectPercent(INTMinerContext root, string input, IKernelOutput kernelOutput, ICoin coin, bool isDual) {
             string rejectPercentPattern = kernelOutput.RejectPercentPattern;
             if (isDual) {
                 rejectPercentPattern = kernelOutput.DualRejectPercentPattern;

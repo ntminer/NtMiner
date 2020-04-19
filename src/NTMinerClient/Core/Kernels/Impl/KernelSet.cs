@@ -6,7 +6,9 @@ namespace NTMiner.Core.Kernels.Impl {
     internal class KernelSet : IKernelSet {
         private readonly Dictionary<Guid, KernelData> _dicById = new Dictionary<Guid, KernelData>();
 
+        private readonly IServerContext _context;
         public KernelSet(IServerContext context) {
+            _context = context;
             context.AddCmdPath<AddKernelCommand>("添加内核", LogEnum.DevConsole,
                 action: message => {
                     InitOnece();
@@ -21,10 +23,10 @@ namespace NTMiner.Core.Kernels.Impl {
                     }
                     KernelData entity = new KernelData().Update(message.Input);
                     _dicById.Add(entity.Id, entity);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    var repository = context.CreateServerRepository<KernelData>();
                     repository.Add(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelAddedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelAddedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<UpdateKernelCommand>("更新内核", LogEnum.DevConsole,
                 action: message => {
@@ -35,18 +37,17 @@ namespace NTMiner.Core.Kernels.Impl {
                     if (string.IsNullOrEmpty(message.Input.Code)) {
                         throw new ValidationException($"{nameof(message.Input.Code)} can't be null or empty");
                     }
-                    if (!_dicById.ContainsKey(message.Input.GetId())) {
+                    if (!_dicById.TryGetValue(message.Input.GetId(), out KernelData entity)) {
                         return;
                     }
-                    KernelData entity = _dicById[message.Input.GetId()];
                     if (ReferenceEquals(entity, message.Input)) {
                         return;
                     }
                     entity.Update(message.Input);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    var repository = context.CreateServerRepository<KernelData>();
                     repository.Update(entity);
 
-                    VirtualRoot.RaiseEvent(new KernelUpdatedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelUpdatedEvent(message.MessageId, entity));
                 }, location: this.GetType());
             context.AddCmdPath<RemoveKernelCommand>("移除内核", LogEnum.DevConsole,
                 action: message => {
@@ -63,10 +64,10 @@ namespace NTMiner.Core.Kernels.Impl {
                         VirtualRoot.Execute(new RemoveCoinKernelCommand(coinKernelId));
                     }
                     _dicById.Remove(entity.Id);
-                    var repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    var repository = context.CreateServerRepository<KernelData>();
                     repository.Remove(entity.Id);
 
-                    VirtualRoot.RaiseEvent(new KernelRemovedEvent(message.Id, entity));
+                    VirtualRoot.RaiseEvent(new KernelRemovedEvent(message.MessageId, entity));
                 }, location: this.GetType());
         }
 
@@ -90,7 +91,7 @@ namespace NTMiner.Core.Kernels.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    var repository = NTMinerRoot.CreateServerRepository<KernelData>();
+                    var repository = _context.CreateServerRepository<KernelData>();
                     foreach (var item in repository.GetAll()) {
                         if (!_dicById.ContainsKey(item.GetId())) {
                             _dicById.Add(item.GetId(), item);

@@ -38,7 +38,7 @@
                 </ItemsControl.Resources>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <GroupBox BorderThickness="1" BorderBrush="{StaticResource LineColor}" Background="White" Padding="10 4 10 0" Margin="10 0 10 10">
+                        <GroupBox BorderThickness="1" BorderBrush="{StaticResource LightLineColor}" Background="White" Padding="10 4 10 0" Margin="10 0 10 10">
                             <GroupBox.Header>
                                 <WrapPanel>
                                     <TextBlock Text="{Binding Name}"></TextBlock>
@@ -53,20 +53,36 @@
                                     <GroupBox.Header>
                                         <RadioButton GroupName="{Binding DHCPEnabledGroupName2}" IsChecked="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">(🔒)使用下面的 IP 地址</RadioButton>
                                     </GroupBox.Header>
-                                    <StackPanel IsEnabled="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">
-                                        <WrapPanel Margin="0 0 0 4">
-                                            <TextBlock Style="{StaticResource LblTb}" Text="IP 地址:"></TextBlock>
-                                            <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
-                                        </WrapPanel>
-                                        <WrapPanel Margin="0 0 0 4">
-                                            <TextBlock Style="{StaticResource LblTb}" Text="子网掩码:"></TextBlock>
-                                            <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPSubnetVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
-                                        </WrapPanel>
-                                        <WrapPanel>
-                                            <TextBlock Style="{StaticResource LblTb}" Text="默认网关:"></TextBlock>
-                                            <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DefaultIPGatewayVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
-                                        </WrapPanel>
-                                    </StackPanel>
+                                    <WrapPanel>
+                                        <StackPanel IsEnabled="{Binding DHCPEnabled,Converter={StaticResource BoolInvertConverter}}">
+                                            <WrapPanel Margin="0 0 0 4">
+                                                <TextBlock Style="{StaticResource LblTb}" Text="IP 地址:"></TextBlock>
+                                                <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPAddressVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
+                                            </WrapPanel>
+                                            <WrapPanel Margin="0 0 0 4">
+                                                <TextBlock Style="{StaticResource LblTb}" Text="子网掩码:"></TextBlock>
+                                                <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding IPSubnetVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
+                                            </WrapPanel>
+                                            <WrapPanel>
+                                                <TextBlock Style="{StaticResource LblTb}" Text="默认网关:"></TextBlock>
+                                                <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DefaultIPGatewayVm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
+                                            </WrapPanel>
+                                        </StackPanel>
+                                        <controls:KbButton 
+					                        Margin="2 4 0 0"
+					                        ToolTip="复制"
+                                            VerticalAlignment="Top"
+					                        Background="Transparent" BorderThickness="0"
+					                        Command="{Binding CopyIp}"
+					                        HorizontalAlignment="Left">
+                                            <Path
+						                        Width="14"
+						                        Height="14"
+						                        Data="{StaticResource Icon_Copy}"
+						                        Fill="{StaticResource BtnBackground}"
+						                        Stretch="Fill" />
+                                        </controls:KbButton>
+                                    </WrapPanel>
                                 </GroupBox>
                                 <RadioButton GroupName="{Binding DHCPEnabledGroupName3}" IsEnabled="{Binding DHCPEnabled}" Margin="9 8 0 4" IsChecked="{Binding IsAutoDNSServer}">自动获得 DNS 服务器地址</RadioButton>
                                 <GroupBox>
@@ -76,11 +92,19 @@
                                     <StackPanel IsEnabled="{Binding IsAutoDNSServer, Converter={StaticResource BoolInvertConverter}}">
                                         <WrapPanel Margin="0 0 0 4">
                                             <TextBlock Style="{StaticResource LblTb}" Text="首选 DNS 服务器:"></TextBlock>
-                                            <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer0Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
+                                            <controls:IpAddressControl 
+                                                BorderThickness="1" 
+                                                BorderBrush="#666" 
+                                                ToolTip="{Binding Data.DNSServer0Tooltip,Source={StaticResource proxy}}"
+                                                DataContext="{Binding DNSServer0Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                                         </WrapPanel>
                                         <WrapPanel>
                                             <TextBlock Style="{StaticResource LblTb}" Text="备用 DNS 服务器:"></TextBlock>
-                                            <controls:IpAddressControl BorderThickness="1" BorderBrush="#666" DataContext="{Binding DNSServer1Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
+                                            <controls:IpAddressControl 
+                                                BorderThickness="1" 
+                                                BorderBrush="#666" 
+                                                ToolTip="{Binding Data.DNSServer1Tooltip,Source={StaticResource proxy}}"
+                                                DataContext="{Binding DNSServer1Vm, UpdateSourceTrigger=PropertyChanged, NotifyOnSourceUpdated=True}"/>
                                         </WrapPanel>
                                     </StackPanel>
                                 </GroupBox>
@@ -90,20 +114,19 @@
                                     CommandParameter="{Binding}"
 			                        HorizontalAlignment="Right"
 			                        Padding="4 0"
-			                        Background="{StaticResource ThemeBackground}"
-			                        Foreground="{StaticResource ThemeForeground}"
+			                        Background="{StaticResource BtnBackground}"
+			                        Foreground="{StaticResource BtnForeground}"
 			                        CornerRadius="2">
                                     <WrapPanel>
                                         <Path
 					                        Width="12"
 					                        Height="12"
 					                        Data="{StaticResource Icon_Ok}"
-					                        Fill="{StaticResource ThemeForeground}"
+					                        Fill="{StaticResource BtnForeground}"
 					                        Stretch="Fill" />
                                         <TextBlock
 					                        Padding="4"
 					                        VerticalAlignment="Center"
-					                        Foreground="{StaticResource ThemeForeground}"
 					                        Text="确定" />
                                     </WrapPanel>
                                 </controls:KbButton>

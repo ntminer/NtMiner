@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Impl;
+using NTMiner.Mine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,9 @@ namespace NTMiner.Core.Gpus.Impl {
         private readonly Dictionary<int, GpuSpeed> _currentGpuSpeed = new Dictionary<int, GpuSpeed>();
         private readonly Dictionary<int, List<IGpuSpeed>> _gpuSpeedHistory = new Dictionary<int, List<IGpuSpeed>>();
         private readonly Dictionary<int, AverageSpeedWithHistory> _averageGpuSpeed = new Dictionary<int, AverageSpeedWithHistory>();
-        private readonly object _gpuSpeedHistoryValuesLocker = new object();
 
-        private readonly INTMinerRoot _root;
-        public GpusSpeed(INTMinerRoot root) {
+        private readonly INTMinerContext _root;
+        public GpusSpeed(INTMinerContext root) {
             _root = root;
             VirtualRoot.AddEventPath<Per10MinuteEvent>("周期清除过期的历史算力", LogEnum.DevConsole,
                 action: message => {
@@ -52,7 +52,6 @@ namespace NTMiner.Core.Gpus.Impl {
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
-                        DateTime now = DateTime.Now;
                         foreach (var gpu in _root.GpuSet.AsEnumerable()) {
                             _currentGpuSpeed.Add(gpu.Index, new GpuSpeed(gpu, mainCoinSpeed: new Speed(), dualCoinSpeed: new Speed()));
                             _gpuSpeedHistory.Add(gpu.Index, new List<IGpuSpeed>());
@@ -67,13 +66,13 @@ namespace NTMiner.Core.Gpus.Impl {
         private void ClearOutOfDateHistory() {
             InitOnece();
             DateTime now = DateTime.Now;
-            lock (_gpuSpeedHistoryValuesLocker) {
+            lock (_locker) {
                 foreach (var averageSpeed in _averageGpuSpeed.Values) {
                     averageSpeed.SpeedHistory.Add(averageSpeed.Speed);
                     averageSpeed.DualSpeedHistory.Add(averageSpeed.DualSpeed);
                 }
                 foreach (var historyList in _gpuSpeedHistory.Values.ToArray()) {
-                    var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(NTMinerRoot.SpeedHistoryLengthByMinute) < now).ToArray();
+                    var toRemoves = historyList.Where(a => a.MainCoinSpeed.SpeedOn.AddMinutes(NTMinerContext.SpeedHistoryLengthByMinute) < now).ToArray();
                     foreach (var item in toRemoves) {
                         historyList.Remove(item);
                     }
@@ -157,7 +156,7 @@ namespace NTMiner.Core.Gpus.Impl {
             if (this._mainCoinId != mainCoinId) {
                 this._mainCoinId = mainCoinId;
                 // 切换币种了，清空历史算力
-                lock (_gpuSpeedHistoryValuesLocker) {
+                lock (_locker) {
                     foreach (var item in _gpuSpeedHistory) {
                         item.Value.Clear();
                     }
@@ -178,7 +177,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 return;
             }
             CheckReset();
-            lock (_gpuSpeedHistoryValuesLocker) {
+            lock (_locker) {
                 // 将当前的旧算力加入历史列表
                 if (_gpuSpeedHistory.TryGetValue(gpuSpeed.Gpu.Index, out List<IGpuSpeed> list)) {
                     list.Add(gpuSpeed.Clone());

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Mine;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Kernels {

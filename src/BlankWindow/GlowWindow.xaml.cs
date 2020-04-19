@@ -27,23 +27,19 @@ namespace NTMiner {
         public GlowWindow(Window owner, GlowDirection direction) {
             InitializeComponent();
 
-            this.IsGlowing = true;
             this.AllowsTransparency = true;
             this.Closing += (sender, e) => e.Cancel = !closing;
 
             this.Owner = owner;
-            glow.Visibility = Visibility.Collapsed;
 
-            var b = new Binding("GlowBrush");
-            b.Source = owner;
+            var b = new Binding("GlowBrush") {
+                Source = owner
+            };
             glow.SetBinding(Glow.GlowBrushProperty, b);
 
-            b = new Binding("NonActiveGlowBrush");
-            b.Source = owner;
-            glow.SetBinding(Glow.NonActiveGlowBrushProperty, b);
-
-            b = new Binding("BorderThickness");
-            b.Source = owner;
+            b = new Binding("BorderThickness") {
+                Source = owner
+            };
             glow.SetBinding(Glow.BorderThicknessProperty, b);
 
             glow.Direction = direction;
@@ -143,14 +139,6 @@ namespace NTMiner {
                     break;
             }
 
-            owner.ContentRendered += (sender, e) => glow.Visibility = Visibility.Visible;
-            owner.Activated += (sender, e) => {
-                Update();
-                glow.IsGlow = true;
-            };
-            owner.Deactivated += (sender, e) => glow.IsGlow = false;
-            owner.StateChanged += (sender, e) => Update();
-            owner.IsVisibleChanged += (sender, e) => Update();
             owner.Closed += (sender, e) => {
                 closing = true;
                 Close();
@@ -161,7 +149,9 @@ namespace NTMiner {
             base.OnSourceInitialized(e);
 
             this.hwndSource = (HwndSource)PresentationSource.FromVisual(this);
-            if (hwndSource == null) return;
+            if (hwndSource == null) {
+                return;
+            }
 
             var ws = hwndSource.Handle.GetWindowLong();
             var wsex = hwndSource.Handle.GetWindowLongEx();
@@ -196,33 +186,12 @@ namespace NTMiner {
         }
 
         public void Update() {
-            RECT rect;
-            if (Owner.Visibility == Visibility.Hidden
-                || Owner.Visibility == Visibility.Collapsed) {
-                Visibility = Owner.Visibility;
-
-                if (ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(ownerHandle, out rect)) {
-                    UpdateCore(rect);
-                }
+            if (this.closing) {
+                return;
             }
-            else if (Owner.WindowState == WindowState.Normal) {
-                if (this.closing) return;
-
-                Visibility = IsGlowing ? Visibility.Visible : Visibility.Collapsed;
-                glow.Visibility = IsGlowing ? Visibility.Visible : Visibility.Collapsed;
-
-                if (ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(ownerHandle, out rect)) {
-                    UpdateCore(rect);
-                }
+            if (ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(ownerHandle, out RECT rect)) {
+                UpdateCore(rect);
             }
-            else {
-                Visibility = Visibility.Collapsed;
-            }
-        }
-
-        public bool IsGlowing {
-            set;
-            get;
         }
 
         internal void UpdateCore(RECT rect) {

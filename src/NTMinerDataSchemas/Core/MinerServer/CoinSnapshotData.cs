@@ -3,6 +3,21 @@ using System;
 
 namespace NTMiner.Core.MinerServer {
     public class CoinSnapshotData {
+        public static CoinSnapshotData CreateEmpty(string coinCode) {
+            return new CoinSnapshotData {
+                Id = string.Empty,
+                CoinCode = coinCode,
+                Speed = 0,
+                RejectShareDelta = 0,
+                ShareDelta = 0,
+                DualCoinMiningCount = 0,
+                DualCoinOnlineCount = 0,
+                MainCoinMiningCount = 0,
+                MainCoinOnlineCount = 0,
+                Timestamp = DateTime.MinValue
+            };
+        }
+
         public CoinSnapshotData() {
             Id = ObjectId.NewObjectId().ToString();
         }

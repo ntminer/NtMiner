@@ -8,7 +8,7 @@ namespace NTMiner.Core.Gpus.Impl {
     internal class AMDGpuSet : IGpuSet {
         private readonly Dictionary<int, Gpu> _gpus = new Dictionary<int, Gpu>() {
             {
-                NTMinerRoot.GpuAllId, Gpu.GpuAll
+                NTMinerContext.GpuAllId, Gpu.GpuAll
             }
         };
 
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Gpus.Impl {
                     name = name.Replace("Radeon (TM) RX ", string.Empty);
                     name = name.Replace("Radeon RX ", string.Empty);
                 }
-                var gpu = Gpu.Create(i, atiGpu.BusNumber.ToString(), name);
+                var gpu = Gpu.Create(GpuType.AMD, i, atiGpu.BusNumber.ToString(), name);
                 gpu.TotalMemory = adlHelper.GetTotalMemory(i);
                 _gpus.Add(i, gpu);
             }
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 this.DriverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
                 const ulong minG = (ulong)5 * 1024 * 1024 * 1024;
-                bool has470 = _gpus.Any(a => a.Key != NTMinerRoot.GpuAllId && a.Value.TotalMemory < minG);
+                bool has470 = _gpus.Any(a => a.Key != NTMinerContext.GpuAllId && a.Value.TotalMemory < minG);
                 if (has470) {
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
                         {"GPU_MAX_ALLOC_PERCENT","100" },
@@ -56,7 +56,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         this.Properties.Add(property);
                     }
                     Task.Factory.StartNew(() => {
-                        OverClock.RefreshGpuState(NTMinerRoot.GpuAllId);
+                        OverClock.RefreshGpuState(NTMinerContext.GpuAllId);
                         foreach (var kv in kvs) {
                             Environment.SetEnvironmentVariable(kv.Key, kv.Value);
                         }
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
                 else {
                     Task.Factory.StartNew(() => {
-                        OverClock.RefreshGpuState(NTMinerRoot.GpuAllId);
+                        OverClock.RefreshGpuState(NTMinerContext.GpuAllId);
                     });
                 }
             }
@@ -92,7 +92,7 @@ namespace NTMiner.Core.Gpus.Impl {
         }
 
         public void LoadGpuState(int gpuIndex) {
-            if (gpuIndex == NTMinerRoot.GpuAllId) {
+            if (gpuIndex == NTMinerContext.GpuAllId) {
                 return;
             }
             uint power = adlHelper.GetPowerUsage(gpuIndex);

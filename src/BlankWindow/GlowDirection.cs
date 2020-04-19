@@ -1,5 +1,8 @@
 ﻿namespace NTMiner {
     public enum GlowDirection {
-        Left, Right, Top, Bottom,
+        Left, 
+        Right, 
+        Top, 
+        Bottom,
     }
 }

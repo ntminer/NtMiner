@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core;
 using System;
 using System.Windows.Media;
 
@@ -123,17 +123,7 @@ namespace NTMiner.Vms {
 
         public string TimestampText {
             get {
-                int offDay = (DateTime.Now.Date - Timestamp.Date).Days;
-                switch (offDay) {
-                    case 0:
-                        return $"今天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    case 1:
-                        return $"昨天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    case 2:
-                        return $"前天 {Timestamp.TimeOfDay.ToString("hh\\:mm\\:ss")}";
-                    default:
-                        return Timestamp.ToString("yyyy-MM-dd HH:mm:ss");
-                }
+                return NTMiner.Timestamp.GetTimestampText(this.Timestamp);
             }
         }
     }

@@ -4,7 +4,7 @@
 
 在实现过程中发现，超频一直是AMD的强项，是AMD的一件历史悠久的事情，所以超频接口也是稳定可靠且版本兼容的，这一点应该给AMD个赞。
 [这是AMD的文档](https://github.com/GPUOpen-LibrariesAndSDKs/display-library)
-[用到的相关接口](https://github.com/ntminer/ntminer/blob/master/src/NTMiner.Core/Core/Gpus/Impl/Amd/AdlNativeMethods.cs)
+[用到的相关接口](https://github.com/ntminer/NtMiner/blob/master/src/NTMiner.Core/Core/Gpus/Impl/Amd/AdlNativeMethods.cs)
 
 已实现并上线，自版本号NTMiner 2.2.0.0往后都支持A卡超频。
 
@@ -15,6 +15,6 @@
 
 这个工作已经上线一段时间了，因为开源矿工的源码是完全开源的，根据传统现在需要指出如何实现这些功能。
 
-[相关代码的位置在](https://github.com/ntminer/ntminer/tree/master/src/NTMinerGpus/Gpus)
+[相关代码的位置在](https://github.com/ntminer/NtMiner/tree/master/src/NTMinerGpus/Gpus)
 
 代码已经相当清晰，希望对竞品有用。值得说明的是开源矿工的超频实现对全系显卡有效，包括NVIDIA p系列的专业矿卡，10系以及20系卡，以及全系A卡。

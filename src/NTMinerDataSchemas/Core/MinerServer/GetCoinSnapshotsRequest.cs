@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class GetCoinSnapshotsRequest : RequestBase, IGetSignData {
+    public class GetCoinSnapshotsRequest : IRequest, ISignableData {
         public GetCoinSnapshotsRequest() {
         }
 

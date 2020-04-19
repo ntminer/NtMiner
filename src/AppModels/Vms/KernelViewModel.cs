@@ -29,7 +29,7 @@ namespace NTMiner.Vms {
         private string _code;
         private Guid _brandId;
         private string _version;
-        private ulong _publishOn;
+        private long _publishOn;
         private string _package;
         private long _size;
         private PublishStatus _publishState = PublishStatus.UnPublished;
@@ -85,7 +85,7 @@ namespace NTMiner.Vms {
                 return;
             }
             this.Save = new DelegateCommand(() => {
-                if (NTMinerRoot.Instance.ServerContext.KernelSet.Contains(this.Id)) {
+                if (NTMinerContext.Instance.ServerContext.KernelSet.Contains(this.Id)) {
                     VirtualRoot.Execute(new UpdateKernelCommand(this));
                 }
                 else {
@@ -97,7 +97,7 @@ namespace NTMiner.Vms {
                 if (this == Empty) {
                     return;
                 }
-                VirtualRoot.Execute(new KernelEditCommand(formType ?? FormType.Edit, this));
+                VirtualRoot.Execute(new EditKernelCommand(formType ?? FormType.Edit, this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -140,7 +140,7 @@ namespace NTMiner.Vms {
 
         public KernelViewModel KernelVmSingleInstance {
             get {
-                if (AppContext.Instance.KernelVms.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
+                if (AppRoot.KernelVms.TryGetKernelVm(this.Id, out KernelViewModel kernelVm)) {
                     return kernelVm;
                 }
                 return null;
@@ -150,7 +150,7 @@ namespace NTMiner.Vms {
         public KernelOutputViewModel KernelOutputVm {
             get {
                 if (_kernelOutputVm == null || _kernelOutputVm.Id != this.KernelOutputId) {
-                    AppContext.Instance.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
+                    AppRoot.KernelOutputVms.TryGetKernelOutputVm(this.KernelOutputId, out _kernelOutputVm);
                     if (_kernelOutputVm == null) {
                         _kernelOutputVm = KernelOutputViewModel.PleaseSelect;
                     }
@@ -166,16 +166,16 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.KernelOutputViewModels KernelOutputVms {
+        public AppRoot.KernelOutputViewModels KernelOutputVms {
             get {
-                return AppContext.Instance.KernelOutputVms;
+                return AppRoot.KernelOutputVms;
             }
         }
 
         public KernelInputViewModel KernelInputVm {
             get {
                 if (_kernelInputVm == null || _kernelInputVm.Id != this.KernelInputId) {
-                    AppContext.Instance.KernelInputVms.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
+                    AppRoot.KernelInputVms.TryGetKernelInputVm(this.KernelInputId, out _kernelInputVm);
                     if (_kernelInputVm == null) {
                         _kernelInputVm = KernelInputViewModel.PleaseSelect;
                     }
@@ -191,21 +191,21 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.KernelInputViewModels KernelInputVms {
+        public AppRoot.KernelInputViewModels KernelInputVms {
             get {
-                return AppContext.Instance.KernelInputVms;
+                return AppRoot.KernelInputVms;
             }
         }
 
-        public AppContext.GroupViewModels GroupVms {
+        public AppRoot.GroupViewModels GroupVms {
             get {
-                return AppContext.Instance.GroupVms;
+                return AppRoot.GroupVms;
             }
         }
 
         public List<CoinKernelViewModel> CoinKernels {
             get {
-                return AppContext.Instance.CoinKernelVms.AllCoinKernels
+                return AppRoot.CoinKernelVms.AllCoinKernels
                     .Where(a => a.KernelId == this.Id)
                     .OrderBy(a => a.CoinCode).ToList();
             }
@@ -216,8 +216,8 @@ namespace NTMiner.Vms {
                 List<CoinViewModel> list = new List<CoinViewModel>() {
                     CoinViewModel.PleaseSelect
                 };
-                var coinKernelVms = AppContext.Instance.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).ToList();
-                foreach (var item in AppContext.Instance.CoinVms.AllCoins) {
+                var coinKernelVms = AppRoot.CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == this.Id).ToList();
+                foreach (var item in AppRoot.CoinVms.AllCoins) {
                     if (coinKernelVms.All(a => a.CoinId != item.Id)) {
                         list.Add(item);
                     }
@@ -239,7 +239,7 @@ namespace NTMiner.Vms {
         public KernelProfileViewModel KernelProfileVm {
             get {
                 if (_kernelProfileVm == null) {
-                    _kernelProfileVm = new KernelProfileViewModel(this, NTMinerRoot.Instance.KernelProfileSet.GetKernelProfile(this.Id));
+                    _kernelProfileVm = new KernelProfileViewModel(this, NTMinerContext.Instance.KernelProfileSet.GetKernelProfile(this.Id));
                 }
                 return _kernelProfileVm;
             }
@@ -276,7 +276,7 @@ namespace NTMiner.Vms {
                 if (this.BrandId == Guid.Empty) {
                     return SysDicItemViewModel.PleaseSelect;
                 }
-                if (AppContext.Instance.SysDicItemVms.TryGetValue(this.BrandId, out SysDicItemViewModel item)) {
+                if (AppRoot.SysDicItemVms.TryGetValue(this.BrandId, out SysDicItemViewModel item)) {
                     return item;
                 }
                 return SysDicItemViewModel.PleaseSelect;
@@ -289,9 +289,9 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.SysDicItemViewModels SysDicItemVms {
+        public AppRoot.SysDicItemViewModels SysDicItemVms {
             get {
-                return AppContext.Instance.SysDicItemVms;
+                return AppRoot.SysDicItemVms;
             }
         }
 
@@ -332,7 +332,7 @@ namespace NTMiner.Vms {
                 if (string.IsNullOrEmpty(this.Package)) {
                     return false;
                 }
-                PackageViewModel packageVm = AppContext.Instance.PackageVms.AllPackages.FirstOrDefault(a => a.Name == this.Package);
+                PackageViewModel packageVm = AppRoot.PackageVms.AllPackages.FirstOrDefault(a => a.Name == this.Package);
                 return packageVm != null;
             }
         }
@@ -341,7 +341,7 @@ namespace NTMiner.Vms {
         public PackageViewModel PackageVm {
             get {
                 if (_packageVm == null || this.Package != _packageVm.Name) {
-                    _packageVm = AppContext.Instance.PackageVms.AllPackages.FirstOrDefault(a => a.Name == this.Package);
+                    _packageVm = AppRoot.PackageVms.AllPackages.FirstOrDefault(a => a.Name == this.Package);
                 }
                 return _packageVm;
             }
@@ -367,8 +367,8 @@ namespace NTMiner.Vms {
         public List<CoinViewModel> SupportedCoinVms {
             get {
                 List<CoinViewModel> list = new List<CoinViewModel>();
-                foreach (var item in NTMinerRoot.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.KernelId == this.Id)) {
-                    if (AppContext.Instance.CoinVms.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
+                foreach (var item in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.KernelId == this.Id)) {
+                    if (AppRoot.CoinVms.TryGetCoinVm(item.CoinId, out CoinViewModel coin)) {
                         list.Add(coin);
                     }
                 }
@@ -390,7 +390,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ulong PublishOn {
+        public long PublishOn {
             get => _publishOn;
             set {
                 if (_publishOn != value) {
@@ -441,7 +441,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<PublishStatus> PublishStateEnumItem {
             get {
-                return NTMinerRoot.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
+                return NTMinerContext.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
             }
             set {
                 if (PublishState != value.Value) {

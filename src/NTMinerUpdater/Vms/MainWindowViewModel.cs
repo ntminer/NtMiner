@@ -47,19 +47,19 @@ namespace NTMiner.Vms {
             });
             this.Install = new DelegateCommand(() => {
                 this.IsDownloading = true;
-                string ntMinerFile = string.Empty;
+                string ntminerFile = string.Empty;
                 string version = string.Empty;
                 if (IsHistoryVisible == Visibility.Collapsed) {
                     if (ServerLatestVm != null) {
-                        ntMinerFile = ServerLatestVm.FileName;
+                        ntminerFile = ServerLatestVm.FileName;
                         version = ServerLatestVm.Version;
                     }
                 }
                 else {
-                    ntMinerFile = SelectedNTMinerFile.FileName;
+                    ntminerFile = SelectedNTMinerFile.FileName;
                     version = SelectedNTMinerFile.Version;
                 }
-                Download(ntMinerFile, version,
+                Download(ntminerFile, version,
                     progressChanged: (percent) => {
                         this.DownloadMessage = percent + "%";
                         this.DownloadPercent = (double)percent / 100;
@@ -69,64 +69,66 @@ namespace NTMiner.Vms {
                         this.DownloadPercent = 0;
                         if (isSuccess) {
                             this.DownloadMessage = "更新成功，正在重启";
-                            if (VirtualRoot.IsMinerStudio) {
-                                RpcRoot.Client.MinerStudioService.CloseMinerStudio();
-                            }
-                            else {
-                                RpcRoot.Client.MinerClientService.CloseNTMiner();
-                            }
-                            3.SecondsDelay().ContinueWith((t) => {
-                                string location = NTMinerRegistry.GetLocation();
-                                if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
-                                    location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntMinerFile);
-                                }
-                                try {
-                                    if (File.Exists(location)) {
-                                        Guid kernelBrandId = VirtualRoot.GetBrandId(location, NTKeyword.KernelBrandId);
-                                        if (kernelBrandId != Guid.Empty) {
-                                            VirtualRoot.TagBrandId(NTKeyword.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
-                                        }
-                                        Guid poolBrandId = VirtualRoot.GetBrandId(location, NTKeyword.PoolBrandId);
-                                        if (poolBrandId != Guid.Empty) {
-                                            VirtualRoot.TagBrandId(NTKeyword.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
-                                        }
+                            void callback() {
+                                3.SecondsDelay().ContinueWith((t) => {
+                                    string location = NTMinerRegistry.GetLocation(App.AppType);
+                                    if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
+                                        location = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, ntminerFile);
                                     }
-                                }
-                                catch (Exception e) {
-                                    Logger.ErrorDebugLine(e);
-                                }
-                                int failCount = 0;
-                                while (true) {
                                     try {
-                                        File.Copy(saveFileFullName, location, overwrite: true);
-                                        break;
+                                        if (File.Exists(location)) {
+                                            Guid kernelBrandId = VirtualRoot.GetBrandId(location, NTKeyword.KernelBrandId);
+                                            if (kernelBrandId != Guid.Empty) {
+                                                VirtualRoot.TagBrandId(NTKeyword.KernelBrandId, kernelBrandId, saveFileFullName, saveFileFullName);
+                                            }
+                                            Guid poolBrandId = VirtualRoot.GetBrandId(location, NTKeyword.PoolBrandId);
+                                            if (poolBrandId != Guid.Empty) {
+                                                VirtualRoot.TagBrandId(NTKeyword.PoolBrandId, poolBrandId, saveFileFullName, saveFileFullName);
+                                            }
+                                        }
                                     }
                                     catch (Exception e) {
-                                        failCount++;
-                                        if (failCount == 3) {
-                                            VirtualRoot.Out.ShowError(e.Message);
+                                        Logger.ErrorDebugLine(e);
+                                    }
+                                    int failCount = 0;
+                                    while (true) {
+                                        try {
+                                            File.Copy(saveFileFullName, location, overwrite: true);
                                             break;
                                         }
-                                        else {
-                                            System.Threading.Thread.Sleep(3000);
+                                        catch (Exception e) {
+                                            failCount++;
+                                            if (failCount == 3) {
+                                                VirtualRoot.Out.ShowError(e.Message);
+                                                break;
+                                            }
+                                            else {
+                                                System.Threading.Thread.Sleep(3000);
+                                            }
                                         }
                                     }
-                                }
-                                try {
-                                    File.Delete(saveFileFullName);
-                                }
-                                catch(Exception e) {
-                                    Logger.ErrorDebugLine(e);
-                                }
-                                string arguments = NTMinerRegistry.GetArguments();
-                                Process.Start(location, arguments);
-                                this.IsDownloading = false;
-                                2.SecondsDelay().ContinueWith(_ => {
-                                    UIThread.Execute(() => () => {
-                                        Application.Current.MainWindow?.Close();
+                                    try {
+                                        File.Delete(saveFileFullName);
+                                    }
+                                    catch (Exception e) {
+                                        Logger.ErrorDebugLine(e);
+                                    }
+                                    string arguments = NTMinerRegistry.GetArguments(App.AppType);
+                                    Process.Start(location, arguments);
+                                    this.IsDownloading = false;
+                                    2.SecondsDelay().ContinueWith(_ => {
+                                        UIThread.Execute(() => () => {
+                                            Application.Current.MainWindow?.Close();
+                                        });
                                     });
                                 });
-                            });
+                            }
+                            if (AppStatic.IsMinerStudio) {
+                                RpcRoot.Client.MinerStudioService.CloseMinerStudioAsync(callback);
+                            }
+                            else {
+                                RpcRoot.Client.MinerClientService.CloseNTMinerAsync(callback);
+                            }
                         }
                         else {
                             2.SecondsDelay().ContinueWith((t) => {
@@ -151,13 +153,13 @@ namespace NTMiner.Vms {
             });
         }
 
-        public static void Download(
+        private static void Download(
             string fileName,
             string version,
             Action<int> progressChanged,
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
-            string saveFileFullName = Path.Combine(SpecialPath.DownloadDirFullName, App.AppType.ToString() + version);
+            string saveFileFullName = Path.Combine(AppStatic.DownloadDirFullName, App.AppType.ToString() + version);
             progressChanged?.Invoke(0);
             using (var webClient = VirtualRoot.CreateWebClient()) {
                 cancel = () => {
@@ -170,16 +172,13 @@ namespace NTMiner.Vms {
                     bool isSuccess = !e.Cancelled && e.Error == null;
                     string message = "下载成功";
                     if (e.Error != null) {
-                        message = "下载失败";
+                        message = "下载失败，请检查网络";
                         VirtualRoot.Out.ShowError(e.Error.Message);
                     }
                     if (e.Cancelled) {
                         message = "已取消";
                     }
-                    if (isSuccess) {
-                        // nothing need todo
-                    }
-                    else {
+                    if (!isSuccess) {
                         VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
@@ -191,8 +190,8 @@ namespace NTMiner.Vms {
         }
 
         public void Refresh() {
-            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntMinerFiles, e) => {
-                this.NTMinerFiles = (ntMinerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
+            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntminerFiles) => {
+                this.NTMinerFiles = (ntminerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;
                 }
@@ -221,7 +220,7 @@ namespace NTMiner.Vms {
 
         public BitmapImage BigLogoImageSource {
             get {
-                return new BitmapImage(new Uri((VirtualRoot.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
+                return new BitmapImage(new Uri((AppStatic.IsMinerStudio ? "/NTMinerWpf;component/Styles/Images/cc128.png" : "/NTMinerWpf;component/Styles/Images/logo128.png"), UriKind.RelativeOrAbsolute));
             }
         }
 
@@ -270,7 +269,7 @@ namespace NTMiner.Vms {
         public Version LocalNTMinerVersion {
             get {
                 if (_localNTMinerVersion == null) {
-                    string currentVersion = NTMinerRegistry.GetCurrentVersion();
+                    string currentVersion = NTMinerRegistry.GetCurrentVersion(App.AppType);
                     if (!Version.TryParse(currentVersion, out _localNTMinerVersion)) {
                         _localNTMinerVersion = new Version(1, 0);
                     }
@@ -281,7 +280,7 @@ namespace NTMiner.Vms {
 
         public string LocalNTMinerVersionTag {
             get {
-                return NTMinerRegistry.GetCurrentVersionTag();
+                return NTMinerRegistry.GetCurrentVersionTag(App.AppType);
             }
         }
 

@@ -4,6 +4,7 @@
             this.PowerDefault = 100;
         }
 
+        public GpuType GpuType { get; set; }
         public int Index { get; set; }
         public string BusId { get; set; }
         public string Name { get; set; }

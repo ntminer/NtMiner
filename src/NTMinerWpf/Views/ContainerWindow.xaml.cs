@@ -125,13 +125,13 @@ namespace NTMiner.Views {
 
         private void ShowWindow<TUc>(Action<ContainerWindow, TUc> beforeShow = null) where TUc : UserControl {
             beforeShow?.Invoke(this, (TUc)_uc);
-            if (Vm.IsMaskTheParent && this.Owner == null) {
+            if (Vm.IsChildWindow && this.Owner == null) {
                 var owner = WpfUtil.GetTopWindow();
-                if (owner != null && this != owner) {
+                if (owner != null && this != owner && owner.IsVisible) {
                     this.Owner = owner;
                 }
             }
-            if (Vm.IsMaskTheParent || this.Owner != null) {
+            if (Vm.IsChildWindow && this.Owner != null) {
                 this.ShowInTaskbar = false;
                 this.BtnMin.Visibility = Visibility.Collapsed;
             }
@@ -167,6 +167,10 @@ namespace NTMiner.Views {
                 s_windowDicByType.Remove(ucType);
             }
             base.OnClosed(e);
+            int windowCount = Application.Current.Windows.Count;
+            if (windowCount == 0 || (windowCount == 1 && Application.Current.Windows[0] == NotiCenterWindow.Instance)) {
+                Application.Current.Shutdown();
+            }
         }
 
         private void WindowIcon_MouseDoubleClick(object sender, MouseButtonEventArgs e) {

@@ -1,50 +1,53 @@
-﻿using System;
-using System.IO;
+﻿using NTMiner.VirtualMemory;
+using System;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
-    public class DriveViewModel : ViewModelBase {
-        private DriveInfo _driveInfo;
+    public class DriveViewModel : ViewModelBase, IDrive {
+        private int _virtualMemoryMaxSizeMb;
 
         public ICommand Set { get; private set; }
 
-        public DriveViewModel(DriveInfo driveInfo) {
-            _driveInfo = driveInfo;
-            if (driveInfo.DriveType != DriveType.Fixed) {
-                throw new InvalidProgramException();
-            }
+        private readonly IDrive _drive;
+        public DriveViewModel(IDrive drive) {
+            this._drive = drive;
+            this.InitialVirtualMemoryMaxSizeMb = drive.VirtualMemoryMaxSizeMb;
+            this._virtualMemoryMaxSizeMb = drive.VirtualMemoryMaxSizeMb;
             this.Set = new DelegateCommand<string>(parameter => {
                 double i = double.Parse(parameter);
                 if (i == 0) {
-                    VirtualMemory.MaxSizeMb = 0;
+                    VirtualMemoryMaxSizeMb = 0;
                 }
                 else {
-                    VirtualMemory.MaxSizeMb = (int)(Math.Pow(2.0, i) * 1024);
+                    VirtualMemoryMaxSizeMb = (int)(Math.Pow(2.0, i) * 1024);
                 }
             });
         }
 
         public string Name {
-            get { return _driveInfo.Name; }
-        }
-
-        public VirtualMemoryViewModel VirtualMemory {
-            get {
-                if (AppContext.Instance.VirtualMemorySetVm.Contains(this.Name)) {
-                    return AppContext.Instance.VirtualMemorySetVm[this.Name];
-                }
-                return VirtualMemoryViewModel.Empty;
-            }
+            get { return _drive.Name; }
         }
 
         public string DriveFormat {
-            get { return _driveInfo.DriveFormat; }
+            get { return _drive.DriveFormat; }
         }
+
         public long AvailableFreeSpace {
-            get { return _driveInfo.AvailableFreeSpace; }
+            get { return _drive.AvailableFreeSpace; }
         }
+
         public long TotalSize {
-            get { return _driveInfo.TotalSize; }
+            get { return _drive.TotalSize; }
+        }
+
+        public string VolumeLabel {
+            get { return _drive.VolumeLabel; }
+        }
+
+        public bool IsSystemDisk {
+            get {
+                return _drive.IsSystemDisk;
+            }
         }
 
         public double HasUsedSpacePercent {
@@ -56,14 +59,48 @@ namespace NTMiner.Vms {
             }
         }
 
-        public string VolumeLabel {
-            get { return _driveInfo.VolumeLabel; }
+        public int InitialVirtualMemoryMaxSizeMb { get; private set; }
+
+        public int VirtualMemoryMaxSizeMb {
+            get => _virtualMemoryMaxSizeMb;
+            set {
+                if (_virtualMemoryMaxSizeMb != value) {
+                    _virtualMemoryMaxSizeMb = value;
+                    OnPropertyChanged(nameof(VirtualMemoryMaxSizeMb));
+                    OnPropertyChanged(nameof(VirtualMemoryMaxSizeGb));
+                    OnPropertyChanged(nameof(VirtualMemoryMaxSizeGbText));
+                    OnPropertyChanged(nameof(VirtualMemoryMaxSizeLog2));
+                }
+            }
         }
 
-        public bool IsSystemDisk {
+        public double VirtualMemoryMaxSizeGb {
             get {
-                string systemFolder = Environment.GetFolderPath(Environment.SpecialFolder.System);
-                return systemFolder.StartsWith(this.Name);
+                return VirtualMemoryMaxSizeMb / 1024.0;
+            }
+        }
+
+        public string VirtualMemoryMaxSizeGbText {
+            get {
+                return VirtualMemoryMaxSizeGb.ToString("f1") + " G"; ;
+            }
+        }
+
+        public double VirtualMemoryMaxSizeLog2 {
+            get {
+                if (VirtualMemoryMaxSizeMb == 0) {
+                    return 0;
+                }
+                return Math.Log(VirtualMemoryMaxSizeMb / 1024.0, 2);
+            }
+            set {
+                if (value == 0) {
+                    this.VirtualMemoryMaxSizeMb = 0;
+                }
+                else {
+                    this.VirtualMemoryMaxSizeMb = (int)(Math.Pow(2, value) * 1024);
+                }
+                OnPropertyChanged(nameof(VirtualMemoryMaxSizeLog2));
             }
         }
     }

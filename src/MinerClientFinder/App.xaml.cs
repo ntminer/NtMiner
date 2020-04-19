@@ -3,12 +3,11 @@ using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace NTMiner {
     public partial class App : Application {
         public App() {
+            HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
             Logger.Disable();
             Write.Disable();
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
@@ -23,13 +22,11 @@ namespace NTMiner {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
-            RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-
             if (AppUtil.GetMutex(NTKeyword.MinerClientFinderAppMutex)) {
-                NotiCenterWindow.Instance.ShowWindow();
+                NotiCenterWindow.ShowWindow();
                 MainWindow = new MainWindow();
                 MainWindow.Show();
-                VirtualRoot.StartTimer(new WpfTimer());
+                VirtualRoot.StartTimer(new WpfTimingEventProducer());
             }
             else {
                 Process thatProcess = null;

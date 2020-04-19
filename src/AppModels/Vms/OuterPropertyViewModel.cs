@@ -33,21 +33,21 @@ namespace NTMiner.Vms {
             }
         }
 
-        public AppContext.DriveSetViewModel DriveSet {
+        public AppRoot.DriveSetViewModel DriveSet {
             get {
-                return AppContext.Instance.DriveSetVm;
+                return AppRoot.DriveSetVm;
             }
         }
 
         public List<GpuViewModel> GpuVms {
             get {
-                return AppContext.Instance.GpuVms.Items.Where(a => a.Index != NTMinerRoot.GpuAllId).ToList();
+                return AppRoot.GpuVms.Items.Where(a => a.Index != NTMinerContext.GpuAllId).ToList();
             }
         }
 
         public List<GpuSetProperty> GpuSetProperties {
             get {
-                return NTMinerRoot.Instance.GpuSet.Properties;
+                return NTMinerContext.Instance.GpuSet.Properties;
             }
         }
     }

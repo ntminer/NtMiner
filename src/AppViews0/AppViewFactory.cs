@@ -1,9 +1,14 @@
-﻿using NTMiner.View;
+﻿using NTMiner.MinerStudio;
+using NTMiner.View;
+using NTMiner.Views;
 using NTMiner.Views.Ucs;
 using NTMiner.Vms;
 using System.Windows;
+using MinerClientUcs = NTMiner.Views.Ucs;
+using MinerStudioUcs = NTMiner.MinerStudio.Views.Ucs;
+using MinerStudioViews = NTMiner.MinerStudio.Views;
 
-namespace NTMiner.Views {
+namespace NTMiner {
     public class AppViewFactory : AbstractAppViewFactory {
         public AppViewFactory() { }
 
@@ -18,11 +23,6 @@ namespace NTMiner.Views {
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(message: message.Message, title: message.Title, onYes: message.OnYes, icon: message.Icon));
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<ShowQQGroupQrCodeCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    QQGroupQrCode.ShowWindow();
-                });
-            }, location: location);
             VirtualRoot.AddCmdPath<ShowCalcCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     Calc.ShowWindow(message.CoinVm);
@@ -30,32 +30,7 @@ namespace NTMiner.Views {
             }, location: location);
             VirtualRoot.AddCmdPath<ShowLocalIpsCommand>(action: message => {
                 UIThread.Execute(() => () => {
-                    LocalIpConfig.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowEthNoDevFeeCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    EthNoDevFeeEdit.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowCalcConfigCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    CalcConfig.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowMinerClientsWindowCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    MinerClientsWindow.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowNTMinerUpdaterConfigCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    NTMinerUpdaterConfig.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowMinerClientFinderConfigCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    MinerClientFinderConfig.ShowWindow();
+                    MinerClientUcs.LocalIpConfig.ShowWindow();
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowAboutPageCommand>(action: message => {
@@ -74,7 +49,7 @@ namespace NTMiner.Views {
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowTagBrandCommand>(action: message => {
-                if (NTMinerRoot.IsBrandSpecified) {
+                if (NTMinerContext.IsBrandSpecified) {
                     return;
                 }
                 UIThread.Execute(() => () => {
@@ -86,9 +61,9 @@ namespace NTMiner.Views {
                     CoinPage.ShowWindow(message.CurrentCoin, message.TabType);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<ShowGroupPageCommand>(action: message => {
+            VirtualRoot.AddCmdPath<ShowCoinGroupsCommand>(action: message => {
                 UIThread.Execute(() => () => {
-                    GroupPage.ShowWindow();
+                    CoinGroupPage.ShowWindow();
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowSysDicPageCommand>(action: message => {
@@ -98,7 +73,7 @@ namespace NTMiner.Views {
             }, location: location);
             VirtualRoot.AddCmdPath<ShowVirtualMemoryCommand>(action: message => {
                 UIThread.Execute(() => () => {
-                    VirtualMemory.ShowWindow();
+                    MinerClientUcs.VirtualMemory.ShowWindow();
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowRestartWindowsCommand>(action: message => {
@@ -116,34 +91,9 @@ namespace NTMiner.Views {
                     Property.ShowWindow();
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<ShowChartsWindowCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    ChartsWindow.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowOverClockDataPageCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    OverClockDataPage.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowNTMinerWalletPageCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    NTMinerWalletPage.ShowWindow();
-                });
-            }, location: location);
             VirtualRoot.AddCmdPath<ShowMessagePathIdsCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     MessagePathIds.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowUserPageCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    UserPage.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowRemoteDesktopLoginDialogCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    RemoteDesktopLogin.ShowWindow(message.Vm);
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowKernelsWindowCommand>(action: message => {
@@ -156,29 +106,24 @@ namespace NTMiner.Views {
                     KernelDownloading.ShowWindow(message.KernelId, message.DownloadComplete);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<EnvironmentVariableEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditEnvironmentVariableCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     EnvironmentVariableEdit.ShowWindow(message.CoinKernelVm, message.EnvironmentVariable);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<InputSegmentEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditInputSegmentCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     InputSegmentEdit.ShowWindow(message.CoinKernelVm, message.Segment);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<CoinKernelEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditCoinKernelCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     CoinKernelEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<CoinEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditCoinCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     CoinEdit.ShowWindow(message.FormType, message.Source);
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ColumnsShowEditCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    ColumnsShowEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
             VirtualRoot.AddCmdPath<ShowSpeedChartsCommand>(action: message => {
@@ -191,7 +136,7 @@ namespace NTMiner.Views {
                     FileWriterPage.ShowWindow();
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<FileWriterEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditFileWriterCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     FileWriterEdit.ShowWindow(message.FormType, message.Source);
                 });
@@ -201,37 +146,37 @@ namespace NTMiner.Views {
                     FragmentWriterPage.ShowWindow();
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<FragmentWriterEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditFragmentWriterCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     FragmentWriterEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<GroupEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditGroupCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     GroupEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<ServerMessageEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditServerMessageCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     ServerMessageEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<KernelInputEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditKernelInputCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     KernelInputEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<KernelOutputKeywordEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditKernelOutputKeywordCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     KernelOutputKeywordEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<KernelOutputTranslaterEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditKernelOutputTranslaterCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     KernelOutputTranslaterEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<KernelOutputEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditKernelOutputCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     KernelOutputEdit.ShowWindow(message.FormType, message.Source);
                 });
@@ -241,72 +186,32 @@ namespace NTMiner.Views {
                     PackagesWindow.ShowWindow();
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<KernelEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditKernelCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     KernelEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<ShowMinerClientSettingCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    MinerClientSetting.ShowWindow(message.Vm);
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowMinerNamesSeterCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    MinerNamesSeter.ShowWindow(message.Vm);
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowGpuProfilesPageCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    GpuProfilesPage.ShowWindow(message.MinerClientsWindowVm);
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<ShowMinerClientAddCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    MinerClientAdd.ShowWindow();
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<MinerGroupEditCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    MinerGroupEdit.ShowWindow(message.FormType, message.Source);
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<NTMinerWalletEditCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    NTMinerWalletEdit.ShowWindow(message.FormType, message.Source);
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<MineWorkEditCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    MineWorkEdit.ShowWindow(message.FormType, message.Source);
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<OverClockDataEditCommand>(action: message => {
-                UIThread.Execute(() => () => {
-                    OverClockDataEdit.ShowWindow(message.FormType, message.Source);
-                });
-            }, location: location);
-            VirtualRoot.AddCmdPath<PackageEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditPackageCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     PackageEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<PoolKernelEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditPoolKernelCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     PoolKernelEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<PoolEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditPoolCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     PoolEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<SysDicItemEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditSysDicItemCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     SysDicItemEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<SysDicEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditSysDicCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     SysDicEdit.ShowWindow(message.FormType, message.Source);
                 });
@@ -316,16 +221,134 @@ namespace NTMiner.Views {
                     KernelOutputKeywords.ShowWindow();
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<UserEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<ShowSignUpPageCommand>(action: message => {
                 UIThread.Execute(() => () => {
-                    UserEdit.ShowWindow(message.FormType, message.Source);
+                    SignUpPage.ShowWindow();
                 });
             }, location: location);
-            VirtualRoot.AddCmdPath<WalletEditCommand>(action: message => {
+            VirtualRoot.AddCmdPath<EditWalletCommand>(action: message => {
                 UIThread.Execute(() => () => {
                     WalletEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
+
+            #region MinerStudio
+            VirtualRoot.AddCmdPath<ShowQQGroupQrCodeCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.QQGroupQrCode.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowCalcConfigCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.CalcConfig.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowMinerClientsWindowCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioViews.MinerClientsWindow.ShowWindow(message.IsToggle);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowNTMinerUpdaterConfigCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.NTMinerUpdaterConfig.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowMinerClientFinderConfigCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.MinerClientFinderConfig.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowChartsWindowCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioViews.ChartsWindow.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowOverClockDataPageCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.OverClockDataPage.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowMinerStudioVirtualMemoryCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.VirtualMemory.ShowWindow(message.Vm);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowMinerStudioLocalIpsCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.LocalIpConfig.ShowWindow(message.Vm);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowNTMinerWalletPageCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.NTMinerWalletPage.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowUserPageCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.UserPage.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowChangePassword>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.ChangePassword.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowWsServerNodePageCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.WsServerNodePage.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowRemoteDesktopLoginDialogCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.RemoteDesktopLogin.ShowWindow(message.Vm);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowMinerClientSettingCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.MinerClientSetting.ShowWindow(message.Vm);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowMinerNamesSeterCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.MinerNamesSeter.ShowWindow(message.Vm);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowGpuProfilesPageCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.GpuProfilesPage.ShowWindow(message.MinerClientsWindowVm);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<ShowMinerClientAddCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.MinerClientAdd.ShowWindow();
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<EditMinerGroupCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.MinerGroupEdit.ShowWindow(message.FormType, message.Source);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<EditNTMinerWalletCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.NTMinerWalletEdit.ShowWindow(message.FormType, message.Source);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<EditMineWorkCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.MineWorkEdit.ShowWindow(message.FormType, message.Source);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<EditOverClockDataCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.OverClockDataEdit.ShowWindow(message.FormType, message.Source);
+                });
+            }, location: location);
+            VirtualRoot.AddCmdPath<EditColumnsShowCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.ColumnsShowEdit.ShowWindow(message.Source);
+                });
+            }, location: location);
+            #endregion
         }
     }
 }

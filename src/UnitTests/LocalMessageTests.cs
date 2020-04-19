@@ -2,7 +2,7 @@
 using NTMiner;
 using System.Linq;
 
-namespace UnitTests {
+namespace NTMiner {
     [TestClass]
     public class LocalMessageTests {
         [TestMethod]
@@ -14,7 +14,7 @@ namespace UnitTests {
             for (int i = 0; i < times; i++) {
                 VirtualRoot.ThisLocalInfo(nameof(LocalMessageTests), content);
             }
-            Assert.IsTrue(VirtualRoot.LocalMessages.AsEnumerable().Count() == NTKeyword.LocalMessageSetCapacity);
+            Assert.IsTrue(NTMinerContext.Instance.LocalMessageSet.AsEnumerable().Count() == NTKeyword.LocalMessageSetCapacity);
         }
     }
 }
