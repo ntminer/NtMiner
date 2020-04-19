@@ -7,12 +7,12 @@ namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class ColumnsShowEdit : UserControl {
         public static void ShowWindow(ColumnsShowViewModel source) {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "列显设置",
+                Title = "定制列分组",
                 FormType = FormType.Edit,
                 IsMaskTheParent = false,
                 IsChildWindow = true,
                 Width = 650,
-                Height = 500,
+                Height = 400,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_ColumnsShow"
