@@ -2,12 +2,17 @@
 using NTMiner.Core;
 using NTMiner.Core.MinerServer;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class AppSettingService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IAppSettingController>();
 
         public AppSettingService() {
+        }
+
+        public void GetAppSettingsAsync(Action<List<AppSettingData>, Exception> callback) {
+            RpcRoot.GetAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.AppSettings), null, callback, timeountMilliseconds: 10 * 1000);
         }
 
         public void GetTimeAsync(Action<DateTime> callback) {

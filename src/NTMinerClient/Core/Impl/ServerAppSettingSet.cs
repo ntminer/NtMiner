@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace NTMiner.Core.Impl {
     public class ServerAppSettingSet : IAppSettingSet {
         private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
-        public ServerAppSettingSet(List<AppSettingData> appSettings) {
+        public ServerAppSettingSet() {
             VirtualRoot.AddCmdPath<SetServerAppSettingCommand>(action: message => {
                 if (message.AppSetting == null) {
                     return;
@@ -35,6 +35,17 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, location: this.GetType());
+            Init();
+        }
+
+        private void Init() {
+            RpcRoot.OfficialServer.AppSettingService.GetAppSettingsAsync((data, e) => {
+                if (data != null && data.Count != 0) {
+                    foreach (var item in data) {
+                        _dicByKey[item.Key] = item;
+                    }
+                }
+            });
         }
 
         public bool TryGetAppSetting(string key, out IAppSetting appSetting) {
