@@ -389,18 +389,6 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public const string MINER_IP = "外网IP";
-        [Description(MINER_IP)]
-        public bool MinerIp {
-            get { return _minerIp; }
-            set {
-                if (_minerIp != value) {
-                    _minerIp = value;
-                    OnColumnItemChanged(nameof(MinerIp));
-                }
-            }
-        }
-
         public const string LOCAL_IP = "内网IP?";
         public const string LOCAL_IP_TOOLTIP = "内网IP，挖矿端从2.6.6.6开始上报内网IP";
         [Description(LOCAL_IP)]
@@ -414,8 +402,56 @@ namespace NTMiner.MinerStudio.Vms {
                 }
             }
         }
-        public const string WINDOWS_LOGIN_NAME = "远程桌面登录名";
 
+        public const string MINER_IP = "外网IP";
+        [Description(MINER_IP)]
+        public bool MinerIp {
+            get { return _minerIp; }
+            set {
+                if (_minerIp != value) {
+                    _minerIp = value;
+                    OnColumnItemChanged(nameof(MinerIp));
+                }
+            }
+        }
+
+        public const string MAC_ADDRESS = "网卡地址";
+        [Description(MAC_ADDRESS)]
+        public bool MACAddress {
+            get => _mACAddress;
+            set {
+                if (_mACAddress != value) {
+                    _mACAddress = value;
+                    OnColumnItemChanged(nameof(MACAddress));
+                }
+            }
+        }
+
+        public const string IS_OUTER_USER_ENABLED = "外网群控";
+        [Description(IS_OUTER_USER_ENABLED)]
+        public bool IsOuterUserEnabled {
+            get => _isOuterUserEnabled;
+            set {
+                if (_isOuterUserEnabled != value) {
+                    _isOuterUserEnabled = value;
+                    OnColumnItemChanged(nameof(IsOuterUserEnabled));
+                }
+            }
+        }
+
+        public const string OUTER_USERID = "外网群控用户";
+        [Description(OUTER_USERID)]
+        public bool OuterUserId {
+            get => _outerUserId;
+            set {
+                if (_outerUserId != value) {
+                    _outerUserId = value;
+                    OnColumnItemChanged(nameof(OuterUserId));
+                }
+            }
+        }
+
+        public const string WINDOWS_LOGIN_NAME = "远程桌面登录名";
         public const string WINDOWS_LOGIN_PASSWORD = "远程桌面密码";
         public const string WINDOWS_LOGIN_NAME_AND_PASSWORD = "远程桌面";
         [Description(WINDOWS_LOGIN_NAME_AND_PASSWORD)]
@@ -503,6 +539,18 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public const string MAIN_COIN_POOL_DELAY = "矿池延时";
+        [Description(MAIN_COIN_POOL_DELAY)]
+        public bool MainCoinPoolDelay {
+            get { return _mainCoinPoolDelay; }
+            set {
+                if (_mainCoinPoolDelay != value) {
+                    _mainCoinPoolDelay = value;
+                    OnColumnItemChanged(nameof(MainCoinPoolDelay));
+                }
+            }
+        }
+
         public const string DUAL_COIN_CODE = "双挖币种";
         [Description(DUAL_COIN_CODE)]
         public bool DualCoinCode {
@@ -535,6 +583,18 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_dualCoinRejectPercentText != value) {
                     _dualCoinRejectPercentText = value;
                     OnColumnItemChanged(nameof(DualCoinRejectPercentText));
+                }
+            }
+        }
+
+        public const string DUAL_COIN_POOL_DELAY = "双挖矿池延时";
+        [Description(DUAL_COIN_POOL_DELAY)]
+        public bool DualCoinPoolDelay {
+            get { return _dualCoinPoolDelay; }
+            set {
+                if (_dualCoinPoolDelay != value) {
+                    _dualCoinPoolDelay = value;
+                    OnColumnItemChanged(nameof(DualCoinPoolDelay));
                 }
             }
         }
@@ -623,6 +683,18 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public const string KERNEL_SELF_RESTART_COUNT = "内核重启次数";
+        [Description(KERNEL_SELF_RESTART_COUNT)]
+        public bool KernelSelfRestartCount {
+            get => _kernelSelfRestartCount;
+            set {
+                if (_kernelSelfRestartCount != value) {
+                    _kernelSelfRestartCount = value;
+                    OnColumnItemChanged(nameof(KernelSelfRestartCount));
+                }
+            }
+        }
+
         public const string DUAL_COIN_WALLET = "双挖币钱包";
         [Description(DUAL_COIN_WALLET)]
         public bool DualCoinWallet {
@@ -671,18 +743,6 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public const string OS_VIRTUAL_MEMORY_GB_TEXT = "虚拟内存";
-        [Description(OS_VIRTUAL_MEMORY_GB_TEXT)]
-        public bool OSVirtualMemoryGbText {
-            get => _oSVirtualMemoryGbText;
-            set {
-                if (_oSVirtualMemoryGbText != value) {
-                    _oSVirtualMemoryGbText = value;
-                    OnColumnItemChanged(nameof(OSVirtualMemoryGbText));
-                }
-            }
-        }
-
         public const string TOTAL_PHYSICAL_MEMORY_GB_TEXT = "物理内存";
         [Description(TOTAL_PHYSICAL_MEMORY_GB_TEXT)]
         public bool TotalPhysicalMemoryGbText {
@@ -691,6 +751,18 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_totalPhysicalMemoryGbText != value) {
                     _totalPhysicalMemoryGbText = value;
                     OnColumnItemChanged(nameof(TotalPhysicalMemoryGbText));
+                }
+            }
+        }
+
+        public const string OS_VIRTUAL_MEMORY_GB_TEXT = "虚拟内存";
+        [Description(OS_VIRTUAL_MEMORY_GB_TEXT)]
+        public bool OSVirtualMemoryGbText {
+            get => _oSVirtualMemoryGbText;
+            set {
+                if (_oSVirtualMemoryGbText != value) {
+                    _oSVirtualMemoryGbText = value;
+                    OnColumnItemChanged(nameof(OSVirtualMemoryGbText));
                 }
             }
         }
@@ -739,18 +811,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_autoStartDelaySeconds != value) {
                     _autoStartDelaySeconds = value;
                     OnColumnItemChanged(nameof(AutoStartDelaySeconds));
-                }
-            }
-        }
-
-        public const string KERNEL_COMMAND_LINE = "内核命令行";
-        [Description(KERNEL_COMMAND_LINE)]
-        public bool KernelCommandLine {
-            get => _kernelCommandLine;
-            set {
-                if (_kernelCommandLine != value) {
-                    _kernelCommandLine = value;
-                    OnColumnItemChanged(nameof(KernelCommandLine));
                 }
             }
         }
@@ -896,30 +956,6 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public const string MAIN_COIN_POOL_DELAY = "矿池延时";
-        [Description(MAIN_COIN_POOL_DELAY)]
-        public bool MainCoinPoolDelay {
-            get { return _mainCoinPoolDelay; }
-            set {
-                if (_mainCoinPoolDelay != value) {
-                    _mainCoinPoolDelay = value;
-                    OnColumnItemChanged(nameof(MainCoinPoolDelay));
-                }
-            }
-        }
-
-        public const string DUAL_COIN_POOL_DELAY = "双挖矿池延时";
-        [Description(DUAL_COIN_POOL_DELAY)]
-        public bool DualCoinPoolDelay {
-            get { return _dualCoinPoolDelay; }
-            set {
-                if (_dualCoinPoolDelay != value) {
-                    _dualCoinPoolDelay = value;
-                    OnColumnItemChanged(nameof(DualCoinPoolDelay));
-                }
-            }
-        }
-
         public const string IS_AUTO_STOP_BY_CPU = "CPU高温自动停止挖矿";
         [Description(IS_AUTO_STOP_BY_CPU)]
         public bool IsAutoStopByCpu {
@@ -1016,18 +1052,6 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public const string MAC_ADDRESS = "网卡地址";
-        [Description(MAC_ADDRESS)]
-        public bool MACAddress {
-            get => _mACAddress;
-            set {
-                if (_mACAddress != value) {
-                    _mACAddress = value;
-                    OnColumnItemChanged(nameof(MACAddress));
-                }
-            }
-        }
-
         public const string IS_RAISE_HIGH_CPU_EVENT = "CPU使用率高时告警";
         [Description(IS_RAISE_HIGH_CPU_EVENT)]
         public bool IsRaiseHighCpuEvent {
@@ -1064,38 +1088,14 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public const string KERNEL_SELF_RESTART_COUNT = "内核重启次数";
-        [Description(KERNEL_SELF_RESTART_COUNT)]
-        public bool KernelSelfRestartCount {
-            get => _kernelSelfRestartCount;
+        public const string KERNEL_COMMAND_LINE = "内核命令行";
+        [Description(KERNEL_COMMAND_LINE)]
+        public bool KernelCommandLine {
+            get => _kernelCommandLine;
             set {
-                if (_kernelSelfRestartCount != value) {
-                    _kernelSelfRestartCount = value;
-                    OnColumnItemChanged(nameof(KernelSelfRestartCount));
-                }
-            }
-        }
-
-        public const string IS_OUTER_USER_ENABLED = "外网群控";
-        [Description(IS_OUTER_USER_ENABLED)]
-        public bool IsOuterUserEnabled {
-            get => _isOuterUserEnabled;
-            set {
-                if (_isOuterUserEnabled != value) {
-                    _isOuterUserEnabled = value;
-                    OnColumnItemChanged(nameof(IsOuterUserEnabled));
-                }
-            }
-        }
-
-        public const string OUTER_USERID = "外网群控用户";
-        [Description(OUTER_USERID)]
-        public bool OuterUserId {
-            get => _outerUserId;
-            set {
-                if (_outerUserId != value) {
-                    _outerUserId = value;
-                    OnColumnItemChanged(nameof(OuterUserId));
+                if (_kernelCommandLine != value) {
+                    _kernelCommandLine = value;
+                    OnColumnItemChanged(nameof(KernelCommandLine));
                 }
             }
         }
