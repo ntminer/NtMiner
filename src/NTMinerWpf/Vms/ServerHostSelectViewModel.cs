@@ -16,6 +16,9 @@ namespace NTMiner.Vms {
             if (!data.Contains("127.0.0.1") && !data.Contains(NTKeyword.Localhost)) {
                 data.Add("127.0.0.1");
             }
+            if (!data.Contains("server.ntminer.com:3339")) {
+                data.Add("server.ntminer.com:3339");
+            }
             _serverHosts = data.Select(a => new ServerHostItem(a)).ToList();
             _selectedResult = _serverHosts.FirstOrDefault(a => a.IpOrHost == selected);
             OnOk = onOk;
