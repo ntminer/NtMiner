@@ -80,7 +80,12 @@ namespace NTMiner {
                         }
                         consumer.Received += (model, ea) => {
                             foreach (var mqMessagePath in mqMessagePathsByQueue) {
-                                mqMessagePath.Go(ea);
+                                try {
+                                    mqMessagePath.Go(ea);
+                                }
+                                catch (Exception e) {
+                                    Logger.ErrorDebugLine(e);
+                                }
                             }
                             if (durable) {
                                 channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
