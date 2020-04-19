@@ -14,20 +14,6 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             InitializeComponent();
         }
 
-        private void ButtonLeftCoin_Click(object sender, RoutedEventArgs e) {
-            double offset = ColumnsShowScrollView.ContentHorizontalOffset - ColumnsShowScrollView.ViewportWidth;
-            ColumnsShowScrollView.ScrollToHorizontalOffset(offset);
-            ButtonLeft.IsEnabled = offset > 0;
-            ButtonRight.IsEnabled = offset < ColumnsShowScrollView.ScrollableWidth;
-        }
-
-        private void ButtonRightCoin_Click(object sender, RoutedEventArgs e) {
-            double offset = ColumnsShowScrollView.ContentHorizontalOffset + ColumnsShowScrollView.ViewportWidth;
-            ColumnsShowScrollView.ScrollToHorizontalOffset(offset);
-            ButtonLeft.IsEnabled = offset > 0;
-            ButtonRight.IsEnabled = offset < ColumnsShowScrollView.ScrollableWidth;
-        }
-
         private void KbButtonColumnsShow_Clicked(object sender, RoutedEventArgs e) {
             var popup = PopupColumnsShow;
             var selected = Vm.ColumnsShow;

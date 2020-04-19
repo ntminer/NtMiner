@@ -141,6 +141,12 @@ namespace NTMiner.MinerStudio {
         }
     }
 
+    [MessageType(description: "打开列显编辑界面")]
+    public class EditColumnsShowCommand : EditCommand<ColumnsShowViewModel> {
+        public EditColumnsShowCommand(ColumnsShowViewModel source) : base(FormType.Edit, source) {
+        }
+    }
+
     public abstract class OperationResultEvent<T> : EventBase {
         public OperationResultEvent(Guid clientId, T data) {
             this.ClientId = clientId;

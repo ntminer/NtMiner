@@ -13,11 +13,6 @@
     d:DataContext="{d:DesignData Source=../Design/MinerClientsWindowViewModel.xaml}"
 	mc:Ignorable="d">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-            <ColumnDefinition Width="*"></ColumnDefinition>
-            <ColumnDefinition Width="Auto"></ColumnDefinition>
-        </Grid.ColumnDefinitions>
         <WrapPanel>
             <Button Margin="4 0 0 0" Command="{Binding PageFirst}" IsEnabled="{Binding IsPageUpEnabled}">首页</Button>
             <Button
@@ -108,101 +103,6 @@
                 PopupAnimation="Slide"
                 StaysOpen="False">
             </Popup>
-        </WrapPanel>
-        <ScrollViewer
-			Grid.Column="1" 
-			x:Name="ColumnsShowScrollView" 
-			Margin="4 0 0 0"
-			FocusVisualStyle="{x:Null}"
-			VerticalAlignment="Center"
-			HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
-            <ScrollViewer.Resources>
-                <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarHeightKey}">0</sys:Double>
-                <sys:Double x:Key="{x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}">0</sys:Double>
-            </ScrollViewer.Resources>
-            <ItemsControl ItemsSource="{Binding ColumnsShow.ColumnItems}">
-                <ItemsControl.Resources>
-                    <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
-                </ItemsControl.Resources>
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel>
-                        </WrapPanel>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox 
-                            Visibility="{Binding IsChecked, Converter={StaticResource BoolToVisibilityInvertConverter}}" 
-                            IsChecked="{Binding IsChecked}" 
-                            Margin="0 0 6 0" 
-                            Foreground="{StaticResource LableColor}"
-                            Content="{Binding Name}"></CheckBox>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-        <WrapPanel Grid.Column="2" VerticalAlignment="Center" Visibility="{Binding ElementName=ColumnsShowScrollView,Path=ComputedHorizontalScrollBarVisibility}">
-            <Button x:Name="ButtonLeft" IsEnabled="False" Click="ButtonLeftCoin_Click">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Border 
-							x:Name="Content"
-							Padding="4 4 6 4"
-							BorderThickness="1"
-							Background="Transparent">
-                            <Path
-								x:Name="Icon"
-								Width="8"
-								Height="12"
-								Data="{StaticResource Icon_LeftTriangle}"
-								Fill="#676767"
-								Stretch="Fill">
-                            </Path>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Content" Property="Background" Value="{StaticResource BtnBackground}"></Setter>
-                                <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LightLineColor}"></Setter>
-                                <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnForeground}"></Setter>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.5"></Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button x:Name="ButtonRight" Margin="2 0 0 0" Click="ButtonRightCoin_Click">
-                <Button.Template>
-                    <ControlTemplate>
-                        <Border 
-							x:Name="Content"
-							Padding="6 4 4 4"
-							BorderThickness="1"
-							Background="Transparent">
-                            <Path
-								x:Name="Icon"
-								Width="8"
-								Height="12"
-								Data="{StaticResource Icon_RightTriangle}"
-								Fill="#676767"
-								Stretch="Fill">
-                            </Path>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Content" Property="Background" Value="{StaticResource BtnBackground}"></Setter>
-                                <Setter TargetName="Content" Property="BorderBrush" Value="{StaticResource LightLineColor}"></Setter>
-                                <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnForeground}"></Setter>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.5"></Setter>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
         </WrapPanel>
     </Grid>
 </UserControl>

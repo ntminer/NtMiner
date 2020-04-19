@@ -1,0 +1,40 @@
+﻿<UserControl 
+    x:Class="NTMiner.MinerStudio.Views.Ucs.ColumnsShowEdit"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+	Background="White"
+	mc:Ignorable="d" 
+	d:DesignHeight="300"
+    d:DesignWidth="560"
+    d:DataContext="{d:DesignData Source=../Design/ColumnsShowViewModel.xaml}">
+    <Grid Margin="10">
+        <ItemsControl ItemsSource="{Binding ColumnItems}">
+            <ItemsControl.Resources>
+                <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+            </ItemsControl.Resources>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel>
+                    </WrapPanel>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox 
+                        Width="200"
+                        IsChecked="{Binding IsChecked}" 
+                        Margin="0 0 6 0" 
+                        Foreground="{StaticResource LableColor}"
+                        Content="{Binding Name}"></CheckBox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </Grid>
+</UserControl>

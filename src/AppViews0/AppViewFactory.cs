@@ -343,6 +343,11 @@ namespace NTMiner {
                     MinerStudioUcs.OverClockDataEdit.ShowWindow(message.FormType, message.Source);
                 });
             }, location: location);
+            VirtualRoot.AddCmdPath<EditColumnsShowCommand>(action: message => {
+                UIThread.Execute(() => () => {
+                    MinerStudioUcs.ColumnsShowEdit.ShowWindow(message.Source);
+                });
+            }, location: location);
             #endregion
         }
     }

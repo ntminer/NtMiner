@@ -128,7 +128,7 @@ namespace NTMiner.MinerStudio.Vms {
                 }
             });
             this.Edit = new DelegateCommand(() => {
-
+                VirtualRoot.Execute(new EditColumnsShowCommand(this));
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
