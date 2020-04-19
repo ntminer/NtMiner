@@ -93,6 +93,7 @@
 				<TextBox 
                     x:Name="TbLoginName"
 					Grid.Row="1" Grid.Column="1" Margin="0 2"
+                    ToolTip="填写在挖矿端注册的群控登录名"
 					Visibility="{Binding IsInnerIp,Converter={StaticResource BoolToHiddenInvertConverter}}"
 					Text="{Binding LoginName}" Background="White" 
 					VerticalContentAlignment="Center"></TextBox>
