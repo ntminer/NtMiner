@@ -19,7 +19,6 @@ namespace NTMiner {
         public static readonly string ServerJsonFileFullName;
         public static readonly string LocalJsonFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
-        public static string MineWorksDirFullName { get; private set; }
         static HomePath() {
             string homeDirFullName = HomeDirFullName;
             if (!File.Exists(RootLockFileFullName)) {
@@ -34,10 +33,6 @@ namespace NTMiner {
             ServerJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
             LocalJsonFileFullName = Path.Combine(HomeDirFullName, LocalJsonFileName);
             GpuProfilesJsonFileFullName = Path.Combine(HomeDirFullName, GpuProfilesFileName);
-            MineWorksDirFullName = Path.Combine(HomeDirFullName, "MineWorks");
-            if (!Directory.Exists(MineWorksDirFullName)) {
-                Directory.CreateDirectory(MineWorksDirFullName);
-            }
         }
 
         public static string ExportServerJsonFileName {
@@ -158,41 +153,6 @@ namespace NTMiner {
 
                 return dirFullName;
             }
-        }
-
-        public static string GetMineWorkLocalJsonFileFullName(Guid workId) {
-            return Path.Combine(MineWorksDirFullName, workId + ".local");
-        }
-        public static string GetMineWorkServerJsonFileFullName(Guid workId) {
-            return Path.Combine(MineWorksDirFullName, workId + ".server");
-        }
-
-        public static void DeleteMineWorkFiles(Guid workId) {
-            string[] fileFullNames = new string[] {
-                GetMineWorkLocalJsonFileFullName(workId),
-                GetMineWorkServerJsonFileFullName(workId)
-            };
-            foreach (var fileFullName in fileFullNames) {
-                File.Delete(fileFullName);
-            }
-        }
-
-        public static string ReadMineWorkLocalJsonFile(Guid workId) {
-            string fileFullName = GetMineWorkLocalJsonFileFullName(workId);
-            if (File.Exists(fileFullName)) {
-                return File.ReadAllText(fileFullName);
-            }
-
-            return string.Empty;
-        }
-
-        public static string ReadMineWorkServerJsonFile(Guid workId) {
-            string fileFullName = GetMineWorkServerJsonFileFullName(workId);
-            if (File.Exists(fileFullName)) {
-                return File.ReadAllText(fileFullName);
-            }
-
-            return string.Empty;
         }
 
         public static string ReadServerJsonFile() {

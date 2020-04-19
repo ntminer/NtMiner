@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.MinerStudio;
 using NTMiner.JsonDb;
 using NTMiner.Vms;
 using System;
@@ -113,8 +114,8 @@ namespace NTMiner.MinerStudio.Vms {
                         NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                             try {
-                                string localJsonFileFullName = HomePath.GetMineWorkLocalJsonFileFullName(this.Id);
-                                string serverJsonFileFullName = HomePath.GetMineWorkServerJsonFileFullName(this.Id);
+                                string localJsonFileFullName = MinerStudioPath.GetMineWorkLocalJsonFileFullName(this.Id);
+                                string serverJsonFileFullName = MinerStudioPath.GetMineWorkServerJsonFileFullName(this.Id);
                                 File.WriteAllText(localJsonFileFullName, localJson);
                                 File.WriteAllText(serverJsonFileFullName, serverJson);
                             }
@@ -170,7 +171,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                     else {
                         try {
-                            string localJsonFileFullName = HomePath.GetMineWorkLocalJsonFileFullName(this.Id);
+                            string localJsonFileFullName = MinerStudioPath.GetMineWorkLocalJsonFileFullName(this.Id);
                             string data = string.Empty;
                             if (File.Exists(localJsonFileFullName)) {
                                 data = File.ReadAllText(localJsonFileFullName);
@@ -196,7 +197,16 @@ namespace NTMiner.MinerStudio.Vms {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除 “{this.Name}” 作业吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
+                    if (RpcRoot.IsOuterNet) {
+                        RpcRoot.OfficialServer.UserMineWorkService.RemoveMineWorkAsync(this.Id, (response, e) => {
+                            if (response.IsSuccess()) {
+                                VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(PathId.Empty, this));
+                            }
+                        });
+                    }
+                    else {
+                        VirtualRoot.Execute(new RemoveMineWorkCommand(this.Id));
+                    }
                 }));
             });
         }

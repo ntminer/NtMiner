@@ -4,6 +4,7 @@ using NTMiner.Core.Daemon;
 using NTMiner.Core.Impl;
 using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
+using NTMiner.Core.MinerStudio;
 using NTMiner.JsonDb;
 using NTMiner.VirtualMemory;
 using System;
@@ -173,8 +174,8 @@ namespace NTMiner.MinerStudio.Impl {
         public void StartMineAsync(IMinerData client, Guid workId) {
             string localJson = string.Empty, serverJson = string.Empty;
             if (workId != Guid.Empty) {
-                localJson = HomePath.ReadMineWorkLocalJsonFile(workId).Replace(NTKeyword.MinerNameParameterName, client.WorkerName);
-                serverJson = HomePath.ReadMineWorkServerJsonFile(workId);
+                localJson = MinerStudioPath.ReadMineWorkLocalJsonFile(workId).Replace(NTKeyword.MinerNameParameterName, client.WorkerName);
+                serverJson = MinerStudioPath.ReadMineWorkServerJsonFile(workId);
             }
             WorkRequest request = new WorkRequest {
                 WorkId = workId,

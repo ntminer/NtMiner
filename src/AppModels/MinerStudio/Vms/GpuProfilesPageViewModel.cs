@@ -5,11 +5,10 @@ using NTMiner.JsonDb;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Collections.ObjectModel;
 
 namespace NTMiner.MinerStudio.Vms {
     public class GpuProfilesPageViewModel : ViewModelBase {
@@ -20,7 +19,6 @@ namespace NTMiner.MinerStudio.Vms {
         private CoinViewModel _coinVm;
         private GpuProfilesJsonDb _data;
         private bool _isEnabled = false;
-        private Visibility _isMinerClientVmVisible = Visibility.Collapsed;
         private readonly MinerClientViewModel _minerClientVm;
         private readonly ObservableCollection<MinerClientViewModel> _minerClientVms;
 

@@ -33,6 +33,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     _dicById.Remove(message.EntityId);
                     var repository = VirtualRoot.CreateLocalRepository<MineWorkData>();
                     repository.Remove(message.EntityId);
+                    MinerStudioPath.DeleteMineWorkFiles(message.EntityId);
                     VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(message.MessageId, entity));
                 }
             }, this.GetType());
