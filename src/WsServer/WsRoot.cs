@@ -96,6 +96,7 @@ namespace NTMiner {
             // 构造函数中异步访问redis初始化用户列表，因为是异步的所以提前构造
             ReadOnlyUserSet = new ReadOnlyUserSet(userRedis);
             MinerSignSet = new MinerSignSet(minerRedis);
+            // TODO:上线时关闭日志
             WebSocketServer.Log.Level = LogLevel.Trace;
             WebSocketServer.AddWebSocketService<MinerStudioBehavior>(MinerStudioBehavior.WsServiceHostPath);
             WebSocketServer.AddWebSocketService<MinerClientBehavior>(MinerClientBehavior.WsServiceHostPath);
