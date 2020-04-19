@@ -81,16 +81,12 @@ namespace NTMiner.Mine {
             CreateProcessAsync();
         }
 
-        private bool _isClosed = false;
         public void Close() {
-            if (!_isClosed) {
-                _isClosed = true;
-                foreach (var pathId in _contextPathIds) {
-                    VirtualRoot.RemoveMessagePath(pathId);
-                }
-                _contextPathIds.Clear();
-                Kill();
+            foreach (var pathId in _contextPathIds) {
+                VirtualRoot.RemoveMessagePath(pathId);
             }
+            _contextPathIds.Clear();
+            Kill();
         }
 
         public Guid Id { get; private set; }
@@ -164,9 +160,11 @@ namespace NTMiner.Mine {
                     KernelProcess = null;
                     if (_hWriteOut != IntPtr.Zero) {
                         CloseHandle(_hWriteOut);
+                        _hWriteOut = IntPtr.Zero;
                     }
                     if (_hReadOut != IntPtr.Zero) {
                         CloseHandle(_hReadOut);
+                        _hReadOut = IntPtr.Zero;
                     }
                 }
             }
@@ -219,7 +217,7 @@ namespace NTMiner.Mine {
         private void ContinueCreateProcess() {
             Thread.Sleep(1000);
             if (this != NTMinerContext.Instance.LockedMineContext) {
-                Write.UserWarn("挖矿停止");
+                Write.UserWarn("结束开始挖矿");
                 return;
             }
 
@@ -238,7 +236,7 @@ namespace NTMiner.Mine {
             Write.UserOk($"\"{kernelExeFileFullName}\" {arguments}");
             Write.UserInfo($"有请内核上场");
             if (this != NTMinerContext.Instance.LockedMineContext) {
-                Write.UserWarn("挖矿停止");
+                Write.UserWarn("结束开始挖矿");
                 return;
             }
             switch (this.KernelProcessType) {
@@ -523,7 +521,7 @@ namespace NTMiner.Mine {
                         sreader?.Close();
                         sreader?.Dispose();
                     }
-                    Write.UserWarn("内核输出打印结束");
+                    Write.UserWarn("挖矿已停止");
                 }
             }, TaskCreationOptions.LongRunning);
         }
