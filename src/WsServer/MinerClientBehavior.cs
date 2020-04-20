@@ -58,7 +58,7 @@ namespace NTMiner {
                 minerSign.AESPassword = Cryptography.AESHelper.GetRandomPassword();
                 minerSign.AESPasswordOn = now;
             }
-            WsRoot.MinerClientSessionSet.SendToMinerClientAsync(wsUserName.ClientId, new WsMessage(Guid.NewGuid(), WsMessage.UpdateAESPassword) {
+            WsRoot.MinerClientSessionSet.SendToWsClientAsync(this.ID, new WsMessage(Guid.NewGuid(), WsMessage.UpdateAESPassword) {
                 Data = new AESPassword {
                     PublicKey = userData.PublicKey,
                     Password = Cryptography.RSAHelper.EncryptString(minerSign.AESPassword, userData.PrivateKey)
