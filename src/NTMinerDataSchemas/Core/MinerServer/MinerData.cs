@@ -24,6 +24,27 @@ namespace NTMiner.Core.MinerServer {
             };
         }
 
+        public static MinerData Create(IMinerSign minerSign) {
+            return new MinerData {
+                Id = minerSign.Id,
+                ClientId = minerSign.ClientId,
+                OuterUserId = minerSign.OuterUserId,
+                AESPassword = minerSign.AESPassword,
+                AESPasswordOn = minerSign.AESPasswordOn,
+                WorkerName = string.Empty,
+                MinerName = string.Empty,
+                CreatedOn = DateTime.Now,
+                GroupId = Guid.Empty,
+                LocalIp = string.Empty,
+                MinerIp = string.Empty,
+                MACAddress = string.Empty,
+                WindowsLoginName = string.Empty,
+                WindowsPassword = string.Empty,
+                WorkId = Guid.Empty,
+                IsOuterUserEnabled = false
+            };
+        }
+
         public static MinerData Create(ClientData clientData) {
             return new MinerData {
                 CreatedOn = clientData.CreatedOn,

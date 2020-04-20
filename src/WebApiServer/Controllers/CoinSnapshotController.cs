@@ -13,7 +13,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<GetCoinSnapshotsResponse>("参数错误");
             }
             try {
-                if (!IsValidUser(request, out GetCoinSnapshotsResponse response, out UserData user)) {
+                if (!IsValidAdmin(request, out GetCoinSnapshotsResponse response, out UserData user)) {
                     return response;
                 }
                 List<CoinSnapshotData> data = WebApiRoot.CoinSnapshotSet.GetLatestSnapshots(

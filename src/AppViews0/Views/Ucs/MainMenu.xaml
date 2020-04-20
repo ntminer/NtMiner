@@ -32,7 +32,7 @@
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Width="26" Height="26" ToolTip="算力图" Command="{x:Static app:AppStatic.ShowSpeedChart}">
+            <MenuItem Width="26" Height="26" ToolTip="算力图" Command="{x:Static app:AppStatic.ShowSpeedChart}" Visibility="{Binding IsMinerStudioOuterAdminLoginedVisible}">
                 <MenuItem.Icon>
                     <Path 
 						Height="14"

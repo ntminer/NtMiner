@@ -33,32 +33,42 @@ namespace NTMiner {
             IMinerClientSession minerClientSession = MinerClientSession.Create(userData, wsUserName, this.ID);
             WsRoot.MinerClientSessionSet.Add(minerClientSession);
             WsRoot.MinerClientMqSender.SendMinerClientWsOpened(minerClientSession.LoginName, minerClientSession.ClientId);
-            if (WsRoot.MinerSignSet.TryGetByClientId(wsUserName.ClientId, out MinerSign minerSign)) {
-                bool isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId;
-                if (isMinerSignChanged) {
-                    minerSign.Update(wsUserName);
+            if (!WsRoot.MinerSignSet.TryGetByClientId(wsUserName.ClientId, out MinerSign minerSign)) {
+                minerSign = new MinerSign {
+                    Id = LiteDB.ObjectId.NewObjectId().ToString(),
+                    ClientId = wsUserName.ClientId,
+                    OuterUserId = wsUserName.UserId,
+                    AESPassword = string.Empty,
+                    AESPasswordOn = Timestamp.UnixBaseTime
+                };
+            }
+            else {
+
+            }
+            bool isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId;
+            if (isMinerSignChanged) {
+                minerSign.Update(wsUserName);
+            }
+            if (string.IsNullOrEmpty(userData.PublicKey) || string.IsNullOrEmpty(userData.PrivateKey)) {
+                var key = Cryptography.RSAHelper.GetRASKey();
+                userData.PublicKey = key.PublicKey;
+                userData.PrivateKey = key.PrivateKey;
+                WsRoot.UserMqSender.SendUpdateUserRSAKey(userData.LoginName, key);
+            }
+            DateTime now = DateTime.Now;
+            if (string.IsNullOrEmpty(minerSign.AESPassword) || minerSign.AESPasswordOn.AddDays(1) < now) {
+                isMinerSignChanged = true;
+                minerSign.AESPassword = Cryptography.AESHelper.GetRandomPassword();
+                minerSign.AESPasswordOn = now;
+            }
+            base.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.UpdateAESPassword) {
+                Data = new AESPassword {
+                    PublicKey = userData.PublicKey,
+                    Password = Cryptography.RSAHelper.EncryptString(minerSign.AESPassword, userData.PrivateKey)
                 }
-                if (string.IsNullOrEmpty(userData.PublicKey) || string.IsNullOrEmpty(userData.PrivateKey)) {
-                    var key = Cryptography.RSAHelper.GetRASKey();
-                    userData.PublicKey = key.PublicKey;
-                    userData.PrivateKey = key.PrivateKey;
-                    WsRoot.UserMqSender.SendUpdateUserRSAKey(userData.LoginName, key);
-                }
-                DateTime now = DateTime.Now;
-                if (string.IsNullOrEmpty(minerSign.AESPassword) || minerSign.AESPasswordOn.AddDays(1) < now) {
-                    isMinerSignChanged = true;
-                    minerSign.AESPassword = Cryptography.AESHelper.GetRandomPassword();
-                    minerSign.AESPasswordOn = now;
-                }
-                WsRoot.MinerClientSessionSet.SendToMinerClientAsync(wsUserName.ClientId, new WsMessage(Guid.NewGuid(), WsMessage.UpdateAESPassword) {
-                    Data = new AESPassword {
-                        PublicKey = userData.PublicKey,
-                        Password = Cryptography.RSAHelper.EncryptString(minerSign.AESPassword, userData.PrivateKey)
-                    }
-                });
-                if (isMinerSignChanged) {
-                    WsRoot.MinerClientMqSender.SendChangeMinerSign(minerSign);
-                }
+            }.SignToJson(minerSign.AESPassword), completed: null);
+            if (isMinerSignChanged) {
+                WsRoot.MinerClientMqSender.SendChangeMinerSign(minerSign);
             }
         }
 
