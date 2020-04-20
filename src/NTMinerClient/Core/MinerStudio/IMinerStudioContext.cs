@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.MinerServer;
-using NTMiner.User;
+﻿using NTMiner.AppSetting;
 
 namespace NTMiner.Core.MinerStudio {
     public interface IMinerStudioContext {

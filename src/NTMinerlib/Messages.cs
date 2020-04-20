@@ -41,17 +41,6 @@ namespace NTMiner {
         public bool IsToggle { get; private set; }
     }
 
-    [MessageType(description: "设置ServerAppSetting")]
-    public class SetServerAppSettingCommand : Cmd {
-        public SetServerAppSettingCommand(IAppSetting appSetting) {
-            this.AppSetting = appSetting;
-        }
-
-        public IAppSetting AppSetting {
-            get; private set;
-        }
-    }
-
     [MessageType(description: "设置UserAppSetting")]
     public class SetUserAppSettingCommand : Cmd {
         public SetUserAppSettingCommand(IUserAppSetting appSetting) {
@@ -63,6 +52,7 @@ namespace NTMiner {
         }
     }
 
+
     [MessageType(description: "设置LocalAppSetting")]
     public class SetLocalAppSettingCommand : Cmd {
         public SetLocalAppSettingCommand(IAppSetting appSetting) {
@@ -70,17 +60,6 @@ namespace NTMiner {
         }
 
         public IAppSetting AppSetting {
-            get; private set;
-        }
-    }
-
-    [MessageType(description: "设置LocalAppSetting")]
-    public class SetLocalAppSettingsCommand : Cmd {
-        public SetLocalAppSettingsCommand(IEnumerable<IAppSetting> appSettings) {
-            this.AppSettings = appSettings;
-        }
-
-        public IEnumerable<IAppSetting> AppSettings {
             get; private set;
         }
     }

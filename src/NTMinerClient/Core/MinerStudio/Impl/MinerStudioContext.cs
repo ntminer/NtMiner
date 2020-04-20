@@ -1,4 +1,7 @@
-﻿namespace NTMiner.Core.MinerStudio.Impl {
+﻿using NTMiner.AppSetting;
+using NTMiner.Core.Impl;
+
+namespace NTMiner.Core.MinerStudio.Impl {
     public class MinerStudioContext : IMinerStudioContext {
         public MinerStudioContext() {
             this.UserAppSettingSet = new UserAppSettingSet();

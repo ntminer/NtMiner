@@ -2,6 +2,7 @@
 using NTMiner.Core;
 using NTMiner.Core.MinerServer;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class AppSettingService {
