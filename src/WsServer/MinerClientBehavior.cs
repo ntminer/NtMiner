@@ -42,6 +42,9 @@ namespace NTMiner {
                     AESPasswordOn = Timestamp.UnixBaseTime
                 };
             }
+            else {
+
+            }
             bool isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId;
             if (isMinerSignChanged) {
                 minerSign.Update(wsUserName);
@@ -58,12 +61,12 @@ namespace NTMiner {
                 minerSign.AESPassword = Cryptography.AESHelper.GetRandomPassword();
                 minerSign.AESPasswordOn = now;
             }
-            WsRoot.MinerClientSessionSet.SendToWsClientAsync(this.ID, new WsMessage(Guid.NewGuid(), WsMessage.UpdateAESPassword) {
+            base.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.UpdateAESPassword) {
                 Data = new AESPassword {
                     PublicKey = userData.PublicKey,
                     Password = Cryptography.RSAHelper.EncryptString(minerSign.AESPassword, userData.PrivateKey)
                 }
-            });
+            }.SignToJson(minerSign.AESPassword), completed: null);
             if (isMinerSignChanged) {
                 WsRoot.MinerClientMqSender.SendChangeMinerSign(minerSign);
             }

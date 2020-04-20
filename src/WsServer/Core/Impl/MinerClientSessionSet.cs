@@ -257,18 +257,5 @@ namespace NTMiner.Core.Impl {
                 }
             }
         }
-
-        public void SendToWsClientAsync(string wsSessionId, WsMessage message) {
-            if (TryGetByWsSessionId(wsSessionId, out IMinerClientSession minerClientSession)) {
-                if (TryGetWsSessionManager(out WebSocketSessionManager wsSessionManager)) {
-                    string password = minerClientSession.GetSignPassword();
-                    try {
-                        wsSessionManager.SendToAsync(message.SignToJson(password), minerClientSession.WsSessionId, completed: null);
-                    }
-                    catch {
-                    }
-                }
-            }
-        }
     }
 }
