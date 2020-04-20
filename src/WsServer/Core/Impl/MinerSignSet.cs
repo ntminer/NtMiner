@@ -40,6 +40,28 @@ namespace NTMiner.Core.Impl {
                     _dicByClientId.Remove(minerSign.ClientId);
                 }
             }, this.GetType());
+            VirtualRoot.AddEventPath<MinerDataAddedMqMessage>("收到MinerDataAddedMq消息后更新内存中对应的记录", LogEnum.DevConsole, action: message => {
+                if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
+                    return;
+                }
+                if (string.IsNullOrEmpty(message.MinerId)) {
+                    return;
+                }
+                if (IsOldMqMessage(message.Timestamp)) {
+                    Write.UserOk(_safeIgnoreMessage);
+                    return;
+                }
+                redis.GetByIdAsync(message.MinerId).ContinueWith(t => {
+                    if (t.Result != null) {
+                        if (_dicByMinerId.TryGetValue(message.MinerId, out MinerSign minerSign)) {
+                            minerSign.Update(t.Result);
+                        }
+                        else {
+                            Add(MinerSign.Create(t.Result));
+                        }
+                    }
+                });
+            }, this.GetType());
             VirtualRoot.AddEventPath<MinerSignChangedMqMessage>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.DevConsole, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
