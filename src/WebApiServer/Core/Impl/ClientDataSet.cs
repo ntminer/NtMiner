@@ -69,6 +69,9 @@ namespace NTMiner.Core.Impl {
                         MinerSignChangedSave(MinerData.Create(clientData));
                     }
                 }
+                else {
+                    Add(ClientData.Create(MinerData.Create(message.Data)));
+                }
             }, this.GetType(), LogEnum.DevConsole);
         }
 
