@@ -42,9 +42,6 @@ namespace NTMiner {
                     AESPasswordOn = Timestamp.UnixBaseTime
                 };
             }
-            else {
-
-            }
             bool isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId;
             if (isMinerSignChanged) {
                 minerSign.Update(wsUserName);
