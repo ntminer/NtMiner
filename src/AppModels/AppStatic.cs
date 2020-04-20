@@ -569,11 +569,17 @@ namespace NTMiner {
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowDialogWindowCommand(message: $"您确定刷新{HomePath.ExportServerJsonFileName}吗？", title: "确认", onYes: () => {
                 try {
-                    VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
+                    RpcRoot.OfficialServer.AppSettingService.SetAppSettingAsync(new AppSettingData {
                         Key = HomePath.ExportServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
-                    }));
-                    VirtualRoot.Out.ShowSuccess($"刷新成功");
+                    }, (response, e) => {
+                        if (response.IsSuccess()) {
+                            VirtualRoot.Out.ShowSuccess($"刷新成功");
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                        }
+                    });
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);

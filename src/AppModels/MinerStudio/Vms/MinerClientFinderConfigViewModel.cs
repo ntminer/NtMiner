@@ -18,11 +18,17 @@ namespace NTMiner.MinerStudio.Vms {
                     if (string.IsNullOrEmpty(this.FileName)) {
                         this.FileName = NTKeyword.MinerClientFinderFileName;
                     }
-                    VirtualRoot.Execute(new SetServerAppSettingCommand(new AppSettingData {
+                    RpcRoot.OfficialServer.AppSettingService.SetAppSettingAsync(new AppSettingData {
                         Key = NTKeyword.MinerClientFinderFileNameAppSettingKey,
                         Value = this.FileName
-                    }));
-                    VirtualRoot.Execute(new CloseWindowCommand(this.Id));
+                    }, (response, e) => {
+                        if (response.IsSuccess()) {
+                            VirtualRoot.Execute(new CloseWindowCommand(this.Id));
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
+                        }
+                    });
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);

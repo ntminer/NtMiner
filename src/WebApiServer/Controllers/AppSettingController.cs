@@ -1,19 +1,11 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerServer;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class AppSettingController : ApiControllerBase, IAppSettingController {
-        [HttpGet]
-        [HttpPost]
-        public List<AppSettingData> AppSettings() {
-            return VirtualRoot.LocalAppSettingSet.AsEnumerable().Cast<AppSettingData>().ToList();
-        }
-
         public DateTime GetTime() {
             return DateTime.Now;
         }

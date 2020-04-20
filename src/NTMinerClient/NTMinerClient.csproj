@@ -153,7 +153,6 @@
     <Compile Include="Core\MineContextExtension.cs" />
     <Compile Include="Core\MinerStudio\Impl\NTMinerWalletSet.cs" />
     <Compile Include="Core\Impl\GroupSet.cs" />
-    <Compile Include="Core\Impl\ServerAppSettingSet.cs" />
     <Compile Include="Core\IncomePerDay.cs" />
     <Compile Include="Core\Kernels\IKernelInputSet.cs" />
     <Compile Include="Core\Kernels\IKernelOutputSet.cs" />

@@ -11,10 +11,6 @@ namespace NTMiner.Services.Official {
         public AppSettingService() {
         }
 
-        public void GetAppSettingsAsync(Action<List<AppSettingData>, Exception> callback) {
-            RpcRoot.GetAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.AppSettings), null, callback, timeountMilliseconds: 10 * 1000);
-        }
-
         public void GetTimeAsync(Action<DateTime> callback) {
             RpcRoot.GetAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
                 callback?.Invoke(datetime);
