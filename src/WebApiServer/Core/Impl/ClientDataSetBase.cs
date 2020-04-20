@@ -59,7 +59,7 @@ namespace NTMiner.Core.Impl {
             }
             IQueryable<ClientData> data = _dicByObjectId.Values.AsQueryable();
             if (user != null && !user.IsAdmin()) {
-                data = data.Where(a => a.IsOwnerBy(user));
+                data = data.Where(a => a.CanReadBy(user));
             }
             if (query.GroupId.HasValue && query.GroupId.Value != Guid.Empty) {
                 data = data.Where(a => a.GroupId == query.GroupId.Value);

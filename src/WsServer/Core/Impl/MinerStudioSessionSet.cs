@@ -1,7 +1,5 @@
-﻿using NTMiner.Core.MinerServer;
-using NTMiner.User;
+﻿using NTMiner.User;
 using NTMiner.Ws;
-using System;
 using System.Collections.Generic;
 using WebSocketSharp.Server;
 
@@ -103,27 +101,6 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-        }
-
-        private bool IsValid(Guid clientId, DateTime timestamp, string loginName) {
-            if (clientId == Guid.Empty) {
-                return false;
-            }
-            if (IsTooOld(timestamp)) {
-                return false;
-            }
-            IUser user = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
-            if (user == null) {
-                return false;
-            }
-            if (!WsRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
-                return false;
-            }
-            return true;
-        }
-
-        private static bool IsTooOld(DateTime dateTime) {
-            return dateTime.AddSeconds(30) < DateTime.Now;
         }
 
         public override void Add(IMinerStudioSession ntminerSession) {

@@ -224,27 +224,6 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
         }
 
-        private bool IsValid(Guid clientId, DateTime timestamp, string loginName) {
-            if (clientId == Guid.Empty) {
-                return false;
-            }
-            if (IsTooOld(timestamp)) {
-                return false;
-            }
-            IUser user = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
-            if (user == null) {
-                return false;
-            }
-            if (!WsRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
-                return false;
-            }
-            return true;
-        }
-
-        private static bool IsTooOld(DateTime dateTime) {
-            return dateTime.AddSeconds(30) < DateTime.Now;
-        }
-
         public void SendToMinerClientAsync(Guid clientId, WsMessage message) {
             if (TryGetByClientId(clientId, out IMinerClientSession minerClientSession)) {
                 if (TryGetWsSessionManager(out WebSocketSessionManager wsSessionManager)) {
