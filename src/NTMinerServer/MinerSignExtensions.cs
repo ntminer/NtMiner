@@ -4,9 +4,6 @@ using NTMiner.User;
 namespace NTMiner {
     public static class MinerSignExtensions {
         public static bool IsOwnerBy(this IMinerSign minerSign, IUser user) {
-            if (user.IsAdmin()) {
-                return true;
-            }
             if (string.IsNullOrEmpty(minerSign.OuterUserId)) {
                 return false;
             }
@@ -21,6 +18,13 @@ namespace NTMiner {
                 default:
                     return false;
             }
+        }
+
+        public static bool CanReadBy(this IMinerSign minerSign, IUser user) {
+            if (user.IsAdmin()) {
+                return true;
+            }
+            return minerSign.IsOwnerBy(user);
         }
     }
 }

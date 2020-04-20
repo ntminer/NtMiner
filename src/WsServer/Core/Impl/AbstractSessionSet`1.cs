@@ -1,4 +1,5 @@
-﻿using NTMiner.User;
+﻿using NTMiner.Core.MinerServer;
+using NTMiner.User;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
@@ -8,6 +9,27 @@ using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public abstract class AbstractSessionSet<TSession> : ISessionSet<TSession> where TSession : ISession {
+        protected static bool IsValid(Guid clientId, DateTime timestamp, string loginName) {
+            if (clientId == Guid.Empty) {
+                return false;
+            }
+            if (IsTooOld(timestamp)) {
+                return false;
+            }
+            IUser user = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
+            if (user == null) {
+                return false;
+            }
+            if (!WsRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
+                return false;
+            }
+            return true;
+        }
+
+        protected static bool IsTooOld(DateTime dateTime) {
+            return dateTime.AddSeconds(30) < DateTime.Now;
+        }
+
         private readonly Dictionary<Guid, TSession> _dicByClientId = new Dictionary<Guid, TSession>();
         private readonly Dictionary<string, TSession> _dicByWsSessionId = new Dictionary<string, TSession>();
         private readonly string _wsServiceHostPath;
