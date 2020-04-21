@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using NTMiner.Cryptography;
 using NTMiner.Ws;
 using System;
@@ -25,6 +24,14 @@ namespace NTMiner {
             text = new string(Enumerable.Repeat('啊', 20).ToArray());
             Assert.AreEqual(20, text.Length);
             Assert.AreEqual(text, RSAHelper.DecryptString(RSAHelper.EncryptString(text, key.PrivateKey), key.PublicKey));
+        }
+
+        [TestMethod]
+        public void WindowsPasswordTest() {
+            string windowsPassword = HashUtil.EncDecInOne("ntminer");
+            string text = AESHelper.Encrypt(windowsPassword, AESHelper.ConvertToKey(HashUtil.Sha1("this is a test")));
+            string text1 = AESHelper.Decrypt(text, AESHelper.ConvertToKey(HashUtil.Sha1("this is a test")));
+            Assert.AreEqual(windowsPassword, text1);
         }
 
         // 注意RSA的性能很慢，只能用于加密AES密码，然后大规模加密使用AES

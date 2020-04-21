@@ -28,7 +28,7 @@ namespace NTMiner {
         private static readonly object _locker = new object();
         public DateTime CreatedOn { get; private set; }
 
-        public IMinerStudioContext MinerStudioContext { get; private set; }
+        public IMinerStudioContext MinerStudioContext { get; private set; } = new MinerStudioContext();
 
         private NTMinerContext() {
             CreatedOn = DateTime.Now;
@@ -113,8 +113,6 @@ namespace NTMiner {
         private void DoInit(bool isWork, Action callback) {
             IsJsonServer = !DevMode.IsDevMode || ClientAppType.IsMinerStudio || isWork;
             this.ReporterDataProvider = new ReportDataProvider();
-
-            this.MinerStudioContext = new MinerStudioContext();
 
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ServerContext = new ServerContext();
