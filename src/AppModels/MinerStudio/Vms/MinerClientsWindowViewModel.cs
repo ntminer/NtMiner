@@ -568,12 +568,6 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public string LoginName {
-            get {
-                return RpcRoot.RpcUser.LoginName;
-            }
-        }
-
         public double WsRetryIconAngle {
             get { return _wsRetryIconAngle; }
             set {

@@ -12,6 +12,29 @@
 	mc:Ignorable="d">
 	<WrapPanel>
         <Menu Background="Transparent" VerticalAlignment="Center">
+            <MenuItem Height="26" Padding="0 0 8 0" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
+                <MenuItem.Icon>
+                    <Path
+						Width="14"
+						Height="14"
+						Data="{StaticResource Icon_User}"
+						Fill="{StaticResource TopItemForeground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+                <MenuItem.Header>
+                    <TextBlock Padding="0 4" Text="{Binding LoginName}"></TextBlock>
+                </MenuItem.Header>
+                <MenuItem Header="修改密码" Command="{x:Static app:AppStatic.ShowChangePassword}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Password}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
             <MenuItem Width="26" Height="26" ToolTip="属性" Command="{x:Static app:AppStatic.ShowProperty}">
                 <MenuItem.Icon>
                     <Path
@@ -410,16 +433,6 @@
 							Fill="{StaticResource BtnBackground}"
 							Stretch="Fill" />
 					</MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="修改密码" Visibility="{Binding IsMinerStudioOuterLoginedVisible}" Command="{x:Static app:AppStatic.ShowChangePassword}">
-                    <MenuItem.Icon>
-                        <Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Password}"
-							Fill="{StaticResource BtnBackground}"
-							Stretch="Fill" />
-                    </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem Header="外网群控服务器节点" Visibility="{Binding IsMinerStudioOuterAdminLoginedVisible}" Command="{x:Static app:AppStatic.ShowWsServerNodes}">
                     <MenuItem.Icon>

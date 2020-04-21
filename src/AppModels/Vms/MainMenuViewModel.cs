@@ -16,6 +16,12 @@ namespace NTMiner.Vms {
             }, this.GetType());
         }
 
+        public string LoginName {
+            get {
+                return RpcRoot.RpcUser.LoginName;
+            }
+        }
+
         public SolidColorBrush TopItemForeground {
             get {
                 if (ClientAppType.IsMinerClient) {

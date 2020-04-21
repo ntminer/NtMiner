@@ -414,7 +414,7 @@
                             <Border Width="16" Height="16">
                                 <Path Width="12" Height="12"
 								    Data="{StaticResource Icon_Refresh}"
-								    Fill="{StaticResource BtnBackground}"
+								    Fill="Black"
 								    Stretch="Fill">
                                     <Path.LayoutTransform>
                                         <RotateTransform Angle="{Binding WsRetryIconAngle}"/>
@@ -443,7 +443,6 @@
                 </WrapPanel>
             </WrapPanel>
             <WrapPanel Grid.Column="2" VerticalAlignment="Center">
-                <TextBlock Margin="0 0 8 0" Text="{Binding LoginName}" ToolTip="登录用户" VerticalAlignment="Center"></TextBlock>
                 <uc0:MainMenu Background="Transparent" VerticalAlignment="Center">
                 </uc0:MainMenu>
                 <controls:KbSystemMinButton KbSystemButtonForeground="Black" />
