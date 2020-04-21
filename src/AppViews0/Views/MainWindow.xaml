@@ -227,7 +227,7 @@
 								Data="{StaticResource Icon_Offline}"
 								Fill="White"
 								Stretch="Fill" />
-                            <TextBlock Margin="2 0 0 0" Foreground="White">群控</TextBlock>
+                            <TextBlock Margin="2 0 0 0" Text="{Binding MinerProfile.OuterUserText}" Foreground="White"></TextBlock>
                         </WrapPanel>
                     </controls:KbButton>
                     <controls:KbButton

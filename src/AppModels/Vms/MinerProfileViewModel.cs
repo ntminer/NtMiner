@@ -382,8 +382,18 @@ namespace NTMiner.Vms {
                 if (NTMinerContext.Instance.MinerProfile.OuterUserId != value) {
                     NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(OuterUserId), value);
                     OnPropertyChanged(nameof(OuterUserId));
+                    OnPropertyChanged(nameof(OuterUserText));
                     StartOrStopWs();
                 }
+            }
+        }
+
+        public string OuterUserText {
+            get {
+                if (string.IsNullOrEmpty(OuterUserId)) {
+                    return "群控";
+                }
+                return OuterUserId;
             }
         }
 
