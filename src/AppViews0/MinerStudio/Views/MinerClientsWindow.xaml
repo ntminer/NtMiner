@@ -425,7 +425,7 @@
                         </WrapPanel>
                     </controls:KbButton>
                 </WrapPanel>
-                <WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" ToolTip="{Binding WsStateText}">
+                <WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" ToolTip="{Binding WsDescription}" Background="{StaticResource ToolbarBackground}">
                     <Path 
 						Height="14"
 						Width="14"
@@ -440,7 +440,6 @@
 						Data="{StaticResource Icon_Offline}"
 						Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
 						Stretch="Fill" />
-                    <TextBlock Margin="2 0 0 0" Foreground="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding WsDescription}"></TextBlock>
                 </WrapPanel>
             </WrapPanel>
             <WrapPanel Grid.Column="2" VerticalAlignment="Center">
