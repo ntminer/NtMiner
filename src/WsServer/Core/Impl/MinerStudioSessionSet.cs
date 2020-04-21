@@ -1,6 +1,7 @@
 ﻿using NTMiner.User;
 using NTMiner.Ws;
 using System.Collections.Generic;
+using System.Linq;
 using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
@@ -103,13 +104,18 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
         }
 
-        public override void Add(IMinerStudioSession ntminerSession) {
-            base.Add(ntminerSession);
-            if (!_dicByLoginName.TryGetValue(ntminerSession.LoginName, out List<IMinerStudioSession> sessions)) {
+        public override void Add(IMinerStudioSession minerSession) {
+            base.Add(minerSession);
+            if (!_dicByLoginName.TryGetValue(minerSession.LoginName, out List<IMinerStudioSession> sessions)) {
                 sessions = new List<IMinerStudioSession>();
-                _dicByLoginName.Add(ntminerSession.LoginName, sessions);
+                _dicByLoginName.Add(minerSession.LoginName, sessions);
             }
-            sessions.Add(ntminerSession);
+            // 一个挖矿端只可能有一个连接，如果建立了新的连接就移除旧的连接
+            var toRemoves = sessions.Where(a => a.ClientId == minerSession.ClientId).ToArray();
+            foreach (var item in toRemoves) {
+                sessions.Remove(item);
+            }
+            sessions.Add(minerSession);
         }
 
         public override IMinerStudioSession RemoveByWsSessionId(string wsSessionId) {

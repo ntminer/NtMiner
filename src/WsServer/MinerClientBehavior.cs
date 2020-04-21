@@ -30,9 +30,9 @@ namespace NTMiner {
                 this.CloseAsync();
                 return;
             }
-            IMinerClientSession minerClientSession = MinerClientSession.Create(userData, wsUserName, this.ID);
-            WsRoot.MinerClientSessionSet.Add(minerClientSession);
-            WsRoot.MinerClientMqSender.SendMinerClientWsOpened(minerClientSession.LoginName, minerClientSession.ClientId);
+            IMinerClientSession minerSession = MinerClientSession.Create(userData, wsUserName, this.ID);
+            WsRoot.MinerClientSessionSet.Add(minerSession);
+            WsRoot.MinerClientMqSender.SendMinerClientWsOpened(minerSession.LoginName, minerSession.ClientId);
             if (!WsRoot.MinerSignSet.TryGetByClientId(wsUserName.ClientId, out MinerSign minerSign)) {
                 minerSign = new MinerSign {
                     Id = LiteDB.ObjectId.NewObjectId().ToString(),
@@ -71,16 +71,17 @@ namespace NTMiner {
 
         protected override void OnClose(CloseEventArgs e) {
             base.OnClose(e);
-            IMinerClientSession minerClientSession = WsRoot.MinerClientSessionSet.RemoveByWsSessionId(base.ID);
-            if (minerClientSession != null) {
-                WsRoot.MinerClientMqSender.SendMinerClientWsClosed(minerClientSession.LoginName, minerClientSession.ClientId);
+            IMinerClientSession minerSession = WsRoot.MinerClientSessionSet.RemoveByWsSessionId(base.ID);
+            if (minerSession != null) {
+                WsRoot.MinerClientMqSender.SendMinerClientWsClosed(minerSession.LoginName, minerSession.ClientId);
             }
         }
 
         protected override void OnMessage(MessageEventArgs e) {
+            IMinerClientSession minerSession;
             if (e.IsPing) {
-                if (WsRoot.MinerClientSessionSet.ActiveByWsSessionId(base.ID, out IMinerClientSession ntminerSession)) {
-                    WsRoot.MinerClientMqSender.SendMinerClientWsBreathed(ntminerSession.LoginName, ntminerSession.ClientId);
+                if (WsRoot.MinerClientSessionSet.ActiveByWsSessionId(base.ID, out minerSession)) {
+                    WsRoot.MinerClientMqSender.SendMinerClientWsBreathed(minerSession.LoginName, minerSession.ClientId);
                 }
                 return;
             }
@@ -88,13 +89,13 @@ namespace NTMiner {
             if (message == null) {
                 return;
             }
-            if (!WsRoot.MinerClientSessionSet.TryGetByWsSessionId(this.ID, out IMinerClientSession minerClientSession)) {
+            if (!WsRoot.MinerClientSessionSet.TryGetByWsSessionId(this.ID, out minerSession)) {
                 this.CloseAsync(CloseStatusCode.Normal, "意外，会话不存在，请重新连接");
                 return;
             }
             else if (MinerClientWsMessageHandler.TryGetHandler(message.Type, out Action<MinerClientBehavior, string, Guid, WsMessage> handler)) {
                 try {
-                    handler.Invoke(this, minerClientSession.LoginName, minerClientSession.ClientId, message);
+                    handler.Invoke(this, minerSession.LoginName, minerSession.ClientId, message);
                 }
                 catch (Exception ex) {
                     Logger.ErrorDebugLine(ex);

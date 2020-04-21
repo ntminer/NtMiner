@@ -153,9 +153,7 @@ namespace NTMiner.Core.Impl {
             }
             if (!_dicByWsSessionId.ContainsKey(ntminerSession.WsSessionId)) {
                 _dicByWsSessionId.Add(ntminerSession.WsSessionId, ntminerSession);
-                if (!_dicByClientId.TryGetValue(ntminerSession.ClientId, out TSession session) || session.ClientId != ntminerSession.ClientId) {
-                    _dicByClientId[ntminerSession.ClientId] = ntminerSession;
-                }
+                _dicByClientId[ntminerSession.ClientId] = ntminerSession;
             }
         }
 

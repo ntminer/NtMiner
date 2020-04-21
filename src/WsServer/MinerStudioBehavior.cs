@@ -29,8 +29,8 @@ namespace NTMiner {
                 this.CloseAsync();
                 return;
             }
-            IMinerStudioSession minerStudioSession = MinerStudioSession.Create(userData, wsUserName, this.ID);
-            WsRoot.MinerStudioSessionSet.Add(minerStudioSession);
+            IMinerStudioSession minerSession = MinerStudioSession.Create(userData, wsUserName, this.ID);
+            WsRoot.MinerStudioSessionSet.Add(minerSession);
         }
 
         protected override void OnClose(CloseEventArgs e) {
@@ -47,17 +47,17 @@ namespace NTMiner {
             if (message == null) {
                 return;
             }
-            if (!WsRoot.MinerStudioSessionSet.TryGetByWsSessionId(this.ID, out IMinerStudioSession minerStudioSession)) {
+            if (!WsRoot.MinerStudioSessionSet.TryGetByWsSessionId(this.ID, out IMinerStudioSession minerSession)) {
                 this.CloseAsync(CloseStatusCode.Normal, "意外，会话不存在，请重新连接");
                 return;
             }
-            if (!minerStudioSession.IsValid(message)) {
+            if (!minerSession.IsValid(message)) {
                 this.CloseAsync(CloseStatusCode.Normal, "意外，签名验证失败，请重新连接");
                 return;
             }
             if (MinerStudioWsMessageHandler.TryGetHandler(message.Type, out Action<string, WsMessage> handler)) {
                 try {
-                    handler.Invoke(minerStudioSession.LoginName, message);
+                    handler.Invoke(minerSession.LoginName, message);
                 }
                 catch (Exception ex) {
                     Logger.ErrorDebugLine(ex);
