@@ -4,6 +4,7 @@ using NTMiner.Vms;
 using System;
 using System.Linq;
 using System.Windows;
+using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
@@ -226,6 +227,12 @@ namespace NTMiner.MinerStudio.Vms {
         public string Tooltip {
             get {
                 return $"核心{CoreClockDelta.ToString()}M, 显存{MemoryClockDelta.ToString()}M, 功耗{PowerCapacity.ToString()}%, 风扇{(IsAutoFanSpeed ? "自动" : Cool + "%")}, 温度阈值{TempLimit.ToString()}℃";
+            }
+        }
+
+        public MainMenuViewModel MainMenu {
+            get {
+                return MainMenuViewModel.Instance;
             }
         }
     }
