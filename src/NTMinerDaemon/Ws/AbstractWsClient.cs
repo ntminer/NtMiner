@@ -222,13 +222,8 @@ namespace NTMiner.Ws {
                     // 退出
                     return;
                 }
-                var ws = new WebSocket($"ws://{server}/{_appType.GetName()}");
 
-#if DEBUG
-                ws.Log.Level = LogLevel.Trace;
-#else
-                ws.Log.Level = LogLevel.Warn;
-#endif
+                var ws = new WebSocket($"ws://{server}/{_appType.GetName()}");
                 ws.OnOpen += (sender, e) => {
                     ResetFailCount();
                     UpdateWsStateAsync("连接服务器成功", toOut: false);

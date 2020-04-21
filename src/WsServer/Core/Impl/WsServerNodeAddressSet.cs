@@ -66,10 +66,10 @@ namespace NTMiner.Core.Impl {
         private void ReportNodeAsync(Action callback = null) {
             int minerClientWsSessionCount = 0;
             int minerStudioWsSessionCount = 0;
-            if (WsRoot.MinerClientSessionSet.TryGetWsSessionManager(out WebSocketSessionManager wsSessionManager)) {
+            if (WsRoot.MinerClientSessionSet.TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
                 minerClientWsSessionCount = wsSessionManager.Count;
             }
-            if (WsRoot.MinerStudioSessionSet.TryGetWsSessionManager(out wsSessionManager)) {
+            if (WsRoot.MinerStudioSessionSet.TryGetWsSessions(out wsSessionManager)) {
                 minerStudioWsSessionCount = wsSessionManager.Count;
             }
             RpcRoot.OfficialServer.WsServerNodeService.ReportNodeStateAsync(new WsServerNodeState {

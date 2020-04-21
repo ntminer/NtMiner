@@ -33,7 +33,6 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, TSession> _dicByClientId = new Dictionary<Guid, TSession>();
         private readonly Dictionary<string, TSession> _dicByWsSessionId = new Dictionary<string, TSession>();
         private readonly string _wsServiceHostPath;
-        private WebSocketSessionManager _wsSessions = null;
         private static readonly Type _sessionType = typeof(TSession);
         private static readonly bool _isMinerClient = _sessionType == typeof(IMinerClientSession);
         private static readonly bool _isMinerStudio = _sessionType == typeof(IMinerStudioSession);
@@ -45,7 +44,7 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.AddEventPath<UserDisabledMqMessage>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, action: message => {
                 if (!string.IsNullOrEmpty(message.LoginName)) {
-                    if (TryGetWsSessionManager(out WebSocketSessionManager wsSessionManager)) {
+                    if (TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
                         var toCloses = _dicByWsSessionId.Values.Where(a => a.LoginName == message.LoginName).ToArray();
                         foreach (var item in toCloses) {
                             if (wsSessionManager.TryGetSession(item.WsSessionId, out IWebSocketSession session)) {
@@ -57,18 +56,6 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
         }
 
-        public bool TryGetWsSessionManager(out WebSocketSessionManager wsSessionManager) {
-            wsSessionManager = _wsSessions;
-            if (wsSessionManager == null) {
-                var host = WsRoot.WebSocketServer.WebSocketServices[_wsServiceHostPath];
-                if (host != null) {
-                    wsSessionManager = host.Sessions;
-                }
-                _wsSessions = wsSessionManager;
-            }
-            return wsSessionManager != null;
-        }
-
         private void SendReGetServerAddressMessage(string[] nodeAddresses) {
             if (nodeAddresses == null || nodeAddresses.Length == 0) {
                 return;
@@ -77,7 +64,7 @@ namespace NTMiner.Core.Impl {
             ShardingHasher hash = new ShardingHasher(nodeAddresses);
             List<TSession> needReGetServerAddressSessions = _dicByWsSessionId.Values.Where(a => hash.GetTargetNode(a.ClientId) != thisNodeIp).ToList();
             if (needReGetServerAddressSessions.Count != 0) {
-                if (TryGetWsSessionManager(out WebSocketSessionManager wsSessionManager)) {
+                if (TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
                     if (_isMinerClient) {
                         foreach (var session in needReGetServerAddressSessions) {
                             string password = ((IMinerClientSession)session).GetSignPassword();
@@ -114,7 +101,7 @@ namespace NTMiner.Core.Impl {
             DateTime activeOn = DateTime.Now.AddSeconds(-seconds);
             DateTime doubleActiveOn = activeOn.AddSeconds(-seconds);
             var toRemoves = _dicByWsSessionId.Values.Where(a => a != null && a.ActiveOn <= activeOn).ToDictionary(a => a.WsSessionId, a => a);
-            if (TryGetWsSessionManager(out WebSocketSessionManager wsSessionManager)) {
+            if (TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
                 List<WebSocket> toCloseWses = new List<WebSocket>();
                 foreach (var wsSession in wsSessionManager.Sessions) {
                     if (toRemoves.ContainsKey(wsSession.ID)) {
@@ -145,6 +132,15 @@ namespace NTMiner.Core.Impl {
             get {
                 return _dicByClientId.Count;
             }
+        }
+
+        private WebSocketSessionManager _wsSessions = null;
+        public bool TryGetWsSessions(out WebSocketSessionManager wsSessions) {
+            if (_wsSessions == null) {
+                WsRoot.TryGetWsSessions(_wsServiceHostPath, out _wsSessions);
+            }
+            wsSessions = _wsSessions;
+            return wsSessions != null;
         }
 
         public virtual void Add(TSession ntminerSession) {

@@ -140,7 +140,7 @@ namespace NTMiner.Core.Impl {
 
         public void SendToMinerStudioAsync(string loginName, WsMessage message) {
             List<IMinerStudioSession> minerStudioSessions = GetSessionsByLoginName(loginName);
-            if (TryGetWsSessionManager(out WebSocketSessionManager wsSessionManager)) {
+            if (TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
                 foreach (var minerStudioSession in minerStudioSessions) {
                     var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerStudioSession.LoginName));
                     if (userData != null) {
