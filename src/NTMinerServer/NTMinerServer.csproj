@@ -47,6 +47,7 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Mq\IMqSender.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`1.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`3.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`2.cs" />

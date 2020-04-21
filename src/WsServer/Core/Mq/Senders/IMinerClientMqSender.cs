@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Core.Mq.Senders {
-    public interface IMinerClientMqSender {
+    public interface IMinerClientMqSender : IMqSender {
         void SendMinerClientWsOpened(string loginName, Guid clientId);
         void SendMinerClientWsClosed(string loginName, Guid clientId);
         void SendMinerClientWsBreathed(string loginName, Guid clientId);

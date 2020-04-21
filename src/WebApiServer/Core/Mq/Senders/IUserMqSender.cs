@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.Core.Mq.Senders {
-    public interface IUserMqSender {
+    public interface IUserMqSender : IMqSender {
         void SendUserAdded(string loginName);
         void SendUserUpdated(string loginName);
         void SendUserRemoved(string loginName);
