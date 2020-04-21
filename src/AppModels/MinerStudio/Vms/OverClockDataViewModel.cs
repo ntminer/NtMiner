@@ -4,7 +4,6 @@ using NTMiner.Vms;
 using System;
 using System.Linq;
 using System.Windows;
-using System.Windows.Forms;
 using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
