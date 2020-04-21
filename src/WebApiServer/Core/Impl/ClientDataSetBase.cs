@@ -61,7 +61,7 @@ namespace NTMiner.Core.Impl {
             foreach (var item in _dicByObjectId.Values.ToArray()) {
                 bool isInclude = true;
                 if (isInclude) {
-                    if (user != null && !user.IsAdmin()) {
+                    if (user != null) {
                         isInclude = item.CanReadBy(user);
                     }
                 }
