@@ -9,6 +9,7 @@ namespace NTMiner.MinerStudio.Vms {
         private Guid _actionCaptchaId = Guid.NewGuid();
         private string _actionCaptcha;
         private string _newPassword;
+        private string _newPasswordAgain;
         private string _oldPassword;
 
         public Guid Id { get; private set; } = Guid.NewGuid();
@@ -27,6 +28,14 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 if (string.IsNullOrEmpty(NewPassword)) {
                     VirtualRoot.Out.ShowWarn("未填写新密码");
+                    return;
+                }
+                if (string.IsNullOrEmpty(NewPasswordAgain)) {
+                    VirtualRoot.Out.ShowWarn("未填写重复密码");
+                    return;
+                }
+                if (NewPassword != NewPasswordAgain) {
+                    VirtualRoot.Out.ShowWarn("两次输入的密码不一致");
                     return;
                 }
                 if (string.IsNullOrEmpty(ActionCaptcha)) {
@@ -61,6 +70,14 @@ namespace NTMiner.MinerStudio.Vms {
             set {
                 _newPassword = value;
                 OnPropertyChanged(nameof(NewPassword));
+            }
+        }
+
+        public string NewPasswordAgain {
+            get => _newPasswordAgain;
+            set {
+                _newPasswordAgain = value;
+                OnPropertyChanged(nameof(NewPasswordAgain));
             }
         }
 
