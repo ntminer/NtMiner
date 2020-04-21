@@ -189,5 +189,11 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(IsDeleted));
             }
         }
+
+        public MainMenuViewModel MainMenu {
+            get {
+                return MainMenuViewModel.Instance;
+            }
+        }
     }
 }
