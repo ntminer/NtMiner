@@ -277,7 +277,7 @@
                 </DataGrid.Resources>
                 <DataGrid.RowDetailsTemplate>
                     <DataTemplate>
-                        <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource SelectedRowBackground}" Background="#00000000">
+                        <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource SelectedRowBackground}" Background="{StaticResource TransparentColor}">
                             <TextBlock 
                                 Padding="8 0 8 4" 
                                 Visibility="{Binding Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
