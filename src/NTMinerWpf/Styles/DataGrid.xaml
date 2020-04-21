@@ -19,16 +19,8 @@
         <Setter Property="MinRowHeight" Value="28"></Setter>
         <Setter Property="AlternatingRowBackground" Value="White"></Setter>
         <Setter Property="EnableRowVirtualization" Value="False"></Setter>
-        <Setter Property="HorizontalGridLinesBrush">
-            <Setter.Value>
-                <SolidColorBrush Color="#FFEEEEEE" />
-            </Setter.Value>
-        </Setter>
-        <Setter Property="VerticalGridLinesBrush">
-            <Setter.Value>
-                <SolidColorBrush Color="#FFEEEEEE" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource SelectedRowBackground}"></Setter>
+        <Setter Property="VerticalGridLinesBrush" Value="{StaticResource SelectedRowBackground}"></Setter>
     </Style>
 
     <Style TargetType="DataGridColumnHeader">

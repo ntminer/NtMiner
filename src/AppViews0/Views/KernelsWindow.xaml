@@ -265,25 +265,38 @@
             </Grid>
             <DataGrid 
 			    Grid.Row="1"
-			    Margin="0" ItemsSource="{Binding QueryResults}" 
-			    BorderThickness="0" RowHeight="40"
+			    Margin="0" 
+                ItemsSource="{Binding QueryResults}" 
+                GridLinesVisibility="None"
+                RowDetailsVisibilityMode="Visible"
+			    BorderThickness="0" 
+                RowHeight="40"
 			    MouseDoubleClick="DataGrid_MouseDoubleClick">
                 <DataGrid.Resources>
                     <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
                 </DataGrid.Resources>
+                <DataGrid.RowDetailsTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0 0 0 1" BorderBrush="{StaticResource SelectedRowBackground}" Background="#00000000">
+                            <TextBlock 
+                                Padding="8 0 8 4" 
+                                Visibility="{Binding Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+                                Text="{Binding Path=Notice}" 
+                                TextWrapping="Wrap" 
+                                TextAlignment="Left" 
+                                HorizontalAlignment="Left"></TextBlock>
+                        </Border>
+                    </DataTemplate>
+                </DataGrid.RowDetailsTemplate>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn MinWidth="100" Width="*" Header="内核编码" IsReadOnly="True">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Margin="4 0 0 0">
                                     <TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-                                    <WrapPanel>
-                                        <TextBlock Text="{Binding Notice}" ToolTip="{Binding Notice}"></TextBlock>
-                                        <TextBlock 
-										    Foreground="Green" 
-										    Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
-										    Text="{Binding SupportedCoins}"></TextBlock>
-                                    </WrapPanel>
+                                    <TextBlock 
+										Foreground="Green" 
+										Text="{Binding SupportedCoins}"></TextBlock>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

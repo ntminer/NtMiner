@@ -40,8 +40,8 @@
     <SolidColorBrush x:Key="WindowBorderBrush">#9B9FB9</SolidColorBrush>
     <!--用于隐藏密码的封条-->
     <SolidColorBrush x:Key="OpacityTapeBrush">#009AD9</SolidColorBrush>
-    <SolidColorBrush x:Key="SelectedRowBackground">#D5EAFF</SolidColorBrush>
-    <SolidColorBrush x:Key="MouseOverRowBackground">#F3F3F4</SolidColorBrush>
+    <SolidColorBrush x:Key="SelectedRowBackground">#FFEEEEEE</SolidColorBrush>
+    <SolidColorBrush x:Key="MouseOverRowBackground">#E5F3FF</SolidColorBrush>
     <SolidColorBrush x:Key="ToolbarBackground">#EEEEF2</SolidColorBrush>
 
     <Style TargetType="{x:Type ToolTip}">

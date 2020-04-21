@@ -14,7 +14,6 @@
     <Grid Visibility="{Binding IsHistoryVisible}" Background="White">
         <DataGrid  
 			BorderThickness="0"
-            GridLinesVisibility="None"
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto"
 			ItemsSource="{Binding NTMinerFiles}"
