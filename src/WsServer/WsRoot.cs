@@ -16,17 +16,8 @@ namespace NTMiner {
             KeepClean = false, // 由客户端周期ping，服务端禁用ping
             AuthenticationSchemes = AuthenticationSchemes.Basic, // 用基本验证字段承载签名信息，因为传输的并非原始密码，所以虽然是基本验证但不存在安全问题
             UserCredentialsFinder = id => {
-                var base64String = id.Name;
-                if (string.IsNullOrEmpty(base64String)) {
-                    return null;
-                }
-                string json = Encoding.UTF8.GetString(Convert.FromBase64String(base64String));
-                WsUserName wsUserName = VirtualRoot.JsonSerializer.Deserialize<WsUserName>(json);
-                if (wsUserName == null) {
-                    return null;
-                }
-                UserData userData = ReadOnlyUserSet.GetUser(UserId.Create(wsUserName.UserId));
-                if (userData == null || !userData.IsEnabled) {
+                string base64String = id.Name;
+                if (!TryGetUser(base64String, out WsUserName wsUserName, out UserData userData)) {
                     return null;
                 }
                 string password;
@@ -110,6 +101,24 @@ namespace NTMiner {
                 wsSessions = host.Sessions;
             }
             return wsSessions != null;
+        }
+
+        public static bool TryGetUser(string base64String, out WsUserName wsUserName, out UserData userData) {
+            wsUserName = null;
+            userData = null;
+            if (string.IsNullOrEmpty(base64String)) {
+                return false;
+            }
+            string json = Encoding.UTF8.GetString(Convert.FromBase64String(base64String));
+            wsUserName = VirtualRoot.JsonSerializer.Deserialize<WsUserName>(json);
+            if (wsUserName == null) {
+                return false;
+            }
+            userData = ReadOnlyUserSet.GetUser(UserId.Create(wsUserName.UserId));
+            if (userData == null || !userData.IsEnabled) {
+                return false;
+            }
+            return true;
         }
 
         private static void Exit() {

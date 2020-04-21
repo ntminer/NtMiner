@@ -101,6 +101,7 @@
     <Compile Include="Core\ISessionSet`1.cs" />
     <Compile Include="Core\IWsServerNodeAddressSet.cs" />
     <Compile Include="MinerStudioWsMessageHandler.cs" />
+    <Compile Include="WebSocketBehaviorExtensions.cs" />
     <Compile Include="WsMqKeyword.cs" />
     <Compile Include="WsRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

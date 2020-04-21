@@ -3,7 +3,6 @@ using NTMiner.Core.Impl;
 using NTMiner.User;
 using NTMiner.Ws;
 using System;
-using System.Text;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
@@ -18,14 +17,7 @@ namespace NTMiner {
 
         protected override void OnOpen() {
             base.OnOpen();
-            string json = Encoding.UTF8.GetString(Convert.FromBase64String(base.Context.User.Identity.Name));
-            WsUserName wsUserName = VirtualRoot.JsonSerializer.Deserialize<WsUserName>(json);
-            if (wsUserName == null) {
-                this.CloseAsync();
-                return;
-            }
-            UserData userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.Create(wsUserName.UserId));
-            if (userData == null) {
+            if (!this.TryGetUser(out WsUserName wsUserName, out UserData userData)) {
                 this.CloseAsync();
                 return;
             }
