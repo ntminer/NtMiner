@@ -1,9 +1,25 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using System.Linq;
 
 namespace NTMiner.Cryptography {
     public static partial class AESHelper {
         private const int keySize = 128;
+        public const int KeyLen = keySize / 8;
+
+        public static string ConvertToKey(string str) {
+            if (string.IsNullOrEmpty(str)) {
+                str = new string(Enumerable.Repeat('0', 16).ToArray());
+            }
+            if (str.Length < 16) {
+                str+= new string(Enumerable.Repeat('0', 16 - str.Length).ToArray());
+            }
+            if (str.Length > 16) {
+                return str.Substring(0, 16);
+            }
+            return str;
+        }
+
         public static string Encrypt(string toEncrypt, string key) {
             var keyArray = Encoding.UTF8.GetBytes(key);
             var toEncryptArray = Encoding.UTF8.GetBytes(toEncrypt);
