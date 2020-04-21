@@ -25,7 +25,7 @@
     <StackPanel>
         <WrapPanel Margin="0 10 0 3">
             <TextBlock Style="{StaticResource LblTb}">登录名</TextBlock>
-            <TextBox x:Name="TbLoginName" Text="{Binding LoginName}" Width="270" Style="{StaticResource TxtTb}"></TextBox>
+            <TextBox x:Name="TbLoginName" Text="{Binding LoginName,UpdateSourceTrigger=LostFocus}" Width="270" Style="{StaticResource TxtTb}"></TextBox>
             <TextBlock VerticalAlignment="Center" Foreground="Red">*</TextBlock>
         </WrapPanel>
         <WrapPanel Visibility="{Binding LoginNameExistMessage,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
@@ -39,7 +39,7 @@
                 Padding="4 6"
 				Background="White" 
                 controls:PasswordBoxHelper.Attach="true" 
-                controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock VerticalAlignment="Center" Foreground="Red">*</TextBlock>
         </WrapPanel>
         <WrapPanel Margin="0 3">
@@ -49,12 +49,12 @@
                 Padding="4 6"
 				Background="White" 
                 controls:PasswordBoxHelper.Attach="true" 
-                controls:PasswordBoxHelper.Password="{Binding PasswordAgain, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                controls:PasswordBoxHelper.Password="{Binding PasswordAgain, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock VerticalAlignment="Center" Foreground="Red">*</TextBlock>
         </WrapPanel>
         <WrapPanel Margin="0 3">
             <TextBlock Style="{StaticResource LblTb}">验证码</TextBlock>
-            <TextBox Text="{Binding ActionCaptcha}" Width="166" ToolTip="验证码不区分大小写" Style="{StaticResource TxtTb}"></TextBox>
+            <TextBox Text="{Binding ActionCaptcha,UpdateSourceTrigger=PropertyChanged}" Width="166" ToolTip="验证码不区分大小写" Style="{StaticResource TxtTb}"></TextBox>
             <TextBlock Width="10" VerticalAlignment="Center" Foreground="Red">*</TextBlock>
             <WrapPanel VerticalAlignment="Center">
                 <Image Source="{Binding CaptchaUrl}" Height="27" Width="64"></Image>
@@ -73,6 +73,7 @@
             </WrapPanel>
         </WrapPanel>
         <controls:KbButton
+			IsDefault="True"
 			Command="{Binding SignUp}" 
 			Margin="70 10 30 10"
 			Padding="15 8"
