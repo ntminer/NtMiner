@@ -216,7 +216,7 @@
         </DataGrid>
         <TextBlock Grid.Row="1" Visibility="{Binding IsNoRecord,Converter={StaticResource BoolToVisibilityConverter}}" Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">没有消息</TextBlock>
         <controls:KbButton
-            Grid.Row="1" Visibility="{x:Static app:AppStatic.IsDevModeVisible}" HorizontalAlignment="Left" VerticalAlignment="Top"
+            Grid.Row="1" Visibility="{Binding MainMenu.IsMinerStudioOuterAdminLoginedVisible}" HorizontalAlignment="Left" VerticalAlignment="Top"
 			Margin="2 8 2 0"
 			Command="{Binding Add}" 
 			Background="Transparent" 

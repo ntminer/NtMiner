@@ -111,6 +111,12 @@ namespace NTMiner.Vms {
             RefreshQueryResults();
         }
 
+        public MainMenuViewModel MainMenu {
+            get {
+                return MainMenuViewModel.Instance;
+            }
+        }
+
         public IEnumerable<MessageTypeItem<ServerMessageType>> MessageTypeItems {
             get {
                 return _count.Values;
