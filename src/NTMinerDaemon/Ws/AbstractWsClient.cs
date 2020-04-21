@@ -203,7 +203,7 @@ namespace NTMiner.Ws {
                     UpdateNextTrySecondsDelay();
                     string description;
                     if (response == null || response.ReasonPhrase == null) {
-                        description = "地址服务不在线";
+                        description = "网络错误";
                     }
                     else {
                         description = response.ReadMessage(ex);
@@ -316,9 +316,9 @@ namespace NTMiner.Ws {
                             // 2，连不上服务器时
                             _ws = null;
                         }
-                        else if (closeStatus == CloseStatusCode.Abnormal) { // 服务器不在线时客户端尝试连接时的类型是Abnormal
+                        else if (closeStatus == CloseStatusCode.Abnormal) { // 服务器或本机网络不可用时尝试连接时的类型是Abnormal
                             IncreaseFailCount();
-                            _closeReason = "服务器节点不在线";
+                            _closeReason = "网络错误";
                             // 可能是因为服务器节点不存在导致的失败，所以下一次进行重新获取服务器地址的全新连接
                             // 2，连不上服务器时
                             _ws = null;
