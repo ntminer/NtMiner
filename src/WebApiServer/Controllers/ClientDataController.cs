@@ -24,11 +24,6 @@ namespace NTMiner.Controllers {
                     out List<CoinSnapshotData> latestSnapshots, 
                     out int totalOnlineCount, 
                     out int totalMiningCount) ?? new List<ClientData>();
-                //foreach (var item in data) {
-                //    if (!string.IsNullOrEmpty(item.WindowsPassword)) {
-                //        item.WindowsPassword = Cryptography.AESHelper.Encrypt(item.WindowsPassword, Cryptography.AESHelper.ConvertToKey(user.Password));
-                //    }
-                //}
                 return QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount);
             }
             catch (Exception e) {
