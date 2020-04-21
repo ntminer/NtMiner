@@ -226,6 +226,8 @@ namespace NTMiner.Ws {
 
 #if DEBUG
                 ws.Log.Level = LogLevel.Trace;
+#else
+                ws.Log.Level = LogLevel.Warn;
 #endif
                 ws.OnOpen += (sender, e) => {
                     ResetFailCount();
