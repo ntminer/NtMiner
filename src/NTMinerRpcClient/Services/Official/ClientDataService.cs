@@ -12,16 +12,7 @@ namespace NTMiner.Services.Official {
 
         #region QueryClientsAsync
         public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataController.QueryClients), data: query, callback: (QueryClientsResponse response, Exception e) => {
-                if (response != null && response.Data != null && response.Data.Count != 0) {
-                    foreach (var item in response.Data) {
-                        if (!string.IsNullOrEmpty(item.WindowsPassword)) {
-                            item.WindowsPassword = Cryptography.AESHelper.Decrypt(item.WindowsPassword, Cryptography.AESHelper.ConvertToKey(RpcRoot.RpcUser.Password));
-                        }
-                    }
-                }
-                callback?.Invoke(response, e);
-            });
+            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataController.QueryClients), data: query, callback);
         }
         #endregion
 

@@ -55,7 +55,7 @@ namespace NTMiner {
                 DateTime startOn = DateTime.Now;
                 bool isTimeout = false;
                 while (!mqMessagePaths.All(a => a.IsReadyToBuild)) {
-                    if (startOn.AddSeconds(10) < DateTime.Now) {
+                    if (startOn.AddSeconds(20) < DateTime.Now) {
                         isTimeout = true;
                         break;
                     }

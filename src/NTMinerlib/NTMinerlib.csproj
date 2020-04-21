@@ -43,7 +43,6 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
-    <Compile Include="Cryptography\AESHelper.cs" />
     <Compile Include="Cryptography\AESHelper.partials.cs" />
     <Compile Include="Cryptography\BigInteger.cs" />
     <Compile Include="Cryptography\RSAKey.cs" />

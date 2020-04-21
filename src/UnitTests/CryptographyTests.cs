@@ -26,14 +26,6 @@ namespace NTMiner {
             Assert.AreEqual(text, RSAHelper.DecryptString(RSAHelper.EncryptString(text, key.PrivateKey), key.PublicKey));
         }
 
-        [TestMethod]
-        public void WindowsPasswordTest() {
-            string windowsPassword = HashUtil.EncDecInOne("ntminer");
-            string text = AESHelper.Encrypt(windowsPassword, AESHelper.ConvertToKey(HashUtil.Sha1("this is a test")));
-            string text1 = AESHelper.Decrypt(text, AESHelper.ConvertToKey(HashUtil.Sha1("this is a test")));
-            Assert.AreEqual(windowsPassword, text1);
-        }
-
         // 注意RSA的性能很慢，只能用于加密AES密码，然后大规模加密使用AES
         [TestMethod]
         public void RSABenchmarkTest() {
@@ -46,22 +38,6 @@ namespace NTMiner {
             NTStopwatch.Start();
             foreach (var message in messages) {
                 RSAHelper.EncryptString(message, key.PrivateKey);
-            }
-            var elapsedMilliseconds = NTStopwatch.Stop();
-            Console.WriteLine(elapsedMilliseconds);
-        }
-
-        [TestMethod]
-        public void AESBenchmarkTest() {
-            int n = 10000;
-            List<string> messages = new List<string>();
-            for (int i = 0; i < n; i++) {
-                messages.Add(Guid.NewGuid().ToString());
-            }
-            string password = "1234567812345678";
-            NTStopwatch.Start();
-            foreach (var message in messages) {
-                AESHelper.Encrypt(message, password);
             }
             var elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);

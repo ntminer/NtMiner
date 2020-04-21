@@ -94,9 +94,6 @@
     <Compile Include="..\NTMinerClient\Windows\WMI.cs">
       <Link>Windows\WMI.cs</Link>
     </Compile>
-    <Compile Include="..\ntminerlib\cryptography\AESHelper.cs">
-      <Link>Cryptography\AESHelper.cs</Link>
-    </Compile>
     <Compile Include="..\ntminerlib\cryptography\BigInteger.cs">
       <Link>Cryptography\BigInteger.cs</Link>
     </Compile>
