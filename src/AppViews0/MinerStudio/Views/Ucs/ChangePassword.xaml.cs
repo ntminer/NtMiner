@@ -34,7 +34,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         }
 
         private void DoFocus() {
-            this.TbOldPassword.Focus();
+            this.PbOldPassword.Focus();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using NTMiner.Controllers;
+using NTMiner.User;
 using NTMiner.Vms;
 using System;
 using System.Windows.Input;
@@ -20,7 +21,30 @@ namespace NTMiner.MinerStudio.Vms {
                 ActionCaptchaId = Guid.NewGuid();
             });
             this.Ok = new DelegateCommand(() => {
-                // TODO:
+                if (string.IsNullOrEmpty(OldPassword)) {
+                    VirtualRoot.Out.ShowWarn("未填写旧密码");
+                    return;
+                }
+                if (string.IsNullOrEmpty(NewPassword)) {
+                    VirtualRoot.Out.ShowWarn("未填写新密码");
+                    return;
+                }
+                if (string.IsNullOrEmpty(ActionCaptcha)) {
+                    VirtualRoot.Out.ShowWarn("未填写验证码");
+                    return;
+                }
+                RpcRoot.OfficialServer.UserService.ChangePasswordAsync(new ChangePasswordRequest {
+                    NewPassword = NewPassword,
+                    ActionCaptcha = ActionCaptcha,
+                    ActionCaptchaId = ActionCaptchaId
+                }, (response, e) => {
+                    if (!response.IsSuccess()) {
+                        VirtualRoot.Out.ShowError(response.ReadMessage(e), header: "修改密码失败", autoHideSeconds: 4);
+                    }
+                    else {
+                        VirtualRoot.Execute(new CloseWindowCommand(this.Id));
+                    }
+                });
             });
         }
 
