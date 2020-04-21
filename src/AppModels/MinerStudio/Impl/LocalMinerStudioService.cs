@@ -141,13 +141,13 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region RestartWindowsAsync
         public void RestartWindowsAsync(IMinerData client) {
-            RpcRoot.SignPostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.RestartWindows), new SignRequest(), null, timeountMilliseconds: 3000);
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.RestartWindows), new SignRequest(), null, timeountMilliseconds: 3000);
         }
         #endregion
 
         #region ShutdownWindowsAsync
         public void ShutdownWindowsAsync(IMinerData client) {
-            RpcRoot.SignPostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.ShutdownWindows), new SignRequest(), null, timeountMilliseconds: 3000);
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.ShutdownWindows), new SignRequest(), null, timeountMilliseconds: 3000);
         }
         #endregion
 
@@ -157,7 +157,7 @@ namespace NTMiner.MinerStudio.Impl {
             UpgradeNTMinerRequest request = new UpgradeNTMinerRequest {
                 NTMinerFileName = ntminerFileName
             };
-            RpcRoot.SignPostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.UpgradeNTMiner), request, null, timeountMilliseconds: 3000);
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.UpgradeNTMiner), request, null, timeountMilliseconds: 3000);
         }
         #endregion
 
@@ -182,19 +182,19 @@ namespace NTMiner.MinerStudio.Impl {
                 LocalJson = localJson,
                 ServerJson = serverJson
             };
-            RpcRoot.SignPostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.StartMine), request, null, timeountMilliseconds: 3000);
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.StartMine), request, null, timeountMilliseconds: 3000);
         }
         #endregion
 
         #region StopMineAsync
         public void StopMineAsync(IMinerData client) {
-            RpcRoot.SignPostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.StopMine), new SignRequest(), null, timeountMilliseconds: 3000);
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.StopMine), new SignRequest(), null, timeountMilliseconds: 3000);
         }
         #endregion
 
         #region GetDrivesAsync
         public void GetDrivesAsync(IMinerData client) {
-            RpcRoot.SignPostAsync<List<DriveDto>>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetDrives), null, (data, e) => {
+            RpcRoot.PostAsync<List<DriveDto>>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetDrives), null, (data, e) => {
                 VirtualRoot.RaiseEvent(new GetDrivesResponsedEvent(client.ClientId, data));
             }, timeountMilliseconds: 3000);
         }
@@ -202,7 +202,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region SetVirtualMemoryAsync
         public void SetVirtualMemoryAsync(IMinerData client, Dictionary<string, int> data) {
-            RpcRoot.SignPostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetVirtualMemory), new DataRequest<Dictionary<string, int>> {
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetVirtualMemory), new DataRequest<Dictionary<string, int>> {
                 Data = data
             }, null, timeountMilliseconds: 3000);
         }
@@ -210,7 +210,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region GetLocalIpsAsync
         public void GetLocalIpsAsync(IMinerData client) {
-            RpcRoot.SignPostAsync<List<LocalIpDto>>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetLocalIps), null, (data, e) => {
+            RpcRoot.PostAsync<List<LocalIpDto>>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetLocalIps), null, (data, e) => {
                 VirtualRoot.RaiseEvent(new GetLocalIpsResponsedEvent(client.ClientId, data));
             }, timeountMilliseconds: 3000);
         }
@@ -218,7 +218,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region SetLocalIpsAsync
         public void SetLocalIpsAsync(IMinerData client, List<LocalIpInput> data) {
-            RpcRoot.SignPostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetLocalIps), new DataRequest<List<LocalIpInput>> {
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetLocalIps), new DataRequest<List<LocalIpInput>> {
                 Data = data
             }, null, timeountMilliseconds: 3000);
         }

@@ -63,11 +63,11 @@ namespace NTMiner.Services.Official {
         }
 
         public void UpdateUserAsync(UserUpdateData data, Action<ResponseBase, Exception> callback) {
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.UpdateUser), data, callback);
+            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.UpdateUser), data, callback);
         }
 
         public void ChangePasswordAsync(ChangePasswordRequest request, Action<ResponseBase, Exception> callback) {
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.ChangePassword), request, callback);
+            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.ChangePassword), request, callback);
         }
     }
 }
