@@ -392,10 +392,10 @@
             </Border>
             <WrapPanel
                 Grid.Column="1"
+                Margin="8 0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center">
                 <WrapPanel 
-                    Margin="20 0"
                     VerticalAlignment="Center"
                     Visibility="{Binding WsNextTrySecondsDelayVisible}">
                     <WrapPanel Visibility="{Binding IsConnecting,Converter={StaticResource BoolToVisibilityInvertConverter}}" VerticalAlignment="Center" ToolTip="每重试失败1次重试间隔加时10秒直到重试成功或手动刷新时重置回10秒">
@@ -424,6 +424,23 @@
                             <TextBlock Padding="0 0 2 0" Text="{Binding WsRetryText}"></TextBlock>
                         </WrapPanel>
                     </controls:KbButton>
+                </WrapPanel>
+                <WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" ToolTip="{Binding WsStateText}">
+                    <Path 
+						Height="14"
+						Width="14"
+                        Visibility="{Binding IsWsOnline,Converter={StaticResource BoolToVisibilityConverter}}"
+						Data="{StaticResource Icon_Online}"
+						Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
+						Stretch="Fill" />
+                    <Path 
+						Height="14"
+						Width="14"
+                        Visibility="{Binding IsWsOnline,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+						Data="{StaticResource Icon_Offline}"
+						Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
+						Stretch="Fill" />
+                    <TextBlock Margin="2 0 0 0" Foreground="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding WsDescription}"></TextBlock>
                 </WrapPanel>
             </WrapPanel>
             <WrapPanel Grid.Column="2" VerticalAlignment="Center">
