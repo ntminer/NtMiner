@@ -71,13 +71,14 @@ namespace NTMiner {
         }
         #endregion
 
+        // 注意：已经通过url传参了，为了版本兼容性不能去掉[FromUri]了
         [HttpPost]
         public void SetAutoBootStart([FromUri]bool autoBoot, [FromUri]bool autoStart) {
             VirtualRoot.DaemonOperation.SetAutoBootStart(autoBoot, autoStart);
         }
 
         [HttpPost]
-        public void StartOrCloseWs([FromUri]bool isResetFailCount) {
+        public void StartOrCloseWs(bool isResetFailCount) {
             VirtualRoot.DaemonWsClient.OpenOrCloseWs(isResetFailCount);
         }
 

@@ -180,7 +180,7 @@ namespace NTMiner.Controllers {
 
         #region IsLoginNameExist
         [HttpGet]
-        public DataResponse<bool> IsLoginNameExist([FromUri]string loginName) {
+        public DataResponse<bool> IsLoginNameExist(string loginName) {
             bool isExist;
             if (string.IsNullOrEmpty(loginName)) {
                 isExist = true;

@@ -6,6 +6,8 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class AppSettingController : ApiControllerBase, IAppSettingController {
+        [HttpGet]
+        [HttpPost]
         public DateTime GetTime() {
             return DateTime.Now;
         }
