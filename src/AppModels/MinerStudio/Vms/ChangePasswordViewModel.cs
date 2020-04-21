@@ -26,6 +26,10 @@ namespace NTMiner.MinerStudio.Vms {
                     VirtualRoot.Out.ShowWarn("未填写旧密码");
                     return;
                 }
+                if (RpcRoot.RpcUser.Password != HashUtil.Sha1(OldPassword)) {
+                    VirtualRoot.Out.ShowWarn("旧密码错误");
+                    return;
+                }
                 if (string.IsNullOrEmpty(NewPassword)) {
                     VirtualRoot.Out.ShowWarn("未填写新密码");
                     return;
@@ -43,7 +47,7 @@ namespace NTMiner.MinerStudio.Vms {
                     return;
                 }
                 RpcRoot.OfficialServer.UserService.ChangePasswordAsync(new ChangePasswordRequest {
-                    NewPassword = NewPassword,
+                    NewPassword = HashUtil.Sha1(NewPassword),
                     ActionCaptcha = ActionCaptcha,
                     ActionCaptchaId = ActionCaptchaId
                 }, (response, e) => {
