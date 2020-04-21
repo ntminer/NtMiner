@@ -309,7 +309,7 @@ namespace NTMiner.Ws {
                         }
                         else if (closeStatus == CloseStatusCode.Away) { // 服务器ping不通时和服务器关闭进程时都是Away
                             IncreaseFailCount();
-                            _closeReason = "服务器节点下线";
+                            _closeReason = "失去连接，请稍后重试";
                             // 可能是因为服务器节点不存在导致的失败，所以下一次进行重新获取服务器地址的全新连接
                             // 2，连不上服务器时
                             _ws = null;
