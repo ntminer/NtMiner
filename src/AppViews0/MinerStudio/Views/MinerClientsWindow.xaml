@@ -425,7 +425,12 @@
                         </WrapPanel>
                     </controls:KbButton>
                 </WrapPanel>
-                <WrapPanel Margin="4 0 0 0" VerticalAlignment="Center" ToolTip="{Binding WsDescription}" Background="{StaticResource ToolbarBackground}">
+                <WrapPanel 
+                    Margin="4 0 0 0" 
+                    VerticalAlignment="Center" 
+                    ToolTip="{Binding WsDescription}" 
+                    Visibility="{Binding MainMenu.IsMinerStudioOuterLoginedVisible}"
+                    Background="{StaticResource ToolbarBackground}">
                     <Path 
 						Height="14"
 						Width="14"

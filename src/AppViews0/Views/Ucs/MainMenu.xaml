@@ -12,7 +12,7 @@
 	mc:Ignorable="d">
 	<WrapPanel>
         <Menu Background="Transparent" VerticalAlignment="Center">
-            <MenuItem Height="26" Padding="0 0 8 0" Visibility="{x:Static app:AppStatic.IsMinerStudioVisible}">
+            <MenuItem Height="26" Padding="0 0 8 0" Visibility="{Binding IsMinerStudioOuterLoginedVisible}">
                 <MenuItem.Icon>
                     <Path
 						Width="14"
