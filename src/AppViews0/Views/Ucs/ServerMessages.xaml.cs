@@ -22,7 +22,7 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void DataGrid_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e) {
-            if (!DevMode.IsDevMode) {
+            if (!Vm.MainMenu.IsMinerStudioOuterAdminLogined) {
                 return;
             }
             WpfUtil.DataGrid_EditRow<ServerMessageViewModel>(sender, e);

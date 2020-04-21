@@ -40,27 +40,33 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsMinerStudioOuterAdminLogined {
+            get {
+                if (WpfUtil.IsInDesignMode) {
+                    return true;
+                }
+                if (ClientAppType.IsMinerStudio) {
+                    if (!RpcRoot.IsLogined) {
+                        return false;
+                    }
+                    if (!RpcRoot.RpcUser.LoginedUser.IsAdmin()) {
+                        return false;
+                    }
+                    if (NTMinerRegistry.GetControlCenterAddress().StartsWith(RpcRoot.OfficialServerHost)) {
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+        }
+
         /// <summary>
         /// 登录的是外网群控管理员
         /// </summary>
         public Visibility IsMinerStudioOuterAdminLoginedVisible {
             get {
-                if (WpfUtil.IsInDesignMode) {
-                    return Visibility.Visible;
-                }
-                if (ClientAppType.IsMinerStudio) {
-                    if (!RpcRoot.IsLogined) {
-                        return Visibility.Collapsed;
-                    }
-                    if (!RpcRoot.RpcUser.LoginedUser.IsAdmin()) {
-                        return Visibility.Collapsed;
-                    }
-                    if (NTMinerRegistry.GetControlCenterAddress().StartsWith(RpcRoot.OfficialServerHost)) {
-                        return Visibility.Visible;
-                    }
-                    return Visibility.Collapsed;
-                }
-                return Visibility.Collapsed;
+                return IsMinerStudioOuterAdminLogined ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
