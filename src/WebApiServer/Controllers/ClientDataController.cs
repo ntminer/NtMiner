@@ -33,28 +33,6 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        [HttpPost]
-        public string QueryTest([FromBody]QueryClientsRequest query) {
-            if (query == null) {
-                return "参数错误";
-            }
-            try {
-                UserData user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId("admin"));
-                var data = WebApiRoot.ClientDataSet.QueryClients(
-                    user,
-                    query,
-                    out int total,
-                    out List<CoinSnapshotData> latestSnapshots,
-                    out int totalOnlineCount,
-                    out int totalMiningCount) ?? new List<ClientData>();
-                return VirtualRoot.JsonSerializer.Serialize(data);
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return e.Message;
-            }
-        }
-
         #region UpdateClient
         [HttpPost]
         public ResponseBase UpdateClient([FromBody]UpdateClientRequest request) {
