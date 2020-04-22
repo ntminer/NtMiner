@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Security.Cryptography;
+using System.Text;
 
 namespace NTMiner {
     public static class HashUtil {
@@ -22,15 +23,25 @@ namespace NTMiner {
             return Sha1(System.Text.Encoding.UTF8.GetBytes(text));
         }
 
-        public static string EncDecInOne(string input) {
-            byte[] key = System.Text.Encoding.UTF8.GetBytes(input.Length.ToString());
-            char[] output = new char[input.Length];
+        public static byte[] TextEncrypt(string content, string secretKey) {
+            byte[] data = Encoding.UTF8.GetBytes(content);
+            byte[] key = Encoding.UTF8.GetBytes(secretKey);
 
-            for (int i = 0; i < input.Length; i++) {
-                output[i] = (char)(input[i] ^ key[i % key.Length]);
+            for (int i = 0; i < data.Length; i++) {
+                data[i] ^= key[i % key.Length];
             }
 
-            return new string(output);
+            return data;
+        }
+
+        public static string TextDecrypt(byte[] data, string secretKey) {
+            byte[] key = Encoding.UTF8.GetBytes(secretKey);
+
+            for (int i = 0; i < data.Length; i++) {
+                data[i] ^= key[i % key.Length];
+            }
+
+            return Encoding.UTF8.GetString(data, 0, data.Length);
         }
     }
 }

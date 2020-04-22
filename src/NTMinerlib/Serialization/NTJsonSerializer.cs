@@ -4,7 +4,8 @@ namespace NTMiner.Serialization {
     public class NTJsonSerializer : INTSerializer {
         public static readonly JsonSerializerSettings SerializerSettings = new JsonSerializerSettings() {
             MissingMemberHandling = MissingMemberHandling.Ignore,// 默认值也是Ignore，复述一遍起文档作用
-            NullValueHandling = NullValueHandling.Ignore
+            NullValueHandling = NullValueHandling.Ignore,
+            StringEscapeHandling = StringEscapeHandling.EscapeNonAscii
         };
 
         public NTJsonSerializer() {

@@ -601,11 +601,11 @@ namespace NTMiner.MinerStudio.Vms {
                 if (string.IsNullOrEmpty(_data.WindowsPassword)) {
                     return string.Empty;
                 }
-                return HashUtil.EncDecInOne(_data.WindowsPassword);
+                return HashUtil.TextDecrypt(Convert.FromBase64String(_data.WindowsPassword), RpcRoot.RpcUser.Password);
             }
             set {
                 if (!string.IsNullOrEmpty(value)) {
-                    value = HashUtil.EncDecInOne(value);
+                    value = Convert.ToBase64String(HashUtil.TextEncrypt(value, RpcRoot.RpcUser.Password));
                 }
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;

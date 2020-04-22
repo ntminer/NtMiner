@@ -132,6 +132,16 @@ namespace NTMiner {
         }
 
         [TestMethod]
+        public void EncDecTest() {
+            for (int i = 0; i < 100; i++) {
+                string input = Guid.NewGuid().ToString();
+                string secText = Convert.ToBase64String(HashUtil.TextEncrypt(input, "this is a test"));
+                Console.WriteLine(secText);
+                Assert.AreEqual(input, HashUtil.TextDecrypt(Convert.FromBase64String(secText), "this is a test"));
+            }
+        }
+
+        [TestMethod]
         public void Test11() {
             Assert.AreEqual(2 << 16, 0x20000);
         }
@@ -203,19 +213,6 @@ namespace NTMiner {
             string typeName = typeof(ICaptchaController<string>).Name;
             Console.WriteLine(typeName);
             Assert.AreEqual("Captcha", RpcRoot.GetControllerName<ICaptchaController<string>>());
-        }
-
-        [TestMethod]
-        public void HashUtilTest() {
-            string[] values = new[]
-            {
-                "ntminer", "测试", "helloworld", "s d-,"
-            };
-            foreach (var value in values) {
-                string v1 = HashUtil.EncDecInOne(value);
-                Console.WriteLine(v1);
-                Assert.AreEqual(value, HashUtil.EncDecInOne(v1));
-            }
         }
 
         [TestMethod]
