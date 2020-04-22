@@ -99,13 +99,12 @@ namespace NTMiner.MinerStudio.Vms {
                 if (response.IsSuccess()) {
                     this.CountDown = 10;
                     #region 处理Response.Data
-                    // ObservableCollection<T>类型对象不支持在UI线程以外处理
-                    UIThread.Execute(() => () => {
-                        if (response.Data.Count == 0) {
-                            _minerClients.Clear();
-                        }
-                        else {
-                            if (_lastSortDirection == this.SortDirection) {
+                    if (_lastSortDirection == this.SortDirection) {
+                        UIThread.Execute(() => () => {
+                            if (response.Data.Count == 0) {
+                                _minerClients.Clear();
+                            }
+                            else {
                                 var toRemoves = _minerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
                                 foreach (var item in toRemoves) {
                                     _minerClients.Remove(item);
@@ -132,40 +131,50 @@ namespace NTMiner.MinerStudio.Vms {
                                     }
                                 }
                             }
-                            else {
-                                List<MinerClientViewModel> vms = new List<MinerClientViewModel>(_minerClients);
-                                var toRemoves = vms.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
-                                foreach (var item in toRemoves) {
-                                    vms.Remove(item);
-                                }
-                                for (int i = 0; i < response.Data.Count; i++) {
-                                    var data = response.Data[i];
-                                    var item = vms.FirstOrDefault(a => a.Id == data.Id);
-                                    if (item == null) {
-                                        // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
-                                        // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
-                                        var clientData = data;
-                                        MinerClientViewModel vm;
-                                        if (!RpcRoot.IsOuterNet) {
-                                            clientData = ClientData.Clone(data);
-                                            vm = new MinerClientViewModel(clientData);
-                                        }
-                                        else {
-                                            vm = new MinerClientViewModel(clientData);
-                                        }
-                                        vms.Insert(i, vm);
+                            OnPropertyChanged(nameof(IsNoRecordVisible));
+                        });
+                    }
+                    else {
+                        if (response.Data.Count == 0) {
+                            // ObservableCollection<T>类型对象不支持在UI线程以外处理
+                            UIThread.Execute(() => () => {
+                                _minerClients.Clear();
+                                OnPropertyChanged(nameof(IsNoRecordVisible));
+                            });
+                        }
+                        else {
+                            List<MinerClientViewModel> vms = new List<MinerClientViewModel>(_minerClients);
+                            var toRemoves = vms.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
+                            foreach (var item in toRemoves) {
+                                vms.Remove(item);
+                            }
+                            for (int i = 0; i < response.Data.Count; i++) {
+                                var data = response.Data[i];
+                                var item = vms.FirstOrDefault(a => a.Id == data.Id);
+                                if (item == null) {
+                                    // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
+                                    // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
+                                    var clientData = data;
+                                    MinerClientViewModel vm;
+                                    if (!RpcRoot.IsOuterNet) {
+                                        clientData = ClientData.Clone(data);
+                                        vm = new MinerClientViewModel(clientData);
                                     }
                                     else {
-                                        item.Update(data);
+                                        vm = new MinerClientViewModel(clientData);
                                     }
+                                    vms.Insert(i, vm);
                                 }
-                                vms.Sort(new MinerComparerByMinerName(_sortDirection));
-                                _minerClients = new ObservableCollection<MinerClientViewModel>(vms);
-                                OnPropertyChanged(nameof(MinerClients));
+                                else {
+                                    item.Update(data);
+                                }
                             }
+                            vms.Sort(new MinerComparerByMinerName(_sortDirection));
+                            _minerClients = new ObservableCollection<MinerClientViewModel>(vms);
+                            OnPropertyChanged(nameof(MinerClients));
+                            OnPropertyChanged(nameof(IsNoRecordVisible));
                         }
-                        OnPropertyChanged(nameof(IsNoRecordVisible));
-                    });
+                    }
                     RefreshPagingUi(response.Total);
                     var array = this.MinerClients.ToArray();
                     RefreshMaxTempForeground(array);
