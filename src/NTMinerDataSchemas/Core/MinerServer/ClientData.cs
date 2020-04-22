@@ -87,6 +87,7 @@ namespace NTMiner.Core.MinerServer {
                 IsGotOneIncorrectGpuShare = false,
                 KernelSelfRestartCount = 0,
                 IsOuterUserEnabled = data.IsOuterUserEnabled,
+                LoginName = data.LoginName,
                 OuterUserId = data.OuterUserId,
                 TotalPhysicalMemoryMb = 0,
                 LocalServerMessageTimestamp = Timestamp.UnixBaseTime,
@@ -183,6 +184,7 @@ namespace NTMiner.Core.MinerServer {
                 KernelSelfRestartCount = data.KernelSelfRestartCount,
                 LocalServerMessageTimestamp = data.LocalServerMessageTimestamp,
                 IsOuterUserEnabled = data.IsOuterUserEnabled,
+                LoginName = data.LoginName,
                 OuterUserId = data.OuterUserId,
                 NetActiveOn = data.NetActiveOn,
                 IsOnline = data.IsOnline,
@@ -296,12 +298,14 @@ namespace NTMiner.Core.MinerServer {
                 IsDisableWAU = speedData.IsDisableWAU,
                 IsOnline = false,
                 NetActiveOn = DateTime.MinValue,
+                LoginName = string.Empty,
                 OuterUserId = string.Empty,
                 WorkerName = string.Empty
             };
         }
 
         public void Update(MinerSign minerSign, out bool isChanged) {
+            this.LoginName = minerSign.LoginName;
             isChanged = false;
             if (!isChanged) {
                 isChanged = this.ClientId != minerSign.ClientId;
@@ -595,6 +599,8 @@ namespace NTMiner.Core.MinerServer {
         public DateTime NetActiveOn { get; set; }
 
         public bool IsOnline { get; set; }
+
+        public string LoginName { get; set; }
 
         public string OuterUserId { get; set; }
 

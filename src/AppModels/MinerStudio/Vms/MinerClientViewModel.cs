@@ -1447,6 +1447,16 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public string LoginName {
+            get { return _data.LoginName; }
+            set {
+                if (_data.LoginName != value) {
+                    _data.LoginName = value;
+                    OnPropertyChanged(nameof(LoginName));
+                }
+            }
+        }
+
         public string OuterUserId {
             get { return _data.OuterUserId; }
             set {

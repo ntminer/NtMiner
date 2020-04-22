@@ -6,6 +6,7 @@ namespace NTMiner.Core.MinerServer {
             return new MinerSign {
                 Id = minerData.Id,
                 ClientId = minerData.ClientId,
+                LoginName = minerData.LoginName,
                 OuterUserId = minerData.OuterUserId,
                 AESPassword = minerData.AESPassword,
                 AESPasswordOn = minerData.AESPasswordOn
@@ -16,6 +17,7 @@ namespace NTMiner.Core.MinerServer {
 
         public void Update(MinerData minerData) {
             this.ClientId = minerData.ClientId;
+            this.LoginName = minerData.LoginName;
             this.OuterUserId = minerData.OuterUserId;
             this.AESPassword = minerData.AESPassword;
             this.AESPasswordOn = minerData.AESPasswordOn;
@@ -24,6 +26,8 @@ namespace NTMiner.Core.MinerServer {
         public string Id { get; set; }
 
         public Guid ClientId { get; set; }
+
+        public string LoginName { get; set; }
 
         public string OuterUserId { get; set; }
 

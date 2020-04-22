@@ -18,6 +18,7 @@ namespace NTMiner.Core.MinerServer {
                 WindowsPassword = string.Empty,
                 WorkId = Guid.Empty,
                 IsOuterUserEnabled = false,
+                LoginName = string.Empty,
                 OuterUserId = string.Empty,
                 AESPassword = string.Empty,
                 AESPasswordOn = DateTime.MinValue
@@ -28,6 +29,7 @@ namespace NTMiner.Core.MinerServer {
             return new MinerData {
                 Id = minerSign.Id,
                 ClientId = minerSign.ClientId,
+                LoginName = minerSign.LoginName,
                 OuterUserId = minerSign.OuterUserId,
                 AESPassword = minerSign.AESPassword,
                 AESPasswordOn = minerSign.AESPasswordOn,
@@ -60,6 +62,7 @@ namespace NTMiner.Core.MinerServer {
                 WindowsPassword = clientData.WindowsPassword,
                 WorkId = clientData.WorkId,
                 IsOuterUserEnabled = clientData.IsOuterUserEnabled,
+                LoginName = clientData.LoginName,
                 OuterUserId = clientData.OuterUserId,
                 AESPassword = clientData.AESPassword,
                 AESPasswordOn = clientData.AESPasswordOn
@@ -70,6 +73,7 @@ namespace NTMiner.Core.MinerServer {
 
         public string Id { get; set; }
         public Guid ClientId { get; set; }
+        public string LoginName { get; set; }
         public string OuterUserId { get; set; }
         public bool IsOuterUserEnabled { get; set; }
         public string AESPassword { get; set; }
