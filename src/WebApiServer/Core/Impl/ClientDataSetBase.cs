@@ -62,7 +62,7 @@ namespace NTMiner.Core.Impl {
                 bool isInclude = true;
                 if (isInclude) {
                     if (user != null) {
-                        isInclude = item.CanReadBy(user);
+                        isInclude = item.LoginName == user.LoginName;
                     }
                 }
                 if (isInclude) {
