@@ -18,7 +18,7 @@ namespace NTMiner.MinerStudio.Vms {
         private List<CoinSnapshotViewModel> _coinSnapshotVms = null;
         private ColumnsShowViewModel _columnsShow;
         private int _countDown = 10;
-        private readonly ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
+        private ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
         private MinerClientViewModel _currentMinerClient;
         private MinerClientViewModel[] _selectedMinerClients = new MinerClientViewModel[0];
         private int _pageIndex = 1;
@@ -914,33 +914,63 @@ namespace NTMiner.MinerStudio.Vms {
                             _minerClients.Clear();
                         }
                         else {
-                            var toRemoves = _minerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
-                            foreach (var item in toRemoves) {
-                                _minerClients.Remove(item);
-                            }
-                            for (int i = 0; i < response.Data.Count; i++) {
-                                var data = response.Data[i];
-                                var item = _minerClients.FirstOrDefault(a => a.Id == data.Id);
-                                if (item == null) {
-                                    // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
-                                    // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
-                                    var clientData = data;
-                                    MinerClientViewModel vm;
-                                    if (!RpcRoot.IsOuterNet) {
-                                        clientData = ClientData.Clone(data);
-                                        vm = new MinerClientViewModel(clientData);
+                            if (_lastSortDirection == this.SortDirection) {
+                                var toRemoves = _minerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
+                                foreach (var item in toRemoves) {
+                                    _minerClients.Remove(item);
+                                }
+                                for (int i = 0; i < response.Data.Count; i++) {
+                                    var data = response.Data[i];
+                                    var item = _minerClients.FirstOrDefault(a => a.Id == data.Id);
+                                    if (item == null) {
+                                        // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
+                                        // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
+                                        var clientData = data;
+                                        MinerClientViewModel vm;
+                                        if (!RpcRoot.IsOuterNet) {
+                                            clientData = ClientData.Clone(data);
+                                            vm = new MinerClientViewModel(clientData);
+                                        }
+                                        else {
+                                            vm = new MinerClientViewModel(clientData);
+                                        }
+                                        _minerClients.Insert(i, vm);
                                     }
                                     else {
-                                        vm = new MinerClientViewModel(clientData);
+                                        item.Update(data);
                                     }
-                                    _minerClients.Insert(i, vm);
-                                }
-                                else {
-                                    item.Update(data);
                                 }
                             }
-                            if (_lastSortDirection != this.SortDirection) {
-                                // TODO:排序
+                            else {
+                                List<MinerClientViewModel> vms = new List<MinerClientViewModel>(_minerClients);
+                                var toRemoves = vms.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
+                                foreach (var item in toRemoves) {
+                                    vms.Remove(item);
+                                }
+                                for (int i = 0; i < response.Data.Count; i++) {
+                                    var data = response.Data[i];
+                                    var item = vms.FirstOrDefault(a => a.Id == data.Id);
+                                    if (item == null) {
+                                        // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
+                                        // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
+                                        var clientData = data;
+                                        MinerClientViewModel vm;
+                                        if (!RpcRoot.IsOuterNet) {
+                                            clientData = ClientData.Clone(data);
+                                            vm = new MinerClientViewModel(clientData);
+                                        }
+                                        else {
+                                            vm = new MinerClientViewModel(clientData);
+                                        }
+                                        vms.Insert(i, vm);
+                                    }
+                                    else {
+                                        item.Update(data);
+                                    }
+                                }
+                                vms.Sort(new MinerComparerByMinerName(_sortDirection));
+                                _minerClients = new ObservableCollection<MinerClientViewModel>(vms);
+                                OnPropertyChanged(nameof(MinerClients));
                             }
                         }
                     });
