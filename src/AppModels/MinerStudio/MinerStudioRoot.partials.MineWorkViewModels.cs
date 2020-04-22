@@ -32,7 +32,7 @@ namespace NTMiner.MinerStudio {
                             }
                         }
                         OnPropertyChangeds();
-                        MinerClientsWindowViewModel.Instance.RefreshMinerClientsSelectedMineWork();
+                        MinerClientsWindowViewModel.Instance.RefreshMinerClientsSelectedMineWork(MinerClientsWindowViewModel.Instance.MinerClients.ToArray());
                     }, this.GetType());
                 }            
                 this.Add = new DelegateCommand(() => {

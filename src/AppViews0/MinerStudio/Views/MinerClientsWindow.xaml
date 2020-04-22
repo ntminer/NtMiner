@@ -230,7 +230,7 @@
                         <uc:MinerClients Grid.Row="1">
                         </uc:MinerClients>
                         <TextBlock Grid.Row="1" Margin="4 0 0 0" Foreground="{StaticResource LableColor}" HorizontalAlignment="Left" VerticalAlignment="Bottom">鼠标配合ctrl和shift</TextBlock>
-                        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding MinerClients, Converter={StaticResource NoRecordVisibilityConverter}}">
+                        <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding IsNoRecordVisible, Converter={StaticResource NoRecordVisibilityConverter}}">
                             <TextBlock VerticalAlignment="Center" Foreground="Red" Text="没有记录"></TextBlock>
                             <WrapPanel Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">
                                 <TextBlock VerticalAlignment="Center" Foreground="Red" Text="，请先添加矿机"></TextBlock>

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
+using System.Collections.ObjectModel;
 
 namespace NTMiner.MinerStudio.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase, IWsStateViewModel {
@@ -17,7 +18,7 @@ namespace NTMiner.MinerStudio.Vms {
         private List<CoinSnapshotViewModel> _coinSnapshotVms = null;
         private ColumnsShowViewModel _columnsShow;
         private int _countDown = 10;
-        private List<MinerClientViewModel> _minerClients = new List<MinerClientViewModel>();
+        private readonly ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
         private MinerClientViewModel _currentMinerClient;
         private MinerClientViewModel[] _selectedMinerClients = new MinerClientViewModel[0];
         private int _pageIndex = 1;
@@ -415,9 +416,6 @@ namespace NTMiner.MinerStudio.Vms {
                 }
             });
             VirtualRoot.AddCmdPath<UpdateMinerClientVmCommand>(action: message => {
-                if (_minerClients == null) {
-                    return;
-                }
                 var vm = _minerClients.FirstOrDefault(a => a.Id == message.ClientData.Id);
                 if (vm != null) {
                     vm.Update(message.ClientData);
@@ -672,7 +670,7 @@ namespace NTMiner.MinerStudio.Vms {
             set {
                 _rejectPercent = value;
                 OnPropertyChanged(nameof(RejectPercent));
-                RefreshRejectPercentForeground();
+                RefreshRejectPercentForeground(this.MinerClients.ToArray());
                 VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
                     Key = NTKeyword.RejectPercentAppSettingKey,
                     Value = value
@@ -680,8 +678,8 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        private void RefreshRejectPercentForeground() {
-            foreach (MinerClientViewModel item in MinerClients) {
+        private void RefreshRejectPercentForeground(MinerClientViewModel[] vms) {
+            foreach (MinerClientViewModel item in vms) {
                 if (item.MainCoinRejectPercent >= this.RejectPercent) {
                     item.MainCoinRejectPercentForeground = WpfUtil.RedBrush;
                 }
@@ -704,7 +702,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (value > this.MinTemp && value != _maxTemp) {
                     _maxTemp = value;
                     OnPropertyChanged(nameof(MaxTemp));
-                    RefreshMaxTempForeground();
+                    RefreshMaxTempForeground(this.MinerClients.ToArray());
                     VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
                         Key = NTKeyword.MaxTempAppSettingKey,
                         Value = value
@@ -719,7 +717,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (value < this.MaxTemp && value != _minTemp) {
                     _minTemp = value;
                     OnPropertyChanged(nameof(MinTemp));
-                    RefreshMaxTempForeground();
+                    RefreshMaxTempForeground(this.MinerClients.ToArray());
                     VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
                         Key = NTKeyword.MinTempAppSettingKey,
                         Value = value
@@ -728,8 +726,8 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        private void RefreshMaxTempForeground() {
-            foreach (MinerClientViewModel item in MinerClients) {
+        private void RefreshMaxTempForeground(MinerClientViewModel[] vms) {
+            foreach (MinerClientViewModel item in vms) {
                 if (item.GpuTableVm == null) {
                     continue;
                 }
@@ -910,62 +908,47 @@ namespace NTMiner.MinerStudio.Vms {
                 if (response.IsSuccess()) {
                     this.CountDown = 10;
                     #region 处理Response.Data
-                    bool isMinerClientsChanged = false;
-                    if (response.Data.Count == 0) {
-                        _minerClients = new List<MinerClientViewModel>();
-                        isMinerClientsChanged = true;
-                    }
-                    else {
-                        List<MinerClientViewModel> minerClients = _minerClients;
-                        var toRemoves = minerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
-                        // 如果旧列表有要删除的元素则列表变更
-                        isMinerClientsChanged = toRemoves.Length != 0;
-                        foreach (var item in toRemoves) {
-                            minerClients.Remove(item);
+                    // ObservableCollection<T>类型对象不支持在UI线程以外处理
+                    UIThread.Execute(() => () => {
+                        if (response.Data.Count == 0) {
+                            _minerClients.Clear();
                         }
-                        for (int i = 0; i < response.Data.Count; i++) {
-                            var data = response.Data[i];
-                            var item = minerClients.FirstOrDefault(a => a.Id == data.Id);
-                            if (item == null) {
-                                // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
-                                // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
-                                var clientData = data;
-                                MinerClientViewModel vm;
-                                if (!RpcRoot.IsOuterNet) {
-                                    clientData = ClientData.Clone(data);
-                                    vm = new MinerClientViewModel(clientData);
+                        else {
+                            var toRemoves = _minerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
+                            foreach (var item in toRemoves) {
+                                _minerClients.Remove(item);
+                            }
+                            for (int i = 0; i < response.Data.Count; i++) {
+                                var data = response.Data[i];
+                                var item = _minerClients.FirstOrDefault(a => a.Id == data.Id);
+                                if (item == null) {
+                                    // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
+                                    // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
+                                    var clientData = data;
+                                    MinerClientViewModel vm;
+                                    if (!RpcRoot.IsOuterNet) {
+                                        clientData = ClientData.Clone(data);
+                                        vm = new MinerClientViewModel(clientData);
+                                    }
+                                    else {
+                                        vm = new MinerClientViewModel(clientData);
+                                    }
+                                    _minerClients.Insert(i, vm);
                                 }
                                 else {
-                                    vm = new MinerClientViewModel(clientData);
-                                }
-                                minerClients.Insert(i, vm);
-                                // 如果旧列表有要添加的原色则列表变更
-                                if (!isMinerClientsChanged) {
-                                    isMinerClientsChanged = true;
+                                    item.Update(data);
                                 }
                             }
-                            else {
-                                if (item.MinerName != data.MinerName && !isMinerClientsChanged) {
-                                    isMinerClientsChanged = true;
-                                }
-                                item.Update(data);
+                            if (_lastSortDirection != this.SortDirection) {
+                                // TODO:排序
                             }
                         }
-                        if (!isMinerClientsChanged && _lastSortDirection != this.SortDirection) {
-                            isMinerClientsChanged = true;
-                        }
-                        if (isMinerClientsChanged) {
-                            // 重建对象从而使OnPropertyChanged(nameof(MinerClients))不因为对象引用相等而失效
-                            minerClients.Sort(new MinerComparerByMinerName(_sortDirection));
-                            _minerClients = minerClients.ToList();
-                        }
-                    }
+                    });
+                    OnPropertyChanged(nameof(IsNoRecordVisible));
                     RefreshPagingUi(response.Total);
-                    if (isMinerClientsChanged) {
-                        OnPropertyChanged(nameof(MinerClients));
-                    }
-                    RefreshMaxTempForeground();
-                    RefreshRejectPercentForeground();
+                    var array = this.MinerClients.ToArray();
+                    RefreshMaxTempForeground(array);
+                    RefreshRejectPercentForeground(array);
                     #endregion
                     #region 处理Response.LatestSnapshots
                     foreach (var item in CoinSnapshotVms) {
@@ -1004,21 +987,30 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public void RefreshMinerClientsSelectedMinerGroup() {
-            foreach (var minerClient in this.MinerClients) {
+        public void RefreshMinerClientsSelectedMinerGroup(MinerClientViewModel[] vms) {
+            foreach (var minerClient in vms) {
                 minerClient.OnPropertyChanged(nameof(minerClient.SelectedMinerGroup));
             }
         }
 
-        public void RefreshMinerClientsSelectedMineWork() {
-            foreach (var minerClient in this.MinerClients) {
+        public void RefreshMinerClientsSelectedMineWork(MinerClientViewModel[] vms) {
+            foreach (var minerClient in vms) {
                 minerClient.OnPropertyChanged(nameof(minerClient.SelectedMineWork));
             }
         }
 
-        public List<MinerClientViewModel> MinerClients {
+        public ObservableCollection<MinerClientViewModel> MinerClients {
             get {
                 return _minerClients;
+            }
+        }
+
+        public Visibility IsNoRecordVisible {
+            get {
+                if (_minerClients.Count == 0) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
             }
         }
 
