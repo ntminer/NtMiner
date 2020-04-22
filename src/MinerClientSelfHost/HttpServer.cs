@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Serialization;
+using System;
 using System.Web.Http;
 using System.Web.Http.SelfHost;
 
@@ -12,6 +13,7 @@ namespace NTMiner {
             try {
                 var config = new HttpSelfHostConfiguration(baseAddress);
                 config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+                config.Formatters.JsonFormatter.SerializerSettings = NTJsonSerializer.SerializerSettings;
                 config.Routes.MapHttpRoute("API Default", "api/{controller}/{action}");
                 s_httpServer = new HttpSelfHostServer(config);
                 s_httpServer.OpenAsync();
