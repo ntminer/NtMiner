@@ -58,7 +58,9 @@ namespace NTMiner.Core.Impl {
                 return new List<ClientData>();
             }
             List<ClientData> list = new List<ClientData>();
-            foreach (var item in _dicByObjectId.Values.ToArray()) {
+            var data = _dicByObjectId.Values.ToArray();
+            for (int i = 0; i < data.Length; i++) {
+                var item = data[i];
                 bool isInclude = true;
                 if (isInclude) {
                     if (user != null && !user.IsAdmin()) {
