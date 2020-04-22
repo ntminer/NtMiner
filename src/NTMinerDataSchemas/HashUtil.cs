@@ -21,20 +21,18 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(text)) {
                 return string.Empty;
             }
-            return Sha1(System.Text.Encoding.UTF8.GetBytes(text));
+            return Sha1(Encoding.UTF8.GetBytes(text));
         }
 
         public static bool IsBase64OrEmpty(string base64Str) {
             if (string.IsNullOrEmpty(base64Str)) {
                 return true;
             }
-            else {
-                if (base64Str.Length % 4 != 0) {
-                    return false;
-                }
-                if (base64Str.Any(c => !_base64CodeArray.Contains(c))) {
-                    return false;
-                }
+            else if (base64Str.Length % 4 != 0) {
+                return false;
+            }
+            else if (base64Str.Any(c => !_base64CodeArray.Contains(c))) {
+                return false;
             }
             return true;
         }
