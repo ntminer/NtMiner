@@ -72,9 +72,6 @@ namespace NTMiner.Core.Impl {
             for (int i = 0; i < data.Length; i++) {
                 var item = data[i];
                 bool isInclude = true;
-                if (isInclude && isFilterByUser) {
-                    isInclude = user.LoginName.Equals(item.LoginName);
-                }
                 if (isInclude && isFilterByGroup) {
                     isInclude = item.GroupId == query.GroupId.Value;
                 }
@@ -120,6 +117,9 @@ namespace NTMiner.Core.Impl {
                             isInclude = !string.IsNullOrEmpty(item.Kernel) && item.Kernel.IgnoreCaseContains(query.Kernel);
                         }
                     }
+                }
+                if (isInclude && isFilterByUser) {
+                    isInclude = user.LoginName.Equals(item.LoginName);
                 }
                 if (isInclude) {
                     list.Add(item);
