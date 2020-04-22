@@ -92,7 +92,7 @@ namespace NTMiner {
                         return version;
                     }
                 }
-                return new Version(17, 10, 2);
+                return new Version(17, 10, 2, 0);
             }
         }
 

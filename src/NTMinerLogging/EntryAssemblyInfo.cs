@@ -32,7 +32,7 @@ namespace NTMiner {
                 CurrentVersionTag = description?.Description;
             }
             else {
-                CurrentVersion = new Version(2, 0, 0);
+                CurrentVersion = new Version(2, 0, 0, 0);
                 CurrentVersionTag = "UnitTest";
             }
             CurrentVersionStr = CurrentVersion.ToString(4);
