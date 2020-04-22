@@ -7,27 +7,10 @@ namespace NTMiner {
             if (user == null) {
                 return false;
             }
-            if (string.IsNullOrEmpty(minerSign.OuterUserId)) {
+            if (string.IsNullOrEmpty(minerSign.LoginName)) {
                 return false;
             }
-            UserId userId = UserId.Create(minerSign.OuterUserId);
-            switch (userId.UserIdType) {
-                case UserIdType.LoginName:
-                    return user.LoginName == userId.Value;
-                case UserIdType.Email:
-                    return user.Email == userId.Value;
-                case UserIdType.Mobile:
-                    return user.Mobile == userId.Value;
-                default:
-                    return false;
-            }
-        }
-
-        public static bool CanReadBy(this IMinerSign minerSign, IUser user) {
-            if (user.IsAdmin()) {
-                return true;
-            }
-            return minerSign.IsOwnerBy(user);
+            return minerSign.LoginName == user.LoginName;
         }
     }
 }
