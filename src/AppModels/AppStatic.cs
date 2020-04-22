@@ -14,7 +14,8 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner {
     /// <summary>
-    /// 注意：这里的成员只应用于绑定，不应在.cs中使用，在IDE中看到的静态源代码应用计数应为0
+    /// 注意：这里的成员只应用于绑定且不能在SplashWindow中绑定，因为SplashWindow是在一个单独的UI线程
+    /// 运行的而AppStatic是为给主UI线程用的，不应在.cs中使用，在IDE中看到的静态源代码应用计数应为0。
     /// </summary>
     public static class AppStatic {
         private static readonly Lazy<BitmapImage> _bigLogoImageSource = new Lazy<BitmapImage>(() => {

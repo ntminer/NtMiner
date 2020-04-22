@@ -29,8 +29,8 @@ namespace NTMiner.Views {
 
         public KernelsWindow() {
             // 为了使设计视图的宽高生效以下几个属性的赋值挪到这里
-            Width = AppStatic.MainWindowWidth;
-            Height = AppStatic.MainWindowHeight;
+            Width = AppRoot.MainWindowWidth;
+            Height = AppRoot.MainWindowHeight;
             MinHeight = 430;
             MinWidth = 640;
             InitializeComponent();
