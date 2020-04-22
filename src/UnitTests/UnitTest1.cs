@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using NTMiner.Controllers;
 using NTMiner.Core;
 using NTMiner.Core.Profile;
@@ -18,6 +17,8 @@ namespace NTMiner {
         [TestMethod]
         public void MaxValueText() {
             Console.WriteLine(ushort.MaxValue);
+            Console.WriteLine((int)char.MinValue);
+            Console.WriteLine((int)char.MaxValue);
         }
 
         [TestMethod]
