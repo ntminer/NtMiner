@@ -13,6 +13,7 @@ namespace NTMiner {
             try {
                 var config = new HttpSelfHostConfiguration(baseAddress);
                 config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
+                config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
                 config.Formatters.JsonFormatter.SerializerSettings = NTJsonSerializer.SerializerSettings;
                 config.Routes.MapHttpRoute("API Default", "api/{controller}/{action}");
                 s_httpServer = new HttpSelfHostServer(config);
