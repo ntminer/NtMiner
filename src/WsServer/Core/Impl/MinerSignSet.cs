@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
                 VirtualRoot.RaiseEvent(new MinerSignSetInitedEvent());
             });
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在MinerSignSetInitedEvent事件之后才会创建
-            VirtualRoot.AddEventPath<MinerDataRemovedMqMessage>("收到MinerClientRemovedMq消息后移除内存中对应的记录", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<MinerDataRemovedMqMessage>("收到MinerClientRemovedMq消息后移除内存中对应的记录", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Impl {
                     _dicByClientId.Remove(minerSign.ClientId);
                 }
             }, this.GetType());
-            VirtualRoot.AddEventPath<MinerDataAddedMqMessage>("收到MinerDataAddedMq消息后更新内存中对应的记录", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<MinerDataAddedMqMessage>("收到MinerDataAddedMq消息后更新内存中对应的记录", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, this.GetType());
-            VirtualRoot.AddEventPath<MinerSignChangedMqMessage>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<MinerSignChangedMqMessage>("收到MinerSignChangedMq消息后更新内存中对应的记录", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }

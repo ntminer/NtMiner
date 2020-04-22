@@ -9,10 +9,10 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<string, List<IMinerStudioSession>> _dicByLoginName = new Dictionary<string, List<IMinerStudioSession>>();
 
         public MinerStudioSessionSet() : base(MinerStudioBehavior.WsServiceHostPath) {
-            VirtualRoot.AddEventPath<UserPasswordChangedMqMessage>("群控用户密码变更后通知群控客户端重新登录", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<UserPasswordChangedMqMessage>("群控用户密码变更后通知群控客户端重新登录", LogEnum.None, action: message => {
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.ReLogin));
             }, this.GetType());
-            VirtualRoot.AddEventPath<ConsoleOutLinesMqMessage>("收到ConsoleOutLinesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<ConsoleOutLinesMqMessage>("收到ConsoleOutLinesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -25,7 +25,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.AddEventPath<LocalMessagesMqMessage>("收到LocalMessagesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<LocalMessagesMqMessage>("收到LocalMessagesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -38,7 +38,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.AddEventPath<DrivesMqMessage>("收到DrivesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<DrivesMqMessage>("收到DrivesMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.AddEventPath<LocalIpsMqMessage>("收到LocalIpsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<LocalIpsMqMessage>("收到LocalIpsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.AddEventPath<OperationResultsMqMessage>("收到OperationResultsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<OperationResultsMqMessage>("收到OperationResultsMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -77,7 +77,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.AddEventPath<OperationReceivedMqMessage>("收到OperationReceivedMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<OperationReceivedMqMessage>("收到OperationReceivedMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
@@ -89,7 +89,7 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
-            VirtualRoot.AddEventPath<GpuProfilesJsonMqMessage>("收到GpuProfilesJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<GpuProfilesJsonMqMessage>("收到GpuProfilesJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;

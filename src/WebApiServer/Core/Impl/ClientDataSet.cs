@@ -19,7 +19,7 @@ namespace NTMiner.Core.Impl {
             _redis = redis;
             _mqSender = mqSender;
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
-            VirtualRoot.AddEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -32,7 +32,7 @@ namespace NTMiner.Core.Impl {
                 }
                 ReportSpeed(message.SpeedData, message.MinerIp);
             }, this.GetType());
-            VirtualRoot.AddEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, action: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     Write.UserOk(_safeIgnoreMessage);
                     return;
@@ -42,7 +42,7 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = true;
                 }
             }, this.GetType());
-            VirtualRoot.AddEventPath<MinerClientWsClosedMqMessage>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<MinerClientWsClosedMqMessage>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, action: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     Write.UserOk(_safeIgnoreMessage);
                     return;
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = false;
                 }
             }, this.GetType());
-            VirtualRoot.AddEventPath<MinerClientWsBreathedMqMessage>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<MinerClientWsBreathedMqMessage>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.None, action: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     Write.UserOk(_safeIgnoreMessage);
                     return;

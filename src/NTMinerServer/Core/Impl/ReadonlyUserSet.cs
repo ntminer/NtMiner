@@ -23,7 +23,7 @@ namespace NTMiner.Core.Impl {
                 VirtualRoot.RaiseEvent(new UserSetInitedEvent());
             });
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在UserSetInitedEvent事件之后才会创建
-            VirtualRoot.AddEventPath<UserAddedMqMessage>("收到UserAddedMq消息后从Redis加载新用户到内存", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<UserAddedMqMessage>("收到UserAddedMq消息后从Redis加载新用户到内存", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, this.GetType());
-            VirtualRoot.AddEventPath<UserUpdatedMqMessage>("收到UserUpdatedMq消息后从Redis加载用户到内存", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<UserUpdatedMqMessage>("收到UserUpdatedMq消息后从Redis加载用户到内存", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -57,7 +57,7 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, this.GetType());
-            VirtualRoot.AddEventPath<UserRemovedMqMessage>("收到UserRemovedMq消息后移除内存中对应的记录", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<UserRemovedMqMessage>("收到UserRemovedMq消息后移除内存中对应的记录", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Impl {
                 }
                 _dicByLoginName.Remove(message.LoginName);
             }, this.GetType());
-            VirtualRoot.AddEventPath<UserEnabledMqMessage>("收到UserEnabledMq消息后启用内存中对应记录的状态", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<UserEnabledMqMessage>("收到UserEnabledMq消息后启用内存中对应记录的状态", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -85,7 +85,7 @@ namespace NTMiner.Core.Impl {
                     userData.IsEnabled = true;
                 }
             }, this.GetType());
-            VirtualRoot.AddEventPath<UserDisabledMqMessage>("收到UserDisabledMq消息后禁用内存中对应记录的状态", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<UserDisabledMqMessage>("收到UserDisabledMq消息后禁用内存中对应记录的状态", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -100,7 +100,7 @@ namespace NTMiner.Core.Impl {
                     userData.IsEnabled = false;
                 }
             }, this.GetType());
-            VirtualRoot.AddEventPath<UserPasswordChangedMqMessage>("收到UserPasswordChangedMq消息后从Redis刷新内存中对应的记录", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<UserPasswordChangedMqMessage>("收到UserPasswordChangedMq消息后从Redis刷新内存中对应的记录", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -117,7 +117,7 @@ namespace NTMiner.Core.Impl {
                     }
                 });
             }, this.GetType());
-            VirtualRoot.AddEventPath<UserRSAKeyUpdatedMqMessage>("收到了UserRSAKeyUpdated Mq消息后更新内存中对应的记录", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<UserRSAKeyUpdatedMqMessage>("收到了UserRSAKeyUpdated Mq消息后更新内存中对应的记录", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
