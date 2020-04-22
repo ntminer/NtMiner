@@ -29,14 +29,16 @@ namespace NTMiner {
                 minerSign = new MinerSign {
                     Id = LiteDB.ObjectId.NewObjectId().ToString(),
                     ClientId = wsUserName.ClientId,
+                    LoginName = userData.LoginName,
                     OuterUserId = wsUserName.UserId,
                     AESPassword = string.Empty,
                     AESPasswordOn = Timestamp.UnixBaseTime
                 };
             }
-            bool isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId;
+            bool isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId || minerSign.LoginName != userData.LoginName;
             if (isMinerSignChanged) {
-                minerSign.Update(wsUserName);
+                minerSign.OuterUserId = wsUserName.UserId;
+                minerSign.LoginName = userData.LoginName;
             }
             if (string.IsNullOrEmpty(userData.PublicKey) || string.IsNullOrEmpty(userData.PrivateKey)) {
                 var key = Cryptography.RSAHelper.GetRASKey();

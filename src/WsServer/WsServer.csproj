@@ -84,7 +84,6 @@
     <Compile Include="Messages.cs" />
     <Compile Include="MinerClientBehavior.cs" />
     <Compile Include="MinerClientWsMessageHandler.cs" />
-    <Compile Include="MinerSignExtensions.cs" />
     <Compile Include="MinerStudioBehavior.cs" />
     <Compile Include="Core\IMinerClientSession.cs" />
     <Compile Include="Core\IMinerClientSessionSet.cs" />
