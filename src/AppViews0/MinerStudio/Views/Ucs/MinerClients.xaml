@@ -18,6 +18,7 @@
 		Sorting="DataGrid_OnSorting"
 		HeadersVisibility="All"
 		RowHeaderWidth="10"
+        EnableRowVirtualization="True"
 		FrozenColumnCount="{Binding FrozenColumnCount}"
 		ItemsSource="{Binding MinerClients}"
 		SelectedItem="{Binding CurrentMinerClient}"
