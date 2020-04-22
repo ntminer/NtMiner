@@ -97,7 +97,7 @@ namespace NTMiner.Core.Impl {
                 }
                 if (isInclude) {
                     if (!string.IsNullOrEmpty(query.Version)) {
-                        isInclude = item.Version != null && item.Version.StartsWith(query.Version, StringComparison.OrdinalIgnoreCase);
+                        isInclude = !string.IsNullOrEmpty(item.Version) && item.Version.StartsWith(query.Version);
                     }
                 }
                 if (isInclude) {
@@ -115,7 +115,7 @@ namespace NTMiner.Core.Impl {
                             isInclude = item.MainCoinWallet == query.Wallet || item.DualCoinWallet == query.Wallet;
                         }
                         if (!string.IsNullOrEmpty(query.Kernel)) {
-                            isInclude = item.Kernel != null && item.Kernel.StartsWith(query.Kernel, StringComparison.OrdinalIgnoreCase);
+                            isInclude = !string.IsNullOrEmpty(item.Kernel) && item.Kernel.StartsWith(query.Kernel, StringComparison.OrdinalIgnoreCase);
                         }
                     }
                 }
