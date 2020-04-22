@@ -12,6 +12,24 @@ using System.Windows.Media;
 
 namespace NTMiner {
     public static class WpfUtil {
+        // SolidColorBrush是DependencyObject，必须在UT显存创建，所以这里提供一个什么也不干的Init方法
+        // 只是为了触发静态构造函数从而确保SolidColorBrush是在UI显存构建的。
+        public static void Init() { }
+        // 一些ViewModel中有SolidColorBrush类型的DependencyObject，而ViewModel可能不是在UI线程创建的，所以就要
+        // 要求ViewModel不能自己创建SolidColorBrush对象而必须从WpfUtil引用SolidColorBrush对象，从而避免异常。
+        public static readonly SolidColorBrush TransparentBrush = new SolidColorBrush(Colors.Transparent);
+        public static readonly SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
+        public static readonly SolidColorBrush BlackBrush = new SolidColorBrush(Colors.Black);
+        public static readonly SolidColorBrush GreenBrush = new SolidColorBrush(Colors.Green);
+        public static readonly SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
+        public static readonly SolidColorBrush LightRed = new SolidColorBrush(Color.FromRgb(0xFF, 0xCC, 0x00));
+        public static readonly SolidColorBrush BlueBrush = new SolidColorBrush(Colors.Blue);
+        public static readonly SolidColorBrush AxisForeground = new SolidColorBrush(Color.FromRgb(0x38, 0x52, 0x63));
+        public static readonly SolidColorBrush SelectedBackground = new SolidColorBrush(Color.FromRgb(0x04, 0x35, 0x5B));
+        public static readonly SolidColorBrush SelectedForeground = new SolidColorBrush(Color.FromRgb(0x2C, 0xA2, 0xFC));
+        public static readonly SolidColorBrush SelectedBorderColor = new SolidColorBrush(Color.FromRgb(0x2C, 0xA2, 0xFC));
+
+
         public static readonly bool IsInDesignMode = (bool)DesignerProperties.IsInDesignModeProperty.GetMetadata(typeof(DependencyObject)).DefaultValue;
         public static bool IsDevMode {
             get {
@@ -50,12 +68,6 @@ namespace NTMiner {
             }
             return Application.Current.MainWindow;
         }
-
-        public static readonly SolidColorBrush TransparentBrush = new SolidColorBrush(Colors.Transparent);
-        public static readonly SolidColorBrush WhiteBrush = new SolidColorBrush(Colors.White);
-        public static readonly SolidColorBrush BlackBrush = new SolidColorBrush(Colors.Black);
-        public static readonly SolidColorBrush GreenBrush = new SolidColorBrush(Colors.Green);
-        public static readonly SolidColorBrush RedBrush = new SolidColorBrush(Colors.Red);
 
         // 这个方法没有放在InputWindow类型中是为了去除编译时对MahaApps.Metro的依赖供AppModels使用
         public static void ShowInputDialog(

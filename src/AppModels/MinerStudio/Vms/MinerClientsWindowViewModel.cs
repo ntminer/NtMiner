@@ -686,14 +686,14 @@ namespace NTMiner.MinerStudio.Vms {
                     item.MainCoinRejectPercentForeground = WpfUtil.RedBrush;
                 }
                 else {
-                    item.MainCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
+                    item.MainCoinRejectPercentForeground = WpfUtil.BlackBrush;
                 }
 
                 if (item.DualCoinRejectPercent >= this.RejectPercent) {
                     item.DualCoinRejectPercentForeground = WpfUtil.RedBrush;
                 }
                 else {
-                    item.DualCoinRejectPercentForeground = MinerClientViewModel.DefaultForeground;
+                    item.DualCoinRejectPercentForeground = WpfUtil.BlackBrush;
                 }
             }
         }
@@ -737,10 +737,10 @@ namespace NTMiner.MinerStudio.Vms {
                     item.GpuTableVm.TempForeground = WpfUtil.RedBrush;
                 }
                 else if (item.GpuTableVm.MaxTemp < this.MinTemp) {
-                    item.GpuTableVm.TempForeground = MinerClientViewModel.Blue;
+                    item.GpuTableVm.TempForeground = WpfUtil.BlueBrush;
                 }
                 else {
-                    item.GpuTableVm.TempForeground = MinerClientViewModel.DefaultForeground;
+                    item.GpuTableVm.TempForeground = WpfUtil.BlackBrush;
                 }
                 item.RefreshGpusForeground(this.MinTemp, this.MaxTemp);
             }
@@ -908,84 +908,82 @@ namespace NTMiner.MinerStudio.Vms {
                 SortDirection = SortDirection
             }, (response, exception) => {
                 if (response.IsSuccess()) {
-                    UIThread.Execute(() => () => {
-                        this.CountDown = 10;
-                        #region 处理Response.Data
-                        bool isMinerClientsChanged = false;
-                        if (response.Data.Count == 0) {
-                            _minerClients = new List<MinerClientViewModel>();
-                            isMinerClientsChanged = true;
+                    this.CountDown = 10;
+                    #region 处理Response.Data
+                    bool isMinerClientsChanged = false;
+                    if (response.Data.Count == 0) {
+                        _minerClients = new List<MinerClientViewModel>();
+                        isMinerClientsChanged = true;
+                    }
+                    else {
+                        List<MinerClientViewModel> minerClients = _minerClients;
+                        var toRemoves = minerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
+                        // 如果旧列表有要删除的元素则列表变更
+                        isMinerClientsChanged = toRemoves.Length != 0;
+                        foreach (var item in toRemoves) {
+                            minerClients.Remove(item);
                         }
-                        else {
-                            List<MinerClientViewModel> minerClients = _minerClients;
-                            var toRemoves = minerClients.Where(a => response.Data.All(b => b.Id != a.Id)).ToArray();
-                            // 如果旧列表有要删除的元素则列表变更
-                            isMinerClientsChanged = toRemoves.Length != 0;
-                            foreach (var item in toRemoves) {
-                                minerClients.Remove(item);
-                            }
-                            for (int i = 0; i < response.Data.Count; i++) {
-                                var data = response.Data[i];
-                                var item = minerClients.FirstOrDefault(a => a.Id == data.Id);
-                                if (item == null) {
-                                    // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
-                                    // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
-                                    var clientData = data;
-                                    MinerClientViewModel vm;
-                                    if (!RpcRoot.IsOuterNet) {
-                                        clientData = ClientData.Clone(data);
-                                        vm = new MinerClientViewModel(clientData);
-                                    }
-                                    else {
-                                        vm = new MinerClientViewModel(clientData);
-                                    }
-                                    minerClients.Insert(i, vm);
-                                    // 如果旧列表有要添加的原色则列表变更
-                                    if (!isMinerClientsChanged) {
-                                        isMinerClientsChanged = true;
-                                    }
+                        for (int i = 0; i < response.Data.Count; i++) {
+                            var data = response.Data[i];
+                            var item = minerClients.FirstOrDefault(a => a.Id == data.Id);
+                            if (item == null) {
+                                // 因为内网模式时是本地调用，未经过网络传输，所以MinerClientViewModel内部的ClientData类型的
+                                // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
+                                var clientData = data;
+                                MinerClientViewModel vm;
+                                if (!RpcRoot.IsOuterNet) {
+                                    clientData = ClientData.Clone(data);
+                                    vm = new MinerClientViewModel(clientData);
                                 }
                                 else {
-                                    if (item.MinerName != data.MinerName && !isMinerClientsChanged) {
-                                        isMinerClientsChanged = true;
-                                    }
-                                    item.Update(data);
+                                    vm = new MinerClientViewModel(clientData);
+                                }
+                                minerClients.Insert(i, vm);
+                                // 如果旧列表有要添加的原色则列表变更
+                                if (!isMinerClientsChanged) {
+                                    isMinerClientsChanged = true;
                                 }
                             }
-                            if (!isMinerClientsChanged && _lastSortDirection != this.SortDirection) {
-                                isMinerClientsChanged = true;
-                            }
-                            if (isMinerClientsChanged) {
-                                // 重建对象从而使OnPropertyChanged(nameof(MinerClients))不因为对象引用相等而失效
-                                minerClients.Sort(new MinerComparerByMinerName(_sortDirection));
-                                _minerClients = minerClients.ToList();
-                            }
-                        }
-                        RefreshPagingUi(response.Total);
-                        if (isMinerClientsChanged) {
-                            OnPropertyChanged(nameof(MinerClients));
-                        }
-                        RefreshMaxTempForeground();
-                        RefreshRejectPercentForeground();
-                        #endregion
-                        #region 处理Response.LatestSnapshots
-                        foreach (var item in CoinSnapshotVms) {
-                            if (item == CoinSnapshotViewModel.PleaseSelect) {
-                                item.CoinSnapshotDataVm.MainCoinMiningCount = response.TotalMiningCount;
-                                item.CoinSnapshotDataVm.MainCoinOnlineCount = response.TotalOnlineCount;
-                                continue;
-                            }
-                            var data = response.LatestSnapshots.FirstOrDefault(a => a.CoinCode == item.CoinVm.Code);
-                            if (data != null) {
-                                item.CoinSnapshotDataVm.Update(data);
-                            }
                             else {
-                                item.CoinSnapshotDataVm.Update(CoinSnapshotData.CreateEmpty(item.CoinVm.Code));
+                                if (item.MinerName != data.MinerName && !isMinerClientsChanged) {
+                                    isMinerClientsChanged = true;
+                                }
+                                item.Update(data);
                             }
                         }
-                        #endregion
-                        _lastSortDirection = this.SortDirection;
-                    });
+                        if (!isMinerClientsChanged && _lastSortDirection != this.SortDirection) {
+                            isMinerClientsChanged = true;
+                        }
+                        if (isMinerClientsChanged) {
+                            // 重建对象从而使OnPropertyChanged(nameof(MinerClients))不因为对象引用相等而失效
+                            minerClients.Sort(new MinerComparerByMinerName(_sortDirection));
+                            _minerClients = minerClients.ToList();
+                        }
+                    }
+                    RefreshPagingUi(response.Total);
+                    if (isMinerClientsChanged) {
+                        OnPropertyChanged(nameof(MinerClients));
+                    }
+                    RefreshMaxTempForeground();
+                    RefreshRejectPercentForeground();
+                    #endregion
+                    #region 处理Response.LatestSnapshots
+                    foreach (var item in CoinSnapshotVms) {
+                        if (item == CoinSnapshotViewModel.PleaseSelect) {
+                            item.CoinSnapshotDataVm.MainCoinMiningCount = response.TotalMiningCount;
+                            item.CoinSnapshotDataVm.MainCoinOnlineCount = response.TotalOnlineCount;
+                            continue;
+                        }
+                        var data = response.LatestSnapshots.FirstOrDefault(a => a.CoinCode == item.CoinVm.Code);
+                        if (data != null) {
+                            item.CoinSnapshotDataVm.Update(data);
+                        }
+                        else {
+                            item.CoinSnapshotDataVm.Update(CoinSnapshotData.CreateEmpty(item.CoinVm.Code));
+                        }
+                    }
+                    #endregion
+                    _lastSortDirection = this.SortDirection;
                 }
             });
         }

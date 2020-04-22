@@ -14,8 +14,6 @@ namespace NTMiner.MinerStudio.Vms {
         private AxesCollection _axisY;
         private AxesCollection _axisX;
 
-        private static readonly SolidColorBrush SAxisForeground = new SolidColorBrush(Color.FromRgb(0x38, 0x52, 0x63));
-
         private readonly CoinViewModel _coinVm;
 
         public ICommand Hide { get; private set; }
@@ -44,21 +42,21 @@ namespace NTMiner.MinerStudio.Vms {
                 LabelFormatter = SpeedFormatter,
                 MinValue = 0,
                 Separator = new Separator(),
-                Foreground = SAxisForeground,
+                Foreground = WpfUtil.AxisForeground,
                 FontSize = 13,
                 Position = AxisPosition.RightTop
             };
             var axisYOnlineCount = new Axis() {
                 LabelFormatter = value => Math.Round(value, 0) + "miner",
                 Separator = new Separator(),
-                Foreground = SAxisForeground,
+                Foreground = WpfUtil.AxisForeground,
                 MinValue = 0,
                 FontSize = 11
             };
             var axisYShareCount = new Axis() {
                 LabelFormatter = value => Math.Round(value, 0) + "share",
                 Separator = new Separator(),
-                Foreground = SAxisForeground,
+                Foreground = WpfUtil.AxisForeground,
                 MinValue = 0,
                 FontSize = 11,
                 Position = AxisPosition.RightTop
@@ -76,7 +74,7 @@ namespace NTMiner.MinerStudio.Vms {
                     Separator = new Separator() {
                         Step = axisStep
                     },
-                    Foreground = SAxisForeground,
+                    Foreground = WpfUtil.AxisForeground,
                     FontSize = 12,
                 }
             };

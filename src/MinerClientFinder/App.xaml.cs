@@ -11,6 +11,7 @@ namespace NTMiner {
             Logger.Disable();
             Write.Disable();
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
+            WpfUtil.Init();
             AppUtil.Init(this);
             InitializeComponent();
         }

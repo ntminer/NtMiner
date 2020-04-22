@@ -19,6 +19,7 @@ namespace NTMiner {
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             Logger.SetDir(TempPath.TempLogsDirFullName);
+            WpfUtil.Init();
             AppUtil.Init(this);
             AppUtil.IsHotKeyEnabled = true;
             InitializeComponent();

@@ -43,7 +43,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush s_selectedBackground = new SolidColorBrush(Color.FromRgb(0x04, 0x35, 0x5B));
         private SolidColorBrush _itemBackground = WpfUtil.TransparentBrush;
         public SolidColorBrush ItemBackground {
             get {
@@ -57,7 +56,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush SelectedForeground = new SolidColorBrush(Color.FromRgb(0x2C, 0xA2, 0xFC));
         private SolidColorBrush _itemForeground = WpfUtil.WhiteBrush;
         public SolidColorBrush ItemForeground {
             get {
@@ -71,7 +69,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        private static readonly SolidColorBrush SelectedBorderColor = new SolidColorBrush(Color.FromRgb(0x2C, 0xA2, 0xFC));
         private SolidColorBrush _borderBrush = WpfUtil.TransparentBrush;
         public SolidColorBrush BorderBrush {
             get {
@@ -86,9 +83,9 @@ namespace NTMiner.Vms {
         }
 
         public void SetSelectedBackground() {
-            ItemBackground = s_selectedBackground;
-            ItemForeground = SelectedForeground;
-            BorderBrush = SelectedBorderColor;
+            ItemBackground = WpfUtil.SelectedBackground;
+            ItemForeground = WpfUtil.SelectedForeground;
+            BorderBrush = WpfUtil.SelectedBorderColor;
         }
 
         public void SetDefaultBackground() {

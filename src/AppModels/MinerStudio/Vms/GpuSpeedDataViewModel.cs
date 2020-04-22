@@ -7,7 +7,7 @@ using System.Windows.Media;
 namespace NTMiner.MinerStudio.Vms {
     public class GpuSpeedDataViewModel : ViewModelBase, IGpuSpeedData {
         private readonly GpuSpeedData _data;
-        private SolidColorBrush _temperatureForeground = MinerClientViewModel.DefaultForeground;
+        private SolidColorBrush _temperatureForeground = WpfUtil.BlackBrush;
 
         public GpuSpeedDataViewModel(GpuSpeedData data) {
             _data = data;

@@ -12,9 +12,6 @@ using System.Windows.Media;
 
 namespace NTMiner.MinerStudio.Vms {
     public class MinerClientViewModel : ViewModelBase, IClientData, IEntity<string> {
-        public static readonly SolidColorBrush Blue = new SolidColorBrush(Colors.Blue);
-        public static readonly SolidColorBrush DefaultForeground = new SolidColorBrush(Color.FromArgb(0xFF, 0x5A, 0x5A, 0x5A));
-
         private double _incomeMainCoinPerDay;
         private double _incomeMainCoinUsdPerDay;
         private double _incomeMainCoinCnyPerDay;
@@ -1556,10 +1553,10 @@ namespace NTMiner.MinerStudio.Vms {
                     gpuSpeedData.TemperatureForeground = WpfUtil.RedBrush;
                 }
                 else if (gpuSpeedData.Temperature < minTemp) {
-                    gpuSpeedData.TemperatureForeground = Blue;
+                    gpuSpeedData.TemperatureForeground = WpfUtil.BlueBrush;
                 }
                 else {
-                    gpuSpeedData.TemperatureForeground = DefaultForeground;
+                    gpuSpeedData.TemperatureForeground = WpfUtil.BlackBrush;
                 }
             }
         }
