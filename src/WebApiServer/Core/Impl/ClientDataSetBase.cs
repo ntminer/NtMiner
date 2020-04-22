@@ -59,18 +59,24 @@ namespace NTMiner.Core.Impl {
             }
             List<ClientData> list = new List<ClientData>();
             var data = _dicByObjectId.Values.ToArray();
+            bool isFilterByUser = user != null && !user.IsAdmin();
+            bool isFilterByGroup = query.GroupId.HasValue && query.GroupId.Value != Guid.Empty;
+            bool isFilterByMinerIp = !string.IsNullOrEmpty(query.MinerIp);
+            bool isFilterByMinerName = !string.IsNullOrEmpty(query.MinerName);
+            bool isFilterByVersion = !string.IsNullOrEmpty(query.Version);
+            bool isFilterByWork = query.WorkId.HasValue && query.WorkId.Value != Guid.Empty;
+            bool isFilterByCoin = !isFilterByWork && !string.IsNullOrEmpty(query.Coin);
+            bool isFilterByPool = !isFilterByWork && !string.IsNullOrEmpty(query.Pool);
+            bool isFilterByWallet = !isFilterByWork && !string.IsNullOrEmpty(query.Wallet);
+            bool isFilterByKernel = !isFilterByWork && !string.IsNullOrEmpty(query.Kernel);
             for (int i = 0; i < data.Length; i++) {
                 var item = data[i];
                 bool isInclude = true;
-                if (isInclude) {
-                    if (user != null && !user.IsAdmin()) {
-                        isInclude = item.LoginName == user.LoginName;
-                    }
+                if (isInclude && isFilterByUser) {
+                    isInclude = item.LoginName == user.LoginName;
                 }
-                if (isInclude) {
-                    if (query.GroupId.HasValue && query.GroupId.Value != Guid.Empty) {
-                        isInclude = item.GroupId == query.GroupId.Value;
-                    }
+                if (isInclude && isFilterByGroup) {
+                    isInclude = item.GroupId == query.GroupId.Value;
                 }
                 if (isInclude) {
                     switch (query.MineState) {
@@ -86,38 +92,32 @@ namespace NTMiner.Core.Impl {
                             break;
                     }
                 }
-                if (isInclude) {
-                    if (!string.IsNullOrEmpty(query.MinerIp)) {
-                        isInclude = item.MinerIp == query.MinerIp;
-                    }
+                if (isInclude && isFilterByMinerIp) {
+                    isInclude = item.MinerIp == query.MinerIp;
+                }
+                if (isInclude && isFilterByMinerName) {
+                    isInclude = (!string.IsNullOrEmpty(item.MinerName) && item.MinerName.IndexOf(query.MinerName, StringComparison.OrdinalIgnoreCase) != -1)
+                        || (!string.IsNullOrEmpty(item.WorkerName) && item.WorkerName.IndexOf(query.MinerName, StringComparison.OrdinalIgnoreCase) != -1);
+                }
+                if (isInclude && isFilterByVersion) {
+                    isInclude = !string.IsNullOrEmpty(item.Version) && item.Version.Contains(query.Version);
                 }
                 if (isInclude) {
-                    if (!string.IsNullOrEmpty(query.MinerName)) {
-                        isInclude = (!string.IsNullOrEmpty(item.MinerName) && item.MinerName.IndexOf(query.MinerName, StringComparison.OrdinalIgnoreCase) != -1)
-                            || (!string.IsNullOrEmpty(item.WorkerName) && item.WorkerName.IndexOf(query.MinerName, StringComparison.OrdinalIgnoreCase) != -1);
-                    }
-                }
-                if (isInclude) {
-                    if (!string.IsNullOrEmpty(query.Version)) {
-                        isInclude = !string.IsNullOrEmpty(item.Version) && item.Version.StartsWith(query.Version);
-                    }
-                }
-                if (isInclude) {
-                    if (query.WorkId.HasValue && query.WorkId.Value != Guid.Empty) {
+                    if (isFilterByWork) {
                         isInclude = item.WorkId == query.WorkId.Value;
                     }
                     else {
-                        if (!string.IsNullOrEmpty(query.Coin)) {
+                        if (isFilterByCoin) {
                             isInclude = item.MainCoinCode == query.Coin || item.DualCoinCode == query.Coin;
                         }
-                        if (!string.IsNullOrEmpty(query.Pool)) {
+                        if (isFilterByPool) {
                             isInclude = item.MainCoinPool == query.Pool || item.DualCoinPool == query.Pool;
                         }
-                        if (!string.IsNullOrEmpty(query.Wallet)) {
+                        if (isFilterByWallet) {
                             isInclude = item.MainCoinWallet == query.Wallet || item.DualCoinWallet == query.Wallet;
                         }
-                        if (!string.IsNullOrEmpty(query.Kernel)) {
-                            isInclude = !string.IsNullOrEmpty(item.Kernel) && item.Kernel.StartsWith(query.Kernel, StringComparison.OrdinalIgnoreCase);
+                        if (isFilterByKernel) {
+                            isInclude = !string.IsNullOrEmpty(item.Kernel) && item.Kernel.IgnoreCaseContains(query.Kernel);
                         }
                     }
                 }
