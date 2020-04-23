@@ -2,7 +2,6 @@
 using OpenHardwareMonitor.Hardware;
 using System;
 using System.Diagnostics;
-using System.Management;
 
 namespace NTMiner.Windows {
     /// <summary>
@@ -93,36 +92,20 @@ namespace NTMiner.Windows {
             }
         }
 
-        private static bool _isFirstGetCpuId = true;
-        private static string _cpuId;
-        public static string CpuId {
-            get {
-                if (!_isFirstGetCpuId) {
-                    return _cpuId;
-                }
-                _isFirstGetCpuId = false;
-                _cpuId = "N/A";
-                try {
-                    using (var searcher = new ManagementObjectSearcher("Select ProcessorID from Win32_processor"))
-                    using (var query = searcher.Get()) {
-                        foreach (var item in query) {
-                            _cpuId = item.GetPropertyValue("ProcessorID").ToString();
-                        }
-                    }
-                }
-                catch { }
-                return _cpuId;
-            }
-        }
-
         #region Properties
 
+        private static bool _isFirstGetCpuName = true;
+        private static string _cpuName;
         /// <summary>
         /// Gets the name of the processor.
         /// </summary>
         public string Name {
             get {
-                return RetrieveProcessorInfo("ProcessorNameString");
+                if (_isFirstGetCpuName) {
+                    _isFirstGetCpuName = false;
+                    _cpuName = RetrieveProcessorInfo("ProcessorNameString");
+                }
+                return _cpuName;
             }
         }
 
@@ -137,62 +120,98 @@ namespace NTMiner.Windows {
             }
         }
 
+        private static bool _isFirstGetClockSpeed = true;
+        private static string _clockSpeed;
         /// <summary>
         /// Gets the clock speed in MHz
         /// </summary>
         public string ClockSpeed {
             get {
-                return RetrieveProcessorInfo("~MHz") + " MHz";
+                if (_isFirstGetClockSpeed) {
+                    _isFirstGetClockSpeed = false;
+                    _clockSpeed = RetrieveProcessorInfo("~MHz") + " MHz";
+                }
+                return _clockSpeed;
             }
         }
 
+        private static bool _isFirstGetIdentifier = true;
+        private static string _identifier;
         /// <summary>
         /// Gets the name of the processor.
         /// </summary>
         public string Identifier {
             get {
-                return RetrieveProcessorInfo("Identifier");
+                if (_isFirstGetIdentifier) {
+                    _isFirstGetIdentifier = false;
+                    _identifier = RetrieveProcessorInfo("Identifier");
+                }
+                return _identifier;
             }
         }
 
+        private static bool _isFirstGetVendorIdentifier = true;
+        private static string _vendorIdentifier;
         /// <summary>
         /// Gets the vendor identifier of the processor.
         /// </summary>
         public string VendorIdentifier {
             get {
-                return RetrieveProcessorInfo("VendorIdentifier");
+                if (_isFirstGetVendorIdentifier) {
+                    _isFirstGetVendorIdentifier = false;
+                    _vendorIdentifier = RetrieveProcessorInfo("VendorIdentifier");
+                }
+                return _vendorIdentifier;
             }
         }
 
+        private static bool _isFirstGetProcessorLevel = true;
+        private static string _processorLevel;
         /// <summary>
         /// Gets the architecture-dependent processor level. 
         /// </summary>
         public string ProcessorLevel {
             get {
-                SafeNativeMethods.SystemInfo pInfo = new SafeNativeMethods.SystemInfo();
-                SafeNativeMethods.GetSystemInfo(ref pInfo);
-                return pInfo.dwProcessorLevel.ToString();
+                if (_isFirstGetProcessorLevel) {
+                    _isFirstGetProcessorLevel = false;
+                    SafeNativeMethods.SystemInfo pInfo = new SafeNativeMethods.SystemInfo();
+                    SafeNativeMethods.GetSystemInfo(ref pInfo);
+                    _processorLevel = pInfo.dwProcessorLevel.ToString();
+                }
+                return _processorLevel;
             }
         }
 
+        private static bool _isFirstGetProcessorRevision = true;
+        private static string _processorRevision;
         /// <summary>
         /// Gets the current processor's revision
         /// </summary>
         public string ProcessorRevision {
             get {
-                SafeNativeMethods.SystemInfo pInfo = new SafeNativeMethods.SystemInfo();
-                SafeNativeMethods.GetSystemInfo(ref pInfo);
+                if (_isFirstGetProcessorRevision) {
+                    _isFirstGetProcessorRevision = false;
+                    SafeNativeMethods.SystemInfo pInfo = new SafeNativeMethods.SystemInfo();
+                    SafeNativeMethods.GetSystemInfo(ref pInfo);
 
-                return pInfo.dwProcessorRevision.ToString();
+                    _processorRevision = pInfo.dwProcessorRevision.ToString();
+                }
+                return _processorRevision;
             }
         }
 
+        private static bool _isFirstGetProcessorArchitecture = true;
+        private static string _processorArchitecture;
         /// <summary>
         /// Gets the processor's architecture
         /// </summary>
         public string ProcessorArchitecture {
             get {
-                return DetermineArchitecture();
+                if (_isFirstGetProcessorArchitecture) {
+                    _isFirstGetProcessorArchitecture = false;
+                    _processorArchitecture = DetermineArchitecture();
+                }
+                return _processorArchitecture;
             }
         }
 
