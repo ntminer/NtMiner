@@ -21,12 +21,17 @@ namespace NTMiner.Core.Impl {
         protected abstract void DoCheckIsOnline(IEnumerable<ClientData> clientDatas);
 
         private readonly bool _isPull;
-        public ClientDataSetBase(bool isPull, Action<Action<IEnumerable<MinerData>>> getAllData) {
+        /// <summary>
+        /// 这里挺绕，逻辑是由父类向子类传入一个接收一个矿工列表的方法，然后由子类调用该方法时传入矿工列表，从而父类收到了来自子类的矿工列表。
+        /// </summary>
+        /// <param name="isPull"></param>
+        /// <param name="getDatas"></param>
+        public ClientDataSetBase(bool isPull, Action<Action<IEnumerable<MinerData>>> getDatas) {
             _isPull = isPull;
-            getAllData((minerDatas) => {
+            getDatas(datas => {
                 InitedOn = DateTime.Now;
                 IsReadied = true;
-                foreach (var item in minerDatas) {
+                foreach (var item in datas) {
                     var data = ClientData.Create(item);
                     if (!_dicByObjectId.ContainsKey(item.Id)) {
                         _dicByObjectId.Add(item.Id, data);
