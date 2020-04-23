@@ -1,12 +1,25 @@
 ﻿using NTMiner.ServerNode;
-using System;
+using System.Web.Http;
 
 namespace NTMiner.Controllers {
-    public class WebApiServerNodeController : IWebApiServerNodeController {
+    public class WebApiServerNodeController : ApiControllerBase, IWebApiServerNodeController {
         public WebApiServerNodeController() { }
 
+        [HttpGet]
+        [HttpPost]
         public DataResponse<WebApiServerState> GetServerState(SignRequest request) {
-            throw new NotImplementedException();
+            if (request == null) {
+                return ResponseBase.InvalidInput<DataResponse<WebApiServerState>>("参数错误");
+            }
+            if (!IsValidAdmin(request, out DataResponse<WebApiServerState> response)) {
+                return response;
+            }
+            return new DataResponse<WebApiServerState> {
+                StateCode = 200,
+                ReasonPhrase = "Ok",
+                Description = "成功",
+                Data = WebApiRoot.GetServerState()
+            };
         }
     }
 }

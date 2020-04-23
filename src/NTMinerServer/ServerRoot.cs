@@ -26,5 +26,16 @@ namespace NTMiner {
                 return _hostConfig;
             }
         }
+
+        public static int GetCpuPerformance() {
+            // TODO:
+            return 0;
+        }
+
+        public static void GetPhysicalMemoryMb(out int totalPhysicalMemoryMb, out int availablePhysicalMemoryMb) {
+            totalPhysicalMemoryMb = 0;
+            availablePhysicalMemoryMb = 0;
+            // TODO:
+        }
     }
 }

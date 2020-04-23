@@ -186,7 +186,7 @@ namespace NTMiner {
         /// </summary>
         /// <param name="jsonVersionKey">server.json的版本</param>
         /// <returns></returns>
-        public static ServerStateResponse ServerStateResponse(string jsonVersionKey) {
+        public static ServerStateResponse GetServerStateResponse(string jsonVersionKey) {
             string jsonVersion = string.Empty;
             string minerClientVersion = string.Empty;
             try {
@@ -209,6 +209,18 @@ namespace NTMiner {
                 MessageTimestamp = Timestamp.GetTimestamp(ServerMessageTimestamp),
                 OutputKeywordTimestamp = Timestamp.GetTimestamp(KernelOutputKeywordTimestamp),
                 WsStatus = WsServerNodeSet.WsStatus
+            };
+        }
+
+        public static WebApiServerState GetServerState() {
+            ServerRoot.GetPhysicalMemoryMb(out int totalPhysicalMemoryMb, out int awailablePhysicalMemoryMb);
+            return new WebApiServerState {
+                WsServerNodes = WsServerNodeSet.AsEnumerable().ToList(),
+                Address = ServerRoot.HostConfig.ThisServerAddress,
+                Description = string.Empty,
+                CpuPerformance = ServerRoot.GetCpuPerformance(),
+                TotalPhysicalMemoryMb = totalPhysicalMemoryMb,
+                AvailablePhysicalMemoryMb = awailablePhysicalMemoryMb
             };
         }
 
