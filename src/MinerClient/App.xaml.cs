@@ -165,7 +165,7 @@ namespace NTMiner {
                                 Firewall.AddMinerClientRule();
                             }
                             try {
-                                HttpServer.Start($"http://localhost:{NTKeyword.MinerClientPort.ToString()}");
+                                HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.MinerClientPort.ToString()}");
                                 Daemon.DaemonUtil.RunNTMinerDaemon();
                                 NoDevFee.NoDevFeeUtil.RunNTMinerNoDevFee();
                             }

@@ -67,7 +67,7 @@ namespace NTMiner {
                             VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: true));
                         }, location: this.GetType());
                         #endregion
-                        HttpServer.Start($"http://localhost:{NTKeyword.MinerStudioPort.ToString()}");
+                        HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.MinerStudioPort.ToString()}");
                     });
                 }, btnCloseClick: () => {
                     Shutdown();
