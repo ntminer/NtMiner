@@ -95,14 +95,14 @@ namespace NTMiner.Windows {
         /// Gets the amount of unreserved and uncommitted memory currently in the user-mode 
         /// portion of the virtual address space of the calling process, in bytes.
         /// </summary>
-        public string AvailableVirtual {
+        public ulong AvailableVirtual {
             get {
                 MemoryStatusEx mEx = new MemoryStatusEx();
                 if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
-                    return Convert.ToString(mEx.ullAvailVirtual);
+                    return mEx.ullAvailVirtual;
                 }
 
-                return "";
+                return 0;
             }
         }
 
