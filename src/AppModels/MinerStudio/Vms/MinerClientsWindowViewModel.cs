@@ -96,8 +96,8 @@ namespace NTMiner.MinerStudio.Vms {
                 Kernel = this.Kernel,
                 SortDirection = SortDirection
             }, (response, exception) => {
+                this.CountDown = 10;
                 if (response.IsSuccess()) {
-                    this.CountDown = 10;
                     #region 处理Response.Data
                     if (_lastSortDirection == this.SortDirection) {
                         UIThread.Execute(() => () => {
@@ -308,6 +308,7 @@ namespace NTMiner.MinerStudio.Vms {
                                             item.OnPropertyChanged(nameof(item.WorkerName));
                                         }
                                     }
+                                    // TODO:考虑是否应该只刷新选中的矿机以消减网络流量
                                     QueryMinerClients();
                                 }
                             });
@@ -347,6 +348,7 @@ namespace NTMiner.MinerStudio.Vms {
                                 VirtualRoot.Out.ShowError("删除矿机失败：" + response.ReadMessage(e), autoHideSeconds: 4, toConsole: true);
                             }
                             else {
+                                // TODO:考虑是否应该只刷新选中的矿机以消减网络流量
                                 QueryMinerClients();
                             }
                         });
