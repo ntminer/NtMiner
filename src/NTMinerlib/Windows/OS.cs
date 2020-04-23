@@ -10,6 +10,12 @@ namespace NTMiner.Windows {
 
         #region Properties
 
+        public string OsInfo {
+            get {
+                return $"{WindowsEdition} {Is64BitOperatingSystem} {CurrentBuild} {CSDVersion}";
+            }
+        }
+
         // for a class related to an OS. There are multiple possibilities here.
         private string _windowsEdition;
         /// <summary>

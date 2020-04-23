@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NTMiner.ServerNode;
 using OpenHardwareMonitor.Hardware;
 using System;
 using System.Diagnostics;
@@ -11,6 +12,18 @@ namespace NTMiner.Windows {
         public static readonly Cpu Instance = new Cpu();
 
         private Cpu() { }
+
+        public CpuData ToData() {
+            return new CpuData {
+                ClockSpeed = this.ClockSpeed,
+                Identifier = this.Identifier,
+                Name = this.Name,
+                NumberOfLogicalCores = this.NumberOfLogicalCores,
+                ProcessorArchitecture = this.ProcessorArchitecture,
+                ProcessorLevel = this.ProcessorLevel,
+                VendorIdentifier = this.VendorIdentifier
+            };
+        }
 
         private double _performance = 0.0f;
         public void GetSensorValue(out double performance, out float temperature, out double power) {

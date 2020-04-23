@@ -213,11 +213,19 @@ namespace NTMiner {
         }
 
         public static WebApiServerState GetServerState() {
+            var ram = Windows.Ram.Instance;
+            var cpu = Windows.Cpu.Instance;
+            cpu.GetSensorValue(out double performance, out float temperature, out double _);
             return new WebApiServerState {
                 WsServerNodes = WsServerNodeSet.AsEnumerable().ToList(),
                 Address = ServerRoot.HostConfig.ThisServerAddress,
                 Description = string.Empty,
-                // TODO:
+                AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
+                TotalPhysicalMemory = ram.TotalPhysicalMemory,
+                Cpu = cpu.ToData(),
+                OSInfo = Windows.OS.Instance.OsInfo,
+                CpuPerformance = performance,
+                CpuTemperature = temperature
             };
         }
 

@@ -42,10 +42,7 @@
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="操作系统"></TextBlock>
-					<TextBlock Text="{Binding OS.WindowsEdition}"></TextBlock>
-					<TextBlock Text="{Binding OS.Is64BitOperatingSystem}" Margin="4 0 0 0"></TextBlock>
-					<TextBlock Text="{Binding OS.CurrentBuild}" Margin="4 0 0 0"></TextBlock>
-					<TextBlock Text="{Binding OS.CSDVersion}" Margin="4 0 0 0"></TextBlock>
+                    <TextBlock Text="{Binding OS.OsInfo}"></TextBlock>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="物理内存"></TextBlock>

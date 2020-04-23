@@ -72,6 +72,9 @@ namespace NTMiner.Core.Impl {
             if (WsRoot.MinerStudioSessionSet.TryGetWsSessions(out wsSessionManager)) {
                 minerStudioWsSessionCount = wsSessionManager.Count;
             }
+            var ram = Windows.Ram.Instance;
+            var cpu = Windows.Cpu.Instance;
+            cpu.GetSensorValue(out double performance, out float temperature, out double _);
             RpcRoot.OfficialServer.WsServerNodeService.ReportNodeStateAsync(new WsServerNodeState {
                 Address = ServerRoot.HostConfig.ThisServerAddress,
                 Description = string.Empty,
@@ -79,7 +82,12 @@ namespace NTMiner.Core.Impl {
                 MinerStudioSessionCount = WsRoot.MinerStudioSessionSet.Count,
                 MinerClientWsSessionCount = minerClientWsSessionCount,
                 MinerStudioWsSessionCount = minerStudioWsSessionCount,
-                // TODO:
+                Cpu = cpu.ToData(),
+                TotalPhysicalMemory = ram.TotalPhysicalMemory,
+                AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
+                OSInfo = Windows.OS.Instance.OsInfo,
+                CpuPerformance = performance,
+                CpuTemperature = temperature
             }, (response, e) => {
                 if (response.IsSuccess()) {
                     Write.UserOk("呼吸成功");
