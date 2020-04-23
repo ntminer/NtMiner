@@ -94,15 +94,13 @@ namespace NTMiner.Windows {
 
         #region Properties
 
-        private static bool _isFirstGetCpuName = true;
         private static string _cpuName;
         /// <summary>
         /// Gets the name of the processor.
         /// </summary>
         public string Name {
             get {
-                if (_isFirstGetCpuName) {
-                    _isFirstGetCpuName = false;
+                if (string.IsNullOrEmpty(_cpuName)) {
                     _cpuName = RetrieveProcessorInfo("ProcessorNameString");
                 }
                 return _cpuName;
@@ -120,60 +118,52 @@ namespace NTMiner.Windows {
             }
         }
 
-        private static bool _isFirstGetClockSpeed = true;
         private static string _clockSpeed;
         /// <summary>
         /// Gets the clock speed in MHz
         /// </summary>
         public string ClockSpeed {
             get {
-                if (_isFirstGetClockSpeed) {
-                    _isFirstGetClockSpeed = false;
+                if (string.IsNullOrEmpty(_clockSpeed)) {
                     _clockSpeed = RetrieveProcessorInfo("~MHz") + " MHz";
                 }
                 return _clockSpeed;
             }
         }
 
-        private static bool _isFirstGetIdentifier = true;
         private static string _identifier;
         /// <summary>
         /// Gets the name of the processor.
         /// </summary>
         public string Identifier {
             get {
-                if (_isFirstGetIdentifier) {
-                    _isFirstGetIdentifier = false;
+                if (string.IsNullOrEmpty(_identifier)) {
                     _identifier = RetrieveProcessorInfo("Identifier");
                 }
                 return _identifier;
             }
         }
 
-        private static bool _isFirstGetVendorIdentifier = true;
         private static string _vendorIdentifier;
         /// <summary>
         /// Gets the vendor identifier of the processor.
         /// </summary>
         public string VendorIdentifier {
             get {
-                if (_isFirstGetVendorIdentifier) {
-                    _isFirstGetVendorIdentifier = false;
+                if (string.IsNullOrEmpty(_vendorIdentifier)) {
                     _vendorIdentifier = RetrieveProcessorInfo("VendorIdentifier");
                 }
                 return _vendorIdentifier;
             }
         }
 
-        private static bool _isFirstGetProcessorLevel = true;
         private static string _processorLevel;
         /// <summary>
         /// Gets the architecture-dependent processor level. 
         /// </summary>
         public string ProcessorLevel {
             get {
-                if (_isFirstGetProcessorLevel) {
-                    _isFirstGetProcessorLevel = false;
+                if (string.IsNullOrEmpty(_processorLevel)) {
                     SafeNativeMethods.SystemInfo pInfo = new SafeNativeMethods.SystemInfo();
                     SafeNativeMethods.GetSystemInfo(ref pInfo);
                     _processorLevel = pInfo.dwProcessorLevel.ToString();
@@ -182,15 +172,13 @@ namespace NTMiner.Windows {
             }
         }
 
-        private static bool _isFirstGetProcessorRevision = true;
         private static string _processorRevision;
         /// <summary>
         /// Gets the current processor's revision
         /// </summary>
         public string ProcessorRevision {
             get {
-                if (_isFirstGetProcessorRevision) {
-                    _isFirstGetProcessorRevision = false;
+                if (string.IsNullOrEmpty(_processorRevision)) {
                     SafeNativeMethods.SystemInfo pInfo = new SafeNativeMethods.SystemInfo();
                     SafeNativeMethods.GetSystemInfo(ref pInfo);
 
@@ -200,15 +188,13 @@ namespace NTMiner.Windows {
             }
         }
 
-        private static bool _isFirstGetProcessorArchitecture = true;
         private static string _processorArchitecture;
         /// <summary>
         /// Gets the processor's architecture
         /// </summary>
         public string ProcessorArchitecture {
             get {
-                if (_isFirstGetProcessorArchitecture) {
-                    _isFirstGetProcessorArchitecture = false;
+                if (string.IsNullOrEmpty(_processorArchitecture)) {
                     _processorArchitecture = DetermineArchitecture();
                 }
                 return _processorArchitecture;
@@ -237,8 +223,7 @@ namespace NTMiner.Windows {
         /// <param name="key">Value to get from a key</param>
         /// <param name="specificLogicalProcessor">Which logical processor info is retrieved from. 0 represents the first core, etc.</param>
         /// <returns>The key value</returns>
-        private string RetrieveProcessorInfo(string key) //int specificLogicalProcessor)
-        {
+        private string RetrieveProcessorInfo(string key) {
             // NOTE: Remove the 0 when the functionality to retrieve info from other virtual cores is implemented
             // + specificLogicalProcessor);
             using (RegistryKey rkey = Registry.LocalMachine.OpenSubKey("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0")) {

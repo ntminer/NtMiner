@@ -11,31 +11,42 @@ namespace NTMiner.Windows {
         #region Properties
 
         // for a class related to an OS. There are multiple possibilities here.
-
+        private string _windowsEdition;
         /// <summary>
         /// Gets the name of the edition of Windows that is installed
         /// </summary>
         public string WindowsEdition {
             get {
-                return RetrieveWindowsInfo("ProductName");
+                if (string.IsNullOrEmpty(_windowsEdition)) {
+                    _windowsEdition = RetrieveWindowsInfo("ProductName");
+                }
+                return _windowsEdition;
             }
         }
 
+        private string _currentBuild;
         /// <summary>
         /// Gets the current build number of Windows
         /// </summary>
         public string CurrentBuild {
             get {
-                return RetrieveWindowsInfo("CurrentBuild");
+                if (string.IsNullOrEmpty(_currentBuild)) {
+                    _currentBuild = RetrieveWindowsInfo("CurrentBuild");
+                }
+                return _currentBuild;
             }
         }
 
+        private string _csdVersion;
         /// <summary>
         /// Gets a string for which service pack is installed on the system.
         /// </summary>
         public string CSDVersion {
             get {
-                return GetCSDVersion();
+                if (string.IsNullOrEmpty(_csdVersion)) {
+                    _csdVersion = GetCSDVersion();
+                }
+                return _csdVersion;
             }
         }
 
@@ -45,15 +56,6 @@ namespace NTMiner.Windows {
         public string Is64BitOperatingSystem {
             get {
                 return Environment.Is64BitOperatingSystem ? "64bit" : "32bit";
-            }
-        }
-
-        /// <summary>
-        /// Gets the system folder path for Windows
-        /// </summary>
-        public string SystemFolder {
-            get {
-                return Environment.GetEnvironmentVariable("SystemRoot");
             }
         }
 
@@ -120,47 +122,6 @@ namespace NTMiner.Windows {
 
             return "";
         }
-
-
-        /// <summary>
-        /// Decodes the encoded  binary registry key that contains Windows' product key 
-        /// </summary>
-        /// <returns>The decoded product key as a string</returns>
-        private string DecodeProductKey() {
-            // This view is basically what determines which version of the registry the program will access depending
-            // on what [x]-bit version of the OS you are running.
-            RegistryView view = Environment.Is64BitOperatingSystem ? RegistryView.Registry64 : RegistryView.Registry32;
-
-            RegistryKey rkey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, view);
-            byte[] digitalProductId = (byte[])rkey.OpenSubKey(@"SOFTWARE\Microsoft\Windows NT\CurrentVersion").GetValue("DigitalProductId");
-
-            // Close the key, since the data we need is retrieved
-            rkey.Close();
-
-            const string allowedChars = "BCDFGHJKMPQRTVWXY2346789";
-            char[] decodedChars = new char[29];
-            byte[] hexPid = new byte[15];
-
-            Array.Copy(digitalProductId, 52, hexPid, 0, 15);
-
-            for (int i = 29 - 1; i >= 0; i--) {
-                if ((i + 1) % 6 == 0) {
-                    decodedChars[i] = '-';
-                }
-                else {
-                    int digitMapIndex = 0;
-                    for (int j = 14; j >= 0; j--) {
-                        int byteValue = (digitMapIndex << 8) | hexPid[j];
-                        hexPid[j] = (byte)(byteValue / 24);
-                        digitMapIndex = byteValue % 24;
-                        decodedChars[i] = allowedChars[digitMapIndex];
-                    }
-                }
-            }
-
-            return new string(decodedChars);
-        }
-
         #endregion
     }
 }
