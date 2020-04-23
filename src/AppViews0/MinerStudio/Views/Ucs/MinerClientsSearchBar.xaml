@@ -50,7 +50,7 @@
                 </controls:KbButton.ContextMenu>
                 <WrapPanel>
                     <TextBlock 
-                        Width="120" 
+                        Width="100" 
                         Padding="3 3 16 3" 
                         Foreground="Black" 
                         Background="White" 
@@ -89,7 +89,7 @@
                 </controls:KbButton.ContextMenu>
                 <WrapPanel>
                     <TextBlock 
-                        Width="120" 
+                        Width="100" 
                         Padding="3 3 16 3" 
                         Foreground="Black" 
                         Background="White" 
@@ -117,6 +117,7 @@
                 VerticalContentAlignment="Center" 
                 Width="70" 
                 Height="24"
+                ToolTip="关键字"
                 Text="{Binding MinerName}" 
                 Background="White"></TextBox>
         </WrapPanel>
@@ -134,7 +135,7 @@
                 <TextBlock Style="{StaticResource LblTbBase}">矿池</TextBlock>
                 <TextBox 
                     x:Name="TbPool"
-                    ToolTip="选定具体币种后可见下拉列表"
+                    ToolTip="填完整地址，形如：eth.f2pool.com:8008"
                     HorizontalAlignment="Left" 
                     VerticalContentAlignment="Center" 
                     Text="{Binding Pool}" 
@@ -225,7 +226,7 @@
                 <TextBlock Style="{StaticResource LblTbBase}">内核</TextBlock>
                 <TextBox 
                     VerticalContentAlignment="Center" 
-                    ToolTip="内核名以此为前缀的内核" 
+                    ToolTip="关键字" 
                     Width="90" 
                     Height="24"
                     Text="{Binding Kernel}" 
@@ -262,7 +263,7 @@
             <TextBlock Style="{StaticResource LblTbBase}">显卡名</TextBlock>
             <TextBox 
                 VerticalContentAlignment="Center" 
-                ToolTip="显卡名关键字" 
+                ToolTip="关键字" 
                 Width="60" 
                 Height="24"
                 Text="{Binding GpuName}" 
@@ -272,7 +273,7 @@
             <TextBlock Style="{StaticResource LblTbBase}">显卡驱动</TextBlock>
             <TextBox 
                 VerticalContentAlignment="Center" 
-                ToolTip="显卡驱动版本关键字" 
+                ToolTip="关键字" 
                 Width="60" 
                 Height="24"
                 Text="{Binding GpuDriver}" 
