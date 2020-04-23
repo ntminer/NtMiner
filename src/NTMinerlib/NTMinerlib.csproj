@@ -37,6 +37,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="OpenHardwareMonitorLib">
+      <HintPath>..\ThirdPartyDlls\OpenHardwareMonitorLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Management" />
   </ItemGroup>
@@ -78,6 +81,10 @@
     <Compile Include="VirtualRoot.partials.LocalIpSet.cs" />
     <Compile Include="VirtualRoot.partials.LocalMessage.cs" />
     <Compile Include="Windows\ConsoleHandler.cs" />
+    <Compile Include="Windows\Cpu.cs" />
+    <Compile Include="Windows\NativeMethods.cs" />
+    <Compile Include="Windows\OS.cs" />
+    <Compile Include="Windows\Ram.cs" />
     <Compile Include="Windows\WinRegistry.cs" />
     <Compile Include="Windows\Role.cs" />
     <Compile Include="Windows\Cmd.cs" />

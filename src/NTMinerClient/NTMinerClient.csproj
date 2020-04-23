@@ -57,9 +57,6 @@
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
-    <Reference Include="OpenHardwareMonitorLib">
-      <HintPath>..\ThirdPartyDlls\OpenHardwareMonitorLib.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Management" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -224,15 +221,11 @@
     <Compile Include="Core\MinerStudio\IUserAppSettingSet.cs" />
     <Compile Include="Windows\BcdEdit.cs" />
     <Compile Include="Windows\Defender.cs" />
-    <Compile Include="Windows\NativeMethods.cs" />
     <Compile Include="Windows\Error.cs" />
     <Compile Include="Windows\Power.cs" />
     <Compile Include="Windows\UAC.cs" />
     <Compile Include="Windows\WAU.cs" />
     <Compile Include="Windows\Bios.cs" />
-    <Compile Include="Windows\OS.cs" />
-    <Compile Include="Windows\Cpu.cs" />
-    <Compile Include="Windows\Ram.cs" />
     <Compile Include="Windows\WindowsSessionSwitchReason.cs" />
     <Compile Include="Windows\WMI.cs" />
     <Compile Include="ZipUtil.cs" />

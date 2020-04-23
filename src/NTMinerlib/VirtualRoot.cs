@@ -3,6 +3,7 @@ using NTMiner.Core;
 using NTMiner.Core.MinerServer;
 using NTMiner.Repositories;
 using NTMiner.Serialization;
+using OpenHardwareMonitor.Hardware;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -38,6 +39,28 @@ namespace NTMiner {
                 }
             }
             return localIp;
+        }
+        #endregion
+
+        #region 电脑硬件
+        private static Computer _computer = null;
+        public static Computer Computer {
+            get {
+                if (_computer == null) {
+                    lock (_locker) {
+                        if (_computer == null) {
+                            _computer = new Computer();
+                            _computer.Open();
+                            _computer.CPUEnabled = true;
+                            AddEventPath<AppExitEvent>($"程序退出时关闭OpenHardwareMonitor", LogEnum.None,
+                                message => {
+                                    _computer?.Close();
+                                }, typeof(VirtualRoot));
+                        }
+                    }
+                }
+                return _computer;
+            }
         }
         #endregion
 
