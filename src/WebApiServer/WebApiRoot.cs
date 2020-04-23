@@ -1,5 +1,6 @@
 ﻿using Aliyun.OSS;
 using LiteDB;
+using NTMiner.Controllers;
 using NTMiner.Core;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Mq.MqMessagePaths;
@@ -10,6 +11,8 @@ using NTMiner.ServerNode;
 using System;
 using System.Linq;
 using System.Threading;
+using System.Web.Http;
+using System.Web.Routing;
 
 namespace NTMiner {
     public static class WebApiRoot {
@@ -51,7 +54,7 @@ namespace NTMiner {
                         string queue = $"{ServerAppType.WebApiServer.GetName()}.{ServerRoot.HostConfig.ThisServerAddress}";
                         string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
                         AbstractMqMessagePath[] mqMessagePaths = new AbstractMqMessagePath[] {
-                            new UserMqMessagePath(durableQueue), 
+                            new UserMqMessagePath(durableQueue),
                             new MinerClientMqMessagePath(queue)
                         };
                         _serverContext = ServerContext.Create(mqClientTypeName: ServerAppType.WebApiServer.GetName(), mqMessagePaths);
@@ -126,7 +129,12 @@ namespace NTMiner {
         private static void Run() {
             try {
                 string baseAddress = $"http://localhost:{ServerRoot.HostConfig.GetServerPort().ToString()}";
-                HttpServer.Start(baseAddress);
+                HttpServer.Start(baseAddress, doConfig: config => {
+                    config.Routes.MapHttpRoute("CalcConfigs", "api/ControlCenter/CalcConfigs", new {
+                        controller = RpcRoot.GetControllerName<ICalcConfigController>(),
+                        action = nameof(ICalcConfigController.CalcConfigs)
+                    });
+                });
                 Windows.ConsoleHandler.Register(Close);
                 WaitHandle.WaitOne();
                 Close();

@@ -12,8 +12,7 @@ namespace NTMiner.Services.Official {
 
         #region GetCalcConfigsAsync
         public void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {
-            CalcConfigsRequest request = new CalcConfigsRequest();
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(ICalcConfigController.CalcConfigs), request, (DataResponse<List<CalcConfigData>> response, Exception e) => {
+            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(ICalcConfigController.CalcConfigs), null, (DataResponse<List<CalcConfigData>> response, Exception e) => {
                 if (response.IsSuccess()) {
                     callback?.Invoke(response.Data);
                 }

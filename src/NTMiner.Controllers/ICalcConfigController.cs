@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
     public interface ICalcConfigController {
-        DataResponse<List<CalcConfigData>> CalcConfigs(CalcConfigsRequest request);
+        DataResponse<List<CalcConfigData>> CalcConfigs();
         ResponseBase SaveCalcConfigs(SaveCalcConfigsRequest request);
     }
 }

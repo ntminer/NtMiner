@@ -186,7 +186,6 @@
     <Compile Include="Core\MinerServer\ExportMineWorkRequest.cs" />
     <Compile Include="NTMinerAppType.cs" />
     <Compile Include="Core\MinerServer\CalcConfigData.cs" />
-    <Compile Include="Core\MinerServer\CalcConfigsRequest.cs" />
     <Compile Include="Core\MinerServer\ClientData.cs" />
     <Compile Include="Core\MinerStudio\ColumnsShowData.cs" />
     <Compile Include="Core\MinerStudio\IColumnsShow.cs" />
