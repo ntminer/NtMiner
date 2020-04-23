@@ -135,6 +135,7 @@ namespace NTMiner {
             if (!_isClosed) {
                 _isClosed = true;
                 RaiseEvent(new AppExitEvent());
+                RpcRoot.RpcUser?.Logout();
                 NTMinerConsole.Free();
                 _sMutexApp?.Dispose();
                 Environment.Exit(0);

@@ -27,6 +27,7 @@ namespace NTMiner {
 
         protected override void OnExit(ExitEventArgs e) {
             VirtualRoot.RaiseEvent(new AppExitEvent());
+            RpcRoot.RpcUser?.Logout();
             base.OnExit(e);
             NTMinerConsole.Free();
         }

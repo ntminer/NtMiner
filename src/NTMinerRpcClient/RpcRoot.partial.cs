@@ -19,6 +19,9 @@ namespace NTMiner {
         }
 
         public static void SetRpcUser(RpcUser rpcUser, bool isOuterNet) {
+            if (RpcUser != null) {
+                RpcUser.Logout();
+            }
             RpcUser = rpcUser;
             IsOuterNet = isOuterNet;
         }

@@ -1,6 +1,8 @@
 ﻿using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using System.Security;
 using System.Text;
 
 namespace NTMiner {
@@ -43,7 +45,40 @@ namespace NTMiner {
 
         public string LoginName { get; private set; }
 
-        public string Password { get; private set; }
+        public string Password {
+            get { return GetPassword(); }
+            private set {
+                SetPassword(value);
+            }
+        }
+
+        private IntPtr ptr = IntPtr.Zero;
+        private void SetPassword(string password) {
+            if (string.IsNullOrEmpty(password)) {
+                return;
+            }
+            SecureString secureString = new SecureString();
+            foreach (var c in password.ToCharArray()) {
+                secureString.AppendChar(c);
+            }
+            if (ptr != IntPtr.Zero) {
+                Marshal.ZeroFreeBSTR(ptr);
+            }
+            ptr = Marshal.SecureStringToBSTR(secureString);
+        }
+
+        private string GetPassword() {
+            if (ptr == IntPtr.Zero) {
+                return string.Empty;
+            }
+            return Marshal.PtrToStringBSTR(ptr);
+        }
+
+        public void Logout() {
+            if (ptr != IntPtr.Zero) {
+                Marshal.ZeroFreeBSTR(ptr);
+            }
+        }
 
         /// <summary>
         /// 对给定的数据和内部附加的时间戳进行签名，传入的签名数据可以为null，此时相当于只签名内部附加的时间戳。
