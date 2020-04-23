@@ -136,9 +136,9 @@ namespace NTMiner {
         public void EncDecTest() {
             for (int i = 0; i < 100; i++) {
                 string input = Guid.NewGuid().ToString();
-                string secText = Convert.ToBase64String(HashUtil.TextEncrypt(input, "this is a test"));
+                string secText = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(input, "this is a test"));
                 Console.WriteLine(secText);
-                Assert.AreEqual(input, HashUtil.TextDecrypt(Convert.FromBase64String(secText), "this is a test"));
+                Assert.AreEqual(input, Cryptography.QuickUtil.TextDecrypt(Convert.FromBase64String(secText), "this is a test"));
             }
         }
 

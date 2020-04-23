@@ -10,7 +10,7 @@ namespace NTMiner.Cryptography {
     /// 反正公钥加密 私匙来解密
     /// 需要BigInteger类来辅助
     /// </summary>
-    public static class RSAHelper {
+    public static class RSAUtil {
         /// <summary>
         /// RSA的容器 可以解密的源字符串长度为 DwKeySize/8-11 
         /// 增量为 8 位支持 384 位至 16384 位的密钥大小

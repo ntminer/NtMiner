@@ -247,7 +247,7 @@ namespace NTMiner.Ws {
                         case NTMinerAppType.MinerClient:
                             if (message.Type == WsMessage.UpdateAESPassword) {
                                 if (message.TryGetData(out AESPassword aesPassword)) {
-                                    aesPassword.Password = Cryptography.RSAHelper.DecryptString(aesPassword.Password, aesPassword.PublicKey);
+                                    aesPassword.Password = Cryptography.RSAUtil.DecryptString(aesPassword.Password, aesPassword.PublicKey);
                                     _aesPassword = aesPassword;
                                 }
                                 return;

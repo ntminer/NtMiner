@@ -594,7 +594,7 @@ namespace NTMiner.Core.MinerServer {
                 return _windowsPassword;
             }
             set {
-                if (!HashUtil.IsBase64OrEmpty(value)) {
+                if (!Base64Util.IsBase64OrEmpty(value)) {
                     value = string.Empty;
                 }
                 _windowsPassword = value;

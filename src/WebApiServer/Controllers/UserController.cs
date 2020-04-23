@@ -226,7 +226,7 @@ namespace NTMiner.Controllers {
 
             // TODO:验证手机验证码，注册时如果填写了手机则验证手机验证码，更新用户信息时如果变动了手机则验证手机验证码。
             // 验证验证码的存在性以及手机和验证码的对应关系的正确性而不是只验证验证码的存在性。
-            var key = Cryptography.RSAHelper.GetRASKey();
+            var key = Cryptography.RSAUtil.GetRASKey();
             UserData userData = request.ToUserData(key.PublicKey, key.PrivateKey);
             WebApiRoot.UserSet.Add(userData);
 

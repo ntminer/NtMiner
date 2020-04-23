@@ -41,7 +41,7 @@ namespace NTMiner {
                 minerSign.LoginName = userData.LoginName;
             }
             if (string.IsNullOrEmpty(userData.PublicKey) || string.IsNullOrEmpty(userData.PrivateKey)) {
-                var key = Cryptography.RSAHelper.GetRASKey();
+                var key = Cryptography.RSAUtil.GetRASKey();
                 userData.PublicKey = key.PublicKey;
                 userData.PrivateKey = key.PrivateKey;
                 WsRoot.UserMqSender.SendUpdateUserRSAKey(userData.LoginName, key);
@@ -49,13 +49,13 @@ namespace NTMiner {
             DateTime now = DateTime.Now;
             if (string.IsNullOrEmpty(minerSign.AESPassword) || minerSign.AESPasswordOn.AddDays(1) < now) {
                 isMinerSignChanged = true;
-                minerSign.AESPassword = Cryptography.AESHelper.GetRandomPassword();
+                minerSign.AESPassword = Cryptography.AESUtil.GetRandomPassword();
                 minerSign.AESPasswordOn = now;
             }
             base.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.UpdateAESPassword) {
                 Data = new AESPassword {
                     PublicKey = userData.PublicKey,
-                    Password = Cryptography.RSAHelper.EncryptString(minerSign.AESPassword, userData.PrivateKey)
+                    Password = Cryptography.RSAUtil.EncryptString(minerSign.AESPassword, userData.PrivateKey)
                 }
             }.SignToJson(minerSign.AESPassword), completed: null);
             if (isMinerSignChanged) {

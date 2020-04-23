@@ -598,11 +598,11 @@ namespace NTMiner.MinerStudio.Vms {
                 if (string.IsNullOrEmpty(_data.WindowsPassword)) {
                     return string.Empty;
                 }
-                return HashUtil.TextDecrypt(Convert.FromBase64String(_data.WindowsPassword), RpcRoot.RpcUser.Password);
+                return Cryptography.QuickUtil.TextDecrypt(Convert.FromBase64String(_data.WindowsPassword), RpcRoot.RpcUser.Password);
             }
             set {
                 if (!string.IsNullOrEmpty(value)) {
-                    value = Convert.ToBase64String(HashUtil.TextEncrypt(value, RpcRoot.RpcUser.Password));
+                    value = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(value, RpcRoot.RpcUser.Password));
                 }
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;

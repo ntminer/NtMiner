@@ -97,11 +97,11 @@
     <Compile Include="..\ntminerlib\cryptography\BigInteger.cs">
       <Link>Cryptography\BigInteger.cs</Link>
     </Compile>
-    <Compile Include="..\ntminerlib\cryptography\RSAHelper.cs">
-      <Link>Cryptography\RSAHelper.cs</Link>
-    </Compile>
     <Compile Include="..\ntminerlib\cryptography\RSAKey.cs">
       <Link>Cryptography\RSAKey.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\Cryptography\RSAUtil.cs">
+      <Link>Cryptography\RSAUtil.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\DataExtensions.cs">
       <Link>DataExtensions.cs</Link>

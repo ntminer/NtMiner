@@ -43,15 +43,16 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
-    <Compile Include="Cryptography\AESHelper.partials.cs" />
+    <Compile Include="Cryptography\AESUtil.cs" />
     <Compile Include="Cryptography\BigInteger.cs" />
+    <Compile Include="Cryptography\QuickUtil.cs" />
     <Compile Include="Cryptography\RSAKey.cs" />
     <Compile Include="Net\Hosts.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="NTMinerRegistry.partials.cs" />
     <Compile Include="Net\IpUtil.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
-    <Compile Include="Cryptography\RSAHelper.cs" />
+    <Compile Include="Cryptography\RSAUtil.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />

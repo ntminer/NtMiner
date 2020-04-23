@@ -87,7 +87,19 @@ namespace NTMiner.Core.MinerServer {
         public string MACAddress { get; set; }
         public string WindowsLoginName { get; set; }
 
-        public string WindowsPassword { get; set; }
+        private string _windowsPassword;
+        public string WindowsPassword {
+            get {
+                return _windowsPassword;
+            }
+            set {
+                if (!Base64Util.IsBase64OrEmpty(value)) {
+                    value = string.Empty;
+                }
+                _windowsPassword = value;
+            }
+        }
+
         public DateTime CreatedOn { get; set; }
         public Guid GroupId { get; set; }
     }
