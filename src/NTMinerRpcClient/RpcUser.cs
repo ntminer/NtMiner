@@ -57,14 +57,15 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(password)) {
                 return;
             }
-            SecureString secureString = new SecureString();
-            foreach (var c in password.ToCharArray()) {
-                secureString.AppendChar(c);
+            using (SecureString secureString = new SecureString()) {
+                foreach (var c in password.ToCharArray()) {
+                    secureString.AppendChar(c);
+                }
+                if (ptr != IntPtr.Zero) {
+                    Marshal.ZeroFreeBSTR(ptr);
+                }
+                ptr = Marshal.SecureStringToBSTR(secureString);
             }
-            if (ptr != IntPtr.Zero) {
-                Marshal.ZeroFreeBSTR(ptr);
-            }
-            ptr = Marshal.SecureStringToBSTR(secureString);
         }
 
         private string GetPassword() {
@@ -75,6 +76,8 @@ namespace NTMiner {
         }
 
         public void Logout() {
+            this.LoginName = string.Empty;
+            this.LoginedUser = LoginedUser.Empty;
             if (ptr != IntPtr.Zero) {
                 Marshal.ZeroFreeBSTR(ptr);
             }
