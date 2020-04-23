@@ -110,6 +110,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\OverClockDataController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
+    <Compile Include="Controllers\WebApiServerNodeController.cs" />
     <Compile Include="Controllers\WsServerNodeController.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\ICaptchaSet.cs" />

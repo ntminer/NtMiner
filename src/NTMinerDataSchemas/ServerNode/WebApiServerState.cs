@@ -1,9 +1,12 @@
-﻿namespace NTMiner.ServerNode {
+﻿using System.Collections.Generic;
+
+namespace NTMiner.ServerNode {
     /// <summary>
     /// 这是返回给群控客户端的服务端状态模型，是只有admin才能看到的服务端状态信息。
     /// </summary>
     public class WebApiServerState : IServerState, IServerStateResponse {
         public WebApiServerState() {
+            this.WsServerNodes = new List<WsServerNodeState>();
         }
 
         public string Address { get; set; }
@@ -15,6 +18,8 @@
         public int TotalPhysicalMemoryMb { get; set; }
 
         public int AvailablePhysicalMemoryMb { get; set; }
+
+        public List<WsServerNodeState> WsServerNodes { get; set; }
 
         /// <summary>
         /// <see cref="IServerStateResponse.JsonFileVersion"/>

@@ -37,6 +37,7 @@
     <Compile Include="ICaptchaController.cs" />
     <Compile Include="ICoinSnapshotController.cs" />
     <Compile Include="IUserAppSettingController.cs" />
+    <Compile Include="IWebApiServerNodeController.cs" />
     <Compile Include="IWsServerNodeController.cs" />
     <Compile Include="IUserController.cs" />
     <Compile Include="IAppSettingController.cs" />
