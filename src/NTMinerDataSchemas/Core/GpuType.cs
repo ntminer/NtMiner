@@ -2,7 +2,7 @@
 
 namespace NTMiner.Core {
     public enum GpuType {
-        [Description("没有矿卡或矿卡未驱动")]
+        [Description("请选择")]
         Empty = 0,
         /// <summary>
         /// 名称已持久化，注意不要改名称

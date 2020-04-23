@@ -235,7 +235,7 @@
         <WrapPanel Margin="0 0 10 0">
             <TextBlock Style="{StaticResource LblTbBase}">显卡类型</TextBlock>
             <controls:KbComboBox 
-				Width="100" ItemsSource="{x:Static app:AppStatic.GpuTypeEnumItems}"
+				Width="64" ItemsSource="{x:Static app:AppStatic.GpuTypeEnumItems}"
 				DisplayMemberPath="Description"
 				SelectedItem="{Binding GpuTypeEnumItem}">
             </controls:KbComboBox>
