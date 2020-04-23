@@ -21,9 +21,9 @@ namespace NTMiner.Core.Impl {
         protected abstract void DoCheckIsOnline(IEnumerable<ClientData> clientDatas);
 
         private readonly bool _isPull;
-        public ClientDataSetBase(bool isPull, Action<Action<IEnumerable<MinerData>>> doInit) {
+        public ClientDataSetBase(bool isPull, Action<Action<IEnumerable<MinerData>>> getAllData) {
             _isPull = isPull;
-            doInit((minerDatas) => {
+            getAllData((minerDatas) => {
                 InitedOn = DateTime.Now;
                 IsReadied = true;
                 foreach (var item in minerDatas) {

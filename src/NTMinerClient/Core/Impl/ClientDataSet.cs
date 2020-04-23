@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace NTMiner.Core.Impl {
     public class ClientDataSet : ClientDataSetBase, IClientDataSet {
         private DateTime _getSpeedOn = DateTime.MinValue;
-        public ClientDataSet() : base(isPull: true, callback => {
+        public ClientDataSet() : base(isPull: true, getAllData: callback => {
             Task.Factory.StartNew(() => {
                 using (LiteDatabase db = CreateLocalDb()) {
                     var col = db.GetCollection<MinerData>();

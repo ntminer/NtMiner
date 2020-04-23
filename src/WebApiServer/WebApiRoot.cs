@@ -32,7 +32,15 @@ namespace NTMiner {
             try {
                 bool mutexCreated;
                 try {
-                    _sMutexApp = new Mutex(true, "NTMinerServicesMutex", out mutexCreated);
+                    // 锁名称上带上本节点的端口号，从而允许一个服务器上运行多个WebApiServer节点，这在软升级服务端程序时有用。
+                    // 升级WebApiServer程序的时候步骤是：
+                    // 1，在另一个端口启动新版本的程序；
+                    // 2，让Widnows将来自旧端口的所有tcp请求转发到新端口；
+                    // 3，退出旧版本的程序并更新到新版本；
+                    // 4，删除第2步添加的Windows的端口转发；
+                    // 5，退出第1步运行的节点；
+                    // TODO:实现软升级策略
+                    _sMutexApp = new Mutex(true, $"NTMinerServicesMutex{ServerRoot.HostConfig.GetServerPort().ToString()}", out mutexCreated);
                 }
                 catch {
                     mutexCreated = false;

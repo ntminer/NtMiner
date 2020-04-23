@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
 
         private readonly IMinerRedis _redis;
         private readonly IMinerClientMqSender _mqSender;
-        public ClientDataSet(IMinerRedis redis, IMinerClientMqSender mqSender) : base(isPull: false, callback => {
+        public ClientDataSet(IMinerRedis redis, IMinerClientMqSender mqSender) : base(isPull: false, getAllData: callback => {
             redis.GetAllAsync().ContinueWith(t => {
                 callback?.Invoke(t.Result);
             });
