@@ -1,8 +1,8 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Core;
 using NTMiner.Core.MinerServer;
+using NTMiner.ServerNode;
 using System;
-using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class AppSettingService {

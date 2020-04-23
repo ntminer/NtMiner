@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.ServerNode;
+using System;
 
 namespace NTMiner.Vms {
     public class WsServerNodeViewModel : ViewModelBase, IWsServerNode {

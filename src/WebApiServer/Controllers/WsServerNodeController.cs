@@ -1,5 +1,5 @@
-﻿using NTMiner.User;
-using NTMiner.Ws;
+﻿using NTMiner.ServerNode;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.Linq;

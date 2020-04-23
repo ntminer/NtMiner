@@ -49,7 +49,10 @@
     <Compile Include="Core\MinerServer\IClientData.cs" />
     <Compile Include="Core\MinerServer\IMinerSign.cs" />
     <Compile Include="Core\MinerServer\MinerSign.cs" />
-    <Compile Include="Ws\WsStatus.cs" />
+    <Compile Include="ServerNode\IServerState.cs" />
+    <Compile Include="ServerNode\IServerStateResponse.cs" />
+    <Compile Include="ServerNode\WebApiServerState.cs" />
+    <Compile Include="ServerNode\WsStatus.cs" />
     <Compile Include="Core\OperationResultDto.cs" />
     <Compile Include="Core\OperationResultData.cs" />
     <Compile Include="Core\Profile\WorkIgnoreAttribute.cs" />
@@ -60,7 +63,7 @@
     <Compile Include="IDbEntity`1.cs" />
     <Compile Include="IEntity.cs" />
     <Compile Include="IgnoreReflectionSetAttribute.cs" />
-    <Compile Include="IWsServerNode.cs" />
+    <Compile Include="ServerNode\IWsServerNode.cs" />
     <Compile Include="Role\RoleEnum.cs" />
     <Compile Include="SortDirection.cs" />
     <Compile Include="UpdateByReflection.cs" />
@@ -151,7 +154,7 @@
     <Compile Include="Core\MinerServer\ServerMessageData.cs" />
     <Compile Include="Core\MinerServer\ServerMessagesRequest.cs" />
     <Compile Include="Core\MinerServer\ServerMessageType.cs" />
-    <Compile Include="Core\MinerServer\ServerState.cs" />
+    <Compile Include="ServerNode\ServerState.cs" />
     <Compile Include="Core\Profile\GpuProfileExtension.cs" />
     <Compile Include="Core\IKernelOutputKeyword.cs" />
     <Compile Include="Core\ILocalMessage.cs" />
@@ -231,7 +234,7 @@
     <Compile Include="Core\MinerServer\UpdateClientRequest.cs" />
     <Compile Include="Core\WalletData.cs" />
     <Compile Include="Core\LocalMessageType.cs" />
-    <Compile Include="Ws\WsServerNodeState.cs" />
+    <Compile Include="ServerNode\WsServerNodeState.cs" />
     <Compile Include="Ws\WsClientStatus.cs" />
   </ItemGroup>
   <ItemGroup>

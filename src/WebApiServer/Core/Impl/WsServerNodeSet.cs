@@ -1,6 +1,5 @@
-﻿using NTMiner.Core.MinerServer;
-using NTMiner.Core.Mq.Senders;
-using NTMiner.Ws;
+﻿using NTMiner.Core.Mq.Senders;
+using NTMiner.ServerNode;
 using System;
 using System.Collections.Generic;
 using System.Linq;

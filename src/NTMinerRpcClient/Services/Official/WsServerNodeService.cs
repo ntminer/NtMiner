@@ -1,5 +1,5 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Ws;
+using NTMiner.ServerNode;
 using System;
 using System.Collections.Generic;
 

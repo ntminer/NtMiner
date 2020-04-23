@@ -2,11 +2,11 @@
 using LiteDB;
 using NTMiner.Core;
 using NTMiner.Core.Impl;
-using NTMiner.Core.MinerServer;
 using NTMiner.Core.Mq.MqMessagePaths;
 using NTMiner.Core.Mq.Senders.Impl;
 using NTMiner.Core.Redis.Impl;
 using NTMiner.Impl;
+using NTMiner.ServerNode;
 using System;
 using System.Linq;
 using System.Threading;

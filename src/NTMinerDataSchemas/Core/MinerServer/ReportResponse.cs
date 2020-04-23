@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NTMiner.ServerNode;
+using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerServer {
     public class ReportResponse : ResponseBase {

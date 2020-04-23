@@ -4,7 +4,7 @@ using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profile;
 using NTMiner.Core.Profiles;
 using NTMiner.Mine;
-using NTMiner.Ws;
+using NTMiner.ServerNode;
 using System;
 using System.Linq;
 

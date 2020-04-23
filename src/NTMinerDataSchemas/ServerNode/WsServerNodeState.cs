@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
-namespace NTMiner.Ws {
-    public class WsServerNodeState : IWsServerNode, ISignableData {
+namespace NTMiner.ServerNode {
+    public class WsServerNodeState : IWsServerNode, IServerState, ISignableData {
         public static bool IsValidAddress(string address) {
             if (string.IsNullOrEmpty(address)) {
                 return false;
@@ -31,12 +31,15 @@ namespace NTMiner.Ws {
             return IsValidAddress(this.Address);
         }
 
-        /// <summary>
-        /// <see cref="WsServerNodeData.Address"/>
-        /// </summary>
         public string Address { get; set; }
 
         public string Description { get; set; }
+
+        public int CpuPerformance { get; set; }
+
+        public int TotalPhysicalMemoryMb { get; set; }
+
+        public int AvailablePhysicalMemoryMb { get; set; }
 
         public int MinerClientWsSessionCount { get; set; }
 
@@ -45,12 +48,6 @@ namespace NTMiner.Ws {
         public int MinerClientSessionCount { get; set; }
 
         public int MinerStudioSessionCount { get; set; }
-
-        public int CpuPerformance { get; set; }
-
-        public int TotalPhysicalMemoryMb { get; set; }
-
-        public int AvailablePhysicalMemoryMb { get; set; }
 
         public StringBuilder GetSignData() {
             return this.BuildSign();

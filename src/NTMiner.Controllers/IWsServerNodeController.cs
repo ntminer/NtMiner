@@ -1,4 +1,4 @@
-﻿using NTMiner.Ws;
+﻿using NTMiner.ServerNode;
 using System.Collections.Generic;
 
 namespace NTMiner.Controllers {

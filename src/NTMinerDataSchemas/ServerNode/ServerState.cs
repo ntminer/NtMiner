@@ -1,8 +1,10 @@
-﻿using NTMiner.Ws;
-using System;
+﻿using System;
 
-namespace NTMiner.Core.MinerServer {
-    public class ServerState {
+namespace NTMiner.ServerNode {
+    /// <summary>
+    /// 这是返回给挖矿端的服务端状态模型
+    /// </summary>
+    public class ServerState : IServerStateResponse {
         public static readonly ServerState Empty = new ServerState {
             JsonFileVersion = string.Empty,
             MinerClientVersion = string.Empty,
@@ -58,27 +60,27 @@ namespace NTMiner.Core.MinerServer {
         }
 
         /// <summary>
-        /// server.json版本
+        /// <see cref="IServerStateResponse.JsonFileVersion"/>
         /// </summary>
         public string JsonFileVersion { get; set; }
         /// <summary>
-        /// 可升级到的最新的挖矿端客户端版本
+        /// <see cref="IServerStateResponse.MinerClientVersion"/>
         /// </summary>
         public string MinerClientVersion { get; set; }
         /// <summary>
-        /// 服务器当前时间
+        /// <see cref="IServerStateResponse.Time"/>
         /// </summary>
         public long Time { get; set; }
         /// <summary>
-        /// 服务端消息时间戳
+        /// <see cref="IServerStateResponse.MessageTimestamp"/>
         /// </summary>
         public long MessageTimestamp { get; set; }
         /// <summary>
-        /// 内核输出关键字时间戳
+        /// <see cref="IServerStateResponse.OutputKeywordTimestamp"/>
         /// </summary>
         public long OutputKeywordTimestamp { get; set; }
         /// <summary>
-        /// <see cref="Ws.WsStatus"/>
+        /// <see cref="IServerStateResponse.WsStatus"/>
         /// </summary>
         public WsStatus WsStatus { get; set; }
     }
