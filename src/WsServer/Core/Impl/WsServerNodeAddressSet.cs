@@ -78,7 +78,8 @@ namespace NTMiner.Core.Impl {
                 MinerClientSessionCount = WsRoot.MinerClientSessionSet.Count,
                 MinerStudioSessionCount = WsRoot.MinerStudioSessionSet.Count,
                 MinerClientWsSessionCount = minerClientWsSessionCount,
-                MinerStudioWsSessionCount = minerStudioWsSessionCount
+                MinerStudioWsSessionCount = minerStudioWsSessionCount,
+                // TODO:
             }, (response, e) => {
                 if (response.IsSuccess()) {
                     Write.UserOk("呼吸成功");
