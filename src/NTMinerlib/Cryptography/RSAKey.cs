@@ -5,7 +5,13 @@
     public class RSAKey {
         public RSAKey() { }
 
+        /// <summary>
+        /// base64字符串
+        /// </summary>
         public string PublicKey { get; set; }
+        /// <summary>
+        /// base64字符串
+        /// </summary>
         public string PrivateKey { get; set; }
     }
 }
