@@ -1,5 +1,6 @@
 ﻿using NTMiner.User;
 using System;
+using System.Linq;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -13,16 +14,20 @@ namespace NTMiner.Controllers {
             if (request == null) {
                 return ResponseBase.InvalidInput<QueryUsersResponse>("参数错误");
             }
-            if (!IsValidAdmin(request, out QueryUsersResponse response)) {
+            if (!IsValidAdmin(request, out QueryUsersResponse response, out UserData user)) {
                 return response;
             }
             try {
-                var data = WebApiRoot.UserSet.QueryUsers(request, out int total);
+                var datas = WebApiRoot.UserSet.QueryUsers(request, out int total).Select(a => a.Clone()).ToList();
+                foreach (var data in datas) {
+                    // 不在网络上传输私钥原文，传输的是密文
+                    data.PrivateKey = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(data.PrivateKey, user.Password));
+                }
                 return new QueryUsersResponse {
                     StateCode = 200,
                     ReasonPhrase = "Ok",
                     Description = "成功",
-                    Data = data,
+                    Data = datas,
                     Total = total
                 };
             }
@@ -209,7 +214,7 @@ namespace NTMiner.Controllers {
             if (!VirtualRoot.IsValidLoginName(request.LoginName, out string message)) {
                 return ResponseBase.InvalidInput(message);
             }
-            if (request.ActionCaptchaId == Guid.Empty 
+            if (request.ActionCaptchaId == Guid.Empty
                 || string.IsNullOrEmpty(request.ActionCaptcha)
                 || !WebApiRoot.CaptchaSet.IsValid(request.ActionCaptchaId, base.MinerIp, request.ActionCaptcha)) {
                 return ResponseBase.InvalidInput("验证码错误");

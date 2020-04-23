@@ -612,6 +612,7 @@ namespace NTMiner.MinerStudio.Vms {
             }
             set {
                 if (!string.IsNullOrEmpty(value)) {
+                    // 不在网络上传输windows密码原文，传输的是密文
                     value = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(value, RpcRoot.RpcUser.Password));
                 }
                 if (_data.WindowsPassword != value) {

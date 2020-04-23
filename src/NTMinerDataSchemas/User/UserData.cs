@@ -23,6 +23,21 @@ namespace NTMiner.User {
             };
         }
 
+        public UserData Clone() {
+            return new UserData {
+                LoginName = this.LoginName,
+                CreatedOn = this.CreatedOn,
+                Description = this.Description,
+                Email = this.Email,
+                IsEnabled = this.IsEnabled,
+                Mobile = this.Mobile,
+                Password = this.Password,
+                PrivateKey = this.PrivateKey,
+                PublicKey = this.PublicKey,
+                Roles = this.Roles
+            };
+        }
+
         [LiteDB.BsonId]
         public string LoginName { get; set; }
 

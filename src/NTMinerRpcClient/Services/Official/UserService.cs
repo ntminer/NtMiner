@@ -25,7 +25,14 @@ namespace NTMiner.Services.Official {
         }
 
         public void QueryUsersAsync(QueryUsersRequest request, Action<QueryUsersResponse, Exception> callback) {
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.QueryUsers), data: request, callback, timeountMilliseconds: 2000);
+            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.QueryUsers), data: request, callback: (QueryUsersResponse response, Exception e) => {
+                if (response != null && response.Data != null && response.Data.Count != 0) {
+                    foreach (var user in response.Data) {
+                        user.PrivateKey = Cryptography.QuickUtil.TextDecrypt(Convert.FromBase64String(user.PrivateKey), RpcRoot.RpcUser.Password);
+                    }
+                }
+                callback?.Invoke(response, e);
+            }, timeountMilliseconds: 2000);
         }
 
         public void RemoveUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
