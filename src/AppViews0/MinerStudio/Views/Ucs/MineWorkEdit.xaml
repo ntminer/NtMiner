@@ -16,6 +16,7 @@
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="60"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource ThemeForeground}"></Setter>
 		</Style>
 	</UserControl.Resources>
 	<Grid Background="{StaticResource MinerProfileBackground}">
@@ -28,7 +29,7 @@
 			<RowDefinition Height="*" MinHeight="410"></RowDefinition>
 			<RowDefinition Height="Auto"></RowDefinition>
 		</Grid.RowDefinitions>
-        <StackPanel Grid.ColumnSpan="2" Margin="0 2" HorizontalAlignment="Center">
+        <Border Grid.ColumnSpan="2" Padding="0 0 0 4" Background="{StaticResource ThemeBackground}">
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}">作业名称</TextBlock>
                 <TextBox Width="220" VerticalContentAlignment="Center" Background="White" Text="{Binding Name, ValidatesOnExceptions=True}">
@@ -40,19 +41,20 @@
 					Text="{Binding Description, Mode=TwoWay}">
                 </controls:KbMuiltilineTextBox>
             </WrapPanel>
-            <TextBlock Foreground="Red" FontSize="14" HorizontalAlignment="Center">注意：作业是个蓝图。修改作业，然后将作业分配给矿机，直到点击“开始”按钮开始挖矿时作业才被矿机施工。</TextBlock>
-        </StackPanel>
+        </Border>
         <uc:MinerProfileIndex Grid.Row="1" Grid.Column="0" BorderBrush="{StaticResource LightLineColor}" />
 		<uc:MinerProfileOption Grid.Row="1" Grid.Column="1">
 		</uc:MinerProfileOption>
-		<controls:KbMuiltilineTextBox 
-			Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2" 
-			IsReadOnly="True"
-			Background="Transparent" Padding="0 4"
-			BorderBrush="{StaticResource LightLineColor}"
-			BorderThickness="0 1 0 0"
-			VerticalContentAlignment="Top"
-			Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}">
-		</controls:KbMuiltilineTextBox>
+        <StackPanel Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="2">
+            <controls:KbMuiltilineTextBox 
+				IsReadOnly="True"
+				Background="Transparent" Padding="0 4"
+				BorderBrush="{StaticResource LightLineColor}"
+				BorderThickness="0 1 0 0"
+				VerticalContentAlignment="Top"
+				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}">
+            </controls:KbMuiltilineTextBox>
+            <TextBlock Padding="4 0 4 4" Foreground="Red">说明：作业是个蓝图。修改作业，然后将作业分配给矿机，直到点击“开始”按钮开始挖矿时作业才被矿机施工。</TextBlock>
+        </StackPanel>
 	</Grid>
 </UserControl>
