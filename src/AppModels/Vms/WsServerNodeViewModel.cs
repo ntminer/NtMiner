@@ -9,6 +9,7 @@ namespace NTMiner.Vms {
         private int _minerStudioWsSessionCount;
         private int _minerClientSessionCount;
         private int _minerStudioSessionCount;
+        private string _osInfo;
         private CpuData _cpu;
         private ulong _totalPhysicalMemory;
         private double _cpuPerformance;
@@ -29,6 +30,7 @@ namespace NTMiner.Vms {
             _minerStudioWsSessionCount = data.MinerStudioWsSessionCount;
             _minerClientSessionCount = data.MinerClientSessionCount;
             _minerStudioSessionCount = data.MinerStudioSessionCount;
+            _osInfo = data.OSInfo;
             _cpu = data.Cpu;
             _totalPhysicalMemory = data.TotalPhysicalMemory;
             _cpuPerformance = data.CpuPerformance;
@@ -37,17 +39,14 @@ namespace NTMiner.Vms {
 
         }
 
-        public void Update(IWsServerNode data) {
+        public void Update(IVarWsServerNode data) {
             if (this.Address != data.Address) {
                 throw new InvalidProgramException();
             }
-            this.Description = data.Description;
             this.MinerClientWsSessionCount = data.MinerClientWsSessionCount;
             this.MinerStudioWsSessionCount = data.MinerStudioWsSessionCount;
             this.MinerClientSessionCount = data.MinerClientSessionCount;
             this.MinerStudioSessionCount = data.MinerStudioSessionCount;
-            this.CpuPerformance = data.CpuPerformance;
-            this.TotalPhysicalMemory = data.TotalPhysicalMemory;
             this.CpuPerformance = data.CpuPerformance;
             this.CpuTemperature = data.CpuTemperature;
             this.AvailablePhysicalMemory = data.AvailablePhysicalMemory;
@@ -109,6 +108,16 @@ namespace NTMiner.Vms {
                 if (_minerStudioSessionCount != value) {
                     _minerStudioSessionCount = value;
                     OnPropertyChanged(nameof(MinerStudioSessionCount));
+                }
+            }
+        }
+
+        public string OSInfo {
+            get { return _osInfo; }
+            set {
+                if (_osInfo != value) {
+                    _osInfo = value;
+                    OnPropertyChanged(nameof(OSInfo));
                 }
             }
         }

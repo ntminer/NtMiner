@@ -1,15 +1,9 @@
 ﻿namespace NTMiner.ServerNode {
-    public interface IServerState {
-        string Address { get; }
-
+    public interface IServerState : IVarServerState {
         string Description { get; }
 
+        string OSInfo { get; }
         CpuData Cpu { get; }
         ulong TotalPhysicalMemory { get; }
-
-        // 以下三项是动态数据
-        double CpuPerformance { get; set; }
-        float CpuTemperature { get; set; }
-        ulong AvailablePhysicalMemory { get; }
     }
 }

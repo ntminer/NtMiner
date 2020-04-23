@@ -1,7 +1,7 @@
 ﻿using System.Text;
 
 namespace NTMiner.ServerNode {
-    public class WsServerNodeState : IWsServerNode, IServerState, ISignableData {
+    public class WsServerNodeState : IWsServerNode, ISignableData {
         public WsServerNodeState() {
             this.Cpu = CpuData.Empty;
         }
@@ -18,6 +18,7 @@ namespace NTMiner.ServerNode {
 
         public int MinerStudioSessionCount { get; set; }
 
+        public string OSInfo { get; set; }
         public CpuData Cpu { get; set; }
         public ulong TotalPhysicalMemory { get; set; }
 

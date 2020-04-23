@@ -16,6 +16,7 @@ namespace NTMiner.ServerNode {
 
         public List<WsServerNodeState> WsServerNodes { get; set; }
 
+        public string OSInfo { get; set; }
         public CpuData Cpu { get; set; }
 
         public ulong TotalPhysicalMemory { get; set; }

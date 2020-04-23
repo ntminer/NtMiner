@@ -53,6 +53,8 @@
     <Compile Include="ServerNode\CpuData.cs" />
     <Compile Include="ServerNode\IServerState.cs" />
     <Compile Include="ServerNode\IServerStateResponse.cs" />
+    <Compile Include="ServerNode\IVarServerState.cs" />
+    <Compile Include="ServerNode\IVarWsServerNode.cs" />
     <Compile Include="ServerNode\ServerAddress.cs" />
     <Compile Include="ServerNode\WebApiServerState.cs" />
     <Compile Include="ServerNode\WsStatus.cs" />
