@@ -95,22 +95,24 @@ namespace NTMiner.Windows {
 
         private static bool _isFirstGetCpuId = true;
         private static string _cpuId;
-        public static string GetCpuId() {
-            if (!_isFirstGetCpuId) {
-                return _cpuId;
-            }
-            _isFirstGetCpuId = false;
-            _cpuId = "N/A";
-            try {
-                using (var searcher = new ManagementObjectSearcher("Select ProcessorID from Win32_processor"))
-                using (var query = searcher.Get()) {
-                    foreach (var item in query) {
-                        _cpuId = item.GetPropertyValue("ProcessorID").ToString();
+        public static string CpuId {
+            get {
+                if (!_isFirstGetCpuId) {
+                    return _cpuId;
+                }
+                _isFirstGetCpuId = false;
+                _cpuId = "N/A";
+                try {
+                    using (var searcher = new ManagementObjectSearcher("Select ProcessorID from Win32_processor"))
+                    using (var query = searcher.Get()) {
+                        foreach (var item in query) {
+                            _cpuId = item.GetPropertyValue("ProcessorID").ToString();
+                        }
                     }
                 }
+                catch { }
+                return _cpuId;
             }
-            catch { }
-            return _cpuId;
         }
 
         #region Properties
@@ -125,13 +127,13 @@ namespace NTMiner.Windows {
         }
 
         // This stores the total number of logical cores in the processor
-        private readonly int numberOfProcessors = Environment.ProcessorCount;
+        private readonly int _numberOfProcessors = Environment.ProcessorCount;
         /// <summary>
         /// Retrieves the number of logical cores on the system
         /// </summary>
         public int NumberOfLogicalCores {
             get {
-                return numberOfProcessors;
+                return _numberOfProcessors;
             }
         }
 

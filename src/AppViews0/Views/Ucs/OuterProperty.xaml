@@ -11,7 +11,7 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	Background="White"
-	mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="430">
+	mc:Ignorable="d" d:DesignHeight="460" d:DesignWidth="530">
 	<UserControl.DataContext>
 		<vm:OuterPropertyViewModel></vm:OuterPropertyViewModel>
 	</UserControl.DataContext>
@@ -22,8 +22,13 @@
 		</Style>
 		<Style TargetType="TextBlock">
 			<Setter Property="VerticalAlignment" Value="Center"></Setter>
-		</Style>
-	</UserControl.Resources>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="IsReadOnly" Value="True"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Background" Value="White"></Setter>
+        </Style>
+    </UserControl.Resources>
 	<Grid>
 		<ScrollViewer
 			Padding="4 0 0 0"
@@ -33,7 +38,7 @@
 			<StackPanel>
 				<WrapPanel Margin="0 4 0 0">
 					<TextBlock Style="{StaticResource LblTb}" Text="机器名"></TextBlock>
-					<TextBlock Text="{Binding MachineName}"></TextBlock>
+					<TextBox Text="{Binding MachineName,Mode=OneWay}"></TextBox>
 				</WrapPanel>
 				<WrapPanel>
 					<TextBlock Style="{StaticResource LblTb}" Text="操作系统"></TextBlock>
@@ -74,16 +79,28 @@
 					<StackPanel>
 						<WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}" Text="CPU厂商"></TextBlock>
-							<TextBlock Text="{Binding Cpu.VendorIdentifier}"></TextBlock>
-						</WrapPanel>
-						<WrapPanel>
+                            <TextBox Text="{Binding Cpu.VendorIdentifier,Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
 							<TextBlock Style="{StaticResource LblTb}" Text="CPU名称"></TextBlock>
-							<TextBlock Text="{Binding Cpu.Name}"></TextBlock>
-						</WrapPanel>
-						<WrapPanel>
-							<TextBlock Style="{StaticResource LblTb}" Text="CPU核心数"></TextBlock>
-							<TextBlock Text="{Binding Cpu.NumberOfLogicalCores}"></TextBlock>
-						</WrapPanel>
+                            <TextBox Text="{Binding Cpu.Name,Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}" Text="CPU标识名"></TextBlock>
+                            <TextBox Text="{Binding Cpu.Identifier,Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}" Text="CPU架构"></TextBlock>
+                            <TextBox Text="{Binding Cpu.ProcessorArchitecture,Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}" Text="CPU核心数"></TextBlock>
+                            <TextBlock Text="{Binding Cpu.NumberOfLogicalCores}"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}" Text="主频"></TextBlock>
+                            <TextBlock Text="{Binding Cpu.ClockSpeed}"></TextBlock>
+                        </WrapPanel>
 					</StackPanel>
 				</GroupBox>
 
