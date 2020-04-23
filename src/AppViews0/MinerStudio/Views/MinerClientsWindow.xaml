@@ -382,7 +382,6 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="Auto"></ColumnDefinition>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Border
                 Background="{StaticResource ToolbarBackground}"
@@ -390,11 +389,41 @@
                 PreviewMouseLeftButtonUp="RctHeader_PreviewMouseLeftButtonUp" 
                 PreviewMouseMove="RctHeader_PreviewMouseMove">
             </Border>
-            <WrapPanel
-                Grid.Column="1"
-                Margin="8 0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center">
+            <WrapPanel Grid.Column="1" VerticalAlignment="Center">
+                <uc0:MainMenu Background="Transparent" VerticalAlignment="Center">
+                </uc0:MainMenu>
+                <controls:KbSystemMinButton KbSystemButtonForeground="Black" />
+                <controls:KbSystemMaxButton KbSystemButtonForeground="Black" />
+                <controls:KbSystemCloseButton KbSystemButtonForeground="Black" />
+            </WrapPanel>
+        </Grid>
+        <WrapPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:AppStatic.IsDevModeVisible}"></TextBlock>
+            <WrapPanel 
+                VerticalAlignment="Center" 
+                ToolTip="{Binding WsDescription}" 
+                Visibility="{Binding MainMenu.IsMinerStudioOuterLoginedVisible}"
+                Background="{StaticResource ToolbarBackground}">
+                <Path 
+					Height="14"
+					Width="14"
+                    Visibility="{Binding IsWsOnline,Converter={StaticResource BoolToVisibilityConverter}}"
+					Data="{StaticResource Icon_Online}"
+					Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
+					Stretch="Fill" />
+                <Path 
+					Height="14"
+					Width="14"
+                    Visibility="{Binding IsWsOnline,Converter={StaticResource BoolToVisibilityInvertConverter}}"
+					Data="{StaticResource Icon_Offline}"
+					Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
+					Stretch="Fill" />
+            </WrapPanel>
+            <TextBlock 
+                Padding="4"
+                Foreground="{StaticResource LableColor}"
+                Text="{Binding NetTypeText}"></TextBlock>
+            <WrapPanel VerticalAlignment="Center">
                 <WrapPanel 
                     VerticalAlignment="Center"
                     Visibility="{Binding WsNextTrySecondsDelayVisible}">
@@ -425,42 +454,7 @@
                         </WrapPanel>
                     </controls:KbButton>
                 </WrapPanel>
-                <WrapPanel 
-                    Margin="4 0 0 0" 
-                    VerticalAlignment="Center" 
-                    ToolTip="{Binding WsDescription}" 
-                    Visibility="{Binding MainMenu.IsMinerStudioOuterLoginedVisible}"
-                    Background="{StaticResource ToolbarBackground}">
-                    <Path 
-						Height="14"
-						Width="14"
-                        Visibility="{Binding IsWsOnline,Converter={StaticResource BoolToVisibilityConverter}}"
-						Data="{StaticResource Icon_Online}"
-						Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
-						Stretch="Fill" />
-                    <Path 
-						Height="14"
-						Width="14"
-                        Visibility="{Binding IsWsOnline,Converter={StaticResource BoolToVisibilityInvertConverter}}"
-						Data="{StaticResource Icon_Offline}"
-						Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
-						Stretch="Fill" />
-                </WrapPanel>
             </WrapPanel>
-            <WrapPanel Grid.Column="2" VerticalAlignment="Center">
-                <uc0:MainMenu Background="Transparent" VerticalAlignment="Center">
-                </uc0:MainMenu>
-                <controls:KbSystemMinButton KbSystemButtonForeground="Black" />
-                <controls:KbSystemMaxButton KbSystemButtonForeground="Black" />
-                <controls:KbSystemCloseButton KbSystemButtonForeground="Black" />
-            </WrapPanel>
-        </Grid>
-        <WrapPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:AppStatic.IsDevModeVisible}"></TextBlock>
-            <TextBlock 
-                Padding="4"
-                Foreground="{StaticResource LableColor}"
-                Text="{Binding NetTypeText}"></TextBlock>
         </WrapPanel>
         <WrapPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource BottomBarBackGround}">
             <uc:MainBar Margin="4 0 0 0"></uc:MainBar>
