@@ -130,6 +130,7 @@ namespace NTMiner {
             try {
                 string baseAddress = $"http://localhost:{ServerRoot.HostConfig.GetServerPort().ToString()}";
                 HttpServer.Start(baseAddress, doConfig: config => {
+                    // 向后兼容
                     config.Routes.MapHttpRoute("CalcConfigs", "api/ControlCenter/CalcConfigs", new {
                         controller = RpcRoot.GetControllerName<ICalcConfigController>(),
                         action = nameof(ICalcConfigController.CalcConfigs)
