@@ -18,12 +18,12 @@ namespace NTMiner.Services.Official {
         }
 
         #region GetJsonFileVersionAsync
-        public void GetJsonFileVersionAsync(string key, Action<ServerState> callback) {
+        public void GetJsonFileVersionAsync(string key, Action<ServerStateResponse> callback) {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
             RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetJsonFileVersion), request, (string line, Exception e) => {
-                callback?.Invoke(ServerState.FromLine(line));
+                callback?.Invoke(ServerStateResponse.FromLine(line));
             }, timeountMilliseconds: 10 * 1000);
         }
         #endregion

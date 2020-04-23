@@ -15,7 +15,7 @@ namespace NTMiner.Controllers {
 
         [HttpPost]
         public string GetJsonFileVersion([FromBody]AppSettingRequest request) {
-            ServerState serverState = WebApiRoot.GetServerState(request.Key);
+            ServerStateResponse serverState = WebApiRoot.ServerStateResponse(request.Key);
             return serverState.ToLine();
         }
 

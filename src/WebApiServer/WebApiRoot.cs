@@ -131,36 +131,6 @@ namespace NTMiner {
             }
         }
 
-        public static LiteDatabase CreateLocalDb() {
-            return new LiteDatabase($"filename={SpecialPath.LocalDbFileFullName}");
-        }
-
-        public static ServerState GetServerState(string jsonVersionKey) {
-            string jsonVersion = string.Empty;
-            string minerClientVersion = string.Empty;
-            try {
-                var fileData = NTMinerFileSet.LatestMinerClientFile;
-                minerClientVersion = fileData != null ? fileData.Version : string.Empty;
-                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(jsonVersionKey, out IAppSetting data) || data.Value == null) {
-                    jsonVersion = string.Empty;
-                }
-                else {
-                    jsonVersion = data.Value.ToString();
-                }
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
-            return new ServerState {
-                JsonFileVersion = jsonVersion,
-                MinerClientVersion = minerClientVersion,
-                Time = Timestamp.GetTimestamp(),
-                MessageTimestamp = Timestamp.GetTimestamp(ServerMessageTimestamp),
-                OutputKeywordTimestamp = Timestamp.GetTimestamp(KernelOutputKeywordTimestamp),
-                WsStatus = WsServerNodeSet.WsStatus
-            };
-        }
-
         static WebApiRoot() {
         }
 
@@ -197,6 +167,42 @@ namespace NTMiner {
         public static DateTime ServerMessageTimestamp { get; set; }
 
         public static DateTime KernelOutputKeywordTimestamp { get; private set; }
+
+        public static LiteDatabase CreateLocalDb() {
+            return new LiteDatabase($"filename={SpecialPath.LocalDbFileFullName}");
+        }
+
+        /// <summary>
+        /// 因为客户端具有不同的ClientVersion，考虑到兼容性问题将来可能不同版本的客户端需要获取不同版本的server.json，所以
+        /// 服务端用返回什么版本的server.json应由客户端自己决定，所以该方法有个jsonVersionKey入参，这个入参就是来自客户端。
+        /// </summary>
+        /// <param name="jsonVersionKey">server.json的版本</param>
+        /// <returns></returns>
+        public static ServerStateResponse ServerStateResponse(string jsonVersionKey) {
+            string jsonVersion = string.Empty;
+            string minerClientVersion = string.Empty;
+            try {
+                var fileData = NTMinerFileSet.LatestMinerClientFile;
+                minerClientVersion = fileData != null ? fileData.Version : string.Empty;
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(jsonVersionKey, out IAppSetting data) || data.Value == null) {
+                    jsonVersion = string.Empty;
+                }
+                else {
+                    jsonVersion = data.Value.ToString();
+                }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+            return new ServerStateResponse {
+                JsonFileVersion = jsonVersion,
+                MinerClientVersion = minerClientVersion,
+                Time = Timestamp.GetTimestamp(),
+                MessageTimestamp = Timestamp.GetTimestamp(ServerMessageTimestamp),
+                OutputKeywordTimestamp = Timestamp.GetTimestamp(KernelOutputKeywordTimestamp),
+                WsStatus = WsServerNodeSet.WsStatus
+            };
+        }
 
         public static void UpdateServerMessageTimestamp() {
             var first = ServerMessageSet.AsEnumerable().OrderByDescending(a => a.Timestamp).FirstOrDefault();

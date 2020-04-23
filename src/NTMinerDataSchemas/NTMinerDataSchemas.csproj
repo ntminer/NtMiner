@@ -154,7 +154,7 @@
     <Compile Include="Core\MinerServer\ServerMessageData.cs" />
     <Compile Include="Core\MinerServer\ServerMessagesRequest.cs" />
     <Compile Include="Core\MinerServer\ServerMessageType.cs" />
-    <Compile Include="ServerNode\ServerState.cs" />
+    <Compile Include="ServerNode\ServerStateResponse.cs" />
     <Compile Include="Core\Profile\GpuProfileExtension.cs" />
     <Compile Include="Core\IKernelOutputKeyword.cs" />
     <Compile Include="Core\ILocalMessage.cs" />

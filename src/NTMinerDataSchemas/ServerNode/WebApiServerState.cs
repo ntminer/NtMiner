@@ -37,7 +37,7 @@
         /// </summary>
         public long OutputKeywordTimestamp { get; set; }
         /// <summary>
-        /// <see cref="IServerStateResponse.WsStatus"/>
+        /// <see cref="ServerNode.WsStatus"/>
         /// </summary>
         public WsStatus WsStatus { get; set; }
     }

@@ -14,7 +14,7 @@ namespace NTMiner.Controllers {
                 WebApiRoot.ClientDataSet.ReportSpeed(speedData, MinerIp);
                 if (Version.TryParse(speedData.Version, out Version version)) {
                     string jsonVersionKey = HomePath.GetServerJsonVersion(version);
-                    var response = ReportResponse.Ok(WebApiRoot.GetServerState(jsonVersionKey));
+                    var response = ReportResponse.Ok(WebApiRoot.ServerStateResponse(jsonVersionKey));
                     if (speedData.LocalServerMessageTimestamp.AddSeconds(1) < WebApiRoot.ServerMessageTimestamp) {
                         var list = WebApiRoot.ServerMessageSet.GetServerMessages(speedData.LocalServerMessageTimestamp);
                         // 如果服务器新消息少于10条直接在上报算力时的响应消息中携带上，如果较多就算了推迟到用户切换到消息界面查看时再获取

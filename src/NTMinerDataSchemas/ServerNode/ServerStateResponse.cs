@@ -4,8 +4,8 @@ namespace NTMiner.ServerNode {
     /// <summary>
     /// 这是返回给挖矿端的服务端状态模型
     /// </summary>
-    public class ServerState : IServerStateResponse {
-        public static readonly ServerState Empty = new ServerState {
+    public class ServerStateResponse : IServerStateResponse {
+        public static readonly ServerStateResponse Empty = new ServerStateResponse {
             JsonFileVersion = string.Empty,
             MinerClientVersion = string.Empty,
             Time = 0,
@@ -14,7 +14,7 @@ namespace NTMiner.ServerNode {
             WsStatus = WsStatus.Undefined
         };
 
-        public static ServerState FromLine(string line) {
+        public static ServerStateResponse FromLine(string line) {
             string jsonFileVersion = string.Empty;
             string minerClientVersion = string.Empty;
             long time = Timestamp.GetTimestamp();
@@ -43,7 +43,7 @@ namespace NTMiner.ServerNode {
                     Enum.TryParse(parts[5], out wsStatus);
                 }
             }
-            return new ServerState {
+            return new ServerStateResponse {
                 JsonFileVersion = jsonFileVersion,
                 MinerClientVersion = minerClientVersion,
                 Time = time,
@@ -53,7 +53,7 @@ namespace NTMiner.ServerNode {
             };
         }
 
-        public ServerState() { }
+        public ServerStateResponse() { }
 
         public string ToLine() {
             return $"{JsonFileVersion}|{MinerClientVersion}|{Time.ToString()}|{MessageTimestamp.ToString()}|{OutputKeywordTimestamp.ToString()}|{WsStatus.ToString()}";
@@ -80,7 +80,7 @@ namespace NTMiner.ServerNode {
         /// </summary>
         public long OutputKeywordTimestamp { get; set; }
         /// <summary>
-        /// <see cref="IServerStateResponse.WsStatus"/>
+        /// <see cref="ServerNode.WsStatus"/>
         /// </summary>
         public WsStatus WsStatus { get; set; }
     }
