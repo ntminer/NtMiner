@@ -24,5 +24,12 @@ namespace NTMiner {
                 Assert.IsTrue(Base64Util.IsBase64OrEmpty(key.PrivateKey));
             }
         }
+
+        [TestMethod]
+        public void Test3() {
+            string str = Encoding.UTF8.GetString(Convert.FromBase64String("BQ=="));
+            // 很奇怪的一个符号，不是键盘上敲出的|
+            Assert.AreEqual("", str);
+        }
     }
 }
