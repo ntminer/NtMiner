@@ -14,7 +14,6 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
     WindowStyle="None"
-    ResizeMode="CanMinimize"
 	Background="Transparent"
     AllowsTransparency="True"
 	WindowStartupLocation="CenterScreen"

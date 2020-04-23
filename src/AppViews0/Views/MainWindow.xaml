@@ -15,7 +15,6 @@
 	d:DesignHeight="630"
 	d:DesignWidth="1100"
     WindowStyle="None"
-    ResizeMode="CanMinimize"
 	Background="Transparent"
     AllowsTransparency="True"
 	WindowStartupLocation="CenterScreen"
