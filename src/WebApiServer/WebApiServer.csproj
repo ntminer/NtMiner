@@ -148,8 +148,10 @@
     <Compile Include="Core\Mq\Senders\IUserMqSender.cs" />
     <Compile Include="Core\Mq\Senders\IWsServerNodeMqSender.cs" />
     <Compile Include="Core\Redis\ICaptchaRedis.cs" />
+    <Compile Include="Core\Redis\IClientDataRedis.cs" />
     <Compile Include="Core\Redis\IMinerRedis.cs" />
     <Compile Include="Core\Redis\Impl\CaptchaRedis.cs" />
+    <Compile Include="Core\Redis\Impl\ClientDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\MinerRedis.cs" />
     <Compile Include="Core\Redis\Impl\UserRedis.cs" />
     <Compile Include="Core\Redis\IUserRedis.cs" />

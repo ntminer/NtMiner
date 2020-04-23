@@ -10,14 +10,16 @@ namespace NTMiner.Core.Impl {
     public class ClientDataSet : ClientDataSetBase, IClientDataSet {
         private const string _safeIgnoreMessage = "该消息发生的时间早于本节点启动时间1分钟，安全忽略";
 
-        private readonly IMinerRedis _redis;
+        private readonly IMinerRedis _minerRedis;
+        IClientDataRedis _clientDataRedis;
         private readonly IMinerClientMqSender _mqSender;
-        public ClientDataSet(IMinerRedis redis, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
-            redis.GetAllAsync().ContinueWith(t => {
+        public ClientDataSet(IMinerRedis minerRedis, IClientDataRedis clientDataRedis, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
+            minerRedis.GetAllAsync().ContinueWith(t => {
                 callback?.Invoke(t.Result);
             });
         }) {
-            _redis = redis;
+            _minerRedis = minerRedis;
+            _clientDataRedis = clientDataRedis;
             _mqSender = mqSender;
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
             VirtualRoot.AddEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, action: message => {
@@ -142,7 +144,7 @@ namespace NTMiner.Core.Impl {
                     _dicByObjectId.Add(clientData.Id, clientData);
                 }
                 var minerData = MinerData.Create(clientData);
-                _redis.SetAsync(minerData).ContinueWith(t => {
+                _minerRedis.SetAsync(minerData).ContinueWith(t => {
                     _mqSender.SendMinerDataAdded(minerData.Id);
                 });
             }
@@ -198,14 +200,14 @@ namespace NTMiner.Core.Impl {
             if (!IsReadied) {
                 return;
             }
-            _redis.SetAsync(minerData);
+            _minerRedis.SetAsync(minerData);
         }
 
         private void MinerSignChangedSave(MinerData minerData) {
             if (!IsReadied) {
                 return;
             }
-            _redis.SetAsync(minerData).ContinueWith(t => {
+            _minerRedis.SetAsync(minerData).ContinueWith(t => {
                 _mqSender.SendMinerSignChanged(minerData.Id);
             });
         }
@@ -223,7 +225,7 @@ namespace NTMiner.Core.Impl {
             if (!IsReadied) {
                 return;
             }
-            _redis.DeleteAsync(minerData).ContinueWith(t => {
+            _minerRedis.DeleteAsync(minerData).ContinueWith(t => {
                 _mqSender.SendMinerDataRemoved(minerData.Id);
             });
         }
