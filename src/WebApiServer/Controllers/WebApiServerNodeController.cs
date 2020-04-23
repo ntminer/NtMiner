@@ -3,8 +3,6 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class WebApiServerNodeController : ApiControllerBase, IWebApiServerNodeController {
-        public WebApiServerNodeController() { }
-
         [HttpGet]
         [HttpPost]
         public DataResponse<WebApiServerState> GetServerState(SignRequest request) {
