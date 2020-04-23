@@ -41,6 +41,9 @@ namespace NTMiner.MinerStudio.Vms {
         private uint _minTemp = 40;
         private int _rejectPercent = 10;
         private SortDirection _sortDirection = SortDirection.Ascending;
+        private string _gpuName;
+        private string _gpuDriver;
+        private GpuType _gpuType = GpuType.Empty;
 
         private bool _isWsOnline;
         private string _wsDescription;
@@ -94,6 +97,9 @@ namespace NTMiner.MinerStudio.Vms {
                 Wallet = wallet,
                 Version = this.Version,
                 Kernel = this.Kernel,
+                GpuType = GpuType,
+                GpuName = GpuName,
+                GpuDriver = GpuDriver,
                 SortDirection = SortDirection
             }, (response, exception) => {
                 this.CountDown = 10;
@@ -1253,6 +1259,68 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_mineStatusEnumItem != value) {
                     _mineStatusEnumItem = value;
                     OnPropertyChanged(nameof(MineStatusEnumItem));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public GpuType GpuType {
+            get => _gpuType;
+            set {
+                _gpuType = value;
+                OnPropertyChanged(nameof(GpuType));
+                OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                OnPropertyChanged(nameof(IsAMDIconVisible));
+            }
+        }
+
+        public Visibility IsNvidiaIconVisible {
+            get {
+                if (GpuType == GpuType.NVIDIA) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility IsAMDIconVisible {
+            get {
+                if (GpuType == GpuType.AMD) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public EnumItem<GpuType> GpuTypeEnumItem {
+            get {
+                return NTMinerContext.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
+            }
+            set {
+                if (GpuType != value.Value) {
+                    GpuType = value.Value;
+                    OnPropertyChanged(nameof(GpuTypeEnumItem));
+                }
+            }
+        }
+
+        public string GpuName {
+            get { return _gpuName; }
+            set {
+                if (_gpuName != value) {
+                    _gpuName = value;
+                    OnPropertyChanged(nameof(GpuName));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public string GpuDriver {
+            get { return _gpuDriver; }
+            set {
+                if (_gpuDriver != value) {
+                    _gpuDriver = value;
+                    OnPropertyChanged(nameof(GpuDriver));
                     this.PageIndex = 1;
                 }
             }

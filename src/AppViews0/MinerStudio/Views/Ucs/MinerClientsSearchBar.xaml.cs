@@ -1,5 +1,4 @@
-﻿using NTMiner.MinerStudio;
-using NTMiner.MinerStudio.Vms;
+﻿using NTMiner.MinerStudio.Vms;
 using System.Windows;
 using System.Windows.Controls;
 

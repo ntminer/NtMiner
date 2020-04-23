@@ -74,9 +74,15 @@ namespace NTMiner.Core.Impl {
             bool isFilterByPool = !isFilterByWork && !string.IsNullOrEmpty(query.Pool);
             bool isFilterByWallet = !isFilterByWork && !string.IsNullOrEmpty(query.Wallet);
             bool isFilterByKernel = !isFilterByWork && !string.IsNullOrEmpty(query.Kernel);
+            bool isFilterByGpuType = query.GpuType != GpuType.Empty;
+            bool isFilterByGpuName = !string.IsNullOrEmpty(query.GpuName);
+            bool isFilterByGpuDriver = !string.IsNullOrEmpty(query.GpuDriver);
             for (int i = 0; i < data.Length; i++) {
                 var item = data[i];
                 bool isInclude = true;
+                if (isInclude && isFilterByUser) {
+                    isInclude = user.LoginName.Equals(item.LoginName);
+                }
                 if (isInclude && isFilterByGroup) {
                     isInclude = item.GroupId == query.GroupId.Value;
                 }
@@ -109,22 +115,28 @@ namespace NTMiner.Core.Impl {
                         isInclude = item.WorkId == query.WorkId.Value;
                     }
                     else {
-                        if (isFilterByCoin) {
+                        if (isInclude && isFilterByCoin) {
                             isInclude = query.Coin.Equals(item.MainCoinCode) || query.Coin.Equals(item.DualCoinCode);
                         }
-                        if (isFilterByPool) {
+                        if (isInclude && isFilterByPool) {
                             isInclude = query.Pool.Equals(item.MainCoinPool) || query.Pool.Equals(item.DualCoinPool);
                         }
-                        if (isFilterByWallet) {
+                        if (isInclude && isFilterByWallet) {
                             isInclude = query.Wallet.Equals(item.MainCoinWallet) || query.Wallet.Equals(item.DualCoinWallet);
                         }
-                        if (isFilterByKernel) {
+                        if (isInclude && isFilterByKernel) {
                             isInclude = !string.IsNullOrEmpty(item.Kernel) && item.Kernel.IgnoreCaseContains(query.Kernel);
                         }
                     }
                 }
-                if (isInclude && isFilterByUser) {
-                    isInclude = user.LoginName.Equals(item.LoginName);
+                if (isInclude && isFilterByGpuType) {
+                    isInclude = item.GpuType == query.GpuType;
+                }
+                if (isInclude && isFilterByGpuName) {
+                    isInclude = !string.IsNullOrEmpty(item.GpuInfo) && item.GpuInfo.IgnoreCaseContains(query.GpuName);
+                }
+                if (isInclude && isFilterByGpuDriver) {
+                    isInclude = !string.IsNullOrEmpty(item.GpuDriver) && item.GpuDriver.IgnoreCaseContains(query.GpuDriver);
                 }
                 if (isInclude) {
                     list.Add(item);

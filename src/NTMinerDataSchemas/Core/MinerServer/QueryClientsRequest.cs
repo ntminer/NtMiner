@@ -16,6 +16,9 @@ namespace NTMiner.Core.MinerServer {
         public string Wallet { get; set; }
         public string Version { get; set; }
         public string Kernel { get; set; }
+        public GpuType GpuType { get; set; }
+        public string GpuName { get; set; }
+        public string GpuDriver { get; set; }
         public SortDirection SortDirection { get; set; }
 
         public StringBuilder GetSignData() {

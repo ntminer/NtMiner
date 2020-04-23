@@ -138,7 +138,7 @@
                     HorizontalAlignment="Left" 
                     VerticalContentAlignment="Center" 
                     Text="{Binding Pool}" 
-                    Width="160" 
+                    Width="90" 
                     Height="24"
                     Padding="0 0 16 0"
                     Background="White"></TextBox>
@@ -217,7 +217,7 @@
                     HorizontalAlignment="Left" 
                     VerticalContentAlignment="Center" 
                     Text="{Binding Wallet}" 
-                    Width="130" 
+                    Width="90" 
                     Height="24"
                     Background="White"></TextBox>
             </WrapPanel>
@@ -231,6 +231,52 @@
                     Text="{Binding Kernel}" 
                     Background="White"></TextBox>
             </WrapPanel>
+        </WrapPanel>
+        <WrapPanel Margin="0 0 10 0">
+            <TextBlock Style="{StaticResource LblTbBase}">显卡类型</TextBlock>
+            <controls:KbComboBox 
+				Width="100" ItemsSource="{x:Static app:AppStatic.GpuTypeEnumItems}"
+				DisplayMemberPath="Description"
+				SelectedItem="{Binding GpuTypeEnumItem}">
+            </controls:KbComboBox>
+            <Path
+				Margin="4 0 0 0"
+				Width="18"
+				Height="14"
+				ToolTip="NVIDIA"
+				Visibility="{Binding IsNvidiaIconVisible}"
+				Data="{StaticResource Icon_Nvidia}"
+				Fill="Green"
+				Stretch="Fill" />
+            <Path
+				Margin="4 0 0 0"
+				Width="16"
+				Height="14"
+				ToolTip="AMD"
+				Visibility="{Binding IsAMDIconVisible}"
+				Data="{StaticResource Icon_AMD}"
+				Fill="Red"
+				Stretch="Fill" />
+        </WrapPanel>
+        <WrapPanel Margin="0 0 10 0">
+            <TextBlock Style="{StaticResource LblTbBase}">显卡名</TextBlock>
+            <TextBox 
+                VerticalContentAlignment="Center" 
+                ToolTip="显卡名关键字" 
+                Width="60" 
+                Height="24"
+                Text="{Binding GpuName}" 
+                Background="White"></TextBox>
+        </WrapPanel>
+        <WrapPanel Margin="0 0 10 0">
+            <TextBlock Style="{StaticResource LblTbBase}">显卡驱动</TextBlock>
+            <TextBox 
+                VerticalContentAlignment="Center" 
+                ToolTip="显卡驱动版本关键字" 
+                Width="60" 
+                Height="24"
+                Text="{Binding GpuDriver}" 
+                Background="White"></TextBox>
         </WrapPanel>
         <WrapPanel Margin="0 0 10 0">
             <TextBlock Style="{StaticResource LblTbBase}">开源版本</TextBlock>
