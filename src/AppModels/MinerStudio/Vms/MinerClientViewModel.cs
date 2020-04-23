@@ -453,7 +453,17 @@ namespace NTMiner.MinerStudio.Vms {
 
         public bool IsMining {
             get {
-                if (!VmIsOnline) {
+                if (RpcRoot.IsOuterNet) {
+                    if (this.IsOuterUserEnabled) {
+                        if (NetActiveOn.AddSeconds(60) < DateTime.Now) {
+                            return false;
+                        }
+                    }
+                    else if (MinerActiveOn.AddSeconds(180) < DateTime.Now) {
+                        return false;
+                    }
+                }
+                else if (NetActiveOn.AddSeconds(20) < DateTime.Now) {
                     return false;
                 }
                 return _data.IsMining;
