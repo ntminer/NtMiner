@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace NTMiner.Windows {
     /// <summary>
@@ -46,66 +45,6 @@ namespace NTMiner.Windows {
                 return 0;
             }
         }
-
-        /// <summary>
-        /// Gets the current committed memory limit for the system or the 
-        /// current process, whichever is smaller, in bytes.
-        /// </summary>
-        public string TotalPageFile {
-            get {
-                MemoryStatusEx mEx = new MemoryStatusEx();
-                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
-                    return Convert.ToString(mEx.ullTotalPageFile);
-                }
-
-                return "";
-            }
-        }
-
-        /// <summary>
-        /// Gets the maximum amount of memory the current process can commit, in bytes
-        /// </summary>
-        public string AvailablePageFile {
-            get {
-                MemoryStatusEx mEx = new MemoryStatusEx();
-                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
-                    return Convert.ToString(mEx.ullAvailPageFile);
-                }
-
-                return "";
-            }
-        }
-
-        /// <summary>
-        /// Gets the size of the user-mode portion of the virtual 
-        /// address space of the calling process, in bytes. 
-        /// </summary>
-        public string TotalVirtual {
-            get {
-                MemoryStatusEx mEx = new MemoryStatusEx();
-                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
-                    return Convert.ToString(mEx.ullTotalVirtual);
-                }
-
-                return "";
-            }
-        }
-
-        /// <summary>
-        /// Gets the amount of unreserved and uncommitted memory currently in the user-mode 
-        /// portion of the virtual address space of the calling process, in bytes.
-        /// </summary>
-        public ulong AvailableVirtual {
-            get {
-                MemoryStatusEx mEx = new MemoryStatusEx();
-                if (SafeNativeMethods.GlobalMemoryStatusEx(mEx)) {
-                    return mEx.ullAvailVirtual;
-                }
-
-                return 0;
-            }
-        }
-
 
         #endregion
 

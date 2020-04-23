@@ -240,8 +240,8 @@ namespace NTMiner.Windows {
         private string RetrieveProcessorInfo(string key) //int specificLogicalProcessor)
         {
             // NOTE: Remove the 0 when the functionality to retrieve info from other virtual cores is implemented
-            using (RegistryKey rkey = Registry.LocalMachine.OpenSubKey("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0")) // + specificLogicalProcessor);
-            {
+            // + specificLogicalProcessor);
+            using (RegistryKey rkey = Registry.LocalMachine.OpenSubKey("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0")) {
                 if (!IsMulticore()) {
                     Debug.WriteLine("There is only one logical processor");
                     // specificLogicalProcessor = 0;

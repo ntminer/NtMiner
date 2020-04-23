@@ -4,10 +4,12 @@
 
         string Description { get; }
 
-        int CpuPerformance { get; }
+        CpuData Cpu { get; }
+        ulong TotalPhysicalMemory { get; }
 
-        int TotalPhysicalMemoryMb { get; }
-
-        int AvailablePhysicalMemoryMb { get; }
+        // 以下三项是动态数据
+        double CpuPerformance { get; set; }
+        float CpuTemperature { get; set; }
+        ulong AvailablePhysicalMemory { get; }
     }
 }

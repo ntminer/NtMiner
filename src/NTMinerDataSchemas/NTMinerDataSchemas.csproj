@@ -50,8 +50,10 @@
     <Compile Include="Core\MinerServer\IClientData.cs" />
     <Compile Include="Core\MinerServer\IMinerSign.cs" />
     <Compile Include="Core\MinerServer\MinerSign.cs" />
+    <Compile Include="ServerNode\CpuData.cs" />
     <Compile Include="ServerNode\IServerState.cs" />
     <Compile Include="ServerNode\IServerStateResponse.cs" />
+    <Compile Include="ServerNode\ServerAddress.cs" />
     <Compile Include="ServerNode\WebApiServerState.cs" />
     <Compile Include="ServerNode\WsStatus.cs" />
     <Compile Include="Core\OperationResultDto.cs" />

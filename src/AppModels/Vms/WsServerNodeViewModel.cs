@@ -9,9 +9,11 @@ namespace NTMiner.Vms {
         private int _minerStudioWsSessionCount;
         private int _minerClientSessionCount;
         private int _minerStudioSessionCount;
-        private int _cpuPerformance;
-        private int _totalPhysicalMemoryMb;
-        private int _availablePhysicalMemoryMb;
+        private CpuData _cpu;
+        private ulong _totalPhysicalMemory;
+        private double _cpuPerformance;
+        private float _cpuTemperature;
+        private ulong _availablePhysicalMemory;
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
         public WsServerNodeViewModel() {
@@ -27,9 +29,12 @@ namespace NTMiner.Vms {
             _minerStudioWsSessionCount = data.MinerStudioWsSessionCount;
             _minerClientSessionCount = data.MinerClientSessionCount;
             _minerStudioSessionCount = data.MinerStudioSessionCount;
+            _cpu = data.Cpu;
+            _totalPhysicalMemory = data.TotalPhysicalMemory;
             _cpuPerformance = data.CpuPerformance;
-            _totalPhysicalMemoryMb = data.TotalPhysicalMemoryMb;
-            _availablePhysicalMemoryMb = data.AvailablePhysicalMemoryMb;
+            _cpuTemperature = data.CpuTemperature;
+            _availablePhysicalMemory = data.AvailablePhysicalMemory;
+
         }
 
         public void Update(IWsServerNode data) {
@@ -42,15 +47,19 @@ namespace NTMiner.Vms {
             this.MinerClientSessionCount = data.MinerClientSessionCount;
             this.MinerStudioSessionCount = data.MinerStudioSessionCount;
             this.CpuPerformance = data.CpuPerformance;
-            this.TotalPhysicalMemoryMb = data.TotalPhysicalMemoryMb;
-            this.AvailablePhysicalMemoryMb = data.AvailablePhysicalMemoryMb;
+            this.TotalPhysicalMemory = data.TotalPhysicalMemory;
+            this.CpuPerformance = data.CpuPerformance;
+            this.CpuTemperature = data.CpuTemperature;
+            this.AvailablePhysicalMemory = data.AvailablePhysicalMemory;
         }
 
         public string Address {
             get => _address;
             set {
-                _address = value;
-                OnPropertyChanged(nameof(Address));
+                if (_address != value) {
+                    _address = value;
+                    OnPropertyChanged(nameof(Address));
+                }
             }
         }
 
@@ -104,7 +113,27 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int CpuPerformance {
+        public CpuData Cpu {
+            get => _cpu;
+            set {
+                if (_cpu != value) {
+                    _cpu = value;
+                    OnPropertyChanged(nameof(Cpu));
+                }
+            }
+        }
+
+        public ulong TotalPhysicalMemory {
+            get => _totalPhysicalMemory;
+            set {
+                if (_totalPhysicalMemory != value) {
+                    _totalPhysicalMemory = value;
+                    OnPropertyChanged(nameof(TotalPhysicalMemory));
+                }
+            }
+        }
+
+        public double CpuPerformance {
             get => _cpuPerformance;
             set {
                 if (_cpuPerformance != value) {
@@ -114,22 +143,22 @@ namespace NTMiner.Vms {
             }
         }
 
-        public int TotalPhysicalMemoryMb {
-            get => _totalPhysicalMemoryMb;
+        public float CpuTemperature {
+            get => _cpuTemperature;
             set {
-                if (_totalPhysicalMemoryMb != value) {
-                    _totalPhysicalMemoryMb = value;
-                    OnPropertyChanged(nameof(TotalPhysicalMemoryMb));
+                if (_cpuTemperature != value) {
+                    _cpuTemperature = value;
+                    OnPropertyChanged(nameof(CpuTemperature));
                 }
             }
         }
 
-        public int AvailablePhysicalMemoryMb {
-            get => _availablePhysicalMemoryMb;
+        public ulong AvailablePhysicalMemory {
+            get => _availablePhysicalMemory;
             set {
-                if (_availablePhysicalMemoryMb != value) {
-                    _availablePhysicalMemoryMb = value;
-                    OnPropertyChanged(nameof(AvailablePhysicalMemoryMb));
+                if (_availablePhysicalMemory != value) {
+                    _availablePhysicalMemory = value;
+                    OnPropertyChanged(nameof(AvailablePhysicalMemory));
                 }
             }
         }

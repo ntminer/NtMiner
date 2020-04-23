@@ -7,18 +7,22 @@ namespace NTMiner.ServerNode {
     public class WebApiServerState : IServerState {
         public WebApiServerState() {
             this.WsServerNodes = new List<WsServerNodeState>();
+            this.Cpu = CpuData.Empty;
         }
 
         public string Address { get; set; }
 
         public string Description { get; set; }
 
-        public int CpuPerformance { get; set; }
-
-        public int TotalPhysicalMemoryMb { get; set; }
-
-        public int AvailablePhysicalMemoryMb { get; set; }
-
         public List<WsServerNodeState> WsServerNodes { get; set; }
+
+        public CpuData Cpu { get; set; }
+
+        public ulong TotalPhysicalMemory { get; set; }
+
+        public double CpuPerformance { get; set; }
+        public float CpuTemperature { get; set; }
+
+        public ulong AvailablePhysicalMemory { get; set; }
     }
 }

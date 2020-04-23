@@ -213,14 +213,11 @@ namespace NTMiner {
         }
 
         public static WebApiServerState GetServerState() {
-            ServerRoot.GetPhysicalMemoryMb(out int totalPhysicalMemoryMb, out int awailablePhysicalMemoryMb);
             return new WebApiServerState {
                 WsServerNodes = WsServerNodeSet.AsEnumerable().ToList(),
                 Address = ServerRoot.HostConfig.ThisServerAddress,
                 Description = string.Empty,
-                CpuPerformance = ServerRoot.GetCpuPerformance(),
-                TotalPhysicalMemoryMb = totalPhysicalMemoryMb,
-                AvailablePhysicalMemoryMb = awailablePhysicalMemoryMb
+                // TODO:
             };
         }
 
