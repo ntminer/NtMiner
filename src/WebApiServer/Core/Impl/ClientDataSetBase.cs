@@ -95,7 +95,7 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 if (isInclude && isFilterByMinerIp) {
-                    isInclude = query.MinerIp.Equals(item.MinerIp);
+                    isInclude = query.MinerIp.Equals(item.MinerIp) || (!string.IsNullOrEmpty(item.LocalIp) && item.LocalIp.Contains(query.MinerIp));
                 }
                 if (isInclude && isFilterByMinerName) {
                     isInclude = (!string.IsNullOrEmpty(item.MinerName) && item.MinerName.IndexOf(query.MinerName, StringComparison.OrdinalIgnoreCase) != -1)
@@ -145,6 +145,7 @@ namespace NTMiner.Core.Impl {
             var results = list.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
             foreach (var item in results) {
                 // 去除AESPassword避免在网络上传输
+                // TODO:这个操作改变了内存中的数据，因为数据不是复制后返回的，所以应想办法使ClientData模型上不带AESPassword参数
                 item.AESPassword = string.Empty;
             }
             DoCheckIsOnline(results);
