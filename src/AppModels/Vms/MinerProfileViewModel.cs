@@ -44,6 +44,7 @@ namespace NTMiner.Vms {
                 CreateShortcut();
             }
             this.Up = new DelegateCommand<string>(propertyName => {
+                #region
                 if (!_propertyInfos.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                     propertyInfo = this.GetType().GetProperty(propertyName);
                     if (propertyInfo == null) {
@@ -58,8 +59,10 @@ namespace NTMiner.Vms {
                 else if (propertyInfo.PropertyType == typeof(double)) {
                     propertyInfo.SetValue(this, Math.Round((double)propertyInfo.GetValue(this, null) + 0.1, 2), null);
                 }
+                #endregion
             });
             this.Down = new DelegateCommand<string>(propertyName => {
+                #region
                 if (!_propertyInfos.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
                     propertyInfo = this.GetType().GetProperty(propertyName);
                     if (propertyInfo == null) {
@@ -80,6 +83,7 @@ namespace NTMiner.Vms {
                         propertyInfo.SetValue(this, Math.Round(value - 0.1, 2), null);
                     }
                 }
+                #endregion
             });
             this.WsRetry = new DelegateCommand(() => {
                 RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: true);
@@ -94,6 +98,7 @@ namespace NTMiner.Vms {
                     }, location: this.GetType());
                 // 群控客户端已经有一个执行RefreshWsStateCommand命令的路径了
                 VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
+                    #region
                     if (message.WsClientState != null) {
                         isRefreshed = true;
                         this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
@@ -112,6 +117,7 @@ namespace NTMiner.Vms {
                             }
                         }
                     }
+                    #endregion
                 }, this.GetType(), LogEnum.DevConsole);
                 VirtualRoot.AddEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, action: message => {
                     if (IsOuterUserEnabled && !IsWsOnline) {
@@ -397,7 +403,7 @@ namespace NTMiner.Vms {
             }
         }
 
-        public void StartOrStopWs() {
+        private void StartOrStopWs() {
             // 只要外网启用状态变更或用户变更就调用，不管是启用还是禁用也不管用户是否正确是否为空都要调用
             // 未启用时以及不正确的用户时调用是为了通知守护进程关闭连接
             RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: false);

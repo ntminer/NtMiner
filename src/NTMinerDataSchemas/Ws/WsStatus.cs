@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Core.MinerServer {
+﻿namespace NTMiner.Ws {
     /// <summary>
     /// 服务器Ws服务的状态，该状态在ServerState中夹带着返回给客户端从而提供给客户端一个提早发现服务端Ws服务可用状态的机会。
     /// 为什么说提早呢？

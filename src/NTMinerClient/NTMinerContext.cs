@@ -15,6 +15,7 @@ using NTMiner.Impl;
 using NTMiner.Mine;
 using NTMiner.Report;
 using NTMiner.Windows;
+using NTMiner.Ws;
 using System;
 using System.IO;
 using System.Linq;
@@ -92,7 +93,7 @@ namespace NTMiner {
                                     VirtualRoot.ThisLocalError(nameof(NTMinerContext), "配置文件下载失败，这是第一次运行开源矿工，配置文件至少需要成功下载一次，请检查网络是否可用", OutEnum.Warn);
                                 }
                                 else {
-                                    VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), "配置文件下载失败，使用最近一次成功下载的配置文件", OutEnum.Warn);
+                                    VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), "配置文件下载失败，使用最近一次成功下载的配置文件");
                                 }
                             }
                             DoInit(isWork, callback);
@@ -182,6 +183,9 @@ namespace NTMiner {
                 }
                 else {
                     Write.DevDebug("server.json没有新版本");
+                }
+                if (serverState.WsStatus == WsStatus.Online) {
+                    VirtualRoot.RaiseEvent(new WsServerOkEvent());
                 }
             });
         }

@@ -1,5 +1,4 @@
-﻿using NTMiner.Vms;
-using NTMiner.Ws;
+﻿using NTMiner.Ws;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -51,9 +50,6 @@ namespace NTMiner.Daemon {
                 ExtractResource(NTKeyword.NTMinerDaemonFileName);
                 Windows.Cmd.RunClose(TempPath.DaemonFileFullName, string.Empty, waitForExit: true, createNoWindow: !DevMode.IsDevMode);
                 Logger.OkDebugLine("守护进程启动成功");
-                2.SecondsDelay().ContinueWith(t => {
-                    MinerProfileViewModel.Instance.StartOrStopWs();
-                });
             });
         }
 

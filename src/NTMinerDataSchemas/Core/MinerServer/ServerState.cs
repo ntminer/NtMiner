@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Ws;
+using System;
 
 namespace NTMiner.Core.MinerServer {
     public class ServerState {
@@ -77,7 +78,7 @@ namespace NTMiner.Core.MinerServer {
         /// </summary>
         public long OutputKeywordTimestamp { get; set; }
         /// <summary>
-        /// <see cref="MinerServer.WsStatus"/>
+        /// <see cref="Ws.WsStatus"/>
         /// </summary>
         public WsStatus WsStatus { get; set; }
     }
