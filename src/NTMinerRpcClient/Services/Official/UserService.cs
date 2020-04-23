@@ -28,6 +28,7 @@ namespace NTMiner.Services.Official {
             RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.QueryUsers), data: request, callback: (QueryUsersResponse response, Exception e) => {
                 if (response != null && response.Data != null && response.Data.Count != 0) {
                     foreach (var user in response.Data) {
+                        user.Password = Cryptography.QuickUtil.TextDecrypt(Convert.FromBase64String(user.Password), RpcRoot.RpcUser.Password);
                         user.PrivateKey = Cryptography.QuickUtil.TextDecrypt(Convert.FromBase64String(user.PrivateKey), RpcRoot.RpcUser.Password);
                     }
                 }

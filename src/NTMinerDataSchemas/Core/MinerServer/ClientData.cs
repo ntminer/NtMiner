@@ -1,4 +1,5 @@
 ﻿using LiteDB;
+using Newtonsoft.Json;
 using NTMiner.Core.MinerClient;
 using System;
 
@@ -615,6 +616,7 @@ namespace NTMiner.Core.MinerServer {
 
         public string OuterUserId { get; set; }
 
+        [JsonIgnore]
         public string AESPassword { get; set; }
 
         public DateTime AESPasswordOn { get; set; }

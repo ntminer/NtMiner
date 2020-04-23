@@ -21,6 +21,7 @@ namespace NTMiner.Controllers {
                 var datas = WebApiRoot.UserSet.QueryUsers(request, out int total).Select(a => a.Clone()).ToList();
                 foreach (var data in datas) {
                     // 不在网络上传输私钥原文，传输的是密文
+                    data.Password = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(data.Password, user.Password));
                     data.PrivateKey = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(data.PrivateKey, user.Password));
                 }
                 return new QueryUsersResponse {
