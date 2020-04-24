@@ -46,7 +46,10 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.AddEventPath<UserDisabledMqMessage>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, action: message => {
                 if (!string.IsNullOrEmpty(message.LoginName)) {
                     if (TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
-                        var toCloses = _dicByWsSessionId.Values.Where(a => a.LoginName == message.LoginName).ToArray();
+                        TSession[] toCloses;
+                        lock (_locker) {
+                            toCloses = _dicByWsSessionId.Values.Where(a => a.LoginName == message.LoginName).ToArray();
+                        }
                         foreach (var item in toCloses) {
                             if (wsSessionManager.TryGetSession(item.WsSessionId, out IWebSocketSession session)) {
                                 session.Context.WebSocket.CloseAsync(CloseStatusCode.Normal, "用户已被禁用");
@@ -63,7 +66,10 @@ namespace NTMiner.Core.Impl {
             }
             var thisNodeIp = ServerRoot.HostConfig.ThisServerAddress;
             ShardingHasher hash = new ShardingHasher(nodeAddresses);
-            List<TSession> needReGetServerAddressSessions = _dicByWsSessionId.Values.Where(a => hash.GetTargetNode(a.ClientId) != thisNodeIp).ToList();
+            List<TSession> needReGetServerAddressSessions;
+            lock (_locker) {
+                needReGetServerAddressSessions = _dicByWsSessionId.Values.Where(a => hash.GetTargetNode(a.ClientId) != thisNodeIp).ToList();
+            }
             if (needReGetServerAddressSessions.Count != 0) {
                 if (TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
                     if (_isMinerClient) {
@@ -101,7 +107,10 @@ namespace NTMiner.Core.Impl {
             int seconds = 120;
             DateTime activeOn = DateTime.Now.AddSeconds(-seconds);
             DateTime doubleActiveOn = activeOn.AddSeconds(-seconds);
-            var toRemoves = _dicByWsSessionId.Values.Where(a => a != null && a.ActiveOn <= activeOn).ToDictionary(a => a.WsSessionId, a => a);
+            Dictionary<string, TSession> toRemoves;
+            lock (_locker) {
+                toRemoves = _dicByWsSessionId.Values.Where(a => a != null && a.ActiveOn <= activeOn).ToDictionary(a => a.WsSessionId, a => a);
+            }
             if (TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
                 List<WebSocket> toCloseWses = new List<WebSocket>();
                 foreach (var wsSession in wsSessionManager.Sessions) {
@@ -131,7 +140,9 @@ namespace NTMiner.Core.Impl {
 
         public int Count {
             get {
-                return _dicByClientId.Count;
+                lock (_locker) {
+                    return _dicByClientId.Count;
+                }
             }
         }
 
@@ -169,11 +180,15 @@ namespace NTMiner.Core.Impl {
         }
 
         public bool TryGetByClientId(Guid clientId, out TSession ntminerSession) {
-            return _dicByClientId.TryGetValue(clientId, out ntminerSession);
+            lock (_locker) {
+                return _dicByClientId.TryGetValue(clientId, out ntminerSession);
+            }
         }
 
         public bool TryGetByWsSessionId(string wsSessionId, out TSession ntminerSession) {
-            return _dicByWsSessionId.TryGetValue(wsSessionId, out ntminerSession);
+            lock (_locker) {
+                return _dicByWsSessionId.TryGetValue(wsSessionId, out ntminerSession);
+            }
         }
 
         public bool ActiveByWsSessionId(string wsSessionId, out TSession ntminerSession) {
@@ -185,7 +200,9 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 else {
-                    _dicByClientId[ntminerSession.ClientId] = ntminerSession;
+                    lock (_locker) {
+                        _dicByClientId[ntminerSession.ClientId] = ntminerSession;
+                    }
                     return true;
                 }
             }
