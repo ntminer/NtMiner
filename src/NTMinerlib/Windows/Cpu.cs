@@ -2,6 +2,7 @@
 using NTMiner.ServerNode;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Management;
 
 namespace NTMiner.Windows {
@@ -28,14 +29,25 @@ namespace NTMiner.Windows {
             };
         }
 
+        private bool _isSupportGetTemperature = true;
+        /// <summary>
+        /// 因为该操作比较耗时，所以缓存1秒钟。
+        /// 注意：第一次请求非常耗时，约需要600毫秒，必须提前在非UI线程做第一次请求。
+        /// </summary>
+        /// <returns></returns>
         public double GetTemperature() {
+            if (!_isSupportGetTemperature) {
+                return 0.0;
+            }
             try {
-                ManagementObjectSearcher mos = new ManagementObjectSearcher(@"root\WMI", "Select * From MSAcpi_ThermalZoneTemperature");
-                foreach (ManagementObject mo in mos.Get()) {
-                    return Convert.ToDouble(Convert.ToDouble(mo.GetPropertyValue("CurrentTemperature").ToString()) - 2732) / 10;
+                using (var mos = new ManagementObjectSearcher(@"root\WMI", "Select CurrentTemperature From MSAcpi_ThermalZoneTemperature")) {
+                    foreach (ManagementObject mo in mos.Get()) {
+                        return Convert.ToDouble(Convert.ToDouble(mo.GetPropertyValue("CurrentTemperature").ToString()) - 2732) / 10;
+                    }
                 }
             }
             catch {
+                _isSupportGetTemperature = false;
             }
             return 0.0;
         }

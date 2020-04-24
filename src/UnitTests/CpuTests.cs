@@ -23,6 +23,12 @@ namespace NTMiner {
 
         [TestMethod]
         public void Test3() {
+            // 第一次请求非常耗时，约需要600毫秒
+            Cpu.Instance.GetTemperature();
+        }
+
+        [TestMethod]
+        public void Test4() {
             for (int i = 0; i < 100; i++) {
                 Cpu.Instance.GetTemperature();
             }
