@@ -12,15 +12,13 @@ namespace NTMiner.View {
             VirtualRoot.AddCmdPath<CloseNTMinerCommand>(action: message => {
                 // 不能推迟这个日志记录的时机，因为推迟会有windows异常日志
                 VirtualRoot.ThisLocalInfo(nameof(AbstractAppViewFactory), $"退出{VirtualRoot.AppName}。原因：{message.Reason}");
-                UIThread.Execute(() => {
-                    try {
-                        Application.Current.Shutdown();
-                    }
-                    catch (Exception ex) {
-                        Logger.ErrorDebugLine(ex);
-                        Environment.Exit(0);
-                    }
-                });
+                try {
+                    Application.Current.Shutdown();
+                }
+                catch (Exception ex) {
+                    Logger.ErrorDebugLine(ex);
+                    Environment.Exit(0);
+                }
             }, location: typeof(AbstractAppViewFactory));
         }
 
