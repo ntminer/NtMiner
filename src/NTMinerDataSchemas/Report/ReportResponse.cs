@@ -1,7 +1,8 @@
-﻿using NTMiner.ServerNode;
+﻿using NTMiner.Core.MinerServer;
+using NTMiner.ServerNode;
 using System.Collections.Generic;
 
-namespace NTMiner.Core.MinerServer {
+namespace NTMiner.Report {
     public class ReportResponse : ResponseBase {
         public ReportResponse() {
             this.ServerState = ServerStateResponse.Empty;

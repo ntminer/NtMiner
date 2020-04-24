@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
-using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profile;
 using NTMiner.Core.Profiles;
 using NTMiner.Mine;

@@ -1,7 +1,8 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core;
+using NTMiner.Core.MinerClient;
 using System;
 
-namespace NTMiner.Core.MinerServer {
+namespace NTMiner.Report {
     public interface ISpeedData : IMinerIp {
         Guid MineContextId { get; }
         DateTime LocalServerMessageTimestamp { get; }

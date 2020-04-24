@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.Hub;
+using NTMiner.Report;
 using NTMiner.VirtualMemory;
 using System;
 using System.Collections.Generic;

@@ -1,7 +1,8 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core;
+using NTMiner.Core.MinerClient;
 using System;
 
-namespace NTMiner.Core.MinerServer {
+namespace NTMiner.Report {
     /// <summary>
     /// 向服务器上报算力时的算力类型
     /// TODO:考虑加个压缩逻辑，只上报变更的字段

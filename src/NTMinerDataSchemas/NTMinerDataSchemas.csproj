@@ -149,7 +149,7 @@
     <Compile Include="Ws\WsMessage.cs" />
     <Compile Include="Core\MinerClient\IGpuSpeedData.cs" />
     <Compile Include="Core\MinerClient\ILocalIp.cs" />
-    <Compile Include="Core\MinerServer\ISpeedData.cs" />
+    <Compile Include="Report\ISpeedData.cs" />
     <Compile Include="Core\MinerClient\LocalIpDto.cs" />
     <Compile Include="Core\MinerServer\IMinerData.cs" />
     <Compile Include="Core\MinerServer\INTMinerWallet.cs" />
@@ -158,7 +158,7 @@
     <Compile Include="Core\MinerServer\KernelOutputKeywordsResponse.cs" />
     <Compile Include="Core\MinerServer\NTMinerWalletData.cs" />
     <Compile Include="Core\LocalMessageChannel.cs" />
-    <Compile Include="Core\MinerServer\ReportResponse.cs" />
+    <Compile Include="Report\ReportResponse.cs" />
     <Compile Include="Core\MinerServer\ServerMessageData.cs" />
     <Compile Include="Core\MinerServer\ServerMessagesRequest.cs" />
     <Compile Include="Core\MinerServer\ServerMessageType.cs" />
@@ -230,13 +230,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Core\MinerServer\QueryClientsRequest.cs" />
     <Compile Include="Core\MinerServer\QueryClientsResponse.cs" />
-    <Compile Include="Core\MinerServer\ReportState.cs" />
+    <Compile Include="Report\ReportState.cs" />
     <Compile Include="Core\PublishStatus.cs" />
     <Compile Include="IRequest.cs" />
     <Compile Include="ResponseBase.cs" />
     <Compile Include="ResponseBaseExtension.cs" />
     <Compile Include="Core\MinerServer\SaveCalcConfigsRequest.cs" />
-    <Compile Include="Core\MinerServer\SpeedData.cs" />
+    <Compile Include="Report\SpeedData.cs" />
     <Compile Include="Timestamp.cs" />
     <Compile Include="Core\MinerServer\UpdateClientRequest.cs" />
     <Compile Include="Core\WalletData.cs" />

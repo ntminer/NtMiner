@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.MinerServer;
 using NTMiner.Core.Mq.Senders;
 using NTMiner.Core.Redis;
+using NTMiner.Report;
 using System;
 using System.Collections.Generic;
 using System.Reflection;

@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
+using NTMiner.Report;
 using NTMiner.VirtualMemory;
 using RabbitMQ.Client;
 using System;

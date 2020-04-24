@@ -1,7 +1,7 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Core;
 using NTMiner.Core.Daemon;
-using NTMiner.Core.MinerServer;
+using NTMiner.Report;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Report;
+using System;
 
 namespace NTMiner.Core.MinerServer {
     public interface IClientData : IMinerData, ISpeedData {

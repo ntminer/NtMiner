@@ -1,6 +1,5 @@
 ﻿using NTMiner.Controllers;
-using NTMiner.Core.MinerClient;
-using NTMiner.Core.MinerServer;
+using NTMiner.Report;
 using System;
 
 namespace NTMiner.Services.Official {

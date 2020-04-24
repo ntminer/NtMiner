@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.MinerServer;
+using NTMiner.Report;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;

@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.MinerServer;
+﻿using NTMiner.Report;
 
 namespace NTMiner.Core {
     public interface IClientDataSet : IClientDataSetBase {

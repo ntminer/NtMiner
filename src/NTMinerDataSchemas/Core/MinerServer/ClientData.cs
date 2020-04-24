@@ -1,6 +1,7 @@
 ﻿using LiteDB;
 using Newtonsoft.Json;
 using NTMiner.Core.MinerClient;
+using NTMiner.Report;
 using System;
 
 namespace NTMiner.Core.MinerServer {

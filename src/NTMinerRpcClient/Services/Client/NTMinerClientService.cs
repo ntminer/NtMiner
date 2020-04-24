@@ -1,6 +1,6 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Core;
-using NTMiner.Core.MinerServer;
+using NTMiner.Report;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

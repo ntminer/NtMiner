@@ -1,5 +1,4 @@
-﻿using NTMiner.Core.MinerClient;
-using NTMiner.Core.MinerServer;
+﻿using NTMiner.Report;
 
 namespace NTMiner.Controllers {
     public interface IReportController {
