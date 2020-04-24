@@ -15,7 +15,7 @@ namespace NTMiner.Core.Cpus.Impl {
                 Task.Factory.StartNew(() => {
                     // 注意：第一次GetTemperature请求约需要160毫秒，所以提前在非UI线程做第一次请求。
                     CpuUtil.GetTemperature();
-                    VirtualRoot.AddEventPath<Per1SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
+                    VirtualRoot.AddEventPath<Per2SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
                         action: message => {
                             Update();
                             #region CPU温度过高时自动停止挖矿和温度降低时自动开始挖矿
@@ -69,7 +69,7 @@ namespace NTMiner.Core.Cpus.Impl {
         private void Update() {
             bool isChanged = false;
             // 该操作约耗时100毫秒
-            double temperature = CpuUtil.GetTemperature();
+            int temperature = (int)CpuUtil.GetTemperature();
             double performance = Windows.Cpu.Instance.GetCurrentCpuUsage();
             if (performance != this.Performance) {
                 isChanged = true;
@@ -77,7 +77,7 @@ namespace NTMiner.Core.Cpus.Impl {
             }
             if (temperature != this.Temperature) {
                 isChanged = true;
-                this.Temperature = (int)temperature;
+                this.Temperature = temperature;
             }
             if (isChanged) {
                 VirtualRoot.RaiseEvent(new CpuPackageStateChangedEvent());
