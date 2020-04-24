@@ -33,9 +33,9 @@ namespace NTMiner.Vms {
             _osInfo = data.OSInfo;
             _cpu = data.Cpu;
             _totalPhysicalMemory = data.TotalPhysicalMemory;
+            _availablePhysicalMemory = data.AvailablePhysicalMemory;
             _cpuPerformance = data.CpuPerformance;
             _cpuTemperature = data.CpuTemperature;
-            _availablePhysicalMemory = data.AvailablePhysicalMemory;
 
         }
 
@@ -148,7 +148,14 @@ namespace NTMiner.Vms {
                 if (_cpuPerformance != value) {
                     _cpuPerformance = value;
                     OnPropertyChanged(nameof(CpuPerformance));
+                    OnPropertyChanged(nameof(CpuPerformanceText));
                 }
+            }
+        }
+
+        public string CpuPerformanceText {
+            get {
+                return this.CpuPerformance.ToString("f1");
             }
         }
 
@@ -158,7 +165,14 @@ namespace NTMiner.Vms {
                 if (_cpuTemperature != value) {
                     _cpuTemperature = value;
                     OnPropertyChanged(nameof(CpuTemperature));
+                    OnPropertyChanged(nameof(CpuTemperatureText));
                 }
+            }
+        }
+
+        public string CpuTemperatureText {
+            get {
+                return this.CpuTemperature.ToString("f1");
             }
         }
 

@@ -8,7 +8,7 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="1000">
+	mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="1600">
 	<UserControl.DataContext>
         <vm:WsServerNodePageViewModel></vm:WsServerNodePageViewModel>
 	</UserControl.DataContext>
@@ -29,6 +29,24 @@
                 <DataGridTextColumn IsReadOnly="True" Width="124" Header="群控客户端Ws会话数" Binding="{Binding MinerStudioWsSessionCount}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="106" Header="群控客户端会话数" Binding="{Binding MinerStudioSessionCount}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="140" Header="操作系统" Binding="{Binding OSInfo}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="90" Header="总内存" Binding="{Binding TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="90" Header="剩余内存" Binding="{Binding AvailablePhysicalMemory,Converter={StaticResource ByteToGbConverter}}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU使用率" Binding="{Binding CpuPerformanceText}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU温度" Binding="{Binding CpuTemperatureText}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="300" Header="CPU名称" Binding="{Binding Cpu.Name}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU核数" Binding="{Binding Cpu.NumberOfLogicalCores}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU主频" Binding="{Binding Cpu.ClockSpeed}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU架构" Binding="{Binding Cpu.ProcessorArchitecture}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
 				</DataGridTextColumn>

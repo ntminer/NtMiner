@@ -10,7 +10,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "外网群控服务器节点",
                 IconName = "Icon_Server",
-                Width = 1000,
+                Width = 1600,
                 Height = 400,
                 IsMaskTheParent = false,
                 IsChildWindow = true,
