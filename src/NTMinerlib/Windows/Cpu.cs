@@ -41,8 +41,12 @@ namespace NTMiner.Windows {
             }
             try {
                 using (var mos = new ManagementObjectSearcher(@"root\WMI", "Select CurrentTemperature From MSAcpi_ThermalZoneTemperature")) {
+                    ManagementObject last = null;
                     foreach (ManagementObject mo in mos.Get()) {
-                        return Convert.ToDouble(Convert.ToDouble(mo.GetPropertyValue("CurrentTemperature").ToString()) - 2732) / 10;
+                        last = mo;
+                    }
+                    if (last != null) {
+                        return Convert.ToDouble(Convert.ToDouble(last.GetPropertyValue("CurrentTemperature").ToString()) - 2732) / 10;
                     }
                 }
             }
