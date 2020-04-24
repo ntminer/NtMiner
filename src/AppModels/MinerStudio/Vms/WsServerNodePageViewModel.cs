@@ -15,13 +15,15 @@ namespace NTMiner.MinerStudio.Vms {
         public void Refresh() {
             RpcRoot.OfficialServer.WebApiServerNodeService.GetServerStateAsync((response, e) => {
                 if (response.IsSuccess()) {
-                    if (_webApiServerStateVm == null) {
-                        WebApiServerStateVm = new WebApiServerStateViewModel(response.Data);
-                    }
-                    else {
-                        _webApiServerStateVm.Update(response.Data);
-                        OnPropertyChanged(nameof(IsNodeRecordVisible));
-                    }
+                    UIThread.Execute(() => {
+                        if (_webApiServerStateVm == null) {
+                            WebApiServerStateVm = new WebApiServerStateViewModel(response.Data);
+                        }
+                        else {
+                            _webApiServerStateVm.Update(response.Data);
+                            OnPropertyChanged(nameof(IsNodeRecordVisible));
+                        }
+                    });
                 }
                 else {
                     VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
