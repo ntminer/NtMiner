@@ -74,7 +74,6 @@ namespace NTMiner.Core.Impl {
             }
             var ram = Windows.Ram.Instance;
             var cpu = Windows.Cpu.Instance;
-            cpu.GetSensorValue(out double performance, out float temperature, out double _);
             RpcRoot.OfficialServer.WsServerNodeService.ReportNodeStateAsync(new WsServerNodeState {
                 Address = ServerRoot.HostConfig.ThisServerAddress,
                 Description = string.Empty,
@@ -86,8 +85,7 @@ namespace NTMiner.Core.Impl {
                 TotalPhysicalMemory = ram.TotalPhysicalMemory,
                 AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
                 OSInfo = Windows.OS.Instance.OsInfo,
-                CpuPerformance = performance,
-                CpuTemperature = temperature
+                CpuPerformance = cpu.GetCurrentCpuUsage()
             }, (response, e) => {
                 if (response.IsSuccess()) {
                     Write.UserOk("呼吸成功");

@@ -9,7 +9,6 @@
         string Address { get; }
         // 以下三项是动态数据
         double CpuPerformance { get; set; }
-        float CpuTemperature { get; set; }
         ulong AvailablePhysicalMemory { get; }
     }
 }

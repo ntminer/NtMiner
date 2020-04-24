@@ -13,7 +13,6 @@ namespace NTMiner.Vms {
         private CpuData _cpu;
         private ulong _totalPhysicalMemory;
         private double _cpuPerformance;
-        private float _cpuTemperature;
         private ulong _availablePhysicalMemory;
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
@@ -35,7 +34,6 @@ namespace NTMiner.Vms {
             _totalPhysicalMemory = data.TotalPhysicalMemory;
             _availablePhysicalMemory = data.AvailablePhysicalMemory;
             _cpuPerformance = data.CpuPerformance;
-            _cpuTemperature = data.CpuTemperature;
 
         }
 
@@ -48,7 +46,6 @@ namespace NTMiner.Vms {
             this.MinerClientSessionCount = data.MinerClientSessionCount;
             this.MinerStudioSessionCount = data.MinerStudioSessionCount;
             this.CpuPerformance = data.CpuPerformance;
-            this.CpuTemperature = data.CpuTemperature;
             this.AvailablePhysicalMemory = data.AvailablePhysicalMemory;
         }
 
@@ -156,23 +153,6 @@ namespace NTMiner.Vms {
         public string CpuPerformanceText {
             get {
                 return this.CpuPerformance.ToString("f1");
-            }
-        }
-
-        public float CpuTemperature {
-            get => _cpuTemperature;
-            set {
-                if (_cpuTemperature != value) {
-                    _cpuTemperature = value;
-                    OnPropertyChanged(nameof(CpuTemperature));
-                    OnPropertyChanged(nameof(CpuTemperatureText));
-                }
-            }
-        }
-
-        public string CpuTemperatureText {
-            get {
-                return this.CpuTemperature.ToString("f1");
             }
         }
 

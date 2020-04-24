@@ -18,7 +18,6 @@ namespace NTMiner.Core.Impl {
                     AvailablePhysicalMemory = data.AvailablePhysicalMemory,
                     Cpu = data.Cpu,
                     CpuPerformance = data.CpuPerformance,
-                    CpuTemperature = data.CpuTemperature,
                     OSInfo = data.OSInfo,
                     TotalPhysicalMemory = data.TotalPhysicalMemory,
                     ActiveOn = DateTime.Now,

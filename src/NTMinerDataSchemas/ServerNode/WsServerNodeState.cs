@@ -23,7 +23,6 @@ namespace NTMiner.ServerNode {
         public ulong TotalPhysicalMemory { get; set; }
 
         public double CpuPerformance { get; set; }
-        public float CpuTemperature { get; set; }
         public ulong AvailablePhysicalMemory { get; set; }
 
         public StringBuilder GetSignData() {
