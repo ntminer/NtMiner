@@ -31,13 +31,11 @@ namespace NTMiner.Views.Ucs {
             });
         }
 
-        public CoinPageViewModel Vm {
-            get {
-                return (CoinPageViewModel)this.DataContext;
-            }
-        }
+        public CoinPageViewModel Vm { get; private set; }
 
         public CoinPage() {
+            this.Vm = new CoinPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             AppRoot.CoinVms.PropertyChanged += Current_PropertyChanged;
             this.Unloaded += CoinPage_Unloaded;

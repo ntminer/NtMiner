@@ -11,11 +11,9 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	Background="White"
-	mc:Ignorable="d" d:DesignWidth="600">
-    <UserControl.DataContext>
-        <vm:InnerPropertyViewModel></vm:InnerPropertyViewModel>
-    </UserControl.DataContext>
-	<UserControl.Resources>
+	mc:Ignorable="d" d:DesignWidth="600"
+    d:DataContext="{d:DesignData Source=../Design/InnerPropertyViewModel.xaml}">
+    <UserControl.Resources>
         <sys:Double x:Key="LblWidth">120</sys:Double>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="{StaticResource LblWidth}"></Setter>

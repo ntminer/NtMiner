@@ -15,13 +15,11 @@ namespace NTMiner.Views.Ucs {
             ucFactory: (window) => new FragmentWriterPage());
         }
 
-        private FragmentWriterPageViewModel Vm {
-            get {
-                return (FragmentWriterPageViewModel)this.DataContext;
-            }
-        }
+        public FragmentWriterPageViewModel Vm { get; private set; }
 
         private FragmentWriterPage() {
+            this.Vm = new FragmentWriterPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

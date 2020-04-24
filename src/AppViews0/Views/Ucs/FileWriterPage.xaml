@@ -11,10 +11,8 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	mc:Ignorable="d"
 	Background="White"
-	d:DesignHeight="520" d:DesignWidth="1200">
-	<UserControl.DataContext>
-		<vm:FileWriterPageViewModel></vm:FileWriterPageViewModel>
-	</UserControl.DataContext>
+	d:DesignHeight="520" d:DesignWidth="1200"
+    d:DataContext="{d:DesignData Source=../Design/FileWriterPageViewModel.xaml}">
 	<Grid>
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding FileWriterVms.List}" 

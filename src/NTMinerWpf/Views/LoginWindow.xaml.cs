@@ -22,7 +22,7 @@ namespace NTMiner.Views {
             }
         }
 
-        private LoginWindowViewModel Vm { get; set; }
+        public LoginWindowViewModel Vm { get; private set; }
 
         private readonly Action _onLoginSuccess;
         private readonly Action _btnCloseClick;

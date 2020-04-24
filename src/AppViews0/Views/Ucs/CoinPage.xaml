@@ -11,10 +11,8 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	mc:Ignorable="d"
 	Background="{StaticResource ThemeBackground}"
-	d:DesignHeight="520" d:DesignWidth="960">
-	<UserControl.DataContext>
-		<vm:CoinPageViewModel></vm:CoinPageViewModel>
-	</UserControl.DataContext>
+	d:DesignHeight="520" d:DesignWidth="960"
+    d:DataContext="{d:DesignData Source=../Design/CoinPageViewModel.xaml}">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>

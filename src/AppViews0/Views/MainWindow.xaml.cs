@@ -13,7 +13,7 @@ namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
         private bool mRestoreIfMove = false;
 
-        private MainWindowViewModel Vm { get; set; }
+        public MainWindowViewModel Vm { get; private set; }
 
         private HwndSource hwndSource;
         private readonly GridLength _leftDrawerGripWidth;

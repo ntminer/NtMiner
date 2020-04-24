@@ -15,13 +15,11 @@ namespace NTMiner.Views.Ucs {
             ucFactory: (window) => new FileWriterPage());
         }
 
-        private FileWriterPageViewModel Vm {
-            get {
-                return (FileWriterPageViewModel)this.DataContext;
-            }
-        }
+        public FileWriterPageViewModel Vm { get; private set; }
 
         private FileWriterPage() {
+            this.Vm = new FileWriterPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

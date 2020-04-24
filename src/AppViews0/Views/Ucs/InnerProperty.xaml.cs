@@ -4,13 +4,11 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class InnerProperty : UserControl {
-        public InnerPropertyViewModel Vm {
-            get {
-                return (InnerPropertyViewModel)this.DataContext;
-            }
-        }
+        public InnerPropertyViewModel Vm { get; private set; }
 
         public InnerProperty() {
+            this.Vm = new InnerPropertyViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(window => {
                 window.AddEventPath<ServerJsonVersionChangedEvent>("刷新展示的ServerJsonVersion", LogEnum.DevConsole, action: message => {
