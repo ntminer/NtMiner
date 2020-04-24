@@ -18,13 +18,11 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, ucFactory: (window) => new NTMinerWalletPage(), fixedSize: true);
         }
 
-        public NTMinerWalletPageViewModel Vm {
-            get {
-                return (NTMinerWalletPageViewModel)this.DataContext;
-            }
-        }
+        public NTMinerWalletPageViewModel Vm { get; private set; }
 
         public NTMinerWalletPage() {
+            this.Vm = new NTMinerWalletPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

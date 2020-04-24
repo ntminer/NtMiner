@@ -18,13 +18,11 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, ucFactory: (window) => new OverClockDataPage(), fixedSize: true);
         }
 
-        public OverClockDataPageViewModel Vm {
-            get {
-                return (OverClockDataPageViewModel)this.DataContext;
-            }
-        }
+        public OverClockDataPageViewModel Vm { get; private set; }
 
         public OverClockDataPage() {
+            this.Vm = new OverClockDataPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

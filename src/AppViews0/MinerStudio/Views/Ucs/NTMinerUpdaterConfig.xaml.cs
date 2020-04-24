@@ -21,13 +21,11 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, fixedSize: true);
         }
 
-        public NTMinerUpdaterConfigViewModel Vm {
-            get {
-                return (NTMinerUpdaterConfigViewModel)this.DataContext;
-            }
-        }
+        public NTMinerUpdaterConfigViewModel Vm { get; private set; }
 
         public NTMinerUpdaterConfig() {
+            this.Vm = new NTMinerUpdaterConfigViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
     }
