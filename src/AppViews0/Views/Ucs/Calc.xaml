@@ -10,10 +10,8 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="800">
-	<UserControl.DataContext>
-		<vm:CalcViewModel></vm:CalcViewModel>
-	</UserControl.DataContext>
+	mc:Ignorable="d" d:DesignHeight="300" d:DesignWidth="800"
+    d:DataContext="{d:DesignData Source=../Design/CalcViewModel.xaml}">
     <Grid>
         <DataGrid 
 			ItemsSource="{Binding CoinVms.AllCoins}" 

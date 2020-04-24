@@ -15,13 +15,11 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => new CoinGroupPage(), fixedSize: false);
         }
 
-        private CoinGroupPageViewModel Vm {
-            get {
-                return (CoinGroupPageViewModel)this.DataContext;
-            }
-        }
+        public CoinGroupPageViewModel Vm { get; private set; }
 
         public CoinGroupPage() {
+            this.Vm = new CoinGroupPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

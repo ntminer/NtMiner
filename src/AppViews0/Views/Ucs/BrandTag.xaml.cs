@@ -17,12 +17,11 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: false);
         }
 
-        private BrandTagViewModel Vm {
-            get {
-                return (BrandTagViewModel)this.DataContext;
-            }
-        }
+        public BrandTagViewModel Vm { get; private set; }
+
         public BrandTag() {
+            this.Vm = new BrandTagViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
     }

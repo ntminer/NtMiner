@@ -12,10 +12,8 @@
 	Background="White"
 	mc:Ignorable="d" 
     d:DesignHeight="420" 
-    d:DesignWidth="660">
-	<UserControl.DataContext>
-		<vm:CoinGroupPageViewModel></vm:CoinGroupPageViewModel>
-	</UserControl.DataContext>
+    d:DesignWidth="660"
+    d:DataContext="{d:DesignData Source=../Design/CoinGroupPageViewModel.xaml}">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>
