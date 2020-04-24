@@ -70,11 +70,7 @@
                             </Path>
                         </Border>
                         <StackPanel Margin="2 0 0 0">
-                            <WrapPanel Width="74">
-                                <TextBlock Text="{Binding CpuPerformanceText}" ToolTip="CPU使用率" Padding="0" />
-                                <TextBlock Text="," Padding="0 0 4 0" />
-                                <TextBlock Text="{Binding CpuPowerText}" ToolTip="CPU功耗" Padding="0" />
-                            </WrapPanel>
+                            <TextBlock Width="74" Text="{Binding CpuPerformanceText}" ToolTip="CPU使用率" Padding="0" />
                             <TextBlock Width="74" Text="{Binding CpuTemperatureText}" ToolTip="CPU温度" Margin="0 -2 0 0" Padding="0" />
                         </StackPanel>
                         <Border Margin="0 0 2 0" ToolTip="显卡温度" Background="Transparent">

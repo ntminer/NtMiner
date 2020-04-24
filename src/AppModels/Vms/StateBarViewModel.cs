@@ -16,7 +16,6 @@ namespace NTMiner.Vms {
         private string _localIps;
         private readonly DateTime _bootTime = DateTime.MinValue;
         private string _cpuPerformanceText = "0 %";
-        private string _cpuPowerText = "0 W";
         private string _cpuTemperatureText = "0 ℃";
 
         public ICommand WindowsAutoLogon { get; private set; }
@@ -115,16 +114,6 @@ namespace NTMiner.Vms {
                 if (_cpuPerformanceText != value) {
                     _cpuPerformanceText = value;
                     OnPropertyChanged(nameof(CpuPerformanceText));
-                }
-            }
-        }
-
-        public string CpuPowerText {
-            get => _cpuPowerText;
-            set {
-                if (_cpuPowerText != value) {
-                    _cpuPowerText = value;
-                    OnPropertyChanged(nameof(CpuPowerText));
                 }
             }
         }

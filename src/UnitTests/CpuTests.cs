@@ -8,8 +8,7 @@ namespace NTMiner {
         [TestMethod]
         public void CpuTest1() {
             for (int i = 0; i < 100; i++) {
-                CpuUtil.GetSensorValue(out float temperature, out double power);
-                Console.WriteLine($"温度：{temperature.ToString("f1")} ℃ 功耗：{power.ToString("f1")} W");
+                Console.WriteLine($"温度：{Cpu.Instance.GetTemperature().ToString("f1")} ℃");
                 Console.WriteLine($"PerformanceCounter CpuUsage {Cpu.Instance.GetCurrentCpuUsage().ToString("f1")} %");
                 System.Threading.Thread.Sleep(10);
             }
@@ -19,6 +18,13 @@ namespace NTMiner {
         public void CpuTest2() {
             for (int i = 0; i < 10000; i++) {
                 Cpu.Instance.GetCurrentCpuUsage();
+            }
+        }
+
+        [TestMethod]
+        public void Test3() {
+            for (int i = 0; i < 100; i++) {
+                Cpu.Instance.GetTemperature();
             }
         }
     }

@@ -142,7 +142,6 @@
     <Compile Include="Core\Impl\ClientDataSet.cs" />
     <Compile Include="Core\Impl\CoinSnapshotSet.cs" />
     <Compile Include="Core\MinerStudio\MinerStudioPath.cs" />
-    <Compile Include="CpuUtil.cs" />
     <Compile Include="Mine\Cleaner.cs" />
     <Compile Include="Mine\DualMineContext.cs" />
     <Compile Include="Mine\MineContext.cs" />

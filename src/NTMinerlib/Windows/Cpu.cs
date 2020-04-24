@@ -2,6 +2,7 @@
 using NTMiner.ServerNode;
 using System;
 using System.Diagnostics;
+using System.Management;
 
 namespace NTMiner.Windows {
     /// <summary>
@@ -25,6 +26,18 @@ namespace NTMiner.Windows {
                 ProcessorLevel = this.ProcessorLevel,
                 VendorIdentifier = this.VendorIdentifier
             };
+        }
+
+        public double GetTemperature() {
+            try {
+                ManagementObjectSearcher mos = new ManagementObjectSearcher(@"root\WMI", "Select * From MSAcpi_ThermalZoneTemperature");
+                foreach (ManagementObject mo in mos.Get()) {
+                    return Convert.ToDouble(Convert.ToDouble(mo.GetPropertyValue("CurrentTemperature").ToString()) - 2732) / 10;
+                }
+            }
+            catch {
+            }
+            return 0.0;
         }
 
         /// <summary>

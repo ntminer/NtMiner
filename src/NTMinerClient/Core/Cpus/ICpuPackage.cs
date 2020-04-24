@@ -10,7 +10,6 @@ namespace NTMiner.Core.Cpus {
         /// </summary>
         int Performance { get; }
         int Temperature { get; }
-        int Power { get; }
 
         DateTime LowPerformanceOn { get; }
 
