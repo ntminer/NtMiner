@@ -21,7 +21,7 @@ namespace NTMiner {
             if (!_propertyInfos.TryGetValue(type, out PropertyInfo[] properties)) {
                 lock (_locker) {
                     if (!_propertyInfos.TryGetValue(type, out properties)) {
-                        properties = type.GetProperties().Where(a => a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(ManualSignAttribute), inherit: false).Length == 0).ToArray();
+                        properties = type.GetProperties().Where(a => a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(ManualSignAttribute), inherit: false).Length == 0).OrderBy(a => a.Name).ToArray();
                         _propertyInfos.Add(type, properties);
                     }
                 }
