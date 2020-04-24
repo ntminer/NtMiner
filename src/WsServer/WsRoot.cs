@@ -3,6 +3,7 @@ using NTMiner.Core.Impl;
 using NTMiner.Core.Mq.MqMessagePaths;
 using NTMiner.Core.Mq.Senders;
 using NTMiner.Core.Mq.Senders.Impl;
+using NTMiner.Core.Redis;
 using NTMiner.Core.Redis.Impl;
 using NTMiner.User;
 using System;
@@ -44,6 +45,7 @@ namespace NTMiner {
         public static IReadOnlyUserSet ReadOnlyUserSet { get; private set; }
         public static IMinerSignSet MinerSignSet { get; private set; }
         public static IWsServerNodeAddressSet WsServerNodeAddressSet { get; private set; }
+        public static ISpeedDataRedis SpeedDataRedis { get; private set; }
         public static IMinerClientMqSender MinerClientMqSender { get; private set; }
         public static IOperationMqSender OperationMqSender { get; private set; }
         public static IUserMqSender UserMqSender { get; private set; }
@@ -76,6 +78,7 @@ namespace NTMiner {
                 return;
             }
             MinerClientMqSender = new MinerClientMqSender(_serverContext.Channel);
+            SpeedDataRedis = new SpeedDataRedis(_serverContext.RedisConn);
             OperationMqSender = new OperationMqSender(_serverContext.Channel);
             UserMqSender = new UserMqSender(_serverContext.Channel);
             var minerRedis = new ReadOnlyMinerRedis(_serverContext.RedisConn);

@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
-using NTMiner.Report;
 using NTMiner.VirtualMemory;
 using RabbitMQ.Client;
 using System;
@@ -144,19 +143,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 routingKey: WsMqKeyword.GetSpeedRoutingKey,
                 basicProperties: CreateBasicProperties(loginName),
                 body: OperationMqBodyUtil.GetGetSpeedMqSendBody(clientIds));
-        }
-
-        public void SendSpeed(string loginName, SpeedData speedData, string minerIp) {
-            if (string.IsNullOrEmpty(loginName) || speedData == null || string.IsNullOrEmpty(minerIp)) {
-                return;
-            }
-            var basicProperties = CreateBasicProperties(loginName);
-            basicProperties.Headers[MqKeyword.MinerIpHeaderName] = minerIp;
-            _mqChannel.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
-                routingKey: MqKeyword.SpeedRoutingKey,
-                basicProperties: basicProperties,
-                body: OperationMqBodyUtil.GetSpeedMqSendBody(speedData));
         }
 
         public void SendEnableRemoteDesktop(string loginName, Guid clientId) {

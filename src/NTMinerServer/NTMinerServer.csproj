@@ -52,6 +52,8 @@
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`3.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`2.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\ReadOnlyUserMqMessagePath.cs" />
+    <Compile Include="Core\Redis\Impl\SpeedDataRedis.cs" />
+    <Compile Include="Core\Redis\ISpeedDataRedis.cs" />
     <Compile Include="ServerAppType.cs" />
     <Compile Include="ServerRoot.cs" />
     <Compile Include="MinerSignExtensions.cs" />

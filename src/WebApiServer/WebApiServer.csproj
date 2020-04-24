@@ -151,9 +151,7 @@
     <Compile Include="Core\Redis\IMinerRedis.cs" />
     <Compile Include="Core\Redis\Impl\CaptchaRedis.cs" />
     <Compile Include="Core\Redis\Impl\MinerRedis.cs" />
-    <Compile Include="Core\Redis\Impl\SpeedDataRedis.cs" />
     <Compile Include="Core\Redis\Impl\UserRedis.cs" />
-    <Compile Include="Core\Redis\ISpeedDataRedis.cs" />
     <Compile Include="Core\Redis\IUserRedis.cs" />
     <Compile Include="UserDataExtensions.cs" />
     <Compile Include="WebApiRoot.cs" />

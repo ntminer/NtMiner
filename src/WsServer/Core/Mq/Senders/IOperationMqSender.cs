@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
-using NTMiner.Report;
 using NTMiner.VirtualMemory;
 using System;
 using System.Collections.Generic;
@@ -26,7 +25,6 @@ namespace NTMiner.Core.Mq.Senders {
         void SendOperationReceived(string loginName, Guid clientId);
 
         void SendGetSpeed(string loginName, List<Guid> clientIds);
-        void SendSpeed(string loginName, SpeedData speedData, string minerIp);
 
         void SendEnableRemoteDesktop(string loginName, Guid clientId);
         void SendBlockWAU(string loginName, Guid clientId);

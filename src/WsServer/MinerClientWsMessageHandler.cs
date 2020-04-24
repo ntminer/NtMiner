@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace NTMiner {
     public static class MinerClientWsMessageHandler {
-        private static readonly Dictionary<string, Action<MinerClientBehavior, string, Guid, WsMessage>> 
+        private static readonly Dictionary<string, Action<MinerClientBehavior, string, Guid, WsMessage>>
             _handlers = new Dictionary<string, Action<MinerClientBehavior, string, Guid, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
             {WsMessage.ConsoleOutLines,
                 (wsBehavior, loginName, clientId, message) => {
@@ -53,7 +53,9 @@ namespace NTMiner {
             {WsMessage.Speed,
                 (wsBehavior, loginName, clientId, message) => {
                     if (message.TryGetData(out SpeedData speedData)) {
-                        WsRoot.OperationMqSender.SendSpeed(loginName, speedData, wsBehavior.Context.UserEndPoint.ToString());
+                        WsRoot.SpeedDataRedis.SetAsync(speedData).ContinueWith(t => {
+                            WsRoot.MinerClientMqSender.SendSpeed(loginName, speedData.ClientId, wsBehavior.Context.UserEndPoint.ToString());
+                        });
                     }
                 }
             },

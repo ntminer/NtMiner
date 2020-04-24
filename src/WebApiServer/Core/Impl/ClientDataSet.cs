@@ -41,14 +41,16 @@ namespace NTMiner.Core.Impl {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
-                if (message.SpeedData == null) {
+                if (message.ClientId == Guid.Empty) {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
                     Write.UserOk(_safeIgnoreMessage);
                     return;
                 }
-                ReportSpeed(message.SpeedData, message.MinerIp);
+                speedDataRedis.GetByClientIdAsync(message.ClientId).ContinueWith(t => {
+                    ReportSpeed(t.Result, message.MinerIp, isFromWsServerNode: true);
+                });
             }, this.GetType());
             VirtualRoot.AddEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, action: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
@@ -105,7 +107,7 @@ namespace NTMiner.Core.Impl {
             return false;
         }
 
-        public void ReportSpeed(SpeedData speedData, string minerIp) {
+        public void ReportSpeed(SpeedData speedData, string minerIp, bool isFromWsServerNode) {
             if (!IsReadied) {
                 return;
             }
@@ -115,7 +117,6 @@ namespace NTMiner.Core.Impl {
             if (string.IsNullOrEmpty(minerIp)) {
                 return;
             }
-            bool isFromWsServerNode = minerIp.Contains(':');
             if (!isFromWsServerNode) {
                 _speedDataRedis.SetAsync(speedData);
             }
@@ -132,7 +133,7 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public void ReportState(ReportState state, string minerIp) {
+        public void ReportState(ReportState state, string minerIp, bool isFromWsServerNode) {
             if (!IsReadied) {
                 return;
             }
@@ -153,7 +154,6 @@ namespace NTMiner.Core.Impl {
                     DoUpdateSave(MinerData.Create(clientData));
                 }
             }
-            bool isFromWsServerNode = minerIp.Contains(':');
             if (!isFromWsServerNode) {
                 var speedData = clientData.ToSpeedData();
                 _speedDataRedis.SetAsync(speedData);

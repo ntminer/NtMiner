@@ -10,6 +10,19 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             _mqChannel = mqChannel;
         }
 
+        public void SendSpeed(string loginName, Guid clientId, string minerIp) {
+            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || string.IsNullOrEmpty(minerIp)) {
+                return;
+            }
+            var basicProperties = CreateBasicProperties(loginName);
+            basicProperties.Headers[MqKeyword.MinerIpHeaderName] = minerIp;
+            _mqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: MqKeyword.SpeedRoutingKey,
+                basicProperties: basicProperties,
+                body: MinerClientMqBodyUtil.GetClientIdMqSendBody(clientId));
+        }
+
         public void SendMinerClientWsOpened(string loginName, Guid clientId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;

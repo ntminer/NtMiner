@@ -148,17 +148,11 @@ namespace NTMiner.Core {
     }
 
     [MessageType(description: "收到了SpeedData Mq消息后")]
-    public class SpeedDataMqMessage : EventBase {
-        public SpeedDataMqMessage(string appId, SpeedData speedData, string minerIp, DateTime timestamp) {
-            this.AppId = appId;
-            this.Timestamp = timestamp;
-            this.SpeedData = speedData;
+    public class SpeedDataMqMessage : MinerClientMqMessage {
+        public SpeedDataMqMessage(string appId, Guid clientId, string minerIp, DateTime timestamp) : base(appId, clientId, timestamp) {
             this.MinerIp = minerIp;
         }
 
-        public string AppId { get; private set; }
-        public DateTime Timestamp { get; private set; }
-        public SpeedData SpeedData { get; private set; }
         public string MinerIp { get; private set; }
     }
 

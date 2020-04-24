@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
-using NTMiner.Report;
 using NTMiner.VirtualMemory;
 using System;
 using System.Collections.Generic;
@@ -139,16 +138,6 @@ namespace NTMiner.Core.Mq {
         public static List<Guid> GetGetSpeedMqReceiveBody(byte[] body) {
             string json = Encoding.UTF8.GetString(body);
             return VirtualRoot.JsonSerializer.Deserialize<List<Guid>>(json);
-        }
-        #endregion
-
-        #region Speed
-        public static byte[] GetSpeedMqSendBody(SpeedData data) {
-            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(data));
-        }
-        public static SpeedData GetSpeedMqReceiveBody(byte[] body) {
-            string json = Encoding.UTF8.GetString(body);
-            return VirtualRoot.JsonSerializer.Deserialize<SpeedData>(json);
         }
         #endregion
 
