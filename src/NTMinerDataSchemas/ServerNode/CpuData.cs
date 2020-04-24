@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.ServerNode {
-    public class CpuData {
+    public class CpuData : ICpuData {
         public static readonly CpuData Empty = new CpuData {
             ClockSpeed = string.Empty,
             Identifier = string.Empty,

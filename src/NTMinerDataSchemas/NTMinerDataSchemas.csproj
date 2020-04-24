@@ -54,6 +54,7 @@
     <Compile Include="Core\MinerServer\IMinerSign.cs" />
     <Compile Include="Core\MinerServer\MinerSign.cs" />
     <Compile Include="ServerNode\CpuData.cs" />
+    <Compile Include="ServerNode\ICpuData.cs" />
     <Compile Include="ServerNode\IServerState.cs" />
     <Compile Include="ServerNode\IServerStateResponse.cs" />
     <Compile Include="ServerNode\IVarServerState.cs" />
