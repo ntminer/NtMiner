@@ -397,7 +397,7 @@
             </WrapPanel>
         </Grid>
         <WrapPanel Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="TbUcName" Foreground="{StaticResource ThemeForeground}" Visibility="{x:Static app:AppStatic.IsDevModeVisible}"></TextBlock>
+            <TextBlock x:Name="TbUcName" Visibility="{x:Static app:AppStatic.IsDevModeVisible}"></TextBlock>
             <WrapPanel 
                 VerticalAlignment="Center" 
                 ToolTip="{Binding WsDescription}" 
