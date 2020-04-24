@@ -205,7 +205,6 @@ namespace NTMiner.MinerStudio.Vms {
                     _lastSortDirection = this.SortDirection;
                 }
                 else {
-                    _minerClients?.Clear();
                     VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4, toConsole: true);
                 }
             });
