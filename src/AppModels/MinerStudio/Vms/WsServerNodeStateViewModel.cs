@@ -1,8 +1,9 @@
 ﻿using NTMiner.ServerNode;
+using NTMiner.Vms;
 using System;
 
-namespace NTMiner.Vms {
-    public class WsServerNodeViewModel : ViewModelBase, IWsServerNode {
+namespace NTMiner.MinerStudio.Vms {
+    public class WsServerNodeStateViewModel : ViewModelBase, IWsServerNode {
         private string _address;
         private string _description;
         private int _minerClientWsSessionCount;
@@ -10,19 +11,20 @@ namespace NTMiner.Vms {
         private int _minerClientSessionCount;
         private int _minerStudioSessionCount;
         private string _osInfo;
-        private CpuData _cpu;
         private ulong _totalPhysicalMemory;
         private double _cpuPerformance;
         private ulong _availablePhysicalMemory;
+        private CpuData _cpu;
+        private CpuDataViewModel _cpuVm;
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
-        public WsServerNodeViewModel() {
+        public WsServerNodeStateViewModel() {
             if (!WpfUtil.IsInDesignMode) {
                 throw new InvalidProgramException(NTKeyword.WpfDesignOnly);
             }
         }
 
-        public WsServerNodeViewModel(IWsServerNode data) {
+        public WsServerNodeStateViewModel(IWsServerNode data) {
             _address = data.Address;
             _description = data.Description;
             _minerClientWsSessionCount = data.MinerClientWsSessionCount;
@@ -30,11 +32,11 @@ namespace NTMiner.Vms {
             _minerClientSessionCount = data.MinerClientSessionCount;
             _minerStudioSessionCount = data.MinerStudioSessionCount;
             _osInfo = data.OSInfo;
-            _cpu = data.Cpu;
             _totalPhysicalMemory = data.TotalPhysicalMemory;
             _availablePhysicalMemory = data.AvailablePhysicalMemory;
             _cpuPerformance = data.CpuPerformance;
-
+            _cpu = data.Cpu;
+            _cpuVm = new CpuDataViewModel(data.Cpu);
         }
 
         public void Update(IVarWsServerNode data) {
@@ -127,6 +129,10 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(nameof(Cpu));
                 }
             }
+        }
+
+        public CpuDataViewModel CpuVm {
+            get { return _cpuVm; }
         }
 
         public ulong TotalPhysicalMemory {

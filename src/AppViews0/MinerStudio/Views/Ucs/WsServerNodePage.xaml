@@ -36,13 +36,13 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU使用率" Binding="{Binding CpuPerformanceText}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="300" Header="CPU名称" Binding="{Binding Cpu.Name}">
+                <DataGridTextColumn IsReadOnly="True" Width="300" Header="CPU名称" Binding="{Binding CpuVm.Name}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU核数" Binding="{Binding Cpu.NumberOfLogicalCores}">
+                <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU核数" Binding="{Binding CpuVm.NumberOfLogicalCores}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU主频" Binding="{Binding Cpu.ClockSpeed}">
+                <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU主频" Binding="{Binding CpuVm.ClockSpeed}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU架构" Binding="{Binding Cpu.ProcessorArchitecture}">
+                <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU架构" Binding="{Binding CpuVm.ProcessorArchitecture}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="180" Header="操作系统" Binding="{Binding OSInfo}">
                 </DataGridTextColumn>

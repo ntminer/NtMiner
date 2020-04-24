@@ -1,27 +1,46 @@
 ﻿using NTMiner.ServerNode;
 using NTMiner.Vms;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 
 namespace NTMiner.MinerStudio.Vms {
     public class WebApiServerStateViewModel : ViewModelBase, IWebApiServerState {
         private string _description;
         private string _oSInfo;
-        private CpuData _cpu;
-        private List<WsServerNodeState> _wsServerNodes;
         private ulong _totalPhysicalMemory;
         private string _address;
         private double _cpuPerformance;
         private ulong _availablePhysicalMemory;
+        private CpuData _cpu;
+        private CpuDataViewModel _cpuVm;
+        private List<WsServerNodeState> _wsServerNodes;
+        private List<WsServerNodeStateViewModel> _wsServerNodeVms;
 
-        public WebApiServerStateViewModel() {
-
+        public WebApiServerStateViewModel(IWebApiServerState data) {
+            _description = data.Description;
+            _oSInfo = data.OSInfo;
+            _totalPhysicalMemory = data.TotalPhysicalMemory;
+            _address = data.Address;
+            _cpuPerformance = data.CpuPerformance;
+            _availablePhysicalMemory = data.AvailablePhysicalMemory;
+            _cpu = data.Cpu;
+            _cpuVm = new CpuDataViewModel(data.Cpu);
+            _wsServerNodes = data.WsServerNodes;
+            _wsServerNodeVms = new List<WsServerNodeStateViewModel>();
+            foreach (var item in data.WsServerNodes) {
+                _wsServerNodeVms.Add(new WsServerNodeStateViewModel(item));
+            }
         }
 
         public List<WsServerNodeState> WsServerNodes {
             get => _wsServerNodes;
             set {
                 _wsServerNodes = value;
+            }
+        }
+
+        public List<WsServerNodeStateViewModel> WsServerNodeVms {
+            get {
+                return _wsServerNodeVms;
             }
         }
 
@@ -50,6 +69,10 @@ namespace NTMiner.MinerStudio.Vms {
             set {
                 _cpu = value;
             }
+        }
+
+        public CpuDataViewModel CpuVm {
+            get { return _cpuVm; }
         }
 
         public ulong TotalPhysicalMemory {

@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace NTMiner.MinerStudio.Vms {
     public class WsServerNodePageViewModel : ViewModelBase {
-        private readonly ObservableCollection<WsServerNodeViewModel> _wsServerNodeVms = new ObservableCollection<WsServerNodeViewModel>();
+        private readonly ObservableCollection<WsServerNodeStateViewModel> _wsServerNodeVms = new ObservableCollection<WsServerNodeStateViewModel>();
 
         public WsServerNodePageViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -22,14 +22,14 @@ namespace NTMiner.MinerStudio.Vms {
                             if (_wsServerNodeVms.Count > i) {
                                 var exist = _wsServerNodeVms[i];
                                 if (exist.Address != item.Address) {
-                                    _wsServerNodeVms.Insert(i, new WsServerNodeViewModel(item));
+                                    _wsServerNodeVms.Insert(i, new WsServerNodeStateViewModel(item));
                                 }
                                 else {
                                     exist.Update(item);
                                 }
                             }
                             else {
-                                _wsServerNodeVms.Add(new WsServerNodeViewModel(item));
+                                _wsServerNodeVms.Add(new WsServerNodeStateViewModel(item));
                             }
                         }
                         while (_wsServerNodeVms.Count > response.Data.Count) {
@@ -44,7 +44,7 @@ namespace NTMiner.MinerStudio.Vms {
             });
         }
 
-        public ObservableCollection<WsServerNodeViewModel> WsServerNodeVms {
+        public ObservableCollection<WsServerNodeStateViewModel> WsServerNodeVms {
             get {
                 return _wsServerNodeVms;
             }

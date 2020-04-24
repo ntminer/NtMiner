@@ -228,7 +228,7 @@
     <Compile Include="Vms\WalletViewModel.cs" />
     <Compile Include="Vms\LocalMessageViewModel.cs" />
     <Compile Include="MinerStudio\Vms\WsServerNodePageViewModel.cs" />
-    <Compile Include="Vms\WsServerNodeViewModel.cs" />
+    <Compile Include="MinerStudio\Vms\WsServerNodeStateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">
