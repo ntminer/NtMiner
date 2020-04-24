@@ -119,6 +119,7 @@
                 Height="24"
                 ToolTip="关键字"
                 Text="{Binding MinerName}" 
+                PreviewKeyDown="TextBox_PreviewKeyDown"
                 Background="White"></TextBox>
         </WrapPanel>
         <WrapPanel Margin="0 0 10 0">
@@ -127,6 +128,7 @@
                 VerticalContentAlignment="Center" 
                 Width="100" 
                 Height="24"
+                PreviewKeyDown="TextBox_PreviewKeyDown"
                 Text="{Binding MinerIp, ValidatesOnExceptions=True}" 
                 Background="White"></TextBox>
         </WrapPanel>
@@ -142,6 +144,7 @@
                     Width="90" 
                     Height="24"
                     Padding="0 0 16 0"
+                    PreviewKeyDown="TextBox_PreviewKeyDown"
                     Background="White"></TextBox>
                 <controls:KbButton 
                     x:Name="BtnPoolPop"
@@ -218,6 +221,7 @@
                     HorizontalAlignment="Left" 
                     VerticalContentAlignment="Center" 
                     Text="{Binding Wallet}" 
+                    PreviewKeyDown="TextBox_PreviewKeyDown"
                     Width="90" 
                     Height="24"
                     Background="White"></TextBox>
@@ -229,6 +233,7 @@
                     ToolTip="关键字" 
                     Width="90" 
                     Height="24"
+                    PreviewKeyDown="TextBox_PreviewKeyDown"
                     Text="{Binding Kernel}" 
                     Background="White"></TextBox>
             </WrapPanel>
@@ -266,6 +271,7 @@
                 ToolTip="关键字" 
                 Width="60" 
                 Height="24"
+                PreviewKeyDown="TextBox_PreviewKeyDown"
                 Text="{Binding GpuName}" 
                 Background="White"></TextBox>
         </WrapPanel>
@@ -276,6 +282,7 @@
                 ToolTip="关键字" 
                 Width="60" 
                 Height="24"
+                PreviewKeyDown="TextBox_PreviewKeyDown"
                 Text="{Binding GpuDriver}" 
                 Background="White"></TextBox>
         </WrapPanel>
@@ -286,6 +293,7 @@
                 ToolTip="版本号以此为前缀的挖矿端" 
                 Width="60" 
                 Height="24"
+                PreviewKeyDown="TextBox_PreviewKeyDown"
                 Text="{Binding Version}" 
                 Background="White"></TextBox>
         </WrapPanel>

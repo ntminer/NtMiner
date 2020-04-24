@@ -1,6 +1,7 @@
 ﻿using NTMiner.MinerStudio.Vms;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class MinerClientsSearchBar : UserControl {
@@ -84,6 +85,12 @@ namespace NTMiner.MinerStudio.Views.Ucs {
 
         private void LbPool_SelectionChanged(object sender, SelectionChangedEventArgs e) {
             PopupPool.IsOpen = false;
+        }
+
+        private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                ((TextBox)sender).MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
         }
     }
 }
