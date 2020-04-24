@@ -9,7 +9,6 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
-    // TODO:将矿机列表数据放入redis从而实现WebApi进程重启时不丢失内存中的矿机算力数据
     public class ClientDataSet : ClientDataSetBase, IClientDataSet {
         private const string _safeIgnoreMessage = "该消息发生的时间早于本节点启动时间1分钟，安全忽略";
 
