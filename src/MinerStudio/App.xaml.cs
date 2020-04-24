@@ -65,7 +65,7 @@ namespace NTMiner {
                         });
                         #region 处理显示主界面命令
                         VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
-                            VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: true));
+                            VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: message.IsToggle));
                         }, location: this.GetType());
                         #endregion
                         HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.MinerStudioPort.ToString()}");
