@@ -1267,10 +1267,13 @@ namespace NTMiner.MinerStudio.Vms {
         public GpuType GpuType {
             get => _gpuType;
             set {
-                _gpuType = value;
-                OnPropertyChanged(nameof(GpuType));
-                OnPropertyChanged(nameof(IsNvidiaIconVisible));
-                OnPropertyChanged(nameof(IsAMDIconVisible));
+                if (_gpuType != value) {
+                    _gpuType = value;
+                    OnPropertyChanged(nameof(GpuType));
+                    OnPropertyChanged(nameof(IsNvidiaIconVisible));
+                    OnPropertyChanged(nameof(IsAMDIconVisible));
+                    this.PageIndex = 1;
+                }
             }
         }
 
