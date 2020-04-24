@@ -8,7 +8,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class WsServerNodePage : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "外网群控服务器节点",
+                Title = "外网群控websocket服务器节点",
                 IconName = "Icon_Server",
                 Width = 1800,
                 Height = 400,
