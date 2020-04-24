@@ -30,6 +30,7 @@ namespace NTMiner.Core.Impl {
             return dateTime.AddSeconds(30) < DateTime.Now;
         }
 
+        private readonly object _locker = new object();
         private readonly Dictionary<Guid, TSession> _dicByClientId = new Dictionary<Guid, TSession>();
         private readonly Dictionary<string, TSession> _dicByWsSessionId = new Dictionary<string, TSession>();
         private readonly string _wsServiceHostPath;
@@ -147,20 +148,24 @@ namespace NTMiner.Core.Impl {
             if (ntminerSession == null) {
                 return;
             }
-            if (!_dicByWsSessionId.ContainsKey(ntminerSession.WsSessionId)) {
-                _dicByWsSessionId.Add(ntminerSession.WsSessionId, ntminerSession);
-                _dicByClientId[ntminerSession.ClientId] = ntminerSession;
+            lock (_locker) {
+                if (!_dicByWsSessionId.ContainsKey(ntminerSession.WsSessionId)) {
+                    _dicByWsSessionId.Add(ntminerSession.WsSessionId, ntminerSession);
+                    _dicByClientId[ntminerSession.ClientId] = ntminerSession;
+                }
             }
         }
 
         public virtual TSession RemoveByWsSessionId(string wsSessionId) {
-            if (_dicByWsSessionId.TryGetValue(wsSessionId, out TSession ntminerSession)) {
-                _dicByWsSessionId.Remove(wsSessionId);
-                if (_dicByClientId.TryGetValue(ntminerSession.ClientId, out ntminerSession) && ntminerSession.WsSessionId == wsSessionId) {
-                    _dicByClientId.Remove(ntminerSession.ClientId);
+            lock (_locker) {
+                if (_dicByWsSessionId.TryGetValue(wsSessionId, out TSession ntminerSession)) {
+                    _dicByWsSessionId.Remove(wsSessionId);
+                    if (_dicByClientId.TryGetValue(ntminerSession.ClientId, out ntminerSession) && ntminerSession.WsSessionId == wsSessionId) {
+                        _dicByClientId.Remove(ntminerSession.ClientId);
+                    }
                 }
+                return ntminerSession;
             }
-            return ntminerSession;
         }
 
         public bool TryGetByClientId(Guid clientId, out TSession ntminerSession) {
