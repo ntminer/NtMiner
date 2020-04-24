@@ -29,13 +29,11 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        public LocalIpConfigViewModel Vm {
-            get {
-                return (LocalIpConfigViewModel)this.DataContext;
-            }
-        }
+        public LocalIpConfigViewModel Vm { get; private set; }
 
         private LocalIpConfig() {
+            this.Vm = new LocalIpConfigViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

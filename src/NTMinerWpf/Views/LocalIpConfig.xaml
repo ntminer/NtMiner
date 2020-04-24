@@ -12,10 +12,8 @@
 	d:DesignWidth="450"
 	d:DesignHeight="600"
     MinHeight="300"
-	mc:Ignorable="d">
-	<UserControl.DataContext>
-        <vm:LocalIpConfigViewModel></vm:LocalIpConfigViewModel>
-    </UserControl.DataContext>
+	mc:Ignorable="d"
+    d:DataContext="{d:DesignData Source=Design/LocalIpConfigViewModel.xaml}">
     <UserControl.Resources>
         <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
             <Setter Property="Width" Value="210"></Setter>

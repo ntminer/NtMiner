@@ -12,10 +12,8 @@
 	Background="White"
 	mc:Ignorable="d" 
 	d:DesignWidth="960"
-	d:DesignHeight="520">
-    <UserControl.DataContext>
-        <vm:IconsViewModel></vm:IconsViewModel>
-    </UserControl.DataContext>
+	d:DesignHeight="520"
+    d:DataContext="{d:DesignData Source=../Design/IconsViewModel.xaml}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"></RowDefinition>

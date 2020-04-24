@@ -11,10 +11,8 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	Background="White"
-	mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="740">
-	<UserControl.DataContext>
-		<vm:ToolboxViewModel></vm:ToolboxViewModel>
-	</UserControl.DataContext>
+	mc:Ignorable="d" d:DesignHeight="420" d:DesignWidth="740"
+    d:DataContext="{d:DesignData Source=../Design/ToolboxViewModel.xaml}">
     <UserControl.Resources>
         <sys:Double x:Key="ItemWidth">230</sys:Double>
         <sys:Double x:Key="ItemHeight">50</sys:Double>

@@ -8,13 +8,11 @@ using System.Windows;
 
 namespace NTMiner.Views.Ucs {
     public partial class Toolbox : UserControl {
-        private ToolboxViewModel Vm {
-            get {
-                return (ToolboxViewModel)this.DataContext;
-            }
-        }
+        public ToolboxViewModel Vm { get; private set; }
 
         public Toolbox() {
+            this.Vm = new ToolboxViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             if (WpfUtil.IsInDesignMode) {
                 return;

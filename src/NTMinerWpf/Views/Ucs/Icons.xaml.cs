@@ -17,13 +17,11 @@ namespace NTMiner.Views.Ucs {
             ucFactory: (window) => new Icons());
         }
 
-        public IconsViewModel Vm {
-            get {
-                return (IconsViewModel)this.DataContext;
-            }
-        }
+        public IconsViewModel Vm { get; private set; }
 
         public Icons() {
+            this.Vm = new IconsViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

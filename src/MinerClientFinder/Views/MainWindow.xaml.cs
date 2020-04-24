@@ -6,13 +6,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Views {
     public partial class MainWindow : BlankWindow {
-        public MainWindowViewModel Vm {
-            get {
-                return (MainWindowViewModel)this.DataContext;
-            }
-        }
+        public MainWindowViewModel Vm { get; private set; }
 
         public MainWindow() {
+            this.Vm = new MainWindowViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             NotiCenterWindow.Bind(this);
             this.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
