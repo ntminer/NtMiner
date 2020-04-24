@@ -4,7 +4,7 @@ namespace NTMiner.ServerNode {
     /// <summary>
     /// 这是返回给群控客户端的服务端状态模型，是只有admin才能看到的服务端状态信息。
     /// </summary>
-    public class WebApiServerState : IServerState {
+    public class WebApiServerState : IWebApiServerState {
         public WebApiServerState() {
             this.WsServerNodes = new List<WsServerNodeState>();
             this.Cpu = CpuData.Empty;
