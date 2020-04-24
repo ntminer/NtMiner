@@ -26,18 +26,17 @@ namespace NTMiner.Core.Impl {
         /// </summary>
         /// <param name="isPull"></param>
         /// <param name="getDatas"></param>
-        public ClientDataSetBase(bool isPull, Action<Action<IEnumerable<MinerData>>> getDatas) {
+        public ClientDataSetBase(bool isPull, Action<Action<IEnumerable<ClientData>>> getDatas) {
             _isPull = isPull;
             getDatas(datas => {
                 InitedOn = DateTime.Now;
                 IsReadied = true;
                 foreach (var item in datas) {
-                    var data = ClientData.Create(item);
                     if (!_dicByObjectId.ContainsKey(item.Id)) {
-                        _dicByObjectId.Add(item.Id, data);
+                        _dicByObjectId.Add(item.Id, item);
                     }
                     if (!_dicByClientId.ContainsKey(item.ClientId)) {
-                        _dicByClientId.Add(item.ClientId, data);
+                        _dicByClientId.Add(item.ClientId, item);
                     }
                 }
                 Write.UserOk("矿机集就绪");

@@ -4,7 +4,9 @@ using NTMiner.Core.Redis;
 using NTMiner.Report;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     // TODO:将矿机列表数据放入redis从而实现WebApi进程重启时不丢失内存中的矿机算力数据
@@ -12,13 +14,27 @@ namespace NTMiner.Core.Impl {
         private const string _safeIgnoreMessage = "该消息发生的时间早于本节点启动时间1分钟，安全忽略";
 
         private readonly IMinerRedis _minerRedis;
+        private readonly ISpeedDataRedis _speedDataRedis;
         private readonly IMinerClientMqSender _mqSender;
-        public ClientDataSet(IMinerRedis minerRedis, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
-            minerRedis.GetAllAsync().ContinueWith(t => {
-                callback?.Invoke(t.Result);
+        public ClientDataSet(IMinerRedis minerRedis, ISpeedDataRedis speedDataRedis, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
+            var getMinersTask = minerRedis.GetAllAsync();
+            var getSpeedsTask = speedDataRedis.GetAllAsync();
+            Task.WhenAll(getMinersTask, getSpeedsTask).ContinueWith(t => {
+                var speedDatas = getSpeedsTask.Result;
+                List<ClientData> clientDatas = new List<ClientData>();
+                foreach (var minerData in getMinersTask.Result) {
+                    var clientData = ClientData.Create(minerData);
+                    clientDatas.Add(clientData);
+                    var speedData = speedDatas.FirstOrDefault(a => a.ClientId == minerData.ClientId);
+                    if (speedData != null) {
+                        clientData.Update(speedData);
+                    }
+                }
+                callback?.Invoke(clientDatas);
             });
         }) {
             _minerRedis = minerRedis;
+            _speedDataRedis = speedDataRedis;
             _mqSender = mqSender;
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
             VirtualRoot.AddEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, action: message => {

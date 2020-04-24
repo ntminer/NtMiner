@@ -12,7 +12,7 @@ namespace NTMiner.Core.Impl {
             Task.Factory.StartNew(() => {
                 using (LiteDatabase db = CreateLocalDb()) {
                     var col = db.GetCollection<MinerData>();
-                    callback?.Invoke(col.FindAll());
+                    callback?.Invoke(col.FindAll().Select(a => ClientData.Create(a)));
                 }
             });
         }) {
