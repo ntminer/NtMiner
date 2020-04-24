@@ -81,7 +81,7 @@ namespace NTMiner {
             }, location: this.GetType());
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
-                    UIThread.Execute(() => { Environment.Exit(0); });
+                    Environment.Exit(0);
                 }));
             }
             else if (!string.IsNullOrEmpty(CommandLineArgs.Action)) {
@@ -199,21 +199,21 @@ namespace NTMiner {
             VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
                     _appViewFactory.ShowMainWindow(message.IsToggle, out Window _);
-                    // 使状态栏显示显示最新状态
-                    if (NTMinerContext.Instance.IsMining) {
-                        var mainCoin = NTMinerContext.Instance.LockedMineContext.MainCoin;
-                        if (mainCoin == null) {
-                            return;
-                        }
-                        var coinShare = NTMinerContext.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
-                        VirtualRoot.RaiseEvent(new ShareChangedEvent(PathId.Empty, coinShare));
-                        if ((NTMinerContext.Instance.LockedMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
-                            coinShare = NTMinerContext.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
-                            VirtualRoot.RaiseEvent(new ShareChangedEvent(PathId.Empty, coinShare));
-                        }
-                        AppRoot.GpuSpeedVms.Refresh();
-                    }
                 });
+                // 使状态栏显示显示最新状态
+                if (NTMinerContext.Instance.IsMining) {
+                    var mainCoin = NTMinerContext.Instance.LockedMineContext.MainCoin;
+                    if (mainCoin == null) {
+                        return;
+                    }
+                    var coinShare = NTMinerContext.Instance.CoinShareSet.GetOrCreate(mainCoin.GetId());
+                    VirtualRoot.RaiseEvent(new ShareChangedEvent(PathId.Empty, coinShare));
+                    if ((NTMinerContext.Instance.LockedMineContext is IDualMineContext dualMineContext) && dualMineContext.DualCoin != null) {
+                        coinShare = NTMinerContext.Instance.CoinShareSet.GetOrCreate(dualMineContext.DualCoin.GetId());
+                        VirtualRoot.RaiseEvent(new ShareChangedEvent(PathId.Empty, coinShare));
+                    }
+                    AppRoot.GpuSpeedVms.Refresh();
+                }
             }, location: this.GetType());
             #endregion
             #region 周期确保守护进程在运行

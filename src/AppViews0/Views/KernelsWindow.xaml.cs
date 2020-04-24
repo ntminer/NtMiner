@@ -47,9 +47,7 @@ namespace NTMiner.Views {
                 }, location: this.GetType());
             this.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的Vm集刷新后刷新内核宝库", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
-                        Vm.OnPropertyChanged(nameof(Vm.QueryResults));
-                    });
+                    Vm.OnPropertyChanged(nameof(Vm.QueryResults));
                 }, location: this.GetType());
             AppRoot.KernelVms.PropertyChanged += Current_PropertyChanged;
             NotiCenterWindow.Bind(this);

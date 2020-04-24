@@ -167,28 +167,22 @@ namespace NTMiner.Views {
             }, location: this.GetType());
             this.AddEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
-                        if (message.IsDual) {
-                            Vm.StateBarVm.DualPoolDelayText = message.PoolDelayText;
-                        }
-                        else {
-                            Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
-                        }
-                    });
+                    if (message.IsDual) {
+                        Vm.StateBarVm.DualPoolDelayText = message.PoolDelayText;
+                    }
+                    else {
+                        Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
+                    }
                 }, location: this.GetType());
             this.AddEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
-                        Vm.StateBarVm.PoolDelayText = string.Empty;
-                        Vm.StateBarVm.DualPoolDelayText = string.Empty;
-                    });
+                    Vm.StateBarVm.PoolDelayText = string.Empty;
+                    Vm.StateBarVm.DualPoolDelayText = string.Empty;
                 }, location: this.GetType());
             this.AddEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => {
-                        Vm.StateBarVm.PoolDelayText = string.Empty;
-                        Vm.StateBarVm.DualPoolDelayText = string.Empty;
-                    });
+                    Vm.StateBarVm.PoolDelayText = string.Empty;
+                    Vm.StateBarVm.DualPoolDelayText = string.Empty;
                 }, location: this.GetType());
             this.AddEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
