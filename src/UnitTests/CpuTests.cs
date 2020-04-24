@@ -30,6 +30,7 @@ namespace NTMiner {
 
         [TestMethod]
         public void Test4() {
+            // 经测试该方法不行，因为获取的温度一直恒定不变
             for (int i = 0; i < 100; i++) {
                 using (var mos = new ManagementObjectSearcher(@"root\WMI", "Select CurrentTemperature From MSAcpi_ThermalZoneTemperature")) {
                     foreach (ManagementObject mo in mos.Get()) {
