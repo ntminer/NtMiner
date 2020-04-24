@@ -22,13 +22,11 @@ namespace NTMiner.Views {
             });
         }
 
-        public PackagesWindowViewModel Vm {
-            get {
-                return (PackagesWindowViewModel)this.DataContext;
-            }
-        }
+        public PackagesWindowViewModel Vm { get; private set; }
 
         public PackagesWindow() {
+            this.Vm = new PackagesWindowViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             this.TbUcName.Text = nameof(PackagesWindow);
         }

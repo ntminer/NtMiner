@@ -21,13 +21,11 @@ namespace NTMiner.Views {
             }
         }
 
-        public KernelsWindowViewModel Vm {
-            get {
-                return (KernelsWindowViewModel)this.DataContext;
-            }
-        }
+        public KernelsWindowViewModel Vm { get; private set; }
 
         public KernelsWindow() {
+            this.Vm = new KernelsWindowViewModel();
+            this.DataContext = this.Vm;
             // 为了使设计视图的宽高生效以下几个属性的赋值挪到这里
             Width = AppRoot.MainWindowWidth;
             Height = AppRoot.MainWindowHeight;

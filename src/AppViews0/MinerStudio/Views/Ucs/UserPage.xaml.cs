@@ -20,13 +20,11 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, ucFactory: (window) => new UserPage());
         }
 
-        public UserPageViewModel Vm {
-            get {
-                return (UserPageViewModel)this.DataContext;
-            }
-        }
+        public UserPageViewModel Vm { get; private set; }
 
         public UserPage() {
+            this.Vm = new UserPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(window => {
                 window.AddEventPath<Per20SecondEvent>("外网群控用户列表页面打开着时周期刷新", LogEnum.DevConsole, action: message => {

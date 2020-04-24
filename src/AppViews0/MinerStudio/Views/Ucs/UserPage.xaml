@@ -12,10 +12,8 @@
     Background="White"
 	mc:Ignorable="d" 
     d:DesignHeight="700" 
-    d:DesignWidth="1200">
-	<UserControl.DataContext>
-		<vm:UserPageViewModel></vm:UserPageViewModel>
-	</UserControl.DataContext>
+    d:DesignWidth="1200"
+    d:DataContext="{d:DesignData Source=../Design/UserPageViewModel.xaml}">
     <Grid Margin="0 0 0 10" Background="{StaticResource ToolbarBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

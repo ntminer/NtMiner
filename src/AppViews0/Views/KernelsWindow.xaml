@@ -15,11 +15,9 @@
 	Title="内核宝库"
 	d:DesignHeight="520" 
 	d:DesignWidth="1300"
+    d:DataContext="{d:DesignData Source=Design/KernelsWindowViewModel.xaml}"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen">
-	<blankWindow:BlankWindow.DataContext>
-		<vm:KernelsWindowViewModel></vm:KernelsWindowViewModel>
-	</blankWindow:BlankWindow.DataContext>
 	<DockPanel>
 		<StackPanel DockPanel.Dock="Left" Background="{StaticResource BtnBackground}" Margin="0 0 10 0">
 			<controls:KbButton 

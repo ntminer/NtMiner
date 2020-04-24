@@ -8,10 +8,8 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="1600">
-	<UserControl.DataContext>
-        <vm:WsServerNodePageViewModel></vm:WsServerNodePageViewModel>
-	</UserControl.DataContext>
+	mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="1600"
+    d:DataContext="{d:DesignData Source=../Design/WsServerNodePageViewModel.xaml}">
 	<Grid>
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding WebApiServerStateVm.WsServerNodeVms}" 

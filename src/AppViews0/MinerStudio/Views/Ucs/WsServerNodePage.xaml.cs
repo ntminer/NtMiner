@@ -19,13 +19,11 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, ucFactory: (window) => new WsServerNodePage(), fixedSize: false);
         }
 
-        public WsServerNodePageViewModel Vm {
-            get {
-                return (WsServerNodePageViewModel)this.DataContext;
-            }
-        }
+        public WsServerNodePageViewModel Vm { get; private set; }
 
         public WsServerNodePage() {
+            this.Vm = new WsServerNodePageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(window => {
                 window.AddEventPath<Per20SecondEvent>("外网群控服务器节点列表页面打开着时周期刷新", LogEnum.None, action: message => {

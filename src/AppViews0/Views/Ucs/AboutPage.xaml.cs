@@ -18,13 +18,11 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        public AboutPageViewModel Vm {
-            get {
-                return (AboutPageViewModel)this.DataContext;
-            }
-        }
+        public AboutPageViewModel Vm { get; private set; }
 
         public AboutPage() {
+            this.Vm = new AboutPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
     }

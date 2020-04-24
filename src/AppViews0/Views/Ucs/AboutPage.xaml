@@ -10,10 +10,8 @@
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="520">
-	<UserControl.DataContext>
-		<vm:AboutPageViewModel></vm:AboutPageViewModel>
-	</UserControl.DataContext>
+	mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="520"
+    d:DataContext="{d:DesignData Source=../Design/AboutPageViewModel.xaml}">
 	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="100"></RowDefinition>

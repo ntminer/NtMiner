@@ -19,11 +19,9 @@
 	MinWidth="640"
 	d:DesignHeight="520" 
 	d:DesignWidth="1200"
+    d:DataContext="{d:DesignData Source=Design/PackagesWindowViewModel.xaml}"
 	Background="#EEECEF"
 	WindowStartupLocation="CenterScreen">
-	<blankWindow:BlankWindow.DataContext>
-		<vm:PackagesWindowViewModel></vm:PackagesWindowViewModel>
-	</blankWindow:BlankWindow.DataContext>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="40"></RowDefinition>
