@@ -2,8 +2,6 @@
 using NTMiner.ServerNode;
 using System;
 using System.Diagnostics;
-using System.Linq;
-using System.Management;
 
 namespace NTMiner.Windows {
     /// <summary>
@@ -27,29 +25,6 @@ namespace NTMiner.Windows {
                 ProcessorLevel = this.ProcessorLevel,
                 VendorIdentifier = this.VendorIdentifier
             };
-        }
-
-        // TODO:不行，太耗时，找别的方法
-        /// <summary>
-        /// 因为该操作比较耗时，所以缓存1秒钟。
-        /// 注意：第一次请求非常耗时，约需要600毫秒，必须提前在非UI线程做第一次请求。
-        /// </summary>
-        /// <returns></returns>
-        public double GetTemperature() {
-            try {
-                using (var mos = new ManagementObjectSearcher(@"root\WMI", "Select CurrentTemperature From MSAcpi_ThermalZoneTemperature")) {
-                    ManagementObject last = null;
-                    foreach (ManagementObject mo in mos.Get()) {
-                        last = mo;
-                    }
-                    if (last != null) {
-                        return Convert.ToDouble(Convert.ToDouble(last.GetPropertyValue("CurrentTemperature").ToString()) - 2732) / 10;
-                    }
-                }
-            }
-            catch {
-            }
-            return 0.0;
         }
 
         /// <summary>

@@ -13,8 +13,8 @@ namespace NTMiner.Core.Cpus.Impl {
         internal void Init() {
             if (ClientAppType.IsMinerClient) {
                 Task.Factory.StartNew(() => {
-                    // 注意：第一次GetTemperature请求非常耗时，约需要600毫秒，所以必须提前在非UI线程做第一次请求。
-                    Windows.Cpu.Instance.GetTemperature();
+                    // 注意：第一次GetTemperature请求约需要160毫秒，所以提前在非UI线程做第一次请求。
+                    CpuUtil.GetTemperature();
                     VirtualRoot.AddEventPath<Per1SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
                         action: message => {
                             Update();
@@ -68,7 +68,8 @@ namespace NTMiner.Core.Cpus.Impl {
 
         private void Update() {
             bool isChanged = false;
-            double temperature = Windows.Cpu.Instance.GetTemperature();
+            // 该操作约耗时100毫秒
+            double temperature = CpuUtil.GetTemperature();
             double performance = Windows.Cpu.Instance.GetCurrentCpuUsage();
             if (performance != this.Performance) {
                 isChanged = true;
