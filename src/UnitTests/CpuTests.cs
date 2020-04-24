@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner.Windows;
 using System;
+using System.Management;
 
 namespace NTMiner {
     [TestClass]
@@ -30,7 +31,11 @@ namespace NTMiner {
         [TestMethod]
         public void Test4() {
             for (int i = 0; i < 100; i++) {
-                Cpu.Instance.GetTemperature();
+                using (var mos = new ManagementObjectSearcher(@"root\WMI", "Select CurrentTemperature From MSAcpi_ThermalZoneTemperature")) {
+                    foreach (ManagementObject mo in mos.Get()) {
+                        Console.WriteLine(Convert.ToDouble(Convert.ToDouble(mo.GetPropertyValue("CurrentTemperature").ToString()) - 2732) / 10);
+                    }
+                }
             }
         }
     }

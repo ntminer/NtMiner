@@ -29,16 +29,13 @@ namespace NTMiner.Windows {
             };
         }
 
-        private bool _isSupportGetTemperature = true;
+        // TODO:不行，太耗时，找别的方法
         /// <summary>
         /// 因为该操作比较耗时，所以缓存1秒钟。
         /// 注意：第一次请求非常耗时，约需要600毫秒，必须提前在非UI线程做第一次请求。
         /// </summary>
         /// <returns></returns>
         public double GetTemperature() {
-            if (!_isSupportGetTemperature) {
-                return 0.0;
-            }
             try {
                 using (var mos = new ManagementObjectSearcher(@"root\WMI", "Select CurrentTemperature From MSAcpi_ThermalZoneTemperature")) {
                     ManagementObject last = null;
@@ -51,7 +48,6 @@ namespace NTMiner.Windows {
                 }
             }
             catch {
-                _isSupportGetTemperature = false;
             }
             return 0.0;
         }
