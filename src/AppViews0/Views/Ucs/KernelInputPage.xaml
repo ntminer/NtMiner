@@ -11,11 +11,9 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	mc:Ignorable="d"
 	Background="White"
-	d:DesignHeight="520" d:DesignWidth="1200">
-	<UserControl.DataContext>
-		<vm:KernelInputPageViewModel></vm:KernelInputPageViewModel>
-	</UserControl.DataContext>
-	<Grid>
+	d:DesignHeight="520" d:DesignWidth="1200"
+    d:DataContext="{d:DesignData Source=../Design/KernelInputPageViewModel.xaml}">
+    <Grid>
 		<DataGrid 
 			Margin="0" ItemsSource="{Binding KernelInputVms.AllKernelInputVms}" 
 			BorderThickness="0 0 1 0" BorderBrush="{StaticResource LightLineColor}"

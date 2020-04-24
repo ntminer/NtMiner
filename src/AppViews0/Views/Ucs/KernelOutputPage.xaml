@@ -11,10 +11,8 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	mc:Ignorable="d"
 	Background="White"
-	d:DesignHeight="720" d:DesignWidth="1360">
-	<UserControl.DataContext>
-		<vm:KernelOutputPageViewModel></vm:KernelOutputPageViewModel>
-	</UserControl.DataContext>
+	d:DesignHeight="720" d:DesignWidth="1360"
+    d:DataContext="{d:DesignData Source=../Design/KernelOutputPageViewModel.xaml}">
 	<Grid Margin="0 2 0 0">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto"></ColumnDefinition>

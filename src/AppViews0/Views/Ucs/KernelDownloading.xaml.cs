@@ -35,13 +35,11 @@ namespace NTMiner.Views.Ucs {
 
         private Action CloseWindow;
 
-        public KernelDownloadingViewModel Vm {
-            get {
-                return (KernelDownloadingViewModel)this.DataContext;
-            }
-        }
+        public KernelDownloadingViewModel Vm { get; private set; }
 
         public KernelDownloading() {
+            this.Vm = new KernelDownloadingViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
     }

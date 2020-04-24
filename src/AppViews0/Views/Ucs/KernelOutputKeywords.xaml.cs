@@ -17,13 +17,11 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        public KernelOutputKeywordsViewModel Vm {
-            get {
-                return (KernelOutputKeywordsViewModel)this.DataContext;
-            }
-        }
+        public KernelOutputKeywordsViewModel Vm { get; private set; }
 
         public KernelOutputKeywords() {
+            this.Vm = new KernelOutputKeywordsViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
         }

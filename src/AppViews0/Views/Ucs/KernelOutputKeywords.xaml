@@ -12,9 +12,6 @@
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
     d:DataContext="{d:DesignData Source=../Design/KernelOutputKeywordsViewModel.xaml}"
 	mc:Ignorable="d" d:DesignHeight="320" d:DesignWidth="520">
-	<UserControl.DataContext>
-        <vm:KernelOutputKeywordsViewModel></vm:KernelOutputKeywordsViewModel>
-	</UserControl.DataContext>
 	<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

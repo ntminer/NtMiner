@@ -15,13 +15,11 @@ namespace NTMiner.Views.Ucs {
             ucFactory: (window) => new KernelInputPage());
         }
 
-        private KernelInputPageViewModel Vm {
-            get {
-                return (KernelInputPageViewModel)this.DataContext;
-            }
-        }
+        public KernelInputPageViewModel Vm { get; private set; }
 
         public KernelInputPage() {
+            this.Vm = new KernelInputPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

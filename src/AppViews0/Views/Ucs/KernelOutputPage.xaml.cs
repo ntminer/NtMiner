@@ -16,13 +16,11 @@ namespace NTMiner.Views.Ucs {
             ucFactory: (window) => new KernelOutputPage(selectedKernelOutputVm));
         }
 
-        private KernelOutputPageViewModel Vm {
-            get {
-                return (KernelOutputPageViewModel)this.DataContext;
-            }
-        }
+        public KernelOutputPageViewModel Vm { get; private set; }
 
         public KernelOutputPage(KernelOutputViewModel selectedKernelOutputVm) {
+            this.Vm = new KernelOutputPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             if (selectedKernelOutputVm != null) {
                 Vm.CurrentKernelOutputVm = selectedKernelOutputVm;
