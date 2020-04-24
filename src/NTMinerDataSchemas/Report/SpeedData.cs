@@ -8,6 +8,9 @@ namespace NTMiner.Report {
     /// TODO:考虑加个压缩逻辑，只上报变更的字段
     /// </summary>
     public class SpeedData : ISpeedData {
+        private string _dualCoinCode;
+        private int _totalPhysicalMemoryMb;
+
         public SpeedData() {
             GpuTable = new GpuSpeedData[0];
         }
@@ -42,7 +45,18 @@ namespace NTMiner.Report {
         public string OSName { get; set; }
         // ReSharper disable once InconsistentNaming
         public int OSVirtualMemoryMb { get; set; }
-        public int TotalPhysicalMemoryMb { get; set; }
+        public int TotalPhysicalMemoryMb {
+            get {
+                // 因为有客户端版本的单位不正确传上来的是kb不是Mb所以如果值较大除以1024
+                if (_totalPhysicalMemoryMb >= 100 * 1024) {
+                    _totalPhysicalMemoryMb /= 1024;
+                }
+                return _totalPhysicalMemoryMb;
+            }
+            set {
+                _totalPhysicalMemoryMb = value;
+            }
+        }
         public string DiskSpace { get; set; }
 
         public Guid ClientId { get; set; }
@@ -82,7 +96,6 @@ namespace NTMiner.Report {
 
         public string Kernel { get; set; }
 
-        private string _dualCoinCode;
         public string DualCoinCode {
             get => _dualCoinCode ?? string.Empty;
             set => _dualCoinCode = value;

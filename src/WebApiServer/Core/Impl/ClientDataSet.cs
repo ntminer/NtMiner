@@ -112,9 +112,12 @@ namespace NTMiner.Core.Impl {
             if (speedData == null || speedData.ClientId == Guid.Empty) {
                 return;
             }
-            // 因为有客户端版本的单位不正确传上来的是kb不是Mb所以如果值较大除以1024
-            if (speedData.TotalPhysicalMemoryMb >= 100 * 1024) {
-                speedData.TotalPhysicalMemoryMb /= 1024;
+            if (string.IsNullOrEmpty(minerIp)) {
+                return;
+            }
+            bool isFromWsServerNode = minerIp.Contains(':');
+            if (!isFromWsServerNode) {
+                _speedDataRedis.SetAsync(speedData);
             }
             ClientData clientData = GetByClientId(speedData.ClientId);
             if (clientData == null) {
@@ -136,6 +139,9 @@ namespace NTMiner.Core.Impl {
             if (state == null || state.ClientId == Guid.Empty) {
                 return;
             }
+            if (string.IsNullOrEmpty(minerIp)) {
+                return;
+            }
             ClientData clientData = GetByClientId(state.ClientId);
             if (clientData == null) {
                 clientData = ClientData.Create(state, minerIp);
@@ -146,6 +152,11 @@ namespace NTMiner.Core.Impl {
                 if (isMinerDataChanged) {
                     DoUpdateSave(MinerData.Create(clientData));
                 }
+            }
+            bool isFromWsServerNode = minerIp.Contains(':');
+            if (!isFromWsServerNode) {
+                var speedData = clientData.ToSpeedData();
+                _speedDataRedis.SetAsync(speedData);
             }
         }
 
