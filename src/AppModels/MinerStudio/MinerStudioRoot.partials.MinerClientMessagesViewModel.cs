@@ -44,7 +44,7 @@ namespace NTMiner.MinerStudio {
                         if (message.Data == null || message.Data.Count == 0) {
                             return;
                         }
-                        UIThread.Execute(() => () => {
+                        UIThread.Execute(() => {
                             foreach (var item in message.Data) {
                                 _vms.Insert(0, new LocalMessageDtoViewModel(item));
                             }

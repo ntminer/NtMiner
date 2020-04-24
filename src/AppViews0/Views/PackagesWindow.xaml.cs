@@ -7,7 +7,7 @@ namespace NTMiner.Views {
         private static readonly object _locker = new object();
         private static PackagesWindow _instance = null;
         public static void ShowWindow() {
-            UIThread.Execute(() => () => {
+            UIThread.Execute(() => {
                 if (_instance == null) {
                     lock (_locker) {
                         if (_instance == null) {

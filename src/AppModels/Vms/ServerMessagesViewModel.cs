@@ -48,7 +48,7 @@ namespace NTMiner.Vms {
                 }, location: this.GetType());
             VirtualRoot.AddEventPath<NewServerMessageLoadedEvent>("从服务器加载了新消息后刷新Vm内存", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         foreach (var item in message.Data) {
                             var vm = new ServerMessageViewModel(item);
                             var exist = _serverMessageVms.FirstOrDefault(a => a.Id == item.Id);

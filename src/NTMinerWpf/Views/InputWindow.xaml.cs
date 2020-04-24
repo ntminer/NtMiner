@@ -35,7 +35,7 @@ namespace NTMiner.Views {
             _check = check;
             _onOk = onOk ?? throw new ArgumentNullException(nameof(onOk));
             TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     if (isPassword) {
                         PbPassword.Focus();
                     }
@@ -67,7 +67,7 @@ namespace NTMiner.Views {
                         this.TbText.Focus();
                     }
                     6.SecondsDelay().ContinueWith(t => {
-                        UIThread.Execute(() => () => {
+                        UIThread.Execute(() => {
                             this.TbMessage.Text = string.Empty;
                             this.TbMessage.Visibility = Visibility.Hidden;
                         });

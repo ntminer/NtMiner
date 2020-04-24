@@ -32,13 +32,13 @@ namespace NTMiner {
         /// 于(TVm)this.DataContext，而this.DataContext是依赖属性，依赖属性在Wpf中是
         /// 通过GetValue()静态方法访问的，而GetValue()方法中会VerifyAccess()。
         /// </summary>
-        public static void Execute(Func<Action> getAction) {
+        public static void Execute(Action action) {
             if (CheckAccess()) {
-                getAction()();
+                action();
             }
             else {
                 _dispatcher.BeginInvoke(new Action(()=> {
-                    getAction()();
+                    action();
                 }));
             }
         }

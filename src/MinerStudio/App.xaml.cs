@@ -50,7 +50,7 @@ namespace NTMiner {
                     MinerStudioRoot.Init(wsClient);
                     NTMinerContext.Instance.Init(() => {
                         _appViewFactory.Link();
-                        UIThread.Execute(() => () => {
+                        UIThread.Execute(() => {
                             MinerStudioRoot.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerStudioRoot.MinerClientsWindowVm.NetTypeText));
                             if (RpcRoot.IsOuterNet) {
                                 MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();

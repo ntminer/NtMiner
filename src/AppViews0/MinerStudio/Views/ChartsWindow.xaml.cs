@@ -59,7 +59,7 @@ namespace NTMiner.MinerStudio.Views {
                         VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4);
                         return;
                     }
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         bool isOnlyOne = limit == 1;
                         Vm.TotalMiningCount = response.TotalMiningCount;
                         Vm.TotalOnlineCount = response.TotalOnlineCount;

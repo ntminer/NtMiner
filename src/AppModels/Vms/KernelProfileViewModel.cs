@@ -239,12 +239,12 @@ namespace NTMiner.Vms {
                     webClient.CancelAsync();
                 };
                 webClient.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) => {
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         progressChanged?.Invoke(e.ProgressPercentage);
                     });
                 };
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         bool isSuccess = !e.Cancelled && e.Error == null;
                         if (isSuccess) {
                             VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), package + "下载成功", toConsole: true);

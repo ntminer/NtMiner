@@ -81,7 +81,7 @@ namespace NTMiner {
             }, location: this.GetType());
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
-                    UIThread.Execute(() => () => { Environment.Exit(0); });
+                    UIThread.Execute(() => { Environment.Exit(0); });
                 }));
             }
             else if (!string.IsNullOrEmpty(CommandLineArgs.Action)) {
@@ -129,7 +129,7 @@ namespace NTMiner {
                         if (NTMinerContext.Instance.ServerContext.CoinSet.Count == 0) {
                             VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
                         }
-                        UIThread.Execute(() => () => {
+                        UIThread.Execute(() => {
                             Window mainWindow = null;
                             AppRoot.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
                             if (NTMinerContext.Instance.MinerProfile.IsNoUi && NTMinerContext.Instance.MinerProfile.IsAutoStart) {
@@ -197,7 +197,7 @@ namespace NTMiner {
         private void Link() {
             #region 处理显示主界面命令
             VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     _appViewFactory.ShowMainWindow(message.IsToggle, out Window _);
                     // 使状态栏显示显示最新状态
                     if (NTMinerContext.Instance.IsMining) {

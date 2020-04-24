@@ -172,7 +172,7 @@ namespace NTMiner {
 
         public static void AddCloseWindowOnecePath(this Window window, Guid pathId) {
             window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
-                UIThread.Execute(() => window.Close);
+                UIThread.Execute(() => window.Close());
             }, pathId: pathId, location: typeof(WindowExtension));
         }
 

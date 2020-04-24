@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
                     RpcRoot.OfficialServer.FileUrlService.AddOrUpdateNTMinerFileAsync(new NTMinerFileData().Update(this), (response, e) => {
                         if (response.IsSuccess()) {
                             MainWindowViewModel.Instance.Refresh();
-                            UIThread.Execute(() => () => {
+                            UIThread.Execute(() => {
                                 WpfUtil.GetTopWindow()?.Close();
                             });
                         }

@@ -156,7 +156,7 @@ namespace NTMiner.Views {
                 MoveConsoleWindow();
             };
             VirtualRoot.AddCmdPath<CloseMainWindowCommand>(action: message => {
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     if (message.IsAutoNoUi) {
                         SwitchToNoUi();
                     }
@@ -167,7 +167,7 @@ namespace NTMiner.Views {
             }, location: this.GetType());
             this.AddEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         if (message.IsDual) {
                             Vm.StateBarVm.DualPoolDelayText = message.PoolDelayText;
                         }
@@ -178,14 +178,14 @@ namespace NTMiner.Views {
                 }, location: this.GetType());
             this.AddEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });
                 }, location: this.GetType());
             this.AddEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
                 action: message => {
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;
                         Vm.StateBarVm.DualPoolDelayText = string.Empty;
                     });

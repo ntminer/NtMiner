@@ -106,7 +106,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (response.IsSuccess()) {
                     #region 处理Response.Data
                     if (_lastSortDirection == this.SortDirection) {
-                        UIThread.Execute(() => () => {
+                        UIThread.Execute(() => {
                             if (response.Data.Count == 0) {
                                 _minerClients.Clear();
                             }
@@ -143,7 +143,7 @@ namespace NTMiner.MinerStudio.Vms {
                     else {
                         if (response.Data.Count == 0) {
                             // ObservableCollection<T>类型对象不支持在UI线程以外处理
-                            UIThread.Execute(() => () => {
+                            UIThread.Execute(() => {
                                 _minerClients.Clear();
                                 OnPropertyChanged(nameof(IsNoRecordVisible));
                             });

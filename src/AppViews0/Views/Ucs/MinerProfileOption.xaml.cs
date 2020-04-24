@@ -32,7 +32,7 @@ namespace NTMiner.Views.Ucs {
             OuterUserGroup.BorderBrush = WpfUtil.RedBrush;
             OuterUserGroup.BringIntoView();
             TimeSpan.FromSeconds(1).Delay().ContinueWith(t => {
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     OuterUserGroup.BorderBrush = _outerUserGroupBg;
                 });
             });
@@ -43,7 +43,7 @@ namespace NTMiner.Views.Ucs {
             AutomationGroup.BorderBrush = WpfUtil.RedBrush;
             AutomationGroup.BringIntoView();
             TimeSpan.FromSeconds(1).Delay().ContinueWith(t => {
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     AutomationGroup.BorderBrush = _automationGroupBg;
                 });
             });

@@ -127,7 +127,7 @@ namespace NTMiner.MinerStudio.Vms {
                 UserStatus = UserStatusEnumItem.Value
             }, (response, e) => {
                 if (response.IsSuccess()) {
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         for (int i = 0; i < response.Data.Count; i++) {
                             var item = response.Data[i];
                             if (_queryResults.Count > i) {

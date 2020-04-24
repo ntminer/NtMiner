@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
             this.OnLoaded((window) => {
                 window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole, 
                     action: message => {
-                        UIThread.Execute(() => () => {
+                        UIThread.Execute(() => {
                             if (Vm.MinerProfile.MineWork != null) {
                                 return;
                             }

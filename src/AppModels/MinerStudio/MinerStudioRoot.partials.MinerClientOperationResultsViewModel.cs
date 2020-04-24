@@ -55,7 +55,7 @@ namespace NTMiner.MinerStudio {
                             this.NoRecordText = NO_RECORD_TEXT;
                             return;
                         }
-                        UIThread.Execute(() => () => {
+                        UIThread.Execute(() => {
                             foreach (var item in message.Data) {
                                 _vms.Insert(0, new OperationResultViewModel(item));
                             }

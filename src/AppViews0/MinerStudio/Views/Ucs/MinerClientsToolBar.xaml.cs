@@ -76,7 +76,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
 
         private void PopupMineWork_Closed(object sender, System.EventArgs e) {
             TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     MenuItemMineWork.Visibility = Visibility.Visible;
                 });
             });
@@ -88,7 +88,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
 
         private void PopupMinerGroup_Closed(object sender, EventArgs e) {
             TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     MenuItemMinerGroup.Visibility = Visibility.Visible;
                 });
             });
@@ -127,7 +127,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
 
         private void PopUpgrade_Closed(object sender, EventArgs e) {
             TimeSpan.FromMilliseconds(100).Delay().ContinueWith(t => {
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     MenuItemUpgrade.Visibility = Visibility.Visible;
                 });
             });

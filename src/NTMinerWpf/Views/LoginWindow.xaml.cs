@@ -98,7 +98,7 @@ namespace NTMiner.Views {
                 }
                 if (response.IsSuccess()) {
                     RpcRoot.SetRpcUser(new RpcUser(response.Data, passwordSha1), isOuterNet: true);
-                    UIThread.Execute(() => () => {
+                    UIThread.Execute(() => {
                         this.Close();
                     });
                     // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调

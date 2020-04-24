@@ -139,7 +139,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 data.Soket.EndConnect(ar);
-                UIThread.Execute(() => () => {
+                UIThread.Execute(() => {
                     _results.Add(new IpResult(data.Ip, this._selfIp));
                 });
             }

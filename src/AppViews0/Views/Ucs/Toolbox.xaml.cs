@@ -42,12 +42,12 @@ namespace NTMiner.Views.Ucs {
                     VirtualRoot.SetInterval(
                         per: TimeSpan.FromMilliseconds(100),
                         perCallback: () => {
-                            UIThread.Execute(() => () => {
+                            UIThread.Execute(() => {
                                 ((RotateTransform)this.MinerClientFinderLoadingIcon.RenderTransform).Angle += 30;
                             });
                         },
                         stopCallback: () => {
-                            UIThread.Execute(() => () => {
+                            UIThread.Execute(() => {
                                 this.MinerClientFinderIcon.Visibility = Visibility.Visible;
                                 this.MinerClientFinderLoadingIcon.Visibility = Visibility.Collapsed;
                                 ((RotateTransform)this.MinerClientFinderLoadingIcon.RenderTransform).Angle = 0;
