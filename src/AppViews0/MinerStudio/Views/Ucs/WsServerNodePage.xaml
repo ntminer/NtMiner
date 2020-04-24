@@ -14,7 +14,7 @@
 	</UserControl.DataContext>
 	<Grid>
 		<DataGrid 
-			Margin="0" ItemsSource="{Binding WsServerNodeVms}" 
+			Margin="0" ItemsSource="{Binding WebApiServerStateVm.WsServerNodeVms}" 
 			BorderThickness="0">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />

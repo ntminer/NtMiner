@@ -124,9 +124,17 @@ namespace NTMiner.MinerStudio.Vms {
         public CpuData Cpu {
             get => _cpu;
             set {
-                if (_cpu != value) {
-                    _cpu = value;
-                    OnPropertyChanged(nameof(Cpu));
+                _cpu = value;
+                if (value != null) {
+                    if (_cpuVm == null) {
+                        _cpuVm = new CpuDataViewModel(value);
+                    }
+                    else {
+                        _cpuVm.Update(value);
+                    }
+                }
+                else {
+                    _cpuVm = null;
                 }
             }
         }

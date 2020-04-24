@@ -1,10 +1,9 @@
 ﻿using NTMiner.Vms;
-using System.Collections.ObjectModel;
 using System.Windows;
 
 namespace NTMiner.MinerStudio.Vms {
     public class WsServerNodePageViewModel : ViewModelBase {
-        private readonly ObservableCollection<WsServerNodeStateViewModel> _wsServerNodeVms = new ObservableCollection<WsServerNodeStateViewModel>();
+        private WebApiServerStateViewModel _webApiServerStateVm;
 
         public WsServerNodePageViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -14,28 +13,16 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public void Refresh() {
-            RpcRoot.OfficialServer.WsServerNodeService.GetNodesAsync((response, e) => {
+            RpcRoot.OfficialServer.WebApiServerNodeService.GetServerStateAsync((response, e) => {
                 if (response.IsSuccess()) {
                     UIThread.Execute(() => () => {
-                        for (int i = 0; i < response.Data.Count; i++) {
-                            var item = response.Data[i];
-                            if (_wsServerNodeVms.Count > i) {
-                                var exist = _wsServerNodeVms[i];
-                                if (exist.Address != item.Address) {
-                                    _wsServerNodeVms.Insert(i, new WsServerNodeStateViewModel(item));
-                                }
-                                else {
-                                    exist.Update(item);
-                                }
-                            }
-                            else {
-                                _wsServerNodeVms.Add(new WsServerNodeStateViewModel(item));
-                            }
+                        if (_webApiServerStateVm == null) {
+                            WebApiServerStateVm = new WebApiServerStateViewModel(response.Data);
                         }
-                        while (_wsServerNodeVms.Count > response.Data.Count) {
-                            _wsServerNodeVms.RemoveAt(_wsServerNodeVms.Count - 1);
+                        else {
+                            _webApiServerStateVm.Update(response.Data);
+                            OnPropertyChanged(nameof(IsNodeRecordVisible));
                         }
-                        OnPropertyChanged(nameof(IsNodeRecordVisible));
                     });
                 }
                 else {
@@ -44,15 +31,20 @@ namespace NTMiner.MinerStudio.Vms {
             });
         }
 
-        public ObservableCollection<WsServerNodeStateViewModel> WsServerNodeVms {
+        public WebApiServerStateViewModel WebApiServerStateVm {
             get {
-                return _wsServerNodeVms;
+                return _webApiServerStateVm;
+            }
+            set {
+                _webApiServerStateVm = value;
+                OnPropertyChanged(nameof(WebApiServerStateVm));
+                OnPropertyChanged(nameof(IsNodeRecordVisible));
             }
         }
 
         public Visibility IsNodeRecordVisible {
             get {
-                if (WsServerNodeVms.Count == 0) {
+                if (_webApiServerStateVm == null || _webApiServerStateVm.WsServerNodes.Count == 0) {
                     return Visibility.Visible;
                 }
                 return Visibility.Collapsed;

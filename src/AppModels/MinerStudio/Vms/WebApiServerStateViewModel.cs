@@ -1,6 +1,8 @@
 ﻿using NTMiner.ServerNode;
 using NTMiner.Vms;
+using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.MinerStudio.Vms {
     public class WebApiServerStateViewModel : ViewModelBase, IWebApiServerState {
@@ -13,7 +15,7 @@ namespace NTMiner.MinerStudio.Vms {
         private CpuData _cpu;
         private CpuDataViewModel _cpuVm;
         private List<WsServerNodeState> _wsServerNodes;
-        private List<WsServerNodeStateViewModel> _wsServerNodeVms;
+        private ObservableCollection<WsServerNodeStateViewModel> _wsServerNodeVms;
 
         public WebApiServerStateViewModel(IWebApiServerState data) {
             _description = data.Description;
@@ -25,20 +27,51 @@ namespace NTMiner.MinerStudio.Vms {
             _cpu = data.Cpu;
             _cpuVm = new CpuDataViewModel(data.Cpu);
             _wsServerNodes = data.WsServerNodes;
-            _wsServerNodeVms = new List<WsServerNodeStateViewModel>();
-            foreach (var item in data.WsServerNodes) {
-                _wsServerNodeVms.Add(new WsServerNodeStateViewModel(item));
-            }
+            _wsServerNodeVms = new ObservableCollection<WsServerNodeStateViewModel>(data.WsServerNodes.Select(a => new WsServerNodeStateViewModel(a)));
+        }
+
+        public void Update(IWebApiServerState data) {
+            this.Description = data.Description;
+            this.OSInfo = data.OSInfo;
+            this.TotalPhysicalMemory = data.TotalPhysicalMemory;
+            this.Address = data.Address;
+            this.CpuPerformance = data.CpuPerformance;
+            this.AvailablePhysicalMemory = data.AvailablePhysicalMemory;
+            this.Cpu = data.Cpu;
+            this.WsServerNodes = data.WsServerNodes;
         }
 
         public List<WsServerNodeState> WsServerNodes {
             get => _wsServerNodes;
             set {
                 _wsServerNodes = value;
+                if (value == null || value.Count == 0) {
+                    _wsServerNodeVms.Clear();
+                }
+                else {
+                    if (_wsServerNodeVms == null) {
+                        _wsServerNodeVms = new ObservableCollection<WsServerNodeStateViewModel>(value.Select(a => new WsServerNodeStateViewModel(a)));
+                    }
+                    else {
+                        var toRemoves = _wsServerNodeVms.Where(a => value.All(b => b.Address != a.Address)).ToArray();
+                        foreach (var item in toRemoves) {
+                            _wsServerNodeVms.Remove(item);
+                        }
+                        foreach (var item in value) {
+                            var vm = _wsServerNodeVms.FirstOrDefault(a => a.Address == item.Address);
+                            if (vm != null) {
+                                vm.Update(item);
+                            }
+                            else {
+                                _wsServerNodeVms.Add(new WsServerNodeStateViewModel(item));
+                            }
+                        }
+                    }
+                }
             }
         }
 
-        public List<WsServerNodeStateViewModel> WsServerNodeVms {
+        public ObservableCollection<WsServerNodeStateViewModel> WsServerNodeVms {
             get {
                 return _wsServerNodeVms;
             }
@@ -68,6 +101,17 @@ namespace NTMiner.MinerStudio.Vms {
             get => _cpu;
             set {
                 _cpu = value;
+                if (value != null) {
+                    if (_cpuVm == null) {
+                        _cpuVm = new CpuDataViewModel(value);
+                    }
+                    else {
+                        _cpuVm.Update(value);
+                    }
+                }
+                else {
+                    _cpuVm = null;
+                }
             }
         }
 

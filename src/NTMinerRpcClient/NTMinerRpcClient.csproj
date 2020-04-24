@@ -74,6 +74,7 @@
     <Compile Include="Services\Official\KernelOutputKeywordService.cs" />
     <Compile Include="Services\Official\UserAppSettingService.cs" />
     <Compile Include="Services\Official\UserService.cs" />
+    <Compile Include="Services\Official\WebApiServerNodeService.cs" />
     <Compile Include="Services\Official\WsServerNodeService.cs" />
     <Compile Include="Services\Official\ClientDataService.cs" />
     <Compile Include="Services\Official\UserMinerGroupService.cs" />

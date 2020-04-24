@@ -5,6 +5,7 @@
         public const string MinerJsonBucket = "https://minerjson.oss-cn-beijing.aliyuncs.com/";
 
         public readonly WsServerNodeService WsServerNodeService = new WsServerNodeService();
+        public readonly WebApiServerNodeService WebApiServerNodeService = new WebApiServerNodeService();
         public readonly FileUrlService FileUrlService = new FileUrlService();
         public readonly OverClockDataService OverClockDataService = new OverClockDataService();
         public readonly NTMinerWalletService NTMinerWalletService = new NTMinerWalletService();

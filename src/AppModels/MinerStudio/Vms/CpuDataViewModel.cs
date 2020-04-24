@@ -21,6 +21,16 @@ namespace NTMiner.MinerStudio.Vms {
             _vendorIdentifier = data.VendorIdentifier;
         }
 
+        public void Update(ICpuData data) {
+            this.ClockSpeed = data.ClockSpeed;
+            this.Identifier = data.Identifier;
+            this.Name = data.Name;
+            this.NumberOfLogicalCores = data.NumberOfLogicalCores;
+            this.ProcessorArchitecture = data.ProcessorArchitecture;
+            this.ProcessorLevel = data.ProcessorLevel;
+            this.VendorIdentifier = data.VendorIdentifier;
+        }
+
         public string ClockSpeed {
             get => _clockSpeed;
             set {
