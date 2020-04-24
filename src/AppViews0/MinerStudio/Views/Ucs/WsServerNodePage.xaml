@@ -36,8 +36,6 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU使用率" Binding="{Binding CpuPerformanceText}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU温度" Binding="{Binding CpuTemperatureText}">
-                </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="300" Header="CPU名称" Binding="{Binding Cpu.Name}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU核数" Binding="{Binding Cpu.NumberOfLogicalCores}">
