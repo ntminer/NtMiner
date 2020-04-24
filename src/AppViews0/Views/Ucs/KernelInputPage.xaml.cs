@@ -18,6 +18,9 @@ namespace NTMiner.Views.Ucs {
         public KernelInputPageViewModel Vm { get; private set; }
 
         public KernelInputPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new KernelInputPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

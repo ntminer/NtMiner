@@ -17,6 +17,9 @@ namespace NTMiner.Views.Ucs {
         public SysDicPageViewModel Vm { get; private set; }
 
         public SysDicPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new SysDicPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

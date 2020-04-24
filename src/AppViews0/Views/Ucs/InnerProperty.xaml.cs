@@ -7,6 +7,9 @@ namespace NTMiner.Views.Ucs {
         public InnerPropertyViewModel Vm { get; private set; }
 
         public InnerProperty() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new InnerPropertyViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

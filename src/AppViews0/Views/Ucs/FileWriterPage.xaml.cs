@@ -18,6 +18,9 @@ namespace NTMiner.Views.Ucs {
         public FileWriterPageViewModel Vm { get; private set; }
 
         private FileWriterPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new FileWriterPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

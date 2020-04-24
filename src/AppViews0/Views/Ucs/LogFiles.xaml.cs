@@ -8,6 +8,9 @@ namespace NTMiner.Views.Ucs {
         public LogFilesViewModel Vm { get; private set; }
 
         public LogFiles() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new LogFilesViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

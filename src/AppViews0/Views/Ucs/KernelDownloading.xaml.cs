@@ -38,6 +38,9 @@ namespace NTMiner.Views.Ucs {
         public KernelDownloadingViewModel Vm { get; private set; }
 
         public KernelDownloading() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new KernelDownloadingViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

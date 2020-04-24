@@ -36,6 +36,9 @@ namespace NTMiner.Views.Ucs {
 
         private readonly Dictionary<SpeedChartViewModel, CartesianChart> _chartDic = new Dictionary<SpeedChartViewModel, CartesianChart>();
         public SpeedCharts() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new SpeedChartsViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

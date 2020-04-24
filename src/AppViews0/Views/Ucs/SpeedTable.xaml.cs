@@ -16,6 +16,9 @@ namespace NTMiner.Views.Ucs {
         public SpeedTableViewModel Vm { get; private set; }
 
         public SpeedTable() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new SpeedTableViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

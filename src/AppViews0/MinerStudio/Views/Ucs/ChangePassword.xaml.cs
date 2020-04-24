@@ -26,6 +26,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public ChangePasswordViewModel Vm { get; private set; }
 
         public ChangePassword() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new ChangePasswordViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

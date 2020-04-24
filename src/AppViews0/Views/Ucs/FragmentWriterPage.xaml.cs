@@ -18,6 +18,9 @@ namespace NTMiner.Views.Ucs {
         public FragmentWriterPageViewModel Vm { get; private set; }
 
         private FragmentWriterPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new FragmentWriterPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

@@ -24,6 +24,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public NTMinerUpdaterConfigViewModel Vm { get; private set; }
 
         public NTMinerUpdaterConfig() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new NTMinerUpdaterConfigViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

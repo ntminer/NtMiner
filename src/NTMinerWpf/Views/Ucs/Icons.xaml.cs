@@ -20,6 +20,9 @@ namespace NTMiner.Views.Ucs {
         public IconsViewModel Vm { get; private set; }
 
         public Icons() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new IconsViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

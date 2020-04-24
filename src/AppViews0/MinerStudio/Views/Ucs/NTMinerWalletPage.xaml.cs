@@ -21,6 +21,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public NTMinerWalletPageViewModel Vm { get; private set; }
 
         public NTMinerWalletPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new NTMinerWalletPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

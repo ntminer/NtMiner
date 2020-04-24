@@ -20,6 +20,9 @@ namespace NTMiner.Views.Ucs {
         public BrandTagViewModel Vm { get; private set; }
 
         public BrandTag() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new BrandTagViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

@@ -21,6 +21,9 @@ namespace NTMiner.Views.Ucs {
         public AboutPageViewModel Vm { get; private set; }
 
         public AboutPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new AboutPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

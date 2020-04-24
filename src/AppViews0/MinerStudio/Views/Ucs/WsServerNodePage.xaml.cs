@@ -22,6 +22,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public WsServerNodePageViewModel Vm { get; private set; }
 
         public WsServerNodePage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new WsServerNodePageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

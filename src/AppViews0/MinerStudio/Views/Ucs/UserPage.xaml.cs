@@ -23,6 +23,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public UserPageViewModel Vm { get; private set; }
 
         public UserPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new UserPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

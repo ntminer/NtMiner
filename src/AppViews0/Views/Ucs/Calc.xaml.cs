@@ -26,6 +26,9 @@ namespace NTMiner.Views.Ucs {
         public CalcViewModel Vm { get; private set; }
 
         private Calc() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new CalcViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

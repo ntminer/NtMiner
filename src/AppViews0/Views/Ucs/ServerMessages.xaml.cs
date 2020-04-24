@@ -6,6 +6,9 @@ namespace NTMiner.Views.Ucs {
         public ServerMessagesViewModel Vm { get; private set; }
 
         public ServerMessages() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new ServerMessagesViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

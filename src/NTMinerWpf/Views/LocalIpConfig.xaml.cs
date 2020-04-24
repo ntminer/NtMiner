@@ -32,6 +32,9 @@ namespace NTMiner.Views.Ucs {
         public LocalIpConfigViewModel Vm { get; private set; }
 
         private LocalIpConfig() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new LocalIpConfigViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

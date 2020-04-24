@@ -25,6 +25,9 @@ namespace NTMiner.MinerStudio.Views {
         public ChartsWindowViewModel Vm { get; private set; }
 
         private ChartsWindow() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new ChartsWindowViewModel();
             this.DataContext = this.Vm;
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;

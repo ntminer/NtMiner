@@ -21,6 +21,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public OverClockDataPageViewModel Vm { get; private set; }
 
         public OverClockDataPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new OverClockDataPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

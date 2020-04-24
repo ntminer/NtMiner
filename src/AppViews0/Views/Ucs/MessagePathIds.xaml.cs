@@ -21,6 +21,9 @@ namespace NTMiner.Views.Ucs {
         public MessagePathIdsViewModel Vm { get; private set; }
 
         public MessagePathIds() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new MessagePathIdsViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

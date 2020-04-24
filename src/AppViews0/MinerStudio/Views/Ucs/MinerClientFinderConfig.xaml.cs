@@ -24,6 +24,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public MinerClientFinderConfigViewModel Vm { get; private set; }
 
         public MinerClientFinderConfig() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new MinerClientFinderConfigViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

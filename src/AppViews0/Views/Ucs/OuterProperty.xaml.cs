@@ -8,6 +8,9 @@ namespace NTMiner.Views.Ucs {
         public OuterPropertyViewModel Vm { get; private set; }
 
         public OuterProperty() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new OuterPropertyViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

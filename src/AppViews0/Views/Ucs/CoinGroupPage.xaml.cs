@@ -18,6 +18,9 @@ namespace NTMiner.Views.Ucs {
         public CoinGroupPageViewModel Vm { get; private set; }
 
         public CoinGroupPage() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new CoinGroupPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

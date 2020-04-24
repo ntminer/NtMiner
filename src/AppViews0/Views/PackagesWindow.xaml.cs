@@ -25,6 +25,9 @@ namespace NTMiner.Views {
         public PackagesWindowViewModel Vm { get; private set; }
 
         public PackagesWindow() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new PackagesWindowViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

@@ -9,6 +9,9 @@ namespace NTMiner.Views.Ucs {
         public MinerProfileIndexViewModel Vm { get; private set; }
 
         public MinerProfileIndex() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
 #if DEBUG
             NTStopwatch.Start();
 #endif

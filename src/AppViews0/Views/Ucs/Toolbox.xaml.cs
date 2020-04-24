@@ -11,6 +11,9 @@ namespace NTMiner.Views.Ucs {
         public ToolboxViewModel Vm { get; private set; }
 
         public Toolbox() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new ToolboxViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

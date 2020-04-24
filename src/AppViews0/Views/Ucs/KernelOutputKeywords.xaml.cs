@@ -20,6 +20,9 @@ namespace NTMiner.Views.Ucs {
         public KernelOutputKeywordsViewModel Vm { get; private set; }
 
         public KernelOutputKeywords() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new KernelOutputKeywordsViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

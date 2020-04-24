@@ -19,6 +19,9 @@ namespace NTMiner.Views.Ucs {
         public KernelOutputPageViewModel Vm { get; private set; }
 
         public KernelOutputPage(KernelOutputViewModel selectedKernelOutputVm) {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new KernelOutputPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

@@ -8,6 +8,9 @@ namespace NTMiner.Views.Ucs {
         public LocalMessagesViewModel Vm { get; private set; }
 
         public LocalMessages() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new LocalMessagesViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();

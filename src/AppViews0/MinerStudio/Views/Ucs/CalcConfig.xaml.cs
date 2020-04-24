@@ -31,6 +31,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public CalcConfigViewModels Vm { get; private set; }
 
         private CalcConfig() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new CalcConfigViewModels();
             this.DataContext = this.Vm;
             InitializeComponent();

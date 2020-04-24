@@ -9,6 +9,9 @@ namespace NTMiner.Views {
         public MainWindowViewModel Vm { get; private set; }
 
         public MainWindow() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
             this.Vm = new MainWindowViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();
