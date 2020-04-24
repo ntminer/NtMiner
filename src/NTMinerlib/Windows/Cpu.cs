@@ -11,7 +11,10 @@ namespace NTMiner.Windows {
     public sealed class Cpu {
         public static readonly Cpu Instance = new Cpu();
 
-        private Cpu() { }
+        private readonly PerformanceCounter _cpuCounter;
+        private Cpu() {
+            _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+        }
 
         public CpuData ToData() {
             return new CpuData {
@@ -23,6 +26,14 @@ namespace NTMiner.Windows {
                 ProcessorLevel = this.ProcessorLevel,
                 VendorIdentifier = this.VendorIdentifier
             };
+        }
+
+        /// <summary>
+        /// 通过PerformanceCounter获取cpu使用率
+        /// </summary>
+        /// <returns></returns>
+        public float GetCurrentCpuUsage() {
+            return _cpuCounter.NextValue();
         }
 
         private double _performance = 0.0f;
