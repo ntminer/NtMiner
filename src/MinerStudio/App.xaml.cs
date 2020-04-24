@@ -63,16 +63,16 @@ namespace NTMiner {
                             AppRoot.NotifyIcon = ExtendedNotifyIcon.Create("群控客户端", isMinerStudio: true);
                             VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: false));
                         });
-                        #region 处理显示主界面命令
-                        VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
-                            VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: message.IsToggle));
-                        }, location: this.GetType());
-                        #endregion
-                        HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.MinerStudioPort.ToString()}");
                     });
                 }, btnCloseClick: () => {
                     Shutdown();
                 });
+                #region 处理显示主界面命令
+                VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
+                    VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: message.IsToggle));
+                }, location: this.GetType());
+                #endregion
+                HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.MinerStudioPort.ToString()}");
             }
             else {
                 try {
