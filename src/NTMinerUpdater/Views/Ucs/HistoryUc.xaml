@@ -16,6 +16,8 @@
 			BorderThickness="0"
             HorizontalScrollBarVisibility="Disabled"
             VerticalScrollBarVisibility="Auto"
+            HorizontalGridLinesBrush="{StaticResource SelectedRowBackground}"
+            VerticalGridLinesBrush="{StaticResource SelectedRowBackground}"
 			ItemsSource="{Binding NTMinerFiles}"
 			SelectedItem="{Binding SelectedNTMinerFile}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
