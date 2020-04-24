@@ -5,12 +5,8 @@ using NTMiner.Report;
 using System;
 
 namespace NTMiner.Core.MinerServer {
-    public class ClientData : SpeedData, IClientData, IDbEntity<string> {
+    public class ClientData : SpeedData, IClientData {
         public ClientData() : base() {
-        }
-
-        public string GetId() {
-            return this.Id;
         }
 
         public static ClientData Create(IMinerData data) {
