@@ -6,19 +6,27 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class WsServerNodeSet : IWsServerNodeSet {
-        public class WsServerNodeActiveOn : WsServerNodeState {
-            public WsServerNodeActiveOn(WsServerNodeState state) {
-                this.Address = state.Address;
-                Active(state);
+        public class WsServerNodeActiveOn : WsServerNodeState, IEntity<string> {
+            public static WsServerNodeActiveOn Create(WsServerNodeState data) {
+                return new WsServerNodeActiveOn {
+                    Address = data.Address,
+                    Description = data.Description,
+                    MinerClientWsSessionCount = data.MinerClientWsSessionCount,
+                    MinerStudioWsSessionCount = data.MinerStudioWsSessionCount,
+                    MinerClientSessionCount = data.MinerClientSessionCount,
+                    MinerStudioSessionCount = data.MinerStudioSessionCount,
+                    AvailablePhysicalMemory = data.AvailablePhysicalMemory,
+                    Cpu = data.Cpu,
+                    CpuPerformance = data.CpuPerformance,
+                    CpuTemperature = data.CpuTemperature,
+                    OSInfo = data.OSInfo,
+                    TotalPhysicalMemory = data.TotalPhysicalMemory,
+                    ActiveOn = DateTime.Now,
+                };
             }
 
-            public void Active(WsServerNodeState state) {
-                this.Description = state.Description;
-                this.MinerClientWsSessionCount = state.MinerClientWsSessionCount;
-                this.MinerStudioWsSessionCount = state.MinerStudioWsSessionCount;
-                this.MinerClientSessionCount = state.MinerClientSessionCount;
-                this.MinerStudioSessionCount = state.MinerStudioSessionCount;
-                this.ActiveOn = DateTime.Now;
+            public string GetId() {
+                return this.Address;
             }
 
             public DateTime ActiveOn { get; set; }
@@ -65,10 +73,10 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             if (_dicByIp.TryGetValue(data.Address, out WsServerNodeActiveOn nodeData)) {
-                nodeData.Active(data);
+                nodeData.Update(data);
             }
             else {
-                nodeData = new WsServerNodeActiveOn(data);
+                nodeData = WsServerNodeActiveOn.Create(data);
                 _dicByIp.Add(data.Address, nodeData);
                 ReSetConsistentHash();
                 _mqSender.SendWsServerNodeAdded(data.Address);
