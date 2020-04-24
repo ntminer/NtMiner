@@ -152,7 +152,7 @@ namespace NTMiner.Vms {
 
         public string CpuPerformanceText {
             get {
-                return (this.CpuPerformance * 100).ToString("f1") + " %";
+                return ((int)this.CpuPerformance).ToString() + " %";
             }
         }
 
