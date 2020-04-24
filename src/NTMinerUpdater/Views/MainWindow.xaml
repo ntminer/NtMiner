@@ -41,7 +41,10 @@
             <uc:HistoryUc></uc:HistoryUc>
 			
 			<!--start下方两个大按钮和下载进度条-->
-			<Grid Grid.Row="1" Height="118" Background="White" Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityConverter}}">
+			<Grid 
+                Grid.Row="1" Height="118" 
+                Background="{StaticResource MinerProfileBackground}" 
+                Visibility="{Binding IsReady, Converter={StaticResource BoolToVisibilityConverter}}">
 				<controls:KbButton
 					VerticalAlignment="Center"
 					HorizontalAlignment="Center"

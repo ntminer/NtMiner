@@ -4,7 +4,7 @@
     <Style TargetType="DataGrid">
         <Setter Property="CanUserAddRows" Value="False"></Setter>
         <Setter Property="CanUserDeleteRows" Value="False"></Setter>
-        <Setter Property="GridLinesVisibility" Value="Horizontal"></Setter>
+        <Setter Property="GridLinesVisibility" Value="All"></Setter>
         <Setter Property="Background" Value="White"></Setter>
         <Setter Property="SelectionMode" Value="Single"></Setter>
         <Setter Property="CanUserResizeColumns" Value="True" />
@@ -33,18 +33,9 @@
         <Setter Property="Foreground" Value="#FF666666" />
         <Setter Property="Background" Value="Transparent"></Setter>
         <Style.Triggers>
-            <!--隔行换色-->
-            <Trigger Property="AlternationIndex" Value="0">
-                <Setter Property="Background" Value="White" />
-            </Trigger>
-            <Trigger Property="AlternationIndex" Value="1">
-                <Setter Property="Background" Value="White" />
-            </Trigger>
-
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="{StaticResource MouseOverRowBackground}" />
             </Trigger>
-
             <Trigger Property="IsSelected" Value="True">
                 <Setter Property="Background" Value="{StaticResource SelectedRowBackground}" />
             </Trigger>
