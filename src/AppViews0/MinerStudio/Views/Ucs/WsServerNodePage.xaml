@@ -30,8 +30,6 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="106" Header="群控客户端会话数" Binding="{Binding MinerStudioSessionCount}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="140" Header="操作系统" Binding="{Binding OSInfo}">
-                </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="90" Header="总内存" Binding="{Binding TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="90" Header="剩余内存" Binding="{Binding AvailablePhysicalMemory,Converter={StaticResource ByteToGbConverter}}">
@@ -47,6 +45,8 @@
                 <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU主频" Binding="{Binding Cpu.ClockSpeed}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU架构" Binding="{Binding Cpu.ProcessorArchitecture}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="180" Header="操作系统" Binding="{Binding OSInfo}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
 				</DataGridTextColumn>
