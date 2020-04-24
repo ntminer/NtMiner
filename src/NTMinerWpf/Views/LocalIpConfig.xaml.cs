@@ -23,7 +23,7 @@ namespace NTMiner.Views.Ucs {
                 };
                 window.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => uc.Vm.Refresh());
+                        UIThread.Execute(uc.Vm.Refresh);
                     }, location: typeof(LocalIpConfig));
                 return uc;
             }, fixedSize: true);
