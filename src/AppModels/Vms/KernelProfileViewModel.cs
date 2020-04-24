@@ -239,24 +239,28 @@ namespace NTMiner.Vms {
                     webClient.CancelAsync();
                 };
                 webClient.DownloadProgressChanged += (object sender, DownloadProgressChangedEventArgs e) => {
-                    progressChanged?.Invoke(e.ProgressPercentage);
+                    UIThread.Execute(() => {
+                        progressChanged?.Invoke(e.ProgressPercentage);
+                    });
                 };
                 webClient.DownloadFileCompleted += (object sender, System.ComponentModel.AsyncCompletedEventArgs e) => {
-                    bool isSuccess = !e.Cancelled && e.Error == null;
-                    if (isSuccess) {
-                        VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), package + "下载成功", toConsole: true);
-                    }
-                    string message = "下载成功";
-                    if (e.Error != null) {
-                        message = "下载失败，请检查网络";
-                        string errorMessage = e.Error.GetInnerMessage();
-                        VirtualRoot.Out.ShowError(errorMessage);
-                        // 这里就不记录异常了，因为异常很可能是因为磁盘空间不足
-                    }
-                    if (e.Cancelled) {
-                        message = "已取消";
-                    }
-                    downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
+                    UIThread.Execute(() => {
+                        bool isSuccess = !e.Cancelled && e.Error == null;
+                        if (isSuccess) {
+                            VirtualRoot.ThisLocalInfo(nameof(KernelProfileViewModel), package + "下载成功", toConsole: true);
+                        }
+                        string message = "下载成功";
+                        if (e.Error != null) {
+                            message = "下载失败，请检查网络";
+                            string errorMessage = e.Error.GetInnerMessage();
+                            VirtualRoot.Out.ShowError(errorMessage);
+                            // 这里就不记录异常了，因为异常很可能是因为磁盘空间不足
+                        }
+                        if (e.Cancelled) {
+                            message = "已取消";
+                        }
+                        downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
+                    });
                 };
                 RpcRoot.OfficialServer.FileUrlService.GetPackageUrlAsync(package, (packageUrl, e) => {
                     if (string.IsNullOrEmpty(packageUrl)) {
