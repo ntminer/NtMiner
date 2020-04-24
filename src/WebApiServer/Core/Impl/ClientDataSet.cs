@@ -19,6 +19,7 @@ namespace NTMiner.Core.Impl {
             var getMinersTask = minerRedis.GetAllAsync();
             var getSpeedsTask = speedDataRedis.GetAllAsync();
             Task.WhenAll(getMinersTask, getSpeedsTask).ContinueWith(t => {
+                Write.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
                 var speedDatas = getSpeedsTask.Result;
                 List<ClientData> clientDatas = new List<ClientData>();
                 foreach (var minerData in getMinersTask.Result) {
@@ -26,7 +27,7 @@ namespace NTMiner.Core.Impl {
                     clientDatas.Add(clientData);
                     var speedData = speedDatas.FirstOrDefault(a => a.ClientId == minerData.ClientId);
                     if (speedData != null) {
-                        clientData.Update(speedData);
+                        clientData.Update(speedData, out bool _);
                     }
                 }
                 callback?.Invoke(clientDatas);
