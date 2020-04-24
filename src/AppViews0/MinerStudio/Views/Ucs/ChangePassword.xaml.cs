@@ -23,13 +23,11 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, fixedSize: true);
         }
 
-        public ChangePasswordViewModel Vm {
-            get {
-                return (ChangePasswordViewModel)this.DataContext;
-            }
-        }
+        public ChangePasswordViewModel Vm { get; private set; }
 
         public ChangePassword() {
+            this.Vm = new ChangePasswordViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

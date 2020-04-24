@@ -12,10 +12,8 @@
 	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
 	d:DesignWidth="600"
 	d:DesignHeight="600"
+    d:DataContext="{d:DesignData Source=../Design/CalcConfigViewModels.xaml}"
 	mc:Ignorable="d">
-	<UserControl.DataContext>
-		<vm:CalcConfigViewModels></vm:CalcConfigViewModels>
-	</UserControl.DataContext>
 	<Grid Background="White">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="*"></RowDefinition>

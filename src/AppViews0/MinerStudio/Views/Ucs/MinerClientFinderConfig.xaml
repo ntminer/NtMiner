@@ -9,10 +9,8 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="400">
-	<UserControl.DataContext>
-		<vm:MinerClientFinderConfigViewModel></vm:MinerClientFinderConfigViewModel>
-	</UserControl.DataContext>
+	mc:Ignorable="d" d:DesignHeight="120" d:DesignWidth="400"
+    d:DataContext="{d:DesignData Source=../Design/MinerClientFinderConfigViewModel.xaml}">
 	<StackPanel VerticalAlignment="Center">
 		<WrapPanel Margin="0 0 0 10">
             <TextBlock Width="120" TextAlignment="Right" Foreground="{StaticResource LableColor}" VerticalAlignment="Center">矿机雷达程序文件名：</TextBlock>
