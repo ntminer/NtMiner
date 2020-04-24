@@ -12,15 +12,13 @@ namespace NTMiner.Core.Impl {
         private const string _safeIgnoreMessage = "该消息发生的时间早于本节点启动时间1分钟，安全忽略";
 
         private readonly IMinerRedis _minerRedis;
-        IClientDataRedis _clientDataRedis;
         private readonly IMinerClientMqSender _mqSender;
-        public ClientDataSet(IMinerRedis minerRedis, IClientDataRedis clientDataRedis, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
+        public ClientDataSet(IMinerRedis minerRedis, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
             minerRedis.GetAllAsync().ContinueWith(t => {
                 callback?.Invoke(t.Result);
             });
         }) {
             _minerRedis = minerRedis;
-            _clientDataRedis = clientDataRedis;
             _mqSender = mqSender;
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
             VirtualRoot.AddEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, action: message => {
@@ -70,7 +68,10 @@ namespace NTMiner.Core.Impl {
                 if (_dicByObjectId.TryGetValue(message.Data.Id, out ClientData clientData)) {
                     clientData.Update(message.Data, out bool isChanged);
                     if (isChanged) {
-                        MinerSignChangedSave(MinerData.Create(clientData));
+                        var minerData = MinerData.Create(clientData);
+                        _minerRedis.SetAsync(minerData).ContinueWith(t => {
+                            _mqSender.SendMinerSignChanged(minerData.Id);
+                        });
                     }
                 }
                 else {
@@ -202,15 +203,6 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             _minerRedis.SetAsync(minerData);
-        }
-
-        private void MinerSignChangedSave(MinerData minerData) {
-            if (!IsReadied) {
-                return;
-            }
-            _minerRedis.SetAsync(minerData).ContinueWith(t => {
-                _mqSender.SendMinerSignChanged(minerData.Id);
-            });
         }
 
         protected override void DoUpdateSave(IEnumerable<MinerData> minerDatas) {
