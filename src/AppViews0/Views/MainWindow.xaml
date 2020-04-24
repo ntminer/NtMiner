@@ -18,10 +18,8 @@
 	Background="Transparent"
     AllowsTransparency="True"
 	WindowStartupLocation="CenterScreen"
-	MouseDown="Window_MouseDown">
-    <Window.DataContext>
-        <vm:MainWindowViewModel></vm:MainWindowViewModel>
-    </Window.DataContext>
+	MouseDown="Window_MouseDown"
+    d:DataContext="{d:DesignData Source=Design/MainWindowViewModel.xaml}">
     <Window.Resources>
 		<ResourceDictionary>
 			<Style x:Key="IconButtonBg" TargetType="Border">

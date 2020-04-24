@@ -13,11 +13,7 @@ namespace NTMiner.Views {
     public partial class MainWindow : Window, IMaskWindow {
         private bool mRestoreIfMove = false;
 
-        private MainWindowViewModel Vm {
-            get {
-                return (MainWindowViewModel)this.DataContext;
-            }
-        }
+        private MainWindowViewModel Vm { get; set; }
 
         private HwndSource hwndSource;
         private readonly GridLength _leftDrawerGripWidth;
@@ -26,7 +22,8 @@ namespace NTMiner.Views {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-
+            this.Vm = new MainWindowViewModel();
+            this.DataContext = Vm;
             this.MinHeight = 430;
             this.MinWidth = 640;
             this.Width = AppRoot.MainWindowWidth;
