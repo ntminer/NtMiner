@@ -25,6 +25,11 @@ namespace NTMiner.Core.Impl {
                 };
             }
 
+            public void Update(WsServerNodeState data, DateTime activeOn) {
+                this.Update(data);
+                this.ActiveOn = activeOn;
+            }
+
             public string GetId() {
                 return this.Address;
             }
@@ -73,7 +78,7 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             if (_dicByIp.TryGetValue(data.Address, out WsServerNodeActiveOn nodeData)) {
-                nodeData.Update(data);
+                nodeData.Update(data, DateTime.Now);
             }
             else {
                 nodeData = WsServerNodeActiveOn.Create(data);
