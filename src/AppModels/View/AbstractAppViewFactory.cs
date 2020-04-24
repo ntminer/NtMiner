@@ -54,7 +54,7 @@ namespace NTMiner.View {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }
-                            UIThread.Execute(() => app.Shutdown());
+                            app.Shutdown();
                         });
                         break;
                     case NTMinerAppType.MinerStudio:
@@ -62,7 +62,7 @@ namespace NTMiner.View {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }
-                            UIThread.Execute(() => app.Shutdown());
+                            app.Shutdown();
                         });
                         break;
                     default:
