@@ -14,7 +14,7 @@ namespace NTMiner.Core.Cpus.Impl {
             if (ClientAppType.IsMinerClient) {
                 Task.Factory.StartNew(() => {
                     // 因为第一次访问可能耗时，所以放在Task中避免增长构造过程的耗时
-                    Windows.Cpu.Instance.GetSensorValue(out double _, out float _, out double _);
+                    CpuUtil.GetSensorValue(out float _, out double _);
                     VirtualRoot.AddEventPath<Per1SecondEvent>("周期更新CpuAll的状态", LogEnum.None,
                         action: message => {
                             Update();
@@ -68,7 +68,8 @@ namespace NTMiner.Core.Cpus.Impl {
 
         private void Update() {
             bool isChanged = false;
-            Windows.Cpu.Instance.GetSensorValue(out double performance, out float temperature, out double power);
+            CpuUtil.GetSensorValue(out float temperature, out double power);
+            double performance = Windows.Cpu.Instance.GetCurrentCpuUsage();
             if (performance != this.Performance) {
                 isChanged = true;
                 this.Performance = (int)performance;
