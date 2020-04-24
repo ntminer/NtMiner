@@ -22,13 +22,11 @@ namespace NTMiner.MinerStudio.Views {
             _sWindow.Activate();
         }
 
-        public ChartsWindowViewModel Vm {
-            get {
-                return (ChartsWindowViewModel)this.DataContext;
-            }
-        }
+        public ChartsWindowViewModel Vm { get; private set; }
 
         private ChartsWindow() {
+            this.Vm = new ChartsWindowViewModel();
+            this.DataContext = this.Vm;
             Width = SystemParameters.FullPrimaryScreenWidth * 0.95;
             Height = SystemParameters.FullPrimaryScreenHeight * 0.95;
             InitializeComponent();

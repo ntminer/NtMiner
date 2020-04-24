@@ -17,10 +17,9 @@
 	WindowState="Maximized"
 	WindowStartupLocation="CenterScreen"
 	mc:Ignorable="d"
-	Title="{x:Static app:AppStatic.AppName}" d:DesignHeight="900" d:DesignWidth="1720">
-	<blankWindow:BlankWindow.DataContext>
-		<vm:ChartsWindowViewModel></vm:ChartsWindowViewModel>
-	</blankWindow:BlankWindow.DataContext>
+	Title="{x:Static app:AppStatic.AppName}" 
+    d:DataContext="{d:DesignData Source=Design/ChartsWindowViewModel.xaml}"
+    d:DesignHeight="900" d:DesignWidth="1720">
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="30"></RowDefinition>
