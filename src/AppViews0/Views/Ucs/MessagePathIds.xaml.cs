@@ -18,13 +18,11 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: false);
         }
 
-        public MessagePathIdsViewModel Vm {
-            get {
-                return (MessagePathIdsViewModel)this.DataContext;
-            }
-        }
+        public MessagePathIdsViewModel Vm { get; private set; }
 
         public MessagePathIds() {
+            this.Vm = new MessagePathIdsViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(onLoad: window => {
                 VirtualRoot.MessageHub.PathAdded += OnPathConnected;

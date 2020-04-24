@@ -11,10 +11,8 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	mc:Ignorable="d" 
-	d:DesignHeight="520" d:DesignWidth="760">
-	<UserControl.DataContext>
-		<vm:SpeedChartsViewModel></vm:SpeedChartsViewModel>
-	</UserControl.DataContext>
+	d:DesignHeight="520" d:DesignWidth="760"
+    d:DataContext="{d:DesignData Source=../Design/SpeedChartsViewModel.xaml}">
 	<UserControl.Resources>
 		<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
 			<Setter Property="Width" Value="40"></Setter>

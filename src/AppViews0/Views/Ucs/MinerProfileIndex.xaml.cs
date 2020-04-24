@@ -6,16 +6,14 @@ using System.Windows.Controls.Primitives;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileIndex : UserControl {
-        private MinerProfileIndexViewModel Vm {
-            get {
-                return (MinerProfileIndexViewModel)this.DataContext;
-            }
-        }
+        public MinerProfileIndexViewModel Vm { get; private set; }
 
         public MinerProfileIndex() {
 #if DEBUG
             NTStopwatch.Start();
 #endif
+            this.Vm = new MinerProfileIndexViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded((window) => {
                 window.AddEventPath<ServerContextVmsReInitedEvent>("上下文视图模型集刷新后刷新界面上的popup", LogEnum.DevConsole, 

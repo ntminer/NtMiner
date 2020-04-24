@@ -10,10 +10,8 @@
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="70">
-    <UserControl.DataContext>
-        <vm:LogFilesViewModel></vm:LogFilesViewModel>
-    </UserControl.DataContext>
+	mc:Ignorable="d" d:DesignHeight="20" d:DesignWidth="70"
+    d:DataContext="{d:DesignData Source=../Design/LogFilesViewModel.xaml}">
     <WrapPanel>
         <controls:KbButton 
             Padding="4 0"

@@ -13,13 +13,11 @@ namespace NTMiner.Views.Ucs {
         public static readonly DependencyProperty IsOverClockVisibleProperty =
             DependencyProperty.Register(nameof(IsOverClockVisible), typeof(Visibility), typeof(SpeedTable), new PropertyMetadata(Visibility.Collapsed));
 
-        private SpeedTableViewModel Vm {
-            get {
-                return (SpeedTableViewModel)this.DataContext;
-            }
-        }
+        public SpeedTableViewModel Vm { get; private set; }
 
         public SpeedTable() {
+            this.Vm = new SpeedTableViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

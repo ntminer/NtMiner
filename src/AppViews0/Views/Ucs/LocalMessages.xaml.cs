@@ -5,13 +5,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class LocalMessages : UserControl {
-        private LocalMessagesViewModel Vm {
-            get {
-                return (LocalMessagesViewModel)this.DataContext;
-            }
-        }
+        public LocalMessagesViewModel Vm { get; private set; }
 
         public LocalMessages() {
+            this.Vm = new LocalMessagesViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

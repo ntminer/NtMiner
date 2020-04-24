@@ -9,10 +9,8 @@
     xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
     xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
     Background="{StaticResource ThemeBackground}"
-    mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860">
-    <UserControl.DataContext>
-        <vm:SysDicPageViewModel></vm:SysDicPageViewModel>
-    </UserControl.DataContext>
+    mc:Ignorable="d" d:DesignHeight="520" d:DesignWidth="860"
+    d:DataContext="{d:DesignData Source=../Design/SysDicPageViewModel.xaml}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"></ColumnDefinition>

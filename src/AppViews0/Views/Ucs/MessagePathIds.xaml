@@ -13,10 +13,8 @@
 	mc:Ignorable="d" 
     x:Name="Uc"
 	Background="White"
-	d:DesignHeight="450" d:DesignWidth="1200">
-    <UserControl.DataContext>
-        <vm:MessagePathIdsViewModel></vm:MessagePathIdsViewModel>
-    </UserControl.DataContext>
+	d:DesignHeight="450" d:DesignWidth="1200"
+    d:DataContext="{d:DesignData Source=../Design/MessagePathIdsViewModel.xaml}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

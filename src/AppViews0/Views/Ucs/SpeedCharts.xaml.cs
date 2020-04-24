@@ -32,14 +32,12 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: false);
         }
 
-        private SpeedChartsViewModel Vm {
-            get {
-                return (SpeedChartsViewModel)this.DataContext;
-            }
-        }
+        public SpeedChartsViewModel Vm { get; private set; }
 
         private readonly Dictionary<SpeedChartViewModel, CartesianChart> _chartDic = new Dictionary<SpeedChartViewModel, CartesianChart>();
         public SpeedCharts() {
+            this.Vm = new SpeedChartsViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             if (WpfUtil.IsInDesignMode) {
                 return;

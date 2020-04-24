@@ -14,13 +14,11 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) => new SysDicPage(), fixedSize: false);
         }
 
-        private SysDicPageViewModel Vm {
-            get {
-                return (SysDicPageViewModel)this.DataContext;
-            }
-        }
+        public SysDicPageViewModel Vm { get; private set; }
 
         public SysDicPage() {
+            this.Vm = new SysDicPageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

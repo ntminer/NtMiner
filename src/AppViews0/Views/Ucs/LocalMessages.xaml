@@ -15,9 +15,6 @@
 	Background="White"
     d:DataContext="{d:DesignData Source=../Design/LocalMessagesViewModel.xaml}"
 	d:DesignHeight="450" d:DesignWidth="1200">
-    <UserControl.DataContext>
-        <vm:LocalMessagesViewModel></vm:LocalMessagesViewModel>
-    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>

@@ -14,9 +14,6 @@
 	BorderBrush="{StaticResource LightLineColor}"
     d:DataContext="{d:DesignData Source=../Design/MinerProfileIndexViewModel.xaml}"
 	Width="324">
-	<UserControl.DataContext>
-		<vm:MinerProfileIndexViewModel></vm:MinerProfileIndexViewModel>
-	</UserControl.DataContext>
 	<UserControl.Resources>
 		<ResourceDictionary>
 			<Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">

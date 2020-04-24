@@ -5,13 +5,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class OuterProperty : UserControl {
-        private OuterPropertyViewModel Vm {
-            get {
-                return (OuterPropertyViewModel)this.DataContext;
-            }
-        }
+        public OuterPropertyViewModel Vm { get; private set; }
 
         public OuterProperty() {
+            this.Vm = new OuterPropertyViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             if (WpfUtil.IsInDesignMode) {
                 return;

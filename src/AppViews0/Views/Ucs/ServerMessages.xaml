@@ -15,9 +15,6 @@
 	Background="White"
     d:DataContext="{d:DesignData Source=../Design/ServerMessagesViewModel.xaml}"
 	d:DesignHeight="450" d:DesignWidth="1200">
-    <UserControl.DataContext>
-        <vm:ServerMessagesViewModel></vm:ServerMessagesViewModel>
-    </UserControl.DataContext>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="26"></RowDefinition>

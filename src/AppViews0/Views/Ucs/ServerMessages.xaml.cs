@@ -3,13 +3,11 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class ServerMessages : UserControl {
-        private ServerMessagesViewModel Vm {
-            get {
-                return (ServerMessagesViewModel)this.DataContext;
-            }
-        }
+        public ServerMessagesViewModel Vm { get; private set; }
 
         public ServerMessages() {
+            this.Vm = new ServerMessagesViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(window => {
                 if (ClientAppType.IsMinerStudio) {

@@ -5,13 +5,11 @@ using System.Windows.Input;
 
 namespace NTMiner.Views.Ucs {
     public partial class LogFiles : UserControl {
-        public LogFilesViewModel Vm {
-            get {
-                return (LogFilesViewModel)this.DataContext;
-            }
-        }
+        public LogFilesViewModel Vm { get; private set; }
 
         public LogFiles() {
+            this.Vm = new LogFilesViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
 

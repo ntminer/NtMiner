@@ -13,10 +13,8 @@
 	mc:Ignorable="d" 
     x:Name="Uc"
 	Background="White"
-	d:DesignHeight="450" d:DesignWidth="1200">
-    <UserControl.DataContext>
-        <vm:SpeedTableViewModel></vm:SpeedTableViewModel>
-    </UserControl.DataContext>
+	d:DesignHeight="450" d:DesignWidth="1200"
+    d:DataContext="{d:DesignData Source=../Design/SpeedTableViewModel.xaml}">
     <UserControl.Resources>
         <Style x:Key="TextBox" TargetType="TextBox" BasedOn="{StaticResource TextBoxBase}">
             <Setter Property="BorderBrush" Value="{StaticResource LightLineColor}"></Setter>
