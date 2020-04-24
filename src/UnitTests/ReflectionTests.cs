@@ -8,6 +8,16 @@ using System.Reflection;
 namespace NTMiner {
     [TestClass]
     public class ReflectionTests {
+        public class Class1 {
+            public string Property1 { get; set; }
+            public string Property2 { get; set; }
+        }
+
+        public class Class2 {
+            public string Property2 { get; set; }
+            public string Property1 { get; set; }
+        }
+
         public class ClassA {
             public static readonly Dictionary<string, PropertyInfo> PropertyInfos = typeof(ClassA).GetProperties().ToDictionary(a => a.Name, a => a);
 
@@ -20,6 +30,15 @@ namespace NTMiner {
             public Guid GuidProperty { get; set; }
             public DateTime DateTimeProperty { get; set; }
             public bool BooleanProperty { get; set; }
+        }
+
+        [TestMethod]
+        public void OrderTest() {
+            // 反射出的属性集合的顺序是和静态源代码声明的顺序一致的，但静态源代码的顺序可能会被调整，所以当基于反射的数据签名时必须考虑到排序。
+            var a = typeof(Class1).GetProperties();
+            var b = typeof(Class2).GetProperties();
+            Assert.AreEqual(nameof(Class1.Property1), a[0].Name);
+            Assert.AreEqual(nameof(Class2.Property2), b[0].Name);
         }
 
         [TestMethod]

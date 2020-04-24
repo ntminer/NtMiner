@@ -21,6 +21,7 @@ namespace NTMiner {
             if (!_propertyInfos.TryGetValue(type, out PropertyInfo[] properties)) {
                 lock (_locker) {
                     if (!_propertyInfos.TryGetValue(type, out properties)) {
+                        // 反射出的属性集合的顺序是和静态源代码声明的顺序一致的，但静态源代码的顺序可能会被调整，所以当基于反射的数据签名时必须考虑到排序。
                         properties = type.GetProperties().Where(a => a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(ManualSignAttribute), inherit: false).Length == 0).OrderBy(a => a.Name).ToArray();
                         _propertyInfos.Add(type, properties);
                     }
