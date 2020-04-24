@@ -70,8 +70,8 @@
                             </Path>
                         </Border>
                         <StackPanel Margin="2 0 0 0">
-                            <TextBlock Width="74" Text="{Binding CpuPerformanceText}" ToolTip="CPU使用率" Padding="0" />
-                            <TextBlock Width="74" Text="{Binding CpuTemperatureText}" ToolTip="CPU温度" Margin="0 -2 0 0" Padding="0" />
+                            <TextBlock Width="64" Text="{Binding CpuPerformanceText}" ToolTip="CPU使用率" Padding="0" />
+                            <TextBlock Width="64" Text="{Binding CpuTemperatureText}" ToolTip="CPU温度" Margin="0 -2 0 0" Padding="0" />
                         </StackPanel>
                         <Border Margin="0 0 2 0" ToolTip="显卡温度" Background="Transparent">
                             <Path
@@ -117,9 +117,9 @@
 							    Stretch="Fill" />
                         </Border>
 						<StackPanel Margin="2 0 0 0" VerticalAlignment="Center" ToolTip="点击调整电价" Cursor="Hand" MouseDown="PanelEprice_MouseDown">
-							<TextBlock Width="64" Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" />
+							<TextBlock Width="74" Text="{Binding GpuStatusBarVm.GpuAllVm.PowerUsageWText}" Padding="0" />
 							<TextBlock 
-								Width="64"
+								Width="74"
 								Text="{Binding GpuStatusBarVm.GpuAllVm.EChargeText}" 
 								Visibility="{Binding MinerProfile.IsEChargeEnabled,Converter={StaticResource BoolToVisibilityConverter}}"
 								Margin="0 -2 0 0" 
