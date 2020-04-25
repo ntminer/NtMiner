@@ -6,6 +6,6 @@ namespace NTMiner.Controllers {
     public interface IOverClockDataController {
         ResponseBase AddOrUpdateOverClockData(DataRequest<OverClockData> request);
         ResponseBase RemoveOverClockData(DataRequest<Guid> request);
-        DataResponse<List<OverClockData>> OverClockDatas(OverClockDatasRequest request);
+        DataResponse<List<OverClockData>> OverClockDatas(object request);
     }
 }

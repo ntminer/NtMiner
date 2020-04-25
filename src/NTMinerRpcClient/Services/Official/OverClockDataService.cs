@@ -12,7 +12,7 @@ namespace NTMiner.Services.Official {
 
         #region GetOverClockDatasAsync
         public void GetOverClockDatasAsync(Action<DataResponse<List<OverClockData>>, Exception> callback) {
-            OverClockDatasRequest request = new OverClockDatasRequest();
+            object request = new object();
             RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
         }
         #endregion

@@ -12,7 +12,7 @@ namespace NTMiner.Services.Official {
 
         #region GetKernelOutputKeywords
         public void GetKernelOutputKeywords(Action<KernelOutputKeywordsResponse, Exception> callback) {
-            KernelOutputKeywordsRequest request = new KernelOutputKeywordsRequest();
+            object request = new object();
             RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), request, callback);
         }
         #endregion

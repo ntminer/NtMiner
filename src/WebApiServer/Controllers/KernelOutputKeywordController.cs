@@ -8,7 +8,7 @@ namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class KernelOutputKeywordController : ApiControllerBase, IKernelOutputKeywordController {
         [HttpPost]
-        public KernelOutputKeywordsResponse KernelOutputKeywords(KernelOutputKeywordsRequest request) {
+        public KernelOutputKeywordsResponse KernelOutputKeywords(object request) {
             try {
                 var data = WebApiRoot.KernelOutputKeywordSet;
                 return KernelOutputKeywordsResponse.Ok(data.AsEnumerable().Select(a => KernelOutputKeywordData.Create(a)).ToList(), Timestamp.GetTimestamp(WebApiRoot.KernelOutputKeywordTimestamp));

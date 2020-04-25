@@ -4,7 +4,7 @@ using System;
 
 namespace NTMiner.Controllers {
     public interface IKernelOutputKeywordController {
-        KernelOutputKeywordsResponse KernelOutputKeywords(KernelOutputKeywordsRequest request);
+        KernelOutputKeywordsResponse KernelOutputKeywords(object request);
         ResponseBase AddOrUpdateKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request);
         ResponseBase RemoveKernelOutputKeyword(DataRequest<Guid> request);
     }

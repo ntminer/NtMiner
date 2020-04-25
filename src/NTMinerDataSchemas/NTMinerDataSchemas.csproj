@@ -158,7 +158,6 @@
     <Compile Include="Core\MinerServer\IMinerData.cs" />
     <Compile Include="Core\MinerServer\INTMinerWallet.cs" />
     <Compile Include="Core\MinerServer\IServerMessage.cs" />
-    <Compile Include="Core\MinerServer\KernelOutputKeywordsRequest.cs" />
     <Compile Include="Core\MinerServer\KernelOutputKeywordsResponse.cs" />
     <Compile Include="Core\MinerServer\NTMinerWalletData.cs" />
     <Compile Include="Core\LocalMessageChannel.cs" />
@@ -188,7 +187,6 @@
     <Compile Include="DataRequest`1.cs" />
     <Compile Include="Core\AppSettingData.cs" />
     <Compile Include="Core\MinerServer\AppSettingRequest.cs" />
-    <Compile Include="Core\MinerServer\AppSettingsRequest.cs" />
     <Compile Include="Core\MinerServer\ExportMineWorkRequest.cs" />
     <Compile Include="NTMinerAppType.cs" />
     <Compile Include="Core\MinerServer\CalcConfigData.cs" />
@@ -198,7 +196,6 @@
     <Compile Include="Core\MinerServer\IOverClockData.cs" />
     <Compile Include="Core\Daemon\WorkRequest.cs" />
     <Compile Include="Core\MinerServer\OverClockData.cs" />
-    <Compile Include="Core\MinerServer\OverClockDatasRequest.cs" />
     <Compile Include="Core\MinerServer\UpdateClientsRequest.cs" />
     <Compile Include="Core\Daemon\UpgradeNTMinerRequest.cs" />
     <Compile Include="Core\PoolData.cs" />

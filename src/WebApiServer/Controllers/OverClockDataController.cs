@@ -44,7 +44,7 @@ namespace NTMiner.Controllers {
 
         #region OverClockDatas
         [HttpPost]
-        public DataResponse<List<OverClockData>> OverClockDatas([FromBody]OverClockDatasRequest request) {
+        public DataResponse<List<OverClockData>> OverClockDatas([FromBody]object request) {
             try {
                 var data = WebApiRoot.OverClockDataSet.GetAll();
                 return DataResponse<List<OverClockData>>.Ok(data);
