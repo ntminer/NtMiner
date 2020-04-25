@@ -95,7 +95,7 @@ namespace NTMiner.Core.MinerServer {
                         }
                     }
                 case ClientDataSortField.MainCoinPoolDelay: {
-                        int r = x.MainCoinPoolDelay.CompareTo(y.MainCoinPoolDelay);
+                        int r = x.MainCoinPoolDelayNumber.CompareTo(y.MainCoinPoolDelayNumber);
                         switch (_sortDirection) {
                             case SortDirection.Ascending:
                                 return r;
@@ -106,7 +106,7 @@ namespace NTMiner.Core.MinerServer {
                         }
                     }
                 case ClientDataSortField.DualCoinPoolDelay: {
-                        int r = x.DualCoinPoolDelay.CompareTo(y.DualCoinPoolDelay);
+                        int r = x.DualCoinPoolDelayNumber.CompareTo(y.DualCoinPoolDelayNumber);
                         switch (_sortDirection) {
                             case SortDirection.Ascending:
                                 return r;
