@@ -617,7 +617,7 @@ namespace NTMiner.Core.MinerServer {
             this.IsDisableWAU = speedData.IsDisableWAU;
             Calc(speedData, out int mainCoinPoolDelayNumber, out int dualCoinPoolDelayNumber, out double mainCoinRejectPercent, out double dualCoinRejectPercent);
             this.MainCoinPoolDelayNumber = mainCoinPoolDelayNumber;
-            this.DualCoinPoolDelayNumber = DualCoinPoolDelayNumber;
+            this.DualCoinPoolDelayNumber = dualCoinPoolDelayNumber;
             this.MainCoinRejectPercent = mainCoinRejectPercent;
             this.DualCoinRejectPercent = dualCoinRejectPercent;
         }
