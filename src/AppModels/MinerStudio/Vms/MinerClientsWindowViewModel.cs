@@ -101,7 +101,8 @@ namespace NTMiner.MinerStudio.Vms {
                 GpuType = GpuType,
                 GpuName = GpuName,
                 GpuDriver = GpuDriver,
-                SortDirection = SortDirection
+                SortDirection = SortDirection,
+                SortField = SortField
             }, (response, exception) => {
                 this.CountDown = 10;
                 if (response.IsSuccess()) {
