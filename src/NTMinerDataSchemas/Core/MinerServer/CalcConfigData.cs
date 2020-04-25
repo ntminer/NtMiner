@@ -1,9 +1,8 @@
 ﻿using LiteDB;
 using System;
-using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class CalcConfigData : ICalcConfig, ISignableData {
+    public class CalcConfigData : ICalcConfig {
         public static CalcConfigData Create(ICalcConfig data) {
             return new CalcConfigData {
                 CoinCode = data.CoinCode,
@@ -48,9 +47,5 @@ namespace NTMiner.Core.MinerServer {
         public DateTime CreatedOn { get; set; }
 
         public DateTime ModifiedOn { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

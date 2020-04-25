@@ -1,13 +1,7 @@
-﻿using System.Text;
-
-namespace NTMiner.Core.Daemon {
-    public class UpgradeNTMinerRequest : IRequest, ISignableData {
+﻿namespace NTMiner.Core.Daemon {
+    public class UpgradeNTMinerRequest : IRequest {
         public string NTMinerFileName { get; set; }
 
         public UpgradeNTMinerRequest() { }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

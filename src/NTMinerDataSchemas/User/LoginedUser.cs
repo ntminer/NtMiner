@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Text;
 
 namespace NTMiner.User {
     /// <summary>
     /// <see cref="ILoginedUser"/>
     /// </summary>
-    public class LoginedUser : ILoginedUser, ISignableData {
+    public class LoginedUser : ILoginedUser {
         public static readonly LoginedUser Empty = new LoginedUser {
             CreatedOn = DateTime.MinValue,
             Description = string.Empty,
@@ -35,9 +34,5 @@ namespace NTMiner.User {
         public string Description { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

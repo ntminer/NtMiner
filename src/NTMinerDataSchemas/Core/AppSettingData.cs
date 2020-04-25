@@ -1,7 +1,6 @@
-﻿using System.Text;
-
-namespace NTMiner.Core {
-    public class AppSettingData : IAppSetting, ISignableData {
+﻿namespace NTMiner.Core {
+    [DataSchemaId("8E7F5E17-F3AF-47A2-98AA-18CF52C13021")]
+    public class AppSettingData : IAppSetting {
         public AppSettingData() { }
 
         public static AppSettingData Create(IAppSetting appSetting) {
@@ -21,9 +20,5 @@ namespace NTMiner.Core {
         public string Key { get; set; }
 
         public object Value { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

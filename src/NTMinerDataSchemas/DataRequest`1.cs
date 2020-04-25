@@ -25,6 +25,10 @@ namespace NTMiner {
                 sb.Append(dataType.ToString());
                 return;
             }
+            else if (dataType.TryGetAttribute(out DataSchemaIdAttribute schemaId)) {
+                sb.Append(schemaId.Id);
+                return;
+            }
             else if (typeof(ISignableData).IsAssignableFrom(dataType)) {
                 sb.Append(((ISignableData)data).GetSignData().ToString());
                 return;

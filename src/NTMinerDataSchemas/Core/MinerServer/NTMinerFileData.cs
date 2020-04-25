@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class NTMinerFileData : INTMinerFile, IDbEntity<Guid>, ISignableData {
+    [DataSchemaId("15E48C2F-3B10-47D4-8A26-A7291575F67C")]
+    public class NTMinerFileData : INTMinerFile, IDbEntity<Guid> {
         public NTMinerFileData() {
-
         }
 
         public Guid GetId() {
@@ -28,10 +27,6 @@ namespace NTMiner.Core.MinerServer {
         public string Title { get; set; }
 
         public string Description { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
 
         public Version GetVersion() {
             if (string.IsNullOrEmpty(Version)) {

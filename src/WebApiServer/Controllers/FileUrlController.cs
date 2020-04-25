@@ -13,6 +13,9 @@ namespace NTMiner.Controllers {
                 return string.Empty;
             }
             try {
+                if (!IsValidAdmin(request, out ResponseBase response)) {
+                    return response.Description;
+                }
                 var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
                 var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();

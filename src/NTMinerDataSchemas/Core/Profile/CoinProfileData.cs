@@ -1,9 +1,8 @@
 ﻿using LiteDB;
 using System;
-using System.Text;
 
 namespace NTMiner.Core.Profile {
-    public class CoinProfileData : ICoinProfile, IDbEntity<Guid>, ISignableData {
+    public class CoinProfileData : ICoinProfile, IDbEntity<Guid> {
         public CoinProfileData() {
         }
 
@@ -39,13 +38,5 @@ namespace NTMiner.Core.Profile {
         public bool IsDualCoinHideWallet { get; set; }
 
         public double CalcInput { get; set; }
-
-        public override string ToString() {
-            return this.BuildSign().ToString();
-        }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

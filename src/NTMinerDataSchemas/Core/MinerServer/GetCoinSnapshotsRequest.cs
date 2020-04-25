@@ -8,7 +8,7 @@ namespace NTMiner.Core.MinerServer {
         public int Limit { get; set; }
 
         public StringBuilder GetSignData() {
-            return this.BuildSign();
+            return this.GetActionIdSign("9EB5411A-E91C-4142-A5B2-049B04660B76");
         }
     }
 }

@@ -35,7 +35,7 @@ namespace NTMiner.User {
         public string Role { get; set; }
 
         public StringBuilder GetSignData() {
-            return this.BuildSign();
+            return this.GetActionIdSign("FDDB8C9E-86A5-4F26-BCE3-FB8C61C9E0AC");
         }
     }
 }

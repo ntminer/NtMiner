@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Text;
 
 namespace NTMiner.Core.MinerStudio {
-    public class ColumnsShowData : IDbEntity<Guid>, IColumnsShow, ISignableData {
+    public class ColumnsShowData : IDbEntity<Guid>, IColumnsShow {
         public static readonly ColumnsShowData PleaseSelect = new ColumnsShowData {
             ColumnsShowName = "默认",
             Id = Guid.Parse("197f19e8-0c1b-4018-875d-2f5e56a02491"),
@@ -220,9 +219,5 @@ namespace NTMiner.Core.MinerStudio {
         public bool IsOuterUserEnabled { get; set; }
 
         public bool OuterUserId { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

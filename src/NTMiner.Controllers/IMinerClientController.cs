@@ -10,9 +10,9 @@ namespace NTMiner.Controllers {
     /// </summary>
     public interface IMinerClientController {
         bool ShowMainWindow();
-        ResponseBase CloseNTMiner(SignRequest request);
+        ResponseBase CloseNTMiner(object request);
         ResponseBase StartMine(WorkRequest request);
-        ResponseBase StopMine(SignRequest request);
+        ResponseBase StopMine(object request);
         SpeedData GetSpeed();
         SpeedData WsGetSpeed();
         List<ConsoleOutLine> GetConsoleOutLines(long afterTime);

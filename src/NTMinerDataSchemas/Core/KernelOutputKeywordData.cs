@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Text;
 
 namespace NTMiner.Core {
-    public class KernelOutputKeywordData : IKernelOutputKeyword, ILevelEntity<Guid>, ISignableData {
+    [DataSchemaId("5A68D8D1-32CA-420E-A486-9E04D41A439C")]
+    public class KernelOutputKeywordData : IKernelOutputKeyword, ILevelEntity<Guid> {
         public static KernelOutputKeywordData Create(IKernelOutputKeyword data) {
             if (data == null) {
                 return null;
@@ -43,9 +43,5 @@ namespace NTMiner.Core {
         public string Keyword { get; set; }
 
         public string Description { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

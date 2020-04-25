@@ -10,11 +10,7 @@ namespace NTMiner.Core.MinerServer {
         public List<CalcConfigData> Data { get; set; }
 
         public StringBuilder GetSignData() {
-            StringBuilder sb = this.BuildSign();
-            foreach (var item in Data) {
-                sb.Append(item.GetSignData().ToString());
-            }
-            return sb;
+            return this.GetActionIdSign("66BB71B0-C0C9-4371-8378-D30245D6BA68");
         }
     }
 }

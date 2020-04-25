@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class ServerMessageData : IServerMessage, ISignableData {
+    [DataSchemaId("1FF2A8DE-3E76-48E8-992D-CA714789FDE0")]
+    public class ServerMessageData : IServerMessage {
         private string _content;
         private DateTime _timestamp;
 
@@ -10,10 +10,6 @@ namespace NTMiner.Core.MinerServer {
 
         public Guid GetId() {
             return this.Id;
-        }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
         }
 
         public Guid Id { get; set; }

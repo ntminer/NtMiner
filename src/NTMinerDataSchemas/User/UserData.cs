@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Text;
 
 namespace NTMiner.User {
-    public class UserData : IUser, ISignableData {
+    public class UserData : IUser {
         public UserData() { }
 
         public void Update(UserUpdateData data) {
@@ -49,6 +48,9 @@ namespace NTMiner.User {
 
         public string PublicKey { get; set; }
 
+        /// <summary>
+        /// 该字段通过网络传输的时候会经过当前登录用户的密码的加密
+        /// </summary>
         public string PrivateKey { get; set; }
 
         public bool IsEnabled { get; set; }
@@ -58,9 +60,5 @@ namespace NTMiner.User {
         public string Description { get; set; }
 
         public DateTime CreatedOn { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

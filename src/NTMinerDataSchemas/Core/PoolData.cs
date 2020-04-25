@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Text;
 
 namespace NTMiner.Core {
-    public class PoolData : IPool, IDbEntity<Guid>, ISignableData {
+    public class PoolData : IPool, IDbEntity<Guid> {
         public PoolData() {
         }
 
@@ -52,9 +51,5 @@ namespace NTMiner.Core {
         public string MinerNamePrefix { get; set; }
 
         public string MinerNamePostfix { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

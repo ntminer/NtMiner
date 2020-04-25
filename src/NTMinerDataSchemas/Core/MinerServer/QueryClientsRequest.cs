@@ -22,7 +22,7 @@ namespace NTMiner.Core.MinerServer {
         public SortDirection SortDirection { get; set; }
 
         public StringBuilder GetSignData() {
-            return this.BuildSign();
+            return this.GetActionIdSign("5BB1CE8C-995E-47D6-AF1A-A8303E53E296");
         }
     }
 }

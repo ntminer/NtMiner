@@ -1,9 +1,8 @@
 ﻿using LiteDB;
 using System;
-using System.Text;
 
 namespace NTMiner.Core.Profile {
-    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid>, ISignableData {
+    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid> {
         public CoinKernelProfileData() { }
 
         public static CoinKernelProfileData CreateDefaultData(Guid coinKernelId, double dualCoinWeight) {
@@ -36,13 +35,5 @@ namespace NTMiner.Core.Profile {
         public string CustomArgs { get; set; }
 
         public string TouchedArgs { get; set; }
-
-        public override string ToString() {
-            return this.BuildSign().ToString();
-        }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

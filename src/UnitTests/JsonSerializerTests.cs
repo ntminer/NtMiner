@@ -70,6 +70,13 @@ namespace NTMiner {
         }
 
         [TestMethod]
+        public void ObjectTest() {
+            object obj = new object();
+            string json = VirtualRoot.JsonSerializer.Serialize(obj);
+            Assert.AreEqual("{}", json);
+        }
+
+        [TestMethod]
         public void IntPtrTest() {
             IntPtr p = new IntPtr(1234567890);
             var json = VirtualRoot.JsonSerializer.Serialize(p);

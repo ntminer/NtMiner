@@ -26,7 +26,7 @@ namespace NTMiner.ServerNode {
         public ulong AvailablePhysicalMemory { get; set; }
 
         public StringBuilder GetSignData() {
-            return this.BuildSign();
+            return this.GetActionIdSign("F9C674C1-247D-45DF-984A-2180AD76F2BB");
         }
     }
 }

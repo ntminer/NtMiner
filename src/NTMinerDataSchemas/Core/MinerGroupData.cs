@@ -1,9 +1,9 @@
 ﻿using NTMiner.User;
 using System;
-using System.Text;
 
 namespace NTMiner.Core {
-    public class MinerGroupData : IMinerGroup, IDbEntity<Guid>, ITimestampEntity<Guid>, ISignableData {
+    [DataSchemaId("61FFCD1D-3EE8-4C91-A670-CB94A1048913")]
+    public class MinerGroupData : IMinerGroup, IDbEntity<Guid>, ITimestampEntity<Guid> {
         public MinerGroupData() {
             CreatedOn = DateTime.Now;
         }
@@ -32,9 +32,5 @@ namespace NTMiner.Core {
         public DateTime CreatedOn { get; set; }
 
         public DateTime ModifiedOn { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

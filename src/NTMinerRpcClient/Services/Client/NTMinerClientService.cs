@@ -35,7 +35,7 @@ namespace NTMiner.Services.Client {
                 callback?.Invoke();
                 return;
             }
-            RpcRoot.PostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.CloseNTMiner), new SignRequest { }, (ResponseBase response, Exception e) => {
+            RpcRoot.PostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.CloseNTMiner), new object { }, (ResponseBase response, Exception e) => {
                 if (!response.IsSuccess()) {
                     try {
                         Windows.TaskKill.Kill(processName, waitForExit: true);

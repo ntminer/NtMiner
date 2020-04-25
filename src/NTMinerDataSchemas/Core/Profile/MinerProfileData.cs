@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace NTMiner.Core.Profile {
-    public class MinerProfileData : IMinerProfile, IDbEntity<Guid>, ISignableData {
+    public class MinerProfileData : IMinerProfile, IDbEntity<Guid> {
         public static readonly Guid DefaultId = Guid.Parse("7d9eec49-2d1f-44fa-881e-571a78661ca0");
         public static MinerProfileData CreateDefaultData(Guid coinId) {
             return new MinerProfileData {
@@ -195,13 +194,5 @@ namespace NTMiner.Core.Profile {
 
         [WorkIgnore]
         public string OuterUserId { get; set; }
-
-        public override string ToString() {
-            return this.BuildSign().ToString();
-        }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

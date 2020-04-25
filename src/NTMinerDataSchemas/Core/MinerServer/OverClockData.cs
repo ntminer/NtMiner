@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class OverClockData : IOverClockData, IDbEntity<Guid>, ISignableData {
+    [DataSchemaId("5E026328-8B23-467A-BC26-31E0BB0DB1FB")]
+    public class OverClockData : IOverClockData, IDbEntity<Guid> {
         public OverClockData() { }
 
         public Guid GetId() {
@@ -31,9 +31,5 @@ namespace NTMiner.Core.MinerServer {
         public bool IsAutoFanSpeed { get; set; }
 
         public int Cool { get; set; }
-
-        public StringBuilder GetSignData() {
-            return this.BuildSign();
-        }
     }
 }

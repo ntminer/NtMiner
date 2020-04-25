@@ -53,6 +53,7 @@
     <Compile Include="Core\MinerServer\IClientData.cs" />
     <Compile Include="Core\MinerServer\IMinerSign.cs" />
     <Compile Include="Core\MinerServer\MinerSign.cs" />
+    <Compile Include="DataSchemaIdAttribute.cs" />
     <Compile Include="ServerNode\CpuData.cs" />
     <Compile Include="ServerNode\ICpuData.cs" />
     <Compile Include="ServerNode\IServerState.cs" />
@@ -66,6 +67,7 @@
     <Compile Include="Core\OperationResultDto.cs" />
     <Compile Include="Core\OperationResultData.cs" />
     <Compile Include="Core\Profile\WorkIgnoreAttribute.cs" />
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="VirtualMemory\DriveDto.cs" />
     <Compile Include="VirtualMemory\IDrive.cs" />
     <Compile Include="GetNodeAddressRequest.cs" />
@@ -172,7 +174,6 @@
     <Compile Include="Core\LocalMessageData.cs" />
     <Compile Include="Core\MinerClient\GpuData.cs" />
     <Compile Include="Core\MinerClient\IGpuStaticData.cs" />
-    <Compile Include="Core\MinerServer\AddClientRequest.cs" />
     <Compile Include="Core\MinerServer\MinerData.cs" />
     <Compile Include="Core\MinerServer\MinerIdsRequest.cs" />
     <Compile Include="Core\Profile\CoinOverClockData.cs" />
@@ -219,7 +220,6 @@
     <Compile Include="Core\Profile\IPoolProfile.cs" />
     <Compile Include="ITimestampEntity·1.cs" />
     <Compile Include="Core\IWallet.cs" />
-    <Compile Include="Core\MinerServer\LoadClientRequest.cs" />
     <Compile Include="Core\MinerGroupData.cs" />
     <Compile Include="Core\MinerServer\MinerJsonPutUrlRequest.cs" />
     <Compile Include="Core\Profile\MinerProfileData.cs" />

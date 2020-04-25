@@ -82,6 +82,9 @@
     <Compile Include="..\NTMinerDataSchemas\DataResponse`1.cs">
       <Link>DataResponse`1.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerDataSchemas\DataSchemaIdAttribute.cs">
+      <Link>DataSchemaIdAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerDataSchemas\HashUtil.cs">
       <Link>HashUtil.cs</Link>
     </Compile>

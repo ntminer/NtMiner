@@ -38,5 +38,9 @@ namespace NTMiner {
             }
             return sb;
         }
+
+        internal static StringBuilder GetActionIdSign(this ISignableData data, string actionId) {
+            return new StringBuilder(actionId);
+        }
     }
 }

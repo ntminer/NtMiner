@@ -239,7 +239,7 @@ namespace NTMiner.Core.Impl {
                     response = ResponseBase.Ok();
                 }
                 else {
-                    RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StopMine), new SignRequest());
+                    RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StopMine), new object());
                     response = ResponseBase.Ok("停止挖矿");
                 }
             }
