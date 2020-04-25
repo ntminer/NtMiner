@@ -133,7 +133,6 @@
     <Compile Include="User\ISignUser.cs" />
     <Compile Include="JsonDb\IGpuProfilesJsonDb.cs" />
     <Compile Include="JsonDb\IJsonDb.cs" />
-    <Compile Include="SignRequest.cs" />
     <Compile Include="User\IUserAppSetting.cs" />
     <Compile Include="User\IUserMineWork.cs" />
     <Compile Include="User\LoginedUser.cs" />

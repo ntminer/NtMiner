@@ -330,7 +330,7 @@ namespace NTMiner.Core.Impl {
 
         private static void CloseNTMiner() {
             bool isClosed = false;
-            ResponseBase response = RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.CloseNTMiner), new SignRequest { });
+            ResponseBase response = RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.CloseNTMiner), new object { });
             isClosed = response.IsSuccess();
             if (!isClosed) {
                 try {
