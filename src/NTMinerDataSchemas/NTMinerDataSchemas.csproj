@@ -221,7 +221,6 @@
     <Compile Include="ITimestampEntity·1.cs" />
     <Compile Include="Core\IWallet.cs" />
     <Compile Include="Core\MinerGroupData.cs" />
-    <Compile Include="Core\MinerServer\MinerJsonPutUrlRequest.cs" />
     <Compile Include="Core\Profile\MinerProfileData.cs" />
     <Compile Include="Core\MineStatus.cs" />
     <Compile Include="Core\MineWorkData.cs" />

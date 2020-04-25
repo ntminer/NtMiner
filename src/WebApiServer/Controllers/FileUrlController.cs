@@ -7,23 +7,6 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class FileUrlController : ApiControllerBase, IFileUrlController {
-        [Role.Admin]
-        [HttpPost]
-        public string MinerJsonPutUrl([FromBody]MinerJsonPutUrlRequest request) {
-            if (request == null || string.IsNullOrEmpty(request.FileName)) {
-                return string.Empty;
-            }
-            try {
-                var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
-                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
-                return uri.ToString();
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return string.Empty;
-            }
-        }
-
         [HttpPost]
         public string NTMinerUrl([FromBody]NTMinerUrlRequest request) {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
