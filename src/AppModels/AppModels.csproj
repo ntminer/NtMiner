@@ -58,7 +58,6 @@
     <Compile Include="AppRoot.partials.CoinKernelViewModels.cs" />
     <Compile Include="AppRoot.partials.CoinProfileViewModels.cs" />
     <Compile Include="MinerStudio\Impl\EmptyWsClient.cs" />
-    <Compile Include="MinerStudio\MinerComparerByMinerName.cs" />
     <Compile Include="MinerStudio\MinerStudioRoot.partials.CoinSnapshotDataViewModels.cs" />
     <Compile Include="AppRoot.partials.CoinViewModels.cs" />
     <Compile Include="MinerStudio\MinerStudioRoot.partials.ColumnsShowViewModels.cs" />

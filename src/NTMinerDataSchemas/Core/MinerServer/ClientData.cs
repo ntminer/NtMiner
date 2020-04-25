@@ -747,7 +747,7 @@ namespace NTMiner.Core.MinerServer {
                 if (this.MainCoinTotalShare == 0) {
                     return 0;
                 }
-                return this.MainCoinRejectShare / this.MainCoinTotalShare;
+                return (this.MainCoinRejectShare * 100) / this.MainCoinTotalShare;
             }
         }
 
@@ -756,7 +756,7 @@ namespace NTMiner.Core.MinerServer {
                 if (this.DualCoinTotalShare == 0) {
                     return 0;
                 }
-                return this.DualCoinRejectShare / this.DualCoinTotalShare;
+                return (this.DualCoinRejectShare * 100) / this.DualCoinTotalShare;
             }
         }
     }

@@ -19,5 +19,9 @@ namespace NTMiner.Core.MinerServer {
         /// 值判断的，当且仅当IsOnlie是false或IsOnlie是true但已经1分钟未活跃了时视为不在线。
         /// </summary>
         bool IsOnline { get; set; }
+        int MainCoinPoolDelayNumber { get; }
+        int DualCoinPoolDelayNumber { get; }
+        double MainCoinRejectPercent { get; }
+        double DualCoinRejectPercent { get; }
     }
 }

@@ -53,7 +53,8 @@ namespace NTMiner.MinerStudio.Vms {
         private bool _isConnecting;
         private double _wsRetryIconAngle;
 
-        private SortDirection _lastSortDirection;
+        private SortDirection _lastSortDirection = SortDirection.Ascending;
+        private ClientDataSortField _lastSortField = ClientDataSortField.MinerName;
         #region QueryMinerClients
         public void QueryMinerClients() {
             if (!RpcRoot.IsLogined) {
@@ -107,7 +108,7 @@ namespace NTMiner.MinerStudio.Vms {
                 this.CountDown = 10;
                 if (response.IsSuccess()) {
                     #region 处理Response.Data
-                    if (_lastSortDirection == this.SortDirection) {
+                    if (_lastSortDirection == this.SortDirection && _lastSortField == this.SortField) {
                         UIThread.Execute(() => {
                             if (response.Data.Count == 0) {
                                 _minerClients.Clear();
@@ -143,6 +144,8 @@ namespace NTMiner.MinerStudio.Vms {
                         });
                     }
                     else {
+                        _lastSortDirection = this.SortDirection;
+                        _lastSortField = this.SortField;
                         if (response.Data.Count == 0) {
                             // ObservableCollection<T>类型对象不支持在UI线程以外处理
                             UIThread.Execute(() => {
@@ -177,7 +180,7 @@ namespace NTMiner.MinerStudio.Vms {
                                     item.Update(data);
                                 }
                             }
-                            vms.Sort(new MinerComparerByMinerName(_sortDirection));
+                            vms.Sort(new MinerComparerByMinerName(_sortDirection, _sortField));
                             _minerClients = new ObservableCollection<MinerClientViewModel>(vms);
                             OnPropertyChanged(nameof(MinerClients));
                             OnPropertyChanged(nameof(IsNoRecordVisible));
@@ -204,7 +207,6 @@ namespace NTMiner.MinerStudio.Vms {
                         }
                     }
                     #endregion
-                    _lastSortDirection = this.SortDirection;
                 }
                 else {
                     VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4, toConsole: true);

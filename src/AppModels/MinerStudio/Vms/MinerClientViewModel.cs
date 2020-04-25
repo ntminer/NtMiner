@@ -682,8 +682,8 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MainCoinTotalShare != value) {
                     _data.MainCoinTotalShare = value;
                     OnPropertyChanged(nameof(MainCoinTotalShare));
-                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
                     OnPropertyChanged(nameof(MainCoinRejectPercent));
+                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
                 }
             }
         }
@@ -694,27 +694,21 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MainCoinRejectShare != value) {
                     _data.MainCoinRejectShare = value;
                     OnPropertyChanged(nameof(MainCoinRejectShare));
-                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
                     OnPropertyChanged(nameof(MainCoinRejectPercent));
+                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
                 }
             }
         }
 
         public double MainCoinRejectPercent {
             get {
-                if (MainCoinTotalShare == 0) {
-                    return 0;
-                }
-                return (MainCoinRejectShare * 100.0 / MainCoinTotalShare);
+                return _data.MainCoinRejectPercent;
             }
         }
 
         public string MainCoinRejectPercentText {
             get {
-                if (MainCoinTotalShare == 0) {
-                    return string.Empty;
-                }
-                return (MainCoinRejectShare * 100.0 / MainCoinTotalShare).ToString("f1") + "%";
+                return MainCoinRejectPercent.ToString("f1") + "%";
             }
         }
 
@@ -901,8 +895,8 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinTotalShare != value) {
                     _data.DualCoinTotalShare = value;
                     OnPropertyChanged(nameof(DualCoinTotalShare));
-                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
                     OnPropertyChanged(nameof(DualCoinRejectPercent));
+                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
                 }
             }
         }
@@ -913,28 +907,21 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinRejectShare != value) {
                     _data.DualCoinRejectShare = value;
                     OnPropertyChanged(nameof(DualCoinRejectShare));
-                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
                     OnPropertyChanged(nameof(DualCoinRejectPercent));
+                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
                 }
             }
         }
 
         public double DualCoinRejectPercent {
             get {
-                if (DualCoinTotalShare == 0) {
-                    return 0;
-                }
-
-                return (DualCoinRejectShare * 100.0 / DualCoinTotalShare);
+                return _data.DualCoinRejectPercent;
             }
         }
 
         public string DualCoinRejectPercentText {
             get {
-                if (DualCoinTotalShare == 0) {
-                    return string.Empty;
-                }
-                return (DualCoinRejectShare * 100.0 / DualCoinTotalShare).ToString("f1") + "%";
+                return _data.DualCoinRejectPercent.ToString("f1") + "%";
             }
         }
 
@@ -1551,6 +1538,50 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinSpeedOn != value) {
                     _data.DualCoinSpeedOn = value;
                     OnPropertyChanged(nameof(DualCoinSpeedOn));
+                }
+            }
+        }
+
+        public int MainCoinPoolDelayNumber {
+            get {
+                if (string.IsNullOrEmpty(this.MainCoinPoolDelay)) {
+                    return 0;
+                }
+                string text = this.MainCoinPoolDelay.Trim();
+                int count = 0;
+                for (int i = 0; i < text.Length; i++) {
+                    if (!char.IsNumber(text[i])) {
+                        count = i;
+                        break;
+                    }
+                }
+                if (count != 0) {
+                    return int.Parse(text.Substring(0, count));
+                }
+                else {
+                    return 0;
+                }
+            }
+        }
+
+        public int DualCoinPoolDelayNumber {
+            get {
+                if (string.IsNullOrEmpty(this.DualCoinPoolDelay)) {
+                    return 0;
+                }
+                string text = this.DualCoinPoolDelay.Trim();
+                int count = 0;
+                for (int i = 0; i < text.Length; i++) {
+                    if (!char.IsNumber(text[i])) {
+                        count = i;
+                        break;
+                    }
+                }
+                if (count != 0) {
+                    return int.Parse(text.Substring(0, count));
+                }
+                else {
+                    return 0;
                 }
             }
         }
