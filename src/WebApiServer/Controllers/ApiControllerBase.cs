@@ -89,6 +89,22 @@ namespace NTMiner.Controllers {
             }
         }
 
+        protected bool IsValidAdmin<TResponse>(ISignableData data, out TResponse response, out UserData user) where TResponse : ResponseBase, new() {
+            if (IsValidUser(data, out response, out user)) {
+                if (!user.IsAdmin()) {
+                    string message = "对不起，您不是超管";
+                    response = ResponseBase.NotExist<TResponse>(message);
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+            else {
+                return false;
+            }
+        }
+
         protected bool IsValidUser<TResponse>(ISignableData data, out TResponse response, out UserData user) where TResponse : ResponseBase, new() {
             user = null;
             if (!WebApiRoot.UserSet.IsReadied) {
@@ -101,62 +117,18 @@ namespace NTMiner.Controllers {
                 response = ResponseBase.Expired<TResponse>();
                 return false;
             }
-            // 对于User来说LoginName可以是LoginName、Email、Mobile
             if (!string.IsNullOrEmpty(query.LoginName)) {
-                user = WebApiRoot.UserSet.GetUser(UserId.Create(query.LoginName));
+                user = WebApiRoot.UserSet.GetUser(query.UserId);
             }
             if (user == null) {
                 string message = "用户不存在";
                 response = ResponseBase.NotExist<TResponse>(message);
                 return false;
-            }
-            if (user.IsAdmin()) {
-                response = null;
-                return true;
             }
             string mySign = RpcUser.CalcSign(user.LoginName, user.Password, query.Timestamp, data);
             if (query.Sign != mySign) {
                 string message = "签名错误：1. 可能因为登录名或密码错误；2. 可能因为软件版本过期需要升级软件，请将软件升级到最新版本再试。";
                 response = ResponseBase.Forbidden<TResponse>(message);
-                return false;
-            }
-            response = null;
-            return true;
-        }
-
-        protected bool IsValidAdmin<TResponse>(ISignableData data, out TResponse response, out UserData user) where TResponse : ResponseBase, new() {
-            user = null;
-            if (!WebApiRoot.UserSet.IsReadied) {
-                string message = "服务器用户集启动中，请稍后";
-                response = ResponseBase.NotExist<TResponse>(message);
-                return false;
-            }
-            ClientSignData query = ClientSign;
-            if (!Timestamp.IsInTime(query.Timestamp)) {
-                response = ResponseBase.Expired<TResponse>();
-                return false;
-            }
-            if (!string.IsNullOrEmpty(query.LoginName)) {
-                user = WebApiRoot.UserSet.GetUser(query.UserId);
-            }
-            if (user == null && !string.IsNullOrEmpty(query.LoginName)) {
-                user = WebApiRoot.UserSet.GetUser(query.UserId);
-            }
-            if (user == null) {
-                string message = "用户不存在";
-                response = ResponseBase.NotExist<TResponse>(message);
-                return false;
-            }
-            else if (!user.IsAdmin()) {
-                string message = "对不起，您不是超管";
-                response = ResponseBase.NotExist<TResponse>(message);
-                return false;
-            }
-            string mySign = RpcUser.CalcSign(user.LoginName, user.Password, query.Timestamp, data);
-            if (query.Sign != mySign) {
-                string message = "登录名或密码错误";
-                response = ResponseBase.Forbidden<TResponse>(message);
-                Write.DevDebug(() => $"{message} sign:{query.Sign} mySign:{mySign}");
                 return false;
             }
             response = null;

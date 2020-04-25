@@ -3,6 +3,7 @@ using NTMiner.Core.MinerServer;
 using NTMiner.ServerNode;
 using System;
 using System.Web.Http;
+using System.Web.Http.Filters;
 
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
