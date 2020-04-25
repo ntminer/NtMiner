@@ -21,6 +21,8 @@ namespace NTMiner.MinerStudio.Vms {
         private MinerGroupViewModel _selectedMinerGroup;
         private SolidColorBrush _dualCoinRejectPercentForeground;
         private SolidColorBrush _mainCoinRejectPercentForeground;
+        private string _mainCoinRejectPercentText;
+        private string _dualCoinRejectPercentText;
 
         public ICommand RestartWindows { get; private set; }
         public ICommand ShutdownWindows { get; private set; }
@@ -40,8 +42,8 @@ namespace NTMiner.MinerStudio.Vms {
 
         public MinerClientViewModel(ClientData clientData) {
             _data = clientData;
-            SetMainCoinRejectPercentText(clientData.MainCoinRejectPercent);
-            SetDualCoinRejectPercentText(clientData.DualCoinRejectPercent);
+            this._mainCoinRejectPercentText = clientData.MainCoinRejectPercent.ToString("f1") + " %";
+            this._dualCoinRejectPercentText = clientData.DualCoinRejectPercent.ToString("f1") + " %";
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
             this.Remove = new DelegateCommand(() => {
@@ -715,7 +717,6 @@ namespace NTMiner.MinerStudio.Vms {
             this.MainCoinRejectPercentText = value.ToString("f1") + " %";
         }
 
-        private string _mainCoinRejectPercentText = string.Empty;
         public string MainCoinRejectPercentText {
             get {
                 return _mainCoinRejectPercentText;
@@ -940,7 +941,6 @@ namespace NTMiner.MinerStudio.Vms {
             this.DualCoinRejectPercentText = value.ToString("f1") + " %";
         }
 
-        private string _dualCoinRejectPercentText;
         public string DualCoinRejectPercentText {
             get {
                 return _dualCoinRejectPercentText;
