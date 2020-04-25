@@ -589,66 +589,94 @@ namespace NTMiner.MinerStudio.Vms {
             });
             this.PageRefresh = new DelegateCommand(QueryMinerClients);
             this.SortByMinerName = new DelegateCommand(() => {
-                this.SortField = ClientDataSortField.MinerName;
-                if (SortDirection == SortDirection.Ascending) {
-                    SortDirection = SortDirection.Descending;
+                if (this.SortField != ClientDataSortField.MinerName) {
+                    this.SortField = ClientDataSortField.MinerName;
                 }
                 else {
-                    SortDirection = SortDirection.Ascending;
+                    if (SortDirection == SortDirection.Ascending) {
+                        SortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        SortDirection = SortDirection.Ascending;
+                    }
                 }
             });
             this.SortByMainCoinRejectPercent = new DelegateCommand(() => {
-                this.SortField = ClientDataSortField.MainCoinRejectPercent;
-                if (SortDirection == SortDirection.Ascending) {
-                    SortDirection = SortDirection.Descending;
+                if (this.SortField != ClientDataSortField.MainCoinRejectPercent) {
+                    this.SortField = ClientDataSortField.MainCoinRejectPercent;
                 }
                 else {
-                    SortDirection = SortDirection.Ascending;
+                    if (SortDirection == SortDirection.Ascending) {
+                        SortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        SortDirection = SortDirection.Ascending;
+                    }
                 }
             });
             this.SortByDualCoinRejectPercent = new DelegateCommand(() => {
-                this.SortField = ClientDataSortField.DualCoinRejectPercent;
-                if (SortDirection == SortDirection.Ascending) {
-                    SortDirection = SortDirection.Descending;
+                if (this.SortField != ClientDataSortField.DualCoinRejectPercent) {
+                    this.SortField = ClientDataSortField.DualCoinRejectPercent;
                 }
                 else {
-                    SortDirection = SortDirection.Ascending;
+                    if (SortDirection == SortDirection.Ascending) {
+                        SortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        SortDirection = SortDirection.Ascending;
+                    }
                 }
             });
             this.SortByMainCoinPoolDelay = new DelegateCommand(() => {
-                this.SortField = ClientDataSortField.MainCoinPoolDelay;
-                if (SortDirection == SortDirection.Ascending) {
-                    SortDirection = SortDirection.Descending;
+                if (this.SortField != ClientDataSortField.MainCoinPoolDelay) {
+                    this.SortField = ClientDataSortField.MainCoinPoolDelay;
                 }
                 else {
-                    SortDirection = SortDirection.Ascending;
+                    if (SortDirection == SortDirection.Ascending) {
+                        SortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        SortDirection = SortDirection.Ascending;
+                    }
                 }
             });
             this.SortByDualCoinPoolDelay = new DelegateCommand(() => {
-                this.SortField = ClientDataSortField.DualCoinPoolDelay;
-                if (SortDirection == SortDirection.Ascending) {
-                    SortDirection = SortDirection.Descending;
+                if (this.SortField != ClientDataSortField.DualCoinPoolDelay) {
+                    this.SortField = ClientDataSortField.DualCoinPoolDelay;
                 }
                 else {
-                    SortDirection = SortDirection.Ascending;
+                    if (SortDirection == SortDirection.Ascending) {
+                        SortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        SortDirection = SortDirection.Ascending;
+                    }
                 }
             });
             this.SortByCpuTemperature = new DelegateCommand(() => {
-                this.SortField = ClientDataSortField.CpuTemperature;
-                if (SortDirection == SortDirection.Ascending) {
-                    SortDirection = SortDirection.Descending;
+                if (this.SortField != ClientDataSortField.CpuTemperature) {
+                    this.SortField = ClientDataSortField.CpuTemperature;
                 }
                 else {
-                    SortDirection = SortDirection.Ascending;
+                    if (SortDirection == SortDirection.Ascending) {
+                        SortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        SortDirection = SortDirection.Ascending;
+                    }
                 }
             });
             this.SortByKernelSelfRestartCount = new DelegateCommand(() => {
-                this.SortField = ClientDataSortField.KernelSelfRestartCount;
-                if (SortDirection == SortDirection.Ascending) {
-                    SortDirection = SortDirection.Descending;
+                if (this.SortField != ClientDataSortField.KernelSelfRestartCount) {
+                    this.SortField = ClientDataSortField.KernelSelfRestartCount;
                 }
                 else {
-                    SortDirection = SortDirection.Ascending;
+                    if (SortDirection == SortDirection.Ascending) {
+                        SortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        SortDirection = SortDirection.Ascending;
+                    }
                 }
             });
             VirtualRoot.AddCmdPath<UpdateMinerClientVmCommand>(action: message => {
@@ -1092,6 +1120,7 @@ namespace NTMiner.MinerStudio.Vms {
                     OnPropertyChanged(nameof(IsSortByDualCoinPoolDelay));
                     OnPropertyChanged(nameof(IsSortByCpuTemperature));
                     OnPropertyChanged(nameof(IsSortByKernelSelfRestartCount));
+                    this.PageIndex = 1;
                 }
             }
         }
