@@ -589,67 +589,67 @@ namespace NTMiner.MinerStudio.Vms {
             });
             this.PageRefresh = new DelegateCommand(QueryMinerClients);
             this.SortByMinerName = new DelegateCommand(() => {
+                this.SortField = ClientDataSortField.MinerName;
                 if (SortDirection == SortDirection.Ascending) {
                     SortDirection = SortDirection.Descending;
                 }
                 else {
                     SortDirection = SortDirection.Ascending;
                 }
-                this.SortField = ClientDataSortField.MinerName;
             });
             this.SortByMainCoinRejectPercent = new DelegateCommand(() => {
+                this.SortField = ClientDataSortField.MainCoinRejectPercent;
                 if (SortDirection == SortDirection.Ascending) {
                     SortDirection = SortDirection.Descending;
                 }
                 else {
                     SortDirection = SortDirection.Ascending;
                 }
-                this.SortField = ClientDataSortField.MainCoinRejectPercent;
             });
             this.SortByDualCoinRejectPercent = new DelegateCommand(() => {
+                this.SortField = ClientDataSortField.DualCoinRejectPercent;
                 if (SortDirection == SortDirection.Ascending) {
                     SortDirection = SortDirection.Descending;
                 }
                 else {
                     SortDirection = SortDirection.Ascending;
                 }
-                this.SortField = ClientDataSortField.DualCoinRejectPercent;
             });
             this.SortByMainCoinPoolDelay = new DelegateCommand(() => {
+                this.SortField = ClientDataSortField.MainCoinPoolDelay;
                 if (SortDirection == SortDirection.Ascending) {
                     SortDirection = SortDirection.Descending;
                 }
                 else {
                     SortDirection = SortDirection.Ascending;
                 }
-                this.SortField = ClientDataSortField.MainCoinPoolDelay;
             });
             this.SortByDualCoinPoolDelay = new DelegateCommand(() => {
+                this.SortField = ClientDataSortField.DualCoinPoolDelay;
                 if (SortDirection == SortDirection.Ascending) {
                     SortDirection = SortDirection.Descending;
                 }
                 else {
                     SortDirection = SortDirection.Ascending;
                 }
-                this.SortField = ClientDataSortField.DualCoinPoolDelay;
             });
             this.SortByCpuTemperature = new DelegateCommand(() => {
+                this.SortField = ClientDataSortField.CpuTemperature;
                 if (SortDirection == SortDirection.Ascending) {
                     SortDirection = SortDirection.Descending;
                 }
                 else {
                     SortDirection = SortDirection.Ascending;
                 }
-                this.SortField = ClientDataSortField.CpuTemperature;
             });
             this.SortByKernelSelfRestartCount = new DelegateCommand(() => {
+                this.SortField = ClientDataSortField.KernelSelfRestartCount;
                 if (SortDirection == SortDirection.Ascending) {
                     SortDirection = SortDirection.Descending;
                 }
                 else {
                     SortDirection = SortDirection.Ascending;
                 }
-                this.SortField = ClientDataSortField.KernelSelfRestartCount;
             });
             VirtualRoot.AddCmdPath<UpdateMinerClientVmCommand>(action: message => {
                 var vm = _minerClients.FirstOrDefault(a => a.Id == message.ClientData.Id);
@@ -1092,7 +1092,6 @@ namespace NTMiner.MinerStudio.Vms {
                     OnPropertyChanged(nameof(IsSortByDualCoinPoolDelay));
                     OnPropertyChanged(nameof(IsSortByCpuTemperature));
                     OnPropertyChanged(nameof(IsSortByKernelSelfRestartCount));
-                    this.PageIndex = 1;
                 }
             }
         }
