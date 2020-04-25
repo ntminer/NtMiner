@@ -12,8 +12,8 @@ namespace NTMiner.Vms {
         private string _incomeCnyPerDayText;
         private readonly CoinViewModel _coinVm;
         private SpeedUnitViewModel _speedUnitVm = null;
-        private SolidColorBrush _backgroundBrush;
-        private SolidColorBrush _dayWaveBrush;
+        private SolidColorBrush _backgroundBrush = WpfUtil.TransparentBrush;
+        private SolidColorBrush _dayWaveBrush = WpfUtil.TransparentBrush;
         private DateTime _modifiedOn;
         private string _netSpeedText;
         private string _netSpeedUnit;

@@ -7,7 +7,7 @@ using System.Windows.Media;
 namespace NTMiner.Vms {
     public class IconsViewModel : ViewModelBase {
         public class Icon : ViewModelBase {
-            private SolidColorBrush _borderBrush;
+            private SolidColorBrush _borderBrush = WpfUtil.BlackBrush;
 
             public string Key { get; set; }
             public StreamGeometry Data { get; set; }

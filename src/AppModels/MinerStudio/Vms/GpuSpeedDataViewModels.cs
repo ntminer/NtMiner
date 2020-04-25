@@ -18,7 +18,7 @@ namespace NTMiner.MinerStudio.Vms {
         private int _cpuPerformance;
         private int _cpuTemperature;
         private string _maxTempText;
-        private SolidColorBrush _tempForeground;
+        private SolidColorBrush _tempForeground = WpfUtil.BlackBrush;
         private int _maxTemp;
 
         [Obsolete(message: NTKeyword.WpfDesignOnly, error: true)]
