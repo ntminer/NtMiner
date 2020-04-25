@@ -248,10 +248,10 @@ namespace NTMiner.Core.MinerServer {
                 }
             }
             if (speedData.MainCoinTotalShare != 0) {
-                mainCoinRejectPercent = speedData.MainCoinRejectShare / speedData.MainCoinTotalShare;
+                mainCoinRejectPercent = (speedData.MainCoinRejectShare * 100) / speedData.MainCoinTotalShare;
             }
             if (speedData.DualCoinTotalShare != 0) {
-                dualCoinRejectPercent = speedData.DualCoinRejectShare / speedData.DualCoinTotalShare;
+                dualCoinRejectPercent = (speedData.DualCoinRejectShare * 100) / speedData.DualCoinTotalShare;
             }
         }
 
