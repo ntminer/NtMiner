@@ -1283,6 +1283,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MainCoinPoolDelay != value) {
                     _data.MainCoinPoolDelay = value;
                     OnPropertyChanged(nameof(MainCoinPoolDelay));
+                    OnPropertyChanged(nameof(MainCoinPoolDelayNumber));
                 }
             }
         }
@@ -1293,7 +1294,20 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinPoolDelay != value) {
                     _data.DualCoinPoolDelay = value;
                     OnPropertyChanged(nameof(DualCoinPoolDelay));
+                    OnPropertyChanged(nameof(DualCoinPoolDelayNumber));
                 }
+            }
+        }
+
+        public int MainCoinPoolDelayNumber {
+            get {
+                return _data.MainCoinPoolDelayNumber;
+            }
+        }
+
+        public int DualCoinPoolDelayNumber {
+            get {
+                return _data.DualCoinPoolDelayNumber;
             }
         }
 
@@ -1538,50 +1552,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinSpeedOn != value) {
                     _data.DualCoinSpeedOn = value;
                     OnPropertyChanged(nameof(DualCoinSpeedOn));
-                }
-            }
-        }
-
-        public int MainCoinPoolDelayNumber {
-            get {
-                if (string.IsNullOrEmpty(this.MainCoinPoolDelay)) {
-                    return 0;
-                }
-                string text = this.MainCoinPoolDelay.Trim();
-                int count = 0;
-                for (int i = 0; i < text.Length; i++) {
-                    if (!char.IsNumber(text[i])) {
-                        count = i;
-                        break;
-                    }
-                }
-                if (count != 0) {
-                    return int.Parse(text.Substring(0, count));
-                }
-                else {
-                    return 0;
-                }
-            }
-        }
-
-        public int DualCoinPoolDelayNumber {
-            get {
-                if (string.IsNullOrEmpty(this.DualCoinPoolDelay)) {
-                    return 0;
-                }
-                string text = this.DualCoinPoolDelay.Trim();
-                int count = 0;
-                for (int i = 0; i < text.Length; i++) {
-                    if (!char.IsNumber(text[i])) {
-                        count = i;
-                        break;
-                    }
-                }
-                if (count != 0) {
-                    return int.Parse(text.Substring(0, count));
-                }
-                else {
-                    return 0;
                 }
             }
         }
