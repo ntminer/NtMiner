@@ -27,7 +27,7 @@ namespace NTMiner.Controllers {
 
         #region RemoveNTMinerWallet
         [HttpPost]
-        public ResponseBase RemoveNTMinerWallet([FromBody]DataRequest<Guid> request) {
+        public ResponseBase RemoveNTMinerWallet([FromBody]DataRequest<Guid> request) { 
             if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput("参数错误");
             }
