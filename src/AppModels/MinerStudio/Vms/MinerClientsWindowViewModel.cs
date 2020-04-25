@@ -139,6 +139,9 @@ namespace NTMiner.MinerStudio.Vms {
                                         item.Update(data);
                                     }
                                 }
+                                var items = _minerClients.ToArray();
+                                RefreshMaxTempForeground(items);
+                                RefreshRejectPercentForeground(items);
                             }
                             OnPropertyChanged(nameof(IsNoRecordVisible));
                         });
@@ -184,6 +187,9 @@ namespace NTMiner.MinerStudio.Vms {
                             _minerClients = new ObservableCollection<MinerClientViewModel>(vms);
                             OnPropertyChanged(nameof(MinerClients));
                             OnPropertyChanged(nameof(IsNoRecordVisible));
+                            var items = _minerClients.ToArray();
+                            RefreshMaxTempForeground(items);
+                            RefreshRejectPercentForeground(items);
                         }
                     }
                     RefreshPagingUi(response.Total);

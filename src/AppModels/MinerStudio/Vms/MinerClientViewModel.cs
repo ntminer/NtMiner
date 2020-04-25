@@ -19,8 +19,8 @@ namespace NTMiner.MinerStudio.Vms {
         private double _incomeDualCoinUsdPerDay;
         private double _incomeDualCoinCnyPerDay;
         private MinerGroupViewModel _selectedMinerGroup;
-        private SolidColorBrush _dualCoinRejectPercentForeground;
-        private SolidColorBrush _mainCoinRejectPercentForeground;
+        private SolidColorBrush _dualCoinRejectPercentForeground = WpfUtil.BlackBrush;
+        private SolidColorBrush _mainCoinRejectPercentForeground = WpfUtil.BlackBrush;
         private string _mainCoinRejectPercentText;
         private string _dualCoinRejectPercentText;
 
