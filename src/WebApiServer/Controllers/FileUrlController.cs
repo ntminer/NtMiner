@@ -13,7 +13,7 @@ namespace NTMiner.Controllers {
                 return string.Empty;
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response)) {
+                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
                     return response.Description;
                 }
                 var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
@@ -50,7 +50,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response)) {
+                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
                     return response;
                 }
                 WebApiRoot.NTMinerFileSet.AddOrUpdate(request.Data);
@@ -68,7 +68,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response)) {
+                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
                     return response;
                 }
                 WebApiRoot.NTMinerFileSet.RemoveById(request.Data);

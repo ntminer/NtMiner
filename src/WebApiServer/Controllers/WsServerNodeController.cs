@@ -12,7 +12,7 @@ namespace NTMiner.Controllers {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<WsServerNodeState>>>("参数错误");
             }
-            if (!IsValidAdmin(request, out DataResponse<List<WsServerNodeState>> response)) {
+            if (!IsValidAdmin(request, out DataResponse<List<WsServerNodeState>> response, out _)) {
                 return response;
             }
             return new DataResponse<List<WsServerNodeState>> {
@@ -28,7 +28,7 @@ namespace NTMiner.Controllers {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<string[]>>("参数错误");
             }
-            if (!IsValidAdmin(request, out DataResponse<string[]> response)) {
+            if (!IsValidAdmin(request, out DataResponse<string[]> response, out _)) {
                 return response;
             }
             return new DataResponse<string[]> {
@@ -63,7 +63,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(state, out ResponseBase response)) {
+                if (!IsValidAdmin(state, out ResponseBase response, out _)) {
                     return response;
                 }
                 WebApiRoot.WsServerNodeSet.SetNodeState(state);
@@ -80,7 +80,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response)) {
+                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
                     return response;
                 }
                 WebApiRoot.WsServerNodeSet.RemoveNode(request.Data);

@@ -12,7 +12,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<UserAppSettingData>>>("参数错误");
             }
             try {
-                if (!IsValidUser(request, out DataResponse<List<UserAppSettingData>> response)) {
+                if (!IsValidUser(request, out DataResponse<List<UserAppSettingData>> response, out _)) {
                     return response;
                 }
                 var data = WebApiRoot.UserAppSettingSet;
@@ -30,7 +30,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidUser(request, out ResponseBase response)) {
+                if (!IsValidUser(request, out ResponseBase response, out _)) {
                     return response;
                 }
                 WebApiRoot.UserAppSettingSet.SetAppSetting(request.Data);

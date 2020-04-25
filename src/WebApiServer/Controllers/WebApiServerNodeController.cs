@@ -9,7 +9,7 @@ namespace NTMiner.Controllers {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<WebApiServerState>>("参数错误");
             }
-            if (!IsValidAdmin(request, out DataResponse<WebApiServerState> response)) {
+            if (!IsValidAdmin(request, out DataResponse<WebApiServerState> response, out _)) {
                 return response;
             }
             return new DataResponse<WebApiServerState> {

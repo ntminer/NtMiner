@@ -12,7 +12,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response)) {
+                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
                     return response;
                 }
                 WebApiRoot.NTMinerWalletSet.AddOrUpdate(request.Data);
@@ -32,7 +32,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response)) {
+                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
                     return response;
                 }
                 WebApiRoot.NTMinerWalletSet.RemoveById(request.Data);

@@ -89,10 +89,6 @@ namespace NTMiner.Controllers {
             }
         }
 
-        protected bool IsValidUser<TResponse>(ISignableData data, out TResponse response) where TResponse : ResponseBase, new() {
-            return IsValidUser(data, out response, out _);
-        }
-
         protected bool IsValidUser<TResponse>(ISignableData data, out TResponse response, out UserData user) where TResponse : ResponseBase, new() {
             user = null;
             if (!WebApiRoot.UserSet.IsReadied) {
@@ -126,10 +122,6 @@ namespace NTMiner.Controllers {
             }
             response = null;
             return true;
-        }
-
-        protected bool IsValidAdmin<TResponse>(ISignableData data, out TResponse response) where TResponse : ResponseBase, new() {
-            return IsValidAdmin(data, out response, out _);
         }
 
         protected bool IsValidAdmin<TResponse>(ISignableData data, out TResponse response, out UserData user) where TResponse : ResponseBase, new() {
