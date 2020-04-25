@@ -7,15 +7,13 @@ namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class OverClockDataController : ApiControllerBase, IOverClockDataController {
         #region AddOrUpdateOverClockData
+        [Role.Admin]
         [HttpPost]
         public ResponseBase AddOrUpdateOverClockData([FromBody]DataRequest<OverClockData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.OverClockDataSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok();
             }
@@ -27,15 +25,13 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region RemoveOverClockData
+        [Role.Admin]
         [HttpPost]
         public ResponseBase RemoveOverClockData([FromBody]DataRequest<Guid> request) {
             if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.OverClockDataSet.RemoveById(request.Data);
                 return ResponseBase.Ok();
             }

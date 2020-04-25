@@ -6,15 +6,13 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class NTMinerWalletController : ApiControllerBase, INTMinerWalletController {
         #region AddOrUpdateNTMinerWallet
+        [Role.Admin]
         [HttpPost]
         public ResponseBase AddOrUpdateNTMinerWallet([FromBody]DataRequest<NTMinerWalletData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.NTMinerWalletSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok();
             }
@@ -26,15 +24,13 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region RemoveNTMinerWallet
+        [Role.Admin]
         [HttpPost]
         public ResponseBase RemoveNTMinerWallet([FromBody]DataRequest<Guid> request) { 
             if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.NTMinerWalletSet.RemoveById(request.Data);
                 return ResponseBase.Ok();
             }

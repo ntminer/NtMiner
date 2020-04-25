@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +7,10 @@ using System.Reflection;
 namespace NTMiner {
     [TestClass]
     public class ReflectionTests {
+        public class AClass {
+            private static void MethodT<T>() { }
+        }
+
         public class Class1 {
             public string Property1 { get; set; }
             public string Property2 { get; set; }
@@ -30,6 +33,14 @@ namespace NTMiner {
             public Guid GuidProperty { get; set; }
             public DateTime DateTimeProperty { get; set; }
             public bool BooleanProperty { get; set; }
+        }
+
+        [TestMethod]
+        public void Test() {
+            foreach (var item in typeof(AClass).GetMethods()) {
+                Console.WriteLine(item.Name);
+            }
+            Console.WriteLine(typeof(AClass).GetMethod("MethodT", BindingFlags.NonPublic | BindingFlags.Static).Name);
         }
 
         [TestMethod]

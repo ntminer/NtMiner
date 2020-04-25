@@ -19,15 +19,13 @@ namespace NTMiner.Controllers {
             return serverState.ToLine();
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase SetAppSetting([FromBody]DataRequest<AppSettingData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 VirtualRoot.Execute(new SetLocalAppSettingCommand(request.Data));
                 Logger.InfoDebugLine($"{nameof(SetAppSetting)}({request.Data.Key}, {request.Data.Value})");
                 return ResponseBase.Ok();

@@ -22,15 +22,13 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region SaveCalcConfigs
+        [Role.Admin]
         [HttpPost]
         public ResponseBase SaveCalcConfigs([FromBody]SaveCalcConfigsRequest request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.CalcConfigSet.SaveCalcConfigs(request.Data);
                 return ResponseBase.Ok();
             }

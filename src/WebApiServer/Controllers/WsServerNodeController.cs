@@ -7,13 +7,11 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class WsServerNodeController : ApiControllerBase, IWsServerNodeController {
+        [Role.Admin]
         [HttpPost]
         public DataResponse<List<WsServerNodeState>> Nodes([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<WsServerNodeState>>>("参数错误");
-            }
-            if (!IsValidAdmin(request, out DataResponse<List<WsServerNodeState>> response, out _)) {
-                return response;
             }
             return new DataResponse<List<WsServerNodeState>> {
                 StateCode = 200,
@@ -23,13 +21,11 @@ namespace NTMiner.Controllers {
             };
         }
 
+        [Role.Admin]
         [HttpPost]
         public DataResponse<string[]> NodeAddresses([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<string[]>>("参数错误");
-            }
-            if (!IsValidAdmin(request, out DataResponse<string[]> response, out _)) {
-                return response;
             }
             return new DataResponse<string[]> {
                 StateCode = 200,
@@ -57,15 +53,13 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase ReportNodeState([FromBody]WsServerNodeState state) {
             if (state == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(state, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.WsServerNodeSet.SetNodeState(state);
                 return ResponseBase.Ok();
             }
@@ -74,15 +68,13 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase RemoveNode([FromBody]DataRequest<string> request) {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.WsServerNodeSet.RemoveNode(request.Data);
                 return ResponseBase.Ok();
             }

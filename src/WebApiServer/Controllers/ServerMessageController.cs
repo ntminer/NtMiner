@@ -19,15 +19,13 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase AddOrUpdateServerMessage([FromBody]DataRequest<ServerMessageData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(request.Data));
                 WebApiRoot.UpdateServerMessageTimestamp();
                 return ResponseBase.Ok();
@@ -38,15 +36,13 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase MarkDeleteServerMessage([FromBody]DataRequest<Guid> request) {
             if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 VirtualRoot.Execute(new MarkDeleteServerMessageCommand(request.Data));
                 WebApiRoot.UpdateServerMessageTimestamp();
                 return ResponseBase.Ok();

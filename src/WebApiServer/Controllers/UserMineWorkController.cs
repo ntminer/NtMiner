@@ -9,16 +9,14 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class UserMineWorkController : ApiControllerBase, IUserMineWorkController {
         #region MineWorks
+        [Role.User]
         [HttpPost]
         public DataResponse<List<UserMineWorkData>> MineWorks([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<UserMineWorkData>>>("参数错误");
             }
             try {
-                if (!IsValidUser(request, out DataResponse<List<UserMineWorkData>> response, out UserData user)) {
-                    return response;
-                }
-                var data = WebApiRoot.MineWorkSet.GetsByLoginName(user.LoginName);
+                var data = WebApiRoot.MineWorkSet.GetsByLoginName(User.LoginName);
                 return DataResponse<List<UserMineWorkData>>.Ok(data);
             }
             catch (Exception e) {
@@ -29,16 +27,14 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region AddOrUpdateMineWork
+        [Role.User]
         [HttpPost]
         public ResponseBase AddOrUpdateMineWork([FromBody]DataRequest<MineWorkData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidUser(request, out ResponseBase response, out UserData user)) {
-                    return response;
-                }
-                WebApiRoot.MineWorkSet.AddOrUpdate(request.Data.ToUserMineWork(user.LoginName));
+                WebApiRoot.MineWorkSet.AddOrUpdate(request.Data.ToUserMineWork(User.LoginName));
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -49,20 +45,18 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region RemoveMineWork
+        [Role.User]
         [HttpPost]
         public ResponseBase RemoveMineWork([FromBody]DataRequest<Guid> request) {
             if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidUser(request, out ResponseBase response, out UserData user)) {
-                    return response;
-                }
                 IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.Data);
                 if (mineWork == null) {
                     return ResponseBase.Ok();
                 }
-                if (mineWork.LoginName != user.LoginName) {
+                if (mineWork.LoginName != User.LoginName) {
                     return ResponseBase.Forbidden("无权操作");
                 }
                 if (WebApiRoot.ClientDataSet.IsAnyClientInWork(request.Data)) {
@@ -79,20 +73,18 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region ExportMineWork
+        [Role.User]
         [HttpPost]
         public ResponseBase ExportMineWork([FromBody]ExportMineWorkRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidUser(request, out ResponseBase response, out UserData user)) {
-                    return response;
-                }
                 IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.MineWorkId);
                 if (mineWork == null) {
                     return ResponseBase.NotExist();
                 }
-                if (mineWork.LoginName != user.LoginName) {
+                if (mineWork.LoginName != User.LoginName) {
                     return ResponseBase.Forbidden("无权操作");
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.MineWorkId);
@@ -109,20 +101,18 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region GetLocalJson
+        [Role.User]
         [HttpPost]
         public DataResponse<string> GetLocalJson([FromBody]DataRequest<Guid> request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
             try {
-                if (!IsValidUser(request, out DataResponse<string> response, out UserData user)) {
-                    return response;
-                }
                 IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.Data);
                 if (mineWork == null) {
                     return ResponseBase.NotExist<DataResponse<string>>();
                 }
-                if (!user.IsAdmin() && mineWork.LoginName != user.LoginName) {
+                if (!User.IsAdmin() && mineWork.LoginName != User.LoginName) {
                     return ResponseBase.Forbidden<DataResponse<string>>("无权操作");
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.Data);
@@ -139,20 +129,18 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
+        [Role.User]
         [HttpPost]
         public GetWorkJsonResponse GetWorkJson([FromBody]GetWorkJsonRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetWorkJsonResponse>("参数错误");
             }
             try {
-                if (!IsValidUser(request, out GetWorkJsonResponse response, out UserData user)) {
-                    return response;
-                }
                 IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.WorkId);
                 if (mineWork == null) {
                     return ResponseBase.NotExist<GetWorkJsonResponse>();
                 }
-                if (!user.IsAdmin() && mineWork.LoginName != user.LoginName) {
+                if (!User.IsAdmin() && mineWork.LoginName != User.LoginName) {
                     return ResponseBase.Forbidden<GetWorkJsonResponse>("无权操作");
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.WorkId);

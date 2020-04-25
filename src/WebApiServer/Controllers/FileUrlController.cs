@@ -7,15 +7,13 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class FileUrlController : ApiControllerBase, IFileUrlController {
+        [Role.Admin]
         [HttpPost]
         public string MinerJsonPutUrl([FromBody]MinerJsonPutUrlRequest request) {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
                 return string.Empty;
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response.Description;
-                }
                 var req = new GeneratePresignedUriRequest("minerjson", request.FileName, SignHttpMethod.Put);
                 var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
@@ -44,15 +42,13 @@ namespace NTMiner.Controllers {
             return list;
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase AddOrUpdateNTMinerFile([FromBody]DataRequest<NTMinerFileData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.NTMinerFileSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok();
             }
@@ -62,15 +58,13 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase RemoveNTMinerFile([FromBody]DataRequest<Guid> request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                if (!IsValidAdmin(request, out ResponseBase response, out _)) {
-                    return response;
-                }
                 WebApiRoot.NTMinerFileSet.RemoveById(request.Data);
                 return ResponseBase.Ok();
             }

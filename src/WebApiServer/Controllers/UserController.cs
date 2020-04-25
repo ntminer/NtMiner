@@ -6,23 +6,18 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     public class UserController : ApiControllerBase, IUserController {
         #region Admin的操作
-        /// <summary>
-        /// 验证Admin
-        /// </summary>
+        [Role.Admin]
         [HttpPost]
         public QueryUsersResponse QueryUsers([FromBody]QueryUsersRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<QueryUsersResponse>("参数错误");
             }
-            if (!IsValidAdmin(request, out QueryUsersResponse response, out UserData user)) {
-                return response;
-            }
             try {
                 var datas = WebApiRoot.UserSet.QueryUsers(request, out int total).Select(a => a.Clone()).ToList();
                 foreach (var data in datas) {
                     // 不在网络上传输私钥原文，传输的是密文
-                    data.Password = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(data.Password, user.Password));
-                    data.PrivateKey = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(data.PrivateKey, user.Password));
+                    data.Password = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(data.Password, User.Password));
+                    data.PrivateKey = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(data.PrivateKey, User.Password));
                 }
                 return new QueryUsersResponse {
                     StateCode = 200,
@@ -37,21 +32,16 @@ namespace NTMiner.Controllers {
             }
         }
 
-        /// <summary>
-        /// 验证Admin
-        /// </summary>
+        [Role.Admin]
         [HttpPost]
         public ResponseBase RemoveUser([FromBody]DataRequest<string> request) {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (!IsValidAdmin(request, out DataResponse<string> response, out UserData admin)) {
-                return response;
-            }
             if (request.Data == Role.RoleEnum.admin.GetName()) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
-            if (request.Data == admin.LoginName) {
+            if (request.Data == User.LoginName) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能删除自己");
             }
             try {
@@ -63,21 +53,16 @@ namespace NTMiner.Controllers {
             }
         }
 
-        /// <summary>
-        /// 验证Admin
-        /// </summary>
+        [Role.Admin]
         [HttpPost]
         public ResponseBase EnableUser([FromBody]DataRequest<string> request) {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (!IsValidAdmin(request, out DataResponse<string> response, out UserData admin)) {
-                return response;
-            }
             if (request.Data == Role.RoleEnum.admin.GetName()) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
-            if (request.Data == admin.LoginName) {
+            if (request.Data == User.LoginName) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能启用自己");
             }
             try {
@@ -89,22 +74,16 @@ namespace NTMiner.Controllers {
             }
         }
 
-        /// <summary>
-        /// 验证Admin
-        /// 应在界面上告知用户被禁用的账户下的所有矿机的外网群控将掉线
-        /// </summary>
+        [Role.Admin]
         [HttpPost]
         public ResponseBase DisableUser([FromBody]DataRequest<string> request) {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (!IsValidAdmin(request, out DataResponse<string> response, out UserData admin)) {
-                return response;
-            }
             if (request.Data == Role.RoleEnum.admin.GetName()) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
-            if (request.Data == admin.LoginName) {
+            if (request.Data == User.LoginName) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能禁用自己");
             }
             try {
@@ -116,19 +95,16 @@ namespace NTMiner.Controllers {
             }
         }
 
-
+        [Role.Admin]
         [HttpPost]
         public ResponseBase AddAdminRole([FromBody]DataRequest<string> request) {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (!IsValidAdmin(request, out DataResponse<string> response, out UserData admin)) {
-                return response;
-            }
             if (request.Data == Role.RoleEnum.admin.GetName()) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
-            if (request.Data == admin.LoginName) {
+            if (request.Data == User.LoginName) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作自己");
             }
             try {
@@ -140,19 +116,16 @@ namespace NTMiner.Controllers {
             }
         }
 
-
+        [Role.Admin]
         [HttpPost]
         public ResponseBase RemoveAdminRole([FromBody]DataRequest<string> request) {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (!IsValidAdmin(request, out DataResponse<string> response, out UserData admin)) {
-                return response;
-            }
             if (request.Data == Role.RoleEnum.admin.GetName()) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
-            if (request.Data == admin.LoginName) {
+            if (request.Data == User.LoginName) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作自己");
             }
             try {
@@ -166,16 +139,14 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region Login
+        [Role.User]
         [HttpPost]
         public DataResponse<LoginedUser> Login([FromBody]SignRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<LoginedUser>>("参数错误");
             }
             try {
-                if (!IsValidUser(request, out DataResponse<LoginedUser> response, out UserData user)) {
-                    return response;
-                }
-                return DataResponse<LoginedUser>.Ok(user.ToLoginedUserData());
+                return DataResponse<LoginedUser>.Ok(User.ToLoginedUserData());
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -244,13 +215,11 @@ namespace NTMiner.Controllers {
         /// <summary>
         /// 验证User，不具有修改密码的功能，修改密码走ChangePassword过程
         /// </summary>
+        [Role.User]
         [HttpPost]
         public ResponseBase UpdateUser([FromBody]DataRequest<UserUpdateInput> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
-            }
-            if (!IsValidUser(request, out ResponseBase response, out UserData user)) {
-                return response;
             }
             if (request.Data.ActionCaptchaId == Guid.Empty
                 || string.IsNullOrEmpty(request.Data.ActionCaptcha)
@@ -276,9 +245,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region ChangePassword
-        /// <summary>
-        /// 验证User
-        /// </summary>
+        [Role.User]
         [HttpPost]
         public ResponseBase ChangePassword([FromBody]ChangePasswordRequest request) {
             if (request == null) {
@@ -287,10 +254,7 @@ namespace NTMiner.Controllers {
             if (string.IsNullOrEmpty(request.NewPassword)) {
                 return ResponseBase.InvalidInput("密码不能为空");
             }
-            if (!IsValidUser(request, out ResponseBase response, out UserData user)) {
-                return response;
-            }
-            WebApiRoot.UserSet.ChangePassword(user.LoginName, request.NewPassword);
+            WebApiRoot.UserSet.ChangePassword(User.LoginName, request.NewPassword);
             return ResponseBase.Ok("密码修改成功");
         }
         #endregion

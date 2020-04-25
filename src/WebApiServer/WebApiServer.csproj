@@ -94,6 +94,8 @@
     <Compile Include="..\MinerClientSelfHost\HttpServer.cs">
       <Link>HttpServer.cs</Link>
     </Compile>
+    <Compile Include="Role\AdminAttribute.cs" />
+    <Compile Include="Role\UserAttribute.cs" />
     <Compile Include="Controllers\ApiControllerBase.cs" />
     <Compile Include="Controllers\AppSettingController.cs" />
     <Compile Include="Controllers\CaptchaController.cs" />

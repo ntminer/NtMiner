@@ -1,5 +1,4 @@
 ﻿using NTMiner.User;
-using System.Collections.Specialized;
 using System.ServiceModel.Channels;
 using System.Web;
 using System.Web.Http;
@@ -62,77 +61,10 @@ namespace NTMiner.Controllers {
             return ip;
         }
 
-        private ClientSignData _clientSign;
-        protected ClientSignData ClientSign {
+        protected new UserData User {
             get {
-                if (_clientSign == null) {
-                    var queryString = new NameValueCollection();
-                    string query = Request.RequestUri.Query;
-                    if (!string.IsNullOrEmpty(query)) {
-                        query = query.Substring(1);
-                        string[] parts = query.Split('&');
-                        foreach (var item in parts) {
-                            string[] pair = item.Split('=');
-                            if (pair.Length == 2) {
-                                queryString.Add(pair[0], pair[1]);
-                            }
-                        }
-                    }
-                    long timestamp = 0;
-                    string t = queryString["timestamp"];
-                    if (!string.IsNullOrEmpty(t)) {
-                        long.TryParse(t, out timestamp);
-                    }
-                    _clientSign = new ClientSignData(queryString["loginName"], queryString["sign"], timestamp);
-                }
-                return _clientSign;
+                return (UserData)ControllerContext.RouteData.Values["_user"];
             }
-        }
-
-        protected bool IsValidAdmin<TResponse>(ISignableData data, out TResponse response, out UserData user) where TResponse : ResponseBase, new() {
-            if (IsValidUser(data, out response, out user)) {
-                if (!user.IsAdmin()) {
-                    string message = "对不起，您不是超管";
-                    response = ResponseBase.NotExist<TResponse>(message);
-                    return false;
-                }
-                else {
-                    return true;
-                }
-            }
-            else {
-                return false;
-            }
-        }
-
-        protected bool IsValidUser<TResponse>(ISignableData data, out TResponse response, out UserData user) where TResponse : ResponseBase, new() {
-            user = null;
-            if (!WebApiRoot.UserSet.IsReadied) {
-                string message = "服务器用户集启动中，请稍后";
-                response = ResponseBase.NotExist<TResponse>(message);
-                return false;
-            }
-            ClientSignData query = ClientSign;
-            if (!Timestamp.IsInTime(query.Timestamp)) {
-                response = ResponseBase.Expired<TResponse>();
-                return false;
-            }
-            if (!string.IsNullOrEmpty(query.LoginName)) {
-                user = WebApiRoot.UserSet.GetUser(query.UserId);
-            }
-            if (user == null) {
-                string message = "用户不存在";
-                response = ResponseBase.NotExist<TResponse>(message);
-                return false;
-            }
-            string mySign = RpcUser.CalcSign(user.LoginName, user.Password, query.Timestamp, data);
-            if (query.Sign != mySign) {
-                string message = "签名错误：1. 可能因为登录名或密码错误；2. 可能因为软件版本过期需要升级软件，请将软件升级到最新版本再试。";
-                response = ResponseBase.Forbidden<TResponse>(message);
-                return false;
-            }
-            response = null;
-            return true;
         }
     }
 }
