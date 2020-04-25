@@ -40,6 +40,8 @@ namespace NTMiner.MinerStudio.Vms {
 
         public MinerClientViewModel(ClientData clientData) {
             _data = clientData;
+            SetMainCoinRejectPercentText(clientData.MainCoinRejectPercent);
+            SetDualCoinRejectPercentText(clientData.DualCoinRejectPercent);
             RefreshMainCoinIncome();
             RefreshDualCoinIncome();
             this.Remove = new DelegateCommand(() => {
@@ -704,14 +706,23 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MainCoinRejectPercent != value) {
                     _data.MainCoinRejectPercent = value;
                     OnPropertyChanged(nameof(MainCoinRejectPercent));
-                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                    SetMainCoinRejectPercentText(value);
                 }
             }
         }
 
+        private void SetMainCoinRejectPercentText(double value) {
+            this.MainCoinRejectPercentText = value.ToString("f1") + " %";
+        }
+
+        private string _mainCoinRejectPercentText = string.Empty;
         public string MainCoinRejectPercentText {
             get {
-                return MainCoinRejectPercent.ToString("f1") + "%";
+                return _mainCoinRejectPercentText;
+            }
+            set {
+                _mainCoinRejectPercentText = value;
+                OnPropertyChanged(nameof(MainCoinRejectPercentText));
             }
         }
 
@@ -920,14 +931,23 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinRejectPercent != value) {
                     _data.DualCoinRejectPercent = value;
                     OnPropertyChanged(nameof(DualCoinRejectPercent));
-                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                    SetDualCoinRejectPercentText(value);
                 }
             }
         }
 
+        private void SetDualCoinRejectPercentText(double value) {
+            this.DualCoinRejectPercentText = value.ToString("f1") + " %";
+        }
+
+        private string _dualCoinRejectPercentText;
         public string DualCoinRejectPercentText {
             get {
-                return _data.DualCoinRejectPercent.ToString("f1") + "%";
+                return _dualCoinRejectPercentText;
+            }
+            set {
+                _dualCoinRejectPercentText = value;
+                OnPropertyChanged(nameof(DualCoinRejectPercentText));
             }
         }
 
