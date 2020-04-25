@@ -9,7 +9,7 @@ namespace NTMiner.Controllers {
     public class WsServerNodeController : ApiControllerBase, IWsServerNodeController {
         [Role.Admin]
         [HttpPost]
-        public DataResponse<List<WsServerNodeState>> Nodes([FromBody]SignRequest request) {
+        public DataResponse<List<WsServerNodeState>> Nodes([FromBody]object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<WsServerNodeState>>>("参数错误");
             }
@@ -23,7 +23,7 @@ namespace NTMiner.Controllers {
 
         [Role.Admin]
         [HttpPost]
-        public DataResponse<string[]> NodeAddresses([FromBody]SignRequest request) {
+        public DataResponse<string[]> NodeAddresses([FromBody]object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<string[]>>("参数错误");
             }

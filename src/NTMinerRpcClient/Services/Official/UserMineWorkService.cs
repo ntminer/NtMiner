@@ -14,8 +14,7 @@ namespace NTMiner.Services.Official {
 
         #region GetMineWorksAsync
         public void GetMineWorksAsync(Action<DataResponse<List<UserMineWorkData>>, Exception> callback) {
-            SignRequest request = new SignRequest {
-            };
+            object request = new object();
             RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMineWorkController.MineWorks), data: request, callback, timeountMilliseconds: 2000);
         }
         #endregion

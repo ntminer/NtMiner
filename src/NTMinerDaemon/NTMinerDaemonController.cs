@@ -83,7 +83,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase RestartWindows([FromBody]SignRequest request) {
+        public ResponseBase RestartWindows([FromBody]object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -91,7 +91,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase ShutdownWindows([FromBody]SignRequest request) {
+        public ResponseBase ShutdownWindows([FromBody]object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -104,7 +104,7 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase StopMine([FromBody]SignRequest request) {
+        public ResponseBase StopMine([FromBody]object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }

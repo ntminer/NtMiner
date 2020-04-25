@@ -29,7 +29,7 @@ namespace NTMiner.Controllers {
         ResponseBase RemoveAdminRole(DataRequest<string> request);
         #endregion
 
-        DataResponse<LoginedUser> Login(SignRequest request);
+        DataResponse<LoginedUser> Login(object request);
         /// <summary>
         /// 判断给定用户名的用户是否已经存在
         /// </summary>

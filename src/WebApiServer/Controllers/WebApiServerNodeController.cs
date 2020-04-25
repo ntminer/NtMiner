@@ -6,7 +6,7 @@ namespace NTMiner.Controllers {
         [Role.Admin]
         [HttpGet]
         [HttpPost]
-        public DataResponse<WebApiServerState> GetServerState(SignRequest request) {
+        public DataResponse<WebApiServerState> GetServerState(object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<WebApiServerState>>("参数错误");
             }

@@ -9,7 +9,7 @@ namespace NTMiner.Controllers {
         #region MinerGroups
         [Role.User]
         [HttpPost]
-        public DataResponse<List<UserMinerGroupData>> MinerGroups([FromBody]SignRequest request) {
+        public DataResponse<List<UserMinerGroupData>> MinerGroups([FromBody]object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<UserMinerGroupData>>>("参数错误");
             }

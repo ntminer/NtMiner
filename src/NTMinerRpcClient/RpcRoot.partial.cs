@@ -88,7 +88,7 @@ namespace NTMiner {
             int port,
             string controller,
             string action,
-            ISignableData data,
+            object data,
             Action<TResponse, Exception> callback,
             int timeountMilliseconds = 0) {
             PostAsync(host, port, controller, action, query: RpcUser.GetSignData(data), data, callback, timeountMilliseconds);
@@ -120,7 +120,7 @@ namespace NTMiner {
             int port,
             string controller,
             string action,
-            ISignableData data,
+            object data,
             int? timeountMilliseconds = null) {
             return Post<TResponse>(host, port, controller, action, query: RpcUser.GetSignData(data), data, timeountMilliseconds);
         }

@@ -11,7 +11,7 @@ namespace NTMiner.Controllers {
         #region MineWorks
         [Role.User]
         [HttpPost]
-        public DataResponse<List<UserMineWorkData>> MineWorks([FromBody]SignRequest request) {
+        public DataResponse<List<UserMineWorkData>> MineWorks([FromBody]object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<UserMineWorkData>>>("参数错误");
             }

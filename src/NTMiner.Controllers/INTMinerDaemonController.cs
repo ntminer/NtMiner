@@ -20,11 +20,11 @@ namespace NTMiner.Controllers {
         // TODO:应该新增一个Action用于处理配置合集
         void SetAutoBootStart(bool autoBoot, bool autoStart);
         void StartOrCloseWs(bool isResetFailCount);
-        ResponseBase RestartWindows(SignRequest request);
-        ResponseBase ShutdownWindows(SignRequest request);
+        ResponseBase RestartWindows(object request);
+        ResponseBase ShutdownWindows(object request);
         ResponseBase UpgradeNTMiner(UpgradeNTMinerRequest request);
         ResponseBase StartMine(WorkRequest request);
-        ResponseBase StopMine(SignRequest request);
+        ResponseBase StopMine(object request);
         List<OperationResultDto> GetOperationResults(long afterTime);
         List<DriveDto> GetDrives();
         ResponseBase SetVirtualMemory(DataRequest<Dictionary<string, int>> request);

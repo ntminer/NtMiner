@@ -141,13 +141,13 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region RestartWindowsAsync
         public void RestartWindowsAsync(IMinerData client) {
-            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.RestartWindows), new SignRequest(), null, timeountMilliseconds: 3000);
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.RestartWindows), new object(), null, timeountMilliseconds: 3000);
         }
         #endregion
 
         #region ShutdownWindowsAsync
         public void ShutdownWindowsAsync(IMinerData client) {
-            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.ShutdownWindows), new SignRequest(), null, timeountMilliseconds: 3000);
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.ShutdownWindows), new object(), null, timeountMilliseconds: 3000);
         }
         #endregion
 
@@ -188,7 +188,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region StopMineAsync
         public void StopMineAsync(IMinerData client) {
-            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.StopMine), new SignRequest(), null, timeountMilliseconds: 3000);
+            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.StopMine), new object(), null, timeountMilliseconds: 3000);
         }
         #endregion
 

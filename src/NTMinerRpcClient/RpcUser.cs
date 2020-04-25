@@ -9,7 +9,7 @@ namespace NTMiner {
     public class RpcUser : ISignUser {
         public static readonly RpcUser Empty = new RpcUser(string.Empty, string.Empty);
 
-        public static Dictionary<string, string> GetSignData(string loginName, string passwordSha1, ISignableData data = null) {
+        public static Dictionary<string, string> GetSignData(string loginName, string passwordSha1, object data = null) {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
             return new Dictionary<string, string> {
                     {"loginName", loginName },
@@ -17,13 +17,14 @@ namespace NTMiner {
                     {"timestamp", timestamp.ToString() }
                 };
         }
-        public static string CalcSign(string loginName, string passwordSha1, long timestamp, ISignableData data = null) {
+
+        public static string CalcSign(string loginName, string passwordSha1, long timestamp, object data = null) {
             StringBuilder sb;
-            if (data == null) {
+            if (data == null || !(data is ISignableData signableData)) {
                 sb = new StringBuilder();
             }
             else {
-                sb = data.GetSignData();
+                sb = signableData.GetSignData();
             }
             sb.Append("LoginName").Append(loginName).Append("Password").Append(passwordSha1).Append("Timestamp").Append(timestamp);
             return HashUtil.Sha1(sb.ToString());
@@ -88,7 +89,7 @@ namespace NTMiner {
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public Dictionary<string, string> GetSignData(ISignableData data = null) {
+        public Dictionary<string, string> GetSignData(object data = null) {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
             return new Dictionary<string, string> {
                     {"loginName", this.LoginName },

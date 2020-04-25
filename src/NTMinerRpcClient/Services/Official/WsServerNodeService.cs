@@ -11,11 +11,11 @@ namespace NTMiner.Services.Official {
         }
 
         public void GetNodesAsync(Action<DataResponse<List<WsServerNodeState>>, Exception> callback) {
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.Nodes), new SignRequest(), callback);
+            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.Nodes), new object(), callback);
         }
 
         public void GetNodeAddressesAsync(Action<DataResponse<string[]>, Exception> callback) {
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.NodeAddresses), new SignRequest(), callback);
+            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.NodeAddresses), new object(), callback);
         }
 
         public void GetNodeAddressAsync(Guid clientId, string outerUserId, Action<DataResponse<string>, Exception> callback) {

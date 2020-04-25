@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
     public interface IUserMinerGroupController {
-        DataResponse<List<UserMinerGroupData>> MinerGroups(SignRequest request);
+        DataResponse<List<UserMinerGroupData>> MinerGroups(object request);
         ResponseBase AddOrUpdateMinerGroup(DataRequest<MinerGroupData> request);
         ResponseBase RemoveMinerGroup(DataRequest<Guid> request);
     }

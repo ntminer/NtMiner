@@ -141,7 +141,7 @@ namespace NTMiner.Controllers {
         #region Login
         [Role.User]
         [HttpPost]
-        public DataResponse<LoginedUser> Login([FromBody]SignRequest request) {
+        public DataResponse<LoginedUser> Login([FromBody]object request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<LoginedUser>>("参数错误");
             }
