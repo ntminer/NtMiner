@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.MinerServer;
+using NTMiner.User;
 using System;
 using System.Collections.Generic;
 using System.Web.Http;
@@ -90,7 +91,7 @@ namespace NTMiner.Controllers {
             try {
                 foreach (var objectId in request.ObjectIds) {
                     var minerData = WebApiRoot.ClientDataSet.GetByObjectId(objectId);
-                    if (minerData != null && minerData.IsOwnerBy(User)) {
+                    if (minerData != null && (User.IsAdmin() || minerData.IsOwnerBy(User))) {
                         WebApiRoot.ClientDataSet.RemoveByObjectId(objectId);
                     }
                 }
