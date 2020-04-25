@@ -163,6 +163,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Role\README.md" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="logo.ico" />
