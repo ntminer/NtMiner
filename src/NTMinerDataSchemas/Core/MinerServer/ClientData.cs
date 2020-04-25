@@ -698,18 +698,66 @@ namespace NTMiner.Core.MinerServer {
 
         public DateTime AESPasswordOn { get; set; }
 
-        public double GetMainCoinRejectPercent() {
-            if (this.MainCoinTotalShare == 0) {
-                return 0;
+        public int MainCoinPoolDelayNumber {
+            get {
+                if (string.IsNullOrEmpty(this.MainCoinPoolDelay)) {
+                    return 0;
+                }
+                string text = this.MainCoinPoolDelay.Trim();
+                int count = 0;
+                for (int i = 0; i < text.Length; i++) {
+                    if (!char.IsNumber(text[i])) {
+                        count = i;
+                        break;
+                    }
+                }
+                if (count != 0) {
+                    return int.Parse(text.Substring(0, count));
+                }
+                else {
+                    return 0;
+                }
             }
-            return this.MainCoinRejectShare / this.MainCoinTotalShare;
         }
 
-        public double GetDualCoinRejectPercent() {
-            if (this.DualCoinTotalShare == 0) {
-                return 0;
+        public int DualCoinPoolDelayNumber {
+            get {
+                if (string.IsNullOrEmpty(this.DualCoinPoolDelay)) {
+                    return 0;
+                }
+                string text = this.DualCoinPoolDelay.Trim();
+                int count = 0;
+                for (int i = 0; i < text.Length; i++) {
+                    if (!char.IsNumber(text[i])) {
+                        count = i;
+                        break;
+                    }
+                }
+                if (count != 0) {
+                    return int.Parse(text.Substring(0, count));
+                }
+                else {
+                    return 0;
+                }
             }
-            return this.DualCoinRejectShare / this.DualCoinTotalShare;
+        }
+
+        public double MainCoinRejectPercent {
+            get {
+                if (this.MainCoinTotalShare == 0) {
+                    return 0;
+                }
+                return this.MainCoinRejectShare / this.MainCoinTotalShare;
+            }
+        }
+
+        public double DualCoinRejectPercent {
+            get {
+                if (this.DualCoinTotalShare == 0) {
+                    return 0;
+                }
+                return this.DualCoinRejectShare / this.DualCoinTotalShare;
+            }
         }
     }
 }

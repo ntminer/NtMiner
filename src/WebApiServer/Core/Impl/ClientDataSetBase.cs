@@ -158,10 +158,10 @@ namespace NTMiner.Core.Impl {
                 case ClientDataSortField.MainCoinRejectPercent:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
-                            list = list.OrderBy(a => a.GetMainCoinRejectPercent()).ToList();
+                            list = list.OrderBy(a => a.MainCoinRejectPercent).ToList();
                             break;
                         case SortDirection.Descending:
-                            list = list.OrderByDescending(a => a.GetMainCoinRejectPercent()).ToList();
+                            list = list.OrderByDescending(a => a.MainCoinRejectPercent).ToList();
                             break;
                         default:
                             break;
@@ -170,10 +170,10 @@ namespace NTMiner.Core.Impl {
                 case ClientDataSortField.DualCoinRejectPercent:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
-                            list = list.OrderBy(a => a.GetDualCoinRejectPercent()).ToList();
+                            list = list.OrderBy(a => a.DualCoinRejectPercent).ToList();
                             break;
                         case SortDirection.Descending:
-                            list = list.OrderByDescending(a => a.GetDualCoinRejectPercent()).ToList();
+                            list = list.OrderByDescending(a => a.DualCoinRejectPercent).ToList();
                             break;
                         default:
                             break;
@@ -182,10 +182,10 @@ namespace NTMiner.Core.Impl {
                 case ClientDataSortField.MainCoinPoolDelay:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
-                            list = list.OrderBy(a => a.MainCoinPoolDelay).ToList();
+                            list = list.OrderBy(a => a.MainCoinPoolDelayNumber).ToList();
                             break;
                         case SortDirection.Descending:
-                            list = list.OrderByDescending(a => a.MainCoinPoolDelay).ToList();
+                            list = list.OrderByDescending(a => a.MainCoinPoolDelayNumber).ToList();
                             break;
                         default:
                             break;
@@ -194,10 +194,10 @@ namespace NTMiner.Core.Impl {
                 case ClientDataSortField.DualCoinPoolDelay:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
-                            list = list.OrderBy(a => a.DualCoinPoolDelay).ToList();
+                            list = list.OrderBy(a => a.DualCoinPoolDelayNumber).ToList();
                             break;
                         case SortDirection.Descending:
-                            list = list.OrderByDescending(a => a.DualCoinPoolDelay).ToList();
+                            list = list.OrderByDescending(a => a.DualCoinPoolDelayNumber).ToList();
                             break;
                         default:
                             break;
