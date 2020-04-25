@@ -3,7 +3,19 @@ using System.Text;
 
 namespace NTMiner.Core.MinerServer {
     public class QueryClientsRequest : IRequest, ISignableData {
-        public QueryClientsRequest() { }
+        public enum SortField {
+            MinerName = 0,
+            MainCoinRejectPercent,
+            DualCoinRejectPercent,
+            MainCoinPoolDelay,
+            DualCoinPoolDelay,
+            CpuTemperature,
+            KernelSelfRestartCount
+        }
+
+        public QueryClientsRequest() {
+            this.SortBy = SortField.MinerName;
+        }
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public Guid? GroupId { get; set; }
@@ -20,6 +32,7 @@ namespace NTMiner.Core.MinerServer {
         public string GpuName { get; set; }
         public string GpuDriver { get; set; }
         public SortDirection SortDirection { get; set; }
+        public SortField SortBy { get; set; }
 
         public StringBuilder GetSignData() {
             return this.GetActionIdSign("5BB1CE8C-995E-47D6-AF1A-A8303E53E296");
