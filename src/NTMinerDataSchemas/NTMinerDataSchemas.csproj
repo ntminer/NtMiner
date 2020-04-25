@@ -48,6 +48,7 @@
     <Compile Include="Core\ILocalMessageDto.cs" />
     <Compile Include="Core\MinerClient\LocalIpInput.cs" />
     <Compile Include="Core\MinerClient\MinerClientActionType.cs" />
+    <Compile Include="Core\MinerServer\ClientDataSortField.cs" />
     <Compile Include="Core\MinerServer\GetWorkJsonRequest.cs" />
     <Compile Include="Core\MinerServer\GetWorkJsonResponse.cs" />
     <Compile Include="Core\MinerServer\IClientData.cs" />

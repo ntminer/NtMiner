@@ -142,8 +142,8 @@ namespace NTMiner.Core.Impl {
                 }
             }
             total = list.Count();
-            switch (query.SortBy) {
-                case QueryClientsRequest.SortField.MinerName:
+            switch (query.SortField) {
+                case ClientDataSortField.MinerName:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
                             list = list.OrderBy(a => a.MinerName).ToList();
@@ -155,7 +155,7 @@ namespace NTMiner.Core.Impl {
                             break;
                     }
                     break;
-                case QueryClientsRequest.SortField.MainCoinRejectPercent:
+                case ClientDataSortField.MainCoinRejectPercent:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
                             list = list.OrderBy(a => a.GetMainCoinRejectPercent()).ToList();
@@ -167,7 +167,7 @@ namespace NTMiner.Core.Impl {
                             break;
                     }
                     break;
-                case QueryClientsRequest.SortField.DualCoinRejectPercent:
+                case ClientDataSortField.DualCoinRejectPercent:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
                             list = list.OrderBy(a => a.GetDualCoinRejectPercent()).ToList();
@@ -179,7 +179,7 @@ namespace NTMiner.Core.Impl {
                             break;
                     }
                     break;
-                case QueryClientsRequest.SortField.MainCoinPoolDelay:
+                case ClientDataSortField.MainCoinPoolDelay:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
                             list = list.OrderBy(a => a.MainCoinPoolDelay).ToList();
@@ -191,7 +191,7 @@ namespace NTMiner.Core.Impl {
                             break;
                     }
                     break;
-                case QueryClientsRequest.SortField.DualCoinPoolDelay:
+                case ClientDataSortField.DualCoinPoolDelay:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
                             list = list.OrderBy(a => a.DualCoinPoolDelay).ToList();
@@ -203,7 +203,7 @@ namespace NTMiner.Core.Impl {
                             break;
                     }
                     break;
-                case QueryClientsRequest.SortField.CpuTemperature:
+                case ClientDataSortField.CpuTemperature:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
                             list = list.OrderBy(a => a.CpuTemperature).ToList();
@@ -215,7 +215,7 @@ namespace NTMiner.Core.Impl {
                             break;
                     }
                     break;
-                case QueryClientsRequest.SortField.KernelSelfRestartCount:
+                case ClientDataSortField.KernelSelfRestartCount:
                     switch (query.SortDirection) {
                         case SortDirection.Ascending:
                             list = list.OrderBy(a => a.KernelSelfRestartCount).ToList();

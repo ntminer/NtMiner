@@ -41,6 +41,7 @@ namespace NTMiner.MinerStudio.Vms {
         private uint _minTemp = 40;
         private int _rejectPercent = 10;
         private SortDirection _sortDirection = SortDirection.Ascending;
+        private ClientDataSortField _sortField = ClientDataSortField.MinerName;
         private string _gpuName;
         private string _gpuDriver;
         private GpuType _gpuType = GpuType.Empty;
@@ -237,9 +238,16 @@ namespace NTMiner.MinerStudio.Vms {
         public ICommand LocalIpConfig { get; private set; }
         public ICommand SwitchRadeonGpu { get; private set; }
         public ICommand AtikmdagPatcher { get; private set; }
-        public ICommand SortByMinerName { get; private set; }
         public ICommand WsRetry { get; private set; }
         public ICommand CopyMainCoinWallet { get; private set; }
+
+        public ICommand SortByMinerName { get; private set; }
+        public ICommand SortByMainCoinRejectPercent { get; private set; }
+        public ICommand SortByDualCoinRejectPercent { get; private set; }
+        public ICommand SortByMainCoinPoolDelay { get; private set; }
+        public ICommand SortByDualCoinPoolDelay { get; private set; }
+        public ICommand SortByCpuTemperature { get; private set; }
+        public ICommand SortByKernelSelfRestartCount { get; private set; }
         #endregion
 
         #region ctor
@@ -578,6 +586,61 @@ namespace NTMiner.MinerStudio.Vms {
                 else {
                     SortDirection = SortDirection.Ascending;
                 }
+                this.SortField = ClientDataSortField.MinerName;
+            });
+            this.SortByMainCoinRejectPercent = new DelegateCommand(() => {
+                if (SortDirection == SortDirection.Ascending) {
+                    SortDirection = SortDirection.Descending;
+                }
+                else {
+                    SortDirection = SortDirection.Ascending;
+                }
+                this.SortField = ClientDataSortField.MainCoinRejectPercent;
+            });
+            this.SortByDualCoinRejectPercent = new DelegateCommand(() => {
+                if (SortDirection == SortDirection.Ascending) {
+                    SortDirection = SortDirection.Descending;
+                }
+                else {
+                    SortDirection = SortDirection.Ascending;
+                }
+                this.SortField = ClientDataSortField.DualCoinRejectPercent;
+            });
+            this.SortByMainCoinPoolDelay = new DelegateCommand(() => {
+                if (SortDirection == SortDirection.Ascending) {
+                    SortDirection = SortDirection.Descending;
+                }
+                else {
+                    SortDirection = SortDirection.Ascending;
+                }
+                this.SortField = ClientDataSortField.MainCoinPoolDelay;
+            });
+            this.SortByDualCoinPoolDelay = new DelegateCommand(() => {
+                if (SortDirection == SortDirection.Ascending) {
+                    SortDirection = SortDirection.Descending;
+                }
+                else {
+                    SortDirection = SortDirection.Ascending;
+                }
+                this.SortField = ClientDataSortField.DualCoinPoolDelay;
+            });
+            this.SortByCpuTemperature = new DelegateCommand(() => {
+                if (SortDirection == SortDirection.Ascending) {
+                    SortDirection = SortDirection.Descending;
+                }
+                else {
+                    SortDirection = SortDirection.Ascending;
+                }
+                this.SortField = ClientDataSortField.CpuTemperature;
+            });
+            this.SortByKernelSelfRestartCount = new DelegateCommand(() => {
+                if (SortDirection == SortDirection.Ascending) {
+                    SortDirection = SortDirection.Descending;
+                }
+                else {
+                    SortDirection = SortDirection.Ascending;
+                }
+                this.SortField = ClientDataSortField.KernelSelfRestartCount;
             });
             VirtualRoot.AddCmdPath<UpdateMinerClientVmCommand>(action: message => {
                 var vm = _minerClients.FirstOrDefault(a => a.Id == message.ClientData.Id);
@@ -1004,6 +1067,66 @@ namespace NTMiner.MinerStudio.Vms {
                     OnPropertyChanged(nameof(IsSortAscending));
                     this.PageIndex = 1;
                 }
+            }
+        }
+
+        public ClientDataSortField SortField {
+            get { return _sortField; }
+            set {
+                if (_sortField != value) {
+                    _sortField = value;
+                    OnPropertyChanged(nameof(SortField));
+                    OnPropertyChanged(nameof(IsSortByMinerName));
+                    OnPropertyChanged(nameof(IsSortByMainCoinRejectPercent));
+                    OnPropertyChanged(nameof(IsSortByDualCoinRejectPercent));
+                    OnPropertyChanged(nameof(IsSortByMainCoinPoolDelay));
+                    OnPropertyChanged(nameof(IsSortByDualCoinPoolDelay));
+                    OnPropertyChanged(nameof(IsSortByCpuTemperature));
+                    OnPropertyChanged(nameof(IsSortByKernelSelfRestartCount));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public bool IsSortByMinerName {
+            get {
+                return SortField == ClientDataSortField.MinerName;
+            }
+        }
+
+        public bool IsSortByMainCoinRejectPercent {
+            get {
+                return SortField == ClientDataSortField.MainCoinRejectPercent;
+            }
+        }
+
+        public bool IsSortByDualCoinRejectPercent {
+            get {
+                return SortField == ClientDataSortField.DualCoinRejectPercent;
+            }
+        }
+
+        public bool IsSortByMainCoinPoolDelay {
+            get {
+                return SortField == ClientDataSortField.MainCoinPoolDelay;
+            }
+        }
+
+        public bool IsSortByDualCoinPoolDelay {
+            get {
+                return SortField == ClientDataSortField.DualCoinPoolDelay;
+            }
+        }
+
+        public bool IsSortByCpuTemperature {
+            get {
+                return SortField == ClientDataSortField.CpuTemperature;
+            }
+        }
+
+        public bool IsSortByKernelSelfRestartCount {
+            get {
+                return SortField == ClientDataSortField.KernelSelfRestartCount;
             }
         }
 

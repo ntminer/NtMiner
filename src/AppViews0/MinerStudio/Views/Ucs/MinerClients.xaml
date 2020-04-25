@@ -280,22 +280,21 @@
                         <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_NAME}"></TextBlock>
                         <controls:KbButton
 							ToolTip="排序"
-                            Command="{Binding Data.SortByMinerName, Source={StaticResource proxy}}"
-							Background="Transparent">
+                            Command="{Binding Data.SortByMinerName, Source={StaticResource proxy}}">
                             <WrapPanel>
                                 <Path
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityConverter},Source={StaticResource proxy}}"
 									Data="{StaticResource Icon_SortAscending}"
-									Fill="#FF5A5A5A"
+									Fill="{Binding Data.IsSortByMinerName,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                                 <Path
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityInvertConverter},Source={StaticResource proxy}}"
 									Data="{StaticResource Icon_SortDescending}"
-									Fill="#FF5A5A5A"
+									Fill="{Binding Data.IsSortByMinerName,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>
@@ -788,16 +787,22 @@
                     <WrapPanel>
                         <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
                         <controls:KbButton
-							ToolTip="不展示"
-							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-							CommandParameter="MainCoinRejectPercentText"
-							Background="Transparent">
+							ToolTip="排序"
+                            Command="{Binding Data.SortByMainCoinRejectPercent, Source={StaticResource proxy}}">
                             <WrapPanel>
                                 <Path
-									Width="14"
-									Height="12"
-									Data="{StaticResource Icon_Hide}"
-									Fill="#FF5A5A5A"
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortAscending}"
+									Fill="{Binding Data.IsSortByMainCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+									Stretch="Fill" />
+                                <Path
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityInvertConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortDescending}"
+									Fill="{Binding Data.IsSortByMainCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>
@@ -817,16 +822,22 @@
                     <WrapPanel>
                         <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_POOL_DELAY}"></TextBlock>
                         <controls:KbButton
-							ToolTip="不展示"
-							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-							CommandParameter="MainCoinPoolDelay"
-							Background="Transparent">
+							ToolTip="排序"
+                            Command="{Binding Data.SortByMainCoinPoolDelay, Source={StaticResource proxy}}">
                             <WrapPanel>
                                 <Path
-									Width="14"
-									Height="12"
-									Data="{StaticResource Icon_Hide}"
-									Fill="#FF5A5A5A"
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortAscending}"
+									Fill="{Binding Data.IsSortByMainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+									Stretch="Fill" />
+                                <Path
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityInvertConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortDescending}"
+									Fill="{Binding Data.IsSortByMainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>
@@ -949,16 +960,22 @@
                     <WrapPanel>
                         <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
                         <controls:KbButton
-							ToolTip="不展示"
-							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-							CommandParameter="DualCoinRejectPercentText"
-							Background="Transparent">
+							ToolTip="排序"
+                            Command="{Binding Data.SortByDualCoinRejectPercent, Source={StaticResource proxy}}">
                             <WrapPanel>
                                 <Path
-									Width="14"
-									Height="12"
-									Data="{StaticResource Icon_Hide}"
-									Fill="#FF5A5A5A"
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortAscending}"
+									Fill="{Binding Data.IsSortByDualCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+									Stretch="Fill" />
+                                <Path
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityInvertConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortDescending}"
+									Fill="{Binding Data.IsSortByDualCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>
@@ -978,16 +995,22 @@
                     <WrapPanel>
                         <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_POOL_DELAY}"></TextBlock>
                         <controls:KbButton
-							ToolTip="不展示"
-							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-							CommandParameter="DualCoinPoolDelay"
-							Background="Transparent">
+							ToolTip="排序"
+                            Command="{Binding Data.SortByDualCoinPoolDelay, Source={StaticResource proxy}}">
                             <WrapPanel>
                                 <Path
-									Width="14"
-									Height="12"
-									Data="{StaticResource Icon_Hide}"
-									Fill="#FF5A5A5A"
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortAscending}"
+									Fill="{Binding Data.IsSortByDualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+									Stretch="Fill" />
+                                <Path
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityInvertConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortDescending}"
+									Fill="{Binding Data.IsSortByDualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>
@@ -1261,16 +1284,22 @@
                     <WrapPanel>
                         <TextBlock Text="{x:Static vm:ColumnsShowViewModel.KERNEL_SELF_RESTART_COUNT}"></TextBlock>
                         <controls:KbButton
-							ToolTip="不展示"
-							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-							CommandParameter="KernelSelfRestartCount"
-							Background="Transparent">
+							ToolTip="排序"
+                            Command="{Binding Data.SortByKernelSelfRestartCount, Source={StaticResource proxy}}">
                             <WrapPanel>
                                 <Path
-									Width="14"
-									Height="12"
-									Data="{StaticResource Icon_Hide}"
-									Fill="#FF5A5A5A"
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortAscending}"
+									Fill="{Binding Data.IsSortByKernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+									Stretch="Fill" />
+                                <Path
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityInvertConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortDescending}"
+									Fill="{Binding Data.IsSortByKernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>
@@ -2011,16 +2040,22 @@
                     <WrapPanel>
                         <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_TEMPERATURE}"></TextBlock>
                         <controls:KbButton
-							ToolTip="不展示"
-							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-							CommandParameter="CpuTemperature"
-							Background="Transparent">
+							ToolTip="排序"
+                            Command="{Binding Data.SortByCpuTemperature, Source={StaticResource proxy}}">
                             <WrapPanel>
                                 <Path
-									Width="14"
-									Height="12"
-									Data="{StaticResource Icon_Hide}"
-									Fill="#FF5A5A5A"
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortAscending}"
+									Fill="{Binding Data.IsSortByCpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+									Stretch="Fill" />
+                                <Path
+									Width="12"
+									Height="14"
+                                    Visibility="{Binding Data.IsSortAscending,Converter={StaticResource BoolToVisibilityInvertConverter},Source={StaticResource proxy}}"
+									Data="{StaticResource Icon_SortDescending}"
+									Fill="{Binding Data.IsSortByCpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
                         </controls:KbButton>
