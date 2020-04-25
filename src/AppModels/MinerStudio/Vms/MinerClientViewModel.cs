@@ -682,8 +682,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MainCoinTotalShare != value) {
                     _data.MainCoinTotalShare = value;
                     OnPropertyChanged(nameof(MainCoinTotalShare));
-                    OnPropertyChanged(nameof(MainCoinRejectPercent));
-                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
                 }
             }
         }
@@ -694,8 +692,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MainCoinRejectShare != value) {
                     _data.MainCoinRejectShare = value;
                     OnPropertyChanged(nameof(MainCoinRejectShare));
-                    OnPropertyChanged(nameof(MainCoinRejectPercent));
-                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
                 }
             }
         }
@@ -703,6 +699,13 @@ namespace NTMiner.MinerStudio.Vms {
         public double MainCoinRejectPercent {
             get {
                 return _data.MainCoinRejectPercent;
+            }
+            set {
+                if (_data.MainCoinRejectPercent != value) {
+                    _data.MainCoinRejectPercent = value;
+                    OnPropertyChanged(nameof(MainCoinRejectPercent));
+                    OnPropertyChanged(nameof(MainCoinRejectPercentText));
+                }
             }
         }
 
@@ -895,8 +898,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinTotalShare != value) {
                     _data.DualCoinTotalShare = value;
                     OnPropertyChanged(nameof(DualCoinTotalShare));
-                    OnPropertyChanged(nameof(DualCoinRejectPercent));
-                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
                 }
             }
         }
@@ -907,8 +908,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinRejectShare != value) {
                     _data.DualCoinRejectShare = value;
                     OnPropertyChanged(nameof(DualCoinRejectShare));
-                    OnPropertyChanged(nameof(DualCoinRejectPercent));
-                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
                 }
             }
         }
@@ -916,6 +915,13 @@ namespace NTMiner.MinerStudio.Vms {
         public double DualCoinRejectPercent {
             get {
                 return _data.DualCoinRejectPercent;
+            }
+            set {
+                if (_data.DualCoinRejectPercent != value) {
+                    _data.DualCoinRejectPercent = value;
+                    OnPropertyChanged(nameof(DualCoinRejectPercent));
+                    OnPropertyChanged(nameof(DualCoinRejectPercentText));
+                }
             }
         }
 
@@ -1303,11 +1309,23 @@ namespace NTMiner.MinerStudio.Vms {
             get {
                 return _data.MainCoinPoolDelayNumber;
             }
+            set {
+                if (_data.MainCoinPoolDelayNumber != value) {
+                    _data.MainCoinPoolDelayNumber = value;
+                    OnPropertyChanged(nameof(MainCoinPoolDelayNumber));
+                }
+            }
         }
 
         public int DualCoinPoolDelayNumber {
             get {
                 return _data.DualCoinPoolDelayNumber;
+            }
+            set {
+                if (_data.DualCoinPoolDelayNumber != value) {
+                    _data.DualCoinPoolDelayNumber = value;
+                    OnPropertyChanged(nameof(DualCoinPoolDelayNumber));
+                }
             }
         }
 

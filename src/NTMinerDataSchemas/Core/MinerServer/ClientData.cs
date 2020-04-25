@@ -99,7 +99,11 @@ namespace NTMiner.Core.MinerServer {
                 IsDisableWAU = true,
                 MainCoinSpeedOn = DateTime.MinValue,
                 DualCoinSpeedOn = DateTime.MinValue,
-                GpuTable = new GpuSpeedData[0]
+                GpuTable = new GpuSpeedData[0],
+                DualCoinPoolDelayNumber = 0,
+                MainCoinPoolDelayNumber = 0,
+                MainCoinRejectPercent = 0,
+                DualCoinRejectPercent = 0
             };
         }
 
@@ -193,7 +197,11 @@ namespace NTMiner.Core.MinerServer {
                 IsDisableAntiSpyware = data.IsDisableAntiSpyware,
                 IsAutoDisableWindowsFirewall = data.IsAutoDisableWindowsFirewall,
                 MainCoinSpeedOn = data.MainCoinSpeedOn,
-                DualCoinSpeedOn = data.DualCoinSpeedOn
+                DualCoinSpeedOn = data.DualCoinSpeedOn,
+                DualCoinRejectPercent = data.DualCoinRejectPercent,
+                MainCoinRejectPercent = data.MainCoinRejectPercent,
+                MainCoinPoolDelayNumber = data.MainCoinPoolDelayNumber,
+                DualCoinPoolDelayNumber = data.DualCoinPoolDelayNumber
             };
         }
 
@@ -208,7 +216,47 @@ namespace NTMiner.Core.MinerServer {
             };
         }
 
+        private static void Calc(ISpeedData speedData, out int mainCoinPoolDelayNumber, out int dualCoinPoolDelayNumber, out double mainCoinRejectPercent, out double dualCoinRejectPercent) {
+            mainCoinPoolDelayNumber = 0;
+            dualCoinPoolDelayNumber = 0;
+            mainCoinRejectPercent = 0.0;
+            dualCoinRejectPercent = 0.0;
+            if (!string.IsNullOrEmpty(speedData.MainCoinPoolDelay)) {
+                string text1 = speedData.MainCoinPoolDelay.Trim();
+                int count1 = 0;
+                for (int i = 0; i < text1.Length; i++) {
+                    if (!char.IsNumber(text1[i])) {
+                        count1 = i;
+                        break;
+                    }
+                }
+                if (count1 != 0) {
+                    mainCoinPoolDelayNumber = int.Parse(text1.Substring(0, count1));
+                }
+            }
+            if (!string.IsNullOrEmpty(speedData.DualCoinPoolDelay)) {
+                string text2 = speedData.DualCoinPoolDelay.Trim();
+                int count2 = 0;
+                for (int i = 0; i < text2.Length; i++) {
+                    if (!char.IsNumber(text2[i])) {
+                        count2 = i;
+                        break;
+                    }
+                }
+                if (count2 != 0) {
+                    dualCoinPoolDelayNumber = int.Parse(text2.Substring(0, count2));
+                }
+            }
+            if (speedData.MainCoinTotalShare != 0) {
+                mainCoinRejectPercent = speedData.MainCoinRejectShare / speedData.MainCoinTotalShare;
+            }
+            if (speedData.DualCoinTotalShare != 0) {
+                dualCoinRejectPercent = speedData.DualCoinRejectShare / speedData.DualCoinTotalShare;
+            }
+        }
+
         public static ClientData Create(ISpeedData speedData, string minerIp) {
+            Calc(speedData, out int mainCoinPoolDelayNumber, out int dualCoinPoolDelayNumber, out double mainCoinRejectPercent, out double dualCoinRejectPercent);
             return new ClientData() {
                 Id = ObjectId.NewObjectId().ToString(),
                 MineContextId = speedData.MineContextId,
@@ -298,7 +346,11 @@ namespace NTMiner.Core.MinerServer {
                 NetActiveOn = DateTime.MinValue,
                 LoginName = string.Empty,
                 OuterUserId = string.Empty,
-                WorkerName = string.Empty
+                WorkerName = string.Empty,
+                DualCoinPoolDelayNumber = dualCoinPoolDelayNumber,
+                MainCoinPoolDelayNumber = mainCoinPoolDelayNumber,
+                MainCoinRejectPercent = mainCoinRejectPercent,
+                DualCoinRejectPercent = dualCoinRejectPercent
             };
         }
 
@@ -563,6 +615,11 @@ namespace NTMiner.Core.MinerServer {
             this.IsDisableAntiSpyware = speedData.IsDisableAntiSpyware;
             this.IsDisableUAC = speedData.IsDisableUAC;
             this.IsDisableWAU = speedData.IsDisableWAU;
+            Calc(speedData, out int mainCoinPoolDelayNumber, out int dualCoinPoolDelayNumber, out double mainCoinRejectPercent, out double dualCoinRejectPercent);
+            this.MainCoinPoolDelayNumber = mainCoinPoolDelayNumber;
+            this.DualCoinPoolDelayNumber = DualCoinPoolDelayNumber;
+            this.MainCoinRejectPercent = mainCoinRejectPercent;
+            this.DualCoinRejectPercent = dualCoinRejectPercent;
         }
 
         public int GetMainCoinShareDelta(bool isPull) {
@@ -684,7 +741,7 @@ namespace NTMiner.Core.MinerServer {
         public DateTime MinerActiveOn { get; set; }
 
         public Guid GroupId { get; set; }
-        
+
         public DateTime NetActiveOn { get; set; }
 
         public bool IsOnline { get; set; }
@@ -698,66 +755,12 @@ namespace NTMiner.Core.MinerServer {
 
         public DateTime AESPasswordOn { get; set; }
 
-        public int MainCoinPoolDelayNumber {
-            get {
-                if (string.IsNullOrEmpty(this.MainCoinPoolDelay)) {
-                    return 0;
-                }
-                string text = this.MainCoinPoolDelay.Trim();
-                int count = 0;
-                for (int i = 0; i < text.Length; i++) {
-                    if (!char.IsNumber(text[i])) {
-                        count = i;
-                        break;
-                    }
-                }
-                if (count != 0) {
-                    return int.Parse(text.Substring(0, count));
-                }
-                else {
-                    return 0;
-                }
-            }
-        }
+        public int MainCoinPoolDelayNumber { get; set; }
 
-        public int DualCoinPoolDelayNumber {
-            get {
-                if (string.IsNullOrEmpty(this.DualCoinPoolDelay)) {
-                    return 0;
-                }
-                string text = this.DualCoinPoolDelay.Trim();
-                int count = 0;
-                for (int i = 0; i < text.Length; i++) {
-                    if (!char.IsNumber(text[i])) {
-                        count = i;
-                        break;
-                    }
-                }
-                if (count != 0) {
-                    return int.Parse(text.Substring(0, count));
-                }
-                else {
-                    return 0;
-                }
-            }
-        }
+        public int DualCoinPoolDelayNumber { get; set; }
 
-        public double MainCoinRejectPercent {
-            get {
-                if (this.MainCoinTotalShare == 0) {
-                    return 0;
-                }
-                return (this.MainCoinRejectShare * 100) / this.MainCoinTotalShare;
-            }
-        }
+        public double MainCoinRejectPercent { get; set; }
 
-        public double DualCoinRejectPercent {
-            get {
-                if (this.DualCoinTotalShare == 0) {
-                    return 0;
-                }
-                return (this.DualCoinRejectShare * 100) / this.DualCoinTotalShare;
-            }
-        }
+        public double DualCoinRejectPercent { get; set; }
     }
 }
