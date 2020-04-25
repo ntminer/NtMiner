@@ -142,12 +142,90 @@ namespace NTMiner.Core.Impl {
                 }
             }
             total = list.Count();
-            switch (query.SortDirection) {
-                case SortDirection.Ascending:
-                    list = list.OrderBy(a => a.MinerName).ToList();
+            switch (query.SortBy) {
+                case QueryClientsRequest.SortField.MinerName:
+                    switch (query.SortDirection) {
+                        case SortDirection.Ascending:
+                            list = list.OrderBy(a => a.MinerName).ToList();
+                            break;
+                        case SortDirection.Descending:
+                            list = list.OrderByDescending(a => a.MinerName).ToList();
+                            break;
+                        default:
+                            break;
+                    }
                     break;
-                case SortDirection.Descending:
-                    list = list.OrderByDescending(a => a.MinerName).ToList();
+                case QueryClientsRequest.SortField.MainCoinRejectPercent:
+                    switch (query.SortDirection) {
+                        case SortDirection.Ascending:
+                            list = list.OrderBy(a => a.GetMainCoinRejectPercent()).ToList();
+                            break;
+                        case SortDirection.Descending:
+                            list = list.OrderByDescending(a => a.GetMainCoinRejectPercent()).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case QueryClientsRequest.SortField.DualCoinRejectPercent:
+                    switch (query.SortDirection) {
+                        case SortDirection.Ascending:
+                            list = list.OrderBy(a => a.GetDualCoinRejectPercent()).ToList();
+                            break;
+                        case SortDirection.Descending:
+                            list = list.OrderByDescending(a => a.GetDualCoinRejectPercent()).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case QueryClientsRequest.SortField.MainCoinPoolDelay:
+                    switch (query.SortDirection) {
+                        case SortDirection.Ascending:
+                            list = list.OrderBy(a => a.MainCoinPoolDelay).ToList();
+                            break;
+                        case SortDirection.Descending:
+                            list = list.OrderByDescending(a => a.MainCoinPoolDelay).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case QueryClientsRequest.SortField.DualCoinPoolDelay:
+                    switch (query.SortDirection) {
+                        case SortDirection.Ascending:
+                            list = list.OrderBy(a => a.DualCoinPoolDelay).ToList();
+                            break;
+                        case SortDirection.Descending:
+                            list = list.OrderByDescending(a => a.DualCoinPoolDelay).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case QueryClientsRequest.SortField.CpuTemperature:
+                    switch (query.SortDirection) {
+                        case SortDirection.Ascending:
+                            list = list.OrderBy(a => a.CpuTemperature).ToList();
+                            break;
+                        case SortDirection.Descending:
+                            list = list.OrderByDescending(a => a.CpuTemperature).ToList();
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case QueryClientsRequest.SortField.KernelSelfRestartCount:
+                    switch (query.SortDirection) {
+                        case SortDirection.Ascending:
+                            list = list.OrderBy(a => a.KernelSelfRestartCount).ToList();
+                            break;
+                        case SortDirection.Descending:
+                            list = list.OrderByDescending(a => a.KernelSelfRestartCount).ToList();
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;

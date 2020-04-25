@@ -697,5 +697,19 @@ namespace NTMiner.Core.MinerServer {
         public string AESPassword { get; set; }
 
         public DateTime AESPasswordOn { get; set; }
+
+        public double GetMainCoinRejectPercent() {
+            if (this.MainCoinTotalShare == 0) {
+                return double.NaN;
+            }
+            return this.MainCoinRejectShare / this.MainCoinTotalShare;
+        }
+
+        public double GetDualCoinRejectPercent() {
+            if (this.DualCoinTotalShare == 0) {
+                return double.NaN;
+            }
+            return this.DualCoinRejectShare / this.DualCoinTotalShare;
+        }
     }
 }
