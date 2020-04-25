@@ -700,14 +700,14 @@ namespace NTMiner.Core.MinerServer {
 
         public double GetMainCoinRejectPercent() {
             if (this.MainCoinTotalShare == 0) {
-                return double.NaN;
+                return 0;
             }
             return this.MainCoinRejectShare / this.MainCoinTotalShare;
         }
 
         public double GetDualCoinRejectPercent() {
             if (this.DualCoinTotalShare == 0) {
-                return double.NaN;
+                return 0;
             }
             return this.DualCoinRejectShare / this.DualCoinTotalShare;
         }
