@@ -1302,6 +1302,9 @@ namespace NTMiner.MinerStudio.Vms {
 
         public Visibility IsNoRecordVisible {
             get {
+                if (this.IsLoading) {
+                    return Visibility.Collapsed;
+                }
                 if (_minerClients.Count == 0) {
                     return Visibility.Visible;
                 }
