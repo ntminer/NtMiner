@@ -223,18 +223,25 @@
                         <StackPanel>
                             <uc:MinerClientsSearchBar Margin="0 2">
                             </uc:MinerClientsSearchBar>
-                            <uc:MinerClientsToolBar HorizontalAlignment="Left">
-                            </uc:MinerClientsToolBar>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <uc:MinerClientsToolBar HorizontalAlignment="Left">
+                                </uc:MinerClientsToolBar>
+                                <CheckBox 
+                                    Grid.Column="1"
+                                    Margin="0 0 4 0"
+                                    VerticalAlignment="Center"
+							        FocusVisualStyle="{x:Null}"
+                                    Foreground="{StaticResource LableColor}"
+							        Padding="0"
+                                    Content="启用表格虚拟化"
+                                    ToolTip="矿机较多时可加快翻页速度，但会失去点击可排序的列头时保持横向滚动条位置不动的能力，无其它差别。"
+                                    IsChecked="{Binding IsEnableVirtualization}"></CheckBox>
+                            </Grid>
                         </StackPanel>
-                        <CheckBox 
-                            Margin="4"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Bottom"
-							FocusVisualStyle="{x:Null}"
-							Padding="0"
-                            Content="启用表格虚拟化"
-                            ToolTip="矿机较多时可加快翻页速度，但点击可排序的列头排序时会失去保持横向滚动条位置不动的能力，别无其它差别。"
-                            IsChecked="{Binding IsEnableVirtualization}"></CheckBox>
                         <uc:MinerClients Grid.Row="1">
                         </uc:MinerClients>
                         <Border 
