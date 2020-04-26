@@ -160,7 +160,7 @@ namespace NTMiner {
             else {
                 this.Hide();
             }
-            window.Closing += (_, __) => {
+            this.Closing += (_, __) => {
                 window.StateChanged -= Owner_StateChanged;
             };
         }
