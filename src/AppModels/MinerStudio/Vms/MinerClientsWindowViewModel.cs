@@ -36,7 +36,6 @@ namespace NTMiner.MinerStudio.Vms {
         private MineWorkViewModel _selectedMineWork = MineWorkViewModel.PleaseSelect;
         private MinerGroupViewModel _selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
         private uint _maxTemp = 80;
-        private readonly List<int> _frozenColumns = new List<int> { 8, 7, 6, 5, 4, 3 };
         private int _frozenColumnCount = 8;
         private uint _minTemp = 40;
         private int _rejectPercent = 10;
@@ -979,9 +978,7 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public List<int> FrozenColumns {
-            get { return _frozenColumns; }
-        }
+        public List<int> FrozenColumns { get; } = new List<int> { 8, 7, 6, 5, 4, 3 };
 
         public int RejectPercent {
             get => _rejectPercent;
