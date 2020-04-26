@@ -34,9 +34,15 @@ namespace NTMiner {
 
             if (this.Owner.Owner != null) {
                 this.Owner.Owner.StateChanged += Owner_StateChanged;
+                this.Owner.Closing += (sender, e) => {
+                    this.Owner.Owner.StateChanged -= Owner_StateChanged;
+                };
             }
             else {
                 this.Owner.StateChanged += Owner_StateChanged;
+                this.Closing += (sender, e) => {
+                    this.Owner.StateChanged -= Owner_StateChanged;
+                };
             }
 
             var b = new Binding("GlowBrush") {
@@ -160,9 +166,6 @@ namespace NTMiner {
             else {
                 this.Hide();
             }
-            this.Closing += (_, __) => {
-                window.StateChanged -= Owner_StateChanged;
-            };
         }
 
         protected override void OnSourceInitialized(EventArgs e) {
