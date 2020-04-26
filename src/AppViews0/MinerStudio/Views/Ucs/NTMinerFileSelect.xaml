@@ -13,7 +13,6 @@
 	BorderThickness="1"
 	Background="White"
 	mc:Ignorable="d" 
-	Width="390"
 	d:DesignHeight="300"
     d:DataContext="{d:DesignData Source=../Design/NTMinerFileSelectViewModel.xaml}">
     <Grid Background="{StaticResource ToolbarBackground}">
@@ -77,8 +76,8 @@
                 <DataTemplate>
                     <WrapPanel ToolTip="{Binding Description}">
                         <TextBlock Width="110" Padding="4" VerticalAlignment="Center" Text="{Binding Version}"></TextBlock>
-                        <TextBlock Width="140" Padding="4" VerticalAlignment="Center" Text="{Binding VersionTag}"></TextBlock>
-                        <TextBlock Width="120" Padding="4" VerticalAlignment="Center" Text="{Binding PublishOnText}"></TextBlock>
+                        <TextBlock Width="110" Padding="4" VerticalAlignment="Center" Text="{Binding VersionTag}"></TextBlock>
+                        <TextBlock Width="100" Padding="4" VerticalAlignment="Center" Text="{Binding PublishOnText}"></TextBlock>
                     </WrapPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
