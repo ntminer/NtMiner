@@ -795,14 +795,14 @@
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.MainCoinRejectPercentSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortAscending}"
+									Data="{StaticResource Icon_SortNumberAscending}"
 									Fill="{Binding Data.IsSortByMainCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                                 <Path
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.MainCoinRejectPercentSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortDescending}"
+									Data="{StaticResource Icon_SortNumberDescending}"
 									Fill="{Binding Data.IsSortByMainCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
@@ -830,14 +830,14 @@
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.MainCoinPoolDelaySortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortAscending}"
+									Data="{StaticResource Icon_SortNumberAscending}"
 									Fill="{Binding Data.IsSortByMainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                                 <Path
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.MainCoinPoolDelaySortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortDescending}"
+									Data="{StaticResource Icon_SortNumberDescending}"
 									Fill="{Binding Data.IsSortByMainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
@@ -968,14 +968,14 @@
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.DualCoinRejectPercentSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortAscending}"
+									Data="{StaticResource Icon_SortNumberAscending}"
 									Fill="{Binding Data.IsSortByDualCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                                 <Path
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.DualCoinRejectPercentSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortDescending}"
+									Data="{StaticResource Icon_SortNumberDescending}"
 									Fill="{Binding Data.IsSortByDualCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
@@ -1003,14 +1003,14 @@
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.DualCoinPoolDelaySortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortAscending}"
+									Data="{StaticResource Icon_SortNumberAscending}"
 									Fill="{Binding Data.IsSortByDualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                                 <Path
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.DualCoinPoolDelaySortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortDescending}"
+									Data="{StaticResource Icon_SortNumberDescending}"
 									Fill="{Binding Data.IsSortByDualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
@@ -1292,14 +1292,14 @@
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.KernelSelfRestartCountSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortAscending}"
+									Data="{StaticResource Icon_SortNumberAscending}"
 									Fill="{Binding Data.IsSortByKernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                                 <Path
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.KernelSelfRestartCountSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortDescending}"
+									Data="{StaticResource Icon_SortNumberDescending}"
 									Fill="{Binding Data.IsSortByKernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
@@ -2048,14 +2048,14 @@
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.CpuTemperatureSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortAscending}"
+									Data="{StaticResource Icon_SortNumberAscending}"
 									Fill="{Binding Data.IsSortByCpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                                 <Path
 									Width="12"
 									Height="14"
                                     Visibility="{Binding Data.CpuTemperatureSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortDescending}"
+									Data="{StaticResource Icon_SortNumberDescending}"
 									Fill="{Binding Data.IsSortByCpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
 									Stretch="Fill" />
                             </WrapPanel>
