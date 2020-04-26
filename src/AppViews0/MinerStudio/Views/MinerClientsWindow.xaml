@@ -226,6 +226,15 @@
                             <uc:MinerClientsToolBar HorizontalAlignment="Left">
                             </uc:MinerClientsToolBar>
                         </StackPanel>
+                        <CheckBox 
+                            Margin="4"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+                            Content="启用表格虚拟化"
+                            ToolTip="矿机较多时可加快翻页速度"
+                            IsChecked="{Binding IsEnableVirtualization}"></CheckBox>
                         <uc:MinerClients Grid.Row="1">
                         </uc:MinerClients>
                         <Border 

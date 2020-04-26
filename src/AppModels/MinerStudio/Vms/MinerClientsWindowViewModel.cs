@@ -61,10 +61,21 @@ namespace NTMiner.MinerStudio.Vms {
         private bool _isConnecting;
         private double _wsRetryIconAngle;
 
+        private bool _isEnableVirtualization = false;
         private bool _isLoading = false;
         private double _lodingIconAngle;
         private ClientDataSortField _lastSortField = ClientDataSortField.MinerName;
         private readonly Dictionary<ClientDataSortField, SortDirection> _lastSortDirection;
+
+        public bool IsEnableVirtualization {
+            get { return _isEnableVirtualization; }
+            set {
+                if (_isEnableVirtualization != value) {
+                    _isEnableVirtualization = value;
+                    OnPropertyChanged(nameof(IsEnableVirtualization));
+                }
+            }
+        }
 
         public bool IsLoading {
             get { return _isLoading; }
