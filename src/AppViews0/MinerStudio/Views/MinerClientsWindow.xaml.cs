@@ -151,7 +151,7 @@ namespace NTMiner.MinerStudio.Views {
                         }
                     }
                     else if (Vm.CountDown == 0) {
-                        MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
+                        MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients(isAuto: true);
                     }
                     #endregion
                 }, location: this.GetType());

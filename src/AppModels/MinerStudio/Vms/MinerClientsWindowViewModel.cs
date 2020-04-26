@@ -76,11 +76,16 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         #region QueryMinerClients
-        public void QueryMinerClients() {
+        public void QueryMinerClients(bool isAuto = false) {
             if (!RpcRoot.IsLogined) {
                 return;
             }
-            this.IsLoading = true;
+            if (!isAuto) {
+                this.IsLoading = true;
+            }
+            else {
+                this.IsLoading = false;
+            }
             Guid? groupId = null;
             if (SelectedMinerGroup == null) {
                 _selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
@@ -127,7 +132,9 @@ namespace NTMiner.MinerStudio.Vms {
                 SortDirection = this._sortDirection[SortField]
             }, (response, exception) => {
                 this.CountDown = 10;
-                this.IsLoading = false;
+                if (!isAuto) {
+                    this.IsLoading = false;
+                }
                 if (response.IsSuccess()) {
                     #region 处理Response.Data
                     if (_lastSortField == this.SortField && _lastSortDirection[this.SortField] == this._sortDirection[this.SortField]) {
@@ -363,7 +370,7 @@ namespace NTMiner.MinerStudio.Vms {
                 foreach (var item in SelectedMinerClients) {
                     item.SelectedMineWork = work;
                 }
-            }, (work)=> IsSelectedAny());
+            }, (work) => IsSelectedAny());
             this.OneKeyGroup = new DelegateCommand<MinerGroupViewModel>((group) => {
                 foreach (var item in SelectedMinerClients) {
                     item.SelectedMinerGroup = group;
@@ -603,7 +610,9 @@ namespace NTMiner.MinerStudio.Vms {
             this.PageLast = new DelegateCommand(() => {
                 this.PageIndex = PageCount;
             });
-            this.PageRefresh = new DelegateCommand(QueryMinerClients);
+            this.PageRefresh = new DelegateCommand(()=> {
+                QueryMinerClients();
+            });
             this._lastSortDirection = new Dictionary<ClientDataSortField, SortDirection>(_sortDirection);
             #region SortBy
             this.SortByMinerName = new DelegateCommand(() => {
