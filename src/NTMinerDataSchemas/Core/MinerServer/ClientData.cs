@@ -216,35 +216,44 @@ namespace NTMiner.Core.MinerServer {
             };
         }
 
-        private static void Calc(ISpeedData speedData, out int mainCoinPoolDelayNumber, out int dualCoinPoolDelayNumber, out double mainCoinRejectPercent, out double dualCoinRejectPercent) {
+        /// <summary>
+        /// 从给定的speedData中提取出主币矿池延时，辅币矿池延时，主币拒绝率，辅币拒绝率。
+        /// </summary>
+        private static void Extract(
+            ISpeedData speedData, 
+            out int mainCoinPoolDelayNumber, 
+            out int dualCoinPoolDelayNumber, 
+            out double mainCoinRejectPercent, 
+            out double dualCoinRejectPercent) {
+
             mainCoinPoolDelayNumber = 0;
             dualCoinPoolDelayNumber = 0;
             mainCoinRejectPercent = 0.0;
             dualCoinRejectPercent = 0.0;
             if (!string.IsNullOrEmpty(speedData.MainCoinPoolDelay)) {
-                string text1 = speedData.MainCoinPoolDelay.Trim();
-                int count1 = 0;
-                for (int i = 0; i < text1.Length; i++) {
-                    if (!char.IsNumber(text1[i])) {
-                        count1 = i;
+                string text = speedData.MainCoinPoolDelay.Trim();
+                int count = 0;
+                for (int i = 0; i < text.Length; i++) {
+                    if (!char.IsNumber(text[i])) {
+                        count = i;
                         break;
                     }
                 }
-                if (count1 != 0) {
-                    mainCoinPoolDelayNumber = int.Parse(text1.Substring(0, count1));
+                if (count != 0) {
+                    mainCoinPoolDelayNumber = int.Parse(text.Substring(0, count));
                 }
             }
             if (!string.IsNullOrEmpty(speedData.DualCoinPoolDelay)) {
-                string text2 = speedData.DualCoinPoolDelay.Trim();
-                int count2 = 0;
-                for (int i = 0; i < text2.Length; i++) {
-                    if (!char.IsNumber(text2[i])) {
-                        count2 = i;
+                string text = speedData.DualCoinPoolDelay.Trim();
+                int count = 0;
+                for (int i = 0; i < text.Length; i++) {
+                    if (!char.IsNumber(text[i])) {
+                        count = i;
                         break;
                     }
                 }
-                if (count2 != 0) {
-                    dualCoinPoolDelayNumber = int.Parse(text2.Substring(0, count2));
+                if (count != 0) {
+                    dualCoinPoolDelayNumber = int.Parse(text.Substring(0, count));
                 }
             }
             if (speedData.MainCoinTotalShare != 0) {
@@ -256,7 +265,12 @@ namespace NTMiner.Core.MinerServer {
         }
 
         public static ClientData Create(ISpeedData speedData, string minerIp) {
-            Calc(speedData, out int mainCoinPoolDelayNumber, out int dualCoinPoolDelayNumber, out double mainCoinRejectPercent, out double dualCoinRejectPercent);
+            Extract(
+                speedData, 
+                out int mainCoinPoolDelayNumber, 
+                out int dualCoinPoolDelayNumber, 
+                out double mainCoinRejectPercent, 
+                out double dualCoinRejectPercent);
             return new ClientData() {
                 Id = ObjectId.NewObjectId().ToString(),
                 MineContextId = speedData.MineContextId,
@@ -615,7 +629,12 @@ namespace NTMiner.Core.MinerServer {
             this.IsDisableAntiSpyware = speedData.IsDisableAntiSpyware;
             this.IsDisableUAC = speedData.IsDisableUAC;
             this.IsDisableWAU = speedData.IsDisableWAU;
-            Calc(speedData, out int mainCoinPoolDelayNumber, out int dualCoinPoolDelayNumber, out double mainCoinRejectPercent, out double dualCoinRejectPercent);
+            Extract(
+                speedData, 
+                out int mainCoinPoolDelayNumber, 
+                out int dualCoinPoolDelayNumber, 
+                out double mainCoinRejectPercent, 
+                out double dualCoinRejectPercent);
             this.MainCoinPoolDelayNumber = mainCoinPoolDelayNumber;
             this.DualCoinPoolDelayNumber = dualCoinPoolDelayNumber;
             this.MainCoinRejectPercent = mainCoinRejectPercent;
@@ -755,12 +774,10 @@ namespace NTMiner.Core.MinerServer {
 
         public DateTime AESPasswordOn { get; set; }
 
+        // 因为服务端需要根据如下几个字段排序所以会有这几个字段
         public int MainCoinPoolDelayNumber { get; set; }
-
         public int DualCoinPoolDelayNumber { get; set; }
-
         public double MainCoinRejectPercent { get; set; }
-
         public double DualCoinRejectPercent { get; set; }
     }
 }

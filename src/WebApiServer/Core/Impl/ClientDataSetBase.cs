@@ -142,7 +142,7 @@ namespace NTMiner.Core.Impl {
                 }
             }
             total = list.Count();
-            list.Sort(new MinerComparerByMinerName(query.SortDirection, query.SortField));
+            list.Sort(new ClientDataComparer(query.SortDirection, query.SortField));
             coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, list, out onlineCount, out miningCount).ToList();
             var results = list.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
             DoCheckIsOnline(results);

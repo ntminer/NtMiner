@@ -183,7 +183,7 @@ namespace NTMiner.MinerStudio.Vms {
                                     item.Update(data);
                                 }
                             }
-                            vms.Sort(new MinerComparerByMinerName(_sortDirection, _sortField));
+                            vms.Sort(new ClientDataComparer(_sortDirection, _sortField));
                             _minerClients = new ObservableCollection<MinerClientViewModel>(vms);
                             OnPropertyChanged(nameof(MinerClients));
                             OnPropertyChanged(nameof(IsNoRecordVisible));

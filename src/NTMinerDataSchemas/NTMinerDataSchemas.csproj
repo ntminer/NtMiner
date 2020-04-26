@@ -53,7 +53,7 @@
     <Compile Include="Core\MinerServer\GetWorkJsonResponse.cs" />
     <Compile Include="Core\MinerServer\IClientData.cs" />
     <Compile Include="Core\MinerServer\IMinerSign.cs" />
-    <Compile Include="Core\MinerServer\MinerComparerByMinerName.cs" />
+    <Compile Include="Core\MinerServer\ClientDataComparer.cs" />
     <Compile Include="Core\MinerServer\MinerSign.cs" />
     <Compile Include="DataSchemaIdAttribute.cs" />
     <Compile Include="ServerNode\CpuData.cs" />

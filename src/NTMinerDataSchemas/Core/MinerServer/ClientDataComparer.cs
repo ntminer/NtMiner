@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerServer {
-    public class MinerComparerByMinerName : IComparer<IClientData> {
+    public class ClientDataComparer : IComparer<IClientData> {
         private readonly SortDirection _sortDirection;
         private readonly ClientDataSortField _sortField;
-        public MinerComparerByMinerName(SortDirection sortDirection, ClientDataSortField sortField) {
+        public ClientDataComparer(SortDirection sortDirection, ClientDataSortField sortField) {
             _sortDirection = sortDirection;
             _sortField = sortField;
         }
