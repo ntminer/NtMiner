@@ -32,11 +32,26 @@ namespace NTMiner {
 
             this.Owner = owner;
 
-            this.Owner.StateChanged += (sender, e) => {
-                if (this.Owner.WindowState != WindowState.Minimized) {
-                    this.Show();
-                }
-            };
+            if (this.Owner.Owner != null) {
+                this.Owner.Owner.StateChanged += (sender, e) => {
+                    if (this.Owner.Owner.WindowState != WindowState.Minimized) {
+                        this.Show();
+                    }
+                    else {
+                        this.Hide();
+                    }
+                };
+            }
+            else {
+                this.Owner.StateChanged += (sender, e) => {
+                    if (this.Owner.WindowState != WindowState.Minimized) {
+                        this.Show();
+                    }
+                    else {
+                        this.Hide();
+                    }
+                };
+            }
 
             var b = new Binding("GlowBrush") {
                 Source = owner
