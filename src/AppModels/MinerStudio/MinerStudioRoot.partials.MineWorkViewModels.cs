@@ -85,6 +85,7 @@ namespace NTMiner.MinerStudio {
 
             private IEnumerable<MineWorkViewModel> GetMineWorkVmItems() {
                 yield return MineWorkViewModel.PleaseSelect;
+                yield return MineWorkViewModel.SelfMineWork;
                 foreach (var item in List) {
                     yield return item;
                 }

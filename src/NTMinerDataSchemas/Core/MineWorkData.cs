@@ -4,6 +4,8 @@ using System;
 namespace NTMiner.Core {
     [DataSchemaId("B8F64D82-647A-4C24-A067-28309FAF704F")]
     public class MineWorkData : IMineWork, IDbEntity<Guid>, ITimestampEntity<Guid> {
+        public static readonly Guid SelfMineWorkId = new Guid("FE78A096-D0BC-4982-B4BF-0F3EBACCEA0E");
+
         public MineWorkData() {
             this.CreatedOn = DateTime.Now;
         }

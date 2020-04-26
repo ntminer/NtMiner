@@ -12,6 +12,9 @@ namespace NTMiner.MinerStudio.Vms {
         public static readonly MineWorkViewModel PleaseSelect = new MineWorkViewModel(Guid.Empty) {
             _name = "不指定"
         };
+        public static readonly MineWorkViewModel SelfMineWork = new MineWorkViewModel(MineWorkData.SelfMineWorkId) {
+            _name = "自习作业"
+        };
 
         private Guid _id;
         private string _name;
@@ -228,6 +231,12 @@ namespace NTMiner.MinerStudio.Vms {
         public bool IsPleaseSelect {
             get {
                 return this == PleaseSelect;
+            }
+        }
+
+        public bool IsCanDelete {
+            get {
+                return this != PleaseSelect && this != SelfMineWork;
             }
         }
 
