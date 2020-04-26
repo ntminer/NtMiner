@@ -344,7 +344,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (MinerActiveOn <= Timestamp.UnixBaseTime) {
                     return string.Empty;
                 }
-                return Timestamp.GetTimeSpanText(MinerActiveOn);
+                return Timestamp.GetTimeSpanBeforeText(MinerActiveOn);
             }
         }
 

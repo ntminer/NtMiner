@@ -50,7 +50,7 @@ namespace NTMiner.Vms {
 
         public string TimestampText {
             get {
-                return NTMiner.Timestamp.GetTimeSpanText(NTMiner.Timestamp.FromTimestamp(this.Timestamp));
+                return NTMiner.Timestamp.GetTimeSpanBeforeText(NTMiner.Timestamp.FromTimestamp(this.Timestamp));
             }
         }
     }

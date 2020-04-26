@@ -29,7 +29,7 @@ namespace NTMiner.MinerStudio {
                     if (LatestTimestamp == Timestamp.UnixBaseTime) {
                         return "未知";
                     }
-                    return Timestamp.GetTimeSpanText(LatestTimestamp);
+                    return Timestamp.GetTimeSpanBeforeText(LatestTimestamp);
                 }
             }
 

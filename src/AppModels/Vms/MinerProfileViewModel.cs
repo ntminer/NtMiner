@@ -332,7 +332,7 @@ namespace NTMiner.Vms {
                 if (IsWsOnline || WsLastTryOn == DateTime.MinValue) {
                     return string.Empty;
                 }
-                return Timestamp.GetTimeSpanText(WsLastTryOn);
+                return Timestamp.GetTimeSpanBeforeText(WsLastTryOn);
             }
         }
 
@@ -342,13 +342,7 @@ namespace NTMiner.Vms {
                 if (!IsOuterUserEnabled || IsWsOnline) {
                     return string.Empty;
                 }
-                if (seconds >= 3600) {
-                    return $"{(seconds / 3600).ToString()} 小时 {(seconds % 3600 / 60).ToString()} 分钟 {(seconds % 3600 % 60).ToString()} 秒后";
-                }
-                if (seconds > 60) {
-                    return $"{(seconds / 60).ToString()} 分 {(seconds % 60).ToString()} 秒后";
-                }
-                return $"{seconds.ToString()} 秒后";
+                return Timestamp.GetTimeSpanAfterText(seconds);
             }
         }
 

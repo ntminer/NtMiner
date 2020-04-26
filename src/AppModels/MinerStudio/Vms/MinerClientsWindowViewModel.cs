@@ -5,11 +5,11 @@ using NTMiner.Vms;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Input;
-using System.Collections.ObjectModel;
 
 namespace NTMiner.MinerStudio.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase, IWsStateViewModel {
@@ -598,6 +598,7 @@ namespace NTMiner.MinerStudio.Vms {
             });
             this.PageRefresh = new DelegateCommand(QueryMinerClients);
             this._lastSortDirection = new Dictionary<ClientDataSortField, SortDirection>(_sortDirection);
+            #region SortBy
             this.SortByMinerName = new DelegateCommand(() => {
                 if (this.SortField != ClientDataSortField.MinerName) {
                     this.SortField = ClientDataSortField.MinerName;
@@ -689,6 +690,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                 }
             });
+            #endregion
             VirtualRoot.AddCmdPath<UpdateMinerClientVmCommand>(action: message => {
                 var vm = _minerClients.FirstOrDefault(a => a.Id == message.ClientData.Id);
                 if (vm != null) {
@@ -697,6 +699,7 @@ namespace NTMiner.MinerStudio.Vms {
             }, this.GetType(), LogEnum.DevConsole);
             if (RpcRoot.IsOuterNet) {
                 VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
+                    #region
                     if (message.WsClientState != null) {
                         this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
                         if (message.WsClientState.ToOut) {
@@ -714,6 +717,7 @@ namespace NTMiner.MinerStudio.Vms {
                             }
                         }
                     }
+                    #endregion
                 }, this.GetType(), LogEnum.DevConsole);
                 VirtualRoot.Execute(new RefreshWsStateCommand(MinerStudioRoot.WsClient.GetState()));
             }
@@ -862,7 +866,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (IsWsOnline || WsLastTryOn == DateTime.MinValue) {
                     return string.Empty;
                 }
-                return Timestamp.GetTimeSpanText(WsLastTryOn);
+                return Timestamp.GetTimeSpanBeforeText(WsLastTryOn);
             }
         }
 
@@ -872,13 +876,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (IsWsOnline) {
                     return string.Empty;
                 }
-                if (seconds >= 3600) {
-                    return $"{(seconds / 3600).ToString()} 小时 {(seconds % 3600 / 60).ToString()} 分钟 {(seconds % 3600 % 60).ToString()} 秒后";
-                }
-                if (seconds > 60) {
-                    return $"{(seconds / 60).ToString()} 分 {(seconds % 60).ToString()} 秒后";
-                }
-                return $"{seconds.ToString()} 秒后";
+                return Timestamp.GetTimeSpanAfterText(seconds);
             }
         }
 

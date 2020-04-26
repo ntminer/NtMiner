@@ -42,7 +42,7 @@ namespace NTMiner {
             }
         }
 
-        public static string GetTimeSpanText(DateTime dateTime) {
+        public static string GetTimeSpanBeforeText(DateTime dateTime) {
             TimeSpan timeSpan = DateTime.Now - dateTime;
             if (timeSpan.Days >= 1) {
                 return timeSpan.Days + " 天前";
@@ -54,6 +54,23 @@ namespace NTMiner {
                 return timeSpan.Minutes + " 分钟前";
             }
             return (int)timeSpan.TotalSeconds + " 秒前";
+        }
+
+        public static string GetTimeSpanAfterText(int seconds) {
+            return GetTimeSpanAfterText(TimeSpan.FromSeconds(seconds));
+        }
+
+        public static string GetTimeSpanAfterText(TimeSpan timeSpan) {
+            if (timeSpan.Days >= 1) {
+                return timeSpan.Days + " 天后";
+            }
+            if (timeSpan.Hours > 0) {
+                return timeSpan.Hours + " 小时后";
+            }
+            if (timeSpan.Minutes > 2) {
+                return timeSpan.Minutes + " 分钟后";
+            }
+            return (int)timeSpan.TotalSeconds + " 秒后";
         }
     }
 }

@@ -126,7 +126,7 @@ namespace NTMiner.Vms {
                 if (!NTMinerContext.Instance.IsMining || SpeedOn <= Timestamp.UnixBaseTime) {
                     return string.Empty;
                 }
-                return Timestamp.GetTimeSpanText(SpeedOn);
+                return Timestamp.GetTimeSpanBeforeText(SpeedOn);
             }
         }
 
