@@ -62,6 +62,7 @@ namespace NTMiner.MinerStudio.Vms {
         private double _wsRetryIconAngle;
 
         private bool _isLoading = false;
+        private double _lodingIconAngle;
         private ClientDataSortField _lastSortField = ClientDataSortField.MinerName;
         private readonly Dictionary<ClientDataSortField, SortDirection> _lastSortDirection;
 
@@ -72,7 +73,24 @@ namespace NTMiner.MinerStudio.Vms {
                     _isLoading = value;
                     OnPropertyChanged(nameof(IsLoading));
                     OnPropertyChanged(nameof(IsNoRecordVisible));
+                    if (value) {
+                        VirtualRoot.SetInterval(per: TimeSpan.FromMilliseconds(100), perCallback: () => {
+                            this.LoadingIconAngle += 30;
+                        }, stopCallback: () => {
+                            this.IsLoading = false;
+                        }, timeout: TimeSpan.FromSeconds(6), requestStop: () => {
+                            return !IsLoading;
+                        });
+                    }
                 }
+            }
+        }
+
+        public double LoadingIconAngle {
+            get => _lodingIconAngle;
+            set {
+                _lodingIconAngle = value;
+                OnPropertyChanged(nameof(LoadingIconAngle));
             }
         }
 

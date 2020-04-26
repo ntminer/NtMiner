@@ -59,14 +59,6 @@ namespace NTMiner.Vms {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定在windows右键上下文菜单中添加\"命令行\"菜单吗？", title: "确认", onYes: () => {
                         Task.Factory.StartNew(() => {
                             this.IsWinCmdLoading = true;
-                            VirtualRoot.SetInterval(per: TimeSpan.FromMilliseconds(100), perCallback: () => {
-                                this.WinCmdLodingIconAngle += 30;
-                            }, stopCallback: () => {
-                                this.IsWinCmdLoading = false;
-                                OnPropertyChanged(nameof(IsRegedCmdHere));
-                            }, timeout: TimeSpan.FromSeconds(6), requestStop: () => {
-                                return IsRegedCmdHere;
-                            });
                             VirtualRoot.Execute(new RegCmdHereCommand());
                         });
                     }, btnYesText: "添加"));
@@ -105,8 +97,20 @@ namespace NTMiner.Vms {
         public bool IsWinCmdLoading {
             get => _isWinCmdLoading;
             set {
-                _isWinCmdLoading = value;
-                OnPropertyChanged(nameof(IsWinCmdLoading));
+                if (_isWinCmdLoading != value) {
+                    _isWinCmdLoading = value;
+                    OnPropertyChanged(nameof(IsWinCmdLoading));
+                    if (value) {
+                        VirtualRoot.SetInterval(per: TimeSpan.FromMilliseconds(100), perCallback: () => {
+                            this.WinCmdLodingIconAngle += 30;
+                        }, stopCallback: () => {
+                            this.IsWinCmdLoading = false;
+                            OnPropertyChanged(nameof(IsRegedCmdHere));
+                        }, timeout: TimeSpan.FromSeconds(6), requestStop: () => {
+                            return IsRegedCmdHere;
+                        });
+                    }
+                }
             }
         }
 
