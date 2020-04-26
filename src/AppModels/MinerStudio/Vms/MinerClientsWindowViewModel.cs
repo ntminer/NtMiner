@@ -290,6 +290,7 @@ namespace NTMiner.MinerStudio.Vms {
         public ICommand ShutdownWindows { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
+        public ICommand SelfWork { get; private set; }
 
         public ICommand PageUp { get; private set; }
         public ICommand PageDown { get; private set; }
@@ -420,7 +421,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (this.SelectedMinerClients.Length == 1) {
                     VirtualRoot.Execute(new ShowGpuProfilesPageCommand(this));
                 }
-            }, OnlySelectedOne);
+            }, IsSelectedOne);
             this.AddMinerClient = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowMinerClientAddCommand());
             });
@@ -503,6 +504,9 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 #endregion
             }, IsSelectedAny);
+            this.SelfWork = new DelegateCommand(() => {
+
+            }, IsSelectedOne);
             this.EnableRemoteDesktop = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {
@@ -802,11 +806,6 @@ namespace NTMiner.MinerStudio.Vms {
 
         private bool IsSelectedOne() {
             return this.SelectedMinerClients != null && this.SelectedMinerClients.Length == 1;
-        }
-
-        private bool OnlySelectedOne() {
-            return this.SelectedMinerClients != null
-                    && this.SelectedMinerClients.Length == 1;
         }
 
         #region IWsStateViewModel的成员
