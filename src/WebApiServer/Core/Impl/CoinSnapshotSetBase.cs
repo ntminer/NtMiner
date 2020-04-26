@@ -96,7 +96,7 @@ namespace NTMiner.Core.Impl {
         private void Snapshot(DateTime now) {
             InitOnece();
             try {
-                var coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, now, _clientSet.AsEnumerable(), out int onlineCount, out int miningCount);
+                var coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, now, _clientSet.AsEnumerable().ToArray(), out int onlineCount, out int miningCount);
 
                 _clientSet.ClientCount.Update(onlineCount, miningCount);
                 if (coinSnapshots.Count > 0) {

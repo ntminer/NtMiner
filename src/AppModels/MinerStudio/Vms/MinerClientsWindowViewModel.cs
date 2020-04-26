@@ -71,6 +71,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_isLoading != value) {
                     _isLoading = value;
                     OnPropertyChanged(nameof(IsLoading));
+                    OnPropertyChanged(nameof(IsNoRecordVisible));
                 }
             }
         }

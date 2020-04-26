@@ -142,7 +142,7 @@ namespace NTMiner.Core.Impl {
             }
             total = list.Count();
             list.Sort(new ClientDataComparer(query.SortDirection, query.SortField));
-            IEnumerable<ClientData> items = user.IsAdmin() ? data : data.Where(a => a.LoginName == user.LoginName);
+            ClientData[] items = user.IsAdmin() ? data : data.Where(a => a.LoginName == user.LoginName).ToArray();
             coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, items, out onlineCount, out miningCount).ToList();
             var results = list.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
             DateTime time = DateTime.Now.AddSeconds(_isPull ? 20 : -180);

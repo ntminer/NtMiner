@@ -334,18 +334,24 @@ namespace NTMiner {
         #endregion
 
         #region CreateCoinSnapshots
-        public static ICollection<CoinSnapshotData> CreateCoinSnapshots(bool isPull, DateTime now, IEnumerable<ClientData> data, out int onlineCount, out int miningCount) {
+        public static ICollection<CoinSnapshotData> CreateCoinSnapshots(bool isPull, DateTime now, ClientData[] data, out int onlineCount, out int miningCount) {
             onlineCount = 0;
             miningCount = 0;
             Dictionary<string, CoinSnapshotData> dicByCoinCode = new Dictionary<string, CoinSnapshotData>();
             foreach (var clientData in data) {
                 if (isPull) {
                     if (clientData.MinerActiveOn.AddSeconds(15) < now) {
+                        if (clientData.IsMining) {
+                            clientData.IsMining = false;
+                        }
                         continue;
                     }
                 }
                 else {
                     if (clientData.MinerActiveOn.AddSeconds(130) < now) {
+                        if (clientData.IsMining) {
+                            clientData.IsMining = false;
+                        }
                         continue;
                     }
                 }
