@@ -236,6 +236,15 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region GetLocalJsonAsync
+        public void GetLocalJsonAsync(IMinerData client) {
+            RpcRoot.PostAsync<string>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetLocalJson), null, (json, e) => {
+                LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(json) ?? new LocalJsonDb();
+                VirtualRoot.RaiseEvent(new GetLocalJsonResponsedEvent(client.ClientId, data));
+            }, timeountMilliseconds: 3000);
+        }
+        #endregion
+
         #region GetGpuProfilesJsonAsync
         public void GetGpuProfilesJsonAsync(IMinerData client) {
             RpcRoot.PostAsync<string>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetGpuProfilesJson), null, (json, e) => {
