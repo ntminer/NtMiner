@@ -233,7 +233,7 @@
 							FocusVisualStyle="{x:Null}"
 							Padding="0"
                             Content="启用表格虚拟化"
-                            ToolTip="矿机较多时可加快翻页速度"
+                            ToolTip="矿机较多时可加快翻页速度，但点击可排序的列头排序时会失去保持横向滚动条位置不动的能力，别无其它差别。"
                             IsChecked="{Binding IsEnableVirtualization}"></CheckBox>
                         <uc:MinerClients Grid.Row="1">
                         </uc:MinerClients>
