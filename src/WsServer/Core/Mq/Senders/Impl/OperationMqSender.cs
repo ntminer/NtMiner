@@ -233,6 +233,17 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: _emptyBody);
         }
 
+        public void SendLocalJson(string loginName, Guid clientId, string json) {
+            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
+                return;
+            }
+            _mqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: WsMqKeyword.LocalJsonRoutingKey,
+                basicProperties: CreateBasicProperties(loginName, clientId),
+                body: OperationMqBodyUtil.GetLocalJsonMqSendBody(json));
+        }
+
         public void SendGpuProfilesJson(string loginName, Guid clientId, string json) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;

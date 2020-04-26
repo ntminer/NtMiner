@@ -89,6 +89,19 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
+            VirtualRoot.AddEventPath<LocalJsonMqMessage>("收到LocalJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
+                #region
+                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                    return;
+                }
+                SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.LocalJson) {
+                    Data = new WrapperClientIdData {
+                        ClientId = message.ClientId,
+                        Data = message.Data
+                    }
+                });
+                #endregion
+            }, this.GetType());
             VirtualRoot.AddEventPath<GpuProfilesJsonMqMessage>("收到GpuProfilesJsonMq消息后检查对应的用户是否登录着本节点，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {

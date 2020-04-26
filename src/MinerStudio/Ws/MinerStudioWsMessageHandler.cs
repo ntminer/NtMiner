@@ -45,6 +45,12 @@ namespace NTMiner.Ws {
                     VirtualRoot.RaiseEvent(new ClientOperationReceivedEvent(wrapperClientId.ClientId));
                 }
             });
+            _handlers.Add(WsMessage.LocalJson, (sendAsync, message) => {
+                if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out string json)) {
+                    LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(json) ?? new LocalJsonDb();
+                    VirtualRoot.RaiseEvent(new GetLocalJsonResponsedEvent(wrapperClientIdData.ClientId, data));
+                }
+            });
             _handlers.Add(WsMessage.GpuProfilesJson, (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out string json)) {
                     GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json) ?? new GpuProfilesJsonDb();

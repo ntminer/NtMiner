@@ -175,6 +175,12 @@ namespace NTMiner.MinerStudio {
         }
     }
 
+    [MessageType(description: "收到了GetLocalJsonResponsed消息后")]
+    public class GetLocalJsonResponsedEvent : OperationResultEvent<LocalJsonDb> {
+        public GetLocalJsonResponsedEvent(Guid clientId, LocalJsonDb data) : base(clientId, data) {
+        }
+    }
+
     [MessageType(description: "收到了GetGpuProfilesResponsed消息后")]
     public class GetGpuProfilesResponsedEvent : OperationResultEvent<GpuProfilesJsonDb> {
         public GetGpuProfilesResponsedEvent(Guid clientId, GpuProfilesJsonDb data) : base(clientId, data) {

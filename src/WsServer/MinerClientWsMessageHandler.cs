@@ -59,6 +59,13 @@ namespace NTMiner {
                     }
                 }
             },
+            {WsMessage.LocalJson,
+                (wsBehavior, loginName, clientId, message) => {
+                    if (message.TryGetData(out string json)) {
+                        WsRoot.OperationMqSender.SendLocalJson(loginName, clientId, json);
+                    }
+                }
+            },
             {WsMessage.GpuProfilesJson,
                 (wsBehavior, loginName, clientId, message) => {
                     if (message.TryGetData(out string json)) {
