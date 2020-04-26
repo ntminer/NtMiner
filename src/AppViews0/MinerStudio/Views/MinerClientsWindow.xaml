@@ -228,7 +228,6 @@
                         </StackPanel>
                         <uc:MinerClients Grid.Row="1">
                         </uc:MinerClients>
-                        <TextBlock Grid.Row="1" Margin="4 0 0 0" Foreground="{StaticResource LableColor}" HorizontalAlignment="Left" VerticalAlignment="Bottom">鼠标配合ctrl和shift</TextBlock>
                         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding IsNoRecordVisible}">
                             <TextBlock VerticalAlignment="Center" Foreground="Red" Text="没有记录"></TextBlock>
                             <WrapPanel Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">
@@ -248,6 +247,7 @@
                         </WrapPanel>
                         <uc:MinerClientsPagging Grid.Row="2">
                         </uc:MinerClientsPagging>
+                        <TextBlock Grid.Row="2" Margin="0 0 4 0" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource LableColor}">小提示：鼠标配合ctrl和shift可以多选、反选矿机。</TextBlock>
                     </Grid>
                     <GridSplitter 
                         Height="6" 
