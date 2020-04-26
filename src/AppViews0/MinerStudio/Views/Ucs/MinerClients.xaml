@@ -277,29 +277,28 @@
 				Visibility="{Binding Data.ColumnsShow.MinerName, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
-                    <WrapPanel>
-                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_NAME}"></TextBlock>
-                        <controls:KbButton
-							ToolTip="排序"
-                            Command="{Binding Data.SortByMinerName, Source={StaticResource proxy}}">
-                            <WrapPanel>
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.MinerNameSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortAscending}"
-									Fill="{Binding Data.IsSortByMinerName,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.MinerNameSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortDescending}"
-									Fill="{Binding Data.IsSortByMinerName,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </WrapPanel>
+                    <controls:KbButton
+						ToolTip="排序"
+                        Background="Transparent"
+                        Command="{Binding Data.SortByMinerName, Source={StaticResource proxy}}">
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MINER_NAME}"></TextBlock>
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.MinerNameSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortAscending}"
+								Fill="{Binding Data.IsSortByMinerName,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.MinerNameSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortDescending}"
+								Fill="{Binding Data.IsSortByMinerName,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -785,29 +784,28 @@
 				Visibility="{Binding Data.ColumnsShow.MainCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
-                    <WrapPanel>
-                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
-                        <controls:KbButton
-							ToolTip="排序"
-                            Command="{Binding Data.SortByMainCoinRejectPercent, Source={StaticResource proxy}}">
-                            <WrapPanel>
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.MainCoinRejectPercentSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberAscending}"
-									Fill="{Binding Data.IsSortByMainCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.MainCoinRejectPercentSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberDescending}"
-									Fill="{Binding Data.IsSortByMainCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </WrapPanel>
+                    <controls:KbButton
+						ToolTip="排序"
+                        Background="Transparent"
+                        Command="{Binding Data.SortByMainCoinRejectPercent, Source={StaticResource proxy}}">
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.MainCoinRejectPercentSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberAscending}"
+								Fill="{Binding Data.IsSortByMainCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.MainCoinRejectPercentSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberDescending}"
+								Fill="{Binding Data.IsSortByMainCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -820,29 +818,28 @@
 				Visibility="{Binding Data.ColumnsShow.MainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
-                    <WrapPanel>
-                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_POOL_DELAY}"></TextBlock>
-                        <controls:KbButton
-							ToolTip="排序"
-                            Command="{Binding Data.SortByMainCoinPoolDelay, Source={StaticResource proxy}}">
-                            <WrapPanel>
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.MainCoinPoolDelaySortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberAscending}"
-									Fill="{Binding Data.IsSortByMainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.MainCoinPoolDelaySortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberDescending}"
-									Fill="{Binding Data.IsSortByMainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </WrapPanel>
+                    <controls:KbButton
+						ToolTip="排序"
+                        Background="Transparent"
+                        Command="{Binding Data.SortByMainCoinPoolDelay, Source={StaticResource proxy}}">
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_POOL_DELAY}"></TextBlock>
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.MainCoinPoolDelaySortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberAscending}"
+								Fill="{Binding Data.IsSortByMainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.MainCoinPoolDelaySortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberDescending}"
+								Fill="{Binding Data.IsSortByMainCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -958,29 +955,28 @@
 				Visibility="{Binding Data.ColumnsShow.DualCoinRejectPercentText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
-                    <WrapPanel>
-                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
-                        <controls:KbButton
-							ToolTip="排序"
-                            Command="{Binding Data.SortByDualCoinRejectPercent, Source={StaticResource proxy}}">
-                            <WrapPanel>
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.DualCoinRejectPercentSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberAscending}"
-									Fill="{Binding Data.IsSortByDualCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.DualCoinRejectPercentSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberDescending}"
-									Fill="{Binding Data.IsSortByDualCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </WrapPanel>
+                    <controls:KbButton
+						ToolTip="排序"
+                        Background="Transparent"
+                        Command="{Binding Data.SortByDualCoinRejectPercent, Source={StaticResource proxy}}">
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_REJECT_PERCENT_TEXT}"></TextBlock>
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.DualCoinRejectPercentSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberAscending}"
+								Fill="{Binding Data.IsSortByDualCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.DualCoinRejectPercentSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberDescending}"
+								Fill="{Binding Data.IsSortByDualCoinRejectPercent,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -993,29 +989,28 @@
 				Visibility="{Binding Data.ColumnsShow.DualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
-                    <WrapPanel>
-                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_POOL_DELAY}"></TextBlock>
-                        <controls:KbButton
-							ToolTip="排序"
-                            Command="{Binding Data.SortByDualCoinPoolDelay, Source={StaticResource proxy}}">
-                            <WrapPanel>
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.DualCoinPoolDelaySortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberAscending}"
-									Fill="{Binding Data.IsSortByDualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.DualCoinPoolDelaySortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberDescending}"
-									Fill="{Binding Data.IsSortByDualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </WrapPanel>
+                    <controls:KbButton
+						ToolTip="排序"
+                        Background="Transparent"
+                        Command="{Binding Data.SortByDualCoinPoolDelay, Source={StaticResource proxy}}">
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.DUAL_COIN_POOL_DELAY}"></TextBlock>
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.DualCoinPoolDelaySortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberAscending}"
+								Fill="{Binding Data.IsSortByDualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.DualCoinPoolDelaySortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberDescending}"
+								Fill="{Binding Data.IsSortByDualCoinPoolDelay,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -1282,29 +1277,28 @@
 				Visibility="{Binding Data.ColumnsShow.KernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
-                    <WrapPanel>
-                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.KERNEL_SELF_RESTART_COUNT}"></TextBlock>
-                        <controls:KbButton
-							ToolTip="排序"
-                            Command="{Binding Data.SortByKernelSelfRestartCount, Source={StaticResource proxy}}">
-                            <WrapPanel>
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.KernelSelfRestartCountSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberAscending}"
-									Fill="{Binding Data.IsSortByKernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.KernelSelfRestartCountSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberDescending}"
-									Fill="{Binding Data.IsSortByKernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </WrapPanel>
+                    <controls:KbButton
+						ToolTip="排序"
+                        Background="Transparent"
+                        Command="{Binding Data.SortByKernelSelfRestartCount, Source={StaticResource proxy}}">
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.KERNEL_SELF_RESTART_COUNT}"></TextBlock>
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.KernelSelfRestartCountSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberAscending}"
+								Fill="{Binding Data.IsSortByKernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.KernelSelfRestartCountSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberDescending}"
+								Fill="{Binding Data.IsSortByKernelSelfRestartCount,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
@@ -2038,29 +2032,28 @@
 				Visibility="{Binding Data.ColumnsShow.CpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
-                    <WrapPanel>
-                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_TEMPERATURE}"></TextBlock>
-                        <controls:KbButton
-							ToolTip="排序"
-                            Command="{Binding Data.SortByCpuTemperature, Source={StaticResource proxy}}">
-                            <WrapPanel>
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.CpuTemperatureSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberAscending}"
-									Fill="{Binding Data.IsSortByCpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                                <Path
-									Width="12"
-									Height="14"
-                                    Visibility="{Binding Data.CpuTemperatureSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
-									Data="{StaticResource Icon_SortNumberDescending}"
-									Fill="{Binding Data.IsSortByCpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </WrapPanel>
+                    <controls:KbButton
+						ToolTip="排序"
+                        Background="Transparent"
+                        Command="{Binding Data.SortByCpuTemperature, Source={StaticResource proxy}}">
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.CPU_TEMPERATURE}"></TextBlock>
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.CpuTemperatureSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberAscending}"
+								Fill="{Binding Data.IsSortByCpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.CpuTemperatureSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberDescending}"
+								Fill="{Binding Data.IsSortByCpuTemperature,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
