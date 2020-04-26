@@ -145,7 +145,14 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_cpuPerformance != value) {
                     _cpuPerformance = value;
                     OnPropertyChanged(nameof(CpuPerformance));
+                    OnPropertyChanged(nameof(CpuPerformanceText));
                 }
+            }
+        }
+
+        public string CpuPerformanceText {
+            get {
+                return this.CpuPerformance.ToString("f1") + " %";
             }
         }
 

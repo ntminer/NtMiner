@@ -8,11 +8,56 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="400" d:DesignWidth="1600"
+    Background="White"
+	mc:Ignorable="d" 
+    d:DesignHeight="400" 
+    d:DesignWidth="1600"
     d:DataContext="{d:DesignData Source=../Design/WsServerNodePageViewModel.xaml}">
+    <UserControl.Resources>
+        <Style x:Key="LblTb" TargetType="TextBlock" BasedOn="{StaticResource LblTbBase}">
+            <Setter Property="Width" Value="100"></Setter>
+            <Setter Property="TextAlignment" Value="Left"></Setter>
+        </Style>
+        <Style x:Key="TextBlock" TargetType="TextBlock">
+            <Setter Property="Width" Value="200"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+        </Style>
+    </UserControl.Resources>
 	<Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}">节点地址</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Address}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">总内存</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">剩余内存</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.AvailablePhysicalMemory,Converter={StaticResource ByteToGbConverter}}"></TextBlock>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}">CPU使用率</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.CpuPerformanceText}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">CPU核数</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.NumberOfLogicalCores}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">CPU主频</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.ClockSpeed}"></TextBlock>
+            </WrapPanel>
+            <WrapPanel>
+                <TextBlock Style="{StaticResource LblTb}">CPU架构</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.ProcessorArchitecture}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">CPU名称</TextBlock>
+                <TextBlock Width="300" Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Cpu.Name}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">操作系统</TextBlock>
+                <TextBlock Width="300" Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.OSInfo}"></TextBlock>
+            </WrapPanel>
+        </StackPanel>
 		<DataGrid 
-			Margin="0" ItemsSource="{Binding WebApiServerStateVm.WsServerNodeVms}" 
+            Grid.Row="1"
+			Margin="0" 
+            ItemsSource="{Binding WebApiServerStateVm.WsServerNodeVms}" 
 			BorderThickness="0">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
@@ -34,7 +79,7 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU使用率" Binding="{Binding CpuPerformanceText}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="300" Header="CPU名称" Binding="{Binding CpuVm.Name}">
+                <DataGridTextColumn IsReadOnly="True" Width="290" Header="CPU名称" Binding="{Binding CpuVm.Name}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="70" Header="CPU核数" Binding="{Binding CpuVm.NumberOfLogicalCores}">
                 </DataGridTextColumn>
@@ -42,12 +87,17 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="60" Header="CPU架构" Binding="{Binding CpuVm.ProcessorArchitecture}">
                 </DataGridTextColumn>
-                <DataGridTextColumn IsReadOnly="True" Width="180" Header="操作系统" Binding="{Binding OSInfo}">
+                <DataGridTextColumn IsReadOnly="True" Width="290" Header="操作系统" Binding="{Binding OSInfo}">
                 </DataGridTextColumn>
                 <DataGridTextColumn Width="*" IsReadOnly="True" Header="备注" Binding="{Binding Description}">
 				</DataGridTextColumn>
 			</DataGrid.Columns>
 		</DataGrid>
-        <TextBlock Visibility="{Binding IsNodeRecordVisible}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+        <TextBlock 
+            Grid.Row="1"
+            Visibility="{Binding IsNodeRecordVisible}" 
+            Foreground="Red" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center">没有记录</TextBlock>
 	</Grid>
 </UserControl>
