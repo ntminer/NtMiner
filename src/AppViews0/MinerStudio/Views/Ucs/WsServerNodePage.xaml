@@ -58,7 +58,8 @@
             Grid.Row="1"
 			Margin="0" 
             ItemsSource="{Binding WebApiServerStateVm.WsServerNodeVms}" 
-			BorderThickness="0">
+			BorderThickness="0 1 0 0"
+            BorderBrush="{StaticResource LightLineColor}">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>

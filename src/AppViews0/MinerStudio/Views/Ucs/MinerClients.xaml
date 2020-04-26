@@ -12,6 +12,7 @@
 	mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="5300">
     <DataGrid 
 		BorderThickness="0 1 0 0"
+        BorderBrush="{StaticResource LightLineColor}"
 		IsReadOnly="True"
 		SelectionMode="Extended"
 		SelectionChanged="MinerClientsGrid_OnSelectionChanged"
