@@ -131,16 +131,5 @@ namespace NTMiner.Core.Impl {
                 col.Upsert(minerDatas);
             }
         }
-
-        protected override void DoCheckIsOnline(IEnumerable<ClientData> clientDatas) {
-            DateTime time = DateTime.Now.AddSeconds(-20);
-            // 一定时间未上报算力视为0算力
-            foreach (var clientData in clientDatas) {
-                if (clientData.MinerActiveOn < time) {
-                    clientData.DualCoinSpeed = 0;
-                    clientData.MainCoinSpeed = 0;
-                }
-            }
-        }
     }
 }

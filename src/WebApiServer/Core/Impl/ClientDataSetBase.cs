@@ -18,7 +18,6 @@ namespace NTMiner.Core.Impl {
         protected abstract void DoUpdateSave(MinerData minerData);
         protected abstract void DoUpdateSave(IEnumerable<MinerData> minerDatas);
         protected abstract void DoRemoveSave(MinerData minerData);
-        protected abstract void DoCheckIsOnline(IEnumerable<ClientData> clientDatas);
 
         private readonly bool _isPull;
         /// <summary>
@@ -145,7 +144,14 @@ namespace NTMiner.Core.Impl {
             list.Sort(new ClientDataComparer(query.SortDirection, query.SortField));
             coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, list, out onlineCount, out miningCount).ToList();
             var results = list.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
-            DoCheckIsOnline(results);
+            DateTime time = DateTime.Now.AddSeconds(_isPull ? 20 : -180);
+            // 一定时间未上报算力视为0算力
+            foreach (var clientData in results) {
+                if (clientData.MinerActiveOn < time) {
+                    clientData.DualCoinSpeed = 0;
+                    clientData.MainCoinSpeed = 0;
+                }
+            }
             return results;
         }
 
