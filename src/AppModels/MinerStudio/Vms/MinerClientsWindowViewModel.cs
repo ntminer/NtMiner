@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase, IWsStateViewModel {
-        public static readonly MinerClientsWindowViewModel Instance = new MinerClientsWindowViewModel(isInDesignMode: false);
+        public static readonly MinerClientsWindowViewModel Instance = new MinerClientsWindowViewModel();
 
         private List<CoinSnapshotViewModel> _coinSnapshotVms = null;
         private ColumnsShowViewModel _columnsShow;
@@ -61,14 +61,26 @@ namespace NTMiner.MinerStudio.Vms {
         private bool _isConnecting;
         private double _wsRetryIconAngle;
 
+        private bool _isLoading = false;
         private ClientDataSortField _lastSortField = ClientDataSortField.MinerName;
         private readonly Dictionary<ClientDataSortField, SortDirection> _lastSortDirection;
+
+        public bool IsLoading {
+            get { return _isLoading; }
+            set {
+                if (_isLoading != value) {
+                    _isLoading = value;
+                    OnPropertyChanged(nameof(IsLoading));
+                }
+            }
+        }
 
         #region QueryMinerClients
         public void QueryMinerClients() {
             if (!RpcRoot.IsLogined) {
                 return;
             }
+            this.IsLoading = true;
             Guid? groupId = null;
             if (SelectedMinerGroup == null) {
                 _selectedMinerGroup = MinerGroupViewModel.PleaseSelect;
@@ -115,6 +127,7 @@ namespace NTMiner.MinerStudio.Vms {
                 SortDirection = this._sortDirection[SortField]
             }, (response, exception) => {
                 this.CountDown = 10;
+                this.IsLoading = false;
                 if (response.IsSuccess()) {
                     #region 处理Response.Data
                     if (_lastSortField == this.SortField && _lastSortDirection[this.SortField] == this._sortDirection[this.SortField]) {
@@ -271,12 +284,6 @@ namespace NTMiner.MinerStudio.Vms {
         #region ctor
         public MinerClientsWindowViewModel() {
             if (WpfUtil.IsInDesignMode) {
-                return;
-            }
-        }
-
-        public MinerClientsWindowViewModel(bool isInDesignMode = true) {
-            if (WpfUtil.IsInDesignMode || isInDesignMode) {
                 return;
             }
             #region 状态栏的几条配置

@@ -228,6 +228,13 @@
                         </StackPanel>
                         <uc:MinerClients Grid.Row="1">
                         </uc:MinerClients>
+                        <Border 
+                            Grid.Row="1" 
+                            Margin="0 26 0 0" 
+                            Visibility="{Binding IsLoading,Converter={StaticResource BoolToVisibilityConverter}}" 
+                            Background="#0f000000">
+                            <TextBlock Foreground="Red" VerticalAlignment="Center" HorizontalAlignment="Center">加载中</TextBlock>
+                        </Border>
                         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding IsNoRecordVisible}">
                             <TextBlock VerticalAlignment="Center" Foreground="Red" Text="没有记录"></TextBlock>
                             <WrapPanel Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">
