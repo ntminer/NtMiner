@@ -10,27 +10,33 @@ using RECT = NTMiner.Native.RECT;
 
 namespace NTMiner {
     partial class GlowWindow : Window, IDisposable {
-        private readonly Func<Point, Cursor> getCursor;
-        private readonly Func<Point, HitTestValues> getHitTestValue;
-        private readonly Func<RECT, double> getLeft;
-        private readonly Func<RECT, double> getTop;
-        private readonly Func<RECT, double> getWidth;
-        private readonly Func<RECT, double> getHeight;
-        private const double edgeSize = 20.0;
-        private const double glowSize = 6.0;
-        private IntPtr handle;
-        private IntPtr ownerHandle;
-        private bool closing = false;
-        private HwndSource hwndSource;
-        private PropertyChangeNotifier resizeModeChangeNotifier;
+        private readonly Func<Point, Cursor> _getCursor;
+        private readonly Func<Point, HitTestValues> _getHitTestValue;
+        private readonly Func<RECT, double> _getLeft;
+        private readonly Func<RECT, double> _getTop;
+        private readonly Func<RECT, double> _getWidth;
+        private readonly Func<RECT, double> _getHeight;
+        private const double _edgeSize = 20.0;
+        private const double _glowSize = 6.0;
+        private IntPtr _handle;
+        private IntPtr _ownerHandle;
+        private bool _closing = false;
+        private HwndSource _hwndSource;
+        private PropertyChangeNotifier _resizeModeChangeNotifier;
 
         public GlowWindow(Window owner, GlowDirection direction) {
             InitializeComponent();
 
             this.AllowsTransparency = true;
-            this.Closing += (sender, e) => e.Cancel = !closing;
+            this.Closing += (sender, e) => e.Cancel = !_closing;
 
             this.Owner = owner;
+
+            this.Owner.StateChanged += (sender, e) => {
+                if (this.Owner.WindowState != WindowState.Minimized) {
+                    this.Show();
+                }
+            };
 
             var b = new Binding("GlowBrush") {
                 Source = owner
@@ -40,7 +46,7 @@ namespace NTMiner {
             b = new Binding("BorderThickness") {
                 Source = owner
             };
-            glow.SetBinding(Glow.BorderThicknessProperty, b);
+            glow.SetBinding(BorderThicknessProperty, b);
 
             glow.Direction = direction;
 
@@ -48,21 +54,21 @@ namespace NTMiner {
                 case GlowDirection.Left:
                     glow.Orientation = Orientation.Vertical;
                     glow.HorizontalAlignment = HorizontalAlignment.Right;
-                    getLeft = (rect) => rect.left - glowSize + 1;
-                    getTop = (rect) => rect.top - 2;
-                    getWidth = (rect) => glowSize;
-                    getHeight = (rect) => rect.Height + 4;
-                    getHitTestValue = p => new Rect(0, 0, ActualWidth, edgeSize).Contains(p)
+                    _getLeft = (rect) => rect.left - _glowSize + 1;
+                    _getTop = (rect) => rect.top - 2;
+                    _getWidth = (rect) => _glowSize;
+                    _getHeight = (rect) => rect.Height + 4;
+                    _getHitTestValue = p => new Rect(0, 0, ActualWidth, _edgeSize).Contains(p)
                                                ? HitTestValues.HTTOPLEFT
-                                               : new Rect(0, ActualHeight - edgeSize, ActualWidth, edgeSize).Contains(p)
+                                               : new Rect(0, ActualHeight - _edgeSize, ActualWidth, _edgeSize).Contains(p)
                                                      ? HitTestValues.HTBOTTOMLEFT
                                                      : HitTestValues.HTLEFT;
-                    getCursor = p => {
+                    _getCursor = p => {
                         return (owner.ResizeMode == ResizeMode.NoResize || owner.ResizeMode == ResizeMode.CanMinimize)
                                     ? owner.Cursor
-                                    : new Rect(0, 0, ActualWidth, edgeSize).Contains(p)
+                                    : new Rect(0, 0, ActualWidth, _edgeSize).Contains(p)
                                          ? Cursors.SizeNWSE
-                                         : new Rect(0, ActualHeight - edgeSize, ActualWidth, edgeSize).Contains(p)
+                                         : new Rect(0, ActualHeight - _edgeSize, ActualWidth, _edgeSize).Contains(p)
                                                ? Cursors.SizeNESW
                                                : Cursors.SizeWE;
                     };
@@ -70,21 +76,21 @@ namespace NTMiner {
                 case GlowDirection.Right:
                     glow.Orientation = Orientation.Vertical;
                     glow.HorizontalAlignment = HorizontalAlignment.Left;
-                    getLeft = (rect) => rect.right - 1;
-                    getTop = (rect) => rect.top - 2;
-                    getWidth = (rect) => glowSize;
-                    getHeight = (rect) => rect.Height + 4;
-                    getHitTestValue = p => new Rect(0, 0, ActualWidth, edgeSize).Contains(p)
+                    _getLeft = (rect) => rect.right - 1;
+                    _getTop = (rect) => rect.top - 2;
+                    _getWidth = (rect) => _glowSize;
+                    _getHeight = (rect) => rect.Height + 4;
+                    _getHitTestValue = p => new Rect(0, 0, ActualWidth, _edgeSize).Contains(p)
                                                ? HitTestValues.HTTOPRIGHT
-                                               : new Rect(0, ActualHeight - edgeSize, ActualWidth, edgeSize).Contains(p)
+                                               : new Rect(0, ActualHeight - _edgeSize, ActualWidth, _edgeSize).Contains(p)
                                                      ? HitTestValues.HTBOTTOMRIGHT
                                                      : HitTestValues.HTRIGHT;
-                    getCursor = p => {
+                    _getCursor = p => {
                         return (owner.ResizeMode == ResizeMode.NoResize || owner.ResizeMode == ResizeMode.CanMinimize)
                                     ? owner.Cursor
-                                    : new Rect(0, 0, ActualWidth, edgeSize).Contains(p)
+                                    : new Rect(0, 0, ActualWidth, _edgeSize).Contains(p)
                                          ? Cursors.SizeNESW
-                                         : new Rect(0, ActualHeight - edgeSize, ActualWidth, edgeSize).Contains(p)
+                                         : new Rect(0, ActualHeight - _edgeSize, ActualWidth, _edgeSize).Contains(p)
                                                ? Cursors.SizeNWSE
                                                : Cursors.SizeWE;
                     };
@@ -92,22 +98,22 @@ namespace NTMiner {
                 case GlowDirection.Top:
                     glow.Orientation = Orientation.Horizontal;
                     glow.VerticalAlignment = VerticalAlignment.Bottom;
-                    getLeft = (rect) => rect.left - 2;
-                    getTop = (rect) => rect.top - glowSize + 1;
-                    getWidth = (rect) => rect.Width + 4;
-                    getHeight = (rect) => glowSize;
-                    getHitTestValue = p => new Rect(0, 0, edgeSize - glowSize, ActualHeight).Contains(p)
+                    _getLeft = (rect) => rect.left - 2;
+                    _getTop = (rect) => rect.top - _glowSize + 1;
+                    _getWidth = (rect) => rect.Width + 4;
+                    _getHeight = (rect) => _glowSize;
+                    _getHitTestValue = p => new Rect(0, 0, _edgeSize - _glowSize, ActualHeight).Contains(p)
                                                ? HitTestValues.HTTOPLEFT
-                                               : new Rect(Width - edgeSize + glowSize, 0, edgeSize - glowSize,
+                                               : new Rect(Width - _edgeSize + _glowSize, 0, _edgeSize - _glowSize,
                                                           ActualHeight).Contains(p)
                                                      ? HitTestValues.HTTOPRIGHT
                                                      : HitTestValues.HTTOP;
-                    getCursor = p => {
+                    _getCursor = p => {
                         return (owner.ResizeMode == ResizeMode.NoResize || owner.ResizeMode == ResizeMode.CanMinimize)
                                     ? owner.Cursor
-                                    : new Rect(0, 0, edgeSize - glowSize, ActualHeight).Contains(p)
+                                    : new Rect(0, 0, _edgeSize - _glowSize, ActualHeight).Contains(p)
                                          ? Cursors.SizeNWSE
-                                         : new Rect(Width - edgeSize + glowSize, 0, edgeSize - glowSize, ActualHeight).
+                                         : new Rect(Width - _edgeSize + _glowSize, 0, _edgeSize - _glowSize, ActualHeight).
                                                Contains(p)
                                                ? Cursors.SizeNESW
                                                : Cursors.SizeNS;
@@ -116,22 +122,22 @@ namespace NTMiner {
                 case GlowDirection.Bottom:
                     glow.Orientation = Orientation.Horizontal;
                     glow.VerticalAlignment = VerticalAlignment.Top;
-                    getLeft = (rect) => rect.left - 2;
-                    getTop = (rect) => rect.bottom - 1;
-                    getWidth = (rect) => rect.Width + 4;
-                    getHeight = (rect) => glowSize;
-                    getHitTestValue = p => new Rect(0, 0, edgeSize - glowSize, ActualHeight).Contains(p)
+                    _getLeft = (rect) => rect.left - 2;
+                    _getTop = (rect) => rect.bottom - 1;
+                    _getWidth = (rect) => rect.Width + 4;
+                    _getHeight = (rect) => _glowSize;
+                    _getHitTestValue = p => new Rect(0, 0, _edgeSize - _glowSize, ActualHeight).Contains(p)
                                                ? HitTestValues.HTBOTTOMLEFT
-                                               : new Rect(Width - edgeSize + glowSize, 0, edgeSize - glowSize,
+                                               : new Rect(Width - _edgeSize + _glowSize, 0, _edgeSize - _glowSize,
                                                           ActualHeight).Contains(p)
                                                      ? HitTestValues.HTBOTTOMRIGHT
                                                      : HitTestValues.HTBOTTOM;
-                    getCursor = p => {
+                    _getCursor = p => {
                         return (owner.ResizeMode == ResizeMode.NoResize || owner.ResizeMode == ResizeMode.CanMinimize)
                                     ? owner.Cursor
-                                    : new Rect(0, 0, edgeSize - glowSize, ActualHeight).Contains(p)
+                                    : new Rect(0, 0, _edgeSize - _glowSize, ActualHeight).Contains(p)
                                          ? Cursors.SizeNESW
-                                         : new Rect(Width - edgeSize + glowSize, 0, edgeSize - glowSize, ActualHeight).
+                                         : new Rect(Width - _edgeSize + _glowSize, 0, _edgeSize - _glowSize, ActualHeight).
                                                Contains(p)
                                                ? Cursors.SizeNWSE
                                                : Cursors.SizeNS;
@@ -140,7 +146,7 @@ namespace NTMiner {
             }
 
             owner.Closed += (sender, e) => {
-                closing = true;
+                _closing = true;
                 Close();
             };
         }
@@ -148,13 +154,13 @@ namespace NTMiner {
         protected override void OnSourceInitialized(EventArgs e) {
             base.OnSourceInitialized(e);
 
-            this.hwndSource = (HwndSource)PresentationSource.FromVisual(this);
-            if (hwndSource == null) {
+            this._hwndSource = (HwndSource)PresentationSource.FromVisual(this);
+            if (_hwndSource == null) {
                 return;
             }
 
-            var ws = hwndSource.Handle.GetWindowLong();
-            var wsex = hwndSource.Handle.GetWindowLongEx();
+            var ws = _hwndSource.Handle.GetWindowLong();
+            var wsex = _hwndSource.Handle.GetWindowLongEx();
 
             //ws |= WS.POPUP;
             wsex ^= WSEX.APPWINDOW;
@@ -163,43 +169,43 @@ namespace NTMiner {
                 wsex |= WSEX.TRANSPARENT;
             }
 
-            hwndSource.Handle.SetWindowLong(ws);
-            hwndSource.Handle.SetWindowLongEx(wsex);
-            hwndSource.AddHook(WndProc);
+            _hwndSource.Handle.SetWindowLong(ws);
+            _hwndSource.Handle.SetWindowLongEx(wsex);
+            _hwndSource.AddHook(WndProc);
 
-            handle = hwndSource.Handle;
-            ownerHandle = new WindowInteropHelper(Owner).Handle;
+            _handle = _hwndSource.Handle;
+            _ownerHandle = new WindowInteropHelper(Owner).Handle;
 
-            this.resizeModeChangeNotifier = new PropertyChangeNotifier(this.Owner, Window.ResizeModeProperty);
-            this.resizeModeChangeNotifier.ValueChanged += ResizeModeChanged;
+            this._resizeModeChangeNotifier = new PropertyChangeNotifier(this.Owner, Window.ResizeModeProperty);
+            this._resizeModeChangeNotifier.ValueChanged += ResizeModeChanged;
         }
 
         private void ResizeModeChanged(object sender, EventArgs e) {
-            var wsex = hwndSource.Handle.GetWindowLongEx();
+            var wsex = _hwndSource.Handle.GetWindowLongEx();
             if (this.Owner.ResizeMode == ResizeMode.NoResize || this.Owner.ResizeMode == ResizeMode.CanMinimize) {
                 wsex |= WSEX.TRANSPARENT;
             }
             else {
                 wsex ^= WSEX.TRANSPARENT;
             }
-            hwndSource.Handle.SetWindowLongEx(wsex);
+            _hwndSource.Handle.SetWindowLongEx(wsex);
         }
 
         public void Update() {
-            if (this.closing) {
+            if (this._closing) {
                 return;
             }
-            if (ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(ownerHandle, out RECT rect)) {
+            if (_ownerHandle != IntPtr.Zero && UnsafeNativeMethods.GetWindowRect(_ownerHandle, out RECT rect)) {
                 UpdateCore(rect);
             }
         }
 
         internal void UpdateCore(RECT rect) {
-            SafeNativeMethods.SetWindowPos(handle, ownerHandle,
-                                       (int)(getLeft(rect)),
-                                       (int)(getTop(rect)),
-                                       (int)(getWidth(rect)),
-                                       (int)(getHeight(rect)),
+            SafeNativeMethods.SetWindowPos(_handle, _ownerHandle,
+                                       (int)(_getLeft(rect)),
+                                       (int)(_getTop(rect)),
+                                       (int)(_getWidth(rect)),
+                                       (int)(_getHeight(rect)),
                                        SWP.NOACTIVATE | SWP.NOZORDER);
         }
 
@@ -217,12 +223,12 @@ namespace NTMiner {
 
             if (msg == (int)WM.LBUTTONDOWN) {
                 var pt = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
-                SafeNativeMethods.PostMessage(ownerHandle, (uint)WM.NCLBUTTONDOWN, (IntPtr)getHitTestValue(pt), IntPtr.Zero);
+                SafeNativeMethods.PostMessage(_ownerHandle, (uint)WM.NCLBUTTONDOWN, (IntPtr)_getHitTestValue(pt), IntPtr.Zero);
             }
             if (msg == (int)WM.NCHITTEST) {
                 var ptScreen = new Point((int)lParam & 0xFFFF, ((int)lParam >> 16) & 0xFFFF);
                 Point ptClient = PointFromScreen(ptScreen);
-                Cursor cursor = getCursor(ptClient);
+                Cursor cursor = _getCursor(ptClient);
                 if (cursor != Cursor) Cursor = cursor;
             }
 
@@ -230,8 +236,8 @@ namespace NTMiner {
         }
 
         public void Dispose() {
-            if (resizeModeChangeNotifier != null) {
-                resizeModeChangeNotifier.Dispose();
+            if (_resizeModeChangeNotifier != null) {
+                _resizeModeChangeNotifier.Dispose();
             }
         }
     }

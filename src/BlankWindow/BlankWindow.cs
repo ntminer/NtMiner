@@ -12,7 +12,6 @@ namespace NTMiner {
             this.MouseDown += MetroWindow_MouseDown;
         }
 
-
         protected void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 this.DragMove();
