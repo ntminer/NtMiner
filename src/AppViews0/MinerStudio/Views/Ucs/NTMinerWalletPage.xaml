@@ -37,8 +37,10 @@
 		</ListBox>
 		<DataGrid 
 			Grid.Row="1"
-			Margin="0" ItemsSource="{Binding CurrentCoin.NTMinerWallets}" 
+			Margin="0" 
+            ItemsSource="{Binding CurrentCoin.NTMinerWallets}" 
 			BorderThickness="0 1 0 0"
+            BorderBrush="{StaticResource LightLineColor}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
 			<DataGrid.Resources>
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />

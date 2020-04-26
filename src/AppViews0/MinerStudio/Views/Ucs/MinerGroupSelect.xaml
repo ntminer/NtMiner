@@ -65,7 +65,8 @@
 			ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 			ScrollViewer.VerticalScrollBarVisibility="Auto"
             SelectionChanged="Lb_SelectionChanged"
-			BorderThickness="0 1 0 0">
+			BorderThickness="0 1 0 0"
+            BorderBrush="{StaticResource LightLineColor}">
             <ListBox.Resources>
                 <Style TargetType="ListBoxItem">
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>

@@ -120,6 +120,7 @@
 			Background="Transparent" 
 			HorizontalScrollBarVisibility="Auto"
             BorderThickness="0 1 0 0"
+            BorderBrush="{StaticResource LightLineColor}"
 			MouseDoubleClick="DataGrid_MouseDoubleClick">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
