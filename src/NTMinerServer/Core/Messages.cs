@@ -338,6 +338,20 @@ namespace NTMiner.Core {
         public bool On { get; private set; }
     }
 
+    [MessageType(description: "收到了GetLocalJson Mq消息后")]
+    public class GetLocalJsonMqMessage : OperationMqMessage {
+        public GetLocalJsonMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId)
+            : base(appId, loginName, timestamp, clientId) {
+        }
+    }
+
+    [MessageType(description: "收到了LocalJson Mq消息后")]
+    public class LocalJsonMqMessage : OperationMqMessage<string> {
+        public LocalJsonMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId, string json)
+            : base(appId, loginName, timestamp, clientId, json) {
+        }
+    }
+
     [MessageType(description: "收到了GetGpuProfilesJson Mq消息后")]
     public class GetGpuProfilesJsonMqMessage : OperationMqMessage {
         public GetGpuProfilesJsonMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId)

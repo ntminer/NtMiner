@@ -172,6 +172,15 @@ namespace NTMiner.Core.Mq {
         }
         #endregion
 
+        #region LocalJson
+        public static byte[] GetLocalJsonMqSendBody(string json) {
+            return Encoding.UTF8.GetBytes(json);
+        }
+        public static string GetLocalJsonMqReceiveBody(byte[] body) {
+            return Encoding.UTF8.GetString(body);
+        }
+        #endregion
+
         #region GpuProfilesJson
         public static byte[] GetGpuProfilesJsonMqSendBody(string json) {
             return Encoding.UTF8.GetBytes(json);

@@ -28,6 +28,8 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.BlockWAURoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.AtikmdagPatcherRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SwitchRadeonGpuRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetLocalJsonRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.LocalJsonRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetGpuProfilesJsonRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GpuProfilesJsonRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SaveGpuProfilesJsonRoutingKey, arguments: null);
@@ -214,6 +216,25 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         if (ea.BasicProperties.ReadHeaderGuid(WsMqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             bool on = OperationMqBodyUtil.GetSwitchRadeonGpuMqReceiveBody(ea.Body);
                             VirtualRoot.RaiseEvent(new SwitchRadeonGpuMqMessage(appId, loginName, timestamp, clientId, on));
+                        }
+                    }
+                    break;
+                case WsMqKeyword.GetLocalJsonRoutingKey: {
+                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
+                        string appId = ea.BasicProperties.AppId;
+                        if (ea.BasicProperties.ReadHeaderGuid(WsMqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                            VirtualRoot.RaiseEvent(new GetLocalJsonMqMessage(appId, loginName, timestamp, clientId));
+                        }
+                    }
+                    break;
+                case WsMqKeyword.LocalJsonRoutingKey: {
+                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
+                        string appId = ea.BasicProperties.AppId;
+                        if (ea.BasicProperties.ReadHeaderGuid(WsMqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                            string json = OperationMqBodyUtil.GetLocalJsonMqReceiveBody(ea.Body);
+                            VirtualRoot.RaiseEvent(new LocalJsonMqMessage(appId, loginName, timestamp, clientId, json));
                         }
                     }
                     break;

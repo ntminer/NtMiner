@@ -92,6 +92,13 @@ namespace NTMiner {
                     }
                 }
             },
+            {WsMessage.GetLocalJson,
+                (loginName, message)=> {
+                    if (message.TryGetData(out WrapperClientId wrapperClientId)) {
+                        WsRoot.OperationMqSender.SendGetLocalJson(loginName, wrapperClientId.ClientId);
+                    }
+                }
+            },
             {WsMessage.GetGpuProfilesJson,
                 (loginName, message)=> {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {

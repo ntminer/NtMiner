@@ -258,6 +258,20 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region GetLocalJsonAsync
+        public void GetLocalJsonAsync(IMinerData client) {
+            if (!MinerStudioRoot.WsClient.IsOpen) {
+                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                return;
+            }
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetLocalJson) {
+                Data = new WrapperClientId {
+                    ClientId = client.ClientId
+                }
+            });
+        }
+        #endregion
+
         #region GetGpuProfilesJsonAsync
         public void GetGpuProfilesJsonAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {

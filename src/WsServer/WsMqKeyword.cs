@@ -22,7 +22,9 @@ namespace NTMiner {
         public const string SwitchRadeonGpuRoutingKey = WsMessage.SwitchRadeonGpu;
         public const string SetVirtualMemoryRoutingKey = WsMessage.SetVirtualMemory;
         public const string SetLocalIpsRoutingKey = WsMessage.SetLocalIps;
+        public const string GetLocalJsonRoutingKey = WsMessage.GetLocalJson;
         public const string GetGpuProfilesJsonRoutingKey = WsMessage.GetGpuProfilesJson;
+        public const string LocalJsonRoutingKey = WsMessage.LocalJson;
         public const string GpuProfilesJsonRoutingKey = WsMessage.GpuProfilesJson;
         public const string SaveGpuProfilesJsonRoutingKey = WsMessage.SaveGpuProfilesJson;
         public const string SetAutoBootStartRoutingKey = WsMessage.SetAutoBootStart;
