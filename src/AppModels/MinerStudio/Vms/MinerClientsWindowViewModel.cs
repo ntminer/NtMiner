@@ -60,18 +60,24 @@ namespace NTMiner.MinerStudio.Vms {
         private bool _isConnecting;
         private double _wsRetryIconAngle;
 
-        private bool _isEnableVirtualization = false;
+        private bool _isEnableVirtualization;
         private bool _isLoading = false;
         private double _lodingIconAngle;
         private ClientDataSortField _lastSortField = ClientDataSortField.MinerName;
         private readonly Dictionary<ClientDataSortField, SortDirection> _lastSortDirection;
 
         public bool IsEnableVirtualization {
-            get { return _isEnableVirtualization; }
+            get {
+                return _isEnableVirtualization;
+            }
             set {
                 if (_isEnableVirtualization != value) {
                     _isEnableVirtualization = value;
                     OnPropertyChanged(nameof(IsEnableVirtualization));
+                    VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                        Key = NTKeyword.IsEnableVirtualizationAppSettingKey,
+                        Value = value.ToString()
+                    }));
                 }
             }
         }
@@ -322,8 +328,13 @@ namespace NTMiner.MinerStudio.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            #region 状态栏的几条配置
             var appSettings = VirtualRoot.LocalAppSettingSet;
+            if (appSettings.TryGetAppSetting(NTKeyword.IsEnableVirtualizationAppSettingKey, out IAppSetting isEnableVirtualizationAppSetting) && isEnableVirtualizationAppSetting.Value != null) {
+                if (bool.TryParse(isEnableVirtualizationAppSetting.Value.ToString(), out bool isEnableVirtualization)) {
+                    _isEnableVirtualization = isEnableVirtualization;
+                }
+            }
+            #region 状态栏的几条配置
             if (appSettings.TryGetAppSetting(NTKeyword.FrozenColumnCountAppSettingKey, out IAppSetting frozenColumnCountAppSetting) && frozenColumnCountAppSetting.Value != null) {
                 if (int.TryParse(frozenColumnCountAppSetting.Value.ToString(), out int frozenColumnCount)) {
                     _frozenColumnCount = frozenColumnCount;
@@ -639,7 +650,7 @@ namespace NTMiner.MinerStudio.Vms {
             this.PageLast = new DelegateCommand(() => {
                 this.PageIndex = PageCount;
             });
-            this.PageRefresh = new DelegateCommand(()=> {
+            this.PageRefresh = new DelegateCommand(() => {
                 QueryMinerClients();
             });
             this._lastSortDirection = new Dictionary<ClientDataSortField, SortDirection>(_sortDirection);

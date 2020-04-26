@@ -90,6 +90,7 @@ namespace NTMiner {
 
         #region ServerAppSettingKey
         public const string ColumnsShowIdAppSettingKey = "ColumnsShowId";
+        public const string IsEnableVirtualizationAppSettingKey = "IsEnableVirtualization";
         public const string FrozenColumnCountAppSettingKey = "FrozenColumnCount";
         public const string MaxTempAppSettingKey = "MaxTemp";
         public const string MinTempAppSettingKey = "MinTemp";
