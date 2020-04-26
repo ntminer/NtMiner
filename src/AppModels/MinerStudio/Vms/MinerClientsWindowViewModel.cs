@@ -40,7 +40,15 @@ namespace NTMiner.MinerStudio.Vms {
         private int _frozenColumnCount = 8;
         private uint _minTemp = 40;
         private int _rejectPercent = 10;
-        private SortDirection _sortDirection = SortDirection.Ascending;
+        private Dictionary<ClientDataSortField, SortDirection> _sortDirection = new Dictionary<ClientDataSortField, SortDirection> {
+            { ClientDataSortField.MinerName, SortDirection.Ascending },
+            { ClientDataSortField.CpuTemperature, SortDirection.Descending },
+            { ClientDataSortField.DualCoinPoolDelay, SortDirection.Descending },
+            { ClientDataSortField.DualCoinRejectPercent, SortDirection.Descending },
+            { ClientDataSortField.KernelSelfRestartCount, SortDirection.Descending },
+            { ClientDataSortField.MainCoinPoolDelay, SortDirection.Descending },
+            { ClientDataSortField.MainCoinRejectPercent, SortDirection.Descending }
+        };
         private ClientDataSortField _sortField = ClientDataSortField.MinerName;
         private string _gpuName;
         private string _gpuDriver;
@@ -53,8 +61,9 @@ namespace NTMiner.MinerStudio.Vms {
         private bool _isConnecting;
         private double _wsRetryIconAngle;
 
-        private SortDirection _lastSortDirection = SortDirection.Ascending;
         private ClientDataSortField _lastSortField = ClientDataSortField.MinerName;
+        private readonly Dictionary<ClientDataSortField, SortDirection> _lastSortDirection;
+
         #region QueryMinerClients
         public void QueryMinerClients() {
             if (!RpcRoot.IsLogined) {
@@ -102,13 +111,13 @@ namespace NTMiner.MinerStudio.Vms {
                 GpuType = GpuType,
                 GpuName = GpuName,
                 GpuDriver = GpuDriver,
-                SortDirection = SortDirection,
-                SortField = SortField
+                SortField = SortField,
+                SortDirection = this._sortDirection[SortField]
             }, (response, exception) => {
                 this.CountDown = 10;
                 if (response.IsSuccess()) {
                     #region 处理Response.Data
-                    if (_lastSortDirection == this.SortDirection && _lastSortField == this.SortField) {
+                    if (_lastSortField == this.SortField && _lastSortDirection[this.SortField] == this._sortDirection[this.SortField]) {
                         UIThread.Execute(() => {
                             if (response.Data.Count == 0) {
                                 _minerClients.Clear();
@@ -147,8 +156,8 @@ namespace NTMiner.MinerStudio.Vms {
                         });
                     }
                     else {
-                        _lastSortDirection = this.SortDirection;
                         _lastSortField = this.SortField;
+                        _lastSortDirection[this.SortField] = _sortDirection[_lastSortField];
                         if (response.Data.Count == 0) {
                             // ObservableCollection<T>类型对象不支持在UI线程以外处理
                             UIThread.Execute(() => {
@@ -183,7 +192,7 @@ namespace NTMiner.MinerStudio.Vms {
                                     item.Update(data);
                                 }
                             }
-                            vms.Sort(new ClientDataComparer(_sortDirection, _sortField));
+                            vms.Sort(new ClientDataComparer(_sortDirection[this.SortField], _sortField));
                             _minerClients = new ObservableCollection<MinerClientViewModel>(vms);
                             OnPropertyChanged(nameof(MinerClients));
                             OnPropertyChanged(nameof(IsNoRecordVisible));
@@ -588,16 +597,17 @@ namespace NTMiner.MinerStudio.Vms {
                 this.PageIndex = PageCount;
             });
             this.PageRefresh = new DelegateCommand(QueryMinerClients);
+            this._lastSortDirection = new Dictionary<ClientDataSortField, SortDirection>(_sortDirection);
             this.SortByMinerName = new DelegateCommand(() => {
                 if (this.SortField != ClientDataSortField.MinerName) {
                     this.SortField = ClientDataSortField.MinerName;
                 }
                 else {
-                    if (SortDirection == SortDirection.Ascending) {
-                        SortDirection = SortDirection.Descending;
+                    if (MinerNameSortDirection == SortDirection.Ascending) {
+                        MinerNameSortDirection = SortDirection.Descending;
                     }
                     else {
-                        SortDirection = SortDirection.Ascending;
+                        MinerNameSortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -606,11 +616,11 @@ namespace NTMiner.MinerStudio.Vms {
                     this.SortField = ClientDataSortField.MainCoinRejectPercent;
                 }
                 else {
-                    if (SortDirection == SortDirection.Ascending) {
-                        SortDirection = SortDirection.Descending;
+                    if (MainCoinRejectPercentSortDirection == SortDirection.Ascending) {
+                        MainCoinRejectPercentSortDirection = SortDirection.Descending;
                     }
                     else {
-                        SortDirection = SortDirection.Ascending;
+                        MainCoinRejectPercentSortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -619,11 +629,11 @@ namespace NTMiner.MinerStudio.Vms {
                     this.SortField = ClientDataSortField.DualCoinRejectPercent;
                 }
                 else {
-                    if (SortDirection == SortDirection.Ascending) {
-                        SortDirection = SortDirection.Descending;
+                    if (DualCoinRejectPercentSortDirection == SortDirection.Ascending) {
+                        DualCoinRejectPercentSortDirection = SortDirection.Descending;
                     }
                     else {
-                        SortDirection = SortDirection.Ascending;
+                        DualCoinRejectPercentSortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -632,11 +642,11 @@ namespace NTMiner.MinerStudio.Vms {
                     this.SortField = ClientDataSortField.MainCoinPoolDelay;
                 }
                 else {
-                    if (SortDirection == SortDirection.Ascending) {
-                        SortDirection = SortDirection.Descending;
+                    if (MainCoinPoolDelaySortDirection == SortDirection.Ascending) {
+                        MainCoinPoolDelaySortDirection = SortDirection.Descending;
                     }
                     else {
-                        SortDirection = SortDirection.Ascending;
+                        MainCoinPoolDelaySortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -645,11 +655,11 @@ namespace NTMiner.MinerStudio.Vms {
                     this.SortField = ClientDataSortField.DualCoinPoolDelay;
                 }
                 else {
-                    if (SortDirection == SortDirection.Ascending) {
-                        SortDirection = SortDirection.Descending;
+                    if (DualCoinPoolDelaySortDirection == SortDirection.Ascending) {
+                        DualCoinPoolDelaySortDirection = SortDirection.Descending;
                     }
                     else {
-                        SortDirection = SortDirection.Ascending;
+                        DualCoinPoolDelaySortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -658,11 +668,11 @@ namespace NTMiner.MinerStudio.Vms {
                     this.SortField = ClientDataSortField.CpuTemperature;
                 }
                 else {
-                    if (SortDirection == SortDirection.Ascending) {
-                        SortDirection = SortDirection.Descending;
+                    if (CpuTemperatureSortDirection == SortDirection.Ascending) {
+                        CpuTemperatureSortDirection = SortDirection.Descending;
                     }
                     else {
-                        SortDirection = SortDirection.Ascending;
+                        CpuTemperatureSortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -671,11 +681,11 @@ namespace NTMiner.MinerStudio.Vms {
                     this.SortField = ClientDataSortField.KernelSelfRestartCount;
                 }
                 else {
-                    if (SortDirection == SortDirection.Ascending) {
-                        SortDirection = SortDirection.Descending;
+                    if (KernelSelfRestartCountSortDirection == SortDirection.Ascending) {
+                        KernelSelfRestartCountSortDirection = SortDirection.Descending;
                     }
                     else {
-                        SortDirection = SortDirection.Ascending;
+                        KernelSelfRestartCountSortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -1095,13 +1105,78 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public SortDirection SortDirection {
-            get { return _sortDirection; }
+        public SortDirection MinerNameSortDirection {
+            get { return _sortDirection[ClientDataSortField.MinerName]; }
             set {
-                if (_sortDirection != value) {
-                    _sortDirection = value;
-                    OnPropertyChanged(nameof(SortDirection));
-                    OnPropertyChanged(nameof(IsSortAscending));
+                if (_sortDirection[ClientDataSortField.MinerName] != value) {
+                    _sortDirection[ClientDataSortField.MinerName] = value;
+                    OnPropertyChanged(nameof(MinerNameSortDirection));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public SortDirection MainCoinRejectPercentSortDirection {
+            get { return _sortDirection[ClientDataSortField.MainCoinRejectPercent]; }
+            set {
+                if (_sortDirection[ClientDataSortField.MainCoinRejectPercent] != value) {
+                    _sortDirection[ClientDataSortField.MainCoinRejectPercent] = value;
+                    OnPropertyChanged(nameof(MainCoinRejectPercentSortDirection));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public SortDirection DualCoinRejectPercentSortDirection {
+            get { return _sortDirection[ClientDataSortField.DualCoinRejectPercent]; }
+            set {
+                if (_sortDirection[ClientDataSortField.DualCoinRejectPercent] != value) {
+                    _sortDirection[ClientDataSortField.DualCoinRejectPercent] = value;
+                    OnPropertyChanged(nameof(DualCoinRejectPercentSortDirection));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public SortDirection MainCoinPoolDelaySortDirection {
+            get { return _sortDirection[ClientDataSortField.MainCoinPoolDelay]; }
+            set {
+                if (_sortDirection[ClientDataSortField.MainCoinPoolDelay] != value) {
+                    _sortDirection[ClientDataSortField.MainCoinPoolDelay] = value;
+                    OnPropertyChanged(nameof(MainCoinPoolDelaySortDirection));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public SortDirection DualCoinPoolDelaySortDirection {
+            get { return _sortDirection[ClientDataSortField.DualCoinPoolDelay]; }
+            set {
+                if (_sortDirection[ClientDataSortField.DualCoinPoolDelay] != value) {
+                    _sortDirection[ClientDataSortField.DualCoinPoolDelay] = value;
+                    OnPropertyChanged(nameof(DualCoinPoolDelaySortDirection));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public SortDirection CpuTemperatureSortDirection {
+            get { return _sortDirection[ClientDataSortField.CpuTemperature]; }
+            set {
+                if (_sortDirection[ClientDataSortField.CpuTemperature] != value) {
+                    _sortDirection[ClientDataSortField.CpuTemperature] = value;
+                    OnPropertyChanged(nameof(CpuTemperatureSortDirection));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public SortDirection KernelSelfRestartCountSortDirection {
+            get { return _sortDirection[ClientDataSortField.KernelSelfRestartCount]; }
+            set {
+                if (_sortDirection[ClientDataSortField.KernelSelfRestartCount] != value) {
+                    _sortDirection[ClientDataSortField.KernelSelfRestartCount] = value;
+                    OnPropertyChanged(nameof(KernelSelfRestartCountSortDirection));
                     this.PageIndex = 1;
                 }
             }
@@ -1164,12 +1239,6 @@ namespace NTMiner.MinerStudio.Vms {
         public bool IsSortByKernelSelfRestartCount {
             get {
                 return SortField == ClientDataSortField.KernelSelfRestartCount;
-            }
-        }
-
-        public bool IsSortAscending {
-            get {
-                return SortDirection == SortDirection.Ascending;
             }
         }
 

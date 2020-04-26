@@ -12,6 +12,7 @@
     <converters:BoolToBrushConverter x:Key="BoolToBrushConverter"></converters:BoolToBrushConverter>
     <converters:BoolToBrushInvertConverter x:Key="BoolToBrushInvertConverter"></converters:BoolToBrushInvertConverter>
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    <converters:SortDirectionToVisibilityConverter x:Key="SortDirectionToVisibilityConverter"></converters:SortDirectionToVisibilityConverter>
 	<converters:BoolToVisibilityInvertConverter x:Key="BoolToVisibilityInvertConverter" />
 	<converters:BoolToHiddenConverter x:Key="BoolToHiddenConverter" />
 	<converters:BoolToHiddenInvertConverter x:Key="BoolToHiddenInvertConverter" />
