@@ -10,8 +10,8 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 Title = "挖矿作业 — 作业通常用于让不同的矿机执行同样的挖矿任务",
                 FormType = formType,
                 IsMaskTheParent = true,
-                Width = 1000,
-                Height = 600,
+                Width = 900,
+                Height = 560,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
                 IconName = "Icon_MineWork"
