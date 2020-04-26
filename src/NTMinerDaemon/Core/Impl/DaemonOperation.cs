@@ -80,6 +80,18 @@ namespace NTMiner.Core.Impl {
         }
         #endregion
 
+        #region GetLocalJson
+        public string GetLocalJson() {
+            try {
+                return SpecialPath.ReadLocalJsonFile();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return string.Empty;
+            }
+        }
+        #endregion
+
         #region GetGpuProfilesJson
         public string GetGpuProfilesJson() {
             try {
@@ -196,8 +208,8 @@ namespace NTMiner.Core.Impl {
             else {
                 try {
                     if (request.WorkId != Guid.Empty) {
-                        File.WriteAllText(SpecialPath.NTMinerLocalJsonFileFullName, request.LocalJson);
-                        File.WriteAllText(SpecialPath.NTMinerServerJsonFileFullName, request.ServerJson);
+                        File.WriteAllText(SpecialPath.LocalJsonFileFullName, request.LocalJson);
+                        File.WriteAllText(SpecialPath.ServerJsonFileFullName, request.ServerJson);
                     }
                     string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
                     if (IsNTMinerOpened()) {

@@ -4,8 +4,8 @@ using System.IO;
 namespace NTMiner {
     public static class SpecialPath {
         private static readonly string _homeDirFullName;
-        public static readonly string NTMinerLocalJsonFileFullName;
-        public static readonly string NTMinerServerJsonFileFullName;
+        public static readonly string LocalJsonFileFullName;
+        public static readonly string ServerJsonFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
 
         static SpecialPath() {
@@ -27,9 +27,17 @@ namespace NTMiner {
             else {
                 _homeDirFullName = globalPath;
             }
-            NTMinerLocalJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.LocalJsonFileName);
-            NTMinerServerJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.ServerJsonFileName);
+            LocalJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.LocalJsonFileName);
+            ServerJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.ServerJsonFileName);
             GpuProfilesJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.GpuProfilesFileName);
+        }
+
+        public static string ReadLocalJsonFile() {
+            if (File.Exists(LocalJsonFileFullName)) {
+                return File.ReadAllText(LocalJsonFileFullName);
+            }
+
+            return string.Empty;
         }
 
         public static string ReadGpuProfilesJsonFile() {

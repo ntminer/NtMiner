@@ -56,20 +56,21 @@ namespace NTMiner {
             VirtualRoot.DaemonOperation.CloseDaemon();
         }
 
-        #region GetGpuProfilesJson
+        [HttpPost]
+        public string GetLocalJson() {
+            return VirtualRoot.DaemonOperation.GetLocalJson();
+        }
+
         [HttpPost]
         public string GetGpuProfilesJson() {
             return VirtualRoot.DaemonOperation.GetGpuProfilesJson();
         }
-        #endregion
 
-        #region SaveGpuProfilesJson
         [HttpPost]
         public void SaveGpuProfilesJson() {
             string json = Request.Content.ReadAsStringAsync().Result;
             VirtualRoot.DaemonOperation.SaveGpuProfilesJson(json);
         }
-        #endregion
 
         // 注意：已经通过url传参了，为了版本兼容性不能去掉[FromUri]了
         [HttpPost]

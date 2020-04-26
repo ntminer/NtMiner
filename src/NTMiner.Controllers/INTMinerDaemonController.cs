@@ -15,6 +15,7 @@ namespace NTMiner.Controllers {
         ResponseBase AtikmdagPatcher();
         ResponseBase SwitchRadeonGpu(bool on);
         void CloseDaemon();
+        string GetLocalJson();
         string GetGpuProfilesJson();
         void SaveGpuProfilesJson();
         // TODO:应该新增一个Action用于处理配置合集

@@ -19,9 +19,7 @@
 			ItemsSource="{Binding ClientOperationResults}" 
             EnableRowVirtualization="True"
 			Background="Transparent" 
-			HorizontalScrollBarVisibility="Auto"
-            BorderThickness="0 1 0 0"
-            BorderBrush="{StaticResource LightLineColor}">
+			HorizontalScrollBarVisibility="Auto">
             <DataGrid.Resources>
                 <controls:BindingProxy x:Key="proxy" Data="{Binding}" />
             </DataGrid.Resources>

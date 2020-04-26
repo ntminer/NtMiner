@@ -10,6 +10,7 @@ namespace NTMiner.Core {
         ResponseBase BlockWAU();
         ResponseBase AtikmdagPatcher();
         ResponseBase SwitchRadeonGpu(bool on);
+        string GetLocalJson();
         string GetGpuProfilesJson();
         ResponseBase RestartWindows();
         bool SaveGpuProfilesJson(string json);
