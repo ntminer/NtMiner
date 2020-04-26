@@ -93,25 +93,21 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
-                        <TextBlock Width="180" VerticalAlignment="Center" Text="{Binding ColumnsShowName}"></TextBlock>
+                        <TextBlock Width="200" VerticalAlignment="Center" Text="{Binding ColumnsShowName}"></TextBlock>
                         <controls:KbButton 
-                            Margin="10 0 0 0"
+                            Margin="4 0 0 0"
                             Padding="6 4"
                             Click="HideView"
                             Visibility="{Binding IsPleaseSelect,Converter={StaticResource BoolToHiddenInvertConverter}}"
-                            Background="{StaticResource BtnBackground}"
-                            Foreground="{StaticResource BtnForeground}"
+                            Background="{StaticResource TransparentColor}"
                             Command="{Binding Remove}">
                             <controls:KbButton.Content>
-                                <WrapPanel>
-                                    <Path
-							            Width="16"
-							            Height="16"
-							            Data="{StaticResource Icon_Delete}"
-							            Fill="{StaticResource BtnForeground}"
-							            Stretch="Fill" />
-                                    <TextBlock>删除</TextBlock>
-                                </WrapPanel>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{StaticResource Icon_Delete}"
+							        Fill="{StaticResource BtnBackground}"
+							        Stretch="Fill" />
                             </controls:KbButton.Content>
                         </controls:KbButton>
                     </WrapPanel>

@@ -94,44 +94,37 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
-                        <TextBlock Width="180" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+                        <TextBlock Width="220" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
                         <controls:KbButton 
-                            Padding="6 4"
+                            Margin="4 0 0 0"
+                            Padding="4"
                             Command="{Binding Edit}"
                             Click="HideView"
                             Visibility="{Binding IsPleaseSelect,Converter={StaticResource BoolToHiddenInvertConverter}}"
-                            Background="{StaticResource BtnBackground}"
-                            Foreground="{StaticResource BtnForeground}">
+                            Background="{StaticResource TransparentColor}">
                             <controls:KbButton.Content>
-                                <WrapPanel>
-                                    <Path
-							            Width="16"
-							            Height="16"
-							            Data="{StaticResource Icon_Edit}"
-							            Fill="{StaticResource BtnForeground}"
-							            Stretch="Fill" />
-                                    <TextBlock>编辑</TextBlock>
-                                </WrapPanel>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{StaticResource Icon_Edit}"
+							        Fill="{StaticResource BtnBackground}"
+							        Stretch="Fill" />
                             </controls:KbButton.Content>
                         </controls:KbButton>
                         <controls:KbButton 
-                            Margin="10 0 0 0"
-                            Padding="6 4"
+                            Margin="4 0 0 0"
+                            Padding="4"
                             Click="HideView"
                             Visibility="{Binding IsPleaseSelect,Converter={StaticResource BoolToHiddenInvertConverter}}"
-                            Background="{StaticResource BtnBackground}"
-                            Foreground="{StaticResource BtnForeground}"
+                            Background="{StaticResource TransparentColor}"
                             Command="{Binding Remove}">
                             <controls:KbButton.Content>
-                                <WrapPanel>
-                                    <Path
-							            Width="16"
-							            Height="16"
-							            Data="{StaticResource Icon_Delete}"
-							            Fill="{StaticResource BtnForeground}"
-							            Stretch="Fill" />
-                                    <TextBlock>删除</TextBlock>
-                                </WrapPanel>
+                                <Path
+							        Width="16"
+							        Height="16"
+							        Data="{StaticResource Icon_Delete}"
+							        Fill="{StaticResource BtnBackground}"
+							        Stretch="Fill" />
                             </controls:KbButton.Content>
                         </controls:KbButton>
                     </WrapPanel>
