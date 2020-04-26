@@ -142,7 +142,8 @@ namespace NTMiner.Core.Impl {
             }
             total = list.Count();
             list.Sort(new ClientDataComparer(query.SortDirection, query.SortField));
-            coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, list, out onlineCount, out miningCount).ToList();
+            IEnumerable<ClientData> items = user.IsAdmin() ? data : data.Where(a => a.LoginName == user.LoginName);
+            coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, items, out onlineCount, out miningCount).ToList();
             var results = list.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
             DateTime time = DateTime.Now.AddSeconds(_isPull ? 20 : -180);
             // 一定时间未上报算力视为0算力
