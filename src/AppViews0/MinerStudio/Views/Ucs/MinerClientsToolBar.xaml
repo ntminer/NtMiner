@@ -29,7 +29,7 @@
             <MenuItem 
                 x:Name="MenuItemStartMine"
                 Style="{StaticResource TopMenuItem}"
-                Header="开挖" 
+                Header="开始挖矿" 
                 ToolTip="选中的矿机开始挖矿" 
                 Command="{Binding StartMine}">
                 <MenuItem.Icon>
@@ -43,7 +43,7 @@
             </MenuItem>
             <MenuItem 
                 Style="{StaticResource TopMenuItem}"
-                Header="停挖" 
+                Header="停止挖矿" 
                 ToolTip="选中的矿机停止挖矿" 
                 Command="{Binding StopMine}">
                 <MenuItem.Icon>
