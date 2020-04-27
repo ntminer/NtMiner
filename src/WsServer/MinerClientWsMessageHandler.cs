@@ -59,10 +59,10 @@ namespace NTMiner {
                     }
                 }
             },
-            {WsMessage.LocalJson,
+            {WsMessage.SelfWorkLocalJson,
                 (wsBehavior, loginName, clientId, message) => {
                     if (message.TryGetData(out string json)) {
-                        WsRoot.OperationMqSender.SendLocalJson(loginName, clientId, json);
+                        WsRoot.OperationMqSender.SendSelfWorkLocalJson(loginName, clientId, json);
                     }
                 }
             },

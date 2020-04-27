@@ -236,10 +236,10 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
-        #region GetLocalJsonAsync
-        public void GetLocalJsonAsync(IMinerData client) {
-            RpcRoot.PostAsync<string>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetLocalJson), null, (json, e) => {
-                VirtualRoot.RaiseEvent(new GetLocalJsonResponsedEvent(client.ClientId, json));
+        #region GetSelfWorkLocalJsonAsync
+        public void GetSelfWorkLocalJsonAsync(IMinerData client) {
+            RpcRoot.PostAsync<string>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetSelfWorkLocalJson), null, (json, e) => {
+                VirtualRoot.RaiseEvent(new GetSelfWorkLocalJsonResponsedEvent(client.ClientId, json));
             }, timeountMilliseconds: 3000);
         }
         #endregion

@@ -94,7 +94,7 @@ namespace NTMiner.Core.Impl {
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
                     return;
                 }
-                SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.LocalJson) {
+                SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.SelfWorkLocalJson) {
                     Data = new WrapperClientIdData {
                         ClientId = message.ClientId,
                         Data = message.Data

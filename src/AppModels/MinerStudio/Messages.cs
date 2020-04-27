@@ -175,9 +175,9 @@ namespace NTMiner.MinerStudio {
         }
     }
 
-    [MessageType(description: "收到了GetLocalJsonResponsed消息后")]
-    public class GetLocalJsonResponsedEvent : OperationResultEvent<string> {
-        public GetLocalJsonResponsedEvent(Guid clientId, string data) : base(clientId, data) {
+    [MessageType(description: "收到了GetSelfWorkLocalJsonResponsed消息后")]
+    public class GetSelfWorkLocalJsonResponsedEvent : OperationResultEvent<string> {
+        public GetSelfWorkLocalJsonResponsedEvent(Guid clientId, string data) : base(clientId, data) {
         }
     }
 

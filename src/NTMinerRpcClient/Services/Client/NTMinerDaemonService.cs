@@ -11,8 +11,8 @@ namespace NTMiner.Services.Client {
         private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerDaemonController>();
         private NTMinerDaemonService() { }
 
-        public void GetLocalJsonAsync(IMinerData client, Action<string, Exception> callback) {
-            RpcRoot.PostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetLocalJson), callback, timeountMilliseconds: 3000);
+        public void GetSelfWorkLocalJsonAsync(IMinerData client, Action<string, Exception> callback) {
+            RpcRoot.PostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetSelfWorkLocalJson), callback, timeountMilliseconds: 3000);
         }
 
         #region Localhost

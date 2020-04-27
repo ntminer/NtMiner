@@ -172,11 +172,11 @@ namespace NTMiner.Core.Mq {
         }
         #endregion
 
-        #region LocalJson
-        public static byte[] GetLocalJsonMqSendBody(string json) {
+        #region SelfWorkLocalJson
+        public static byte[] GetSelfWorkLocalJsonMqSendBody(string json) {
             return Encoding.UTF8.GetBytes(json);
         }
-        public static string GetLocalJsonMqReceiveBody(byte[] body) {
+        public static string GetSelfWorkLocalJsonMqReceiveBody(byte[] body) {
             return Encoding.UTF8.GetString(body);
         }
         #endregion

@@ -57,8 +57,8 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public string GetLocalJson() {
-            return VirtualRoot.DaemonOperation.GetLocalJson();
+        public string GetSelfWorkLocalJson() {
+            return VirtualRoot.DaemonOperation.GetSelfWorkLocalJson();
         }
 
         [HttpPost]

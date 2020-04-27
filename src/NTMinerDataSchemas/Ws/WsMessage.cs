@@ -25,7 +25,7 @@ namespace NTMiner.Ws {
         public const string GetDrives = "GetDrives";
         public const string GetLocalIps = "GetLocalIps";
         public const string GetSpeed = "GetSpeed";
-        public const string GetLocalJson = "GetLocalJson";
+        public const string GetSelfWorkLocalJson = "GetSelfWorkLocalJson";
         public const string GetGpuProfilesJson = "GetGpuProfilesJson";
 
         public const string EnableRemoteDesktop = "EnableRemoteDesktop";
@@ -50,7 +50,7 @@ namespace NTMiner.Ws {
         public const string LocalMessages = "LocalMessages";
         public const string Speed = "Speed";
         public const string OperationReceived = "OperationReceived";
-        public const string LocalJson = "LocalJson";
+        public const string SelfWorkLocalJson = "SelfWorkLocalJson";
         public const string GpuProfilesJson = "GpuProfilesJson";
         #endregion
 

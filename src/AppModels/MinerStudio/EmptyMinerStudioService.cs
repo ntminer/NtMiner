@@ -97,7 +97,7 @@ namespace NTMiner.MinerStudio {
             // 什么也不做
         }
 
-        public void GetLocalJsonAsync(IMinerData client) {
+        public void GetSelfWorkLocalJsonAsync(IMinerData client) {
             // 什么也不做
         }
 

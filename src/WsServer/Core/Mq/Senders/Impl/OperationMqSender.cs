@@ -211,13 +211,13 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: OperationMqBodyUtil.GetSetLocalIpsMqSendBody(datas));
         }
 
-        public void SendGetLocalJson(string loginName, Guid clientId) {
+        public void SendGetSelfWorkLocalJson(string loginName, Guid clientId) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
-                routingKey: WsMqKeyword.GetLocalJsonRoutingKey,
+                routingKey: WsMqKeyword.GetSelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
         }
@@ -233,15 +233,15 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: _emptyBody);
         }
 
-        public void SendLocalJson(string loginName, Guid clientId, string json) {
+        public void SendSelfWorkLocalJson(string loginName, Guid clientId, string json) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
             _mqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
-                routingKey: WsMqKeyword.LocalJsonRoutingKey,
+                routingKey: WsMqKeyword.SelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
-                body: OperationMqBodyUtil.GetLocalJsonMqSendBody(json));
+                body: OperationMqBodyUtil.GetSelfWorkLocalJsonMqSendBody(json));
         }
 
         public void SendGpuProfilesJson(string loginName, Guid clientId, string json) {

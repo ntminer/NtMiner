@@ -258,13 +258,13 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
-        #region GetLocalJsonAsync
-        public void GetLocalJsonAsync(IMinerData client) {
+        #region GetSelfWorkLocalJsonAsync
+        public void GetSelfWorkLocalJsonAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {
                 VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
                 return;
             }
-            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetLocalJson) {
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetSelfWorkLocalJson) {
                 Data = new WrapperClientId {
                     ClientId = client.ClientId
                 }

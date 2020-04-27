@@ -33,9 +33,9 @@ namespace NTMiner.Core.Mq.Senders {
         void SendSetVirtualMemory(string loginName, Guid clientId, Dictionary<string, int> datas);
         void SendSetLocalIps(string loginName, Guid clientId, List<LocalIpInput> datas);
 
-        void SendGetLocalJson(string loginName, Guid clientId);
+        void SendGetSelfWorkLocalJson(string loginName, Guid clientId);
         void SendGetGpuProfilesJson(string loginName, Guid clientId);
-        void SendLocalJson(string loginName, Guid clientId, string json);
+        void SendSelfWorkLocalJson(string loginName, Guid clientId, string json);
         void SendGpuProfilesJson(string loginName, Guid clientId, string json);
 
         void SendSaveGpuProfilesJson(string loginName, Guid clientId, string json);

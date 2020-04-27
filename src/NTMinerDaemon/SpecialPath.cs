@@ -3,37 +3,48 @@ using System.IO;
 
 namespace NTMiner {
     public static class SpecialPath {
-        private static readonly string _homeDirFullName;
         public static readonly string LocalJsonFileFullName;
         public static readonly string ServerJsonFileFullName;
+        public static readonly string SelfWorkLocalJsonFileFullName;
+        public static readonly string SelfWorkServerJsonFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
 
         static SpecialPath() {
             string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
             string globalPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
+            string homeDirFullName;
             if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                 try {
                     if (File.Exists(Path.Combine(Path.GetDirectoryName(location), "home.lock"))) {
-                        _homeDirFullName = Path.GetDirectoryName(location);
+                        homeDirFullName = Path.GetDirectoryName(location);
                     }
                     else {
-                        _homeDirFullName = globalPath;
+                        homeDirFullName = globalPath;
                     }
                 }
                 catch {
-                    _homeDirFullName = globalPath;
+                    homeDirFullName = globalPath;
                 }
             }
             else {
-                _homeDirFullName = globalPath;
+                homeDirFullName = globalPath;
             }
-            LocalJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.LocalJsonFileName);
-            ServerJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.ServerJsonFileName);
-            GpuProfilesJsonFileFullName = Path.Combine(_homeDirFullName, HomePath.GpuProfilesFileName);
+            string selfWorkDirFullName = Path.Combine(homeDirFullName, "SelfWork");
+            if (!Directory.Exists(selfWorkDirFullName)) {
+                Directory.CreateDirectory(selfWorkDirFullName);
+            }
+            LocalJsonFileFullName = Path.Combine(homeDirFullName, HomePath.LocalJsonFileName);
+            ServerJsonFileFullName = Path.Combine(homeDirFullName, HomePath.ServerJsonFileName);
+            SelfWorkLocalJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.LocalJsonFileName);
+            SelfWorkServerJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.ServerJsonFileName);
+            GpuProfilesJsonFileFullName = Path.Combine(homeDirFullName, HomePath.GpuProfilesFileName);
         }
 
-        public static string ReadLocalJsonFile() {
-            if (File.Exists(LocalJsonFileFullName)) {
+        public static string ReadSelfWorkLocalJsonFile() {
+            if (File.Exists(SelfWorkLocalJsonFileFullName)) {
+                return File.ReadAllText(SelfWorkLocalJsonFileFullName);
+            }
+            else if (File.Exists(LocalJsonFileFullName)) {
                 return File.ReadAllText(LocalJsonFileFullName);
             }
 

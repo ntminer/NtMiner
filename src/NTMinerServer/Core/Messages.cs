@@ -338,9 +338,9 @@ namespace NTMiner.Core {
         public bool On { get; private set; }
     }
 
-    [MessageType(description: "收到了GetLocalJson Mq消息后")]
-    public class GetLocalJsonMqMessage : OperationMqMessage {
-        public GetLocalJsonMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId)
+    [MessageType(description: "收到了GetSelfWorkLocalJson Mq消息后")]
+    public class GetSelfWorkLocalJsonMqMessage : OperationMqMessage {
+        public GetSelfWorkLocalJsonMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId)
             : base(appId, loginName, timestamp, clientId) {
         }
     }

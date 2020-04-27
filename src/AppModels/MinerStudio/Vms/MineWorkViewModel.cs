@@ -107,16 +107,16 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                     SelfMineWork.Description = $"针对矿机 {_minerClientVm.GetMinerOrClientName()} 的作业";
                     if (RpcRoot.IsOuterNet) {
-                        VirtualRoot.AddOnecePath<GetLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, action: message => {
+                        VirtualRoot.AddOnecePath<GetSelfWorkLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, action: message => {
                             if (message.ClientId == _minerClientVm.ClientId) {
                                 string data = message.Data;
                                 EditJson(formType, data);
                             }
                         }, PathId.Empty, typeof(MineWorkViewModel));
-                        MinerStudioRoot.MinerStudioService.GetLocalJsonAsync(_minerClientVm);
+                        MinerStudioRoot.MinerStudioService.GetSelfWorkLocalJsonAsync(_minerClientVm);
                     }
                     else {
-                        RpcRoot.Client.NTMinerDaemonService.GetLocalJsonAsync(_minerClientVm, (json, e) => {
+                        RpcRoot.Client.NTMinerDaemonService.GetSelfWorkLocalJsonAsync(_minerClientVm, (json, e) => {
                             string data = json;
                             EditJson(formType, data);
                         });

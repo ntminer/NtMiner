@@ -80,10 +80,10 @@ namespace NTMiner.Core.Impl {
         }
         #endregion
 
-        #region GetLocalJson
-        public string GetLocalJson() {
+        #region GetSelfWorkLocalJson
+        public string GetSelfWorkLocalJson() {
             try {
-                return SpecialPath.ReadLocalJsonFile();
+                return SpecialPath.ReadSelfWorkLocalJsonFile();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

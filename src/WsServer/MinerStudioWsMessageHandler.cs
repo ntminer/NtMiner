@@ -92,10 +92,10 @@ namespace NTMiner {
                     }
                 }
             },
-            {WsMessage.GetLocalJson,
+            {WsMessage.GetSelfWorkLocalJson,
                 (loginName, message)=> {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        WsRoot.OperationMqSender.SendGetLocalJson(loginName, wrapperClientId.ClientId);
+                        WsRoot.OperationMqSender.SendGetSelfWorkLocalJson(loginName, wrapperClientId.ClientId);
                     }
                 }
             },
