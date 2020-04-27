@@ -311,7 +311,7 @@
 						    Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Command="{Binding EnableRemoteDesktop}" Header="启用远程桌面" ToolTip="开启选中的矿机的Windows远程桌面功能">
+                <MenuItem Command="{Binding EnableRemoteDesktop}" Header="开启远程桌面" ToolTip="开启选中的矿机的Windows远程桌面功能">
                     <MenuItem.Icon>
                         <Path
 						    Width="16"
