@@ -13,7 +13,7 @@ namespace NTMiner.MinerStudio.Vms {
             _name = "不指定"
         };
         public static readonly MineWorkViewModel SelfMineWork = new MineWorkViewModel(MineWorkData.SelfMineWorkId) {
-            _name = "自主作业"
+            _name = "单机作业"
         };
 
         private Guid _id;
@@ -54,7 +54,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (this.Id != MineWorkData.SelfMineWorkId) {// 统一作业
                     DoSave();
                 }
-                else {// 自主作业
+                else {// 单机作业
 
                 }
             });
