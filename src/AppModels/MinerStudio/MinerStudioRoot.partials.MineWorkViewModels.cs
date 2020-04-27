@@ -1,4 +1,5 @@
-﻿using NTMiner.MinerStudio.Vms;
+﻿using NTMiner.Core;
+using NTMiner.MinerStudio.Vms;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,9 @@ namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
         public class MineWorkViewModels : ViewModelBase {
             public static readonly MineWorkViewModels Instance = new MineWorkViewModels();
-            private readonly Dictionary<Guid, MineWorkViewModel> _dicById = new Dictionary<Guid, MineWorkViewModel>();
+            private readonly Dictionary<Guid, MineWorkViewModel> _dicById = new Dictionary<Guid, MineWorkViewModel> {
+                {MineWorkData.SelfMineWorkId, MineWorkViewModel.SelfMineWork }
+            };
             public ICommand Add { get; private set; }
 
             private MineWorkViewModels() {
