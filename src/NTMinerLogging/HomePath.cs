@@ -8,8 +8,8 @@ namespace NTMiner {
         public const string GpuProfilesFileName = "gpuProfiles.json";
         public const string PackagesDirName = "Packages";
         public const string UpdaterDirName = "Updater";
+        public const string SelfWorkDirName = "SelfWork";
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
-        public const string ServicesDirName = "Services";
         public const string ServerDbFileName = "server.litedb";
         public const string LocalDbFileName = "local.litedb";
 
@@ -17,7 +17,9 @@ namespace NTMiner {
         public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.config");
         public static string HomeDirFullName { get; private set; } = EntryAssemblyInfo.TempDirFullName;
         public static readonly string ServerJsonFileFullName;
+        public static readonly string SelfWorkServerJsonFileFullName;
         public static readonly string LocalJsonFileFullName;
+        public static readonly string SelfWorkLocalJsonFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
         static HomePath() {
             string homeDirFullName = HomeDirFullName;
@@ -31,7 +33,9 @@ namespace NTMiner {
             }
             SetHomeDirFullName(homeDirFullName);
             ServerJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
+            SelfWorkServerJsonFileFullName = Path.Combine(SelfWorkDirFullName, ServerJsonFileName);
             LocalJsonFileFullName = Path.Combine(HomeDirFullName, LocalJsonFileName);
+            SelfWorkLocalJsonFileFullName = Path.Combine(SelfWorkDirFullName, LocalJsonFileName);
             GpuProfilesJsonFileFullName = Path.Combine(HomeDirFullName, GpuProfilesFileName);
         }
 
@@ -134,24 +138,24 @@ namespace NTMiner {
             }
         }
 
-        public static string UpdaterFileFullName {
+        private static bool _sIsFirstCallSelfWorkDirFullName = true;
+        public static string SelfWorkDirFullName {
             get {
-                return Path.Combine(UpdaterDirFullName, NTMinerUpdaterFileName);
-            }
-        }
-
-        private static bool _sIsFirstCallServicesDirFullName = true;
-        public static string ServicesDirFullName {
-            get {
-                string dirFullName = Path.Combine(HomeDirFullName, ServicesDirName);
-                if (_sIsFirstCallServicesDirFullName) {
+                string dirFullName = Path.Combine(HomeDirFullName, SelfWorkDirName);
+                if (_sIsFirstCallSelfWorkDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _sIsFirstCallServicesDirFullName = false;
+                    _sIsFirstCallSelfWorkDirFullName = false;
                 }
 
                 return dirFullName;
+            }
+        }
+
+        public static string UpdaterFileFullName {
+            get {
+                return Path.Combine(UpdaterDirFullName, NTMinerUpdaterFileName);
             }
         }
 
@@ -163,13 +167,33 @@ namespace NTMiner {
             return string.Empty;
         }
 
+        public static string ReadSelfWorkServerJsonFile() {
+            if (File.Exists(SelfWorkServerJsonFileFullName)) {
+                return File.ReadAllText(SelfWorkServerJsonFileFullName);
+            }
+
+            return string.Empty;
+        }
+
         public static void WriteServerJsonFile(string json) {
             File.WriteAllText(ServerJsonFileFullName, json);
+        }
+
+        public static void WriteSelfWorkServerJsonFile(string json) {
+            File.WriteAllText(SelfWorkServerJsonFileFullName, json);
         }
 
         public static string ReadLocalJsonFile() {
             if (File.Exists(LocalJsonFileFullName)) {
                 return File.ReadAllText(LocalJsonFileFullName);
+            }
+
+            return string.Empty;
+        }
+
+        public static string ReadSelfWorkLocalJsonFile() {
+            if (File.Exists(SelfWorkLocalJsonFileFullName)) {
+                return File.ReadAllText(SelfWorkLocalJsonFileFullName);
             }
 
             return string.Empty;
