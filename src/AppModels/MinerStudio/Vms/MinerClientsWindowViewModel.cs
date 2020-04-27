@@ -505,7 +505,7 @@ namespace NTMiner.MinerStudio.Vms {
                 #endregion
             }, IsSelectedAny);
             this.SelfMineWork = new DelegateCommand(() => {
-
+                MineWorkViewModel.SelfMineWork.Edit.Execute(FormType.Edit);
             }, IsSelectedOne);
             this.EnableRemoteDesktop = new DelegateCommand(() => {
                 #region
