@@ -71,7 +71,7 @@
     <Compile Include="TypeExtensions.cs" />
     <Compile Include="VirtualMemory\DriveDto.cs" />
     <Compile Include="VirtualMemory\IDrive.cs" />
-    <Compile Include="GetNodeAddressRequest.cs" />
+    <Compile Include="ServerNode\GetWsServerNodeAddressRequest.cs" />
     <Compile Include="IData.cs" />
     <Compile Include="IDbEntity`1.cs" />
     <Compile Include="IEntity.cs" />

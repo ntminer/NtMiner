@@ -19,7 +19,7 @@ namespace NTMiner.Services.Official {
         }
 
         public void GetNodeAddressAsync(Guid clientId, string outerUserId, Action<DataResponse<string>, Exception> callback) {
-            var data = new GetNodeAddressRequest {
+            var data = new GetWsServerNodeAddressRequest {
                 ClientId = clientId,
                 UserId = outerUserId
             };

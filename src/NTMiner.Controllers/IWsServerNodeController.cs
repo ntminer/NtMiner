@@ -11,7 +11,7 @@ namespace NTMiner.Controllers {
         /// 需签名
         /// </summary>
         DataResponse<string[]> NodeAddresses(object request);
-        DataResponse<string> GetNodeAddress(GetNodeAddressRequest request);
+        DataResponse<string> GetNodeAddress(GetWsServerNodeAddressRequest request);
 
         /// <summary>
         /// 需签名

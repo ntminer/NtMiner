@@ -37,7 +37,7 @@ namespace NTMiner.Controllers {
 
         // 这是矿机根据自己的ClientId获取Ws服务器地址的接口
         [HttpPost]
-        public DataResponse<string> GetNodeAddress([FromBody]GetNodeAddressRequest request) {
+        public DataResponse<string> GetNodeAddress([FromBody]GetWsServerNodeAddressRequest request) {
             if (request == null || request.ClientId == Guid.Empty || string.IsNullOrEmpty(request.UserId)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
