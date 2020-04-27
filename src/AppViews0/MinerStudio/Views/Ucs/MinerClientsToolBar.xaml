@@ -57,7 +57,7 @@
             </MenuItem>
             <MenuItem 
                 Style="{StaticResource TopMenuItem}"
-                Header="自习作业" 
+                Header="自主作业" 
                 ToolTip="针对每个矿机进行个性作业" 
                 Command="{Binding SelfMineWork}">
                 <MenuItem.Icon>
