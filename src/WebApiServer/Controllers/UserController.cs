@@ -38,11 +38,12 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (request.Data == Role.RoleEnum.admin.GetName()) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
+            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            if (user == null) {
+                return ResponseBase.Ok("删除成功");
             }
-            if (request.Data == User.LoginName) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能删除自己");
+            if (user.IsAdmin()) {
+                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
                 WebApiRoot.UserSet.Remove(request.Data);
@@ -59,11 +60,12 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (request.Data == Role.RoleEnum.admin.GetName()) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
+            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            if (user == null) {
+                return ResponseBase.NotExist($"登录名 {request.Data} 不存在");
             }
-            if (request.Data == User.LoginName) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能启用自己");
+            if (user.IsAdmin()) {
+                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
                 WebApiRoot.UserSet.Enable(request.Data);
@@ -80,11 +82,12 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (request.Data == Role.RoleEnum.admin.GetName()) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
+            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            if (user == null) {
+                return ResponseBase.NotExist($"登录名 {request.Data} 不存在");
             }
-            if (request.Data == User.LoginName) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能禁用自己");
+            if (user.IsAdmin()) {
+                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
                 WebApiRoot.UserSet.Disable(request.Data);
@@ -101,11 +104,12 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (request.Data == Role.RoleEnum.admin.GetName()) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
+            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            if (user == null) {
+                return ResponseBase.NotExist($"登录名 {request.Data} 不存在");
             }
-            if (request.Data == User.LoginName) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作自己");
+            if (user.IsAdmin()) {
+                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
                 WebApiRoot.UserSet.AddAdminRole(request.Data);
@@ -122,11 +126,12 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            if (request.Data == Role.RoleEnum.admin.GetName()) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
+            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            if (user == null) {
+                return ResponseBase.NotExist($"登录名 {request.Data} 不存在");
             }
-            if (request.Data == User.LoginName) {
-                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作自己");
+            if (user.IsAdmin()) {
+                return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
                 WebApiRoot.UserSet.RemoveAdminRole(request.Data);

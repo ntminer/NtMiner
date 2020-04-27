@@ -112,9 +112,6 @@ namespace NTMiner.Core.Impl {
             if (!_dicByLoginName.ContainsKey(input.LoginName)) {
                 _dicByLoginName.Add(input.LoginName, input);
             }
-            if (input.LoginName == Role.RoleEnum.admin.GetName() && !input.IsAdmin()) {
-                AddRole(input, Role.RoleEnum.admin);
-            }
             _redis.SetAsync(input).ContinueWith(t => {
                 _mqSender.SendUserAdded(input.LoginName);
             });
@@ -191,7 +188,7 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             if (_dicByLoginName.TryGetValue(loginName, out UserData entity)) {
-                AddRole(entity, Role.RoleEnum.admin);
+                AddRole(entity, Role.RoleEnum.Admin);
                 _redis.SetAsync(entity).ContinueWith(t => {
                     _mqSender.SendUserUpdated(loginName);
                 });
@@ -206,7 +203,7 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             if (_dicByLoginName.TryGetValue(loginName, out UserData entity)) {
-                RemoveRole(entity, Role.RoleEnum.admin);
+                RemoveRole(entity, Role.RoleEnum.Admin);
                 _redis.SetAsync(entity).ContinueWith(t => {
                     _mqSender.SendUserUpdated(loginName);
                 });

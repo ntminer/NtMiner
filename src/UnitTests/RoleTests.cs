@@ -29,13 +29,13 @@ namespace NTMiner {
         [TestMethod]
         public void LinqContainsTest() {
             string roles = "admin";
-            Assert.IsTrue(roles.Split(',').Contains(Role.RoleEnum.admin.ToString(), StringComparer.OrdinalIgnoreCase));
+            Assert.IsTrue(roles.Split(',').Contains(Role.RoleEnum.Admin.ToString(), StringComparer.OrdinalIgnoreCase));
             roles = "Admin";
-            Assert.IsTrue(roles.Split(',').Contains(Role.RoleEnum.admin.ToString(), StringComparer.OrdinalIgnoreCase));
+            Assert.IsTrue(roles.Split(',').Contains(Role.RoleEnum.Admin.ToString(), StringComparer.OrdinalIgnoreCase));
             roles = "Admin,user";
-            Assert.IsTrue(roles.Split(',').Contains(Role.RoleEnum.admin.ToString(), StringComparer.OrdinalIgnoreCase));
+            Assert.IsTrue(roles.Split(',').Contains(Role.RoleEnum.Admin.ToString(), StringComparer.OrdinalIgnoreCase));
             roles = "user";
-            Assert.IsFalse(roles.Split(',').Contains(Role.RoleEnum.admin.ToString(), StringComparer.OrdinalIgnoreCase));
+            Assert.IsFalse(roles.Split(',').Contains(Role.RoleEnum.Admin.ToString(), StringComparer.OrdinalIgnoreCase));
         }
 
         [TestMethod]
