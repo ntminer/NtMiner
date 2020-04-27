@@ -164,7 +164,9 @@
             if (_queyResults == _localMessageVms) {
                 return false;
             }
-            if (SelectedChannel == vm.ChannelEnum.GetEnumItem() && _count[SelectedChannel][vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.IgnoreCaseContains(Keyword))) {
+            if (SelectedChannel == vm.ChannelEnum.GetEnumItem() 
+                && _count[SelectedChannel][vm.MessageTypeEnum].IsChecked 
+                && (string.IsNullOrEmpty(Keyword) || vm.Content.IgnoreCaseContains(Keyword))) {
                 return true;
             }
             return false;

@@ -75,8 +75,12 @@ namespace NTMiner.Vms {
 
         public List<PoolViewModel> QueryResults {
             get {
-                var query = Coin.Pools.Where(a =>
-                    (a.Name != null && a.Name.IgnoreCaseContains(Keyword)) || a.Server != null && a.Server.IgnoreCaseContains(Keyword));
+                var query = Coin.Pools.AsQueryable();
+                if (!string.IsNullOrEmpty(Keyword)) {
+                    query = query.Where(a => 
+                        (a.Name != null && a.Name.IgnoreCaseContains(Keyword)) || 
+                         a.Server != null && a.Server.IgnoreCaseContains(Keyword));
+                }
                 if (_usedByPool1) {
                     return query.Where(a => !a.NotPool1).OrderBy(a => a.SortNumber).ToList();
                 }
