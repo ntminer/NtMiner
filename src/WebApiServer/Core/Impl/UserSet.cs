@@ -58,13 +58,13 @@ namespace NTMiner.Core.Impl {
                     break;
             }
             if (!string.IsNullOrEmpty(query.Email)) {
-                data = data.Where(a => !string.IsNullOrEmpty(a.Email) && a.Email.Contains(query.Email));
+                data = data.Where(a => !string.IsNullOrEmpty(a.Email) && a.Email.IgnoreCaseContains(query.Email));
             }
             if (!string.IsNullOrEmpty(query.Mobile)) {
                 data = data.Where(a => !string.IsNullOrEmpty(a.Mobile) && a.Mobile.Contains(query.Mobile));
             }
             if (!string.IsNullOrEmpty(query.Role)) {
-                data = data.Where(a => !string.IsNullOrEmpty(a.Roles) && a.Roles.Contains(query.Role));
+                data = data.Where(a => !string.IsNullOrEmpty(a.Roles) && a.Roles.IgnoreCaseContains(query.Role));
             }
             total = data.Count();
             var results = data.OrderBy(a => a.LoginName).Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
@@ -91,14 +91,14 @@ namespace NTMiner.Core.Impl {
             if (string.IsNullOrEmpty(user.Roles)) {
                 return;
             }
-            else if (user.Roles.Contains("," + role.GetName())) {
-                user.Roles = user.Roles.Replace("," + role.GetName(), string.Empty);
+            else if (user.Roles.IgnoreCaseContains("," + role.GetName())) {
+                user.Roles = user.Roles.IgnoreCaseReplace("," + role.GetName(), string.Empty);
             }
-            else if (user.Roles.Contains(role.GetName() + ",")) {
-                user.Roles = user.Roles.Replace(role.GetName() + ",", string.Empty);
+            else if (user.Roles.IgnoreCaseContains(role.GetName() + ",")) {
+                user.Roles = user.Roles.IgnoreCaseReplace(role.GetName() + ",", string.Empty);
             }
-            else if (user.Roles.Contains(role.GetName())) {
-                user.Roles = user.Roles.Replace(role.GetName(), string.Empty);
+            else if (user.Roles.IgnoreCaseContains(role.GetName())) {
+                user.Roles = user.Roles.IgnoreCaseReplace(role.GetName(), string.Empty);
             }
         }
 

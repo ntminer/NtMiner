@@ -628,7 +628,7 @@ namespace NTMiner {
                     using (var mos = new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController")) {
                         foreach (ManagementBaseObject item in mos.Get()) {
                             foreach (var property in item.Properties) {
-                                if ((property.Value ?? string.Empty).ToString().Contains("NVIDIA")) {
+                                if ((property.Value ?? string.Empty).ToString().IgnoreCaseContains("NVIDIA")) {
                                     return true;
                                 }
                             }

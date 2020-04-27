@@ -94,6 +94,7 @@
     <Compile Include="CryptographyTests.cs" />
     <Compile Include="RandomTests.cs" />
     <Compile Include="ReflectionTests.cs" />
+    <Compile Include="RoleTests.cs" />
     <Compile Include="SecureStringTests.cs" />
     <Compile Include="StackTraceTests.cs" />
     <Compile Include="UnitTest1.cs" />

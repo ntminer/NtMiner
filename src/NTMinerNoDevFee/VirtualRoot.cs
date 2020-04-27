@@ -26,7 +26,7 @@ namespace NTMiner {
         static void Main(string[] args) {
             HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
             if (args.Length != 0) {
-                if (args.Contains("--sha1")) {
+                if (args.Contains("--sha1", StringComparer.OrdinalIgnoreCase)) {
                     File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sha1"), Sha1);
                     return;
                 }

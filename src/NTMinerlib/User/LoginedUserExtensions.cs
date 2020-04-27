@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace NTMiner.User {
     public static class LoginedUserExtensions {
@@ -9,7 +10,7 @@ namespace NTMiner.User {
             if (user.LoginName == Role.RoleEnum.admin.GetName()) {
                 return true;
             }
-            return user.Roles.Split(',').Contains(Role.RoleEnum.admin.GetName());
+            return user.Roles.Split(',').Contains(Role.RoleEnum.admin.GetName(), StringComparer.OrdinalIgnoreCase);
         }
     }
 }

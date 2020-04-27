@@ -148,8 +148,8 @@ namespace NTMiner.Vms {
             get {
                 var query = AppRoot.KernelOutputTranslaterVms.GetListByKernelId(this.Id).AsQueryable();
                 if (!string.IsNullOrEmpty(TranslaterKeyword)) {
-                    query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.Contains(TranslaterKeyword))
-                        || (a.Replacement != null && a.Replacement.Contains(TranslaterKeyword)));
+                    query = query.Where(a => (a.RegexPattern != null && a.RegexPattern.IgnoreCaseContains(TranslaterKeyword))
+                        || (a.Replacement != null && a.Replacement.IgnoreCaseContains(TranslaterKeyword)));
                 }
                 return query.OrderBy(a => a.SortNumber).ToList();
             }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using System.Linq;
 
 namespace NTMiner {
@@ -10,11 +9,13 @@ namespace NTMiner {
             VirtualRoot.Execute(new ClearLocalMessageSetCommand());
             int times = 2000;
             Assert.IsTrue(times > NTKeyword.LocalMessageSetCapacity);
+            // 触发LocalMessageSet对AddLocalMessageCommand命令的订阅
+            _ = NTMinerContext.Instance.LocalMessageSet;
             string content = "this is a test";
             for (int i = 0; i < times; i++) {
                 VirtualRoot.ThisLocalInfo(nameof(LocalMessageTests), content);
             }
-            Assert.IsTrue(NTMinerContext.Instance.LocalMessageSet.AsEnumerable().Count() == NTKeyword.LocalMessageSetCapacity);
+            Assert.AreEqual(NTKeyword.LocalMessageSetCapacity, NTMinerContext.Instance.LocalMessageSet.AsEnumerable().Count());
         }
     }
 }

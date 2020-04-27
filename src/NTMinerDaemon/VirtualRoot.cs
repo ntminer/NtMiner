@@ -40,7 +40,7 @@ namespace NTMiner {
             HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
             SetOut(new ConsoleOut());
             if (args.Length != 0) {
-                if (args.Contains("--sha1")) {
+                if (args.Contains("--sha1", StringComparer.OrdinalIgnoreCase)) {
                     File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sha1"), Sha1);
                     return;
                 }

@@ -164,7 +164,7 @@
             if (_queyResults == _localMessageVms) {
                 return false;
             }
-            if (SelectedChannel == vm.ChannelEnum.GetEnumItem() && _count[SelectedChannel][vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.Contains(Keyword))) {
+            if (SelectedChannel == vm.ChannelEnum.GetEnumItem() && _count[SelectedChannel][vm.MessageTypeEnum].IsChecked && (string.IsNullOrEmpty(Keyword) || vm.Content.IgnoreCaseContains(Keyword))) {
                 return true;
             }
             return false;
@@ -194,7 +194,7 @@
                 query = query.Where(a => _count[SelectedChannel][a.MessageTypeEnum].IsChecked);
             }
             if (!string.IsNullOrEmpty(Keyword)) {
-                query = query.Where(a => a.Content != null && a.Content.Contains(Keyword));
+                query = query.Where(a => a.Content != null && a.Content.IgnoreCaseContains(Keyword));
             }
             _queyResults = new ObservableCollection<LocalMessageViewModel>(query);
             OnPropertyChanged(nameof(IsNoRecord));

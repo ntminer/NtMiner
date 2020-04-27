@@ -54,7 +54,7 @@ namespace NTMiner.Mine {
 
         private void NewLogFileName() {
             string logFileName;
-            if (this.CommandLine.Contains(NTKeyword.LogFileParameterName)) {
+            if (this.CommandLine.IgnoreCaseContains(NTKeyword.LogFileParameterName)) {
                 this.KernelProcessType = KernelProcessType.Logfile;
                 logFileName = $"{this.Kernel.Code}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss_fff")}.log";
             }
