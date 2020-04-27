@@ -71,13 +71,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, fixedSize: false);
         }
 
-        public GpuProfilesPageViewModel Vm {
-            get {
-                return (GpuProfilesPageViewModel)this.DataContext;
-            }
-        }
+        public GpuProfilesPageViewModel Vm { get; private set; }
 
         public GpuProfilesPage(GpuProfilesPageViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

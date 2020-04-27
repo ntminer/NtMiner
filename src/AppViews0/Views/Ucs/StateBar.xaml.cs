@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
-        private StateBarViewModel Vm {
+        public StateBarViewModel Vm {
             get {
                 return (StateBarViewModel)this.DataContext;
             }

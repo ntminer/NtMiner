@@ -17,13 +17,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private InputSegmentEditViewModel Vm {
-            get {
-                return (InputSegmentEditViewModel)this.DataContext;
-            }
-        }
+        public InputSegmentEditViewModel Vm { get; private set; }
 
         public InputSegmentEdit(InputSegmentEditViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

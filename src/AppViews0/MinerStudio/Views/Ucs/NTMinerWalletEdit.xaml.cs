@@ -20,12 +20,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private NTMinerWalletViewModel Vm {
-            get {
-                return (NTMinerWalletViewModel)this.DataContext;
-            }
-        }
+        public NTMinerWalletViewModel Vm { get; private set; }
+
         public NTMinerWalletEdit(NTMinerWalletViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

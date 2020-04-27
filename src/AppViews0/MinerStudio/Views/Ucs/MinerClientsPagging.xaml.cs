@@ -6,7 +6,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class MinerClientsPagging : UserControl {
         public MinerClientsWindowViewModel Vm {
             get {
-                return (MinerClientsWindowViewModel)this.DataContext;
+                return MinerStudioRoot.MinerClientsWindowVm;
             }
         }
 

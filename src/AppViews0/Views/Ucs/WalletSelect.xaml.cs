@@ -4,13 +4,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class WalletSelect : UserControl {
-        public WalletSelectViewModel Vm {
-            get {
-                return (WalletSelectViewModel)this.DataContext;
-            }
-        }
+        public WalletSelectViewModel Vm { get; private set; }
 
         public WalletSelect(WalletSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
             this.OnLoaded(window => {

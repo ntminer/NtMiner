@@ -19,13 +19,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private FileWriterViewModel Vm {
-            get {
-                return (FileWriterViewModel)this.DataContext;
-            }
-        }
+        public FileWriterViewModel Vm { get; private set; }
 
         public FileWriterEdit(FileWriterViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

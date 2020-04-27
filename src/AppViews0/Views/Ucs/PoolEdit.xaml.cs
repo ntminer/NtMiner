@@ -20,13 +20,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private PoolViewModel Vm {
-            get {
-                return (PoolViewModel)this.DataContext;
-            }
-        }
+        public PoolViewModel Vm { get; private set; }
 
         public PoolEdit(PoolViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

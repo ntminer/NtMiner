@@ -19,13 +19,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: false);
         }
 
-        private PackageViewModel Vm {
-            get {
-                return (PackageViewModel)this.DataContext;
-            }
-        }
+        public PackageViewModel Vm { get; private set; }
 
         public PackageEdit(PackageViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

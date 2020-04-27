@@ -16,13 +16,10 @@ namespace NTMiner.Views {
             window.ShowHardDialog();
         }
 
-        public DialogWindowViewModel Vm {
-            get {
-                return (DialogWindowViewModel)this.DataContext;
-            }
-        }
+        public DialogWindowViewModel Vm { get; private set; }
 
         private DialogWindow(DialogWindowViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             this.Title = vm.Title;
             InitializeComponent();

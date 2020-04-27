@@ -1,16 +1,12 @@
-﻿using NTMiner.Core;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class CoinSelect : UserControl {
-        public CoinSelectViewModel Vm {
-            get {
-                return (CoinSelectViewModel)this.DataContext;
-            }
-        }
+        public CoinSelectViewModel Vm { get; private set; }
 
         public CoinSelect(CoinSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
             this.OnLoaded(window => {

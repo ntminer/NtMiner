@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class ServerHostSelect : UserControl {
-        public ServerHostSelectViewModel Vm {
-            get {
-                return (ServerHostSelectViewModel)this.DataContext;
-            }
-        }
+        public ServerHostSelectViewModel Vm { get; private set; }
 
         public ServerHostSelect(ServerHostSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

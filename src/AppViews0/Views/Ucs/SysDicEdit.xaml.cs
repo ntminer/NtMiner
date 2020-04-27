@@ -18,13 +18,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private SysDicViewModel Vm {
-            get {
-                return (SysDicViewModel)this.DataContext;
-            }
-        }
+        public SysDicViewModel Vm { get; private set; }
 
         public SysDicEdit(SysDicViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

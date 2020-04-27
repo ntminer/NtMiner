@@ -22,12 +22,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private MinerGroupViewModel Vm {
-            get {
-                return (MinerGroupViewModel)this.DataContext;
-            }
-        }
+        public MinerGroupViewModel Vm { get; private set; }
+
         public MinerGroupEdit(MinerGroupViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

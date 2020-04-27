@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class MineWorkSelect : UserControl {
-        public MineWorkSelectViewModel Vm {
-            get {
-                return (MineWorkSelectViewModel)this.DataContext;
-            }
-        }
+        public MineWorkSelectViewModel Vm { get; private set; }
 
         public MineWorkSelect(MineWorkSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

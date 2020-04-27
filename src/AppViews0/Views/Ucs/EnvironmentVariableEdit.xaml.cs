@@ -18,13 +18,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private EnvironmentVariableEditViewModel Vm {
-            get {
-                return (EnvironmentVariableEditViewModel)this.DataContext;
-            }
-        }
+        public EnvironmentVariableEditViewModel Vm { get; private set; }
 
         public EnvironmentVariableEdit(EnvironmentVariableEditViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

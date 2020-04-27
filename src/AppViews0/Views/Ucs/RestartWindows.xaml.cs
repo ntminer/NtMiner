@@ -19,14 +19,11 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        public RestartWindowsViewModel Vm {
-            get {
-                return (RestartWindowsViewModel)this.DataContext;
-            }
-        }
+        public RestartWindowsViewModel Vm { get; private set; }
 
         private bool _isCanceled = false;
         public RestartWindows(RestartWindowsViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
             this.OnLoaded(window => {

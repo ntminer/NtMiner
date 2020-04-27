@@ -22,13 +22,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: false);
         }
 
-        private KernelViewModel Vm {
-            get {
-                return (KernelViewModel)this.DataContext;
-            }
-        }
+        public KernelViewModel Vm { get; private set; }
 
         public KernelEdit(KernelViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

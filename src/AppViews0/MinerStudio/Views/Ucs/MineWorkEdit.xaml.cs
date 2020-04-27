@@ -27,12 +27,9 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, fixedSize: false);
         }
 
-        private MineWorkViewModel Vm {
-            get {
-                return (MineWorkViewModel)this.DataContext;
-            }
-        }
+        public MineWorkViewModel Vm { get; private set; }
         public MineWorkEdit(MineWorkViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

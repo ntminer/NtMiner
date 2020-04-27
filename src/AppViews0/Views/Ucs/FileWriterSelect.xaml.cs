@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class FileWriterSelect : UserControl {
-        public FileWriterSelectViewModel Vm {
-            get {
-                return (FileWriterSelectViewModel)this.DataContext;
-            }
-        }
+        public FileWriterSelectViewModel Vm { get; private set; }
 
         public FileWriterSelect(FileWriterSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

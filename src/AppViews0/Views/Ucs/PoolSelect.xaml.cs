@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class PoolSelect : UserControl {
-        public PoolSelectViewModel Vm {
-            get {
-                return (PoolSelectViewModel)this.DataContext;
-            }
-        }
+        public PoolSelectViewModel Vm { get; private set; }
 
         public PoolSelect(PoolSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

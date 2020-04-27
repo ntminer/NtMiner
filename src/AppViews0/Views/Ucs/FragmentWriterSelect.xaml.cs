@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class FragmentWriterSelect : UserControl {
-        public FragmentWriterSelectViewModel Vm {
-            get {
-                return (FragmentWriterSelectViewModel)this.DataContext;
-            }
-        }
+        public FragmentWriterSelectViewModel Vm { get; private set; }
 
         public FragmentWriterSelect(FragmentWriterSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

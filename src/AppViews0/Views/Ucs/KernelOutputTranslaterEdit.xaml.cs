@@ -20,12 +20,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private KernelOutputTranslaterViewModel Vm {
-            get {
-                return (KernelOutputTranslaterViewModel)this.DataContext;
-            }
-        }
+        public KernelOutputTranslaterViewModel Vm { get; private set; }
+
         public KernelOutputTranslaterEdit(KernelOutputTranslaterViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

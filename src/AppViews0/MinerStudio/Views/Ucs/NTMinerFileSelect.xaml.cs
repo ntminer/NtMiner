@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class NTMinerFileSelect : UserControl {
-        public NTMinerFileSelectViewModel Vm {
-            get {
-                return (NTMinerFileSelectViewModel)this.DataContext;
-            }
-        }
+        public NTMinerFileSelectViewModel Vm { get; private set; }
 
         public NTMinerFileSelect(NTMinerFileSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class KernelOutputSelect : UserControl {
-        public KernelOutputSelectViewModel Vm {
-            get {
-                return (KernelOutputSelectViewModel)this.DataContext;
-            }
-        }
+        public KernelOutputSelectViewModel Vm { get; private set; }
 
         public KernelOutputSelect(KernelOutputSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

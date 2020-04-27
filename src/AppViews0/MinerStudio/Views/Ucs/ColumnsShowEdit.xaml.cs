@@ -23,13 +23,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, fixedSize: false);
         }
 
-        public ColumnsShowViewModel Vm {
-            get {
-                return (ColumnsShowViewModel)this.DataContext;
-            }
-        }
+        public ColumnsShowViewModel Vm { get; private set; }
 
         public ColumnsShowEdit(ColumnsShowViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

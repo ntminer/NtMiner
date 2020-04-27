@@ -5,7 +5,7 @@ namespace NTMiner.Views {
     public partial class MainWindow : BlankWindow {
         public MainWindowViewModel Vm {
             get {
-                return (MainWindowViewModel)this.DataContext;
+                return MainWindowViewModel.Instance;
             }
         }
 

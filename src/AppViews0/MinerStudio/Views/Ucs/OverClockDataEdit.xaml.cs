@@ -20,12 +20,10 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private OverClockDataViewModel Vm {
-            get {
-                return (OverClockDataViewModel)this.DataContext;
-            }
-        }
+        public OverClockDataViewModel Vm { get; private set; }
+
         public OverClockDataEdit(OverClockDataViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

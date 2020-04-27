@@ -23,13 +23,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private CoinKernelViewModel Vm {
-            get {
-                return (CoinKernelViewModel)this.DataContext;
-            }
-        }
+        public CoinKernelViewModel Vm { get; private set; }
 
         public CoinKernelEdit(CoinKernelViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

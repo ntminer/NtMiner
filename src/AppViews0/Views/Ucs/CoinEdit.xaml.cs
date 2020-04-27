@@ -20,12 +20,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private CoinViewModel Vm {
-            get {
-                return (CoinViewModel)this.DataContext;
-            }
-        }
+        public CoinViewModel Vm { get; private set; }
+
         public CoinEdit(CoinViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

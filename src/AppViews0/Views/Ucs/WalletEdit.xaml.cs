@@ -21,13 +21,10 @@ namespace NTMiner.Views.Ucs {
             }, fixedSize: true);
         }
 
-        private WalletViewModel Vm {
-            get {
-                return (WalletViewModel)this.DataContext;
-            }
-        }
+        public WalletViewModel Vm { get; private set; }
 
         public WalletEdit(WalletViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

@@ -29,13 +29,10 @@ namespace NTMiner.Views.Ucs {
                 });
         }
 
-        public FileDownloaderViewModel Vm {
-            get {
-                return (FileDownloaderViewModel)this.DataContext;
-            }
-        }
+        public FileDownloaderViewModel Vm { get; private set; }
 
         public FileDownloader(FileDownloaderViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class ColumnsShowSelect : UserControl {
-        public ColumnsShowSelectViewModel Vm {
-            get {
-                return (ColumnsShowSelectViewModel)this.DataContext;
-            }
-        }
+        public ColumnsShowSelectViewModel Vm { get; private set; }
 
         public ColumnsShowSelect(ColumnsShowSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

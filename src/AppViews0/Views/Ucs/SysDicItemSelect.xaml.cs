@@ -3,13 +3,10 @@ using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
     public partial class SysDicItemSelect : UserControl {
-        public SysDicItemSelectViewModel Vm {
-            get {
-                return (SysDicItemSelectViewModel)this.DataContext;
-            }
-        }
+        public SysDicItemSelectViewModel Vm { get; private set; }
 
         public SysDicItemSelect(SysDicItemSelectViewModel vm) {
+            this.Vm = vm;
             this.DataContext = vm;
             InitializeComponent();
         }

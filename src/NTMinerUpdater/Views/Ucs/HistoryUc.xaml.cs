@@ -5,7 +5,7 @@ namespace NTMiner.Views.Ucs {
     public partial class HistoryUc : UserControl {
         public MainWindowViewModel Vm {
             get {
-                return (MainWindowViewModel)this.DataContext;
+                return MainWindowViewModel.Instance;
             }
         }
 
