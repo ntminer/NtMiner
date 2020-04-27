@@ -239,8 +239,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region GetLocalJsonAsync
         public void GetLocalJsonAsync(IMinerData client) {
             RpcRoot.PostAsync<string>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetLocalJson), null, (json, e) => {
-                LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(json) ?? new LocalJsonDb();
-                VirtualRoot.RaiseEvent(new GetLocalJsonResponsedEvent(client.ClientId, data));
+                VirtualRoot.RaiseEvent(new GetLocalJsonResponsedEvent(client.ClientId, json));
             }, timeountMilliseconds: 3000);
         }
         #endregion

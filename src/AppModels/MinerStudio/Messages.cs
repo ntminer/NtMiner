@@ -176,8 +176,8 @@ namespace NTMiner.MinerStudio {
     }
 
     [MessageType(description: "收到了GetLocalJsonResponsed消息后")]
-    public class GetLocalJsonResponsedEvent : OperationResultEvent<LocalJsonDb> {
-        public GetLocalJsonResponsedEvent(Guid clientId, LocalJsonDb data) : base(clientId, data) {
+    public class GetLocalJsonResponsedEvent : OperationResultEvent<string> {
+        public GetLocalJsonResponsedEvent(Guid clientId, string data) : base(clientId, data) {
         }
     }
 

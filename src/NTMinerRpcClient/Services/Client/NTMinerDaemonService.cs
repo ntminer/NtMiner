@@ -18,6 +18,10 @@ namespace NTMiner.Services.Client {
             RpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.CloseDaemon), null, null, callback, timeountMilliseconds: 3000);
         }
 
+        public void GetLocalJsonAsync(Action<string, Exception> callback) {
+            RpcRoot.PostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetLocalJson), callback, timeountMilliseconds: 3000);
+        }
+
         /// <summary>
         /// 本机网络调用
         /// </summary>

@@ -20,6 +20,7 @@ namespace NTMiner.MinerStudio.Vms {
         private string _name;
         private string _description;
         private string _serverJsonSha1;
+        private MinerClientViewModel _minerClientVm;
 
         public string Sha1 { get; private set; }
 
@@ -95,7 +96,30 @@ namespace NTMiner.MinerStudio.Vms {
             }
             else {
                 if (this.Id == MineWorkData.SelfMineWorkId) {
-
+                    if (RpcRoot.IsOuterNet) {
+                        _minerClientVm = MinerStudioRoot.MinerClientsWindowVm.SelectedMinerClients.FirstOrDefault();
+                        if (_minerClientVm == null) {
+                            VirtualRoot.Out.ShowError("未选中矿机", autoHideSeconds: 4);
+                            return;
+                        }
+                        if (!_minerClientVm.IsOuterUserEnabled) {
+                            VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 4);
+                            return;
+                        }
+                        VirtualRoot.AddOnecePath<GetLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, action: message => {
+                            if (message.ClientId == _minerClientVm.ClientId) {
+                                string data = message.Data;
+                                EditJson(formType, data);
+                            }
+                        }, PathId.Empty, typeof(MineWorkViewModel));
+                        MinerStudioRoot.MinerStudioService.GetLocalJsonAsync(_minerClientVm);
+                    }
+                    else {
+                        RpcRoot.Client.NTMinerDaemonService.GetLocalJsonAsync((json, e) => {
+                            string data = json;
+                            EditJson(formType, data);
+                        });
+                    }
                 }
                 else {
                     // 编辑作业前切换上下文
@@ -104,12 +128,7 @@ namespace NTMiner.MinerStudio.Vms {
                         RpcRoot.OfficialServer.UserMineWorkService.GetLocalJsonAsync(this.Id, (response, e) => {
                             if (response.IsSuccess()) {
                                 string data = response.Data;
-                                if (!string.IsNullOrEmpty(data)) {
-                                    File.WriteAllText(HomePath.LocalJsonFileFullName, data);
-                                }
-                                NTMinerContext.Instance.ReInitMinerProfile();
-                                this.Sha1 = NTMinerContext.Instance.MinerProfile.GetSha1();
-                                VirtualRoot.Execute(new EditMineWorkCommand(formType ?? FormType.Edit, new MineWorkViewModel(this)));
+                                EditJson(formType, data);
                             }
                         });
                     }
@@ -120,15 +139,7 @@ namespace NTMiner.MinerStudio.Vms {
                             if (File.Exists(localJsonFileFullName)) {
                                 data = File.ReadAllText(localJsonFileFullName);
                             }
-                            if (!string.IsNullOrEmpty(data)) {
-                                File.WriteAllText(HomePath.LocalJsonFileFullName, data);
-                            }
-                            else {
-                                File.Delete(HomePath.LocalJsonFileFullName);
-                            }
-                            NTMinerContext.Instance.ReInitMinerProfile();
-                            this.Sha1 = NTMinerContext.Instance.MinerProfile.GetSha1();
-                            VirtualRoot.Execute(new EditMineWorkCommand(formType ?? FormType.Edit, new MineWorkViewModel(this)));
+                            EditJson(formType, data);
                         }
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e);
@@ -136,6 +147,18 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                 }
             }
+        }
+
+        private void EditJson(FormType? formType, string json) {
+            if (!string.IsNullOrEmpty(json)) {
+                File.WriteAllText(HomePath.LocalJsonFileFullName, json);
+            }
+            else {
+                File.Delete(HomePath.LocalJsonFileFullName);
+            }
+            NTMinerContext.Instance.ReInitMinerProfile();
+            this.Sha1 = NTMinerContext.Instance.MinerProfile.GetSha1();
+            VirtualRoot.Execute(new EditMineWorkCommand(formType ?? FormType.Edit, new MineWorkViewModel(this)));
         }
 
         private void DoSave() {
