@@ -32,11 +32,19 @@
         <Border Grid.ColumnSpan="2" Padding="0 0 0 4" Background="{StaticResource ThemeBackground}">
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}">作业名称</TextBlock>
-                <TextBox Width="220" VerticalContentAlignment="Center" Background="White" Text="{Binding Name, ValidatesOnExceptions=True}">
+                <TextBox 
+                    Width="220" 
+                    IsReadOnly="{Binding IsCanDelete,Converter={StaticResource BoolInvertConverter}}" 
+                    VerticalContentAlignment="Center" 
+                    Background="White" 
+                    Text="{Binding Name, ValidatesOnExceptions=True}">
                 </TextBox>
                 <TextBlock Style="{StaticResource LblTb}">作业备注</TextBlock>
                 <controls:KbMuiltilineTextBox 
-					Width="320" Background="White" Padding="0 4"
+					Width="320" 
+                    Background="White" 
+                    Padding="0 4"
+                    IsReadOnly="{Binding IsCanDelete,Converter={StaticResource BoolInvertConverter}}" 
 					VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 					Text="{Binding Description, Mode=TwoWay}">
                 </controls:KbMuiltilineTextBox>

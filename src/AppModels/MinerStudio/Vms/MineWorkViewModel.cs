@@ -96,16 +96,17 @@ namespace NTMiner.MinerStudio.Vms {
             }
             else {
                 if (this.Id == MineWorkData.SelfMineWorkId) {
+                    _minerClientVm = MinerStudioRoot.MinerClientsWindowVm.SelectedMinerClients.FirstOrDefault();
+                    if (_minerClientVm == null) {
+                        VirtualRoot.Out.ShowError("未选中矿机", autoHideSeconds: 4);
+                        return;
+                    }
+                    if (!_minerClientVm.IsOuterUserEnabled) {
+                        VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 4);
+                        return;
+                    }
+                    SelfMineWork.Description = $"针对矿机 {_minerClientVm.GetMinerOrClientName()} 的自主作业";
                     if (RpcRoot.IsOuterNet) {
-                        _minerClientVm = MinerStudioRoot.MinerClientsWindowVm.SelectedMinerClients.FirstOrDefault();
-                        if (_minerClientVm == null) {
-                            VirtualRoot.Out.ShowError("未选中矿机", autoHideSeconds: 4);
-                            return;
-                        }
-                        if (!_minerClientVm.IsOuterUserEnabled) {
-                            VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 4);
-                            return;
-                        }
                         VirtualRoot.AddOnecePath<GetLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, action: message => {
                             if (message.ClientId == _minerClientVm.ClientId) {
                                 string data = message.Data;
@@ -115,7 +116,7 @@ namespace NTMiner.MinerStudio.Vms {
                         MinerStudioRoot.MinerStudioService.GetLocalJsonAsync(_minerClientVm);
                     }
                     else {
-                        RpcRoot.Client.NTMinerDaemonService.GetLocalJsonAsync((json, e) => {
+                        RpcRoot.Client.NTMinerDaemonService.GetLocalJsonAsync(_minerClientVm, (json, e) => {
                             string data = json;
                             EditJson(formType, data);
                         });

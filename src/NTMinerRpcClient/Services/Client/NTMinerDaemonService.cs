@@ -1,4 +1,5 @@
 ﻿using NTMiner.Controllers;
+using NTMiner.Core.MinerServer;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
@@ -10,16 +11,16 @@ namespace NTMiner.Services.Client {
         private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerDaemonController>();
         private NTMinerDaemonService() { }
 
+        public void GetLocalJsonAsync(IMinerData client, Action<string, Exception> callback) {
+            RpcRoot.PostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetLocalJson), callback, timeountMilliseconds: 3000);
+        }
+
         #region Localhost
         /// <summary>
         /// 本机网络调用
         /// </summary>
         public void CloseDaemonAsync(Action callback) {
             RpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.CloseDaemon), null, null, callback, timeountMilliseconds: 3000);
-        }
-
-        public void GetLocalJsonAsync(Action<string, Exception> callback) {
-            RpcRoot.PostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetLocalJson), callback, timeountMilliseconds: 3000);
         }
 
         /// <summary>
