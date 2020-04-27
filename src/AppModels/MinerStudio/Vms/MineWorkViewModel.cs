@@ -61,12 +61,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (this.Id != MineWorkData.SelfMineWorkId) {// 统一作业
-                    DoEdit(formType);
-                }
-                else {// 自主作业
-
-                }
+                DoEdit(formType);
             });
             this.Remove = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
@@ -99,40 +94,45 @@ namespace NTMiner.MinerStudio.Vms {
                 });
             }
             else {
-                // 编辑作业前切换上下文
-                // 根据workId下载json保存到本地并调用LocalJson.Instance.ReInit()
-                if (RpcRoot.IsOuterNet) {
-                    RpcRoot.OfficialServer.UserMineWorkService.GetLocalJsonAsync(this.Id, (response, e) => {
-                        if (response.IsSuccess()) {
-                            string data = response.Data;
+                if (this.Id == MineWorkData.SelfMineWorkId) {
+
+                }
+                else {
+                    // 编辑作业前切换上下文
+                    // 根据workId下载json保存到本地并调用LocalJson.Instance.ReInit()
+                    if (RpcRoot.IsOuterNet) {
+                        RpcRoot.OfficialServer.UserMineWorkService.GetLocalJsonAsync(this.Id, (response, e) => {
+                            if (response.IsSuccess()) {
+                                string data = response.Data;
+                                if (!string.IsNullOrEmpty(data)) {
+                                    File.WriteAllText(HomePath.LocalJsonFileFullName, data);
+                                }
+                                NTMinerContext.Instance.ReInitMinerProfile();
+                                this.Sha1 = NTMinerContext.Instance.MinerProfile.GetSha1();
+                                VirtualRoot.Execute(new EditMineWorkCommand(formType ?? FormType.Edit, new MineWorkViewModel(this)));
+                            }
+                        });
+                    }
+                    else {
+                        try {
+                            string localJsonFileFullName = MinerStudioPath.GetMineWorkLocalJsonFileFullName(this.Id);
+                            string data = string.Empty;
+                            if (File.Exists(localJsonFileFullName)) {
+                                data = File.ReadAllText(localJsonFileFullName);
+                            }
                             if (!string.IsNullOrEmpty(data)) {
                                 File.WriteAllText(HomePath.LocalJsonFileFullName, data);
+                            }
+                            else {
+                                File.Delete(HomePath.LocalJsonFileFullName);
                             }
                             NTMinerContext.Instance.ReInitMinerProfile();
                             this.Sha1 = NTMinerContext.Instance.MinerProfile.GetSha1();
                             VirtualRoot.Execute(new EditMineWorkCommand(formType ?? FormType.Edit, new MineWorkViewModel(this)));
                         }
-                    });
-                }
-                else {
-                    try {
-                        string localJsonFileFullName = MinerStudioPath.GetMineWorkLocalJsonFileFullName(this.Id);
-                        string data = string.Empty;
-                        if (File.Exists(localJsonFileFullName)) {
-                            data = File.ReadAllText(localJsonFileFullName);
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
                         }
-                        if (!string.IsNullOrEmpty(data)) {
-                            File.WriteAllText(HomePath.LocalJsonFileFullName, data);
-                        }
-                        else {
-                            File.Delete(HomePath.LocalJsonFileFullName);
-                        }
-                        NTMinerContext.Instance.ReInitMinerProfile();
-                        this.Sha1 = NTMinerContext.Instance.MinerProfile.GetSha1();
-                        VirtualRoot.Execute(new EditMineWorkCommand(formType ?? FormType.Edit, new MineWorkViewModel(this)));
-                    }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
                     }
                 }
             }
@@ -248,19 +248,19 @@ namespace NTMiner.MinerStudio.Vms {
 
         public bool IsPleaseSelect {
             get {
-                return this == PleaseSelect;
+                return this.Id == PleaseSelect.Id;
             }
         }
 
         public bool IsSelfMineWork {
             get {
-                return this == SelfMineWork;
+                return this.Id == SelfMineWork.Id;
             }
         }
 
         public bool IsCanDelete {
             get {
-                return this != PleaseSelect && this != SelfMineWork;
+                return this.Id != PleaseSelect.Id && this.Id != SelfMineWork.Id;
             }
         }
 
@@ -270,7 +270,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_name != value) {
                     _name = value;
                     OnPropertyChanged(nameof(Name));
-                    if (this == PleaseSelect) {
+                    if (this.Id == PleaseSelect.Id) {
                         return;
                     }
                     if (string.IsNullOrEmpty(value)) {

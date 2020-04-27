@@ -239,7 +239,7 @@ namespace NTMiner.Vms {
                 if (_name != value) {
                     _name = value;
                     OnPropertyChanged(nameof(Name));
-                    if (this == PleaseSelect) {
+                    if (this.Id == PleaseSelect.Id) {
                         return;
                     }
                     if (string.IsNullOrEmpty(value)) {

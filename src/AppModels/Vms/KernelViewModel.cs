@@ -94,7 +94,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new CloseWindowCommand(this.Id));
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
-                if (this == Empty) {
+                if (this.Id == Empty.Id) {
                     return;
                 }
                 VirtualRoot.Execute(new EditKernelCommand(formType ?? FormType.Edit, this));
@@ -252,7 +252,7 @@ namespace NTMiner.Vms {
                     _code = value;
                     OnPropertyChanged(nameof(Code));
                     OnPropertyChanged(nameof(FullName));
-                    if (this == Empty) {
+                    if (this.Id == Empty.Id) {
                         return;
                     }
                     if (string.IsNullOrEmpty(value)) {
@@ -302,7 +302,7 @@ namespace NTMiner.Vms {
                     _version = value;
                     OnPropertyChanged(nameof(Version));
                     OnPropertyChanged(nameof(FullName));
-                    if (this == Empty) {
+                    if (this.Id == Empty.Id) {
                         return;
                     }
                 }

@@ -10,9 +10,7 @@ namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
         public class MineWorkViewModels : ViewModelBase {
             public static readonly MineWorkViewModels Instance = new MineWorkViewModels();
-            private readonly Dictionary<Guid, MineWorkViewModel> _dicById = new Dictionary<Guid, MineWorkViewModel> {
-                {MineWorkData.SelfMineWorkId, MineWorkViewModel.SelfMineWork }
-            };
+            private readonly Dictionary<Guid, MineWorkViewModel> _dicById = new Dictionary<Guid, MineWorkViewModel>();
             public ICommand Add { get; private set; }
 
             private MineWorkViewModels() {
@@ -37,7 +35,7 @@ namespace NTMiner.MinerStudio {
                         OnPropertyChangeds();
                         MinerClientsWindowViewModel.Instance.RefreshMinerClientsSelectedMineWork(MinerClientsWindowViewModel.Instance.MinerClients.ToArray());
                     }, this.GetType());
-                }            
+                }
                 this.Add = new DelegateCommand(() => {
                     new MineWorkViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
@@ -101,6 +99,10 @@ namespace NTMiner.MinerStudio {
             }
 
             public bool TryGetMineWorkVm(Guid id, out MineWorkViewModel mineWorkVm) {
+                if (id == MineWorkData.SelfMineWorkId) {
+                    mineWorkVm = MineWorkViewModel.SelfMineWork;
+                    return true;
+                }
                 return _dicById.TryGetValue(id, out mineWorkVm);
             }
         }

@@ -42,8 +42,9 @@ namespace NTMiner.Native {
         }
 
         public override string ToString() {
-            if (this == Empty)
+            if (this == Empty) {
                 return "RECT {Empty}";
+            }
             return "RECT { left : " + left + " / top : " + top + " / right : " + right + " / bottom : " + bottom + " }";
         }
 

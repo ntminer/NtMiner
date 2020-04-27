@@ -145,7 +145,7 @@ namespace NTMiner.Vms {
                 if (_code != value) {
                     _code = value;
                     OnPropertyChanged(nameof(Code));
-                    if (this == PleaseSelect) {
+                    if (this.Id == PleaseSelect.Id) {
                         return;
                     }
                     if (string.IsNullOrEmpty(value)) {

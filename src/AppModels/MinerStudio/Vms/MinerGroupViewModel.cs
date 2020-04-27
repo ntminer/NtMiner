@@ -91,7 +91,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public bool IsPleaseSelect {
             get {
-                return this == PleaseSelect;
+                return this.Id == PleaseSelect.Id;
             }
         }
 
@@ -100,7 +100,7 @@ namespace NTMiner.MinerStudio.Vms {
             set {
                 if (_name != value) {
                     _name = value;
-                    if (this == PleaseSelect) {
+                    if (this.Id == PleaseSelect.Id) {
                         return;
                     }
                     OnPropertyChanged(nameof(Name));

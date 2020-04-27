@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                             if (response.IsSuccess()) {
                                 MainWindowViewModel.Instance.Refresh();
                                 MainWindowViewModel.Instance.SelectedNTMinerFile = MainWindowViewModel.Instance.NTMinerFiles.FirstOrDefault();
-                                if (this == MainWindowViewModel.Instance.ServerLatestVm) {
+                                if (this.Id == MainWindowViewModel.Instance.ServerLatestVm.Id) {
                                     MainWindowViewModel.Instance.ServerLatestVm = MainWindowViewModel.Instance.NTMinerFiles
                                         .FirstOrDefault(a => a != this && a.VersionData > MainWindowViewModel.Instance.LocalNTMinerVersion);
                                 }

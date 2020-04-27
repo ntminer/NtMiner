@@ -318,7 +318,7 @@ namespace NTMiner.Vms {
 
         public bool IsSupported {
             get {
-                if (this == PleaseSelect || NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
+                if (this.Id == PleaseSelect.Id || NTMinerContext.Instance.GpuSet.GpuType == GpuType.Empty) {
                     return true;
                 }
                 foreach (var coinKernel in NTMinerContext.Instance.ServerContext.CoinKernelSet.AsEnumerable().Where(a => a.CoinId == this.Id)) {
@@ -337,7 +337,7 @@ namespace NTMiner.Vms {
                 if (_code != value) {
                     _code = value;
                     OnPropertyChanged(nameof(Code));
-                    if (this == Empty || this == PleaseSelect || this == DualCoinEnabled) {
+                    if (this.Id == Empty.Id || this.Id == PleaseSelect.Id || this.Id == DualCoinEnabled.Id) {
                         return;
                     }
                     if (string.IsNullOrEmpty(value)) {
@@ -662,7 +662,7 @@ namespace NTMiner.Vms {
         }
 
         private IEnumerable<PoolViewModel> GetOptionPools() {
-            if (this == PleaseSelect) {
+            if (this.Id == PleaseSelect.Id) {
                 yield return PoolViewModel.PleaseSelect;
             }
             else {
