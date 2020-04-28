@@ -1,4 +1,6 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core;
+using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.Ws;
 using System;
@@ -267,6 +269,25 @@ namespace NTMiner.MinerStudio.Impl {
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetSelfWorkLocalJson) {
                 Data = new WrapperClientId {
                     ClientId = client.ClientId
+                }
+            });
+        }
+        #endregion
+
+        #region SaveSelfWorkLocalJsonAsync
+        public void SaveSelfWorkLocalJsonAsync(IMinerData client, string localJson, string serverJson) {
+            if (!MinerStudioRoot.WsClient.IsOpen) {
+                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                return;
+            }
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.SaveSelfWorkLocalJson) {
+                Data = new WrapperClientIdData {
+                    ClientId = client.ClientId,
+                    Data = new WorkRequest {
+                        WorkId = MineWorkData.SelfMineWorkId,
+                        LocalJson = localJson,
+                        ServerJson = serverJson
+                    }
                 }
             });
         }

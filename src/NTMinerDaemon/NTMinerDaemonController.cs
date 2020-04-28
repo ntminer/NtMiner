@@ -62,6 +62,11 @@ namespace NTMiner {
         }
 
         [HttpPost]
+        public void SaveSelfWorkLocalJson(WorkRequest request) {
+            VirtualRoot.DaemonOperation.SaveSelfWorkLocalJson(request);
+        }
+
+        [HttpPost]
         public string GetGpuProfilesJson() {
             return VirtualRoot.DaemonOperation.GetGpuProfilesJson();
         }

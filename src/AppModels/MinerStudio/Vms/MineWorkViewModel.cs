@@ -47,16 +47,12 @@ namespace NTMiner.MinerStudio.Vms {
 
         public MineWorkViewModel(Guid id) {
             _id = id;
+            // 作业编辑窗口关闭时自动调用的
             this.Save = new DelegateCommand(() => {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (this.Id != MineWorkData.SelfMineWorkId) {// 统一作业
-                    DoSave();
-                }
-                else {// 单机作业
-
-                }
+                DoSave();
             });
             this.Edit = new DelegateCommand<FormType?>((formType) => {
                 if (this.Id == Guid.Empty) {
@@ -167,6 +163,7 @@ namespace NTMiner.MinerStudio.Vms {
                 VirtualRoot.Out.ShowError("作业名称是必须的", autoHideSeconds: 4);
             }
             bool isMinerProfileChanged = false;
+            // 表示是否随后打开编辑界面，如果是新建的作业则保存后随即会打开作业编辑界面
             bool isShowEdit = false;
             MineWorkData mineWorkData = new MineWorkData().Update(this);
             if (MinerStudioRoot.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel vm)) {
@@ -191,67 +188,95 @@ namespace NTMiner.MinerStudio.Vms {
                 isShowEdit = true;
             }
             if (RpcRoot.IsOuterNet) {
-                RpcRoot.OfficialServer.UserMineWorkService.AddOrUpdateMineWorkAsync(new MineWorkData().Update(this), (r, ex) => {
-                    if (r.IsSuccess()) {
-                        if (isMinerProfileChanged) {
-                            Write.DevDebug("检测到MinerProfile状态变更");
-                            NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
-                            if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                                RpcRoot.OfficialServer.UserMineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, (response, e) => {
-                                    if (response.IsSuccess()) {
-                                        if (isShowEdit) {
-                                            VirtualRoot.RaiseEvent(new MineWorkAddedEvent(Guid.Empty, this));
+                if (this.Id != MineWorkData.SelfMineWorkId) {
+                    RpcRoot.OfficialServer.UserMineWorkService.AddOrUpdateMineWorkAsync(new MineWorkData().Update(this), (r, ex) => {
+                        if (r.IsSuccess()) {
+                            if (isMinerProfileChanged) {
+                                Write.DevDebug("检测到MinerProfile状态变更");
+                                NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
+                                if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
+                                    RpcRoot.OfficialServer.UserMineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, (response, e) => {
+                                        if (response.IsSuccess()) {
+                                            if (isShowEdit) {
+                                                VirtualRoot.RaiseEvent(new MineWorkAddedEvent(Guid.Empty, this));
+                                            }
+                                            else {
+                                                VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(Guid.Empty, this));
+                                            }
+                                            if (isShowEdit) {
+                                                this.Edit.Execute(FormType.Edit);
+                                            }
                                         }
                                         else {
-                                            VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(Guid.Empty, this));
+                                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                                         }
-                                        if (isShowEdit) {
-                                            this.Edit.Execute(FormType.Edit);
-                                        }
-                                    }
-                                    else {
-                                        VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
-                                    }
-                                });
-                            }
-                            if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
-                                this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
+                                    });
+                                }
+                                if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
+                                    this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
+                                }
                             }
                         }
-                    }
-                    else {
-                        VirtualRoot.Out.ShowError(r.ReadMessage(ex), autoHideSeconds: 4);
-                    }
-                });
-            }
-            else {
-                if (isMinerProfileChanged) {
-                    Write.DevDebug("检测到MinerProfile状态变更");
-                    NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
-                    if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                        try {
-                            string localJsonFileFullName = MinerStudioPath.GetMineWorkLocalJsonFileFullName(this.Id);
-                            string serverJsonFileFullName = MinerStudioPath.GetMineWorkServerJsonFileFullName(this.Id);
-                            File.WriteAllText(localJsonFileFullName, localJson);
-                            File.WriteAllText(serverJsonFileFullName, serverJson);
+                        else {
+                            VirtualRoot.Out.ShowError(r.ReadMessage(ex), autoHideSeconds: 4);
                         }
-                        catch (Exception e) {
-                            VirtualRoot.Out.ShowError(e.Message, autoHideSeconds: 4);
-                            Logger.ErrorDebugLine(e);
-                        }
-                    }
-                    if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
-                        this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
-                    }
-                }
-                if (NTMinerContext.Instance.MinerStudioContext.MineWorkSet.Contains(mineWorkData.Id)) {
-                    VirtualRoot.Execute(new UpdateMineWorkCommand(mineWorkData));
+                    });
                 }
                 else {
-                    VirtualRoot.Execute(new AddMineWorkCommand(mineWorkData));
+                    if (isMinerProfileChanged) {
+                        Write.DevDebug("检测到MinerProfile状态变更");
+                        NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
+                        if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
+                            MinerStudioRoot.MinerStudioService.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
+                        }
+                        if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
+                            this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
+                        }
+                    }
                 }
-                if (isShowEdit) {
-                    this.Edit.Execute(FormType.Edit);
+            }
+            else {
+                if (this.Id != MineWorkData.SelfMineWorkId) {
+                    if (isMinerProfileChanged) {
+                        Write.DevDebug("检测到MinerProfile状态变更");
+                        NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
+                        if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
+                            try {
+                                string localJsonFileFullName = MinerStudioPath.GetMineWorkLocalJsonFileFullName(this.Id);
+                                string serverJsonFileFullName = MinerStudioPath.GetMineWorkServerJsonFileFullName(this.Id);
+                                File.WriteAllText(localJsonFileFullName, localJson);
+                                File.WriteAllText(serverJsonFileFullName, serverJson);
+                            }
+                            catch (Exception e) {
+                                VirtualRoot.Out.ShowError(e.Message, autoHideSeconds: 4);
+                                Logger.ErrorDebugLine(e);
+                            }
+                        }
+                        if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
+                            this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
+                        }
+                    }
+                    if (NTMinerContext.Instance.MinerStudioContext.MineWorkSet.Contains(mineWorkData.Id)) {
+                        VirtualRoot.Execute(new UpdateMineWorkCommand(mineWorkData));
+                    }
+                    else {
+                        VirtualRoot.Execute(new AddMineWorkCommand(mineWorkData));
+                    }
+                    if (isShowEdit) {
+                        this.Edit.Execute(FormType.Edit);
+                    }
+                }
+                else {
+                    if (isMinerProfileChanged) {
+                        Write.DevDebug("检测到MinerProfile状态变更");
+                        NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
+                        if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
+                            MinerStudioRoot.MinerStudioService.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
+                        }
+                        if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
+                            this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
+                        }
+                    }
                 }
             }
         }

@@ -27,6 +27,7 @@ namespace NTMiner.MinerStudio {
         void SetLocalIpsAsync(IMinerData client, List<LocalIpInput> data);
         void GetOperationResultsAsync(IMinerData client, long afterTime);
         void GetSelfWorkLocalJsonAsync(IMinerData client);
+        void SaveSelfWorkLocalJsonAsync(IMinerData client, string localJson, string serverJson);
         void GetGpuProfilesJsonAsync(IMinerData client);
         void SaveGpuProfilesJsonAsync(IMinerData client, string json);
     }

@@ -11,6 +11,7 @@ namespace NTMiner.Core {
         ResponseBase AtikmdagPatcher();
         ResponseBase SwitchRadeonGpu(bool on);
         string GetSelfWorkLocalJson();
+        bool SaveSelfWorkLocalJson(WorkRequest request);
         string GetGpuProfilesJson();
         ResponseBase RestartWindows();
         bool SaveGpuProfilesJson(string json);

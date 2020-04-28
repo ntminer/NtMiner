@@ -101,6 +101,10 @@ namespace NTMiner.MinerStudio {
             // 什么也不做
         }
 
+        public void SaveSelfWorkLocalJsonAsync(IMinerData client, string localJson, string serverJson) {
+            // 什么也不做
+        }
+
         public void GetGpuProfilesJsonAsync(IMinerData client) {
             // 什么也不做
         }

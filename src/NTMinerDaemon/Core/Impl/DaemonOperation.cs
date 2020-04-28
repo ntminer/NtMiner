@@ -92,6 +92,28 @@ namespace NTMiner.Core.Impl {
         }
         #endregion
 
+        #region SaveSelfWorkLocalJson
+        public bool SaveSelfWorkLocalJson(WorkRequest request) {
+            bool isSuccess = false;
+            string description = "保存本机作业";
+            try {
+                SpecialPath.WriteSelfWorkLocalJsonFile(request.LocalJson);
+                SpecialPath.WriteSelfWorkServerJsonFile(request.ServerJson);
+                isSuccess = true;
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+            VirtualRoot.OperationResultSet.Add(new OperationResultData {
+                Timestamp = Timestamp.GetTimestamp(),
+                StateCode = isSuccess ? 200 : 500,
+                ReasonPhrase = isSuccess ? "Ok" : "Fail",
+                Description = description
+            });
+            return isSuccess;
+        }
+        #endregion
+
         #region GetGpuProfilesJson
         public string GetGpuProfilesJson() {
             try {

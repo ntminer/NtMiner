@@ -34,6 +34,7 @@ namespace NTMiner.Ws {
         public const string SwitchRadeonGpu = "SwitchRadeonGpu";
         public const string SetVirtualMemory = "SetVirtualMemory";
         public const string SetLocalIps = "SetLocalIps";
+        public const string SaveSelfWorkLocalJson = "SaveSelfWorkLocalJson";
         public const string SaveGpuProfilesJson = "SaveGpuProfilesJson";
         public const string SetAutoBootStart = "SetAutoBootStart";
         public const string RestartWindows = "RestartWindows";

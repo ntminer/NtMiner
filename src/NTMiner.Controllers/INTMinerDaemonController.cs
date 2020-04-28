@@ -16,6 +16,7 @@ namespace NTMiner.Controllers {
         ResponseBase SwitchRadeonGpu(bool on);
         void CloseDaemon();
         string GetSelfWorkLocalJson();
+        void SaveSelfWorkLocalJson(WorkRequest request);
         string GetGpuProfilesJson();
         void SaveGpuProfilesJson();
         // TODO:应该新增一个Action用于处理配置合集

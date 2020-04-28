@@ -244,6 +244,17 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region SaveSelfWorkLocalJsonAsync
+        public void SaveSelfWorkLocalJsonAsync(IMinerData client, string localJson, string serverJson) {
+            WorkRequest request = new WorkRequest {
+                LocalJson = localJson,
+                ServerJson = serverJson,
+                WorkId = MineWorkData.SelfMineWorkId
+            };
+            RpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SaveSelfWorkLocalJson), null, request, timeountMilliseconds: 3000);
+        }
+        #endregion
+
         #region GetGpuProfilesJsonAsync
         public void GetGpuProfilesJsonAsync(IMinerData client) {
             RpcRoot.PostAsync<string>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetGpuProfilesJson), null, (json, e) => {
