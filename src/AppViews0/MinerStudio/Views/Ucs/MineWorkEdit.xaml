@@ -64,7 +64,6 @@
             </controls:KbMuiltilineTextBox>
             <TextBlock 
                 Padding="4 0 4 4" 
-                Visibility="{Binding IsSelfMineWork,Converter={StaticResource BoolToVisibilityInvertConverter}}"
                 Foreground="Red">说明：作业是个蓝图。修改作业，然后将作业分配给矿机，直到点击“开始”按钮开始挖矿时作业才被矿机施工。</TextBlock>
         </StackPanel>
 	</Grid>
