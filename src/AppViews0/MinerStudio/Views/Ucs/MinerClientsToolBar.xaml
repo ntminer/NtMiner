@@ -56,6 +56,20 @@
                 </MenuItem.Icon>
             </MenuItem>
             <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Header="单机作业" 
+                ToolTip="编辑单机作业" 
+                Command="{Binding SelfMineWork}">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="16"
+						Data="{StaticResource Icon_Mining1}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem 
                 ToolTip="为选中的矿机指定作业" 
                 x:Name="MenuItemMineWork" 
                 Style="{StaticResource TopPopupMenuItem}"

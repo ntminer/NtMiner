@@ -290,6 +290,7 @@ namespace NTMiner.MinerStudio.Vms {
         public ICommand ShutdownWindows { get; private set; }
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }
+        public ICommand SelfMineWork { get; private set; }
 
         public ICommand PageUp { get; private set; }
         public ICommand PageDown { get; private set; }
@@ -503,6 +504,9 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 #endregion
             }, IsSelectedAny);
+            this.SelfMineWork = new DelegateCommand(() => {
+                MineWorkViewModel.SelfMineWork.Edit.Execute(FormType.Edit);
+            }, IsSelectedOne);
             this.EnableRemoteDesktop = new DelegateCommand(() => {
                 #region
                 if (SelectedMinerClients.Length == 0) {

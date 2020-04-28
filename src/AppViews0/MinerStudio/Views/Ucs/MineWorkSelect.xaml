@@ -99,7 +99,7 @@
                             Margin="4 0 0 0"
                             Padding="4"
                             Click="HideView"
-                            Visibility="{Binding IsCanDelete,Converter={StaticResource BoolToHiddenConverter}}"
+                            Visibility="{Binding IsSystem,Converter={StaticResource BoolToVisibilityInvertConverter}}"
                             Background="{StaticResource TransparentColor}"
                             ToolTip="删除"
                             Command="{Binding Remove}">
@@ -118,7 +118,7 @@
                             Command="{Binding Edit}"
                             Click="HideView"
                             ToolTip="编辑"
-                            Visibility="{Binding IsPleaseSelect,Converter={StaticResource BoolToHiddenInvertConverter}}"
+                            Visibility="{Binding IsSystem,Converter={StaticResource BoolToVisibilityInvertConverter}}"
                             Background="{StaticResource TransparentColor}">
                             <controls:KbButton.Content>
                                 <Path

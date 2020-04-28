@@ -320,9 +320,9 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public bool IsCanDelete {
+        public bool IsSystem {
             get {
-                return this.Id != PleaseSelect.Id && this.Id != SelfMineWork.Id;
+                return this.Id == PleaseSelect.Id || this.Id == SelfMineWork.Id;
             }
         }
 
