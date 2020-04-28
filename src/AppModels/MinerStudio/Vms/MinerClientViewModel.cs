@@ -45,7 +45,13 @@ namespace NTMiner.MinerStudio.Vms {
             this._mainCoinRejectPercentText = clientData.MainCoinRejectPercent.ToString("f1") + " %";
             this._dualCoinRejectPercentText = clientData.DualCoinRejectPercent.ToString("f1") + " %";
             RefreshMainCoinIncome();
-            RefreshDualCoinIncome();
+            RefreshDualCoinIncome(); 
+            int maxTemperature = _data.GpuTable.Length == 0 ? 0 : _data.GpuTable.Max(a => a.Temperature);
+            this._gpuTableVm = new GpuSpeedDataViewModels(
+                MainCoinCode, DualCoinCode, MainCoinSpeedText,
+                DualCoinSpeedText, TotalPowerText,
+                IsRejectOneGpuShare, IsFoundOneGpuShare, IsGotOneIncorrectGpuShare,
+                CpuPerformance, CpuTemperature, maxTemperature, clientData.GpuTable);
             this.Remove = new DelegateCommand(() => {
                 #region
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
