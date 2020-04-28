@@ -77,6 +77,13 @@ namespace NTMiner.Ws {
                     });
                 });
             });
+            _handlers.Add(WsMessage.SaveSelfWorkLocalJson, (sendAsync, message) => {
+                if (message.TryGetData(out WorkRequest workRequest)) {
+                    Task.Factory.StartNew(() => {
+                        VirtualRoot.DaemonOperation.SaveSelfWorkLocalJson(workRequest);
+                    });
+                }
+            });
             _handlers.Add(WsMessage.GetGpuProfilesJson, (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     string json = VirtualRoot.DaemonOperation.GetGpuProfilesJson();
