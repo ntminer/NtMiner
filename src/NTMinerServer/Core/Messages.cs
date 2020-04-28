@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.Hub;
 using NTMiner.Report;
@@ -356,6 +357,13 @@ namespace NTMiner.Core {
     public class GetGpuProfilesJsonMqMessage : OperationMqMessage {
         public GetGpuProfilesJsonMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId)
             : base(appId, loginName, timestamp, clientId) {
+        }
+    }
+
+    [MessageType(description: "收到了SaveSelfWorkLocalJson Mq消息后")]
+    public class SaveSelfWorkLocalJsonMqMessage : OperationMqMessage<WorkRequest> {
+        public SaveSelfWorkLocalJsonMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId, WorkRequest request)
+            : base(appId, loginName, timestamp, clientId, request) {
         }
     }
 

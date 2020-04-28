@@ -139,6 +139,16 @@ namespace NTMiner.Core.Impl {
                 SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.GetSelfWorkLocalJson));
                 #endregion
             }, this.GetType());
+            VirtualRoot.AddEventPath<SaveSelfWorkLocalJsonMqMessage>("收到SaveSelfWorkLocalJsonMq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, action: message => {
+                #region
+                if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
+                    return;
+                }
+                SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.SaveSelfWorkLocalJson) {
+                    Data = message.Data
+                });
+                #endregion
+            }, this.GetType());
             VirtualRoot.AddEventPath<GetGpuProfilesJsonMqMessage>("收到GetGpuProfilesJsonMq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, action: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
