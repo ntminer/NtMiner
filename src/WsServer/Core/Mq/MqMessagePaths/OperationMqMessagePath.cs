@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.MinerServer;
+﻿using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerServer;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -30,6 +31,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SwitchRadeonGpuRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetSelfWorkLocalJsonRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SelfWorkLocalJsonRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetGpuProfilesJsonRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GpuProfilesJsonRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SaveGpuProfilesJsonRoutingKey, arguments: null);
@@ -235,6 +237,16 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         if (ea.BasicProperties.ReadHeaderGuid(WsMqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             string json = OperationMqBodyUtil.GetSelfWorkLocalJsonMqReceiveBody(ea.Body);
                             VirtualRoot.RaiseEvent(new LocalJsonMqMessage(appId, loginName, timestamp, clientId, json));
+                        }
+                    }
+                    break;
+                case WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey: {
+                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
+                        string appId = ea.BasicProperties.AppId;
+                        if (ea.BasicProperties.ReadHeaderGuid(WsMqKeyword.ClientIdHeaderName, out Guid clientId)) {
+                            WorkRequest request = OperationMqBodyUtil.GetSaveSelfWorkLocalJsonMqReceiveBody(ea.Body);
+                            VirtualRoot.RaiseEvent(new SaveSelfWorkLocalJsonMqMessage(appId, loginName, timestamp, clientId, request));
                         }
                     }
                     break;
