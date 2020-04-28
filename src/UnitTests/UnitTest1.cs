@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Text;
 using System.Windows;
 
 namespace NTMiner {
@@ -19,6 +20,12 @@ namespace NTMiner {
             Console.WriteLine(ushort.MaxValue);
             Console.WriteLine((int)char.MinValue);
             Console.WriteLine((int)char.MaxValue);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException), "不能为null")]
+        public void EncodingTest() {
+            _ = Encoding.UTF8.GetBytes((string)null);
         }
 
         [TestMethod]

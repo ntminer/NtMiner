@@ -208,8 +208,8 @@ namespace NTMiner.Core.Impl {
             else {
                 try {
                     if (request.WorkId != Guid.Empty) {
-                        File.WriteAllText(SpecialPath.LocalJsonFileFullName, request.LocalJson);
-                        File.WriteAllText(SpecialPath.ServerJsonFileFullName, request.ServerJson);
+                        SpecialPath.WriteLocalJsonFile(request.LocalJson);
+                        SpecialPath.WriteServerJsonFile(request.ServerJson);
                     }
                     string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
                     if (IsNTMinerOpened()) {

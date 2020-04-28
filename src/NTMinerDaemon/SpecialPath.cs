@@ -1,13 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace NTMiner {
     public static class SpecialPath {
-        public static readonly string LocalJsonFileFullName;
-        public static readonly string ServerJsonFileFullName;
-        public static readonly string SelfWorkLocalJsonFileFullName;
-        public static readonly string SelfWorkServerJsonFileFullName;
-        public static readonly string GpuProfilesJsonFileFullName;
+        private static readonly string _localJsonFileFullName;
+        private static readonly string _serverJsonFileFullName;
+        private static readonly string _selfWorkLocalJsonFileFullName;
+        private static readonly string _selfWorkServerJsonFileFullName;
+        private static readonly string _gpuProfilesJsonFileFullName;
 
         static SpecialPath() {
             string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
@@ -33,34 +34,48 @@ namespace NTMiner {
             if (!Directory.Exists(selfWorkDirFullName)) {
                 Directory.CreateDirectory(selfWorkDirFullName);
             }
-            LocalJsonFileFullName = Path.Combine(homeDirFullName, HomePath.LocalJsonFileName);
-            ServerJsonFileFullName = Path.Combine(homeDirFullName, HomePath.ServerJsonFileName);
-            SelfWorkLocalJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.LocalJsonFileName);
-            SelfWorkServerJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.ServerJsonFileName);
-            GpuProfilesJsonFileFullName = Path.Combine(homeDirFullName, HomePath.GpuProfilesFileName);
+            _localJsonFileFullName = Path.Combine(homeDirFullName, HomePath.LocalJsonFileName);
+            _serverJsonFileFullName = Path.Combine(homeDirFullName, HomePath.ServerJsonFileName);
+            _selfWorkLocalJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.LocalJsonFileName);
+            _selfWorkServerJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.ServerJsonFileName);
+            _gpuProfilesJsonFileFullName = Path.Combine(homeDirFullName, HomePath.GpuProfilesFileName);
+        }
+
+        public static void WriteLocalJsonFile(string json) {
+            if (json == null) {
+                return;
+            }
+            File.WriteAllBytes(_localJsonFileFullName, Encoding.UTF8.GetBytes(json));
+        }
+
+        public static void WriteServerJsonFile(string json) {
+            if (json == null) {
+                return;
+            }
+            File.WriteAllBytes(_serverJsonFileFullName, Encoding.UTF8.GetBytes(json));
         }
 
         public static string ReadSelfWorkLocalJsonFile() {
-            if (File.Exists(SelfWorkLocalJsonFileFullName)) {
-                return File.ReadAllText(SelfWorkLocalJsonFileFullName);
+            if (File.Exists(_selfWorkLocalJsonFileFullName)) {
+                return File.ReadAllText(_selfWorkLocalJsonFileFullName);
             }
-            else if (File.Exists(LocalJsonFileFullName)) {
-                return File.ReadAllText(LocalJsonFileFullName);
+            else if (File.Exists(_localJsonFileFullName)) {
+                return File.ReadAllText(_localJsonFileFullName);
             }
 
             return string.Empty;
         }
 
         public static string ReadGpuProfilesJsonFile() {
-            if (File.Exists(GpuProfilesJsonFileFullName)) {
-                return File.ReadAllText(GpuProfilesJsonFileFullName);
+            if (File.Exists(_gpuProfilesJsonFileFullName)) {
+                return File.ReadAllText(_gpuProfilesJsonFileFullName);
             }
 
             return string.Empty;
         }
 
         public static void SaveGpuProfilesJsonFile(string json) {
-            File.WriteAllText(GpuProfilesJsonFileFullName, json);
+            File.WriteAllText(_gpuProfilesJsonFileFullName, json);
         }
     }
 }
