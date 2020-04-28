@@ -41,11 +41,25 @@ namespace NTMiner {
             _gpuProfilesJsonFileFullName = Path.Combine(homeDirFullName, HomePath.GpuProfilesFileName);
         }
 
+        public static string ReadLocalJsonFile() {
+            if (File.Exists(_localJsonFileFullName)) {
+                return File.ReadAllText(_localJsonFileFullName);
+            }
+            return string.Empty;
+        }
+
         public static void WriteLocalJsonFile(string json) {
             if (json == null) {
                 return;
             }
             File.WriteAllBytes(_localJsonFileFullName, Encoding.UTF8.GetBytes(json));
+        }
+
+        public static string ReadServerJsonFile() {
+            if (File.Exists(_serverJsonFileFullName)) {
+                return File.ReadAllText(_serverJsonFileFullName);
+            }
+            return string.Empty;
         }
 
         public static void WriteServerJsonFile(string json) {
@@ -64,6 +78,30 @@ namespace NTMiner {
             }
 
             return string.Empty;
+        }
+
+        public static void WriteSelfWorkLocalJsonFile(string json) {
+            if (json == null) {
+                return;
+            }
+            File.WriteAllBytes(_selfWorkLocalJsonFileFullName, Encoding.UTF8.GetBytes(json));
+        }
+
+        public static string ReadSelfWorkServerJsonFile() {
+            if (File.Exists(_selfWorkServerJsonFileFullName)) {
+                return File.ReadAllText(_selfWorkServerJsonFileFullName);
+            }
+            else if (File.Exists(_serverJsonFileFullName)) {
+                return File.ReadAllText(_serverJsonFileFullName);
+            }
+            return string.Empty;
+        }
+
+        public static void WriteSelfWorkServerJsonFile(string json) {
+            if (json == null) {
+                return;
+            }
+            File.WriteAllBytes(_selfWorkServerJsonFileFullName, Encoding.UTF8.GetBytes(json));
         }
 
         public static string ReadGpuProfilesJsonFile() {
