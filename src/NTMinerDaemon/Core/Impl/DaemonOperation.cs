@@ -96,7 +96,7 @@ namespace NTMiner.Core.Impl {
         #region SaveSelfWorkLocalJson
         public bool SaveSelfWorkLocalJson(WorkRequest request) {
             bool isSuccess = false;
-            string description = "保存本机作业";
+            string description = "保存单机作业";
             if (request == null) {
                 isSuccess = false;
                 description = "参数错误";
@@ -236,15 +236,10 @@ namespace NTMiner.Core.Impl {
             }
             else {
                 try {
-                    if (request.WorkId != Guid.Empty) {
-                        if (request.WorkId == MineWorkData.SelfMineWorkId) {
-                            SpecialPath.WriteSelfWorkLocalJsonFile(request.LocalJson);
-                            SpecialPath.WriteSelfWorkServerJsonFile(request.ServerJson);
-                        }
-                        else {
-                            SpecialPath.WriteMineWorkLocalJsonFile(request.LocalJson);
-                            SpecialPath.WriteMineWorkServerJsonFile(request.ServerJson);
-                        }
+                    // 单机作业的localJson和serverJson是在编辑单机作业时提前传递到挖矿端的所以不需要在开始挖矿时再传递
+                    if (request.WorkId != Guid.Empty && request.WorkId != MineWorkData.SelfMineWorkId) {
+                        SpecialPath.WriteMineWorkLocalJsonFile(request.LocalJson);
+                        SpecialPath.WriteMineWorkServerJsonFile(request.ServerJson);
                     }
                     string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
                     if (IsNTMinerOpened()) {
