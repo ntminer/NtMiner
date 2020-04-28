@@ -21,6 +21,10 @@
         </Style>
     </UserControl.Resources>
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
         <ScrollViewer 
 		    VerticalScrollBarVisibility="Auto" 
 		    PreviewMouseDown="ScrollViewer_PreviewMouseDown">
@@ -39,10 +43,10 @@
                         <GroupBox BorderThickness="1" BorderBrush="{StaticResource LightLineColor}" Background="White" Padding="10 4 10 0" Margin="10 0 10 10">
                             <GroupBox.Header>
                                 <WrapPanel>
-                                    <TextBlock Text="{Binding Name}"></TextBlock>
-                                    <TextBlock Text="（"></TextBlock>
-                                    <TextBox Height="18" IsReadOnly="True" BorderThickness="0" Text="{Binding MACAddress}"></TextBox>
-                                    <TextBlock Text="）"></TextBlock>
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"></TextBlock>
+                                    <TextBlock VerticalAlignment="Center" Text="（"></TextBlock>
+                                    <TextBox VerticalAlignment="Center" IsReadOnly="True" BorderThickness="0" Text="{Binding MACAddress}"></TextBox>
+                                    <TextBlock VerticalAlignment="Center" Text="）"></TextBlock>
                                 </WrapPanel>
                             </GroupBox.Header>
                             <StackPanel>
@@ -135,5 +139,6 @@
             </ItemsControl>
         </ScrollViewer>
         <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="{Binding LocalIpVms,Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" Text="没有联网"></TextBlock>
+        <TextBlock Grid.Row="1" Padding="4" Foreground="Red">注意：尽量不要通过 Windows 远程桌面更改 IP。</TextBlock>
     </Grid>
 </UserControl>
