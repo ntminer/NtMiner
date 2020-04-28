@@ -145,7 +145,7 @@ namespace NTMiner.Core.Impl {
             ClientData[] items = (user == null || user.IsAdmin()) ? data : data.Where(a => a.LoginName == user.LoginName).ToArray();
             coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, items, out onlineCount, out miningCount).ToList();
             var results = list.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
-            DateTime time = DateTime.Now.AddSeconds(_isPull ? 20 : -180);
+            DateTime time = DateTime.Now.AddSeconds(_isPull ? -20 : -180);
             // 一定时间未上报算力视为0算力
             foreach (var clientData in results) {
                 if (clientData.MinerActiveOn < time) {
