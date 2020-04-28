@@ -10,7 +10,7 @@ using System;
 namespace NTMiner {
     public interface INTMinerContext {
         ILocalMessageSet LocalMessageSet { get; }
-        void ReInitMinerProfile();
+        void ReInitMinerProfile(WorkType? workType = null);
 
         string GetServerJsonVersion();
 

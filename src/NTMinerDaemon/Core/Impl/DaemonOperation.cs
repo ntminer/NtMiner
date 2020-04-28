@@ -237,8 +237,14 @@ namespace NTMiner.Core.Impl {
             else {
                 try {
                     if (request.WorkId != Guid.Empty) {
-                        SpecialPath.WriteLocalJsonFile(request.LocalJson);
-                        SpecialPath.WriteServerJsonFile(request.ServerJson);
+                        if (request.WorkId == MineWorkData.SelfMineWorkId) {
+                            SpecialPath.WriteSelfWorkLocalJsonFile(request.LocalJson);
+                            SpecialPath.WriteSelfWorkServerJsonFile(request.ServerJson);
+                        }
+                        else {
+                            SpecialPath.WriteMineWorkLocalJsonFile(request.LocalJson);
+                            SpecialPath.WriteMineWorkServerJsonFile(request.ServerJson);
+                        }
                     }
                     string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
                     if (IsNTMinerOpened()) {

@@ -207,11 +207,13 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_localJsonInited) {
                         string localJson;
-                        if (_workType == WorkType.SelfWork) {
-                            localJson = HomePath.ReadSelfWorkLocalJsonFile();
-                        }
-                        else {
-                            localJson = HomePath.ReadLocalJsonFile();
+                        switch (_workType) {
+                            case WorkType.SelfWork:
+                                localJson = HomePath.ReadSelfWorkLocalJsonFile();
+                                break;
+                            default:
+                                localJson = HomePath.ReadMineWorkLocalJsonFile();
+                                break;
                         }
                         if (!string.IsNullOrEmpty(localJson)) {
                             LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
@@ -283,11 +285,16 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_serverJsonInited) {
                         string serverJson;
-                        if (_workType == WorkType.SelfWork) {
-                            serverJson = HomePath.ReadSelfWorkServerJsonFile();
-                        }
-                        else {
-                            serverJson = HomePath.ReadServerJsonFile();
+                        switch (_workType) {
+                            case WorkType.SelfWork:
+                                serverJson = HomePath.ReadSelfWorkServerJsonFile();
+                                break;
+                            case WorkType.MineWork:
+                                serverJson = HomePath.ReadMineWorkServerJsonFile();
+                                break;
+                            default:
+                                serverJson = HomePath.ReadServerJsonFile();
+                                break;
                         }
                         if (!string.IsNullOrEmpty(serverJson)) {
                             ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson) ?? new ServerJsonDb();

@@ -4,8 +4,9 @@ using System.Text;
 
 namespace NTMiner {
     public static class SpecialPath {
-        private static readonly string _localJsonFileFullName;
         private static readonly string _serverJsonFileFullName;
+        private static readonly string _mineWorkLocalJsonFileFullName;
+        private static readonly string _mineWorkServerJsonFileFullName;
         private static readonly string _selfWorkLocalJsonFileFullName;
         private static readonly string _selfWorkServerJsonFileFullName;
         private static readonly string _gpuProfilesJsonFileFullName;
@@ -34,48 +35,44 @@ namespace NTMiner {
             if (!Directory.Exists(selfWorkDirFullName)) {
                 Directory.CreateDirectory(selfWorkDirFullName);
             }
-            _localJsonFileFullName = Path.Combine(homeDirFullName, HomePath.LocalJsonFileName);
+            string mineWorkDirFullName = Path.Combine(homeDirFullName, "MineWork");
+            if (!Directory.Exists(mineWorkDirFullName)) {
+                Directory.CreateDirectory(mineWorkDirFullName);
+            }
             _serverJsonFileFullName = Path.Combine(homeDirFullName, HomePath.ServerJsonFileName);
-            _selfWorkLocalJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.LocalJsonFileName);
+            _mineWorkServerJsonFileFullName = Path.Combine(mineWorkDirFullName, HomePath.ServerJsonFileName);
+            _mineWorkLocalJsonFileFullName = Path.Combine(mineWorkDirFullName, HomePath.LocalJsonFileName);
             _selfWorkServerJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.ServerJsonFileName);
+            _selfWorkLocalJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.LocalJsonFileName);
             _gpuProfilesJsonFileFullName = Path.Combine(homeDirFullName, HomePath.GpuProfilesFileName);
         }
 
-        public static string ReadLocalJsonFile() {
-            if (File.Exists(_localJsonFileFullName)) {
-                return File.ReadAllText(_localJsonFileFullName);
+        public static string ReadMineWorkLocalJsonFile() {
+            if (File.Exists(_mineWorkLocalJsonFileFullName)) {
+                return File.ReadAllText(_mineWorkLocalJsonFileFullName);
             }
             return string.Empty;
         }
 
-        public static void WriteLocalJsonFile(string json) {
+        public static void WriteMineWorkLocalJsonFile(string json) {
             if (json == null) {
                 return;
             }
-            File.WriteAllBytes(_localJsonFileFullName, Encoding.UTF8.GetBytes(json));
+            File.WriteAllBytes(_mineWorkLocalJsonFileFullName, Encoding.UTF8.GetBytes(json));
         }
 
-        public static string ReadServerJsonFile() {
-            if (File.Exists(_serverJsonFileFullName)) {
-                return File.ReadAllText(_serverJsonFileFullName);
-            }
-            return string.Empty;
-        }
-
-        public static void WriteServerJsonFile(string json) {
+        public static void WriteMineWorkServerJsonFile(string json) {
             if (json == null) {
                 return;
             }
-            File.WriteAllBytes(_serverJsonFileFullName, Encoding.UTF8.GetBytes(json));
+            File.WriteAllBytes(_mineWorkServerJsonFileFullName, Encoding.UTF8.GetBytes(json));
         }
 
         public static string ReadSelfWorkLocalJsonFile() {
             if (File.Exists(_selfWorkLocalJsonFileFullName)) {
                 return File.ReadAllText(_selfWorkLocalJsonFileFullName);
             }
-            else {
-                return ReadLocalJsonFile();
-            }
+            return string.Empty;
         }
 
         public static void WriteSelfWorkLocalJsonFile(string json) {
@@ -89,9 +86,7 @@ namespace NTMiner {
             if (File.Exists(_selfWorkServerJsonFileFullName)) {
                 return File.ReadAllText(_selfWorkServerJsonFileFullName);
             }
-            else {
-                return ReadServerJsonFile();
-            }
+            return string.Empty;
         }
 
         public static void WriteSelfWorkServerJsonFile(string json) {

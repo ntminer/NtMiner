@@ -86,11 +86,17 @@ namespace NTMiner.JsonDb {
             }
         }
 
-        public ServerJsonDb(INTMinerContext root, LocalJsonDb localJsonObj) {
+        public ServerJsonDb(INTMinerContext root, LocalJsonDb localJsonObj) : this() {
             var minerProfile = root.MinerProfile;
             var mainCoinProfile = minerProfile.GetCoinProfile(minerProfile.CoinId);
             root.ServerContext.CoinKernelSet.TryGetCoinKernel(mainCoinProfile.CoinKernelId, out ICoinKernel coinKernel);
+            if (coinKernel == null) {
+                return;
+            }
             root.ServerContext.KernelSet.TryGetKernel(coinKernel.KernelId, out IKernel kernel);
+            if (kernel == null) {
+                return;
+            }
             var coins = root.ServerContext.CoinSet.AsEnumerable().Cast<CoinData>().Where(a => localJsonObj.CoinProfiles.Any(b => b.CoinId == a.Id)).ToArray();
             var coinGroups = root.ServerContext.CoinGroupSet.AsEnumerable().Cast<CoinGroupData>().Where(a => coins.Any(b => b.Id == a.CoinId)).ToArray();
             var pools = root.ServerContext.PoolSet.AsEnumerable().Cast<PoolData>().Where(a => localJsonObj.PoolProfiles.Any(b => b.PoolId == a.Id)).ToList();

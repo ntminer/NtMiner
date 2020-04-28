@@ -9,6 +9,7 @@ namespace NTMiner {
         public const string PackagesDirName = "Packages";
         public const string UpdaterDirName = "Updater";
         public const string SelfWorkDirName = "SelfWork";
+        public const string MineWorkDirName = "MineWork";
         public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
         public const string ServerDbFileName = "server.litedb";
         public const string LocalDbFileName = "local.litedb";
@@ -18,7 +19,8 @@ namespace NTMiner {
         public static string HomeDirFullName { get; private set; } = EntryAssemblyInfo.TempDirFullName;
         public static readonly string ServerJsonFileFullName;
         public static readonly string SelfWorkServerJsonFileFullName;
-        public static readonly string LocalJsonFileFullName;
+        public static readonly string MineWorkServerJsonFileFullName;
+        public static readonly string MineWorkLocalJsonFileFullName;
         public static readonly string SelfWorkLocalJsonFileFullName;
         public static readonly string GpuProfilesJsonFileFullName;
         static HomePath() {
@@ -34,8 +36,9 @@ namespace NTMiner {
             SetHomeDirFullName(homeDirFullName);
             ServerJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
             SelfWorkServerJsonFileFullName = Path.Combine(SelfWorkDirFullName, ServerJsonFileName);
-            LocalJsonFileFullName = Path.Combine(HomeDirFullName, LocalJsonFileName);
+            MineWorkServerJsonFileFullName = Path.Combine(MineWorkDirFullName, ServerJsonFileName);
             SelfWorkLocalJsonFileFullName = Path.Combine(SelfWorkDirFullName, LocalJsonFileName);
+            MineWorkLocalJsonFileFullName = Path.Combine(MineWorkDirFullName, LocalJsonFileName);
             GpuProfilesJsonFileFullName = Path.Combine(HomeDirFullName, GpuProfilesFileName);
         }
 
@@ -153,6 +156,21 @@ namespace NTMiner {
             }
         }
 
+        private static bool _sIsFirstCallMineWorkDirFullName = true;
+        public static string MineWorkDirFullName {
+            get {
+                string dirFullName = Path.Combine(HomeDirFullName, MineWorkDirName);
+                if (_sIsFirstCallMineWorkDirFullName) {
+                    if (!Directory.Exists(dirFullName)) {
+                        Directory.CreateDirectory(dirFullName);
+                    }
+                    _sIsFirstCallMineWorkDirFullName = false;
+                }
+
+                return dirFullName;
+            }
+        }
+
         public static string UpdaterFileFullName {
             get {
                 return Path.Combine(UpdaterDirFullName, NTMinerUpdaterFileName);
@@ -176,6 +194,15 @@ namespace NTMiner {
             }
         }
 
+        public static string ReadMineWorkServerJsonFile() {
+            if (File.Exists(MineWorkServerJsonFileFullName)) {
+                return File.ReadAllText(MineWorkServerJsonFileFullName);
+            }
+            else {
+                return ReadServerJsonFile();
+            }
+        }
+
         public static void WriteServerJsonFile(string json) {
             File.WriteAllText(ServerJsonFileFullName, json);
         }
@@ -184,9 +211,13 @@ namespace NTMiner {
             File.WriteAllText(SelfWorkServerJsonFileFullName, json);
         }
 
-        public static string ReadLocalJsonFile() {
-            if (File.Exists(LocalJsonFileFullName)) {
-                return File.ReadAllText(LocalJsonFileFullName);
+        public static void WriteMineWorkServerJsonFile(string json) {
+            File.WriteAllText(MineWorkServerJsonFileFullName, json);
+        }
+
+        public static string ReadMineWorkLocalJsonFile() {
+            if (File.Exists(MineWorkLocalJsonFileFullName)) {
+                return File.ReadAllText(MineWorkLocalJsonFileFullName);
             }
 
             return string.Empty;
@@ -197,7 +228,7 @@ namespace NTMiner {
                 return File.ReadAllText(SelfWorkLocalJsonFileFullName);
             }
             else {
-                return ReadLocalJsonFile();
+                return ReadMineWorkLocalJsonFile();
             }
         }
 

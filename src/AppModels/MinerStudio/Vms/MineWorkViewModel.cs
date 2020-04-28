@@ -107,7 +107,7 @@ namespace NTMiner.MinerStudio.Vms {
                         VirtualRoot.AddOnecePath<GetSelfWorkLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, action: message => {
                             if (message.ClientId == _minerClientVm.ClientId) {
                                 string data = message.Data;
-                                EditJson(formType, data);
+                                EditJson(formType, WorkType.SelfWork, data);
                             }
                         }, PathId.Empty, typeof(MineWorkViewModel));
                         MinerStudioRoot.MinerStudioService.GetSelfWorkLocalJsonAsync(_minerClientVm);
@@ -115,7 +115,7 @@ namespace NTMiner.MinerStudio.Vms {
                     else {
                         RpcRoot.Client.NTMinerDaemonService.GetSelfWorkLocalJsonAsync(_minerClientVm, (json, e) => {
                             string data = json;
-                            EditJson(formType, data);
+                            EditJson(formType, WorkType.SelfWork, data);
                         });
                     }
                 }
@@ -126,7 +126,7 @@ namespace NTMiner.MinerStudio.Vms {
                         RpcRoot.OfficialServer.UserMineWorkService.GetLocalJsonAsync(this.Id, (response, e) => {
                             if (response.IsSuccess()) {
                                 string data = response.Data;
-                                EditJson(formType, data);
+                                EditJson(formType, WorkType.MineWork, data);
                             }
                         });
                     }
@@ -137,7 +137,7 @@ namespace NTMiner.MinerStudio.Vms {
                             if (File.Exists(localJsonFileFullName)) {
                                 data = File.ReadAllText(localJsonFileFullName);
                             }
-                            EditJson(formType, data);
+                            EditJson(formType, WorkType.MineWork, data);
                         }
                         catch (Exception e) {
                             Logger.ErrorDebugLine(e);
@@ -147,14 +147,24 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        private void EditJson(FormType? formType, string json) {
-            if (!string.IsNullOrEmpty(json)) {
-                File.WriteAllText(HomePath.LocalJsonFileFullName, json);
+        private void EditJson(FormType? formType, WorkType workType, string json) {
+            if (workType == WorkType.SelfWork) {
+                if (!string.IsNullOrEmpty(json)) {
+                    File.WriteAllText(HomePath.SelfWorkLocalJsonFileFullName, json);
+                }
+                else {
+                    File.Delete(HomePath.SelfWorkLocalJsonFileFullName);
+                }
             }
             else {
-                File.Delete(HomePath.LocalJsonFileFullName);
+                if (!string.IsNullOrEmpty(json)) {
+                    File.WriteAllText(HomePath.MineWorkLocalJsonFileFullName, json);
+                }
+                else {
+                    File.Delete(HomePath.MineWorkLocalJsonFileFullName);
+                }
             }
-            NTMinerContext.Instance.ReInitMinerProfile();
+            NTMinerContext.Instance.ReInitMinerProfile(workType);
             this.Sha1 = NTMinerContext.Instance.MinerProfile.GetSha1();
             MineWorkData mineWorkData = new MineWorkData().Update(this);
             LocalJsonDb localJsonObj = new LocalJsonDb(NTMinerContext.Instance, mineWorkData);
