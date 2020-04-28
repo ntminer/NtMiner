@@ -71,8 +71,17 @@ namespace NTMiner {
                             Process[] processes = Process.GetProcessesByName(processName);
                             if (processes.Length == 0) {
                                 string arguments = NTMinerRegistry.GetArguments(NTMinerAppType.MinerClient);
-                                if (NTMinerRegistry.GetIsLastIsWork()) {
-                                    arguments = "--work " + arguments;
+                                switch (NTMinerRegistry.GetWorkType()) {
+                                    case WorkType.None:
+                                        break;
+                                    case WorkType.SelfWork:
+                                        arguments = "--selfWork " + arguments;
+                                        break;
+                                    case WorkType.MineWork:
+                                        arguments = "--work " + arguments;
+                                        break;
+                                    default:
+                                        break;
                                 }
                                 try {
                                     Process.Start(location, arguments);

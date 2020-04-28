@@ -53,21 +53,20 @@ namespace NTMiner {
         #region Init
         public void Init(Action callback) {
             Task.Factory.StartNew(() => {
-                bool isWork = Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
-                if (isWork) { // 是作业
-                    DoInit(isWork, callback);
-                    if (ClientAppType.IsMinerClient) {
-                        NTMinerRegistry.SetIsLastIsWork(true);
-                    }
+                bool isSelfWork = Environment.GetCommandLineArgs().Contains("--selfWork", StringComparer.OrdinalIgnoreCase);
+                bool isWork = isSelfWork || Environment.GetCommandLineArgs().Contains("--work", StringComparer.OrdinalIgnoreCase);
+                _workType = isSelfWork ? WorkType.SelfWork : (isWork ? WorkType.MineWork : WorkType.None);
+                if (ClientAppType.IsMinerClient) {
+                    NTMinerRegistry.SetWorkType(_workType);
                 }
-                else { // 不是作业
-                    if (ClientAppType.IsMinerClient) {
-                        NTMinerRegistry.SetIsLastIsWork(false);
-                    }
+                if (isWork) {
+                    DoInit(callback);
+                }
+                else {
                     // 如果是Debug模式且不是群控客户端则使用本地数据库初始化
                     bool useLocalDb = DevMode.IsDevMode && !ClientAppType.IsMinerStudio;
                     if (useLocalDb) {
-                        DoInit(isWork: false, callback: callback);
+                        DoInit(callback);
                     }
                     else {
                         Logger.InfoDebugLine(nameof(GetAliyunServerJson));
@@ -95,7 +94,7 @@ namespace NTMiner {
                                     VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), "配置文件下载失败，使用最近一次成功下载的配置文件");
                                 }
                             }
-                            DoInit(isWork, callback);
+                            DoInit(callback);
                         });
                         #region 发生了用户活动时检查serverJson是否有新版本
                         VirtualRoot.AddEventPath<UserActionEvent>("发生了用户活动时检查serverJson是否有新版本", LogEnum.DevConsole,
@@ -110,8 +109,7 @@ namespace NTMiner {
         }
 
         private MinerProfile _minerProfile;
-        private void DoInit(bool isWork, Action callback) {
-            IsJsonServer = !DevMode.IsDevMode || ClientAppType.IsMinerStudio || isWork;
+        private void DoInit(Action callback) {
             this.ReporterDataProvider = new ReportDataProvider();
 
             this.CalcConfigSet = new CalcConfigSet(this);
@@ -122,8 +120,6 @@ namespace NTMiner {
             this.CoinShareSet = new CoinShareSet(this);
             this.OverClockDataSet = new OverClockDataSet(this);
             this.ServerMessageSet = new ServerMessageSet(HomePath.LocalDbFileFullName, isServer: false);
-            // 作业和在群控客户端管理作业时
-            IsJsonLocal = isWork || ClientAppType.IsMinerStudio;
             this._minerProfile = new MinerProfile(this);
             var cpuPackage = new CpuPackage(_minerProfile);
             this.CpuPackage = cpuPackage;
@@ -175,8 +171,7 @@ namespace NTMiner {
                         string rawJson = Encoding.UTF8.GetString(data);
                         HomePath.WriteServerJsonFile(rawJson);
                         SetServerJsonVersion(serverState.JsonFileVersion);
-                        // 作业模式下界面是禁用的，所以这里的初始化isWork必然是false
-                        ContextReInit(isWork: ClientAppType.IsMinerStudio);
+                        ContextReInit();
                         VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), $"刷新server.json配置", toConsole: true);
                     });
                 }
@@ -211,17 +206,15 @@ namespace NTMiner {
 
         #region private methods
 
-        private void ContextReInit(bool isWork) {
+        private void ContextReInit() {
             ReInitServerJson();
-            IsJsonServer = !DevMode.IsDevMode || ClientAppType.IsMinerStudio || isWork;
             this.ServerContext.ReInit();
             // CoreContext的视图模型集此时刷新
             VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
             VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
-            if (isWork) {
-                // 有可能是由非作业切换为作业，所以需要对IsJsonLocal赋值
-                IsJsonLocal = true;
+            // 有可能是由非作业切换为作业，所以需要对IsJsonLocal赋值
+            if (IsJsonLocal) {
                 ReInitMinerProfile();
             }
         }
@@ -383,12 +376,13 @@ namespace NTMiner {
         #endregion
 
         #region RestartMine
-        public void RestartMine(bool isWork = false) {
-            if (isWork) {
-                ContextReInit(true);
+        public void RestartMine(WorkType workType = WorkType.None) {
+            _workType = workType;
+            NTMinerRegistry.SetWorkType(workType);
+            if (workType != WorkType.None) {
+                ContextReInit();
             }
             StartMine(isRestart: true);
-            NTMinerRegistry.SetIsLastIsWork(isWork);
         }
         #endregion
 

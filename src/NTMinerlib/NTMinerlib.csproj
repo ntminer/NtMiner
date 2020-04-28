@@ -88,6 +88,7 @@
     <Compile Include="Windows\Cmd.cs" />
     <Compile Include="Windows\TaskKill.cs" />
     <Compile Include="DataExtensions.cs" />
+    <Compile Include="WorkType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

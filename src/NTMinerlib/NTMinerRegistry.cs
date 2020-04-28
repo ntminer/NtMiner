@@ -64,17 +64,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region IsLastIsWork
-        public static bool GetIsLastIsWork() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.IsLastIsWorkRegistryKey);
-            return value != null && value.ToString() == "True";
-        }
-
-        public static void SetIsLastIsWork(bool isLastIsWork) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.IsLastIsWorkRegistryKey, isLastIsWork);
-        }
-        #endregion
-
         #region Arguments
         public static string GetArguments(NTMinerAppType appType) {
             string valueName = GetValueName(appType, NTKeyword.ArgumentsRegistryKey);

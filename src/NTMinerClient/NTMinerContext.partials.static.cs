@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.Profile;
 using NTMiner.JsonDb;
@@ -20,6 +21,7 @@ namespace NTMiner {
         private static readonly NTMinerContext S_Instance = new NTMinerContext();
         public static readonly INTMinerContext Instance = S_Instance;
 
+        private static WorkType _workType;
         private static Guid _id = NTMinerRegistry.GetClientId(ClientAppType.AppType);
         public static Guid Id {
             get {
@@ -28,20 +30,25 @@ namespace NTMiner {
         }
 
         public static Version ServerVersion;
-        private static bool _isJsonServer;
+        /// <summary>
+        /// 表示是否是使用server.json只读数据库文件。
+        /// 只有DevMode模式的挖矿端才会返回False，否则都是True。
+        /// </summary>
         public static bool IsJsonServer {
-            get { return _isJsonServer; }
-            private set { _isJsonServer = value; }
+            get {
+                if (ClientAppType.IsMinerClient && DevMode.IsDevMode) {
+                    return false;
+                }
+                return true;
+            }
         }
 
-        private static bool _isJsonLocal;
         /// <summary>
         /// 是否是使用local.json作为数据库而不是local.litedb。
-        /// 有两种情况该属性会被赋值为true：1. 作业模式的挖矿端；2. 群控客户端。
+        /// 有两种情况该属性会被赋值为true：1. 群控客户端；2. 作业模式的挖矿端。
         /// </summary>
         public static bool IsJsonLocal {
-            get { return _isJsonLocal; }
-            private set { _isJsonLocal = value; }
+            get { return ClientAppType.IsMinerStudio || _workType != WorkType.None; }
         }
 
         public static string ThisPcName {
@@ -198,7 +205,13 @@ namespace NTMiner {
             if (!_localJsonInited) {
                 lock (_locker) {
                     if (!_localJsonInited) {
-                        string localJson = HomePath.ReadLocalJsonFile();
+                        string localJson;
+                        if (_workType == WorkType.SelfWork) {
+                            localJson = HomePath.ReadSelfWorkLocalJsonFile();
+                        }
+                        else {
+                            localJson = HomePath.ReadLocalJsonFile();
+                        }
                         if (!string.IsNullOrEmpty(localJson)) {
                             LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
                             _localJson = data ?? new LocalJsonDb();
@@ -263,7 +276,13 @@ namespace NTMiner {
             if (!_serverJsonInited) {
                 lock (_locker) {
                     if (!_serverJsonInited) {
-                        string serverJson = HomePath.ReadServerJsonFile();
+                        string serverJson;
+                        if (_workType == WorkType.SelfWork) {
+                            serverJson = HomePath.ReadSelfWorkServerJsonFile();
+                        }
+                        else {
+                            serverJson = HomePath.ReadServerJsonFile();
+                        }
                         if (!string.IsNullOrEmpty(serverJson)) {
                             ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson) ?? new ServerJsonDb();
                             try {

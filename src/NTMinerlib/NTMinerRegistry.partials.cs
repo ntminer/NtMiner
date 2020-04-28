@@ -22,5 +22,19 @@ namespace NTMiner {
             return (value ?? string.Empty).ToString();
         }
         #endregion
+
+        #region WorkType
+        public static WorkType GetWorkType() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.IsLastIsWorkRegistryKey);
+            if (value != null && value.ToString().TryParse(out WorkType workType)) {
+                return workType;
+            }
+            return WorkType.None;
+        }
+
+        public static void SetWorkType(WorkType workType) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.IsLastIsWorkRegistryKey, workType.ToString());
+        }
+        #endregion
     }
 }

@@ -48,7 +48,14 @@ namespace NTMiner {
             }
             try {
                 VirtualRoot.ThisLocalInfo(nameof(MinerClientController), $"通过群控开始挖矿", toConsole: true);
-                NTMinerContext.Instance.RestartMine(isWork: request.WorkId != Guid.Empty);
+                WorkType workType = WorkType.None;
+                if (request.WorkId != Guid.Empty) {
+                    workType = WorkType.MineWork;
+                    if (request.WorkId == MineWorkData.SelfMineWorkId) {
+                        workType = WorkType.SelfWork;
+                    }
+                }
+                NTMinerContext.Instance.RestartMine(workType);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

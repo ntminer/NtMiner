@@ -232,7 +232,6 @@
     <Compile Include="Windows\Bios.cs" />
     <Compile Include="Windows\WindowsSessionSwitchReason.cs" />
     <Compile Include="Windows\WMI.cs" />
-    <Compile Include="WorkType.cs" />
     <Compile Include="ZipUtil.cs" />
   </ItemGroup>
   <ItemGroup>
