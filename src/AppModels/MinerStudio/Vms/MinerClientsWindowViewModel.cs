@@ -376,9 +376,9 @@ namespace NTMiner.MinerStudio.Vms {
                 #region
                 if (this.SelectedMinerClients.Length == 1) {
                     var selectedMinerClient = this.SelectedMinerClients[0];
-                    WpfUtil.ShowInputDialog("群控名", selectedMinerClient.WorkerName, "注意：将在下次通过群控开始挖矿时应用至矿机", null, minerName => {
+                    WpfUtil.ShowInputDialog("群控名", selectedMinerClient.WorkerName, "注意：下次挖矿生效", null, minerName => {
                         selectedMinerClient.WorkerName = minerName;
-                        VirtualRoot.Out.ShowSuccess("设置群控名成功，将在下次通过群控开始挖矿时应用至矿机。", toConsole: true);
+                        VirtualRoot.Out.ShowSuccess("设置群控名成功，下次挖矿生效。", toConsole: true);
                     });
                 }
                 else {
