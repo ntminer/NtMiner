@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Core.Profile {
-    public class CoinProfileData : ICoinProfile, IDbEntity<Guid> {
+    public class CoinProfileData : ICoinProfile, IProfile, IDbEntity<Guid> {
         public CoinProfileData() {
         }
 
@@ -38,5 +38,10 @@ namespace NTMiner.Core.Profile {
         public bool IsDualCoinHideWallet { get; set; }
 
         public double CalcInput { get; set; }
+
+        // 检测内存状态是否变更时使用
+        public override string ToString() {
+            return this.BuildSign().ToString();
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Core.Profile;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -31,6 +32,15 @@ namespace NTMiner {
         }
 
         internal static StringBuilder BuildSign(this ISignableData data) {
+            var propertyInfos = GetPropertyInfos(data.GetType());
+            StringBuilder sb = new StringBuilder();
+            foreach (var propertyInfo in propertyInfos) {
+                sb.Append(propertyInfo.Name).Append(propertyInfo.GetValue(data, null));
+            }
+            return sb;
+        }
+
+        internal static StringBuilder BuildSign(this IProfile data) {
             var propertyInfos = GetPropertyInfos(data.GetType());
             StringBuilder sb = new StringBuilder();
             foreach (var propertyInfo in propertyInfos) {

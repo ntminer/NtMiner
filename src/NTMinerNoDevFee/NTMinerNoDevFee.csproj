@@ -79,6 +79,9 @@
     <Compile Include="..\NTMinerDataSchemas\Core\MinerServer\NTMinerWalletData.cs">
       <Link>Core\MinerServer\NTMinerWalletData.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerDataSchemas\Core\Profile\IProfile.cs">
+      <Link>Core\Profile\IProfile.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerDataSchemas\DataResponse`1.cs">
       <Link>DataResponse`1.cs</Link>
     </Compile>

@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Core.Profile {
-    public class CoinKernelProfileData : ICoinKernelProfile, IDbEntity<Guid> {
+    public class CoinKernelProfileData : ICoinKernelProfile, IProfile, IDbEntity<Guid> {
         public CoinKernelProfileData() { }
 
         public static CoinKernelProfileData CreateDefaultData(Guid coinKernelId, double dualCoinWeight) {
@@ -35,5 +35,10 @@ namespace NTMiner.Core.Profile {
         public string CustomArgs { get; set; }
 
         public string TouchedArgs { get; set; }
+
+        // 检测内存状态是否变更时使用
+        public override string ToString() {
+            return this.BuildSign().ToString();
+        }
     }
 }
