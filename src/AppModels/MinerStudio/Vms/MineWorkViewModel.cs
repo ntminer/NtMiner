@@ -156,6 +156,11 @@ namespace NTMiner.MinerStudio.Vms {
             }
             NTMinerContext.Instance.ReInitMinerProfile();
             this.Sha1 = NTMinerContext.Instance.MinerProfile.GetSha1();
+            MineWorkData mineWorkData = new MineWorkData().Update(this);
+            LocalJsonDb localJsonObj = new LocalJsonDb(NTMinerContext.Instance, mineWorkData);
+            ServerJsonDb serverJsonObj = new ServerJsonDb(NTMinerContext.Instance, localJsonObj);
+            var serverJson = VirtualRoot.JsonSerializer.Serialize(serverJsonObj);
+            this.ServerJsonSha1 = HashUtil.Sha1(serverJson);
             VirtualRoot.Execute(new EditMineWorkCommand(formType ?? FormType.Edit, new MineWorkViewModel(this)));
         }
 

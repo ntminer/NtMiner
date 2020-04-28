@@ -100,7 +100,7 @@ namespace NTMiner.MinerStudio {
                 }
                 else {
                     RpcRoot.Client.MinerClientService.GetLocalMessagesAsync(minerClientVm.GetLocalIp(), afterTime, (data, e) => {
-                        if (data != null || data.Count > 0) {
+                        if (data != null && data.Count > 0) {
                             VirtualRoot.RaiseEvent(new ClientLocalMessagesEvent(minerClientVm.ClientId, data));
                         }
                     });

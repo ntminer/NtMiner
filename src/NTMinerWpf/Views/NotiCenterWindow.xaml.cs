@@ -89,6 +89,9 @@ namespace NTMiner.Views {
                 if (isOwnerIsTopMost) {
                     owner.Topmost = false;
                 }
+                if (owner.Owner == _instance) {
+                    owner.Owner = _instance.Owner;
+                }
                 _instance.Owner = owner;
                 if (isOwnerIsTopMost) {
                     owner.Topmost = true;

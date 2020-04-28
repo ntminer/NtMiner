@@ -230,7 +230,7 @@ namespace NTMiner.MinerStudio.Impl {
             RpcRoot.GetAsync<List<OperationResultData>>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetOperationResults), new Dictionary<string, string> {
                 {"afterTime",afterTime.ToString() }
             }, (data, e) => {
-                if (data != null || data.Count > 0) {
+                if (data != null && data.Count > 0) {
                     VirtualRoot.RaiseEvent(new ClientOperationResultsEvent(client.ClientId, data));
                 }
             }, timeountMilliseconds: 3000);
