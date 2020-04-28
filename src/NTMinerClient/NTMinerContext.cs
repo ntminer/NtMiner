@@ -213,10 +213,7 @@ namespace NTMiner {
             VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
             VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
-            // 有可能是由非作业切换为作业，所以需要对IsJsonLocal赋值
-            if (IsJsonLocal) {
-                ReInitMinerProfile();
-            }
+            ReInitMinerProfile();
         }
 
         private void Link() {
@@ -377,10 +374,14 @@ namespace NTMiner {
 
         #region RestartMine
         public void RestartMine(WorkType workType = WorkType.None, string workerName = null) {
+            bool isPreIsWork = _workType != WorkType.None;
             _workType = workType;
             _workerName = workerName;
             NTMinerRegistry.SetWorkType(workType);
             if (workType != WorkType.None) {
+                ContextReInit();
+            }
+            else if (isPreIsWork) {
                 ContextReInit();
             }
             StartMine(isRestart: true);

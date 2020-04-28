@@ -77,7 +77,7 @@ namespace NTMiner {
         public const string CurrentVersionTagRegistryKey = "CurrentVersionTag";
         public const string CurrentVersionRegistryKey = "CurrentVersion";
         public const string ArgumentsRegistryKey = "Arguments";
-        public const string IsLastIsWorkRegistryKey = "IsLastIsWork";
+        public const string WorkTypeRegistryKey = "WorkType";
         public const string LocationRegistryKey = "Location";
         #endregion
 

@@ -25,7 +25,7 @@ namespace NTMiner {
 
         #region WorkType
         public static WorkType GetWorkType() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.IsLastIsWorkRegistryKey);
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.WorkTypeRegistryKey);
             if (value != null && value.ToString().TryParse(out WorkType workType)) {
                 return workType;
             }
@@ -33,7 +33,7 @@ namespace NTMiner {
         }
 
         public static void SetWorkType(WorkType workType) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.IsLastIsWorkRegistryKey, workType.ToString());
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.WorkTypeRegistryKey, workType.ToString());
         }
         #endregion
     }
