@@ -11,7 +11,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 Title = title,
                 FormType = formType,
                 IsMaskTheParent = true,
-                Width = 900,
+                Width = 1000,
                 Height = 560,
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed,
