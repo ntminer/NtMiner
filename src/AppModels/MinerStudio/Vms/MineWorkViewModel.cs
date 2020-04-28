@@ -192,13 +192,13 @@ namespace NTMiner.MinerStudio.Vms {
             else {
                 isMinerProfileChanged = true;
                 isShowEdit = true;
+                Write.UserInfo("保存作业。");
             }
             if (RpcRoot.IsOuterNet) {
                 if (this.Id != MineWorkData.SelfMineWorkId) {
                     RpcRoot.OfficialServer.UserMineWorkService.AddOrUpdateMineWorkAsync(new MineWorkData().Update(this), (r, ex) => {
                         if (r.IsSuccess()) {
                             if (isMinerProfileChanged) {
-                                Write.DevDebug("检测到MinerProfile状态变更");
                                 NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                                 if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                                     RpcRoot.OfficialServer.UserMineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, (response, e) => {
@@ -230,7 +230,6 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 else {
                     if (isMinerProfileChanged) {
-                        Write.DevDebug("检测到MinerProfile状态变更");
                         NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                             MinerStudioRoot.MinerStudioService.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
@@ -244,7 +243,6 @@ namespace NTMiner.MinerStudio.Vms {
             else {
                 if (this.Id != MineWorkData.SelfMineWorkId) {
                     if (isMinerProfileChanged) {
-                        Write.DevDebug("检测到MinerProfile状态变更");
                         NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                             try {
@@ -274,7 +272,6 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 else {
                     if (isMinerProfileChanged) {
-                        Write.DevDebug("检测到MinerProfile状态变更");
                         NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                             MinerStudioRoot.MinerStudioService.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
