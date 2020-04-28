@@ -43,6 +43,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public MineWorkViewModel(MineWorkViewModel vm) : this((IMineWork)vm) {
             Sha1 = vm.Sha1;
+            _minerClientVm = vm._minerClientVm;
         }
 
         public MineWorkViewModel(Guid id) {
@@ -91,8 +92,8 @@ namespace NTMiner.MinerStudio.Vms {
                 });
             }
             else {
+                _minerClientVm = MinerStudioRoot.MinerClientsWindowVm.SelectedMinerClients.FirstOrDefault();
                 if (this.Id == MineWorkData.SelfMineWorkId) {
-                    _minerClientVm = MinerStudioRoot.MinerClientsWindowVm.SelectedMinerClients.FirstOrDefault();
                     if (_minerClientVm == null) {
                         VirtualRoot.Out.ShowError("未选中矿机", autoHideSeconds: 4);
                         return;
