@@ -95,7 +95,7 @@ namespace NTMiner.Core.Impl {
                 else {
                     Add(ClientData.Create(MinerData.Create(message.Data)));
                 }
-            }, this.GetType(), LogEnum.DevConsole);
+            }, this.GetType(), LogEnum.None);
         }
 
         private bool IsOldMqMessage(DateTime mqMessageTimestamp) {
