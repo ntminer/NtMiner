@@ -246,8 +246,11 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region SaveSelfWorkLocalJsonAsync
         public void SaveSelfWorkLocalJsonAsync(IMinerData client, string localJson, string serverJson) {
+            if (string.IsNullOrEmpty(localJson) || string.IsNullOrEmpty(serverJson)) {
+                return;
+            }
             WorkRequest request = new WorkRequest {
-                LocalJson = localJson,
+                LocalJson = localJson.Replace(NTKeyword.MinerNameParameterName, client.WorkerName),
                 ServerJson = serverJson,
                 WorkId = MineWorkData.SelfMineWorkId
             };

@@ -280,14 +280,18 @@ namespace NTMiner.MinerStudio.Impl {
                 VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
                 return;
             }
+            if (string.IsNullOrEmpty(localJson) || string.IsNullOrEmpty(serverJson)) {
+                return;
+            }
+            WorkRequest request = new WorkRequest {
+                LocalJson = localJson.Replace(NTKeyword.MinerNameParameterName, client.WorkerName),
+                ServerJson = serverJson,
+                WorkId = MineWorkData.SelfMineWorkId
+            };
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.SaveSelfWorkLocalJson) {
                 Data = new WrapperClientIdData {
                     ClientId = client.ClientId,
-                    Data = new WorkRequest {
-                        WorkId = MineWorkData.SelfMineWorkId,
-                        LocalJson = localJson,
-                        ServerJson = serverJson
-                    }
+                    Data = request
                 }
             });
         }
