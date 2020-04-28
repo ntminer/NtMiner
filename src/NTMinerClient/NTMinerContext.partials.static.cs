@@ -22,6 +22,7 @@ namespace NTMiner {
         public static readonly INTMinerContext Instance = S_Instance;
 
         private static WorkType _workType;
+        private static string _workerName;
         private static Guid _id = NTMinerRegistry.GetClientId(ClientAppType.AppType);
         public static Guid Id {
             get {
@@ -237,16 +238,21 @@ namespace NTMiner {
                         #endregion
 
                         #region 矿机名
-                        // 当用户使用群控作业但没有指定群控矿机名时使用从local.litedb中读取的矿工名
-                        if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
-                            if (localProfile != null) {
-                                _localJson.MinerProfile.MinerName = localProfile.MinerName;
-                            }
-                            // 如果local.litedb中也没有矿机名则使用去除了特殊符号的本机机器名作为矿机名
+                        if (!string.IsNullOrEmpty(_workerName)) {
+                            _localJson.MinerProfile.MinerName = _workerName;
+                        }
+                        else {
+                            // 当用户使用群控作业但没有指定群控矿机名时使用从local.litedb中读取的矿工名
                             if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
-                                string minerName = Environment.MachineName;
-                                minerName = new string(minerName.ToCharArray().Where(a => !NTKeyword.InvalidMinerNameChars.Contains(a)).ToArray());
-                                _localJson.MinerProfile.MinerName = minerName;
+                                if (localProfile != null) {
+                                    _localJson.MinerProfile.MinerName = localProfile.MinerName;
+                                }
+                                // 如果local.litedb中也没有矿机名则使用去除了特殊符号的本机机器名作为矿机名
+                                if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
+                                    string minerName = Environment.MachineName;
+                                    minerName = new string(minerName.ToCharArray().Where(a => !NTKeyword.InvalidMinerNameChars.Contains(a)).ToArray());
+                                    _localJson.MinerProfile.MinerName = minerName;
+                                }
                             }
                         }
                         #endregion

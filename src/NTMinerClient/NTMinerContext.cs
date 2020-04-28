@@ -376,8 +376,9 @@ namespace NTMiner {
         #endregion
 
         #region RestartMine
-        public void RestartMine(WorkType workType = WorkType.None) {
+        public void RestartMine(WorkType workType = WorkType.None, string workerName = null) {
             _workType = workType;
+            _workerName = workerName;
             NTMinerRegistry.SetWorkType(workType);
             if (workType != WorkType.None) {
                 ContextReInit();

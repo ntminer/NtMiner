@@ -55,7 +55,7 @@ namespace NTMiner {
                         workType = WorkType.SelfWork;
                     }
                 }
-                NTMinerContext.Instance.RestartMine(workType);
+                NTMinerContext.Instance.RestartMine(workType, request.WorkerName);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

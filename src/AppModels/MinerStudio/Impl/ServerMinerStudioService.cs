@@ -284,9 +284,10 @@ namespace NTMiner.MinerStudio.Impl {
                 return;
             }
             WorkRequest request = new WorkRequest {
+                WorkId = MineWorkData.SelfMineWorkId,
+                WorkerName = client.WorkerName,
                 LocalJson = localJson.Replace(NTKeyword.MinerNameParameterName, client.WorkerName),
-                ServerJson = serverJson,
-                WorkId = MineWorkData.SelfMineWorkId
+                ServerJson = serverJson
             };
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.SaveSelfWorkLocalJson) {
                 Data = new WrapperClientIdData {

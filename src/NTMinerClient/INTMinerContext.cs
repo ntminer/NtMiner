@@ -22,7 +22,7 @@ namespace NTMiner {
 
         void StartMine(bool isRestart = false);
 
-        void RestartMine(WorkType workType = WorkType.None);
+        void RestartMine(WorkType workType = WorkType.None, string workerName = null);
 
         StopMineReason StopReason { get; }
         void StopMineAsync(StopMineReason stopReason, Action callback = null);

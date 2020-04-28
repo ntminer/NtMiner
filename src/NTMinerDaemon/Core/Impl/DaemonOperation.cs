@@ -243,7 +243,8 @@ namespace NTMiner.Core.Impl {
                     string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
                     if (IsNTMinerOpened()) {
                         WorkRequest innerRequest = new WorkRequest {
-                            WorkId = request.WorkId
+                            WorkId = request.WorkId,
+                            WorkerName = request.WorkerName
                         };
                         response = RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StartMine), innerRequest);
                         response.Description = "开始挖矿";

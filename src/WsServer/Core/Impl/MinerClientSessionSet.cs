@@ -214,6 +214,7 @@ namespace NTMiner.Core.Impl {
                             SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.StartMine) {
                                 Data = new WorkRequest {
                                     WorkId = message.Data,
+                                    WorkerName = response.WorkerName,
                                     LocalJson = response.LocalJson,
                                     ServerJson = response.ServerJson
                                 }
@@ -225,6 +226,7 @@ namespace NTMiner.Core.Impl {
                     SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.StartMine) {
                         Data = new WorkRequest {
                             WorkId = message.Data,
+                            WorkerName = string.Empty,
                             LocalJson = string.Empty,
                             ServerJson = string.Empty
                         }

@@ -179,6 +179,7 @@ namespace NTMiner.MinerStudio.Impl {
             }
             WorkRequest request = new WorkRequest {
                 WorkId = workId,
+                WorkerName = client.WorkerName,
                 LocalJson = localJson,
                 ServerJson = serverJson
             };
@@ -250,9 +251,10 @@ namespace NTMiner.MinerStudio.Impl {
                 return;
             }
             WorkRequest request = new WorkRequest {
+                WorkId = MineWorkData.SelfMineWorkId,
+                WorkerName = client.WorkerName,
                 LocalJson = localJson.Replace(NTKeyword.MinerNameParameterName, client.WorkerName),
-                ServerJson = serverJson,
-                WorkId = MineWorkData.SelfMineWorkId
+                ServerJson = serverJson
             };
             RpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SaveSelfWorkLocalJson), null, request, timeountMilliseconds: 3000);
         }

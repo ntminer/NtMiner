@@ -145,10 +145,10 @@ namespace NTMiner.Controllers {
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.WorkId);
                 string localJson = string.Empty;
+                string workerName = string.Empty;
                 if (File.Exists(localJsonFileFullName)) {
                     localJson = File.ReadAllText(localJsonFileFullName);
                     if (!string.IsNullOrEmpty(localJson)) {
-                        string workerName = string.Empty;
                         var clientData = WebApiRoot.ClientDataSet.GetByClientId(request.ClientId);
                         if (clientData != null) {
                             workerName = clientData.WorkerName;
@@ -161,7 +161,7 @@ namespace NTMiner.Controllers {
                 if (File.Exists(serverJsonFileFullName)) {
                     serverJson = File.ReadAllText(serverJsonFileFullName);
                 }
-                return GetWorkJsonResponse.Ok(localJson, serverJson);
+                return GetWorkJsonResponse.Ok(localJson, serverJson, workerName);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
