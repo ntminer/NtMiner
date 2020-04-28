@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.VirtualMemory;
 using RabbitMQ.Client;
@@ -220,6 +221,17 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 routingKey: WsMqKeyword.GetSelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
                 body: _emptyBody);
+        }
+
+        public void SendSaveSelfWorkLocalJson(string loginName, Guid clientId, WorkRequest request) {
+            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || request == null) {
+                return;
+            }
+            _mqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey,
+                basicProperties: CreateBasicProperties(loginName, clientId),
+                body: OperationMqBodyUtil.GetSaveSelfWorkLocalJsonMqSendBody(request));
         }
 
         public void SendGetGpuProfilesJson(string loginName, Guid clientId) {

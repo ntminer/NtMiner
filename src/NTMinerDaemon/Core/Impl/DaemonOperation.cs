@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
@@ -96,13 +97,19 @@ namespace NTMiner.Core.Impl {
         public bool SaveSelfWorkLocalJson(WorkRequest request) {
             bool isSuccess = false;
             string description = "保存本机作业";
-            try {
-                SpecialPath.WriteSelfWorkLocalJsonFile(request.LocalJson);
-                SpecialPath.WriteSelfWorkServerJsonFile(request.ServerJson);
-                isSuccess = true;
+            if (request == null) {
+                isSuccess = false;
+                description = "参数错误";
             }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
+            else {
+                try {
+                    SpecialPath.WriteSelfWorkLocalJsonFile(request.LocalJson);
+                    SpecialPath.WriteSelfWorkServerJsonFile(request.ServerJson);
+                    isSuccess = true;
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                }
             }
             VirtualRoot.OperationResultSet.Add(new OperationResultData {
                 Timestamp = Timestamp.GetTimestamp(),

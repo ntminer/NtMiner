@@ -23,6 +23,7 @@ namespace NTMiner {
         public const string SetVirtualMemoryRoutingKey = WsMessage.SetVirtualMemory;
         public const string SetLocalIpsRoutingKey = WsMessage.SetLocalIps;
         public const string GetSelfWorkLocalJsonRoutingKey = WsMessage.GetSelfWorkLocalJson;
+        public const string SaveSelfWorkLocalJsonRoutingKey = WsMessage.SaveSelfWorkLocalJson;
         public const string GetGpuProfilesJsonRoutingKey = WsMessage.GetGpuProfilesJson;
         public const string SelfWorkLocalJsonRoutingKey = WsMessage.SelfWorkLocalJson;
         public const string GpuProfilesJsonRoutingKey = WsMessage.GpuProfilesJson;

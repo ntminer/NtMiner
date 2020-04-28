@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.VirtualMemory;
 using System;
@@ -34,6 +35,7 @@ namespace NTMiner.Core.Mq.Senders {
         void SendSetLocalIps(string loginName, Guid clientId, List<LocalIpInput> datas);
 
         void SendGetSelfWorkLocalJson(string loginName, Guid clientId);
+        void SendSaveSelfWorkLocalJson(string loginName, Guid clientId, WorkRequest request);
         void SendGetGpuProfilesJson(string loginName, Guid clientId);
         void SendSelfWorkLocalJson(string loginName, Guid clientId, string json);
         void SendGpuProfilesJson(string loginName, Guid clientId, string json);

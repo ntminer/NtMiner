@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.VirtualMemory;
 using System;
@@ -187,6 +188,19 @@ namespace NTMiner.Core.Mq {
         }
         public static string GetGpuProfilesJsonMqReceiveBody(byte[] body) {
             return Encoding.UTF8.GetString(body);
+        }
+        #endregion
+
+        #region SaveSelfWorkLocalJson
+        public static byte[] GetSaveSelfWorkLocalJsonMqSendBody(WorkRequest request) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(request));
+        }
+        public static WorkRequest GetSaveSelfWorkLocalJsonMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            if (string.IsNullOrEmpty(json)) {
+                return null;
+            }
+            return VirtualRoot.JsonSerializer.Deserialize<WorkRequest>(json);
         }
         #endregion
 

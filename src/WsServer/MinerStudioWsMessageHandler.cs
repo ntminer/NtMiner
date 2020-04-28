@@ -1,4 +1,5 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.Ws;
 using System;
@@ -96,6 +97,13 @@ namespace NTMiner {
                 (loginName, message)=> {
                     if (message.TryGetData(out WrapperClientId wrapperClientId)) {
                         WsRoot.OperationMqSender.SendGetSelfWorkLocalJson(loginName, wrapperClientId.ClientId);
+                    }
+                }
+            },
+            {WsMessage.SaveSelfWorkLocalJson,
+                (loginName, message)=> {
+                    if (message.TryGetData(out WrapperClientIdData wrapperClientData) && wrapperClientData.TryGetData(out WorkRequest workRequest)) {
+                        WsRoot.OperationMqSender.SendSaveSelfWorkLocalJson(loginName, wrapperClientData.ClientId, workRequest);
                     }
                 }
             },
