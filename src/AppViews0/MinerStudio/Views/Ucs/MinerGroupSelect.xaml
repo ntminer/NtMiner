@@ -73,7 +73,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ListBoxItem">
-                                <Border Padding="2" BorderThickness="0 1 0 0" BorderBrush="{StaticResource LightLineColor}" Background="{TemplateBinding Background}">
+                                <Border BorderThickness="0 1 0 0" BorderBrush="{StaticResource LightLineColor}" Background="{TemplateBinding Background}">
                                     <ContentPresenter 
 								        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
 								        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
@@ -94,7 +94,7 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <WrapPanel>
-                        <TextBlock Width="220" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
+                        <TextBlock Width="220" Padding="4 6" VerticalAlignment="Center" Text="{Binding Name}" ToolTip="{Binding Description}"></TextBlock>
                         <controls:KbButton 
                             Margin="4 0 0 0"
                             Padding="4"
