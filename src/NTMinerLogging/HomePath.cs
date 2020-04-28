@@ -171,8 +171,9 @@ namespace NTMiner {
             if (File.Exists(SelfWorkServerJsonFileFullName)) {
                 return File.ReadAllText(SelfWorkServerJsonFileFullName);
             }
-
-            return string.Empty;
+            else {
+                return ReadServerJsonFile();
+            }
         }
 
         public static void WriteServerJsonFile(string json) {
@@ -195,8 +196,9 @@ namespace NTMiner {
             if (File.Exists(SelfWorkLocalJsonFileFullName)) {
                 return File.ReadAllText(SelfWorkLocalJsonFileFullName);
             }
-
-            return string.Empty;
+            else {
+                return ReadLocalJsonFile();
+            }
         }
 
         public static string ReadGpuProfilesJsonFile() {

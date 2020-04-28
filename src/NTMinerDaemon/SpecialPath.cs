@@ -73,11 +73,9 @@ namespace NTMiner {
             if (File.Exists(_selfWorkLocalJsonFileFullName)) {
                 return File.ReadAllText(_selfWorkLocalJsonFileFullName);
             }
-            else if (File.Exists(_localJsonFileFullName)) {
-                return File.ReadAllText(_localJsonFileFullName);
+            else {
+                return ReadLocalJsonFile();
             }
-
-            return string.Empty;
         }
 
         public static void WriteSelfWorkLocalJsonFile(string json) {
@@ -91,10 +89,9 @@ namespace NTMiner {
             if (File.Exists(_selfWorkServerJsonFileFullName)) {
                 return File.ReadAllText(_selfWorkServerJsonFileFullName);
             }
-            else if (File.Exists(_serverJsonFileFullName)) {
-                return File.ReadAllText(_serverJsonFileFullName);
+            else {
+                return ReadServerJsonFile();
             }
-            return string.Empty;
         }
 
         public static void WriteSelfWorkServerJsonFile(string json) {
