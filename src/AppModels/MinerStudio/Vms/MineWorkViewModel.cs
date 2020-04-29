@@ -81,7 +81,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         private void DoEdit(FormType? formType) {
-            if (!MinerStudioRoot.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm)) {
+            if (!MinerStudioRoot.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm) || this.Id == MineWorkData.SelfMineWorkId) {
                 WpfUtil.ShowInputDialog("作业名称", string.Empty, string.Empty, workName => {
                     if (string.IsNullOrEmpty(workName)) {
                         return "作业名称是必须的";
@@ -93,17 +93,17 @@ namespace NTMiner.MinerStudio.Vms {
             }
             else {
                 _minerClientVm = MinerStudioRoot.MinerClientsWindowVm.SelectedMinerClients.FirstOrDefault();
+                if (_minerClientVm == null) {
+                    VirtualRoot.Out.ShowError("未选中矿机", autoHideSeconds: 4);
+                    return;
+                }
                 if (this.Id == MineWorkData.SelfMineWorkId) {
-                    if (_minerClientVm == null) {
-                        VirtualRoot.Out.ShowError("未选中矿机", autoHideSeconds: 4);
-                        return;
-                    }
-                    if (!_minerClientVm.IsOuterUserEnabled) {
-                        VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 6);
-                        return;
-                    }
                     SelfMineWork.Description = $"{_minerClientVm.GetMinerOrClientName()} 矿机的单机作业";
                     if (RpcRoot.IsOuterNet) {
+                        if (!_minerClientVm.IsOuterUserEnabled) {
+                            VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 6);
+                            return;
+                        }
                         VirtualRoot.AddOnecePath<GetSelfWorkLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, action: message => {
                             if (message.ClientId == _minerClientVm.ClientId) {
                                 string data = message.Data;

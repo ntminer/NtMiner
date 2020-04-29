@@ -97,22 +97,22 @@ namespace NTMiner.MinerStudio.Vms {
                 #endregion
             });
             this.RestartWindows = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.GetMinerText()}电脑吗？", title: "确认", onYes: () => {
                     MinerStudioRoot.MinerStudioService.RestartWindowsAsync(this);
                 }));
             });
             this.ShutdownWindows = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭{this.MinerName}({this.MinerIp})电脑吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭{this.GetMinerText()}电脑吗？", title: "确认", onYes: () => {
                     MinerStudioRoot.MinerStudioService.ShutdownWindowsAsync(this);
                 }));
             });
             this.StartMine = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.MinerName}({this.MinerIp})：确定开始挖矿吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.GetMinerText()}：确定开始挖矿吗？", title: "确认", onYes: () => {
                     MinerStudioRoot.MinerStudioService.StartMineAsync(this, WorkId);
                 }));
             });
             this.StopMine = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.MinerName}({this.MinerIp})：确定停止挖矿吗？", title: "确认", onYes: () => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.GetMinerText()}：确定停止挖矿吗？", title: "确认", onYes: () => {
                     MinerStudioRoot.MinerStudioService.StopMineAsync(this);
                 }));
             });
