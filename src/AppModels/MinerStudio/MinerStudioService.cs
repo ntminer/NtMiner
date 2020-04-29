@@ -3,120 +3,129 @@ using NTMiner.Core.MinerServer;
 using NTMiner.MinerStudio.Impl;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace NTMiner.MinerStudio {
     public class MinerStudioService : IMinerStudioService {
-        public static readonly IMinerStudioService Instance = new MinerStudioService();
+        public static readonly MinerStudioService Instance = new MinerStudioService();
 
         private readonly LocalMinerStudioService _localMinerStudioService = new LocalMinerStudioService();
         private readonly ServerMinerStudioService _serverMinerStudioService = new ServerMinerStudioService();
 
         private MinerStudioService() { }
 
+        private IMinerStudioService Service {
+            get {
+                if (RpcRoot.IsOuterNet) {
+                    return _serverMinerStudioService;
+                }
+                else {
+                    return _localMinerStudioService;
+                }
+            }
+        }
+
         public void GetLatestSnapshotsAsync(int limit, Action<GetCoinSnapshotsResponse, Exception> callback) {
-            throw new NotImplementedException();
+            Service.GetLatestSnapshotsAsync(limit, callback);
         }
 
         public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            throw new NotImplementedException();
+            Service.QueryClientsAsync(query, callback);
         }
 
         public void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
-            throw new NotImplementedException();
+            Service.UpdateClientAsync(objectId, propertyName, value, callback);
         }
 
         public void UpdateClientsAsync(string propertyName, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
-            throw new NotImplementedException();
+            Service.UpdateClientsAsync(propertyName, values, callback);
         }
 
         public void RemoveClientsAsync(List<string> objectIds, Action<ResponseBase, Exception> callback) {
-            throw new NotImplementedException();
+            Service.RemoveClientsAsync(objectIds, callback);
         }
 
         public void GetConsoleOutLinesAsync(IMinerData client, long afterTime) {
-            throw new NotImplementedException();
+            Service.GetConsoleOutLinesAsync(client, afterTime);
         }
 
         public void GetLocalMessagesAsync(IMinerData client, long afterTime) {
-            throw new NotImplementedException();
+            Service.GetLocalMessagesAsync(client, afterTime);
         }
 
         public void EnableRemoteDesktopAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.EnableRemoteDesktopAsync(client);
         }
 
         public void BlockWAUAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.BlockWAUAsync(client);
         }
 
         public void AtikmdagPatcherAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.AtikmdagPatcherAsync(client);
         }
 
         public void SwitchRadeonGpuAsync(IMinerData client, bool on) {
-            throw new NotImplementedException();
+            Service.SwitchRadeonGpuAsync(client, on);
         }
 
         public void RestartWindowsAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.RestartWindowsAsync(client);
         }
 
         public void ShutdownWindowsAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.ShutdownWindowsAsync(client);
         }
 
         public void SetAutoBootStartAsync(IMinerData client, SetAutoBootStartRequest request) {
-            throw new NotImplementedException();
+            Service.SetAutoBootStartAsync(client, request);
         }
 
         public void StartMineAsync(IMinerData client, Guid workId) {
-            throw new NotImplementedException();
+            Service.StartMineAsync(client, workId);
         }
 
         public void StopMineAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.StopMineAsync(client);
         }
 
         public void UpgradeNTMinerAsync(IMinerData client, string ntminerFileName) {
-            throw new NotImplementedException();
+            Service.UpgradeNTMinerAsync(client, ntminerFileName);
         }
 
         public void GetDrivesAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.GetDrivesAsync(client);
         }
 
         public void SetVirtualMemoryAsync(IMinerData client, Dictionary<string, int> data) {
-            throw new NotImplementedException();
+            Service.SetVirtualMemoryAsync(client, data);
         }
 
         public void GetLocalIpsAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.GetLocalIpsAsync(client);
         }
 
         public void SetLocalIpsAsync(IMinerData client, List<LocalIpInput> data) {
-            throw new NotImplementedException();
+            Service.SetLocalIpsAsync(client, data);
         }
 
         public void GetOperationResultsAsync(IMinerData client, long afterTime) {
-            throw new NotImplementedException();
+            Service.GetOperationResultsAsync(client, afterTime);
         }
 
         public void GetSelfWorkLocalJsonAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.GetSelfWorkLocalJsonAsync(client);
         }
 
         public void SaveSelfWorkLocalJsonAsync(IMinerData client, string localJson, string serverJson) {
-            throw new NotImplementedException();
+            Service.SaveSelfWorkLocalJsonAsync(client, localJson, serverJson);
         }
 
         public void GetGpuProfilesJsonAsync(IMinerData client) {
-            throw new NotImplementedException();
+            Service.GetGpuProfilesJsonAsync(client);
         }
 
         public void SaveGpuProfilesJsonAsync(IMinerData client, string json) {
-            throw new NotImplementedException();
+            Service.SaveGpuProfilesJsonAsync(client, json);
         }
     }
 }
