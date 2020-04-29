@@ -113,7 +113,7 @@
                 Background="Transparent"
                 VerticalAlignment="Top"
 				ItemsSource="{Binding CoinSnapshotVms}"
-				SelectedItem="{Binding MineCoinVm}"
+				SelectedItem="{Binding CoinSnapshotVm}"
                 HorizontalAlignment="Center"
 				ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.VerticalScrollBarVisibility="Auto">

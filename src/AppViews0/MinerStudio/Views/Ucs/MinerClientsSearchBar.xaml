@@ -171,7 +171,7 @@
                         Width="300"
                         BorderThickness="1"
                         BorderBrush="{StaticResource WindowBorderBrush}"
-					    ItemsSource="{Binding MineCoinVm.CoinVm.OptionPools}"
+					    ItemsSource="{Binding CoinSnapshotVm.CoinVm.OptionPools}"
 					    SelectedItem="{Binding PoolVm}"
                         SelectionChanged="LbPool_SelectionChanged"
 					    ScrollViewer.HorizontalScrollBarVisibility="Disabled"

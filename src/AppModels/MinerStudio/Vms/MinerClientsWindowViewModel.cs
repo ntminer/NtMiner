@@ -16,6 +16,7 @@ namespace NTMiner.MinerStudio.Vms {
         public static readonly MinerClientsWindowViewModel Instance = new MinerClientsWindowViewModel();
 
         private List<CoinSnapshotViewModel> _coinSnapshotVms = null;
+        private CoinSnapshotViewModel _coinSnapshotVm = CoinSnapshotViewModel.PleaseSelect;
         private ColumnsShowViewModel _columnsShow;
         private int _countDown = 10;
         private ObservableCollection<MinerClientViewModel> _minerClients = new ObservableCollection<MinerClientViewModel>();
@@ -30,7 +31,6 @@ namespace NTMiner.MinerStudio.Vms {
         private string _version;
         private string _kernel;
         private string _wallet;
-        private CoinSnapshotViewModel _mineCoinVm = CoinSnapshotViewModel.PleaseSelect;
         private string _pool;
         private PoolViewModel _poolVm = PoolViewModel.PleaseSelect;
         private MineWorkViewModel _selectedMineWork = MineWorkViewModel.PleaseSelect;
@@ -140,8 +140,8 @@ namespace NTMiner.MinerStudio.Vms {
             string coin = string.Empty;
             string wallet = string.Empty;
             if (workId == null || workId.Value == Guid.Empty) {
-                if (this.MineCoinVm != CoinSnapshotViewModel.PleaseSelect && this.MineCoinVm != null) {
-                    coin = this.MineCoinVm.CoinVm.Code;
+                if (this.CoinSnapshotVm != CoinSnapshotViewModel.PleaseSelect && this.CoinSnapshotVm != null) {
+                    coin = this.CoinSnapshotVm.CoinVm.Code;
                 }
                 if (!string.IsNullOrEmpty(Wallet)) {
                     wallet = this.Wallet;
@@ -1378,6 +1378,21 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public CoinSnapshotViewModel CoinSnapshotVm {
+            get { return _coinSnapshotVm; }
+            set {
+                if (_coinSnapshotVm != value) {
+                    _coinSnapshotVm = value;
+                    OnPropertyChanged(nameof(CoinSnapshotVm));
+                    this._pool = string.Empty;
+                    this._poolVm = PoolViewModel.PleaseSelect;
+                    OnPropertyChanged(nameof(PoolVm));
+                    OnPropertyChanged(nameof(IsMainCoinSelected));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
         private IEnumerable<CoinViewModel> GetDualCoinVmItems() {
             yield return CoinViewModel.PleaseSelect;
             yield return CoinViewModel.DualCoinEnabled;
@@ -1391,24 +1406,9 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public CoinSnapshotViewModel MineCoinVm {
-            get { return _mineCoinVm; }
-            set {
-                if (_mineCoinVm != value) {
-                    _mineCoinVm = value;
-                    OnPropertyChanged(nameof(MineCoinVm));
-                    this._pool = string.Empty;
-                    this._poolVm = PoolViewModel.PleaseSelect;
-                    OnPropertyChanged(nameof(PoolVm));
-                    OnPropertyChanged(nameof(IsMainCoinSelected));
-                    this.PageIndex = 1;
-                }
-            }
-        }
-
         public bool IsMainCoinSelected {
             get {
-                if (MineCoinVm == CoinSnapshotViewModel.PleaseSelect) {
+                if (CoinSnapshotVm == CoinSnapshotViewModel.PleaseSelect) {
                     return false;
                 }
                 return true;
