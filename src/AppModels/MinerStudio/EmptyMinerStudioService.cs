@@ -29,6 +29,10 @@ namespace NTMiner.MinerStudio {
             // 什么也不做
         }
 
+        public void GetConsoleOutLinesAsync(IMinerData client, long afterTime) {
+            // 什么也不做
+        }
+
         public void EnableRemoteDesktopAsync(IMinerData client) {
             // 什么也不做
         }

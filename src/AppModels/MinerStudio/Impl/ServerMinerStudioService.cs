@@ -55,6 +55,17 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region GetConsoleOutLinesAsync
+        public void GetConsoleOutLinesAsync(IMinerData client, long afterTime) {
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetConsoleOutLines) {
+                Data = new WrapperClientIdData {
+                    ClientId = client.ClientId,
+                    Data = afterTime
+                }
+            });
+        }
+        #endregion
+
         #region BlockWAUAsync
         public void BlockWAUAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {

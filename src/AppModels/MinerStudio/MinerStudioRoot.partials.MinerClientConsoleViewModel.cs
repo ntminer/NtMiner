@@ -1,6 +1,5 @@
 ﻿using NTMiner.MinerStudio.Vms;
 using NTMiner.Vms;
-using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,29 +83,15 @@ namespace NTMiner.MinerStudio {
                 if (this._minerClientVm == null) {
                     return;
                 }
-                long timestamp = 0;
+                long afterTime = 0;
                 var minerClientVm = this._minerClientVm;
                 lock (_locker) {
                     var item = _outLines.LastOrDefault();
                     if (item != null) {
-                        timestamp = item.Timestamp;
+                        afterTime = item.Timestamp;
                     }
                 }
-                if (RpcRoot.IsOuterNet) {
-                    WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetConsoleOutLines) {
-                        Data = new WrapperClientIdData {
-                            ClientId = minerClientVm.ClientId,
-                            Data = timestamp
-                        }
-                    });
-                }
-                else {
-                    RpcRoot.Client.MinerClientService.GetConsoleOutLinesAsync(minerClientVm.GetLocalIp(), timestamp, (data, e) => {
-                        if (data != null && data.Count > 0) {
-                            VirtualRoot.RaiseEvent(new ClientConsoleOutLinesEvent(minerClientVm.ClientId, data));
-                        }
-                    });
-                }
+                MinerStudioService.GetConsoleOutLinesAsync(minerClientVm, afterTime);
             }
         }
     }

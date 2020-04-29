@@ -119,6 +119,16 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region GetConsoleOutLinesAsync
+        public void GetConsoleOutLinesAsync(IMinerData client, long afterTime) {
+            RpcRoot.Client.MinerClientService.GetConsoleOutLinesAsync(client.GetLocalIp(), afterTime, (data, e) => {
+                if (data != null && data.Count > 0) {
+                    VirtualRoot.RaiseEvent(new ClientConsoleOutLinesEvent(client.ClientId, data));
+                }
+            });
+        }
+        #endregion
+
         #region BlockWAUAsync
         public void BlockWAUAsync(IMinerData client) {
             RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.BlockWAU), null, null, timeountMilliseconds: 3000);
