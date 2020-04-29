@@ -52,12 +52,18 @@ namespace NTMiner.Vms {
                     if (!RpcRoot.RpcUser.LoginedUser.IsAdmin()) {
                         return false;
                     }
-                    if (NTMinerRegistry.GetControlCenterAddress().StartsWith(RpcRoot.OfficialServerHost)) {
+                    if (IsOfficialServerHost) {
                         return true;
                     }
                     return false;
                 }
                 return false;
+            }
+        }
+
+        public bool IsOfficialServerHost {
+            get {
+                return NTMinerRegistry.GetControlCenterAddress().StartsWith(RpcRoot.OfficialServerHost);
             }
         }
 
@@ -85,7 +91,7 @@ namespace NTMiner.Vms {
                     if (RpcRoot.RpcUser.LoginedUser.IsAdmin()) {
                         return Visibility.Collapsed;
                     }
-                    if (NTMinerRegistry.GetControlCenterAddress().StartsWith(RpcRoot.OfficialServerHost)) {
+                    if (IsOfficialServerHost) {
                         return Visibility.Visible;
                     }
                     return Visibility.Collapsed;
@@ -126,7 +132,7 @@ namespace NTMiner.Vms {
                     if (string.IsNullOrEmpty(RpcRoot.RpcUser.LoginName)) {
                         return Visibility.Collapsed;
                     }
-                    if (!NTMinerRegistry.GetControlCenterAddress().StartsWith(RpcRoot.OfficialServerHost)) {
+                    if (Net.IpUtil.IsLocalhost(NTMinerRegistry.GetControlCenterAddress())) {
                         return Visibility.Visible;
                     }
                     return Visibility.Collapsed;
