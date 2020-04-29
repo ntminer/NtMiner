@@ -418,7 +418,7 @@
                 Style="{StaticResource TopMenuItem}"
                 Header="添加矿机" 
                 Command="{Binding AddMinerClient}"
-                Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">
+                Visibility="{Binding MainMenu.IsMinerStudioLocalVisible}">
                 <MenuItem.Icon>
                     <Path
 						Width="16"

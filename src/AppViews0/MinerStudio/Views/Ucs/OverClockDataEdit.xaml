@@ -85,7 +85,7 @@
 
 		<controls:KbButton
 			Command="{Binding Save}" 
-			Visibility="{Binding MainMenu.IsMinerStudioOuterAdminLoginedVisible}"
+			Visibility="{Binding MainMenu.IsMinerStudioOuterAdminVisible}"
 			Margin="0 10 0 0"
 			Padding="15 2"
 			HorizontalAlignment="Center"

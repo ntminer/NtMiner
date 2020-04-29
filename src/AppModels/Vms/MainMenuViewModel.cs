@@ -11,8 +11,8 @@ namespace NTMiner.Vms {
                 return;
             }
             VirtualRoot.AddEventPath<RpcUserLoginedEvent>("登录成功后刷新菜单", LogEnum.DevConsole, action: message => {
-                this.OnPropertyChanged(nameof(IsMinerStudioOuterAdminLoginedVisible));
-                this.OnPropertyChanged(nameof(IsMinerStudioLocalLoginedVisible));
+                this.OnPropertyChanged(nameof(IsMinerStudioOuterAdminVisible));
+                this.OnPropertyChanged(nameof(IsMinerStudioLocalVisible));
             }, this.GetType());
         }
 
@@ -31,16 +31,16 @@ namespace NTMiner.Vms {
             }
         }
 
-        public Visibility IsMinerStudioLocalOrOuterAdminLoginedVisible {
+        public Visibility IsMinerStudioLocalOrOuterAdminVisible {
             get {
                 if (RpcRoot.IsOuterNet) {
-                    return IsMinerStudioOuterAdminLoginedVisible;
+                    return IsMinerStudioOuterAdminVisible;
                 }
-                return IsMinerStudioLocalLoginedVisible;
+                return IsMinerStudioLocalVisible;
             }
         }
 
-        public bool IsMinerStudioOuterAdminLogined {
+        public bool IsMinerStudioOuterAdmin {
             get {
                 if (WpfUtil.IsInDesignMode) {
                     return true;
@@ -70,40 +70,16 @@ namespace NTMiner.Vms {
         /// <summary>
         /// 登录的是外网群控管理员
         /// </summary>
-        public Visibility IsMinerStudioOuterAdminLoginedVisible {
+        public Visibility IsMinerStudioOuterAdminVisible {
             get {
-                return IsMinerStudioOuterAdminLogined ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
-
-        /// <summary>
-        /// 登录的是外网群控普通用户
-        /// </summary>
-        public Visibility IsMinerStudioOuterUserLoginedVisible {
-            get {
-                if (WpfUtil.IsInDesignMode) {
-                    return Visibility.Visible;
-                }
-                if (ClientAppType.IsMinerStudio) {
-                    if (!RpcRoot.IsLogined) {
-                        return Visibility.Collapsed;
-                    }
-                    if (RpcRoot.RpcUser.LoginedUser.IsAdmin()) {
-                        return Visibility.Collapsed;
-                    }
-                    if (IsOfficialServerHost) {
-                        return Visibility.Visible;
-                    }
-                    return Visibility.Collapsed;
-                }
-                return Visibility.Collapsed;
+                return IsMinerStudioOuterAdmin ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
         /// <summary>
         /// 是外网登录用户，包括普通用户和Admin
         /// </summary>
-        public Visibility IsMinerStudioOuterLoginedVisible {
+        public Visibility IsMinerStudioOuterVisible {
             get {
                 if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
@@ -120,7 +96,7 @@ namespace NTMiner.Vms {
         /// <summary>
         /// 是内网群控
         /// </summary>
-        public Visibility IsMinerStudioLocalLoginedVisible {
+        public Visibility IsMinerStudioLocalVisible {
             get {
                 if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
@@ -129,9 +105,6 @@ namespace NTMiner.Vms {
                     return Visibility.Collapsed;
                 }
                 if (ClientAppType.IsMinerStudio) {
-                    if (string.IsNullOrEmpty(RpcRoot.RpcUser.LoginName)) {
-                        return Visibility.Collapsed;
-                    }
                     if (Net.IpUtil.IsLocalhost(NTMinerRegistry.GetControlCenterAddress())) {
                         return Visibility.Visible;
                     }

@@ -12,7 +12,7 @@
 	mc:Ignorable="d">
 	<WrapPanel>
         <Menu Background="Transparent" VerticalAlignment="Center">
-            <MenuItem Height="26" Padding="0 0 8 0" Visibility="{Binding IsMinerStudioOuterLoginedVisible}">
+            <MenuItem Height="26" Padding="0 0 8 0" Visibility="{Binding IsMinerStudioOuterVisible}">
                 <MenuItem.Icon>
                     <Path
 						Width="14"
@@ -55,7 +55,7 @@
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Width="26" Height="26" ToolTip="算力图" Command="{x:Static app:AppStatic.ShowSpeedChart}" Visibility="{Binding IsMinerStudioLocalOrOuterAdminLoginedVisible}">
+            <MenuItem Width="26" Height="26" ToolTip="算力图" Command="{x:Static app:AppStatic.ShowSpeedChart}" Visibility="{Binding IsMinerStudioLocalOrOuterAdminVisible}">
                 <MenuItem.Icon>
                     <Path 
 						Height="14"
@@ -185,7 +185,7 @@
 					</MenuItem.Icon>
 				</MenuItem>
 			</MenuItem>
-            <MenuItem Visibility="{Binding IsMinerStudioOuterAdminLoginedVisible}" Width="26" Height="26">
+            <MenuItem Visibility="{Binding IsMinerStudioOuterAdminVisible}" Width="26" Height="26">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -424,7 +424,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-                <MenuItem Header="用户" Visibility="{Binding IsMinerStudioOuterAdminLoginedVisible}" Command="{x:Static app:AppStatic.ShowUsers}">
+                <MenuItem Header="用户" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowUsers}">
 					<MenuItem.Icon>
 						<Path
 							Width="16"
@@ -434,7 +434,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="外网群控服务器节点" Visibility="{Binding IsMinerStudioOuterAdminLoginedVisible}" Command="{x:Static app:AppStatic.ShowWsServerNodes}">
+                <MenuItem Header="外网群控服务器节点" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowWsServerNodes}">
                     <MenuItem.Icon>
                         <Path
 							Width="16"

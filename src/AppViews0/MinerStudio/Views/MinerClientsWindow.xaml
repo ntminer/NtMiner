@@ -262,7 +262,7 @@
                         </Border>
                         <WrapPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding IsNoRecordVisible}">
                             <TextBlock VerticalAlignment="Center" Foreground="Red" Text="没有记录"></TextBlock>
-                            <WrapPanel Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">
+                            <WrapPanel Visibility="{Binding MainMenu.IsMinerStudioLocalVisible}">
                                 <TextBlock VerticalAlignment="Center" Foreground="Red" Text="，请先添加矿机"></TextBlock>
                                 <controls:KbButton Padding="4" Command="{Binding AddMinerClient}">
                                     <WrapPanel>
@@ -433,7 +433,7 @@
             <WrapPanel 
                 VerticalAlignment="Center" 
                 ToolTip="{Binding WsDescription}" 
-                Visibility="{Binding MainMenu.IsMinerStudioOuterLoginedVisible}"
+                Visibility="{Binding MainMenu.IsMinerStudioOuterVisible}"
                 Background="{StaticResource ToolbarBackground}">
                 <Path 
 					Height="14"

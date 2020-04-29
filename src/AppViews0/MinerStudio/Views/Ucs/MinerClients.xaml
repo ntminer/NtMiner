@@ -86,7 +86,7 @@
                 <MenuItem 
                     Header="添加矿机" 
                     Command="{Binding Data.AddMinerClient,Source={StaticResource proxy}}"
-                    Visibility="{Binding MainMenu.IsMinerStudioLocalLoginedVisible}">
+                    Visibility="{Binding MainMenu.IsMinerStudioLocalVisible}">
                     <MenuItem.Icon>
                         <Path
 							Width="16"
