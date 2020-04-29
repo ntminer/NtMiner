@@ -9,6 +9,10 @@ namespace NTMiner.MinerStudio.Vms {
         private int _totalOnlineCount;
 
         public ChartsWindowViewModel() {
+            _chartVms = new List<ChartViewModel>();
+            foreach (var coinVm in AppRoot.CoinVms.AllCoins.OrderBy(a => a.Code)) {
+                _chartVms.Add(new ChartViewModel(coinVm));
+            }
         }
 
         public bool IsShowAll {
@@ -45,12 +49,6 @@ namespace NTMiner.MinerStudio.Vms {
 
         public List<ChartViewModel> ChartVms {
             get {
-                if (_chartVms == null) {
-                    _chartVms = new List<ChartViewModel>();
-                    foreach (var coinVm in AppRoot.CoinVms.AllCoins.OrderBy(a => a.Code)) {
-                        _chartVms.Add(new ChartViewModel(coinVm));
-                    }
-                }
                 return _chartVms;
             }
         }

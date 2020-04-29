@@ -24,6 +24,7 @@ namespace NTMiner.MinerStudio.Vms {
                 this.IsShow = false;
             });
             _coinVm = coinVm;
+            MinerStudioRoot.CoinSnapshotDataVms.TryGetSnapshotDataVm(coinVm.Code, out _snapshotDataVm);
             var mapper = Mappers.Xy<MeasureModel>()
                 .X(model => model.DateTime.Ticks)   //use DateTime.Ticks as X
                 .Y(model => model.Value);           //use the value property as Y
@@ -159,9 +160,6 @@ namespace NTMiner.MinerStudio.Vms {
         private CoinSnapshotDataViewModel _snapshotDataVm;
         public CoinSnapshotDataViewModel SnapshotDataVm {
             get {
-                if (_snapshotDataVm == null) {
-                    MinerStudioRoot.CoinSnapshotDataVms.TryGetSnapshotDataVm(CoinVm.Code, out _snapshotDataVm);
-                }
                 return _snapshotDataVm;
             }
         }

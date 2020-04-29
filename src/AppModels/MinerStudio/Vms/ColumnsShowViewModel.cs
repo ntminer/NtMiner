@@ -143,6 +143,11 @@ namespace NTMiner.MinerStudio.Vms {
 
         public ColumnsShowViewModel(Guid id) {
             this.Id = id;
+            Type boolType = typeof(bool);
+            var properties = new List<PropertyInfo>(typeof(ColumnsShowViewModel).GetProperties().Where(a => a.PropertyType == boolType && a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(DescriptionAttribute), inherit: false).Length != 0));
+            _columnItems = new List<ColumnItem>(properties.Select(a => new ColumnItem(a, this) {
+                IsChecked = (bool)a.GetValue(this, null)
+            }));
             this.Hide = new DelegateCommand<string>((propertyName) => {
                 PropertyInfo propertyInfo = this.GetType().GetProperty(propertyName);
                 if (propertyInfo != null) {
@@ -235,13 +240,6 @@ namespace NTMiner.MinerStudio.Vms {
 
         public List<ColumnItem> ColumnItems {
             get {
-                if (_columnItems == null) {
-                    Type boolType = typeof(bool);
-                    var properties = new List<PropertyInfo>(typeof(ColumnsShowViewModel).GetProperties().Where(a => a.PropertyType == boolType && a.CanRead && a.CanWrite && a.GetCustomAttributes(typeof(DescriptionAttribute), inherit: false).Length != 0));
-                    _columnItems = new List<ColumnItem>(properties.Select(a => new ColumnItem(a, this) {
-                        IsChecked = (bool)a.GetValue(this, null)
-                    }));
-                }
                 return _columnItems;
             }
         }
