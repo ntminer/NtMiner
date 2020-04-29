@@ -75,7 +75,8 @@ namespace NTMiner.Views {
             NTMinerRegistry.SetControlCenterAddresses(list);
             // 内网免登录
             if (Net.IpUtil.IsInnerIp(Vm.ServerHost)) {
-                RpcRoot.SetRpcUser(new RpcUser(NTKeyword.Localhost, HashUtil.Sha1(NTKeyword.Localhost)), isOuterNet: false);
+                RpcRoot.SetRpcUser(new RpcUser(NTKeyword.Localhost, HashUtil.Sha1(NTKeyword.Localhost)));
+                RpcRoot.SetIsOuterNet(false);
                 this.Close();
                 // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调
                 // 则会导致弹窗的父窗口是本窗口，而本窗口随后立即关闭导致作为子窗口的弹窗也会被关闭。
@@ -96,7 +97,8 @@ namespace NTMiner.Views {
                     return;
                 }
                 if (response.IsSuccess()) {
-                    RpcRoot.SetRpcUser(new RpcUser(response.Data, passwordSha1), isOuterNet: true);
+                    RpcRoot.SetRpcUser(new RpcUser(response.Data, passwordSha1));
+                    RpcRoot.SetIsOuterNet(true);
                     UIThread.Execute(() => {
                         this.Close();
                     });

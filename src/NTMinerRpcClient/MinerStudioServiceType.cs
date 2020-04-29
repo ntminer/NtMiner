@@ -1,4 +1,4 @@
-﻿namespace NTMiner.MinerStudio {
+﻿namespace NTMiner {
     public enum MinerStudioServiceType {
         Local,
         Out

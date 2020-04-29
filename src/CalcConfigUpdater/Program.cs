@@ -59,7 +59,8 @@ namespace NTMiner {
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
-                            RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)), isOuterNet: false);
+                            RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
+                            RpcRoot.SetIsOuterNet(false);
                             RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                                 Write.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);

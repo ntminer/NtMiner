@@ -54,6 +54,8 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messages.cs" />
+    <Compile Include="MinerStudioServiceType.cs" />
     <Compile Include="RpcUser.cs" />
     <Compile Include="Services\ClientServices.cs" />
     <Compile Include="Services\Official\AppSettingService.cs" />

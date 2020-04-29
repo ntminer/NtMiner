@@ -84,7 +84,8 @@ namespace NTMiner {
             var minerRedis = new ReadOnlyMinerRedis(_serverContext.RedisConn);
             var userRedis = new ReadOnlyUserRedis(_serverContext.RedisConn);
             VirtualRoot.StartTimer();
-            RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)), isOuterNet: false);
+            RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
+            RpcRoot.SetIsOuterNet(false);
             // 构造函数中异步访问redis初始化用户列表，因为是异步的所以提前构造
             ReadOnlyUserSet = new ReadOnlyUserSet(userRedis);
             MinerSignSet = new MinerSignSet(minerRedis);

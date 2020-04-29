@@ -18,12 +18,19 @@ namespace NTMiner {
             }
         }
 
-        public static void SetRpcUser(RpcUser rpcUser, bool isOuterNet) {
+        public static void SetRpcUser(RpcUser rpcUser) {
             if (RpcUser != null) {
                 RpcUser.Logout();
             }
             RpcUser = rpcUser;
-            IsOuterNet = isOuterNet;
+        }
+
+        public static void SetIsOuterNet(bool value) {
+            bool isChanged = IsOuterNet != value;
+            IsOuterNet = value;
+            if (isChanged) {
+                VirtualRoot.RaiseEvent(new MinerStudioServiceSwitchedEvent(value ? MinerStudioServiceType.Out : MinerStudioServiceType.Local));
+            }
         }
 
         public static OfficialServices OfficialServer = new OfficialServices();
