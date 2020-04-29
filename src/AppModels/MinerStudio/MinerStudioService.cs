@@ -8,7 +8,7 @@ namespace NTMiner.MinerStudio {
     public class MinerStudioService : IMinerStudioService {
         public static readonly MinerStudioService Instance = new MinerStudioService();
 
-        private readonly LocalMinerStudioService _localMinerStudioService = new LocalMinerStudioService();
+        public readonly LocalMinerStudioService LocalMinerStudioService = new LocalMinerStudioService();
         private readonly ServerMinerStudioService _serverMinerStudioService = new ServerMinerStudioService();
 
         private MinerStudioService() { }
@@ -19,7 +19,7 @@ namespace NTMiner.MinerStudio {
                     return _serverMinerStudioService;
                 }
                 else {
-                    return _localMinerStudioService;
+                    return LocalMinerStudioService;
                 }
             }
         }
