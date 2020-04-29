@@ -39,6 +39,10 @@ namespace NTMiner.MinerStudio {
             throw new NotImplementedException();
         }
 
+        public void GetLocalMessagesAsync(IMinerData client, long afterTime) {
+            throw new NotImplementedException();
+        }
+
         public void EnableRemoteDesktopAsync(IMinerData client) {
             throw new NotImplementedException();
         }

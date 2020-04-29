@@ -129,6 +129,16 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
+        #region GetLocalMessagesAsync
+        public void GetLocalMessagesAsync(IMinerData client, long afterTime) {
+            RpcRoot.Client.MinerClientService.GetLocalMessagesAsync(client.GetLocalIp(), afterTime, (data, e) => {
+                if (data != null && data.Count > 0) {
+                    VirtualRoot.RaiseEvent(new ClientLocalMessagesEvent(client.ClientId, data));
+                }
+            });
+        }
+        #endregion
+
         #region BlockWAUAsync
         public void BlockWAUAsync(IMinerData client) {
             RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.BlockWAU), null, null, timeountMilliseconds: 3000);

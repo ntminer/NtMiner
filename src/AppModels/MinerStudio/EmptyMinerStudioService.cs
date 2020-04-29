@@ -116,5 +116,9 @@ namespace NTMiner.MinerStudio {
         public void SaveGpuProfilesJsonAsync(IMinerData client, string json) {
             // 什么也不做
         }
+
+        public void GetLocalMessagesAsync(IMinerData client, long afterTime) {
+            throw new NotImplementedException();
+        }
     }
 }
