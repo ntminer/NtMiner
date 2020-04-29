@@ -763,6 +763,7 @@ namespace NTMiner.MinerStudio.Vms {
             this.SwitchService = new DelegateCommand(() => {
                 if (RpcRoot.IsInnerNet) {
                     LoginWindow.Login(() => {
+                        MinerStudioRoot.WsClient.OpenOrCloseWs(isResetFailCount: true);
                         RpcRoot.SetIsOuterNet(true);
                     }, RpcRoot.OfficialServerAddress);
                 }
