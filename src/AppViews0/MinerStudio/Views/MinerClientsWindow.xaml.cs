@@ -134,9 +134,6 @@ namespace NTMiner.MinerStudio.Views {
             this.AddEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
                 action: message => {
                     #region
-                    if (!RpcRoot.IsLogined) {
-                        return;
-                    }
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {
                         Vm.CountDown = Vm.CountDown - 1;

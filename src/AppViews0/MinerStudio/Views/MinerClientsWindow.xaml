@@ -450,10 +450,23 @@
 					Fill="{Binding IsWsOnline,Converter={StaticResource BoolToBrushConverter}}"
 					Stretch="Fill" />
             </WrapPanel>
-            <TextBlock 
-                Padding="4"
-                Foreground="{StaticResource LableColor}"
-                Text="{Binding NetTypeText}"></TextBlock>
+            <controls:KbButton
+                ToolTip="{Binding NetTypeToolTip}"
+                Background="Transparent"
+                BorderThickness="0"
+                Command="{Binding SwitchService}">
+                <WrapPanel>
+                    <TextBlock 
+                        Padding="4 4 2 4"
+                        Text="{Binding NetTypeText}"></TextBlock>
+                    <Path 
+					    Height="14"
+					    Width="14"
+					    Data="{StaticResource Icon_SwitchService}"
+					    Fill="Black"
+					    Stretch="Fill" />
+                </WrapPanel>
+            </controls:KbButton>
             <WrapPanel VerticalAlignment="Center">
                 <WrapPanel 
                     VerticalAlignment="Center"

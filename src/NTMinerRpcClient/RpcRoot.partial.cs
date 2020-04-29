@@ -9,6 +9,11 @@ namespace NTMiner {
     public static partial class RpcRoot {
         public static RpcUser RpcUser { get; private set; } = RpcUser.Empty;
         public static bool IsOuterNet { get; private set; } = false;
+        public static bool IsInnerNet {
+            get {
+                return !IsOuterNet;
+            }
+        }
         public static bool IsLogined {
             get {
                 if (RpcUser == null || RpcUser == RpcUser.Empty) {

@@ -43,7 +43,6 @@ namespace NTMiner {
                 NotiCenterWindow.ShowWindow();
                 AppRoot.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                 LoginWindow.Login(() => {
-                    VirtualRoot.RaiseEvent(new MinerStudioServiceSwitchedEvent(RpcRoot.IsOuterNet ? MinerStudioServiceType.Out : MinerStudioServiceType.Local));
                     MinerStudioRoot.Init(new MinerStudioWsClient());
                     _ = MinerStudioService.Instance;// 访问一下从而提前拉取本地服务数据
                     NTMinerContext.Instance.Init(() => {

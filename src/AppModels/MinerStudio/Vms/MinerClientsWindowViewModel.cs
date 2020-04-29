@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerStudio;
+using NTMiner.Views;
 using NTMiner.Vms;
 using NTMiner.Ws;
 using System;
@@ -112,9 +113,6 @@ namespace NTMiner.MinerStudio.Vms {
 
         #region QueryMinerClients
         public void QueryMinerClients(bool isAuto = false) {
-            if (!RpcRoot.IsLogined) {
-                return;
-            }
             if (!isAuto) {
                 this.IsLoading = true;
             }
@@ -322,6 +320,7 @@ namespace NTMiner.MinerStudio.Vms {
         public ICommand SortByDualCoinPoolDelay { get; private set; }
         public ICommand SortByCpuTemperature { get; private set; }
         public ICommand SortByKernelSelfRestartCount { get; private set; }
+        public ICommand SwitchService { get; private set; }
         #endregion
 
         #region ctor
@@ -753,34 +752,57 @@ namespace NTMiner.MinerStudio.Vms {
                 }
             });
             #endregion
+            this.WsRetry = new DelegateCommand(() => {
+                if (!RpcRoot.IsOuterNet || MinerStudioRoot.WsClient.IsOpen) {
+                    IsWsOnline = true;
+                    return;
+                }
+                MinerStudioRoot.WsClient.OpenOrCloseWs(isResetFailCount: true);
+                IsConnecting = true;
+            });
+            this.SwitchService = new DelegateCommand(() => {
+                if (RpcRoot.IsInnerNet) {
+                    LoginWindow.Login(() => {
+                        RpcRoot.SetIsOuterNet(true);
+                    });
+                }
+                else {
+                    RpcRoot.SetIsOuterNet(false);
+                }
+            });
+            VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("切换了群控后台客户端服务类型后刷新矿机列表", LogEnum.DevConsole, action: message => {
+                this.OnPropertyChanged(nameof(NetTypeToolTip));
+                this.OnPropertyChanged(nameof(NetTypeText));
+                this.QueryMinerClients();
+            }, this.GetType());
             VirtualRoot.AddCmdPath<UpdateMinerClientVmCommand>(action: message => {
                 var vm = _minerClients.FirstOrDefault(a => a.Id == message.ClientData.Id);
                 if (vm != null) {
                     vm.Update(message.ClientData);
                 }
             }, this.GetType(), LogEnum.DevConsole);
-            if (RpcRoot.IsOuterNet) {
-                VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
-                    #region
-                    if (message.WsClientState != null) {
-                        this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
-                        if (message.WsClientState.ToOut) {
-                            VirtualRoot.Out.ShowWarn(message.WsClientState.Description, autoHideSeconds: 3);
+            VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
+                #region
+                if (message.WsClientState != null) {
+                    this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
+                    if (message.WsClientState.ToOut) {
+                        VirtualRoot.Out.ShowWarn(message.WsClientState.Description, autoHideSeconds: 3);
+                    }
+                    if (!message.WsClientState.ToOut || !this.IsWsOnline) {
+                        this.WsDescription = message.WsClientState.Description;
+                    }
+                    if (!this.IsWsOnline) {
+                        if (message.WsClientState.LastTryOn != DateTime.MinValue) {
+                            this.WsLastTryOn = message.WsClientState.LastTryOn;
                         }
-                        if (!message.WsClientState.ToOut || !this.IsWsOnline) {
-                            this.WsDescription = message.WsClientState.Description;
-                        }
-                        if (!this.IsWsOnline) {
-                            if (message.WsClientState.LastTryOn != DateTime.MinValue) {
-                                this.WsLastTryOn = message.WsClientState.LastTryOn;
-                            }
-                            if (message.WsClientState.NextTrySecondsDelay > 0) {
-                                WsNextTrySecondsDelay = message.WsClientState.NextTrySecondsDelay;
-                            }
+                        if (message.WsClientState.NextTrySecondsDelay > 0) {
+                            WsNextTrySecondsDelay = message.WsClientState.NextTrySecondsDelay;
                         }
                     }
-                    #endregion
-                }, this.GetType(), LogEnum.DevConsole);
+                }
+                #endregion
+            }, this.GetType(), LogEnum.DevConsole);
+            if (RpcRoot.IsOuterNet) {
                 VirtualRoot.Execute(new RefreshWsStateCommand(MinerStudioRoot.WsClient.GetState()));
             }
             VirtualRoot.AddEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, action: message => {
@@ -791,14 +813,6 @@ namespace NTMiner.MinerStudio.Vms {
                     OnPropertyChanged(nameof(WsLastTryOnText));
                 }
             }, this.GetType());
-            this.WsRetry = new DelegateCommand(() => {
-                if (!RpcRoot.IsOuterNet || MinerStudioRoot.WsClient.IsOpen) {
-                    IsWsOnline = true;
-                    return;
-                }
-                MinerStudioRoot.WsClient.OpenOrCloseWs(isResetFailCount: true);
-                IsConnecting = true;
-            });
         }
         #endregion
 
@@ -808,6 +822,15 @@ namespace NTMiner.MinerStudio.Vms {
 
         private bool IsSelectedOne() {
             return this.SelectedMinerClients != null && this.SelectedMinerClients.Length == 1;
+        }
+
+        public string NetTypeToolTip {
+            get {
+                if (RpcRoot.IsOuterNet) {
+                    return "点击切换为内网群控";
+                }
+                return "点击切换为外网群控";
+            }
         }
 
         #region IWsStateViewModel的成员
@@ -966,9 +989,6 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string NetTypeText {
             get {
-                if (!RpcRoot.IsLogined) {
-                    return string.Empty;
-                }
                 if (RpcRoot.IsOuterNet) {
                     return "外网群控";
                 }
