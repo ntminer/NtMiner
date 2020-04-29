@@ -80,7 +80,6 @@ namespace NTMiner.Views {
                 // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调
                 // 则会导致弹窗的父窗口是本窗口，而本窗口随后立即关闭导致作为子窗口的弹窗也会被关闭。
                 _onLoginSuccess?.Invoke();
-                VirtualRoot.RaiseEvent(new RpcUserLoginedEvent());
                 return;
             }
             else if (string.IsNullOrEmpty(Vm.LoginName)) {
@@ -104,7 +103,6 @@ namespace NTMiner.Views {
                     // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调
                     // 则会导致弹窗的父窗口是本窗口，而本窗口随后立即关闭导致作为子窗口的弹窗也会被关闭。
                     _onLoginSuccess?.Invoke();
-                    VirtualRoot.RaiseEvent(new RpcUserLoginedEvent());
                 }
                 else {
                     Vm.ShowMessage(response.ReadMessage(exception));

@@ -91,6 +91,7 @@
     <Compile Include="ExtendedNotifyIcon.cs" />
     <Compile Include="MinerStudio\Messages.cs" />
     <Compile Include="MinerStudio\MinerStudioRoot.cs" />
+    <Compile Include="MinerStudio\MinerStudioServiceType.cs" />
     <Compile Include="MinerStudio\Vms\ChangePasswordViewModel.cs" />
     <Compile Include="MinerStudio\Vms\CpuDataViewModel.cs" />
     <Compile Include="MinerStudio\Vms\IWsStateViewModel.cs" />

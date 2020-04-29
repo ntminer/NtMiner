@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerClient;
 using NTMiner.Hub;
+using NTMiner.MinerStudio;
 using NTMiner.MinerStudio.Vms;
 using NTMiner.Vms;
 using System;
@@ -405,5 +406,14 @@ namespace NTMiner {
     public class CoinKernelVmRemovedEvent : VmEventBase<CoinKernelRemovedEvent> {
         public CoinKernelVmRemovedEvent(CoinKernelRemovedEvent evt) : base(evt) {
         }
+    }
+
+    [MessageType(description: "切换了群控后台客户端服务类型后")]
+    public class MinerStudioServiceSwitchedEvent : EventBase {
+        public MinerStudioServiceSwitchedEvent(MinerStudioServiceType serviceType) {
+            this.ServiceType = serviceType;
+        }
+
+        public MinerStudioServiceType ServiceType { get; private set; }
     }
 }

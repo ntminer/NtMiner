@@ -19,9 +19,4 @@ namespace NTMiner {
     public class ShowLocalIpsCommand : Cmd {
         public ShowLocalIpsCommand() { }
     }
-
-    [MessageType(description: "RpcUser登录后")]
-    public class RpcUserLoginedEvent : EventBase {
-        public RpcUserLoginedEvent() { }
-    }
 }

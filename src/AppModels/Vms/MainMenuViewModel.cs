@@ -10,8 +10,13 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            VirtualRoot.AddEventPath<RpcUserLoginedEvent>("登录成功后刷新菜单", LogEnum.DevConsole, action: message => {
+            VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("刷新", LogEnum.DevConsole, action: message => {
+                this.OnPropertyChanged(nameof(LoginName));
+                this.OnPropertyChanged(nameof(IsMinerStudioLocalOrOuterAdminVisible));
+                this.OnPropertyChanged(nameof(IsMinerStudioOuterAdmin));
+                this.OnPropertyChanged(nameof(IsOfficialServerHost));
                 this.OnPropertyChanged(nameof(IsMinerStudioOuterAdminVisible));
+                this.OnPropertyChanged(nameof(IsMinerStudioOuterVisible));
                 this.OnPropertyChanged(nameof(IsMinerStudioLocalVisible));
             }, this.GetType());
         }
