@@ -103,7 +103,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                     }
                     DialogWindow.ShowSoftDialog(new DialogWindowViewModel(message: selectedResult.Description, title: $"确定将选中的矿机升级到{selectedResult.Version}吗？", onYes: () => {
                         foreach (var item in Vm.SelectedMinerClients) {
-                            MinerStudioRoot.MinerStudioService.UpgradeNTMinerAsync(item, selectedResult.FileName);
+                            MinerStudioService.Instance.UpgradeNTMinerAsync(item, selectedResult.FileName);
                         }
                     }));
                     popup.IsOpen = false;

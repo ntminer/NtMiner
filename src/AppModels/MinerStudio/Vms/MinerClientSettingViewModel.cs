@@ -26,7 +26,7 @@ namespace NTMiner.MinerStudio.Vms {
             this.Save = new DelegateCommand(() => {
                 if (minerClients != null && minerClients.Length != 0) {
                     foreach (var item in minerClients) {
-                        MinerStudioRoot.MinerStudioService.SetAutoBootStartAsync(item, new SetAutoBootStartRequest {
+                        MinerStudioService.Instance.SetAutoBootStartAsync(item, new SetAutoBootStartRequest {
                             AutoStart = this.IsAutoStart,
                             AutoBoot = this.IsAutoBoot
                         });

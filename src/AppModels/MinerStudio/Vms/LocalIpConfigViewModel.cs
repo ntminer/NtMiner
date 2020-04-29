@@ -24,7 +24,7 @@ namespace NTMiner.MinerStudio.Vms {
                         vm.DNSServer1Vm.SetAddress(NTKeyword.DNSServer1);
                     }
                 }
-                MinerStudioRoot.MinerStudioService.SetLocalIpsAsync(minerClientVm, _localIpVms.Select(a => LocalIpInput.Create(a, a.IsAutoDNSServer)).ToList());
+                MinerStudioService.Instance.SetLocalIpsAsync(minerClientVm, _localIpVms.Select(a => LocalIpInput.Create(a, a.IsAutoDNSServer)).ToList());
                 if (_localIpVms.Count == 1) {
                     VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 }

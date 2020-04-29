@@ -95,7 +95,6 @@
     <Compile Include="MinerStudio\Vms\CpuDataViewModel.cs" />
     <Compile Include="MinerStudio\Vms\IWsStateViewModel.cs" />
     <Compile Include="Messages.cs" />
-    <Compile Include="MinerStudio\EmptyMinerStudioService.cs" />
     <Compile Include="MinerStudio\ILocalMinerStudioService.cs" />
     <Compile Include="MinerStudio\IMinerStudioService.cs" />
     <Compile Include="MinerStudio\Impl\LocalMinerStudioService.cs" />

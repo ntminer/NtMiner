@@ -110,7 +110,7 @@ namespace NTMiner.MinerStudio.Vms {
                                 EditJson(formType, WorkType.SelfWork, data);
                             }
                         }, PathId.Empty, typeof(MineWorkViewModel));
-                        MinerStudioRoot.MinerStudioService.GetSelfWorkLocalJsonAsync(_minerClientVm);
+                        MinerStudioService.Instance.GetSelfWorkLocalJsonAsync(_minerClientVm);
                     }
                     else {
                         RpcRoot.Client.NTMinerDaemonService.GetSelfWorkLocalJsonAsync(_minerClientVm, (json, e) => {
@@ -242,7 +242,7 @@ namespace NTMiner.MinerStudio.Vms {
                     if (isMinerProfileChanged) {
                         NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                            MinerStudioRoot.MinerStudioService.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
+                            MinerStudioService.Instance.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
                         }
                         if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
                             this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
@@ -284,7 +284,7 @@ namespace NTMiner.MinerStudio.Vms {
                     if (isMinerProfileChanged) {
                         NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                            MinerStudioRoot.MinerStudioService.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
+                            MinerStudioService.Instance.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
                         }
                         if (mineWorkData.ServerJsonSha1 != this.ServerJsonSha1) {
                             this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;

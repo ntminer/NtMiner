@@ -43,11 +43,7 @@ namespace NTMiner {
                 NotiCenterWindow.ShowWindow();
                 AppRoot.RemoteDesktop = MsRdpRemoteDesktop.OpenRemoteDesktop;
                 LoginWindow.Login(() => {
-                    IWsClient wsClient = null;
-                    if (RpcRoot.IsOuterNet) {
-                        wsClient = new MinerStudioWsClient();
-                    }
-                    MinerStudioRoot.Init(wsClient);
+                    MinerStudioRoot.Init(new MinerStudioWsClient());
                     NTMinerContext.Instance.Init(() => {
                         _appViewFactory.Link();
                         UIThread.Execute(() => {

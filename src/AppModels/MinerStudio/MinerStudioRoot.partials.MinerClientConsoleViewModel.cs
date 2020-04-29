@@ -91,7 +91,7 @@ namespace NTMiner.MinerStudio {
                         afterTime = item.Timestamp;
                     }
                 }
-                MinerStudioService.GetConsoleOutLinesAsync(minerClientVm, afterTime);
+                MinerStudioService.Instance.GetConsoleOutLinesAsync(minerClientVm, afterTime);
             }
         }
     }

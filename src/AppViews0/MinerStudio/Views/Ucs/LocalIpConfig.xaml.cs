@@ -29,7 +29,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                     }
                     vm.LocalIpVms = message.Data.Select(a => new NTMiner.Vms.LocalIpViewModel(a)).ToList();
                 }, typeof(LocalIpConfig));
-                MinerStudioRoot.MinerStudioService.GetLocalIpsAsync(vm.MinerClientVm);
+                MinerStudioService.Instance.GetLocalIpsAsync(vm.MinerClientVm);
                 return uc;
             }, fixedSize: true);
         }

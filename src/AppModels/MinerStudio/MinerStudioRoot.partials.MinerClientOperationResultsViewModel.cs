@@ -120,7 +120,7 @@ namespace NTMiner.MinerStudio {
                         afterTime = item.Timestamp;
                     }
                 }
-                MinerStudioService.GetOperationResultsAsync(minerClientVm, afterTime);
+                MinerStudioService.Instance.GetOperationResultsAsync(minerClientVm, afterTime);
             }
         }
     }

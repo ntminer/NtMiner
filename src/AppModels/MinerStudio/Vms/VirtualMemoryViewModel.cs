@@ -21,7 +21,7 @@ namespace NTMiner.MinerStudio.Vms {
         public VirtualMemoryViewModel(MinerClientViewModel minerClientVm) {
             this.MinerClientVm = minerClientVm;
             this.Apply = new DelegateCommand(() => {
-                MinerStudioRoot.MinerStudioService.SetVirtualMemoryAsync(minerClientVm, _drives.ToDictionary(a => a.Name, a => a.VirtualMemoryMaxSizeMb));
+                MinerStudioService.Instance.SetVirtualMemoryAsync(minerClientVm, _drives.ToDictionary(a => a.Name, a => a.VirtualMemoryMaxSizeMb));
                 OnPropertyChanged(nameof(TotalVirtualMemoryMb));
                 OnPropertyChanged(nameof(IsStateChanged));
             });

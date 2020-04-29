@@ -89,7 +89,7 @@ namespace NTMiner.MinerStudio {
                         afterTime = item.Timestamp;
                     }
                 }
-                MinerStudioService.GetLocalMessagesAsync(minerClientVm, afterTime);
+                MinerStudioService.Instance.GetLocalMessagesAsync(minerClientVm, afterTime);
             }
         }
     }

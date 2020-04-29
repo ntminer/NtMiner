@@ -51,7 +51,7 @@ namespace NTMiner.MinerStudio.Views {
 
         #region 刷新总算力图表
         private void RefreshTotalSpeedChart(int limit) {
-            MinerStudioRoot.MinerStudioService.GetLatestSnapshotsAsync(
+            MinerStudioService.Instance.GetLatestSnapshotsAsync(
                 limit,
                 (response, exception) => {
                     if (response == null) {

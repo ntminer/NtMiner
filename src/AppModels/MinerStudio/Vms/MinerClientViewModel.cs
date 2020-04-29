@@ -55,7 +55,7 @@ namespace NTMiner.MinerStudio.Vms {
             this.Remove = new DelegateCommand(() => {
                 #region
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除该矿机吗？", title: "确认", onYes: () => {
-                    MinerStudioRoot.MinerStudioService.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
+                    MinerStudioService.Instance.RemoveClientsAsync(new List<string> { this.Id }, (response, e) => {
                         if (!response.IsSuccess()) {
                             VirtualRoot.Out.ShowError("删除矿机失败：" + response.ReadMessage(e), autoHideSeconds: 4, toConsole: true);
                         }
@@ -98,22 +98,22 @@ namespace NTMiner.MinerStudio.Vms {
             });
             this.RestartWindows = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定重启{this.GetMinerText()}电脑吗？", title: "确认", onYes: () => {
-                    MinerStudioRoot.MinerStudioService.RestartWindowsAsync(this);
+                    MinerStudioService.Instance.RestartWindowsAsync(this);
                 }));
             });
             this.ShutdownWindows = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定关闭{this.GetMinerText()}电脑吗？", title: "确认", onYes: () => {
-                    MinerStudioRoot.MinerStudioService.ShutdownWindowsAsync(this);
+                    MinerStudioService.Instance.ShutdownWindowsAsync(this);
                 }));
             });
             this.StartMine = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.GetMinerText()}：确定开始挖矿吗？", title: "确认", onYes: () => {
-                    MinerStudioRoot.MinerStudioService.StartMineAsync(this, WorkId);
+                    MinerStudioService.Instance.StartMineAsync(this, WorkId);
                 }));
             });
             this.StopMine = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"{this.GetMinerText()}：确定停止挖矿吗？", title: "确认", onYes: () => {
-                    MinerStudioRoot.MinerStudioService.StopMineAsync(this);
+                    MinerStudioService.Instance.StopMineAsync(this);
                 }));
             });
         }
@@ -284,7 +284,7 @@ namespace NTMiner.MinerStudio.Vms {
                     var old = _selectedMineWork;
                     this.WorkId = value.Id;
                     _selectedMineWork = value;
-                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(
+                    MinerStudioService.Instance.UpdateClientAsync(
                         this.Id, nameof(WorkId), value.Id, (response, exception) => {
                             if (!response.IsSuccess()) {
                                 _selectedMineWork = old;
@@ -504,7 +504,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.WorkerName != value) {
                     var old = _data.WorkerName;
                     _data.WorkerName = value;
-                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(WorkerName), value, (response, e) => {
+                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(WorkerName), value, (response, e) => {
                         if (!response.IsSuccess()) {
                             _data.WorkerName = old;
                             VirtualRoot.Out.ShowError($"设置群控名失败：{this.WorkerName} {this.MinerIp} {response.ReadMessage(e)}", toConsole: true);
@@ -572,7 +572,7 @@ namespace NTMiner.MinerStudio.Vms {
                     var old = _selectedMinerGroup;
                     _selectedMinerGroup = value;
                     this.GroupId = value.Id;
-                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
+                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(GroupId), value.Id, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _selectedMinerGroup = old;
                             this.GroupId = old.Id;
@@ -601,7 +601,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.WindowsLoginName != value) {
                     var old = _data.WindowsLoginName;
                     _data.WindowsLoginName = value;
-                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
+                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(WindowsLoginName), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsLoginName = old;
                             VirtualRoot.Out.ShowError($"设置Windows远程登录用户名失败：{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}", toConsole: true);
@@ -628,7 +628,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;
                     _data.WindowsPassword = value;
-                    MinerStudioRoot.MinerStudioService.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
+                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(WindowsPassword), value, (response, exception) => {
                         if (!response.IsSuccess()) {
                             _data.WindowsPassword = old;
                             VirtualRoot.Out.ShowError($"设置Widnows远程登录密码失败：{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}", toConsole: true);

@@ -66,7 +66,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                     }
                     vm.SetData(message.Data);
                 }, typeof(GpuProfilesPage));
-                MinerStudioRoot.MinerStudioService.GetGpuProfilesJsonAsync(minerClientVm);
+                MinerStudioService.Instance.GetGpuProfilesJsonAsync(minerClientVm);
                 return uc;
             }, fixedSize: false);
         }
