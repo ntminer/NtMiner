@@ -99,7 +99,7 @@ namespace NTMiner.MinerStudio.Vms {
                         return;
                     }
                     if (!_minerClientVm.IsOuterUserEnabled) {
-                        VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 4);
+                        VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 6);
                         return;
                     }
                     SelfMineWork.Description = $"{_minerClientVm.GetMinerOrClientName()} 矿机的单机作业";
