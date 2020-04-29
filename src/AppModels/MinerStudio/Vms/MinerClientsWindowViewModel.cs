@@ -367,6 +367,8 @@ namespace NTMiner.MinerStudio.Vms {
             if (_columnsShow == null) {
                 _columnsShow = ColumnsShows.List.FirstOrDefault();
             }
+            _coinSnapshotVms = new List<CoinSnapshotViewModel> { CoinSnapshotViewModel.PleaseSelect };
+            _coinSnapshotVms.AddRange(AppRoot.CoinVms.AllCoins.Select(a => new CoinSnapshotViewModel(a, new CoinSnapshotDataViewModel(CoinSnapshotData.CreateEmpty(a.Code)))));
             this._mineStatusEnumItem = NTMinerContext.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._pool = string.Empty;
             this._wallet = string.Empty;
@@ -1368,12 +1370,6 @@ namespace NTMiner.MinerStudio.Vms {
 
         public List<CoinSnapshotViewModel> CoinSnapshotVms {
             get {
-                if (_coinSnapshotVms == null) {
-                    _coinSnapshotVms = new List<CoinSnapshotViewModel> { CoinSnapshotViewModel.PleaseSelect };
-                    foreach (var coinVm in AppRoot.CoinVms.AllCoins) {
-                        _coinSnapshotVms.Add(new CoinSnapshotViewModel(coinVm, new CoinSnapshotDataViewModel(CoinSnapshotData.CreateEmpty(coinVm.Code))));
-                    }
-                }
                 return _coinSnapshotVms;
             }
         }
