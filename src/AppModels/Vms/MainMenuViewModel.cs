@@ -14,7 +14,6 @@ namespace NTMiner.Vms {
                 this.OnPropertyChanged(nameof(LoginName));
                 this.OnPropertyChanged(nameof(IsMinerStudioLocalOrOuterAdminVisible));
                 this.OnPropertyChanged(nameof(IsMinerStudioOuterAdmin));
-                this.OnPropertyChanged(nameof(IsOfficialServerHost));
                 this.OnPropertyChanged(nameof(IsMinerStudioOuterAdminVisible));
                 this.OnPropertyChanged(nameof(IsMinerStudioOuterVisible));
                 this.OnPropertyChanged(nameof(IsMinerStudioLocalVisible));
@@ -57,18 +56,12 @@ namespace NTMiner.Vms {
                     if (!RpcRoot.RpcUser.LoginedUser.IsAdmin()) {
                         return false;
                     }
-                    if (IsOfficialServerHost) {
+                    if (RpcRoot.IsOuterNet) {
                         return true;
                     }
                     return false;
                 }
                 return false;
-            }
-        }
-
-        public bool IsOfficialServerHost {
-            get {
-                return NTMinerRegistry.GetControlCenterAddress().StartsWith(RpcRoot.OfficialServerHost);
             }
         }
 
@@ -106,11 +99,8 @@ namespace NTMiner.Vms {
                 if (WpfUtil.IsInDesignMode) {
                     return Visibility.Visible;
                 }
-                if (ClientAppType.IsMinerClient) {
-                    return Visibility.Collapsed;
-                }
                 if (ClientAppType.IsMinerStudio) {
-                    if (Net.IpUtil.IsLocalhost(NTMinerRegistry.GetControlCenterAddress())) {
+                    if (RpcRoot.IsInnerNet) {
                         return Visibility.Visible;
                     }
                     return Visibility.Collapsed;
