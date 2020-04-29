@@ -38,7 +38,7 @@ namespace NTMiner.Core.Impl {
                         _dicByClientId.Add(item.ClientId, item);
                     }
                 }
-                Write.UserOk("矿机集就绪");
+                Write.UserLine("矿机集就绪", isPull ? MessageType.Debug : MessageType.Ok);
                 VirtualRoot.RaiseEvent(new ClientSetInitedEvent());
             });
         }

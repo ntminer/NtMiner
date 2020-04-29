@@ -58,6 +58,9 @@ namespace NTMiner {
         }
 
         public static void UserLine(string text, MessageType messageType = MessageType.Default) {
+            if (messageType == MessageType.Debug && !DevMode.IsDevMode) {
+                return;
+            }
             UserLine($"NTMiner {messageType.ToString(),-10}  {text}", messageType.ToConsoleColor());
         }
 

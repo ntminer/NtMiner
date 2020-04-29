@@ -14,11 +14,12 @@ namespace NTMiner.Core.Impl {
         public CoinSnapshotSetBase(bool isPull, IClientDataSetBase clientSet) {
             _isPull = isPull;
             _clientSet = clientSet;
-            VirtualRoot.AddEventPath<Per10SecondEvent>("周期性拍摄快照", LogEnum.UserConsole,
+            LogEnum logType = isPull ? LogEnum.None : LogEnum.UserConsole;
+            VirtualRoot.AddEventPath<Per10SecondEvent>("周期性拍摄快照", logType,
                 action: message => {
                     Snapshot(message.BornOn);
                 }, location: this.GetType());
-            VirtualRoot.AddEventPath<Per2MinuteEvent>("周期性移除20分钟前的快照", LogEnum.UserConsole,
+            VirtualRoot.AddEventPath<Per2MinuteEvent>("周期性移除内存中20分钟前的快照", logType,
                 action: message => {
                     DateTime time = message.BornOn.AddMinutes(-20);
                     var toRemoves = _dataList.Where(a => a.Timestamp < time).ToArray();
@@ -26,10 +27,10 @@ namespace NTMiner.Core.Impl {
                         _dataList.Remove(item);
                     }
                 }, location: this.GetType());
-            VirtualRoot.AddEventPath<HasBoot1MinuteEvent>("启动一会儿后清理一下很长时间之前的算力报告数据库文件", LogEnum.UserConsole, action: message => {
+            VirtualRoot.AddEventPath<HasBoot1MinuteEvent>("启动一会儿后清理一下很长时间之前的算力报告数据库文件", logType, action: message => {
                 ClearReportDbFiles(message.BornOn);
             }, this.GetType());
-            VirtualRoot.AddEventPath<Per24HourEvent>("每24小时清理一下很长时间之前的算力报告数据库文件", LogEnum.UserConsole, action: message => {
+            VirtualRoot.AddEventPath<Per24HourEvent>("每24小时清理一下很长时间之前的算力报告数据库文件", logType, action: message => {
                 ClearReportDbFiles(message.BornOn);
             }, this.GetType());
         }
@@ -84,7 +85,7 @@ namespace NTMiner.Core.Impl {
                             _dataList.Add(item);
                         }
                     }
-                    Write.UserInfo("将最近20分钟的快照载入内存");
+                    Write.UserLine("将最近20分钟的快照载入内存", _isPull ? MessageType.Debug : MessageType.Info);
                     _isInited = true;
                 }
             }
@@ -105,7 +106,7 @@ namespace NTMiner.Core.Impl {
                         var col = db.GetCollection<CoinSnapshotData>();
                         col.Insert(coinSnapshots);
                     }
-                    Write.UserInfo("拍摄快照" + coinSnapshots.Count + "张，快照时间戳：" + now.ToString("yyyy-MM-dd HH:mm:ss fff"));
+                    Write.UserLine("拍摄快照" + coinSnapshots.Count + "张，快照时间戳：" + now.ToString("yyyy-MM-dd HH:mm:ss fff"), _isPull ? MessageType.Debug : MessageType.Info);
                 }
             }
             catch (Exception e) {
