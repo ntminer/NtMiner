@@ -136,16 +136,25 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<GetWorkJsonResponse>("参数错误");
             }
             try {
-                IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.WorkId);
-                if (mineWork == null) {
-                    return ResponseBase.NotExist<GetWorkJsonResponse>();
-                }
-                if (!User.IsAdmin() && mineWork.LoginName != User.LoginName) {
+                if (!User.IsAdmin()) {
                     return ResponseBase.Forbidden<GetWorkJsonResponse>("无权操作");
+                }
+                string workerName = string.Empty;
+                // 如果是单机作业
+                if (request.WorkId == MineWorkData.SelfMineWorkId) {
+                    var clientData = WebApiRoot.ClientDataSet.GetByClientId(request.ClientId);
+                    if (clientData != null) {
+                        workerName = clientData.WorkerName;
+                    }
+                    return GetWorkJsonResponse.Ok(string.Empty, string.Empty, workerName);
+                }
+
+                IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.WorkId);
+                if (mineWork == null || mineWork.LoginName != User.LoginName) {
+                    return ResponseBase.NotExist<GetWorkJsonResponse>();
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.WorkId);
                 string localJson = string.Empty;
-                string workerName = string.Empty;
                 if (File.Exists(localJsonFileFullName)) {
                     localJson = File.ReadAllText(localJsonFileFullName);
                     if (!string.IsNullOrEmpty(localJson)) {
