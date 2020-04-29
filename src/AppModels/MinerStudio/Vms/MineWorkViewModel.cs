@@ -102,7 +102,7 @@ namespace NTMiner.MinerStudio.Vms {
                         VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 4);
                         return;
                     }
-                    SelfMineWork.Description = $"针对矿机 {_minerClientVm.GetMinerOrClientName()} 的作业";
+                    SelfMineWork.Description = $"{_minerClientVm.GetMinerOrClientName()} 矿机的单机作业";
                     if (RpcRoot.IsOuterNet) {
                         VirtualRoot.AddOnecePath<GetSelfWorkLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, action: message => {
                             if (message.ClientId == _minerClientVm.ClientId) {
