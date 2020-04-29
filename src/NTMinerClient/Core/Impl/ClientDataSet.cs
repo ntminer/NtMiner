@@ -94,7 +94,7 @@ namespace NTMiner.Core.Impl {
 
         private Task CreatePullTask(ClientData clientData) {
             return Task.Factory.StartNew(() => {
-                RpcRoot.Client.MinerClientService.GetSpeedAsync(clientData.MinerIp, (speedData, exception) => {
+                RpcRoot.Client.MinerClientService.GetSpeedAsync(clientData, (speedData, exception) => {
                     if (exception != null) {
                         clientData.IsOnline = false;
                         clientData.IsMining = false;

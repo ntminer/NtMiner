@@ -1,5 +1,6 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Core;
+using NTMiner.Core.MinerServer;
 using NTMiner.Report;
 using System;
 using System.Collections.Generic;
@@ -48,8 +49,8 @@ namespace NTMiner.Services.Client {
             }, timeountMilliseconds: 2000);
         }
 
-        public void GetSpeedAsync(string clientIp, Action<SpeedData, Exception> callback) {
-            RpcRoot.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetSpeed), null, callback, timeountMilliseconds: 3000);
+        public void GetSpeedAsync(IMinerData client, Action<SpeedData, Exception> callback) {
+            RpcRoot.GetAsync(client.GetLocalIp(), NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetSpeed), null, callback, timeountMilliseconds: 3000);
         }
 
         public void WsGetSpeedAsync(Action<SpeedData, Exception> callback) {
