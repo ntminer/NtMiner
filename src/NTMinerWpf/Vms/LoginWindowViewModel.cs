@@ -5,12 +5,17 @@
         private string _serverHost;
         private bool _isInnerIp;
 
-        public LoginWindowViewModel() {
+        public LoginWindowViewModel(string serverHost = null) {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this._loginName = NTMinerRegistry.GetLoginName();
-            this._serverHost = NTMinerRegistry.GetControlCenterAddress();
+            if (!string.IsNullOrEmpty(serverHost)) {
+                this._serverHost = serverHost;
+            }
+            else {
+                this._serverHost = NTMinerRegistry.GetControlCenterAddress();
+            }
             this._isInnerIp = Net.IpUtil.IsInnerIp(_serverHost);
         }
 

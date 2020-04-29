@@ -63,6 +63,7 @@
                 <TextBox x:Name="TextBoxServerHost" Grid.Row="0" Grid.Column="1" Margin="0 2" ToolTip="IP或域名" Padding="0 0 20 0" VerticalContentAlignment="Center" Text="{Binding ServerHost}">
                 </TextBox>
                 <Button 
+                    x:Name="ButtonServerHost"
                     Grid.Row="0" 
                     Grid.Column="1"
 					Margin="0 3" 

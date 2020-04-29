@@ -5,10 +5,10 @@ using System.Windows;
 
 namespace NTMiner.Views {
     public partial class LoginWindow : Window {
-        public static void Login(Action onLoginSuccess, Action btnCloseClick = null) {
+        public static void Login(Action onLoginSuccess, string serverHost = null, Action btnCloseClick = null) {
             if (!RpcRoot.IsLogined) {
                 var parent = WpfUtil.GetTopWindow();
-                LoginWindow window = new LoginWindow(onLoginSuccess, btnCloseClick);
+                LoginWindow window = new LoginWindow(onLoginSuccess, serverHost, btnCloseClick);
                 if (parent != null && parent.GetType() != typeof(NotiCenterWindow)) {
                     window.Owner = parent;
                     window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -26,12 +26,16 @@ namespace NTMiner.Views {
 
         private readonly Action _onLoginSuccess;
         private readonly Action _btnCloseClick;
-        private LoginWindow(Action onLoginSuccess, Action btnCloseClick) {
+        private LoginWindow(Action onLoginSuccess, string serverHost, Action btnCloseClick) {
             _onLoginSuccess = onLoginSuccess;
             _btnCloseClick = btnCloseClick;
-            this.Vm = new LoginWindowViewModel();
+            this.Vm = new LoginWindowViewModel(serverHost);
             this.DataContext = Vm;
             InitializeComponent();
+            if (!string.IsNullOrEmpty(serverHost)) {
+                this.TextBoxServerHost.IsEnabled = false;
+                this.ButtonServerHost.IsEnabled = false;
+            }
             this.TbUcName.Text = nameof(LoginWindow);
             // 1个是通知窗口，1个是本窗口
             NotiCenterWindow.Bind(this, isNoOtherWindow: Application.Current.Windows.Count <= 2);

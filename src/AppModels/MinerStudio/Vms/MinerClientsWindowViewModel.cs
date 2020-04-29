@@ -764,7 +764,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (RpcRoot.IsInnerNet) {
                     LoginWindow.Login(() => {
                         RpcRoot.SetIsOuterNet(true);
-                    });
+                    }, RpcRoot.OfficialServerAddress);
                 }
                 else {
                     RpcRoot.SetIsOuterNet(false);
