@@ -45,7 +45,7 @@ namespace NTMiner.MinerStudio.Vms {
             this._mainCoinRejectPercentText = clientData.MainCoinRejectPercent.ToString("f1") + " %";
             this._dualCoinRejectPercentText = clientData.DualCoinRejectPercent.ToString("f1") + " %";
             RefreshMainCoinIncome();
-            RefreshDualCoinIncome(); 
+            RefreshDualCoinIncome();
             int maxTemperature = _data.GpuTable.Length == 0 ? 0 : _data.GpuTable.Max(a => a.Temperature);
             this._gpuTableVm = new GpuSpeedDataViewModels(
                 MainCoinCode, DualCoinCode, MainCoinSpeedText,
@@ -1490,16 +1490,6 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public bool IsOuterUserEnabled {
-            get { return _data.IsOuterUserEnabled; }
-            set {
-                if (_data.IsOuterUserEnabled != value) {
-                    _data.IsOuterUserEnabled = value;
-                    OnPropertyChanged(nameof(IsOuterUserEnabled));
-                }
-            }
-        }
-
         public string LoginName {
             get { return _data.LoginName; }
             set {
@@ -1510,11 +1500,37 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public bool IsOuterUserEnabled {
+            get { return _data.IsOuterUserEnabled; }
+            set {
+                if (_data.IsOuterUserEnabled != value) {
+                    _data.IsOuterUserEnabled = value;
+                    OnPropertyChanged(nameof(IsOuterUserEnabled));
+                }
+            }
+        }
+
         public string OuterUserId {
-            get { return _data.OuterUserId; }
+            get {
+                if (RpcRoot.IsInnerNet) {
+                    return this.ReportOuterUserId;
+                }
+                return _data.OuterUserId;
+            }
             set {
                 if (_data.OuterUserId != value) {
                     _data.OuterUserId = value;
+                    OnPropertyChanged(nameof(OuterUserId));
+                }
+            }
+        }
+
+        public string ReportOuterUserId {
+            get { return _data.ReportOuterUserId; }
+            set {
+                if (_data.ReportOuterUserId != value) {
+                    _data.ReportOuterUserId = value;
+                    OnPropertyChanged(nameof(ReportOuterUserId));
                     OnPropertyChanged(nameof(OuterUserId));
                 }
             }
@@ -1596,16 +1612,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.DualCoinSpeedOn != value) {
                     _data.DualCoinSpeedOn = value;
                     OnPropertyChanged(nameof(DualCoinSpeedOn));
-                }
-            }
-        }
-
-        public string ReportOuterUserId {
-            get { return _data.ReportOuterUserId; }
-            set {
-                if (_data.ReportOuterUserId != value) {
-                    _data.ReportOuterUserId = value;
-                    OnPropertyChanged(nameof(ReportOuterUserId));
                 }
             }
         }
