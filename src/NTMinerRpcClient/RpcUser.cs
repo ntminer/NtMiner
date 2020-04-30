@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NTMiner {
     public class RpcUser : ISignUser {
-        public static readonly RpcUser Empty = new RpcUser(string.Empty, string.Empty);
+        public static readonly RpcUser Empty = new RpcUser(string.Empty, HashUtil.Sha1(NTKeyword.Localhost));
 
         public static Dictionary<string, string> GetSignData(string loginName, string passwordSha1, object data = null) {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
@@ -30,13 +30,29 @@ namespace NTMiner {
             return HashUtil.Sha1(sb.ToString());
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginedUser"></param>
+        /// <param name="passwordSha1">密码是必须的，因为传输Windows远程桌面密码时会用这个密码加密</param>
         public RpcUser(LoginedUser loginedUser, string passwordSha1) {
+            if (string.IsNullOrEmpty(passwordSha1)) {
+                throw new InvalidProgramException();
+            }
             this.LoginedUser = loginedUser;
             this.LoginName = loginedUser.LoginName;
             this.Password = passwordSha1;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginName"></param>
+        /// <param name="passwordSha1">密码是必须的，因为传输Windows远程桌面密码时会用这个密码加密</param>
         public RpcUser(string loginName, string passwordSha1) {
+            if (string.IsNullOrEmpty(passwordSha1)) {
+                throw new InvalidProgramException();
+            }
             this.LoginName = loginName;
             this.Password = passwordSha1;
             this.LoginedUser = LoginedUser.Empty;
