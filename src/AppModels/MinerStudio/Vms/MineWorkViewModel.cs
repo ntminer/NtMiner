@@ -81,7 +81,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         private void DoEdit(FormType? formType) {
-            if (!MinerStudioRoot.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm) || this.Id == MineWorkData.SelfMineWorkId) {
+            if (!MinerStudioRoot.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm) && this.Id != MineWorkData.SelfMineWorkId) {
                 WpfUtil.ShowInputDialog("作业名称", string.Empty, string.Empty, workName => {
                     if (string.IsNullOrEmpty(workName)) {
                         return "作业名称是必须的";
