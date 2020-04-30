@@ -7,7 +7,7 @@ using System.Text;
 
 namespace NTMiner {
     public class RpcUser : ISignUser {
-        public static readonly RpcUser Empty = new RpcUser(string.Empty, HashUtil.Sha1(NTKeyword.Localhost));
+        public static readonly RpcUser Empty = new RpcUser(NTKeyword.Localhost, HashUtil.Sha1(NTKeyword.Localhost));
 
         public static Dictionary<string, string> GetSignData(string loginName, string passwordSha1, object data = null) {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
