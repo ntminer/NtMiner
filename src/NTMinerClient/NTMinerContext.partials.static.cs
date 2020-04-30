@@ -23,6 +23,11 @@ namespace NTMiner {
 
         private static WorkType _workType;
         private static string _workerName;
+
+        public static WorkType WorkType {
+            get { return _workType; }
+        }
+
         private static Guid _id = NTMinerRegistry.GetClientId(ClientAppType.AppType);
         public static Guid Id {
             get {

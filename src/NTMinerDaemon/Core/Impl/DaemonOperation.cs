@@ -241,7 +241,6 @@ namespace NTMiner.Core.Impl {
                         SpecialPath.WriteMineWorkLocalJsonFile(request.LocalJson);
                         SpecialPath.WriteMineWorkServerJsonFile(request.ServerJson);
                     }
-                    string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
                     if (IsNTMinerOpened()) {
                         WorkRequest innerRequest = new WorkRequest {
                             WorkId = request.WorkId,
@@ -251,10 +250,16 @@ namespace NTMiner.Core.Impl {
                         response.Description = "开始挖矿";
                     }
                     else {
+                        string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
                         if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                             string arguments = NTKeyword.AutoStartCmdParameterName;
                             if (request.WorkId != Guid.Empty) {
-                                arguments += " --work";
+                                if (request.WorkId == MineWorkData.SelfMineWorkId) {
+                                    arguments = "--selfWork " + arguments;
+                                }
+                                else {
+                                    arguments = "--work " + arguments;
+                                }
                             }
                             Windows.Cmd.RunClose(location, arguments);
                             response = ResponseBase.Ok("开始挖矿");
