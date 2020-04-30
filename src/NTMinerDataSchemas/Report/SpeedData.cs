@@ -152,6 +152,11 @@ namespace NTMiner.Report {
 
         public DateTime DualCoinSpeedOn { get; set; }
 
+        /// <summary>
+        /// 内网群控时看到的外网群控用户
+        /// </summary>
+        public string ReportOuterUserId { get; set; }
+
         public GpuSpeedData[] GpuTable { get; set; }
     }
 }

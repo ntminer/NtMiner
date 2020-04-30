@@ -84,9 +84,10 @@ namespace NTMiner.Core.MinerServer {
                 IsRejectOneGpuShare = false,
                 IsGotOneIncorrectGpuShare = false,
                 KernelSelfRestartCount = 0,
-                IsOuterUserEnabled = data.IsOuterUserEnabled,
                 LoginName = data.LoginName,
+                IsOuterUserEnabled = data.IsOuterUserEnabled,
                 OuterUserId = data.OuterUserId,
+                ReportOuterUserId = data.OuterUserId,
                 TotalPhysicalMemoryMb = 0,
                 LocalServerMessageTimestamp = Timestamp.UnixBaseTime,
                 NetActiveOn = DateTime.MinValue,
@@ -185,9 +186,10 @@ namespace NTMiner.Core.MinerServer {
                 IsGotOneIncorrectGpuShare = data.IsGotOneIncorrectGpuShare,
                 KernelSelfRestartCount = data.KernelSelfRestartCount,
                 LocalServerMessageTimestamp = data.LocalServerMessageTimestamp,
-                IsOuterUserEnabled = data.IsOuterUserEnabled,
                 LoginName = data.LoginName,
+                IsOuterUserEnabled = data.IsOuterUserEnabled,
                 OuterUserId = data.OuterUserId,
+                ReportOuterUserId = data.ReportOuterUserId,
                 NetActiveOn = data.NetActiveOn,
                 IsOnline = data.IsOnline,
                 IsDisableWAU = data.IsDisableWAU,
@@ -349,7 +351,6 @@ namespace NTMiner.Core.MinerServer {
                 IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare,
                 KernelSelfRestartCount = speedData.KernelSelfRestartCount - 1,// 需要减1
                 LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp,
-                IsOuterUserEnabled = speedData.IsOuterUserEnabled,
                 AESPassword = string.Empty,
                 AESPasswordOn = DateTime.MinValue,
                 IsAutoDisableWindowsFirewall = speedData.IsAutoDisableWindowsFirewall,
@@ -359,7 +360,9 @@ namespace NTMiner.Core.MinerServer {
                 IsOnline = false,
                 NetActiveOn = DateTime.MinValue,
                 LoginName = string.Empty,
+                IsOuterUserEnabled = speedData.IsOuterUserEnabled,
                 OuterUserId = string.Empty,
+                ReportOuterUserId = speedData.ReportOuterUserId,
                 WorkerName = string.Empty,
                 DualCoinPoolDelayNumber = dualCoinPoolDelayNumber,
                 MainCoinPoolDelayNumber = mainCoinPoolDelayNumber,
@@ -432,6 +435,7 @@ namespace NTMiner.Core.MinerServer {
                 IsNoShareRestartComputer = this.IsNoShareRestartComputer,
                 IsNoShareRestartKernel = this.IsNoShareRestartKernel,
                 IsOuterUserEnabled = this.IsOuterUserEnabled,
+                ReportOuterUserId = this.ReportOuterUserId,
                 IsPeriodicRestartComputer = this.IsPeriodicRestartComputer,
                 IsPeriodicRestartKernel = this.IsPeriodicRestartKernel,
                 IsRaiseHighCpuEvent = this.IsRaiseHighCpuEvent,
@@ -558,6 +562,7 @@ namespace NTMiner.Core.MinerServer {
                 isMinerDataChanged = this.IsOuterUserEnabled != speedData.IsOuterUserEnabled;
             }
             this.IsOuterUserEnabled = speedData.IsOuterUserEnabled;
+            this.ReportOuterUserId = speedData.ReportOuterUserId;
             #endregion
             this.MineContextId = speedData.MineContextId;
             this.IsAutoBoot = speedData.IsAutoBoot;

@@ -1600,6 +1600,16 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public string ReportOuterUserId {
+            get { return _data.ReportOuterUserId; }
+            set {
+                if (_data.ReportOuterUserId != value) {
+                    _data.ReportOuterUserId = value;
+                    OnPropertyChanged(nameof(ReportOuterUserId));
+                }
+            }
+        }
+
         public void RefreshGpusForeground(uint minTemp, uint maxTemp) {
             if (GpuTableVm == null) {
                 return;

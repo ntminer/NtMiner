@@ -127,6 +127,7 @@ namespace NTMiner.Report {
                 HighCpuPercent = workProfile.HighCpuBaseline,
                 HighCpuSeconds = workProfile.HighCpuSeconds,
                 IsOuterUserEnabled = workProfile.IsOuterUserEnabled,
+                ReportOuterUserId = NTMinerRegistry.GetOuterUserId(),
                 GpuTable = root.GpusSpeed.AsEnumerable().Where(a => a.Gpu.Index != NTMinerContext.GpuAllId).Select(a => a.ToGpuSpeedData()).ToArray()
             };
             if (workProfile.MineWork != null) {

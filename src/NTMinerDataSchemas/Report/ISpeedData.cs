@@ -80,5 +80,6 @@ namespace NTMiner.Report {
         bool IsDisableUAC { get; }
         bool IsDisableWAU { get; }
         bool IsDisableAntiSpyware { get; }
+        string ReportOuterUserId { get; }
     }
 }
