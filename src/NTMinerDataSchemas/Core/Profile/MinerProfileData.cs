@@ -72,8 +72,8 @@ namespace NTMiner.Core.Profile {
             IsShowNotifyIcon = true;
             IsCloseMeanExit = false;
             IsShowCommandLine = false;
-            IsAutoBoot = true;
-            IsAutoStart = true;
+            IsAutoBoot = false;
+            IsAutoStart = false;
             IsCreateShortcut = true;
             IsAutoStopByCpu = false;
             IsAutoStartByCpu = false;
