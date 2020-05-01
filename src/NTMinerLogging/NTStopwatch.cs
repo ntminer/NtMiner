@@ -20,10 +20,12 @@ namespace NTMiner {
             }
         }
 
+#if DEBUG
         /// <summary>
         /// 提供一个值，秒表的应用层可以通过耗时是否大于这个值来忽略打印一些耗时极短的过程段
         /// </summary>
         public static readonly long ElapsedMilliseconds = 0;
+#endif
 
         private static readonly ThreadLocal<NTStopwatch> _stopwatchLocal = new ThreadLocal<NTStopwatch>(() => {
             return new NTStopwatch();
@@ -38,7 +40,7 @@ namespace NTMiner {
             return _stopwatchLocal.Value.DoStop();
         }
 
-        #region 私有
+#region 私有
         private readonly Stopwatch _stopwatch;
         private readonly Stack<long> _stack;
         private readonly bool _isEnabled = DevMode.IsDevMode || DevMode.IsInUnitTest;
@@ -65,6 +67,6 @@ namespace NTMiner {
             var value = _stopwatch.ElapsedMilliseconds - _stack.Pop();
             return new ElapsedValue(value, _stack.Count);
         }
-        #endregion
+#endregion
     }
 }

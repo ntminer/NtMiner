@@ -87,6 +87,7 @@
     <Compile Include="EnvironmentTests.cs" />
     <Compile Include="FuncTests.cs" />
     <Compile Include="GuidTests.cs" />
+    <Compile Include="GZipUtilTests.cs" />
     <Compile Include="IoTests.cs" />
     <Compile Include="LiteDBTests.cs" />
     <Compile Include="NTMinerDataSchemasTests.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="RoleTests.cs" />
     <Compile Include="SecureStringTests.cs" />
     <Compile Include="StackTraceTests.cs" />
+    <Compile Include="TestUtil.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IPTests.cs" />
@@ -115,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="data\speedData.json" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
