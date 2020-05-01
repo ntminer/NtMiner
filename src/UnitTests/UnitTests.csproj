@@ -117,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="data\clientDatas.json" />
     <None Include="data\speedData.json" />
     <None Include="packages.config" />
   </ItemGroup>

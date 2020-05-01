@@ -58,13 +58,34 @@ namespace NTMiner {
         }
 
         [TestMethod]
-        public void BenchmarkTest() {
-            // 1秒钟约5000次压缩和解压缩
+        public void BenchmarkTest1() {
+            // 1秒钟约5000次压缩和解压缩，原数据大小5.3kb
             byte[] rawData = File.ReadAllBytes(Path.Combine(TestUtil.DataDirFullName, "speedData.json"));
+
+            NTStopwatch.Start();
+
             for (int i = 0; i < 5000; i++) {
                 byte[] zipedData = GZipUtil.Compress(rawData);
                 byte[] _ = GZipUtil.Decompress(zipedData);
             }
+
+            var elapsedMilliseconds = NTStopwatch.Stop();
+            Console.WriteLine(elapsedMilliseconds);
+        }
+
+        [TestMethod]
+        public void BenchmarkTest2() {
+            // 1秒钟约1200次压缩，原数据大小106kb
+            byte[] rawData = File.ReadAllBytes(Path.Combine(TestUtil.DataDirFullName, "clientDatas.json"));
+
+            NTStopwatch.Start();
+
+            for (int i = 0; i < 1200; i++) {
+                byte[] _ = GZipUtil.Compress(rawData);
+            }
+
+            var elapsedMilliseconds = NTStopwatch.Stop();
+            Console.WriteLine(elapsedMilliseconds);
         }
     }
 }
