@@ -69,8 +69,9 @@ namespace NTMiner {
         public static IBinarySerializer BinarySerializer { get; private set; }
 
         static VirtualRoot() {
-            JsonSerializer = new NTJsonSerializer();
-            BinarySerializer = new BinarySerializer();
+            NTJsonSerializer jsonSerializer = new NTJsonSerializer();
+            JsonSerializer = jsonSerializer;
+            BinarySerializer = new BinarySerializer(jsonSerializer);
         }
 
         #region LocalServerMessageSetTimestamp

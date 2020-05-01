@@ -3,7 +3,6 @@ namespace NTMiner {
     using System;
     using System.Runtime.Serialization;
 
-    [Serializable]
     public class NTMinerException : Exception {
         public NTMinerException() : base() { }
 

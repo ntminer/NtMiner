@@ -1,7 +1,4 @@
-﻿using System;
-
-namespace NTMiner.Repositories {
-    [Serializable]
+﻿namespace NTMiner.Repositories {
     public class DuplicateIdException : NTMinerException {
     }
 }

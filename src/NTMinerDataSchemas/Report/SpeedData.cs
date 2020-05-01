@@ -7,7 +7,6 @@ namespace NTMiner.Report {
     /// 向服务器上报算力时的算力类型
     /// TODO:考虑加个压缩逻辑，只上报变更的字段
     /// </summary>
-    [Serializable]
     public class SpeedData : ISpeedData {
         private string _dualCoinCode;
         private int _totalPhysicalMemoryMb;

@@ -4,7 +4,6 @@ namespace NTMiner.Ws {
     // 考虑设计个自定义数据协议，用二进制传输，除了Data之外的字段放在Head部分且加入一个HeadLength字段，Head部分的第一个int字节是HeadLength，用RLP编码头部。
     // 但是二进制对将来的web群控客户端不友好，javascript不擅长处理二进制；
     // 这么滴吧，经测试序列化和反序列化挺快的，不会造成瓶颈，那就先传字符串序列化和反序列化去吧，将来如有必要再开辟新路径制定二进制协议传二进制；
-    [Serializable]
     public class WsMessage : IData {
         #region message type 注意这些常量不区分大小写，注意唯一性
         // ping

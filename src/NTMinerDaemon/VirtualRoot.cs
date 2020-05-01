@@ -13,7 +13,7 @@ using System.Threading;
 namespace NTMiner {
     public partial class VirtualRoot {
         public static IJsonSerializer JsonSerializer { get; private set; } = new NTJsonSerializer();
-        public static IBinarySerializer BinarySerializer { get; private set; } = new BinarySerializer();
+        public static IBinarySerializer BinarySerializer { get; private set; } = new BinarySerializer(JsonSerializer);
         public static IOperationResultSet OperationResultSet { get; private set; } = new OperationResultSet();
         public static IDaemonOperation DaemonOperation = new DaemonOperation();
 
