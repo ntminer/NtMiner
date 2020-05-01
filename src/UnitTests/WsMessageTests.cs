@@ -3,6 +3,7 @@ using NTMiner.Report;
 using NTMiner.Ws;
 using System;
 using System.IO;
+using System.Text;
 
 namespace NTMiner {
     [TestClass]
@@ -13,14 +14,13 @@ namespace NTMiner {
             WsMessage message = new WsMessage(Guid.NewGuid(), WsMessage.Speed) {
                 Data = speedData1
             };
-            byte[] data = message.SignToBytes(HashUtil.Sha1("password1"));
+            byte[] data = Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(message));
             double dataSize = data.Length / 1024.0;
             Console.WriteLine($"原始大小 {dataSize.ToString()} kb");
-
-            byte[] zippedData = GZipUtil.Compress(data);
-            double zipDataSize = zippedData.Length / 1024.0;
-            Console.WriteLine($"GZip压缩后的大小 {zipDataSize.ToString()} kb，是原始大小的 {(zipDataSize * 100 / dataSize).ToString()} %");
-            data = GZipUtil.Decompress(zippedData);
+            data = message.SignToBytes(HashUtil.Sha1("password1"));
+            dataSize = data.Length / 1024.0;
+            Assert.IsTrue(VirtualRoot.BinarySerializer.IsGZipped(data));
+            Console.WriteLine($"序列化后大小 {dataSize.ToString()} kb");
             message = VirtualRoot.BinarySerializer.Deserialize<WsMessage>(data);
             Assert.IsTrue(message.TryGetData(out SpeedData speedData2));
             Assert.AreEqual(speedData1.ClientId, speedData2.ClientId);
