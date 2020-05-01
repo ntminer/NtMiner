@@ -29,6 +29,7 @@ namespace NTMiner {
             return new NTStopwatch();
         });
 
+        // 注意比对Start和Stop的引用计数是否相等，由于用using裹住太难看这里就不借助using保持Start和Stop的相等了
         public static void Start() {
             _stopwatchLocal.Value.DoStart();
         }
@@ -50,7 +51,6 @@ namespace NTMiner {
             }
         }
 
-        // 注意比对Start和Stop的引用计数是否相等，由于用using裹住太难看这里就不借助using保持Start和Stop的相等了
         private void DoStart() {
             if (!_isEnabled) {
                 return;

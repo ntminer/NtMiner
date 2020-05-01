@@ -176,17 +176,8 @@ namespace NTMiner.Mine {
             Task.Factory.StartNew(() => {
                 lock (_locker) {
                     try {
-#if DEBUG
-                            NTStopwatch.Start();
-#endif
                         // 清理除当前外的Temp/Kernel
                         Cleaner.Instance.Clear();
-#if DEBUG
-                            var elapsedMilliseconds = NTStopwatch.Stop();
-                            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(CreateProcessAsync)}[{nameof(Cleaner)}.{nameof(Cleaner.Clear)}]");
-                            }
-#endif
                         Write.UserOk("场地打扫完毕");
                         // 应用超频
                         if (NTMinerContext.Instance.GpuProfileSet.IsOverClockEnabled(MainCoin.GetId())) {

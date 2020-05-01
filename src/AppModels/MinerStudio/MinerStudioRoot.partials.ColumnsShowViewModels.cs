@@ -19,9 +19,6 @@ namespace NTMiner.MinerStudio {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 this.Add = new DelegateCommand(() => {
                     WpfUtil.ShowInputDialog("列分组名称", string.Empty, string.Empty, columnsShowName => {
                         if (string.IsNullOrEmpty(columnsShowName)) {
@@ -73,12 +70,6 @@ namespace NTMiner.MinerStudio {
                 foreach (var item in NTMinerContext.Instance.MinerStudioContext.ColumnsShowSet.GetAll()) {
                     _dicById.Add(item.Id, new ColumnsShowViewModel(item));
                 }
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             public List<ColumnsShowViewModel> List {

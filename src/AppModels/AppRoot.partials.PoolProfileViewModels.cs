@@ -12,9 +12,6 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 AddEventPath<PoolProfilePropertyChangedEvent>("矿池设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_dicById.TryGetValue(message.PoolId, out PoolProfileViewModel vm)) {
@@ -25,12 +22,6 @@ namespace NTMiner {
                     action: message => {
                         _dicById.Clear();
                     }, location: this.GetType());
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             private readonly object _locker = new object();

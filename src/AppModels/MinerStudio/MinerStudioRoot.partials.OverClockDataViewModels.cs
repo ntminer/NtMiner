@@ -10,9 +10,6 @@ namespace NTMiner.MinerStudio {
             private readonly Dictionary<Guid, OverClockDataViewModel> _dicById = new Dictionary<Guid, OverClockDataViewModel>();
 
             private OverClockDataViewModels() {
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
@@ -43,12 +40,6 @@ namespace NTMiner.MinerStudio {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));
                         }
                     }, location: this.GetType());
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             private void Init(bool refresh) {

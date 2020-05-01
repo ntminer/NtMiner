@@ -16,9 +16,6 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 VirtualRoot.AddEventPath<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
                     action: message => {
                         lock (_locker) {
@@ -64,12 +61,6 @@ namespace NTMiner {
                             }
                         }
                     }, location: this.GetType());
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             private readonly object _locker = new object();

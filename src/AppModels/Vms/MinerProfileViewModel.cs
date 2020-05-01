@@ -31,9 +31,6 @@ namespace NTMiner.Vms {
 
         private readonly Dictionary<string, PropertyInfo> _propertyInfos = new Dictionary<string, PropertyInfo>();
         public MinerProfileViewModel() {
-#if DEBUG
-            NTStopwatch.Start();
-#endif
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
@@ -147,9 +144,6 @@ namespace NTMiner.Vms {
             }
             NTMinerContext.SetRefreshArgsAssembly((reason) => {
                 Write.DevDebug(() => $"RefreshArgsAssembly" + reason, ConsoleColor.Cyan);
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 #region 确保双挖权重在合法的范围内
                 if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                     var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
@@ -174,12 +168,6 @@ namespace NTMiner.Vms {
                 else {
                     this.ArgsAssembly = string.Empty;
                 }
-#if DEBUG
-                var milliseconds = NTStopwatch.Stop();
-                if (milliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{milliseconds} {this.GetType().Name}.SetRefreshArgsAssembly");
-                }
-#endif
             });
             VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                 action: message => {
@@ -214,12 +202,6 @@ namespace NTMiner.Vms {
             VirtualRoot.AddEventPath<CoinVmRemovedEvent>("Vm集删除了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, action: message => {
                 OnPropertyChanged(nameof(CoinVm));
             }, this.GetType());
-#if DEBUG
-            var elapsedMilliseconds = NTStopwatch.Stop();
-            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-            }
-#endif
         }
 
         #region IWsStateViewModel的成员

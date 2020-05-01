@@ -15,9 +15,6 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 AddEventPath<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
                     action: message => {
                         if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
@@ -35,12 +32,6 @@ namespace NTMiner {
                         _coinKernelProfileDicById.Clear();
                         _coinProfileDicById.Clear();
                     }, location: this.GetType());
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             public CoinProfileViewModel GetOrCreateCoinProfile(Guid coinId) {

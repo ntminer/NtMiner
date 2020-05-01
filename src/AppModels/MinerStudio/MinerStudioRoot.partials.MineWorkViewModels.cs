@@ -14,9 +14,6 @@ namespace NTMiner.MinerStudio {
             public ICommand Add { get; private set; }
 
             private MineWorkViewModels() {
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
@@ -65,12 +62,6 @@ namespace NTMiner.MinerStudio {
                         }
                     }
                 }, this.GetType());
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             private void OnPropertyChangeds() {

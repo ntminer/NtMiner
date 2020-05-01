@@ -15,9 +15,6 @@ namespace NTMiner.Views.Ucs {
         }
 
         public StateBar() {
-#if DEBUG
-            NTStopwatch.Start();
-#endif
             InitializeComponent();
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -75,12 +72,6 @@ namespace NTMiner.Views.Ucs {
             if (VirtualRoot.DriveSet.OSVirtualMemoryMb < gpuSet.Count * 4) {
                 BtnShowVirtualMemory.Foreground = WpfUtil.RedBrush;
             }
-#if DEBUG
-            var elapsedMilliseconds = NTStopwatch.Stop();
-            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-            }
-#endif
         }
 
         private void BtnCheckUpdate_Click(object sender, RoutedEventArgs e) {

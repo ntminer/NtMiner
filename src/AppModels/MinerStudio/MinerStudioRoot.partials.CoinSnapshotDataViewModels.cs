@@ -16,18 +16,9 @@ namespace NTMiner.MinerStudio {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 foreach (var coinVm in AppRoot.CoinVms.AllCoins) {
                     _dicByCoinCode.Add(coinVm.Code, new CoinSnapshotDataViewModel(CoinSnapshotData.CreateEmpty(coinVm.Code)));
                 }
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             public bool TryGetSnapshotDataVm(string coinCode, out CoinSnapshotDataViewModel vm) {

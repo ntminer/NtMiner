@@ -12,9 +12,6 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-#if DEBUG
-            NTStopwatch.Start();
-#endif
             VirtualRoot.AddCmdPath<StopMineCommand>(action: message => {
                 if (!NTMinerContext.Instance.IsMining) {
                     this.MinerProfile.IsMining = false;
@@ -34,12 +31,6 @@ namespace NTMiner.Vms {
                 VirtualRoot.ThisLocalInfo(nameof(StartStopMineButtonViewModel), $"手动停止挖矿", toConsole: true);
                 VirtualRoot.Execute(new StopMineCommand());
             });
-#if DEBUG
-            var elapsedMilliseconds = NTStopwatch.Stop();
-            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-            }
-#endif
         }
 
         public void AutoStart() {

@@ -40,9 +40,6 @@ namespace NTMiner {
             }
 
             private GpuSpeedViewModels() {
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
@@ -147,12 +144,6 @@ namespace NTMiner {
                         TotalSpeedVm.MainCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                         TotalSpeedVm.DualCoinSpeed.OnPropertyChanged(nameof(SpeedViewModel.LastSpeedOnText));
                     }, location: this.GetType());
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             public void Refresh() {

@@ -7,19 +7,10 @@ namespace NTMiner.Vms {
         public static readonly GpuStatusBarViewModel Instance = new GpuStatusBarViewModel();
 
         private GpuStatusBarViewModel() {
-#if DEBUG
-                NTStopwatch.Start();
-#endif
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
             this.GpuAllVm = AppRoot.GpuVms.Items.FirstOrDefault(a => a.Index == NTMinerContext.GpuAllId);
-#if DEBUG
-            var elapsedMilliseconds = NTStopwatch.Stop();
-            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-            }
-#endif
         }
 
         public GpuViewModel GpuAllVm {

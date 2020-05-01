@@ -16,9 +16,6 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 foreach (var drive in VirtualRoot.DriveSet.AsEnumerable()) {
                     _drives.Add(new DriveViewModel(drive));
                 }
@@ -27,12 +24,6 @@ namespace NTMiner {
                     OnPropertyChanged(nameof(TotalVirtualMemoryMb));
                     OnPropertyChanged(nameof(IsStateChanged));
                 });
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             public List<DriveViewModel> Drives {

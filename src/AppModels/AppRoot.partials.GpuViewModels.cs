@@ -15,9 +15,6 @@ namespace NTMiner {
             private string _temperatureMaxText = "0 ℃";
             private readonly GpuViewModel _gpuAllVm;
             private GpuViewModels() {
-#if DEBUG
-                NTStopwatch.Start();
-#endif
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
@@ -95,12 +92,6 @@ namespace NTMiner {
                             UpdateMinMax();
                         }
                     }, location: this.GetType());
-#if DEBUG
-                var elapsedMilliseconds = NTStopwatch.Stop();
-                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
-                }
-#endif
             }
 
             private void UpdateMinMax() {
