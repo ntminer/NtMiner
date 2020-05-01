@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace NTMiner.Services.Client {
     public class MinerClientService {
@@ -57,23 +55,6 @@ namespace NTMiner.Services.Client {
 
         public void WsGetSpeedAsync(Action<SpeedData, Exception> callback) {
             RpcRoot.GetAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.WsGetSpeed), null, callback, timeountMilliseconds: 3000);
-        }
-
-        public void WsGetGZippedSpeedAsync(Action<byte[], Exception> callback) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        client.Timeout = TimeSpan.FromMilliseconds(3000);
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{NTKeyword.Localhost}:{NTKeyword.MinerClientPort.ToString()}/api/{_controllerName}/{nameof(IMinerClientController<HttpResponseMessage>.WsGetGZippedSpeed)}");
-                        message.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
-                            callback?.Invoke(t.Result, null);
-                        });
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(new byte[0], e);
-                }
-            });
         }
 
         public void GetConsoleOutLinesAsync(string clientIp, long afterTime, Action<List<ConsoleOutLine>, Exception> callback) {

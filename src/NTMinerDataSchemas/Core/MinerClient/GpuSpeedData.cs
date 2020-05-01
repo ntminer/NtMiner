@@ -1,4 +1,7 @@
-﻿namespace NTMiner.Core.MinerClient {
+﻿using System;
+
+namespace NTMiner.Core.MinerClient {
+    [Serializable]
     public class GpuSpeedData : IGpuSpeedData {
         public GpuSpeedData() {
         }

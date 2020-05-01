@@ -118,8 +118,14 @@
     <Compile Include="..\NTMinerlib\NTMinerRegistry.partials.cs">
       <Link>NTMinerRegistry.partials.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\Serialization\INTSerializer.cs">
-      <Link>Serialization\INTSerializer.cs</Link>
+    <Compile Include="..\NTMinerlib\Serialization\BinarySerializer.cs">
+      <Link>Serialization\BinarySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\Serialization\IBinarySerializer.cs">
+      <Link>Serialization\IBinarySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NTMinerlib\Serialization\IJsonSerializer.cs">
+      <Link>Serialization\IJsonSerializer.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\Serialization\NTJsonSerializer.cs">
       <Link>Serialization\NTJsonSerializer.cs</Link>

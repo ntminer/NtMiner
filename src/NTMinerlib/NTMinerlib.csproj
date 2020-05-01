@@ -55,6 +55,8 @@
     <Compile Include="Net\IpUtil.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />
     <Compile Include="Cryptography\RSAUtil.cs" />
+    <Compile Include="Serialization\BinarySerializer.cs" />
+    <Compile Include="Serialization\IBinarySerializer.cs" />
     <Compile Include="StringExtensions.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />
@@ -66,7 +68,7 @@
     <Compile Include="Repositories\HierarchicalRepository`1.cs" />
     <Compile Include="Repositories\DuplicateIdException.cs" />
     <Compile Include="Repositories\IRepository`1.cs" />
-    <Compile Include="Serialization\INTSerializer.cs" />
+    <Compile Include="Serialization\IJsonSerializer.cs" />
     <Compile Include="Serialization\NTJsonSerializer.cs" />
     <Compile Include="TaskEx.cs" />
     <Compile Include="User\LoginedUserExtensions.cs" />

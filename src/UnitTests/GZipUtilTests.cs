@@ -22,7 +22,7 @@ namespace NTMiner {
 
             byte[] zippedData = GZipUtil.Compress(data);
             double zipDataSize = zippedData.Length / 1024.0;
-            Console.WriteLine($"GZip压缩后的大小 {dataSize.ToString()} kb，是原始大小的 {(zipDataSize * 100 / dataSize).ToString()} %");
+            Console.WriteLine($"GZip压缩后的大小 {zipDataSize.ToString()} kb，是原始大小的 {(zipDataSize * 100 / dataSize).ToString()} %");
             data = GZipUtil.Decompress(zippedData);
             string json2 = Encoding.UTF8.GetString(data);
             Assert.AreEqual(json1, json2);

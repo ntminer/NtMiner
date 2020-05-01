@@ -5,12 +5,27 @@ using System.Text;
 
 namespace NTMiner {
     public static class DataExtensions {
+        public static byte[] SignToBytes(this WsMessage message, string password) {
+            if (message == null) {
+                throw new InvalidProgramException();
+            }
+            message.Sign = message.CalcSign(password);
+            return ToBytes(message);
+        }
+
+        public static byte[] ToBytes(this WsMessage message) {
+            if (message == null) {
+                throw new InvalidProgramException();
+            }
+            return VirtualRoot.BinarySerializer.Serialize(message);
+        }
+
         public static string SignToJson(this WsMessage message, string password) {
             if (message == null) {
                 throw new InvalidProgramException();
             }
             message.Sign = message.CalcSign(password);
-            return VirtualRoot.JsonSerializer.Serialize(message);
+            return ToJson(message);
         }
 
         public static string ToJson(this WsMessage message) {

@@ -46,7 +46,6 @@
     <Compile Include="ICalcConfigController.cs" />
     <Compile Include="IFileUrlController.cs" />
     <Compile Include="IKernelOutputKeywordController.cs" />
-    <Compile Include="IMinerClientController`1.cs" />
     <Compile Include="IUserMinerGroupController.cs" />
     <Compile Include="IMinerStudioController.cs" />
     <Compile Include="IUserMineWorkController.cs" />

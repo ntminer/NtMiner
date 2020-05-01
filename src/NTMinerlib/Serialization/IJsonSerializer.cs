@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.Serialization {
-    public interface INTSerializer {
+    public interface IJsonSerializer {
         string Serialize<TObject>(TObject obj);
 
         /// <summary>
