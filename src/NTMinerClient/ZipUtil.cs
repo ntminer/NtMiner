@@ -30,7 +30,6 @@ namespace NTMiner {
             }
             using (ZipInputStream zipInputStream = new ZipInputStream(stream)) {
                 ZipEntry theEntry;
-                string directoryName = destDir;
 
                 while ((theEntry = zipInputStream.GetNextEntry()) != null) {
                     string path = Path.Combine(destDir, theEntry.Name);
