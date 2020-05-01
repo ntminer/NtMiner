@@ -10,7 +10,7 @@ namespace NTMiner {
         [TestMethod]
         public void Test1() {
             SpeedData speedData1 = VirtualRoot.JsonSerializer.Deserialize<SpeedData>(File.ReadAllText(Path.Combine(TestUtil.DataDirFullName, "speedData.json")));
-            WsMessage message = new WsMessage(Guid.NewGuid(), WsMessage.GZippedSpeed) {
+            WsMessage message = new WsMessage(Guid.NewGuid(), WsMessage.Speed) {
                 Data = speedData1
             };
             byte[] data = message.SignToBytes(HashUtil.Sha1("password1"));

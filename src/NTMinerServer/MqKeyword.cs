@@ -31,6 +31,5 @@ namespace NTMiner {
         public const string ChangeMinerSignRoutingKey = "ChangeMinerSign";
 
         public const string SpeedRoutingKey = WsMessage.Speed;
-        public const string GZippedSpeedRoutingKey = WsMessage.GZippedSpeed;
     }
 }
