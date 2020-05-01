@@ -4,8 +4,11 @@ using WebSocketSharp;
 namespace NTMiner {
     public static class MessageEventArgsExtensions {
         public static T ToWsMessage<T>(this MessageEventArgs e) where T : WsMessage {
-            if (!e.IsText) {
-                return null;
+            if (e.IsBinary) {
+                if (e.IsPing) {
+                    return null;
+                }
+                return VirtualRoot.BinarySerializer.Deserialize<T>(e.RawData);
             }
             if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
                 return null;

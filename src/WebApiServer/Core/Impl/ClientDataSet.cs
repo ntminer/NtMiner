@@ -179,6 +179,12 @@ namespace NTMiner.Core.Impl {
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="objectId"></param>
+        /// <param name="propertyName">propertyName是客户端传入的白名单属性</param>
+        /// <param name="value"></param>
         public override void UpdateClient(string objectId, string propertyName, object value) {
             if (!IsReadied) {
                 return;
@@ -186,19 +192,21 @@ namespace NTMiner.Core.Impl {
             if (objectId == null) {
                 return;
             }
-            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData)) {
-                PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
-                if (propertyInfo != null) {
-                    value = VirtualRoot.ConvertValue(propertyInfo.PropertyType, value);
-                    var oldValue = propertyInfo.GetValue(clientData, null);
-                    if (oldValue != value) {
-                        propertyInfo.SetValue(clientData, value, null);
-                        DoUpdateSave(MinerData.Create(clientData));
-                    }
+            if (_dicByObjectId.TryGetValue(objectId, out ClientData clientData) && ClientData.TryGetReflectionUpdateProperty(propertyName, out PropertyInfo propertyInfo)) {
+                value = VirtualRoot.ConvertValue(propertyInfo.PropertyType, value);
+                var oldValue = propertyInfo.GetValue(clientData, null);
+                if (oldValue != value) {
+                    propertyInfo.SetValue(clientData, value, null);
+                    DoUpdateSave(MinerData.Create(clientData));
                 }
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertyName">propertyName是客户端传入的白名单属性</param>
+        /// <param name="values"></param>
         public override void UpdateClients(string propertyName, Dictionary<string, object> values) {
             if (!IsReadied) {
                 return;
@@ -206,8 +214,7 @@ namespace NTMiner.Core.Impl {
             if (values.Count == 0) {
                 return;
             }
-            PropertyInfo propertyInfo = typeof(ClientData).GetProperty(propertyName);
-            if (propertyInfo != null) {
+            if (ClientData.TryGetReflectionUpdateProperty(propertyName, out PropertyInfo propertyInfo)) {
                 values.ChangeValueType(propertyInfo.PropertyType);
                 List<MinerData> minerDatas = new List<MinerData>();
                 foreach (var kv in values) {

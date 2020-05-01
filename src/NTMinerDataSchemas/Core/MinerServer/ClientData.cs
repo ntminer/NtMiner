@@ -3,9 +3,31 @@ using Newtonsoft.Json;
 using NTMiner.Core.MinerClient;
 using NTMiner.Report;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace NTMiner.Core.MinerServer {
     public class ClientData : SpeedData, IClientData {
+        private static readonly Dictionary<string, PropertyInfo> _reflectionUpdateProperties = new Dictionary<string, PropertyInfo>();
+
+        public static bool TryGetReflectionUpdateProperty(string propertyName, out PropertyInfo propertyInfo) {
+            return _reflectionUpdateProperties.TryGetValue(propertyName, out propertyInfo);
+        }
+
+        static ClientData() {
+            Type type = typeof(ClientData);
+            // 这算是一个安全措施，因为propertyName是来自客户端传入的，所以需要白名单。
+            HashSet<string> propertyNames = new HashSet<string> {
+                nameof(WorkerName),
+                nameof(GroupId),
+                nameof(WindowsLoginName),
+                nameof(WindowsPassword)
+            };
+            foreach (var propertyName in propertyNames) {
+                _reflectionUpdateProperties.Add(propertyName, type.GetProperty(propertyName));
+            }
+        }
+
         public ClientData() : base() {
         }
 
