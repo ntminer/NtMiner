@@ -59,12 +59,12 @@ namespace NTMiner.Services.Client {
             RpcRoot.GetAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.WsGetSpeed), null, callback, timeountMilliseconds: 3000);
         }
 
-        public void WsGetSpeedGZippedAsync(Action<byte[], Exception> callback) {
+        public void WsGetGZippedSpeedAsync(Action<byte[], Exception> callback) {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.Timeout = TimeSpan.FromMilliseconds(3000);
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{NTKeyword.Localhost}:{NTKeyword.MinerClientPort.ToString()}/api/{_controllerName}/{nameof(IMinerClientController<HttpResponseMessage>.WsGetSpeedGZipped)}");
+                        Task<HttpResponseMessage> message = client.GetAsync($"http://{NTKeyword.Localhost}:{NTKeyword.MinerClientPort.ToString()}/api/{_controllerName}/{nameof(IMinerClientController<HttpResponseMessage>.WsGetGZippedSpeed)}");
                         message.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
                             callback?.Invoke(t.Result, null);
                         });

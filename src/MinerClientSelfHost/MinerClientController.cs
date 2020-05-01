@@ -112,7 +112,7 @@ namespace NTMiner {
 
         [HttpPost]
         [HttpGet]
-        public HttpResponseMessage WsGetSpeedGZipped() {
+        public HttpResponseMessage WsGetGZippedSpeed() {
             byte[] bytes;
             try {
                 var dataProvider = NTMinerContext.Instance.ReporterDataProvider;
