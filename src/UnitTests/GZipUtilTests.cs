@@ -20,10 +20,10 @@ namespace NTMiner {
             Console.WriteLine($"转化成字节数组后的大小 {dataSize.ToString()} kb");
             Assert.AreEqual(fileSize, dataSize);
 
-            byte[] zipedData = GZipUtil.Compress(data);
-            double zipDataSize = zipedData.Length / 1024.0;
+            byte[] zippedData = GZipUtil.Compress(data);
+            double zipDataSize = zippedData.Length / 1024.0;
             Console.WriteLine($"GZip压缩后的大小 {dataSize.ToString()} kb，是原始大小的 {(zipDataSize * 100 / dataSize).ToString()} %");
-            data = GZipUtil.Decompress(zipedData);
+            data = GZipUtil.Decompress(zippedData);
             string json2 = Encoding.UTF8.GetString(data);
             Assert.AreEqual(json1, json2);
         }
@@ -31,8 +31,8 @@ namespace NTMiner {
         [TestMethod]
         public void Test2() {
             byte[] rawData = File.ReadAllBytes(Path.Combine(TestUtil.DataDirFullName, "speedData.json"));
-            byte[] zipedData = GZipUtil.Compress(rawData);
-            byte[] data = GZipUtil.Decompress(zipedData);
+            byte[] zippedData = GZipUtil.Compress(rawData);
+            byte[] data = GZipUtil.Decompress(zippedData);
             Assert.AreEqual(rawData.Length, data.Length);
             for (int i = 0; i < rawData.Length; i++) {
                 Assert.AreEqual(rawData[i], data[i]);
@@ -44,14 +44,14 @@ namespace NTMiner {
             byte[] rawData = File.ReadAllBytes(Path.Combine(TestUtil.DataDirFullName, "speedData.json"));
             NTStopwatch.Start();
 
-            byte[] zipedData = GZipUtil.Compress(rawData);
+            byte[] zippedData = GZipUtil.Compress(rawData);
 
             var elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);
 
             NTStopwatch.Start();
 
-            byte[] _ = GZipUtil.Decompress(zipedData);
+            byte[] _ = GZipUtil.Decompress(zippedData);
 
             elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);
@@ -65,8 +65,8 @@ namespace NTMiner {
             NTStopwatch.Start();
 
             for (int i = 0; i < 5000; i++) {
-                byte[] zipedData = GZipUtil.Compress(rawData);
-                byte[] _ = GZipUtil.Decompress(zipedData);
+                byte[] zippedData = GZipUtil.Compress(rawData);
+                byte[] _ = GZipUtil.Decompress(zippedData);
             }
 
             var elapsedMilliseconds = NTStopwatch.Stop();

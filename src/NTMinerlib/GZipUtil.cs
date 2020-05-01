@@ -21,11 +21,11 @@ namespace NTMiner {
             }
         }
 
-        public static byte[] Decompress(byte[] zipedData) {
-            if (zipedData == null || zipedData.Length == 0) {
-                return zipedData;
+        public static byte[] Decompress(byte[] zippedData) {
+            if (zippedData == null || zippedData.Length == 0) {
+                return zippedData;
             }
-            using (MemoryStream inputStream = new MemoryStream(zipedData))
+            using (MemoryStream inputStream = new MemoryStream(zippedData))
             using (GZipStream gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
             using (MemoryStream outputStream = new MemoryStream()) {
                 byte[] block = new byte[1024];

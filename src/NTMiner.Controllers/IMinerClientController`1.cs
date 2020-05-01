@@ -24,6 +24,6 @@ namespace NTMiner.Controllers {
     /// 挖矿端的矿机操作接口
     /// </summary>
     public interface IMinerClientController<T1> : IMinerClientController {
-        T1 WsGetSpeedGZiped();
+        T1 WsGetSpeedGZipped();
     }
 }

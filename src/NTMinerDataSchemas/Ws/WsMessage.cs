@@ -50,6 +50,7 @@ namespace NTMiner.Ws {
         public const string LocalIps = "LocalIps";
         public const string LocalMessages = "LocalMessages";
         public const string Speed = "Speed";
+        public const string SpeedGZipped = "SpeedGZipped";
         public const string OperationReceived = "OperationReceived";
         public const string SelfWorkLocalJson = "SelfWorkLocalJson";
         public const string GpuProfilesJson = "GpuProfilesJson";
