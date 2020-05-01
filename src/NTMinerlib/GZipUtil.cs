@@ -5,7 +5,7 @@ using System.IO.Compression;
 namespace NTMiner {
     public static class GZipUtil {
         public static byte[] Compress(byte[] data) {
-            if (data == null || data.Length < 1) {
+            if (data == null || data.Length == 0) {
                 return data;
             }
             try {
@@ -22,6 +22,9 @@ namespace NTMiner {
         }
 
         public static byte[] Decompress(byte[] zipedData) {
+            if (zipedData == null || zipedData.Length == 0) {
+                return zipedData;
+            }
             using (MemoryStream inputStream = new MemoryStream(zipedData))
             using (GZipStream gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
             using (MemoryStream outputStream = new MemoryStream()) {

@@ -44,11 +44,11 @@ namespace NTMiner.Controllers {
                     bytes = CreateValidateGraphic(code);
                 }
             }
-            var respimg = new HttpResponseMessage(HttpStatusCode.OK) {
+            var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) {
                 Content = new ByteArrayContent(bytes)
             };
-            respimg.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
-            return respimg;
+            httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+            return httpResponseMessage;
         }
 
         private static byte[] CreateValidateGraphic(string validateCode) {

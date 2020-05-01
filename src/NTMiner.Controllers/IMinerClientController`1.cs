@@ -5,9 +5,6 @@ using NTMiner.Ws;
 using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
-    /// <summary>
-    /// 挖矿端的矿机操作接口
-    /// </summary>
     public interface IMinerClientController {
         bool ShowMainWindow();
         ResponseBase CloseNTMiner(object request);
@@ -21,5 +18,12 @@ namespace NTMiner.Controllers {
         void RefreshIsRemoteDesktopEnabled();
         void ReportWsDaemonState(WsClientState state);
         void OverClock();
+    }
+
+    /// <summary>
+    /// 挖矿端的矿机操作接口
+    /// </summary>
+    public interface IMinerClientController<T1> : IMinerClientController {
+        T1 WsGetSpeedGZiped();
     }
 }

@@ -5,13 +5,17 @@ using NTMiner.Report;
 using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Web.Http;
 
 namespace NTMiner {
     /// <summary>
     /// 端口号：<see cref="NTKeyword.MinerClientPort"/>
     /// </summary>
-    public class MinerClientController : ApiController, IMinerClientController {
+    public class MinerClientController : ApiController, IMinerClientController<HttpResponseMessage> {
         [HttpPost]
         public bool ShowMainWindow() {
             try {
@@ -104,6 +108,28 @@ namespace NTMiner {
                 Logger.ErrorDebugLine(e);
                 return null;
             }
+        }
+
+        [HttpPost]
+        [HttpGet]
+        public HttpResponseMessage WsGetSpeedGZiped() {
+            byte[] bytes;
+            try {
+                var dataProvider = NTMinerContext.Instance.ReporterDataProvider;
+                dataProvider.WsGetSpeedOn = DateTime.Now;
+                SpeedData speedData =  dataProvider.CreateSpeedData();
+                string json = VirtualRoot.JsonSerializer.Serialize(speedData);
+                bytes = GZipUtil.Compress(Encoding.UTF8.GetBytes(json));
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                bytes = new byte[0];
+            }
+            var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) {
+                Content = new ByteArrayContent(bytes)
+            };
+            httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("application/zip");
+            return httpResponseMessage;
         }
 
         [HttpGet]
