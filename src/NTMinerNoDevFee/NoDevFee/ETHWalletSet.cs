@@ -21,7 +21,7 @@ namespace NTMiner.NoDevFee {
         }
 
         private void Init() {
-            JsonRpcRoot.GetAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, JsonRpcRoot.GetControllerName<INTMinerWalletController>(), nameof(INTMinerWalletController.NTMinerWallets), null, (DataResponse<List<NTMinerWalletData>> response, Exception e) => {
+            JsonRpcRoot.GetAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, RpcRoot.GetControllerName<INTMinerWalletController>(), nameof(INTMinerWalletController.NTMinerWallets), null, (DataResponse<List<NTMinerWalletData>> response, Exception e) => {
                 if (response.IsSuccess() && response.Data != null && response.Data.Count != 0) {
                     var ethWallets = response.Data.Where(a => "ETH".Equals(a.CoinCode, StringComparison.OrdinalIgnoreCase)).ToArray();
                     if (ethWallets.Length != 0) {

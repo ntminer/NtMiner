@@ -27,14 +27,14 @@ namespace NTMiner.Vms {
 
         public bool IsTestHost {
             get {
-                return !string.IsNullOrEmpty(Hosts.GetIp(JsonRpcRoot.OfficialServerHost, out long _));
+                return !string.IsNullOrEmpty(Hosts.GetIp(RpcRoot.OfficialServerHost, out long _));
             }
             set {
                 if (value) {
-                    Hosts.SetHost(JsonRpcRoot.OfficialServerHost, "127.0.0.1");
+                    Hosts.SetHost(RpcRoot.OfficialServerHost, "127.0.0.1");
                 }
                 else {
-                    Hosts.SetHost(JsonRpcRoot.OfficialServerHost, string.Empty);
+                    Hosts.SetHost(RpcRoot.OfficialServerHost, string.Empty);
                 }
                 OnPropertyChanged(nameof(IsTestHost));
             }

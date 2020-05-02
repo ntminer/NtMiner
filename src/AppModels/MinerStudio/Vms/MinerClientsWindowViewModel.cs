@@ -765,7 +765,7 @@ namespace NTMiner.MinerStudio.Vms {
                     MinerStudio.MinerStudioRoot.Login(() => {
                         MinerStudioRoot.WsClient.OpenOrCloseWs(isResetFailCount: true);
                         JsonRpcRoot.SetIsOuterNet(true);
-                    }, JsonRpcRoot.OfficialServerAddress);
+                    }, RpcRoot.OfficialServerAddress);
                 }
                 else {
                     JsonRpcRoot.SetIsOuterNet(false);

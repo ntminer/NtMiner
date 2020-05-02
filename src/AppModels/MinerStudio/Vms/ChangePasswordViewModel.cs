@@ -105,7 +105,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string CaptchaUrl {
             get {
-                return $"http://{JsonRpcRoot.OfficialServerAddress}/api/{JsonRpcRoot.GetControllerName<ICaptchaController<string>>()}/{nameof(ICaptchaController<string>.Get)}?id={ActionCaptchaId.ToString()}";
+                return $"http://{RpcRoot.OfficialServerAddress}/api/{RpcRoot.GetControllerName<ICaptchaController<string>>()}/{nameof(ICaptchaController<string>.Get)}?id={ActionCaptchaId.ToString()}";
             }
         }
     }

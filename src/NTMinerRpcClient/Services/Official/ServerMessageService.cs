@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class ServerMessageService {
-        private readonly string _controllerName = JsonRpcRoot.GetControllerName<IServerMessageController>();
+        private readonly string _controllerName = RpcRoot.GetControllerName<IServerMessageController>();
 
         public ServerMessageService() {
         }
@@ -15,7 +15,7 @@ namespace NTMiner.Services.Official {
             ServerMessagesRequest request = new ServerMessagesRequest {
                 Timestamp = Timestamp.GetTimestamp(timestamp)
             };
-            JsonRpcRoot.PostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.ServerMessages), request, callback);
+            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.ServerMessages), request, callback);
         }
         #endregion
 
@@ -24,7 +24,7 @@ namespace NTMiner.Services.Official {
             DataRequest<ServerMessageData> request = new DataRequest<ServerMessageData>() {
                 Data = entity
             };
-            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), data: request, callback);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), data: request, callback);
         }
         #endregion
 
@@ -33,7 +33,7 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.MarkDeleteServerMessage), data: request, callback);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.MarkDeleteServerMessage), data: request, callback);
         }
         #endregion
     }

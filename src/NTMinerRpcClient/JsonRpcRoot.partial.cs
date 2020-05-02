@@ -144,7 +144,7 @@ namespace NTMiner {
             int timeountMilliseconds = 0) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = CreateHttpClient()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         if (timeountMilliseconds != 0) {
                             if (timeountMilliseconds < 100) {
                                 timeountMilliseconds *= 1000;
@@ -181,7 +181,7 @@ namespace NTMiner {
             int timeountMilliseconds = 0) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = CreateHttpClient()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         if (timeountMilliseconds != 0) {
                             if (timeountMilliseconds < 100) {
                                 timeountMilliseconds *= 1000;
@@ -210,7 +210,7 @@ namespace NTMiner {
             int timeountMilliseconds = 0) {
             Task.Factory.StartNew(() => {
                 try {
-                    using (HttpClient client = CreateHttpClient()) {
+                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         if (timeountMilliseconds != 0) {
                             if (timeountMilliseconds < 100) {
                                 timeountMilliseconds *= 1000;

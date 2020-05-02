@@ -11,7 +11,7 @@ namespace NTMiner.Services.Client {
     public class MinerClientService {
         public static readonly MinerClientService Instance = new MinerClientService();
 
-        private readonly string _controllerName = JsonRpcRoot.GetControllerName<IMinerClientController>();
+        private readonly string _controllerName = RpcRoot.GetControllerName<IMinerClientController>();
         private MinerClientService() {
         }
 

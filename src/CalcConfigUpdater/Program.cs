@@ -17,7 +17,7 @@ namespace NTMiner {
             try {
                 VirtualRoot.StartTimer();
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
-                JsonRpcRoot.SetOfficialServerAddress(NTKeyword.Localhost);
+                RpcRoot.SetOfficialServerAddress(NTKeyword.Localhost);
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
                 VirtualRoot.AddEventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
                     action: message => {
@@ -260,7 +260,7 @@ namespace NTMiner {
 
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
-                using (HttpClient client = JsonRpcRoot.CreateHttpClient()) {
+                using (HttpClient client = RpcRoot.CreateHttpClient()) {
                     client.Timeout = TimeSpan.FromSeconds(20);
                     return await client.GetByteArrayAsync(url);
                 }

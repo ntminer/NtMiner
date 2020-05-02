@@ -5,7 +5,7 @@ using System;
 
 namespace NTMiner.Services.Official {
     public class KernelOutputKeywordService {
-        private readonly string _controllerName = JsonRpcRoot.GetControllerName<IKernelOutputKeywordController>();
+        private readonly string _controllerName = RpcRoot.GetControllerName<IKernelOutputKeywordController>();
 
         public KernelOutputKeywordService() {
         }
@@ -13,7 +13,7 @@ namespace NTMiner.Services.Official {
         #region GetKernelOutputKeywords
         public void GetKernelOutputKeywords(Action<KernelOutputKeywordsResponse, Exception> callback) {
             object request = new object();
-            JsonRpcRoot.PostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), request, callback);
+            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), request, callback);
         }
         #endregion
 
@@ -22,7 +22,7 @@ namespace NTMiner.Services.Official {
             DataRequest<KernelOutputKeywordData> request = new DataRequest<KernelOutputKeywordData>() {
                 Data = entity
             };
-            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), data: request, callback);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), data: request, callback);
         }
         #endregion
 
@@ -31,7 +31,7 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), data: request, callback);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), data: request, callback);
         }
         #endregion
     }

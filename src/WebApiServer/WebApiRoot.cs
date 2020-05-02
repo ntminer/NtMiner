@@ -132,7 +132,7 @@ namespace NTMiner {
                 HttpServer.Start(baseAddress, doConfig: config => {
                     // 向后兼容
                     config.Routes.MapHttpRoute("CalcConfigs", "api/ControlCenter/CalcConfigs", new {
-                        controller = JsonRpcRoot.GetControllerName<ICalcConfigController>(),
+                        controller = RpcRoot.GetControllerName<ICalcConfigController>(),
                         action = nameof(ICalcConfigController.CalcConfigs)
                     });
                 });

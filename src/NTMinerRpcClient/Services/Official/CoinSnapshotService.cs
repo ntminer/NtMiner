@@ -4,7 +4,7 @@ using System;
 
 namespace NTMiner.Services.Official {
     public class CoinSnapshotService {
-        private readonly string _controllerName = JsonRpcRoot.GetControllerName<ICoinSnapshotController>();
+        private readonly string _controllerName = RpcRoot.GetControllerName<ICoinSnapshotController>();
 
         public CoinSnapshotService() {
         }
@@ -14,7 +14,7 @@ namespace NTMiner.Services.Official {
             GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
                 Limit = limit
             };
-            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(ICoinSnapshotController.LatestSnapshots), data: request, callback);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(ICoinSnapshotController.LatestSnapshots), data: request, callback);
         }
         #endregion
     }

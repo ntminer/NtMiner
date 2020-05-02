@@ -8,7 +8,7 @@ namespace NTMiner.Services.Client {
     public class NTMinerDaemonService {
         public static readonly NTMinerDaemonService Instance = new NTMinerDaemonService();
 
-        private readonly string _controllerName = JsonRpcRoot.GetControllerName<INTMinerDaemonController>();
+        private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerDaemonController>();
         private NTMinerDaemonService() { }
 
         public void GetSelfWorkLocalJsonAsync(IMinerData client, Action<string, Exception> callback) {
