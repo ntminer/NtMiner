@@ -32,6 +32,10 @@ namespace NTMiner.Core.Impl {
 
         public string WsSessionId { get; private set; }
 
+        public bool TryGetWsSession(out IWebSocketSession wsSession) {
+            return _wsSessionManager.TryGetSession(this.WsSessionId, out wsSession);
+        }
+
         public void Active() {
             this.ActiveOn = DateTime.Now;
         }
