@@ -10,14 +10,14 @@ namespace NTMiner.Controllers {
         #region QueryClients
         [Role.User]
         [HttpPost]
-        public QueryClientsResponse QueryClients([FromBody]QueryClientsRequest query) {
-            if (query == null) {
+        public QueryClientsResponse QueryClients([FromBody]QueryClientsRequest request) {
+            if (request == null) {
                 return ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
             }
             try {
                 var data = WebApiRoot.ClientDataSet.QueryClients(
                     User, 
-                    query, 
+                    request, 
                     out int total, 
                     out List<CoinSnapshotData> latestSnapshots, 
                     out int totalOnlineCount, 

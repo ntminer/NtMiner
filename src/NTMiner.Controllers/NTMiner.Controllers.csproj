@@ -35,6 +35,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ICaptchaController`1.cs" />
+    <Compile Include="IClientDataBinaryController`1.cs" />
     <Compile Include="ICoinSnapshotController.cs" />
     <Compile Include="IMinerClientController.cs" />
     <Compile Include="IUserAppSettingController.cs" />
