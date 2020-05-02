@@ -21,7 +21,7 @@ namespace NTMiner {
                 this.CloseAsync();
                 return;
             }
-            IMinerStudioSession minerSession = MinerStudioSession.Create(userData, wsUserName, this.ID);
+            IMinerStudioSession minerSession = MinerStudioSession.Create(userData, wsUserName, this.ID, Sessions);
             WsRoot.MinerStudioSessionSet.Add(minerSession);
         }
 

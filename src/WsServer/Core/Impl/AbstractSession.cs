@@ -1,14 +1,17 @@
 ﻿using NTMiner.User;
 using System;
+using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public abstract class AbstractSession : ISession {
+        private readonly WebSocketSessionManager _wsSessionManager;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="user"></param>
         /// <param name="wsSessionID"></param>
-        public AbstractSession(IUser user, WsUserName wsUserName, string wsSessionID) {
+        public AbstractSession(IUser user, WsUserName wsUserName, string wsSessionID, WebSocketSessionManager wsSessionManager) {
+            _wsSessionManager = wsSessionManager;
             this.WsUserName = wsUserName;
             this.ClientId = wsUserName.ClientId;
             this.ClientVersion = Version.Parse(wsUserName.ClientVersion);// 因为前面的流程已经过验证所以可以直接Parse

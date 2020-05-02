@@ -22,7 +22,7 @@ namespace NTMiner {
                 this.CloseAsync();
                 return;
             }
-            IMinerClientSession minerSession = MinerClientSession.Create(userData, wsUserName, this.ID);
+            IMinerClientSession minerSession = MinerClientSession.Create(userData, wsUserName, this.ID, Sessions);
             WsRoot.MinerClientSessionSet.Add(minerSession);
             WsRoot.MinerClientMqSender.SendMinerClientWsOpened(minerSession.LoginName, minerSession.ClientId);
             if (!WsRoot.MinerSignSet.TryGetByClientId(wsUserName.ClientId, out MinerSign minerSign)) {
