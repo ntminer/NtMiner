@@ -15,7 +15,7 @@ namespace NTMiner.Core {
         /// 客户端进程的版本号
         /// </summary>
         /// <remarks>注意这里说的进程不是指的操作系统进程而是指运行中的开源矿工程序</remarks>
-        string ClientVersion { get; }
+        Version ClientVersion { get; }
         /// <summary>
         /// 会话的最新活动时间
         /// </summary>

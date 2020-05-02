@@ -11,5 +11,9 @@ namespace NTMiner.User {
         public string ClientVersion { get; set; }
         public Guid ClientId { get; set; }
         public string UserId { get; set; }
+
+        public bool IsValid() {
+            return !string.IsNullOrEmpty(UserId) && ClientId != Guid.Empty && Version.TryParse(ClientVersion, out _);
+        }
     }
 }

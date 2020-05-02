@@ -115,7 +115,7 @@ namespace NTMiner {
             }
             string json = Encoding.UTF8.GetString(Convert.FromBase64String(base64String));
             wsUserName = VirtualRoot.JsonSerializer.Deserialize<WsUserName>(json);
-            if (wsUserName == null) {
+            if (wsUserName == null || !wsUserName.IsValid()) {
                 return false;
             }
             userData = ReadOnlyUserSet.GetUser(UserId.Create(wsUserName.UserId));
