@@ -54,6 +54,8 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BinaryRpcRoot.cs" />
+    <Compile Include="BinaryRpcRoot.partials.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MinerStudioServiceType.cs" />
     <Compile Include="RpcRoot.cs" />
