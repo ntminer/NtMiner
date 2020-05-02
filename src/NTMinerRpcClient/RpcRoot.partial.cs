@@ -1,7 +1,6 @@
 ﻿using NTMiner.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -238,72 +237,6 @@ namespace NTMiner {
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TResponse"></typeparam>
-        /// <param name="host">用于组装Url</param>
-        /// <param name="port">用于组装Url</param>
-        /// <param name="controller">用于组装Url</param>
-        /// <param name="action">用于组装Url</param>
-        /// <param name="query">Url上的查询参数，承载登录名、时间戳、签名</param>
-        /// <param name="callback"></param>
-        public static void GetAsync<TResponse>(
-            string host,
-            int port,
-            string controller,
-            string action,
-            Dictionary<string, string> query,
-            Action<TResponse, Exception> callback,
-            int? timeountMilliseconds = null) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = CreateHttpClient()) {
-                        if (timeountMilliseconds.HasValue) {
-                            if (timeountMilliseconds.Value < 100) {
-                                timeountMilliseconds *= 1000;
-                            }
-                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds.Value);
-                        }
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}");
-                        message.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
-                            callback?.Invoke(t.Result, null);
-                        });
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(default, e);
-                }
-            });
-        }
-
-        /// <summary>
-        /// 给定一个类型，返回基于命名约定的控制器名。如果给定的类型名不以Consoller为后缀则引发
-        /// InvalidProgramException异常，如果给定的类型是接口类型但不以I开头同样会异常。
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static string GetControllerName<T>() {
-            Type t = typeof(T);
-            string name = t.Name;
-            if (t.IsGenericType) {
-                name = name.Substring(0, name.IndexOf('`'));
-            }
-            if (!name.EndsWith("Controller")) {
-                throw new InvalidProgramException("控制器类型名需要以Controller为后缀");
-            }
-            int startIndex = 0;
-            int length = name.Length - "Controller".Length;
-            if (t.IsInterface) {
-                if (name[0] != 'I') {
-                    throw new InvalidProgramException("接口类型名需要以I为开头");
-                }
-                startIndex = 1;
-                length -= 1;
-            }
-            return name.Substring(startIndex, length);
-        }
-
-        /// <summary>
         /// 同步Post
         /// </summary>
         /// <typeparam name="TResponse">post的data的类型</typeparam>
@@ -342,17 +275,18 @@ namespace NTMiner {
             }
         }
 
+        private static bool _isServerMessagesVisible = false;
         /// <summary>
-        /// 将字典转化为url查询字符串，返回的字符串以'?'问好开头。
+        /// 表示服务器消息在界面上当前是否是可见的。true表示是可见的，反之不是。
         /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        private static string ToQueryString(this Dictionary<string, string> query) {
-            string queryString = string.Empty;
-            if (query != null && query.Count != 0) {
-                queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
-            }
-            return queryString;
+        /// <remarks>本地会根据服务器消息在界面山是否可见优化网络传输，不可见的时候不从服务器加载消息。</remarks>
+        public static bool IsServerMessagesVisible {
+            get { return _isServerMessagesVisible; }
+        }
+
+        // 独立一个方法是为了方便编程工具走查代码，这算是个模式吧，不只出现这一次。编程的用户有三个：1，人；2，编程工具；3，运行时；
+        public static void SetIsServerMessagesVisible(bool value) {
+            _isServerMessagesVisible = value;
         }
     }
 }
