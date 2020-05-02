@@ -233,13 +233,19 @@ namespace NTMiner.Ws {
                         return;
                     }
                     #region
-                    if (!e.IsText) {
+                    if (e.IsPing) {
                         return;
                     }
-                    if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
-                        return;
+                    WsMessage message = null;
+                    if (e.IsBinary) {
+                        message = VirtualRoot.BinarySerializer.Deserialize<WsMessage>(e.RawData);
                     }
-                    WsMessage message = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
+                    else {// 此时一定IsText，因为取值只有IsBinary、IsPing、IsText这三种
+                        if (string.IsNullOrEmpty(e.Data) || e.Data[0] != '{' || e.Data[e.Data.Length - 1] != '}') {
+                            return;
+                        }
+                        message = VirtualRoot.JsonSerializer.Deserialize<WsMessage>(e.Data);
+                    }
                     if (message == null) {
                         return;
                     }
