@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
@@ -246,8 +245,8 @@ namespace NTMiner.Core.Impl {
                             WorkId = request.WorkId,
                             WorkerName = request.WorkerName
                         };
-                        response = RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StartMine), innerRequest);
-                        response.Description = "开始挖矿";
+                        RpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StartMine), innerRequest, callback: null, timeountMilliseconds: 3000);
+                        response = ResponseBase.Ok("开始挖矿");
                     }
                     else {
                         string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
@@ -287,7 +286,7 @@ namespace NTMiner.Core.Impl {
                     response = ResponseBase.Ok();
                 }
                 else {
-                    RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StopMine), new object());
+                    RpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StopMine), new object(), callback: null, timeountMilliseconds: 3000);
                     response = ResponseBase.Ok("停止挖矿");
                 }
             }
@@ -377,21 +376,21 @@ namespace NTMiner.Core.Impl {
         }
 
         private static void CloseNTMiner() {
-            bool isClosed = false;
-            ResponseBase response = RpcRoot.Post<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.CloseNTMiner), new object { });
-            isClosed = response.IsSuccess();
-            if (!isClosed) {
-                try {
-                    string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
-                    if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                        string processName = Path.GetFileNameWithoutExtension(location);
-                        Windows.TaskKill.Kill(processName);
+            RpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.CloseNTMiner), new object { }, (response, e) => {
+                bool isClosed = response.IsSuccess();
+                if (!isClosed) {
+                    try {
+                        string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
+                        if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                            string processName = Path.GetFileNameWithoutExtension(location);
+                            Windows.TaskKill.Kill(processName);
+                        }
+                    }
+                    catch (Exception ex) {
+                        Logger.ErrorDebugLine(ex);
                     }
                 }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                }
-            }
+            }, timeountMilliseconds: 3000);
         }
         #endregion
     }
