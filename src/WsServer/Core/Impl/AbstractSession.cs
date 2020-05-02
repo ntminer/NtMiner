@@ -8,13 +8,16 @@ namespace NTMiner.Core.Impl {
         /// </summary>
         /// <param name="user"></param>
         /// <param name="wsSessionID"></param>
-        public AbstractSession(IUser user, WsUserName userName, string wsSessionID) {
-            this.ClientId = userName.ClientId;
-            this.ClientVersion = Version.Parse(userName.ClientVersion);// 因为前面的流程已经过验证所以可以直接Parse
+        public AbstractSession(IUser user, WsUserName wsUserName, string wsSessionID) {
+            this.WsUserName = wsUserName;
+            this.ClientId = wsUserName.ClientId;
+            this.ClientVersion = Version.Parse(wsUserName.ClientVersion);// 因为前面的流程已经过验证所以可以直接Parse
             this.LoginName = user.LoginName;
             this.ActiveOn = DateTime.Now;
             this.WsSessionId = wsSessionID;
         }
+
+        public IWsUserName WsUserName { get; private set; }
 
         public Guid ClientId { get; private set; }
 

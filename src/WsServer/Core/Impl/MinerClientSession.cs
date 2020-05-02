@@ -3,12 +3,12 @@ using NTMiner.User;
 
 namespace NTMiner.Core.Impl {
     public class MinerClientSession : AbstractSession, IMinerClientSession {
-        public static MinerClientSession Create(IUser user, WsUserName userName, string wsSessionID) {
-            return new MinerClientSession(user, userName, wsSessionID);
+        public static MinerClientSession Create(IUser user, WsUserName wsUserName, string wsSessionID) {
+            return new MinerClientSession(user, wsUserName, wsSessionID);
         }
 
-        private MinerClientSession(IUser user, WsUserName userName, string wsSessionID)
-            : base(user, userName, wsSessionID) {
+        private MinerClientSession(IUser user, WsUserName wsUserName, string wsSessionID)
+            : base(user, wsUserName, wsSessionID) {
         }
 
         public string GetSignPassword() {

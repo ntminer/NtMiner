@@ -1,7 +1,9 @@
-﻿using System;
+﻿using NTMiner.User;
+using System;
 
 namespace NTMiner.Core {
     public interface ISession {
+        IWsUserName WsUserName { get; }
         /// <summary>
         /// 客户端进程的标识：挖矿端进程的标识或群控客户端进程的标识
         /// </summary>

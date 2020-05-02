@@ -1,7 +1,7 @@
 ﻿using System;
 
 namespace NTMiner.User {
-    public class WsUserName {
+    public class WsUserName : IWsUserName {
         public WsUserName() { }
 
         public NTMinerAppType ClientType { get; set; }

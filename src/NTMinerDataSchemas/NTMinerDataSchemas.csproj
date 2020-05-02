@@ -71,6 +71,7 @@
     <Compile Include="Core\OperationResultData.cs" />
     <Compile Include="Core\Profile\WorkIgnoreAttribute.cs" />
     <Compile Include="TypeExtensions.cs" />
+    <Compile Include="User\IWsUserName.cs" />
     <Compile Include="VirtualMemory\DriveDto.cs" />
     <Compile Include="VirtualMemory\IDrive.cs" />
     <Compile Include="ServerNode\GetWsServerNodeAddressRequest.cs" />

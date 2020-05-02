@@ -354,12 +354,12 @@ namespace NTMiner.Ws {
             }
             // WebSocketSharp内部限定了连接重试次数，这不符合我们的业务逻辑，这里通过反射赋值使WebSocketSharp的重试次数限制失效。
             _retryCountForConnectFieldInfo.SetValue(ws, 1);
-            // 附加上前缀从而向服务器传递用户类型信息
             WsUserName userName = new WsUserName {
                 ClientType = _appType,
                 ClientVersion = EntryAssemblyInfo.CurrentVersionStr, 
                 ClientId = NTMinerRegistry.GetClientId(_appType), 
-                UserId = _outerUserId
+                UserId = _outerUserId,
+                IsBinarySupported = true
             };
             string userNameJson = VirtualRoot.JsonSerializer.Serialize(userName);
             string password = string.Empty;
