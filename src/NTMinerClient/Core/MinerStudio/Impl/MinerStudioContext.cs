@@ -8,6 +8,7 @@
             this.NTMinerWalletSet = new NTMinerWalletSet();
         }
 
+        // TODO:暂时没有用到，等用到时让WebApi登录Action返回UserAppSettingSet的数据
         public IUserAppSettingSet UserAppSettingSet { get; private set; }
 
         public IMineWorkSet MineWorkSet { get; private set; }

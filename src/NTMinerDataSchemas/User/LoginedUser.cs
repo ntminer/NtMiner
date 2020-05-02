@@ -34,5 +34,7 @@ namespace NTMiner.User {
         public string Description { get; set; }
 
         public DateTime CreatedOn { get; set; }
+
+        // TODO:应携带用户的UserAppSetting记录集
     }
 }
