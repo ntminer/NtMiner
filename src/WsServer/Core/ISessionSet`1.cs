@@ -3,7 +3,7 @@ using WebSocketSharp.Server;
 
 namespace NTMiner.Core {
     public interface ISessionSet<TSession> where TSession : ISession {
-        bool TryGetWsSessions(out WebSocketSessionManager wsSessions);
+        WebSocketSessionManager WsSessionManager { get; }
         int Count { get; }
         void Add(TSession ntminerSession);
         TSession RemoveByWsSessionId(string wsSessionId);

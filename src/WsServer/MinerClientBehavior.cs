@@ -9,7 +9,6 @@ using WebSocketSharp.Server;
 
 namespace NTMiner {
     public class MinerClientBehavior : WebSocketBehavior {
-        public const string WsServiceHostPath = "/" + nameof(NTMinerAppType.MinerClient);
         private const string _behaviorName = nameof(MinerClientBehavior);
 
         public MinerClientBehavior() {

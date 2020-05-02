@@ -33,12 +33,11 @@ namespace NTMiner.Core.Impl {
         private readonly object _locker = new object();
         private readonly Dictionary<Guid, TSession> _dicByClientId = new Dictionary<Guid, TSession>();
         private readonly Dictionary<string, TSession> _dicByWsSessionId = new Dictionary<string, TSession>();
-        private readonly string _wsServiceHostPath;
         private static readonly Type _sessionType = typeof(TSession);
         private static readonly bool _isMinerClient = _sessionType == typeof(IMinerClientSession);
         private static readonly bool _isMinerStudio = _sessionType == typeof(IMinerStudioSession);
-        public AbstractSessionSet(string wsServiceHostPath) {
-            _wsServiceHostPath = wsServiceHostPath;
+        public AbstractSessionSet(WebSocketSessionManager wsSessionManager) {
+            this.WsSessionManager = wsSessionManager;
             VirtualRoot.AddEventPath<CleanTimeArrivedEvent>("打扫时间到，保持清洁", LogEnum.UserConsole, action: message => {
                 ClearDeath();
                 SendReGetServerAddressMessage(message.NodeAddresses);
@@ -111,19 +110,17 @@ namespace NTMiner.Core.Impl {
             lock (_locker) {
                 toRemoves = _dicByWsSessionId.Values.Where(a => a != null && a.ActiveOn <= activeOn).ToDictionary(a => a.WsSessionId, a => a);
             }
-            if (TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
-                List<WebSocket> toCloseWses = new List<WebSocket>();
-                foreach (var wsSession in wsSessionManager.Sessions) {
-                    if (toRemoves.ContainsKey(wsSession.ID)) {
-                        toCloseWses.Add(wsSession.Context.WebSocket);
-                    }
+            List<WebSocket> toCloseWses = new List<WebSocket>();
+            foreach (var wsSession in WsSessionManager.Sessions) {
+                if (toRemoves.ContainsKey(wsSession.ID)) {
+                    toCloseWses.Add(wsSession.Context.WebSocket);
                 }
-                foreach (var ws in toCloseWses) {
-                    try {
-                        ws.CloseAsync(CloseStatusCode.Normal, $"{seconds.ToString()}秒内未活跃");
-                    }
-                    catch {
-                    }
+            }
+            foreach (var ws in toCloseWses) {
+                try {
+                    ws.CloseAsync(CloseStatusCode.Normal, $"{seconds.ToString()}秒内未活跃");
+                }
+                catch {
                 }
             }
             // 断开Ws连接时的OnClose事件中会移除已断开连接的会话，但OnClose事件是由WebSocket的库触发
@@ -138,21 +135,14 @@ namespace NTMiner.Core.Impl {
             }
         }
 
+        public WebSocketSessionManager WsSessionManager { get; private set; }
+
         public int Count {
             get {
                 lock (_locker) {
                     return _dicByClientId.Count;
                 }
             }
-        }
-
-        private WebSocketSessionManager _wsSessions = null;
-        public bool TryGetWsSessions(out WebSocketSessionManager wsSessions) {
-            if (_wsSessions == null) {
-                WsRoot.TryGetWsSessions(_wsServiceHostPath, out _wsSessions);
-            }
-            wsSessions = _wsSessions;
-            return wsSessions != null;
         }
 
         public virtual void Add(TSession ntminerSession) {

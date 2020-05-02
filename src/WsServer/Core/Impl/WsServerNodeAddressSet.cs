@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public class WsServerNodeAddressSet : IWsServerNodeAddressSet {
@@ -66,12 +65,8 @@ namespace NTMiner.Core.Impl {
         private void ReportNodeAsync(Action callback = null) {
             int minerClientWsSessionCount = 0;
             int minerStudioWsSessionCount = 0;
-            if (WsRoot.MinerClientSessionSet.TryGetWsSessions(out WebSocketSessionManager wsSessionManager)) {
-                minerClientWsSessionCount = wsSessionManager.Count;
-            }
-            if (WsRoot.MinerStudioSessionSet.TryGetWsSessions(out wsSessionManager)) {
-                minerStudioWsSessionCount = wsSessionManager.Count;
-            }
+            minerClientWsSessionCount = WsRoot.MinerClientSessionSet.WsSessionManager.Count;
+            minerStudioWsSessionCount = WsRoot.MinerStudioSessionSet.WsSessionManager.Count;
             var ram = Windows.Ram.Instance;
             var cpu = Windows.Cpu.Instance;
             RpcRoot.OfficialServer.WsServerNodeService.ReportNodeStateAsync(new WsServerNodeState {

@@ -57,8 +57,6 @@ namespace NTMiner {
 
             Windows.ConsoleHandler.Register(Exit);
 
-            MinerClientSessionSet = new MinerClientSessionSet();
-            MinerStudioSessionSet = new MinerStudioSessionSet();
             WsServerNodeAddressSet = new WsServerNodeAddressSet();
 
             Console.Title = $"{ServerAppType.WsServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
@@ -89,22 +87,17 @@ namespace NTMiner {
             // 构造函数中异步访问redis初始化用户列表，因为是异步的所以提前构造
             ReadOnlyUserSet = new ReadOnlyUserSet(userRedis);
             MinerSignSet = new MinerSignSet(minerRedis);
-            _wsServer.AddWebSocketService<MinerStudioBehavior>(MinerStudioBehavior.WsServiceHostPath);
-            _wsServer.AddWebSocketService<MinerClientBehavior>(MinerClientBehavior.WsServiceHostPath);
+            string minerClientPath = "/" + nameof(NTMinerAppType.MinerClient);
+            string minerStudioPath = "/" + nameof(NTMinerAppType.MinerStudio);
+            _wsServer.AddWebSocketService<MinerClientBehavior>(minerClientPath);
+            _wsServer.AddWebSocketService<MinerStudioBehavior>(minerStudioPath);
+            MinerClientSessionSet = new MinerClientSessionSet(_wsServer.WebSocketServices[minerClientPath].Sessions);
+            MinerStudioSessionSet = new MinerStudioSessionSet(_wsServer.WebSocketServices[minerStudioPath].Sessions);
             _wsServer.Start();
             VirtualRoot.RaiseEvent(new WebSocketServerStatedEvent());
 
             Console.ReadKey(true);
             Exit();
-        }
-
-        public static bool TryGetWsSessions(string wsServiceHostPath, out WebSocketSessionManager wsSessions) {
-            wsSessions = null;
-            var host = _wsServer.WebSocketServices[wsServiceHostPath];
-            if (host != null) {
-                wsSessions = host.Sessions;
-            }
-            return wsSessions != null;
         }
 
         public static bool TryGetUser(string base64String, out WsUserName wsUserName, out UserData userData) {

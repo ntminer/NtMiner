@@ -8,7 +8,6 @@ using WebSocketSharp.Server;
 
 namespace NTMiner {
     public class MinerStudioBehavior : WebSocketBehavior {
-        public const string WsServiceHostPath = "/" + nameof(NTMinerAppType.MinerStudio);
         private const string _behaviorName = nameof(MinerStudioBehavior);
 
         public MinerStudioBehavior() {

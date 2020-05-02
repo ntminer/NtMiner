@@ -8,7 +8,7 @@ namespace NTMiner.Core.Impl {
     public class MinerStudioSessionSet : AbstractSessionSet<IMinerStudioSession>, IMinerStudioSessionSet {
         private readonly Dictionary<string, List<IMinerStudioSession>> _dicByLoginName = new Dictionary<string, List<IMinerStudioSession>>();
 
-        public MinerStudioSessionSet() : base(MinerStudioBehavior.WsServiceHostPath) {
+        public MinerStudioSessionSet(WebSocketSessionManager wsSessionManager) : base(wsSessionManager) {
             VirtualRoot.AddEventPath<UserPasswordChangedMqMessage>("群控用户密码变更后通知群控客户端重新登录", LogEnum.None, action: message => {
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.ReLogin));
             }, this.GetType());
