@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class JsonRpcRoot {
+    public static partial class BinaryResponseRpcRoot {
         /// <summary>
         /// 
         /// </summary>
@@ -101,8 +101,8 @@ namespace NTMiner {
                             client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", data);
-                        getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
-                            callback?.Invoke(t.Result, null);
+                        getHttpResponse.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
+                            callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
                         });
                     }
                 }
