@@ -188,7 +188,7 @@ namespace NTMiner.MinerStudio.Vms {
                                         // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
                                         var clientData = data;
                                         MinerClientViewModel vm;
-                                        if (!JsonRpcRoot.IsOuterNet) {
+                                        if (!RpcRoot.IsOuterNet) {
                                             clientData = ClientData.Clone(data);
                                             vm = new MinerClientViewModel(clientData);
                                         }
@@ -232,7 +232,7 @@ namespace NTMiner.MinerStudio.Vms {
                                     // _data字段会和response.Data[i]是同一性的，所以这里Clone一次以防止Vm.Update的时候无效
                                     var clientData = data;
                                     MinerClientViewModel vm;
-                                    if (!JsonRpcRoot.IsOuterNet) {
+                                    if (!RpcRoot.IsOuterNet) {
                                         clientData = ClientData.Clone(data);
                                         vm = new MinerClientViewModel(clientData);
                                     }
@@ -753,7 +753,7 @@ namespace NTMiner.MinerStudio.Vms {
             });
             #endregion
             this.WsRetry = new DelegateCommand(() => {
-                if (!JsonRpcRoot.IsOuterNet || MinerStudioRoot.WsClient.IsOpen) {
+                if (!RpcRoot.IsOuterNet || MinerStudioRoot.WsClient.IsOpen) {
                     IsWsOnline = true;
                     return;
                 }
@@ -761,14 +761,14 @@ namespace NTMiner.MinerStudio.Vms {
                 IsConnecting = true;
             });
             this.SwitchService = new DelegateCommand(() => {
-                if (JsonRpcRoot.IsInnerNet) {
+                if (RpcRoot.IsInnerNet) {
                     MinerStudio.MinerStudioRoot.Login(() => {
                         MinerStudioRoot.WsClient.OpenOrCloseWs(isResetFailCount: true);
-                        JsonRpcRoot.SetIsOuterNet(true);
+                        RpcRoot.SetIsOuterNet(true);
                     }, RpcRoot.OfficialServerAddress);
                 }
                 else {
-                    JsonRpcRoot.SetIsOuterNet(false);
+                    RpcRoot.SetIsOuterNet(false);
                 }
             });
             VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("切换了群控后台客户端服务类型后刷新矿机列表", LogEnum.DevConsole, action: message => {
@@ -803,7 +803,7 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 #endregion
             }, this.GetType(), LogEnum.DevConsole);
-            if (JsonRpcRoot.IsOuterNet) {
+            if (RpcRoot.IsOuterNet) {
                 VirtualRoot.Execute(new RefreshWsStateCommand(MinerStudioRoot.WsClient.GetState()));
             }
             VirtualRoot.AddEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, action: message => {
@@ -827,7 +827,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string NetTypeToolTip {
             get {
-                if (JsonRpcRoot.IsOuterNet) {
+                if (RpcRoot.IsOuterNet) {
                     return "点击切换为内网群控";
                 }
                 return "点击切换为外网群控";
@@ -851,7 +851,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string WsDescription {
             get {
-                if (string.IsNullOrEmpty(JsonRpcRoot.RpcUser.LoginName)) {
+                if (string.IsNullOrEmpty(RpcRoot.RpcUser.LoginName)) {
                     return "未登录";
                 }
                 if (string.IsNullOrEmpty(_wsDescription)) {
@@ -963,7 +963,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public Visibility WsNextTrySecondsDelayVisible {
             get {
-                if (!JsonRpcRoot.IsOuterNet) {
+                if (!RpcRoot.IsOuterNet) {
                     return Visibility.Collapsed;
                 }
                 if (IsWsOnline) {
@@ -990,7 +990,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string NetTypeText {
             get {
-                if (JsonRpcRoot.IsOuterNet) {
+                if (RpcRoot.IsOuterNet) {
                     return "外网群控";
                 }
                 return "内网群控";

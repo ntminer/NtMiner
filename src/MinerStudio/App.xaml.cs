@@ -23,7 +23,7 @@ namespace NTMiner {
 
         protected override void OnExit(ExitEventArgs e) {
             VirtualRoot.RaiseEvent(new AppExitEvent());
-            JsonRpcRoot.RpcUser?.Logout();
+            RpcRoot.RpcUser?.Logout();
             base.OnExit(e);
             NTMinerConsole.Free();
         }
@@ -49,7 +49,7 @@ namespace NTMiner {
                         _appViewFactory.Link();
                         UIThread.Execute(() => {
                             MinerStudioRoot.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerStudioRoot.MinerClientsWindowVm.NetTypeText));
-                            if (JsonRpcRoot.IsOuterNet) {
+                            if (RpcRoot.IsOuterNet) {
                                 MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
                             }
                             else {

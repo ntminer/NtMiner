@@ -4,7 +4,7 @@ using NTMiner.User;
 namespace NTMiner {
     public static class MinerSignExtensions {
         public static bool IsOwnerBy(this IMinerSign minerSign, IUser user) {
-            if (!JsonRpcRoot.IsOuterNet) {
+            if (!RpcRoot.IsOuterNet) {
                 return true;
             }
             if (string.IsNullOrEmpty(minerSign.OuterUserId)) {
@@ -24,7 +24,7 @@ namespace NTMiner {
         }
 
         public static bool CanReadBy(this IMinerSign minerSign, IUser user) {
-            if (!JsonRpcRoot.IsOuterNet || user.IsAdmin()) {
+            if (!RpcRoot.IsOuterNet || user.IsAdmin()) {
                 return true;
             }
             return minerSign.IsOwnerBy(user);

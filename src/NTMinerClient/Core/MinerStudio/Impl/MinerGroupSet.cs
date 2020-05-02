@@ -51,8 +51,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    if (JsonRpcRoot.IsOuterNet) {
-                        JsonRpcRoot.OfficialServer.UserMinerGroupService.GetMinerGroupsAsync((response, e) => {
+                    if (RpcRoot.IsOuterNet) {
+                        RpcRoot.OfficialServer.UserMinerGroupService.GetMinerGroupsAsync((response, e) => {
                             if (response.IsSuccess()) {
                                 foreach (var item in response.Data) {
                                     _dicById.Add(item.Id, item);

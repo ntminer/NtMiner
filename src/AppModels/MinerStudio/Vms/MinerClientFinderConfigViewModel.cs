@@ -18,7 +18,7 @@ namespace NTMiner.MinerStudio.Vms {
                     if (string.IsNullOrEmpty(this.FileName)) {
                         this.FileName = NTKeyword.MinerClientFinderFileName;
                     }
-                    JsonRpcRoot.OfficialServer.AppSettingService.SetAppSettingAsync(new AppSettingData {
+                    RpcRoot.OfficialServer.AppSettingService.SetAppSettingAsync(new AppSettingData {
                         Key = NTKeyword.MinerClientFinderFileNameAppSettingKey,
                         Value = this.FileName
                     }, (response, e) => {
@@ -34,7 +34,7 @@ namespace NTMiner.MinerStudio.Vms {
                     Logger.ErrorDebugLine(e);
                 }
             });
-            JsonRpcRoot.OfficialServer.FileUrlService.GetMinerClientFinderUrlAsync((fileDownloadUrl, e) => {
+            RpcRoot.OfficialServer.FileUrlService.GetMinerClientFinderUrlAsync((fileDownloadUrl, e) => {
                 if (!string.IsNullOrEmpty(fileDownloadUrl)) {
                     Uri uri = new Uri(fileDownloadUrl);
                     FileName = Path.GetFileName(uri.LocalPath);

@@ -121,7 +121,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region GetConsoleOutLinesAsync
         public void GetConsoleOutLinesAsync(IMinerData client, long afterTime) {
-            JsonRpcRoot.Client.MinerClientService.GetConsoleOutLinesAsync(client.GetLocalIp(), afterTime, (data, e) => {
+            RpcRoot.Client.MinerClientService.GetConsoleOutLinesAsync(client.GetLocalIp(), afterTime, (data, e) => {
                 if (data != null && data.Count > 0) {
                     VirtualRoot.RaiseEvent(new ClientConsoleOutLinesEvent(client.ClientId, data));
                 }
@@ -131,7 +131,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region GetLocalMessagesAsync
         public void GetLocalMessagesAsync(IMinerData client, long afterTime) {
-            JsonRpcRoot.Client.MinerClientService.GetLocalMessagesAsync(client.GetLocalIp(), afterTime, (data, e) => {
+            RpcRoot.Client.MinerClientService.GetLocalMessagesAsync(client.GetLocalIp(), afterTime, (data, e) => {
                 if (data != null && data.Count > 0) {
                     VirtualRoot.RaiseEvent(new ClientLocalMessagesEvent(client.ClientId, data));
                 }

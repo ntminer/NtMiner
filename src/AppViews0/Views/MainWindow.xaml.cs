@@ -77,7 +77,7 @@ namespace NTMiner.Views {
                         MinerProfileOptionContainer.Child = new MinerProfileOption();
                     }
                 }
-                JsonRpcRoot.SetIsServerMessagesVisible(selectedItem == TabItemMessage);
+                RpcRoot.SetIsServerMessagesVisible(selectedItem == TabItemMessage);
                 if (selectedItem == TabItemMessage) {
                     if (lastGetServerMessageOn.AddSeconds(10) < DateTime.Now) {
                         lastGetServerMessageOn = DateTime.Now;

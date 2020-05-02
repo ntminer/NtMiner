@@ -66,8 +66,8 @@ namespace NTMiner.MinerStudio.Vms {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除 “{this.Name}” 作业吗？", title: "确认", onYes: () => {
-                    if (JsonRpcRoot.IsOuterNet) {
-                        JsonRpcRoot.OfficialServer.UserMineWorkService.RemoveMineWorkAsync(this.Id, (response, e) => {
+                    if (RpcRoot.IsOuterNet) {
+                        RpcRoot.OfficialServer.UserMineWorkService.RemoveMineWorkAsync(this.Id, (response, e) => {
                             if (response.IsSuccess()) {
                                 VirtualRoot.RaiseEvent(new MineWorkRemovedEvent(PathId.Empty, this));
                             }
@@ -99,7 +99,7 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 if (this.Id == MineWorkData.SelfMineWorkId) {
                     SelfMineWork.Description = $"{_minerClientVm.GetMinerOrClientName()} 矿机的单机作业";
-                    if (JsonRpcRoot.IsOuterNet) {
+                    if (RpcRoot.IsOuterNet) {
                         if (!_minerClientVm.IsOuterUserEnabled) {
                             VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 6);
                             return;
@@ -113,7 +113,7 @@ namespace NTMiner.MinerStudio.Vms {
                         MinerStudioService.Instance.GetSelfWorkLocalJsonAsync(_minerClientVm);
                     }
                     else {
-                        JsonRpcRoot.Client.NTMinerDaemonService.GetSelfWorkLocalJsonAsync(_minerClientVm, (json, e) => {
+                        RpcRoot.Client.NTMinerDaemonService.GetSelfWorkLocalJsonAsync(_minerClientVm, (json, e) => {
                             string data = json;
                             EditJson(formType, WorkType.SelfWork, data);
                         });
@@ -122,8 +122,8 @@ namespace NTMiner.MinerStudio.Vms {
                 else {
                     // 编辑作业前切换上下文
                     // 根据workId下载json保存到本地并调用LocalJson.Instance.ReInit()
-                    if (JsonRpcRoot.IsOuterNet) {
-                        JsonRpcRoot.OfficialServer.UserMineWorkService.GetLocalJsonAsync(this.Id, (response, e) => {
+                    if (RpcRoot.IsOuterNet) {
+                        RpcRoot.OfficialServer.UserMineWorkService.GetLocalJsonAsync(this.Id, (response, e) => {
                             if (response.IsSuccess()) {
                                 string data = response.Data;
                                 EditJson(formType, WorkType.MineWork, data);
@@ -204,14 +204,14 @@ namespace NTMiner.MinerStudio.Vms {
                 isShowEdit = true;
                 Write.UserInfo("保存作业。");
             }
-            if (JsonRpcRoot.IsOuterNet) {
+            if (RpcRoot.IsOuterNet) {
                 if (this.Id != MineWorkData.SelfMineWorkId) {
-                    JsonRpcRoot.OfficialServer.UserMineWorkService.AddOrUpdateMineWorkAsync(new MineWorkData().Update(this), (r, ex) => {
+                    RpcRoot.OfficialServer.UserMineWorkService.AddOrUpdateMineWorkAsync(new MineWorkData().Update(this), (r, ex) => {
                         if (r.IsSuccess()) {
                             if (isMinerProfileChanged) {
                                 NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                                 if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
-                                    JsonRpcRoot.OfficialServer.UserMineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, (response, e) => {
+                                    RpcRoot.OfficialServer.UserMineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, (response, e) => {
                                         if (response.IsSuccess()) {
                                             if (isShowEdit) {
                                                 VirtualRoot.RaiseEvent(new MineWorkAddedEvent(Guid.Empty, this));

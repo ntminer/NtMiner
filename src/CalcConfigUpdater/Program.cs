@@ -59,9 +59,9 @@ namespace NTMiner {
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
-                            JsonRpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
-                            JsonRpcRoot.SetIsOuterNet(false);
-                            JsonRpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
+                            RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
+                            RpcRoot.SetIsOuterNet(false);
+                            RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                                 Write.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
@@ -95,7 +95,7 @@ namespace NTMiner {
                                         }
                                     }
                                 }
-                                JsonRpcRoot.OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
+                                RpcRoot.OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
                                     if (!res.IsSuccess()) {
                                         VirtualRoot.Out.ShowError(res.ReadMessage(e), autoHideSeconds: 4);
                                     }

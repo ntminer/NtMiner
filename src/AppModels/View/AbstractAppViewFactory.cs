@@ -52,7 +52,7 @@ namespace NTMiner.View {
             try {
                 switch (appType) {
                     case NTMinerAppType.MinerClient:
-                        JsonRpcRoot.Client.MinerClientService.ShowMainWindowAsync((isSuccess, exception) => {
+                        RpcRoot.Client.MinerClientService.ShowMainWindowAsync((isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }
@@ -60,7 +60,7 @@ namespace NTMiner.View {
                         });
                         break;
                     case NTMinerAppType.MinerStudio:
-                        JsonRpcRoot.Client.MinerStudioService.ShowMainWindowAsync((isSuccess, exception) => {
+                        RpcRoot.Client.MinerStudioService.ShowMainWindowAsync((isSuccess, exception) => {
                             if (!isSuccess) {
                                 RestartNTMiner();
                             }

@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
                 var data = SignUpRequest.Create(this);
                 data.Password = HashUtil.Sha1(data.Password);
                 data.PasswordAgain = HashUtil.Sha1(data.PasswordAgain);
-                JsonRpcRoot.OfficialServer.UserService.SignUpAsync(data, (response, e) => {
+                RpcRoot.OfficialServer.UserService.SignUpAsync(data, (response, e) => {
                     if (response.IsSuccess()) {
                         MinerProfileViewModel minerProfile = MinerProfileViewModel.Instance;
                         minerProfile.OuterUserId = this.LoginName;
@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
                 if (!VirtualRoot.IsValidLoginName(value, out string message)) {
                     throw new ValidationException(message);
                 }
-                JsonRpcRoot.OfficialServer.UserService.IsLoginNameExistAsync(value, isExist => {
+                RpcRoot.OfficialServer.UserService.IsLoginNameExistAsync(value, isExist => {
                     if (isExist) {
                         this.LoginNameExistMessage = "该登录名已被占用，请更换";
                     }

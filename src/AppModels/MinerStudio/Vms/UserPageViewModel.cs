@@ -54,12 +54,12 @@ namespace NTMiner.MinerStudio.Vms {
                 if (string.IsNullOrEmpty(vm.LoginName)) {
                     return;
                 }
-                if (vm.LoginName == JsonRpcRoot.RpcUser.LoginName) {
+                if (vm.LoginName == RpcRoot.RpcUser.LoginName) {
                     VirtualRoot.Out.ShowWarn("不能删除自己", header: "提示", autoHideSeconds: 4);
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{vm.LoginName}吗？", title: "确认", onYes: () => {
-                    JsonRpcRoot.OfficialServer.UserService.RemoveUserAsync(vm.LoginName, (response, e) => {
+                    RpcRoot.OfficialServer.UserService.RemoveUserAsync(vm.LoginName, (response, e) => {
                         if (response.IsSuccess()) {
                             Refresh();
                         }
@@ -76,12 +76,12 @@ namespace NTMiner.MinerStudio.Vms {
                 if (string.IsNullOrEmpty(vm.LoginName)) {
                     return;
                 }
-                if (vm.LoginName == JsonRpcRoot.RpcUser.LoginName) {
+                if (vm.LoginName == RpcRoot.RpcUser.LoginName) {
                     VirtualRoot.Out.ShowWarn("不能操作自己", header: "提示", autoHideSeconds: 4);
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定把{vm.LoginName}设成超管吗？", title: "确认", onYes: () => {
-                    JsonRpcRoot.OfficialServer.UserService.AddAdminRoleAsync(vm.LoginName, (response, e) => {
+                    RpcRoot.OfficialServer.UserService.AddAdminRoleAsync(vm.LoginName, (response, e) => {
                         if (response.IsSuccess()) {
                             Refresh();
                         }
@@ -98,12 +98,12 @@ namespace NTMiner.MinerStudio.Vms {
                 if (string.IsNullOrEmpty(vm.LoginName)) {
                     return;
                 }
-                if (vm.LoginName == JsonRpcRoot.RpcUser.LoginName) {
+                if (vm.LoginName == RpcRoot.RpcUser.LoginName) {
                     VirtualRoot.Out.ShowWarn("不能操作自己", header: "提示", autoHideSeconds: 4);
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定移除{vm.LoginName}的超管角色吗？", title: "确认", onYes: () => {
-                    JsonRpcRoot.OfficialServer.UserService.RemoveAdminRoleAsync(vm.LoginName, (response, e) => {
+                    RpcRoot.OfficialServer.UserService.RemoveAdminRoleAsync(vm.LoginName, (response, e) => {
                         if (response.IsSuccess()) {
                             Refresh();
                         }
@@ -117,7 +117,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public void Refresh() {
-            JsonRpcRoot.OfficialServer.UserService.QueryUsersAsync(new QueryUsersRequest {
+            RpcRoot.OfficialServer.UserService.QueryUsersAsync(new QueryUsersRequest {
                 PageIndex = this.PageIndex,
                 PageSize = this.PageSize,
                 LoginName = this.LoginName,

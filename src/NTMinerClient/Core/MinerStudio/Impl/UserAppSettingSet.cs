@@ -27,7 +27,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     oldValue = null;
                     _dicByKey.Add(message.AppSetting.Key, entity);
                 }
-                JsonRpcRoot.OfficialServer.UserAppSettingService.SetAppSettingAsync(entity, (response, exception) => {
+                RpcRoot.OfficialServer.UserAppSettingService.SetAppSettingAsync(entity, (response, exception) => {
                     if (!response.IsSuccess()) {
                         if (oldValue == null) {
                             _dicByKey.Remove(message.AppSetting.Key);

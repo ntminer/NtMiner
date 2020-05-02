@@ -27,7 +27,7 @@ namespace NTMiner.Vms {
             _publishOn = DateTime.Now;
             this.Save = new DelegateCommand(() => {
                 LoginWindow.Login(() => {
-                    JsonRpcRoot.OfficialServer.FileUrlService.AddOrUpdateNTMinerFileAsync(new NTMinerFileData().Update(this), (response, e) => {
+                    RpcRoot.OfficialServer.FileUrlService.AddOrUpdateNTMinerFileAsync(new NTMinerFileData().Update(this), (response, e) => {
                         if (response.IsSuccess()) {
                             MainWindowViewModel.Instance.Refresh();
                             UIThread.Execute(() => {
@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
             this.Remove = new DelegateCommand(() => {
                 LoginWindow.Login(() => {
                     this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定删除{this.Version}({this.VersionTag})吗？", title: "确认", onYes: () => {
-                        JsonRpcRoot.OfficialServer.FileUrlService.RemoveNTMinerFileAsync(this.Id, (response, e) => {
+                        RpcRoot.OfficialServer.FileUrlService.RemoveNTMinerFileAsync(this.Id, (response, e) => {
                             if (response.IsSuccess()) {
                                 MainWindowViewModel.Instance.Refresh();
                                 MainWindowViewModel.Instance.SelectedNTMinerFile = MainWindowViewModel.Instance.NTMinerFiles.FirstOrDefault();

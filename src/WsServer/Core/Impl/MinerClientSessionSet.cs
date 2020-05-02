@@ -209,7 +209,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (message.Data != Guid.Empty) {
-                    JsonRpcRoot.OfficialServer.UserMineWorkService.GetWorkJsonAsync(message.Data, message.ClientId, (response, e) => {
+                    RpcRoot.OfficialServer.UserMineWorkService.GetWorkJsonAsync(message.Data, message.ClientId, (response, e) => {
                         if (response.IsSuccess()) {
                             SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.StartMine) {
                                 Data = new WorkRequest {

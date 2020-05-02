@@ -29,7 +29,7 @@ namespace NTMiner.MinerStudio.Vms {
             for (int i = 0; i < 7; i++) {
                 _ntminerFileVms.Add(NTMinerFileViewModel.Empty);
             }
-            JsonRpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntminerFiles) => {
+            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(NTMinerAppType.MinerClient, (ntminerFiles) => {
                 NTMinerFileVms = (ntminerFiles ?? new List<NTMinerFileData>()).OrderByDescending(a => a.GetVersion()).Select(a => new NTMinerFileViewModel(a)).ToList();
             });
         }

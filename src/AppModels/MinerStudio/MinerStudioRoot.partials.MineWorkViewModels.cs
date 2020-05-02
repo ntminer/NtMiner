@@ -22,7 +22,7 @@ namespace NTMiner.MinerStudio {
                         _dicById.Add(item.Id, new MineWorkViewModel(item));
                     }
                 }
-                if (JsonRpcRoot.IsOuterNet) {
+                if (RpcRoot.IsOuterNet) {
                     AppRoot.AddEventPath<MineWorkSetInitedEvent>("作业集初始化后初始化Vm内存", LogEnum.DevConsole, action: message => {
                         foreach (var item in NTMinerContext.MinerStudioContext.MineWorkSet.AsEnumerable()) {
                             if (!_dicById.ContainsKey(item.Id)) {

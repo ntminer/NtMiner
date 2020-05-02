@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 
 namespace NTMiner {
-    public static class RpcRoot {
+    public static partial class RpcRoot {
         public static string OfficialServerHost { get; private set; }
         public static int OfficialServerPort;
         public static string OfficialServerAddress = SetOfficialServerAddress("server.ntminer.com:3339");

@@ -16,7 +16,7 @@ namespace NTMiner.Impl {
             _connectionString = $"filename={dbFileFullName}";
             if (!isServer) {
                 VirtualRoot.AddCmdPath<LoadNewServerMessageCommand>(action: message => {
-                    if (!JsonRpcRoot.IsServerMessagesVisible) {
+                    if (!RpcRoot.IsServerMessagesVisible) {
                         return;
                     }
                     DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
@@ -24,7 +24,7 @@ namespace NTMiner.Impl {
                     if (message.KnowServerMessageTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
                         return;
                     }
-                    JsonRpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
+                    RpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
                         if (response.IsSuccess()) {
                             if (response.Data.Count > 0) {
                                 ReceiveServerMessage(response.Data);
@@ -99,7 +99,7 @@ namespace NTMiner.Impl {
                     #endregion
                 }
                 else {
-                    JsonRpcRoot.OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData().Update(message.Input), (response, ex) => {
+                    RpcRoot.OfficialServer.ServerMessageService.AddOrUpdateServerMessageAsync(new ServerMessageData().Update(message.Input), (response, ex) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
                         }
@@ -138,7 +138,7 @@ namespace NTMiner.Impl {
                     #endregion
                 }
                 else {
-                    JsonRpcRoot.OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
+                    RpcRoot.OfficialServer.ServerMessageService.MarkDeleteServerMessageAsync(message.EntityId, (response, ex) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadNewServerMessageCommand());
                         }

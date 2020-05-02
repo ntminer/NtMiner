@@ -13,31 +13,31 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region QueryClientsAsync
         public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            JsonRpcRoot.OfficialServer.ClientDataService.QueryClientsAsync(query, callback);
+            RpcRoot.OfficialServer.ClientDataService.QueryClientsAsync(query, callback);
         }
         #endregion
 
         #region UpdateClientAsync
         public void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback) {
-            JsonRpcRoot.OfficialServer.ClientDataService.UpdateClientAsync(objectId, propertyName, value, callback);
+            RpcRoot.OfficialServer.ClientDataService.UpdateClientAsync(objectId, propertyName, value, callback);
         }
         #endregion
 
         #region UpdateClientsAsync
         public void UpdateClientsAsync(string propertyName, Dictionary<string, object> values, Action<ResponseBase, Exception> callback) {
-            JsonRpcRoot.OfficialServer.ClientDataService.UpdateClientsAsync(propertyName, values, callback);
+            RpcRoot.OfficialServer.ClientDataService.UpdateClientsAsync(propertyName, values, callback);
         }
         #endregion
 
         #region RemoveClientsAsync
         public void RemoveClientsAsync(List<string> objectIds, Action<ResponseBase, Exception> callback) {
-            JsonRpcRoot.OfficialServer.ClientDataService.RemoveClientsAsync(objectIds, callback);
+            RpcRoot.OfficialServer.ClientDataService.RemoveClientsAsync(objectIds, callback);
         }
         #endregion
 
         #region GetLatestSnapshotsAsync
         public void GetLatestSnapshotsAsync(int limit, Action<GetCoinSnapshotsResponse, Exception> callback) {
-            JsonRpcRoot.OfficialServer.CoinSnapshotService.GetLatestSnapshotsAsync(limit, callback);
+            RpcRoot.OfficialServer.CoinSnapshotService.GetLatestSnapshotsAsync(limit, callback);
         }
         #endregion
 

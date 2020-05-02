@@ -26,7 +26,7 @@ namespace NTMiner.Impl {
                     if (message.KnowKernelOutputKeywordTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
                         return;
                     }
-                    JsonRpcRoot.OfficialServer.KernelOutputKeywordService.GetKernelOutputKeywords((response, e) => {
+                    RpcRoot.OfficialServer.KernelOutputKeywordService.GetKernelOutputKeywords((response, e) => {
                         if (response.IsSuccess()) {
                             KernelOutputKeywordData[] toRemoves = _dicById.Where(a => a.Value.GetDataLevel() == DataLevel.Global).Select(a => a.Value).ToArray();
                             foreach (var item in toRemoves) {
@@ -93,7 +93,7 @@ namespace NTMiner.Impl {
                 }
                 else if (DevMode.IsDevMode) {
                     message.Input.SetDataLevel(DataLevel.Global);
-                    JsonRpcRoot.OfficialServer.KernelOutputKeywordService.AddOrUpdateKernelOutputKeywordAsync(KernelOutputKeywordData.Create(message.Input), (response, e) => {
+                    RpcRoot.OfficialServer.KernelOutputKeywordService.AddOrUpdateKernelOutputKeywordAsync(KernelOutputKeywordData.Create(message.Input), (response, e) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
                         }
@@ -126,7 +126,7 @@ namespace NTMiner.Impl {
                     }
                 }
                 else if (DevMode.IsDevMode) {
-                    JsonRpcRoot.OfficialServer.KernelOutputKeywordService.RemoveKernelOutputKeyword(message.EntityId, (response, e) => {
+                    RpcRoot.OfficialServer.KernelOutputKeywordService.RemoveKernelOutputKeyword(message.EntityId, (response, e) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.Execute(new LoadKernelOutputKeywordCommand());
                         }

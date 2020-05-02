@@ -23,7 +23,7 @@ namespace NTMiner.Daemon {
                     string thisVersion = ThisNTMinerDaemonFileVersion;
                     if (thatVersion != thisVersion) {
                         Logger.InfoDebugLine($"发现新版Daemon：{thatVersion}->{thisVersion}");
-                        JsonRpcRoot.Client.NTMinerDaemonService.CloseDaemonAsync(() => {
+                        RpcRoot.Client.NTMinerDaemonService.CloseDaemonAsync(() => {
                             System.Threading.Thread.Sleep(1000);
                             Windows.TaskKill.Kill(processName, waitForExit: true);
                             VirtualRoot.Execute(new RefreshWsStateCommand(new WsClientState {

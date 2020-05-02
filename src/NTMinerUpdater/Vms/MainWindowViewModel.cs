@@ -124,10 +124,10 @@ namespace NTMiner.Vms {
                                 });
                             }
                             if (AppStatic.IsMinerStudio) {
-                                JsonRpcRoot.Client.MinerStudioService.CloseMinerStudioAsync(callback);
+                                RpcRoot.Client.MinerStudioService.CloseMinerStudioAsync(callback);
                             }
                             else {
-                                JsonRpcRoot.Client.MinerClientService.CloseNTMinerAsync(callback);
+                                RpcRoot.Client.MinerClientService.CloseNTMinerAsync(callback);
                             }
                         }
                         else {
@@ -183,14 +183,14 @@ namespace NTMiner.Vms {
                     }
                     downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                 };
-                JsonRpcRoot.OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
+                RpcRoot.OfficialServer.FileUrlService.GetNTMinerUrlAsync(fileName, (url, e) => {
                     webClient.DownloadFileAsync(new Uri(url), saveFileFullName);
                 });
             }
         }
 
         public void Refresh() {
-            JsonRpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntminerFiles) => {
+            RpcRoot.OfficialServer.FileUrlService.GetNTMinerFilesAsync(App.AppType, (ntminerFiles) => {
                 this.NTMinerFiles = (ntminerFiles ?? new List<NTMinerFileData>()).Select(a => new NTMinerFileViewModel(a)).OrderByDescending(a => a.VersionData).ToList();
                 if (this.NTMinerFiles == null || this.NTMinerFiles.Count == 0) {
                     LocalIsLatest = true;
