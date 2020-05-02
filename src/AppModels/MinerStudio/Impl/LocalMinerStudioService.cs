@@ -153,7 +153,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region SwitchRadeonGpuAsync
         public void SwitchRadeonGpuAsync(IMinerData client, bool on) {
-            RpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SwitchRadeonGpu), new Dictionary<string, string> {
+            RpcRoot.PostAsync<ResponseBase>(isBinary: false, client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SwitchRadeonGpu), new Dictionary<string, string> {
                 {"on", on.ToString() }
             }, null, null, timeountMilliseconds: 3000);
         }

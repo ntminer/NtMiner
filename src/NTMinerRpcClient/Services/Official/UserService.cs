@@ -12,7 +12,7 @@ namespace NTMiner.Services.Official {
 
         #region LoginAsync
         public void LoginAsync(string loginName, string password, Action<DataResponse<LoginedUser>, Exception> callback) {
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.Login), RpcUser.GetSignData(loginName, password), new object(), callback);
+            RpcRoot.PostAsync(isBinary: false, RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.Login), RpcUser.GetSignData(loginName, password), new object(), callback);
         }
         #endregion
 

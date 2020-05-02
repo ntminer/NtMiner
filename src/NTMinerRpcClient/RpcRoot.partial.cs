@@ -71,7 +71,7 @@ namespace NTMiner {
             string action,
             Action<TResponse, Exception> callback,
             int timeountMilliseconds = 0) {
-            PostAsync(host, port, controller, action, query: null, data: null, callback, timeountMilliseconds);
+            PostAsync(isBinary: false, host, port, controller, action, query: null, data: null, callback, timeountMilliseconds);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace NTMiner {
             object data,
             Action<TResponse, Exception> callback,
             int timeountMilliseconds = 0) {
-            PostAsync(host, port, controller, action, query: null, data, callback, timeountMilliseconds);
+            PostAsync(isBinary: false, host, port, controller, action, query: null, data, callback, timeountMilliseconds);
         }
 
         /// <summary>
@@ -116,13 +116,14 @@ namespace NTMiner {
             object data,
             Action<TResponse, Exception> callback,
             int timeountMilliseconds = 0) {
-            PostAsync(host, port, controller, action, query: RpcUser.GetSignData(data), data, callback, timeountMilliseconds);
+            PostAsync(isBinary: false, host, port, controller, action, query: RpcUser.GetSignData(data), data, callback, timeountMilliseconds);
         }
 
         /// <summary>
         /// 异步Post
         /// </summary>
         /// <typeparam name="TResponse">post的data的类型</typeparam>
+        /// <param name="isBinary"></param>
         /// <param name="host">用于组装Url</param>
         /// <param name="port">用于组装Url</param>
         /// <param name="controller">用于组装Url</param>
@@ -132,6 +133,7 @@ namespace NTMiner {
         /// <param name="callback"></param>
         /// <param name="timeountMilliseconds"></param>
         public static void PostAsync<TResponse>(
+            bool isBinary,
             string host,
             int port,
             string controller,
@@ -150,9 +152,16 @@ namespace NTMiner {
                             client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", data);
-                        getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
-                            callback?.Invoke(t.Result, null);
-                        });
+                        if (isBinary) {
+                            getHttpResponse.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
+                                callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
+                            });
+                        }
+                        else {
+                            getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
+                                callback?.Invoke(t.Result, null);
+                            });
+                        }
                     }
                 }
                 catch (Exception e) {
