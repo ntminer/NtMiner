@@ -1,4 +1,5 @@
 ﻿using NTMiner.Ws;
+using System;
 using WebSocketSharp;
 
 namespace NTMiner {
@@ -6,7 +7,7 @@ namespace NTMiner {
         public static T ToWsMessage<T>(this MessageEventArgs e) where T : WsMessage {
             if (e.IsBinary) {
                 if (e.IsPing) {
-                    return null;
+                    throw new InvalidProgramException("Ping消息不应走到这一步");
                 }
                 return VirtualRoot.BinarySerializer.Deserialize<T>(e.RawData);
             }
