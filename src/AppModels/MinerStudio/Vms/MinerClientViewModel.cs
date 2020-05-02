@@ -284,15 +284,14 @@ namespace NTMiner.MinerStudio.Vms {
                     var old = _selectedMineWork;
                     this.WorkId = value.Id;
                     _selectedMineWork = value;
-                    MinerStudioService.Instance.UpdateClientAsync(
-                        this.Id, nameof(WorkId), value.Id, (response, exception) => {
-                            if (!response.IsSuccess()) {
-                                _selectedMineWork = old;
-                                this.WorkId = old.Id;
-                                VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}", toConsole: true);
-                            }
-                            OnPropertyChanged(nameof(SelectedMineWork));
-                        });
+                    MinerStudioService.Instance.UpdateClientAsync(this.Id, nameof(WorkId), value.Id, (response, exception) => {
+                        if (!response.IsSuccess()) {
+                            _selectedMineWork = old;
+                            this.WorkId = old.Id;
+                            VirtualRoot.Out.ShowError($"{this.MinerName} {this.MinerIp} {response.ReadMessage(exception)}", toConsole: true);
+                        }
+                        OnPropertyChanged(nameof(SelectedMineWork));
+                    });
                 }
             }
         }

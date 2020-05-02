@@ -20,6 +20,7 @@ namespace NTMiner.Core.MinerServer {
             HashSet<string> propertyNames = new HashSet<string> {
                 nameof(WorkerName),
                 nameof(GroupId),
+                nameof(WorkId),
                 nameof(WindowsLoginName),
                 nameof(WindowsPassword)
             };

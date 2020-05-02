@@ -80,10 +80,10 @@ namespace NTMiner.Ws {
             }
             switch (_appType) {
                 case NTMinerAppType.MinerClient:
-                    _ws.SendAsync(message.ToJson(), null);
+                    _ws.SendAsync(message.ToBytes(), null);
                     break;
                 case NTMinerAppType.MinerStudio:
-                    _ws.SendAsync(message.SignToJson(RpcRoot.RpcUser.Password), null);
+                    _ws.SendAsync(message.SignToBytes(RpcRoot.RpcUser.Password), null);
                     break;
                 default:
                     break;
