@@ -1197,4 +1197,9 @@ namespace NTMiner {
         }
     }
     #endregion
+
+    [MessageType(description: "用户设置数据集变更后")]
+    public class UserAppSettingSetInitedEvent : EventBase {
+        public UserAppSettingSetInitedEvent() { }
+    }
 }

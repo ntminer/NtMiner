@@ -5,6 +5,7 @@ using System.Collections.Generic;
 namespace NTMiner.Core.MinerStudio.Impl {
     public class UserAppSettingSet : IUserAppSettingSet {
         private readonly Dictionary<string, UserAppSettingData> _dicByKey = new Dictionary<string, UserAppSettingData>(StringComparer.OrdinalIgnoreCase);
+        private List<UserAppSettingData> _userAppSettings;
 
         public UserAppSettingSet() {
             VirtualRoot.AddCmdPath<SetUserAppSettingCommand>(action: message => {
@@ -40,37 +41,25 @@ namespace NTMiner.Core.MinerStudio.Impl {
             }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var list = RpcRoot.OfficialServer.UserAppSettingService.GetAppSettings(RpcRoot.RpcUser.LoginName);
-                    foreach (var item in list) {
-                        _dicByKey.Add(item.Key, item);
+        public void Init(List<UserAppSettingData> userAppSettings) {
+            if (_userAppSettings != userAppSettings) {
+                _userAppSettings = userAppSettings;
+                if (userAppSettings != null && userAppSettings.Count != 0) {
+                    foreach (var item in userAppSettings) {
+                        _dicByKey[item.Key] = item;
                     }
-                    _isInited = true;
                 }
+                VirtualRoot.RaiseEvent(new UserAppSettingSetInitedEvent());
             }
         }
 
         public bool TryGetAppSetting(string key, out IUserAppSetting appSetting) {
-            InitOnece();
             bool r = _dicByKey.TryGetValue(key, out UserAppSettingData item);
             appSetting = item;
             return r;
         }
 
         public IEnumerable<IUserAppSetting> AsEnumerable() {
-            InitOnece();
             return _dicByKey.Values;
         }
     }

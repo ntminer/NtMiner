@@ -151,7 +151,8 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<LoginedUser>>("参数错误");
             }
             try {
-                return DataResponse<LoginedUser>.Ok(User.ToLoginedUserData());
+                var userAppSettings = WebApiRoot.UserAppSettingSet.GetAppSettings(User.LoginName);
+                return DataResponse<LoginedUser>.Ok(User.ToLoginedUserData(userAppSettings));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

@@ -17,13 +17,13 @@ namespace NTMiner.MinerStudio {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                foreach (var item in NTMinerContext.Instance.MinerStudioContext.MinerGroupSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.MinerStudioContext.MinerGroupSet.AsEnumerable()) {
                     if (!_dicById.ContainsKey(item.Id)) {
                         _dicById.Add(item.Id, new MinerGroupViewModel(item));
                     }
                 }
                 AppRoot.AddEventPath<MinerGroupSetInitedEvent>("矿工组集初始化后初始化Vm内存", LogEnum.DevConsole, action: message => {
-                    foreach (var item in NTMinerContext.Instance.MinerStudioContext.MinerGroupSet.AsEnumerable()) {
+                    foreach (var item in NTMinerContext.MinerStudioContext.MinerGroupSet.AsEnumerable()) {
                         if (!_dicById.ContainsKey(item.Id)) {
                             _dicById.Add(item.Id, new MinerGroupViewModel(item));
                         }

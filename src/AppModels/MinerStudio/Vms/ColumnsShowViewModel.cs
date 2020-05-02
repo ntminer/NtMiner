@@ -163,7 +163,7 @@ namespace NTMiner.MinerStudio.Vms {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除 “{this.ColumnsShowName}” 列分组吗？", title: "确认", onYes: () => {
-                    NTMinerContext.Instance.MinerStudioContext.ColumnsShowSet.Remove(this.Id);
+                    NTMinerContext.MinerStudioContext.ColumnsShowSet.Remove(this.Id);
                 }));
             });
         }
@@ -257,7 +257,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         private void Save() {
             if (_isSave) {
-                NTMinerContext.Instance.MinerStudioContext.ColumnsShowSet.AddOrUpdate(new ColumnsShowData().Update(this));
+                NTMinerContext.MinerStudioContext.ColumnsShowSet.AddOrUpdate(new ColumnsShowData().Update(this));
             }
         }
 

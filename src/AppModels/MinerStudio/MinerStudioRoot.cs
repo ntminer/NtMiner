@@ -1,6 +1,8 @@
 ﻿using NTMiner.MinerStudio.Impl;
 using NTMiner.MinerStudio.Vms;
+using NTMiner.Views;
 using NTMiner.Ws;
+using System;
 
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
@@ -11,6 +13,13 @@ namespace NTMiner.MinerStudio {
 
         public static void Init(IWsClient wsClient) {
             WsClient = wsClient;
+        }
+
+        public static void Login(Action onLoginSuccess, string serverHost = null, Action btnCloseClick = null) {
+            LoginWindow.Login(onLoginSuccess: () => {
+                NTMinerContext.MinerStudioContext.UserAppSettingSet.Init(RpcRoot.RpcUser.LoginedUser.UserAppSettings);
+                onLoginSuccess?.Invoke();
+            }, serverHost, btnCloseClick);
         }
 
         public static MinerClientsWindowViewModel MinerClientsWindowVm {

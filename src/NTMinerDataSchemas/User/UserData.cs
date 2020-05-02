@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.User {
     public class UserData : IUser {
@@ -9,8 +10,8 @@ namespace NTMiner.User {
             this.Mobile = data.Mobile;
         }
 
-        public LoginedUser ToLoginedUserData() {
-            return new LoginedUser {
+        public LoginedUser ToLoginedUserData(List<UserAppSettingData> userAppSettings) {
+            return new LoginedUser(userAppSettings) {
                 CreatedOn = this.CreatedOn,
                 Description = this.Description,
                 Email = this.Email,

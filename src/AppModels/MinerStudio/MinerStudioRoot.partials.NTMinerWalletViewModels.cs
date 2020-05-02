@@ -50,7 +50,7 @@ namespace NTMiner.MinerStudio {
 
             private void Init(bool refresh) {
                 _dicById.Clear();
-                foreach (var item in NTMinerContext.Instance.MinerStudioContext.NTMinerWalletSet.AsEnumerable()) {
+                foreach (var item in NTMinerContext.MinerStudioContext.NTMinerWalletSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new NTMinerWalletViewModel(item));
                 }
                 if (refresh) {

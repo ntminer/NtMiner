@@ -26,7 +26,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (NTMinerContext.Instance.MinerStudioContext.NTMinerWalletSet.TryGetNTMinerWallet(Id, out INTMinerWallet _)) {
+                if (NTMinerContext.MinerStudioContext.NTMinerWalletSet.TryGetNTMinerWallet(Id, out INTMinerWallet _)) {
                     VirtualRoot.Execute(new UpdateNTMinerWalletCommand(this));
                 }
                 else {

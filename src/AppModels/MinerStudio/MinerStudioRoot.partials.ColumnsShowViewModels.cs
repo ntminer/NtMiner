@@ -42,7 +42,7 @@ namespace NTMiner.MinerStudio {
                             MainCoinSpeedText = true,
                             MainCoinRejectPercentText = true
                         };
-                        NTMinerContext.Instance.MinerStudioContext.ColumnsShowSet.AddOrUpdate(entity);
+                        NTMinerContext.MinerStudioContext.ColumnsShowSet.AddOrUpdate(entity);
                     });
                 });
                 AppRoot.AddEventPath<ColumnsShowAddedOrUpdatedEvent>("添加或修改了列分组后刷新VM内存", LogEnum.DevConsole,
@@ -67,7 +67,7 @@ namespace NTMiner.MinerStudio {
                     }
                 }, this.GetType());
 
-                foreach (var item in NTMinerContext.Instance.MinerStudioContext.ColumnsShowSet.GetAll()) {
+                foreach (var item in NTMinerContext.MinerStudioContext.ColumnsShowSet.GetAll()) {
                     _dicById.Add(item.Id, new ColumnsShowViewModel(item));
                 }
             }

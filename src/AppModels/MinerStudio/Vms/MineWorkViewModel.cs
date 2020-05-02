@@ -270,7 +270,7 @@ namespace NTMiner.MinerStudio.Vms {
                             this.ServerJsonSha1 = mineWorkData.ServerJsonSha1;
                         }
                     }
-                    if (NTMinerContext.Instance.MinerStudioContext.MineWorkSet.Contains(mineWorkData.Id)) {
+                    if (NTMinerContext.MinerStudioContext.MineWorkSet.Contains(mineWorkData.Id)) {
                         VirtualRoot.Execute(new UpdateMineWorkCommand(mineWorkData));
                     }
                     else {

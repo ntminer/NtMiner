@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace NTMiner.User {
     /// <summary>
@@ -17,6 +18,11 @@ namespace NTMiner.User {
         };
 
         public LoginedUser() {
+            this.UserAppSettings = new List<UserAppSettingData>();
+        }
+
+        public LoginedUser(List<UserAppSettingData> userAppSettings) {
+            this.UserAppSettings = userAppSettings;
         }
 
         public string LoginName { get; set; }
@@ -35,6 +41,6 @@ namespace NTMiner.User {
 
         public DateTime CreatedOn { get; set; }
 
-        // TODO:应携带用户的UserAppSetting记录集
+        public List<UserAppSettingData> UserAppSettings { get; set; }
     }
 }

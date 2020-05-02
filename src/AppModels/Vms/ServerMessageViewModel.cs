@@ -80,13 +80,13 @@ namespace NTMiner.Vms {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定标记删除'{this.Content}'这条消息吗？", title: "确认", onYes: () => {
-                    LoginWindow.Login(() => {
+                    MinerStudio.MinerStudioRoot.Login(() => {
                         VirtualRoot.Execute(new MarkDeleteServerMessageCommand(this.Id));
                     });
                 }));
             });
             this.Save = new DelegateCommand(() => {
-                LoginWindow.Login(() => {
+                MinerStudio.MinerStudioRoot.Login(() => {
                     VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(this));
                     VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                 });

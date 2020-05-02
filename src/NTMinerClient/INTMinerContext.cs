@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Cpus;
 using NTMiner.Core.Gpus;
-using NTMiner.Core.MinerStudio;
 using NTMiner.Core.Profiles;
 using NTMiner.Mine;
 using NTMiner.Report;
@@ -15,8 +14,6 @@ namespace NTMiner {
         string GetServerJsonVersion();
 
         DateTime CreatedOn { get; }
-
-        IMinerStudioContext MinerStudioContext { get; }
 
         void Init(Action callback);
 

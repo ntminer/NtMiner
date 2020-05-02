@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
+using NTMiner.Core.MinerStudio;
+using NTMiner.Core.MinerStudio.Impl;
 using NTMiner.Core.Profile;
 using NTMiner.JsonDb;
 using NTMiner.Repositories;
@@ -27,6 +28,8 @@ namespace NTMiner {
         public static WorkType WorkType {
             get { return _workType; }
         }
+
+        public static IMinerStudioContext MinerStudioContext { get; private set; } = new MinerStudioContext();
 
         private static Guid _id = NTMinerRegistry.GetClientId(ClientAppType.AppType);
         public static Guid Id {

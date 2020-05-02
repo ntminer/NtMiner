@@ -6,8 +6,6 @@ using NTMiner.Core.Gpus;
 using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
-using NTMiner.Core.MinerStudio;
-using NTMiner.Core.MinerStudio.Impl;
 using NTMiner.Core.Profile;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
@@ -28,8 +26,6 @@ namespace NTMiner {
         // 因为多个受保护区域中可能会互相访问，用一把锁可以避免死锁。不用多把锁是因为没有精力去检查每一个受保护区域确保它们不会互相访问导致死锁。
         private static readonly object _locker = new object();
         public DateTime CreatedOn { get; private set; }
-
-        public IMinerStudioContext MinerStudioContext { get; private set; } = new MinerStudioContext();
 
         private NTMinerContext() {
             CreatedOn = DateTime.Now;

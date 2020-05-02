@@ -45,7 +45,7 @@ namespace NTMiner.MinerStudio.Vms {
                     });
                 }
                 else {
-                    if (NTMinerContext.Instance.MinerStudioContext.MinerGroupSet.Contains(this.Id)) {
+                    if (NTMinerContext.MinerStudioContext.MinerGroupSet.Contains(this.Id)) {
                         VirtualRoot.Execute(new UpdateMinerGroupCommand(this));
                     }
                     else {

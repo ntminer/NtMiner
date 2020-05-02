@@ -47,7 +47,7 @@ namespace NTMiner.Vms {
                     throw new ValidationException($"关键字 {this.Keyword} 已经存在");
                 }
                 if (DevMode.IsDevMode) {
-                    LoginWindow.Login(() => {
+                    MinerStudio.MinerStudioRoot.Login(() => {
                         VirtualRoot.Execute(new AddOrUpdateKernelOutputKeywordCommand(this));
                         VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                     });
@@ -72,7 +72,7 @@ namespace NTMiner.Vms {
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除{this.Keyword}内核输出关键字吗？", title: "确认", onYes: () => {
                     if (DevMode.IsDevMode) {
-                        LoginWindow.Login(() => {
+                        MinerStudio.MinerStudioRoot.Login(() => {
                             VirtualRoot.Execute(new RemoveKernelOutputKeywordCommand(this.Id));
                         });
                     }
