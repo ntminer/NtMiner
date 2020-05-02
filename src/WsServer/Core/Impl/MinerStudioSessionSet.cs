@@ -154,14 +154,12 @@ namespace NTMiner.Core.Impl {
         public void SendToMinerStudioAsync(string loginName, WsMessage message) {
             List<IMinerStudioSession> minerStudioSessions = GetSessionsByLoginName(loginName);
             foreach (var minerStudioSession in minerStudioSessions) {
-                if (minerStudioSession.TryGetWsSession(out IWebSocketSession wsSession)) {
-                    var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerStudioSession.LoginName));
-                    if (userData != null) {
-                        try {
-                            wsSession.Context.WebSocket.SendAsync(message.SignToJson(userData.Password), completed: null);
-                        }
-                        catch {
-                        }
+                var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerStudioSession.LoginName));
+                if (userData != null) {
+                    try {
+                        minerStudioSession.SendAsync(message, userData.Password);
+                    }
+                    catch {
                     }
                 }
             }

@@ -245,10 +245,10 @@ namespace NTMiner.Core.Impl {
         }
 
         public void SendToMinerClientAsync(Guid clientId, WsMessage message) {
-            if (TryGetByClientId(clientId, out IMinerClientSession minerClientSession) && minerClientSession.TryGetWsSession(out IWebSocketSession wsSession)) {
+            if (TryGetByClientId(clientId, out IMinerClientSession minerClientSession)) {
                 string password = minerClientSession.GetSignPassword();
                 try {
-                    wsSession.Context.WebSocket.SendAsync(message.SignToJson(password), completed: null);
+                    minerClientSession.SendAsync(message, password);
                 }
                 catch {
                 }

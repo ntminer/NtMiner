@@ -49,9 +49,7 @@ namespace NTMiner.Core.Impl {
                         toCloses = _dicByWsSessionId.Values.Where(a => a.LoginName == message.LoginName).ToArray();
                     }
                     foreach (var item in toCloses) {
-                        if (item.TryGetWsSession(out IWebSocketSession session)) {
-                            session.Context.WebSocket.CloseAsync(CloseStatusCode.Normal, "用户已被禁用");
-                        }
+                        item.CloseAsync(CloseStatusCode.Normal, "用户已被禁用");
                     }
                 }
             }, this.GetType());
@@ -68,29 +66,22 @@ namespace NTMiner.Core.Impl {
                 needReGetServerAddressSessions = _dicByWsSessionId.Values.Where(a => hash.GetTargetNode(a.ClientId) != thisNodeIp).ToList();
             }
             if (needReGetServerAddressSessions.Count != 0) {
-                if (_isMinerClient) {
-                    foreach (var session in needReGetServerAddressSessions) {
-                        if (session.TryGetWsSession(out IWebSocketSession wsSession)) {
-                            string password = ((IMinerClientSession)session).GetSignPassword();
-                            try {
-                                wsSession.Context.WebSocket.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress).SignToJson(password), completed: null);
-                            }
-                            catch {
-                            }
+                foreach (var session in needReGetServerAddressSessions) {
+                    string password = null;
+                    if (_isMinerClient) {
+                        password = ((IMinerClientSession)session).GetSignPassword();
+                    }
+                    else if (_isMinerStudio) {
+                        var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(session.LoginName));
+                        if (userData != null) {
+                            password = userData.Password;
                         }
                     }
-                }
-                else if (_isMinerStudio) {
-                    foreach (var session in needReGetServerAddressSessions) {
-                        if (session.TryGetWsSession(out IWebSocketSession wsSession)) {
-                            var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(session.LoginName));
-                            if (userData != null) {
-                                try {
-                                    wsSession.Context.WebSocket.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress).SignToJson(userData.Password), completed: null);
-                                }
-                                catch {
-                                }
-                            }
+                    if (!string.IsNullOrEmpty(password)) {
+                        try {
+                            session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress), password);
+                        }
+                        catch {
                         }
                     }
                 }

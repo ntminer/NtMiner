@@ -1,5 +1,7 @@
 ﻿using NTMiner.User;
+using NTMiner.Ws;
 using System;
+using WebSocketSharp;
 using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
@@ -32,7 +34,24 @@ namespace NTMiner.Core.Impl {
 
         public string WsSessionId { get; private set; }
 
-        public bool TryGetWsSession(out IWebSocketSession wsSession) {
+        public void CloseAsync(CloseStatusCode code, string reason) {
+            if (TryGetWsSession(out IWebSocketSession wsSession)) {
+                wsSession.Context.WebSocket.CloseAsync(code, reason);
+            }
+        }
+
+        public void SendAsync(WsMessage message, string password) {
+            if (TryGetWsSession(out IWebSocketSession wsSession)) {
+                if (WsUserName.IsBinarySupported) {
+                    wsSession.Context.WebSocket.SendAsync(message.SignToBytes(password), completed: null);
+                }
+                else {
+                    wsSession.Context.WebSocket.SendAsync(message.SignToJson(password), completed: null);
+                }
+            }
+        }
+
+        private bool TryGetWsSession(out IWebSocketSession wsSession) {
             return _wsSessionManager.TryGetSession(this.WsSessionId, out wsSession);
         }
 

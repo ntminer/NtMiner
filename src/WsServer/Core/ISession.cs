@@ -1,5 +1,7 @@
 ﻿using NTMiner.User;
+using NTMiner.Ws;
 using System;
+using WebSocketSharp;
 using WebSocketSharp.Server;
 
 namespace NTMiner.Core {
@@ -24,7 +26,8 @@ namespace NTMiner.Core {
         /// </summary>
         DateTime ActiveOn { get; }
         string WsSessionId { get; }
-        bool TryGetWsSession(out IWebSocketSession wsSession);
+        void CloseAsync(CloseStatusCode code, string reason);
+        void SendAsync(WsMessage message, string password);
         void Active();
     }
 }
