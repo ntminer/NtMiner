@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class RpcRoot {
+    public static partial class JsonRpcRoot {
         public static string OfficialServerHost { get; private set; }
         public static int OfficialServerPort;
         public static string OfficialServerAddress = SetOfficialServerAddress("server.ntminer.com:3339");

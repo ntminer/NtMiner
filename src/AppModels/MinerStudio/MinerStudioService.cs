@@ -15,7 +15,7 @@ namespace NTMiner.MinerStudio {
 
         private IMinerStudioService Service {
             get {
-                if (RpcRoot.IsOuterNet) {
+                if (JsonRpcRoot.IsOuterNet) {
                     return _serverMinerStudioService;
                 }
                 else {

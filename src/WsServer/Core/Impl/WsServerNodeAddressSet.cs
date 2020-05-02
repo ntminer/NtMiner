@@ -37,7 +37,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private void RefreshNodes(Action callback = null) {
-            RpcRoot.OfficialServer.WsServerNodeService.GetNodeAddressesAsync((response, e) => {
+            JsonRpcRoot.OfficialServer.WsServerNodeService.GetNodeAddressesAsync((response, e) => {
                 if (response.IsSuccess()) {
                     _nodeAddresses = response.Data;
                     VirtualRoot.RaiseEvent(new CleanTimeArrivedEvent(GetNodeAddresses(response.Data)));
@@ -69,7 +69,7 @@ namespace NTMiner.Core.Impl {
             minerStudioWsSessionCount = WsRoot.MinerStudioSessionSet.WsSessionManager.Count;
             var ram = Windows.Ram.Instance;
             var cpu = Windows.Cpu.Instance;
-            RpcRoot.OfficialServer.WsServerNodeService.ReportNodeStateAsync(new WsServerNodeState {
+            JsonRpcRoot.OfficialServer.WsServerNodeService.ReportNodeStateAsync(new WsServerNodeState {
                 Address = ServerRoot.HostConfig.ThisServerAddress,
                 Description = string.Empty,
                 MinerClientSessionCount = WsRoot.MinerClientSessionSet.Count,

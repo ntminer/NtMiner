@@ -44,7 +44,7 @@ namespace NTMiner.Vms {
                 var data = SignUpRequest.Create(this);
                 data.Password = HashUtil.Sha1(data.Password);
                 data.PasswordAgain = HashUtil.Sha1(data.PasswordAgain);
-                RpcRoot.OfficialServer.UserService.SignUpAsync(data, (response, e) => {
+                JsonRpcRoot.OfficialServer.UserService.SignUpAsync(data, (response, e) => {
                     if (response.IsSuccess()) {
                         MinerProfileViewModel minerProfile = MinerProfileViewModel.Instance;
                         minerProfile.OuterUserId = this.LoginName;
@@ -69,7 +69,7 @@ namespace NTMiner.Vms {
                 if (!VirtualRoot.IsValidLoginName(value, out string message)) {
                     throw new ValidationException(message);
                 }
-                RpcRoot.OfficialServer.UserService.IsLoginNameExistAsync(value, isExist => {
+                JsonRpcRoot.OfficialServer.UserService.IsLoginNameExistAsync(value, isExist => {
                     if (isExist) {
                         this.LoginNameExistMessage = "该登录名已被占用，请更换";
                     }
@@ -133,7 +133,7 @@ namespace NTMiner.Vms {
 
         public string CaptchaUrl {
             get {
-                return $"http://{RpcRoot.OfficialServerAddress}/api/{RpcRoot.GetControllerName<ICaptchaController<string>>()}/{nameof(ICaptchaController<string>.Get)}?id={ActionCaptchaId.ToString()}";
+                return $"http://{JsonRpcRoot.OfficialServerAddress}/api/{JsonRpcRoot.GetControllerName<ICaptchaController<string>>()}/{nameof(ICaptchaController<string>.Get)}?id={ActionCaptchaId.ToString()}";
             }
         }
     }

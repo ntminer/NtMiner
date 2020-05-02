@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class RpcRoot {
+    public static partial class JsonRpcRoot {
         public static RpcUser RpcUser { get; private set; } = RpcUser.Empty;
         public static bool IsOuterNet { get; private set; } = false;
         public static bool IsInnerNet {

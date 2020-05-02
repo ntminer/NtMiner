@@ -6,13 +6,13 @@ using System;
 
 namespace NTMiner.Services.Official {
     public class AppSettingService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IAppSettingController>();
+        private readonly string _controllerName = JsonRpcRoot.GetControllerName<IAppSettingController>();
 
         public AppSettingService() {
         }
 
         public void GetTimeAsync(Action<DateTime> callback) {
-            RpcRoot.GetAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
+            JsonRpcRoot.GetAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
                 callback?.Invoke(datetime);
             }, timeountMilliseconds: 10 * 1000);
         }
@@ -22,7 +22,7 @@ namespace NTMiner.Services.Official {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetJsonFileVersion), request, (string line, Exception e) => {
+            JsonRpcRoot.PostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetJsonFileVersion), request, (string line, Exception e) => {
                 callback?.Invoke(ServerStateResponse.FromLine(line));
             }, timeountMilliseconds: 10 * 1000);
         }
@@ -33,7 +33,7 @@ namespace NTMiner.Services.Official {
             DataRequest<AppSettingData> request = new DataRequest<AppSettingData>() {
                 Data = entity
             };
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.SetAppSetting), data: request, callback);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.SetAppSetting), data: request, callback);
         }
         #endregion
     }

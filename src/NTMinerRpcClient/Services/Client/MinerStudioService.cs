@@ -7,7 +7,7 @@ namespace NTMiner.Services.Client {
     public class MinerStudioService {
         public static readonly MinerStudioService Instance = new MinerStudioService();
 
-        private readonly string _controllerName = RpcRoot.GetControllerName<IMinerStudioController>();
+        private readonly string _controllerName = JsonRpcRoot.GetControllerName<IMinerStudioController>();
         private MinerStudioService() {
         }
 
@@ -16,7 +16,7 @@ namespace NTMiner.Services.Client {
         /// </summary>
         /// <param name="callback"></param>
         public void ShowMainWindowAsync(Action<bool, Exception> callback) {
-            RpcRoot.PostAsync<bool>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.ShowMainWindow), callback);
+            JsonRpcRoot.PostAsync<bool>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.ShowMainWindow), callback);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace NTMiner.Services.Client {
                 callback?.Invoke();
                 return;
             }
-            RpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.CloseMinerStudio), new object(), (response, e) => {
+            JsonRpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.CloseMinerStudio), new object(), (response, e) => {
                 if (!response.IsSuccess()) {
                     try {
                         Windows.TaskKill.Kill(processName, waitForExit: true);

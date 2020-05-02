@@ -17,7 +17,7 @@ namespace NTMiner.MinerStudio {
 
         public static void Login(Action onLoginSuccess, string serverHost = null, Action btnCloseClick = null) {
             LoginWindow.Login(onLoginSuccess: () => {
-                NTMinerContext.MinerStudioContext.UserAppSettingSet.Init(RpcRoot.RpcUser.LoginedUser.UserAppSettings);
+                NTMinerContext.MinerStudioContext.UserAppSettingSet.Init(JsonRpcRoot.RpcUser.LoginedUser.UserAppSettings);
                 onLoginSuccess?.Invoke();
             }, serverHost, btnCloseClick);
         }

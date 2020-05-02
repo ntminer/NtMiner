@@ -13,7 +13,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public void Refresh() {
-            RpcRoot.OfficialServer.WebApiServerNodeService.GetServerStateAsync((response, e) => {
+            JsonRpcRoot.OfficialServer.WebApiServerNodeService.GetServerStateAsync((response, e) => {
                 if (response.IsSuccess()) {
                     UIThread.Execute(() => {
                         if (_webApiServerStateVm == null) {

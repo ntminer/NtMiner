@@ -6,7 +6,7 @@ using System.Windows;
 namespace NTMiner.Views {
     public partial class LoginWindow : Window {
         public static void Login(Action onLoginSuccess, string serverHost = null, Action btnCloseClick = null) {
-            if (!RpcRoot.IsLogined) {
+            if (!JsonRpcRoot.IsLogined) {
                 var parent = WpfUtil.GetTopWindow();
                 LoginWindow window = new LoginWindow(onLoginSuccess, serverHost, btnCloseClick);
                 if (parent != null && parent.GetType() != typeof(NotiCenterWindow)) {
@@ -80,8 +80,8 @@ namespace NTMiner.Views {
             NTMinerRegistry.SetControlCenterAddresses(list);
             // 内网免登录
             if (Net.IpUtil.IsInnerIp(Vm.ServerHost)) {
-                RpcRoot.SetRpcUser(RpcUser.Empty);
-                RpcRoot.SetIsOuterNet(false);
+                JsonRpcRoot.SetRpcUser(RpcUser.Empty);
+                JsonRpcRoot.SetIsOuterNet(false);
                 _isLogined = true;
                 this.Close();
                 // 回调可能弹窗，弹窗可能有父窗口，父窗口是顶层窗口，如果在this.Close()之前回调
@@ -97,14 +97,14 @@ namespace NTMiner.Views {
                 Vm.ShowMessage("没有填写密码");
                 return;
             }
-            RpcRoot.OfficialServer.UserService.LoginAsync(Vm.LoginName, passwordSha1, (response, exception) => {
+            JsonRpcRoot.OfficialServer.UserService.LoginAsync(Vm.LoginName, passwordSha1, (response, exception) => {
                 if (response == null) {
                     Vm.ShowMessage("服务器忙");
                     return;
                 }
                 if (response.IsSuccess()) {
-                    RpcRoot.SetRpcUser(new RpcUser(response.Data, passwordSha1));
-                    RpcRoot.SetIsOuterNet(true);
+                    JsonRpcRoot.SetRpcUser(new RpcUser(response.Data, passwordSha1));
+                    JsonRpcRoot.SetIsOuterNet(true);
                     _isLogined = true;
                     UIThread.Execute(() => {
                         this.Close();

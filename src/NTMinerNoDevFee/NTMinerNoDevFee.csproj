@@ -136,8 +136,8 @@
     <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
       <Link>Windows\WinRegistry.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerRpcClient\RpcRoot.cs">
-      <Link>RpcRoot.cs</Link>
+    <Compile Include="..\NTMinerRpcClient\JsonRpcRoot.cs">
+      <Link>JsonRpcRoot.cs</Link>
     </Compile>
     <Compile Include="VirtualRoot.cs" />
     <Compile Include="NoDevFee\EthWalletSet.cs" />

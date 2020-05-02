@@ -217,10 +217,10 @@ namespace NTMiner {
 
         [TestMethod]
         public void GetControllerNameTest() {
-            Assert.AreEqual("FileUrl", RpcRoot.GetControllerName<IFileUrlController>());
+            Assert.AreEqual("FileUrl", JsonRpcRoot.GetControllerName<IFileUrlController>());
             string typeName = typeof(ICaptchaController<string>).Name;
             Console.WriteLine(typeName);
-            Assert.AreEqual("Captcha", RpcRoot.GetControllerName<ICaptchaController<string>>());
+            Assert.AreEqual("Captcha", JsonRpcRoot.GetControllerName<ICaptchaController<string>>());
         }
 
         [TestMethod]

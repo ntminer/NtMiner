@@ -12,15 +12,15 @@ namespace NTMiner {
             using (HttpClient client = new HttpClient()) {
                 Assert.AreEqual(100, client.Timeout.TotalSeconds);
             }
-            using (HttpClient client = RpcRoot.CreateHttpClient()) {
+            using (HttpClient client = JsonRpcRoot.CreateHttpClient()) {
                 Assert.AreEqual(60, client.Timeout.TotalSeconds);
             }
         }
 
         [TestMethod]
         public void TaskTest() {
-            HttpClient client = RpcRoot.CreateHttpClient();
-            client.GetAsync($"http://{RpcRoot.OfficialServerAddress}/api/{RpcRoot.GetControllerName<IAppSettingController>()}/{nameof(IAppSettingController.GetTime)}")
+            HttpClient client = JsonRpcRoot.CreateHttpClient();
+            client.GetAsync($"http://{JsonRpcRoot.OfficialServerAddress}/api/{JsonRpcRoot.GetControllerName<IAppSettingController>()}/{nameof(IAppSettingController.GetTime)}")
                 .ContinueWith(t => {
                     Console.WriteLine(t.Result.Content.ReadAsAsync<DateTime>().Result);
                 }).Wait();

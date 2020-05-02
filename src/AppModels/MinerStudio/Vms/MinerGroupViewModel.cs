@@ -31,8 +31,8 @@ namespace NTMiner.MinerStudio.Vms {
                 if (this.Id == Guid.Empty) {
                     return;
                 }
-                if (RpcRoot.IsOuterNet) {
-                    RpcRoot.OfficialServer.UserMinerGroupService.AddOrUpdateMinerGroupAsync(new MinerGroupData().Update(this), (response, e) => {
+                if (JsonRpcRoot.IsOuterNet) {
+                    JsonRpcRoot.OfficialServer.UserMinerGroupService.AddOrUpdateMinerGroupAsync(new MinerGroupData().Update(this), (response, e) => {
                         if (response.IsSuccess()) {
                             if (MinerStudioRoot.MinerGroupVms.TryGetMineWorkVm(this.Id, out MinerGroupViewModel vm)) {
                                 VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(Guid.Empty, this));

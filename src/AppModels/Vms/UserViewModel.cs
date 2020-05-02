@@ -35,7 +35,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定启用{this.LoginName}吗？", title: "确认", onYes: () => {
-                    RpcRoot.OfficialServer.UserService.EnableUserAsync(this.LoginName, (response, exception) => {
+                    JsonRpcRoot.OfficialServer.UserService.EnableUserAsync(this.LoginName, (response, exception) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.RaiseEvent(new UserEnabledEvent(Guid.Empty, this));
                         }
@@ -53,7 +53,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定禁用{this.LoginName}吗？", title: "确认", onYes: () => {
-                    RpcRoot.OfficialServer.UserService.DisableUserAsync(this.LoginName, (response, exception) => {
+                    JsonRpcRoot.OfficialServer.UserService.DisableUserAsync(this.LoginName, (response, exception) => {
                         if (response.IsSuccess()) {
                             VirtualRoot.RaiseEvent(new UserDisabledEvent(Guid.Empty, this));
                         }

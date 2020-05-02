@@ -21,7 +21,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 OverClockData entity = new OverClockData().Update(message.Input);
-                RpcRoot.OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
+                JsonRpcRoot.OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
                         VirtualRoot.RaiseEvent(new OverClockDataAddedEvent(message.MessageId, entity));
@@ -43,7 +43,7 @@ namespace NTMiner.Core.Impl {
                 }
                 OverClockData oldValue = new OverClockData().Update(entity);
                 entity.Update(message.Input);
-                RpcRoot.OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
+                JsonRpcRoot.OfficialServer.OverClockDataService.AddOrUpdateOverClockDataAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
                         VirtualRoot.RaiseEvent(new OverClockDataUpdatedEvent(message.MessageId, entity));
@@ -60,7 +60,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 OverClockData entity = _dicById[message.EntityId];
-                RpcRoot.OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
+                JsonRpcRoot.OfficialServer.OverClockDataService.RemoveOverClockDataAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
                         VirtualRoot.RaiseEvent(new OverClockDataRemovedEvent(message.MessageId, entity));
@@ -78,7 +78,7 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             _isInited = true;
-            RpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
+            JsonRpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
                 if (response.IsSuccess()) {
                     IEnumerable<OverClockData> query;
                     if (_root.GpuSet.GpuType == GpuType.Empty) {

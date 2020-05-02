@@ -62,8 +62,8 @@
     <Compile Include="Services\Client\MinerStudioService.cs" />
     <Compile Include="Services\Client\NTMinerClientService.cs" />
     <Compile Include="Services\Client\NTMinerDaemonService.cs" />
-    <Compile Include="RpcRoot.partial.cs" />
-    <Compile Include="RpcRoot.cs" />
+    <Compile Include="JsonRpcRoot.partial.cs" />
+    <Compile Include="JsonRpcRoot.cs" />
     <Compile Include="IKernelOutputKeywordSet.cs" />
     <Compile Include="Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="Services\Official\CoinSnapshotService.cs" />

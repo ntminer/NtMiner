@@ -141,7 +141,7 @@ namespace NTMiner {
         }
 
         public static void Upgrade(NTMinerAppType appType, string fileName, Action callback) {
-            RpcRoot.OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
+            JsonRpcRoot.OfficialServer.FileUrlService.GetNTMinerUpdaterUrlAsync((downloadFileUrl, e) => {
                 try {
                     string argument = string.Empty;
                     if (!string.IsNullOrEmpty(fileName)) {
@@ -215,7 +215,7 @@ namespace NTMiner {
         }
 
         public static void OpenMinerClientFinder() {
-            RpcRoot.OfficialServer.FileUrlService.GetMinerClientFinderUrlAsync((downloadFileUrl, e) => {
+            JsonRpcRoot.OfficialServer.FileUrlService.GetMinerClientFinderUrlAsync((downloadFileUrl, e) => {
                 try {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         if (File.Exists(TempPath.MinerClientFinderFileFullName)) {
@@ -263,7 +263,7 @@ namespace NTMiner {
                 Directory.CreateDirectory(liteDbExplorerDir);
             }
             if (!File.Exists(liteDbExplorerFileFullName)) {
-                RpcRoot.OfficialServer.FileUrlService.GetLiteDbExplorerUrlAsync((downloadFileUrl, e) => {
+                JsonRpcRoot.OfficialServer.FileUrlService.GetLiteDbExplorerUrlAsync((downloadFileUrl, e) => {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         return;
                     }

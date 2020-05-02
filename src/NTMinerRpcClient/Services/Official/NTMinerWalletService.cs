@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class NTMinerWalletService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerWalletController>();
+        private readonly string _controllerName = JsonRpcRoot.GetControllerName<INTMinerWalletController>();
 
         public NTMinerWalletService() {
         }
 
         #region GetNTMinerWalletsAsync
         public void GetNTMinerWalletsAsync(Action<DataResponse<List<NTMinerWalletData>>, Exception> callback) {
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(INTMinerWalletController.NTMinerWallets), null, callback);
+            JsonRpcRoot.PostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(INTMinerWalletController.NTMinerWallets), null, callback);
         }
         #endregion
 
@@ -21,7 +21,7 @@ namespace NTMiner.Services.Official {
             DataRequest<NTMinerWalletData> request = new DataRequest<NTMinerWalletData>() {
                 Data = entity
             };
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(INTMinerWalletController.AddOrUpdateNTMinerWallet), data: request, callback);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(INTMinerWalletController.AddOrUpdateNTMinerWallet), data: request, callback);
         }
         #endregion
 
@@ -30,7 +30,7 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(INTMinerWalletController.RemoveNTMinerWallet), data: request, callback);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(INTMinerWalletController.RemoveNTMinerWallet), data: request, callback);
         }
         #endregion
     }

@@ -52,8 +52,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    if (RpcRoot.IsOuterNet) {
-                        RpcRoot.OfficialServer.UserMineWorkService.GetMineWorksAsync((response, e) => {
+                    if (JsonRpcRoot.IsOuterNet) {
+                        JsonRpcRoot.OfficialServer.UserMineWorkService.GetMineWorksAsync((response, e) => {
                             if (response.IsSuccess()) {
                                 foreach (var item in response.Data) {
                                     _dicById.Add(item.Id, item);

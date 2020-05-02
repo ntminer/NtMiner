@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class DaemonOperation : IDaemonOperation {
-        private static readonly string _minerClientControllerName = RpcRoot.GetControllerName<IMinerClientController>();
+        private static readonly string _minerClientControllerName = JsonRpcRoot.GetControllerName<IMinerClientController>();
 
         public DaemonOperation() { }
 
@@ -21,7 +21,7 @@ namespace NTMiner.Core.Impl {
                 NTMinerRegistry.SetIsRdpEnabled(true);
                 Firewall.AddRdpRule();
                 if (IsNTMinerOpened()) {
-                    RpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RefreshIsRemoteDesktopEnabled), null, null, timeountMilliseconds: 3000);
+                    JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RefreshIsRemoteDesktopEnabled), null, null, timeountMilliseconds: 3000);
                 }
                 response = ResponseBase.Ok("开启Windows远程桌面");
             }
@@ -139,7 +139,7 @@ namespace NTMiner.Core.Impl {
             try {
                 SpecialPath.SaveGpuProfilesJsonFile(json);
                 if (IsNTMinerOpened()) {
-                    RpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.OverClock), null, null);
+                    JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.OverClock), null, null);
                 }
                 else {
                     description = "超频，挖矿端未启动，下次启动时生效";
@@ -165,7 +165,7 @@ namespace NTMiner.Core.Impl {
             try {
                 MinerProfileUtil.SetAutoStart(autoBoot, autoStart);
                 if (IsNTMinerOpened()) {
-                    RpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RefreshAutoBootStart), null, null, timeountMilliseconds: 3000);
+                    JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RefreshAutoBootStart), null, null, timeountMilliseconds: 3000);
                 }
                 isSuccess = true;
             }
@@ -245,7 +245,7 @@ namespace NTMiner.Core.Impl {
                             WorkId = request.WorkId,
                             WorkerName = request.WorkerName
                         };
-                        RpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StartMine), innerRequest, callback: null, timeountMilliseconds: 3000);
+                        JsonRpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StartMine), innerRequest, callback: null, timeountMilliseconds: 3000);
                         response = ResponseBase.Ok("开始挖矿");
                     }
                     else {
@@ -286,7 +286,7 @@ namespace NTMiner.Core.Impl {
                     response = ResponseBase.Ok();
                 }
                 else {
-                    RpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StopMine), new object(), callback: null, timeountMilliseconds: 3000);
+                    JsonRpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.StopMine), new object(), callback: null, timeountMilliseconds: 3000);
                     response = ResponseBase.Ok("停止挖矿");
                 }
             }
@@ -376,7 +376,7 @@ namespace NTMiner.Core.Impl {
         }
 
         private static void CloseNTMiner() {
-            RpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.CloseNTMiner), new object { }, (response, e) => {
+            JsonRpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.CloseNTMiner), new object { }, (response, e) => {
                 bool isClosed = response.IsSuccess();
                 if (!isClosed) {
                     try {

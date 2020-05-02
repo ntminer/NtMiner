@@ -18,7 +18,7 @@ namespace NTMiner.Ws {
             _handlers.Add(WsMessage.GetConsoleOutLines, (sendAsync, message) => {
                 // 如果进程不存在就不用Rpc了
                 if (VirtualRoot.DaemonOperation.IsNTMinerOpened() && message.TryGetData(out long afterTime)) {
-                    RpcRoot.Client.MinerClientService.GetConsoleOutLinesAsync(NTKeyword.Localhost, afterTime, (data, e) => {
+                    JsonRpcRoot.Client.MinerClientService.GetConsoleOutLinesAsync(NTKeyword.Localhost, afterTime, (data, e) => {
                         if (data != null && data.Count != 0) {
                             sendAsync(new WsMessage(message.Id, WsMessage.ConsoleOutLines) {
                                 Data = data
@@ -30,7 +30,7 @@ namespace NTMiner.Ws {
             _handlers.Add(WsMessage.GetLocalMessages, (sendAsync, message) => {
                 // 如果进程不存在就不用Rpc了
                 if (VirtualRoot.DaemonOperation.IsNTMinerOpened() && message.TryGetData(out long afterTime)) {
-                    RpcRoot.Client.MinerClientService.GetLocalMessagesAsync(NTKeyword.Localhost, afterTime, (data, e) => {
+                    JsonRpcRoot.Client.MinerClientService.GetLocalMessagesAsync(NTKeyword.Localhost, afterTime, (data, e) => {
                         if (data != null && data.Count != 0) {
                             sendAsync(new WsMessage(message.Id, WsMessage.LocalMessages) {
                                 Data = data
@@ -62,7 +62,7 @@ namespace NTMiner.Ws {
             _handlers.Add(WsMessage.GetSpeed, (sendAsync, message) => {
                 // 如果进程不存在就不用Rpc了
                 if (VirtualRoot.DaemonOperation.IsNTMinerOpened()) {
-                    RpcRoot.Client.MinerClientService.WsGetSpeedAsync((data, ex) => {
+                    JsonRpcRoot.Client.MinerClientService.WsGetSpeedAsync((data, ex) => {
                         sendAsync(new WsMessage(message.Id, WsMessage.Speed) {
                             Data = data
                         });

@@ -570,7 +570,7 @@ namespace NTMiner {
         public static ICommand SetServerJsonVersion { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowDialogWindowCommand(message: $"您确定刷新{HomePath.ExportServerJsonFileName}吗？", title: "确认", onYes: () => {
                 try {
-                    RpcRoot.OfficialServer.AppSettingService.SetAppSettingAsync(new AppSettingData {
+                    JsonRpcRoot.OfficialServer.AppSettingService.SetAppSettingAsync(new AppSettingData {
                         Key = HomePath.ExportServerJsonFileName,
                         Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")
                     }, (response, e) => {

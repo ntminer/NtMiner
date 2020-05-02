@@ -22,7 +22,7 @@ namespace NTMiner.Vms {
 
         public string LoginName {
             get {
-                return RpcRoot.RpcUser.LoginName;
+                return JsonRpcRoot.RpcUser.LoginName;
             }
         }
 
@@ -37,7 +37,7 @@ namespace NTMiner.Vms {
 
         public Visibility IsMinerStudioLocalOrOuterAdminVisible {
             get {
-                if (RpcRoot.IsOuterNet) {
+                if (JsonRpcRoot.IsOuterNet) {
                     return IsMinerStudioOuterAdminVisible;
                 }
                 return IsMinerStudioLocalVisible;
@@ -50,13 +50,13 @@ namespace NTMiner.Vms {
                     return true;
                 }
                 if (ClientAppType.IsMinerStudio) {
-                    if (!RpcRoot.IsLogined) {
+                    if (!JsonRpcRoot.IsLogined) {
                         return false;
                     }
-                    if (!RpcRoot.RpcUser.LoginedUser.IsAdmin()) {
+                    if (!JsonRpcRoot.RpcUser.LoginedUser.IsAdmin()) {
                         return false;
                     }
-                    if (RpcRoot.IsOuterNet) {
+                    if (JsonRpcRoot.IsOuterNet) {
                         return true;
                     }
                     return false;
@@ -83,7 +83,7 @@ namespace NTMiner.Vms {
                     return Visibility.Visible;
                 }
                 if (ClientAppType.IsMinerStudio) {
-                    if (RpcRoot.IsLogined && RpcRoot.IsOuterNet) {
+                    if (JsonRpcRoot.IsLogined && JsonRpcRoot.IsOuterNet) {
                         return Visibility.Visible;
                     }
                 }
@@ -100,7 +100,7 @@ namespace NTMiner.Vms {
                     return Visibility.Visible;
                 }
                 if (ClientAppType.IsMinerStudio) {
-                    if (RpcRoot.IsInnerNet) {
+                    if (JsonRpcRoot.IsInnerNet) {
                         return Visibility.Visible;
                     }
                     return Visibility.Collapsed;

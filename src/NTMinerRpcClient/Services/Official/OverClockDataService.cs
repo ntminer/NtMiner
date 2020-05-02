@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class OverClockDataService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IOverClockDataController>();
+        private readonly string _controllerName = JsonRpcRoot.GetControllerName<IOverClockDataController>();
 
         public OverClockDataService() {
         }
@@ -13,7 +13,7 @@ namespace NTMiner.Services.Official {
         #region GetOverClockDatasAsync
         public void GetOverClockDatasAsync(Action<DataResponse<List<OverClockData>>, Exception> callback) {
             object request = new object();
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
+            JsonRpcRoot.PostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IOverClockDataController.OverClockDatas), request, callback);
         }
         #endregion
 
@@ -22,7 +22,7 @@ namespace NTMiner.Services.Official {
             DataRequest<OverClockData> request = new DataRequest<OverClockData>() {
                 Data = entity
             };
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), data: request, callback);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IOverClockDataController.AddOrUpdateOverClockData), data: request, callback);
         }
         #endregion
 
@@ -31,7 +31,7 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IOverClockDataController.RemoveOverClockData), data: request, callback);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IOverClockDataController.RemoveOverClockData), data: request, callback);
         }
         #endregion
     }

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class CalcConfigService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<ICalcConfigController>();
+        private readonly string _controllerName = JsonRpcRoot.GetControllerName<ICalcConfigController>();
 
         public CalcConfigService() {
         }
 
         #region GetCalcConfigsAsync
         public void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {
-            RpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(ICalcConfigController.CalcConfigs), null, (DataResponse<List<CalcConfigData>> response, Exception e) => {
+            JsonRpcRoot.PostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(ICalcConfigController.CalcConfigs), null, (DataResponse<List<CalcConfigData>> response, Exception e) => {
                 if (response.IsSuccess()) {
                     callback?.Invoke(response.Data);
                 }
@@ -31,7 +31,7 @@ namespace NTMiner.Services.Official {
             SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
                 Data = configs
             };
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(ICalcConfigController.SaveCalcConfigs), data: request, callback);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(ICalcConfigController.SaveCalcConfigs), data: request, callback);
         }
         #endregion
     }

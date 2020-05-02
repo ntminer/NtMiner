@@ -18,7 +18,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     return;
                 }
                 NTMinerWalletData entity = new NTMinerWalletData().Update(message.Input);
-                RpcRoot.OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
+                JsonRpcRoot.OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Add(entity.Id, entity);
                         VirtualRoot.RaiseEvent(new NTMinerWalletAddedEvent(message.MessageId, entity));
@@ -40,7 +40,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                 }
                 NTMinerWalletData oldValue = new NTMinerWalletData().Update(entity);
                 entity.Update(message.Input);
-                RpcRoot.OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
+                JsonRpcRoot.OfficialServer.NTMinerWalletService.AddOrUpdateNTMinerWalletAsync(entity, (response, e) => {
                     if (!response.IsSuccess()) {
                         entity.Update(oldValue);
                         VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.MessageId, entity));
@@ -57,7 +57,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     return;
                 }
                 NTMinerWalletData entity = _dicById[message.EntityId];
-                RpcRoot.OfficialServer.NTMinerWalletService.RemoveNTMinerWalletAsync(entity.Id, (response, e) => {
+                JsonRpcRoot.OfficialServer.NTMinerWalletService.RemoveNTMinerWalletAsync(entity.Id, (response, e) => {
                     if (response.IsSuccess()) {
                         _dicById.Remove(entity.Id);
                         VirtualRoot.RaiseEvent(new NTMinerWalletRemovedEvent(message.MessageId, entity));
@@ -83,7 +83,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                 return;
             }
             _isInited = true;
-            RpcRoot.OfficialServer.NTMinerWalletService.GetNTMinerWalletsAsync((response, e) => {
+            JsonRpcRoot.OfficialServer.NTMinerWalletService.GetNTMinerWalletsAsync((response, e) => {
                 if (response.IsSuccess()) {
                     foreach (var item in response.Data) {
                         if (!_dicById.ContainsKey(item.GetId())) {

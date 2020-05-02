@@ -83,7 +83,7 @@ namespace NTMiner.Vms {
                 #endregion
             });
             this.WsRetry = new DelegateCommand(() => {
-                RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: true);
+                JsonRpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: true);
                 IsConnecting = true;
             });
             bool isRefreshed = false;
@@ -130,7 +130,7 @@ namespace NTMiner.Vms {
                     }
                 }, this.GetType());
                 if (IsOuterUserEnabled) {
-                    RpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
+                    JsonRpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
                         if (state != null && !isRefreshed) {
                             this.IsWsOnline = state.Status == WsClientStatus.Open;
                             this.WsDescription = state.Description;
@@ -382,7 +382,7 @@ namespace NTMiner.Vms {
         private void StartOrStopWs() {
             // 只要外网启用状态变更或用户变更就调用，不管是启用还是禁用也不管用户是否正确是否为空都要调用
             // 未启用时以及不正确的用户时调用是为了通知守护进程关闭连接
-            RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: false);
+            JsonRpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: false);
         }
 
         // 是否主矿池和备矿池都是用户名密码模式的矿池

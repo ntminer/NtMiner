@@ -6,14 +6,14 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class UserMinerGroupService {
-        private readonly string _controllerName = RpcRoot.GetControllerName<IUserMinerGroupController>();
+        private readonly string _controllerName = JsonRpcRoot.GetControllerName<IUserMinerGroupController>();
 
         public UserMinerGroupService() {
         }
 
         #region GetMinerGroupsAsync
         public void GetMinerGroupsAsync(Action<DataResponse<List<UserMinerGroupData>>, Exception> callback) {
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMinerGroupController.MinerGroups), data: new object(), callback, timeountMilliseconds: 2000);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IUserMinerGroupController.MinerGroups), data: new object(), callback, timeountMilliseconds: 2000);
         }
         #endregion
 
@@ -23,7 +23,7 @@ namespace NTMiner.Services.Official {
             DataRequest<MinerGroupData> request = new DataRequest<MinerGroupData> {
                 Data = entity
             };
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMinerGroupController.AddOrUpdateMinerGroup), data: request, callback);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IUserMinerGroupController.AddOrUpdateMinerGroup), data: request, callback);
         }
         #endregion
 
@@ -32,7 +32,7 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMinerGroupController.RemoveMinerGroup), data: request, callback);
+            JsonRpcRoot.SignPostAsync(JsonRpcRoot.OfficialServerHost, JsonRpcRoot.OfficialServerPort, _controllerName, nameof(IUserMinerGroupController.RemoveMinerGroup), data: request, callback);
         }
         #endregion
     }

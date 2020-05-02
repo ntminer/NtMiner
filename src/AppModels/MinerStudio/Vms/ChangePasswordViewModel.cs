@@ -26,7 +26,7 @@ namespace NTMiner.MinerStudio.Vms {
                     VirtualRoot.Out.ShowWarn("未填写旧密码");
                     return;
                 }
-                if (RpcRoot.RpcUser.Password != HashUtil.Sha1(OldPassword)) {
+                if (JsonRpcRoot.RpcUser.Password != HashUtil.Sha1(OldPassword)) {
                     VirtualRoot.Out.ShowWarn("旧密码错误");
                     return;
                 }
@@ -46,7 +46,7 @@ namespace NTMiner.MinerStudio.Vms {
                     VirtualRoot.Out.ShowWarn("未填写验证码");
                     return;
                 }
-                RpcRoot.OfficialServer.UserService.ChangePasswordAsync(new ChangePasswordRequest {
+                JsonRpcRoot.OfficialServer.UserService.ChangePasswordAsync(new ChangePasswordRequest {
                     NewPassword = HashUtil.Sha1(NewPassword),
                     ActionCaptcha = ActionCaptcha,
                     ActionCaptchaId = ActionCaptchaId
@@ -105,7 +105,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string CaptchaUrl {
             get {
-                return $"http://{RpcRoot.OfficialServerAddress}/api/{RpcRoot.GetControllerName<ICaptchaController<string>>()}/{nameof(ICaptchaController<string>.Get)}?id={ActionCaptchaId.ToString()}";
+                return $"http://{JsonRpcRoot.OfficialServerAddress}/api/{JsonRpcRoot.GetControllerName<ICaptchaController<string>>()}/{nameof(ICaptchaController<string>.Get)}?id={ActionCaptchaId.ToString()}";
             }
         }
     }

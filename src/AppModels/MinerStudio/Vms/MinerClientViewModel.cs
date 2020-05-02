@@ -383,7 +383,7 @@ namespace NTMiner.MinerStudio.Vms {
                     return "-";
                 }
                 else {
-                    if (RpcRoot.IsOuterNet) {
+                    if (JsonRpcRoot.IsOuterNet) {
                         // 即使启用了外网群控也是每2分钟才会上报一次算力，但群控客户端会向矿机列表当页的矿机发起获取算力的请求，
                         // 但当用户刚翻倒第二页的时候或刚打开看到第一页的时候并未提前刷新，所以MinerActiveOn的周期必须大于2分钟。
                         if (MinerActiveOn.AddSeconds(180) < DateTime.Now) {
@@ -403,7 +403,7 @@ namespace NTMiner.MinerStudio.Vms {
                 if (!IsOnline) {
                     return false;
                 }
-                if (RpcRoot.IsOuterNet) {
+                if (JsonRpcRoot.IsOuterNet) {
                     if (this.IsOuterUserEnabled) {
                         if (NetActiveOn.AddSeconds(60) < DateTime.Now) {
                             return false;
@@ -432,7 +432,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public Visibility VmIsOnlineVisible {
             get {
-                if (RpcRoot.IsOuterNet && !this.IsOuterUserEnabled) {
+                if (JsonRpcRoot.IsOuterNet && !this.IsOuterUserEnabled) {
                     return Visibility.Collapsed;
                 }
                 return Visibility.Visible;
@@ -462,7 +462,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public bool IsMining {
             get {
-                if (RpcRoot.IsOuterNet) {
+                if (JsonRpcRoot.IsOuterNet) {
                     if (this.IsOuterUserEnabled) {
                         if (NetActiveOn.AddSeconds(60) < DateTime.Now) {
                             return false;
@@ -617,12 +617,12 @@ namespace NTMiner.MinerStudio.Vms {
                 if (string.IsNullOrEmpty(_data.WindowsPassword)) {
                     return string.Empty;
                 }
-                return Cryptography.QuickUtil.TextDecrypt(Convert.FromBase64String(_data.WindowsPassword), RpcRoot.RpcUser.Password);
+                return Cryptography.QuickUtil.TextDecrypt(Convert.FromBase64String(_data.WindowsPassword), JsonRpcRoot.RpcUser.Password);
             }
             set {
                 if (!string.IsNullOrEmpty(value)) {
                     // 不在网络上传输windows密码原文，传输的是密文
-                    value = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(value, RpcRoot.RpcUser.Password));
+                    value = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(value, JsonRpcRoot.RpcUser.Password));
                 }
                 if (_data.WindowsPassword != value) {
                     var old = _data.WindowsPassword;
@@ -1511,7 +1511,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string OuterUserId {
             get {
-                if (RpcRoot.IsInnerNet) {
+                if (JsonRpcRoot.IsInnerNet) {
                     return this.ReportOuterUserId;
                 }
                 return _data.OuterUserId;

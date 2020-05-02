@@ -17,7 +17,7 @@ namespace NTMiner {
             try {
                 VirtualRoot.StartTimer();
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
-                RpcRoot.SetOfficialServerAddress(NTKeyword.Localhost);
+                JsonRpcRoot.SetOfficialServerAddress(NTKeyword.Localhost);
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
                 VirtualRoot.AddEventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
                     action: message => {
@@ -59,9 +59,9 @@ namespace NTMiner {
                         FillCny(incomeItems, usdCny);
                         NeatenSpeedUnit(incomeItems);
                         if (incomeItems != null && incomeItems.Count != 0) {
-                            RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
-                            RpcRoot.SetIsOuterNet(false);
-                            RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
+                            JsonRpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
+                            JsonRpcRoot.SetIsOuterNet(false);
+                            JsonRpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
                                 Write.UserInfo($"NTMiner有{data.Count.ToString()}个币种");
                                 HashSet<string> coinCodes = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
                                 foreach (CalcConfigData calcConfigData in data) {
@@ -95,7 +95,7 @@ namespace NTMiner {
                                         }
                                     }
                                 }
-                                RpcRoot.OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
+                                JsonRpcRoot.OfficialServer.CalcConfigService.SaveCalcConfigsAsync(data, callback: (res, e) => {
                                     if (!res.IsSuccess()) {
                                         VirtualRoot.Out.ShowError(res.ReadMessage(e), autoHideSeconds: 4);
                                     }
@@ -260,7 +260,7 @@ namespace NTMiner {
 
         private static async Task<byte[]> GetHtmlAsync(string url) {
             try {
-                using (HttpClient client = RpcRoot.CreateHttpClient()) {
+                using (HttpClient client = JsonRpcRoot.CreateHttpClient()) {
                     client.Timeout = TimeSpan.FromSeconds(20);
                     return await client.GetByteArrayAsync(url);
                 }

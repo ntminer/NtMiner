@@ -83,7 +83,7 @@ namespace NTMiner.Ws {
                     _ws.SendAsync(message.ToBytes(), null);
                     break;
                 case NTMinerAppType.MinerStudio:
-                    _ws.SendAsync(message.SignToBytes(RpcRoot.RpcUser.Password), null);
+                    _ws.SendAsync(message.SignToBytes(JsonRpcRoot.RpcUser.Password), null);
                     break;
                 default:
                     break;
@@ -114,7 +114,7 @@ namespace NTMiner.Ws {
                         outerUserId = NTMinerRegistry.GetOuterUserId();
                         break;
                     case NTMinerAppType.MinerStudio:
-                        outerUserId = RpcRoot.RpcUser.LoginName;
+                        outerUserId = JsonRpcRoot.RpcUser.LoginName;
                         break;
                     default:
                         outerUserId = string.Empty;
@@ -196,7 +196,7 @@ namespace NTMiner.Ws {
         /// </summary>
         /// <returns></returns>
         private void NewWebSocket(Action<WebSocket> callback) {
-            RpcRoot.OfficialServer.WsServerNodeService.GetNodeAddressAsync(NTMinerRegistry.GetClientId(_appType), _outerUserId, (response, ex) => {
+            JsonRpcRoot.OfficialServer.WsServerNodeService.GetNodeAddressAsync(NTMinerRegistry.GetClientId(_appType), _outerUserId, (response, ex) => {
                 LastTryOn = DateTime.Now;
                 if (!response.IsSuccess()) {
                     IncreaseFailCount();
@@ -271,7 +271,7 @@ namespace NTMiner.Ws {
                                 UpdateWsStateAsync(description: "用户密码已变更，请重新登录", toOut: true);
                                 return;
                             }
-                            if (message.Sign != message.CalcSign(RpcRoot.RpcUser.Password)) {
+                            if (message.Sign != message.CalcSign(JsonRpcRoot.RpcUser.Password)) {
                                 UpdateWsStateAsync(description: "来自群控的消息签名错误", toOut: true);
                                 return;
                             }
@@ -370,7 +370,7 @@ namespace NTMiner.Ws {
             string userNameJson = VirtualRoot.JsonSerializer.Serialize(userName);
             string password = string.Empty;
             if (_appType == NTMinerAppType.MinerStudio) {
-                password = RpcRoot.RpcUser.Password;
+                password = JsonRpcRoot.RpcUser.Password;
             }
             string base64String = Convert.ToBase64String(Encoding.UTF8.GetBytes(userNameJson));
             password = HashUtil.Sha1(base64String + password);

@@ -74,7 +74,7 @@ namespace NTMiner {
                                 if (!string.IsNullOrEmpty(serverJson)) {
                                     HomePath.WriteServerJsonFile(serverJson);
                                 }
-                                RpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(HomePath.ExportServerJsonFileName, serverState => {
+                                JsonRpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(HomePath.ExportServerJsonFileName, serverState => {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) >= Timestamp.DesyncSeconds) {
@@ -159,7 +159,7 @@ namespace NTMiner {
         }
 
         private void RefreshServerJsonFile() {
-            RpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(HomePath.ExportServerJsonFileName, serverState => {
+            JsonRpcRoot.OfficialServer.AppSettingService.GetJsonFileVersionAsync(HomePath.ExportServerJsonFileName, serverState => {
                 AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverState.JsonFileVersion) && localServerJsonFileVersion != serverState.JsonFileVersion) {

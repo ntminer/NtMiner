@@ -115,7 +115,7 @@ namespace NTMiner {
                     if (!DaemonWsClient.IsOpen) {
                         return;
                     }
-                    RpcRoot.Client.MinerClientService.WsGetSpeedAsync((data, ex) => {
+                    JsonRpcRoot.Client.MinerClientService.WsGetSpeedAsync((data, ex) => {
                         if (!DaemonWsClient.IsOpen) {
                             return;
                         }
@@ -145,7 +145,7 @@ namespace NTMiner {
             if (!_isClosed) {
                 _isClosed = true;
                 RaiseEvent(new AppExitEvent());
-                RpcRoot.RpcUser?.Logout();
+                JsonRpcRoot.RpcUser?.Logout();
                 NTMinerConsole.Free();
                 _sMutexApp?.Dispose();
                 Environment.Exit(0);
