@@ -54,8 +54,9 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryResponseRpcRoot.cs" />
-    <Compile Include="BinaryResponseRpcRoot.partials.cs" />
+    <Compile Include="BinaryRequestJsonResponseRpcRoot.cs" />
+    <Compile Include="JsonRequestBinaryResponseRpcRoot.cs" />
+    <Compile Include="JsonRequestBinaryResponseRpcRoot.partials.cs" />
     <Compile Include="HttpRpcRoot.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MinerStudioServiceType.cs" />

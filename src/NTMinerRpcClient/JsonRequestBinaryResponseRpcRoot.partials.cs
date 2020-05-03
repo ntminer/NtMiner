@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public static partial class BinaryResponseRpcRoot {
+    public static partial class JsonRequestBinaryResponseRpcRoot {
         /// <summary>
         /// 注意：Request时PostAsJson，Response时ReadAsByteArrayAsync后进行二进制反序列化。
         /// </summary>
