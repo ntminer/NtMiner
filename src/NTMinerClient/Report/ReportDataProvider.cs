@@ -235,7 +235,7 @@ namespace NTMiner.Report {
         private void ReportSpeed() {
             try {
                 SpeedData data = CreateSpeedData();
-                RpcRoot.OfficialServer.ReportService.ReportSpeedAsync(data, (response, e) => {
+                RpcRoot.OfficialServer.ReportBinaryService.ReportSpeedAsync(data, (response, e) => {
                     if (response.IsSuccess()) {
                         AppVersionChangedEvent.PublishIfNewVersion(response.ServerState.MinerClientVersion);
                         if (response.NewServerMessages.Count != 0) {
