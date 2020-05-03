@@ -12,6 +12,7 @@ using System.Web.Http.Filters;
 using static NTMiner.Controllers.ApiControllerBase;
 
 namespace NTMiner.Role {
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class UserAttribute : ActionFilterAttribute {
         private static readonly MethodInfo _methodInfo = typeof(UserAttribute).GetMethod(nameof(IsValidUser), BindingFlags.NonPublic | BindingFlags.Static);
 
