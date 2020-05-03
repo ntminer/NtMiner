@@ -148,8 +148,9 @@ namespace NTMiner {
         public void ReInitMinerProfile(WorkType? workType = null) {
             if (workType.HasValue) {
                 _workType = workType.Value;
-                ReInitLocalJson();
             }
+            // 注意这行代码必须执行，这里引入过一个BUG
+            ReInitLocalJson();
             this._minerProfile.ReInit(this);
             // 本地数据集已刷新，此时刷新本地数据集的视图模型集
             VirtualRoot.RaiseEvent(new LocalContextReInitedEvent());
