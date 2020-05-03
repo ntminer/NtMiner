@@ -183,10 +183,10 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region SetAutoBootStartAsync
         public void SetAutoBootStartAsync(IMinerData client, SetAutoBootStartRequest request) {
-            HttpRpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetAutoBootStart), new Dictionary<string, string> {
+            JsonRpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetAutoBootStart), new Dictionary<string, string> {
                 {"autoBoot", request.AutoBoot.ToString() },
                 {"autoStart", request.AutoStart.ToString() }
-            }, content: null, callback: null, timeountMilliseconds: 3000);
+            }, data: null, callback: null, timeountMilliseconds: 3000);
         }
         #endregion
 

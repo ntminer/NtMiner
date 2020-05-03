@@ -21,7 +21,7 @@ namespace NTMiner.Core.Impl {
                 NTMinerRegistry.SetIsRdpEnabled(true);
                 Firewall.AddRdpRule();
                 if (IsNTMinerOpened()) {
-                    HttpRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RefreshIsRemoteDesktopEnabled), null, content: null, timeountMilliseconds: 3000);
+                    JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RefreshIsRemoteDesktopEnabled), null, data: null, timeountMilliseconds: 3000);
                 }
                 response = ResponseBase.Ok("开启Windows远程桌面");
             }
@@ -139,7 +139,7 @@ namespace NTMiner.Core.Impl {
             try {
                 SpecialPath.SaveGpuProfilesJsonFile(json);
                 if (IsNTMinerOpened()) {
-                    HttpRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.OverClock), null, content: null);
+                    JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.OverClock), null, data: null);
                 }
                 else {
                     description = "超频，挖矿端未启动，下次启动时生效";
@@ -165,7 +165,7 @@ namespace NTMiner.Core.Impl {
             try {
                 MinerProfileUtil.SetAutoStart(autoBoot, autoStart);
                 if (IsNTMinerOpened()) {
-                    HttpRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RefreshAutoBootStart), null, content: null, timeountMilliseconds: 3000);
+                    JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RefreshAutoBootStart), null, data: null, timeountMilliseconds: 3000);
                 }
                 isSuccess = true;
             }
