@@ -186,7 +186,7 @@ namespace NTMiner.MinerStudio.Impl {
             JsonRpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetAutoBootStart), new Dictionary<string, string> {
                 {"autoBoot", request.AutoBoot.ToString() },
                 {"autoStart", request.AutoStart.ToString() }
-            }, null, callback: null, timeountMilliseconds: 3000);
+            }, content: null, callback: null, timeountMilliseconds: 3000);
         }
         #endregion
 
