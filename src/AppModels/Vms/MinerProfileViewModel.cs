@@ -86,7 +86,6 @@ namespace NTMiner.Vms {
                 RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: true);
                 IsConnecting = true;
             });
-            bool isRefreshed = false;
             if (ClientAppType.IsMinerClient) {
                 VirtualRoot.AddEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                     action: message => {
@@ -97,7 +96,6 @@ namespace NTMiner.Vms {
                 VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
                     #region
                     if (message.WsClientState != null) {
-                        isRefreshed = true;
                         this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
                         if (message.WsClientState.ToOut) {
                             VirtualRoot.Out.ShowWarn(message.WsClientState.Description, autoHideSeconds: 3);
@@ -121,6 +119,18 @@ namespace NTMiner.Vms {
                         if (WsNextTrySecondsDelay > 0) {
                             WsNextTrySecondsDelay--;
                         }
+                        else if(WsLastTryOn == DateTime.MinValue) {
+                            RpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
+                                if (state != null) {
+                                    this.IsWsOnline = state.Status == WsClientStatus.Open;
+                                    this.WsDescription = state.Description;
+                                    if (state.NextTrySecondsDelay > 0) {
+                                        this.WsNextTrySecondsDelay = state.NextTrySecondsDelay;
+                                    }
+                                    this.WsLastTryOn = state.LastTryOn;
+                                }
+                            });
+                        }
                         OnPropertyChanged(nameof(WsLastTryOnText));
                     }
                 }, this.GetType());
@@ -129,18 +139,6 @@ namespace NTMiner.Vms {
                         StartOrStopWs();
                     }
                 }, this.GetType());
-                if (IsOuterUserEnabled) {
-                    RpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
-                        if (state != null && !isRefreshed) {
-                            this.IsWsOnline = state.Status == WsClientStatus.Open;
-                            this.WsDescription = state.Description;
-                            if (state.NextTrySecondsDelay > 0) {
-                                this.WsNextTrySecondsDelay = state.NextTrySecondsDelay;
-                            }
-                            this.WsLastTryOn = state.LastTryOn;
-                        }
-                    });
-                }
             }
             NTMinerContext.SetRefreshArgsAssembly((reason) => {
                 Write.DevDebug(() => $"RefreshArgsAssembly" + reason, ConsoleColor.Cyan);
