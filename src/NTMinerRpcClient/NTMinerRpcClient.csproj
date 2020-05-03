@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="BinaryResponseRpcRoot.cs" />
     <Compile Include="BinaryResponseRpcRoot.partials.cs" />
+    <Compile Include="HttpRpcRoot.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MinerStudioServiceType.cs" />
     <Compile Include="RpcRoot.cs" />

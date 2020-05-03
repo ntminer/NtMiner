@@ -20,14 +20,14 @@ namespace NTMiner.Services.Client {
         /// 本机网络调用
         /// </summary>
         public void CloseDaemonAsync(Action callback) {
-            JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.CloseDaemon), null, content: null, callback, timeountMilliseconds: 3000);
+            HttpRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.CloseDaemon), null, content: null, callback, timeountMilliseconds: 3000);
         }
 
         /// <summary>
         /// 本机网络调用
         /// </summary>
         public void StartOrStopWsAsync(bool isResetFailCount) {
-            JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.StartOrCloseWs), new Dictionary<string, string> {
+            HttpRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.StartOrCloseWs), new Dictionary<string, string> {
                 {"isResetFailCount", isResetFailCount.ToString() }
             }, content: null, timeountMilliseconds: 3000);
         }

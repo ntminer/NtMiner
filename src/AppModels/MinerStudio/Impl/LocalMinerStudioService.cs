@@ -183,7 +183,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region SetAutoBootStartAsync
         public void SetAutoBootStartAsync(IMinerData client, SetAutoBootStartRequest request) {
-            JsonRpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetAutoBootStart), new Dictionary<string, string> {
+            HttpRpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetAutoBootStart), new Dictionary<string, string> {
                 {"autoBoot", request.AutoBoot.ToString() },
                 {"autoStart", request.AutoStart.ToString() }
             }, content: null, callback: null, timeountMilliseconds: 3000);
@@ -292,7 +292,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region SaveGpuProfilesJsonAsync
         public void SaveGpuProfilesJsonAsync(IMinerData client, string json) {
             HttpContent content = new StringContent(json);
-            JsonRpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SaveGpuProfilesJson), null, content, null, timeountMilliseconds: 3000);
+            HttpRpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SaveGpuProfilesJson), null, content, null, timeountMilliseconds: 3000);
         }
         #endregion
     }
