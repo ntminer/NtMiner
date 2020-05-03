@@ -169,10 +169,6 @@ namespace NTMiner.Vms {
                     this.ArgsAssembly = string.Empty;
                 }
             });
-            VirtualRoot.AddEventPath<ServerContextVmsReInitedEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
-                action: message => {
-                    OnPropertyChanged(nameof(CoinVm));
-                }, location: this.GetType());
             AppRoot.AddCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
                 action: message => {
                     MinerProfileData data = NTMinerContext.Instance.ServerContext.CreateLocalRepository<MinerProfileData>().GetByKey(this.Id);
