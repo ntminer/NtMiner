@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public static partial class BinaryResponseRpcRoot {
         /// <summary>
-        /// 
+        /// 注意：Response时ReadAsByteArrayAsync后进行二进制反序列化。
         /// </summary>
         /// <typeparam name="TResponse"></typeparam>
         /// <param name="host">用于组装Url</param>
