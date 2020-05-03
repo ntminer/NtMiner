@@ -129,16 +129,13 @@ namespace NTMiner.Controllers {
         }
         #endregion
 
-        [Role.User]
+        [Role.Admin]
         [HttpPost]
         public GetWorkJsonResponse GetWorkJson([FromBody]GetWorkJsonRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<GetWorkJsonResponse>("参数错误");
             }
             try {
-                if (!User.IsAdmin()) {
-                    return ResponseBase.Forbidden<GetWorkJsonResponse>("无权操作");
-                }
                 string workerName = string.Empty;
                 // 如果是单机作业
                 if (request.WorkId == MineWorkData.SelfMineWorkId) {
@@ -150,7 +147,7 @@ namespace NTMiner.Controllers {
                 }
 
                 IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.WorkId);
-                if (mineWork == null || mineWork.LoginName != User.LoginName) {
+                if (mineWork == null) {
                     return ResponseBase.NotExist<GetWorkJsonResponse>();
                 }
                 string localJsonFileFullName = SpecialPath.GetMineWorkLocalJsonFileFullName(request.WorkId);
