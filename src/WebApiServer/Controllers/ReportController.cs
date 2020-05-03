@@ -5,13 +5,12 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class ReportController : ApiControllerBase, IReportController {
-        [HttpPost]
-        public ReportResponse ReportSpeed([FromBody]SpeedData speedData) {
+        public static ReportResponse DoReportSpeed(SpeedData speedData, string minerIp) {
             try {
                 if (speedData == null) {
                     return ResponseBase.InvalidInput<ReportResponse>();
                 }
-                WebApiRoot.ClientDataSet.ReportSpeed(speedData, MinerIp, isFromWsServerNode: false);
+                WebApiRoot.ClientDataSet.ReportSpeed(speedData, minerIp, isFromWsServerNode: false);
                 if (Version.TryParse(speedData.Version, out Version version)) {
                     string jsonVersionKey = HomePath.GetServerJsonVersion(version);
                     var response = ReportResponse.Ok(WebApiRoot.GetServerStateResponse(jsonVersionKey));
@@ -29,6 +28,11 @@ namespace NTMiner.Controllers {
                 Logger.ErrorDebugLine(e);
             }
             return ResponseBase.InvalidInput<ReportResponse>();
+        }
+
+        [HttpPost]
+        public ReportResponse ReportSpeed([FromBody]SpeedData speedData) {
+            return DoReportSpeed(speedData, MinerIp);
         }
 
         [HttpPost]

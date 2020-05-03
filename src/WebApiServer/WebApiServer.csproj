@@ -95,6 +95,7 @@
       <Link>HttpServer.cs</Link>
     </Compile>
     <Compile Include="Controllers\ClientDataBinaryController.cs" />
+    <Compile Include="Controllers\ReportBinaryController.cs" />
     <Compile Include="Role\AdminAttribute.cs" />
     <Compile Include="Role\UserAttribute.cs" />
     <Compile Include="Controllers\ApiControllerBase.cs" />
