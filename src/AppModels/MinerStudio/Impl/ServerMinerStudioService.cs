@@ -13,7 +13,7 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region QueryClientsAsync
         public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            RpcRoot.OfficialServer.ClientDataService.QueryClientsAsync(query, callback);
+            RpcRoot.OfficialServer.ClientDataBinaryService.QueryClientsAsync(query, callback);
         }
         #endregion
 

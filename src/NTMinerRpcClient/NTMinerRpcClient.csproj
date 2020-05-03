@@ -70,6 +70,7 @@
     <Compile Include="JsonRpcRoot.cs" />
     <Compile Include="IKernelOutputKeywordSet.cs" />
     <Compile Include="Impl\KernelOutputKeywordSet.cs" />
+    <Compile Include="Services\Official\ClientDataBinaryService.cs" />
     <Compile Include="Services\Official\CoinSnapshotService.cs" />
     <Compile Include="Services\Official\FileUrlService.cs" />
     <Compile Include="Services\Official\NTMinerWalletService.cs" />

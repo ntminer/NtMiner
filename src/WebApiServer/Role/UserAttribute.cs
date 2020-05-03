@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
 using System.Web.Http.Controllers;
@@ -44,11 +45,9 @@ namespace NTMiner.Role {
             if (actionParameters.Count == 1 && typeof(ISignableData).IsAssignableFrom(actionParameters[0].ParameterType)) {
                 input = (ISignableData)actionContext.ActionArguments.First().Value;
             }
-            Type returnType = actionContext.ActionDescriptor.ReturnType;
-            var tMethodInfo = _methodInfo.MakeGenericMethod(returnType);
             string message = null;
             var parameters = new object[] { clientSign, input, null, null };
-            bool isValid = (bool)tMethodInfo.Invoke(null, parameters);
+            bool isValid = (bool)_methodInfo.Invoke(null, parameters);
             ResponseBase response = (ResponseBase)parameters[2];// 因为调用的是带out参数的方法
             UserData user = (UserData)parameters[3];// 因为调用的是带out参数的方法
             if (isValid) {
@@ -58,38 +57,45 @@ namespace NTMiner.Role {
                 if (response != null && !string.IsNullOrEmpty(message)) {
                     response.Description = message;
                 }
-                actionContext.Response = new HttpResponseMessage(HttpStatusCode.OK) {
-                    Content = new StringContent(VirtualRoot.JsonSerializer.Serialize(response), Encoding.UTF8, "application/json")
-                };
+                Type returnType = actionContext.ActionDescriptor.ReturnType;
+                var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
+                if (returnType == typeof(HttpResponseMessage)) {
+                    httpResponseMessage.Content = new ByteArrayContent(VirtualRoot.BinarySerializer.Serialize(response));
+                    httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+                }
+                else {
+                    httpResponseMessage.Content = new StringContent(VirtualRoot.JsonSerializer.Serialize(response), Encoding.UTF8, "application/json");
+                }
+                actionContext.Response = httpResponseMessage;
             }
             else {
                 actionContext.ControllerContext.RouteData.Values["_user"] = user;
             }
         }
 
-        private static bool IsValidUser<TResponse>(ClientSignData query, ISignableData data, out TResponse response, out UserData user) where TResponse : ResponseBase, new() {
+        private static bool IsValidUser(ClientSignData clientSign, ISignableData data, out ResponseBase response, out UserData user) {
             user = null;
             if (!WebApiRoot.UserSet.IsReadied) {
                 string message = "服务器用户集启动中，请稍后";
-                response = ResponseBase.NotExist<TResponse>(message);
+                response = ResponseBase.NotExist(message);
                 return false;
             }
-            if (!Timestamp.IsInTime(query.Timestamp)) {
-                response = ResponseBase.Expired<TResponse>();
+            if (!Timestamp.IsInTime(clientSign.Timestamp)) {
+                response = ResponseBase.Expired();
                 return false;
             }
-            if (!string.IsNullOrEmpty(query.LoginName)) {
-                user = WebApiRoot.UserSet.GetUser(query.UserId);
+            if (!string.IsNullOrEmpty(clientSign.LoginName)) {
+                user = WebApiRoot.UserSet.GetUser(clientSign.UserId);
             }
             if (user == null) {
                 string message = "用户不存在";
-                response = ResponseBase.NotExist<TResponse>(message);
+                response = ResponseBase.NotExist(message);
                 return false;
             }
-            string mySign = RpcUser.CalcSign(user.LoginName, user.Password, query.Timestamp, data);
-            if (query.Sign != mySign) {
+            string mySign = RpcUser.CalcSign(user.LoginName, user.Password, clientSign.Timestamp, data);
+            if (clientSign.Sign != mySign) {
                 string message = "签名错误：1. 可能因为登录名或密码错误；2. 可能因为软件版本过期需要升级软件，请将软件升级到最新版本再试。";
-                response = ResponseBase.Forbidden<TResponse>(message);
+                response = ResponseBase.Forbidden(message);
                 return false;
             }
             response = null;
