@@ -46,6 +46,7 @@
     <Compile Include="Converters\IntToHiddenConverter.cs" />
     <Compile Include="Converters\MbToGbConverter.cs" />
     <Compile Include="FrameworkElementExtension.cs" />
+    <Compile Include="IVmFrameworkElement`1.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
     <Compile Include="Controls\IpAddressControl.xaml.cs">
@@ -63,6 +64,7 @@
     <Compile Include="Views\Ucs\Icons.xaml.cs">
       <DependentUpon>Icons.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VmFrameworkElementExtensions.cs" />
     <Compile Include="Vms\ContainerWindowViewModel.cs" />
     <Compile Include="Vms\DialogWindowViewModel.cs" />
     <Compile Include="Vms\IconsViewModel.cs" />

@@ -2,12 +2,11 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class CoinKernelSelect : UserControl {
-        public CoinKernelSelectViewModel Vm { get; private set; }
+    public partial class CoinKernelSelect : UserControl, IVmFrameworkElement<CoinKernelSelectViewModel> {
+        public CoinKernelSelectViewModel Vm { get; set; }
 
         public CoinKernelSelect(CoinKernelSelectViewModel vm) {
-            this.Vm = vm;
-            this.DataContext = vm;
+            this.Init(vm);
             InitializeComponent();
             this.OnLoaded(window => {
                 window.AddEventPath<CoinKernelVmAddedEvent>("添加了币种内核后，如果添加的币种内核是当前选中的币种的币种内核则刷新币种内核选择下拉列表的Vm内存", LogEnum.DevConsole, action: message => {

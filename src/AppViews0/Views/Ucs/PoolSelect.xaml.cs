@@ -2,12 +2,11 @@
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class PoolSelect : UserControl {
-        public PoolSelectViewModel Vm { get; private set; }
+    public partial class PoolSelect : UserControl, IVmFrameworkElement<PoolSelectViewModel> {
+        public PoolSelectViewModel Vm { get; set; }
 
         public PoolSelect(PoolSelectViewModel vm) {
-            this.Vm = vm;
-            this.DataContext = vm;
+            this.Init(vm);
             InitializeComponent();
         }
 

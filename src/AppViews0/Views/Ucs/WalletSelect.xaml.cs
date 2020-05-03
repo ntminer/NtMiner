@@ -3,12 +3,11 @@ using NTMiner.Vms;
 using System.Windows.Controls;
 
 namespace NTMiner.Views.Ucs {
-    public partial class WalletSelect : UserControl {
-        public WalletSelectViewModel Vm { get; private set; }
+    public partial class WalletSelect : UserControl, IVmFrameworkElement<WalletSelectViewModel> {
+        public WalletSelectViewModel Vm { get; set; }
 
         public WalletSelect(WalletSelectViewModel vm) {
-            this.Vm = vm;
-            this.DataContext = vm;
+            this.Init(vm);
             InitializeComponent();
             this.OnLoaded(window => {
                 window.AddEventPath<WalletVmAddedEvent>("添加了钱包后，如果添加的钱包是当前选中的币种的钱包则刷新钱包选择下拉列表的Vm内存", LogEnum.DevConsole, action: message => {
