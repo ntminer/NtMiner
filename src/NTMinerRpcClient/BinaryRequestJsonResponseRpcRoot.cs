@@ -14,7 +14,7 @@ namespace NTMiner {
         /// <param name="controller">用于组装Url</param>
         /// <param name="action">用于组装Url</param>
         /// <param name="query">Url上的查询参数，承载登录名、时间戳、签名</param>
-        /// <param name="bytes">字节数组</param>
+        /// <param name="data">字节数组</param>
         /// <param name="callback"></param>
         /// <param name="timeountMilliseconds"></param>
         public static void PostAsync<TResponse>(
@@ -23,7 +23,7 @@ namespace NTMiner {
             string controller,
             string action,
             Dictionary<string, string> query,
-            byte[] bytes,
+            object data,
             Action<TResponse, Exception> callback,
             int timeountMilliseconds = 0) {
             Task.Factory.StartNew(() => {
@@ -35,6 +35,7 @@ namespace NTMiner {
                             }
                             client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
                         }
+                        byte[] bytes = VirtualRoot.BinarySerializer.Serialize(data);
                         if (bytes == null) {
                             bytes = new byte[0];
                         }

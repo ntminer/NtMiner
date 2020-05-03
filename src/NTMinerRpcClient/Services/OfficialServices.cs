@@ -14,6 +14,7 @@
         public readonly CoinSnapshotService CoinSnapshotService = new CoinSnapshotService();
         public readonly ServerMessageService ServerMessageService = new ServerMessageService();
         public readonly ReportService ReportService = new ReportService();
+        public readonly ReportBinaryService ReportBinaryService = new ReportBinaryService();
         public readonly UserService UserService = new UserService();
         public readonly AppSettingService AppSettingService = new AppSettingService();
         public readonly UserAppSettingService UserAppSettingService = new UserAppSettingService();

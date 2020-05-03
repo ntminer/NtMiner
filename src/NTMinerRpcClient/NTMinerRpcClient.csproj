@@ -80,6 +80,7 @@
     <Compile Include="Services\Official\CalcConfigService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Official\KernelOutputKeywordService.cs" />
+    <Compile Include="Services\Official\ReportBinaryService.cs" />
     <Compile Include="Services\Official\UserAppSettingService.cs" />
     <Compile Include="Services\Official\UserService.cs" />
     <Compile Include="Services\Official\WebApiServerNodeService.cs" />
