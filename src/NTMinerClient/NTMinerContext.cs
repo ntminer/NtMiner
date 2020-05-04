@@ -380,22 +380,19 @@ namespace NTMiner {
             if (workType == WorkType.SelfWork) {
                 if (!File.Exists(HomePath.SelfWorkLocalJsonFileFullName) ||
                     !File.Exists(HomePath.SelfWorkServerJsonFileFullName)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"开始挖矿失败，因为单机作业不存在"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"开始挖矿失败，因为单机作业不存在，请先在群控端编辑单机作业后再开始挖矿。"));
                     return;
                 }
             }
             else if (workType == WorkType.MineWork) {
                 if (!File.Exists(HomePath.MineWorkLocalJsonFileFullName) ||
                     !File.Exists(HomePath.MineWorkServerJsonFileFullName)) {
-                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"开始挖矿失败，因为挖矿作业不存在"));
+                    VirtualRoot.RaiseEvent(new StartingMineFailedEvent($"开始挖矿失败，因为挖矿作业不存在，请在群控端为矿机分配作业后再开始挖矿。"));
                     return;
                 }
             }
             NTMinerRegistry.SetWorkType(workType);
-            if (workType != WorkType.None) {
-                ContextReInit();
-            }
-            else if (isPreIsWork) {
+            if (workType != WorkType.None || isPreIsWork) {
                 ContextReInit();
             }
             StartMine(isRestart: true);
