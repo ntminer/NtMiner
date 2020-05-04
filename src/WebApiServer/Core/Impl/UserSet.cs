@@ -73,7 +73,6 @@ namespace NTMiner.Core.Impl {
             return results;
         }
 
-        // TODO:目前根据业务没有细分权限和必要，所以硬编码一个超管即可，尚不需权限管理
         private void AddRole(UserData user, Role.RoleEnum role) {
             if (user == null) {
                 return;
