@@ -195,7 +195,7 @@ namespace NTMiner {
         #endregion
 
         private static LocalJsonDb _localJsonDb;
-        public static ILocalJsonDb LocalJson {
+        public static ILocalJsonDb LocalJsonDb {
             get {
                 LocalJsonInit();
                 return _localJsonDb;
@@ -213,19 +213,21 @@ namespace NTMiner {
             if (!_localJsonInited) {
                 lock (_locker) {
                     if (!_localJsonInited) {
-                        bool isConvertFromNTMinerContext;
                         string localJson = HomePath.ReadLocalJsonFile(_workType);
+                        LocalJsonDb localJsonDb = null;
                         if (!string.IsNullOrEmpty(localJson)) {
-                            _localJsonDb = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
-                            isConvertFromNTMinerContext = _localJsonDb == null;
+                            localJsonDb = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
                         }
-                        else {
-                            isConvertFromNTMinerContext = true;
+                        if (localJsonDb == null) {
+                            if (ClientAppType.IsMinerClient) {
+                                localJsonDb = JsonDb.LocalJsonDb.ConvertFromNTMinerContext();
+                                VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), "当前作业由本机数据自动生成，因为本机没有作业记录，请先在群控端创建或编辑作业。", OutEnum.Warn, toConsole: true);
+                            }
+                            else {
+                                localJsonDb = new LocalJsonDb();
+                            }
                         }
-                        if (isConvertFromNTMinerContext) {
-                            _localJsonDb = LocalJsonDb.ConvertFromNTMinerContext();
-                            VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), "当前作业由本机数据自动生成，因为本机没有作业记录，请先在群控端创建或编辑作业。", OutEnum.Warn, toConsole: true);
-                        }
+                        _localJsonDb = localJsonDb;
 
                         #region 因为是群控作业，将开机启动和自动挖矿设置为true
                         var repository = new LiteDbReadWriteRepository<MinerProfileData>(HomePath.LocalDbFileFullName);
@@ -269,11 +271,11 @@ namespace NTMiner {
         }
         #endregion
 
-        private static ServerJsonDb _serverJson;
-        public static IServerJsonDb ServerJson {
+        private static ServerJsonDb _serverJsonDb;
+        public static IServerJsonDb ServerJsonDb {
             get {
                 ServerJsonInit();
-                return _serverJson;
+                return _serverJsonDb;
             }
         }
 
@@ -303,7 +305,7 @@ namespace NTMiner {
                         if (!string.IsNullOrEmpty(serverJson)) {
                             ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson) ?? new ServerJsonDb();
                             try {
-                                _serverJson = data;
+                                _serverJsonDb = data;
                                 if (KernelBrandId != Guid.Empty) {
                                     var kernelToRemoves = data.Kernels.Where(a => a.BrandId != KernelBrandId).ToArray();
                                     foreach (var item in kernelToRemoves) {
@@ -334,7 +336,7 @@ namespace NTMiner {
                             }
                         }
                         else {
-                            _serverJson = new ServerJsonDb();
+                            _serverJsonDb = new ServerJsonDb();
                         }
                         _serverJsonInited = true;
                     }

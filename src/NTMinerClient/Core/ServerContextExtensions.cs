@@ -19,7 +19,7 @@ namespace NTMiner.Core {
                 return new LiteDbReadWriteRepository<T>(HomePath.LocalDbFileFullName);
             }
             else {
-                return new JsonReadOnlyRepository<T>(NTMinerContext.LocalJson);
+                return new JsonReadOnlyRepository<T>(NTMinerContext.LocalJsonDb);
             }
         }
 
@@ -28,7 +28,7 @@ namespace NTMiner.Core {
                 return new LiteDbReadWriteRepository<T>(HomePath.ServerDbFileFullName);
             }
             else {
-                return new JsonReadOnlyRepository<T>(NTMinerContext.ServerJson);
+                return new JsonReadOnlyRepository<T>(NTMinerContext.ServerJsonDb);
             }
         }
         #endregion
