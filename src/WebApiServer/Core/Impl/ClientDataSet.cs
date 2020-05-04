@@ -35,6 +35,13 @@ namespace NTMiner.Core.Impl {
         }) {
             _minerRedis = minerRedis;
             _speedDataRedis = speedDataRedis;
+            VirtualRoot.AddEventPath<Per1MinuteEvent>("周期清理Redis中不活跃的来自挖矿端上报的算力记录", LogEnum.DevConsole, action: message => {
+                DateTime time = message.BornOn.AddSeconds(-130);
+                var toRemoves = _dicByClientId.Where(a => a.Value.MinerActiveOn <= time).Select(a => a.Key).ToArray();
+                foreach (var key in toRemoves) {
+                    _speedDataRedis.DeleteByClientIdAsync(key);
+                }
+            }, this.GetType());
             _mqSender = mqSender;
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
             VirtualRoot.AddEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, action: message => {
