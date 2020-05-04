@@ -290,18 +290,7 @@ namespace NTMiner {
             if (!_serverJsonInited) {
                 lock (_locker) {
                     if (!_serverJsonInited) {
-                        string serverJson;
-                        switch (_workType) {
-                            case WorkType.SelfWork:
-                                serverJson = HomePath.ReadSelfWorkServerJsonFile();
-                                break;
-                            case WorkType.MineWork:
-                                serverJson = HomePath.ReadMineWorkServerJsonFile();
-                                break;
-                            default:
-                                serverJson = HomePath.ReadServerJsonFile();
-                                break;
-                        }
+                        string serverJson = HomePath.ReadServerJsonFile(_workType);
                         if (!string.IsNullOrEmpty(serverJson)) {
                             ServerJsonDb data = VirtualRoot.JsonSerializer.Deserialize<ServerJsonDb>(serverJson) ?? new ServerJsonDb();
                             try {

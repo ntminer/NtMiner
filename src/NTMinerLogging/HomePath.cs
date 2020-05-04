@@ -177,30 +177,40 @@ namespace NTMiner {
             }
         }
 
-        public static string ReadServerJsonFile() {
-            if (File.Exists(ServerJsonFileFullName)) {
-                return File.ReadAllText(ServerJsonFileFullName);
+        public static string ReadServerJsonFile(WorkType workType) {
+            switch (workType) {
+                case WorkType.SelfWork:
+                    return ReadSelfWorkServerJsonFile();
+                case WorkType.MineWork:
+                    return ReadMineWorkServerJsonFile();
+                default:
+                    if (File.Exists(ServerJsonFileFullName)) {
+                        return File.ReadAllText(ServerJsonFileFullName);
+                    }
+                    break;
             }
 
             return string.Empty;
         }
 
-        public static string ReadSelfWorkServerJsonFile() {
+        private static string ReadSelfWorkServerJsonFile() {
             if (File.Exists(SelfWorkServerJsonFileFullName)) {
                 return File.ReadAllText(SelfWorkServerJsonFileFullName);
             }
-            else {
-                return ReadServerJsonFile();
+            else if (File.Exists(ServerJsonFileFullName)) {
+                return File.ReadAllText(ServerJsonFileFullName);
             }
+            return string.Empty;
         }
 
-        public static string ReadMineWorkServerJsonFile() {
+        private static string ReadMineWorkServerJsonFile() {
             if (File.Exists(MineWorkServerJsonFileFullName)) {
                 return File.ReadAllText(MineWorkServerJsonFileFullName);
             }
-            else {
-                return ReadServerJsonFile();
+            else if (File.Exists(ServerJsonFileFullName)) {
+                return File.ReadAllText(ServerJsonFileFullName);
             }
+            return string.Empty;
         }
 
         public static void WriteServerJsonFile(string json) {
