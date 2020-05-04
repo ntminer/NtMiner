@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Mq.Senders;
 using NTMiner.Core.Redis;
 using NTMiner.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace NTMiner.Core.Impl {
     public class UserSet : ReadOnlyUserSet, IUserSet {
         private readonly IUserRedis _redis;
         private readonly IUserMqSender _mqSender;
+        private readonly Dictionary<string, TryLoginTimes> _tryLoginTimesDic = new Dictionary<string, TryLoginTimes>();
         public UserSet(IUserRedis redis, IUserMqSender mqSender) : base(redis) {
             _redis = redis;
             _mqSender = mqSender;
@@ -233,6 +235,33 @@ namespace NTMiner.Core.Impl {
                 return false;
             }
             return _dicByLoginName.ContainsKey(loginName);
+        }
+
+        public bool CheckLoginTimes(string loginName) {
+            if (!IsReadied) {
+                return false;
+            }
+            if (string.IsNullOrEmpty(loginName)) {
+                return false;
+            }
+            if (_tryLoginTimesDic.TryGetValue(loginName, out TryLoginTimes tryLoginTimes)) {
+                DateTime lastTryOn = tryLoginTimes.LastTryOn;
+                tryLoginTimes.LastTryOn = DateTime.Now;
+                tryLoginTimes.Times += 1;
+                // 如果距离上次登录的间隔小于1秒
+                if ((tryLoginTimes.LastTryOn - lastTryOn).TotalSeconds <= 1) {
+                    return false;
+                }
+                return true;
+            }
+            else {
+                _tryLoginTimesDic.Add(loginName, new TryLoginTimes {
+                    LastTryOn = DateTime.Now,
+                    LoginName = loginName,
+                    Times = 0
+                });
+                return true;
+            }
         }
     }
 }

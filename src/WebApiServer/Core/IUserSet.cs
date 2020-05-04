@@ -13,5 +13,6 @@ namespace NTMiner.Core {
         void RemoveAdminRole(string loginName);
         void ChangePassword(string loginName, string newPassword);
         bool Contains(string loginName);
+        bool CheckLoginTimes(string loginName);
     }
 }

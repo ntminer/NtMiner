@@ -1,11 +1,11 @@
-﻿using NTMiner.User;
+﻿using NTMiner.Controllers;
+using NTMiner.User;
 using System;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Reflection;
 using System.Text;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
@@ -14,8 +14,6 @@ using static NTMiner.Controllers.ApiControllerBase;
 namespace NTMiner.Role {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class UserAttribute : ActionFilterAttribute {
-        private static readonly MethodInfo _methodInfo = typeof(UserAttribute).GetMethod(nameof(IsValidUser), BindingFlags.NonPublic | BindingFlags.Static);
-
         protected virtual bool OnAuthorization(UserData user, out string message) {
             message = string.Empty;
             return true;
@@ -41,16 +39,16 @@ namespace NTMiner.Role {
                 long.TryParse(t, out timestamp);
             }
             ClientSignData clientSign = new ClientSignData(queryString["loginName"], queryString["sign"], timestamp);
-            ISignableData input = null;
-            var actionParameters = actionContext.ActionDescriptor.GetParameters();
+            ISignableData data = null;
+            var actionDescripter = actionContext.ActionDescriptor;
+            var actionParameters = actionDescripter.GetParameters();
+            bool isLoginAction = actionDescripter.ActionName == nameof(UserController.Login) 
+                && actionDescripter.ControllerDescriptor.ControllerName == RpcRoot.GetControllerName<UserController>();
             if (actionParameters.Count == 1 && typeof(ISignableData).IsAssignableFrom(actionParameters[0].ParameterType)) {
-                input = (ISignableData)actionContext.ActionArguments.First().Value;
+                data = (ISignableData)actionContext.ActionArguments.First().Value;
             }
             string message = null;
-            var parameters = new object[] { clientSign, input, null, null };
-            bool isValid = (bool)_methodInfo.Invoke(null, parameters);
-            ResponseBase response = (ResponseBase)parameters[2];// 因为调用的是带out参数的方法
-            UserData user = (UserData)parameters[3];// 因为调用的是带out参数的方法
+            bool isValid = IsValidUser(clientSign, data, isLoginAction, out ResponseBase response, out UserData user);
             if (isValid) {
                 isValid = OnAuthorization(user, out message);
             }
@@ -74,7 +72,7 @@ namespace NTMiner.Role {
             }
         }
 
-        private static bool IsValidUser(ClientSignData clientSign, ISignableData data, out ResponseBase response, out UserData user) {
+        private static bool IsValidUser(ClientSignData clientSign, ISignableData data, bool isLoginAction, out ResponseBase response, out UserData user) {
             user = null;
             if (!WebApiRoot.UserSet.IsReadied) {
                 string message = "服务器用户集启动中，请稍后";
@@ -92,6 +90,12 @@ namespace NTMiner.Role {
                 string message = "用户不存在";
                 response = ResponseBase.NotExist(message);
                 return false;
+            }
+            if (isLoginAction) {
+                if (!WebApiRoot.UserSet.CheckLoginTimes(clientSign.LoginName)) {
+                    response = ResponseBase.Forbidden("对不起，您的尝试太过频繁");
+                    return false;
+                }
             }
             string mySign = RpcUser.CalcSign(user.LoginName, user.Password, clientSign.Timestamp, data);
             if (clientSign.Sign != mySign) {
