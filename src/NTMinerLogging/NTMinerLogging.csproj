@@ -55,6 +55,7 @@
     <Compile Include="MessageType.cs" />
     <Compile Include="NTStopwatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WorkType.cs" />
     <Compile Include="Write.cs" />
   </ItemGroup>
   <ItemGroup>

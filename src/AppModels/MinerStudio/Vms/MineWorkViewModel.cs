@@ -148,6 +148,9 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         private void EditJson(FormType? formType, WorkType workType, string json) {
+            if (workType == WorkType.None) {
+                throw new InvalidProgramException();
+            }
             if (workType == WorkType.SelfWork) {
                 if (!string.IsNullOrEmpty(json)) {
                     File.WriteAllText(HomePath.SelfWorkLocalJsonFileFullName, json);

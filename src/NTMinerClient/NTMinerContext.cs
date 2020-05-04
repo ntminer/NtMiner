@@ -145,11 +145,11 @@ namespace NTMiner {
 
         // MinerProfile对应local.litedb或local.json
         // 群控客户端管理作业时调用该方法切换MinerProfile上下文
-        public void ReInitMinerProfile(WorkType? workType = null) {
-            if (workType.HasValue) {
-                _workType = workType.Value;
+        public void ReInitMinerProfile(WorkType workType) {
+            if (_workType != workType) {
+                _workType = workType;
             }
-            // 注意这行代码必须执行，这里引入过一个BUG
+            // 注意这行是必须的，非作业模式时不是使用的local.json，但这一行只是把_localJsonInited置为false
             ReInitLocalJson();
             this._minerProfile.ReInit(this);
             // 本地数据集已刷新，此时刷新本地数据集的视图模型集
@@ -213,7 +213,7 @@ namespace NTMiner {
             VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
             VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
-            ReInitMinerProfile();
+            ReInitMinerProfile(_workType);
         }
 
         private void Link() {

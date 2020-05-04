@@ -160,9 +160,6 @@
     <Compile Include="..\NTMinerlib\Windows\WinRegistry.cs">
       <Link>Windows\WinRegistry.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\WorkType.cs">
-      <Link>WorkType.cs</Link>
-    </Compile>
     <Compile Include="Core\IDaemonOperation.cs" />
     <Compile Include="Core\IOperationResultSet.cs" />
     <Compile Include="Core\Impl\OperationResultSet.cs" />

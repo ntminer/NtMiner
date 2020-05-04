@@ -215,7 +215,18 @@ namespace NTMiner {
             File.WriteAllText(MineWorkServerJsonFileFullName, json);
         }
 
-        public static string ReadMineWorkLocalJsonFile() {
+        public static string ReadLocalJsonFile(WorkType workType) {
+            switch (workType) {
+                case WorkType.SelfWork:
+                    return ReadSelfWorkLocalJsonFile();
+                case WorkType.MineWork:
+                    return ReadMineWorkLocalJsonFile();
+                default:
+                    return string.Empty;
+            }
+        }
+
+        private static string ReadMineWorkLocalJsonFile() {
             if (File.Exists(MineWorkLocalJsonFileFullName)) {
                 return File.ReadAllText(MineWorkLocalJsonFileFullName);
             }
@@ -223,13 +234,12 @@ namespace NTMiner {
             return string.Empty;
         }
 
-        public static string ReadSelfWorkLocalJsonFile() {
+        private static string ReadSelfWorkLocalJsonFile() {
             if (File.Exists(SelfWorkLocalJsonFileFullName)) {
                 return File.ReadAllText(SelfWorkLocalJsonFileFullName);
             }
-            else {
-                return ReadMineWorkLocalJsonFile();
-            }
+
+            return string.Empty;
         }
 
         public static string ReadGpuProfilesJsonFile() {

@@ -6,6 +6,17 @@ using System.Linq;
 
 namespace NTMiner.JsonDb {
     public class LocalJsonDb : ILocalJsonDb {
+        public static LocalJsonDb ConvertFromNTMinerContext() {
+            return new LocalJsonDb(NTMinerContext.Instance, new MineWorkData {
+                CreatedOn = DateTime.Now,
+                Description = "由本机挖矿设置转化而来",
+                Id = MineWorkData.SelfMineWorkId,
+                ModifiedOn = DateTime.MinValue,
+                Name = "缺省作业",
+                ServerJsonSha1 = string.Empty
+            });
+        }
+
         public LocalJsonDb() {
             this.CoinKernelProfiles = new CoinKernelProfileData[0];
             this.CoinProfiles = new CoinProfileData[0];

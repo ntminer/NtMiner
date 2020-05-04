@@ -140,8 +140,8 @@ namespace NTMiner {
 
         #region 枚举数据集
         public static IEnumerable<EnumItem<LocalMessageChannel>> LocalMessageChannelEnumItems {
-            get { 
-                return EnumItem<LocalMessageChannel>.GetEnumItems(); 
+            get {
+                return EnumItem<LocalMessageChannel>.GetEnumItems();
             }
         }
 
@@ -175,7 +175,7 @@ namespace NTMiner {
             }
         }
 
-       public static IEnumerable<EnumItem<UserStatus>> UserStatusEnumItems {
+        public static IEnumerable<EnumItem<UserStatus>> UserStatusEnumItems {
             get {
                 return EnumItem<UserStatus>.GetEnumItems();
             }
@@ -194,17 +194,16 @@ namespace NTMiner {
         }
         #endregion
 
-        private static LocalJsonDb _localJson;
+        private static LocalJsonDb _localJsonDb;
         public static ILocalJsonDb LocalJson {
             get {
                 LocalJsonInit();
-                return _localJson;
+                return _localJsonDb;
             }
         }
 
         public static void ReInitLocalJson() {
             _localJsonInited = false;
-            LocalJsonInit();
         }
 
         #region LocalJsonInit
@@ -214,28 +213,25 @@ namespace NTMiner {
             if (!_localJsonInited) {
                 lock (_locker) {
                     if (!_localJsonInited) {
-                        string localJson;
-                        switch (_workType) {
-                            case WorkType.SelfWork:
-                                localJson = HomePath.ReadSelfWorkLocalJsonFile();
-                                break;
-                            default:
-                                localJson = HomePath.ReadMineWorkLocalJsonFile();
-                                break;
-                        }
+                        bool isConvertFromNTMinerContext;
+                        string localJson = HomePath.ReadLocalJsonFile(_workType);
                         if (!string.IsNullOrEmpty(localJson)) {
-                            LocalJsonDb data = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
-                            _localJson = data ?? new LocalJsonDb();
+                            _localJsonDb = VirtualRoot.JsonSerializer.Deserialize<LocalJsonDb>(localJson);
+                            isConvertFromNTMinerContext = _localJsonDb == null;
                         }
                         else {
-                            _localJson = new LocalJsonDb();
+                            isConvertFromNTMinerContext = true;
+                        }
+                        if (isConvertFromNTMinerContext) {
+                            _localJsonDb = LocalJsonDb.ConvertFromNTMinerContext();
+                            VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), "当前作业由本机数据自动生成，因为本机没有作业记录，请先在群控端创建或编辑作业。", OutEnum.Warn, toConsole: true);
                         }
 
                         #region 因为是群控作业，将开机启动和自动挖矿设置为true
                         var repository = new LiteDbReadWriteRepository<MinerProfileData>(HomePath.LocalDbFileFullName);
                         MinerProfileData localProfile = repository.GetByKey(MinerProfileData.DefaultId);
                         if (localProfile != null) {
-                            MinerProfileData.CopyWorkIgnoreValues(localProfile, _localJson.MinerProfile);
+                            MinerProfileData.CopyWorkIgnoreValues(localProfile, _localJsonDb.MinerProfile);
                             // 如果是作业模式则必须设置为开机自动重启
                             if (localProfile.IsAutoStart == false || localProfile.IsAutoBoot == false) {
                                 localProfile.IsAutoBoot = true;
@@ -243,25 +239,25 @@ namespace NTMiner {
                                 repository.Update(localProfile);
                             }
                         }
-                        _localJson.MinerProfile.IsAutoBoot = true;
-                        _localJson.MinerProfile.IsAutoStart = true;
+                        _localJsonDb.MinerProfile.IsAutoBoot = true;
+                        _localJsonDb.MinerProfile.IsAutoStart = true;
                         #endregion
 
                         #region 矿机名
                         if (!string.IsNullOrEmpty(_workerName)) {
-                            _localJson.MinerProfile.MinerName = _workerName;
+                            _localJsonDb.MinerProfile.MinerName = _workerName;
                         }
                         else {
                             // 当用户使用群控作业但没有指定群控矿机名时使用从local.litedb中读取的矿工名
-                            if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
+                            if (string.IsNullOrEmpty(_localJsonDb.MinerProfile.MinerName)) {
                                 if (localProfile != null) {
-                                    _localJson.MinerProfile.MinerName = localProfile.MinerName;
+                                    _localJsonDb.MinerProfile.MinerName = localProfile.MinerName;
                                 }
                                 // 如果local.litedb中也没有矿机名则使用去除了特殊符号的本机机器名作为矿机名
-                                if (string.IsNullOrEmpty(_localJson.MinerProfile.MinerName)) {
+                                if (string.IsNullOrEmpty(_localJsonDb.MinerProfile.MinerName)) {
                                     string minerName = Environment.MachineName;
                                     minerName = new string(minerName.ToCharArray().Where(a => !NTKeyword.InvalidMinerNameChars.Contains(a)).ToArray());
-                                    _localJson.MinerProfile.MinerName = minerName;
+                                    _localJsonDb.MinerProfile.MinerName = minerName;
                                 }
                             }
                         }
