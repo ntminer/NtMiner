@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.Senders {
     // Mq消息上带上loginName的意义是为了验证权限，确保用户只能操作自己的矿机不能操作别人的矿机。
-    // TODO:以后根据业务和性能情况再决定是否消减Mq消息量，消减的方法是让各WsServer、WebApiServer互相建立tcp连接根据clientId计算目标分片槽直接转发给目标节点从而不用通过Mq转发。
     public interface IOperationMqSender : IMqSender {
         void SendGetConsoleOutLines(string loginName, Guid clientId, long afterTime);
         void SendConsoleOutLines(string loginName, Guid clientId, List<ConsoleOutLine> datas);
