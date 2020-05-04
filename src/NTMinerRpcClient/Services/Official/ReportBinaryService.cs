@@ -9,8 +9,8 @@ namespace NTMiner.Services.Official {
         public ReportBinaryService() {
         }
 
-        public void ReportSpeedAsync(SpeedData data, Action<ReportResponse, Exception> callback) {
-            BinaryRequestJsonResponseRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IReportBinaryController.ReportSpeed), query: null, data, callback, timeountMilliseconds: 5000);
+        public void ReportSpeedAsync(SpeedDto speedDto, Action<ReportResponse, Exception> callback) {
+            BinaryRequestJsonResponseRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IReportBinaryController.ReportSpeed), query: null, speedDto, callback, timeountMilliseconds: 5000);
         }
     }
 }

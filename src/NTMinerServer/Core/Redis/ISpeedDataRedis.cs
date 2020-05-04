@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis {
     public interface ISpeedDataRedis {
-        Task<List<SpeedData>> GetAllAsync();
-        Task<SpeedData> GetByClientIdAsync(Guid clientId);
-        Task SetAsync(SpeedData data);
+        Task<List<SpeedDto>> GetAllAsync();
+        Task<SpeedDto> GetByClientIdAsync(Guid clientId);
+        Task SetAsync(SpeedDto speedDto);
         Task DeleteByClientIdAsync(Guid clientId);
     }
 }

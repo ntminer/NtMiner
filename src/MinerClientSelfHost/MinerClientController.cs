@@ -82,9 +82,9 @@ namespace NTMiner {
 
         [HttpPost]
         [HttpGet]
-        public SpeedData GetSpeed() {
+        public SpeedDto GetSpeed() {
             try {
-                return NTMinerContext.Instance.ReporterDataProvider.CreateSpeedData();
+                return NTMinerContext.Instance.ReporterDataProvider.CreateSpeedDto();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -94,11 +94,11 @@ namespace NTMiner {
 
         [HttpPost]
         [HttpGet]
-        public SpeedData WsGetSpeed() {
+        public SpeedDto WsGetSpeed() {
             try {
                 var dataProvider = NTMinerContext.Instance.ReporterDataProvider;
                 dataProvider.WsGetSpeedOn = DateTime.Now;
-                return dataProvider.CreateSpeedData();
+                return dataProvider.CreateSpeedDto();
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);

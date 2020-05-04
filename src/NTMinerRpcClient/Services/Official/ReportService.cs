@@ -9,8 +9,8 @@ namespace NTMiner.Services.Official {
         public ReportService() {
         }
 
-        public void ReportSpeedAsync(SpeedData data, Action<ReportResponse, Exception> callback) {
-            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IReportController.ReportSpeed), data, callback, timeountMilliseconds: 5000);
+        public void ReportSpeedAsync(SpeedDto speedDto, Action<ReportResponse, Exception> callback) {
+            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IReportController.ReportSpeed), speedDto, callback, timeountMilliseconds: 5000);
         }
 
         public void ReportStateAsync(Guid clientId, bool isMining) {

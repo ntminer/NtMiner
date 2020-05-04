@@ -3,7 +3,7 @@ using NTMiner.Core.MinerClient;
 using System;
 
 namespace NTMiner.Report {
-    public interface ISpeedData : IMinerIp {
+    public interface ISpeedDto : IMinerIp {
         Guid MineContextId { get; }
         DateTime LocalServerMessageTimestamp { get; }
         int AutoRestartKernelTimes { get; }

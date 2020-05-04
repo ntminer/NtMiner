@@ -114,26 +114,26 @@ namespace NTMiner.Core.Impl {
             return false;
         }
 
-        public void ReportSpeed(SpeedData speedData, string minerIp, bool isFromWsServerNode) {
+        public void ReportSpeed(SpeedDto speedDto, string minerIp, bool isFromWsServerNode) {
             if (!IsReadied) {
                 return;
             }
-            if (speedData == null || speedData.ClientId == Guid.Empty) {
+            if (speedDto == null || speedDto.ClientId == Guid.Empty) {
                 return;
             }
             if (string.IsNullOrEmpty(minerIp)) {
                 return;
             }
             if (!isFromWsServerNode) {
-                _speedDataRedis.SetAsync(speedData);
+                _speedDataRedis.SetAsync(speedDto);
             }
-            ClientData clientData = GetByClientId(speedData.ClientId);
+            ClientData clientData = GetByClientId(speedDto.ClientId);
             if (clientData == null) {
-                clientData = ClientData.Create(speedData, minerIp);
+                clientData = ClientData.Create(speedDto, minerIp);
                 Add(clientData);
             }
             else {
-                clientData.Update(speedData, minerIp, out bool isMinerDataChanged);
+                clientData.Update(speedDto, minerIp, out bool isMinerDataChanged);
                 if (isMinerDataChanged) {
                     DoUpdateSave(MinerData.Create(clientData));
                 }

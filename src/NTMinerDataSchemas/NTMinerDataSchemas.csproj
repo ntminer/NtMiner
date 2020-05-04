@@ -158,7 +158,7 @@
     <Compile Include="Ws\WsMessage.cs" />
     <Compile Include="Core\MinerClient\IGpuSpeedData.cs" />
     <Compile Include="Core\MinerClient\ILocalIp.cs" />
-    <Compile Include="Report\ISpeedData.cs" />
+    <Compile Include="Report\ISpeedDto.cs" />
     <Compile Include="Core\MinerClient\LocalIpDto.cs" />
     <Compile Include="Core\MinerServer\IMinerData.cs" />
     <Compile Include="Core\MinerServer\INTMinerWallet.cs" />
@@ -239,7 +239,7 @@
     <Compile Include="ResponseBase.cs" />
     <Compile Include="ResponseBaseExtension.cs" />
     <Compile Include="Core\MinerServer\SaveCalcConfigsRequest.cs" />
-    <Compile Include="Report\SpeedData.cs" />
+    <Compile Include="Report\SpeedDto.cs" />
     <Compile Include="Timestamp.cs" />
     <Compile Include="Core\MinerServer\UpdateClientRequest.cs" />
     <Compile Include="Core\WalletData.cs" />

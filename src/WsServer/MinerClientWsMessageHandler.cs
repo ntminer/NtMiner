@@ -52,9 +52,9 @@ namespace NTMiner {
             },
             {WsMessage.Speed,
                 (wsBehavior, loginName, clientId, message) => {
-                    if (message.TryGetData(out SpeedData speedData)) {
-                        WsRoot.SpeedDataRedis.SetAsync(speedData).ContinueWith(t => {
-                            WsRoot.MinerClientMqSender.SendSpeed(loginName, speedData.ClientId, wsBehavior.Context.UserEndPoint.ToString());
+                    if (message.TryGetData(out SpeedDto speedDto)) {
+                        WsRoot.SpeedDataRedis.SetAsync(speedDto).ContinueWith(t => {
+                            WsRoot.MinerClientMqSender.SendSpeed(loginName, speedDto.ClientId, wsBehavior.Context.UserEndPoint.ToString());
                         });
                     }
                 }

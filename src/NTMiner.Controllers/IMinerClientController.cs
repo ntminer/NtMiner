@@ -13,8 +13,8 @@ namespace NTMiner.Controllers {
         ResponseBase CloseNTMiner(object request);
         ResponseBase StartMine(WorkRequest request);
         ResponseBase StopMine(object request);
-        SpeedData GetSpeed();
-        SpeedData WsGetSpeed();
+        SpeedDto GetSpeed();
+        SpeedDto WsGetSpeed();
         List<ConsoleOutLine> GetConsoleOutLines(long afterTime);
         List<LocalMessageDto> GetLocalMessages(long afterTime);
         void RefreshAutoBootStart();

@@ -49,11 +49,11 @@ namespace NTMiner.Services.Client {
             }, timeountMilliseconds: 2000);
         }
 
-        public void GetSpeedAsync(IMinerData client, Action<SpeedData, Exception> callback) {
+        public void GetSpeedAsync(IMinerData client, Action<SpeedDto, Exception> callback) {
             JsonRpcRoot.GetAsync(client.GetLocalIp(), NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetSpeed), null, callback, timeountMilliseconds: 3000);
         }
 
-        public void WsGetSpeedAsync(Action<SpeedData, Exception> callback) {
+        public void WsGetSpeedAsync(Action<SpeedDto, Exception> callback) {
             JsonRpcRoot.GetAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.WsGetSpeed), null, callback, timeountMilliseconds: 3000);
         }
 

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Reflection;
 
 namespace NTMiner.Core.MinerServer {
-    public class ClientData : SpeedData, IClientData {
+    public class ClientData : SpeedDto, IClientData {
         private static readonly Dictionary<string, PropertyInfo> _reflectionUpdateProperties = new Dictionary<string, PropertyInfo>();
 
         public static bool TryGetReflectionUpdateProperty(string propertyName, out PropertyInfo propertyInfo) {
@@ -245,7 +245,7 @@ namespace NTMiner.Core.MinerServer {
         /// 从给定的speedData中提取出主币矿池延时，辅币矿池延时，主币拒绝率，辅币拒绝率。
         /// </summary>
         private static void Extract(
-            ISpeedData speedData, 
+            ISpeedDto speedDto, 
             out int mainCoinPoolDelayNumber, 
             out int dualCoinPoolDelayNumber, 
             out double mainCoinRejectPercent, 
@@ -255,8 +255,8 @@ namespace NTMiner.Core.MinerServer {
             dualCoinPoolDelayNumber = 0;
             mainCoinRejectPercent = 0.0;
             dualCoinRejectPercent = 0.0;
-            if (!string.IsNullOrEmpty(speedData.MainCoinPoolDelay)) {
-                string text = speedData.MainCoinPoolDelay.Trim();
+            if (!string.IsNullOrEmpty(speedDto.MainCoinPoolDelay)) {
+                string text = speedDto.MainCoinPoolDelay.Trim();
                 int count = 0;
                 for (int i = 0; i < text.Length; i++) {
                     if (!char.IsNumber(text[i])) {
@@ -268,8 +268,8 @@ namespace NTMiner.Core.MinerServer {
                     mainCoinPoolDelayNumber = int.Parse(text.Substring(0, count));
                 }
             }
-            if (!string.IsNullOrEmpty(speedData.DualCoinPoolDelay)) {
-                string text = speedData.DualCoinPoolDelay.Trim();
+            if (!string.IsNullOrEmpty(speedDto.DualCoinPoolDelay)) {
+                string text = speedDto.DualCoinPoolDelay.Trim();
                 int count = 0;
                 for (int i = 0; i < text.Length; i++) {
                     if (!char.IsNumber(text[i])) {
@@ -281,25 +281,25 @@ namespace NTMiner.Core.MinerServer {
                     dualCoinPoolDelayNumber = int.Parse(text.Substring(0, count));
                 }
             }
-            if (speedData.MainCoinTotalShare != 0) {
-                mainCoinRejectPercent = (speedData.MainCoinRejectShare * 100.0) / speedData.MainCoinTotalShare;
+            if (speedDto.MainCoinTotalShare != 0) {
+                mainCoinRejectPercent = (speedDto.MainCoinRejectShare * 100.0) / speedDto.MainCoinTotalShare;
             }
-            if (speedData.DualCoinTotalShare != 0) {
-                dualCoinRejectPercent = (speedData.DualCoinRejectShare * 100.0) / speedData.DualCoinTotalShare;
+            if (speedDto.DualCoinTotalShare != 0) {
+                dualCoinRejectPercent = (speedDto.DualCoinRejectShare * 100.0) / speedDto.DualCoinTotalShare;
             }
         }
 
-        public static ClientData Create(ISpeedData speedData, string minerIp) {
+        public static ClientData Create(ISpeedDto speedDto, string minerIp) {
             Extract(
-                speedData, 
+                speedDto, 
                 out int mainCoinPoolDelayNumber, 
                 out int dualCoinPoolDelayNumber, 
                 out double mainCoinRejectPercent, 
                 out double dualCoinRejectPercent);
             return new ClientData() {
                 Id = ObjectId.NewObjectId().ToString(),
-                MineContextId = speedData.MineContextId,
-                MinerName = speedData.MinerName,
+                MineContextId = speedDto.MineContextId,
+                MinerName = speedDto.MinerName,
                 MinerIp = minerIp,
                 CreatedOn = DateTime.Now,
                 MinerActiveOn = DateTime.Now,
@@ -307,85 +307,85 @@ namespace NTMiner.Core.MinerServer {
                 WorkId = Guid.Empty,// 这是服务端指定的作业，不受客户端的影响
                 WindowsLoginName = string.Empty,
                 WindowsPassword = string.Empty,
-                MACAddress = speedData.MACAddress,
-                LocalIp = speedData.LocalIp,
-                ClientId = speedData.ClientId,
-                IsAutoBoot = speedData.IsAutoBoot,
-                IsAutoStart = speedData.IsAutoStart,
-                AutoStartDelaySeconds = speedData.AutoStartDelaySeconds,
-                IsAutoRestartKernel = speedData.IsAutoRestartKernel,
-                AutoRestartKernelTimes = speedData.AutoRestartKernelTimes,
-                IsNoShareRestartKernel = speedData.IsNoShareRestartKernel,
-                NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes,
-                IsNoShareRestartComputer = speedData.IsNoShareRestartComputer,
-                NoShareRestartComputerMinutes = speedData.NoShareRestartComputerMinutes,
-                IsPeriodicRestartKernel = speedData.IsPeriodicRestartKernel,
-                PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours,
-                IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer,
-                PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours,
-                PeriodicRestartComputerMinutes = speedData.PeriodicRestartComputerMinutes,
-                PeriodicRestartKernelMinutes = speedData.PeriodicRestartKernelMinutes,
-                IsAutoStopByCpu = speedData.IsAutoStopByCpu,
-                IsAutoStartByCpu = speedData.IsAutoStartByCpu,
-                CpuStopTemperature = speedData.CpuStopTemperature,
-                CpuStartTemperature = speedData.CpuStartTemperature,
-                CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds,
-                CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds,
-                CpuTemperature = speedData.CpuTemperature,
-                CpuPerformance = speedData.CpuPerformance,
-                IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent,
-                HighCpuPercent = speedData.HighCpuPercent,
-                HighCpuSeconds = speedData.HighCpuSeconds,
-                GpuDriver = speedData.GpuDriver,
-                GpuType = speedData.GpuType,
-                OSName = speedData.OSName,
-                OSVirtualMemoryMb = speedData.OSVirtualMemoryMb,
-                TotalPhysicalMemoryMb = speedData.TotalPhysicalMemoryMb,
-                GpuInfo = speedData.GpuInfo,
-                Version = speedData.Version,
-                IsMining = speedData.IsMining,
-                BootOn = speedData.BootOn,
-                MineStartedOn = speedData.MineStartedOn,
-                MainCoinCode = speedData.MainCoinCode,
-                MainCoinTotalShare = speedData.MainCoinTotalShare,
-                MainCoinRejectShare = speedData.MainCoinRejectShare,
-                MainCoinSpeed = speedData.MainCoinSpeed,
-                MainCoinPool = speedData.MainCoinPool,
-                MainCoinWallet = speedData.MainCoinWallet,
-                Kernel = speedData.Kernel,
-                IsDualCoinEnabled = speedData.IsDualCoinEnabled,
-                DualCoinPool = speedData.DualCoinPool,
-                DualCoinWallet = speedData.DualCoinWallet,
-                DualCoinCode = speedData.DualCoinCode,
-                DualCoinTotalShare = speedData.DualCoinTotalShare,
-                DualCoinRejectShare = speedData.DualCoinRejectShare,
-                DualCoinSpeed = speedData.DualCoinSpeed,
-                KernelCommandLine = speedData.KernelCommandLine,
-                MainCoinSpeedOn = speedData.MainCoinSpeedOn,
-                DualCoinSpeedOn = speedData.DualCoinSpeedOn,
-                GpuTable = speedData.GpuTable,
-                MineWorkId = speedData.MineWorkId,
-                MineWorkName = speedData.MineWorkName,
-                DiskSpace = speedData.DiskSpace,
-                MainCoinPoolDelay = speedData.MainCoinPoolDelay,
-                DualCoinPoolDelay = speedData.DualCoinPoolDelay,
-                IsFoundOneGpuShare = speedData.IsFoundOneGpuShare,
-                IsRejectOneGpuShare = speedData.IsRejectOneGpuShare,
-                IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare,
-                KernelSelfRestartCount = speedData.KernelSelfRestartCount - 1,// 需要减1
-                LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp,
+                MACAddress = speedDto.MACAddress,
+                LocalIp = speedDto.LocalIp,
+                ClientId = speedDto.ClientId,
+                IsAutoBoot = speedDto.IsAutoBoot,
+                IsAutoStart = speedDto.IsAutoStart,
+                AutoStartDelaySeconds = speedDto.AutoStartDelaySeconds,
+                IsAutoRestartKernel = speedDto.IsAutoRestartKernel,
+                AutoRestartKernelTimes = speedDto.AutoRestartKernelTimes,
+                IsNoShareRestartKernel = speedDto.IsNoShareRestartKernel,
+                NoShareRestartKernelMinutes = speedDto.NoShareRestartKernelMinutes,
+                IsNoShareRestartComputer = speedDto.IsNoShareRestartComputer,
+                NoShareRestartComputerMinutes = speedDto.NoShareRestartComputerMinutes,
+                IsPeriodicRestartKernel = speedDto.IsPeriodicRestartKernel,
+                PeriodicRestartKernelHours = speedDto.PeriodicRestartKernelHours,
+                IsPeriodicRestartComputer = speedDto.IsPeriodicRestartComputer,
+                PeriodicRestartComputerHours = speedDto.PeriodicRestartComputerHours,
+                PeriodicRestartComputerMinutes = speedDto.PeriodicRestartComputerMinutes,
+                PeriodicRestartKernelMinutes = speedDto.PeriodicRestartKernelMinutes,
+                IsAutoStopByCpu = speedDto.IsAutoStopByCpu,
+                IsAutoStartByCpu = speedDto.IsAutoStartByCpu,
+                CpuStopTemperature = speedDto.CpuStopTemperature,
+                CpuStartTemperature = speedDto.CpuStartTemperature,
+                CpuLETemperatureSeconds = speedDto.CpuLETemperatureSeconds,
+                CpuGETemperatureSeconds = speedDto.CpuGETemperatureSeconds,
+                CpuTemperature = speedDto.CpuTemperature,
+                CpuPerformance = speedDto.CpuPerformance,
+                IsRaiseHighCpuEvent = speedDto.IsRaiseHighCpuEvent,
+                HighCpuPercent = speedDto.HighCpuPercent,
+                HighCpuSeconds = speedDto.HighCpuSeconds,
+                GpuDriver = speedDto.GpuDriver,
+                GpuType = speedDto.GpuType,
+                OSName = speedDto.OSName,
+                OSVirtualMemoryMb = speedDto.OSVirtualMemoryMb,
+                TotalPhysicalMemoryMb = speedDto.TotalPhysicalMemoryMb,
+                GpuInfo = speedDto.GpuInfo,
+                Version = speedDto.Version,
+                IsMining = speedDto.IsMining,
+                BootOn = speedDto.BootOn,
+                MineStartedOn = speedDto.MineStartedOn,
+                MainCoinCode = speedDto.MainCoinCode,
+                MainCoinTotalShare = speedDto.MainCoinTotalShare,
+                MainCoinRejectShare = speedDto.MainCoinRejectShare,
+                MainCoinSpeed = speedDto.MainCoinSpeed,
+                MainCoinPool = speedDto.MainCoinPool,
+                MainCoinWallet = speedDto.MainCoinWallet,
+                Kernel = speedDto.Kernel,
+                IsDualCoinEnabled = speedDto.IsDualCoinEnabled,
+                DualCoinPool = speedDto.DualCoinPool,
+                DualCoinWallet = speedDto.DualCoinWallet,
+                DualCoinCode = speedDto.DualCoinCode,
+                DualCoinTotalShare = speedDto.DualCoinTotalShare,
+                DualCoinRejectShare = speedDto.DualCoinRejectShare,
+                DualCoinSpeed = speedDto.DualCoinSpeed,
+                KernelCommandLine = speedDto.KernelCommandLine,
+                MainCoinSpeedOn = speedDto.MainCoinSpeedOn,
+                DualCoinSpeedOn = speedDto.DualCoinSpeedOn,
+                GpuTable = speedDto.GpuTable,
+                MineWorkId = speedDto.MineWorkId,
+                MineWorkName = speedDto.MineWorkName,
+                DiskSpace = speedDto.DiskSpace,
+                MainCoinPoolDelay = speedDto.MainCoinPoolDelay,
+                DualCoinPoolDelay = speedDto.DualCoinPoolDelay,
+                IsFoundOneGpuShare = speedDto.IsFoundOneGpuShare,
+                IsRejectOneGpuShare = speedDto.IsRejectOneGpuShare,
+                IsGotOneIncorrectGpuShare = speedDto.IsGotOneIncorrectGpuShare,
+                KernelSelfRestartCount = speedDto.KernelSelfRestartCount - 1,// 需要减1
+                LocalServerMessageTimestamp = speedDto.LocalServerMessageTimestamp,
                 AESPassword = string.Empty,
                 AESPasswordOn = DateTime.MinValue,
-                IsAutoDisableWindowsFirewall = speedData.IsAutoDisableWindowsFirewall,
-                IsDisableAntiSpyware = speedData.IsDisableAntiSpyware,
-                IsDisableUAC = speedData.IsDisableUAC,
-                IsDisableWAU = speedData.IsDisableWAU,
+                IsAutoDisableWindowsFirewall = speedDto.IsAutoDisableWindowsFirewall,
+                IsDisableAntiSpyware = speedDto.IsDisableAntiSpyware,
+                IsDisableUAC = speedDto.IsDisableUAC,
+                IsDisableWAU = speedDto.IsDisableWAU,
                 IsOnline = false,
                 NetActiveOn = DateTime.MinValue,
                 LoginName = string.Empty,
-                IsOuterUserEnabled = speedData.IsOuterUserEnabled,
+                IsOuterUserEnabled = speedDto.IsOuterUserEnabled,
                 OuterUserId = string.Empty,
-                ReportOuterUserId = speedData.ReportOuterUserId,
+                ReportOuterUserId = speedDto.ReportOuterUserId,
                 WorkerName = string.Empty,
                 DualCoinPoolDelayNumber = dualCoinPoolDelayNumber,
                 MainCoinPoolDelayNumber = mainCoinPoolDelayNumber,
@@ -415,8 +415,8 @@ namespace NTMiner.Core.MinerServer {
             this.AESPasswordOn = minerSign.AESPasswordOn;
         }
 
-        public SpeedData ToSpeedData() {
-            return new SpeedData {
+        public SpeedDto ToSpeedData() {
+            return new SpeedDto {
                 AutoRestartKernelTimes = this.AutoRestartKernelTimes,
                 AutoStartDelaySeconds = this.AutoStartDelaySeconds,
                 BootOn = this.BootOn,
@@ -500,11 +500,11 @@ namespace NTMiner.Core.MinerServer {
         /// 上报算力时。
         /// 因为只有MinerData具有的成员发生了变化时才需要持久化所以该非法输出isMinerDataChanged参数以表示MinerData的成员是否发生了变化。
         /// </summary>
-        /// <param name="speedData"></param>
+        /// <param name="speedDto"></param>
         /// <param name="minerIp"></param>
         /// <param name="isMinerDataChanged"></param>
-        public void Update(ISpeedData speedData, string minerIp, out bool isMinerDataChanged) {
-            Update(speedData, out isMinerDataChanged);
+        public void Update(ISpeedDto speedDto, string minerIp, out bool isMinerDataChanged) {
+            Update(speedDto, out isMinerDataChanged);
             if (!isMinerDataChanged && minerIp != this.MinerIp) {
                 isMinerDataChanged = true;
             }
@@ -538,11 +538,11 @@ namespace NTMiner.Core.MinerServer {
         /// 上报算力时和拉取算力时。
         /// 因为只有MinerData具有的成员发生了变化时才需要持久化所以该非法输出isMinerDataChanged参数以表示MinerData的成员是否发生了变化。
         /// </summary>
-        /// <param name="speedData"></param>
+        /// <param name="speedDto"></param>
         /// <param name="isMinerDataChanged"></param>
-        public void Update(ISpeedData speedData, out bool isMinerDataChanged) {
+        public void Update(ISpeedDto speedDto, out bool isMinerDataChanged) {
             isMinerDataChanged = false;
-            if (speedData == null) {
+            if (speedDto == null) {
                 return;
             }
             _preUpdateOn = DateTime.Now;
@@ -566,99 +566,99 @@ namespace NTMiner.Core.MinerServer {
             _preDualCoin = this.DualCoinCode;
             #region MinerData
             if (!isMinerDataChanged) {
-                isMinerDataChanged = this.ClientId != speedData.ClientId;
+                isMinerDataChanged = this.ClientId != speedDto.ClientId;
             }
-            this.ClientId = speedData.ClientId;
+            this.ClientId = speedDto.ClientId;
             if (!isMinerDataChanged) {
-                isMinerDataChanged = this.MACAddress != speedData.MACAddress;
+                isMinerDataChanged = this.MACAddress != speedDto.MACAddress;
             }
-            this.MACAddress = speedData.MACAddress;
+            this.MACAddress = speedDto.MACAddress;
             if (!isMinerDataChanged) {
-                isMinerDataChanged = this.LocalIp != speedData.LocalIp;
+                isMinerDataChanged = this.LocalIp != speedDto.LocalIp;
             }
-            this.LocalIp = speedData.LocalIp;
+            this.LocalIp = speedDto.LocalIp;
             if (!isMinerDataChanged) {
-                isMinerDataChanged = this.MinerName != speedData.MinerName;
+                isMinerDataChanged = this.MinerName != speedDto.MinerName;
             }
-            this.MinerName = speedData.MinerName;
+            this.MinerName = speedDto.MinerName;
             if (!isMinerDataChanged) {
-                isMinerDataChanged = this.IsOuterUserEnabled != speedData.IsOuterUserEnabled;
+                isMinerDataChanged = this.IsOuterUserEnabled != speedDto.IsOuterUserEnabled;
             }
-            this.IsOuterUserEnabled = speedData.IsOuterUserEnabled;
-            this.ReportOuterUserId = speedData.ReportOuterUserId;
+            this.IsOuterUserEnabled = speedDto.IsOuterUserEnabled;
+            this.ReportOuterUserId = speedDto.ReportOuterUserId;
             #endregion
-            this.MineContextId = speedData.MineContextId;
-            this.IsAutoBoot = speedData.IsAutoBoot;
-            this.IsAutoStart = speedData.IsAutoStart;
-            this.AutoStartDelaySeconds = speedData.AutoStartDelaySeconds;
-            this.IsAutoRestartKernel = speedData.IsAutoRestartKernel;
-            this.AutoRestartKernelTimes = speedData.AutoRestartKernelTimes;
-            this.IsNoShareRestartKernel = speedData.IsNoShareRestartKernel;
-            this.NoShareRestartKernelMinutes = speedData.NoShareRestartKernelMinutes;
-            this.IsNoShareRestartComputer = speedData.IsNoShareRestartComputer;
-            this.NoShareRestartComputerMinutes = speedData.NoShareRestartComputerMinutes;
-            this.IsPeriodicRestartKernel = speedData.IsPeriodicRestartKernel;
-            this.PeriodicRestartKernelHours = speedData.PeriodicRestartKernelHours;
-            this.IsPeriodicRestartComputer = speedData.IsPeriodicRestartComputer;
-            this.PeriodicRestartComputerHours = speedData.PeriodicRestartComputerHours;
-            this.PeriodicRestartComputerMinutes = speedData.PeriodicRestartComputerMinutes;
-            this.PeriodicRestartKernelMinutes = speedData.PeriodicRestartKernelMinutes;
-            this.IsAutoStopByCpu = speedData.IsAutoStopByCpu;
-            this.IsAutoStartByCpu = speedData.IsAutoStartByCpu;
-            this.CpuStopTemperature = speedData.CpuStopTemperature;
-            this.CpuStartTemperature = speedData.CpuStartTemperature;
-            this.CpuLETemperatureSeconds = speedData.CpuLETemperatureSeconds;
-            this.CpuGETemperatureSeconds = speedData.CpuGETemperatureSeconds;
-            this.CpuPerformance = speedData.CpuPerformance;
-            this.CpuTemperature = speedData.CpuTemperature;
-            this.IsRaiseHighCpuEvent = speedData.IsRaiseHighCpuEvent;
-            this.HighCpuPercent = speedData.HighCpuPercent;
-            this.HighCpuSeconds = speedData.HighCpuSeconds;
-            this.GpuDriver = speedData.GpuDriver;
-            this.GpuType = speedData.GpuType;
-            this.OSName = speedData.OSName;
-            this.OSVirtualMemoryMb = speedData.OSVirtualMemoryMb;
-            this.GpuInfo = speedData.GpuInfo;
-            this.Version = speedData.Version;
-            this.IsMining = speedData.IsMining;
-            this.BootOn = speedData.BootOn;
-            this.MineStartedOn = speedData.MineStartedOn;
-            this.DiskSpace = speedData.DiskSpace;
-            this.MainCoinCode = speedData.MainCoinCode;
-            this.MainCoinTotalShare = speedData.MainCoinTotalShare;
-            this.MainCoinRejectShare = speedData.MainCoinRejectShare;
-            this.MainCoinSpeed = speedData.MainCoinSpeed;
-            this.MainCoinPool = speedData.MainCoinPool;
-            this.MainCoinWallet = speedData.MainCoinWallet;
-            this.Kernel = speedData.Kernel;
-            this.IsDualCoinEnabled = speedData.IsDualCoinEnabled;
-            this.DualCoinPool = speedData.DualCoinPool;
-            this.DualCoinWallet = speedData.DualCoinWallet;
-            this.DualCoinCode = speedData.DualCoinCode;
-            this.DualCoinTotalShare = speedData.DualCoinTotalShare;
-            this.DualCoinRejectShare = speedData.DualCoinRejectShare;
-            this.DualCoinSpeed = speedData.DualCoinSpeed;
-            this.KernelCommandLine = speedData.KernelCommandLine;
-            this.MainCoinSpeedOn = speedData.MainCoinSpeedOn;
-            this.DualCoinSpeedOn = speedData.DualCoinSpeedOn;
-            this.GpuTable = speedData.GpuTable;
-            this.MainCoinPoolDelay = speedData.MainCoinPoolDelay;
-            this.DualCoinPoolDelay = speedData.DualCoinPoolDelay;
-            this.IsFoundOneGpuShare = speedData.IsFoundOneGpuShare;
-            this.IsRejectOneGpuShare = speedData.IsRejectOneGpuShare;
-            this.IsGotOneIncorrectGpuShare = speedData.IsGotOneIncorrectGpuShare;
-            this.MineWorkId = speedData.MineWorkId;
-            this.MineWorkName = speedData.MineWorkName;
-            this.KernelSelfRestartCount = speedData.KernelSelfRestartCount - 1;// 需要减1
-            this.LocalServerMessageTimestamp = speedData.LocalServerMessageTimestamp;
-            this.TotalPhysicalMemoryMb = speedData.TotalPhysicalMemoryMb;
+            this.MineContextId = speedDto.MineContextId;
+            this.IsAutoBoot = speedDto.IsAutoBoot;
+            this.IsAutoStart = speedDto.IsAutoStart;
+            this.AutoStartDelaySeconds = speedDto.AutoStartDelaySeconds;
+            this.IsAutoRestartKernel = speedDto.IsAutoRestartKernel;
+            this.AutoRestartKernelTimes = speedDto.AutoRestartKernelTimes;
+            this.IsNoShareRestartKernel = speedDto.IsNoShareRestartKernel;
+            this.NoShareRestartKernelMinutes = speedDto.NoShareRestartKernelMinutes;
+            this.IsNoShareRestartComputer = speedDto.IsNoShareRestartComputer;
+            this.NoShareRestartComputerMinutes = speedDto.NoShareRestartComputerMinutes;
+            this.IsPeriodicRestartKernel = speedDto.IsPeriodicRestartKernel;
+            this.PeriodicRestartKernelHours = speedDto.PeriodicRestartKernelHours;
+            this.IsPeriodicRestartComputer = speedDto.IsPeriodicRestartComputer;
+            this.PeriodicRestartComputerHours = speedDto.PeriodicRestartComputerHours;
+            this.PeriodicRestartComputerMinutes = speedDto.PeriodicRestartComputerMinutes;
+            this.PeriodicRestartKernelMinutes = speedDto.PeriodicRestartKernelMinutes;
+            this.IsAutoStopByCpu = speedDto.IsAutoStopByCpu;
+            this.IsAutoStartByCpu = speedDto.IsAutoStartByCpu;
+            this.CpuStopTemperature = speedDto.CpuStopTemperature;
+            this.CpuStartTemperature = speedDto.CpuStartTemperature;
+            this.CpuLETemperatureSeconds = speedDto.CpuLETemperatureSeconds;
+            this.CpuGETemperatureSeconds = speedDto.CpuGETemperatureSeconds;
+            this.CpuPerformance = speedDto.CpuPerformance;
+            this.CpuTemperature = speedDto.CpuTemperature;
+            this.IsRaiseHighCpuEvent = speedDto.IsRaiseHighCpuEvent;
+            this.HighCpuPercent = speedDto.HighCpuPercent;
+            this.HighCpuSeconds = speedDto.HighCpuSeconds;
+            this.GpuDriver = speedDto.GpuDriver;
+            this.GpuType = speedDto.GpuType;
+            this.OSName = speedDto.OSName;
+            this.OSVirtualMemoryMb = speedDto.OSVirtualMemoryMb;
+            this.GpuInfo = speedDto.GpuInfo;
+            this.Version = speedDto.Version;
+            this.IsMining = speedDto.IsMining;
+            this.BootOn = speedDto.BootOn;
+            this.MineStartedOn = speedDto.MineStartedOn;
+            this.DiskSpace = speedDto.DiskSpace;
+            this.MainCoinCode = speedDto.MainCoinCode;
+            this.MainCoinTotalShare = speedDto.MainCoinTotalShare;
+            this.MainCoinRejectShare = speedDto.MainCoinRejectShare;
+            this.MainCoinSpeed = speedDto.MainCoinSpeed;
+            this.MainCoinPool = speedDto.MainCoinPool;
+            this.MainCoinWallet = speedDto.MainCoinWallet;
+            this.Kernel = speedDto.Kernel;
+            this.IsDualCoinEnabled = speedDto.IsDualCoinEnabled;
+            this.DualCoinPool = speedDto.DualCoinPool;
+            this.DualCoinWallet = speedDto.DualCoinWallet;
+            this.DualCoinCode = speedDto.DualCoinCode;
+            this.DualCoinTotalShare = speedDto.DualCoinTotalShare;
+            this.DualCoinRejectShare = speedDto.DualCoinRejectShare;
+            this.DualCoinSpeed = speedDto.DualCoinSpeed;
+            this.KernelCommandLine = speedDto.KernelCommandLine;
+            this.MainCoinSpeedOn = speedDto.MainCoinSpeedOn;
+            this.DualCoinSpeedOn = speedDto.DualCoinSpeedOn;
+            this.GpuTable = speedDto.GpuTable;
+            this.MainCoinPoolDelay = speedDto.MainCoinPoolDelay;
+            this.DualCoinPoolDelay = speedDto.DualCoinPoolDelay;
+            this.IsFoundOneGpuShare = speedDto.IsFoundOneGpuShare;
+            this.IsRejectOneGpuShare = speedDto.IsRejectOneGpuShare;
+            this.IsGotOneIncorrectGpuShare = speedDto.IsGotOneIncorrectGpuShare;
+            this.MineWorkId = speedDto.MineWorkId;
+            this.MineWorkName = speedDto.MineWorkName;
+            this.KernelSelfRestartCount = speedDto.KernelSelfRestartCount - 1;// 需要减1
+            this.LocalServerMessageTimestamp = speedDto.LocalServerMessageTimestamp;
+            this.TotalPhysicalMemoryMb = speedDto.TotalPhysicalMemoryMb;
             this.MinerActiveOn = DateTime.Now;// 现在时间
-            this.IsAutoDisableWindowsFirewall = speedData.IsAutoDisableWindowsFirewall;
-            this.IsDisableAntiSpyware = speedData.IsDisableAntiSpyware;
-            this.IsDisableUAC = speedData.IsDisableUAC;
-            this.IsDisableWAU = speedData.IsDisableWAU;
+            this.IsAutoDisableWindowsFirewall = speedDto.IsAutoDisableWindowsFirewall;
+            this.IsDisableAntiSpyware = speedDto.IsDisableAntiSpyware;
+            this.IsDisableUAC = speedDto.IsDisableUAC;
+            this.IsDisableWAU = speedDto.IsDisableWAU;
             Extract(
-                speedData, 
+                speedDto, 
                 out int mainCoinPoolDelayNumber, 
                 out int dualCoinPoolDelayNumber, 
                 out double mainCoinRejectPercent, 

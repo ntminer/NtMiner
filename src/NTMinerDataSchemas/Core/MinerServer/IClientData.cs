@@ -2,7 +2,7 @@
 using System;
 
 namespace NTMiner.Core.MinerServer {
-    public interface IClientData : IMinerData, ISpeedData {
+    public interface IClientData : IMinerData, ISpeedDto {
         /// <summary>
         /// 该属性只应被来自挖矿端的ReportSpeed和ReportState写，不应被别人写。
         /// </summary>

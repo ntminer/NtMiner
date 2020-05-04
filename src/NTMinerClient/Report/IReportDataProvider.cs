@@ -3,6 +3,6 @@
 namespace NTMiner.Report {
     public interface IReportDataProvider {
         DateTime WsGetSpeedOn { get; set; }
-        SpeedData CreateSpeedData();
+        SpeedDto CreateSpeedDto();
     }
 }

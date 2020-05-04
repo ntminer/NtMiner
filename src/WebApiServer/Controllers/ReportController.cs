@@ -5,17 +5,17 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class ReportController : ApiControllerBase, IReportController {
-        public static ReportResponse DoReportSpeed(SpeedData speedData, string minerIp) {
+        public static ReportResponse DoReportSpeed(SpeedDto speedDto, string minerIp) {
             try {
-                if (speedData == null) {
+                if (speedDto == null) {
                     return ResponseBase.InvalidInput<ReportResponse>();
                 }
-                WebApiRoot.ClientDataSet.ReportSpeed(speedData, minerIp, isFromWsServerNode: false);
-                if (Version.TryParse(speedData.Version, out Version version)) {
+                WebApiRoot.ClientDataSet.ReportSpeed(speedDto, minerIp, isFromWsServerNode: false);
+                if (Version.TryParse(speedDto.Version, out Version version)) {
                     string jsonVersionKey = HomePath.GetServerJsonVersion(version);
                     var response = ReportResponse.Ok(WebApiRoot.GetServerStateResponse(jsonVersionKey));
-                    if (speedData.LocalServerMessageTimestamp.AddSeconds(1) < WebApiRoot.ServerMessageTimestamp) {
-                        var list = WebApiRoot.ServerMessageSet.GetServerMessages(speedData.LocalServerMessageTimestamp);
+                    if (speedDto.LocalServerMessageTimestamp.AddSeconds(1) < WebApiRoot.ServerMessageTimestamp) {
+                        var list = WebApiRoot.ServerMessageSet.GetServerMessages(speedDto.LocalServerMessageTimestamp);
                         // 如果服务器新消息少于10条直接在上报算力时的响应消息中携带上，如果较多就算了推迟到用户切换到消息界面查看时再获取
                         if (list.Count < 10) {
                             response.NewServerMessages.AddRange(list);
@@ -31,8 +31,8 @@ namespace NTMiner.Controllers {
         }
 
         [HttpPost]
-        public ReportResponse ReportSpeed([FromBody]SpeedData speedData) {
-            return DoReportSpeed(speedData, MinerIp);
+        public ReportResponse ReportSpeed([FromBody]SpeedDto speedDto) {
+            return DoReportSpeed(speedDto, MinerIp);
         }
 
         [HttpPost]
