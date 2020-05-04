@@ -1,7 +1,6 @@
 ﻿using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileDual : UserControl {
