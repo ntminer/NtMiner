@@ -1,4 +1,5 @@
-﻿using NTMiner.Core;
+﻿using Newtonsoft.Json;
+using NTMiner.Core;
 using NTMiner.Core.MinerClient;
 using System;
 
@@ -6,12 +7,19 @@ namespace NTMiner.Report {
     public class SpeedData : ISpeedData {
         private readonly SpeedDto _speedDto;
 
-        public SpeedData() {
-            _speedDto = new SpeedDto();
+        [JsonIgnore]
+        public SpeedDto SpeedDto {
+            get {
+                return _speedDto;
+            }
         }
 
-        public SpeedData(SpeedDto speedDto) {
-            _speedDto = speedDto;
+        public SpeedData() : this(new SpeedDto(), DateTime.Now) {
+        }
+
+        public SpeedData(SpeedDto speedDto, DateTime speedOn) {
+            this._speedDto = speedDto;
+            this.SpeedOn = speedOn;
         }
 
         public DateTime SpeedOn { get; set; }

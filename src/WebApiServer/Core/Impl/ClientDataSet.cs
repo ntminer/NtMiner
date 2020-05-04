@@ -22,11 +22,12 @@ namespace NTMiner.Core.Impl {
                 Write.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
                 var speedDatas = getSpeedsTask.Result;
                 List<ClientData> clientDatas = new List<ClientData>();
+                DateTime speedOn = DateTime.Now.AddMinutes(-3);
                 foreach (var minerData in getMinersTask.Result) {
                     var clientData = ClientData.Create(minerData);
                     clientDatas.Add(clientData);
                     var speedData = speedDatas.FirstOrDefault(a => a.ClientId == minerData.ClientId);
-                    if (speedData != null) {
+                    if (speedData != null && speedData.SpeedOn > speedOn) {
                         clientData.Update(speedData, out bool _);
                     }
                 }
@@ -37,9 +38,10 @@ namespace NTMiner.Core.Impl {
             _speedDataRedis = speedDataRedis;
             VirtualRoot.AddEventPath<Per1MinuteEvent>("周期清理Redis中不活跃的来自挖矿端上报的算力记录", LogEnum.DevConsole, action: message => {
                 DateTime time = message.BornOn.AddSeconds(-130);
-                var toRemoves = _dicByClientId.Where(a => a.Value.MinerActiveOn <= time).Select(a => a.Key).ToArray();
-                foreach (var key in toRemoves) {
-                    _speedDataRedis.DeleteByClientIdAsync(key);
+                var toRemoves = _dicByClientId.Where(a => a.Value.MinerActiveOn != DateTime.MinValue && a.Value.MinerActiveOn <= time).ToArray();
+                foreach (var kv in toRemoves) {
+                    kv.Value.MinerActiveOn = DateTime.MinValue;
+                    _speedDataRedis.DeleteByClientIdAsync(kv.Key);
                 }
             }, this.GetType());
             _mqSender = mqSender;
@@ -56,7 +58,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 speedDataRedis.GetByClientIdAsync(message.ClientId).ContinueWith(t => {
-                    ReportSpeed(t.Result, message.MinerIp, isFromWsServerNode: true);
+                    ReportSpeed(t.Result.SpeedDto, message.MinerIp, isFromWsServerNode: true);
                 });
             }, this.GetType());
             VirtualRoot.AddEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, action: message => {
@@ -125,7 +127,7 @@ namespace NTMiner.Core.Impl {
                 return;
             }
             if (!isFromWsServerNode) {
-                _speedDataRedis.SetAsync(speedDto);
+                _speedDataRedis.SetAsync(new SpeedData(speedDto, DateTime.Now));
             }
             ClientData clientData = GetByClientId(speedDto.ClientId);
             if (clientData == null) {

@@ -13,13 +13,13 @@ namespace NTMiner.Core.Redis.Impl {
             _connection = connection;
         }
 
-        public Task<List<SpeedDto>> GetAllAsync() {
+        public Task<List<SpeedData>> GetAllAsync() {
             var db = _connection.GetDatabase();
             return db.HashGetAllAsync(_redisKeySpeedDataByClientId).ContinueWith(t => {
-                List<SpeedDto> list = new List<SpeedDto>();
+                List<SpeedData> list = new List<SpeedData>();
                 foreach (var item in t.Result) {
                     if (item.Value.HasValue) {
-                        SpeedDto data = VirtualRoot.JsonSerializer.Deserialize<SpeedDto>(item.Value);
+                        SpeedData data = VirtualRoot.JsonSerializer.Deserialize<SpeedData>(item.Value);
                         if (data != null) {
                             list.Add(data);
                         }
@@ -29,14 +29,14 @@ namespace NTMiner.Core.Redis.Impl {
             });
         }
 
-        public Task<SpeedDto> GetByClientIdAsync(Guid clientId) {
+        public Task<SpeedData> GetByClientIdAsync(Guid clientId) {
             if (clientId == Guid.Empty) {
-                return Task.FromResult<SpeedDto>(null);
+                return Task.FromResult<SpeedData>(null);
             }
             var db = _connection.GetDatabase();
             return db.HashGetAsync(_redisKeySpeedDataByClientId, clientId.ToString()).ContinueWith(t => {
                 if (t.Result.HasValue) {
-                    return VirtualRoot.JsonSerializer.Deserialize<SpeedDto>(t.Result);
+                    return VirtualRoot.JsonSerializer.Deserialize<SpeedData>(t.Result);
                 }
                 else {
                     return null;
@@ -44,12 +44,12 @@ namespace NTMiner.Core.Redis.Impl {
             });
         }
 
-        public Task SetAsync(SpeedDto speedDto) {
-            if (speedDto == null || speedDto.ClientId == Guid.Empty) {
+        public Task SetAsync(SpeedData speedData) {
+            if (speedData == null || speedData.ClientId == Guid.Empty) {
                 return TaskEx.CompletedTask;
             }
             var db = _connection.GetDatabase();
-            return db.HashSetAsync(_redisKeySpeedDataByClientId, speedDto.ClientId.ToString(), VirtualRoot.JsonSerializer.Serialize(speedDto));
+            return db.HashSetAsync(_redisKeySpeedDataByClientId, speedData.ClientId.ToString(), VirtualRoot.JsonSerializer.Serialize(speedData));
         }
 
         public Task DeleteByClientIdAsync(Guid clientId) {

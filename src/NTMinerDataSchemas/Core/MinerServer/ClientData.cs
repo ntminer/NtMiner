@@ -415,8 +415,9 @@ namespace NTMiner.Core.MinerServer {
             this.AESPasswordOn = minerSign.AESPasswordOn;
         }
 
-        public SpeedDto ToSpeedData() {
-            return new SpeedDto {
+        public SpeedData ToSpeedData() {
+            return new SpeedData {
+                SpeedOn = this.MinerActiveOn,
                 AutoRestartKernelTimes = this.AutoRestartKernelTimes,
                 AutoStartDelaySeconds = this.AutoStartDelaySeconds,
                 BootOn = this.BootOn,
