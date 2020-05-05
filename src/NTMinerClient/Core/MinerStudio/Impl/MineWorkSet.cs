@@ -6,6 +6,10 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
 
         public MineWorkSet() {
+            VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, action: message => {
+                _dicById.Clear();
+                _isInited = false;
+            }, this.GetType());
             VirtualRoot.AddCmdPath<AddMineWorkCommand>(action: message => {
                 InitOnece();
                 if (!_dicById.ContainsKey(message.Input.Id)) {
@@ -58,8 +62,9 @@ namespace NTMiner.Core.MinerStudio.Impl {
                                 foreach (var item in response.Data) {
                                     _dicById.Add(item.Id, item);
                                 }
-                                VirtualRoot.RaiseEvent(new MineWorkSetInitedEvent());
                             }
+                            _isInited = true;
+                            VirtualRoot.RaiseEvent(new MineWorkSetInitedEvent());
                         });
                     }
                     else {
@@ -67,8 +72,9 @@ namespace NTMiner.Core.MinerStudio.Impl {
                         foreach (var item in repository.GetAll()) {
                             _dicById.Add(item.Id, item);
                         }
+                        _isInited = true;
+                        VirtualRoot.RaiseEvent(new MineWorkSetInitedEvent());
                     }
-                    _isInited = true;
                 }
             }
         }

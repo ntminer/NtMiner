@@ -1,7 +1,4 @@
-﻿using NTMiner.User;
-using System.Collections.Generic;
-
-namespace NTMiner.Core.MinerStudio.Impl {
+﻿namespace NTMiner.Core.MinerStudio.Impl {
     public class MinerStudioContext : IMinerStudioContext {
         public MinerStudioContext() {
             this.UserAppSettingSet = new UserAppSettingSet();
