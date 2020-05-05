@@ -19,6 +19,10 @@ namespace NTMiner {
                         _listByGroupId.Clear();
                         Init();
                     }, location: this.GetType());
+                VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    action: message => {
+                        // 什么也不做，因为该集合没有什么属性
+                    }, location: this.GetType());
                 AddEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {

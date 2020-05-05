@@ -20,13 +20,13 @@ namespace NTMiner {
                     }, location: this.GetType());
                 VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
                     action: message => {
-                        OnPropertyChangeds();
+                        AllPropertyChanged();
                     }, location: this.GetType());
                 AddEventPath<SysDicItemAddedEvent>("添加了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
-                            OnPropertyChangeds();
+                            AllPropertyChanged();
                             if (SysDicVms.TryGetSysDicVm(message.Source.DicId, out SysDicViewModel sysDicVm)) {
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                                 sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
@@ -49,7 +49,7 @@ namespace NTMiner {
                 AddEventPath<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         _dicById.Remove(message.Source.GetId());
-                        OnPropertyChangeds();
+                        AllPropertyChanged();
                         if (SysDicVms.TryGetSysDicVm(message.Source.DicId, out SysDicViewModel sysDicVm)) {
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItems));
                             sysDicVm.OnPropertyChanged(nameof(sysDicVm.SysDicItemsSelect));
@@ -62,15 +62,6 @@ namespace NTMiner {
                 foreach (var item in NTMinerContext.Instance.ServerContext.SysDicItemSet.AsEnumerable()) {
                     _dicById.Add(item.GetId(), new SysDicItemViewModel(item));
                 }
-            }
-
-            private void OnPropertyChangeds() {
-                OnPropertyChanged(nameof(List));
-                OnPropertyChanged(nameof(Count));
-                OnPropertyChanged(nameof(KernelBrandItems));
-                OnPropertyChanged(nameof(KernelBrandsSelect));
-                OnPropertyChanged(nameof(PoolBrandItems));
-                OnPropertyChanged(nameof(AlgoItems));
             }
 
             public List<SysDicItemViewModel> KernelBrandItems {
