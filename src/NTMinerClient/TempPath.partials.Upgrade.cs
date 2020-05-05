@@ -28,10 +28,6 @@ namespace NTMiner {
                 if (File.Exists(shareLocalDbFileFullName) && !File.Exists(HomePath.LocalDbFileFullName)) {
                     File.Copy(shareLocalDbFileFullName, HomePath.LocalDbFileFullName);
                 }
-                string shareLocalJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, HomePath.LocalJsonFileName);
-                if (File.Exists(shareLocalJsonFileFullName) && !File.Exists(HomePath.MineWorkLocalJsonFileFullName)) {
-                    File.Copy(shareLocalJsonFileFullName, HomePath.MineWorkLocalJsonFileFullName);
-                }
                 string shareGpuProfilesJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, HomePath.GpuProfilesFileName);
                 if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(HomePath.GpuProfilesJsonFileFullName)) {
                     File.Copy(shareGpuProfilesJsonFileFullName, HomePath.GpuProfilesJsonFileFullName);
