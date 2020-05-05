@@ -7,8 +7,10 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
+using System.Web.Http.Routing;
 using static NTMiner.Controllers.ApiControllerBase;
 
 namespace NTMiner.Role {
@@ -38,7 +40,11 @@ namespace NTMiner.Role {
             if (!string.IsNullOrEmpty(t)) {
                 long.TryParse(t, out timestamp);
             }
-            ClientSignData clientSign = new ClientSignData(queryString["loginName"], queryString["sign"], timestamp);
+            string loginName = queryString["loginName"];
+            if (!string.IsNullOrEmpty(loginName)) {
+                loginName = HttpUtility.UrlDecode(loginName);
+            }
+            ClientSignData clientSign = new ClientSignData(loginName, queryString["sign"], timestamp);
             ISignableData data = null;
             var actionDescripter = actionContext.ActionDescriptor;
             var actionParameters = actionDescripter.GetParameters();
