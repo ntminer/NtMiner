@@ -24,6 +24,10 @@ namespace NTMiner.Core.Profiles {
 
         public void ReInit(INTMinerContext root) {
             Init(root);
+            // 本地数据集已刷新，此时刷新本地数据集的视图模型集
+            VirtualRoot.RaiseEvent(new LocalContextReInitedEvent());
+            // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
+            VirtualRoot.RaiseEvent(new LocalContextReInitedEventHandledEvent());
         }
 
         #region Init

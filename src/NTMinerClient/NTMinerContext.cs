@@ -152,10 +152,6 @@ namespace NTMiner {
             // 注意这行是必须的，非作业模式时不是使用的local.json，但这一行只是把_localJsonInited置为false
             ReInitLocalJson();
             this._minerProfile.ReInit(this);
-            // 本地数据集已刷新，此时刷新本地数据集的视图模型集
-            VirtualRoot.RaiseEvent(new LocalContextReInitedEvent());
-            // 本地数据集的视图模型已刷新，此时刷新本地数据集的视图界面
-            VirtualRoot.RaiseEvent(new LocalContextVmsReInitedEvent());
             RefreshArgsAssembly.Invoke("重新初始化MinerProfile后");
         }
 

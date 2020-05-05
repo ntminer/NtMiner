@@ -56,14 +56,14 @@ namespace NTMiner {
         public ServerContextReInitedEventHandledEvent() { }
     }
 
-    [MessageType(description: "LocalContext刷新后")]
+    [MessageType(description: "LocalContext重新初始化后")]
     public class LocalContextReInitedEvent : EventBase {
         public LocalContextReInitedEvent() { }
     }
 
-    [MessageType(description: "LocalContext的视图层刷新完毕后")]
-    public class LocalContextVmsReInitedEvent : EventBase {
-        public LocalContextVmsReInitedEvent() { }
+    [MessageType(description: "处理了LocalContext重新初始化事件后")]
+    public class LocalContextReInitedEventHandledEvent : EventBase {
+        public LocalContextReInitedEventHandledEvent() { }
     }
 
     [MessageType(description: "发现了NTMiner或MinerStudio新版本")]

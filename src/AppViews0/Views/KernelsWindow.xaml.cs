@@ -45,7 +45,7 @@ namespace NTMiner.Views {
                         VirtualRoot.RaiseEvent(new UserActionEvent());
                     }
                 }, location: this.GetType());
-            this.AddEventPath<LocalContextVmsReInitedEvent>("ServerContext的Vm集刷新后刷新内核宝库", LogEnum.DevConsole,
+            this.AddEventPath<LocalContextReInitedEventHandledEvent>("ServerContext的Vm集刷新后刷新内核宝库", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.OnPropertyChanged(nameof(Vm.QueryResults));

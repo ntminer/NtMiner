@@ -180,7 +180,7 @@ namespace NTMiner.Vms {
                     OnPropertyChanged(message.PropertyName);
                 }, location: this.GetType());
 
-            VirtualRoot.AddEventPath<LocalContextVmsReInitedEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
+            VirtualRoot.AddEventPath<LocalContextReInitedEventHandledEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
                 action: message => {
                     AllPropertyChanged();
                     if (CoinVm != null) {
