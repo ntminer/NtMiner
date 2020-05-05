@@ -22,17 +22,16 @@ namespace NTMiner.MinerStudio {
                         _dicById.Add(item.Id, new MineWorkViewModel(item));
                     }
                 }
-                if (RpcRoot.IsOuterNet) {
-                    AppRoot.AddEventPath<MineWorkSetInitedEvent>("作业集初始化后初始化Vm内存", LogEnum.DevConsole, action: message => {
-                        foreach (var item in NTMinerContext.MinerStudioContext.MineWorkSet.AsEnumerable()) {
-                            if (!_dicById.ContainsKey(item.Id)) {
-                                _dicById.Add(item.Id, new MineWorkViewModel(item));
-                            }
+                AppRoot.AddEventPath<MineWorkSetInitedEvent>("作业集初始化后初始化Vm内存", LogEnum.DevConsole, action: message => {
+                    _dicById.Clear();
+                    foreach (var item in NTMinerContext.MinerStudioContext.MineWorkSet.AsEnumerable()) {
+                        if (!_dicById.ContainsKey(item.Id)) {
+                            _dicById.Add(item.Id, new MineWorkViewModel(item));
                         }
-                        OnPropertyChangeds();
-                        MinerClientsWindowViewModel.Instance.RefreshMinerClientsSelectedMineWork(MinerClientsWindowViewModel.Instance.MinerClients.ToArray());
-                    }, this.GetType());
-                }
+                    }
+                    OnPropertyChangeds();
+                    MinerClientsWindowViewModel.Instance.RefreshMinerClientsSelectedMineWork(MinerClientsWindowViewModel.Instance.MinerClients.ToArray());
+                }, this.GetType());
                 this.Add = new DelegateCommand(() => {
                     new MineWorkViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });

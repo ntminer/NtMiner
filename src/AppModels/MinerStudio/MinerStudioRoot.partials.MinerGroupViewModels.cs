@@ -23,6 +23,7 @@ namespace NTMiner.MinerStudio {
                     }
                 }
                 AppRoot.AddEventPath<MinerGroupSetInitedEvent>("矿工组集初始化后初始化Vm内存", LogEnum.DevConsole, action: message => {
+                    _dicById.Clear();
                     foreach (var item in NTMinerContext.MinerStudioContext.MinerGroupSet.AsEnumerable()) {
                         if (!_dicById.ContainsKey(item.Id)) {
                             _dicById.Add(item.Id, new MinerGroupViewModel(item));

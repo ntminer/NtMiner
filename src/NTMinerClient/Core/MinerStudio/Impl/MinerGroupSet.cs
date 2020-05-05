@@ -9,6 +9,8 @@ namespace NTMiner.Core.MinerStudio.Impl {
             VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, action: message => {
                 _dicById.Clear();
                 _isInited = false;
+                // 初始化以触发MinerGroupSetInitedEvent事件
+                InitOnece();
             }, this.GetType());
             VirtualRoot.AddCmdPath<AddMinerGroupCommand>(action: message => {
                 InitOnece();
