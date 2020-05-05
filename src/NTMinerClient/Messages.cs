@@ -46,14 +46,14 @@ namespace NTMiner {
         public bool IsAutoStart { get; private set; }
     }
 
-    [MessageType(description: "ServerContext刷新后")]
+    [MessageType(description: "ServerContext重新初始化后")]
     public class ServerContextReInitedEvent : EventBase {
         public ServerContextReInitedEvent() { }
     }
 
-    [MessageType(description: "ServerContext的视图层刷新完毕后")]
-    public class ServerContextVmsReInitedEvent : EventBase {
-        public ServerContextVmsReInitedEvent() { }
+    [MessageType(description: "处理了ServerContext重新初始化后事件后")]
+    public class ServerContextReInitedEventHandledEvent : EventBase {
+        public ServerContextReInitedEventHandledEvent() { }
     }
 
     [MessageType(description: "LocalContext刷新后")]

@@ -39,7 +39,7 @@ namespace NTMiner.Core.Impl {
             // CoreContext的视图模型集在此事件时刷新
             VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
             // CoreContext的视图模型集已全部刷新，此时刷新视图界面
-            VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
+            VirtualRoot.RaiseEvent(new ServerContextReInitedEventHandledEvent());
         }
 
         /// <summary>
