@@ -9,10 +9,10 @@ namespace NTMiner.Core.Impl {
         private readonly List<IMessagePathId> _contextPathIds = new List<IMessagePathId>();
 
         public ServerContext() {
-            ReInit();
+            Init();
         }
 
-        public void ReInit() {
+        private void Init() {
             foreach (var pathId in _contextPathIds) {
                 VirtualRoot.RemoveMessagePath(pathId);
             }
@@ -32,6 +32,14 @@ namespace NTMiner.Core.Impl {
             this.KernelSet = new KernelSet(this);
             this.PackageSet = new PackageSet(this);
             this.PoolKernelSet = new PoolKernelSet(this);
+        }
+
+        public void ReInit() {
+            Init();
+            // CoreContext的视图模型集在此事件时刷新
+            VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
+            // CoreContext的视图模型集已全部刷新，此时刷新视图界面
+            VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
         }
 
         /// <summary>

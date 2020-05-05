@@ -209,10 +209,6 @@ namespace NTMiner {
         private void ContextReInit() {
             ReInitServerJson();
             this.ServerContext.ReInit();
-            // CoreContext的视图模型集此时刷新
-            VirtualRoot.RaiseEvent(new ServerContextReInitedEvent());
-            // CoreContext的视图模型集已全部刷新，此时刷新视图界面
-            VirtualRoot.RaiseEvent(new ServerContextVmsReInitedEvent());
             ReInitMinerProfile(_workType);
         }
 
