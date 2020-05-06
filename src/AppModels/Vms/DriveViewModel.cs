@@ -19,7 +19,7 @@ namespace NTMiner.Vms {
                     VirtualMemoryMaxSizeMb = 0;
                 }
                 else {
-                    VirtualMemoryMaxSizeMb = (int)(Math.Pow(2.0, i) * 1024);
+                    VirtualMemoryMaxSizeMb = (int)(Math.Pow(2.0, i) * NTKeyword.IntK);
                 }
             });
         }
@@ -98,7 +98,7 @@ namespace NTMiner.Vms {
                     this.VirtualMemoryMaxSizeMb = 0;
                 }
                 else {
-                    this.VirtualMemoryMaxSizeMb = (int)(Math.Pow(2, value) * 1024);
+                    this.VirtualMemoryMaxSizeMb = (int)(Math.Pow(2, value) * NTKeyword.IntK);
                 }
                 OnPropertyChanged(nameof(VirtualMemoryMaxSizeLog2));
             }

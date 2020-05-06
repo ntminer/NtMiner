@@ -91,11 +91,11 @@ namespace NTMiner {
                     return;
                 }
                 if (virtualMemories.TryGetValue("Auto", out int virtualMemoryMb)) {
-                    long virtualMemoryB = virtualMemoryMb * 1024 * 1024;
+                    long virtualMemoryB = virtualMemoryMb * NTKeyword.IntM;
                     // 系统盘留出1Gb
                     long systemReserveB = NTKeyword.LongG;
                     // 非系统盘留出100Mb
-                    long reserveB = 100 * 1024 * 1024;
+                    long reserveB = 100 * NTKeyword.IntM;
                     if (_drives.Sum(a => a.AvailableFreeSpace) - systemReserveB - (_drives.Count - 1) * reserveB < virtualMemoryMb) {
                         return;
                     }
@@ -113,14 +113,14 @@ namespace NTMiner {
                     }
                     else {
                         // 设置在系统盘mb
-                        int mb = Convert.ToInt32((systemDrive.AvailableFreeSpace - systemReserveB) / (1024 * 1024));
+                        int mb = Convert.ToInt32((systemDrive.AvailableFreeSpace - systemReserveB) / NTKeyword.IntM);
                         list.Add(VirtualMemoryFormatString(systemDrive.Name, mb));
                         setedMb += mb;
                         var bigDrive = _drives.Where(a => !a.IsSystemDisk).OrderByDescending(a => a.AvailableFreeSpace).FirstOrDefault();
                         // 还需设置mb
                         mb = virtualMemoryMb - setedMb;
                         // 如果最大的盘可以装下剩余的虚拟内存就把剩余的都设置在这个盘
-                        if (bigDrive != null && bigDrive.AvailableFreeSpace - reserveB > mb * 1024 * 1024) {
+                        if (bigDrive != null && bigDrive.AvailableFreeSpace - reserveB > mb * NTKeyword.IntM) {
                             list.Add(VirtualMemoryFormatString(bigDrive.Name, mb));
                             setedMb += mb;
                         }
@@ -129,7 +129,7 @@ namespace NTMiner {
                                 if (drive.IsSystemDisk) {
                                     continue;
                                 }
-                                mb = Convert.ToInt32((drive.AvailableFreeSpace - reserveB) / (1024 * 1024));
+                                mb = Convert.ToInt32((drive.AvailableFreeSpace - reserveB) / NTKeyword.IntM);
                                 if (mb <= 0) {
                                     continue;
                                 }

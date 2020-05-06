@@ -43,7 +43,7 @@ namespace NTMiner {
                         // 放进try catch保证一个文件的失败不影响另一个
                         try {
                             using (FileStream streamWriter = File.Create(path)) {
-                                const int bufferSize = 1024 * 30;
+                                const int bufferSize = NTKeyword.IntK * 30;
                                 byte[] data = new byte[bufferSize];
                                 StreamUtils.Copy(zipInputStream, streamWriter, data);
                             }

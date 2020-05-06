@@ -1,7 +1,9 @@
 ﻿namespace NTMiner {
     public static class NTKeyword {
         public const double DoubleK = 1024;
+        public const int IntK = 1024;
         public const double DoubleM = 1024 * 1024;
+        public const int IntM = 1024 * 1024;
         public const double DoubleG = 1024 * 1024 * 1024;
         public const ulong ULongG = 1024 * 1024 * 1024;
         public const long LongG = 1024 * 1024 * 1024;

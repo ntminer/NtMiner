@@ -28,7 +28,7 @@ namespace NTMiner {
             using (MemoryStream inputStream = new MemoryStream(zippedData))
             using (GZipStream gZipStream = new GZipStream(inputStream, CompressionMode.Decompress))
             using (MemoryStream outputStream = new MemoryStream()) {
-                byte[] block = new byte[1024];
+                byte[] block = new byte[NTKeyword.IntK];
                 while (true) {
                     int bytesRead = gZipStream.Read(block, 0, block.Length);
                     if (bytesRead <= 0) {

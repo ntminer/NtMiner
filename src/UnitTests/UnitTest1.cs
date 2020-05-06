@@ -30,12 +30,12 @@ namespace NTMiner {
         public void GpuNameTest() {
             GpuName gpuName = new GpuName {
                 Name = "580 Series",
-                TotalMemory = 1024ul * 1024 * 1024 * 8
+                TotalMemory = NTKeyword.ULongG * 8
             };
             Console.WriteLine(gpuName.ToString());
             gpuName = new GpuName {
                 Name = "580 Series",
-                TotalMemory = (ulong)(1024ul * 1024 * 1024 * 7.9)
+                TotalMemory = (ulong)(NTKeyword.ULongG * 7.9)
             };
             Console.WriteLine(gpuName.ToString());
         }

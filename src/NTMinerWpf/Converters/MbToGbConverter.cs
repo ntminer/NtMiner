@@ -7,7 +7,7 @@ namespace NTMiner.Converters {
     public class MbToGbConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             double d = System.Convert.ToDouble(value);
-            return (d / 1024).ToString("f1") + " GB";
+            return (d / NTKeyword.IntK).ToString("f1") + " GB";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

@@ -94,7 +94,7 @@ namespace NTMiner.Report {
                 GpuDriver = root.GpuSet.DriverVersion.ToString(),
                 GpuType = root.GpuSet.GpuType,
                 OSVirtualMemoryMb = VirtualRoot.DriveSet.OSVirtualMemoryMb,
-                TotalPhysicalMemoryMb = (int)(Windows.Ram.Instance.TotalPhysicalMemory / (1024 * 1024)),
+                TotalPhysicalMemoryMb = (int)(Windows.Ram.Instance.TotalPhysicalMemory / NTKeyword.IntM),
                 KernelCommandLine = string.Empty,
                 DiskSpace = VirtualRoot.DriveSet.ToDiskSpaceString(),
                 IsAutoRestartKernel = workProfile.IsAutoRestartKernel,

@@ -15,7 +15,7 @@ namespace NTMiner.Serialization {
                 return new byte[0];
             }
             byte[] data = Encoding.UTF8.GetBytes(_jsonSerializer.Serialize(obj));
-            if (data.Length > 1024) {// 因为设计了_heade，这个值是可以改的
+            if (data.Length > NTKeyword.IntK) {// 因为设计了_heade，这个值是可以改的
                 data = GZipUtil.Compress(data);
                 byte[] array = new byte[_head.Length + data.Length];
                 _head.CopyTo(array, 0);

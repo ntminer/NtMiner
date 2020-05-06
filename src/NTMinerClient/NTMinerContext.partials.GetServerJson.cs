@@ -19,7 +19,7 @@ namespace NTMiner {
                     webRequest.Headers.Add("Accept-Encoding", "gzip, deflate, br");
                     var response = webRequest.GetResponse();
                     using (Stream ms = new MemoryStream(), stream = response.GetResponseStream()) {
-                        byte[] buffer = new byte[1024];
+                        byte[] buffer = new byte[NTKeyword.IntK];
                         int n = stream.Read(buffer, 0, buffer.Length);
                         while (n > 0) {
                             ms.Write(buffer, 0, n);
@@ -44,7 +44,7 @@ namespace NTMiner {
             using (Stream ms = new MemoryStream(zippedData), 
                           compressedzipStream = new GZipStream(ms, CompressionMode.Decompress), 
                           outBuffer = new MemoryStream()) {
-                byte[] block = new byte[1024];
+                byte[] block = new byte[NTKeyword.IntK];
                 while (true) {
                     int bytesRead = compressedzipStream.Read(block, 0, block.Length);
                     if (bytesRead <= 0) {

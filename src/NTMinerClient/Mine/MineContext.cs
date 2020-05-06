@@ -394,7 +394,7 @@ namespace NTMiner.Mine {
                 Task.Factory.StartNew(() => {
                     using (FileStream fs = new FileStream(this.LogFileFullName, FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                         const byte r = (byte)'\r';
-                        byte[] buffer = new byte[1024];
+                        byte[] buffer = new byte[NTKeyword.IntK];
                         int ret;
                         // Read会阻塞，直到读取到字符或者hWriteOut被关闭
                         while ((ret = Read(buffer, 0, buffer.Length, _hReadOut)) > 0) {

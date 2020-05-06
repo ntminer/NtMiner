@@ -7,8 +7,7 @@ namespace NTMiner.Converters {
     public class ByteToMbConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             double d = System.Convert.ToDouble(value);
-            const long g = 1024 * 1024;
-            return (d / g).ToString() + " MB";
+            return (d / NTKeyword.IntM).ToString() + " MB";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

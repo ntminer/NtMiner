@@ -584,7 +584,7 @@ namespace NTMiner.MinerStudio.Vms {
                             VirtualRoot.Out.ShowError("数值格式错误，必须是数值（可带小数）");
                         }
                         else {
-                            int virtualMemoryMb = Convert.ToInt32(virtualMemoryGb * 1024);
+                            int virtualMemoryMb = Convert.ToInt32(virtualMemoryGb * NTKeyword.IntK);
                             Dictionary<string, int> data = new Dictionary<string, int> {
                                 {"Auto", virtualMemoryMb }
                             };

@@ -47,8 +47,8 @@ namespace NTMiner.Report {
         public int TotalPhysicalMemoryMb {
             get {
                 // 因为有客户端版本的单位不正确传上来的是kb不是Mb所以如果值较大除以1024
-                if (_totalPhysicalMemoryMb >= 100 * 1024) {
-                    _totalPhysicalMemoryMb /= 1024;
+                if (_totalPhysicalMemoryMb >= 100 * NTKeyword.IntK) {
+                    _totalPhysicalMemoryMb /= NTKeyword.IntK;
                 }
                 return _totalPhysicalMemoryMb;
             }
