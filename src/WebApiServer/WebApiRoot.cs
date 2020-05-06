@@ -16,12 +16,7 @@ using System.Web.Http;
 namespace NTMiner {
     public static class WebApiRoot {
         private static readonly EventWaitHandle WaitHandle = new AutoResetEvent(false);
-        private static OssClient _ossClient = null;
-        public static OssClient OssClient {
-            get {
-                return _ossClient;
-            }
-        }
+        public static OssClient OssClient { get; private set; }
 
         private static IServerContext _serverContext;
 
@@ -62,13 +57,14 @@ namespace NTMiner {
                             return;
                         }
                         Console.Title = $"{ServerAppType.WebApiServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
-                        _ossClient = new OssClient(ServerRoot.HostConfig.OssEndpoint, ServerRoot.HostConfig.OssAccessKeyId, ServerRoot.HostConfig.OssAccessKeySecret);
+                        OssClient = new OssClient(ServerRoot.HostConfig.OssEndpoint, ServerRoot.HostConfig.OssAccessKeyId, ServerRoot.HostConfig.OssAccessKeySecret);
                         var minerClientMqSender = new MinerClientMqSender(_serverContext.Channel);
                         var userMqSender = new UserMqSender(_serverContext.Channel);
                         var wsServerNodeMqSender = new WsServerNodeMqSender(_serverContext.Channel);
 
                         var minerRedis = new MinerRedis(_serverContext.RedisConn);
                         var speedDataRedis = new SpeedDataRedis(_serverContext.RedisConn);
+                        var gpuNameRedist = new GpuNameRedis(_serverContext.RedisConn);
                         var userRedis = new UserRedis(_serverContext.RedisConn);
                         var captchaRedis = new CaptchaRedis(_serverContext.RedisConn);
 
@@ -80,7 +76,7 @@ namespace NTMiner {
                         NTMinerWalletSet = new NTMinerWalletSet();
                         ClientDataSet clientDataSet = new ClientDataSet(minerRedis, speedDataRedis, minerClientMqSender);
                         ClientDataSet = clientDataSet;
-                        GpuNameSet = new GpuNameSet();
+                        GpuNameSet = new GpuNameSet(gpuNameRedist);
                         CoinSnapshotSet = new CoinSnapshotSet(clientDataSet);
                         MineWorkSet = new UserMineWorkSet();
                         MinerGroupSet = new UserMinerGroupSet();

@@ -1,11 +1,24 @@
 ﻿using NTMiner.Core.Gpus;
+using NTMiner.Core.Redis;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
     public class GpuNameSet : IGpuNameSet {
         private readonly HashSet<GpuName> _hashSet = new HashSet<GpuName>();
 
-        public GpuNameSet() {
+        public bool IsReadied {
+            get; private set;
+        }
+
+        public GpuNameSet(IGpuNameRedis userRedis) {
+            userRedis.GetAllAsync().ContinueWith(t => {
+                foreach (var item in t.Result) {
+                    _hashSet.Add(item);
+                }
+                IsReadied = true;
+                Write.UserOk("Gpu名称集就绪");
+                VirtualRoot.RaiseEvent(new GpuNameSetInitedEvent());
+            });
         }
 
         /// <summary>
