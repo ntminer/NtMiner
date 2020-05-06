@@ -31,11 +31,16 @@ namespace NTMiner {
             return new NTStopwatch();
         });
 
-        // 注意比对Start和Stop的引用计数是否相等，由于用using裹住太难看这里就不借助using保持Start和Stop的相等了
+        /// <summary>
+        /// 注意比对Start和Stop的引用计数是否相等，由于用using裹住太难看这里就不借助using保持Start和Stop的相等了
+        /// </summary>
         public static void Start() {
             _stopwatchLocal.Value.DoStart();
         }
 
+        /// <summary>
+        /// 注意比对Start和Stop的引用计数是否相等，由于用using裹住太难看这里就不借助using保持Start和Stop的相等了
+        /// </summary>
         public static ElapsedValue Stop() {
             return _stopwatchLocal.Value.DoStop();
         }
@@ -57,6 +62,7 @@ namespace NTMiner {
             if (!_isEnabled) {
                 return;
             }
+            _stopwatch.Start();
             _stack.Push(_stopwatch.ElapsedMilliseconds);
         }
 
@@ -65,6 +71,9 @@ namespace NTMiner {
                 return ElapsedValue.Empty;
             }
             var value = _stopwatch.ElapsedMilliseconds - _stack.Pop();
+            if (_stack.Count == 0) {
+                _stopwatch.Reset();
+            }
             return new ElapsedValue(value, _stack.Count);
         }
 #endregion

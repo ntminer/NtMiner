@@ -8,12 +8,12 @@ namespace NTMiner {
         [TestMethod]
         public void StackTraceTest() {
             int count = 100000;
-            NTMiner.NTStopwatch.Start();
+            NTStopwatch.Start();
             for (int i = 0; i < count; i++) {
                 MethodA();
             }
             Console.WriteLine("MethodA "+ NTMiner.NTStopwatch.Stop());
-            NTMiner.NTStopwatch.Start();
+            NTStopwatch.Start();
             for (int i = 0; i < count; i++) {
                 MethodB();
             }

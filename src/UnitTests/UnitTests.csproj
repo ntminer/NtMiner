@@ -93,6 +93,7 @@
     <Compile Include="IoTests.cs" />
     <Compile Include="LiteDBTests.cs" />
     <Compile Include="NTMinerDataSchemasTests.cs" />
+    <Compile Include="NTStopwatchTests.cs" />
     <Compile Include="PInvokeTests.cs" />
     <Compile Include="RamTests.cs" />
     <Compile Include="CryptographyTests.cs" />
