@@ -16,6 +16,17 @@ namespace NTMiner {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void CeilingTest() {
+            const ulong gb = 1024 * 1024 * 1024;
+            ulong totalMemory = (ulong)(3.9 * gb);
+            ulong totalMemoryGb = (totalMemory + gb) / gb;
+            Assert.IsTrue(4 == totalMemoryGb);
+            totalMemory = (ulong)(3.1 * gb);
+            totalMemoryGb = (totalMemory + gb) / gb;
+            Assert.IsTrue(4 == totalMemoryGb);
+        }
+
+        [TestMethod]
         public void MaxValueText() {
             Console.WriteLine(ushort.MaxValue);
             Console.WriteLine((int)char.MinValue);
