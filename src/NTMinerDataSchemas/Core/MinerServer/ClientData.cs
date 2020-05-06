@@ -1,6 +1,6 @@
 ﻿using LiteDB;
 using Newtonsoft.Json;
-using NTMiner.Core.MinerClient;
+using NTMiner.Core.Gpus;
 using NTMiner.Report;
 using System;
 using System.Collections.Generic;

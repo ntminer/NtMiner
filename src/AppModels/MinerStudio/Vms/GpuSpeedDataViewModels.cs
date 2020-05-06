@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.MinerClient;
+﻿using NTMiner.Core.Gpus;
 using NTMiner.Vms;
 using System;
 using System.Collections.Generic;

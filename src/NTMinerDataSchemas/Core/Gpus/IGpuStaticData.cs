@@ -1,17 +1,11 @@
-﻿namespace NTMiner.Core.MinerClient {
-    public interface IGpuStaticData {
+﻿namespace NTMiner.Core.Gpus {
+    public interface IGpuStaticData : IGpuName {
         GpuType GpuType { get; }
         int Index { get; }
         /// <summary>
         /// 必须是数字格式
         /// </summary>
         string BusId { get; }
-        string Name { get; }
-
-        /// <summary>
-        /// 单位Byte
-        /// </summary>
-        ulong TotalMemory { get; set; }
         int CoreClockDeltaMin { get; set; }
         int CoreClockDeltaMax { get; set; }
 

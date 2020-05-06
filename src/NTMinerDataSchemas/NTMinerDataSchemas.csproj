@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Base64Util.cs" />
     <Compile Include="Core\CaptchaData.cs" />
+    <Compile Include="Core\Gpus\IGpuName.cs" />
     <Compile Include="Core\ICaptcha.cs" />
     <Compile Include="Core\IOperationResult.cs" />
     <Compile Include="Core\LocalMessageDto.cs" />
@@ -158,7 +159,7 @@
     <Compile Include="Ws\IWsClient.cs" />
     <Compile Include="Ws\WsClientState.cs" />
     <Compile Include="Ws\WsMessage.cs" />
-    <Compile Include="Core\MinerClient\IGpuSpeedData.cs" />
+    <Compile Include="Core\Gpus\IGpuSpeedData.cs" />
     <Compile Include="Core\MinerClient\ILocalIp.cs" />
     <Compile Include="Report\ISpeedDto.cs" />
     <Compile Include="Core\MinerClient\LocalIpDto.cs" />
@@ -178,8 +179,8 @@
     <Compile Include="Core\ILocalMessage.cs" />
     <Compile Include="Core\KernelOutputKeywordData.cs" />
     <Compile Include="Core\LocalMessageData.cs" />
-    <Compile Include="Core\MinerClient\GpuData.cs" />
-    <Compile Include="Core\MinerClient\IGpuStaticData.cs" />
+    <Compile Include="Core\Gpus\GpuData.cs" />
+    <Compile Include="Core\Gpus\IGpuStaticData.cs" />
     <Compile Include="Core\MinerServer\MinerData.cs" />
     <Compile Include="Core\MinerServer\MinerIdsRequest.cs" />
     <Compile Include="Core\Profile\CoinOverClockData.cs" />
@@ -190,7 +191,7 @@
     <Compile Include="ILevelEntity`1.cs" />
     <Compile Include="Core\IPool.cs" />
     <Compile Include="ISortable.cs" />
-    <Compile Include="Core\MinerClient\GpuSpeedData.cs" />
+    <Compile Include="Core\Gpus\GpuSpeedData.cs" />
     <Compile Include="DataRequest`1.cs" />
     <Compile Include="Core\AppSettingData.cs" />
     <Compile Include="Core\MinerServer\AppSettingRequest.cs" />
@@ -253,5 +254,6 @@
     <None Include="packages.config" />
     <None Include="README.md" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

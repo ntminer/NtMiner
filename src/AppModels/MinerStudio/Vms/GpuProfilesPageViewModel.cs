@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.MinerClient;
+using NTMiner.Core.Gpus;
 using NTMiner.Core.Profile;
 using NTMiner.JsonDb;
 using NTMiner.Vms;

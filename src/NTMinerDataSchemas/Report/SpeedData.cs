@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NTMiner.Core;
-using NTMiner.Core.MinerClient;
+using NTMiner.Core.Gpus;
 using System;
 
 namespace NTMiner.Report {

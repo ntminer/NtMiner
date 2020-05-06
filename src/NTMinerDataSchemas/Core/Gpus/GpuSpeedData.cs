@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Core.MinerClient {
+﻿namespace NTMiner.Core.Gpus {
     public class GpuSpeedData : IGpuSpeedData {
         public GpuSpeedData() {
         }

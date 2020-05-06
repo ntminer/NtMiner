@@ -1,4 +1,4 @@
-﻿namespace NTMiner.Core.MinerClient {
+﻿namespace NTMiner.Core.Gpus {
     public class GpuData : IGpuStaticData {
         public GpuData() {
             this.PowerDefault = 100;
