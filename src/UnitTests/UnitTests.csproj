@@ -80,6 +80,7 @@
     <Compile Include="AppTypeTests.cs" />
     <Compile Include="Base64StringTests.cs" />
     <Compile Include="BinarySerializerTests.cs" />
+    <Compile Include="BoxTests.cs" />
     <Compile Include="ConvertTests.cs" />
     <Compile Include="CpuTests.cs" />
     <Compile Include="DependencyObjectTests.cs" />

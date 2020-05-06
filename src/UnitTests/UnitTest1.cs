@@ -5,7 +5,6 @@ using NTMiner.Core.Profile;
 using NTMiner.Serialization;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
@@ -29,13 +28,6 @@ namespace NTMiner {
         }
 
         [TestMethod]
-        public void ModTest() {
-            // 有目的性的构建一个Id用于测试分片用
-            int n = Guid.Parse("AB149B6F-C3C1-4532-AD66-0E62F7036354").GetHashCode();
-            Assert.AreEqual(1, n % 2);
-        }
-
-        [TestMethod]
         public void UriPathTest() {
             string url = "http://ntminer.oss-cn-beijing.aliyuncs.com/NTMinerUpdater.exe?Expires=1583773008&OSSAccessKeyId=abcdefg1234567890&Signature=0XnsSp5SvbznvsteogbFhsPRm6k%3d";
             Uri uri = new Uri(url);
@@ -55,18 +47,6 @@ namespace NTMiner {
                 Console.WriteLine("DateTime:" + sizeof(DateTime));
                 Console.WriteLine("Guid:" + sizeof(Guid));
             }
-        }
-
-        [TestMethod]
-        public void BoxTest() {
-            // 装箱了
-            Console.WriteLine(string.Format("{0}{1}{2}", 1, false, LocalMessageType.Info));
-            // 装箱了，和上面完全一样
-            Console.WriteLine($"{1}{false}{LocalMessageType.Info}");
-            // 装箱了
-            string.Format(CultureInfo.InvariantCulture, "0x{0:X8}", 1);
-            // 装箱了
-            Console.WriteLine($"{Guid.NewGuid()}");
         }
 
         [TestMethod]
