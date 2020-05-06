@@ -1,10 +1,18 @@
 ﻿namespace NTMiner.Core.Gpus {
     public class GpuName : IGpuName {
+        public static bool IsValidTotalMemory(ulong value) {
+            return value >= 2 * NTKeyword.ULongG;
+        }
+
         public GpuName() { }
 
         public string Name { get; set; }
 
         public ulong TotalMemory { get; set; }
+
+        public bool IsValid() {
+            return !string.IsNullOrEmpty(Name) && IsValidTotalMemory(TotalMemory);
+        }
 
         public override bool Equals(object obj) {
             if (obj == null) {

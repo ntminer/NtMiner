@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
         /// <param name="gpuName"></param>
         /// <param name="gpuTotalMemory"></param>
         public void Add(string gpuName, ulong gpuTotalMemory) {
-            if (string.IsNullOrEmpty(gpuName) || gpuTotalMemory < 2 * NTKeyword.ULongG) {
+            if (string.IsNullOrEmpty(gpuName) || !GpuName.IsValidTotalMemory(gpuTotalMemory)) {
                 return;
             }
             _hashSet.Add(new GpuName {

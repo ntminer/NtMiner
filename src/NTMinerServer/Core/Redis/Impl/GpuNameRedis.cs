@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Gpus;
 using StackExchange.Redis;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
@@ -30,11 +31,20 @@ namespace NTMiner.Core.Redis.Impl {
 
         public Task SetAsync(GpuName gpuName) {
             // 忽略显存小于2G的卡
-            if (gpuName == null || string.IsNullOrEmpty(gpuName.Name) || gpuName.TotalMemory < 2 * NTKeyword.ULongG) {
+            if (gpuName == null || !gpuName.IsValid()) {
                 return TaskEx.CompletedTask;
             }
             var db = _connection.GetDatabase();
             return db.HashSetAsync(_redisKeyGpuNameByClientId, gpuName.ToString(), VirtualRoot.JsonSerializer.Serialize(gpuName));
+        }
+
+        public Task SetAsync(List<GpuName> gpuNames) {
+            if (gpuNames == null || gpuNames.Count == 0) {
+                return TaskEx.CompletedTask;
+            }
+            gpuNames = gpuNames.Where(a => a.IsValid()).ToList();
+            var db = _connection.GetDatabase();
+            return db.HashSetAsync(_redisKeyGpuNameByClientId, gpuNames.Select(a => new HashEntry(a.ToString(), VirtualRoot.JsonSerializer.Serialize(a))).ToArray());
         }
     }
 }
