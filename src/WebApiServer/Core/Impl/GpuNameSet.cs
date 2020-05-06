@@ -8,11 +8,19 @@ namespace NTMiner.Core.Impl {
         public GpuNameSet() {
         }
 
-        public void Add(GpuName gpuName) {
-            if (gpuName == null) {
+        /// <summary>
+        /// 如果显存小于2G会被忽略
+        /// </summary>
+        /// <param name="gpuName"></param>
+        /// <param name="gpuTotalMemory"></param>
+        public void Add(string gpuName, ulong gpuTotalMemory) {
+            if (string.IsNullOrEmpty(gpuName) || gpuTotalMemory < 2 * NTKeyword.ULongG) {
                 return;
             }
-            _hashSet.Add(gpuName);
+            _hashSet.Add(new GpuName {
+                Name = gpuName,
+                TotalMemory = gpuTotalMemory
+            });
         }
 
         public IEnumerable<IGpuName> AsEnumerable() {
