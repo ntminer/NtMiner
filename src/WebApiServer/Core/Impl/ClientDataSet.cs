@@ -130,7 +130,7 @@ namespace NTMiner.Core.Impl {
                 _speedDataRedis.SetAsync(new SpeedData(speedDto, DateTime.Now));
             }
             foreach (var gpuSpeedData in speedDto.GpuTable) {
-                WebApiRoot.GpuNameSet.Add(gpuSpeedData.Name, gpuSpeedData.TotalMemory);
+                WebApiRoot.GpuNameRawSet.Add(gpuSpeedData.Name, gpuSpeedData.TotalMemory);
             }
             ClientData clientData = GetByClientId(speedDto.ClientId);
             if (clientData == null) {

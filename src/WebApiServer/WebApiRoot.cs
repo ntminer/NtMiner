@@ -76,7 +76,7 @@ namespace NTMiner {
                         NTMinerWalletSet = new NTMinerWalletSet();
                         ClientDataSet clientDataSet = new ClientDataSet(minerRedis, speedDataRedis, minerClientMqSender);
                         ClientDataSet = clientDataSet;
-                        GpuNameSet = new GpuNameSet(gpuNameRedist);
+                        GpuNameRawSet = new GpuNameRawSet(gpuNameRedist);
                         CoinSnapshotSet = new CoinSnapshotSet(clientDataSet);
                         MineWorkSet = new UserMineWorkSet();
                         MinerGroupSet = new UserMinerGroupSet();
@@ -164,7 +164,7 @@ namespace NTMiner {
 
         public static IClientDataSet ClientDataSet { get; private set; }
 
-        public static IGpuNameSet GpuNameSet { get; private set; }
+        public static IGpuNameRawSet GpuNameRawSet { get; private set; }
 
         public static ICoinSnapshotSet CoinSnapshotSet { get; private set; }
 

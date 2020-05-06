@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class GpuNameRedis : IGpuNameRedis {
-        protected const string _redisKeyGpuNameByClientId = "speedDatas.GpuNameByClientId";// 根据ClientId索引GpuName对象的json
+        private const string _redisKeyGpuNamesRaw = "gpuNames.Raw";
 
         protected readonly ConnectionMultiplexer _connection;
         public GpuNameRedis(ConnectionMultiplexer connection) {
             _connection = connection;
         }
 
-        public Task<List<GpuName>> GetAllAsync() {
+        public Task<List<GpuName>> GetAllRawAsync() {
             var db = _connection.GetDatabase();
-            return db.HashGetAllAsync(_redisKeyGpuNameByClientId).ContinueWith(t => {
+            return db.HashGetAllAsync(_redisKeyGpuNamesRaw).ContinueWith(t => {
                 List<GpuName> list = new List<GpuName>();
                 foreach (var item in t.Result) {
                     if (item.Value.HasValue) {
@@ -29,22 +29,22 @@ namespace NTMiner.Core.Redis.Impl {
             });
         }
 
-        public Task SetAsync(GpuName gpuName) {
+        public Task SetRawAsync(GpuName gpuName) {
             // 忽略显存小于2G的卡
             if (gpuName == null || !gpuName.IsValid()) {
                 return TaskEx.CompletedTask;
             }
             var db = _connection.GetDatabase();
-            return db.HashSetAsync(_redisKeyGpuNameByClientId, gpuName.ToString(), VirtualRoot.JsonSerializer.Serialize(gpuName));
+            return db.HashSetAsync(_redisKeyGpuNamesRaw, gpuName.ToString(), VirtualRoot.JsonSerializer.Serialize(gpuName));
         }
 
-        public Task SetAsync(List<GpuName> gpuNames) {
+        public Task SetRawAsync(List<GpuName> gpuNames) {
             if (gpuNames == null || gpuNames.Count == 0) {
                 return TaskEx.CompletedTask;
             }
             gpuNames = gpuNames.Where(a => a.IsValid()).ToList();
             var db = _connection.GetDatabase();
-            return db.HashSetAsync(_redisKeyGpuNameByClientId, gpuNames.Select(a => new HashEntry(a.ToString(), VirtualRoot.JsonSerializer.Serialize(a))).ToArray());
+            return db.HashSetAsync(_redisKeyGpuNamesRaw, gpuNames.Select(a => new HashEntry(a.ToString(), VirtualRoot.JsonSerializer.Serialize(a))).ToArray());
         }
     }
 }
