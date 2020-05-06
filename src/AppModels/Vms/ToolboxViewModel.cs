@@ -67,12 +67,12 @@ namespace NTMiner.Vms {
             this.BlockWAU = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定禁用Windows系统更新吗？禁用后可在Windows服务中找到Windows Update手动启用。", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new BlockWAUCommand());
-                }, helpUrl: "https://www.cnblogs.com/ntminer/p/12155769.html"));
+                }, helpUrl: BlockWAUHelpUrl));
             });
             this.Win10Optimize = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定面向挖矿优化windows吗？", title: "确认", onYes: () => {
                     VirtualRoot.Execute(new Win10OptimizeCommand());
-                }, helpUrl: "https://www.cnblogs.com/ntminer/p/12155773.html"));
+                }, helpUrl: Win10OptimizeHelpUrl));
             });
             this.EnableRemoteDesktop = new DelegateCommand(() => {
                 VirtualRoot.Execute(new EnableRemoteDesktopCommand());
@@ -86,6 +86,26 @@ namespace NTMiner.Vms {
             this.OpenEventvwr = new DelegateCommand(() => {
                 Process.Start("eventvwr.msc", "/c:Application");
             });
+        }
+
+        public string BlockWAUHelpUrl {
+            get {
+                string url = "https://www.cnblogs.com/ntminer/p/12155769.html";
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "BlockWAUHelpUrl", out ISysDicItem dicItem)) {
+                    url = dicItem.Value;
+                }
+                return url;
+            }
+        }
+
+        public string Win10OptimizeHelpUrl {
+            get {
+                string url = "https://www.cnblogs.com/ntminer/p/12155773.html";
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "Win10OptimizeHelpUrl", out ISysDicItem dicItem)) {
+                    url = dicItem.Value;
+                }
+                return url;
+            }
         }
 
         public bool IsRegedCmdHere {
