@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NTMiner.Controllers;
 using NTMiner.Core;
+using NTMiner.Core.Gpus;
 using NTMiner.Core.Profile;
 using NTMiner.Serialization;
 using System;
@@ -19,11 +20,25 @@ namespace NTMiner {
         public void CeilingTest() {
             const ulong gb = 1024 * 1024 * 1024;
             ulong totalMemory = (ulong)(3.9 * gb);
-            ulong totalMemoryGb = (totalMemory + gb) / gb;
+            ulong totalMemoryGb = (totalMemory + gb - 1) / gb;
             Assert.IsTrue(4 == totalMemoryGb);
             totalMemory = (ulong)(3.1 * gb);
             totalMemoryGb = (totalMemory + gb) / gb;
             Assert.IsTrue(4 == totalMemoryGb);
+        }
+
+        [TestMethod]
+        public void GpuNameTest() {
+            GpuName gpuName = new GpuName {
+                Name = "580 Series",
+                TotalMemory = 1024ul * 1024 * 1024 * 8
+            };
+            Console.WriteLine(gpuName.ToString());
+            gpuName = new GpuName {
+                Name = "580 Series",
+                TotalMemory = (ulong)(1024ul * 1024 * 1024 * 7.9)
+            };
+            Console.WriteLine(gpuName.ToString());
         }
 
         [TestMethod]
