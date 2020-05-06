@@ -87,11 +87,13 @@
     <Compile Include="EnumTests.cs" />
     <Compile Include="EnvironmentTests.cs" />
     <Compile Include="FuncTests.cs" />
+    <Compile Include="GpuNameTests.cs" />
     <Compile Include="GuidTests.cs" />
     <Compile Include="GZipUtilTests.cs" />
     <Compile Include="IoTests.cs" />
     <Compile Include="LiteDBTests.cs" />
     <Compile Include="NTMinerDataSchemasTests.cs" />
+    <Compile Include="PInvokeTests.cs" />
     <Compile Include="RamTests.cs" />
     <Compile Include="CryptographyTests.cs" />
     <Compile Include="RandomTests.cs" />

@@ -6,6 +6,13 @@
 
         public ulong TotalMemory { get; set; }
 
+        public override bool Equals(object obj) {
+            if (obj == null) {
+                return false;
+            }
+            return this.ToString() == obj.ToString(); ;
+        }
+
         public override int GetHashCode() {
             return this.ToString().GetHashCode();
         }
