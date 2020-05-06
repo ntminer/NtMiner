@@ -129,6 +129,12 @@ namespace NTMiner.Core.Impl {
             if (!isFromWsServerNode) {
                 _speedDataRedis.SetAsync(new SpeedData(speedDto, DateTime.Now));
             }
+            foreach (var gpuSpeedData in speedDto.GpuTable) {
+                WebApiRoot.GpuNameSet.Add(new Gpus.GpuName {
+                    Name = gpuSpeedData.Name,
+                    TotalMemory = gpuSpeedData.TotalMemory
+                });
+            }
             ClientData clientData = GetByClientId(speedDto.ClientId);
             if (clientData == null) {
                 clientData = ClientData.Create(speedDto, minerIp);
