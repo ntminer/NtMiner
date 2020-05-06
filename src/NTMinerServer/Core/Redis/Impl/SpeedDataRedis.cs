@@ -2,6 +2,7 @@
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
@@ -15,7 +16,20 @@ namespace NTMiner.Core.Redis.Impl {
 
         public Task<List<SpeedData>> GetAllAsync() {
             var db = _connection.GetDatabase();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             return db.HashGetAllAsync(_redisKeySpeedDataByClientId).ContinueWith(t => {
+                stopwatch.Stop();
+                long seconds = stopwatch.ElapsedMilliseconds / 1000;
+                string text = $"{nameof(SpeedDataRedis)}的redis方法HashGetAllAsync耗时 {seconds.ToString()} 秒";
+                // 从redis一次性加载几十兆数据没有什么问题，打印些统计信息出来以待将来有问题时容易发现
+                if (seconds > 5) {
+                    Write.UserWarn(text);
+                }
+                else {
+                    Write.UserInfo(text);
+                }
+                stopwatch.Start();
                 List<SpeedData> list = new List<SpeedData>();
                 foreach (var item in t.Result) {
                     if (item.Value.HasValue) {
@@ -25,6 +39,9 @@ namespace NTMiner.Core.Redis.Impl {
                         }
                     }
                 }
+                stopwatch.Stop();
+                seconds = stopwatch.ElapsedMilliseconds / 1000;
+                Write.UserInfo($"反序列化和装配耗时 {seconds.ToString()} 秒");
                 return list;
             });
         }
