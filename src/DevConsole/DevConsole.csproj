@@ -46,9 +46,6 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\NTMinerDataSchemas\HashUtil.cs">
-      <Link>HashUtil.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerNoDevFee\NoDevFee\WinDivert.cs">
       <Link>NoDevFee\WinDivert.cs</Link>
     </Compile>

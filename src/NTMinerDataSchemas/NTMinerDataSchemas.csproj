@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base64Util.cs" />
+    <Compile Include="ConsoleOutLine.cs" />
     <Compile Include="Core\CaptchaData.cs" />
     <Compile Include="Core\Gpus\GpuName.cs" />
     <Compile Include="Core\Gpus\IGpuName.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="Core\MinerServer\MinerSign.cs" />
     <Compile Include="Core\Profile\IProfile.cs" />
     <Compile Include="DataSchemaIdAttribute.cs" />
+    <Compile Include="IConsoleOutLine.cs" />
     <Compile Include="NTKeyword.cs" />
     <Compile Include="Report\ISpeedData.cs" />
     <Compile Include="Report\SpeedData.cs" />

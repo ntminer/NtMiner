@@ -38,11 +38,9 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConsoleOutLine.cs" />
     <Compile Include="DllName.cs" />
     <Compile Include="EntryAssemblyInfo.cs" />
     <Compile Include="HomePath.cs" />
-    <Compile Include="IConsoleOutLine.cs" />
     <Compile Include="IConsoleOutLineSet.cs" />
     <Compile Include="Impl\ConsoleOutLineSet.cs" />
     <Compile Include="LogEnum.cs" />
