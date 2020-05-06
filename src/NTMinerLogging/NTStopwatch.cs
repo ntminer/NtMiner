@@ -45,7 +45,7 @@ namespace NTMiner {
             return _stopwatchLocal.Value.DoStop();
         }
 
-#region 私有
+        #region 私有
         private readonly Stopwatch _stopwatch;
         private readonly Stack<long> _stack;
         private readonly bool _isEnabled = DevMode.IsDevMode || DevMode.IsInUnitTest;
@@ -76,6 +76,6 @@ namespace NTMiner {
             }
             return new ElapsedValue(value, _stack.Count);
         }
-#endregion
+        #endregion
     }
 }
