@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NTMinerlib")]
-[assembly: AssemblyCopyright(NTMiner.EntryAssemblyInfo.Copyright)]
+[assembly: AssemblyCopyright(NTMiner.NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

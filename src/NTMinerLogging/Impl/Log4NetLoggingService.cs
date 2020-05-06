@@ -8,7 +8,7 @@ namespace NTMiner.Impl {
         private readonly ILog _log;
 
         public Log4NetLoggingService() {
-            string logFileName = $"root{EntryAssemblyInfo.VersionBuild}.log";
+            string logFileName = $"root{NTKeyword.VersionBuild}.log";
             string logFile = $"logs\\{logFileName}";
             if (!string.IsNullOrEmpty(Logger.Dir)) {
                 logFile = Path.Combine(Logger.Dir, logFileName);

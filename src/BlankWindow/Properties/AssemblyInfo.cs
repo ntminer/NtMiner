@@ -8,7 +8,7 @@ using System.Windows.Markup;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NTMiner")]
-[assembly: AssemblyCopyright(NTMiner.EntryAssemblyInfo.Copyright)]
+[assembly: AssemblyCopyright(NTMiner.NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

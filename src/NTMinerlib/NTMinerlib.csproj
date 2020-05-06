@@ -50,7 +50,6 @@
     <Compile Include="Cryptography\RSAKey.cs" />
     <Compile Include="GZipUtil.cs" />
     <Compile Include="Net\Hosts.cs" />
-    <Compile Include="NTKeyword.cs" />
     <Compile Include="NTMinerRegistry.partials.cs" />
     <Compile Include="Net\IpUtil.cs" />
     <Compile Include="Repositories\JsonReadOnlyRepository`1.cs" />

@@ -5,7 +5,7 @@ namespace NTMiner {
         private static void Upgrade() {
             if (ClientAppType.IsMinerClient && HomePath.IsLocalHome && !File.Exists(HomePath.RootLockFileFullName)) {
                 #region 迁移
-                string sharePackagesDir = Path.Combine(EntryAssemblyInfo.TempDirFullName, HomePath.PackagesDirName);
+                string sharePackagesDir = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.PackagesDirName);
                 if (Directory.Exists(sharePackagesDir)) {
                     foreach (var fileFullName in Directory.GetFiles(sharePackagesDir)) {
                         string destFileName = Path.Combine(HomePath.PackagesDirFullName, Path.GetFileName(fileFullName));
@@ -20,7 +20,7 @@ namespace NTMiner {
                         File.Copy(shareServerDbFileFullName, HomePath.ServerDbFileFullName);
                     }
                 }
-                string shareServerJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, HomePath.ServerJsonFileName);
+                string shareServerJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.ServerJsonFileName);
                 if (File.Exists(shareServerJsonFileFullName) && !File.Exists(HomePath.ServerJsonFileFullName)) {
                     File.Copy(shareServerJsonFileFullName, HomePath.ServerJsonFileFullName);
                 }
@@ -28,11 +28,11 @@ namespace NTMiner {
                 if (File.Exists(shareLocalDbFileFullName) && !File.Exists(HomePath.LocalDbFileFullName)) {
                     File.Copy(shareLocalDbFileFullName, HomePath.LocalDbFileFullName);
                 }
-                string shareGpuProfilesJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, HomePath.GpuProfilesFileName);
+                string shareGpuProfilesJsonFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.GpuProfilesFileName);
                 if (File.Exists(shareGpuProfilesJsonFileFullName) && !File.Exists(HomePath.GpuProfilesJsonFileFullName)) {
                     File.Copy(shareGpuProfilesJsonFileFullName, HomePath.GpuProfilesJsonFileFullName);
                 }
-                string shareUpdaterFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, HomePath.UpdaterDirName, HomePath.NTMinerUpdaterFileName);
+                string shareUpdaterFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.UpdaterDirName, NTKeyword.NTMinerUpdaterFileName);
                 if (File.Exists(shareUpdaterFileFullName) && !File.Exists(HomePath.UpdaterFileFullName)) {
                     File.Copy(shareUpdaterFileFullName, HomePath.UpdaterFileFullName);
                 }

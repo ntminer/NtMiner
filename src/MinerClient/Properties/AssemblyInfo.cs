@@ -17,13 +17,13 @@ using System.Windows;
 // 可以指定所有这些值，也可以使用“内部版本号”和“修订号”的默认值，
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion(EntryAssemblyInfo.VersionBuild)]
-[assembly: AssemblyDescription(EntryAssemblyInfo.ManJiTag)]
-[assembly: AssemblyFileVersion(EntryAssemblyInfo.Version)]
+[assembly: AssemblyVersion(NTKeyword.VersionBuild)]
+[assembly: AssemblyDescription(NTKeyword.ManJiTag)]
+[assembly: AssemblyFileVersion(NTKeyword.Version)]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NTMiner")]
-[assembly: AssemblyCopyright(EntryAssemblyInfo.Copyright)]
+[assembly: AssemblyCopyright(NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 //下载于mycodes.net

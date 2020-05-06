@@ -112,9 +112,6 @@
     <Compile Include="..\NTMinerlib\GZipUtil.cs">
       <Link>GZipUtil.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\NTKeyword.cs">
-      <Link>NTKeyword.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>
     </Compile>

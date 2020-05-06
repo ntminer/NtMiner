@@ -22,7 +22,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AppViews0")]
-[assembly: AssemblyCopyright(NTMiner.EntryAssemblyInfo.Copyright)]
+[assembly: AssemblyCopyright(NTMiner.NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 //下载于mycodes.net

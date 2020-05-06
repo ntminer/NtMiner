@@ -18,12 +18,11 @@ namespace NTMiner {
     public class UnitTest1 {
         [TestMethod]
         public void CeilingTest() {
-            const ulong gb = 1024 * 1024 * 1024;
-            ulong totalMemory = (ulong)(3.9 * gb);
-            ulong totalMemoryGb = (totalMemory + gb - 1) / gb;
+            ulong totalMemory = (ulong)(3.9 * NTKeyword.ULongG);
+            ulong totalMemoryGb = (totalMemory + NTKeyword.ULongG - 1) / NTKeyword.ULongG;
             Assert.IsTrue(4 == totalMemoryGb);
-            totalMemory = (ulong)(3.1 * gb);
-            totalMemoryGb = (totalMemory + gb) / gb;
+            totalMemory = (ulong)(3.1 * NTKeyword.ULongG);
+            totalMemoryGb = (totalMemory + NTKeyword.ULongG) / NTKeyword.ULongG;
             Assert.IsTrue(4 == totalMemoryGb);
         }
 

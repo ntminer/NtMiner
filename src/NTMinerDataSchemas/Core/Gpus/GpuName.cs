@@ -11,8 +11,7 @@
         }
 
         public override string ToString() {
-            const ulong gb = 1024 * 1024 * 1024;
-            ulong totalMemoryGb = (this.TotalMemory + gb - 1) / gb;
+            ulong totalMemoryGb = (this.TotalMemory + NTKeyword.ULongG - 1) / NTKeyword.ULongG;
             return $"{this.Name}///{totalMemoryGb.ToString()}";
         }
     }

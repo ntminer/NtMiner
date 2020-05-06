@@ -79,7 +79,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallTempLogsDirFullName = true;
         public static string TempLogsDirFullName {
             get {
-                string dirFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, EntryAssemblyInfo.LogsDirName);
+                string dirFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LogsDirName);
                 if (_sIsFirstCallTempLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);

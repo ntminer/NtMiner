@@ -81,7 +81,7 @@ namespace NTMiner {
                         sb.Append(";");
                     }
                     // item.Name like C:\
-                    sb.Append(item.Name).Append((item.AvailableFreeSpace / (double)(1024 * 1024 * 1024)).ToString("f1")).Append(" Gb");
+                    sb.Append(item.Name).Append((item.AvailableFreeSpace / NTKeyword.DoubleG).ToString("f1")).Append(" Gb");
                 }
                 return sb.ToString();
             }
@@ -93,7 +93,7 @@ namespace NTMiner {
                 if (virtualMemories.TryGetValue("Auto", out int virtualMemoryMb)) {
                     long virtualMemoryB = virtualMemoryMb * 1024 * 1024;
                     // 系统盘留出1Gb
-                    long systemReserveB = 1024 * 1024 * 1024;
+                    long systemReserveB = NTKeyword.LongG;
                     // 非系统盘留出100Mb
                     long reserveB = 100 * 1024 * 1024;
                     if (_drives.Sum(a => a.AvailableFreeSpace) - systemReserveB - (_drives.Count - 1) * reserveB < virtualMemoryMb) {

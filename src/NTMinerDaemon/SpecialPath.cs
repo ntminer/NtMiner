@@ -4,7 +4,6 @@ using System.Text;
 
 namespace NTMiner {
     public static class SpecialPath {
-        private static readonly string _serverJsonFileFullName;
         private static readonly string _mineWorkLocalJsonFileFullName;
         private static readonly string _mineWorkServerJsonFileFullName;
         private static readonly string _selfWorkLocalJsonFileFullName;
@@ -39,12 +38,11 @@ namespace NTMiner {
             if (!Directory.Exists(mineWorkDirFullName)) {
                 Directory.CreateDirectory(mineWorkDirFullName);
             }
-            _serverJsonFileFullName = Path.Combine(homeDirFullName, HomePath.ServerJsonFileName);
-            _mineWorkServerJsonFileFullName = Path.Combine(mineWorkDirFullName, HomePath.ServerJsonFileName);
-            _mineWorkLocalJsonFileFullName = Path.Combine(mineWorkDirFullName, HomePath.LocalJsonFileName);
-            _selfWorkServerJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.ServerJsonFileName);
-            _selfWorkLocalJsonFileFullName = Path.Combine(selfWorkDirFullName, HomePath.LocalJsonFileName);
-            _gpuProfilesJsonFileFullName = Path.Combine(homeDirFullName, HomePath.GpuProfilesFileName);
+            _mineWorkServerJsonFileFullName = Path.Combine(mineWorkDirFullName, NTKeyword.ServerJsonFileName);
+            _mineWorkLocalJsonFileFullName = Path.Combine(mineWorkDirFullName, NTKeyword.LocalJsonFileName);
+            _selfWorkServerJsonFileFullName = Path.Combine(selfWorkDirFullName, NTKeyword.ServerJsonFileName);
+            _selfWorkLocalJsonFileFullName = Path.Combine(selfWorkDirFullName, NTKeyword.LocalJsonFileName);
+            _gpuProfilesJsonFileFullName = Path.Combine(homeDirFullName, NTKeyword.GpuProfilesFileName);
         }
 
         public static string ReadMineWorkLocalJsonFile() {

@@ -7,8 +7,7 @@ namespace NTMiner.Converters {
     public class ByteToGbConverter : IValueConverter {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture) {
             double d = System.Convert.ToDouble(value);
-            const long g = 1024 * 1024 * 1024;
-            return (d / g).ToString("f1") + " GB";
+            return (d / NTKeyword.LongG).ToString("f1") + " GB";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) {

@@ -43,10 +43,9 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        private const double g = 1024 * 1024 * 1024;
         public string TotalMemoryGbText {
             get {
-                return Math.Round(this.TotalMemory / g, 1) + "Gb";
+                return Math.Round(this.TotalMemory / NTKeyword.DoubleG, 1) + "Gb";
             }
         }
 

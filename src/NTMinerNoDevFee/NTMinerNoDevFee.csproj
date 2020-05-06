@@ -106,6 +106,9 @@
     <Compile Include="..\NTMinerDataSchemas\ISignableData.cs">
       <Link>ISignableData.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerDataSchemas\NTKeyword.cs">
+      <Link>NTKeyword.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerDataSchemas\NTMinerAppType.cs">
       <Link>NTMinerAppType.cs</Link>
     </Compile>
@@ -117,9 +120,6 @@
     </Compile>
     <Compile Include="..\NTMinerDataSchemas\Timestamp.cs">
       <Link>Timestamp.cs</Link>
-    </Compile>
-    <Compile Include="..\NTMinerlib\NTKeyword.cs">
-      <Link>NTKeyword.cs</Link>
     </Compile>
     <Compile Include="..\NTMinerlib\NTMinerRegistry.cs">
       <Link>NTMinerRegistry.cs</Link>

@@ -3,17 +3,6 @@ using System.IO;
 
 namespace NTMiner {
     public static class HomePath {
-        public const string ServerJsonFileName = "server.json";
-        public const string LocalJsonFileName = "local.json";
-        public const string GpuProfilesFileName = "gpuProfiles.json";
-        public const string PackagesDirName = "Packages";
-        public const string UpdaterDirName = "Updater";
-        public const string SelfWorkDirName = "SelfWork";
-        public const string MineWorkDirName = "MineWork";
-        public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
-        public const string ServerDbFileName = "server.litedb";
-        public const string LocalDbFileName = "local.litedb";
-
         public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.lock");
         public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.config");
         public static string HomeDirFullName { get; private set; } = EntryAssemblyInfo.TempDirFullName;
@@ -34,12 +23,12 @@ namespace NTMiner {
                 homeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
             }
             SetHomeDirFullName(homeDirFullName);
-            ServerJsonFileFullName = Path.Combine(HomeDirFullName, ServerJsonFileName);
-            SelfWorkServerJsonFileFullName = Path.Combine(SelfWorkDirFullName, ServerJsonFileName);
-            MineWorkServerJsonFileFullName = Path.Combine(MineWorkDirFullName, ServerJsonFileName);
-            SelfWorkLocalJsonFileFullName = Path.Combine(SelfWorkDirFullName, LocalJsonFileName);
-            MineWorkLocalJsonFileFullName = Path.Combine(MineWorkDirFullName, LocalJsonFileName);
-            GpuProfilesJsonFileFullName = Path.Combine(HomeDirFullName, GpuProfilesFileName);
+            ServerJsonFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerJsonFileName);
+            SelfWorkServerJsonFileFullName = Path.Combine(SelfWorkDirFullName, NTKeyword.ServerJsonFileName);
+            MineWorkServerJsonFileFullName = Path.Combine(MineWorkDirFullName, NTKeyword.ServerJsonFileName);
+            SelfWorkLocalJsonFileFullName = Path.Combine(SelfWorkDirFullName, NTKeyword.LocalJsonFileName);
+            MineWorkLocalJsonFileFullName = Path.Combine(MineWorkDirFullName, NTKeyword.LocalJsonFileName);
+            GpuProfilesJsonFileFullName = Path.Combine(HomeDirFullName, NTKeyword.GpuProfilesFileName);
         }
 
         public static string ExportServerJsonFileName {
@@ -67,14 +56,14 @@ namespace NTMiner {
             }
         }
 
-        private static string _localDbFileFullName = Path.Combine(HomeDirFullName, LocalDbFileName);
+        private static string _localDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
         public static string LocalDbFileFullName {
             get {
                 return _localDbFileFullName;
             }
         }
 
-        private static string _serverDbFileFullName = Path.Combine(HomeDirFullName, ServerDbFileName);
+        private static string _serverDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
         public static string ServerDbFileFullName {
             get {
                 return _serverDbFileFullName;
@@ -89,14 +78,14 @@ namespace NTMiner {
             if (!Directory.Exists(dirFullName)) {
                 Directory.CreateDirectory(dirFullName);
             }
-            _localDbFileFullName = Path.Combine(HomeDirFullName, LocalDbFileName);
-            _serverDbFileFullName = Path.Combine(HomeDirFullName, ServerDbFileName);
+            _localDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
+            _serverDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
         }
         
         private static bool _sIsFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {
-                string dirFullName = Path.Combine(HomeDirFullName, PackagesDirName);
+                string dirFullName = Path.Combine(HomeDirFullName, NTKeyword.PackagesDirName);
                 if (_sIsFirstCallPackageDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -111,7 +100,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallHomeLogsDirFullName = true;
         public static string HomeLogsDirFullName {
             get {
-                string dirFullName = Path.Combine(HomeDirFullName, EntryAssemblyInfo.LogsDirName);
+                string dirFullName = Path.Combine(HomeDirFullName, NTKeyword.LogsDirName);
                 if (_sIsFirstCallHomeLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -129,7 +118,7 @@ namespace NTMiner {
         /// </summary>
         public static string UpdaterDirFullName {
             get {
-                string dirFullName = Path.Combine(HomeDirFullName, UpdaterDirName);
+                string dirFullName = Path.Combine(HomeDirFullName, NTKeyword.UpdaterDirName);
                 if (_sIsFirstCallUpdaterDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -144,7 +133,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallSelfWorkDirFullName = true;
         public static string SelfWorkDirFullName {
             get {
-                string dirFullName = Path.Combine(HomeDirFullName, SelfWorkDirName);
+                string dirFullName = Path.Combine(HomeDirFullName, NTKeyword.SelfWorkDirName);
                 if (_sIsFirstCallSelfWorkDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -159,7 +148,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallMineWorkDirFullName = true;
         public static string MineWorkDirFullName {
             get {
-                string dirFullName = Path.Combine(HomeDirFullName, MineWorkDirName);
+                string dirFullName = Path.Combine(HomeDirFullName, NTKeyword.MineWorkDirName);
                 if (_sIsFirstCallMineWorkDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
@@ -173,7 +162,7 @@ namespace NTMiner {
 
         public static string UpdaterFileFullName {
             get {
-                return Path.Combine(UpdaterDirFullName, NTMinerUpdaterFileName);
+                return Path.Combine(UpdaterDirFullName, NTKeyword.NTMinerUpdaterFileName);
             }
         }
 

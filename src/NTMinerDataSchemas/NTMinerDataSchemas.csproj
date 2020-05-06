@@ -59,6 +59,7 @@
     <Compile Include="Core\MinerServer\MinerSign.cs" />
     <Compile Include="Core\Profile\IProfile.cs" />
     <Compile Include="DataSchemaIdAttribute.cs" />
+    <Compile Include="NTKeyword.cs" />
     <Compile Include="Report\ISpeedData.cs" />
     <Compile Include="Report\SpeedData.cs" />
     <Compile Include="ServerNode\CpuData.cs" />

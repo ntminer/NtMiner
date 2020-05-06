@@ -1,9 +1,30 @@
-﻿using System;
-
-namespace NTMiner {
+﻿namespace NTMiner {
     public static class NTKeyword {
         public const double DoubleK = 1024;
         public const double DoubleM = 1024 * 1024;
+        public const double DoubleG = 1024 * 1024 * 1024;
+        public const ulong ULongG = 1024 * 1024 * 1024;
+        public const long LongG = 1024 * 1024 * 1024;
+
+        public const string Version = "2.8.1";
+        private const string _build = "1";
+        public const string VersionBuild = Version + "." + _build;
+        public const string ManJiTag = "蛮吉";
+        public const string ManXiaoManTag = "蛮小满";
+        public const string Copyright = "Copyright ©  NTMiner";
+
+        public const string LogsDirName = "Logs";
+        public const string ServerJsonFileName = "server.json";
+        public const string LocalJsonFileName = "local.json";
+        public const string GpuProfilesFileName = "gpuProfiles.json";
+        public const string PackagesDirName = "Packages";
+        public const string UpdaterDirName = "Updater";
+        public const string SelfWorkDirName = "SelfWork";
+        public const string MineWorkDirName = "MineWork";
+        public const string NTMinerUpdaterFileName = "NTMinerUpdater.exe";
+        public const string ServerDbFileName = "server.litedb";
+        public const string LocalDbFileName = "local.litedb";
+
 
         public const string WpfDesignOnly = "这是供WPF设计时使用的构造，不应在业务代码中被调用";
 
@@ -28,8 +49,6 @@ namespace NTMiner {
         public const string DNSServer0 = "119.29.29.29";
         public const string DNSServer1 = "223.5.5.5";
         public const string MinerClientFinderFileName = "MinerClientFinder.exe";
-        public const string LocalDbFileName = HomePath.LocalDbFileName;
-        public const string ServerDbFileName = HomePath.ServerDbFileName;
         public const string DevConsoleFileName = "DevConsole.exe";
         public const string NTMinerDaemonFileName = "NTMinerDaemon.exe";
         public const string NTMinerNoDevFeeFileName = "NTMinerNoDevFee.exe";

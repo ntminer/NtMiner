@@ -5,14 +5,6 @@ using System.Reflection;
 
 namespace NTMiner {
     public static class EntryAssemblyInfo {
-        public const string Version = "2.8.1";
-        private const string _build = "1";
-        public const string VersionBuild = Version + "." + _build;
-        public const string ManJiTag = "蛮吉";
-        public const string ManXiaoManTag = "蛮小满";
-        public const string Copyright = "Copyright ©  NTMiner";
-        public const string LogsDirName = "Logs";
-
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionStr;
         public static readonly string CurrentVersionTag = string.Empty;

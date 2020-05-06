@@ -5,14 +5,14 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyVersion(EntryAssemblyInfo.VersionBuild)]
-[assembly: AssemblyFileVersion(EntryAssemblyInfo.Version)]
+[assembly: AssemblyVersion(NTKeyword.VersionBuild)]
+[assembly: AssemblyFileVersion(NTKeyword.Version)]
 [assembly: AssemblyTitle("NTMinerDaemon")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("NTMinerDaemon")]
-[assembly: AssemblyCopyright(NTMiner.EntryAssemblyInfo.Copyright)]
+[assembly: AssemblyCopyright(NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -62,7 +62,7 @@ namespace NTMiner.Controllers {
             try {
                 string fileName;
                 if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.NTMinerUpdaterFileNameAppSettingKey, out IAppSetting setting)) {
-                    fileName = HomePath.NTMinerUpdaterFileName;
+                    fileName = NTKeyword.NTMinerUpdaterFileName;
                 }
                 else {
                     fileName = (string)setting.Value;

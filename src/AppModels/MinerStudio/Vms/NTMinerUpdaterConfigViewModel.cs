@@ -16,7 +16,7 @@ namespace NTMiner.MinerStudio.Vms {
             this.Save = new DelegateCommand(() => {
                 try {
                     if (string.IsNullOrEmpty(this.FileName)) {
-                        this.FileName = HomePath.NTMinerUpdaterFileName;
+                        this.FileName = NTKeyword.NTMinerUpdaterFileName;
                     }
                     RpcRoot.OfficialServer.AppSettingService.SetAppSettingAsync(new AppSettingData {
                         Key = NTKeyword.NTMinerUpdaterFileNameAppSettingKey,
@@ -40,7 +40,7 @@ namespace NTMiner.MinerStudio.Vms {
                     FileName = Path.GetFileName(uri.LocalPath);
                 }
                 else {
-                    FileName = HomePath.NTMinerUpdaterFileName;
+                    FileName = NTKeyword.NTMinerUpdaterFileName;
                 }
             });
         }

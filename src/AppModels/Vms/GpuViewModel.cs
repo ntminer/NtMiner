@@ -186,7 +186,7 @@ namespace NTMiner.Vms {
 
         public string TotalMemoryGbText {
             get {
-                return Math.Round((this.TotalMemory / (double)(1024 * 1024 * 1024)), 1) + "G";
+                return Math.Round((this.TotalMemory / NTKeyword.DoubleG), 1) + "G";
             }
         }
 

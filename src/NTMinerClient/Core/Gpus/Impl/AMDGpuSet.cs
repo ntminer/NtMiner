@@ -43,7 +43,7 @@ namespace NTMiner.Core.Gpus.Impl {
             if (deviceCount > 0) {
                 this.DriverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
-                const ulong minG = (ulong)5 * 1024 * 1024 * 1024;
+                const ulong minG = 5 * NTKeyword.ULongG;
                 bool has470 = _gpus.Any(a => a.Key != NTMinerContext.GpuAllId && a.Value.TotalMemory < minG);
                 if (has470) {
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
