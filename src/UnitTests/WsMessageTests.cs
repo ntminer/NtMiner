@@ -15,10 +15,10 @@ namespace NTMiner {
                 Data = speedDto1
             };
             byte[] data = Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(message));
-            double dataSize = data.Length / 1024.0;
+            double dataSize = data.Length / NTKeyword.DoubleK;
             Console.WriteLine($"原始大小 {dataSize.ToString()} kb");
             data = message.SignToBytes(HashUtil.Sha1("password1"));
-            double dataNewSize = data.Length / 1024.0;
+            double dataNewSize = data.Length / NTKeyword.DoubleK;
             Assert.IsTrue(VirtualRoot.BinarySerializer.IsGZipped(data));
             Console.WriteLine($"序列化后大小 {dataNewSize.ToString()} kb，是原来大小的 {(dataNewSize * 100 / dataSize).ToString()} %");
             message = VirtualRoot.BinarySerializer.Deserialize<WsMessage>(data);

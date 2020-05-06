@@ -2,6 +2,9 @@
 
 namespace NTMiner {
     public static class NTKeyword {
+        public const double DoubleK = 1024;
+        public const double DoubleM = 1024 * 1024;
+
         public const string WpfDesignOnly = "这是供WPF设计时使用的构造，不应在业务代码中被调用";
 
         public const string Localhost = "localhost";

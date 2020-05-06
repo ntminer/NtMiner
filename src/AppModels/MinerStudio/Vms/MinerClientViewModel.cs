@@ -1010,7 +1010,7 @@ namespace NTMiner.MinerStudio.Vms {
         // ReSharper disable once InconsistentNaming
         public string OSVirtualMemoryGbText {
             get {
-                return (this.OSVirtualMemoryMb / 1024.0).ToString("f1") + " Gb";
+                return (this.OSVirtualMemoryMb / NTKeyword.DoubleK).ToString("f1") + " Gb";
             }
         }
 
@@ -1029,7 +1029,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public string TotalPhysicalMemoryGbText {
             get {
-                return (this.TotalPhysicalMemoryMb / 1024.0).ToString("f1") + " Gb";
+                return (this.TotalPhysicalMemoryMb / NTKeyword.DoubleK).ToString("f1") + " Gb";
             }
         }
 

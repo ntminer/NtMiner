@@ -9,19 +9,19 @@ namespace NTMiner {
         [TestMethod]
         public void Test1() {
             FileInfo jsonFile = new FileInfo(Path.Combine(TestUtil.DataDirFullName, "speedData.json"));
-            double fileSize = jsonFile.Length / 1024.0;
+            double fileSize = jsonFile.Length / NTKeyword.DoubleK;
             Console.WriteLine($"json文件原始大小 {fileSize.ToString()} kb");
             string json1;
             using (StreamReader reader = jsonFile.OpenText()) {
                 json1 = reader.ReadToEnd();
             }
             byte[] data = Encoding.UTF8.GetBytes(json1);
-            double dataSize = data.Length / 1024.0;
+            double dataSize = data.Length / NTKeyword.DoubleK;
             Console.WriteLine($"转化成字节数组后的大小 {dataSize.ToString()} kb");
             Assert.AreEqual(fileSize, dataSize);
 
             byte[] zippedData = GZipUtil.Compress(data);
-            double zipDataSize = zippedData.Length / 1024.0;
+            double zipDataSize = zippedData.Length / NTKeyword.DoubleK;
             Console.WriteLine($"GZip压缩后的大小 {zipDataSize.ToString()} kb，是原始大小的 {(zipDataSize * 100 / dataSize).ToString()} %");
             data = GZipUtil.Decompress(zippedData);
             string json2 = Encoding.UTF8.GetString(data);

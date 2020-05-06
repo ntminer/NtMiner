@@ -360,7 +360,7 @@ namespace NTMiner.Vms {
 
         public string SizeMbText {
             get {
-                return (Size / (1024.0 * 1024)).ToString("f1") + " Mb";
+                return (Size / NTKeyword.DoubleM).ToString("f1") + " Mb";
             }
         }
 

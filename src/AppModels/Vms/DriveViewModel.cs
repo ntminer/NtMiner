@@ -76,7 +76,7 @@ namespace NTMiner.Vms {
 
         public double VirtualMemoryMaxSizeGb {
             get {
-                return VirtualMemoryMaxSizeMb / 1024.0;
+                return VirtualMemoryMaxSizeMb / NTKeyword.DoubleK;
             }
         }
 
@@ -91,7 +91,7 @@ namespace NTMiner.Vms {
                 if (VirtualMemoryMaxSizeMb == 0) {
                     return 0;
                 }
-                return Math.Log(VirtualMemoryMaxSizeMb / 1024.0, 2);
+                return Math.Log(VirtualMemoryMaxSizeMb / NTKeyword.DoubleK, 2);
             }
             set {
                 if (value == 0) {

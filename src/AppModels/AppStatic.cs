@@ -501,7 +501,7 @@ namespace NTMiner {
         // 因为虚拟内存修改后重启电脑才会生效所以这里用静态绑定没有问题
         public static string TotalVirtualMemoryGbText {
             get {
-                return (VirtualRoot.DriveSet.OSVirtualMemoryMb / 1024.0).ToString("f1") + "G";
+                return (VirtualRoot.DriveSet.OSVirtualMemoryMb / NTKeyword.DoubleK).ToString("f1") + "G";
             }
         }
         #endregion
