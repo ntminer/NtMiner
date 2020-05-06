@@ -48,7 +48,7 @@ namespace NTMiner {
 
         [TestMethod]
         public void UriPathTest() {
-            string url = "http://ntminer.oss-cn-beijing.aliyuncs.com/NTMinerUpdater.exe?Expires=1583773008&OSSAccessKeyId=LTAIHNApO2ImeMxI&Signature=0XnsSp5SvbznvsteogbFhsPRm6k%3d";
+            string url = "http://ntminer.oss-cn-beijing.aliyuncs.com/NTMinerUpdater.exe?Expires=1583773008&OSSAccessKeyId=abcdefg1234567890&Signature=0XnsSp5SvbznvsteogbFhsPRm6k%3d";
             Uri uri = new Uri(url);
             Console.WriteLine(uri.LocalPath);
             Console.WriteLine(Path.GetFileName(uri.LocalPath));
