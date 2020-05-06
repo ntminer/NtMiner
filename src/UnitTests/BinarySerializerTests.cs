@@ -28,7 +28,8 @@ namespace NTMiner {
             Dictionary<string, object> dic2 = VirtualRoot.BinarySerializer.Deserialize<Dictionary<string, object>>(data);
             foreach (var key in dic1.Keys) {
                 if (key == "A") {
-                    // object int 反序列化后会是long
+                    // object int 反序列化后会是long，所以
+                    // 注意：不要对值为object类型的字典序列化或反序列化，应使用强类型。
                     Assert.AreNotEqual(dic1[key], dic2[key]);
                     Assert.AreEqual(Convert.ToInt64(dic1[key]), dic2[key]);
                 }

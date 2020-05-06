@@ -306,7 +306,7 @@ namespace NTMiner {
             else if (toType == typeof(float)) {
                 return Convert.ToSingle(value);
             }
-            else if (toType == typeof(Decimal)) {
+            else if (toType == typeof(decimal)) {
                 return Convert.ToDecimal(value);
             }
             else if (toType == typeof(DateTime)) {
