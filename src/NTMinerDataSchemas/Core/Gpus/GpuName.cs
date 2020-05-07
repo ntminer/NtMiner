@@ -1,4 +1,7 @@
 ﻿namespace NTMiner.Core.Gpus {
+    /// <summary>
+    /// GpuName是管理员人脑基于<see cref="GpuNameCount"/>集提取的特征名。
+    /// </summary>
     public class GpuName : IGpuName {
         public static bool IsValidTotalMemory(ulong value) {
             return value >= 4 * NTKeyword.ULongG;
@@ -15,6 +18,9 @@
 
         public GpuType GpuType { get; set; }
 
+        /// <summary>
+        /// 注意：匹配名称的时候注意按照名称长短的顺序由长到短运算，就是说先用5700关键字匹配再用570关键字匹配。
+        /// </summary>
         public string Name { get; set; }
 
         public ulong TotalMemory { get; set; }
