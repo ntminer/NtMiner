@@ -59,7 +59,6 @@
     <Compile Include="StringExtensions.cs" />
     <Compile Include="NTMinerRegistry.cs" />
     <Compile Include="Repositories\IJsonReadOnlyRepository.cs" />
-    <Compile Include="EnumExtension.cs" />
     <Compile Include="NTMinerException.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

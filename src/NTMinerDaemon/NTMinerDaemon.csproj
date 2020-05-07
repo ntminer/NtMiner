@@ -106,9 +106,6 @@
     <Compile Include="..\NTMinerlib\DataExtensions.cs">
       <Link>DataExtensions.cs</Link>
     </Compile>
-    <Compile Include="..\NTMinerlib\EnumExtension.cs">
-      <Link>EnumExtension.cs</Link>
-    </Compile>
     <Compile Include="..\NTMinerlib\GZipUtil.cs">
       <Link>GZipUtil.cs</Link>
     </Compile>

@@ -6,6 +6,7 @@ namespace NTMiner {
     using System.ComponentModel;
     using System.Reflection;
 
+    [IsNotDataSchema]
     public class EnumItem<T> where T : struct {
         public static IEnumerable<EnumItem<T>> GetEnumItems() {
             return EnumDic<T>.Instance.EnumItems;
@@ -35,7 +36,7 @@ namespace NTMiner {
             if (name != null) {
                 return EnumDic<T>.Instance.TryGetValue(name, out value);
             }
-            value = default(T);
+            value = default;
             return false;
         }
 
@@ -44,6 +45,7 @@ namespace NTMiner {
         }
     }
 
+    [IsNotDataSchema]
     internal class EnumDic<T>
         where T : struct {
         public static readonly EnumDic<T> Instance = new EnumDic<T>();
