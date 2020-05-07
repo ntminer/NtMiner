@@ -206,5 +206,11 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(CreatedOn));
             }
         }
+
+        public string CreatedOnText {
+            get {
+                return this.CreatedOn.ToString("yyyy-MM-dd HH:mm:ss");
+            }
+        }
     }
 }

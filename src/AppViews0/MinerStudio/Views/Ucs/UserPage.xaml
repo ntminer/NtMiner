@@ -119,7 +119,7 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
 			<DataGrid.Columns>
-				<DataGridTemplateColumn MinWidth="100" IsReadOnly="True">
+				<DataGridTemplateColumn MinWidth="50" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<StackPanel 
@@ -180,7 +180,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-				<DataGridTemplateColumn IsReadOnly="True" Header="状态">
+				<DataGridTemplateColumn Width="50" IsReadOnly="True" Header="状态">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<TextBlock Foreground="{Binding IsEnabled,Converter={StaticResource BoolToBrushConverter}}" Text="{Binding IsEnabledText}"></TextBlock>
@@ -194,17 +194,24 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="150" IsReadOnly="True" Header="手机">
+                <DataGridTemplateColumn Width="120" IsReadOnly="True" Header="手机">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Mobile,Mode=OneWay}"></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="150" IsReadOnly="True" Header="角色">
+                <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="角色">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Roles, Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="150" IsReadOnly="True" Header="创建时间">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CreatedOnText}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
