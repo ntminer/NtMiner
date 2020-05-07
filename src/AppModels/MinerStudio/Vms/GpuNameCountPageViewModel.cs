@@ -12,7 +12,12 @@ namespace NTMiner.MinerStudio.Vms {
 
         public void Refresh() {
             RpcRoot.OfficialServer.GpuNameService.GetGpuNameCountsAsync((response, e) => {
-                this.GpuNameCounts = response.Data.Select(a => new GpuNameCountViewModel(a)).ToList();
+                if (response.IsSuccess()) {
+                    this.GpuNameCounts = response.Data.Select(a => new GpuNameCountViewModel(a)).ToList();
+                }
+                else {
+                    this.GpuNameCounts = new List<GpuNameCountViewModel>();
+                }
             });
         }
 
