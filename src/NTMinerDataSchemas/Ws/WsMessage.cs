@@ -43,6 +43,8 @@ namespace NTMiner.Ws {
         public const string StartMine = "StartMine";
         public const string StopMine = "StopMine";
 
+        public const string QueryClientDatas = "QueryClientDatas";
+
         // pong
         public const string ConsoleOutLines = "ConsoleOutLines";
         public const string OperationResults = "OperationResults";
@@ -53,6 +55,8 @@ namespace NTMiner.Ws {
         public const string OperationReceived = "OperationReceived";
         public const string SelfWorkLocalJson = "SelfWorkLocalJson";
         public const string GpuProfilesJson = "GpuProfilesJson";
+
+        public const string ClientDatas = "ClientDatas";
         #endregion
 
         public WsMessage() {

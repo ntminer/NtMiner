@@ -2,7 +2,6 @@
 using NTMiner.Ws;
 using System;
 using WebSocketSharp;
-using WebSocketSharp.Server;
 
 namespace NTMiner.Core {
     public interface ISession {

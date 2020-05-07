@@ -11,6 +11,7 @@ namespace NTMiner.Services.Official {
         }
 
         #region QueryClientsAsync
+        // 去调ClientDataBinaryService的方法了所以这个没人调了
         public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
             JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataController.QueryClients), data: query, callback);
         }

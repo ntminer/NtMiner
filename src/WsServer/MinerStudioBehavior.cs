@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Impl;
+using NTMiner.Core.MinerServer;
 using NTMiner.User;
 using NTMiner.Ws;
 using System;
@@ -44,6 +45,19 @@ namespace NTMiner {
             }
             if (!minerSession.IsValid(message)) {
                 this.CloseAsync(CloseStatusCode.Normal, "意外，签名验证失败，请重新连接");
+                return;
+            }
+            if (message.Type == WsMessage.QueryClientDatas) {
+                if (message.TryGetData(out QueryClientsRequest query)) {
+                    RpcRoot.OfficialServer.ClientDataBinaryService.QueryClientsAsync(query, (QueryClientsResponse response, Exception ex) => {
+                        var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerSession.LoginName));
+                        if (userData != null) {
+                            this.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ClientDatas) {
+                                Data = response
+                            }.SignToBytes(userData.Password), completed: null);
+                        }
+                    });
+                }
                 return;
             }
             if (MinerStudioWsMessageHandler.TryGetHandler(message.Type, out Action<string, WsMessage> handler)) {
