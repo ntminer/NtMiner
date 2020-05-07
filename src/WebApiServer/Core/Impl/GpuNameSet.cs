@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.Gpus;
+using NTMiner.Core.Redis;
 using System;
 using System.Collections.Generic;
 
@@ -7,14 +8,27 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<string, GpuNameCount> _dic = new Dictionary<string, GpuNameCount>(StringComparer.OrdinalIgnoreCase);
         private readonly HashSet<GpuName> _gpuNameSet = new HashSet<GpuName>();
 
-        public GpuNameSet() {
+        private readonly IGpuNameRedis _gpuNameRedis;
+        public GpuNameSet(IGpuNameRedis gpuNameRedis) {
+            _gpuNameRedis = gpuNameRedis;
         }
 
         public void Set(GpuName gpuName) {
             if (gpuName == null || !gpuName.IsValid()) {
                 return;
             }
-            _gpuNameSet.Add(gpuName);
+            bool isNew = _gpuNameSet.Add(gpuName);
+            if (isNew) {
+                _gpuNameRedis.SetAsync(gpuName);
+            }
+        }
+
+        public void Remove(GpuName gpuName) {
+            if (gpuName == null || !gpuName.IsValid()) {
+                return;
+            }
+            _gpuNameSet.Remove(gpuName);
+            _gpuNameRedis.DeleteAsync(gpuName);
         }
 
         public void AddCount(GpuType gpuType, string gpuName, ulong gpuTotalMemory) {

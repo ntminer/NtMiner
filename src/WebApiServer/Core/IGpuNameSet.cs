@@ -10,6 +10,7 @@ namespace NTMiner.Core {
         /// </summary>
         /// <param name="gpuName"></param>
         void Set(GpuName gpuName);
+        void Remove(GpuName gpuName);
         IEnumerable<GpuName> AsEnumerable();
     }
 }

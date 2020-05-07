@@ -66,6 +66,7 @@ namespace NTMiner {
                         var speedDataRedis = new SpeedDataRedis(_serverContext.RedisConn);
                         var userRedis = new UserRedis(_serverContext.RedisConn);
                         var captchaRedis = new CaptchaRedis(_serverContext.RedisConn);
+                        var gpuNameRedis = new GpuNameRedis(_serverContext.RedisConn);
 
                         WsServerNodeSet = new WsServerNodeSet(wsServerNodeMqSender);
                         UserSet = new UserSet(userRedis, userMqSender);
@@ -73,9 +74,8 @@ namespace NTMiner {
                         CaptchaSet = new CaptchaSet(captchaRedis);
                         CalcConfigSet = new CalcConfigSet();
                         NTMinerWalletSet = new NTMinerWalletSet();
-                        var gpuNameSet = new GpuNameSet();
-                        GpuNameSet = gpuNameSet;
-                        ClientDataSet clientDataSet = new ClientDataSet(minerRedis, speedDataRedis, gpuNameSet, minerClientMqSender);
+                        GpuNameSet = new GpuNameSet(gpuNameRedis);
+                        ClientDataSet clientDataSet = new ClientDataSet(minerRedis, speedDataRedis, minerClientMqSender);
                         ClientDataSet = clientDataSet;
                         CoinSnapshotSet = new CoinSnapshotSet(clientDataSet);
                         MineWorkSet = new UserMineWorkSet();

@@ -14,9 +14,8 @@ namespace NTMiner.Core.Impl {
 
         private readonly IMinerRedis _minerRedis;
         private readonly ISpeedDataRedis _speedDataRedis;
-        private readonly IGpuNameSet _gpuNameSet;
         private readonly IMinerClientMqSender _mqSender;
-        public ClientDataSet(IMinerRedis minerRedis, ISpeedDataRedis speedDataRedis, IGpuNameSet gpuNameSet, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
+        public ClientDataSet(IMinerRedis minerRedis, ISpeedDataRedis speedDataRedis, IMinerClientMqSender mqSender) : base(isPull: false, getDatas: callback => {
             var getMinersTask = minerRedis.GetAllAsync();
             var getSpeedsTask = speedDataRedis.GetAllAsync();
             Task.WhenAll(getMinersTask, getSpeedsTask).ContinueWith(t => {
@@ -37,7 +36,6 @@ namespace NTMiner.Core.Impl {
         }) {
             _minerRedis = minerRedis;
             _speedDataRedis = speedDataRedis;
-            _gpuNameSet = gpuNameSet;
             VirtualRoot.AddEventPath<Per1MinuteEvent>("周期清理Redis中不活跃的来自挖矿端上报的算力记录", LogEnum.DevConsole, action: message => {
                 DateTime time = message.BornOn.AddSeconds(-130);
                 var toRemoves = _dicByClientId.Where(a => a.Value.MinerActiveOn != DateTime.MinValue && a.Value.MinerActiveOn <= time).ToArray();
@@ -132,7 +130,7 @@ namespace NTMiner.Core.Impl {
                 _speedDataRedis.SetAsync(new SpeedData(speedDto, DateTime.Now));
             }
             foreach (var gpuSpeedData in speedDto.GpuTable) {
-                _gpuNameSet.AddCount(speedDto.GpuType, gpuSpeedData.Name, gpuSpeedData.TotalMemory);
+                WebApiRoot.GpuNameSet.AddCount(speedDto.GpuType, gpuSpeedData.Name, gpuSpeedData.TotalMemory);
             }
             ClientData clientData = GetByClientId(speedDto.ClientId);
             if (clientData == null) {
