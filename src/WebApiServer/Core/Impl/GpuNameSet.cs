@@ -1,10 +1,10 @@
 ﻿using NTMiner.Core.Gpus;
+using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
     public class GpuNameSet : IGpuNameSet {
-        private readonly HashSet<GpuName> _hashSet = new HashSet<GpuName>();
-        private readonly HashSet<GpuName> _toSaves = new HashSet<GpuName>();
+        private readonly Dictionary<string, GpuNameCount> _dic = new Dictionary<string, GpuNameCount>(StringComparer.OrdinalIgnoreCase);
 
         public GpuNameSet() {
         }
@@ -14,22 +14,26 @@ namespace NTMiner.Core.Impl {
         /// </summary>
         /// <param name="gpuName"></param>
         /// <param name="gpuTotalMemory"></param>
-        public void Add(string gpuName, ulong gpuTotalMemory) {
-            if (string.IsNullOrEmpty(gpuName) || !GpuName.IsValidTotalMemory(gpuTotalMemory)) {
+        public void Add(GpuType gpuType, string gpuName, ulong gpuTotalMemory) {
+            if (gpuType == GpuType.Empty || string.IsNullOrEmpty(gpuName) || !GpuName.IsValidTotalMemory(gpuTotalMemory)) {
                 return;
             }
-            var item = new GpuName {
-                Name = gpuName,
-                TotalMemory = gpuTotalMemory
-            };
-            bool isNew = _hashSet.Add(item);
-            if (isNew) {
-                _toSaves.Add(item);
+            string key = GpuName.Format(gpuType, gpuName, gpuTotalMemory);
+            if (_dic.TryGetValue(key, out GpuNameCount gpuNameCount)) {
+                gpuNameCount.Count++;
+            }
+            else {
+                gpuNameCount = GpuNameCount.Create(new GpuName {
+                    GpuType = gpuType,
+                    Name = gpuName,
+                    TotalMemory = gpuTotalMemory
+                });
+                _dic.Add(key, gpuNameCount);
             }
         }
 
-        public IEnumerable<IGpuName> AsEnumerable() {
-            return _hashSet;
+        public IEnumerable<GpuNameCount> AsEnumerable() {
+            return _dic.Values;
         }
     }
 }
