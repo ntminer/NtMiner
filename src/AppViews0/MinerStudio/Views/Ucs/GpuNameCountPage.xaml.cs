@@ -10,7 +10,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "Gpu名称统计",
                 IconName = "Icon_Gpu",
-                Width = 500,
+                Width = 600,
                 Height = 700,
                 IsMaskTheParent = false,
                 IsChildWindow = true,
