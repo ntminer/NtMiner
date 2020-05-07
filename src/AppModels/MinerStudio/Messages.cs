@@ -157,6 +157,15 @@ namespace NTMiner.MinerStudio {
         public T Data { get; private set; }
     }
 
+    [MessageType(description: "收到了QueryClientsResponse消息后")]
+    public class QueryClientsResponseEvent : EventBase {
+        public QueryClientsResponseEvent(QueryClientsResponse response) {
+            this.Response = response;
+        }
+
+        public QueryClientsResponse Response { get; private set; }
+    }
+
     [MessageType(description: "收到了ClientConsoleOutLines消息后")]
     public class ClientConsoleOutLinesEvent : OperationResultEvent<List<ConsoleOutLine>> {
         public ClientConsoleOutLinesEvent(Guid clientId, List<ConsoleOutLine> data) : base(clientId, data) {

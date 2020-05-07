@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerStudio;
-using NTMiner.Views;
 using NTMiner.Vms;
 using NTMiner.Ws;
 using System;
@@ -164,10 +163,17 @@ namespace NTMiner.MinerStudio.Vms {
                 SortField = SortField,
                 SortDirection = this._sortDirection[SortField]
             }, (response, exception) => {
-                this.CountDown = 10;
                 if (!isAuto) {
                     this.IsLoading = false;
                 }
+                VirtualRoot.RaiseEvent(new QueryClientsResponseEvent(response));
+            });
+        }
+
+        private void AddEventPath() {
+            VirtualRoot.AddEventPath<QueryClientsResponseEvent>("收到QueryClientsResponse响应后刷新界面", LogEnum.DevConsole, action: message => {
+                this.CountDown = 10;
+                var response = message.Response;
                 if (response.IsSuccess()) {
                     #region 处理Response.Data
                     if (_lastSortField == this.SortField && _lastSortDirection[this.SortField] == this._sortDirection[this.SortField]) {
@@ -276,10 +282,7 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                     #endregion
                 }
-                else {
-                    VirtualRoot.Out.ShowError(response.ReadMessage(exception), autoHideSeconds: 4, toConsole: true);
-                }
-            });
+            }, this.GetType());
         }
         #endregion
 
@@ -328,6 +331,7 @@ namespace NTMiner.MinerStudio.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
+            AddEventPath();
             var appSettings = VirtualRoot.LocalAppSettingSet;
             if (appSettings.TryGetAppSetting(NTKeyword.IsEnableVirtualizationAppSettingKey, out IAppSetting isEnableVirtualizationAppSetting) && isEnableVirtualizationAppSetting.Value != null) {
                 if (bool.TryParse(isEnableVirtualizationAppSetting.Value.ToString(), out bool isEnableVirtualization)) {

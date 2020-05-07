@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerClient;
+using NTMiner.Core.MinerServer;
 using NTMiner.JsonDb;
 using NTMiner.MinerStudio;
 using NTMiner.VirtualMemory;
@@ -15,6 +16,11 @@ namespace NTMiner.Ws {
         }
 
         static MinerStudioWsMessageHandler() {
+            _handlers.Add(WsMessage.ClientDatas, (sendAsync, message) => {
+                if (message.TryGetData(out QueryClientsResponse response)) {
+                    VirtualRoot.RaiseEvent(new QueryClientsResponseEvent(response));
+                }
+            });
             _handlers.Add(WsMessage.ConsoleOutLines, (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<ConsoleOutLine> data)) {
                     VirtualRoot.RaiseEvent(new ClientConsoleOutLinesEvent(wrapperClientIdData.ClientId, data));
