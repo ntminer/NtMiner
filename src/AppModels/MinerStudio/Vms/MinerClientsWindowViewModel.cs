@@ -166,6 +166,7 @@ namespace NTMiner.MinerStudio.Vms {
             2.SecondsDelay().ContinueWith(t => {
                 if (this.CountDown == 0) {
                     this.CountDown = 10;
+                    this.IsLoading = false;
                 }
             });
         }
@@ -173,6 +174,7 @@ namespace NTMiner.MinerStudio.Vms {
         private void AddEventPath() {
             VirtualRoot.AddEventPath<QueryClientsResponseEvent>("收到QueryClientsResponse响应后刷新界面", LogEnum.DevConsole, action: message => {
                 this.CountDown = 10;
+                this.IsLoading = false;
                 var response = message.Response;
                 if (response.IsSuccess()) {
                     #region 处理Response.Data
