@@ -51,5 +51,9 @@
         public int TempLimit { get; set; }
         public int CoreVoltage { get; set; }
         public int MemoryVoltage { get; set; }
+
+        bool IGpuName.IsValid() {
+            return GpuName.IsValid(this.GpuType, this.Name, this.TotalMemory);
+        }
     }
 }

@@ -25,5 +25,9 @@
         public int TempLimitMin { get; set; }
         public int TempLimitDefault { get; set; }
         public int TempLimitMax { get; set; }
+
+        bool IGpuName.IsValid() {
+            return GpuName.IsValid(this.GpuType, this.Name, this.TotalMemory);
+        }
     }
 }

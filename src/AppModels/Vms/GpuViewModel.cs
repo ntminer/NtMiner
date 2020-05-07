@@ -756,5 +756,9 @@ namespace NTMiner.Vms {
                 NTMinerContext.RefreshArgsAssembly.Invoke("勾选或反勾选了显卡");
             }
         }
+
+        bool IGpuName.IsValid() {
+            return GpuName.IsValid(this.GpuType, this.Name, this.TotalMemory);
+        }
     }
 }

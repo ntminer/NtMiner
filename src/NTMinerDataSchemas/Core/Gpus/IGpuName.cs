@@ -6,5 +6,6 @@
         /// 单位Byte
         /// </summary>
         ulong TotalMemory { get; set; }
+        bool IsValid();
     }
 }

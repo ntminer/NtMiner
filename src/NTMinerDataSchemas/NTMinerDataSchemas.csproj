@@ -46,6 +46,7 @@
     <Compile Include="Core\Gpus\GpuName.cs" />
     <Compile Include="Core\Gpus\GpuNameCount.cs" />
     <Compile Include="Core\Gpus\IGpuName.cs" />
+    <Compile Include="Core\Gpus\IGpuNameCount.cs" />
     <Compile Include="Core\ICaptcha.cs" />
     <Compile Include="Core\IOperationResult.cs" />
     <Compile Include="Core\LocalMessageDto.cs" />

@@ -40,11 +40,12 @@ namespace NTMiner.Core.Impl {
                 gpuNameCount.Count++;
             }
             else {
-                gpuNameCount = GpuNameCount.Create(new GpuName {
-                    GpuType = gpuType,
+                gpuNameCount = new GpuNameCount {
+                    TotalMemory = gpuTotalMemory,
                     Name = gpuName,
-                    TotalMemory = gpuTotalMemory
-                });
+                    GpuType = gpuType,
+                    Count = 1
+                };
                 _dic.Add(key, gpuNameCount);
             }
         }

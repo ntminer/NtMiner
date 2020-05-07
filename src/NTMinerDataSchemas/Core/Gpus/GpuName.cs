@@ -14,6 +14,10 @@
             return $"{gpuType.GetName()}///{gpuName}///{totalMemoryGb.ToString()}";
         }
 
+        public static bool IsValid(GpuType gpuType, string name, ulong totalMemory) {
+            return gpuType != GpuType.Empty && !string.IsNullOrEmpty(name) && IsValidTotalMemory(totalMemory);
+        }
+
         public GpuName() { }
 
         public GpuType GpuType { get; set; }
@@ -26,7 +30,7 @@
         public ulong TotalMemory { get; set; }
 
         public bool IsValid() {
-            return GpuType != GpuType.Empty && !string.IsNullOrEmpty(Name) && IsValidTotalMemory(TotalMemory);
+            return IsValid(this.GpuType, this.Name, this.TotalMemory);
         }
 
         public override bool Equals(object obj) {
