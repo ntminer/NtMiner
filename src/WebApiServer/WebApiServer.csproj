@@ -95,6 +95,7 @@
       <Link>HttpServer.cs</Link>
     </Compile>
     <Compile Include="Controllers\ClientDataBinaryController.cs" />
+    <Compile Include="Controllers\GpuNameController.cs" />
     <Compile Include="Controllers\ReportBinaryController.cs" />
     <Compile Include="Core\IGpuNameSet.cs" />
     <Compile Include="Core\Impl\GpuNameSet.cs" />
