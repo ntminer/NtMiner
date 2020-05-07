@@ -1,6 +1,5 @@
 ﻿namespace NTMiner.Core.Gpus {
     public interface IGpuStaticData : IGpuName {
-        GpuType GpuType { get; }
         int Index { get; }
         /// <summary>
         /// 必须是数字格式
