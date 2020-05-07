@@ -16,6 +16,7 @@ namespace NTMiner.Core.Impl {
         public string MqUserName { get; set; }
         public string MqPassword { get; set; }
 
+        public string RpcServerLocalAddress { get; set; }
         public string RpcLoginName { get; set; }
         public string RpcPassword { get; set; }
 

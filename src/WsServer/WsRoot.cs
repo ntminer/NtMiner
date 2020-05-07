@@ -60,7 +60,8 @@ namespace NTMiner {
             WsServerNodeAddressSet = new WsServerNodeAddressSet();
 
             Console.Title = $"{ServerAppType.WsServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
-
+            // WsServer调用WebApiServer的时候走内网调用节省外网带宽
+            RpcRoot.SetOfficialServerAddress(ServerRoot.HostConfig.RpcServerLocalAddress);
             // 用本节点的地址作为队列名，消费消息时根据路由键区分消息类型
             string queue = $"{ServerAppType.WsServer.GetName()}.{ServerRoot.HostConfig.ThisServerAddress}";
             string durableQueue = queue + MqKeyword.DurableQueueEndsWith;
