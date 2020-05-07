@@ -14,6 +14,7 @@ namespace NTMiner.Controllers {
             return DataResponse<List<GpuName>>.Ok(WebApiRoot.GpuNameSet.AsEnumerable().ToList());
         }
 
+        [Role.Admin]
         [HttpGet]
         [HttpPost]
         public DataResponse<List<GpuNameCount>> GpuNameCounts(object request) {
@@ -23,6 +24,7 @@ namespace NTMiner.Controllers {
             return DataResponse<List<GpuNameCount>>.Ok(WebApiRoot.GpuNameSet.GetGpuNameCounts().ToList());
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase SetGpuName(DataRequest<GpuName> request) {
             if (request == null || request.Data == null) {
@@ -32,6 +34,7 @@ namespace NTMiner.Controllers {
             return ResponseBase.Ok("设置成功");
         }
 
+        [Role.Admin]
         [HttpPost]
         public ResponseBase RemoveGpuName(DataRequest<GpuName> request) {
             if (request == null || request.Data == null) {
