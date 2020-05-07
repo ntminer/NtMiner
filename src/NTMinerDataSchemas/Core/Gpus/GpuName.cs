@@ -35,7 +35,7 @@
             ulong totalMemoryGb = (this.TotalMemory + NTKeyword.ULongG - 1) / NTKeyword.ULongG;
             // 通常显卡的名称上会带显存大小，比如1060分3G版和6G版所以NVIDIA命名显卡的时候
             // 已经带上了显存信息，但不能假定带了显存信息所以这里拼接上显存信息。
-            return $"{this.GpuType.ToString()}///{this.Name}///{totalMemoryGb.ToString()}";
+            return $"{this.GpuType.GetName()}///{this.Name}///{totalMemoryGb.ToString()}";
         }
     }
 }

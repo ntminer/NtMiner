@@ -63,7 +63,7 @@ namespace NTMiner.Core.Impl {
                 if (!on) {
                     actionType = MinerClientActionType.SwitchRadeonGpuOff;
                 }
-                Windows.Cmd.RunClose(location, $"{NTKeyword.ActionCmdParameterName}{actionType.ToString()}");
+                Windows.Cmd.RunClose(location, $"{NTKeyword.ActionCmdParameterName}{actionType.GetName()}");
             }
             ResponseBase response = ResponseBase.Ok($"{(on ? "开启" : "关闭")}A卡计算模式，如果本机不是A卡将被忽略");
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
