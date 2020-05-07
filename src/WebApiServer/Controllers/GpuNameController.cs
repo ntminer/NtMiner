@@ -14,6 +14,15 @@ namespace NTMiner.Controllers {
             return DataResponse<List<GpuName>>.Ok(WebApiRoot.GpuNameSet.AsEnumerable().ToList());
         }
 
+        [HttpGet]
+        [HttpPost]
+        public DataResponse<List<GpuNameCount>> GpuNameCounts(object request) {
+            if (request == null) {
+                return ResponseBase.InvalidInput<DataResponse<List<GpuNameCount>>>("参数错误");
+            }
+            return DataResponse<List<GpuNameCount>>.Ok(WebApiRoot.GpuNameSet.GetGpuNameCounts().ToList());
+        }
+
         [HttpPost]
         public ResponseBase SetGpuName(DataRequest<GpuName> request) {
             if (request == null || request.Data == null) {
