@@ -9,11 +9,6 @@ namespace NTMiner.Core.Impl {
         public GpuNameSet() {
         }
 
-        /// <summary>
-        /// 如果显存小于2G会被忽略
-        /// </summary>
-        /// <param name="gpuName"></param>
-        /// <param name="gpuTotalMemory"></param>
         public void Add(GpuType gpuType, string gpuName, ulong gpuTotalMemory) {
             if (gpuType == GpuType.Empty || string.IsNullOrEmpty(gpuName) || !GpuName.IsValidTotalMemory(gpuTotalMemory)) {
                 return;
