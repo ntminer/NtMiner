@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
 using NTMiner.Vms;
+using System.Windows;
 
 namespace NTMiner.MinerStudio.Vms {
     public class GpuNameCountViewModel : ViewModelBase, IGpuNameCount {
@@ -32,7 +33,34 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_gpuType != value) {
                     _gpuType = value;
                     OnPropertyChanged(nameof(GpuType));
+                    OnPropertyChanged(nameof(GpuTypeText));
+                    OnPropertyChanged(nameof(IsAmdVisible));
+                    OnPropertyChanged(nameof(IsNvidiaVisible));
                 }
+            }
+        }
+
+        public string GpuTypeText {
+            get {
+                return this.GpuType.GetDescription();
+            }
+        }
+
+        public Visibility IsAmdVisible {
+            get {
+                if (this.GpuType == GpuType.AMD) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
+            }
+        }
+
+        public Visibility IsNvidiaVisible {
+            get {
+                if (this.GpuType == GpuType.NVIDIA) {
+                    return Visibility.Visible;
+                }
+                return Visibility.Collapsed;
             }
         }
 
@@ -52,7 +80,14 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_totalMemory != value) {
                     _totalMemory = value;
                     OnPropertyChanged(nameof(TotalMemory));
+                    OnPropertyChanged(nameof(TotalMemoryGbText));
                 }
+            }
+        }
+
+        public string TotalMemoryGbText {
+            get {
+                return GpuName.ConvertToGb(this.TotalMemory) + " G";
             }
         }
 

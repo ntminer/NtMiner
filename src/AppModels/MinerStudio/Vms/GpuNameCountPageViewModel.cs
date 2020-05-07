@@ -13,7 +13,7 @@ namespace NTMiner.MinerStudio.Vms {
         public void Refresh() {
             RpcRoot.OfficialServer.GpuNameService.GetGpuNameCountsAsync((response, e) => {
                 if (response.IsSuccess()) {
-                    this.GpuNameCounts = response.Data.Select(a => new GpuNameCountViewModel(a)).ToList();
+                    this.GpuNameCounts = response.Data.OrderBy(a => a.GpuType.GetDescription() + a.Name).Select(a => new GpuNameCountViewModel(a)).ToList();
                 }
                 else {
                     this.GpuNameCounts = new List<GpuNameCountViewModel>();

@@ -12,7 +12,7 @@
     Background="White"
 	mc:Ignorable="d" 
     d:DesignHeight="700" 
-    d:DesignWidth="1200"
+    d:DesignWidth="500"
     d:DataContext="{d:DesignData Source=../Design/GpuNameCountPageViewModel.xaml}">
     <Grid Margin="0 0 0 10" Background="{StaticResource ToolbarBackground}">
 		<DataGrid 
@@ -26,11 +26,36 @@
                 <DataGridTemplateColumn Width="50" IsReadOnly="True" Header="卡型">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBox Text="{Binding GpuTypeText,Mode=OneWay}"></TextBox>
+                            <WrapPanel>
+                                <Path
+							        Width="20"
+							        Height="16"
+							        Data="{StaticResource Icon_AMD}"
+                                    Visibility="{Binding IsAmdVisible}"
+							        Fill="Red"
+							        Stretch="Fill">
+                                </Path>
+                                <Path
+							        Width="20"
+							        Height="16"
+                                    Visibility="{Binding IsNvidiaVisible}"
+							        Data="{StaticResource Icon_Nvidia}"
+							        Fill="Green"
+							        Stretch="Fill">
+                                </Path>
+                            </WrapPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="150" IsReadOnly="True" Header="名称">
+                <DataGridTemplateColumn Width="*" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <WrapPanel>
+                            <TextBlock>名称</TextBlock>
+                            <TextBlock Margin="8 0 0 0">共</TextBlock>
+                            <TextBlock Margin="4 0 0 0" Text="{Binding Data.GpuNameCounts.Count,Source={StaticResource proxy}}"></TextBlock>
+                            <TextBlock Margin="4 0 0 0">条</TextBlock>
+                        </WrapPanel>
+                    </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Name,Mode=OneTime}"></TextBox>
@@ -40,7 +65,7 @@
 				<DataGridTemplateColumn Width="100" IsReadOnly="True" Header="显存">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-							<TextBox Text="{Binding TotalMemoryGbText,Mode=OneWay}"></TextBox>
+                            <TextBlock Text="{Binding TotalMemoryGbText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
