@@ -162,11 +162,6 @@ namespace NTMiner.MinerStudio.Vms {
                 GpuDriver = GpuDriver,
                 SortField = SortField,
                 SortDirection = this._sortDirection[SortField]
-            }, (response, exception) => {
-                if (!isAuto) {
-                    this.IsLoading = false;
-                }
-                VirtualRoot.RaiseEvent(new QueryClientsResponseEvent(response));
             });
         }
 

@@ -48,8 +48,8 @@ namespace NTMiner {
                 return;
             }
             if (message.Type == WsMessage.QueryClientDatas) {
-                if (message.TryGetData(out QueryClientsForWsRequest query)) {
-                    RpcRoot.OfficialServer.ClientDataBinaryService.QueryClientsForWsAsync(query, (QueryClientsResponse response, Exception ex) => {
+                if (message.TryGetData(out QueryClientsRequest query)) {
+                    RpcRoot.OfficialServer.ClientDataBinaryService.QueryClientsForWsAsync(QueryClientsForWsRequest.Create(query, minerSession.LoginName), (QueryClientsResponse response, Exception ex) => {
                         if (response.IsSuccess()) {
                             var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerSession.LoginName));
                             if (userData != null) {

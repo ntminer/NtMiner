@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace NTMiner.MinerStudio {
     public interface IMinerStudioService {
         void GetLatestSnapshotsAsync(int limit, Action<GetCoinSnapshotsResponse, Exception> callback);
-        void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback);
+        void QueryClientsAsync(QueryClientsRequest query);
         void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback);
         void UpdateClientsAsync(string propertyName, Dictionary<string, object> values, Action<ResponseBase, Exception> callback);
         void RemoveClientsAsync(List<string> objectIds, Action<ResponseBase, Exception> callback);

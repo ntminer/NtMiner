@@ -12,8 +12,10 @@ namespace NTMiner.MinerStudio.Impl {
         }
 
         #region QueryClientsAsync
-        public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            RpcRoot.OfficialServer.ClientDataBinaryService.QueryClientsAsync(query, callback);
+        public void QueryClientsAsync(QueryClientsRequest query) {
+            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.QueryClientDatas) {
+                Data = query
+            });
         }
         #endregion
 

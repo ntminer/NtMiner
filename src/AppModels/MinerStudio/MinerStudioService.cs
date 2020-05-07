@@ -28,8 +28,8 @@ namespace NTMiner.MinerStudio {
             Service.GetLatestSnapshotsAsync(limit, callback);
         }
 
-        public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            Service.QueryClientsAsync(query, callback);
+        public void QueryClientsAsync(QueryClientsRequest query) {
+            Service.QueryClientsAsync(query);
         }
 
         public void UpdateClientAsync(string objectId, string propertyName, object value, Action<ResponseBase, Exception> callback) {

@@ -57,7 +57,7 @@ namespace NTMiner.MinerStudio.Impl {
         #endregion
 
         #region QueryClientsAsync
-        public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
+        public void QueryClientsAsync(QueryClientsRequest query) {
             try {
                 var data = _clientDataSet.QueryClients(
                     user: null,
@@ -66,10 +66,10 @@ namespace NTMiner.MinerStudio.Impl {
                     out List<CoinSnapshotData> latestSnapshots,
                     out int totalOnlineCount,
                     out int totalMiningCount);
-                callback?.Invoke(QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount), null);
+                VirtualRoot.RaiseEvent(new QueryClientsResponseEvent(QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount)));
             }
             catch (Exception e) {
-                callback?.Invoke(ResponseBase.ServerError<QueryClientsResponse>(e.Message), e);
+                VirtualRoot.RaiseEvent(new QueryClientsResponseEvent(ResponseBase.ServerError<QueryClientsResponse>(e.Message)));
             }
         }
         #endregion
