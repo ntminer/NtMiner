@@ -139,7 +139,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="client.html" />
     <EmbeddedResource Include="logo.ico" />
   </ItemGroup>
   <ItemGroup />
