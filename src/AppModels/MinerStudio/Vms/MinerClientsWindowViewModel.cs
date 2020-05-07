@@ -163,6 +163,11 @@ namespace NTMiner.MinerStudio.Vms {
                 SortField = SortField,
                 SortDirection = this._sortDirection[SortField]
             });
+            2.SecondsDelay().ContinueWith(t => {
+                if (this.CountDown == 0) {
+                    this.CountDown = 10;
+                }
+            });
         }
 
         private void AddEventPath() {

@@ -13,6 +13,10 @@ namespace NTMiner.MinerStudio.Impl {
 
         #region QueryClientsAsync
         public void QueryClientsAsync(QueryClientsRequest query) {
+            if (!MinerStudioRoot.WsClient.IsOpen) {
+                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
+                return;
+            }
             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.QueryClientDatas) {
                 Data = query
             });
