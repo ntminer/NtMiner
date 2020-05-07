@@ -16,6 +16,11 @@ namespace NTMiner.MinerStudio {
         }
     }
 
+    [MessageType(description: "打开显卡名称统计列表页")]
+    public class ShowGpuNamePageCommand : Cmd {
+        public ShowGpuNamePageCommand() { }
+    }
+
     [MessageType(description: "打开密码修改界面")]
     public class ShowChangePassword : Cmd {
         public ShowChangePassword() { }

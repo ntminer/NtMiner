@@ -434,6 +434,16 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
+                <MenuItem Header="显卡名统计" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowGpuNameCounts}">
+                    <MenuItem.Icon>
+                        <Path
+							Width="16"
+							Height="16"
+							Data="{StaticResource Icon_Gpu}"
+							Fill="{StaticResource BtnBackground}"
+							Stretch="Fill" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Header="外网群控服务器节点" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowWsServerNodes}">
                     <MenuItem.Icon>
                         <Path
