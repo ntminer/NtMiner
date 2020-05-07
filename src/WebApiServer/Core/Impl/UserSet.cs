@@ -69,7 +69,7 @@ namespace NTMiner.Core.Impl {
                 data = data.Where(a => !string.IsNullOrEmpty(a.Roles) && a.Roles.IgnoreCaseContains(query.Role));
             }
             total = data.Count();
-            var results = data.OrderBy(a => a.LoginName).Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
+            var results = data.OrderBy(a => a.CreatedOn).Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
             return results;
         }
 
