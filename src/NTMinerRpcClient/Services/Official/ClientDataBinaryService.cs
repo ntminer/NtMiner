@@ -15,5 +15,11 @@ namespace NTMiner.Services.Official {
             JsonRequestBinaryResponseRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataBinaryController<HttpResponseMessage>.QueryClients), data: query, callback);
         }
         #endregion
+
+        #region QueryClientsForWsAsync
+        public void QueryClientsForWsAsync(QueryClientsForWsRequest query, Action<QueryClientsResponse, Exception> callback) {
+            JsonRequestBinaryResponseRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataBinaryController<HttpResponseMessage>.QueryClientsForWs), data: query, callback);
+        }
+        #endregion
     }
 }

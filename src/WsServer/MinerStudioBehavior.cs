@@ -48,13 +48,15 @@ namespace NTMiner {
                 return;
             }
             if (message.Type == WsMessage.QueryClientDatas) {
-                if (message.TryGetData(out QueryClientsRequest query)) {
-                    RpcRoot.OfficialServer.ClientDataBinaryService.QueryClientsAsync(query, (QueryClientsResponse response, Exception ex) => {
-                        var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerSession.LoginName));
-                        if (userData != null) {
-                            this.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ClientDatas) {
-                                Data = response
-                            }.SignToBytes(userData.Password), completed: null);
+                if (message.TryGetData(out QueryClientsForWsRequest query)) {
+                    RpcRoot.OfficialServer.ClientDataBinaryService.QueryClientsForWsAsync(query, (QueryClientsResponse response, Exception ex) => {
+                        if (response.IsSuccess()) {
+                            var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerSession.LoginName));
+                            if (userData != null) {
+                                this.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ClientDatas) {
+                                    Data = response
+                                }.SignToBytes(userData.Password), completed: null);
+                            }
                         }
                     });
                 }
