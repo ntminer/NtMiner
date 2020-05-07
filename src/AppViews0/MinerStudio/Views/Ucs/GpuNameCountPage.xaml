@@ -1,0 +1,51 @@
+﻿<UserControl 
+    x:Class="NTMiner.MinerStudio.Views.Ucs.GpuNameCountPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:vm="clr-namespace:NTMiner.MinerStudio.Vms;assembly=AppModels"
+    Background="White"
+	mc:Ignorable="d" 
+    d:DesignHeight="700" 
+    d:DesignWidth="1200"
+    d:DataContext="{d:DesignData Source=../Design/GpuNameCountPageViewModel.xaml}">
+    <Grid Margin="0 0 0 10" Background="{StaticResource ToolbarBackground}">
+		<DataGrid 
+            Margin="0" 
+            ItemsSource="{Binding GpuNameCounts}" 
+			BorderThickness="0">
+			<DataGrid.Resources>
+				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
+			</DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="50" IsReadOnly="True" Header="卡型">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding GpuTypeText,Mode=OneWay}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="150" IsReadOnly="True" Header="名称">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Name,Mode=OneTime}"></TextBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+				<DataGridTemplateColumn Width="100" IsReadOnly="True" Header="显存">
+					<DataGridTemplateColumn.CellTemplate>
+						<DataTemplate>
+							<TextBox Text="{Binding TotalMemoryGbText,Mode=OneWay}"></TextBox>
+						</DataTemplate>
+					</DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+			</DataGrid.Columns>
+		</DataGrid>
+        <TextBlock Visibility="{Binding GpuNameCounts,Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+	</Grid>
+</UserControl>

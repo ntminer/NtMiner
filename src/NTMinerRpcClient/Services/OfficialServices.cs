@@ -22,6 +22,7 @@
         public readonly ClientDataBinaryService ClientDataBinaryService = new ClientDataBinaryService();
         public readonly UserMinerGroupService UserMinerGroupService = new UserMinerGroupService();
         public readonly UserMineWorkService UserMineWorkService = new UserMineWorkService();
+        public readonly GpuNameService GpuNameService = new GpuNameService();
 
         internal OfficialServices() {
         }
