@@ -63,13 +63,13 @@ namespace NTMiner.Core.Impl {
         }
 
         public List<GpuNameCount> QueryGpuNameCounts(QueryGpuNameCountsRequest query, out int total) {
-            total = _gpuNameCountDic.Count;
             List<GpuName> gpuNames = new List<GpuName>();
             foreach (var item in _gpuNameCountDic.OrderBy(a => a.Key.Name)) {
                 if (item.Key.Name.Contains(query.Keyword)) {
                     gpuNames.Add(item.Key);
                 }
             }
+            total = gpuNames.Count;
             return gpuNames.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).Select(a => new GpuNameCount {
                 Name = a.Name,
                 Count = _gpuNameCountDic[a],
@@ -79,12 +79,14 @@ namespace NTMiner.Core.Impl {
         }
 
         public List<GpuName> QueryGpuNames(QueryGpuNamesRequest query, out int total) {
-            total = _gpuNameSet.Count;
             List<GpuName> list = new List<GpuName>();
-            foreach (var item in _gpuNameSet) {
-
+            foreach (var item in _gpuNameSet.OrderBy(a => a.Name)) {
+                if (item.Name.Contains(query.Keyword)) {
+                    list.Add(item);
+                }
             }
-            return list;
+            total = list.Count;
+            return list.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
         }
     }
 }
