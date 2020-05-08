@@ -225,11 +225,6 @@ namespace NTMiner {
         public UserSetInitedEvent() { }
     }
 
-    [MessageType(description: "Gpu名称集已初始化完成")]
-    public class GpuNameSetInitedEvent : EventBase {
-        public GpuNameSetInitedEvent() { }
-    }
-
     [MessageType(description: "矿机签名集已初始化完成")]
     public class MinerSignSetInitedEvent: EventBase {
         public MinerSignSetInitedEvent() { }

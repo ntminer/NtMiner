@@ -1202,4 +1202,9 @@ namespace NTMiner {
     public class UserAppSettingSetInitedEvent : EventBase {
         public UserAppSettingSetInitedEvent() { }
     }
+
+    [MessageType(description: "显卡特征名集合初始化后")]
+    public class GpuNameSetInitedEvent : EventBase {
+        public GpuNameSetInitedEvent() { }
+    }
 }
