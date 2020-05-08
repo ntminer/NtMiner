@@ -1,11 +1,20 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
+using System;
 
 namespace NTMiner.Vms {
     public class GpuNameViewModel : ViewModelBase, IGpuName {
+        public Guid Id { get; private set; } = Guid.NewGuid();
+
         private GpuType _gpuType;
         private string _name;
         private ulong _totalMemory;
+
+        public GpuNameViewModel() {
+            if (!WpfUtil.IsInDesignMode) {
+                throw new InvalidProgramException();
+            }
+        }
 
         public GpuNameViewModel(IGpuName data) {
             _gpuType = data.GpuType;
@@ -40,6 +49,16 @@ namespace NTMiner.Vms {
                     _totalMemory = value;
                     OnPropertyChanged(nameof(TotalMemory));
                 }
+            }
+        }
+
+        public int TotalMemoryGb {
+            get {
+                return GpuName.ConvertToGb(this.TotalMemory);
+            }
+            set {
+                this.TotalMemory = NTKeyword.ULongG * (ulong)value;
+                OnPropertyChanged(nameof(TotalMemoryGb));
             }
         }
 

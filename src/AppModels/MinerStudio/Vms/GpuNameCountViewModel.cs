@@ -80,14 +80,18 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_totalMemory != value) {
                     _totalMemory = value;
                     OnPropertyChanged(nameof(TotalMemory));
-                    OnPropertyChanged(nameof(TotalMemoryGbText));
+                    OnPropertyChanged(nameof(TotalMemoryGb));
                 }
             }
         }
 
-        public string TotalMemoryGbText {
+        public int TotalMemoryGb {
             get {
-                return GpuName.ConvertToGb(this.TotalMemory) + " G";
+                return GpuName.ConvertToGb(this.TotalMemory);
+            }
+            set {
+                this.TotalMemory = NTKeyword.ULongG * (ulong)value;
+                OnPropertyChanged(nameof(TotalMemoryGb));
             }
         }
     }

@@ -88,15 +88,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="*" IsReadOnly="True">
-                    <DataGridTemplateColumn.Header>
-                        <WrapPanel>
-                            <TextBlock>名称</TextBlock>
-                            <TextBlock Margin="8 0 0 0">共</TextBlock>
-                            <TextBlock Margin="4 0 0 0" Text="{Binding Data.GpuNameCounts.Count,Source={StaticResource proxy}}"></TextBlock>
-                            <TextBlock Margin="4 0 0 0">条</TextBlock>
-                        </WrapPanel>
-                    </DataGridTemplateColumn.Header>
+                <DataGridTemplateColumn Width="*" IsReadOnly="True" Header="名称">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Name,Mode=OneTime}"></TextBox>
@@ -106,7 +98,10 @@
 				<DataGridTemplateColumn Width="100" IsReadOnly="True" Header="显存">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
-                            <TextBlock Text="{Binding TotalMemoryGbText}"></TextBlock>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding TotalMemoryGb}"></TextBlock>
+                                <TextBlock Text=" G"></TextBlock>
+                            </WrapPanel>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

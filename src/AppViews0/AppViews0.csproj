@@ -104,6 +104,9 @@
     <Compile Include="MinerStudio\Views\Ucs\GpuNameCounts.xaml.cs">
       <DependentUpon>GpuNameCounts.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\GpuNameAdd.xaml.cs">
+      <DependentUpon>GpuNameAdd.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SafeNativeMethods.cs" />
     <Compile Include="Views\ConsoleWindow.xaml.cs">
       <DependentUpon>ConsoleWindow.xaml</DependentUpon>
@@ -411,6 +414,10 @@
     <Compile Include="Views\Ucs\CoinPage.xaml.cs">
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
+    <Page Include="MinerStudio\Views\Design\GpuNameViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="MinerStudio\Views\Design\GpuNamesViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -464,6 +471,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MinerStudio\Views\Ucs\GpuNameCounts.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Ucs\GpuNameAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
