@@ -24,8 +24,12 @@ namespace NTMiner.MinerStudio.Vms {
 
         public GpuNamesViewModel() {
             this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
-            this.Add = new DelegateCommand<GpuName>((gpuNameVm) => {
-
+            this.Add = new DelegateCommand(() => {
+                VirtualRoot.Execute(new AddGpuNameCommand(new GpuNameViewModel(new GpuName {
+                    GpuType = Core.GpuType.AMD,
+                    Name = string.Empty,
+                    TotalMemory = 0
+                })));
             });
             this.Remove = new DelegateCommand<GpuName>((gpuNameVm) => {
                 if (gpuNameVm == null) {

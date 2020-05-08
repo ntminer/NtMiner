@@ -260,4 +260,13 @@ namespace NTMiner.MinerStudio {
     public class GpuNameAddedEvent : EventBase {
         public GpuNameAddedEvent() { }
     }
+
+    [MessageType(description: "添加显卡特征名")]
+    public class AddGpuNameCommand : Cmd {
+        public AddGpuNameCommand(GpuNameViewModel gpuNameVm) {
+            this.GpuNameVm = gpuNameVm;
+        }
+
+        public GpuNameViewModel GpuNameVm { get; private set; }
+    }
 }
