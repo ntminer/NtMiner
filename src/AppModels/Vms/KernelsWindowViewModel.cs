@@ -234,7 +234,7 @@ namespace NTMiner.Vms {
                     }
                 }
 
-                return orderedList.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
+                return orderedList.Take(PageIndex, PageSize).ToList();
             }
         }
 

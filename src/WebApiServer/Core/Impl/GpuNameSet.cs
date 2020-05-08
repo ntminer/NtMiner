@@ -70,7 +70,7 @@ namespace NTMiner.Core.Impl {
                 }
             }
             total = gpuNames.Count;
-            return gpuNames.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).Select(a => new GpuNameCount {
+            return gpuNames.Take(query).Select(a => new GpuNameCount {
                 Name = a.Name,
                 Count = _gpuNameCountDic[a],
                 GpuType = a.GpuType,
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Impl {
                 }
             }
             total = list.Count;
-            return list.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).ToList();
+            return list.Take(query).ToList();
         }
     }
 }
