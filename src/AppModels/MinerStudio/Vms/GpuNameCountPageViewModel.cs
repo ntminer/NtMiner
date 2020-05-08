@@ -1,8 +1,6 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Vms;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace NTMiner.MinerStudio.Vms {
@@ -11,9 +9,10 @@ namespace NTMiner.MinerStudio.Vms {
         private int _pageIndex;
         private int _pageSize = 100;
         private string _keyword;
-        private ObservableCollection<int> _pageNumbers;
+        private PagingViewModel _pagingVm;
 
         public GpuNameCountPageViewModel() {
+            this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
             this.Query();
         }
 
@@ -29,30 +28,7 @@ namespace NTMiner.MinerStudio.Vms {
                 else {
                     this.GpuNameCounts = new List<GpuNameCountViewModel>();
                 }
-                int pages = (int)Math.Ceiling((double)response.Total / PageSize);
-                if (PageNumbers == null) {
-                    List<int> pageNumbers = new List<int>();
-                    for (int i = 1; i <= pages; i++) {
-                        pageNumbers.Add(i);
-                    }
-                    PageNumbers = new ObservableCollection<int>(pageNumbers);
-                }
-                else {
-                    int count = PageNumbers.Count;
-                    if (pages < count) {
-                        for (int n = pages + 1; n <= count; n++) {
-                            PageNumbers.Remove(n);
-                        }
-                    }
-                    else {
-                        for (int n = count + 1; n <= pages; n++) {
-                            PageNumbers.Add(n);
-                        }
-                    }
-                }
-                OnPropertyChanged(nameof(CanPageSub));
-                OnPropertyChanged(nameof(CanPageAdd));
-                OnPropertyChanged(nameof(IsPageNumbersEmpty));
+                _pagingVm.Init(response.Total);
             });
         }
 
@@ -88,30 +64,8 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public bool CanPageSub {
-            get {
-                return PageIndex != 1;
-            }
-        }
-
-        public bool CanPageAdd {
-            get {
-                return PageNumbers.Count > PageIndex;
-            }
-        }
-
-        public ObservableCollection<int> PageNumbers {
-            get => _pageNumbers;
-            set {
-                _pageNumbers = value;
-                OnPropertyChanged(nameof(PageNumbers));
-            }
-        }
-
-        public bool IsPageNumbersEmpty {
-            get {
-                return PageNumbers.Count == 0;
-            }
+        public PagingViewModel PagingVm {
+            get { return _pagingVm; }
         }
 
         public List<GpuNameCountViewModel> GpuNameCounts {

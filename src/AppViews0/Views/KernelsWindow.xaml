@@ -601,8 +601,8 @@
                         </Button.Template>
                     </Button>
                 </WrapPanel>
-                <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
-                    <Button x:Name="ButtonLeft" IsEnabled="{Binding CanPageSub}" Command="{Binding PageSub}">
+                <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding PagingVm.IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                    <Button x:Name="ButtonLeft" IsEnabled="{Binding PagingVm.CanPageSub}" Command="{Binding PageSub}">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border 
@@ -632,7 +632,7 @@
                     <ListBox 
 					    Margin="4"
 					    Background="Transparent"
-					    ItemsSource="{Binding PageNumbers}"
+					    ItemsSource="{Binding PagingVm.PageNumbers}"
 					    SelectedItem="{Binding PageIndex}"
 					    BorderThickness="0">
                         <ListBox.ItemContainerStyle>
@@ -676,7 +676,7 @@
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
                     </ListBox>
-                    <Button x:Name="ButtonRight" Margin="2 0 0 0" IsEnabled="{Binding CanPageAdd}" Command="{Binding PageAdd}">
+                    <Button x:Name="ButtonRight" Margin="2 0 0 0" IsEnabled="{Binding PagingVm.CanPageAdd}" Command="{Binding PageAdd}">
                         <Button.Template>
                             <ControlTemplate>
                                 <Border 

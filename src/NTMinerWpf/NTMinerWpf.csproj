@@ -46,6 +46,7 @@
     <Compile Include="Converters\IntToHiddenConverter.cs" />
     <Compile Include="Converters\MbToGbConverter.cs" />
     <Compile Include="FrameworkElementExtension.cs" />
+    <Compile Include="Vms\PagingViewModel.cs" />
     <Compile Include="IVmFrameworkElement`1.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />

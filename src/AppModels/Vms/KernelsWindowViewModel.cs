@@ -2,7 +2,6 @@
 using NTMiner.Core.Kernels;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -15,7 +14,7 @@ namespace NTMiner.Vms {
         private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
         private int _pageIndex;
         private int _pageSize = 15;
-        private ObservableCollection<int> _pageNumbers;
+        private PagingViewModel _pagingVm;
 
         public ICommand Home { get; private set; }
         public ICommand ChangeCurrentKernelMenu { get; private set; }
@@ -37,6 +36,7 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
+            this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
             this.ChangeCurrentKernelMenu = new DelegateCommand<KernelMenu>((kernelMenu) => {
                 SetCurrentKernelMenu(kernelMenu);
                 this.PageIndex = 1;
@@ -98,18 +98,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public bool CanPageSub {
-            get {
-                return PageIndex != 1;
-            }
-        }
-
-        public bool CanPageAdd {
-            get {
-                return PageNumbers.Count > PageIndex;
-            }
-        }
-
         public AppRoot.CoinViewModels CoinVms {
             get {
                 return AppRoot.CoinVms;
@@ -167,18 +155,8 @@ namespace NTMiner.Vms {
             }
         }
 
-        public ObservableCollection<int> PageNumbers {
-            get => _pageNumbers;
-            set {
-                _pageNumbers = value;
-                OnPropertyChanged(nameof(PageNumbers));
-            }
-        }
-
-        public bool IsPageNumbersEmpty {
-            get {
-                return PageNumbers.Count == 0;
-            }
+        public PagingViewModel PagingVm {
+            get { return _pagingVm; }
         }
 
         public List<KernelViewModel> QueryResults {
@@ -203,30 +181,7 @@ namespace NTMiner.Vms {
                     query = query.Where(a => a.KernelProfileVm.InstallStatus == InstallStatus.Installed);
                 }
                 int total = query.Count();
-                int pages = (int)Math.Ceiling((double)total / PageSize);
-                if (PageNumbers == null) {
-                    List<int> pageNumbers = new List<int>();
-                    for (int i = 1; i <= pages; i++) {
-                        pageNumbers.Add(i);
-                    }
-                    PageNumbers = new ObservableCollection<int>(pageNumbers);
-                }
-                else {
-                    int count = PageNumbers.Count;
-                    if (pages < count) {
-                        for (int n = pages + 1; n <= count; n++) {
-                            PageNumbers.Remove(n);
-                        }
-                    }
-                    else {
-                        for (int n = count + 1; n <= pages; n++) {
-                            PageNumbers.Add(n);
-                        }
-                    }
-                }
-                OnPropertyChanged(nameof(CanPageSub));
-                OnPropertyChanged(nameof(CanPageAdd));
-                OnPropertyChanged(nameof(IsPageNumbersEmpty));
+                _pagingVm.Init(total);
 
                 List<KernelViewModel> orderedList = new List<KernelViewModel>();
                 var groups = query.GroupBy(a => a.Code);
