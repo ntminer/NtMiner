@@ -39,7 +39,7 @@ namespace NTMiner.Vms {
             }
             this.ChangeCurrentKernelMenu = new DelegateCommand<KernelMenu>((kernelMenu) => {
                 SetCurrentKernelMenu(kernelMenu);
-                this.PageNumber = 1;
+                this.PageIndex = 1;
             });
             this.Home = new DelegateCommand(() => {
                 ChangeCurrentKernelMenu.Execute(_repositoryKernelMenu);
@@ -51,16 +51,16 @@ namespace NTMiner.Vms {
                 new KernelViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
             });
             this.Search = new DelegateCommand(() => {
-                this.PageNumber = 1;
+                this.PageIndex = 1;
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;
             });
             this.PageSub = new DelegateCommand(() => {
-                this.PageNumber -= 1;
+                this.PageIndex -= 1;
             });
             this.PageAdd = new DelegateCommand(() => {
-                this.PageNumber += 1;
+                this.PageIndex += 1;
             });
             this.ShowPackages = new DelegateCommand(() => {
                 VirtualRoot.Execute(new ShowPackagesWindowCommand());
@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
                 }
                 _brandItem = value;
                 OnPropertyChanged(nameof(BrandItem));
-                this.PageNumber = 1;
+                this.PageIndex = 1;
             }
         }
 
@@ -100,13 +100,13 @@ namespace NTMiner.Vms {
 
         public bool CanPageSub {
             get {
-                return PageNumber != 1;
+                return PageIndex != 1;
             }
         }
 
         public bool CanPageAdd {
             get {
-                return PageNumbers.Count > PageNumber;
+                return PageNumbers.Count > PageIndex;
             }
         }
 
@@ -130,7 +130,7 @@ namespace NTMiner.Vms {
                 if (_selectedCoinVm != value) {
                     _selectedCoinVm = value;
                     OnPropertyChanged(nameof(SelectedCoinVm));
-                    this.PageNumber = 1;
+                    this.PageIndex = 1;
                 }
             }
         }
@@ -152,18 +152,8 @@ namespace NTMiner.Vms {
                 if (_pageIndex != value) {
                     _pageIndex = value;
                     OnPropertyChanged(nameof(PageIndex));
+                    OnPropertyChanged(nameof(QueryResults));
                 }
-            }
-        }
-
-        public int PageNumber {
-            get {
-                return PageIndex + 1;
-            }
-            set {
-                PageIndex = value - 1;
-                OnPropertyChanged(nameof(PageNumber));
-                OnPropertyChanged(nameof(QueryResults));
             }
         }
 
@@ -244,7 +234,7 @@ namespace NTMiner.Vms {
                     }
                 }
 
-                return orderedList.Skip(PageIndex * PageSize).Take(PageSize).ToList();
+                return orderedList.Skip((PageIndex - 1) * PageSize).Take(PageSize).ToList();
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Core.Redis;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class GpuNameSet : IGpuNameSet {
@@ -61,19 +62,29 @@ namespace NTMiner.Core.Impl {
             _gpuNameRedis.DeleteAsync(gpuName);
         }
 
-        public IEnumerable<GpuNameCount> GetGpuNameCounts() {
-            foreach (var item in _gpuNameCountDic) {
-                yield return new GpuNameCount {
-                    Count = item.Value,
-                    GpuType = item.Key.GpuType,
-                    Name = item.Key.Name,
-                    TotalMemory = item.Key.TotalMemory
-                };
+        public List<GpuNameCount> QueryGpuNameCounts(QueryGpuNameCountsRequest query, out int total) {
+            total = _gpuNameCountDic.Count;
+            List<GpuName> gpuNames = new List<GpuName>();
+            foreach (var item in _gpuNameCountDic.OrderBy(a => a.Key.Name)) {
+                if (item.Key.Name.Contains(query.Keyword)) {
+                    gpuNames.Add(item.Key);
+                }
             }
+            return gpuNames.Skip((query.PageIndex - 1) * query.PageSize).Take(query.PageSize).Select(a => new GpuNameCount {
+                Name = a.Name,
+                Count = _gpuNameCountDic[a],
+                GpuType = a.GpuType,
+                TotalMemory = a.TotalMemory
+            }).ToList();
         }
 
-        public IEnumerable<GpuName> AsEnumerable() {
-            return _gpuNameSet;
+        public List<GpuName> QueryGpuNames(QueryGpuNamesRequest query, out int total) {
+            total = _gpuNameSet.Count;
+            List<GpuName> list = new List<GpuName>();
+            foreach (var item in _gpuNameSet) {
+
+            }
+            return list;
         }
     }
 }
