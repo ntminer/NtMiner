@@ -95,6 +95,7 @@
     <Compile Include="MinerStudio\Vms\CpuDataViewModel.cs" />
     <Compile Include="MinerStudio\Vms\GpuNameCountsViewModel.cs" />
     <Compile Include="MinerStudio\Vms\GpuNameCountViewModel.cs" />
+    <Compile Include="MinerStudio\Vms\GpuNamesViewModel.cs" />
     <Compile Include="MinerStudio\Vms\IWsStateViewModel.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MinerStudio\ILocalMinerStudioService.cs" />
