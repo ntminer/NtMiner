@@ -7,7 +7,7 @@ namespace NTMiner.Controllers {
     public class GpuNameController : ApiControllerBase, IGpuNameController {
         [HttpGet]
         [HttpPost]
-        public DataResponse<List<GpuName>> GpuNames(object request) {
+        public DataResponse<List<GpuName>> QueryGpuNames(QueryGpuNamesRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<GpuName>>>("参数错误");
             }
@@ -17,7 +17,7 @@ namespace NTMiner.Controllers {
         [Role.Admin]
         [HttpGet]
         [HttpPost]
-        public DataResponse<List<GpuNameCount>> GpuNameCounts(object request) {
+        public DataResponse<List<GpuNameCount>> QueryGpuNameCounts(QueryGpuNameCountsRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<GpuNameCount>>>("参数错误");
             }

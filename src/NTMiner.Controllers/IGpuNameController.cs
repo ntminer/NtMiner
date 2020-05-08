@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
     public interface IGpuNameController {
-        DataResponse<List<GpuName>> GpuNames(object request);
-        DataResponse<List<GpuNameCount>> GpuNameCounts(object request);
+        DataResponse<List<GpuName>> QueryGpuNames(QueryGpuNamesRequest request);
+        DataResponse<List<GpuNameCount>> QueryGpuNameCounts(QueryGpuNameCountsRequest request);
         /// <summary>
         /// 需签名
         /// </summary>
