@@ -185,6 +185,7 @@ namespace NTMiner.MinerStudio.Vms {
         public int PageIndex {
             get => _pageIndex;
             set {
+                // 注意PageIndex任何时候都应刷新而不是不等时才刷新
                 _pageIndex = value;
                 OnPropertyChanged(nameof(PageIndex));
                 Refresh();

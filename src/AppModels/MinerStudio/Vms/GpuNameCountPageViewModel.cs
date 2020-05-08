@@ -1,17 +1,25 @@
-﻿using NTMiner.Vms;
+﻿using NTMiner.Core.Gpus;
+using NTMiner.Vms;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.MinerStudio.Vms {
     public class GpuNameCountPageViewModel : ViewModelBase {
         private List<GpuNameCountViewModel> _gpuNameCounts;
+        private int _pageIndex;
+        private int _pageSize;
+        private string _keyword;
 
         public GpuNameCountPageViewModel() {
-            this.Refresh();
+            this.Query();
         }
 
-        public void Refresh() {
-            RpcRoot.OfficialServer.GpuNameService.GetGpuNameCountsAsync((response, e) => {
+        public void Query() {
+            RpcRoot.OfficialServer.GpuNameService.QueryGpuNameCountsAsync(new QueryGpuNameCountsRequest {
+                PageIndex = this.PageIndex,
+                PageSize = this.PageSize,
+                Keyword = this.Keyword
+            }, (response, e) => {
                 if (response.IsSuccess()) {
                     this.GpuNameCounts = response.Data.OrderBy(a => a.GpuType.GetDescription() + a.Name).Select(a => new GpuNameCountViewModel(a)).ToList();
                 }
@@ -19,6 +27,38 @@ namespace NTMiner.MinerStudio.Vms {
                     this.GpuNameCounts = new List<GpuNameCountViewModel>();
                 }
             });
+        }
+
+        public int PageIndex {
+            get => _pageIndex;
+            set {
+                // 注意PageIndex任何时候都应刷新而不是不等时才刷新
+                _pageIndex = value;
+                OnPropertyChanged(nameof(PageIndex));
+                this.Query();
+            }
+        }
+
+        public int PageSize {
+            get => _pageSize;
+            set {
+                if (_pageSize != value) {
+                    _pageSize = value;
+                    OnPropertyChanged(nameof(PageSize));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
+        public string Keyword {
+            get => _keyword;
+            set {
+                if (_keyword != value) {
+                    _keyword = value;
+                    OnPropertyChanged(nameof(Keyword));
+                    this.PageIndex = 1;
+                }
+            }
         }
 
         public List<GpuNameCountViewModel> GpuNameCounts {

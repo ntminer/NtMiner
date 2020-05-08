@@ -633,7 +633,7 @@
 					    Margin="4"
 					    Background="Transparent"
 					    ItemsSource="{Binding PageNumbers}"
-					    SelectedItem="{Binding PageNumber}"
+					    SelectedItem="{Binding PageIndex}"
 					    BorderThickness="0">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">

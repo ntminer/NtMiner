@@ -141,7 +141,7 @@ namespace NTMiner.Vms {
                 if (_keyword != value) {
                     _keyword = value;
                     OnPropertyChanged(nameof(Keyword));
-                    OnPropertyChanged(nameof(QueryResults));
+                    this.PageIndex = 1;
                 }
             }
         }
@@ -149,19 +149,21 @@ namespace NTMiner.Vms {
         public int PageIndex {
             get => _pageIndex;
             set {
-                if (_pageIndex != value) {
-                    _pageIndex = value;
-                    OnPropertyChanged(nameof(PageIndex));
-                    OnPropertyChanged(nameof(QueryResults));
-                }
+                // 注意PageIndex任何时候都应刷新而不是不等时才刷新
+                _pageIndex = value;
+                OnPropertyChanged(nameof(PageIndex));
+                OnPropertyChanged(nameof(QueryResults));
             }
         }
 
         public int PageSize {
             get => _pageSize;
             set {
-                _pageSize = value;
-                OnPropertyChanged(nameof(PageSize));
+                if (_pageSize != value) {
+                    _pageSize = value;
+                    OnPropertyChanged(nameof(PageSize));
+                    this.PageIndex = 1;
+                }
             }
         }
 
