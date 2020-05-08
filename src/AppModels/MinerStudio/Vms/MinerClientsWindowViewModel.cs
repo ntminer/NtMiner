@@ -1581,7 +1581,7 @@ namespace NTMiner.MinerStudio.Vms {
                     _gpuType = value;
                     OnPropertyChanged(nameof(GpuType));
                     OnPropertyChanged(nameof(IsNvidiaIconVisible));
-                    OnPropertyChanged(nameof(IsAMDIconVisible));
+                    OnPropertyChanged(nameof(IsAmdIconVisible));
                     this.PageIndex = 1;
                 }
             }
@@ -1596,7 +1596,7 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public Visibility IsAMDIconVisible {
+        public Visibility IsAmdIconVisible {
             get {
                 if (GpuType == GpuType.AMD) {
                     return Visibility.Visible;

@@ -84,7 +84,7 @@
 					Width="16"
 					Height="14"
 					ToolTip="AMD"
-					Visibility="{Binding IsAMDIconVisible}"
+					Visibility="{Binding IsAmdIconVisible}"
 					Data="{StaticResource Icon_AMD}"
 					Fill="Red"
 					Stretch="Fill" />
@@ -334,7 +334,7 @@
 									Width="20"
 									Height="16"
 									ToolTip="支持A卡"
-									Visibility="{Binding IsAMDIconVisible}"
+									Visibility="{Binding IsAmdIconVisible}"
 									Data="{StaticResource Icon_AMD}"
 									Fill="Red"
 									Stretch="Fill" />
