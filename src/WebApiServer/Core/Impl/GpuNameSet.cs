@@ -63,27 +63,39 @@ namespace NTMiner.Core.Impl {
         }
 
         public List<GpuNameCount> QueryGpuNameCounts(QueryGpuNameCountsRequest query, out int total) {
-            List<GpuName> gpuNames = new List<GpuName>();
-            foreach (var item in _gpuNameCountDic.OrderBy(a => a.Key.Name)) {
-                if (item.Key.Name.Contains(query.Keyword)) {
-                    gpuNames.Add(item.Key);
+            List<KeyValuePair<GpuName, int>> list = new List<KeyValuePair<GpuName, int>>();
+            bool isFilterByKeyword = !string.IsNullOrEmpty(query.Keyword);
+            if (isFilterByKeyword) {
+                foreach (var item in _gpuNameCountDic.OrderBy(a => a.Key.Name)) {
+                    if (item.Key.Name.Contains(query.Keyword)) {
+                        list.Add(item);
+                    }
                 }
             }
-            total = gpuNames.Count;
-            return gpuNames.Take(query).Select(a => new GpuNameCount {
-                Name = a.Name,
-                Count = _gpuNameCountDic[a],
-                GpuType = a.GpuType,
-                TotalMemory = a.TotalMemory
+            else {
+                list.AddRange(_gpuNameCountDic);
+            }
+            total = list.Count;
+            return list.Take(query).Select(a => new GpuNameCount {
+                Name = a.Key.Name,
+                Count = a.Value,
+                GpuType = a.Key.GpuType,
+                TotalMemory = a.Key.TotalMemory
             }).ToList();
         }
 
         public List<GpuName> QueryGpuNames(QueryGpuNamesRequest query, out int total) {
             List<GpuName> list = new List<GpuName>();
-            foreach (var item in _gpuNameSet.OrderBy(a => a.Name)) {
-                if (item.Name.Contains(query.Keyword)) {
-                    list.Add(item);
+            bool isFilterByKeyword = !string.IsNullOrEmpty(query.Keyword);
+            if (isFilterByKeyword) {
+                foreach (var item in _gpuNameSet.OrderBy(a => a.Name)) {
+                    if (item.Name.Contains(query.Keyword)) {
+                        list.Add(item);
+                    }
                 }
+            }
+            else {
+                list.AddRange(_gpuNameSet);
             }
             total = list.Count;
             return list.Take(query).ToList();

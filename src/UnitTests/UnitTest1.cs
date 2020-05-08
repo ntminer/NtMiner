@@ -15,6 +15,13 @@ namespace NTMiner {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void StringContainsTest() {
+            // 异常
+            "hello".Contains(null);
+        }
+
+        [TestMethod]
         public void MaxValueText() {
             Console.WriteLine(ushort.MaxValue);
             Console.WriteLine((int)char.MinValue);
