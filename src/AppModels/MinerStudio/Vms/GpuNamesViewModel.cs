@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core.Gpus;
 using NTMiner.Vms;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -22,7 +23,9 @@ namespace NTMiner.MinerStudio.Vms {
 
         public ICommand Search { get; private set; }
 
-        public GpuNamesViewModel() {
+        private readonly Action _onQueryResponsed;
+        public GpuNamesViewModel(Action onQueryResponsed) {
+            _onQueryResponsed = onQueryResponsed;
             this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
             this.Add = new DelegateCommand(() => {
                 VirtualRoot.Execute(new AddGpuNameCommand(new GpuNameViewModel(new GpuName {
@@ -79,6 +82,7 @@ namespace NTMiner.MinerStudio.Vms {
                     this.GpuNames = new List<GpuNameViewModel>();
                     _pagingVm.Init(0);
                 }
+                _onQueryResponsed?.Invoke();
             });
         }
 
