@@ -48,14 +48,15 @@
         
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">名称:</TextBlock>
-			<TextBox x:Name="TbName" Width="220" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+			<TextBox x:Name="TbName" Width="210" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
 			</TextBox>
 		</WrapPanel>
 
         <WrapPanel Margin="0 2">
             <TextBlock Style="{StaticResource LblTb}">显存:</TextBlock>
-            <TextBox Width="220" VerticalContentAlignment="Center" Text="{Binding TotalMemoryGb, ValidatesOnExceptions=True}">
+            <TextBox Width="210" VerticalContentAlignment="Center" Text="{Binding TotalMemoryGb, ValidatesOnExceptions=True}">
             </TextBox>
+            <TextBlock Padding="2 0" VerticalAlignment="Center" Text="G"></TextBlock>
         </WrapPanel>
         
         <controls:KbButton
