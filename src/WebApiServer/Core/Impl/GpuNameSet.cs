@@ -8,10 +8,19 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<GpuName, int> _gpuNameCountDic = new Dictionary<GpuName, int>();
         // 该集合由人工维护，这里的GpuName是由人脑提取的显卡的特征名，能覆盖每一张显卡当出现未覆盖的显卡事件时会有人工即时补漏
         private readonly HashSet<GpuName> _gpuNameSet = new HashSet<GpuName>();
+        public bool IsReadied {
+            get; private set;
+        }
 
         private readonly IGpuNameRedis _gpuNameRedis;
         public GpuNameSet(IGpuNameRedis gpuNameRedis) {
             _gpuNameRedis = gpuNameRedis;
+            gpuNameRedis.GetAllAsync().ContinueWith(t => {
+                foreach (var item in t.Result) {
+                    _gpuNameSet.Add(item);
+                }
+                IsReadied = true;
+            });
             VirtualRoot.AddEventPath<ClientSetInitedEvent>("矿机列表初始化后计算显卡名称集合", LogEnum.DevConsole, action: message => {
                 Init();
             }, this.GetType());
@@ -47,6 +56,9 @@ namespace NTMiner.Core.Impl {
         }
 
         public void Set(GpuName gpuName) {
+            if (!IsReadied) {
+                return;
+            }
             if (gpuName == null || !gpuName.IsValid()) {
                 return;
             }
@@ -55,6 +67,9 @@ namespace NTMiner.Core.Impl {
         }
 
         public void Remove(GpuName gpuName) {
+            if (!IsReadied) {
+                return;
+            }
             if (gpuName == null || !gpuName.IsValid()) {
                 return;
             }
@@ -85,6 +100,9 @@ namespace NTMiner.Core.Impl {
         }
 
         public List<GpuName> GetAllGpuNames() {
+            if (!IsReadied) {
+                return new List<GpuName>();
+            }
             return _gpuNameSet.ToList();
         }
     }
