@@ -14,6 +14,7 @@ namespace NTMiner.Controllers {
             if (request == null) {
                 return ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
             }
+            request.PagingTrim();
             try {
                 var data = WebApiRoot.ClientDataSet.QueryClients(
                     User, 

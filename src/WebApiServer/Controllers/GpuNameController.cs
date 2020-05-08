@@ -9,6 +9,7 @@ namespace NTMiner.Controllers {
             if (request == null) {
                 return ResponseBase.InvalidInput<QueryGpuNamesResponse>("参数错误");
             }
+            request.PagingTrim();
             var data = WebApiRoot.GpuNameSet.QueryGpuNames(request, out int total);
 
             return QueryGpuNamesResponse.Ok(data, total);
@@ -21,6 +22,7 @@ namespace NTMiner.Controllers {
             if (request == null) {
                 return ResponseBase.InvalidInput<QueryGpuNameCountsResponse>("参数错误");
             }
+            request.PagingTrim();
             var data = WebApiRoot.GpuNameSet.QueryGpuNameCounts(request, out int total);
 
             return QueryGpuNameCountsResponse.Ok(data, total);

@@ -1,7 +1,9 @@
 ﻿using System.Text;
 
 namespace NTMiner.Core.Gpus {
-    public class QueryGpuNamesRequest : IRequest, ISignableData {
+    public class QueryGpuNamesRequest : IPagingRequest, ISignableData {
+        public QueryGpuNamesRequest() { }
+
         public int PageIndex { get; set; }
         public int PageSize { get; set; }
         public string Keyword { get; set; }

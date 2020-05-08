@@ -1,32 +1,10 @@
 ﻿using System.Text;
 
 namespace NTMiner.User {
-    public class QueryUsersRequest : IRequest, ISignableData {
-        private int _pageIndex;
-        private int _pageSize;
-
+    public class QueryUsersRequest : IPagingRequest, ISignableData {
         public QueryUsersRequest() { }
-        public int PageIndex {
-            get => _pageIndex;
-            set {
-                if (value < 0) {
-                    value = 0;
-                }
-                _pageIndex = value;
-            }
-        }
-        public int PageSize {
-            get => _pageSize;
-            set {
-                if (value < 10) {
-                    value = 10;
-                }
-                if (value > 1000) {
-                    value = 1000;
-                }
-                _pageSize = value;
-            }
-        }
+        public int PageIndex { get; set; }
+        public int PageSize { get; set; }
 
         public string LoginName { get; set; }
         public UserStatus UserStatus { get; set; }

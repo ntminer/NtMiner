@@ -17,6 +17,7 @@ namespace NTMiner.Controllers {
                 response = ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
             }
             else {
+                request.PagingTrim();
                 try {
                     var data = WebApiRoot.ClientDataSet.QueryClients(
                         User,
@@ -47,6 +48,7 @@ namespace NTMiner.Controllers {
                 response = ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
             }
             else {
+                request.PagingTrim();
                 try {
                     var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.LoginName));
                     if (user == null) {

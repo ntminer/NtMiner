@@ -13,6 +13,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<QueryUsersResponse>("参数错误");
             }
             try {
+                request.PagingTrim();
                 var datas = WebApiRoot.UserSet.QueryUsers(request, out int total).Select(a => a.Clone()).ToList();
                 foreach (var data in datas) {
                     // 不在网络上传输私钥原文，传输的是密文

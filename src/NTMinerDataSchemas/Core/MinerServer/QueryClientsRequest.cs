@@ -2,7 +2,7 @@
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {
-    public class QueryClientsRequest : IRequest, ISignableData {
+    public class QueryClientsRequest : IPagingRequest, ISignableData {
         public QueryClientsRequest() {
             this.SortField = ClientDataSortField.MinerName;
         }

@@ -69,8 +69,10 @@
     <Compile Include="DataSchemaIdAttribute.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="IConsoleOutLine.cs" />
+    <Compile Include="IPagingRequest.cs" />
     <Compile Include="IsNotDataSchemaAttribute.cs" />
     <Compile Include="NTKeyword.cs" />
+    <Compile Include="PagingRequestExtensions.cs" />
     <Compile Include="Report\ISpeedData.cs" />
     <Compile Include="Report\SpeedData.cs" />
     <Compile Include="ServerNode\CpuData.cs" />
