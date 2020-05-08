@@ -15,28 +15,5 @@
         public ulong TotalMemory { get; set; }
 
         public int Count { get; set; }
-
-        public bool IsValid() {
-            return GpuName.IsValid(this.GpuType, this.Name, this.TotalMemory);
-        }
-
-        public override bool Equals(object obj) {
-            if (obj == null) {
-                return false;
-            }
-            return this.ToString() == obj.ToString(); ;
-        }
-
-        public override int GetHashCode() {
-            return this.ToString().GetHashCode();
-        }
-
-        /// <summary>
-        /// 该ToString字符串会被作为redis key使用
-        /// </summary>
-        /// <returns></returns>
-        public override string ToString() {
-            return GpuName.Format(this.GpuType, this.Name, this.TotalMemory);
-        }
     }
 }
