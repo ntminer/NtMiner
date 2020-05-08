@@ -18,11 +18,15 @@ namespace NTMiner.Services.Official {
         }
 
         public void SetGpuNameAsync(GpuName gpuName, Action<ResponseBase, Exception> callback) {
-            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IGpuNameController.SetGpuName), gpuName, callback, timeountMilliseconds: 5 * 1000);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IGpuNameController.SetGpuName), new DataRequest<GpuName> {
+                Data = gpuName
+            }, callback, timeountMilliseconds: 5 * 1000);
         }
 
         public void RemoveGpuNameAsync(GpuName gpuName, Action<ResponseBase, Exception> callback) {
-            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IGpuNameController.RemoveGpuName), gpuName, callback, timeountMilliseconds: 5 * 1000);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IGpuNameController.RemoveGpuName), new DataRequest<GpuName> {
+                Data = gpuName
+            }, callback, timeountMilliseconds: 5 * 1000);
         }
     }
 }

@@ -10,6 +10,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 FormType = FormType.Add,
                 IsMaskTheParent = true,
                 Width = 320,
+                FooterVisible = System.Windows.Visibility.Collapsed,
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_Gpu"
             }, ucFactory: (window) => {

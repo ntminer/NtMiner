@@ -1,8 +1,10 @@
-﻿namespace NTMiner.Core.Gpus {
+﻿using System.Text;
+
+namespace NTMiner.Core.Gpus {
     /// <summary>
     /// GpuName是管理员人脑基于<see cref="GpuNameCount"/>集提取的特征名。
     /// </summary>
-    public class GpuName : IGpuName {
+    public class GpuName : IGpuName, ISignableData {
         public static bool IsValidTotalMemory(ulong value) {
             return value >= 4 * NTKeyword.ULongG;
         }
@@ -36,6 +38,10 @@
 
         public bool IsValid() {
             return IsValid(this.GpuType, this.Name, this.TotalMemory);
+        }
+
+        public StringBuilder GetSignData() {
+            return this.BuildSign();
         }
 
         public override bool Equals(object obj) {
