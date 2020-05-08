@@ -11,7 +11,7 @@ namespace NTMiner.Controllers {
     public class ClientDataBinaryController : ApiControllerBase, IClientDataBinaryController<HttpResponseMessage> {
         [Role.User]
         [HttpPost]
-        public HttpResponseMessage QueryClients(QueryClientsRequest request) {
+        public HttpResponseMessage QueryClients([FromBody]QueryClientsRequest request) {
             QueryClientsResponse response;
             if (request == null) {
                 response = ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
@@ -42,7 +42,7 @@ namespace NTMiner.Controllers {
 
         [Role.Admin]
         [HttpPost]
-        public HttpResponseMessage QueryClientsForWs(QueryClientsForWsRequest request) {
+        public HttpResponseMessage QueryClientsForWs([FromBody]QueryClientsForWsRequest request) {
             QueryClientsResponse response;
             if (request == null) {
                 response = ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");

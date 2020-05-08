@@ -8,7 +8,7 @@ namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class KernelOutputKeywordController : ApiControllerBase, IKernelOutputKeywordController {
         [HttpPost]
-        public KernelOutputKeywordsResponse KernelOutputKeywords(object request) {
+        public KernelOutputKeywordsResponse KernelOutputKeywords([FromBody]object request) {
             try {
                 var data = WebApiRoot.KernelOutputKeywordSet;
                 return KernelOutputKeywordsResponse.Ok(data.AsEnumerable().Select(a => KernelOutputKeywordData.Create(a)).ToList(), Timestamp.GetTimestamp(WebApiRoot.KernelOutputKeywordTimestamp));
@@ -21,7 +21,7 @@ namespace NTMiner.Controllers {
 
         [Role.Admin]
         [HttpPost]
-        public ResponseBase RemoveKernelOutputKeyword(DataRequest<Guid> request) {
+        public ResponseBase RemoveKernelOutputKeyword([FromBody]DataRequest<Guid> request) {
             if (request == null || request.Data == Guid.Empty) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -38,7 +38,7 @@ namespace NTMiner.Controllers {
 
         [Role.Admin]
         [HttpPost]
-        public ResponseBase AddOrUpdateKernelOutputKeyword(DataRequest<KernelOutputKeywordData> request) {
+        public ResponseBase AddOrUpdateKernelOutputKeyword([FromBody]DataRequest<KernelOutputKeywordData> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }

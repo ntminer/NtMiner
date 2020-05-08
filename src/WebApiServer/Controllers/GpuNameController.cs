@@ -5,7 +5,7 @@ namespace NTMiner.Controllers {
     public class GpuNameController : ApiControllerBase, IGpuNameController {
         [HttpGet]
         [HttpPost]
-        public QueryGpuNamesResponse QueryGpuNames(QueryGpuNamesRequest request) {
+        public QueryGpuNamesResponse QueryGpuNames([FromBody]QueryGpuNamesRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<QueryGpuNamesResponse>("参数错误");
             }
@@ -18,7 +18,7 @@ namespace NTMiner.Controllers {
         [Role.Admin]
         [HttpGet]
         [HttpPost]
-        public QueryGpuNameCountsResponse QueryGpuNameCounts(QueryGpuNameCountsRequest request) {
+        public QueryGpuNameCountsResponse QueryGpuNameCounts([FromBody]QueryGpuNameCountsRequest request) {
             if (request == null) {
                 return ResponseBase.InvalidInput<QueryGpuNameCountsResponse>("参数错误");
             }
@@ -30,7 +30,7 @@ namespace NTMiner.Controllers {
 
         [Role.Admin]
         [HttpPost]
-        public ResponseBase SetGpuName(DataRequest<GpuName> request) {
+        public ResponseBase SetGpuName([FromBody]DataRequest<GpuName> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
@@ -40,7 +40,7 @@ namespace NTMiner.Controllers {
 
         [Role.Admin]
         [HttpPost]
-        public ResponseBase RemoveGpuName(DataRequest<GpuName> request) {
+        public ResponseBase RemoveGpuName([FromBody]DataRequest<GpuName> request) {
             if (request == null || request.Data == null) {
                 return ResponseBase.InvalidInput("参数错误");
             }
