@@ -7,11 +7,8 @@ using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
     public class GpuNamesViewModel : ViewModelBase {
-        private List<GpuNameViewModel> _gpuNames;
-        private int _pageIndex = 1;
-        private int _pageSize = 100;
+        private List<GpuNameViewModel> _gpuNames = new List<GpuNameViewModel>();
         private string _keyword;
-        private PagingViewModel _pagingVm;
 
         public ICommand Add { get; private set; }
         public ICommand Remove { get; private set; }
@@ -26,7 +23,6 @@ namespace NTMiner.MinerStudio.Vms {
         private readonly Action _onQueryResponsed;
         public GpuNamesViewModel(Action onQueryResponsed) {
             _onQueryResponsed = onQueryResponsed;
-            this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
             this.Add = new DelegateCommand(() => {
                 VirtualRoot.Execute(new AddGpuNameCommand(new GpuNameViewModel(new GpuName {
                     GpuType = Core.GpuType.AMD,
@@ -54,57 +50,25 @@ namespace NTMiner.MinerStudio.Vms {
                 }));
             });
             this.Search = new DelegateCommand(() => {
-                this.PageIndex = 1;
+                this.OnPropertyChanged(nameof(QueryResults));
             });
             this.ClearKeyword = new DelegateCommand(() => {
                 Keyword = string.Empty;
-            });
-            this.PageSub = new DelegateCommand(() => {
-                this.PageIndex -= 1;
-            });
-            this.PageAdd = new DelegateCommand(() => {
-                this.PageIndex += 1;
             });
             this.Query();
         }
 
         public void Query() {
-            RpcRoot.OfficialServer.GpuNameService.QueryGpuNamesAsync(new QueryGpuNamesRequest {
-                PageIndex = this.PageIndex,
-                PageSize = this.PageSize,
-                Keyword = this.Keyword
-            }, (response, e) => {
+            RpcRoot.OfficialServer.GpuNameService.QueryGpuNamesAsync((response, e) => {
                 if (response.IsSuccess()) {
                     this.GpuNames = response.Data.OrderBy(a => a.GpuType.GetDescription() + a.Name).Select(a => new GpuNameViewModel(a)).ToList();
-                    _pagingVm.Init(response.Total);
                 }
                 else {
                     this.GpuNames = new List<GpuNameViewModel>();
-                    _pagingVm.Init(0);
                 }
+                this.OnPropertyChanged(nameof(QueryResults));
                 _onQueryResponsed?.Invoke();
             });
-        }
-
-        public int PageIndex {
-            get => _pageIndex;
-            set {
-                // 注意PageIndex任何时候都应刷新而不是不等时才刷新
-                _pageIndex = value;
-                OnPropertyChanged(nameof(PageIndex));
-                this.Query();
-            }
-        }
-
-        public int PageSize {
-            get => _pageSize;
-            set {
-                if (_pageSize != value) {
-                    _pageSize = value;
-                    OnPropertyChanged(nameof(PageSize));
-                    this.PageIndex = 1;
-                }
-            }
         }
 
         public string Keyword {
@@ -113,13 +77,9 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_keyword != value) {
                     _keyword = value;
                     OnPropertyChanged(nameof(Keyword));
-                    this.PageIndex = 1;
+                    
                 }
             }
-        }
-
-        public PagingViewModel PagingVm {
-            get { return _pagingVm; }
         }
 
         public List<GpuNameViewModel> GpuNames {
@@ -129,6 +89,15 @@ namespace NTMiner.MinerStudio.Vms {
                     _gpuNames = value;
                     OnPropertyChanged(nameof(GpuNames));
                 }
+            }
+        }
+
+        public List<GpuNameViewModel> QueryResults {
+            get {
+                if (string.IsNullOrEmpty(this.Keyword)) {
+                    return this.GpuNames;
+                }
+                return this.GpuNames.Where(a => a.Name.Contains(this.Keyword)).ToList();
             }
         }
     }
