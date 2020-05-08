@@ -9,6 +9,7 @@
 	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
 	mc:Ignorable="d"
 	d:DataContext="{d:DesignData Source=../Design/GpuNameViewModel.xaml}"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
     d:DesignWidth="320"
     Background="White">
@@ -18,6 +19,33 @@
 		</Style>
 	</UserControl.Resources>
 	<StackPanel Margin="10">
+        <WrapPanel Margin="0 2">
+            <TextBlock Style="{StaticResource LblTb}">显卡类型</TextBlock>
+            <controls:KbComboBox 
+				Width="100" ItemsSource="{x:Static app:AppStatic.GpuTypeEnumItems}"
+				DisplayMemberPath="Description"
+				SelectedItem="{Binding GpuTypeEnumItem}">
+            </controls:KbComboBox>
+            <Path
+				Margin="4 0 0 0"
+				Width="18"
+				Height="14"
+				ToolTip="NVIDIA"
+				Visibility="{Binding IsNvidiaIconVisible}"
+				Data="{StaticResource Icon_Nvidia}"
+				Fill="Green"
+				Stretch="Fill" />
+            <Path
+				Margin="4 0 0 0"
+				Width="16"
+				Height="14"
+				ToolTip="AMD"
+				Visibility="{Binding IsAMDIconVisible}"
+				Data="{StaticResource Icon_AMD}"
+				Fill="Red"
+				Stretch="Fill" />
+        </WrapPanel>
+        
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">名称:</TextBlock>
 			<TextBox x:Name="TbName" Width="220" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">

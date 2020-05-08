@@ -14,6 +14,11 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             this.Vm = new GpuNamesViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();
+            this.OnLoaded(onLoad: window => {
+                window.AddEventPath<GpuNameAddedEvent>("添加了显卡特征名后刷新显卡特征名列表", LogEnum.DevConsole, action: message => {
+                    this.Vm.Query();
+                }, typeof(GpuNames));
+            });
         }
 
         private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
