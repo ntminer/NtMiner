@@ -107,7 +107,7 @@ namespace NTMiner {
         private MinerProfile _minerProfile;
         private void DoInit(Action callback) {
             this.ReporterDataProvider = new ReportDataProvider();
-
+            this.GpuNameSet = new GpuNameSet();
             this.CalcConfigSet = new CalcConfigSet(this);
             this.ServerContext = new ServerContext();
             this.GpuProfileSet = new GpuProfileSet(this);
@@ -576,6 +576,8 @@ namespace NTMiner {
                 return LockedMineContext != null;
             }
         }
+
+        public IGpuNameSet GpuNameSet { get; private set; }
 
         public IReportDataProvider ReporterDataProvider { get; private set; }
 
