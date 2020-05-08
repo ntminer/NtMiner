@@ -434,7 +434,7 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="显卡名统计" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowGpuNameCounts}">
+                <MenuItem Header="显卡名统计" Visibility="{Binding IsMinerStudioOuterAdminVisible}" Command="{x:Static app:AppStatic.ShowGpuNames}">
                     <MenuItem.Icon>
                         <Path
 							Width="16"

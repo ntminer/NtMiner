@@ -601,8 +601,8 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowUserPageCommand());
         });
 
-        public static ICommand ShowGpuNameCounts { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowGpuNamePageCommand());
+        public static ICommand ShowGpuNames { get; private set; } = new DelegateCommand(() => {
+            VirtualRoot.Execute(new ShowGpuNamesCommand());
         });
 
         public static ICommand ShowChangePassword { get; private set; } = new DelegateCommand(() => {
