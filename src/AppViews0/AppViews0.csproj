@@ -95,6 +95,9 @@
     <Compile Include="MinerStudio\Views\Ucs\ColumnsShowEdit.xaml.cs">
       <DependentUpon>ColumnsShowEdit.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MinerStudio\Views\Ucs\GpuNamePage.xaml.cs">
+      <DependentUpon>GpuNamePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MinerStudio\Views\Ucs\GpuNames.xaml.cs">
       <DependentUpon>GpuNames.xaml</DependentUpon>
     </Compile>
@@ -449,6 +452,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MinerStudio\Views\Ucs\ColumnsShowEdit.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MinerStudio\Views\Ucs\GpuNamePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

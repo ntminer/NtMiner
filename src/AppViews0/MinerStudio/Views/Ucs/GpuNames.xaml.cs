@@ -1,25 +1,10 @@
 ﻿using NTMiner.MinerStudio.Vms;
-using NTMiner.Views;
-using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class GpuNames : UserControl {
-        public static void ShowWindow() {
-            ContainerWindow.ShowWindow(new ContainerWindowViewModel {
-                Title = "Gpu特征名",
-                IconName = "Icon_Gpu",
-                Width = 600,
-                Height = 700,
-                IsMaskTheParent = false,
-                IsChildWindow = true,
-                CloseVisible = Visibility.Visible,
-                FooterVisible = Visibility.Collapsed
-            }, ucFactory: (window) => new GpuNames());
-        }
-
         public GpuNamesViewModel Vm { get; private set; }
 
         public GpuNames() {

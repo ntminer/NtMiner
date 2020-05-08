@@ -12,7 +12,7 @@
     Background="White"
 	mc:Ignorable="d" 
     d:DesignHeight="700" 
-    d:DesignWidth="600"
+    d:DesignWidth="400"
     d:DataContext="{d:DesignData Source=../Design/GpuNamesViewModel.xaml}">
     <Grid Background="{StaticResource ToolbarBackground}">
         <Grid.RowDefinitions>
@@ -109,13 +109,6 @@
                             <TextBlock Text="{Binding TotalMemoryGbText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="数量">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Count}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
 		</DataGrid>
