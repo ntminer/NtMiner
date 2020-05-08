@@ -28,7 +28,23 @@ namespace NTMiner.MinerStudio.Vms {
 
             });
             this.Remove = new DelegateCommand<GpuName>((gpuNameVm) => {
-
+                if (gpuNameVm == null) {
+                    return;
+                }
+                this.ShowSoftDialog(new DialogWindowViewModel(message: $"您确定删除 {gpuNameVm.Name} 吗？", title: "确认", onYes: () => {
+                    RpcRoot.OfficialServer.GpuNameService.RemoveGpuNameAsync(new GpuName {
+                        Name = gpuNameVm.Name,
+                        GpuType = gpuNameVm.GpuType,
+                        TotalMemory = gpuNameVm.TotalMemory
+                    }, (response, e) => {
+                        if (response.IsSuccess()) {
+                            Query();
+                        }
+                        else {
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), header: "删除失败", autoHideSeconds: 4);
+                        }
+                    });
+                }));
             });
             this.Search = new DelegateCommand(() => {
                 this.PageIndex = 1;
