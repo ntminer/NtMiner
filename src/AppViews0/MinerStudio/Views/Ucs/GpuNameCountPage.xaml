@@ -14,8 +14,49 @@
     d:DesignHeight="700" 
     d:DesignWidth="600"
     d:DataContext="{d:DesignData Source=../Design/GpuNameCountPageViewModel.xaml}">
-    <Grid Margin="0 0 0 10" Background="{StaticResource ToolbarBackground}">
+    <Grid Background="{StaticResource ToolbarBackground}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <WrapPanel>
+            <Path 
+                Margin="4 0 0 0"
+				Width="12"
+				Height="12"
+				Fill="{StaticResource BtnBackground}"
+				Stretch="Fill"
+				Data="{StaticResource Icon_Search}"></Path>
+            <TextBlock Padding="2 6">搜索</TextBlock>
+            <controls:KbTextBox 
+				x:Name="TbKeyword" Width="154" Height="24"
+				Text="{Binding Keyword, UpdateSourceTrigger=LostFocus}" 
+				LostFocus="TbKeyword_LostFocus"
+				VerticalContentAlignment="Center"
+				Hint="输入显卡名关键字然后回车"
+                ToolTip="输入显卡名关键字然后回车"
+				BorderBrush="{StaticResource LightLineColor}"
+				BorderThickness="1"
+				Background="White"
+                KeyUp="TbKeyword_KeyUp"
+				SelectedColor="#409EFF" />
+            <controls:KbButton 
+				Height="20"
+				Background="Transparent" BorderThickness="0"
+				Command="{Binding ClearKeyword}"
+				Visibility="{Binding ElementName=TbKeyword,Path=Text, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
+				Margin="-14 0 0 0" HorizontalAlignment="Left">
+                <Path
+					Width="8"
+					Height="8"
+					Data="{StaticResource Icon_Close}"
+					Fill="{StaticResource BtnBackground}"
+					Stretch="Fill" />
+            </controls:KbButton>
+        </WrapPanel>
 		<DataGrid 
+            Grid.Row="1"
             Margin="0" 
             ItemsSource="{Binding GpuNameCounts}" 
 			BorderThickness="0">
@@ -78,6 +119,109 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
 		</DataGrid>
-        <TextBlock Visibility="{Binding GpuNameCounts,Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
-	</Grid>
+        <TextBlock Grid.Row="1" Visibility="{Binding GpuNameCounts,Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
+        <WrapPanel Grid.Row="2" Visibility="{Binding PagingVm.IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+            <Button x:Name="ButtonLeft" IsEnabled="{Binding PagingVm.CanPageSub}" Command="{Binding PageSub}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border 
+							x:Name="Content"
+							BorderThickness="1"
+							Background="Transparent">
+                            <Path
+								x:Name="Icon"
+								Width="22"
+								Height="22"
+								Data="{StaticResource Icon_Page-}"
+								Fill="#676767"
+								Stretch="Fill">
+                            </Path>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnBackground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <ListBox 
+				Margin="4"
+				Background="Transparent"
+				ItemsSource="{Binding PagingVm.PageNumbers}"
+				SelectedItem="{Binding PageIndex}"
+				BorderThickness="0">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border 
+										BorderThickness="1"
+										BorderBrush="{StaticResource LightLineColor}"
+										Margin="4 0"
+										Background="{TemplateBinding Background}" 
+										Width="24" 
+										Height="24" 
+										CornerRadius="12">
+                                        <TextBlock 
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											Foreground="{TemplateBinding Foreground}"
+											Text="{Binding}"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="true">
+                                            <Setter Property="Background" Value="{StaticResource BtnBackground}"/>
+                                            <Setter Property="Foreground" Value="{StaticResource BtnForeground}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="true">
+                                            <Setter Property="Background" Value="{StaticResource BtnBackground}"/>
+                                            <Setter Property="Foreground" Value="{StaticResource BtnForeground}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel>
+                        </WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+            <Button x:Name="ButtonRight" Margin="2 0 0 0" IsEnabled="{Binding PagingVm.CanPageAdd}" Command="{Binding PageAdd}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Border 
+							x:Name="Content"
+							BorderThickness="1"
+							Background="Transparent">
+                            <Path
+								x:Name="Icon"
+								Width="22"
+								Height="22"
+								Data="{StaticResource Icon_Page+}"
+								Fill="#676767"
+								Stretch="Fill">
+                            </Path>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"></Setter>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Icon" Property="Fill" Value="{StaticResource BtnBackground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </WrapPanel>
+    </Grid>
 </UserControl>

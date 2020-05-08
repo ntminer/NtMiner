@@ -2,6 +2,7 @@
 using NTMiner.Vms;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
     public class GpuNameCountPageViewModel : ViewModelBase {
@@ -11,8 +12,27 @@ namespace NTMiner.MinerStudio.Vms {
         private string _keyword;
         private PagingViewModel _pagingVm;
 
+        public ICommand ClearKeyword { get; private set; }
+
+        public ICommand PageSub { get; private set; }
+        public ICommand PageAdd { get; private set; }
+
+        public ICommand Search { get; private set; }
+
         public GpuNameCountPageViewModel() {
             this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
+            this.Search = new DelegateCommand(() => {
+                this.PageIndex = 1;
+            });
+            this.ClearKeyword = new DelegateCommand(() => {
+                Keyword = string.Empty;
+            });
+            this.PageSub = new DelegateCommand(() => {
+                this.PageIndex -= 1;
+            });
+            this.PageAdd = new DelegateCommand(() => {
+                this.PageIndex += 1;
+            });
             this.Query();
         }
 

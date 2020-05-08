@@ -3,6 +3,7 @@ using NTMiner.Views;
 using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class GpuNameCountPage : UserControl {
@@ -28,6 +29,16 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             this.Vm = new GpuNameCountPageViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();
+        }
+
+        private void TbKeyword_LostFocus(object sender, RoutedEventArgs e) {
+            Vm.Search.Execute(null);
+        }
+
+        private void TbKeyword_KeyUp(object sender, KeyEventArgs e) {
+            if (e.Key == Key.Enter) {
+                Vm.Keyword = this.TbKeyword.Text;
+            }
         }
     }
 }
