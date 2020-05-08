@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
-    public class GpuNameCountPageViewModel : ViewModelBase {
+    public class GpuNameCountsViewModel : ViewModelBase {
         private List<GpuNameCountViewModel> _gpuNameCounts;
         private int _pageIndex;
         private int _pageSize = 100;
@@ -19,7 +19,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public ICommand Search { get; private set; }
 
-        public GpuNameCountPageViewModel() {
+        public GpuNameCountsViewModel() {
             this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
             this.Search = new DelegateCommand(() => {
                 this.PageIndex = 1;

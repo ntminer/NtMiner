@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Views.Ucs {
-    public partial class GpuNameCountPage : UserControl {
+    public partial class GpuNameCounts : UserControl {
         public static void ShowWindow() {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "Gpu名称统计",
@@ -17,16 +17,16 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IsChildWindow = true,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
-            }, ucFactory: (window) => new GpuNameCountPage(), fixedSize: true);
+            }, ucFactory: (window) => new GpuNameCounts(), fixedSize: true);
         }
 
-        public GpuNameCountPageViewModel Vm { get; private set; }
+        public GpuNameCountsViewModel Vm { get; private set; }
 
-        public GpuNameCountPage() {
+        public GpuNameCounts() {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            this.Vm = new GpuNameCountPageViewModel();
+            this.Vm = new GpuNameCountsViewModel();
             this.DataContext = this.Vm;
             InitializeComponent();
         }

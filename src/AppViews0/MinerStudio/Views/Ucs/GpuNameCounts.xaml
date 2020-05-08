@@ -1,5 +1,5 @@
 ﻿<UserControl 
-    x:Class="NTMiner.MinerStudio.Views.Ucs.GpuNameCountPage"
+    x:Class="NTMiner.MinerStudio.Views.Ucs.GpuNameCounts"
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -13,7 +13,7 @@
 	mc:Ignorable="d" 
     d:DesignHeight="700" 
     d:DesignWidth="600"
-    d:DataContext="{d:DesignData Source=../Design/GpuNameCountPageViewModel.xaml}">
+    d:DataContext="{d:DesignData Source=../Design/GpuNameCountsViewModel.xaml}">
     <Grid Background="{StaticResource ToolbarBackground}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
