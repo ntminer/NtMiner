@@ -601,7 +601,7 @@
                         </Button.Template>
                     </Button>
                 </WrapPanel>
-                <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding PagingVm.IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+                <WrapPanel Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center">
                     <Button x:Name="ButtonLeft" IsEnabled="{Binding PagingVm.CanPageSub}" Command="{Binding PageSub}">
                         <Button.Template>
                             <ControlTemplate>

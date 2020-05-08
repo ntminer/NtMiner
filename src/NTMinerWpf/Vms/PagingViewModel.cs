@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
     public class PagingViewModel : ViewModelBase {
-        private ObservableCollection<int> _pageNumbers = new ObservableCollection<int>();
+        private ObservableCollection<int> _pageNumbers = new ObservableCollection<int> {
+            1
+        };
+        private int _total;
         private readonly Func<int> _getPageIndex;
         private readonly Func<int> _getPageSize;
         public PagingViewModel(Func<int> getPageIndex, Func<int> getPageSize) {
@@ -13,6 +15,7 @@ namespace NTMiner.Vms {
         }
 
         public void Init(int total) {
+            this.Total = total;
             int pages = (int)Math.Ceiling((double)total / _getPageSize());
             int count = PageNumbers.Count;
             if (pages < count) {
@@ -27,7 +30,16 @@ namespace NTMiner.Vms {
             }
             OnPropertyChanged(nameof(CanPageSub));
             OnPropertyChanged(nameof(CanPageAdd));
-            OnPropertyChanged(nameof(IsPageNumbersEmpty));
+        }
+
+        public int Total {
+            get => _total;
+            set {
+                if (_total != value) {
+                    _total = value;
+                    OnPropertyChanged(nameof(Total));
+                }
+            }
         }
 
         public bool CanPageSub {
@@ -47,12 +59,6 @@ namespace NTMiner.Vms {
             set {
                 _pageNumbers = value;
                 OnPropertyChanged(nameof(PageNumbers));
-            }
-        }
-
-        public bool IsPageNumbersEmpty {
-            get {
-                return PageNumbers.Count == 0;
             }
         }
     }

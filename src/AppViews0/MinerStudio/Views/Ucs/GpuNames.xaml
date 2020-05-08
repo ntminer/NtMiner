@@ -145,7 +145,7 @@
             </DataGrid.Columns>
 		</DataGrid>
         <TextBlock Grid.Row="1" Visibility="{Binding GpuNames,Converter={StaticResource NoRecordVisibilityConverter}}" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">没有记录</TextBlock>
-        <WrapPanel Grid.Row="2" Visibility="{Binding PagingVm.IsPageNumbersEmpty,Converter={StaticResource BoolToVisibilityInvertConverter}}">
+        <WrapPanel Grid.Row="2">
             <Button x:Name="ButtonLeft" IsEnabled="{Binding PagingVm.CanPageSub}" Command="{Binding PageSub}">
                 <Button.Template>
                     <ControlTemplate>
@@ -247,6 +247,9 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
+            <TextBlock Margin="10 0 0 0" VerticalAlignment="Center" Text="共"></TextBlock>
+            <TextBlock Padding="4 0" VerticalAlignment="Center" Text="{Binding PagingVm.Total}"></TextBlock>
+            <TextBlock VerticalAlignment="Center" Text="条"></TextBlock>
         </WrapPanel>
     </Grid>
 </UserControl>
