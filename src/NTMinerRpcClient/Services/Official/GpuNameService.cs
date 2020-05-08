@@ -1,6 +1,7 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Core.Gpus;
 using System;
+using System.Collections.Generic;
 
 namespace NTMiner.Services.Official {
     public class GpuNameService {
@@ -8,8 +9,8 @@ namespace NTMiner.Services.Official {
 
         public GpuNameService() { }
 
-        public void QueryGpuNamesAsync(Action<QueryGpuNamesResponse, Exception> callback) {
-            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IGpuNameController.QueryGpuNames), new object(), callback, timeountMilliseconds: 5 * 1000);
+        public void GetGpuNamesAsync(Action<DataResponse<List<GpuName>>, Exception> callback) {
+            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IGpuNameController.GpuNames), new object(), callback, timeountMilliseconds: 5 * 1000);
         }
 
         public void QueryGpuNameCountsAsync(QueryGpuNameCountsRequest request, Action<QueryGpuNameCountsResponse, Exception> callback) {

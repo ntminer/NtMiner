@@ -1,18 +1,16 @@
 ﻿using NTMiner.Core.Gpus;
+using System.Collections.Generic;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class GpuNameController : ApiControllerBase, IGpuNameController {
         [HttpGet]
         [HttpPost]
-        public QueryGpuNamesResponse QueryGpuNames([FromBody]QueryGpuNamesRequest request) {
+        public DataResponse<List<GpuName>> GpuNames([FromBody]object request) {
             if (request == null) {
-                return ResponseBase.InvalidInput<QueryGpuNamesResponse>("参数错误");
+                return ResponseBase.InvalidInput<DataResponse<List<GpuName>>>("参数错误");
             }
-            request.PagingTrim();
-            var data = WebApiRoot.GpuNameSet.QueryGpuNames(request, out int total);
-
-            return QueryGpuNamesResponse.Ok(data, total);
+            return DataResponse<List<GpuName>>.Ok(WebApiRoot.GpuNameSet.GetAllGpuNames());
         }
 
         [Role.Admin]

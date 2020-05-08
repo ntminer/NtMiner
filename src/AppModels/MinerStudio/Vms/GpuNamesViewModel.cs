@@ -59,7 +59,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public void Query() {
-            RpcRoot.OfficialServer.GpuNameService.QueryGpuNamesAsync((response, e) => {
+            RpcRoot.OfficialServer.GpuNameService.GetGpuNamesAsync((response, e) => {
                 if (response.IsSuccess()) {
                     this.GpuNames = response.Data.OrderBy(a => a.GpuType.GetDescription() + a.Name).Select(a => new GpuNameViewModel(a)).ToList();
                 }

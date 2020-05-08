@@ -84,21 +84,8 @@ namespace NTMiner.Core.Impl {
             }).ToList();
         }
 
-        public List<GpuName> QueryGpuNames(QueryGpuNamesRequest query, out int total) {
-            List<GpuName> list = new List<GpuName>();
-            bool isFilterByKeyword = !string.IsNullOrEmpty(query.Keyword);
-            if (isFilterByKeyword) {
-                foreach (var item in _gpuNameSet.OrderBy(a => a.Name)) {
-                    if (item.Name.Contains(query.Keyword)) {
-                        list.Add(item);
-                    }
-                }
-            }
-            else {
-                list.AddRange(_gpuNameSet);
-            }
-            total = list.Count;
-            return list.Take(query).ToList();
+        public List<GpuName> GetAllGpuNames() {
+            return _gpuNameSet.ToList();
         }
     }
 }

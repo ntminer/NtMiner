@@ -1,8 +1,9 @@
 ﻿using NTMiner.Core.Gpus;
+using System.Collections.Generic;
 
 namespace NTMiner.Controllers {
     public interface IGpuNameController {
-        QueryGpuNamesResponse QueryGpuNames(QueryGpuNamesRequest request);
+        DataResponse<List<GpuName>> GpuNames(object requestss);
         /// <summary>
         /// 需签名
         /// </summary>

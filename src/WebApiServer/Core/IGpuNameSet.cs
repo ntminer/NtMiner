@@ -11,6 +11,6 @@ namespace NTMiner.Core {
         void Set(GpuName gpuName);
         void Remove(GpuName gpuName);
         List<GpuNameCount> QueryGpuNameCounts(QueryGpuNameCountsRequest query, out int total);
-        List<GpuName> QueryGpuNames(QueryGpuNamesRequest query, out int total);
+        List<GpuName> GetAllGpuNames();
     }
 }
