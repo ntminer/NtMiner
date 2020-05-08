@@ -95,22 +95,22 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="显存">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <WrapPanel>
+                                <TextBlock Text="{Binding TotalMemoryGb}"></TextBlock>
+                                <TextBlock Text=" G"></TextBlock>
+                            </WrapPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="*" IsReadOnly="True" Header="名称">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <TextBox IsReadOnly="True" BorderThickness="0" Text="{Binding Name,Mode=OneTime}"></TextBox>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-				<DataGridTemplateColumn Width="100" IsReadOnly="True" Header="显存">
-					<DataGridTemplateColumn.CellTemplate>
-						<DataTemplate>
-                            <WrapPanel>
-                                <TextBlock Text="{Binding TotalMemoryGb}"></TextBlock>
-                                <TextBlock Text=" G"></TextBlock>
-                            </WrapPanel>
-						</DataTemplate>
-					</DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="数量">
                     <DataGridTemplateColumn.CellTemplate>
