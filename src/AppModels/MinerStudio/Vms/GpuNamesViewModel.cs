@@ -31,7 +31,7 @@ namespace NTMiner.MinerStudio.Vms {
                     TotalMemory = 0
                 })));
             });
-            this.Remove = new DelegateCommand<GpuName>((gpuNameVm) => {
+            this.Remove = new DelegateCommand<GpuNameViewModel>((gpuNameVm) => {
                 if (gpuNameVm == null) {
                     return;
                 }
