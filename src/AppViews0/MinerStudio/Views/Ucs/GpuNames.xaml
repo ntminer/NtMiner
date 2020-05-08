@@ -247,9 +247,13 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <TextBlock Margin="10 0 0 0" VerticalAlignment="Center" Text="共"></TextBlock>
+            <TextBlock Margin="10 0 0 0" Foreground="{StaticResource LableColor}" VerticalAlignment="Center" Text="每页"></TextBlock>
+            <TextBlock Padding="4 0" VerticalAlignment="Center" Text="{Binding PageSize}"></TextBlock>
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}" Text="条，"></TextBlock>
+
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}" Text="共"></TextBlock>
             <TextBlock Padding="4 0" VerticalAlignment="Center" Text="{Binding PagingVm.Total}"></TextBlock>
-            <TextBlock VerticalAlignment="Center" Text="条"></TextBlock>
+            <TextBlock VerticalAlignment="Center" Foreground="{StaticResource LableColor}" Text="条"></TextBlock>
         </WrapPanel>
     </Grid>
 </UserControl>
