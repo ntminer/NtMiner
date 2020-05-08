@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace NTMiner.Vms {
     public class PagingViewModel : ViewModelBase {
-        private ObservableCollection<int> _pageNumbers;
+        private ObservableCollection<int> _pageNumbers = new ObservableCollection<int>();
         private readonly Func<int> _getPageIndex;
         private readonly Func<int> _getPageSize;
         public PagingViewModel(Func<int> getPageIndex, Func<int> getPageSize) {
@@ -14,24 +14,15 @@ namespace NTMiner.Vms {
 
         public void Init(int total) {
             int pages = (int)Math.Ceiling((double)total / _getPageSize());
-            if (PageNumbers == null) {
-                List<int> pageNumbers = new List<int>();
-                for (int i = 1; i <= pages; i++) {
-                    pageNumbers.Add(i);
+            int count = PageNumbers.Count;
+            if (pages < count) {
+                for (int n = pages + 1; n <= count; n++) {
+                    PageNumbers.Remove(n);
                 }
-                PageNumbers = new ObservableCollection<int>(pageNumbers);
             }
             else {
-                int count = PageNumbers.Count;
-                if (pages < count) {
-                    for (int n = pages + 1; n <= count; n++) {
-                        PageNumbers.Remove(n);
-                    }
-                }
-                else {
-                    for (int n = count + 1; n <= pages; n++) {
-                        PageNumbers.Add(n);
-                    }
+                for (int n = count + 1; n <= pages; n++) {
+                    PageNumbers.Add(n);
                 }
             }
             OnPropertyChanged(nameof(CanPageSub));
