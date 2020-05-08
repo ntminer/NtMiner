@@ -17,7 +17,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IsChildWindow = true,
                 CloseVisible = Visibility.Visible,
                 FooterVisible = Visibility.Collapsed
-            }, ucFactory: (window) => new GpuNames(), fixedSize: true);
+            }, ucFactory: (window) => new GpuNames());
         }
 
         public GpuNamesViewModel Vm { get; private set; }
