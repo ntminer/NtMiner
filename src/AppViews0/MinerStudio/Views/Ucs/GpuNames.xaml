@@ -109,14 +109,14 @@
 							        Width="20"
 							        Height="16"
 							        Data="{StaticResource Icon_AMD}"
-                                    Visibility="{Binding IsAmdVisible}"
+                                    Visibility="{Binding IsAmdIconVisible}"
 							        Fill="Red"
 							        Stretch="Fill">
                                 </Path>
                                 <Path
 							        Width="20"
 							        Height="16"
-                                    Visibility="{Binding IsNvidiaVisible}"
+                                    Visibility="{Binding IsNvidiaIconVisible}"
 							        Data="{StaticResource Icon_Nvidia}"
 							        Fill="Green"
 							        Stretch="Fill">
