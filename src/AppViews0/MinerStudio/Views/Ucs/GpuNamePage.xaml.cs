@@ -1,4 +1,5 @@
-﻿using NTMiner.Views;
+﻿using NTMiner.MinerStudio.Vms;
+using NTMiner.Views;
 using NTMiner.Vms;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,7 +10,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             ContainerWindow.ShowWindow(new ContainerWindowViewModel {
                 Title = "Gpu名",
                 IconName = "Icon_Gpu",
-                Width = 1000,
+                Width = 1400,
                 Height = 700,
                 IsMaskTheParent = false,
                 IsChildWindow = true,
@@ -18,10 +19,14 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             }, ucFactory: (window) => new GpuNamePage());
         }
 
+        public GpuNamePageViewModel Vm { get; private set; }
+
         public GpuNamePage() {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
+            this.Vm = new GpuNamePageViewModel();
+            this.DataContext = this.Vm;
             InitializeComponent();
         }
     }

@@ -13,20 +13,20 @@
     Background="White"
 	mc:Ignorable="d" 
     d:DesignHeight="700" 
-    d:DesignWidth="1000">
+    d:DesignWidth="1400"
+    d:DataContext="{d:DesignData Source=../Design/GpuNamePageViewModel.xaml}">
     <Grid Background="{StaticResource ToolbarBackground}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4*"></ColumnDefinition>
-            <ColumnDefinition Width="10"></ColumnDefinition>
-            <ColumnDefinition Width="6*"></ColumnDefinition>
+            <ColumnDefinition Width="3*"></ColumnDefinition>
+            <ColumnDefinition Width="7*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <TextBlock Padding="4" Text="显卡特征名"></TextBlock>
-        <TextBlock Padding="4" Grid.Column="2" Text="显卡名统计"></TextBlock>
-        <uc:GpuNames Grid.Row="1"></uc:GpuNames>
-        <uc:GpuNameCounts Grid.Row="1" Grid.Column="2"></uc:GpuNameCounts>
+        <TextBlock Padding="4" Grid.Column="1" Text="显卡名统计"></TextBlock>
+        <uc:GpuNames Grid.Row="1" DataContext="{Binding GpuNamesVm}"></uc:GpuNames>
+        <uc:GpuNameCounts Grid.Row="1" Grid.Column="1" DataContext="{Binding GpuNameCountsVm}"></uc:GpuNameCounts>
     </Grid>
 </UserControl>
