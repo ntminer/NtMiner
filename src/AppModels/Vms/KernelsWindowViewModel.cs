@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
         private List<KernelMenu> _kernelMenus = new List<KernelMenu>();
         private KernelMenu _currentKernelMenu;
         private CoinViewModel _selectedCoinVm = CoinViewModel.PleaseSelect;
-        private int _pageIndex;
+        private int _pageIndex = 1;
         private int _pageSize = 15;
         private PagingViewModel _pagingVm;
 

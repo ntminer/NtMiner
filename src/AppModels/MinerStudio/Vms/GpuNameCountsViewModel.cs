@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner.MinerStudio.Vms {
     public class GpuNameCountsViewModel : ViewModelBase {
         private List<GpuNameCountViewModel> _gpuNameCounts;
-        private int _pageIndex;
+        private int _pageIndex = 1;
         private int _pageSize = 100;
         private string _keyword;
         private PagingViewModel _pagingVm;
@@ -44,11 +44,12 @@ namespace NTMiner.MinerStudio.Vms {
             }, (response, e) => {
                 if (response.IsSuccess()) {
                     this.GpuNameCounts = response.Data.OrderBy(a => a.GpuType.GetDescription() + a.Name).Select(a => new GpuNameCountViewModel(a)).ToList();
+                    _pagingVm.Init(response.Total);
                 }
                 else {
                     this.GpuNameCounts = new List<GpuNameCountViewModel>();
+                    _pagingVm.Init(0);
                 }
-                _pagingVm.Init(response.Total);
             });
         }
 

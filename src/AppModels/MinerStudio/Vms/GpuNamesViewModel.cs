@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner.MinerStudio.Vms {
     public class GpuNamesViewModel : ViewModelBase {
         private List<GpuNameViewModel> _gpuNames;
-        private int _pageIndex;
+        private int _pageIndex = 1;
         private int _pageSize = 100;
         private string _keyword;
         private PagingViewModel _pagingVm;
@@ -69,11 +69,12 @@ namespace NTMiner.MinerStudio.Vms {
             }, (response, e) => {
                 if (response.IsSuccess()) {
                     this.GpuNames = response.Data.OrderBy(a => a.GpuType.GetDescription() + a.Name).Select(a => new GpuNameViewModel(a)).ToList();
+                    _pagingVm.Init(response.Total);
                 }
                 else {
                     this.GpuNames = new List<GpuNameViewModel>();
+                    _pagingVm.Init(0);
                 }
-                _pagingVm.Init(response.Total);
             });
         }
 
