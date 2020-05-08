@@ -64,6 +64,43 @@
 				<controls:BindingProxy x:Key="proxy" Data="{Binding}" />
 			</DataGrid.Resources>
             <DataGrid.Columns>
+                <DataGridTemplateColumn Width="32" IsReadOnly="True">
+                    <DataGridTemplateColumn.Header>
+                        <controls:KbButton 
+							Command="{Binding Data.Add, Source={StaticResource proxy}}" 
+                            Background="Transparent" BorderThickness="0"
+							Margin="2 0"
+							CornerRadius="2">
+                            <WrapPanel>
+                                <Path
+									Width="18"
+									Height="18"
+									Data="{StaticResource Icon_Add}"
+									Fill="{StaticResource BtnBackground}"
+									Stretch="Fill" />
+                            </WrapPanel>
+                        </controls:KbButton>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <controls:KbButton 
+								Command="{Binding Data.Remove, Source={StaticResource proxy}}" 
+                                CommandParameter="{Binding}"
+                                Background="Transparent" BorderThickness="0"
+								Margin="2 0"
+								CornerRadius="2">
+                                <WrapPanel>
+                                    <Path
+										Width="18"
+										Height="18"
+										Data="{StaticResource Icon_Delete}"
+										Fill="{StaticResource BtnBackground}"
+										Stretch="Fill" />
+                                </WrapPanel>
+                            </controls:KbButton>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="50" IsReadOnly="True" Header="卡型">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

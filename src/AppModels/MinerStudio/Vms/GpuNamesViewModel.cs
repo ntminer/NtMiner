@@ -12,6 +12,9 @@ namespace NTMiner.MinerStudio.Vms {
         private string _keyword;
         private PagingViewModel _pagingVm;
 
+        public ICommand Add { get; private set; }
+        public ICommand Remove { get; private set; }
+
         public ICommand ClearKeyword { get; private set; }
 
         public ICommand PageSub { get; private set; }
@@ -21,6 +24,12 @@ namespace NTMiner.MinerStudio.Vms {
 
         public GpuNamesViewModel() {
             this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
+            this.Add = new DelegateCommand<GpuName>((gpuNameVm) => {
+
+            });
+            this.Remove = new DelegateCommand<GpuName>((gpuNameVm) => {
+
+            });
             this.Search = new DelegateCommand(() => {
                 this.PageIndex = 1;
             });
