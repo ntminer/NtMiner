@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
-using NTMiner.Core.MinerClient;
 using NTMiner.Hub;
 using System;
 using System.Collections.Generic;
@@ -44,6 +43,7 @@ namespace NTMiner.Mine {
             this.KernelSelfRestartCount = 0;
             this.CommandLine = commandLine ?? string.Empty;
             this.MineStartedOn = DateTime.MinValue;
+            this.ProcessCreatedOn = DateTime.MinValue;
             this.Parameters = parameters;
             this.UseDevices = useDevices;
             this.KernelInput = kernelInput;
@@ -116,6 +116,8 @@ namespace NTMiner.Mine {
         public string CommandLine { get; private set; }
 
         public DateTime MineStartedOn { get; private set; }
+
+        public DateTime ProcessCreatedOn { get; private set; }
 
         public Dictionary<string, string> Parameters { get; private set; }
 
@@ -240,6 +242,7 @@ namespace NTMiner.Mine {
                 default:
                     throw new InvalidProgramException();
             }
+            this.ProcessCreatedOn = DateTime.Now;
             KernelProcessDaemon();
             VirtualRoot.RaiseEvent(new MineStartedEvent(this));
         }
