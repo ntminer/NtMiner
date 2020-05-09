@@ -267,6 +267,9 @@ namespace NTMiner {
                                 }
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{coinCode}总算力持续{coinProfile.LowSpeedRestartComputerMinutes}分钟低于{coinProfile.LowSpeed}重启电脑", toConsole: true);
                                 VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
+                                if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
+                                    VirtualRoot.Execute(new SetAutoStartCommand(true, true));
+                                }
                                 return;
                             }
                         }
@@ -280,6 +283,9 @@ namespace NTMiner {
                                 string content = $"每运行{MinerProfile.PeriodicRestartKernelHours.ToString()}小时{MinerProfile.PeriodicRestartComputerMinutes.ToString()}分钟重启电脑";
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), content, toConsole: true);
                                 VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
+                                if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
+                                    VirtualRoot.Execute(new SetAutoStartCommand(true, true));
+                                }
                                 return;// 退出
                             }
                         }
