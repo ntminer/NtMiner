@@ -71,19 +71,7 @@ namespace NTMiner {
                             string processName = Path.GetFileName(location);
                             Process[] processes = Process.GetProcessesByName(processName);
                             if (processes.Length == 0) {
-                                string arguments = NTMinerRegistry.GetArguments(NTMinerAppType.MinerClient);
-                                switch (NTMinerRegistry.GetWorkType()) {
-                                    case WorkType.None:
-                                        break;
-                                    case WorkType.SelfWork:
-                                        arguments = "--selfWork " + arguments;
-                                        break;
-                                    case WorkType.MineWork:
-                                        arguments = "--work " + arguments;
-                                        break;
-                                    default:
-                                        break;
-                                }
+                                string arguments = NTMinerRegistry.GetMinerClientArguments(NTMinerAppType.MinerClient);
                                 try {
                                     Process.Start(location, arguments);
                                     Write.DevOk(() => $"启动挖矿端 {location} {arguments}");

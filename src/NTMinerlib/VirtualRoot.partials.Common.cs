@@ -89,7 +89,6 @@ namespace NTMiner {
             timer.Start();
         }
 
-
         // 登录名中的保留字
         private static readonly HashSet<string> _reservedLoginNameWords = new HashSet<string> {
             "ntminer",

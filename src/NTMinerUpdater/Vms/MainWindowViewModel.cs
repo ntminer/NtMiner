@@ -113,7 +113,7 @@ namespace NTMiner.Vms {
                                     catch (Exception e) {
                                         Logger.ErrorDebugLine(e);
                                     }
-                                    string arguments = NTMinerRegistry.GetArguments(App.AppType);
+                                    string arguments = NTMinerRegistry.GetMinerClientArguments(App.AppType);
                                     Process.Start(location, arguments);
                                     this.IsDownloading = false;
                                     2.SecondsDelay().ContinueWith(_ => {

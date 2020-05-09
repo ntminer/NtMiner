@@ -36,5 +36,24 @@ namespace NTMiner {
             Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.WorkTypeRegistryKey, workType.ToString());
         }
         #endregion
+
+        public static string GetMinerClientArguments(NTMinerAppType appType) {
+            string arguments = NTMinerRegistry.GetArguments(appType);
+            if (appType == NTMinerAppType.MinerClient) {
+                switch (NTMinerRegistry.GetWorkType()) {
+                    case WorkType.None:
+                        break;
+                    case WorkType.SelfWork:
+                        arguments = "--selfWork " + arguments;
+                        break;
+                    case WorkType.MineWork:
+                        arguments = "--work " + arguments;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return arguments;
+        }
     }
 }
