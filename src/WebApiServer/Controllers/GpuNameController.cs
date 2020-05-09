@@ -4,6 +4,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class GpuNameController : ApiControllerBase, IGpuNameController {
+        [Role.User]
         [HttpGet]
         [HttpPost]
         public DataResponse<List<GpuName>> GpuNames([FromBody]object request) {

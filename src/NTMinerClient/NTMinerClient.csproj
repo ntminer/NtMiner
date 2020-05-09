@@ -112,9 +112,7 @@
     <Compile Include="Core\Gpus\IOverClock.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
     <Compile Include="Core\ICoinGroupSet.cs" />
-    <Compile Include="Core\IGpuNameSet.cs" />
     <Compile Include="Core\ILocalMessageDtoSet.cs" />
-    <Compile Include="Core\Impl\GpuNameSet.cs" />
     <Compile Include="Core\Impl\LocalMessageDtoSet.cs" />
     <Compile Include="Core\Impl\LocalMessageExtensions.cs" />
     <Compile Include="Core\Impl\MinerSignExtensions.cs" />

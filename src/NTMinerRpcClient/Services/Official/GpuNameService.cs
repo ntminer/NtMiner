@@ -10,7 +10,7 @@ namespace NTMiner.Services.Official {
         public GpuNameService() { }
 
         public void GetGpuNamesAsync(Action<DataResponse<List<GpuName>>, Exception> callback) {
-            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IGpuNameController.GpuNames), new object(), callback, timeountMilliseconds: 5 * 1000);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IGpuNameController.GpuNames), new object(), callback, timeountMilliseconds: 5 * 1000);
         }
 
         public void QueryGpuNameCountsAsync(QueryGpuNameCountsRequest request, Action<QueryGpuNameCountsResponse, Exception> callback) {
