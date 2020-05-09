@@ -273,6 +273,9 @@ namespace NTMiner {
                                 return;
                             }
                         }
+                        else {
+                            hightSpeedOn = message.BornOn;
+                        }
                     }
                     #endregion
 
