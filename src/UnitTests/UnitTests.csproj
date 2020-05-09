@@ -102,6 +102,7 @@
     <Compile Include="ReflectionTests.cs" />
     <Compile Include="RoleTests.cs" />
     <Compile Include="SecureStringTests.cs" />
+    <Compile Include="SpeedTests.cs" />
     <Compile Include="StackTraceTests.cs" />
     <Compile Include="TestUtil.cs" />
     <Compile Include="UnitTest1.cs" />

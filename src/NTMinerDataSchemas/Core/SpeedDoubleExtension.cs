@@ -61,21 +61,24 @@ namespace NTMiner.Core {
         }
 
         public static double ToNearSpeed(this double speed, double nearIt) {
+            if (nearIt == 0) {
+                return speed;
+            }
             if (speed == 0) {
                 return 0;
             }
-            if (speed > nearIt) {
-                while (speed > 10 * nearIt) {
-                    speed /= 10;
-                }
-                return speed;
+            int count = 0;
+            while (nearIt >= 1000) {
+                nearIt /= 1000;
+                count++;
             }
-            else {
-                while (speed * 10 < nearIt) {
-                    speed *= 10;
-                }
-                return speed;
+            while (speed >= 1000) {
+                speed /= 1000;
             }
+            if (count > 0) {
+                speed = speed * count *1000;
+            }
+            return speed;
         }
 
         /// <summary>
