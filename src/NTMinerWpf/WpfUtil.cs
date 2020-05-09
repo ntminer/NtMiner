@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -90,6 +91,42 @@ namespace NTMiner {
             };
             Process.Start(startInfo);
             Application.Current.Shutdown();
+        }
+
+        public static void Up<T>(T vm, string propertyName) where T : ViewModelBase {
+            Type type = typeof(T);
+            var propertyInfo = type.GetProperty(propertyName);
+            if (propertyInfo == null) {
+                Write.DevError(() => $"类型{type.FullName}不具有名称为{propertyName}的属性");
+                return;
+            }
+            if (propertyInfo.PropertyType == typeof(int)) {
+                propertyInfo.SetValue(vm, (int)propertyInfo.GetValue(vm, null) + 1, null);
+            }
+            else if (propertyInfo.PropertyType == typeof(double)) {
+                propertyInfo.SetValue(vm, Math.Round((double)propertyInfo.GetValue(vm, null) + 0.1, 2), null);
+            }
+        }
+
+        public static void Down<T>(T vm, string propertyName) where T : ViewModelBase {
+            Type type = typeof(T);
+            var propertyInfo = type.GetProperty(propertyName);
+            if (propertyInfo == null) {
+                Write.DevError(() => $"类型{type.FullName}不具有名称为{propertyName}的属性");
+                return;
+            }
+            if (propertyInfo.PropertyType == typeof(int)) {
+                int value = (int)propertyInfo.GetValue(vm, null);
+                if (value > 0) {
+                    propertyInfo.SetValue(vm, value - 1, null);
+                }
+            }
+            else if (propertyInfo.PropertyType == typeof(double)) {
+                double value = (double)propertyInfo.GetValue(vm, null);
+                if (value > 0.1) {
+                    propertyInfo.SetValue(vm, Math.Round(value - 0.1, 2), null);
+                }
+            }
         }
 
         public static void ScrollViewer_PreviewMouseDown(object sender, MouseButtonEventArgs e, bool isLeftBar = false) {

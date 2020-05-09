@@ -8,6 +8,8 @@ using System.Windows.Input;
 namespace NTMiner.Vms {
     public class CoinProfileViewModel : ViewModelBase, ICoinProfile {
         private readonly ICoinProfile _inner;
+        public ICommand Up { get; private set; }
+        public ICommand Down { get; private set; }
         public ICommand CopyWallet { get; private set; }
         public ICommand CopyDualCoinWallet { get; private set; }
         public ICommand HideWallet { get; private set; }
@@ -19,6 +21,12 @@ namespace NTMiner.Vms {
 
         public CoinProfileViewModel(ICoinProfile innerProfile) {
             _inner = innerProfile;
+            this.Up = new DelegateCommand<string>(propertyName => {
+                WpfUtil.Up(this, propertyName);
+            });
+            this.Down = new DelegateCommand<string>(propertyName => {
+                WpfUtil.Down(this, propertyName);
+            });
             this.CopyWallet = new DelegateCommand(() => {
                 string wallet = this.Wallet ?? "无";
                 Clipboard.SetDataObject(wallet, true);

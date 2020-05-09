@@ -29,7 +29,6 @@ namespace NTMiner.Vms {
         public ICommand Down { get; private set; }
         public ICommand WsRetry { get; private set; }
 
-        private readonly Dictionary<string, PropertyInfo> _propertyInfos = new Dictionary<string, PropertyInfo>();
         public MinerProfileViewModel() {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -41,46 +40,10 @@ namespace NTMiner.Vms {
                 CreateShortcut();
             }
             this.Up = new DelegateCommand<string>(propertyName => {
-                #region
-                if (!_propertyInfos.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
-                    propertyInfo = this.GetType().GetProperty(propertyName);
-                    if (propertyInfo == null) {
-                        Write.DevError(() => $"类型{this.GetType().FullName}不具有名称为{propertyName}的属性");
-                        return;
-                    }
-                    _propertyInfos.Add(propertyName, propertyInfo);
-                }
-                if (propertyInfo.PropertyType == typeof(int)) {
-                    propertyInfo.SetValue(this, (int)propertyInfo.GetValue(this, null) + 1, null);
-                }
-                else if (propertyInfo.PropertyType == typeof(double)) {
-                    propertyInfo.SetValue(this, Math.Round((double)propertyInfo.GetValue(this, null) + 0.1, 2), null);
-                }
-                #endregion
+                WpfUtil.Up(this, propertyName);
             });
             this.Down = new DelegateCommand<string>(propertyName => {
-                #region
-                if (!_propertyInfos.TryGetValue(propertyName, out PropertyInfo propertyInfo)) {
-                    propertyInfo = this.GetType().GetProperty(propertyName);
-                    if (propertyInfo == null) {
-                        Write.DevError(() => $"类型{this.GetType().FullName}不具有名称为{propertyName}的属性");
-                        return;
-                    }
-                    _propertyInfos.Add(propertyName, propertyInfo);
-                }
-                if (propertyInfo.PropertyType == typeof(int)) {
-                    int value = (int)propertyInfo.GetValue(this, null);
-                    if (value > 0) {
-                        propertyInfo.SetValue(this, value - 1, null);
-                    }
-                }
-                else if (propertyInfo.PropertyType == typeof(double)) {
-                    double value = (double)propertyInfo.GetValue(this, null);
-                    if (value > 0.1) {
-                        propertyInfo.SetValue(this, Math.Round(value - 0.1, 2), null);
-                    }
-                }
-                #endregion
+                WpfUtil.Down(this, propertyName);
             });
             this.WsRetry = new DelegateCommand(() => {
                 RpcRoot.Client.NTMinerDaemonService.StartOrStopWsAsync(isResetFailCount: true);

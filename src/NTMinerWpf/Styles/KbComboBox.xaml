@@ -79,7 +79,6 @@
                                                     Background="White"
                                                     BorderBrush="{TemplateBinding BorderBrush}"
                                                     BorderThickness="1"
-                                                    CornerRadius="3"
                                                     SnapsToDevicePixels="True">
                                                     <Border
                                                         x:Name="splitBorder"
