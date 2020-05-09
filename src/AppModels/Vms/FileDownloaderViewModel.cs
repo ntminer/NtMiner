@@ -99,7 +99,8 @@ namespace NTMiner.Vms {
                     this.DownloadMessage = message;
                     this.DownloadPercent = 0;
                     this.BtnCancelVisible = Visibility.Collapsed;
-                    2.SecondsDelay().ContinueWith((t) => {
+                    // MillisecondsDelay不依赖其它条件，因为挖矿端程序后缀upgrade=NTMiner2.8.1.2.exe参数升级的时候Hub系统未就绪
+                    2000.MillisecondsDelay().ContinueWith((t) => {
                         downloadComplete?.Invoke(isSuccess, message, saveFileFullName);
                     });
                 };
