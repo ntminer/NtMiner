@@ -176,7 +176,7 @@ namespace NTMiner.Views {
                         }
                     });
                 }, location: this.GetType());
-            this.AddEventPath<MineStartedEvent>("开始挖矿后将清空矿池延时", LogEnum.DevConsole,
+            this.AddEventPath<MineStartedEvent>("开始挖矿后清空矿池延时", LogEnum.DevConsole,
                 action: message => {
                     UIThread.Execute(() => {
                         Vm.StateBarVm.PoolDelayText = string.Empty;

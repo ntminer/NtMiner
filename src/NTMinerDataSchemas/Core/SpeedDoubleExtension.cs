@@ -60,6 +60,21 @@ namespace NTMiner.Core {
             }
         }
 
+        public static double ToNearSpeed(this double speed, double nearIt) {
+            if (speed > nearIt) {
+                while (speed > 10 * nearIt) {
+                    speed /= 10;
+                }
+                return speed;
+            }
+            else {
+                while (speed * 10 < nearIt) {
+                    speed *= 10;
+                }
+                return speed;
+            }
+        }
+
         /// <summary>
         /// Math.Abs(speed - newSpeed) / speed >= percnet
         /// </summary>

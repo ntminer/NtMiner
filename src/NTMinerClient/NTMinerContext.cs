@@ -235,10 +235,12 @@ namespace NTMiner {
             #region 挖矿开始时将无份额内核重启份额计数置0
             int shareCount = 0;
             DateTime shareOn = DateTime.Now;
+            DateTime hightSpeedOn = DateTime.Now;
             VirtualRoot.AddEventPath<MineStartedEvent>("挖矿开始后将无份额内核重启份额计数置0", LogEnum.DevConsole,
                 action: message => {
                     // 将无份额内核重启份额计数置0
                     shareCount = 0;
+                    hightSpeedOn = DateTime.Now;
                     if (!message.MineContext.IsRestart) {
                         // 当不是内核重启时更新shareOn，如果是内核重启不用更新shareOn从而给不干扰无内核矿机重启的逻辑
                         shareOn = DateTime.Now;
@@ -248,7 +250,30 @@ namespace NTMiner {
             #region 每20秒钟检查是否需要重启
             VirtualRoot.AddEventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
                 action: message => {
-                    #region 重启电脑
+                    #region 低算力重启电脑
+                    if (IsMining) {
+                        var coinProfile = MinerProfile.GetCoinProfile(MinerProfile.CoinId);
+                        if (coinProfile.IsLowSpeedRestartComputer && coinProfile.LowSpeed != 0 && coinProfile.LowSpeedRestartComputerMinutes > 0) {
+                            IGpuSpeed totalSpeed = GpusSpeed.CurrentSpeed(GpuAllId);
+                            if (totalSpeed.MainCoinSpeed.SpeedOn.AddMinutes(coinProfile.LowSpeedRestartComputerMinutes) >= message.BornOn) {
+                                if (totalSpeed.MainCoinSpeed.Value.ToNearSpeed(coinProfile.LowSpeed) >= coinProfile.LowSpeed) {
+                                    hightSpeedOn = message.BornOn;
+                                }
+                            }
+                            if (hightSpeedOn.AddMinutes(coinProfile.LowSpeedRestartComputerMinutes) < message.BornOn) {
+                                string coinCode = string.Empty;
+                                if (ServerContext.CoinSet.TryGetCoin(MinerProfile.CoinId, out ICoin coin)) {
+                                    coinCode = coin.Code;
+                                }
+                                VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{coinCode}总算力持续{coinProfile.LowSpeedRestartComputerMinutes}低于{coinProfile.LowSpeed}重启电脑", toConsole: true);
+                                VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
+                                return;
+                            }
+                        }
+                    }
+                    #endregion
+
+                    #region 周期重启电脑
                     try {
                         if (MinerProfile.IsPeriodicRestartComputer) {
                             if ((DateTime.Now - this.CreatedOn).TotalMinutes > 60 * MinerProfile.PeriodicRestartComputerHours + MinerProfile.PeriodicRestartComputerMinutes) {
@@ -283,8 +308,8 @@ namespace NTMiner {
                     try {
                         if (IsMining && this.LockedMineContext.MainCoin != null) {
                             int totalShare = 0;
-                            bool restartComputer = MinerProfile.IsNoShareRestartComputer && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
-                            bool restartKernel = MinerProfile.IsNoShareRestartKernel && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
+                            bool restartComputer = MinerProfile.NoShareRestartComputerMinutes >0 && MinerProfile.IsNoShareRestartComputer && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
+                            bool restartKernel = MinerProfile.NoShareRestartKernelMinutes > 0 && MinerProfile.IsNoShareRestartKernel && (DateTime.Now - shareOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
                             if (restartComputer || restartKernel) {
                                 ICoinShare mainCoinShare = this.CoinShareSet.GetOrCreate(this.LockedMineContext.MainCoin.GetId());
                                 totalShare = mainCoinShare.TotalShareCount;
