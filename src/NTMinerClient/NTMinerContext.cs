@@ -265,7 +265,7 @@ namespace NTMiner {
                                 if (ServerContext.CoinSet.TryGetCoin(MinerProfile.CoinId, out ICoin coin)) {
                                     coinCode = coin.Code;
                                 }
-                                VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{coinCode}总算力持续{coinProfile.LowSpeedRestartComputerMinutes}低于{coinProfile.LowSpeed}重启电脑", toConsole: true);
+                                VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{coinCode}总算力持续{coinProfile.LowSpeedRestartComputerMinutes}分钟低于{coinProfile.LowSpeed}重启电脑", toConsole: true);
                                 VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
                                 return;
                             }
