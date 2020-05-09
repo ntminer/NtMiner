@@ -309,6 +309,36 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsLowSpeedRestartComputer {
+            get => _inner.IsLowSpeedRestartComputer;
+            set {
+                if (_inner.IsLowSpeedRestartComputer != value) {
+                    NTMinerContext.Instance.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(IsLowSpeedRestartComputer), value);
+                    OnPropertyChanged(nameof(IsLowSpeedRestartComputer));
+                }
+            }
+        }
+
+        public int LowSpeedRestartComputerMinutes {
+            get => _inner.LowSpeedRestartComputerMinutes;
+            set {
+                if (_inner.LowSpeedRestartComputerMinutes != value) {
+                    NTMinerContext.Instance.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(LowSpeedRestartComputerMinutes), value);
+                    OnPropertyChanged(nameof(LowSpeedRestartComputerMinutes));
+                }
+            }
+        }
+
+        public double LowSpeed {
+            get => _inner.LowSpeed;
+            set {
+                if (_inner.LowSpeed != value) {
+                    NTMinerContext.Instance.MinerProfile.SetCoinProfileProperty(this.CoinId, nameof(LowSpeed), value);
+                    OnPropertyChanged(nameof(LowSpeed));
+                }
+            }
+        }
+
         public PoolViewModel DualCoinPool {
             get {
                 if (!AppRoot.CoinVms.TryGetCoinVm(CoinId, out CoinViewModel coinVm)) {

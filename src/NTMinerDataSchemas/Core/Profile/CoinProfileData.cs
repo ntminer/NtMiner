@@ -4,6 +4,7 @@ using System;
 namespace NTMiner.Core.Profile {
     public class CoinProfileData : ICoinProfile, IProfile, IDbEntity<Guid> {
         public CoinProfileData() {
+            LowSpeedRestartComputerMinutes = 5;
         }
 
         public static CoinProfileData CreateDefaultData(Guid coinId, Guid poolId, string wallet, Guid coinKernelId) {
@@ -17,7 +18,10 @@ namespace NTMiner.Core.Profile {
                 DualCoinPoolId = default,
                 DualCoinWallet = string.Empty,
                 IsDualCoinHideWallet = default,
-                CalcInput = 1
+                CalcInput = 1,
+                IsLowSpeedRestartComputer = false,
+                LowSpeed = 0,
+                LowSpeedRestartComputerMinutes = 5
             };
         }
 
@@ -38,6 +42,12 @@ namespace NTMiner.Core.Profile {
         public bool IsDualCoinHideWallet { get; set; }
 
         public double CalcInput { get; set; }
+
+        public bool IsLowSpeedRestartComputer { get; set; }
+
+        public int LowSpeedRestartComputerMinutes { get; set; }
+
+        public double LowSpeed { get; set; }
 
         // 检测内存状态是否变更时使用
         public override string ToString() {

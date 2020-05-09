@@ -12,5 +12,8 @@ namespace NTMiner.Core.Profile {
         string DualCoinWallet { get; }
         bool IsDualCoinHideWallet { get; }
         double CalcInput { get; }
+        bool IsLowSpeedRestartComputer { get; }
+        int LowSpeedRestartComputerMinutes { get; }
+        double LowSpeed { get; }
     }
 }

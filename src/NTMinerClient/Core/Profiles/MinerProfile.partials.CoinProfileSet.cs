@@ -189,6 +189,27 @@ namespace NTMiner.Core.Profiles {
                     }
                 }
 
+                public bool IsLowSpeedRestartComputer {
+                    get => _data.IsLowSpeedRestartComputer;
+                    private set {
+                        _data.IsLowSpeedRestartComputer = value;
+                    }
+                }
+
+                public int LowSpeedRestartComputerMinutes {
+                    get => _data.LowSpeedRestartComputerMinutes;
+                    private set {
+                        _data.LowSpeedRestartComputerMinutes = value;
+                    }
+                }
+
+                public double LowSpeed {
+                    get => _data.LowSpeed;
+                    private set {
+                        _data.LowSpeed = value;
+                    }
+                }
+
                 private static Dictionary<string, PropertyInfo> _sProperties;
                 [IgnoreReflectionSet]
                 private static Dictionary<string, PropertyInfo> Properties {
