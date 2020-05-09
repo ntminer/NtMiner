@@ -251,7 +251,7 @@ namespace NTMiner {
             VirtualRoot.AddEventPath<Per20SecondEvent>("每20秒钟检查是否需要重启", LogEnum.None,
                 action: message => {
                     #region 低算力重启电脑
-                    if (IsMining) {
+                    if (IsMining && LockedMineContext.ProcessCreatedOn != DateTime.MinValue) {
                         var coinProfile = MinerProfile.GetCoinProfile(MinerProfile.CoinId);
                         if (coinProfile.IsLowSpeedRestartComputer && coinProfile.LowSpeed != 0 && coinProfile.LowSpeedRestartComputerMinutes > 0) {
                             IGpuSpeed totalSpeed = GpusSpeed.CurrentSpeed(GpuAllId);
