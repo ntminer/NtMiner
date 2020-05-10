@@ -1,15 +1,19 @@
 ﻿using NTMiner.Impl;
 using System;
+using System.IO;
 
 namespace NTMiner {
     public static class Logger {
-        private static string _logDir;
-        public static string Dir {
-            get { return _logDir; }
+        private static string _logDirFullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
+        /// <summary>
+        /// 如果未通过<see cref="SetDir(string)"/>更改过则其是程序所在目录下的logs目录。
+        /// </summary>
+        public static string DirFullPath {
+            get { return _logDirFullPath; }
         }
 
         public static void SetDir(string fullPath) {
-            _logDir = fullPath;
+            _logDirFullPath = fullPath;
         }
 
         private static bool _isEnabled = true;

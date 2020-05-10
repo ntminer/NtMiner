@@ -49,10 +49,10 @@ namespace NTMiner.Vms {
         }
 
         public void RefreshLogFiles() {
-            if (!Directory.Exists(Logger.Dir)) {
+            if (!Directory.Exists(Logger.DirFullPath)) {
                 return;
             }
-            this.LogFiles = Directory.GetFiles(Logger.Dir).Select(a => {
+            this.LogFiles = Directory.GetFiles(Logger.DirFullPath).Select(a => {
                 FileInfo fileInfo = new FileInfo(a);
                 return new LogFile(fileInfo.Name, fileInfo.LastWriteTime, fileFullName: a);
             }).OrderByDescending(a => a.LastWriteTime).ToList();
@@ -60,7 +60,7 @@ namespace NTMiner.Vms {
         }
 
         public string GetLatestLogFileFullName() {
-            if (!Directory.Exists(Logger.Dir)) {
+            if (!Directory.Exists(Logger.DirFullPath)) {
                 return null;
             }
             string fileFullName = null;
@@ -68,7 +68,7 @@ namespace NTMiner.Vms {
                 string latestOne = null;
                 DateTime lastWriteTime = DateTime.MinValue;
                 FileInfo fileInfo;
-                foreach (var itemFullName in Directory.GetFiles(Logger.Dir)) {
+                foreach (var itemFullName in Directory.GetFiles(Logger.DirFullPath)) {
                     fileInfo = new FileInfo(itemFullName);
                     if (fileInfo.Name.StartsWith("root")) {
                         continue;

@@ -1,7 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerClient;
 using NTMiner.Gpus;
-using NTMiner.Hub;
 using NTMiner.Mine;
 using NTMiner.Notifications;
 using NTMiner.RemoteDesktop;
@@ -35,6 +34,135 @@ namespace NTMiner {
         }
 
         protected override void OnStartup(StartupEventArgs e) {
+            BuildCommonPaths();
+
+            NotiCenterWindow.ShowWindow();
+            // 升级挖矿端
+            if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
+                // 启动计时器以放置后续的逻辑中用到计时器
+                VirtualRoot.StartTimer(new WpfTimingEventProducer());
+                VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
+                    UIThread.Execute(() => { Environment.Exit(0); });
+                }));
+            }
+            /// 释放和执行<see cref="MinerClientActionType"/>
+            else if (!string.IsNullOrEmpty(CommandLineArgs.Action)) {
+                // 启动计时器以放置后续的逻辑中用到计时器
+                VirtualRoot.StartTimer(new WpfTimingEventProducer());
+                if (CommandLineArgs.Action.TryParse(out MinerClientActionType resourceType)) {
+                    VirtualRoot.Execute(new MinerClientActionCommand(resourceType));
+                }
+            }
+            else {
+                DoRun();
+            }
+            base.OnStartup(e);
+        }
+
+        private void DoRun() {
+            if (AppUtil.GetMutex(NTKeyword.MinerClientAppMutex)) {
+                Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersionStr}==================");
+                // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
+                // 注意：必须确保SplashWindow没有用到任何其它界面用到的依赖对象
+                SplashWindow splashWindow = null;
+                SplashWindow.ShowWindowAsync(window => {
+                    splashWindow = window;
+                });
+                if (!NTMiner.Windows.WMI.IsWmiEnabled) {
+                    DialogWindow.ShowHardDialog(new DialogWindowViewModel(
+                        message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
+                        title: "提醒",
+                        icon: "Icon_Error"));
+                    Shutdown();
+                    Environment.Exit(0);
+                }
+                if (!NTMiner.Windows.Role.IsAdministrator) {
+                    NotiCenterWindowViewModel.Instance.Manager
+                        .CreateMessage()
+                        .Warning("提示", "请以管理员身份运行。")
+                        .WithButton("点击以管理员身份运行", button => {
+                            WpfUtil.RunAsAdministrator();
+                        })
+                        .Dismiss().WithButton("忽略", button => {
+
+                        }).Queue();
+                }
+                NTMinerContext.Instance.Init(() => {
+                    _appViewFactory.Link();
+                    if (VirtualRoot.IsLTWin10) {
+                        VirtualRoot.ThisLocalWarn(nameof(App), AppRoot.LowWinMessage, toConsole: true);
+                    }
+                    if (NTMinerContext.Instance.GpuSet.Count == 0) {
+                        VirtualRoot.ThisLocalError(nameof(App), "没有矿卡或矿卡未驱动。", toConsole: true);
+                    }
+                    if (NTMinerContext.WorkType != WorkType.None && NTMinerContext.Instance.ServerContext.CoinSet.Count == 0) {
+                        VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
+                    }
+                    UIThread.Execute(() => {
+                        Window mainWindow = null;
+                        AppRoot.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
+                        if (NTMinerContext.Instance.MinerProfile.IsNoUi && NTMinerContext.Instance.MinerProfile.IsAutoStart) {
+                            ConsoleWindow.Instance.Hide();
+                            VirtualRoot.Out.ShowSuccess("以无界面模式启动，可在选项页调整设置", header: "开源矿工");
+                        }
+                        else {
+                            _appViewFactory.ShowMainWindow(isToggle: false, out mainWindow);
+                        }
+                        // 主窗口显式后退出SplashWindow
+                        splashWindow?.Dispatcher.Invoke((Action)delegate () {
+                            splashWindow?.OkClose();
+                        });
+                        // 启动时Windows状态栏显式的是SplashWindow的任务栏图标，SplashWindow关闭后激活主窗口的Windows任务栏图标
+                        mainWindow?.Activate();
+                        StartStopMineButtonViewModel.Instance.AutoStart();
+                        // 注意：因为推迟到这里才启动的计时器，所以别忘了在Upgrade、和Action情况时启动计时器
+                        VirtualRoot.StartTimer(new WpfTimingEventProducer());
+                    });
+                    Task.Factory.StartNew(() => {
+                        var minerProfile = NTMinerContext.Instance.MinerProfile;
+                        if (minerProfile.IsDisableUAC) {
+                            NTMiner.Windows.UAC.DisableUAC();
+                        }
+                        if (minerProfile.IsAutoDisableWindowsFirewall) {
+                            Firewall.DisableFirewall();
+                        }
+                        if (minerProfile.IsDisableWAU) {
+                            NTMiner.Windows.WAU.DisableWAUAsync();
+                        }
+                        if (minerProfile.IsDisableAntiSpyware) {
+                            NTMiner.Windows.Defender.DisableAntiSpyware();
+                        }
+                        if (!Firewall.IsMinerClientRuleExists()) {
+                            Firewall.AddMinerClientRule();
+                        }
+                        try {
+                            HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.MinerClientPort.ToString()}");
+                            Daemon.DaemonUtil.RunNTMinerDaemon();
+                            NoDevFee.NoDevFeeUtil.RunNTMinerNoDevFee();
+                        }
+                        catch (Exception ex) {
+                            Logger.ErrorDebugLine(ex);
+                        }
+                    });
+                });
+                BuildPaths();
+            }
+            else {
+                try {
+                    _appViewFactory.ShowMainWindow(this, NTMinerAppType.MinerClient);
+                }
+                catch (Exception) {
+                    DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
+                        message: "另一个开源矿工正在运行但唤醒失败，请重试。",
+                        title: "错误",
+                        icon: "Icon_Error"));
+                    Process currentProcess = Process.GetCurrentProcess();
+                    NTMiner.Windows.TaskKill.KillOtherProcess(currentProcess);
+                }
+            }
+        }
+
+        private void BuildCommonPaths() {
             // 之所以提前到这里是因为升级之前可能需要下载升级器，下载升级器时需要下载器
             VirtualRoot.AddCmdPath<ShowFileDownloaderCommand>(action: message => {
                 FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
@@ -43,6 +171,7 @@ namespace NTMiner {
                 AppRoot.Upgrade(NTMinerAppType.MinerClient, message.FileName, message.Callback);
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<MinerClientActionCommand>(action: message => {
+                #region
                 Task task = TaskEx.CompletedTask;
                 try {
                     // 注意不要提前return，因为最后需要执行Environment.Exit(0)
@@ -78,123 +207,11 @@ namespace NTMiner {
                 task.ContinueWith(t => {
                     Environment.Exit(0);
                 });
+                #endregion
             }, location: this.GetType());
-            if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
-                VirtualRoot.Execute(new UpgradeCommand(CommandLineArgs.Upgrade, () => {
-                    UIThread.Execute(() => { Environment.Exit(0); });
-                }));
-            }
-            else if (!string.IsNullOrEmpty(CommandLineArgs.Action)) {
-                if (CommandLineArgs.Action.TryParse(out MinerClientActionType resourceType)) {
-                    VirtualRoot.Execute(new MinerClientActionCommand(resourceType));
-                }
-            }
-            else {
-                if (AppUtil.GetMutex(NTKeyword.MinerClientAppMutex)) {
-                    Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersionStr}==================");
-                    // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
-                    // 注意：必须确保SplashWindow没有用到任何其它界面用到的依赖对象
-                    SplashWindow splashWindow = null;
-                    SplashWindow.ShowWindowAsync(window => {
-                        splashWindow = window;
-                    });
-                    NotiCenterWindow.ShowWindow();
-                    if (!NTMiner.Windows.WMI.IsWmiEnabled) {
-                        DialogWindow.ShowHardDialog(new DialogWindowViewModel(
-                            message: "开源矿工无法运行所需的组件，因为本机未开启WMI服务，开源矿工需要使用WMI服务检测windows的内存、显卡等信息，请先手动开启WMI。",
-                            title: "提醒",
-                            icon: "Icon_Error"));
-                        Shutdown();
-                        Environment.Exit(0);
-                    }
-                    if (!NTMiner.Windows.Role.IsAdministrator) {
-                        NotiCenterWindowViewModel.Instance.Manager
-                            .CreateMessage()
-                            .Warning("提示", "请以管理员身份运行。")
-                            .WithButton("点击以管理员身份运行", button => {
-                                WpfUtil.RunAsAdministrator();
-                            })
-                            .Dismiss().WithButton("忽略", button => {
-
-                            }).Queue();
-                    }
-                    NTMinerContext.Instance.Init(() => {
-                        _appViewFactory.Link();
-                        if (VirtualRoot.IsLTWin10) {
-                            VirtualRoot.ThisLocalWarn(nameof(App), AppRoot.LowWinMessage, toConsole: true);
-                        }
-                        if (NTMinerContext.Instance.GpuSet.Count == 0) {
-                            VirtualRoot.ThisLocalError(nameof(App), "没有矿卡或矿卡未驱动。", toConsole: true);
-                        }
-                        if (NTMinerContext.WorkType != WorkType.None && NTMinerContext.Instance.ServerContext.CoinSet.Count == 0) {
-                            VirtualRoot.ThisLocalError(nameof(App), "访问阿里云失败，请尝试更换本机dns解决此问题。", toConsole: true);
-                        }
-                        UIThread.Execute(() => {
-                            Window mainWindow = null;
-                            AppRoot.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
-                            if (NTMinerContext.Instance.MinerProfile.IsNoUi && NTMinerContext.Instance.MinerProfile.IsAutoStart) {
-                                ConsoleWindow.Instance.Hide();
-                                VirtualRoot.Out.ShowSuccess("以无界面模式启动，可在选项页调整设置", header: "开源矿工");
-                            }
-                            else {
-                                _appViewFactory.ShowMainWindow(isToggle: false, out mainWindow);
-                            }
-                            // 主窗口显式后退出SplashWindow
-                            splashWindow?.Dispatcher.Invoke((Action)delegate () {
-                                splashWindow?.OkClose();
-                            });
-                            // 启动时Windows状态栏显式的是SplashWindow的任务栏图标，SplashWindow关闭后激活主窗口的Windows任务栏图标
-                            mainWindow?.Activate();
-                            StartStopMineButtonViewModel.Instance.AutoStart();
-                            VirtualRoot.StartTimer(new WpfTimingEventProducer());
-                        });
-                        Task.Factory.StartNew(() => {
-                            var minerProfile = NTMinerContext.Instance.MinerProfile;
-                            if (minerProfile.IsDisableUAC) {
-                                NTMiner.Windows.UAC.DisableUAC();
-                            }
-                            if (minerProfile.IsAutoDisableWindowsFirewall) {
-                                Firewall.DisableFirewall();
-                            }
-                            if (minerProfile.IsDisableWAU) {
-                                NTMiner.Windows.WAU.DisableWAUAsync();
-                            }
-                            if (minerProfile.IsDisableAntiSpyware) {
-                                NTMiner.Windows.Defender.DisableAntiSpyware();
-                            }
-                            if (!Firewall.IsMinerClientRuleExists()) {
-                                Firewall.AddMinerClientRule();
-                            }
-                            try {
-                                HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.MinerClientPort.ToString()}");
-                                Daemon.DaemonUtil.RunNTMinerDaemon();
-                                NoDevFee.NoDevFeeUtil.RunNTMinerNoDevFee();
-                            }
-                            catch (Exception ex) {
-                                Logger.ErrorDebugLine(ex);
-                            }
-                        });
-                    });
-                    Link();
-                }
-                else {
-                    try {
-                        _appViewFactory.ShowMainWindow(this, NTMinerAppType.MinerClient);
-                    }
-                    catch (Exception) {
-                        DialogWindow.ShowSoftDialog(new DialogWindowViewModel(
-                            message: "另一个开源矿工正在运行但唤醒失败，请重试。",
-                            title: "错误",
-                            icon: "Icon_Error"));
-                        Process currentProcess = Process.GetCurrentProcess();
-                        NTMiner.Windows.TaskKill.KillOtherProcess(currentProcess);
-                    }
-                }
-            }
-            base.OnStartup(e);
         }
 
-        private void Link() {
+        private void BuildPaths() {
             #region 处理显示主界面命令
             VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {

@@ -8,11 +8,11 @@ namespace NTMiner.Impl {
         private readonly ILog _log;
 
         public Log4NetLoggingService() {
-            string logFileName = $"root{NTKeyword.VersionBuild}.log";
-            string logFile = $"logs\\{logFileName}";
-            if (!string.IsNullOrEmpty(Logger.Dir)) {
-                logFile = Path.Combine(Logger.Dir, logFileName);
+            if (string.IsNullOrEmpty(Logger.DirFullPath)) {
+                throw new InvalidProgramException();
             }
+            string logFileName = $"root{NTKeyword.VersionBuild}.log";
+            string logFile = Path.Combine(Logger.DirFullPath, logFileName);
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(
 $@"<log4net>
   <root>
@@ -32,8 +32,7 @@ $@"<log4net>
       <param name=""ConversionPattern"" value =""%d [%t] %-5p %c - %m%n"" />
     </layout>
   </appender>
-</log4net>
-");
+</log4net>");
             using (MemoryStream ms = new MemoryStream(buffer)) {
                 XmlConfigurator.Configure(ms);
             }

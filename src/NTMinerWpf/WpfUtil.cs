@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,9 +12,12 @@ using System.Windows.Media;
 
 namespace NTMiner {
     public static class WpfUtil {
-        // SolidColorBrush是DependencyObject，必须在UT显存创建，所以这里提供一个什么也不干的Init方法
-        // 只是为了触发静态构造函数从而确保SolidColorBrush是在UI显存构建的。
+        /// <summary>
+        /// SolidColorBrush是DependencyObject，必须在UI线程创建，所以这里提供一个什么也不干的Init方法只
+        /// 是为了触发静态构造函数从而确保SolidColorBrush是在UI显存构建的。
+        /// </summary>
         public static void Init() { }
+
         // 一些ViewModel中有SolidColorBrush类型的DependencyObject，而ViewModel可能不是在UI线程创建的，所以就要
         // 要求ViewModel不能自己创建SolidColorBrush对象而必须从WpfUtil引用SolidColorBrush对象，从而避免异常。
         public static readonly SolidColorBrush TransparentBrush = new SolidColorBrush(Colors.Transparent);
@@ -93,6 +95,13 @@ namespace NTMiner {
             Application.Current.Shutdown();
         }
 
+        /// <summary>
+        /// propertyName必须是数值类型的属性。注意：只支持int和double类型。
+        /// 基于反射将给定类型对象的给定名称的属性值自增。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="vm"></param>
+        /// <param name="propertyName"></param>
         public static void Up<T>(T vm, string propertyName) where T : ViewModelBase {
             Type type = typeof(T);
             var propertyInfo = type.GetProperty(propertyName);
@@ -108,6 +117,13 @@ namespace NTMiner {
             }
         }
 
+        /// <summary>
+        /// propertyName必须是数值类型的属性。注意：只支持int和double类型。
+        /// 基于反射将给定类型对象的给定名称的属性值自减。
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="vm"></param>
+        /// <param name="propertyName"></param>
         public static void Down<T>(T vm, string propertyName) where T : ViewModelBase {
             Type type = typeof(T);
             var propertyInfo = type.GetProperty(propertyName);
