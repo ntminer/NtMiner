@@ -93,8 +93,6 @@
       <Link>Core\Impl\CoinSnapshotSetBase.cs</Link>
     </Compile>
     <Compile Include="ClientAppType.cs" />
-    <Compile Include="CommandLineArgs.cs" />
-    <Compile Include="CommandLineArgs.partial.cs" />
     <Compile Include="Core\AverageSpeed.cs" />
     <Compile Include="Core\CoinExtensions.cs" />
     <Compile Include="Core\Cpus\ICpuPackage.cs" />

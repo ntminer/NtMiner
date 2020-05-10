@@ -11,8 +11,7 @@ namespace NTMiner.Impl {
             if (string.IsNullOrEmpty(Logger.DirFullPath)) {
                 throw new InvalidProgramException();
             }
-            string logFileName = $"root{NTKeyword.VersionBuild}.log";
-            string logFile = Path.Combine(Logger.DirFullPath, logFileName);
+            string logFile = Path.Combine(Logger.DirFullPath, CommandLineArgs.GetLogFileName());
             byte[] buffer = System.Text.Encoding.UTF8.GetBytes(
 $@"<log4net>
   <root>

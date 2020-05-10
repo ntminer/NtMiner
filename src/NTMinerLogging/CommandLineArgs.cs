@@ -11,6 +11,29 @@ namespace NTMiner {
             }
         }
 
+        public static readonly bool IsAutoStart;
+        public static readonly string Upgrade;
+        public static readonly string Action;
+        public static readonly string NTMinerFileName;
+
+        static CommandLineArgs() {
+            IsAutoStart = s_commandLineArgs.Contains(NTKeyword.AutoStartCmdParameterName, StringComparer.OrdinalIgnoreCase);
+            Upgrade = PickArgument(NTKeyword.UpgradeCmdParameterName);
+            Action = PickArgument(NTKeyword.ActionCmdParameterName);
+            NTMinerFileName = PickArgument("ntminerFileName=");
+        }
+
+        public static string GetLogFileName() {
+            // 避免不同进程使用相同的日志文件，虽然并不会异常但会看不到日志
+            if (!string.IsNullOrEmpty(Upgrade)) {
+                return $"root{NTKeyword.VersionBuild}_upgrade.log";
+            }
+            else if (!string.IsNullOrEmpty(Action)) {
+                return $"root{NTKeyword.VersionBuild}_{Action}.log";
+            }
+            return $"root{NTKeyword.VersionBuild}.log";
+        }
+
         /// <summary>
         /// 提取格式形如argumentName=argumentValue格式的命令行参数。
         /// 注意：参数名是忽略大小写的，且如果命令行上有重名参数后面的值覆盖前面的值

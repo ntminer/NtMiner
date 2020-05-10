@@ -38,6 +38,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandLineArgs.cs" />
     <Compile Include="DllName.cs" />
     <Compile Include="EntryAssemblyInfo.cs" />
     <Compile Include="HomePath.cs" />
