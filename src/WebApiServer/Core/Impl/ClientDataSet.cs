@@ -102,6 +102,7 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 else {
+                    // 此时该矿机是第一次在服务端出现
                     Add(ClientData.Create(MinerData.Create(message.Data)));
                 }
             }, this.GetType(), LogEnum.None);

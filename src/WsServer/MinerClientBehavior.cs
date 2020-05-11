@@ -24,7 +24,9 @@ namespace NTMiner {
             IMinerClientSession minerSession = MinerClientSession.Create(userData, wsUserName, this.ID, Sessions);
             WsRoot.MinerClientSessionSet.Add(minerSession);
             WsRoot.MinerClientMqSender.SendMinerClientWsOpened(minerSession.LoginName, minerSession.ClientId);
+            bool isMinerSignChanged;
             if (!WsRoot.MinerSignSet.TryGetByClientId(wsUserName.ClientId, out MinerSign minerSign)) {
+                // 此时该矿机是第一次在服务端出现
                 minerSign = new MinerSign {
                     Id = LiteDB.ObjectId.NewObjectId().ToString(),
                     ClientId = wsUserName.ClientId,
@@ -33,12 +35,16 @@ namespace NTMiner {
                     AESPassword = string.Empty,
                     AESPasswordOn = Timestamp.UnixBaseTime
                 };
+                isMinerSignChanged = true;
             }
-            bool isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId || minerSign.LoginName != userData.LoginName;
-            if (isMinerSignChanged) {
-                minerSign.OuterUserId = wsUserName.UserId;
-                minerSign.LoginName = userData.LoginName;
+            else {
+                isMinerSignChanged = minerSign.OuterUserId != wsUserName.UserId || minerSign.LoginName != userData.LoginName;
+                if (isMinerSignChanged) {
+                    minerSign.OuterUserId = wsUserName.UserId;
+                    minerSign.LoginName = userData.LoginName;
+                }
             }
+            // 通常执行不到，因为用户注册的时候已经生成了RSA公私钥对了
             if (string.IsNullOrEmpty(userData.PublicKey) || string.IsNullOrEmpty(userData.PrivateKey)) {
                 var key = Cryptography.RSAUtil.GetRASKey();
                 userData.PublicKey = key.PublicKey;

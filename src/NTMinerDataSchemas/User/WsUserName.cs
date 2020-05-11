@@ -10,6 +10,9 @@ namespace NTMiner.User {
         /// </summary>
         public string ClientVersion { get; set; }
         public Guid ClientId { get; set; }
+        /// <summary>
+        /// 可能是LoginName、Email、Mobile
+        /// </summary>
         public string UserId { get; set; }
         /// <summary>
         /// 表示是否支持收发二进制格式的WsMessage。
