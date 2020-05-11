@@ -49,6 +49,7 @@ namespace NTMiner {
             }
             if (message.Type == WsMessage.QueryClientDatas) {
                 if (message.TryGetData(out QueryClientsRequest query)) {
+                    // 走的内网，因为WsServer启动时会设置内网Rpc地址
                     RpcRoot.OfficialServer.ClientDataBinaryService.QueryClientsForWsAsync(QueryClientsForWsRequest.Create(query, minerSession.LoginName), (QueryClientsResponse response, Exception ex) => {
                         if (response.IsSuccess()) {
                             var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerSession.LoginName));
