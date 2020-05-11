@@ -12,10 +12,10 @@ namespace NTMiner {
         public static Dictionary<string, string> GetSignData(string loginName, string passwordSha1, object data = null) {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
             return new Dictionary<string, string> {
-                    {"loginName", loginName },
-                    {"sign", CalcSign(loginName, passwordSha1, timestamp, data) },
-                    {"timestamp", timestamp.ToString() }
-                };
+                ["loginName"] = loginName,
+                ["sign"] = CalcSign(loginName, passwordSha1, timestamp, data),
+                ["timestamp"] = timestamp.ToString()
+            };
         }
 
         public static string CalcSign(string loginName, string passwordSha1, long timestamp, object data = null) {
@@ -108,10 +108,10 @@ namespace NTMiner {
         public Dictionary<string, string> GetSignData(object data = null) {
             var timestamp = Timestamp.GetTimestamp(DateTime.Now);
             return new Dictionary<string, string> {
-                    {"loginName", this.LoginName },
-                    {"sign", CalcSign(this.LoginName, this.Password, timestamp, data) },
-                    {"timestamp", timestamp.ToString() }
-                };
+                ["loginName"] = this.LoginName,
+                ["sign"] = CalcSign(this.LoginName, this.Password, timestamp, data),
+                ["timestamp"] = timestamp.ToString()
+            };
         }
     }
 }

@@ -18,7 +18,7 @@ namespace NTMiner.Services.Official {
 
         public void IsLoginNameExistAsync(string loginName, Action<bool> callback) {
             JsonRpcRoot.GetAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserController.IsLoginNameExist), new Dictionary<string, string> {
-                {"loginName", loginName }
+                ["loginName"] = loginName
             }, (DataResponse<bool> response, Exception e) => {
                 callback?.Invoke(response.IsSuccess() && response.Data);
             }, timeountMilliseconds: 5000);

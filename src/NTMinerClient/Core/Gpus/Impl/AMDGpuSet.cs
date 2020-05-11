@@ -47,9 +47,9 @@ namespace NTMiner.Core.Gpus.Impl {
                 bool has470 = _gpus.Any(a => a.Key != NTMinerContext.GpuAllId && a.Value.TotalMemory < minG);
                 if (has470) {
                     Dictionary<string, string> kvs = new Dictionary<string, string> {
-                        {"GPU_MAX_ALLOC_PERCENT","100" },
-                        {"GPU_MAX_HEAP_SIZE","100" },
-                        {"GPU_SINGLE_ALLOC_PERCENT","100" }
+                        ["GPU_MAX_ALLOC_PERCENT"] = "100",
+                        ["GPU_MAX_HEAP_SIZE"] = "100",
+                        ["GPU_SINGLE_ALLOC_PERCENT"] = "100"
                     };
                     foreach (var kv in kvs) {
                         var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);

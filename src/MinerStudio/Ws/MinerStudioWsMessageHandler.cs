@@ -9,66 +9,64 @@ using System.Collections.Generic;
 
 namespace NTMiner.Ws {
     public static class MinerStudioWsMessageHandler {
-        private static readonly Dictionary<string, Action<Action<WsMessage>, WsMessage>>
-            _handlers = new Dictionary<string, Action<Action<WsMessage>, WsMessage>>(StringComparer.OrdinalIgnoreCase);
-        public static bool TryGetHandler(string messageType, out Action<Action<WsMessage>, WsMessage> handler) {
-            return _handlers.TryGetValue(messageType, out handler);
-        }
-
-        static MinerStudioWsMessageHandler() {
-            _handlers.Add(WsMessage.ServerTime, (sendAsync, message) => {
+        private static readonly Dictionary<string, Action<Action<WsMessage>, WsMessage>> _handlers = new Dictionary<string, Action<Action<WsMessage>, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
+            [WsMessage.ServerTime] = (sendAsync, message) => {
                 if (message.TryGetData(out long serverTime)) {
                     if (Math.Abs(serverTime - Timestamp.GetTimestamp()) > 20) {
                         VirtualRoot.Out.ShowWarn("您的电脑时间与网络时间不同步，请调整。");
                     }
                 }
-            });
-            _handlers.Add(WsMessage.ClientDatas, (sendAsync, message) => {
+            },
+            [WsMessage.ClientDatas] = (sendAsync, message) => {
                 if (message.TryGetData(out QueryClientsResponse response)) {
                     VirtualRoot.RaiseEvent(new QueryClientsResponseEvent(response));
                 }
-            });
-            _handlers.Add(WsMessage.ConsoleOutLines, (sendAsync, message) => {
+            },
+            [WsMessage.ConsoleOutLines] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<ConsoleOutLine> data)) {
                     VirtualRoot.RaiseEvent(new ClientConsoleOutLinesEvent(wrapperClientIdData.ClientId, data));
                 }
-            });
-            _handlers.Add(WsMessage.LocalMessages, (sendAsync, message) => {
+            },
+            [WsMessage.LocalMessages] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<LocalMessageDto> data)) {
                     VirtualRoot.RaiseEvent(new ClientLocalMessagesEvent(wrapperClientIdData.ClientId, data));
                 }
-            });
-            _handlers.Add(WsMessage.Drives, (sendAsync, message) => {
+            },
+            [WsMessage.Drives] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<DriveDto> data)) {
                     VirtualRoot.RaiseEvent(new GetDrivesResponsedEvent(wrapperClientIdData.ClientId, data));
                 }
-            });
-            _handlers.Add(WsMessage.LocalIps, (sendAsync, message) => {
+            },
+            [WsMessage.LocalIps] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<LocalIpDto> data)) {
                     VirtualRoot.RaiseEvent(new GetLocalIpsResponsedEvent(wrapperClientIdData.ClientId, data));
                 }
-            });
-            _handlers.Add(WsMessage.OperationResults, (sendAsync, message) => {
+            },
+            [WsMessage.OperationResults] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out List<OperationResultData> data)) {
                     VirtualRoot.RaiseEvent(new ClientOperationResultsEvent(wrapperClientIdData.ClientId, data));
                 }
-            });
-            _handlers.Add(WsMessage.OperationReceived, (sendAsync, message) => {
+            },
+            [WsMessage.OperationReceived] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientId wrapperClientId)) {
                     VirtualRoot.RaiseEvent(new ClientOperationReceivedEvent(wrapperClientId.ClientId));
                 }
-            });
-            _handlers.Add(WsMessage.SelfWorkLocalJson, (sendAsync, message) => {
+            },
+            [WsMessage.SelfWorkLocalJson] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out string json)) {
                     VirtualRoot.RaiseEvent(new GetSelfWorkLocalJsonResponsedEvent(wrapperClientIdData.ClientId, json));
                 }
-            });
-            _handlers.Add(WsMessage.GpuProfilesJson, (sendAsync, message) => {
+            },
+            [WsMessage.GpuProfilesJson] = (sendAsync, message) => {
                 if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out string json)) {
                     GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json) ?? new GpuProfilesJsonDb();
                     VirtualRoot.RaiseEvent(new GetGpuProfilesResponsedEvent(wrapperClientIdData.ClientId, data));
                 }
-            });
+            }
+        };
+
+        public static bool TryGetHandler(string messageType, out Action<Action<WsMessage>, WsMessage> handler) {
+            return _handlers.TryGetValue(messageType, out handler);
         }
     }
 }

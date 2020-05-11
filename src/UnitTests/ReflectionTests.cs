@@ -66,15 +66,15 @@ namespace NTMiner {
                 BooleanProperty = true
             };
             Dictionary<string, object> dic = new Dictionary<string, object> {
-                {nameof(ClassA.ByteProperty), test.ByteProperty },
-                {nameof(ClassA.DateTimeProperty), test.DateTimeProperty },
-                {nameof(ClassA.DoubleProperty), test.DoubleProperty },
-                {nameof(ClassA.FloatProperty), test.FloatProperty },
-                {nameof(ClassA.GuidProperty), test.GuidProperty },
-                {nameof(ClassA.IntProperty), test.IntProperty },
-                {nameof(ClassA.LongProperty), test.LongProperty },
-                {nameof(ClassA.ShortProperty), test.ShortProperty },
-                {nameof(ClassA.BooleanProperty), test.BooleanProperty }
+                [nameof(ClassA.ByteProperty)] = test.ByteProperty,
+                [nameof(ClassA.DateTimeProperty)] = test.DateTimeProperty,
+                [nameof(ClassA.DoubleProperty)] = test.DoubleProperty,
+                [nameof(ClassA.FloatProperty)] = test.FloatProperty,
+                [nameof(ClassA.GuidProperty)] = test.GuidProperty,
+                [nameof(ClassA.IntProperty)] = test.IntProperty,
+                [nameof(ClassA.LongProperty)] = test.LongProperty,
+                [nameof(ClassA.ShortProperty)] = test.ShortProperty,
+                [nameof(ClassA.BooleanProperty)] = test.BooleanProperty
             };
             string json = VirtualRoot.JsonSerializer.Serialize(dic);
             Dictionary<string, object> dic1 = VirtualRoot.JsonSerializer.Deserialize<Dictionary<string, object>>(json);

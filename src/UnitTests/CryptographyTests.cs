@@ -53,10 +53,10 @@ namespace NTMiner {
                     Timestamp = Timestamp.GetTimestamp(),
                     Sign = Guid.NewGuid().ToString(),
                     Data = new Dictionary<string, object> {
-                        {"AAAAAAAA", 1 },
-                        {"BBBBBBBB", DateTime.Now },
-                        {"CCCCCCCC", "hello world this is a test" },
-                        {"DDDDDDDD", Guid.NewGuid() }
+                        ["AAAAAAAA"] = 1,
+                        ["BBBBBBBB"] = DateTime.Now,
+                        ["CCCCCCCC"] = "hello world this is a test",
+                        ["DDDDDDDD"] = Guid.NewGuid()
                     }
                 });
             }

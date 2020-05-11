@@ -150,7 +150,7 @@ namespace NTMiner {
         public void DicTest() {
             string a = "aaa";
             Dictionary<object, string> dic = new Dictionary<object, string> {
-                {a,"sss" }
+                [a] = "sss"
             };
             dic.Remove("ddddd");
         }

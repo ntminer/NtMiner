@@ -7,9 +7,7 @@ using System.Threading.Tasks;
 namespace NTMiner.Core.Gpus.Impl {
     internal class NVIDIAGpuSet : IGpuSet {
         private readonly Dictionary<int, Gpu> _gpus = new Dictionary<int, Gpu>() {
-            {
-                NTMinerContext.GpuAllId, Gpu.GpuAll
-            }
+            [NTMinerContext.GpuAllId] = Gpu.GpuAll
         };
 
         private readonly Version _driverVersion;
@@ -48,7 +46,7 @@ namespace NTMiner.Core.Gpus.Impl {
                 }
                 this.Properties.Add(new GpuSetProperty("NVMLVersion", "NVML版本", nvmlVersion));
                 Dictionary<string, string> kvs = new Dictionary<string, string> {
-                    {"CUDA_DEVICE_ORDER","PCI_BUS_ID" }
+                    ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
                 };
                 foreach (var kv in kvs) {
                     var property = new GpuSetProperty(kv.Key, kv.Key, kv.Value);

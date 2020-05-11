@@ -59,13 +59,13 @@ namespace NTMiner.Services.Client {
 
         public void GetConsoleOutLinesAsync(string clientIp, long afterTime, Action<List<ConsoleOutLine>, Exception> callback) {
             JsonRpcRoot.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetConsoleOutLines), new Dictionary<string, string> {
-                {"afterTime",afterTime.ToString() }
+                ["afterTime"] = afterTime.ToString()
             }, callback, timeountMilliseconds: 3000);
         }
 
         public void GetLocalMessagesAsync(string clientIp, long afterTime, Action<List<LocalMessageDto>, Exception> callback) {
             JsonRpcRoot.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetLocalMessages), new Dictionary<string, string> {
-                {"afterTime",afterTime.ToString() }
+                ["afterTime"] = afterTime.ToString()
             }, callback, timeountMilliseconds: 3000);
         }
     }

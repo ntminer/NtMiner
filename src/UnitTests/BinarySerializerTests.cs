@@ -19,9 +19,9 @@ namespace NTMiner {
         [TestMethod]
         public void Test1() {
             Dictionary<string, object> dic1 = new Dictionary<string, object> {
-                {"A", 1 },
-                {"B", DateTime.Now },
-                {"C", "this is a test" }
+                ["A"] = 1,
+                ["B"] = DateTime.Now,
+                ["C"] = "this is a test"
             };
             byte[] data = VirtualRoot.BinarySerializer.Serialize(dic1);
             Assert.IsFalse(VirtualRoot.BinarySerializer.IsGZipped(data));
@@ -49,10 +49,10 @@ namespace NTMiner {
                     Timestamp = Timestamp.GetTimestamp(),
                     Sign = Guid.NewGuid().ToString(),
                     Data = new Dictionary<string, object> {
-                        {"AAAAAAAA", 1 },
-                        {"BBBBBBBB", DateTime.Now },
-                        {"CCCCCCCC", "hello world this is a test" },
-                        {"DDDDDDDD", Guid.NewGuid() }
+                        ["AAAAAAAA"] = 1,
+                        ["BBBBBBBB"] = DateTime.Now,
+                        ["CCCCCCCC"] = "hello world this is a test",
+                        ["DDDDDDDD"] = Guid.NewGuid()
                     }
                 });
             }

@@ -40,13 +40,13 @@ namespace NTMiner.MinerStudio.Vms {
         private uint _minTemp = 40;
         private int _rejectPercent = 10;
         private Dictionary<ClientDataSortField, SortDirection> _sortDirection = new Dictionary<ClientDataSortField, SortDirection> {
-            { ClientDataSortField.MinerName, SortDirection.Ascending },
-            { ClientDataSortField.CpuTemperature, SortDirection.Descending },
-            { ClientDataSortField.DualCoinPoolDelay, SortDirection.Descending },
-            { ClientDataSortField.DualCoinRejectPercent, SortDirection.Descending },
-            { ClientDataSortField.KernelSelfRestartCount, SortDirection.Descending },
-            { ClientDataSortField.MainCoinPoolDelay, SortDirection.Descending },
-            { ClientDataSortField.MainCoinRejectPercent, SortDirection.Descending }
+            [ClientDataSortField.MinerName] = SortDirection.Ascending,
+            [ClientDataSortField.CpuTemperature] = SortDirection.Descending,
+            [ClientDataSortField.DualCoinPoolDelay] = SortDirection.Descending,
+            [ClientDataSortField.DualCoinRejectPercent] = SortDirection.Descending,
+            [ClientDataSortField.KernelSelfRestartCount] = SortDirection.Descending,
+            [ClientDataSortField.MainCoinPoolDelay] = SortDirection.Descending,
+            [ClientDataSortField.MainCoinRejectPercent] = SortDirection.Descending
         };
         private ClientDataSortField _sortField = ClientDataSortField.MinerName;
         private string _gpuName;
@@ -592,7 +592,7 @@ namespace NTMiner.MinerStudio.Vms {
                         else {
                             int virtualMemoryMb = Convert.ToInt32(virtualMemoryGb * NTKeyword.IntK);
                             Dictionary<string, int> data = new Dictionary<string, int> {
-                                {"Auto", virtualMemoryMb }
+                                ["Auto"] = virtualMemoryMb
                             };
                             foreach (var item in this.SelectedMinerClients) {
                                 MinerStudioService.Instance.SetVirtualMemoryAsync(item, data);

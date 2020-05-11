@@ -28,7 +28,7 @@ namespace NTMiner.Services.Client {
         /// </summary>
         public void StartOrStopWsAsync(bool isResetFailCount) {
             JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.StartOrCloseWs), new Dictionary<string, string> {
-                {"isResetFailCount", isResetFailCount.ToString() }
+                ["isResetFailCount"] = isResetFailCount.ToString()
             }, data: null, timeountMilliseconds: 3000);
         }
 

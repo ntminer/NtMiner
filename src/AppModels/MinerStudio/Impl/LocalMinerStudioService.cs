@@ -154,7 +154,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region SwitchRadeonGpuAsync
         public void SwitchRadeonGpuAsync(IMinerData client, bool on) {
             JsonRpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SwitchRadeonGpu), new Dictionary<string, string> {
-                {"on", on.ToString() }
+                ["on"] = on.ToString()
             }, null, null, timeountMilliseconds: 3000);
         }
         #endregion
@@ -184,8 +184,8 @@ namespace NTMiner.MinerStudio.Impl {
         #region SetAutoBootStartAsync
         public void SetAutoBootStartAsync(IMinerData client, SetAutoBootStartRequest request) {
             JsonRpcRoot.FirePostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SetAutoBootStart), new Dictionary<string, string> {
-                {"autoBoot", request.AutoBoot.ToString() },
-                {"autoStart", request.AutoStart.ToString() }
+                ["autoBoot"] = request.AutoBoot.ToString(),
+                ["autoStart"] = request.AutoStart.ToString()
             }, data: null, callback: null, timeountMilliseconds: 3000);
         }
         #endregion
@@ -248,7 +248,7 @@ namespace NTMiner.MinerStudio.Impl {
         #region GetOperationResultsAsync
         public void GetOperationResultsAsync(IMinerData client, long afterTime) {
             JsonRpcRoot.GetAsync<List<OperationResultData>>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.GetOperationResults), new Dictionary<string, string> {
-                {"afterTime",afterTime.ToString() }
+                ["afterTime"] = afterTime.ToString()
             }, (data, e) => {
                 if (data != null && data.Count > 0) {
                     VirtualRoot.RaiseEvent(new ClientOperationResultsEvent(client.ClientId, data));

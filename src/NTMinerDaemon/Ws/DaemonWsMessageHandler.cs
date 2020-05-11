@@ -8,14 +8,8 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Ws {
     public static class DaemonWsMessageHandler {
-        private static readonly Dictionary<string, Action<Action<WsMessage>, WsMessage>>
-            _handlers = new Dictionary<string, Action<Action<WsMessage>, WsMessage>>(StringComparer.OrdinalIgnoreCase);
-        public static bool TryGetHandler(string messageType, out Action<Action<WsMessage>, WsMessage> handler) {
-            return _handlers.TryGetValue(messageType, out handler);
-        }
-
-        static DaemonWsMessageHandler() {
-            _handlers.Add(WsMessage.GetConsoleOutLines, (sendAsync, message) => {
+        private static readonly Dictionary<string, Action<Action<WsMessage>, WsMessage>> _handlers = new Dictionary<string, Action<Action<WsMessage>, WsMessage>>(StringComparer.OrdinalIgnoreCase) {
+            [WsMessage.GetConsoleOutLines] = (sendAsync, message) => {
                 // 如果进程不存在就不用Rpc了
                 if (VirtualRoot.DaemonOperation.IsNTMinerOpened() && message.TryGetData(out long afterTime)) {
                     RpcRoot.Client.MinerClientService.GetConsoleOutLinesAsync(NTKeyword.Localhost, afterTime, (data, e) => {
@@ -26,8 +20,8 @@ namespace NTMiner.Ws {
                         }
                     });
                 }
-            });
-            _handlers.Add(WsMessage.GetLocalMessages, (sendAsync, message) => {
+            },
+            [WsMessage.GetLocalMessages] = (sendAsync, message) => {
                 // 如果进程不存在就不用Rpc了
                 if (VirtualRoot.DaemonOperation.IsNTMinerOpened() && message.TryGetData(out long afterTime)) {
                     RpcRoot.Client.MinerClientService.GetLocalMessagesAsync(NTKeyword.Localhost, afterTime, (data, e) => {
@@ -38,18 +32,18 @@ namespace NTMiner.Ws {
                         }
                     });
                 }
-            });
-            _handlers.Add(WsMessage.GetDrives, (sendAsync, message) => {
+            },
+            [WsMessage.GetDrives] = (sendAsync, message) => {
                 sendAsync(new WsMessage(message.Id, WsMessage.Drives) {
                     Data = VirtualRoot.DriveSet.AsEnumerable().ToList()
                 });
-            });
-            _handlers.Add(WsMessage.GetLocalIps, (sendAsync, message) => {
+            },
+            [WsMessage.GetLocalIps] = (sendAsync, message) => {
                 sendAsync(new WsMessage(message.Id, WsMessage.LocalIps) {
                     Data = VirtualRoot.LocalIpSet.AsEnumerable().ToList()
                 });
-            });
-            _handlers.Add(WsMessage.GetOperationResults, (sendAsync, message) => {
+            },
+            [WsMessage.GetOperationResults] = (sendAsync, message) => {
                 if (message.TryGetData(out long afterTime)) {
                     var data = VirtualRoot.OperationResultSet.Gets(afterTime);
                     if (data != null && data.Count != 0) {
@@ -58,8 +52,8 @@ namespace NTMiner.Ws {
                         });
                     }
                 }
-            });
-            _handlers.Add(WsMessage.GetSpeed, (sendAsync, message) => {
+            },
+            [WsMessage.GetSpeed] = (sendAsync, message) => {
                 // 如果进程不存在就不用Rpc了
                 if (VirtualRoot.DaemonOperation.IsNTMinerOpened()) {
                     RpcRoot.Client.MinerClientService.WsGetSpeedAsync((data, ex) => {
@@ -68,92 +62,91 @@ namespace NTMiner.Ws {
                         });
                     });
                 }
-            });
-            _handlers.Add(WsMessage.GetSelfWorkLocalJson, (sendAsync, message) => {
+            },
+            [WsMessage.GetSelfWorkLocalJson] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     string json = VirtualRoot.DaemonOperation.GetSelfWorkLocalJson();
                     sendAsync(new WsMessage(message.Id, WsMessage.SelfWorkLocalJson) {
                         Data = json
                     });
                 });
-            });
-            _handlers.Add(WsMessage.SaveSelfWorkLocalJson, (sendAsync, message) => {
+            },
+            [WsMessage.SaveSelfWorkLocalJson] = (sendAsync, message) => {
                 if (message.TryGetData(out WorkRequest workRequest)) {
                     Task.Factory.StartNew(() => {
                         VirtualRoot.DaemonOperation.SaveSelfWorkLocalJson(workRequest);
                     });
                 }
-            });
-            _handlers.Add(WsMessage.GetGpuProfilesJson, (sendAsync, message) => {
+            },
+            [WsMessage.GetGpuProfilesJson] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     string json = VirtualRoot.DaemonOperation.GetGpuProfilesJson();
                     sendAsync(new WsMessage(message.Id, WsMessage.GpuProfilesJson) {
                         Data = json
                     });
                 });
-            });
-            _handlers.Add(WsMessage.SaveGpuProfilesJson, (sendAsync, message) => {
+            },
+            [WsMessage.SaveGpuProfilesJson] = (sendAsync, message) => {
                 if (message.TryGetData(out string json)) {
                     Task.Factory.StartNew(() => {
                         VirtualRoot.DaemonOperation.SaveGpuProfilesJson(json);
                     });
                 }
-            });
-            _handlers.Add(WsMessage.SetAutoBootStart, (sendAsync, message) => {
+            },
+            [WsMessage.SetAutoBootStart] = (sendAsync, message) => {
                 if (message.TryGetData(out SetAutoBootStartRequest data)) {
                     Task.Factory.StartNew(() => {
                         VirtualRoot.DaemonOperation.SetAutoBootStart(data.AutoBoot, data.AutoStart);
                     });
                 }
-            });
-
-            _handlers.Add(WsMessage.EnableRemoteDesktop, (sendAsync, message) => {
+            },
+            [WsMessage.EnableRemoteDesktop] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     VirtualRoot.DaemonOperation.EnableRemoteDesktop();
                 });
-            });
-            _handlers.Add(WsMessage.BlockWAU, (sendAsync, message) => {
+            },
+            [WsMessage.BlockWAU] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     VirtualRoot.DaemonOperation.BlockWAU();
                 });
-            });
-            _handlers.Add(WsMessage.SetVirtualMemory, (sendAsync, message) => {
+            },
+            [WsMessage.SetVirtualMemory] = (sendAsync, message) => {
                 if (message.TryGetData(out Dictionary<string, int> data)) {
                     Task.Factory.StartNew(() => {
                         VirtualRoot.DaemonOperation.SetVirtualMemory(data);
                     });
                 }
-            });
-            _handlers.Add(WsMessage.SetLocalIps, (sendAsync, message) => {
+            },
+            [WsMessage.SetLocalIps] = (sendAsync, message) => {
                 if (message.TryGetData(out List<LocalIpInput> data)) {
                     Task.Factory.StartNew(() => {
                         VirtualRoot.DaemonOperation.SetLocalIps(data);
                     });
                 }
-            });
-            _handlers.Add(WsMessage.AtikmdagPatcher, (sendAsync, message) => {
+            },
+            [WsMessage.AtikmdagPatcher] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     VirtualRoot.DaemonOperation.AtikmdagPatcher();
                 });
-            });
-            _handlers.Add(WsMessage.SwitchRadeonGpu, (sendAsync, message) => {
+            },
+            [WsMessage.SwitchRadeonGpu] = (sendAsync, message) => {
                 if (message.TryGetData(out bool on)) {
                     Task.Factory.StartNew(() => {
                         VirtualRoot.DaemonOperation.SwitchRadeonGpu(on);
                     });
                 }
-            });
-            _handlers.Add(WsMessage.RestartWindows, (sendAsync, message) => {
+            },
+            [WsMessage.RestartWindows] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     VirtualRoot.DaemonOperation.RestartWindows();
                 });
-            });
-            _handlers.Add(WsMessage.ShutdownWindows, (sendAsync, message) => {
+            },
+            [WsMessage.ShutdownWindows] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     VirtualRoot.DaemonOperation.ShutdownWindows();
                 });
-            });
-            _handlers.Add(WsMessage.UpgradeNTMiner, (sendAsync, message) => {
+            },
+            [WsMessage.UpgradeNTMiner] = (sendAsync, message) => {
                 if (message.TryGetData(out string ntminerFileName)) {
                     Task.Factory.StartNew(() => {
                         VirtualRoot.DaemonOperation.UpgradeNTMiner(new UpgradeNTMinerRequest {
@@ -161,19 +154,23 @@ namespace NTMiner.Ws {
                         });
                     });
                 }
-            });
-            _handlers.Add(WsMessage.StartMine, (sendAsync, message) => {
+            },
+            [WsMessage.StartMine] = (sendAsync, message) => {
                 if (message.TryGetData(out WorkRequest request)) {
                     Task.Factory.StartNew(() => {
                         VirtualRoot.DaemonOperation.StartMine(request);
                     });
                 }
-            });
-            _handlers.Add(WsMessage.StopMine, (sendAsync, message) => {
+            },
+            [WsMessage.StopMine] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {
                     VirtualRoot.DaemonOperation.StopMine();
                 });
-            });
+            }
+        };
+
+        public static bool TryGetHandler(string messageType, out Action<Action<WsMessage>, WsMessage> handler) {
+            return _handlers.TryGetValue(messageType, out handler);
         }
     }
 }
