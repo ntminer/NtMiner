@@ -9,13 +9,20 @@ using System.Collections.Generic;
 
 namespace NTMiner.Ws {
     public static class MinerStudioWsMessageHandler {
-        private static readonly Dictionary<string, Action<Action<WsMessage>, WsMessage>> 
+        private static readonly Dictionary<string, Action<Action<WsMessage>, WsMessage>>
             _handlers = new Dictionary<string, Action<Action<WsMessage>, WsMessage>>(StringComparer.OrdinalIgnoreCase);
         public static bool TryGetHandler(string messageType, out Action<Action<WsMessage>, WsMessage> handler) {
             return _handlers.TryGetValue(messageType, out handler);
         }
 
         static MinerStudioWsMessageHandler() {
+            _handlers.Add(WsMessage.ServerTime, (sendAsync, message) => {
+                if (message.TryGetData(out long serverTime)) {
+                    if (Math.Abs(serverTime - Timestamp.GetTimestamp()) > 20) {
+                        VirtualRoot.Out.ShowWarn("您的电脑时间与网络时间不同步，请调整。");
+                    }
+                }
+            });
             _handlers.Add(WsMessage.ClientDatas, (sendAsync, message) => {
                 if (message.TryGetData(out QueryClientsResponse response)) {
                     VirtualRoot.RaiseEvent(new QueryClientsResponseEvent(response));

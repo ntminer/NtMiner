@@ -23,6 +23,9 @@ namespace NTMiner {
             }
             IMinerStudioSession minerSession = MinerStudioSession.Create(userData, wsUserName, this.ID, Sessions);
             WsRoot.MinerStudioSessionSet.Add(minerSession);
+            base.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ServerTime) {
+                Data = Timestamp.GetTimestamp()
+            }.SignToBytes(userData.Password), completed: null);
         }
 
         protected override void OnClose(CloseEventArgs e) {

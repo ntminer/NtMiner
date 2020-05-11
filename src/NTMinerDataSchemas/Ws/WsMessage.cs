@@ -14,6 +14,7 @@ namespace NTMiner.Ws {
         /// </summary>
         public const string ReGetServerAddress = "ReGetServerAddress";// WsServer->MinerClient || WsServer->MinerStudio
         public const string UpdateAESPassword = "UpdateAESPassword";// WsServer-MinerClient
+        public const string ServerTime = "ServerTime";// WsServer->MinerStudio
         /// <summary>
         /// 指的是用户的密码变更后群控客户端需要重新登录而不是指挖矿端，挖矿端有连接概念并没有登录概念。
         /// </summary>
