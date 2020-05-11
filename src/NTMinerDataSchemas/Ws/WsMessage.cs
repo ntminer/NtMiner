@@ -6,57 +6,55 @@ namespace NTMiner.Ws {
     // 这么滴吧，经测试序列化和反序列化挺快的，不会造成瓶颈，那就先传字符串序列化和反序列化去吧，将来如有必要再开辟新路径制定二进制协议传二进制；
     public class WsMessage : IData {
         #region message type 注意这些常量不区分大小写，注意唯一性
-        // ping
         /// <summary>
         /// 服务端是个集群，两种情况下会向挖矿端发送ReGetServerAddress指令：
         /// 1. 当集群中上线了新节点后，可以计算出哪些客户端会分配到新节点去，从而通知这些节点重新获取服务器地址连向新节点；
         /// 2. 每个服务器节点周期（比如1分钟）检查自己持有的每个客户端连接是否还是分片到自己的客户端，如果不是则发送该消息要求客户端重新获取服务器地址。
         /// 以上两种情况中其中第二种是防护措施通常不会行走到。
         /// </summary>
-        public const string ReGetServerAddress = "ReGetServerAddress";
-        public const string UpdateAESPassword = "UpdateAESPassword";
+        public const string ReGetServerAddress = "ReGetServerAddress";// WsServer->MinerClient || WsServer->MinerStudio
+        public const string UpdateAESPassword = "UpdateAESPassword";// WsServer-MinerClient
         /// <summary>
         /// 指的是用户的密码变更后群控客户端需要重新登录而不是指挖矿端，挖矿端有连接概念并没有登录概念。
         /// </summary>
-        public const string ReLogin = "ReLogin";
-        public const string GetConsoleOutLines = "GetConsoleOutLines";
-        public const string GetLocalMessages = "GetLocalMessages";
-        public const string GetOperationResults = "GetOperationResults";
-        public const string GetDrives = "GetDrives";
-        public const string GetLocalIps = "GetLocalIps";
-        public const string GetSpeed = "GetSpeed";
-        public const string GetSelfWorkLocalJson = "GetSelfWorkLocalJson";
-        public const string GetGpuProfilesJson = "GetGpuProfilesJson";
+        public const string ReLogin = "ReLogin";// WebApiServer:UserPasswordChangedMqMessage->Mq->WsServer->MinerStudio
+        public const string GetConsoleOutLines = "GetConsoleOutLines";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string GetLocalMessages = "GetLocalMessages";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string GetOperationResults = "GetOperationResults";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string GetDrives = "GetDrives";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string GetLocalIps = "GetLocalIps";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string GetSpeed = "GetSpeed";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string GetSelfWorkLocalJson = "GetSelfWorkLocalJson";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string GetGpuProfilesJson = "GetGpuProfilesJson";// MinerStudio->WsServer->Mq->WsServer->MinerClient
 
-        public const string EnableRemoteDesktop = "EnableRemoteDesktop";
-        public const string BlockWAU = "BlockWAU";
-        public const string AtikmdagPatcher = "AtikmdagPatcher";
-        public const string SwitchRadeonGpu = "SwitchRadeonGpu";
-        public const string SetVirtualMemory = "SetVirtualMemory";
-        public const string SetLocalIps = "SetLocalIps";
-        public const string SaveSelfWorkLocalJson = "SaveSelfWorkLocalJson";
-        public const string SaveGpuProfilesJson = "SaveGpuProfilesJson";
-        public const string SetAutoBootStart = "SetAutoBootStart";
-        public const string RestartWindows = "RestartWindows";
-        public const string ShutdownWindows = "ShutdownWindows";
-        public const string UpgradeNTMiner = "UpgradeNTMiner";
-        public const string StartMine = "StartMine";
-        public const string StopMine = "StopMine";
+        public const string EnableRemoteDesktop = "EnableRemoteDesktop";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string BlockWAU = "BlockWAU";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string AtikmdagPatcher = "AtikmdagPatcher";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string SwitchRadeonGpu = "SwitchRadeonGpu";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string SetVirtualMemory = "SetVirtualMemory";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string SetLocalIps = "SetLocalIps";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string SaveSelfWorkLocalJson = "SaveSelfWorkLocalJson";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string SaveGpuProfilesJson = "SaveGpuProfilesJson";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string SetAutoBootStart = "SetAutoBootStart";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string RestartWindows = "RestartWindows";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string ShutdownWindows = "ShutdownWindows";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string UpgradeNTMiner = "UpgradeNTMiner";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string StartMine = "StartMine";// MinerStudio->WsServer->Mq->WsServer->MinerClient
+        public const string StopMine = "StopMine";// MinerStudio->WsServer->Mq->WsServer->MinerClient
 
-        public const string QueryClientDatas = "QueryClientDatas";
+        public const string QueryClientDatas = "QueryClientDatas";// MinerStudio->WsServer:Rpc[MinerStudio]
 
-        // pong
-        public const string ConsoleOutLines = "ConsoleOutLines";
-        public const string OperationResults = "OperationResults";
-        public const string Drives = "Drives";
-        public const string LocalIps = "LocalIps";
-        public const string LocalMessages = "LocalMessages";
-        public const string Speed = "Speed";
-        public const string OperationReceived = "OperationReceived";
-        public const string SelfWorkLocalJson = "SelfWorkLocalJson";
-        public const string GpuProfilesJson = "GpuProfilesJson";
+        public const string ConsoleOutLines = "ConsoleOutLines";// MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string OperationResults = "OperationResults";// MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string Drives = "Drives";// MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string LocalIps = "LocalIps";// MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string LocalMessages = "LocalMessages";// MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string Speed = "Speed";// MinerClient->WsServer->Mq->WebApiServer
+        public const string OperationReceived = "OperationReceived";// MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string SelfWorkLocalJson = "SelfWorkLocalJson";// MinerClient->WsServer->Mq->WsServer->MinerStudio
+        public const string GpuProfilesJson = "GpuProfilesJson";// MinerClient->WsServer->Mq->WsServer->MinerStudio
 
-        public const string ClientDatas = "ClientDatas";
+        public const string ClientDatas = "ClientDatas";// WsServer->MinerStudio
         #endregion
 
         public WsMessage() {
