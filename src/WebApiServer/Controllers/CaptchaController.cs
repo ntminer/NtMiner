@@ -56,24 +56,23 @@ namespace NTMiner.Controllers {
             if (len < 4) {
                 len = 4;
             }
-            Bitmap image = new Bitmap((int)Math.Ceiling(len * 16.0), 27);
-            Graphics g = Graphics.FromImage(image);
-            try {
+            using (Bitmap image = new Bitmap((int)Math.Ceiling(len * 16.0), 27))
+            using (Graphics graphics = Graphics.FromImage(image)) {
                 //生成随机生成器
                 Random random = new Random();
                 //清空图片背景色
-                g.Clear(Color.White);
+                graphics.Clear(Color.White);
                 //画图片的干扰线
                 for (int i = 0; i < 25; i++) {
                     int x1 = random.Next(image.Width);
                     int x2 = random.Next(image.Width);
                     int y1 = random.Next(image.Height);
                     int y2 = random.Next(image.Height);
-                    g.DrawLine(new Pen(Color.Silver), x1, x2, y1, y2);
+                    graphics.DrawLine(new Pen(Color.Silver), x1, x2, y1, y2);
                 }
                 Font font = new Font("Arial", 14, (FontStyle.Bold | FontStyle.Italic));
                 LinearGradientBrush brush = new LinearGradientBrush(new Rectangle(0, 0, image.Width, image.Height), Color.Blue, Color.DarkRed, 1.2f, true);
-                g.DrawString(validateCode, font, brush, 3, 2);
+                graphics.DrawString(validateCode, font, brush, 3, 2);
 
                 //画图片的前景干扰线
                 for (int i = 0; i < 100; i++) {
@@ -82,18 +81,15 @@ namespace NTMiner.Controllers {
                     image.SetPixel(x, y, Color.FromArgb(random.Next()));
                 }
                 //画图片的边框线
-                g.DrawRectangle(new Pen(Color.Silver), 0, 0, image.Width - 1, image.Height - 1);
+                graphics.DrawRectangle(new Pen(Color.Silver), 0, 0, image.Width - 1, image.Height - 1);
 
                 //保存图片数据
-                MemoryStream stream = new MemoryStream();
-                image.Save(stream, ImageFormat.Jpeg);
+                using (MemoryStream stream = new MemoryStream()) {
+                    image.Save(stream, ImageFormat.Jpeg);
 
-                //输出图片流
-                return stream.ToArray();
-            }
-            finally {
-                g.Dispose();
-                image.Dispose();
+                    //输出图片流
+                    return stream.ToArray();
+                }
             }
         }
     }

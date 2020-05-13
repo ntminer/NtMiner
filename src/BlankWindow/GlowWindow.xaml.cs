@@ -253,9 +253,7 @@ namespace NTMiner {
         }
 
         public void Dispose() {
-            if (_resizeModeChangeNotifier != null) {
-                _resizeModeChangeNotifier.Dispose();
-            }
+            _resizeModeChangeNotifier?.Dispose();
         }
     }
 }
