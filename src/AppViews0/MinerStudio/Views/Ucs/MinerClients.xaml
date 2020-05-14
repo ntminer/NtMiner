@@ -9,7 +9,7 @@
     d:DataContext="{d:DesignData Source=../Design/MinerClientsWindowViewModel.xaml}"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
 	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
-	mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="5300">
+	mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="5500">
     <DataGrid 
 		BorderThickness="0 1 0 0"
         BorderBrush="{StaticResource LightLineColor}"
@@ -722,23 +722,28 @@
 				Visibility="{Binding Data.ColumnsShow.MainCoinSpeedText,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
-                    <WrapPanel>
-                        <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_SPEED_TEXT}"></TextBlock>
-                        <controls:KbButton
-							ToolTip="不展示"
-							Command="{Binding Data.ColumnsShow.Hide, Source={StaticResource proxy}}" 
-							CommandParameter="MainCoinSpeedText"
-							Background="Transparent">
-                            <WrapPanel>
-                                <Path
-									Width="14"
-									Height="12"
-									Data="{StaticResource Icon_Hide}"
-									Fill="#FF5A5A5A"
-									Stretch="Fill" />
-                            </WrapPanel>
-                        </controls:KbButton>
-                    </WrapPanel>
+                    <controls:KbButton
+						ToolTip="排序"
+                        Background="Transparent"
+                        Command="{Binding Data.SortByMainCoinSpeed, Source={StaticResource proxy}}">
+                        <WrapPanel>
+                            <TextBlock Text="{x:Static vm:ColumnsShowViewModel.MAIN_COIN_SPEED_TEXT}"></TextBlock>
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.MainCoinSpeedSortDirection,ConverterParameter=Ascending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberAscending}"
+								Fill="{Binding Data.IsSortByMainCoinSpeed,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                            <Path
+								Width="12"
+								Height="14"
+                                Visibility="{Binding Data.MainCoinSpeedSortDirection,ConverterParameter=Descending,Converter={StaticResource SortDirectionToVisibilityConverter},Source={StaticResource proxy}}"
+								Data="{StaticResource Icon_SortNumberDescending}"
+								Fill="{Binding Data.IsSortByMainCoinSpeed,Source={StaticResource proxy},Converter={StaticResource BoolToBrushConverter}}"
+								Stretch="Fill" />
+                        </WrapPanel>
+                    </controls:KbButton>
                 </DataGridTemplateColumn.Header>
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>

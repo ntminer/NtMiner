@@ -41,6 +41,7 @@ namespace NTMiner.MinerStudio.Vms {
         private int _rejectPercent = 10;
         private Dictionary<ClientDataSortField, SortDirection> _sortDirection = new Dictionary<ClientDataSortField, SortDirection> {
             [ClientDataSortField.MinerName] = SortDirection.Ascending,
+            [ClientDataSortField.MainCoinSpeed] = SortDirection.Ascending,
             [ClientDataSortField.CpuTemperature] = SortDirection.Descending,
             [ClientDataSortField.DualCoinPoolDelay] = SortDirection.Descending,
             [ClientDataSortField.DualCoinRejectPercent] = SortDirection.Descending,
@@ -319,6 +320,7 @@ namespace NTMiner.MinerStudio.Vms {
         public ICommand CopyMainCoinWallet { get; private set; }
 
         public ICommand SortByMinerName { get; private set; }
+        public ICommand SortByMainCoinSpeed { get; private set; }
         public ICommand SortByMainCoinRejectPercent { get; private set; }
         public ICommand SortByDualCoinRejectPercent { get; private set; }
         public ICommand SortByMainCoinPoolDelay { get; private set; }
@@ -676,6 +678,19 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                     else {
                         MinerNameSortDirection = SortDirection.Ascending;
+                    }
+                }
+            });
+            this.SortByMainCoinSpeed = new DelegateCommand(() => {
+                if (this.SortField != ClientDataSortField.MainCoinSpeed) {
+                    this.SortField = ClientDataSortField.MainCoinSpeed;
+                }
+                else {
+                    if (MainCoinSpeedSortDirection == SortDirection.Ascending) {
+                        MainCoinSpeedSortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        MainCoinSpeedSortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -1197,6 +1212,17 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public SortDirection MainCoinSpeedSortDirection {
+            get { return _sortDirection[ClientDataSortField.MainCoinSpeed]; }
+            set {
+                if (_sortDirection[ClientDataSortField.MainCoinSpeed] != value) {
+                    _sortDirection[ClientDataSortField.MainCoinSpeed] = value;
+                    OnPropertyChanged(nameof(MainCoinSpeedSortDirection));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
         public SortDirection MainCoinRejectPercentSortDirection {
             get { return _sortDirection[ClientDataSortField.MainCoinRejectPercent]; }
             set {
@@ -1270,6 +1296,7 @@ namespace NTMiner.MinerStudio.Vms {
                     _sortField = value;
                     OnPropertyChanged(nameof(SortField));
                     OnPropertyChanged(nameof(IsSortByMinerName));
+                    OnPropertyChanged(nameof(IsSortByMainCoinSpeed));
                     OnPropertyChanged(nameof(IsSortByMainCoinRejectPercent));
                     OnPropertyChanged(nameof(IsSortByDualCoinRejectPercent));
                     OnPropertyChanged(nameof(IsSortByMainCoinPoolDelay));
@@ -1284,6 +1311,12 @@ namespace NTMiner.MinerStudio.Vms {
         public bool IsSortByMinerName {
             get {
                 return SortField == ClientDataSortField.MinerName;
+            }
+        }
+
+        public bool IsSortByMainCoinSpeed {
+            get {
+                return SortField == ClientDataSortField.MainCoinSpeed;
             }
         }
 
