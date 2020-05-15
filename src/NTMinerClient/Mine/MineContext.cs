@@ -62,7 +62,7 @@ namespace NTMiner.Mine {
                 this.KernelProcessType = KernelProcessType.Pip;
                 logFileName = $"{this.Kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
             }
-            this.LogFileFullName = Path.Combine(TempPath.TempLogsDirFullName, logFileName);
+            this.LogFileFullName = Path.Combine(MinerClientTempPath.TempLogsDirFullName, logFileName);
         }
 
         public void Start(bool isRestart) {
@@ -254,7 +254,7 @@ namespace NTMiner.Mine {
             if (string.IsNullOrEmpty(kernel.Package)) {
                 throw new InvalidDataException();
             }
-            string kernelDir = Path.Combine(TempPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(kernel.Package));
+            string kernelDir = Path.Combine(MinerClientTempPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(kernel.Package));
             string kernelCommandName = kernel.GetCommandName();
             kernelExeFileFullName = Path.Combine(kernelDir, kernelCommandName);
             if (!kernelExeFileFullName.EndsWith(".exe")) {

@@ -48,7 +48,7 @@ namespace NTMiner.Daemon {
         private static void ExtractRunNTMinerDaemonAsync() {
             Task.Factory.StartNew(() => {
                 ExtractResource(NTKeyword.NTMinerDaemonFileName);
-                Windows.Cmd.RunClose(TempPath.DaemonFileFullName, string.Empty, waitForExit: true, createNoWindow: !DevMode.IsDevMode);
+                Windows.Cmd.RunClose(MinerClientTempPath.DaemonFileFullName, string.Empty, waitForExit: true, createNoWindow: !DevMode.IsDevMode);
                 Logger.OkDebugLine("守护进程启动成功");
             });
         }
@@ -58,17 +58,17 @@ namespace NTMiner.Daemon {
                 return;
             }
             Task.Factory.StartNew(() => {
-                if (!File.Exists(TempPath.DevConsoleFileFullName)) {
+                if (!File.Exists(MinerClientTempPath.DevConsoleFileFullName)) {
                     ExtractResource(NTKeyword.DevConsoleFileName);
                     Logger.OkDebugLine("DevConsole解压成功");
                 }
-                else if (HashUtil.Sha1(File.ReadAllBytes(TempPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
+                else if (HashUtil.Sha1(File.ReadAllBytes(MinerClientTempPath.DevConsoleFileFullName)) != ThisDevConsoleFileVersion) {
                     Windows.TaskKill.Kill(NTKeyword.DevConsoleFileName, waitForExit: true);
                     ExtractResource(NTKeyword.DevConsoleFileName);
                     Logger.OkDebugLine("发现新版DevConsole，更新成功");
                 }
                 string argument = poolIp + " " + consoleTitle;
-                Process.Start(TempPath.DevConsoleFileFullName, argument);
+                Process.Start(MinerClientTempPath.DevConsoleFileFullName, argument);
                 Logger.OkDebugLine("DevConsole启动成功");
             });
         }
@@ -77,7 +77,7 @@ namespace NTMiner.Daemon {
             try {
                 Type type = typeof(DaemonUtil);
                 Assembly assembly = type.Assembly;
-                string daemonDir = Path.GetDirectoryName(TempPath.DaemonFileFullName);
+                string daemonDir = Path.GetDirectoryName(MinerClientTempPath.DaemonFileFullName);
                 assembly.ExtractManifestResource(type, name, Path.Combine(daemonDir, name));
             }
             catch (Exception e) {

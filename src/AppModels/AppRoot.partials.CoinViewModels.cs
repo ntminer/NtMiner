@@ -79,7 +79,7 @@ namespace NTMiner {
                             if (string.IsNullOrEmpty(message.Source.Icon)) {
                                 return;
                             }
-                            string iconFileFullName = TempPath.GetIconFileFullName(message.Source.Icon);
+                            string iconFileFullName = MinerClientTempPath.GetIconFileFullName(message.Source.Icon);
                             if (string.IsNullOrEmpty(iconFileFullName) || !File.Exists(iconFileFullName)) {
                                 return;
                             }

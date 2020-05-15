@@ -30,7 +30,7 @@ namespace NTMiner.Vms {
         };
         public static readonly CoinViewModel PleaseSelect = new CoinViewModel(Guid.Empty) {
             _code = "不指定",
-            _iconImageSource = TempPath.GetIconFileFullName("ETH.png")
+            _iconImageSource = MinerClientTempPath.GetIconFileFullName("ETH.png")
         };
         public static readonly CoinViewModel DualCoinEnabled = new CoinViewModel(Guid.Empty) {
             _code = "启用了双挖"
@@ -106,7 +106,7 @@ namespace NTMiner.Vms {
             _isHot = data.IsHot;
             _kernelBrand = data.KernelBrand;
             _minGpuMemoryGb = data.MinGpuMemoryGb;
-            string iconFileFullName = TempPath.GetIconFileFullName(data.Icon);
+            string iconFileFullName = MinerClientTempPath.GetIconFileFullName(data.Icon);
             if (!string.IsNullOrEmpty(iconFileFullName) && File.Exists(iconFileFullName)) {
                 _iconImageSource = iconFileFullName;
             }
@@ -390,7 +390,7 @@ namespace NTMiner.Vms {
         }
 
         public void RefreshIcon() {
-            string iconFileFullName = TempPath.GetIconFileFullName(this.Icon);
+            string iconFileFullName = MinerClientTempPath.GetIconFileFullName(this.Icon);
             // 如果磁盘上存在则不再下载，所以如果要更新币种图标则需重命名Icon文件
             if (string.IsNullOrEmpty(iconFileFullName)) {
                 return;

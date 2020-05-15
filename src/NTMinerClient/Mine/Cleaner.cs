@@ -21,7 +21,7 @@ namespace NTMiner.Mine {
         /// </summary>
         private void ClearDownload() {
             try {
-                foreach (var file in Directory.GetFiles(TempPath.DownloadDirFullName)) {
+                foreach (var file in Directory.GetFiles(MinerClientTempPath.DownloadDirFullName)) {
                     FileInfo fileInfo = new FileInfo(file);
                     if (fileInfo.LastWriteTime.AddDays(1) < DateTime.Now) {
                         File.Delete(file);
@@ -83,7 +83,7 @@ namespace NTMiner.Mine {
                 if (currentMineContext != null && currentMineContext.Kernel != null) {
                     currentKernelDir = currentMineContext.Kernel.GetKernelDirFullName();
                 }
-                foreach (string dir in Directory.GetDirectories(TempPath.KernelsDirFullName)) {
+                foreach (string dir in Directory.GetDirectories(MinerClientTempPath.KernelsDirFullName)) {
                     if (string.IsNullOrEmpty(currentKernelDir) || dir != currentKernelDir) {
                         try {
                             Directory.Delete(dir, recursive: true);
@@ -102,7 +102,7 @@ namespace NTMiner.Mine {
         private void ClearLogs() {
             try {
                 List<string> toRemoves = new List<string>();
-                foreach (var file in Directory.GetFiles(TempPath.TempLogsDirFullName)) {
+                foreach (var file in Directory.GetFiles(MinerClientTempPath.TempLogsDirFullName)) {
                     FileInfo fileInfo = new FileInfo(file);
                     if (fileInfo.LastWriteTime.AddDays(7) < DateTime.Now) {
                         toRemoves.Add(file);

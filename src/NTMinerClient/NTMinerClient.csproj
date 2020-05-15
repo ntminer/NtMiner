@@ -216,8 +216,8 @@
     <Compile Include="NTMinerContext.cs" />
     <Compile Include="NTMinerContext.partials.static.cs" />
     <Compile Include="Core\ServerContextExtensions.cs" />
-    <Compile Include="TempPath.cs" />
-    <Compile Include="TempPath.partials.Upgrade.cs" />
+    <Compile Include="MinerClientTempPath.cs" />
+    <Compile Include="MinerClientTempPath.partials.Upgrade.cs" />
     <Compile Include="StopMineReason.cs" />
     <Compile Include="Core\MinerStudio\Impl\UserAppSettingSet.cs" />
     <Compile Include="Core\MinerStudio\IUserAppSettingSet.cs" />

@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
 namespace NTMiner {
-    public static partial class TempPath {
-        static TempPath() {
+    public static partial class MinerClientTempPath {
+        static MinerClientTempPath() {
             string daemonDirFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.DaemonDirName);
             string noDevFeeDirFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.NoDevFeeDirName);
             if (!Directory.Exists(daemonDirFullName)) {

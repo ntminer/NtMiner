@@ -232,7 +232,7 @@ namespace NTMiner.Vms {
             // isSuccess, message, saveFileFullName
             Action<bool, string, string> downloadComplete,
             out Action cancel) {
-            string saveFileFullName = Path.Combine(TempPath.DownloadDirFullName, package);
+            string saveFileFullName = Path.Combine(MinerClientTempPath.DownloadDirFullName, package);
             progressChanged?.Invoke(0);
             using (var webClient = VirtualRoot.CreateWebClient()) {
                 cancel = () => {

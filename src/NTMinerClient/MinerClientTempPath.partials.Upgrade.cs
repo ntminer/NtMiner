@@ -1,7 +1,7 @@
 ﻿using System.IO;
 
 namespace NTMiner {
-    public static partial class TempPath {
+    public static partial class MinerClientTempPath {
         private static void Upgrade() {
             if (ClientAppType.IsMinerClient && HomePath.IsLocalHome && !File.Exists(HomePath.RootLockFileFullName)) {
                 #region 迁移

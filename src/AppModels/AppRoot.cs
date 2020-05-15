@@ -218,22 +218,22 @@ namespace NTMiner {
             RpcRoot.OfficialServer.FileUrlService.GetMinerClientFinderUrlAsync((downloadFileUrl, e) => {
                 try {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
-                        if (File.Exists(TempPath.MinerClientFinderFileFullName)) {
-                            Windows.Cmd.RunClose(TempPath.MinerClientFinderFileFullName, string.Empty);
+                        if (File.Exists(MinerClientTempPath.MinerClientFinderFileFullName)) {
+                            Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty);
                         }
                         return;
                     }
                     Uri uri = new Uri(downloadFileUrl);
                     string localVersion = GetMinerClientFinderVersion();
-                    if (string.IsNullOrEmpty(localVersion) || !File.Exists(TempPath.MinerClientFinderFileFullName) || uri.AbsolutePath != localVersion) {
+                    if (string.IsNullOrEmpty(localVersion) || !File.Exists(MinerClientTempPath.MinerClientFinderFileFullName) || uri.AbsolutePath != localVersion) {
                         VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "下载矿机雷达", (window, isSuccess, message, saveFileFullName) => {
                             try {
                                 if (isSuccess) {
-                                    File.Delete(TempPath.MinerClientFinderFileFullName);
-                                    File.Move(saveFileFullName, TempPath.MinerClientFinderFileFullName);
+                                    File.Delete(MinerClientTempPath.MinerClientFinderFileFullName);
+                                    File.Move(saveFileFullName, MinerClientTempPath.MinerClientFinderFileFullName);
                                     SetMinerClientFinderVersion(uri.AbsolutePath);
                                     window?.Close();
-                                    Windows.Cmd.RunClose(TempPath.MinerClientFinderFileFullName, string.Empty);
+                                    Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty);
                                 }
                                 else {
                                     VirtualRoot.ThisLocalError(nameof(AppRoot), "下载矿机雷达：" + message, toConsole: true);
@@ -245,7 +245,7 @@ namespace NTMiner {
                         }));
                     }
                     else {
-                        Windows.Cmd.RunClose(TempPath.MinerClientFinderFileFullName, string.Empty);
+                        Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty);
                     }
                 }
                 catch (Exception ex) {
@@ -257,7 +257,7 @@ namespace NTMiner {
 
         #region OpenLiteDb
         public static void OpenLiteDb(string dbFileFullName) {
-            string liteDbExplorerDir = Path.Combine(TempPath.ToolsDirFullName, "LiteDBExplorerPortable");
+            string liteDbExplorerDir = Path.Combine(MinerClientTempPath.ToolsDirFullName, "LiteDBExplorerPortable");
             string liteDbExplorerFileFullName = Path.Combine(liteDbExplorerDir, "LiteDbExplorer.exe");
             if (!Directory.Exists(liteDbExplorerDir)) {
                 Directory.CreateDirectory(liteDbExplorerDir);

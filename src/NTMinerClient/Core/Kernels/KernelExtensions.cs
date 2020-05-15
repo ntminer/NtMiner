@@ -92,7 +92,7 @@ namespace NTMiner.Core.Kernels {
             if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
                 return string.Empty;
             }
-            return Path.Combine(TempPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(kernel.Package));
+            return Path.Combine(MinerClientTempPath.KernelsDirFullName, Path.GetFileNameWithoutExtension(kernel.Package));
         }
 
         public static string GetPackageFileFullName(this IKernel kernel) {
@@ -114,7 +114,7 @@ namespace NTMiner.Core.Kernels {
             if (kernel == null || string.IsNullOrEmpty(kernel.Package)) {
                 return string.Empty;
             }
-            return Path.Combine(TempPath.DownloadDirFullName, kernel.Package);
+            return Path.Combine(MinerClientTempPath.DownloadDirFullName, kernel.Package);
         }
 
         public static bool ExtractPackage(this IKernel kernel) {

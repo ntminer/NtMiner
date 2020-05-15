@@ -86,7 +86,7 @@ namespace NTMiner.Vms {
         }
 
         public void OpenLogFileByNpp(string fileFullName) {
-            string nppDir = Path.Combine(TempPath.ToolsDirFullName, "Npp");
+            string nppDir = Path.Combine(MinerClientTempPath.ToolsDirFullName, "Npp");
             string nppFileFullName = Path.Combine(nppDir, "notepad++.exe");
             if (!Directory.Exists(nppDir)) {
                 Directory.CreateDirectory(nppDir);

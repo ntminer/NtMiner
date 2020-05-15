@@ -102,27 +102,27 @@ namespace NTMiner {
         }
 
         public static string DaemonFileFullName {
-            get { return TempPath.DaemonFileFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
+            get { return MinerClientTempPath.DaemonFileFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
         }
 
         public static string DevConsoleFileFullName {
-            get { return TempPath.DevConsoleFileFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
+            get { return MinerClientTempPath.DevConsoleFileFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
         }
 
         public static string DownloadDirFullName {
             get {
-                return TempPath.DownloadDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName);
+                return MinerClientTempPath.DownloadDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName);
             }
         }
 
         public static string KernelsDirFullName {
-            get { return TempPath.KernelsDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
+            get { return MinerClientTempPath.KernelsDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
         }
 
         public static string LogsDirFullName {
             get {
                 if (ClientAppType.IsMinerClient) {
-                    return TempPath.TempLogsDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName);
+                    return MinerClientTempPath.TempLogsDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName);
                 }
                 return HomePath.HomeLogsDirFullName.Replace(HomePath.HomeDirFullName, NTKeyword.HomeDirParameterName);
             }
@@ -143,7 +143,7 @@ namespace NTMiner {
 
         #region IsMinerClient
         /// <summary>
-        /// 为了让IDE显式的引用计数为0该文件里其它地方直接使用<see cref="TempPath.IsMinerClient"/>
+        /// 为了让IDE显式的引用计数为0该文件里其它地方直接使用<see cref="MinerClientTempPath.IsMinerClient"/>
         /// </summary>
         public static bool IsMinerClient {
             get => ClientAppType.IsMinerClient;
@@ -162,7 +162,7 @@ namespace NTMiner {
         }
 
         /// <summary>
-        /// 为了让IDE显式的引用计数为0该文件里其它地方直接使用<see cref="TempPath.IsMinerStudio"/>
+        /// 为了让IDE显式的引用计数为0该文件里其它地方直接使用<see cref="MinerClientTempPath.IsMinerStudio"/>
         /// </summary>
         public static bool IsMinerStudio {
             get => ClientAppType.IsMinerStudio;

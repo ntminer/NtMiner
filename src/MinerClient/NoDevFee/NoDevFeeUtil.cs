@@ -39,7 +39,7 @@ namespace NTMiner.NoDevFee {
         private static void ExtractRunNTMinerNoDevFeeAsync() {
             Task.Factory.StartNew(() => {
                 ExtractResource(NTKeyword.NTMinerNoDevFeeFileName);
-                Windows.Cmd.RunClose(TempPath.NoDevFeeFileFullName, string.Empty, waitForExit: true, createNoWindow: !DevMode.IsDevMode);
+                Windows.Cmd.RunClose(MinerClientTempPath.NoDevFeeFileFullName, string.Empty, waitForExit: true, createNoWindow: !DevMode.IsDevMode);
                 Logger.OkDebugLine("NoDevFee进程启动成功");
             });
         }
@@ -48,7 +48,7 @@ namespace NTMiner.NoDevFee {
             try {
                 Type type = typeof(NoDevFeeUtil);
                 Assembly assembly = type.Assembly;
-                string noDevFeeDir = Path.GetDirectoryName(TempPath.NoDevFeeFileFullName);
+                string noDevFeeDir = Path.GetDirectoryName(MinerClientTempPath.NoDevFeeFileFullName);
                 assembly.ExtractManifestResource(type, name, Path.Combine(noDevFeeDir, name));
             }
             catch (Exception e) {
