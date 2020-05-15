@@ -28,7 +28,7 @@ namespace NTMiner {
         private static bool _sIsFirstCallDownloadDirFullName = true;
         public static string DownloadDirFullName {
             get {
-                string dirFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.DownloadDirName);
+                string dirFullName = Path.Combine(TempPath.TempDirFullName, NTKeyword.DownloadDirName);
                 if (_sIsFirstCallDownloadDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);

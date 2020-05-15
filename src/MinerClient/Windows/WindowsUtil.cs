@@ -28,7 +28,7 @@ namespace NTMiner.Windows {
                     Type type = typeof(WindowsUtil);
                     Assembly assembly = type.Assembly;
                     string name = "Win10Optimize.reg";
-                    string fileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, name);
+                    string fileFullName = Path.Combine(TempPath.TempDirFullName, name);
                     assembly.ExtractManifestResource(type, name, fileFullName);
                     Cmd.RunClose("regedit", $"/s \"{fileFullName}\"", waitForExit: true);
                     callback?.Invoke(null);

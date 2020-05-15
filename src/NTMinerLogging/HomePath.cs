@@ -5,7 +5,7 @@ namespace NTMiner {
     public static class HomePath {
         public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.lock");
         public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.config");
-        public static string HomeDirFullName { get; private set; } = EntryAssemblyInfo.TempDirFullName;
+        public static string HomeDirFullName { get; private set; } = TempPath.TempDirFullName;
         public static readonly string ServerJsonFileFullName;
         public static readonly string SelfWorkServerJsonFileFullName;
         public static readonly string MineWorkServerJsonFileFullName;

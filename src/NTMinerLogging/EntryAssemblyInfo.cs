@@ -8,7 +8,6 @@ namespace NTMiner {
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionStr;
         public static readonly string CurrentVersionTag = string.Empty;
-        public static readonly string TempDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
 
         static EntryAssemblyInfo() {
             if (!DevMode.IsInUnitTest) {

@@ -91,7 +91,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = cmdName;
                     proc.StartInfo.Arguments = $"{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
-                    proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
+                    proc.StartInfo.WorkingDirectory = TempPath.TempDirFullName;
                     proc.Start();
                     if (waitForExit) {
                         proc.WaitForExit(10 * 1000);
@@ -125,7 +125,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.UseShellExecute = false;
                     proc.StartInfo.FileName = cmdName;
                     proc.StartInfo.Arguments = $"{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
-                    proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
+                    proc.StartInfo.WorkingDirectory = TempPath.TempDirFullName;
                     proc.Start();
                     proc.WaitForExit(10 * 1000);
                     exitCode = proc.ExitCode;
@@ -162,7 +162,7 @@ namespace NTMiner.Windows {
                     proc.StartInfo.RedirectStandardError = true;
                     proc.StartInfo.FileName = cmdName;
                     proc.StartInfo.Arguments = $"{(string.IsNullOrEmpty(args) ? string.Empty : " ")}{args}";
-                    proc.StartInfo.WorkingDirectory = EntryAssemblyInfo.TempDirFullName;
+                    proc.StartInfo.WorkingDirectory = TempPath.TempDirFullName;
                     proc.Start();
 
                     output = proc.StandardOutput.ReadToEnd();// 注意：读取输出可能被阻塞

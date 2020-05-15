@@ -78,7 +78,7 @@ namespace NTMiner {
         /// 为了让IDE显式的引用计数为0该文件里其它地方直接使用<see cref="EntryAssemblyInfo.TempDirFullName"/>
         /// </summary>
         public static string TempDir {
-            get { return EntryAssemblyInfo.TempDirFullName; }
+            get { return TempPath.TempDirFullName; }
         }
         public static string ServerDbFileFullName {
             get {
@@ -102,27 +102,27 @@ namespace NTMiner {
         }
 
         public static string DaemonFileFullName {
-            get { return MinerClientTempPath.DaemonFileFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
+            get { return MinerClientTempPath.DaemonFileFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName); }
         }
 
         public static string DevConsoleFileFullName {
-            get { return MinerClientTempPath.DevConsoleFileFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
+            get { return MinerClientTempPath.DevConsoleFileFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName); }
         }
 
         public static string DownloadDirFullName {
             get {
-                return MinerClientTempPath.DownloadDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName);
+                return MinerClientTempPath.DownloadDirFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName);
             }
         }
 
         public static string KernelsDirFullName {
-            get { return MinerClientTempPath.KernelsDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName); }
+            get { return MinerClientTempPath.KernelsDirFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName); }
         }
 
         public static string LogsDirFullName {
             get {
                 if (ClientAppType.IsMinerClient) {
-                    return MinerClientTempPath.TempLogsDirFullName.Replace(EntryAssemblyInfo.TempDirFullName, NTKeyword.TempDirParameterName);
+                    return MinerClientTempPath.TempLogsDirFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName);
                 }
                 return HomePath.HomeLogsDirFullName.Replace(HomePath.HomeDirFullName, NTKeyword.HomeDirParameterName);
             }
@@ -530,7 +530,7 @@ namespace NTMiner {
 
         public static ICommand OpenDir { get; private set; } = new DelegateCommand<string>((dir) => {
             if (dir.StartsWith(NTKeyword.TempDirParameterName)) {
-                dir = dir.Replace(NTKeyword.TempDirParameterName, EntryAssemblyInfo.TempDirFullName);
+                dir = dir.Replace(NTKeyword.TempDirParameterName, TempPath.TempDirFullName);
             }
             else if (dir.StartsWith(NTKeyword.HomeDirParameterName)) {
                 dir = dir.Replace(NTKeyword.HomeDirParameterName, HomePath.HomeDirFullName);

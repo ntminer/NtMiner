@@ -17,11 +17,11 @@ using System.Windows;
 namespace NTMiner {
     public partial class App : Application {
         public static readonly string SwitchRadeonGpuResourceName = "switch-radeon-gpu.exe";
-        public static readonly string SwitchRadeonGpuFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, SwitchRadeonGpuResourceName);
+        public static readonly string SwitchRadeonGpuFileFullName = Path.Combine(TempPath.TempDirFullName, SwitchRadeonGpuResourceName);
         public static readonly string AtikmdagPatcherResourceName = "atikmdag-patcher1.4.7.exe";
-        public static readonly string AtikmdagPatcherFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, AtikmdagPatcherResourceName);
+        public static readonly string AtikmdagPatcherFileFullName = Path.Combine(TempPath.TempDirFullName, AtikmdagPatcherResourceName);
         public static readonly string BlockWAUResourceName = "BlockWAU.bat";
-        public static readonly string BlockWAUFileFullName = Path.Combine(EntryAssemblyInfo.TempDirFullName, BlockWAUResourceName);
+        public static readonly string BlockWAUFileFullName = Path.Combine(TempPath.TempDirFullName, BlockWAUResourceName);
 
         public App() {
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);

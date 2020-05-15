@@ -42,7 +42,7 @@ namespace NTMiner {
                 string dbFile = Path.Combine(Path.GetDirectoryName(location), NTKeyword.LocalDbFileName);
                 bool isDbFileExist = File.Exists(dbFile);
                 if (!isDbFileExist) {
-                    dbFile = Path.Combine(EntryAssemblyInfo.TempDirFullName, NTKeyword.LocalDbFileName);
+                    dbFile = Path.Combine(TempPath.TempDirFullName, NTKeyword.LocalDbFileName);
                     isDbFileExist = File.Exists(dbFile);
                 }
                 if (!isDbFileExist) {
