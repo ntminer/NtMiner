@@ -29,12 +29,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        if (timeountMilliseconds != 0) {
-                            if (timeountMilliseconds < 100) {
-                                timeountMilliseconds *= 1000;
-                            }
-                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
-                        }
+                        client.SetTimeout(timeountMilliseconds);
                         byte[] bytes = VirtualRoot.BinarySerializer.Serialize(data);
                         if (bytes == null) {
                             bytes = new byte[0];

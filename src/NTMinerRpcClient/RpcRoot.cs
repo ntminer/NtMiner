@@ -68,5 +68,17 @@ namespace NTMiner {
                 Timeout = TimeSpan.FromSeconds(60)
             };
         }
+
+        public static void SetTimeout(this HttpClient client, int? timeountMilliseconds) {
+            if (!timeountMilliseconds.HasValue || timeountMilliseconds.Value < 0) {
+                return;
+            }
+            if (timeountMilliseconds != 0) {
+                if (timeountMilliseconds < 100) {
+                    timeountMilliseconds *= 1000;
+                }
+                client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds.Value);
+            }
+        }
     }
 }

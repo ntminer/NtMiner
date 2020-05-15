@@ -26,12 +26,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        if (timeountMilliseconds.HasValue) {
-                            if (timeountMilliseconds.Value < 100) {
-                                timeountMilliseconds *= 1000;
-                            }
-                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds.Value);
-                        }
+                        client.SetTimeout(timeountMilliseconds);
                         Task<HttpResponseMessage> message = client.GetAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}");
                         message.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
                             callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
@@ -133,12 +128,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        if (timeountMilliseconds != 0) {
-                            if (timeountMilliseconds < 100) {
-                                timeountMilliseconds *= 1000;
-                            }
-                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
-                        }
+                        client.SetTimeout(timeountMilliseconds);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", data);
                         getHttpResponse.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
                             callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);

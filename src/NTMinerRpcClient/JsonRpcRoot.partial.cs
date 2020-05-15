@@ -94,12 +94,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        if (timeountMilliseconds != 0) {
-                            if (timeountMilliseconds < 100) {
-                                timeountMilliseconds *= 1000;
-                            }
-                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
-                        }
+                        client.SetTimeout(timeountMilliseconds);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", data);
                         getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
                             callback?.Invoke(t.Result, null);
@@ -124,12 +119,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        if (timeountMilliseconds != 0) {
-                            if (timeountMilliseconds < 100) {
-                                timeountMilliseconds *= 1000;
-                            }
-                            client.Timeout = TimeSpan.FromMilliseconds(timeountMilliseconds);
-                        }
+                        client.SetTimeout(timeountMilliseconds);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", data);
                         Write.DevDebug($"{action} {getHttpResponse.Result.ReasonPhrase}");
                         callback?.Invoke();
