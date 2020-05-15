@@ -9,12 +9,6 @@ namespace NTMiner {
         public static readonly string CurrentVersionStr;
         public static readonly string CurrentVersionTag = string.Empty;
         public static readonly string TempDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "NTMiner");
-        public static readonly string SwitchRadeonGpuResourceName = "switch-radeon-gpu.exe";
-        public static readonly string SwitchRadeonGpuFileFullName = Path.Combine(TempDirFullName, SwitchRadeonGpuResourceName);
-        public static readonly string AtikmdagPatcherResourceName = "atikmdag-patcher1.4.7.exe";
-        public static readonly string AtikmdagPatcherFileFullName = Path.Combine(TempDirFullName, AtikmdagPatcherResourceName);
-        public static readonly string BlockWAUResourceName = "BlockWAU.bat";
-        public static readonly string BlockWAUFileFullName = Path.Combine(TempDirFullName, BlockWAUResourceName);
 
         static EntryAssemblyInfo() {
             if (!DevMode.IsInUnitTest) {

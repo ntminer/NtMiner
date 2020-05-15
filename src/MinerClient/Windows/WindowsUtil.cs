@@ -12,14 +12,14 @@ namespace NTMiner.Windows {
         public static Task BlockWAU() {
             return Task.Factory.StartNew(() => {
                 ExtractBlockWAUManifestResource();
-                Cmd.RunClose(EntryAssemblyInfo.BlockWAUFileFullName, string.Empty, waitForExit: true);
+                Cmd.RunClose(App.BlockWAUFileFullName, string.Empty, waitForExit: true);
             });
         }
 
         private static void ExtractBlockWAUManifestResource() {
             Type type = typeof(WindowsUtil);
             Assembly assembly = type.Assembly;
-            assembly.ExtractManifestResource(type, EntryAssemblyInfo.BlockWAUResourceName, EntryAssemblyInfo.BlockWAUFileFullName);
+            assembly.ExtractManifestResource(type, App.BlockWAUResourceName, App.BlockWAUFileFullName);
         }
 
         public static void Win10Optimize(Action<Exception> callback) {

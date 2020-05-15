@@ -11,14 +11,14 @@ namespace NTMiner.AtikmdagPatcher {
         public static Task Run() {
             return Task.Factory.StartNew(() => {
                 ExtractManifestResource();
-                Windows.Cmd.RunClose(EntryAssemblyInfo.AtikmdagPatcherFileFullName, string.Empty, waitForExit: false);
+                Windows.Cmd.RunClose(App.AtikmdagPatcherFileFullName, string.Empty, waitForExit: false);
             });
         }
 
         private static void ExtractManifestResource() {
             Type type = typeof(AtikmdagPatcherUtil);
             Assembly assembly = type.Assembly;
-            assembly.ExtractManifestResource(type, EntryAssemblyInfo.AtikmdagPatcherResourceName, EntryAssemblyInfo.AtikmdagPatcherFileFullName);
+            assembly.ExtractManifestResource(type, App.AtikmdagPatcherResourceName, App.AtikmdagPatcherFileFullName);
         }
     }
 }

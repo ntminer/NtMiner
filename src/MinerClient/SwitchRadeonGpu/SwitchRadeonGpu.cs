@@ -11,14 +11,14 @@ namespace NTMiner.SwitchRadeonGpu {
         public static Task Run(bool on) {
             return Task.Factory.StartNew(() => {
                 ExtractManifestResource();
-                Windows.Cmd.RunClose(EntryAssemblyInfo.SwitchRadeonGpuFileFullName, $"--compute={(on ? "on" : "off")} --admin --restart", waitForExit: true);
+                Windows.Cmd.RunClose(App.SwitchRadeonGpuFileFullName, $"--compute={(on ? "on" : "off")} --admin --restart", waitForExit: true);
             });
         }
 
         private static void ExtractManifestResource() {
             Type type = typeof(SwitchRadeonGpu);
             Assembly assembly = type.Assembly;
-            assembly.ExtractManifestResource(type, EntryAssemblyInfo.SwitchRadeonGpuResourceName, EntryAssemblyInfo.SwitchRadeonGpuFileFullName);
+            assembly.ExtractManifestResource(type, App.SwitchRadeonGpuResourceName, App.SwitchRadeonGpuFileFullName);
         }
     }
 }
