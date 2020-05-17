@@ -37,7 +37,7 @@ namespace NTMiner.Core.Impl {
 
         private void ClearReportDbFiles(DateTime now) {
             try {
-                foreach (var fileFullName in Directory.GetFiles(Path.Combine(AppDomain.CurrentDomain.BaseDirectory), "report????-??-??.litedb")) {
+                foreach (var fileFullName in Directory.GetFiles(Path.Combine(HomePath.BaseDirectory), "report????-??-??.litedb")) {
                     string yyyyMMdd = fileFullName.Substring(fileFullName.Length - "????-??-??.litedb".Length, "????-??-??".Length);
                     if (DateTime.TryParse(yyyyMMdd, out DateTime dateTime)) {
                         if (dateTime.AddDays(10) < now) {

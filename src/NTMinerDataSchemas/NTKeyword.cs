@@ -15,6 +15,9 @@
         public const string ManXiaoManTag = "蛮小满";
         public const string Copyright = "Copyright ©  NTMiner";
 
+        public const string RootLockFileName = "home.lock";
+        public const string RootConfigFileName = "home.config";
+
         public const string LogsDirName = "Logs";
         public const string ServerJsonFileName = "server.json";
         public const string LocalJsonFileName = "local.json";

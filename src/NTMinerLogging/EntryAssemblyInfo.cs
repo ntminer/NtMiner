@@ -4,6 +4,9 @@ using System.Linq;
 using System.Reflection;
 
 namespace NTMiner {
+    /// <summary>
+    /// 这里是一些从入口程序集提取的一些信息，比如入口程序集的版本号。
+    /// </summary>
     public static class EntryAssemblyInfo {
         public static readonly Version CurrentVersion;
         public static readonly string CurrentVersionStr;

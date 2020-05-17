@@ -22,7 +22,7 @@ namespace NTMiner {
 
         [TestMethod]
         public void FileCreateTest() {
-            string fileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "temp.txt");
+            string fileFullName = Path.Combine(HomePath.BaseDirectory, "temp.txt");
             FileInfo file = new FileInfo(fileFullName);
             // 1. 创建之后如果不使用必须Close;
             var fs = file.Create();
@@ -42,9 +42,9 @@ namespace NTMiner {
 
         [TestMethod]
         public void FileMoveToTest() {
-            string newPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FileMoveToTest.test");
+            string newPath = Path.Combine(HomePath.BaseDirectory, "FileMoveToTest.test");
             File.Delete(newPath);
-            FileInfo file = new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "fileToMove.test"));
+            FileInfo file = new FileInfo(Path.Combine(HomePath.BaseDirectory, "fileToMove.test"));
             file.Create().Close();
             file.MoveTo("FileMoveToTest.test");
             Assert.IsTrue(File.Exists(newPath));
@@ -68,12 +68,12 @@ namespace NTMiner {
 
         [TestMethod]
         public void FileDeleteTest() {
-            File.Delete(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString()));
+            File.Delete(Path.Combine(HomePath.BaseDirectory, Guid.NewGuid().ToString()));
         }
 
         [TestMethod]
         public void FileStreamTest() {
-            using (FileStream fs = new FileStream(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "test.log"), FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
+            using (FileStream fs = new FileStream(Path.Combine(HomePath.BaseDirectory, "test.log"), FileMode.OpenOrCreate, FileAccess.ReadWrite)) {
                 byte[] buffer = { (byte)'a', (byte)'\r', (byte)'b', (byte)'\n', (byte)'c', (byte)'\r', (byte)'\n', (byte)'d' };
                 fs.Position = fs.Length;
                 fs.Write(buffer, 0, buffer.Length);

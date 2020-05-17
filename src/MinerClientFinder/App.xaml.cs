@@ -7,7 +7,7 @@ using System.Windows;
 namespace NTMiner {
     public partial class App : Application {
         public App() {
-            HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
+            HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             Logger.Disable();
             Write.Disable();
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);

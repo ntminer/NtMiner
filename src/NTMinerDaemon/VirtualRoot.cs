@@ -38,11 +38,11 @@ namespace NTMiner {
         // 注意：该程序编译成无界面的windows应用程序而不是控制台程序，从而随机自动启动时无界面
         [STAThread]
         static void Main(string[] args) {
-            HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
+            HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             SetOut(new ConsoleOut());
             if (args.Length != 0) {
                 if (args.Contains("--sha1", StringComparer.OrdinalIgnoreCase)) {
-                    File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "sha1"), Sha1);
+                    File.WriteAllText(Path.Combine(HomePath.BaseDirectory, "sha1"), Sha1);
                     return;
                 }
             }
@@ -125,7 +125,7 @@ namespace NTMiner {
         }
 
         public static LiteDatabase CreateLocalDb() {
-            return new LiteDatabase($"filename={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NTKeyword.LocalDbFileName)}");
+            return new LiteDatabase($"filename={Path.Combine(HomePath.BaseDirectory, NTKeyword.LocalDbFileName)}");
         }
 
         private static bool _isClosed = false;

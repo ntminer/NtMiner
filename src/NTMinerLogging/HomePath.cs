@@ -3,24 +3,26 @@ using System.IO;
 
 namespace NTMiner {
     public static class HomePath {
-        public static readonly string RootLockFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.lock");
-        public static readonly string RootConfigFileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "home.config");
+        public static string BaseDirectory { get; private set; } = AppDomain.CurrentDomain.BaseDirectory;
+        public static string RootLockFileFullName { get; private set; } = Path.Combine(BaseDirectory, NTKeyword.RootLockFileName);
+        public static string RootConfigFileFullName { get; private set; } = Path.Combine(BaseDirectory, NTKeyword.RootConfigFileName);
         public static string HomeDirFullName { get; private set; } = TempPath.TempDirFullName;
-        public static readonly string ServerJsonFileFullName;
-        public static readonly string SelfWorkServerJsonFileFullName;
-        public static readonly string MineWorkServerJsonFileFullName;
-        public static readonly string MineWorkLocalJsonFileFullName;
-        public static readonly string SelfWorkLocalJsonFileFullName;
-        public static readonly string GpuProfilesJsonFileFullName;
+        public static string ServerJsonFileFullName { get; private set; }
+        public static string SelfWorkServerJsonFileFullName { get; private set; }
+        public static string MineWorkServerJsonFileFullName { get; private set; }
+        public static string MineWorkLocalJsonFileFullName { get; private set; }
+        public static string SelfWorkLocalJsonFileFullName { get; private set; }
+        public static string GpuProfilesJsonFileFullName { get; private set; }
+
         static HomePath() {
             string homeDirFullName = HomeDirFullName;
             if (!File.Exists(RootLockFileFullName)) {
                 if (File.Exists(RootConfigFileFullName)) {
-                    homeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
+                    homeDirFullName = BaseDirectory;
                 }
             }
             else {
-                homeDirFullName = AppDomain.CurrentDomain.BaseDirectory;
+                homeDirFullName = BaseDirectory;
             }
             SetHomeDirFullName(homeDirFullName);
             ServerJsonFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerJsonFileName);
@@ -48,7 +50,7 @@ namespace NTMiner {
         }
         public static bool IsLocalHome {
             get {
-                string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+                string baseDir = BaseDirectory;
                 if (HomeDirFullName.Length + 1 != baseDir.Length) {
                     return false;
                 }
@@ -56,19 +58,8 @@ namespace NTMiner {
             }
         }
 
-        private static string _localDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
-        public static string LocalDbFileFullName {
-            get {
-                return _localDbFileFullName;
-            }
-        }
-
-        private static string _serverDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
-        public static string ServerDbFileFullName {
-            get {
-                return _serverDbFileFullName;
-            }
-        }
+        public static string LocalDbFileFullName { get; private set; } = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
+        public static string ServerDbFileFullName { get; private set; } = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
 
         public static void SetHomeDirFullName(string dirFullName) {
             if (dirFullName.EndsWith("\\")) {
@@ -78,8 +69,8 @@ namespace NTMiner {
             if (!Directory.Exists(dirFullName)) {
                 Directory.CreateDirectory(dirFullName);
             }
-            _localDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
-            _serverDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
+            LocalDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
+            ServerDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
         }
         
         private static bool _sIsFirstCallPackageDirFullName = true;

@@ -25,7 +25,7 @@ namespace NTMiner {
 
         [TestMethod]
         public void EndOfStreamTest() {
-            string tempFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Guid.NewGuid().ToString());
+            string tempFile = Path.Combine(HomePath.BaseDirectory, Guid.NewGuid().ToString());
             File.Create(tempFile).Close();
             using (FileStream fs = new FileStream(tempFile, FileMode.Open))
             using (StreamReader sr = new StreamReader(fs)) {
@@ -44,7 +44,7 @@ namespace NTMiner {
 
         [TestMethod]
         public void HostsTest() {
-            string hostsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "hosts");
+            string hostsPath = Path.Combine(HomePath.BaseDirectory, "hosts");
             File.Delete(hostsPath);
             string host = RpcRoot.OfficialServerHost;
             string ip = "127.0.0.1";

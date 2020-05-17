@@ -4,16 +4,13 @@ using System.IO;
 
 namespace NTMiner {
     public static class Logger {
-        private static string _logDirFullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logs");
         /// <summary>
         /// 如果未通过<see cref="SetDir(string)"/>更改过则其是程序所在目录下的logs目录。
         /// </summary>
-        public static string DirFullPath {
-            get { return _logDirFullPath; }
-        }
+        public static string DirFullPath { get; private set; } = Path.Combine(HomePath.BaseDirectory, "logs");
 
         public static void SetDir(string fullPath) {
-            _logDirFullPath = fullPath;
+            DirFullPath = fullPath;
         }
 
         private static bool _isEnabled = true;

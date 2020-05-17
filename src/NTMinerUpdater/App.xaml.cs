@@ -3,8 +3,6 @@ using NTMiner.Vms;
 using System;
 using System.Diagnostics;
 using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media;
 
 namespace NTMiner {
     public partial class App : Application {
@@ -18,7 +16,7 @@ namespace NTMiner {
         }
 
         public App() {
-            HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
+            HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             WpfUtil.Init();
             AppUtil.Init(this);

@@ -1,7 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.Core;
 using NTMiner.Core.Impl;
-using System;
 using System.IO;
 
 namespace NTMiner {
@@ -13,7 +12,7 @@ namespace NTMiner {
                 if (_hostConfig == null) {
                     lock (_locker) {
                         if (_hostConfig == null) {
-                            using (LiteDatabase db = new LiteDatabase($"filename={Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NTKeyword.LocalDbFileName)}")) {
+                            using (LiteDatabase db = new LiteDatabase($"filename={Path.Combine(HomePath.BaseDirectory, NTKeyword.LocalDbFileName)}")) {
                                 var col = db.GetCollection<HostConfigData>();
                                 _hostConfig = col.FindOne(Query.All());
                             }

@@ -51,7 +51,7 @@ namespace NTMiner {
         public static IUserMqSender UserMqSender { get; private set; }
 
         static void Main() {
-            HomePath.SetHomeDirFullName(AppDomain.CurrentDomain.BaseDirectory);
+            HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             NTMinerConsole.DisbleQuickEditMode();
             DevMode.SetDevMode();
 
