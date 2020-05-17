@@ -34,8 +34,8 @@ namespace NTMiner.Vms {
         }
 
         public void AutoStart() {
-            bool IsAutoStart = (MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart);
-            if (IsAutoStart && !this.MinerProfile.IsMining) {
+            bool isAutoStart = (MinerProfile.IsAutoStart || CommandLineArgs.IsAutoStart);
+            if (isAutoStart && !this.MinerProfile.IsMining) {
                 Write.UserInfo($"{MinerProfile.AutoStartDelaySeconds.ToString()}秒后开始挖矿");
                 this.MinerProfile.IsMining = true;
                 IMessagePathId pathId = null;
