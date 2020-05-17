@@ -1,10 +1,8 @@
-﻿using NTMiner.Notifications;
-using NTMiner.Vms;
+﻿using NTMiner.Vms;
 using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Interop;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
@@ -153,78 +151,6 @@ namespace NTMiner.Views {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            if (AppUtil.IsHotKeyEnabled) {
-                HotKeyUtil.RegHotKey = (key) => {
-                    if (!RegHotKey(key, out string message)) {
-                        VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
-                        return false;
-                    }
-                    else {
-                        VirtualRoot.Out.ShowSuccess($"热键Ctrl + Alt + {key.ToString()} 设置成功");
-                        return true;
-                    }
-                };
-            }
-        }
-
-        private bool RegHotKey(System.Windows.Forms.Keys key, out string message) {
-            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, key, out message)) {
-                message = $"Ctrl + Alt + {key.ToString()} " + message;
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-
-        private IntPtr _thisWindowHandle;
-        protected override void OnSourceInitialized(EventArgs e) {
-            base.OnSourceInitialized(e);
-            if (AppUtil.IsHotKeyEnabled) {
-                _thisWindowHandle = new WindowInteropHelper(this).Handle;
-                HwndSource hWndSource = HwndSource.FromHwnd(_thisWindowHandle);
-                if (hWndSource != null) {
-                    hWndSource.AddHook(WndProc);
-                }
-            }
-        }
-
-        protected override void OnContentRendered(EventArgs e) {
-            base.OnContentRendered(e);
-            if (AppUtil.IsHotKeyEnabled) {
-                Enum.TryParse(HotKeyUtil.GetHotKey(), out System.Windows.Forms.Keys hotKey);
-                if (!RegHotKey(hotKey, out string message)) {
-                    Vm.Manager
-                        .CreateMessage()
-                        .Warning("失败", message)
-                        .Dismiss().WithButton("忽略", null)
-                        .Queue();
-                }
-            }
-        }
-
-        protected override void OnClosed(EventArgs e) {
-            if (AppUtil.IsHotKeyEnabled) {
-                SystemHotKey.UnRegHotKey(_thisWindowHandle, c_hotKeyId);
-            }
-            base.OnClosed(e);
-        }
-
-        private const int WM_HOTKEY = 0x312;
-
-        private const int c_hotKeyId = 1; //热键ID（自定义）
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            switch (msg) {
-                case WM_HOTKEY:
-                    int tmpWParam = wParam.ToInt32();
-                    if (tmpWParam == c_hotKeyId) {
-                        VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return IntPtr.Zero;
         }
 
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {
