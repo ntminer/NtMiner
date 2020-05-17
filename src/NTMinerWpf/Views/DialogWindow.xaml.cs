@@ -49,13 +49,11 @@ namespace NTMiner.Views {
                     int n = 4;
                     Vm.NoText = $"请再点一次({n.ToString()})";
                     this.AddViaTimesLimitPath<Per1SecondEvent>("倒计时'请再点一次'", LogEnum.None, message => {
-                        UIThread.Execute(() => {
-                            n--;
-                            Vm.NoText = $"请再点一次({n.ToString()})";
-                            if (n == 0) {
-                                Vm.NoText = noText;
-                            }
-                        });
+                        n--;
+                        Vm.NoText = $"请再点一次({n.ToString()})";
+                        if (n == 0) {
+                            Vm.NoText = noText;
+                        }
                     }, viaTimesLimit: n, this.GetType());
                 }
                 else if (Vm.OnNo.Invoke()) {

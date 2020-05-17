@@ -40,7 +40,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             this.OnLoaded((window) => {
                 window.AddEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(()=> Vm.Refresh());
+                        Vm.Refresh();
                     }, location: this.GetType());
             });
         }
