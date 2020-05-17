@@ -22,6 +22,9 @@ namespace NTMiner.Views {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
+            if (!Write.IsEnabled) {
+                Write.Enable();
+            }
             this.Vm = new MainWindowViewModel();
             this.DataContext = Vm;
             this.MinHeight = 430;

@@ -10,9 +10,6 @@ namespace NTMiner.Views {
         private IntPtr _thisWindowHandle;
         private HwndSource hwndSource;
         private ConsoleWindow() {
-            if (!Write.IsEnabled) {
-                Write.Enable();
-            }
             this.Width = AppRoot.MainWindowWidth;
             this.Height = AppRoot.MainWindowHeight;
             InitializeComponent();
