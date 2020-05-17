@@ -1,4 +1,7 @@
 ﻿namespace NTMiner {
+    /// <summary>
+    /// 作业类型。主要是因为HomePath这个类型对WorkType有依赖所以这个类型出现在这里。
+    /// </summary>
     public enum WorkType {
         /// <summary>
         /// 未使用作业

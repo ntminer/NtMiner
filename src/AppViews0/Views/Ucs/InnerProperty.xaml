@@ -84,7 +84,7 @@
 
             <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
                 <TextBlock Style="{StaticResource LblTb}" Text="服务端导出文件名"></TextBlock>
-                <TextBlock Text="{x:Static app:AppStatic.ServerVersionJsonFileFullName}"></TextBlock>
+                <TextBlock Text="{x:Static app:AppStatic.ExportServerJsonFileFullName}"></TextBlock>
             </WrapPanel>
 
             <WrapPanel>

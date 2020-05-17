@@ -1,6 +1,9 @@
 ﻿using System;
 
 namespace NTMiner {
+    /// <summary>
+    /// MessageType这名字听起来像是消息总线上的消息的类型似的，但消息总线上的消息的类型信息是由.NET类的类型承载的所以消息总线那块不会有个叫MessageType的类型。
+    /// </summary>
     public enum MessageType {
         Default,
         Error,

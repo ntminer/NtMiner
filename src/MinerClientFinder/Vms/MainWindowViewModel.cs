@@ -144,7 +144,7 @@ namespace NTMiner.Vms {
                 });
             }
             catch(Exception e) {
-                Console.WriteLine(e.Message);
+                Logger.ErrorDebugLine(e);
             }
             finally {
                 data.Soket.Close();

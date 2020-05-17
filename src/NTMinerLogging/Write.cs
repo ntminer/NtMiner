@@ -3,6 +3,9 @@ using System;
 using System.Threading;
 
 namespace NTMiner {
+    /// <summary>
+    /// 消灭Console.WriteLine，除了单元测试项目，所有地方没有Console.WriteLine都是调静态类型Write的方法。
+    /// </summary>
     public static class Write {
         public static readonly IConsoleOutLineSet ConsoleOutLineSet = new ConsoleOutLineSet();
 

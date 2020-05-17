@@ -33,21 +33,27 @@ namespace NTMiner {
             GpuProfilesJsonFileFullName = Path.Combine(HomeDirFullName, NTKeyword.GpuProfilesFileName);
         }
 
+        /// <summary>
+        /// 返回形如server{version.Major.ToString()}.0.0.json的字符串。
+        /// </summary>
+        /// <param name="version"></param>
+        /// <returns></returns>
+        public static string GetServerJsonVersion(Version version) {
+            return $"server{version.Major.ToString()}.0.0.json";
+        }
+
         public static string ExportServerJsonFileName {
             get {
                 return GetServerJsonVersion(EntryAssemblyInfo.CurrentVersion);
             }
         }
 
-        public static string GetServerJsonVersion(Version version) {
-            return $"server{version.Major.ToString()}.0.0.json";
-        }
-
-        public static string ServerVersionJsonFileFullName {
+        public static string ExportServerJsonFileFullName {
             get {
                 return Path.Combine(HomeDirFullName, ExportServerJsonFileName);
             }
         }
+
         public static bool IsLocalHome {
             get {
                 string baseDir = BaseDirectory;
