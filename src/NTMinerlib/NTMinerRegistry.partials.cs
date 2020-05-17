@@ -38,9 +38,9 @@ namespace NTMiner {
         #endregion
 
         public static string GetMinerClientArguments(NTMinerAppType appType) {
-            string arguments = NTMinerRegistry.GetArguments(appType);
+            string arguments = GetArguments(appType);
             if (appType == NTMinerAppType.MinerClient) {
-                switch (NTMinerRegistry.GetWorkType()) {
+                switch (GetWorkType()) {
                     case WorkType.None:
                         break;
                     case WorkType.SelfWork:

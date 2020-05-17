@@ -2,12 +2,7 @@
 
 namespace NTMiner {
     public static class TaskEx {
-        private static readonly Task _completedTask = TaskEx.FromResult(false);
-        public static Task CompletedTask {
-            get {
-                return _completedTask;
-            }
-        }
+        public static Task CompletedTask { get; private set; } = FromResult(false);
 
         public static Task<T> FromResult<T>(T result) {
             TaskCompletionSource<T> tcs = new TaskCompletionSource<T>();
