@@ -547,7 +547,6 @@
                 x:Name="StateBar"
 			    Grid.Row="2" 
 			    Padding="0 0 0 2"
-			    DataContext="{Binding StateBarVm}"
 			    Background="{StaticResource MinerProfileBackground}" 
 			    BorderBrush="{StaticResource LightLineColor}" 
                 Margin="0 -1 0 0"

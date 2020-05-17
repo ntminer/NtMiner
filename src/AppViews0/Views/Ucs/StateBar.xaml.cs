@@ -8,13 +8,11 @@ using System.Windows.Media;
 
 namespace NTMiner.Views.Ucs {
     public partial class StateBar : UserControl {
-        public StateBarViewModel Vm {
-            get {
-                return (StateBarViewModel)this.DataContext;
-            }
-        }
+        public StateBarViewModel Vm { get; private set; }
 
         public StateBar() {
+            this.Vm = new StateBarViewModel();
+            this.DataContext = Vm;
             InitializeComponent();
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -25,13 +23,36 @@ namespace NTMiner.Views.Ucs {
                     Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonToolTip));
                     VirtualRoot.Execute(new RefreshIsRemoteDesktopEnabledCommand());
                 };
+                window.AddEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
+                    action: message => {
+                        if (message.IsDual) {
+                            Vm.DualPoolDelayText = message.PoolDelayText;
+                        }
+                        else {
+                            Vm.PoolDelayText = message.PoolDelayText;
+                        }
+                    }, location: this.GetType());
+                window.AddEventPath<MineStartedEvent>("开始挖矿后清空矿池延时", LogEnum.DevConsole,
+                    action: message => {
+                        Vm.PoolDelayText = string.Empty;
+                        Vm.DualPoolDelayText = string.Empty;
+                    }, location: this.GetType());
+                window.AddEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
+                    action: message => {
+                        Vm.PoolDelayText = string.Empty;
+                        Vm.DualPoolDelayText = string.Empty;
+                    }, location: this.GetType());
+                window.AddEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
+                    action: message => {
+                        UpdateCpuView();
+                    }, location: this.GetType());
                 window.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => Vm.RefreshLocalIps());
+                        Vm.RefreshLocalIps();
                     }, location: this.GetType());
                 window.AddEventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
                     action: message => {
-                        UIThread.Execute(() => Vm.UpdateDateTime());
+                        Vm.UpdateDateTime();
                     }, location: this.GetType());
                 window.AddEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
                     action: message => {
@@ -44,27 +65,19 @@ namespace NTMiner.Views.Ucs {
                     }, location: this.GetType());
                 window.AddEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => {
-                            Vm.SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerContext.ServerVersion);
-                        });
+                        Vm.SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerContext.ServerVersion);
                     }, location: this.GetType());
                 window.AddEventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => {
-                            Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
-                        });
+                        Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                     }, location: this.GetType());
                 window.AddEventPath<MineStartedEvent>("挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
                     action: message => {
-                        UIThread.Execute(() => {
-                            Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
-                        });
+                        Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                     }, location: this.GetType());
                 window.AddCmdPath<RefreshIsRemoteDesktopEnabledCommand>(LogEnum.DevConsole, 
                     action: message => {
-                        UIThread.Execute(() => {
-                            Vm.RefreshIsRemoteDesktopEnabled();
-                        });
+                        Vm.RefreshIsRemoteDesktopEnabled();
                     }, location: this.GetType());
             });
             var gpuSet = NTMinerContext.Instance.GpuSet;
@@ -73,6 +86,26 @@ namespace NTMiner.Views.Ucs {
                 BtnShowVirtualMemory.Foreground = WpfUtil.RedBrush;
             }
         }
+
+        #region 更新状态栏展示的CPU使用率和温度
+        private int _cpuPerformance = 0;
+        private int _cpuTemperature = 0;
+        private void UpdateCpuView() {
+            int performance = NTMinerContext.Instance.CpuPackage.Performance;
+            int temperature = NTMinerContext.Instance.CpuPackage.Temperature;
+            if (temperature < 0) {
+                temperature = 0;
+            }
+            if (_cpuPerformance != performance) {
+                _cpuPerformance = performance;
+                Vm.CpuPerformanceText = performance.ToString() + "%";
+            }
+            if (_cpuTemperature != temperature) {
+                _cpuTemperature = temperature;
+                Vm.CpuTemperatureText = temperature.ToString() + " ℃";
+            }
+        }
+        #endregion
 
         private void BtnCheckUpdate_Click(object sender, RoutedEventArgs e) {
             if (this.UpdateIcon.Visibility == Visibility.Visible) {

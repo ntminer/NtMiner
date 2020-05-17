@@ -5,8 +5,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        private readonly StateBarViewModel _stateBarVm = new StateBarViewModel();
-
         public ICommand UseThisPcName { get; private set; }
         public ICommand CloseMainWindow { get; private set; }
 
@@ -59,10 +57,6 @@ namespace NTMiner.Vms {
                 }
                 return string.Empty;
             }
-        }
-
-        public StateBarViewModel StateBarVm {
-            get => _stateBarVm;
         }
 
         public bool IsUseDevConsole {

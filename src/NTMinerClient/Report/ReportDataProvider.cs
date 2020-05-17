@@ -12,10 +12,10 @@ namespace NTMiner.Report {
         public ReportDataProvider() {
             if (ClientAppType.IsMinerClient) {
                 VirtualRoot.AddOnecePath<HasBoot5SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
-                action: message => {
-                    // 报告0算力从而告知服务器该客户端当前在线的币种
-                    ReportSpeed();
-                }, location: this.GetType(), pathId: PathId.Empty);
+                    action: message => {
+                        // 报告0算力从而告知服务器该客户端当前在线的币种
+                        ReportSpeed();
+                    }, location: this.GetType(), pathId: PathId.Empty);
 
                 VirtualRoot.AddEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
                     action: message => {

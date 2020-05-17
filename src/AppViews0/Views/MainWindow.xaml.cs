@@ -165,31 +165,6 @@ namespace NTMiner.Views {
                     }
                 });
             }, location: this.GetType());
-            this.AddEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        if (message.IsDual) {
-                            Vm.StateBarVm.DualPoolDelayText = message.PoolDelayText;
-                        }
-                        else {
-                            Vm.StateBarVm.PoolDelayText = message.PoolDelayText;
-                        }
-                    });
-                }, location: this.GetType());
-            this.AddEventPath<MineStartedEvent>("开始挖矿后清空矿池延时", LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        Vm.StateBarVm.PoolDelayText = string.Empty;
-                        Vm.StateBarVm.DualPoolDelayText = string.Empty;
-                    });
-                }, location: this.GetType());
-            this.AddEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
-                action: message => {
-                    UIThread.Execute(() => {
-                        Vm.StateBarVm.PoolDelayText = string.Empty;
-                        Vm.StateBarVm.DualPoolDelayText = string.Empty;
-                    });
-                }, location: this.GetType());
             this.AddEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
                 action: message => {
                     if (NTMinerContext.IsUiVisible && NTMinerContext.Instance.MinerProfile.IsAutoNoUi && NTMinerContext.Instance.IsMining) {
@@ -198,10 +173,6 @@ namespace NTMiner.Views {
                             VirtualRoot.Execute(new CloseMainWindowCommand(isAutoNoUi: true));
                         }
                     }
-                }, location: this.GetType());
-            this.AddEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
-                action: message => {
-                    UpdateCpuView();
                 }, location: this.GetType());
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();
@@ -253,26 +224,6 @@ namespace NTMiner.Views {
                 int marginLeft = paddingLeft + (int)point.X;
                 int width = (int)this.ActualWidth - marginLeft - paddingRight;
                 consoleWindow.MoveWindow(marginLeft: marginLeft, marginTop: (int)point.Y, width, height: (int)ConsoleRectangle.ActualHeight);
-            }
-        }
-        #endregion
-
-        #region 更新状态栏展示的CPU使用率和温度
-        private int _cpuPerformance = 0;
-        private int _cpuTemperature = 0;
-        private void UpdateCpuView() {
-            int performance = NTMinerContext.Instance.CpuPackage.Performance;
-            int temperature = NTMinerContext.Instance.CpuPackage.Temperature;
-            if (temperature < 0) {
-                temperature = 0;
-            }
-            if (_cpuPerformance != performance) {
-                _cpuPerformance = performance;
-                Vm.StateBarVm.CpuPerformanceText = performance.ToString() + "%";
-            }
-            if (_cpuTemperature != temperature) {
-                _cpuTemperature = temperature;
-                Vm.StateBarVm.CpuTemperatureText = temperature.ToString() + " ℃";
             }
         }
         #endregion
