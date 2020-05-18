@@ -51,7 +51,7 @@ namespace NTMiner {
                 WorkType workType = WorkType.None;
                 if (request.WorkId != Guid.Empty) {
                     workType = WorkType.MineWork;
-                    if (request.WorkId == MineWorkData.SelfMineWorkId) {
+                    if (request.WorkId.IsSelfMineWorkId()) {
                         workType = WorkType.SelfWork;
                     }
                 }

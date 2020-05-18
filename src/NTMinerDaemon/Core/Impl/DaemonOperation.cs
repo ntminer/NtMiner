@@ -236,7 +236,7 @@ namespace NTMiner.Core.Impl {
             else {
                 try {
                     // 单机作业的localJson和serverJson是在编辑单机作业时提前传递到挖矿端的所以不需要在开始挖矿时再传递
-                    if (request.WorkId != Guid.Empty && request.WorkId != MineWorkData.SelfMineWorkId) {
+                    if (request.WorkId != Guid.Empty && !request.WorkId.IsSelfMineWorkId()) {
                         SpecialPath.WriteMineWorkLocalJsonFile(request.LocalJson);
                         SpecialPath.WriteMineWorkServerJsonFile(request.ServerJson);
                     }
@@ -253,7 +253,7 @@ namespace NTMiner.Core.Impl {
                         if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
                             string arguments = NTKeyword.AutoStartCmdParameterName;
                             if (request.WorkId != Guid.Empty) {
-                                if (request.WorkId == MineWorkData.SelfMineWorkId) {
+                                if (request.WorkId.IsSelfMineWorkId()) {
                                     arguments = "--selfWork " + arguments;
                                 }
                                 else {

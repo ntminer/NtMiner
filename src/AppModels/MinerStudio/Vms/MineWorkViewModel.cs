@@ -81,7 +81,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         private void DoEdit(FormType? formType) {
-            if (!MinerStudioRoot.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm) && this.Id != MineWorkData.SelfMineWorkId) {
+            if (!MinerStudioRoot.MineWorkVms.TryGetMineWorkVm(this.Id, out MineWorkViewModel mineWorkVm) && !this.Id.IsSelfMineWorkId()) {
                 WpfUtil.ShowInputDialog("作业名称", string.Empty, string.Empty, workName => {
                     if (string.IsNullOrEmpty(workName)) {
                         return "作业名称是必须的";
@@ -97,7 +97,7 @@ namespace NTMiner.MinerStudio.Vms {
                     VirtualRoot.Out.ShowError("未选中矿机", autoHideSeconds: 4);
                     return;
                 }
-                if (this.Id == MineWorkData.SelfMineWorkId) {
+                if (this.Id.IsSelfMineWorkId()) {
                     SelfMineWork.Description = $"{_minerClientVm.GetMinerOrClientName()} 矿机的单机作业";
                     if (RpcRoot.IsOuterNet) {
                         if (!_minerClientVm.IsOuterUserEnabled) {
@@ -208,7 +208,7 @@ namespace NTMiner.MinerStudio.Vms {
                 Write.UserInfo("保存作业。");
             }
             if (RpcRoot.IsOuterNet) {
-                if (this.Id != MineWorkData.SelfMineWorkId) {
+                if (!this.Id.IsSelfMineWorkId()) {
                     RpcRoot.OfficialServer.UserMineWorkService.AddOrUpdateMineWorkAsync(new MineWorkData().Update(this), (r, ex) => {
                         if (r.IsSuccess()) {
                             if (isMinerProfileChanged) {
@@ -254,7 +254,7 @@ namespace NTMiner.MinerStudio.Vms {
                 }
             }
             else {
-                if (this.Id != MineWorkData.SelfMineWorkId) {
+                if (!this.Id.IsSelfMineWorkId()) {
                     if (isMinerProfileChanged) {
                         NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {

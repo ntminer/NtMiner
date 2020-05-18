@@ -138,7 +138,7 @@ namespace NTMiner.Controllers {
             try {
                 string workerName = string.Empty;
                 // 如果是单机作业
-                if (request.WorkId == MineWorkData.SelfMineWorkId) {
+                if (request.WorkId.IsSelfMineWorkId()) {
                     var clientData = WebApiRoot.ClientDataSet.GetByClientId(request.ClientId);
                     if (clientData != null) {
                         workerName = clientData.WorkerName;

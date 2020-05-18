@@ -89,7 +89,7 @@ namespace NTMiner.MinerStudio {
             }
 
             public bool TryGetMineWorkVm(Guid id, out MineWorkViewModel mineWorkVm) {
-                if (id == MineWorkData.SelfMineWorkId) {
+                if (id.IsSelfMineWorkId()) {
                     mineWorkVm = MineWorkViewModel.SelfMineWork;
                     return true;
                 }
