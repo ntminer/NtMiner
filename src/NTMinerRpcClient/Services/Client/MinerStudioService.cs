@@ -5,7 +5,7 @@ using System.IO;
 
 namespace NTMiner.Services.Client {
     public class MinerStudioService {
-        public static readonly MinerStudioService Instance = new MinerStudioService();
+        public static MinerStudioService Instance { get; private set; } = new MinerStudioService();
 
         private readonly string _controllerName = RpcRoot.GetControllerName<IMinerStudioController>();
         private MinerStudioService() {

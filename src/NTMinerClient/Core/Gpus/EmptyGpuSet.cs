@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus {
     public class EmptyGpuSet : IGpuSet {
-        public static readonly EmptyGpuSet Instance = new EmptyGpuSet();
+        public static EmptyGpuSet Instance { get; private set; } = new EmptyGpuSet();
 
         private List<IGpu> _list = new List<IGpu> {
             Gpu.GpuAll

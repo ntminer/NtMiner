@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner {
     public static partial class AppRoot {
         public class FragmentWriterViewModels : ViewModelBase {
-            public static readonly FragmentWriterViewModels Instance = new FragmentWriterViewModels();
+            public static FragmentWriterViewModels Instance { get; private set; } = new FragmentWriterViewModels();
             private readonly Dictionary<Guid, FragmentWriterViewModel> _dicById = new Dictionary<Guid, FragmentWriterViewModel>();
             public ICommand Add { get; private set; }
             private FragmentWriterViewModels() {

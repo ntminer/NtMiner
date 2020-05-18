@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace NTMiner {
     public static partial class AppRoot {
         public class GpuViewModels : ViewModelBase {
-            public static readonly GpuViewModels Instance = new GpuViewModels();
+            public static GpuViewModels Instance { get; private set; } = new GpuViewModels();
 
             private readonly Dictionary<int, GpuViewModel> _gpuVms = new Dictionary<int, GpuViewModel>();
 

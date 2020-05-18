@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner {
     public static partial class AppRoot {
         public class FileWriterViewModels : ViewModelBase {
-            public static readonly FileWriterViewModels Instance = new FileWriterViewModels();
+            public static FileWriterViewModels Instance { get; private set; } = new FileWriterViewModels();
             private readonly Dictionary<Guid, FileWriterViewModel> _dicById = new Dictionary<Guid, FileWriterViewModel>();
             public ICommand Add { get; private set; }
             private FileWriterViewModels() {

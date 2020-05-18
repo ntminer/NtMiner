@@ -8,7 +8,7 @@ namespace NTMiner.Windows {
     /// Class for retrieving information related to the processor
     /// </summary>
     public sealed class Cpu {
-        public static readonly Cpu Instance = new Cpu();
+        public static Cpu Instance { get; private set; } = new Cpu();
 
         private readonly PerformanceCounter _cpuCounter;
         private Cpu() {

@@ -7,7 +7,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class PoolKernelViewModels : ViewModelBase {
-            public static readonly PoolKernelViewModels Instance = new PoolKernelViewModels();
+            public static PoolKernelViewModels Instance { get; private set; } = new PoolKernelViewModels();
 
             private readonly Dictionary<Guid, PoolKernelViewModel> _dicById = new Dictionary<Guid, PoolKernelViewModel>();
             private PoolKernelViewModels() {

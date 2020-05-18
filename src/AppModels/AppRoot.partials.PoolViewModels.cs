@@ -6,7 +6,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class PoolViewModels : ViewModelBase {
-            public static readonly PoolViewModels Instance = new PoolViewModels();
+            public static PoolViewModels Instance { get; private set; } = new PoolViewModels();
             private readonly Dictionary<Guid, PoolViewModel> _dicById = new Dictionary<Guid, PoolViewModel>();
             private PoolViewModels() {
                 if (WpfUtil.IsInDesignMode) {

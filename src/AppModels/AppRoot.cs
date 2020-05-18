@@ -36,12 +36,18 @@ namespace NTMiner {
             _contextPathIds.Add(messagePathId);
         }
 
+        /// <summary>
+        /// 解封路
+        /// </summary>
         public static void Enable() {
             foreach (var pathId in _contextPathIds) {
                 pathId.IsEnabled = true;
             }
         }
 
+        /// <summary>
+        /// 封路，禁止通行。没多大意义。
+        /// </summary>
         public static void Disable() {
             foreach (var pathId in _contextPathIds) {
                 pathId.IsEnabled = false;

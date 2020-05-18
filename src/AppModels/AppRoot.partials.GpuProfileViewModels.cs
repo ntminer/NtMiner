@@ -7,7 +7,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class GpuProfileViewModels : ViewModelBase {
-            public static readonly GpuProfileViewModels Instance = new GpuProfileViewModels();
+            public static GpuProfileViewModels Instance { get; private set; } = new GpuProfileViewModels();
 
             private readonly Dictionary<Guid, List<GpuProfileViewModel>> _listByCoinId = new Dictionary<Guid, List<GpuProfileViewModel>>();
             private readonly Dictionary<Guid, GpuProfileViewModel> _gpuAllVmDicByCoinId = new Dictionary<Guid, GpuProfileViewModel>();

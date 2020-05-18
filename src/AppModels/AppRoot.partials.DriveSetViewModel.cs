@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace NTMiner {
     public static partial class AppRoot {
         public class DriveSetViewModel : ViewModelBase {
-            public static readonly DriveSetViewModel Instance = new DriveSetViewModel();
+            public static DriveSetViewModel Instance { get; private set; } = new DriveSetViewModel();
 
             private readonly List<DriveViewModel> _drives = new List<DriveViewModel>();
 

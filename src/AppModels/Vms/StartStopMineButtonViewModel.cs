@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class StartStopMineButtonViewModel : ViewModelBase {
-        public static readonly StartStopMineButtonViewModel Instance = new StartStopMineButtonViewModel();
+        public static StartStopMineButtonViewModel Instance { get; private set; } = new StartStopMineButtonViewModel();
 
         public ICommand StartMine { get; private set; }
         public ICommand StopMine { get; private set; }

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.MinerStudio {
     public class MinerStudioService : IMinerStudioService {
-        public static readonly MinerStudioService Instance = new MinerStudioService();
+        public static MinerStudioService Instance { get; private set; } = new MinerStudioService();
 
         public readonly LocalMinerStudioService LocalMinerStudioService = new LocalMinerStudioService();
         private readonly ServerMinerStudioService _serverMinerStudioService = new ServerMinerStudioService();

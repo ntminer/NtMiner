@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class MainMenuViewModel : ViewModelBase {
-        public static readonly MainMenuViewModel Instance = new MainMenuViewModel();
+        public static MainMenuViewModel Instance { get; private set; } = new MainMenuViewModel();
 
         public MainMenuViewModel() {
             if (WpfUtil.IsInDesignMode) {

@@ -9,7 +9,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class GpuSpeedViewModels : ViewModelBase {
-            public static readonly GpuSpeedViewModels Instance = new GpuSpeedViewModels();
+            public static GpuSpeedViewModels Instance { get; private set; } = new GpuSpeedViewModels();
 
             private readonly List<GpuSpeedViewModel> _list = new List<GpuSpeedViewModel>();
             private readonly GpuSpeedViewModel _totalSpeedVm;

@@ -2,7 +2,7 @@
 
 namespace NTMiner.Core {
     public class EmptyLocalMessageDtoSet : ILocalMessageDtoSet {
-        public static readonly ILocalMessageDtoSet Instance = new EmptyLocalMessageDtoSet();
+        public static ILocalMessageDtoSet Instance { get; private set; } = new EmptyLocalMessageDtoSet();
 
         private EmptyLocalMessageDtoSet() { }
 

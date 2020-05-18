@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase, IWsStateViewModel {
-        public static readonly MinerClientsWindowViewModel Instance = new MinerClientsWindowViewModel();
+        public static MinerClientsWindowViewModel Instance { get; private set; } = new MinerClientsWindowViewModel();
 
         private List<CoinSnapshotViewModel> _coinSnapshotVms = null;
         private CoinSnapshotViewModel _coinSnapshotVm = CoinSnapshotViewModel.PleaseSelect;

@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner {
     public static partial class AppRoot {
         public class SysDicViewModels : ViewModelBase {
-            public static readonly SysDicViewModels Instance = new SysDicViewModels();
+            public static SysDicViewModels Instance { get; private set; } = new SysDicViewModels();
             private readonly Dictionary<Guid, SysDicViewModel> _dicById = new Dictionary<Guid, SysDicViewModel>();
             private readonly Dictionary<string, SysDicViewModel> _dicByCode = new Dictionary<string, SysDicViewModel>(StringComparer.OrdinalIgnoreCase);
 

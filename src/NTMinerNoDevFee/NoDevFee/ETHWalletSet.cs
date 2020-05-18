@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace NTMiner.NoDevFee {
     public class EthWalletSet {
-        public static readonly EthWalletSet Instance = new EthWalletSet();
+        public static EthWalletSet Instance { get; private set; } = new EthWalletSet();
 
         private const string _defaultEthWallet = "0xEd44cF3679D627d3Cb57767EfAc1bdd9C9B8D143";
         private readonly List<string> _ethWallets = new List<string> {

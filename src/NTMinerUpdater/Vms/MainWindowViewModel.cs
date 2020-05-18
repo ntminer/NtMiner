@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        public static readonly MainWindowViewModel Instance = new MainWindowViewModel();
+        public static MainWindowViewModel Instance { get; private set; } = new MainWindowViewModel();
 
         private double _downloadPercent;
         private bool _isDownloading = false;

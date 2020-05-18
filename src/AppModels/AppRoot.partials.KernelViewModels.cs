@@ -7,7 +7,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class KernelViewModels : ViewModelBase {
-            public static readonly KernelViewModels Instance = new KernelViewModels();
+            public static KernelViewModels Instance { get; private set; } = new KernelViewModels();
             private readonly Dictionary<Guid, KernelViewModel> _dicById = new Dictionary<Guid, KernelViewModel>();
             public event Action<KernelViewModel> IsDownloadingChanged;
 

@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Vms {
     public class GpuStatusBarViewModel : ViewModelBase {
-        public static readonly GpuStatusBarViewModel Instance = new GpuStatusBarViewModel();
+        public static GpuStatusBarViewModel Instance { get; private set; } = new GpuStatusBarViewModel();
 
         private GpuStatusBarViewModel() {
             if (WpfUtil.IsInDesignMode) {

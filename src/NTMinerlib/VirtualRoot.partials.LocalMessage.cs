@@ -34,7 +34,7 @@ namespace NTMiner {
     }
 
     public class EmptyOut : IOut {
-        public static readonly EmptyOut Instance = new EmptyOut();
+        public static EmptyOut Instance { get; private set; } = new EmptyOut();
 
         private EmptyOut() { }
 

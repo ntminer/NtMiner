@@ -8,7 +8,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class CoinViewModels : ViewModelBase {
-            public static readonly CoinViewModels Instance = new CoinViewModels();
+            public static CoinViewModels Instance { get; private set; } = new CoinViewModels();
 
             private readonly Dictionary<Guid, CoinViewModel> _dicById = new Dictionary<Guid, CoinViewModel>();
 

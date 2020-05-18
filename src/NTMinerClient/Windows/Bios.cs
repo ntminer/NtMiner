@@ -5,7 +5,7 @@ namespace NTMiner.Windows {
     /// Class for retrieving information related to the BIOS
     /// </summary>
     public sealed class Bios {
-        public static readonly Bios Instance = new Bios();
+        public static Bios Instance { get; private set; } = new Bios();
 
         #region Properties
 

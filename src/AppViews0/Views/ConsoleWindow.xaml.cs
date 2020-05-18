@@ -5,7 +5,7 @@ using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class ConsoleWindow : Window {
-        public static readonly ConsoleWindow Instance = new ConsoleWindow();
+        public static ConsoleWindow Instance { get; private set; } = new ConsoleWindow();
 
         private IntPtr _thisWindowHandle;
         private HwndSource hwndSource;

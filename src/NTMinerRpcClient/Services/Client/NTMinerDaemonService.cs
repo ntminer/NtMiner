@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Client {
     public class NTMinerDaemonService {
-        public static readonly NTMinerDaemonService Instance = new NTMinerDaemonService();
+        public static NTMinerDaemonService Instance { get; private set; } = new NTMinerDaemonService();
 
         private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerDaemonController>();
         private NTMinerDaemonService() { }

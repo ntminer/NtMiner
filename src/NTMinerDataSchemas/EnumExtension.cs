@@ -48,7 +48,7 @@ namespace NTMiner {
     [IsNotDataSchema]
     internal class EnumDic<T>
         where T : struct {
-        public static readonly EnumDic<T> Instance = new EnumDic<T>();
+        public static EnumDic<T> Instance { get; private set; } = new EnumDic<T>();
 
         private readonly Dictionary<ValueType, string> _dicByValue = new Dictionary<ValueType, string>();
         private readonly Dictionary<string, T> _dicByString = new Dictionary<string, T>(StringComparer.OrdinalIgnoreCase);

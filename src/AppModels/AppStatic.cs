@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 namespace NTMiner {
     /// <summary>
     /// 注意：这里的成员只应用于绑定且不能在SplashWindow中绑定，因为SplashWindow是在一个单独的UI线程运行的而AppStatic是为给主UI线程用的;
-    /// 不应在.cs中使用，在IDE中看到的静态源代码应用计数应为0，因为这里的数据都是用于展示的而不是为了业务逻辑的，比如ExportServerJsonFileFullName
+    /// 不应在.cs中使用，在IDE中看到的静态源代码引用计数应全为0，因为这里的数据都是用于展示的而不是为了业务逻辑的，比如ExportServerJsonFileFullName
     /// 这个属性的取值可能很长所以其中的HomePath前缀部分会被{家目录}变量取代，所以不能当作是个路径了。
     /// </summary>
     public static class AppStatic {

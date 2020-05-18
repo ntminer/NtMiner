@@ -3,16 +3,14 @@ using NTMiner.Core.Profile;
 using NTMiner.MinerStudio.Vms;
 using NTMiner.Ws;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MinerProfileViewModel : ViewModelBase, IMinerProfile, IWsStateViewModel {
-        public static readonly MinerProfileViewModel Instance = new MinerProfileViewModel();
+        public static MinerProfileViewModel Instance { get; private set; } = new MinerProfileViewModel();
 
         private readonly string _linkFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "开源矿工.lnk");
 

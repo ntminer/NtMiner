@@ -6,7 +6,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class CoinKernelViewModels : ViewModelBase {
-            public static readonly CoinKernelViewModels Instance = new CoinKernelViewModels();
+            public static CoinKernelViewModels Instance { get; private set; } = new CoinKernelViewModels();
 
             private readonly Dictionary<Guid, CoinKernelViewModel> _dicById = new Dictionary<Guid, CoinKernelViewModel>();
             private CoinKernelViewModels() {

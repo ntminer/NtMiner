@@ -6,7 +6,7 @@ namespace NTMiner {
     public static partial class AppRoot {
         public class CoinProfileViewModels : ViewModelBase {
             private readonly object _locker = new object();
-            public static readonly CoinProfileViewModels Instance = new CoinProfileViewModels();
+            public static CoinProfileViewModels Instance { get; private set; } = new CoinProfileViewModels();
 
             private readonly Dictionary<Guid, CoinKernelProfileViewModel> _coinKernelProfileDicById = new Dictionary<Guid, CoinKernelProfileViewModel>();
             private readonly Dictionary<Guid, CoinProfileViewModel> _coinProfileDicById = new Dictionary<Guid, CoinProfileViewModel>();

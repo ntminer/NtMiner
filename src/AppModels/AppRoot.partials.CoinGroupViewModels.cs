@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace NTMiner {
     public static partial class AppRoot {
         public class CoinGroupViewModels : ViewModelBase {
-            public static readonly CoinGroupViewModels Instance = new CoinGroupViewModels();
+            public static CoinGroupViewModels Instance { get; private set; } = new CoinGroupViewModels();
 
             private readonly Dictionary<Guid, CoinGroupViewModel> _dicById = new Dictionary<Guid, CoinGroupViewModel>();
             private readonly Dictionary<Guid, List<CoinGroupViewModel>> _listByGroupId = new Dictionary<Guid, List<CoinGroupViewModel>>();

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace NTMiner {
     public static partial class AppRoot {
         public class ShareViewModels {
-            public static readonly ShareViewModels Instance = new ShareViewModels();
+            public static ShareViewModels Instance { get; private set; } = new ShareViewModels();
             private readonly Dictionary<Guid, ShareViewModel> _dicByCoinId = new Dictionary<Guid, ShareViewModel>();
 
             private ShareViewModels() {

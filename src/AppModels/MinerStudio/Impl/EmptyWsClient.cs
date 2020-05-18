@@ -3,7 +3,7 @@ using System;
 
 namespace NTMiner.MinerStudio.Impl {
     public class EmptyWsClient : IWsClient {
-        public static readonly IWsClient Instance = new EmptyWsClient {
+        public static IWsClient Instance { get; private set; } = new EmptyWsClient {
             IsOpen = false
         };
 

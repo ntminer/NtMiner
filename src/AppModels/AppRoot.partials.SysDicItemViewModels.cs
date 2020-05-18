@@ -6,7 +6,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class SysDicItemViewModels : ViewModelBase {
-            public static readonly SysDicItemViewModels Instance = new SysDicItemViewModels();
+            public static SysDicItemViewModels Instance { get; private set; } = new SysDicItemViewModels();
             private readonly Dictionary<Guid, SysDicItemViewModel> _dicById = new Dictionary<Guid, SysDicItemViewModel>();
 
             private SysDicItemViewModels() {

@@ -5,7 +5,7 @@ using System.IO;
 
 namespace NTMiner.Mine {
     public class Cleaner {
-        public static readonly Cleaner Instance = new Cleaner();
+        public static Cleaner Instance { get; private set; } = new Cleaner();
 
         private Cleaner() { }
 

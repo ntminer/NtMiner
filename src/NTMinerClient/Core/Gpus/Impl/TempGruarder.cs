@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Gpus.Impl {
     public class TempGruarder {
-        public static readonly TempGruarder Instance = new TempGruarder();
+        public static TempGruarder Instance { get; private set; } = new TempGruarder();
 
         private TempGruarder() { }
 

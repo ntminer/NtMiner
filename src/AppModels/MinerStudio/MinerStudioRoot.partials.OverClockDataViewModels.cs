@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
         public class OverClockDataViewModels : ViewModelBase {
-            public static readonly OverClockDataViewModels Instance = new OverClockDataViewModels();
+            public static OverClockDataViewModels Instance { get; private set; } = new OverClockDataViewModels();
             private readonly Dictionary<Guid, OverClockDataViewModel> _dicById = new Dictionary<Guid, OverClockDataViewModel>();
 
             private OverClockDataViewModels() {

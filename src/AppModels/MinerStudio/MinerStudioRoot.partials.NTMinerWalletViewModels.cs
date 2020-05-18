@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
         public class NTMinerWalletViewModels : ViewModelBase {
-            public static readonly NTMinerWalletViewModels Instance = new NTMinerWalletViewModels();
+            public static NTMinerWalletViewModels Instance { get; private set; } = new NTMinerWalletViewModels();
             private readonly Dictionary<Guid, NTMinerWalletViewModel> _dicById = new Dictionary<Guid, NTMinerWalletViewModel>();
 
             public ICommand Add { get; private set; }

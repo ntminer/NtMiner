@@ -6,7 +6,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class KernelOutputKeywordViewModels : ViewModelBase {
-            public static readonly KernelOutputKeywordViewModels Instance = new KernelOutputKeywordViewModels();
+            public static KernelOutputKeywordViewModels Instance { get; private set; } = new KernelOutputKeywordViewModels();
             private readonly Dictionary<Guid, List<KernelOutputKeywordViewModel>> _dicByKernelOutputId = new Dictionary<Guid, List<KernelOutputKeywordViewModel>>();
             private readonly Dictionary<Guid, KernelOutputKeywordViewModel> _dicById = new Dictionary<Guid, KernelOutputKeywordViewModel>();
 

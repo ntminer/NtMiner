@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace NTMiner {
     public static partial class AppRoot {
         public class PoolProfileViewModels : ViewModelBase {
-            public static readonly PoolProfileViewModels Instance = new PoolProfileViewModels();
+            public static PoolProfileViewModels Instance { get; private set; } = new PoolProfileViewModels();
             private readonly Dictionary<Guid, PoolProfileViewModel> _dicById = new Dictionary<Guid, PoolProfileViewModel>();
 
             private PoolProfileViewModels() {

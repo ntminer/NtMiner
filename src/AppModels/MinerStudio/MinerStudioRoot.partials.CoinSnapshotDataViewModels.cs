@@ -8,7 +8,7 @@ using System.Linq;
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
         public class CoinSnapshotDataViewModels : ViewModelBase {
-            public static readonly CoinSnapshotDataViewModels Instance = new CoinSnapshotDataViewModels();
+            public static CoinSnapshotDataViewModels Instance { get; private set; } = new CoinSnapshotDataViewModels();
 
             private readonly Dictionary<string, CoinSnapshotDataViewModel> _dicByCoinCode = new Dictionary<string, CoinSnapshotDataViewModel>(StringComparer.OrdinalIgnoreCase);
 

@@ -5,7 +5,7 @@ namespace NTMiner.Windows {
     /// Class for getting information related to RAM
     /// </summary>
     public sealed class Ram {
-        public static readonly Ram Instance = new Ram();
+        public static Ram Instance { get; private set; } = new Ram();
 
         #region Properties
         private ulong _totalPhysicalMemory = ulong.MinValue;

@@ -19,8 +19,8 @@ namespace NTMiner {
 
         public const int SpeedHistoryLengthByMinute = 10;
         public const int GpuAllId = -1;
-        private static readonly NTMinerContext S_Instance = new NTMinerContext();
-        public static readonly INTMinerContext Instance = S_Instance;
+        private static readonly NTMinerContext _instance = new NTMinerContext();
+        public static INTMinerContext Instance { get; private set; } = _instance;
 
         private static WorkType _workType;
         private static string _workerName;

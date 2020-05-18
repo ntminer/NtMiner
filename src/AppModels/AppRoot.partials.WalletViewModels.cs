@@ -6,7 +6,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class WalletViewModels : ViewModelBase {
-            public static readonly WalletViewModels Instance = new WalletViewModels();
+            public static WalletViewModels Instance { get; private set; } = new WalletViewModels();
             private readonly Dictionary<Guid, WalletViewModel> _dicById = new Dictionary<Guid, WalletViewModel>();
             private WalletViewModels() {
                 if (WpfUtil.IsInDesignMode) {

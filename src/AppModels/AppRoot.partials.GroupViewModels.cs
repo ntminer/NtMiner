@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace NTMiner {
     public static partial class AppRoot {
         public class GroupViewModels : ViewModelBase {
-            public static readonly GroupViewModels Instance = new GroupViewModels();
+            public static GroupViewModels Instance { get; private set; } = new GroupViewModels();
             private readonly Dictionary<Guid, GroupViewModel> _dicById = new Dictionary<Guid, GroupViewModel>();
             public ICommand Add { get; private set; }
             private GroupViewModels() {

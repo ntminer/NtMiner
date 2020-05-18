@@ -9,7 +9,7 @@ using System.IO;
 
 namespace NTMiner.Services.Client {
     public class MinerClientService {
-        public static readonly MinerClientService Instance = new MinerClientService();
+        public static MinerClientService Instance { get; private set; } = new MinerClientService();
 
         private readonly string _controllerName = RpcRoot.GetControllerName<IMinerClientController>();
         private MinerClientService() {

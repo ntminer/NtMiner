@@ -9,7 +9,7 @@ using System.Windows.Input;
 namespace NTMiner.MinerStudio {
     public static partial class MinerStudioRoot {
         public class ColumnsShowViewModels : ViewModelBase {
-            public static readonly ColumnsShowViewModels Instance = new ColumnsShowViewModels();
+            public static ColumnsShowViewModels Instance { get; private set; } = new ColumnsShowViewModels();
 
             private readonly Dictionary<Guid, ColumnsShowViewModel> _dicById = new Dictionary<Guid, ColumnsShowViewModel>();
 

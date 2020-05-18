@@ -6,7 +6,7 @@ using System.Linq;
 namespace NTMiner {
     public static partial class AppRoot {
         public class PackageViewModels : ViewModelBase {
-            public static readonly PackageViewModels Instance = new PackageViewModels();
+            public static PackageViewModels Instance { get; private set; } = new PackageViewModels();
             private readonly Dictionary<Guid, PackageViewModel> _dicById = new Dictionary<Guid, PackageViewModel>();
 
             private PackageViewModels() {
