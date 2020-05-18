@@ -3,7 +3,7 @@
 namespace NTMiner {
     /// <summary>
     /// 消息路径的标识或消息的目标路径的标识。对Guid的包装，只为词汇，只为可读。
-    /// 如果消息路径的表示不为Empty则只有消息的标识和路径的标识相同时才能通过。
+    /// 如果消息路径的标识不为Empty则只有消息的标识和路径的标识相同时才能通过。
     /// </summary>
     public struct PathId {
         public static PathId Empty = new PathId(Guid.Empty);
