@@ -144,7 +144,7 @@ namespace NTMiner.Core.Mq {
 
         #region SwitchRadeonGpu
         public static byte[] GetSwitchRadeonGpuMqSendBody(bool on) {
-            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(on.ToString()));
+            return Encoding.UTF8.GetBytes(on.ToString());
         }
         public static bool GetSwitchRadeonGpuMqReceiveBody(byte[] body) {
             string str = Encoding.UTF8.GetString(body);
