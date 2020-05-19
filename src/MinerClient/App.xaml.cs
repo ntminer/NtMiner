@@ -209,7 +209,8 @@ namespace NTMiner {
                             break;
                     }
                 }
-                catch {
+                catch(Exception e) {
+                    Logger.ErrorDebugLine(e);
                 }
                 // 注意确保以上没有异步的逻辑
                 Environment.Exit(0);
