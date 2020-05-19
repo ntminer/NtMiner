@@ -1,6 +1,7 @@
 ﻿using NTMiner.Controllers;
 using NTMiner.Core;
 using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using NTMiner.Report;
 using NTMiner.Ws;
 using System;
@@ -137,6 +138,15 @@ namespace NTMiner {
         public void OverClock() {
             VirtualRoot.ThisLocalInfo(nameof(MinerClientController), $"通过群控刷新超频", toConsole: true);
             NTMinerContext.Instance.GpuProfileSet.Refresh();
+        }
+
+        [HttpPost]
+        public void RunAction([FromBody]DataRequest<MinerClientActionType> request) {
+            if (request == null) {
+                return;
+            }
+            VirtualRoot.ThisLocalInfo(nameof(MinerClientController), request.Data.GetDescription(), toConsole: true);
+            VirtualRoot.Execute(new MinerClientActionCommand(request.Data));
         }
     }
 }

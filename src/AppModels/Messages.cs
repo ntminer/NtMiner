@@ -1,7 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.MinerClient;
 using NTMiner.Hub;
-using NTMiner.MinerStudio;
 using NTMiner.MinerStudio.Vms;
 using NTMiner.Vms;
 using System;
@@ -17,15 +15,6 @@ namespace NTMiner {
 
         public string FileName { get; private set; }
         public Action Callback { get; private set; }
-    }
-
-    [MessageType(description: "释放并执行挖矿端嵌入的工具")]
-    public class MinerClientActionCommand : Cmd {
-        public MinerClientActionCommand(MinerClientActionType actionType) {
-            this.ActionType = actionType;
-        }
-
-        public MinerClientActionType ActionType { get; private set; }
     }
 
     [MessageType(description: "启用windows远程桌面")]

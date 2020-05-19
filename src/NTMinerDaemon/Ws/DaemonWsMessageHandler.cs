@@ -105,11 +105,6 @@ namespace NTMiner.Ws {
                     VirtualRoot.DaemonOperation.EnableRemoteDesktop();
                 });
             },
-            [WsMessage.BlockWAU] = (sendAsync, message) => {
-                Task.Factory.StartNew(() => {
-                    VirtualRoot.DaemonOperation.BlockWAU();
-                });
-            },
             [WsMessage.SetVirtualMemory] = (sendAsync, message) => {
                 if (message.TryGetData(out Dictionary<string, int> data)) {
                     Task.Factory.StartNew(() => {
@@ -135,6 +130,11 @@ namespace NTMiner.Ws {
                         VirtualRoot.DaemonOperation.SwitchRadeonGpu(on);
                     });
                 }
+            },
+            [WsMessage.BlockWAU] = (sendAsync, message) => {
+                Task.Factory.StartNew(() => {
+                    VirtualRoot.DaemonOperation.BlockWAU();
+                });
             },
             [WsMessage.RestartWindows] = (sendAsync, message) => {
                 Task.Factory.StartNew(() => {

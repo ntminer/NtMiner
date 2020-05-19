@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Gpus;
+using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerStudio;
 using NTMiner.Core.Profile;
@@ -10,6 +11,15 @@ using NTMiner.Ws;
 using System;
 
 namespace NTMiner {
+    [MessageType(description: "释放并执行挖矿端嵌入的工具")]
+    public class MinerClientActionCommand : Cmd {
+        public MinerClientActionCommand(MinerClientActionType actionType) {
+            this.ActionType = actionType;
+        }
+
+        public MinerClientActionType ActionType { get; private set; }
+    }
+
     [MessageType(description: "停止挖矿")]
     public class StopMineCommand : Cmd {
         public StopMineCommand() { }

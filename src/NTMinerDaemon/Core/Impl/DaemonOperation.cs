@@ -34,40 +34,36 @@ namespace NTMiner.Core.Impl {
         }
         #endregion
 
-        #region BlockWAU
-        public ResponseBase BlockWAU() {
-            if (TryGetMinerClientLocation(out string location)) {
-                Windows.Cmd.RunClose(location, $"{NTKeyword.ActionCmdParameterName}{MinerClient.MinerClientActionType.BlockWAU.ToString()}");
+        private ResponseBase RunAction(MinerClientActionType actionType) {
+            if (IsNTMinerOpened()) {
+                var request = new DataRequest<MinerClientActionType> {
+                    Data = actionType
+                };
+                JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _minerClientControllerName, nameof(IMinerClientController.RunAction), null, data: request);
             }
-            ResponseBase response = ResponseBase.Ok("禁用windows系统更新");
+            else if (TryGetMinerClientLocation(out string location)) {
+                Windows.Cmd.RunClose(location, $"{NTKeyword.ActionCmdParameterName}{actionType.ToString()}");
+            }
+            ResponseBase response = ResponseBase.Ok(actionType.GetDescription());
             VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
             return response;
         }
-        #endregion
 
         #region AtikmdagPatcher
         public ResponseBase AtikmdagPatcher() {
-            if (TryGetMinerClientLocation(out string location)) {
-                Windows.Cmd.RunClose(location, $"{NTKeyword.ActionCmdParameterName}{MinerClient.MinerClientActionType.AtikmdagPatcher.ToString()}");
-            }
-            ResponseBase response = ResponseBase.Ok("A卡驱动签名，如果本机不是A卡将被忽略");
-            VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
-            return response;
+            return RunAction(MinerClientActionType.AtikmdagPatcher);
         }
         #endregion
 
         #region SwitchRadeonGpu
         public ResponseBase SwitchRadeonGpu(bool on) {
-            if (TryGetMinerClientLocation(out string location)) {
-                MinerClientActionType actionType = MinerClientActionType.SwitchRadeonGpuOn;
-                if (!on) {
-                    actionType = MinerClientActionType.SwitchRadeonGpuOff;
-                }
-                Windows.Cmd.RunClose(location, $"{NTKeyword.ActionCmdParameterName}{actionType.GetName()}");
-            }
-            ResponseBase response = ResponseBase.Ok($"{(on ? "开启" : "关闭")}A卡计算模式，如果本机不是A卡将被忽略");
-            VirtualRoot.OperationResultSet.Add(response.ToOperationResult());
-            return response;
+            return RunAction(on ? MinerClientActionType.SwitchRadeonGpuOn : MinerClientActionType.SwitchRadeonGpuOff);
+        }
+        #endregion
+
+        #region BlockWAU
+        public ResponseBase BlockWAU() {
+            return RunAction(MinerClientActionType.BlockWAU);
         }
         #endregion
 

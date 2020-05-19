@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Daemon;
+using NTMiner.Core.MinerClient;
 using NTMiner.Report;
 using NTMiner.Ws;
 using System.Collections.Generic;
@@ -21,5 +22,6 @@ namespace NTMiner.Controllers {
         void RefreshIsRemoteDesktopEnabled();
         void ReportWsDaemonState(WsClientState state);
         void OverClock();
+        void RunAction(DataRequest<MinerClientActionType> request);
     }
 }

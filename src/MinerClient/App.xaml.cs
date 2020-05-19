@@ -53,14 +53,6 @@ namespace NTMiner {
                     UIThread.Execute(() => { Environment.Exit(0); });
                 }));
             }
-            /// 释放和执行<see cref="MinerClientActionType"/>
-            else if (!string.IsNullOrEmpty(CommandLineArgs.Action)) {
-                // 启动计时器以放置后续的逻辑中用到计时器
-                VirtualRoot.StartTimer(new WpfTimingEventProducer());
-                if (CommandLineArgs.Action.TryParse(out MinerClientActionType resourceType)) {
-                    VirtualRoot.Execute(new MinerClientActionCommand(resourceType));
-                }
-            }
             else {
                 DoRun();
             }
@@ -95,6 +87,7 @@ namespace NTMiner {
 
                         }).Queue();
                 }
+                BuildPaths();
                 NTMinerContext.Instance.Init(() => {
                     _appViewFactory.Link();
                     if (VirtualRoot.IsLTWin10) {
@@ -125,6 +118,9 @@ namespace NTMiner {
                         StartStopMineButtonViewModel.Instance.AutoStart();
                         // 注意：因为推迟到这里才启动的计时器，所以别忘了在Upgrade、和Action情况时启动计时器
                         VirtualRoot.StartTimer(new WpfTimingEventProducer());
+                        if (CommandLineArgs.Action.TryParse(out MinerClientActionType resourceType)) {
+                            VirtualRoot.Execute(new MinerClientActionCommand(resourceType));
+                        }
                     });
                     Task.Factory.StartNew(() => {
                         var minerProfile = NTMinerContext.Instance.MinerProfile;
@@ -153,7 +149,6 @@ namespace NTMiner {
                         }
                     });
                 });
-                BuildPaths();
             }
             else {
                 try {
@@ -178,47 +173,34 @@ namespace NTMiner {
             VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
                 AppRoot.Upgrade(NTMinerAppType.MinerClient, message.FileName, message.Callback);
             }, location: this.GetType());
+        }
+
+        private void BuildPaths() {
             VirtualRoot.AddCmdPath<MinerClientActionCommand>(action: message => {
                 #region
                 try {
-                    // 注意不要提前return，因为最后需要执行Environment.Exit(0)
                     switch (message.ActionType) {
-                        case MinerClientActionType.AtikmdagPatcher: {
-                                AdlHelper adlHelper = new AdlHelper();
-                                if (adlHelper.GpuCount != 0) {
-                                    AtikmdagPatcher.AtikmdagPatcherUtil.DoRun();
-                                }
-                            }
+                        case MinerClientActionType.AtikmdagPatcher:
+                            VirtualRoot.Execute(new AtikmdagPatcherCommand());
                             break;
-                        case MinerClientActionType.SwitchRadeonGpuOn: {
-                                AdlHelper adlHelper = new AdlHelper();
-                                if (adlHelper.GpuCount != 0) {
-                                    SwitchRadeonGpu.SwitchRadeonGpu.DoRun(on: true);
-                                }
-                            }
+                        case MinerClientActionType.SwitchRadeonGpuOn:
+                            VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
                             break;
-                        case MinerClientActionType.SwitchRadeonGpuOff: {
-                                AdlHelper adlHelper = new AdlHelper();
-                                SwitchRadeonGpu.SwitchRadeonGpu.DoRun(on: false);
-                            }
+                        case MinerClientActionType.SwitchRadeonGpuOff:
+                            VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
                             break;
                         case MinerClientActionType.BlockWAU:
-                            NTMiner.Windows.WindowsUtil.DoBlockWAU();
+                            VirtualRoot.Execute(new BlockWAUCommand());
                             break;
                         default:
                             break;
                     }
                 }
-                catch(Exception e) {
+                catch (Exception e) {
                     Logger.ErrorDebugLine(e);
                 }
-                // 注意确保以上没有异步的逻辑
-                Environment.Exit(0);
                 #endregion
             }, location: this.GetType());
-        }
-
-        private void BuildPaths() {
             #region 处理显示主界面命令
             VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
