@@ -619,7 +619,7 @@ namespace NTMiner.MinerStudio.Vms {
                 var config = new DialogWindowViewModel(
                     isConfirmNo: true,
                     btnNoToolTip: "注意：关闭计算模式挖矿算力会减半",
-                    message: $"过程大概需要花费5到10秒钟，最好矿机没有处在挖矿中否则内核会重启。", title: "确认", onYes: () => {
+                    message: $"过程大概需要花费5到10秒钟，最好矿机没有处在挖矿中否则内核会重启。", title: "A卡计算模式", onYes: () => {
                         foreach (var item in SelectedMinerClients) {
                             MinerStudioService.Instance.SwitchRadeonGpuAsync(item, on: true);
                         }
