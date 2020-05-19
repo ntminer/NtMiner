@@ -119,11 +119,6 @@ namespace NTMiner.Ws {
                     });
                 }
             },
-            [WsMessage.AtikmdagPatcher] = (sendAsync, message) => {
-                Task.Factory.StartNew(() => {
-                    VirtualRoot.DaemonOperation.AtikmdagPatcher();
-                });
-            },
             [WsMessage.SwitchRadeonGpu] = (sendAsync, message) => {
                 if (message.TryGetData(out bool on)) {
                     Task.Factory.StartNew(() => {

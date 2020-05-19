@@ -42,11 +42,6 @@ namespace NTMiner {
         }
 
         [HttpPost]
-        public ResponseBase AtikmdagPatcher() {
-            return VirtualRoot.DaemonOperation.AtikmdagPatcher();
-        }
-
-        [HttpPost]
         public ResponseBase SwitchRadeonGpu(bool on) {
             return VirtualRoot.DaemonOperation.SwitchRadeonGpu(on);
         }

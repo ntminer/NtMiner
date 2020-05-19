@@ -315,7 +315,6 @@ namespace NTMiner.MinerStudio.Vms {
         public ICommand VirtualMemory { get; private set; }
         public ICommand LocalIpConfig { get; private set; }
         public ICommand SwitchRadeonGpu { get; private set; }
-        public ICommand AtikmdagPatcher { get; private set; }
         public ICommand WsRetry { get; private set; }
         public ICommand CopyMainCoinWallet { get; private set; }
 
@@ -631,13 +630,6 @@ namespace NTMiner.MinerStudio.Vms {
                     }, btnYesText: "开启计算模式", btnNoText: "关闭计算模式");
                 this.ShowSoftDialog(config);
                 #endregion
-            }, IsSelectedAny);
-            this.AtikmdagPatcher = new DelegateCommand(() => {
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定对选中的矿机进行A卡驱动签名吗？", title: "确认", onYes: () => {
-                    foreach (var item in SelectedMinerClients) {
-                        MinerStudioService.Instance.AtikmdagPatcherAsync(item);
-                    }
-                }));
             }, IsSelectedAny);
             this.CopyMainCoinWallet = new DelegateCommand(() => {
                 #region

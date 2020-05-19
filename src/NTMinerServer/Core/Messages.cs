@@ -322,13 +322,6 @@ namespace NTMiner.Core {
         }
     }
 
-    [MessageType(description: "收到了AtikmdagPatcher Mq消息后")]
-    public class AtikmdagPatcherMqMessage : OperationMqMessage {
-        public AtikmdagPatcherMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId)
-            : base(appId, loginName, timestamp, clientId) {
-        }
-    }
-
     [MessageType(description: "收到了SwitchRadeonGpu Mq消息后")]
     public class SwitchRadeonGpuMqMessage : OperationMqMessage {
         public SwitchRadeonGpuMqMessage(string appId, string loginName, DateTime timestamp, Guid clientId, bool on)

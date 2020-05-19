@@ -8,7 +8,6 @@ namespace NTMiner.Core {
         void CloseDaemon();
         ResponseBase EnableRemoteDesktop();
         ResponseBase BlockWAU();
-        ResponseBase AtikmdagPatcher();
         ResponseBase SwitchRadeonGpu(bool on);
         string GetSelfWorkLocalJson();
         bool SaveSelfWorkLocalJson(WorkRequest request);

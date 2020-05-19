@@ -15,7 +15,6 @@ namespace NTMiner.MinerStudio {
 
         void EnableRemoteDesktopAsync(IMinerData client);
         void BlockWAUAsync(IMinerData client);
-        void AtikmdagPatcherAsync(IMinerData client);
         void SwitchRadeonGpuAsync(IMinerData client, bool on);
         void RestartWindowsAsync(IMinerData client);
         void ShutdownWindowsAsync(IMinerData client);

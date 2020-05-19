@@ -95,20 +95,6 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
-        #region AtikmdagPatcherAsync
-        public void AtikmdagPatcherAsync(IMinerData client) {
-            if (!MinerStudioRoot.WsClient.IsOpen) {
-                VirtualRoot.Out.ShowWarn("和服务器失去连接", autoHideSeconds: 4);
-                return;
-            }
-            MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.AtikmdagPatcher) {
-                Data = new WrapperClientId {
-                    ClientId = client.ClientId
-                }
-            });
-        }
-        #endregion
-
         #region SwitchRadeonGpuAsync
         public void SwitchRadeonGpuAsync(IMinerData client, bool on) {
             if (!MinerStudioRoot.WsClient.IsOpen) {

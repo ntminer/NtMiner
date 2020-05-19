@@ -145,12 +145,6 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
-        #region AtikmdagPatcherAsync
-        public void AtikmdagPatcherAsync(IMinerData client) {
-            JsonRpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.AtikmdagPatcher), null, null, timeountMilliseconds: 3000);
-        }
-        #endregion
-
         #region SwitchRadeonGpuAsync
         public void SwitchRadeonGpuAsync(IMinerData client, bool on) {
             JsonRpcRoot.PostAsync<ResponseBase>(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _daemonControllerName, nameof(INTMinerDaemonController.SwitchRadeonGpu), new Dictionary<string, string> {

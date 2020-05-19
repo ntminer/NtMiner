@@ -168,17 +168,6 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 body: _emptyBody);
         }
 
-        public void SendAtikmdagPatcher(string loginName, Guid clientId) {
-            if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
-                return;
-            }
-            _mqChannel.BasicPublish(
-                exchange: MqKeyword.NTMinerExchange,
-                routingKey: WsMqKeyword.AtikmdagPatcherRoutingKey,
-                basicProperties: CreateBasicProperties(loginName, clientId),
-                body: _emptyBody);
-        }
-
         public void SendSwitchRadeonGpu(string loginName, Guid clientId, bool on) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;

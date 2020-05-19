@@ -12,7 +12,6 @@ namespace NTMiner.Controllers {
         WsClientState GetWsDaemonState();
         ResponseBase EnableRemoteDesktop();
         ResponseBase BlockWAU();
-        ResponseBase AtikmdagPatcher();
         ResponseBase SwitchRadeonGpu(bool on);
         void CloseDaemon();
         string GetSelfWorkLocalJson();

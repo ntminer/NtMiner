@@ -18,7 +18,6 @@ namespace NTMiner {
         public const string GetSpeedRoutingKey = WsMessage.GetSpeed;
         public const string EnableRemoteDesktopRoutingKey = WsMessage.EnableRemoteDesktop;
         public const string BlockWAURoutingKey = WsMessage.BlockWAU;
-        public const string AtikmdagPatcherRoutingKey = WsMessage.AtikmdagPatcher;
         public const string SwitchRadeonGpuRoutingKey = WsMessage.SwitchRadeonGpu;
         public const string SetVirtualMemoryRoutingKey = WsMessage.SetVirtualMemory;
         public const string SetLocalIpsRoutingKey = WsMessage.SetLocalIps;

@@ -59,11 +59,6 @@ namespace NTMiner {
                         WsRoot.OperationMqSender.SendSetLocalIps(loginName, wrapperClientIdData.ClientId, data);
                     }
                 },
-                [WsMessage.AtikmdagPatcher] = (loginName, message) => {
-                    if (message.TryGetData(out WrapperClientId wrapperClientId)) {
-                        WsRoot.OperationMqSender.SendAtikmdagPatcher(loginName, wrapperClientId.ClientId);
-                    }
-                },
                 [WsMessage.SwitchRadeonGpu] = (loginName, message) => {
                     if (message.TryGetData(out WrapperClientIdData wrapperClientIdData) && wrapperClientIdData.TryGetData(out bool on)) {
                         WsRoot.OperationMqSender.SendSwitchRadeonGpu(loginName, wrapperClientIdData.ClientId, on);

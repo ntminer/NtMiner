@@ -28,7 +28,6 @@ namespace NTMiner.Core.Mq.Senders {
 
         void SendEnableRemoteDesktop(string loginName, Guid clientId);
         void SendBlockWAU(string loginName, Guid clientId);
-        void SendAtikmdagPatcher(string loginName, Guid clientId);
         void SendSwitchRadeonGpu(string loginName, Guid clientId, bool on);
         void SendSetVirtualMemory(string loginName, Guid clientId, Dictionary<string, int> datas);
         void SendSetLocalIps(string loginName, Guid clientId, List<LocalIpInput> datas);

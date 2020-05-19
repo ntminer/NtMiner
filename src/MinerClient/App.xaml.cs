@@ -180,9 +180,6 @@ namespace NTMiner {
                 #region
                 try {
                     switch (message.ActionType) {
-                        case MinerClientActionType.AtikmdagPatcher:
-                            VirtualRoot.Execute(new AtikmdagPatcherCommand());
-                            break;
                         case MinerClientActionType.SwitchRadeonGpuOn:
                             VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
                             break;

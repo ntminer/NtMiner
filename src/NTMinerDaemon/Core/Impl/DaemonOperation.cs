@@ -49,12 +49,6 @@ namespace NTMiner.Core.Impl {
             return response;
         }
 
-        #region AtikmdagPatcher
-        public ResponseBase AtikmdagPatcher() {
-            return RunAction(MinerClientActionType.AtikmdagPatcher);
-        }
-        #endregion
-
         #region SwitchRadeonGpu
         public ResponseBase SwitchRadeonGpu(bool on) {
             return RunAction(on ? MinerClientActionType.SwitchRadeonGpuOn : MinerClientActionType.SwitchRadeonGpuOff);

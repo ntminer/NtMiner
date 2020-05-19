@@ -60,10 +60,6 @@ namespace NTMiner.MinerStudio {
             Service.BlockWAUAsync(client);
         }
 
-        public void AtikmdagPatcherAsync(IMinerData client) {
-            Service.AtikmdagPatcherAsync(client);
-        }
-
         public void SwitchRadeonGpuAsync(IMinerData client, bool on) {
             Service.SwitchRadeonGpuAsync(client, on);
         }

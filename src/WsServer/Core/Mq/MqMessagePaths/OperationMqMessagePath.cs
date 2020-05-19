@@ -27,7 +27,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetSpeedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.EnableRemoteDesktopRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.BlockWAURoutingKey, arguments: null);
-            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.AtikmdagPatcherRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SwitchRadeonGpuRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.GetSelfWorkLocalJsonRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: WsMqKeyword.SelfWorkLocalJsonRoutingKey, arguments: null);
@@ -199,15 +198,6 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         if (ea.BasicProperties.ReadHeaderGuid(WsMqKeyword.ClientIdHeaderName, out Guid clientId)) {
                             var data = OperationMqBodyUtil.GetSetLocalIpsMqReceiveBody(ea.Body);
                             VirtualRoot.RaiseEvent(new SetLocalIpsMqMessage(appId, loginName, timestamp, clientId, data));
-                        }
-                    }
-                    break;
-                case WsMqKeyword.AtikmdagPatcherRoutingKey: {
-                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
-                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
-                        string appId = ea.BasicProperties.AppId;
-                        if (ea.BasicProperties.ReadHeaderGuid(WsMqKeyword.ClientIdHeaderName, out Guid clientId)) {
-                            VirtualRoot.RaiseEvent(new AtikmdagPatcherMqMessage(appId, loginName, timestamp, clientId));
                         }
                     }
                     break;

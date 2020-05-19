@@ -372,7 +372,11 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-            <MenuItem Style="{StaticResource TopMenuItem}">
+            <MenuItem 
+                Style="{StaticResource TopMenuItem}"
+                Header="A卡计算模式" 
+                Command="{Binding SwitchRadeonGpu}" 
+                ToolTip="开启选中的矿机的A卡计算模式">
                 <MenuItem.Icon>
                     <Path
 						Width="16"
@@ -381,38 +385,6 @@
 						Fill="Red"
 						Stretch="Fill" />
                 </MenuItem.Icon>
-                <MenuItem.Header>
-                    <WrapPanel>
-                        <TextBlock>A卡</TextBlock>
-                        <Path
-                            Margin="4 0 0 0"
-						    Width="12"
-						    Height="8"
-						    Data="{StaticResource Icon_ComboBoxToogle}"
-						    Fill="Black"
-						    Stretch="Fill" />
-                    </WrapPanel>
-                </MenuItem.Header>
-                <MenuItem Command="{Binding SwitchRadeonGpu}" Header="A卡计算模式" ToolTip="开启选中的矿机的A卡计算模式">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="16"
-						    Height="16"
-						    Data="{StaticResource Icon_AMD}"
-						    Fill="Red"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Command="{Binding AtikmdagPatcher}" Header="A卡驱动签名" ToolTip="签名选中的矿机的A卡驱动">
-                    <MenuItem.Icon>
-                        <Path
-						    Width="16"
-						    Height="16"
-						    Data="{StaticResource Icon_AMD}"
-						    Fill="Red"
-						    Stretch="Fill" />
-                    </MenuItem.Icon>
-                </MenuItem>
             </MenuItem>
             <MenuItem 
                 Style="{StaticResource TopMenuItem}"

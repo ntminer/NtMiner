@@ -30,7 +30,6 @@ namespace NTMiner.Ws {
 
         public const string EnableRemoteDesktop = "EnableRemoteDesktop";// MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string BlockWAU = "BlockWAU";// MinerStudio->WsServer->Mq->WsServer->MinerClient
-        public const string AtikmdagPatcher = "AtikmdagPatcher";// MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string SwitchRadeonGpu = "SwitchRadeonGpu";// MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string SetVirtualMemory = "SetVirtualMemory";// MinerStudio->WsServer->Mq->WsServer->MinerClient
         public const string SetLocalIps = "SetLocalIps";// MinerStudio->WsServer->Mq->WsServer->MinerClient
