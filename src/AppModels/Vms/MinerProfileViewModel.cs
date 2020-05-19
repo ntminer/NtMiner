@@ -157,7 +157,7 @@ namespace NTMiner.Vms {
             VirtualRoot.AddEventPath<CoinVmRemovedEvent>("Vm集删除了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, action: message => {
                 OnPropertyChanged(nameof(CoinVm));
             }, this.GetType());
-            if ((IsAutoStart || CommandLineArgs.IsAutoStart)) {
+            if ((IsAutoStart || CommandLineArgs.IsAutoStart) && IsNoUi) {
                 Write.Disable();
             }
         }

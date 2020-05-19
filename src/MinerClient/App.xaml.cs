@@ -180,31 +180,30 @@ namespace NTMiner {
             }, location: this.GetType());
             VirtualRoot.AddCmdPath<MinerClientActionCommand>(action: message => {
                 #region
-                Task task = TaskEx.CompletedTask;
                 try {
                     // 注意不要提前return，因为最后需要执行Environment.Exit(0)
                     switch (message.ActionType) {
                         case MinerClientActionType.AtikmdagPatcher: {
                                 AdlHelper adlHelper = new AdlHelper();
                                 if (adlHelper.GpuCount != 0) {
-                                    task = AtikmdagPatcher.AtikmdagPatcherUtil.Run();
+                                    AtikmdagPatcher.AtikmdagPatcherUtil.DoRun();
                                 }
                             }
                             break;
                         case MinerClientActionType.SwitchRadeonGpuOn: {
                                 AdlHelper adlHelper = new AdlHelper();
                                 if (adlHelper.GpuCount != 0) {
-                                    task = SwitchRadeonGpu.SwitchRadeonGpu.Run(on: true);
+                                    SwitchRadeonGpu.SwitchRadeonGpu.DoRun(on: true);
                                 }
                             }
                             break;
                         case MinerClientActionType.SwitchRadeonGpuOff: {
                                 AdlHelper adlHelper = new AdlHelper();
-                                task = SwitchRadeonGpu.SwitchRadeonGpu.Run(on: false);
+                                SwitchRadeonGpu.SwitchRadeonGpu.DoRun(on: false);
                             }
                             break;
                         case MinerClientActionType.BlockWAU:
-                            task = NTMiner.Windows.WindowsUtil.BlockWAU();
+                            NTMiner.Windows.WindowsUtil.DoBlockWAU();
                             break;
                         default:
                             break;
@@ -212,9 +211,8 @@ namespace NTMiner {
                 }
                 catch {
                 }
-                task.ContinueWith(t => {
-                    Environment.Exit(0);
-                });
+                // 注意确保以上没有异步的逻辑
+                Environment.Exit(0);
                 #endregion
             }, location: this.GetType());
         }
