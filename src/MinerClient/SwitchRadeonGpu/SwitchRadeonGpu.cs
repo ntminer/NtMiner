@@ -10,16 +10,9 @@ namespace NTMiner.SwitchRadeonGpu {
     public static class SwitchRadeonGpu {
         public static Task Run(bool on) {
             return Task.Factory.StartNew(() => {
-                DoRun(on);
+                ExtractManifestResource();
+                Windows.Cmd.RunClose(App.SwitchRadeonGpuFileFullName, $"--compute={(on ? "on" : "off")} --admin --restart", waitForExit: true);
             });
-        }
-
-        /// <summary>
-        /// 通过群控执行时直接调用这个方法
-        /// </summary>
-        public static void DoRun(bool on) {
-            ExtractManifestResource();
-            Windows.Cmd.RunClose(App.SwitchRadeonGpuFileFullName, $"--compute={(on ? "on" : "off")} --admin --restart", waitForExit: true);
         }
 
         private static void ExtractManifestResource() {

@@ -10,13 +10,9 @@ namespace NTMiner.AtikmdagPatcher {
     public static class AtikmdagPatcherUtil {
         public static Task Run() {
             return Task.Factory.StartNew(() => {
-                DoRun();
+                ExtractManifestResource();
+                Windows.Cmd.RunClose(App.AtikmdagPatcherFileFullName, string.Empty, waitForExit: false);
             });
-        }
-
-        public static void DoRun() {
-            ExtractManifestResource();
-            Windows.Cmd.RunClose(App.AtikmdagPatcherFileFullName, string.Empty, waitForExit: false);
         }
 
         private static void ExtractManifestResource() {

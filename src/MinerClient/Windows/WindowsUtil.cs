@@ -11,13 +11,9 @@ namespace NTMiner.Windows {
     public static class WindowsUtil {
         public static Task BlockWAU() {
             return Task.Factory.StartNew(() => {
-                DoBlockWAU();
+                ExtractBlockWAUManifestResource();
+                Cmd.RunClose(App.BlockWAUFileFullName, string.Empty, waitForExit: true);
             });
-        }
-
-        public static void DoBlockWAU() {
-            ExtractBlockWAUManifestResource();
-            Cmd.RunClose(App.BlockWAUFileFullName, string.Empty, waitForExit: true);
         }
 
         private static void ExtractBlockWAUManifestResource() {
