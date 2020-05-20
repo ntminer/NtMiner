@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Windows;
 
@@ -45,7 +44,7 @@ namespace NTMiner.View {
             mainWindow = _mainWindow;
         }
 
-        public abstract void Link();
+        public abstract void BuildPaths();
         public abstract Window CreateMainWindow();
 
         public void ShowMainWindow(Application app, NTMinerAppType appType) {

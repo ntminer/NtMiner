@@ -16,7 +16,7 @@ namespace NTMiner {
             return new MainWindow();
         }
 
-        public override void Link() {
+        public override void BuildPaths() {
             var location = this.GetType();
             VirtualRoot.AddCmdPath<ShowDialogWindowCommand>(action: message => {
                 UIThread.Execute(() => {

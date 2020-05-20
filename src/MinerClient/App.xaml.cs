@@ -89,7 +89,7 @@ namespace NTMiner {
                 }
                 BuildPaths();
                 NTMinerContext.Instance.Init(() => {
-                    _appViewFactory.Link();
+                    _appViewFactory.BuildPaths();
                     if (VirtualRoot.IsLTWin10) {
                         VirtualRoot.ThisLocalWarn(nameof(App), AppRoot.LowWinMessage, toConsole: true);
                     }

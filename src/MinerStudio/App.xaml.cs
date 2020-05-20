@@ -46,7 +46,7 @@ namespace NTMiner {
                     MinerStudioRoot.Init(new MinerStudioWsClient());
                     _ = MinerStudioService.Instance;// 访问一下从而提前拉取本地服务数据
                     NTMinerContext.Instance.Init(() => {
-                        _appViewFactory.Link();
+                        _appViewFactory.BuildPaths();
                         UIThread.Execute(() => {
                             MinerStudioRoot.MinerClientsWindowVm.OnPropertyChanged(nameof(MinerStudioRoot.MinerClientsWindowVm.NetTypeText));
                             if (RpcRoot.IsOuterNet) {
