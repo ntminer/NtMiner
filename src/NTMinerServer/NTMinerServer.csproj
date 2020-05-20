@@ -73,13 +73,13 @@
     <Compile Include="Core\Redis\IReadOnlyMinerRedis.cs" />
     <Compile Include="Core\IHostConfig.cs" />
     <Compile Include="Core\Redis\Impl\ReadOnlyUserRedis.cs" />
-    <Compile Include="IServerContext.cs" />
+    <Compile Include="IServerConfig.cs" />
     <Compile Include="MqKeyword.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\IMqMessagePath.cs" />
     <Compile Include="Core\Messages.cs" />
     <Compile Include="Core\Redis\IReadOnlyUserRedis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerContext.cs" />
+    <Compile Include="ServerConfig.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">

@@ -38,7 +38,6 @@ namespace NTMiner {
                 return new NetworkCredential(userData.LoginName, password, domain: null, roles: wsUserName.ClientType.GetName());
             }
         };
-        private static IServerContext _serverContext;
 
         public static IMinerClientSessionSet MinerClientSessionSet { get; private set; }
         public static IMinerStudioSessionSet MinerStudioSessionSet { get; private set; }
@@ -50,6 +49,7 @@ namespace NTMiner {
         public static IOperationMqSender OperationMqSender { get; private set; }
         public static IUserMqSender UserMqSender { get; private set; }
 
+        private static bool _started = false;
         static void Main() {
             HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             NTMinerConsole.DisbleQuickEditMode();
@@ -71,17 +71,17 @@ namespace NTMiner {
                 new WsServerNodeMqMessagePath(queue),
                 new OperationMqMessagePath(queue)
             };
-            _serverContext = ServerContext.Create(mqClientTypeName: ServerAppType.WsServer.GetName(), mqMessagePaths);
-            if (_serverContext == null) {
+            IServerConfig serverConfig = ServerConfig.Create(mqClientTypeName: ServerAppType.WsServer.GetName(), mqMessagePaths);
+            if (serverConfig == null) {
                 Write.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                 return;
             }
-            MinerClientMqSender = new MinerClientMqSender(_serverContext.Channel);
-            SpeedDataRedis = new SpeedDataRedis(_serverContext.RedisConn);
-            OperationMqSender = new OperationMqSender(_serverContext.Channel);
-            UserMqSender = new UserMqSender(_serverContext.Channel);
-            var minerRedis = new ReadOnlyMinerRedis(_serverContext.RedisConn);
-            var userRedis = new ReadOnlyUserRedis(_serverContext.RedisConn);
+            MinerClientMqSender = new MinerClientMqSender(serverConfig.Channel);
+            SpeedDataRedis = new SpeedDataRedis(serverConfig.RedisConn);
+            OperationMqSender = new OperationMqSender(serverConfig.Channel);
+            UserMqSender = new UserMqSender(serverConfig.Channel);
+            var minerRedis = new ReadOnlyMinerRedis(serverConfig.RedisConn);
+            var userRedis = new ReadOnlyUserRedis(serverConfig.RedisConn);
             VirtualRoot.StartTimer();
             RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
             RpcRoot.SetIsOuterNet(false);
@@ -96,6 +96,7 @@ namespace NTMiner {
             MinerStudioSessionSet = new MinerStudioSessionSet(_wsServer.WebSocketServices[minerStudioPath].Sessions);
             _wsServer.Start();
             VirtualRoot.RaiseEvent(new WebSocketServerStatedEvent());
+            _started = true;
 
             Console.ReadKey(true);
             Exit();
@@ -120,7 +121,7 @@ namespace NTMiner {
         }
 
         private static void Exit() {
-            if (_serverContext != null) {
+            if (_started) {
                 RpcRoot.OfficialServer.WsServerNodeService.RemoveNodeAsync(ServerRoot.HostConfig.ThisServerAddress, callback: null);
                 // 等待1秒以使ReportNodeAsync过程完成
                 System.Threading.Thread.Sleep(1000);

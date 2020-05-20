@@ -7,14 +7,14 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public class ServerContext : IServerContext {
+    public class ServerConfig : IServerConfig {
         /// <summary>
         /// 如果创建失败返回null
         /// </summary>
         /// <param name="mqClientTypeName"></param>
         /// <param name="mqMessagePaths"></param>
         /// <returns></returns>
-        public static ServerContext Create(string mqClientTypeName, params AbstractMqMessagePath[] mqMessagePaths) {
+        public static ServerConfig Create(string mqClientTypeName, params AbstractMqMessagePath[] mqMessagePaths) {
             ConnectionMultiplexer redisConn;
             try {
                 redisConn = ConnectionMultiplexer.Connect(ServerRoot.HostConfig.RedisConfig);
@@ -47,7 +47,7 @@ namespace NTMiner {
             if (mqMessagePaths != null && mqMessagePaths.Length != 0) {
                 StartConsumer(channel, mqMessagePaths);
             }
-            return new ServerContext(redisConn, channel, mqMessagePaths);
+            return new ServerConfig(redisConn, channel);
         }
 
         private static void StartConsumer(IModel channel, AbstractMqMessagePath[] mqMessagePaths) {
@@ -103,16 +103,13 @@ namespace NTMiner {
             });
         }
 
-        private ServerContext(ConnectionMultiplexer redisConn, IModel channel, AbstractMqMessagePath[] mqMessagePaths) {
+        private ServerConfig(ConnectionMultiplexer redisConn, IModel channel) {
             this.RedisConn = redisConn;
             this.Channel = channel;
-            this.MqMessagePaths = mqMessagePaths;
         }
 
         public ConnectionMultiplexer RedisConn { get; private set; }
 
         public IModel Channel { get; private set; }
-
-        public IMqMessagePath[] MqMessagePaths { get; private set; }
     }
 }

@@ -18,8 +18,6 @@ namespace NTMiner {
         private static readonly EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static OssClient OssClient { get; private set; }
 
-        private static IServerContext _serverContext;
-
         private static Mutex _sMutexApp;
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
         [STAThread]
@@ -51,22 +49,22 @@ namespace NTMiner {
                             new UserMqMessagePath(durableQueue),
                             new MinerClientMqMessagePath(queue)
                         };
-                        _serverContext = ServerContext.Create(mqClientTypeName: ServerAppType.WebApiServer.GetName(), mqMessagePaths);
-                        if (_serverContext == null) {
+                        IServerConfig serverConfig = ServerConfig.Create(mqClientTypeName: ServerAppType.WebApiServer.GetName(), mqMessagePaths);
+                        if (serverConfig == null) {
                             Write.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                             return;
                         }
                         Console.Title = $"{ServerAppType.WebApiServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
                         OssClient = new OssClient(ServerRoot.HostConfig.OssEndpoint, ServerRoot.HostConfig.OssAccessKeyId, ServerRoot.HostConfig.OssAccessKeySecret);
-                        var minerClientMqSender = new MinerClientMqSender(_serverContext.Channel);
-                        var userMqSender = new UserMqSender(_serverContext.Channel);
-                        var wsServerNodeMqSender = new WsServerNodeMqSender(_serverContext.Channel);
+                        var minerClientMqSender = new MinerClientMqSender(serverConfig.Channel);
+                        var userMqSender = new UserMqSender(serverConfig.Channel);
+                        var wsServerNodeMqSender = new WsServerNodeMqSender(serverConfig.Channel);
 
-                        var minerRedis = new MinerRedis(_serverContext.RedisConn);
-                        var speedDataRedis = new SpeedDataRedis(_serverContext.RedisConn);
-                        var userRedis = new UserRedis(_serverContext.RedisConn);
-                        var captchaRedis = new CaptchaRedis(_serverContext.RedisConn);
-                        var gpuNameRedis = new GpuNameRedis(_serverContext.RedisConn);
+                        var minerRedis = new MinerRedis(serverConfig.RedisConn);
+                        var speedDataRedis = new SpeedDataRedis(serverConfig.RedisConn);
+                        var userRedis = new UserRedis(serverConfig.RedisConn);
+                        var captchaRedis = new CaptchaRedis(serverConfig.RedisConn);
+                        var gpuNameRedis = new GpuNameRedis(serverConfig.RedisConn);
 
                         WsServerNodeSet = new WsServerNodeSet(wsServerNodeMqSender);
                         UserSet = new UserSet(userRedis, userMqSender);
