@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public class ServerConfig : IServerConfig {
         /// <summary>
-        /// 如果创建失败返回null
+        /// 如果创建失败返回null。内部完成redis连接的创建和mq交换器、队列的声明以及mq消费者的启动
+        /// （mq消费者的启动是异步的，不会立即启动，而是在满足了后续的条件后才会启动）。
         /// </summary>
         /// <param name="mqClientTypeName"></param>
         /// <param name="mqMessagePaths"></param>
@@ -54,6 +55,7 @@ namespace NTMiner {
             Task.Factory.StartNew(() => {
                 DateTime startOn = DateTime.Now;
                 bool isTimeout = false;
+                // mq消费者不是立即启动的，而是异步启动的，在满足了后续的条件后才会启动的。
                 while (!mqMessagePaths.All(a => a.IsReadyToBuild)) {
                     if (startOn.AddSeconds(20) < DateTime.Now) {
                         isTimeout = true;
