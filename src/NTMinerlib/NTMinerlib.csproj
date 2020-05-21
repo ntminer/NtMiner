@@ -49,6 +49,7 @@
     <Compile Include="Cryptography\QuickUtil.cs" />
     <Compile Include="Cryptography\RSAKey.cs" />
     <Compile Include="GZipUtil.cs" />
+    <Compile Include="HomePath.cs" />
     <Compile Include="Net\Hosts.cs" />
     <Compile Include="NTMinerRegistry.partials.cs" />
     <Compile Include="Net\IpUtil.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Serialization\IJsonSerializer.cs" />
     <Compile Include="Serialization\NTJsonSerializer.cs" />
     <Compile Include="TaskEx.cs" />
+    <Compile Include="TempPath.cs" />
     <Compile Include="User\LoginedUserExtensions.cs" />
     <Compile Include="User\UserId.cs" />
     <Compile Include="User\UserIdType.cs" />

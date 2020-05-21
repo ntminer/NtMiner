@@ -127,6 +127,9 @@
     <Compile Include="..\NTMinerlib\Serialization\NTJsonSerializer.cs">
       <Link>Serialization\NTJsonSerializer.cs</Link>
     </Compile>
+    <Compile Include="..\NTMinerlib\TempPath.cs">
+      <Link>TempPath.cs</Link>
+    </Compile>
     <Compile Include="..\NTMinerlib\VirtualRoot.partials.Common.cs">
       <Link>VirtualRoot.partials.Common.cs</Link>
     </Compile>

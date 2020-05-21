@@ -1,12 +1,13 @@
-﻿using System;
+﻿using NTMiner.Core;
+using System;
 using System.IO;
 
 namespace NTMiner {
     public static class HomePath {
-        public static string BaseDirectory { get; private set; } = AppDomain.CurrentDomain.BaseDirectory;
-        public static string RootLockFileFullName { get; private set; } = Path.Combine(BaseDirectory, NTKeyword.RootLockFileName);
-        public static string RootConfigFileFullName { get; private set; } = Path.Combine(BaseDirectory, NTKeyword.RootConfigFileName);
-        public static string HomeDirFullName { get; private set; } = TempPath.TempDirFullName;
+        public static string AppDomainBaseDirectory { get; private set; } = AppDomain.CurrentDomain.BaseDirectory;
+        public static string RootLockFileFullName { get; private set; } = Path.Combine(AppDomainBaseDirectory, NTKeyword.RootLockFileName);
+        public static string RootConfigFileFullName { get; private set; } = Path.Combine(AppDomainBaseDirectory, NTKeyword.RootConfigFileName);
+        public static string HomeDirFullName { get; private set; } = AppDomainBaseDirectory;
         public static string ServerJsonFileFullName { get; private set; }
         public static string SelfWorkServerJsonFileFullName { get; private set; }
         public static string MineWorkServerJsonFileFullName { get; private set; }
@@ -14,15 +15,18 @@ namespace NTMiner {
         public static string SelfWorkLocalJsonFileFullName { get; private set; }
         public static string GpuProfilesJsonFileFullName { get; private set; }
 
+        public static string LocalDbFileFullName { get; private set; } = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
+        public static string ServerDbFileFullName { get; private set; } = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
+
         static HomePath() {
             string homeDirFullName = HomeDirFullName;
             if (!File.Exists(RootLockFileFullName)) {
                 if (File.Exists(RootConfigFileFullName)) {
-                    homeDirFullName = BaseDirectory;
+                    homeDirFullName = AppDomainBaseDirectory;
                 }
             }
             else {
-                homeDirFullName = BaseDirectory;
+                homeDirFullName = AppDomainBaseDirectory;
             }
             SetHomeDirFullName(homeDirFullName);
             ServerJsonFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerJsonFileName);
@@ -31,6 +35,22 @@ namespace NTMiner {
             SelfWorkLocalJsonFileFullName = Path.Combine(SelfWorkDirFullName, NTKeyword.LocalJsonFileName);
             MineWorkLocalJsonFileFullName = Path.Combine(MineWorkDirFullName, NTKeyword.LocalJsonFileName);
             GpuProfilesJsonFileFullName = Path.Combine(HomeDirFullName, NTKeyword.GpuProfilesFileName);
+        }
+
+        /// <summary>
+        /// 挖矿端不需要调用该方法，因为挖矿端是根据所在目录下是否存在名称为home.config的文件而自动设置的。
+        /// </summary>
+        /// <param name="dirFullName"></param>
+        public static void SetHomeDirFullName(string dirFullName) {
+            if (dirFullName.EndsWith("\\")) {
+                dirFullName = dirFullName.Substring(0, dirFullName.Length - 1);
+            }
+            HomeDirFullName = dirFullName;
+            if (!Directory.Exists(dirFullName)) {
+                Directory.CreateDirectory(dirFullName);
+            }
+            LocalDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
+            ServerDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
         }
 
         /// <summary>
@@ -56,7 +76,7 @@ namespace NTMiner {
 
         public static bool IsLocalHome {
             get {
-                string baseDir = BaseDirectory;
+                string baseDir = AppDomainBaseDirectory;
                 if (HomeDirFullName.Length + 1 != baseDir.Length) {
                     return false;
                 }
@@ -64,21 +84,6 @@ namespace NTMiner {
             }
         }
 
-        public static string LocalDbFileFullName { get; private set; } = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
-        public static string ServerDbFileFullName { get; private set; } = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
-
-        public static void SetHomeDirFullName(string dirFullName) {
-            if (dirFullName.EndsWith("\\")) {
-                dirFullName = dirFullName.Substring(0, dirFullName.Length - 1);
-            }
-            HomeDirFullName = dirFullName;
-            if (!Directory.Exists(dirFullName)) {
-                Directory.CreateDirectory(dirFullName);
-            }
-            LocalDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.LocalDbFileName);
-            ServerDbFileFullName = Path.Combine(HomeDirFullName, NTKeyword.ServerDbFileName);
-        }
-        
         private static bool _sIsFirstCallPackageDirFullName = true;
         public static string PackagesDirFullName {
             get {

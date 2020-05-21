@@ -4,11 +4,11 @@ using System.IO;
 namespace NTMiner {
     public static class SpecialPath {
         static SpecialPath() {
-            MineWorksDirFullName = Path.Combine(HomePath.BaseDirectory, "MineWorks");
+            MineWorksDirFullName = Path.Combine(HomePath.AppDomainBaseDirectory, "MineWorks");
             if (!Directory.Exists(MineWorksDirFullName)) {
                 Directory.CreateDirectory(MineWorksDirFullName);
             }
-            LocalDbFileFullName = Path.Combine(HomePath.BaseDirectory, NTKeyword.LocalDbFileName);
+            LocalDbFileFullName = Path.Combine(HomePath.AppDomainBaseDirectory, NTKeyword.LocalDbFileName);
         }
 
         public static string GetMineWorkLocalJsonFileFullName(Guid workId) {

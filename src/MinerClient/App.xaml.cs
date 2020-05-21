@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerClient;
-using NTMiner.Gpus;
 using NTMiner.Mine;
 using NTMiner.Notifications;
 using NTMiner.RemoteDesktop;

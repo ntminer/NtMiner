@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NTMiner.Core;
 
 namespace NTMiner {
     public static partial class NTMinerRegistry {

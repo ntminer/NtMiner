@@ -12,7 +12,7 @@ namespace NTMiner {
                 if (_hostConfig == null) {
                     lock (_locker) {
                         if (_hostConfig == null) {
-                            using (LiteDatabase db = new LiteDatabase($"filename={Path.Combine(HomePath.BaseDirectory, NTKeyword.LocalDbFileName)}")) {
+                            using (LiteDatabase db = new LiteDatabase($"filename={Path.Combine(HomePath.AppDomainBaseDirectory, NTKeyword.LocalDbFileName)}")) {
                                 var col = db.GetCollection<HostConfigData>();
                                 _hostConfig = col.FindOne(Query.All());
                             }

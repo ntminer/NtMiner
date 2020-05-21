@@ -23,7 +23,6 @@ namespace NTMiner {
         [STAThread]
         static void Main() {
             NTMinerConsole.DisbleQuickEditMode();
-            HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             try {
                 bool mutexCreated;
                 try {

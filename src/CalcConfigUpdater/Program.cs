@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public class Program {
         static void Main() {
-            HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             NTMinerConsole.DisbleQuickEditMode();
             try {
                 VirtualRoot.StartTimer();
@@ -152,7 +151,7 @@ namespace NTMiner {
                 if (string.IsNullOrEmpty(html)) {
                     return results;
                 }
-                string patternFileFullName = Path.Combine(HomePath.BaseDirectory, "pattern.txt");
+                string patternFileFullName = Path.Combine(HomePath.AppDomainBaseDirectory, "pattern.txt");
                 if (!File.Exists(patternFileFullName)) {
                     return results;
                 }

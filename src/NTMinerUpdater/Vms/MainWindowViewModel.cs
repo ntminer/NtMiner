@@ -73,7 +73,7 @@ namespace NTMiner.Vms {
                                 3.SecondsDelay().ContinueWith((t) => {
                                     string location = NTMinerRegistry.GetLocation(App.AppType);
                                     if (string.IsNullOrEmpty(location) || !File.Exists(location)) {
-                                        location = Path.Combine(HomePath.BaseDirectory, ntminerFile);
+                                        location = Path.Combine(HomePath.AppDomainBaseDirectory, ntminerFile);
                                     }
                                     try {
                                         if (File.Exists(location)) {

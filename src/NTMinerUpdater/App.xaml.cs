@@ -16,7 +16,6 @@ namespace NTMiner {
         }
 
         public App() {
-            HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             WpfUtil.Init();
             AppUtil.Init(this);

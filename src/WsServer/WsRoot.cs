@@ -51,7 +51,6 @@ namespace NTMiner {
 
         private static bool _started = false;
         static void Main() {
-            HomePath.SetHomeDirFullName(HomePath.BaseDirectory);
             NTMinerConsole.DisbleQuickEditMode();
             DevMode.SetDevMode();
 

@@ -66,6 +66,7 @@
     <Compile Include="Core\MinerServer\MinerSign.cs" />
     <Compile Include="Core\MinerServer\QueryClientsForWsRequest.cs" />
     <Compile Include="Core\Profile\IProfile.cs" />
+    <Compile Include="Core\WorkType.cs" />
     <Compile Include="DataSchemaIdAttribute.cs" />
     <Compile Include="EnumExtension.cs" />
     <Compile Include="IConsoleOutLine.cs" />

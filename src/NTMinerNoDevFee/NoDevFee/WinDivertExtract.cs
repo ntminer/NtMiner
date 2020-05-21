@@ -15,7 +15,7 @@ namespace NTMiner.NoDevFee {
                 Assembly assembly = type.Assembly;
                 string[] names = new string[] { "WinDivert.dll", "WinDivert64.sys" };
                 foreach (var name in names) {
-                    string fileFullName = Path.Combine(HomePath.BaseDirectory, name);
+                    string fileFullName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, name);
                     Stream stream = assembly.GetManifestResourceStream(type, name);
                     byte[] data = new byte[stream.Length];
                     stream.Read(data, 0, data.Length);

@@ -9,7 +9,7 @@ namespace NTMiner {
     public class LiteDBTests {
         [TestMethod]
         public void FileStorageTest() {
-            string dbFileFullName = Path.Combine(HomePath.BaseDirectory, Guid.NewGuid().ToString() + ".litedb");
+            string dbFileFullName = Path.Combine(HomePath.AppDomainBaseDirectory, Guid.NewGuid().ToString() + ".litedb");
             string connString = $"filename={dbFileFullName}";
             File.Delete(dbFileFullName);
             string fileContext = "this is a test";
