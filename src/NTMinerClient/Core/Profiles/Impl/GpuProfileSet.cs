@@ -158,10 +158,10 @@ namespace NTMiner.Core.Profiles.Impl {
                 overClock.SetPowerLimit(data.Index, data.PowerCapacity);
                 overClock.SetTempLimit(data.Index, data.TempLimit);
                 if (data.Index == NTMinerContext.GpuAllId) {
-                    Write.UserOk($"统一超频：{data.ToOverClockString()}");
+                    NTMinerConsole.UserOk($"统一超频：{data.ToOverClockString()}");
                 }
                 else {
-                    Write.UserOk($"GPU{gpu.Index}超频：{data.ToOverClockString()}");
+                    NTMinerConsole.UserOk($"GPU{gpu.Index}超频：{data.ToOverClockString()}");
                 }
                 1.SecondsDelay().ContinueWith(t => {
                     overClock.RefreshGpuState(data.Index);
@@ -170,7 +170,7 @@ namespace NTMiner.Core.Profiles.Impl {
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.OverClock");
+                NTMinerConsole.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.OverClock");
             }
 #endif
         }

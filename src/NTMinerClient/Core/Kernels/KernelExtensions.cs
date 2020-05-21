@@ -27,7 +27,7 @@ namespace NTMiner.Core.Kernels {
                 }
                 NTMinerContext.Instance.ServerContext.KernelInputSet.TryGetKernelInput(kernel.KernelInputId, out IKernelInput kernelInput);
                 if (kernelInput == null) {
-                    Write.UserError("意外！没有正确配置内核输入，请QQ群联系小编解决。");
+                    NTMinerConsole.UserError("意外！没有正确配置内核输入，请QQ群联系小编解决。");
                     return string.Empty;
                 }
                 if (_commandNames.TryGetValue(kernel.GetId(), out CommandName commandName)) {
@@ -131,7 +131,7 @@ namespace NTMiner.Core.Kernels {
                     return false;
                 }
                 if (!File.Exists(packageZipFileFullName)) {
-                    Write.DevDebug(() => $"试图解压的{packageZipFileFullName}文件不存在");
+                    NTMinerConsole.DevDebug(() => $"试图解压的{packageZipFileFullName}文件不存在");
                     return false;
                 }
                 ZipUtil.DecompressZipFile(packageZipFileFullName, kernelDir);

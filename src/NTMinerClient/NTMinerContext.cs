@@ -78,7 +78,7 @@ namespace NTMiner {
                                     SetServerJsonVersion(serverState.JsonFileVersion);
                                     AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                                     if (Math.Abs((long)Timestamp.GetTimestamp() - (long)serverState.Time) >= Timestamp.DesyncSeconds) {
-                                        Write.UserWarn($"本机和服务器时间不同步，请调整，本地：{DateTime.Now.ToString()}，服务器：{Timestamp.FromTimestamp(serverState.Time).ToString()}。此问题不影响挖矿。");
+                                        NTMinerConsole.UserWarn($"本机和服务器时间不同步，请调整，本地：{DateTime.Now.ToString()}，服务器：{Timestamp.FromTimestamp(serverState.Time).ToString()}。此问题不影响挖矿。");
                                     }
                                 });
                             }
@@ -171,7 +171,7 @@ namespace NTMiner {
                     });
                 }
                 else {
-                    Write.DevDebug("server.json没有新版本");
+                    NTMinerConsole.DevDebug("server.json没有新版本");
                 }
                 if (serverState.WsStatus == WsStatus.Online) {
                     VirtualRoot.RaiseEvent(new WsServerOkEvent());
@@ -537,7 +537,7 @@ namespace NTMiner {
                         VirtualRoot.ThisLocalInfo(nameof(NTMinerContext), kernel.GetFullName() + "本地内核包不存在，开始自动下载", toConsole: true);
                         VirtualRoot.Execute(new ShowKernelDownloaderCommand(kernel.GetId(), downloadComplete: (isSuccess, message) => {
                             if (isSuccess) {
-                                Write.UserOk(message);
+                                NTMinerConsole.UserOk(message);
                                 ContinueStartMine(kernel);
                             }
                             else {
@@ -561,7 +561,7 @@ namespace NTMiner {
                 VirtualRoot.RaiseEvent(new StartingMineFailedEvent("内核解压失败，请卸载内核重试。"));
                 return;
             }
-            Write.UserOk("内核包解压成功");
+            NTMinerConsole.UserOk("内核包解压成功");
             if (CurrentMineContext != null) {
                 LockedMineContext = CurrentMineContext;
             }

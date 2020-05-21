@@ -106,7 +106,7 @@ namespace NTMiner {
             Type type = typeof(T);
             var propertyInfo = type.GetProperty(propertyName);
             if (propertyInfo == null) {
-                Write.DevError(() => $"类型{type.FullName}不具有名称为{propertyName}的属性");
+                NTMinerConsole.DevError(() => $"类型{type.FullName}不具有名称为{propertyName}的属性");
                 return;
             }
             if (propertyInfo.PropertyType == typeof(int)) {
@@ -128,7 +128,7 @@ namespace NTMiner {
             Type type = typeof(T);
             var propertyInfo = type.GetProperty(propertyName);
             if (propertyInfo == null) {
-                Write.DevError(() => $"类型{type.FullName}不具有名称为{propertyName}的属性");
+                NTMinerConsole.DevError(() => $"类型{type.FullName}不具有名称为{propertyName}的属性");
                 return;
             }
             if (propertyInfo.PropertyType == typeof(int)) {

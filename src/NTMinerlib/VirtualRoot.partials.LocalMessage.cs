@@ -59,19 +59,19 @@ namespace NTMiner {
         public ConsoleOut() { }
 
         public void ShowError(string message, string header = "错误", int autoHideSeconds = 0, bool toConsole = false) {
-            Write.UserError(message);
+            NTMinerConsole.UserError(message);
         }
 
         public void ShowInfo(string message, string header = "信息", int autoHideSeconds = 4, bool toConsole = false) {
-            Write.UserInfo(message);
+            NTMinerConsole.UserInfo(message);
         }
 
         public void ShowSuccess(string message, string header = "成功", int autoHideSeconds = 4, bool toConsole = false) {
-            Write.UserOk(message);
+            NTMinerConsole.UserOk(message);
         }
 
         public void ShowWarn(string message, string header = "警告", int autoHideSeconds = 0, bool toConsole = false) {
-            Write.UserWarn(message);
+            NTMinerConsole.UserWarn(message);
         }
     }
 
@@ -120,13 +120,13 @@ namespace NTMiner {
                     if (toConsole) {
                         switch (messageType) {
                             case LocalMessageType.Info:
-                                Write.UserInfo(content);
+                                NTMinerConsole.UserInfo(content);
                                 break;
                             case LocalMessageType.Warn:
-                                Write.UserWarn(content);
+                                NTMinerConsole.UserWarn(content);
                                 break;
                             case LocalMessageType.Error:
-                                Write.UserError(content);
+                                NTMinerConsole.UserError(content);
                                 break;
                             default:
                                 break;

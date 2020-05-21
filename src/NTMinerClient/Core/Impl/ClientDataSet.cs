@@ -57,7 +57,7 @@ namespace NTMiner.Core.Impl {
                 while (true) {
                     DateTime now = DateTime.Now;
                     if (_getSpeedOn.AddSeconds(10) <= now) {
-                        Write.DevDebug("周期拉取数据更新拍照源数据");
+                        NTMinerConsole.DevDebug("周期拉取数据更新拍照源数据");
                         ClientData[] clientDatas = _dicByObjectId.Values.ToArray();
                         Task[] tasks = clientDatas.Select(CreatePullTask).ToArray();
                         Task.WaitAll(tasks, 5 * 1000);

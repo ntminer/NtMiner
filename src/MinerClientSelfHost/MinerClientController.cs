@@ -110,7 +110,7 @@ namespace NTMiner {
         [HttpGet]
         [HttpPost]
         public List<ConsoleOutLine> GetConsoleOutLines(long afterTime) {
-            return Write.ConsoleOutLineSet.Gets(afterTime);
+            return NTMinerConsole.ConsoleOutLineSet.Gets(afterTime);
         }
 
         [HttpGet]

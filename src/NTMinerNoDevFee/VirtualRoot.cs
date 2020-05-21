@@ -46,7 +46,7 @@ namespace NTMiner {
                 }
                 if (mutexCreated) {
                     if (!DevMode.IsDevMode) {
-                        Write.Disable();
+                        NTMinerConsole.Disable();
                     }
                     NTMinerRegistry.SetNoDevFeeVersion(Sha1);
                     NTMinerRegistry.SetAutoBoot("NTMinerNoDevFee", true);

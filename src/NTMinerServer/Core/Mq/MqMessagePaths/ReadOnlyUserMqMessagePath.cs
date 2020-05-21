@@ -20,7 +20,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserPasswordChangedRoutingKey, arguments: null);
             channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UserRSAKeyUpdatedRoutingKey, arguments: null);
 
-            Write.UserOk("UserMq QueueBind成功");
+            NTMinerConsole.UserOk("UserMq QueueBind成功");
         }
 
         protected virtual void DoGo(BasicDeliverEventArgs ea) {

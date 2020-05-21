@@ -15,7 +15,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientWsBreathedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.ChangeMinerSignRoutingKey, arguments: null);
 
-            Write.UserOk("MinerClientMq QueueBind成功");
+            NTMinerConsole.UserOk("MinerClientMq QueueBind成功");
         }
 
         public override void Go(BasicDeliverEventArgs ea) {

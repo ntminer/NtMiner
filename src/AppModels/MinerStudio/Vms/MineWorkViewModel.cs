@@ -205,7 +205,7 @@ namespace NTMiner.MinerStudio.Vms {
             else {
                 isMinerProfileChanged = true;
                 isShowEdit = true;
-                Write.UserInfo("保存作业。");
+                NTMinerConsole.UserInfo("保存作业。");
             }
             if (RpcRoot.IsOuterNet) {
                 if (!this.Id.IsSelfMineWorkId()) {

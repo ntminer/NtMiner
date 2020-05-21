@@ -51,7 +51,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.AddEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                     action: message => {
                         IsMining = false;
-                        Write.UserError(message.Message);
+                        NTMinerConsole.UserError(message.Message);
                     }, location: this.GetType());
                 // 群控客户端已经有一个执行RefreshWsStateCommand命令的路径了
                 VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
@@ -102,7 +102,7 @@ namespace NTMiner.Vms {
                 }, this.GetType());
             }
             NTMinerContext.SetRefreshArgsAssembly((reason) => {
-                Write.DevDebug(() => $"RefreshArgsAssembly" + reason, ConsoleColor.Cyan);
+                NTMinerConsole.DevDebug(() => $"RefreshArgsAssembly" + reason, ConsoleColor.Cyan);
                 #region 确保双挖权重在合法的范围内
                 if (CoinVm != null && CoinVm.CoinKernel != null && CoinVm.CoinKernel.Kernel != null) {
                     var coinKernelProfile = CoinVm.CoinKernel.CoinKernelProfile;
@@ -158,7 +158,7 @@ namespace NTMiner.Vms {
                 OnPropertyChanged(nameof(CoinVm));
             }, this.GetType());
             if ((IsAutoStart || CommandLineArgs.IsAutoStart) && IsNoUi) {
-                Write.Disable();
+                NTMinerConsole.Disable();
             }
         }
 

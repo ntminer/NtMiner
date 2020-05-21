@@ -7,7 +7,7 @@ namespace NTMiner {
     /// <summary>
     /// 为什么识别和区分开发者模式，因为开发者模式和用户模式看到的界面会不一样。开发者模式和
     /// 用户模式使用的数据库也不一样，开发者模式使用的litedb，用户模式使用的磁盘上的json文件，
-    /// 还有就是开发者模式时前缀为Dev的Writer的方法比如Write.DevDebug行动，非开发者模式时静默。
+    /// 还有就是开发者模式时前缀为Dev的Writer的方法比如NTMinerConsole.DevDebug行动，非开发者模式时静默。
     /// </summary>
     public static class DevMode {
         public static bool IsDevMode { get; private set; }

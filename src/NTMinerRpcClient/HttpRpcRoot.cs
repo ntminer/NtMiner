@@ -30,7 +30,7 @@ namespace NTMiner {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.SetTimeout(timeountMilliseconds);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", content);
-                        Write.DevDebug($"{action} {getHttpResponse.Result.ReasonPhrase}");
+                        NTMinerConsole.DevDebug($"{action} {getHttpResponse.Result.ReasonPhrase}");
                         callback?.Invoke();
                     }
                 }

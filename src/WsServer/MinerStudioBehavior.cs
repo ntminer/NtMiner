@@ -75,7 +75,7 @@ namespace NTMiner {
                 }
             }
             else {
-                Write.UserWarn($"{_behaviorName} {nameof(OnMessage)} Received InvalidType {e.Data}");
+                NTMinerConsole.UserWarn($"{_behaviorName} {nameof(OnMessage)} Received InvalidType {e.Data}");
             }
         }
     }

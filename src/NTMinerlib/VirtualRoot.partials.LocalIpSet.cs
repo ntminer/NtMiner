@@ -125,7 +125,7 @@ namespace NTMiner {
 
             private void Init() {
 #if DEBUG
-            NTStopwatch.Start();
+                NTStopwatch.Start();
 #endif
                 lock (_locker) {
                     if (!_isInited) {
@@ -135,11 +135,11 @@ namespace NTMiner {
                     }
                 }
 #if DEBUG
-            // 将近300毫秒
-            var elapsedMilliseconds = NTStopwatch.Stop();
-            if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
-            }
+                // 将近300毫秒
+                var elapsedMilliseconds = NTStopwatch.Stop();
+                if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
+                    NTMinerConsole.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(Init)}");
+                }
 #endif
             }
 

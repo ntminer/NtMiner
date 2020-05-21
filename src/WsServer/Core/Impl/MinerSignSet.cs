@@ -20,7 +20,7 @@ namespace NTMiner.Core.Impl {
                     Add(MinerSign.Create(item));
                 }
                 IsReadied = true;
-                Write.UserOk("矿机签名集就绪");
+                NTMinerConsole.UserOk("矿机签名集就绪");
                 VirtualRoot.RaiseEvent(new MinerSignSetInitedEvent());
             });
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在MinerSignSetInitedEvent事件之后才会创建
@@ -32,7 +32,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    Write.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
                 }
                 if (_dicByMinerId.TryGetValue(message.MinerId, out MinerSign minerSign)) {
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    Write.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
                 }
                 redis.GetByIdAsync(message.MinerId).ContinueWith(t => {
@@ -70,7 +70,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    Write.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
                 }
                 redis.GetByIdAsync(message.MinerId).ContinueWith(t => {

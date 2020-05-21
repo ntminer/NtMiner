@@ -42,7 +42,7 @@
                         }
                     }
                     else if (messagePath.Location != AnonymousMessagePath.Location && _messagePaths.Any(a => a.Path == messagePath.Path && a.PathId == messagePath.PathId)) {
-                        Write.DevWarn(() => $"重复的路径:{messagePath.Path} {messagePath.Description}");
+                        NTMinerConsole.DevWarn(() => $"重复的路径:{messagePath.Path} {messagePath.Description}");
                     }
                     _messagePaths.Add(messagePath);
                 }
@@ -53,7 +53,7 @@
                     var item = _messagePaths.FirstOrDefault(a => ReferenceEquals(a, messagePathId));
                     if (item != null) {
                         _messagePaths.Remove(item);
-                        Write.DevDebug(() => "拆除路径" + messagePathId.Path + messagePathId.Description);
+                        NTMinerConsole.DevDebug(() => "拆除路径" + messagePathId.Path + messagePathId.Description);
                     }
                 }
             }
@@ -123,7 +123,7 @@
                 Type messageType = typeof(TMessage);
                 MessageTypeAttribute messageTypeAttr = MessageTypeAttribute.GetMessageTypeAttribute(messageType);
                 if (!messageTypeAttr.IsCanNoPath) {
-                    Write.DevWarn(() => messageType.FullName + "类型的消息没有对应的处理器");
+                    NTMinerConsole.DevWarn(() => messageType.FullName + "类型的消息没有对应的处理器");
                 }
             }
             else {
@@ -155,11 +155,11 @@
                         switch (messagePath.LogType) {
                             case LogEnum.DevConsole:
                                 if (DevMode.IsDevMode) {
-                                    Write.DevDebug(() => $"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
+                                    NTMinerConsole.DevDebug(() => $"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
                                 }
                                 break;
                             case LogEnum.UserConsole:
-                                Write.UserInfo($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
+                                NTMinerConsole.UserInfo($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
                                 break;
                             case LogEnum.Log:
                                 Logger.InfoDebugLine($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");

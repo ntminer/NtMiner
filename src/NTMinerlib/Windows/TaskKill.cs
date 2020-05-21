@@ -15,7 +15,7 @@ namespace NTMiner.Windows {
                 }
                 string args = $"/F /T /IM {processName}";
                 Cmd.RunClose("taskkill", args, waitForExit);
-                Write.DevDebug(args);
+                NTMinerConsole.DevDebug(args);
             }
             catch {
             }
@@ -31,7 +31,7 @@ namespace NTMiner.Windows {
                 }
                 string args = $"/F /T /PID {pid.ToString()}";
                 Cmd.RunClose("taskkill", args, waitForExit);
-                Write.DevDebug(args);
+                NTMinerConsole.DevDebug(args);
             }
             catch {
             }
@@ -47,7 +47,7 @@ namespace NTMiner.Windows {
             try {
                 string args = $"/F /FI \"pid ne {process.Id.ToString()}\" /T /IM {process.ProcessName}.exe";
                 Cmd.RunClose("taskkill", args, waitForExit);
-                Write.DevDebug(args);
+                NTMinerConsole.DevDebug(args);
             }
             catch {
             }

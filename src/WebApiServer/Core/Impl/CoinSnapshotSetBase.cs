@@ -85,7 +85,7 @@ namespace NTMiner.Core.Impl {
                             _dataList.Add(item);
                         }
                     }
-                    Write.UserLine("将最近20分钟的快照载入内存", _isPull ? MessageType.Debug : MessageType.Info);
+                    NTMinerConsole.UserLine("将最近20分钟的快照载入内存", _isPull ? MessageType.Debug : MessageType.Info);
                     _isInited = true;
                 }
             }
@@ -106,7 +106,7 @@ namespace NTMiner.Core.Impl {
                         var col = db.GetCollection<CoinSnapshotData>();
                         col.Insert(coinSnapshots);
                     }
-                    Write.UserLine("拍摄快照" + coinSnapshots.Count + "张，快照时间戳：" + now.ToString("yyyy-MM-dd HH:mm:ss fff"), _isPull ? MessageType.Debug : MessageType.Info);
+                    NTMinerConsole.UserLine("拍摄快照" + coinSnapshots.Count + "张，快照时间戳：" + now.ToString("yyyy-MM-dd HH:mm:ss fff"), _isPull ? MessageType.Debug : MessageType.Info);
                 }
             }
             catch (Exception e) {

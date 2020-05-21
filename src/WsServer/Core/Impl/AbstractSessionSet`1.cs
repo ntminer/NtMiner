@@ -122,7 +122,7 @@ namespace NTMiner.Core.Impl {
                 }
             }
             if (toRemoves.Count > 0) {
-                Write.UserWarn($"周期清理不活跃的{_sessionType.Name}，清理了 {toRemoves.Count.ToString()}/{toRemoves.Count.ToString()} 条");
+                NTMinerConsole.UserWarn($"周期清理不活跃的{_sessionType.Name}，清理了 {toRemoves.Count.ToString()}/{toRemoves.Count.ToString()} 条");
             }
         }
 

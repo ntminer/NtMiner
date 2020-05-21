@@ -180,10 +180,10 @@ namespace NTMiner.Mine {
                     try {
                         // 清理除当前外的Temp/Kernel
                         Cleaner.Instance.Clear();
-                        Write.UserOk("场地打扫完毕");
+                        NTMinerConsole.UserOk("场地打扫完毕");
                         // 应用超频
                         if (NTMinerContext.Instance.GpuProfileSet.IsOverClockEnabled(MainCoin.GetId())) {
-                            Write.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
+                            NTMinerConsole.UserWarn("应用超频，如果CPU性能较差耗时可能超过1分钟，请耐心等待");
                             var cmd = new CoinOverClockCommand(coinId: MainCoin.GetId());
                             AddOnecePath<CoinOverClockDoneEvent>("超频完成后继续流程", LogEnum.DevConsole,
                                 message => {
@@ -199,7 +199,7 @@ namespace NTMiner.Mine {
                     }
                     catch (Exception e) {
                         Logger.ErrorDebugLine(e);
-                        Write.UserFail("挖矿内核启动失败，请联系开发人员解决");
+                        NTMinerConsole.UserFail("挖矿内核启动失败，请联系开发人员解决");
                     }
                 }
             });
@@ -210,7 +210,7 @@ namespace NTMiner.Mine {
         private void ContinueCreateProcess() {
             Thread.Sleep(1000);
             if (this != NTMinerContext.Instance.LockedMineContext) {
-                Write.UserWarn("结束开始挖矿");
+                NTMinerConsole.UserWarn("结束开始挖矿");
                 return;
             }
 
@@ -221,15 +221,15 @@ namespace NTMiner.Mine {
             GetCmdNameAndArguments(out string kernelExeFileFullName, out string arguments);
             // 这是不应该发生的，如果发生很可能是填写命令的时候拼写错误了
             if (!File.Exists(kernelExeFileFullName)) {
-                Write.UserError(kernelExeFileFullName + "文件不存在，可能是被杀软删除导致，请退出杀毒软件重试或者QQ群联系小编，解释：大部分挖矿内核会报毒，不是开源矿工的问题也不是杀软的问题，也不是挖矿内核的问题，是挖矿这件事情的问题，可能是挖矿符合了病毒的定义。");
+                NTMinerConsole.UserError(kernelExeFileFullName + "文件不存在，可能是被杀软删除导致，请退出杀毒软件重试或者QQ群联系小编，解释：大部分挖矿内核会报毒，不是开源矿工的问题也不是杀软的问题，也不是挖矿内核的问题，是挖矿这件事情的问题，可能是挖矿符合了病毒的定义。");
             }
             if (this.KernelProcessType == KernelProcessType.Logfile) {
                 arguments = arguments.Replace(NTKeyword.LogFileParameterName, this.LogFileFullName);
             }
-            Write.UserOk($"\"{kernelExeFileFullName}\" {arguments}");
-            Write.UserInfo($"有请内核上场");
+            NTMinerConsole.UserOk($"\"{kernelExeFileFullName}\" {arguments}");
+            NTMinerConsole.UserInfo($"有请内核上场");
             if (this != NTMinerContext.Instance.LockedMineContext) {
-                Write.UserWarn("结束开始挖矿");
+                NTMinerConsole.UserWarn("结束开始挖矿");
                 return;
             }
             switch (this.KernelProcessType) {
@@ -441,15 +441,15 @@ namespace NTMiner.Mine {
                     if (n >= 20) {
                         // 20秒钟都没有建立日志文件，不可能
                         isLogFileCreated = false;
-                        Write.UserFail("呃！意外，竟然20秒钟未产生内核输出。常见原因：1.挖矿内核被杀毒软件删除; 2.没有磁盘空间了; 3.反馈给开发人员");
+                        NTMinerConsole.UserFail("呃！意外，竟然20秒钟未产生内核输出。常见原因：1.挖矿内核被杀毒软件删除; 2.没有磁盘空间了; 3.反馈给开发人员");
                         break;
                     }
                     Thread.Sleep(1000);
                     if (n == 0) {
-                        Write.UserInfo("等待内核出场");
+                        NTMinerConsole.UserInfo("等待内核出场");
                     }
                     if (this != NTMinerContext.Instance.LockedMineContext) {
-                        Write.UserWarn("结束内核输出等待。");
+                        NTMinerConsole.UserWarn("结束内核输出等待。");
                         isLogFileCreated = false;
                         break;
                     }
@@ -496,11 +496,11 @@ namespace NTMiner.Mine {
                                 }
                                 if (isWriteToConsole) {
                                     if (!string.IsNullOrEmpty(input)) {
-                                        Write.UserLine(input, ConsoleColor.White);
+                                        NTMinerConsole.UserLine(input, ConsoleColor.White);
                                     }
                                 }
                                 else {
-                                    Write.ConsoleOutLineSet.Add(new ConsoleOutLine {
+                                    NTMinerConsole.ConsoleOutLineSet.Add(new ConsoleOutLine {
                                         Timestamp = Timestamp.GetTimestamp(),
                                         Line = outline
                                     });
@@ -515,7 +515,7 @@ namespace NTMiner.Mine {
                         sreader?.Close();
                         sreader?.Dispose();
                     }
-                    Write.UserWarn("挖矿已停止");
+                    NTMinerConsole.UserWarn("挖矿已停止");
                 }
             }, TaskCreationOptions.LongRunning);
         }

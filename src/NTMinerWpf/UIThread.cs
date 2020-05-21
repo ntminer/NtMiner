@@ -16,7 +16,7 @@ namespace NTMiner {
         /// </summary>
         public static void InitializeWithDispatcher(Dispatcher dispatcher) {
             _dispatcher = dispatcher;
-            Write.SetUIThreadId(_dispatcher.Thread.ManagedThreadId);
+            NTMinerConsole.SetUIThreadId(_dispatcher.Thread.ManagedThreadId);
         }
 
         public static bool CheckAccess() {

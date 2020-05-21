@@ -10,7 +10,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.WsServerNodeAddedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.WsServerNodeRemovedRoutingKey, arguments: null);
 
-            Write.UserOk("WsServerNodeMq QueueBind成功");
+            NTMinerConsole.UserOk("WsServerNodeMq QueueBind成功");
         }
 
         public override void Go(BasicDeliverEventArgs ea) {

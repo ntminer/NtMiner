@@ -16,9 +16,9 @@ namespace NTMiner {
     public class NTMinerDaemonController : ApiController, INTMinerDaemonController {
         [HttpPost]
         public DataResponse<IntPtr> ShowConsole() {
-            if (!Write.IsEnabled) {
-                Write.Enable();
-                Write.UserOk("打开控制台窗口");
+            if (!NTMinerConsole.IsEnabled) {
+                NTMinerConsole.Enable();
+                NTMinerConsole.UserOk("打开控制台窗口");
                 Console.Title = "开源矿工守护程序";
             }
             IntPtr intPtr = NTMinerConsole.GetOrAlloc();

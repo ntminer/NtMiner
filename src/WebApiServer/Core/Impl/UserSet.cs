@@ -22,7 +22,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    Write.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
                 }
                 if (message.Key != null && _dicByLoginName.TryGetValue(message.LoginName, out UserData userData)) {

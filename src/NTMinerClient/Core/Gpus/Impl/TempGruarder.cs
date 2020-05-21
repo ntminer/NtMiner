@@ -43,7 +43,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         _fightedOnDic.Add(gpu.Index, fightedOn);
                     }
                     if (gpu.FanSpeed == 100 && gpu.Temperature > _guardTemp) {
-                        Write.DevDebug(() => $"GPU{gpu.Index.ToString()} 温度{gpu.Temperature.ToString()}大于防线温度{_guardTemp.ToString()}，但风扇转速已达100%");
+                        NTMinerConsole.DevDebug(() => $"GPU{gpu.Index.ToString()} 温度{gpu.Temperature.ToString()}大于防线温度{_guardTemp.ToString()}，但风扇转速已达100%");
                     }
                     else if (gpu.Temperature < _guardTemp) {
                         if (!_preTempDic.ContainsKey(gpu.Index)) {
@@ -65,7 +65,7 @@ namespace NTMiner.Core.Gpus.Impl {
                             if (cool >= gpu.CoolMin) {
                                 _fightedOnDic[gpu.Index] = DateTime.Now;
                                 root.GpuSet.OverClock.SetFanSpeed(gpu.Index, cool);
-                                Write.DevDebug(() => $"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调低至{cool.ToString()}%");
+                                NTMinerConsole.DevDebug(() => $"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调低至{cool.ToString()}%");
                             }
                         }
                     }
@@ -86,7 +86,7 @@ namespace NTMiner.Core.Gpus.Impl {
                         }
                         if (cool <= 100) {
                             root.GpuSet.OverClock.SetFanSpeed(gpu.Index, (int)cool);
-                            Write.DevDebug(()=> $"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调高至{cool.ToString()}%");
+                            NTMinerConsole.DevDebug(()=> $"GPU{gpu.Index.ToString()} 风扇转速由{gpu.FanSpeed.ToString()}%调高至{cool.ToString()}%");
                         }
                     }
                 }, location: this.GetType());

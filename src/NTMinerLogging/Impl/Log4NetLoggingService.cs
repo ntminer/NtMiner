@@ -39,47 +39,47 @@ $@"<log4net>
         }
 
         public void Debug(object message) {
-            Write.DevLine(message?.ToString());
+            NTMinerConsole.DevLine(message?.ToString());
             _log.Debug(message);
         }
 
         public void InfoDebugLine(object message) {
-            Write.DevDebug(message?.ToString());
+            NTMinerConsole.DevDebug(message?.ToString());
             _log.Info(message);
         }
 
         public void OkDebugLine(object message) {
-            Write.DevOk(message?.ToString());
+            NTMinerConsole.DevOk(message?.ToString());
             _log.Info(message);
         }
 
         public void WarnDebugLine(object message) {
-            Write.DevWarn(message?.ToString());
+            NTMinerConsole.DevWarn(message?.ToString());
             _log.Warn(message);
         }
 
         public void ErrorDebugLine(object message) {
-            Write.DevError(message?.ToString());
+            NTMinerConsole.DevError(message?.ToString());
             _log.Error(message);
         }
 
         public void ErrorDebugLine(object message, Exception exception) {
-            Write.DevError(message?.ToString() + exception.StackTrace);
+            NTMinerConsole.DevError(message?.ToString() + exception.StackTrace);
             _log.Error(message, exception);
         }
 
         public void OkWriteLine(object message) {
-            Write.UserOk(message?.ToString());
+            NTMinerConsole.UserOk(message?.ToString());
             _log.Info(message);
         }
 
         public void WarnWriteLine(object message) {
-            Write.UserWarn(message?.ToString());
+            NTMinerConsole.UserWarn(message?.ToString());
             _log.Warn(message);
         }
 
         public void ErrorWriteLine(object message) {
-            Write.UserError(message?.ToString());
+            NTMinerConsole.UserError(message?.ToString());
             _log.Warn(message);
         }
     }

@@ -10,7 +10,7 @@ namespace NTMiner.Core.Impl {
             VirtualRoot.AddOnecePath<WebSocketServerStatedEvent>("WebSocket服务启动后上报节点信息，获取节点列表", LogEnum.UserConsole, action: _ => {
                 ReportNodeAsync(callback: () => {
                     RefreshNodes(callback: () => {
-                        Write.UserOk("Ws服务器节点地址集初始化完成");
+                        NTMinerConsole.UserOk("Ws服务器节点地址集初始化完成");
                         VirtualRoot.RaiseEvent(new WsServerNodeAddressSetInitedEvent());
                     });
                 });
@@ -43,7 +43,7 @@ namespace NTMiner.Core.Impl {
                     VirtualRoot.RaiseEvent(new CleanTimeArrivedEvent(GetNodeAddresses(response.Data)));
                 }
                 else {
-                    Write.UserError("获取节点列表失败：" + response.ReadMessage(e));
+                    NTMinerConsole.UserError("获取节点列表失败：" + response.ReadMessage(e));
                 }
                 callback?.Invoke();
             });
@@ -51,13 +51,13 @@ namespace NTMiner.Core.Impl {
 
         private string[] GetNodeAddresses(string[] nodeAddresses) {
             if (nodeAddresses == null || nodeAddresses.Length == 0) {
-                Write.UserWarn("节点集为空");
+                NTMinerConsole.UserWarn("节点集为空");
                 return new string[0];
             }
             string thisServerAddress = ServerRoot.HostConfig.ThisServerAddress;
             var thisNode = nodeAddresses.FirstOrDefault(a => a == thisServerAddress);
             if (thisNode == null) {
-                Write.UserWarn($"未发现和本节点地址相同的节点，本节点地址为：{(string.IsNullOrEmpty(thisServerAddress) ? "无" : thisServerAddress)}");
+                NTMinerConsole.UserWarn($"未发现和本节点地址相同的节点，本节点地址为：{(string.IsNullOrEmpty(thisServerAddress) ? "无" : thisServerAddress)}");
             }
             return nodeAddresses;
         }
@@ -83,10 +83,10 @@ namespace NTMiner.Core.Impl {
                 CpuPerformance = cpu.GetCurrentCpuUsage()
             }, (response, e) => {
                 if (response.IsSuccess()) {
-                    Write.UserOk("呼吸成功");
+                    NTMinerConsole.UserOk("呼吸成功");
                 }
                 else {
-                    Write.UserFail("呼吸失败：" + response.ReadMessage(e));
+                    NTMinerConsole.UserFail("呼吸失败：" + response.ReadMessage(e));
                 }
                 callback?.Invoke();
             });

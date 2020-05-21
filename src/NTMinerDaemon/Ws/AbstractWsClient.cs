@@ -287,12 +287,12 @@ namespace NTMiner.Ws {
                         handler.Invoke(SendAsync, message);
                     }
                     else {
-                        Write.DevWarn(() => $"OnMessage Received InvalidType {e.Data}");
+                        NTMinerConsole.DevWarn(() => $"OnMessage Received InvalidType {e.Data}");
                     }
                     #endregion
                 };
                 ws.OnError += (sender, e) => {
-                    Write.DevError(e.Message);
+                    NTMinerConsole.DevError(e.Message);
                 };
                 ws.OnClose += (sender, e) => {
                     if (_ws != ws) {

@@ -63,7 +63,7 @@ namespace NTMiner.Gpus {
 #if DEBUG
                     var elapsedMilliseconds = NTStopwatch.Stop();
                     if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                        Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
+                        NTMinerConsole.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(NvmlHelper)}.{nameof(NvmlInit)}()");
                     }
 #endif
                     return _isNvmlInited;
@@ -88,7 +88,7 @@ namespace NTMiner.Gpus {
                     uint deviceCount = 0;
                     var r = NvmlNativeMethods.nvmlDeviceGetCount(ref deviceCount);
                     if (r != nvmlReturn.Success) {
-                        Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetCount)} {r.ToString()}");
+                        NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetCount)} {r.ToString()}");
                     }
                     for (int i = 0; i < deviceCount; i++) {
                         NvGpu gpu = new NvGpu {
@@ -98,16 +98,16 @@ namespace NTMiner.Gpus {
                         r = NvmlNativeMethods.nvmlDeviceGetHandleByIndex((uint)i, ref nvmlDevice);
                         _nvmlDevices.Add(nvmlDevice);
                         if (r != nvmlReturn.Success) {
-                            Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetHandleByIndex)}({((uint)i).ToString()}) {r.ToString()}");
+                            NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetHandleByIndex)}({((uint)i).ToString()}) {r.ToString()}");
                         }
                         r = NvmlNativeMethods.nvmlDeviceGetName(nvmlDevice, out string name);
                         if (r != nvmlReturn.Success) {
-                            Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetName)} {r.ToString()}");
+                            NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetName)} {r.ToString()}");
                         }
                         nvmlMemory memory = new nvmlMemory();
                         r = NvmlNativeMethods.nvmlDeviceGetMemoryInfo(nvmlDevice, ref memory);
                         if (r != nvmlReturn.Success) {
-                            Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetMemoryInfo)} {r.ToString()}");
+                            NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetMemoryInfo)} {r.ToString()}");
                         }
                         // short gpu name
                         if (!string.IsNullOrEmpty(name)) {
@@ -117,7 +117,7 @@ namespace NTMiner.Gpus {
                         nvmlPciInfo pci = new nvmlPciInfo();
                         r = NvmlNativeMethods.nvmlDeviceGetPciInfo(nvmlDevice, ref pci);
                         if (r != nvmlReturn.Success) {
-                            Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetPciInfo)} {r.ToString()}");
+                            NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetPciInfo)} {r.ToString()}");
                         }
                         gpu.Name = name;
                         gpu.BusId = (int)pci.bus;
@@ -157,7 +157,7 @@ namespace NTMiner.Gpus {
                     if (r == nvmlReturn.NotSupported) {
                         _nvmlDeviceGetPowerUsageNotSupporteds.Add(gpuIndex);
                     }
-                    Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetPowerUsage)} {r.ToString()}");
+                    NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetPowerUsage)} {r.ToString()}");
                 }
             }
             catch {
@@ -173,7 +173,7 @@ namespace NTMiner.Gpus {
             try {
                 var r = NvmlNativeMethods.nvmlDeviceGetTemperature(nvmlDevice, nvmlTemperatureSensors.Gpu, ref temp);
                 if (r != nvmlReturn.Success) {
-                    Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetTemperature)} {r.ToString()}");
+                    NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetTemperature)} {r.ToString()}");
                 }
             }
             catch {
@@ -196,7 +196,7 @@ namespace NTMiner.Gpus {
                     if (r == nvmlReturn.NotSupported) {
                         _nvmlDeviceGetFanSpeedNotSupporteds.Add(gpuIndex);
                     }
-                    Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetFanSpeed)} {r.ToString()}");
+                    NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlDeviceGetFanSpeed)} {r.ToString()}");
                 }
             }
             catch {
@@ -213,11 +213,11 @@ namespace NTMiner.Gpus {
             try {
                 var r = NvmlNativeMethods.nvmlSystemGetDriverVersion(out string version);
                 if (r != nvmlReturn.Success) {
-                    Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlSystemGetDriverVersion)} {r.ToString()}");
+                    NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlSystemGetDriverVersion)} {r.ToString()}");
                 }
                 r = NvmlNativeMethods.nvmlSystemGetNVMLVersion(out nvmlVersion);
                 if (r != nvmlReturn.Success) {
-                    Write.DevError(() => $"{nameof(NvmlNativeMethods.nvmlSystemGetNVMLVersion)} {r.ToString()}");
+                    NTMinerConsole.DevError(() => $"{nameof(NvmlNativeMethods.nvmlSystemGetNVMLVersion)} {r.ToString()}");
                 }
                 if (!string.IsNullOrEmpty(version) && Version.TryParse(version, out Version v)) {
                     driverVersion = v;

@@ -72,7 +72,7 @@ namespace NTMiner {
             };
             IServerConfig serverConfig = ServerConfig.Create(mqClientTypeName: ServerAppType.WsServer.GetName(), mqMessagePaths);
             if (serverConfig == null) {
-                Write.UserError("启动失败，无法继续，因为服务器上下文创建失败");
+                NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                 return;
             }
             MinerClientMqSender = new MinerClientMqSender(serverConfig.Channel);

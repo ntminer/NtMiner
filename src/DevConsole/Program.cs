@@ -23,8 +23,8 @@ namespace NTMiner {
                 }
             }
             else {
-                Write.UserError("ERROR: No poolIp argument was found.");
-                Write.UserInfo("按任意键退出");
+                NTMinerConsole.UserError("ERROR: No poolIp argument was found.");
+                NTMinerConsole.UserInfo("按任意键退出");
                 Console.ReadKey();
                 return;
             }
@@ -44,7 +44,7 @@ namespace NTMiner {
             else {
                 filter = $"ip && tcp && tcp.PayloadLength > 100";
             }
-            Write.UserInfo(filter);
+            NTMinerConsole.UserInfo(filter);
             var divertHandle = SafeNativeMethods.WinDivertOpen(filter, WINDIVERT_LAYER.WINDIVERT_LAYER_NETWORK, 0, 0);
 
             try {
@@ -75,7 +75,7 @@ namespace NTMiner {
 
                     if (!ranOnce && readLength > 1) {
                         ranOnce = true;
-                        Write.UserInfo("Diversion running..");
+                        NTMinerConsole.UserInfo("Diversion running..");
                     }
 
                     fixed (byte* inBuf = packet) {
@@ -86,7 +86,7 @@ namespace NTMiner {
                             string text = Marshal.PtrToStringAnsi((IntPtr)payload);
                             if (!string.IsNullOrEmpty(s_keyword)) {
                                 if (text.Contains(s_keyword)) {
-                                    Write.UserInfo(text);
+                                    NTMinerConsole.UserInfo(text);
                                     Console.WriteLine();
                                     Console.WriteLine();
                                 }
@@ -97,12 +97,12 @@ namespace NTMiner {
                                 string arrow = $"->{dstIp}:{dstPort.ToString()}";
                                 if (dstIp == poolIp) {
                                     arrow = $"{dstIp}:{dstPort.ToString()}<-";
-                                    Write.UserInfo($"<-<-<-<-<-<-<-<-<-<-<-<-<-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-");
+                                    NTMinerConsole.UserInfo($"<-<-<-<-<-<-<-<-<-<-<-<-<-{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}<-<-<-<-<-<-<-<-<-<-<-<-<-<-<-");
                                 }
                                 else {
-                                    Write.UserInfo($"->->->->->->->->->->->->->{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}->->->->->->->->->->->->->->->");
+                                    NTMinerConsole.UserInfo($"->->->->->->->->->->->->->{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss fff")}->->->->->->->->->->->->->->->");
                                 }
-                                Write.UserInfo(arrow + text);
+                                NTMinerConsole.UserInfo(arrow + text);
                                 Console.WriteLine();
                                 Console.WriteLine();
                             }
@@ -115,8 +115,8 @@ namespace NTMiner {
 
             }
             catch (Exception e) {
-                Write.UserInfo(e.ToString());
-                Write.UserInfo("按任意键退出");
+                NTMinerConsole.UserInfo(e.ToString());
+                NTMinerConsole.UserInfo("按任意键退出");
                 Console.ReadKey();
                 return;
             }

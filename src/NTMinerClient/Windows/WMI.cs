@@ -17,18 +17,18 @@ namespace NTMiner.Windows {
 #endif
                 try {
                     using (new ManagementObjectSearcher("root\\CIMV2", "SELECT FreePhysicalMemory FROM Win32_OperatingSystem").Get()) {
-                        Write.DevOk("WMI service seems to be running, ManagementObjectSearcher returned success.");
+                        NTMinerConsole.DevOk("WMI service seems to be running, ManagementObjectSearcher returned success.");
                         _isWmiEnabled = true;
                     }
                 }
                 catch {
-                    Write.DevError("ManagementObjectSearcher not working need WMI service to be running");
+                    NTMinerConsole.DevError("ManagementObjectSearcher not working need WMI service to be running");
                     _isWmiEnabled = false;
                 }
 #if DEBUG
                 var elapsedMilliseconds = NTStopwatch.Stop();
                 if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                    Write.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(WMI)}.IsWmiEnabled");
+                    NTMinerConsole.DevTimeSpan($"耗时{elapsedMilliseconds} {nameof(WMI)}.IsWmiEnabled");
                 }
 #endif
                 return _isWmiEnabled;

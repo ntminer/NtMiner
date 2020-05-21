@@ -50,7 +50,7 @@ namespace NTMiner {
                         };
                         IServerConfig serverConfig = ServerConfig.Create(mqClientTypeName: ServerAppType.WebApiServer.GetName(), mqMessagePaths);
                         if (serverConfig == null) {
-                            Write.UserError("启动失败，无法继续，因为服务器上下文创建失败");
+                            NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                             return;
                         }
                         Console.Title = $"{ServerAppType.WebApiServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
@@ -90,9 +90,9 @@ namespace NTMiner {
                         }
                     }
                     catch (Exception e) {
-                        Write.UserError(e.Message);
-                        Write.UserError(e.StackTrace);
-                        Write.UserInfo("按任意键退出");
+                        NTMinerConsole.UserError(e.Message);
+                        NTMinerConsole.UserError(e.StackTrace);
+                        NTMinerConsole.UserInfo("按任意键退出");
                         Console.ReadKey();
                         return;
                     }

@@ -22,8 +22,8 @@ namespace NTMiner.Views {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            if (!Write.IsEnabled) {
-                Write.Enable();
+            if (!NTMinerConsole.IsEnabled) {
+                NTMinerConsole.Enable();
             }
             this.Vm = new MainWindowViewModel();
             this.DataContext = Vm;
@@ -180,7 +180,7 @@ namespace NTMiner.Views {
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                Write.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
+                NTMinerConsole.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.ctor");
             }
 #endif
         }

@@ -19,7 +19,7 @@ namespace NTMiner.Core.Impl {
             var getMinersTask = minerRedis.GetAllAsync();
             var getSpeedsTask = speedDataRedis.GetAllAsync();
             Task.WhenAll(getMinersTask, getSpeedsTask).ContinueWith(t => {
-                Write.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
+                NTMinerConsole.UserInfo($"从redis加载了 {getMinersTask.Result.Count} 条MinerData，和 {getSpeedsTask.Result.Count} 条SpeedData");
                 var speedDatas = getSpeedsTask.Result;
                 List<ClientData> clientDatas = new List<ClientData>();
                 DateTime speedOn = DateTime.Now.AddMinutes(-3);
@@ -54,7 +54,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    Write.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
                 }
                 speedDataRedis.GetByClientIdAsync(message.ClientId).ContinueWith(t => {
@@ -63,7 +63,7 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.AddEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, action: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    Write.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
@@ -73,7 +73,7 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.AddEventPath<MinerClientWsClosedMqMessage>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, action: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    Write.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
@@ -83,7 +83,7 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.AddEventPath<MinerClientWsBreathedMqMessage>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.None, action: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    Write.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {

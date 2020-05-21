@@ -21,7 +21,7 @@ namespace NTMiner {
                 redisConn = ConnectionMultiplexer.Connect(ServerRoot.HostConfig.RedisConfig);
             }
             catch (Exception e) {
-                Write.UserError("连接redis失败");
+                NTMinerConsole.UserError("连接redis失败");
                 Logger.ErrorDebugLine(e);
                 return null;
             }
@@ -37,7 +37,7 @@ namespace NTMiner {
                 connection = factory.CreateConnection(mqClientTypeName);
             }
             catch (Exception e) {
-                Write.UserError("连接Mq失败");
+                NTMinerConsole.UserError("连接Mq失败");
                 Logger.ErrorDebugLine(e);
                 return null;
             }
@@ -64,7 +64,7 @@ namespace NTMiner {
                     System.Threading.Thread.Sleep(100);
                 }
                 if (isTimeout) {
-                    Write.UserFail("订阅Mq失败，因为超时");
+                    NTMinerConsole.UserFail("订阅Mq失败，因为超时");
                 }
                 else {
                     foreach (var mqMessagePathsByQueue in mqMessagePaths.GroupBy(a => a.Queue)) {
@@ -100,7 +100,7 @@ namespace NTMiner {
                             channel.BasicConsume(queue: queue, autoAck: true, consumer: consumer);
                         }
                     }
-                    Write.UserOk("订阅Mq成功");
+                    NTMinerConsole.UserOk("订阅Mq成功");
                 }
             });
         }

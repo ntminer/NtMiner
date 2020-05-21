@@ -299,11 +299,11 @@ namespace NTMiner {
                         return;
                     }
                     else if (value == 1 && currentValue == 1) {
-                        Write.DevDebug("RDP is already disabled. No changes will be made.");
+                        NTMinerConsole.DevDebug("RDP is already disabled. No changes will be made.");
                         return;
                     }
                     else if (value == 0 && currentValue == 0) {
-                        Write.DevDebug("RDP is already enabled. No changes will be made.");
+                        NTMinerConsole.DevDebug("RDP is already enabled. No changes will be made.");
                         return;
                     }
                     else {

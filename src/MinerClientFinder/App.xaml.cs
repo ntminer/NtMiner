@@ -8,7 +8,7 @@ namespace NTMiner {
     public partial class App : Application {
         public App() {
             Logger.Disable();
-            Write.Disable();
+            NTMinerConsole.Disable();
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             WpfUtil.Init();
             AppUtil.Init(this);

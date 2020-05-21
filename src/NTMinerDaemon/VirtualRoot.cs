@@ -58,7 +58,7 @@ namespace NTMiner {
                 }
                 if (mutexCreated) {
                     if (!DevMode.IsDevMode) {
-                        Write.Disable();
+                        NTMinerConsole.Disable();
                     }
                     NTMinerRegistry.SetDaemonVersion(Sha1);
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
@@ -73,14 +73,14 @@ namespace NTMiner {
                                 string arguments = NTMinerRegistry.GetMinerClientArguments(NTMinerAppType.MinerClient);
                                 try {
                                     Process.Start(location, arguments);
-                                    Write.DevOk(() => $"启动挖矿端 {location} {arguments}");
+                                    NTMinerConsole.DevOk(() => $"启动挖矿端 {location} {arguments}");
                                 }
                                 catch (Exception e) {
                                     Logger.ErrorDebugLine($"启动挖矿端失败因为异常 {location} {arguments}", e);
                                 }
                             }
                             else {
-                                Write.DevDebug($"挖矿端已经在运行中无需启动");
+                                NTMinerConsole.DevDebug($"挖矿端已经在运行中无需启动");
                             }
                         }
                     }

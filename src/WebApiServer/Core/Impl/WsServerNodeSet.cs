@@ -54,7 +54,7 @@ namespace NTMiner.Core.Impl {
                     this.RemoveNode(item.Address);
                 }
                 if (toRemoves.Length != 0) {
-                    Write.UserInfo($"移除了 {toRemoves.Length.ToString()} 个节点");
+                    NTMinerConsole.UserInfo($"移除了 {toRemoves.Length.ToString()} 个节点");
                 }
             }, this.GetType());
         }
