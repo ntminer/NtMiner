@@ -40,6 +40,7 @@ namespace NTMiner.Controllers {
             return httpResponseMessage;
         }
 
+        // 这个是供WsServer节点走内网以管理员的名义向WebApiServer获取挖矿端列表的接口
         [Role.Admin]
         [HttpPost]
         public HttpResponseMessage QueryClientsForWs([FromBody]QueryClientsForWsRequest request) {

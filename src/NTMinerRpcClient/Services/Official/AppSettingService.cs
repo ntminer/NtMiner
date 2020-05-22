@@ -11,12 +11,6 @@ namespace NTMiner.Services.Official {
         public AppSettingService() {
         }
 
-        public void GetTimeAsync(Action<DateTime> callback) {
-            JsonRpcRoot.GetAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetTime), null, callback: (DateTime datetime, Exception e) => {
-                callback?.Invoke(datetime);
-            }, timeountMilliseconds: 10 * 1000);
-        }
-
         #region GetJsonFileVersionAsync
         public void GetJsonFileVersionAsync(string key, Action<ServerStateResponse> callback) {
             AppSettingRequest request = new AppSettingRequest {

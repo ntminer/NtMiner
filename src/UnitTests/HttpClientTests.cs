@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using NTMiner.Controllers;
 using System;
 using System.Net.Http;
