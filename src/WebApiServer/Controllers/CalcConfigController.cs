@@ -11,6 +11,11 @@ namespace NTMiner.Controllers {
         [HttpGet]
         [HttpPost]
         public DataResponse<List<CalcConfigData>> CalcConfigs() {
+            return DoCalcConfigs();
+        }
+        #endregion
+
+        internal static DataResponse<List<CalcConfigData>> DoCalcConfigs() {
             try {
                 var data = WebApiRoot.CalcConfigSet.GetAll();
                 return DataResponse<List<CalcConfigData>>.Ok(data);
@@ -20,7 +25,6 @@ namespace NTMiner.Controllers {
                 return ResponseBase.ServerError<DataResponse<List<CalcConfigData>>>(e.Message);
             }
         }
-        #endregion
 
         #region SaveCalcConfigs
         [Role.Admin]

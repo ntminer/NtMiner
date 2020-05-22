@@ -12,27 +12,7 @@ namespace NTMiner.Controllers {
         [Role.User]
         [HttpPost]
         public HttpResponseMessage QueryClients([FromBody]QueryClientsRequest request) {
-            QueryClientsResponse response;
-            if (request == null) {
-                response = ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
-            }
-            else {
-                request.PagingTrim();
-                try {
-                    var data = WebApiRoot.ClientDataSet.QueryClients(
-                        User,
-                        request,
-                        out int total,
-                        out List<CoinSnapshotData> latestSnapshots,
-                        out int totalOnlineCount,
-                        out int totalMiningCount) ?? new List<ClientData>();
-                    response = QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount);
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
-                    response = ResponseBase.ServerError<QueryClientsResponse>(e.Message);
-                }
-            }
+            QueryClientsResponse response = ClientDataController.DoQueryClients(request, User);
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) {
                 Content = new ByteArrayContent(VirtualRoot.BinarySerializer.Serialize(response))
             };

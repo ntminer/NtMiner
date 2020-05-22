@@ -11,17 +11,22 @@ namespace NTMiner.Controllers {
         [Role.User]
         [HttpPost]
         public QueryClientsResponse QueryClients([FromBody]QueryClientsRequest request) {
+            return DoQueryClients(request, User);
+        }
+        #endregion
+
+        internal static QueryClientsResponse DoQueryClients(QueryClientsRequest request, UserData user) {
             if (request == null) {
                 return ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
             }
             request.PagingTrim();
             try {
                 var data = WebApiRoot.ClientDataSet.QueryClients(
-                    User, 
-                    request, 
-                    out int total, 
-                    out List<CoinSnapshotData> latestSnapshots, 
-                    out int totalOnlineCount, 
+                    user,
+                    request,
+                    out int total,
+                    out List<CoinSnapshotData> latestSnapshots,
+                    out int totalOnlineCount,
                     out int totalMiningCount) ?? new List<ClientData>();
                 return QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount);
             }
@@ -30,7 +35,6 @@ namespace NTMiner.Controllers {
                 return ResponseBase.ServerError<QueryClientsResponse>(e.Message);
             }
         }
-        #endregion
 
         #region UpdateClient
         [Role.User]
