@@ -83,7 +83,7 @@
                         </Border>
 						<StackPanel Margin="2 0 0 0">
 							<TextBlock Width="54" Text="{Binding GpuVms.TemperatureMinText}" ToolTip="最低" Padding="0" />
-							<TextBlock Width="54" Text="{Binding GpuVms.TemperatureMaxText}" ToolTip="最高" Margin="0 -2 0 0" Padding="0" />
+                            <TextBlock Width="54" Text="{Binding GpuVms.TemperatureMaxText}" ToolTip="最高" Foreground="{Binding GpuVms.TemperatureMaxForeground}" Margin="0 -2 0 0" Padding="0" />
 						</StackPanel>
                         <Border Margin="0 0 2 0" ToolTip="显卡风扇" Background="Transparent">
                             <Path

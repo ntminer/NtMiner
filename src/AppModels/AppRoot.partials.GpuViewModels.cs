@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Gpus.Impl;
 using NTMiner.Vms;
 using System.Collections.Generic;
+using System.Windows.Media;
 
 namespace NTMiner {
     public static partial class AppRoot {
@@ -13,6 +14,7 @@ namespace NTMiner {
             private string _fanSpeedMaxText = "0 %";
             private string _temperatureMinText = "0 ℃";
             private string _temperatureMaxText = "0 ℃";
+            private SolidColorBrush _temperatureMaxForeground;
             private readonly GpuViewModel _gpuAllVm;
             private GpuViewModels() {
                 if (WpfUtil.IsInDesignMode) {
@@ -121,8 +123,14 @@ namespace NTMiner {
                         minTemp = item.Temperature;
                     }
                 }
-                this.TemperatureMaxText = maxTemp + " ℃";
                 this.TemperatureMinText = minTemp + " ℃";
+                this.TemperatureMaxText = maxTemp + " ℃";
+                if (maxTemp >= MinerProfileVm.MaxTemp) {
+                    this.TemperatureMaxForeground = WpfUtil.RedBrush;
+                }
+                else {
+                    this.TemperatureMaxForeground = WpfUtil.BlackBrush;
+                }
             }
 
             public GpuViewModel GpuAllVm {
@@ -143,32 +151,50 @@ namespace NTMiner {
             public string TemperatureMinText {
                 get => _temperatureMinText;
                 set {
-                    _temperatureMinText = value;
-                    OnPropertyChanged(nameof(TemperatureMinText));
+                    if (_temperatureMinText != value) {
+                        _temperatureMinText = value;
+                        OnPropertyChanged(nameof(TemperatureMinText));
+                    }
                 }
             }
 
             public string TemperatureMaxText {
                 get => _temperatureMaxText;
                 set {
-                    _temperatureMaxText = value;
-                    OnPropertyChanged(nameof(TemperatureMaxText));
+                    if (_temperatureMaxText != value) {
+                        _temperatureMaxText = value;
+                        OnPropertyChanged(nameof(TemperatureMaxText));
+                    }
+                }
+            }
+
+            public SolidColorBrush TemperatureMaxForeground {
+                get => _temperatureMaxForeground;
+                set {
+                    if (_temperatureMaxForeground != value) {
+                        _temperatureMaxForeground = value;
+                        OnPropertyChanged(nameof(TemperatureMaxForeground));
+                    }
                 }
             }
 
             public string FanSpeedMinText {
                 get => _fanSpeedMinText;
                 set {
-                    _fanSpeedMinText = value;
-                    OnPropertyChanged(nameof(FanSpeedMinText));
+                    if (_fanSpeedMinText != value) {
+                        _fanSpeedMinText = value;
+                        OnPropertyChanged(nameof(FanSpeedMinText));
+                    }
                 }
             }
 
             public string FanSpeedMaxText {
                 get { return _fanSpeedMaxText; }
                 set {
-                    _fanSpeedMaxText = value;
-                    OnPropertyChanged(nameof(FanSpeedMaxText));
+                    if (_fanSpeedMaxText != value) {
+                        _fanSpeedMaxText = value;
+                        OnPropertyChanged(nameof(FanSpeedMaxText));
+                    }
                 }
             }
 
