@@ -6,7 +6,6 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class ServerMessageController : ApiControllerBase, IServerMessageController {
-        // TODO:提供一个压缩版本的
         [HttpPost]
         public DataResponse<List<ServerMessageData>> ServerMessages([FromBody]ServerMessagesRequest request) {
             return DoServerMessages(request);

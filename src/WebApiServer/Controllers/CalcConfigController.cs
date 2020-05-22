@@ -7,7 +7,6 @@ namespace NTMiner.Controllers {
     public class CalcConfigController : ApiControllerBase, ICalcConfigController {
         #region CalcConfigs
         // 挖矿端实时展示理论收益的功能需要调用此服务所以调用此方法不需要登录
-        // TODO:提供一个压缩接口
         [HttpGet]
         [HttpPost]
         public DataResponse<List<CalcConfigData>> CalcConfigs() {
