@@ -9,6 +9,11 @@ namespace NTMiner.Controllers {
         // TODO:提供一个压缩版本的
         [HttpPost]
         public DataResponse<List<ServerMessageData>> ServerMessages([FromBody]ServerMessagesRequest request) {
+            if (request == null || 
+                request.Timestamp < 0 /*早于1970年*/ || 
+                request.Timestamp > Timestamp.GetTimestamp(DateTime.Now.AddDays(1))/*晚于明天*/) {
+                return ResponseBase.InvalidInput<DataResponse<List<ServerMessageData>>>("参数错误");
+            }
             try {
                 DateTime timestamp = Timestamp.FromTimestamp(request.Timestamp + 1);
                 var data = WebApiRoot.ServerMessageSet.GetServerMessages(timestamp);
