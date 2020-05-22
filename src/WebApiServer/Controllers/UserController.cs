@@ -195,7 +195,7 @@ namespace NTMiner.Controllers {
             }
             if (request.ActionCaptchaId == Guid.Empty
                 || string.IsNullOrEmpty(request.ActionCaptcha)
-                || !WebApiRoot.CaptchaSet.IsValid(request.ActionCaptchaId, base.MinerIp, request.ActionCaptcha)) {
+                || !WebApiRoot.CaptchaSet.IsValid(request.ActionCaptchaId, base.RemoteIp, request.ActionCaptcha)) {
                 return ResponseBase.InvalidInput("验证码错误");
             }
             if (!WebApiRoot.UserSet.IsReadied) {
@@ -230,7 +230,7 @@ namespace NTMiner.Controllers {
             }
             if (request.Data.ActionCaptchaId == Guid.Empty
                 || string.IsNullOrEmpty(request.Data.ActionCaptcha)
-                || !WebApiRoot.CaptchaSet.IsValid(request.Data.ActionCaptchaId, base.MinerIp, request.Data.ActionCaptcha)) {
+                || !WebApiRoot.CaptchaSet.IsValid(request.Data.ActionCaptchaId, base.RemoteIp, request.Data.ActionCaptcha)) {
                 return ResponseBase.InvalidInput("验证码错误");
             }
 

@@ -7,7 +7,7 @@ namespace NTMiner.Controllers {
         public ReportResponse ReportSpeed() {
             byte[] bytes = Request.Content.ReadAsByteArrayAsync().Result;
             SpeedDto speedDto = VirtualRoot.BinarySerializer.Deserialize<SpeedDto>(bytes);
-            return ReportController.DoReportSpeed(speedDto, MinerIp);
+            return ReportController.DoReportSpeed(speedDto, RemoteIp);
         }
     }
 }

@@ -10,8 +10,6 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
-using System.Web.Http.Routing;
-using static NTMiner.Controllers.ApiControllerBase;
 
 namespace NTMiner.Role {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]

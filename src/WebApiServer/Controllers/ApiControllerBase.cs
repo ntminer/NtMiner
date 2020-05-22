@@ -5,48 +5,32 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public abstract class ApiControllerBase : ApiController {
-        public class ClientSignData {
-            public ClientSignData(string loginName, string sign, long timestamp) {
-                this.LoginName = loginName;
-                this.Sign = sign;
-                this.Timestamp = timestamp;
-            }
-
-            public string LoginName { get; private set; }
-            public string Sign { get; private set; }
-            public long Timestamp { get; private set; }
-
-            private UserId _userId;
-            public UserId UserId {
-                get {
-                    if (_userId == null) {
-                        _userId = UserId.Create(this.LoginName);
-                    }
-                    return _userId;
-                }
+        protected new UserData User {
+            get {
+                // 在UserAttribute ActionFilter里赋值的
+                return (UserData)ControllerContext.RouteData.Values["_user"];
             }
         }
 
-        private string _minerIp = null;
-        protected string MinerIp {
+        private string _remoteIp = null;
+        protected string RemoteIp {
             get {
-                if (_minerIp == null) {
-                    _minerIp = GetWebClientIp();
-                    if (_minerIp == null) {
-                        _minerIp = string.Empty;
+                if (_remoteIp == null) {
+                    _remoteIp = GetWebClientIp();
+                    if (_remoteIp == null) {
+                        _remoteIp = string.Empty;
                     }
                 }
-                return _minerIp;
+                return _remoteIp;
             }
         }
 
         private string GetWebClientIp() {
             string ip;
-            if (Request.Properties.ContainsKey("MS_HttpContext")) {
-                ip = ((HttpContextWrapper)Request.Properties["MS_HttpContext"]).Request.UserHostAddress;
+            if (Request.Properties.TryGetValue("MS_HttpContext", out object obj) && obj is HttpContextWrapper context) {
+                ip = context.Request.UserHostAddress;
             }
-            else if (Request.Properties.ContainsKey(RemoteEndpointMessageProperty.Name)) {
-                RemoteEndpointMessageProperty prop = (RemoteEndpointMessageProperty)Request.Properties[RemoteEndpointMessageProperty.Name];
+            else if (Request.Properties.TryGetValue(RemoteEndpointMessageProperty.Name, out obj) && obj is RemoteEndpointMessageProperty prop) {
                 ip = prop.Address;
             }
             else if (HttpContext.Current != null) {
@@ -59,12 +43,6 @@ namespace NTMiner.Controllers {
                 ip = "127.0.0.1";
             }
             return ip;
-        }
-
-        protected new UserData User {
-            get {
-                return (UserData)ControllerContext.RouteData.Values["_user"];
-            }
         }
     }
 }

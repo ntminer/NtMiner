@@ -27,7 +27,7 @@ namespace NTMiner.Controllers {
             if (id == Guid.Empty) {
                 bytes = CreateValidateGraphic("无效");
             }
-            else if (WebApiRoot.CaptchaSet.CountByIp(base.MinerIp) > 100) {
+            else if (WebApiRoot.CaptchaSet.CountByIp(base.RemoteIp) > 100) {
                 bytes = CreateValidateGraphic("拒绝");
             }
             else {
@@ -36,7 +36,7 @@ namespace NTMiner.Controllers {
                     Id = id,
                     Code = code,
                     CreatedOn = DateTime.Now,
-                    Ip = base.MinerIp
+                    Ip = base.RemoteIp
                 })) {
                     bytes = CreateValidateGraphic("无效");
                 }

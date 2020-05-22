@@ -32,13 +32,13 @@ namespace NTMiner.Controllers {
 
         [HttpPost]
         public ReportResponse ReportSpeed([FromBody]SpeedDto speedDto) {
-            return DoReportSpeed(speedDto, MinerIp);
+            return DoReportSpeed(speedDto, RemoteIp);
         }
 
         [HttpPost]
         public void ReportState([FromBody]ReportState request) {
             try {
-                WebApiRoot.ClientDataSet.ReportState(request, MinerIp, isFromWsServerNode: false);
+                WebApiRoot.ClientDataSet.ReportState(request, RemoteIp, isFromWsServerNode: false);
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
