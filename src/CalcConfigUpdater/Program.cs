@@ -219,6 +219,13 @@ namespace NTMiner {
                         incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("g/s", "h/s");
                     }
                 }
+                else if (incomeItem.DataCode == "grin-32") {
+                    incomeItem.CoinCode = "grin32";
+                    incomeItem.SpeedUnit = "h/s";
+                    if (incomeItem.NetSpeedUnit != null) {
+                        incomeItem.NetSpeedUnit = incomeItem.NetSpeedUnit.Replace("g/s", "h/s");
+                    }
+                }
                 if (incomeItem.DataCode == "ckb") {
                     incomeItem.CoinCode = "ckb";
                 }
