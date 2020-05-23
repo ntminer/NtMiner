@@ -7,6 +7,7 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class FileUrlController : ApiControllerBase, IFileUrlController {
+        [Role.Public]
         [HttpPost]
         public string NTMinerUrl([FromBody]NTMinerUrlRequest request) {
             if (request == null || string.IsNullOrEmpty(request.FileName)) {
@@ -19,6 +20,7 @@ namespace NTMiner.Controllers {
             return uri.ToString();
         }
 
+        [Role.Public]
         [HttpPost]
         public List<NTMinerFileData> NTMinerFiles() {
             var list = WebApiRoot.NTMinerFileSet.GetAll();
@@ -57,6 +59,7 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Public]
         [HttpPost]
         public string NTMinerUpdaterUrl() {
             try {
@@ -77,6 +80,7 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Public]
         [HttpPost]
         public string MinerClientFinderUrl() {
             try {
@@ -97,6 +101,7 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Public]
         [HttpPost]
         public string LiteDbExplorerUrl() {
             try {
@@ -110,6 +115,7 @@ namespace NTMiner.Controllers {
             }
         }
 
+        [Role.Public]
         [HttpPost]
         public string PackageUrl([FromBody]PackageUrlRequest request) {
             try {

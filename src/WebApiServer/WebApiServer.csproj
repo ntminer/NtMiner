@@ -103,6 +103,7 @@
     <Compile Include="Core\Impl\GpuNameSet.cs" />
     <Compile Include="Role\AdminAttribute.cs" />
     <Compile Include="Role\ClientSignData.cs" />
+    <Compile Include="Role\PublicAttribute.cs" />
     <Compile Include="Role\UserAttribute.cs" />
     <Compile Include="Controllers\ApiControllerBase.cs" />
     <Compile Include="Controllers\AppSettingController.cs" />

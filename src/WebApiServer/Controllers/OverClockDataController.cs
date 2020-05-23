@@ -43,6 +43,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region OverClockDatas
+        [Role.Public]
         [HttpPost]
         public DataResponse<List<OverClockData>> OverClockDatas([FromBody]object request) {
             try {

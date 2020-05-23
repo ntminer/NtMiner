@@ -5,7 +5,7 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class ReportController : ApiControllerBase, IReportController {
-        public static ReportResponse DoReportSpeed(SpeedDto speedDto, string minerIp) {
+        internal static ReportResponse DoReportSpeed(SpeedDto speedDto, string minerIp) {
             try {
                 if (speedDto == null) {
                     return ResponseBase.InvalidInput<ReportResponse>();
@@ -30,11 +30,13 @@ namespace NTMiner.Controllers {
             return ResponseBase.InvalidInput<ReportResponse>();
         }
 
+        [Role.Public]
         [HttpPost]
         public ReportResponse ReportSpeed([FromBody]SpeedDto speedDto) {
             return DoReportSpeed(speedDto, RemoteIp);
         }
 
+        [Role.Public]
         [HttpPost]
         public void ReportState([FromBody]ReportState request) {
             try {

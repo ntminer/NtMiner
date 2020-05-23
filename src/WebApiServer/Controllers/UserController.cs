@@ -163,6 +163,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region IsLoginNameExist
+        [Role.Public]
         [HttpGet]
         public DataResponse<bool> IsLoginNameExist(string loginName) {
             bool isExist;
@@ -185,6 +186,7 @@ namespace NTMiner.Controllers {
         /// <summary>
         /// 用户注册
         /// </summary>
+        [Role.Public]
         [HttpPost]
         public ResponseBase SignUp([FromBody]SignUpRequest request) {
             if (request == null) {

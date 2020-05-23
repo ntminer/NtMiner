@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class CalcConfigBinaryController : ApiControllerBase, ICalcConfigBinaryController<HttpResponseMessage> {
+        [Role.Public]
         [HttpGet]
         [HttpPost]
         public HttpResponseMessage CalcConfigs() {

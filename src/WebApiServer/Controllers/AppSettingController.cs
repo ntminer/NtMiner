@@ -7,13 +7,14 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class AppSettingController : ApiControllerBase, IAppSettingController {
-        // 留着它，一些古老的版本在用
+        [Role.Public]
         [HttpGet]
         [HttpPost]
         public DateTime GetTime() {
             return DateTime.Now;
         }
 
+        [Role.Public]
         [HttpPost]
         public string GetJsonFileVersion([FromBody]AppSettingRequest request) {
             ServerStateResponse serverState = WebApiRoot.GetServerStateResponse(request.Key);

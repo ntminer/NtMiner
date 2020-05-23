@@ -42,6 +42,7 @@ namespace NTMiner.Controllers {
         #endregion
 
         #region NTMinerWallets
+        [Role.Public]
         [HttpPost]
         [HttpGet]
         public DataResponse<List<NTMinerWalletData>> NTMinerWallets() {

@@ -7,6 +7,7 @@ using System.Web.Http;
 namespace NTMiner.Controllers {
     // 注意该控制器不能重命名
     public class KernelOutputKeywordController : ApiControllerBase, IKernelOutputKeywordController {
+        [Role.Public]
         [HttpPost]
         public KernelOutputKeywordsResponse KernelOutputKeywords([FromBody]object request) {
             try {

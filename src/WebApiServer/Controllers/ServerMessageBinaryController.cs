@@ -7,6 +7,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ServerMessageBinaryController : ApiControllerBase, IServerMessageBinaryController<HttpResponseMessage> {
+        [Role.Public]
         [HttpPost]
         public HttpResponseMessage ServerMessages(ServerMessagesRequest request) {
             DataResponse<List<ServerMessageData>> response = ServerMessageController.DoServerMessages(request);

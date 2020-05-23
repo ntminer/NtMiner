@@ -19,6 +19,7 @@ namespace NTMiner.Controllers {
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Role.Public]
         [HttpGet]
         [HttpPost]
         public HttpResponseMessage Get(Guid id) {

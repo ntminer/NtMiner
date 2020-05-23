@@ -3,6 +3,7 @@ using System.Web.Http;
 
 namespace NTMiner.Controllers {
     public class ReportBinaryController : ApiControllerBase, IReportBinaryController {
+        [Role.Public]
         [HttpPost]
         public ReportResponse ReportSpeed() {
             byte[] bytes = Request.Content.ReadAsByteArrayAsync().Result;

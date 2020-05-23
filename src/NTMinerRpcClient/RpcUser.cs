@@ -6,6 +6,8 @@ using System.Security;
 using System.Text;
 
 namespace NTMiner {
+    // 按照访问权限划分的话，服务端的接口分两类：1类不验证签名任何人都能访问；1类标记了Role.User或Role.Admin属性会验证签名和角色。
+    // RpcUser就是用来在内存中（因为使用的SecureString，内存中的值会被即时删除）存放用户登录时填写的用户名密码的地方，以供访问需要签名的服务时使用。
     public class RpcUser : ISignUser {
         public static readonly RpcUser Empty = new RpcUser(NTKeyword.Localhost, HashUtil.Sha1(NTKeyword.Localhost));
 
