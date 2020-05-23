@@ -1,6 +1,9 @@
 ﻿using NTMiner.User;
 
 namespace NTMiner.Role {
+    /// <summary>
+    /// 该模型表达的是来自客户端的通过url参数传递过来的签名信息。
+    /// </summary>
     public class ClientSignData {
         public ClientSignData(string loginName, string sign, long timestamp) {
             this.LoginName = loginName;
