@@ -14,7 +14,5 @@
     <!--窗口不能透明否则在远程桌面时无法显现-->
     <Grid>
         <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="50" Text="Windows控制台窗口"></TextBlock>
-        <Rectangle x:Name="ConsoleBgRectangle" Fill="#01000000">
-        </Rectangle>
     </Grid>
 </Window>
