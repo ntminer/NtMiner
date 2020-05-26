@@ -4,18 +4,24 @@ namespace NTMiner.User {
     public class WsUserName : IWsUserName {
         public WsUserName() { }
 
+        /// <summary>
+        /// <see cref="IWsUserName.ClientType"/>
+        /// </summary>
         public NTMinerAppType ClientType { get; set; }
         /// <summary>
-        /// 为服务端提供一个根据客户端的版本号向后兼容的机会
+        /// <see cref="IWsUserName.ClientVersion"/>
         /// </summary>
         public string ClientVersion { get; set; }
+        /// <summary>
+        /// <see cref="IWsUserName.ClientId"/>
+        /// </summary>
         public Guid ClientId { get; set; }
         /// <summary>
-        /// 可能是LoginName、Email、Mobile
+        /// <see cref="IWsUserName.UserId"/>
         /// </summary>
         public string UserId { get; set; }
         /// <summary>
-        /// 表示是否支持收发二进制格式的WsMessage。
+        /// <see cref="IWsUserName.IsBinarySupported"/>
         /// </summary>
         public bool IsBinarySupported { get; set; }
 
