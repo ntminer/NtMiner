@@ -38,6 +38,7 @@
     <Compile Include="Gpus\Adl\AdlNativeMethods.cs" />
     <Compile Include="Gpus\Adl\AdlTypes.cs" />
     <Compile Include="Gpus\IGpuHelper.cs" />
+    <Compile Include="Gpus\Nvapi\NvDelegates.cs" />
     <Compile Include="Gpus\OverClockRange.cs" />
     <Compile Include="Gpus\NvapiHelper.cs" />
     <Compile Include="Gpus\Nvapi\NvapiNativeMethods.cs" />

@@ -3,71 +3,39 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Nvapi {
     public static class NvapiNativeMethods {
-        #region Delegates
-        private delegate IntPtr NvQueryInterfaceDelegate(uint id);
-        private delegate NvStatus NvInitializeDelegate();
+        #region 
+        private static readonly NvDelegates.NvQueryInterfaceDelegate NvQueryInterface;
+        private static readonly NvDelegates.NvInitializeDelegate NvInitialize;
 
-        internal delegate NvStatus NvEnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
-        internal delegate NvStatus NvEnumTCCPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
-        internal delegate NvStatus NvGetBusIdDelegate(NvPhysicalGpuHandle physicalGpu, out int busID);
-        internal delegate NvStatus NvGetTachReadingDelegate(NvPhysicalGpuHandle physicalGpu, out int value);
-        internal delegate NvStatus NvGetPStatesDelegate(NvPhysicalGpuHandle physicalGpu, ref NvPStates nvPStates);
+        internal static readonly NvDelegates.NvEnumPhysicalGPUsDelegate NvEnumPhysicalGPUs;
+        internal static readonly NvDelegates.NvEnumTCCPhysicalGPUsDelegate NvEnumTCCPhysicalGPUs;
+        internal static readonly NvDelegates.NvGetBusIdDelegate NvGetBusID;
+        internal static readonly NvDelegates.NvGetTachReadingDelegate NvGetTachReading;
+        internal static readonly NvDelegates.NvGetPStatesDelegate NvGetPStates;
 
-        internal delegate NvStatus NvPowerPoliciesGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus status);
-        internal delegate NvStatus NvPowerPoliciesSetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus status);
+        internal static readonly NvDelegates.NvPowerPoliciesGetStatusDelegate NvPowerPoliciesGetStatus;
+        internal static readonly NvDelegates.NvPowerPoliciesSetStatusDelegate NvPowerPoliciesSetStatus;
 
-        internal delegate NvStatus NvGetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
-        internal delegate NvStatus NvGetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
-        internal delegate NvStatus NvSetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
-        internal delegate NvStatus NvSetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
-        internal delegate NvStatus NvGetAllClockFrequenciesV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuClockFrequenciesV2 freq);
+        internal static readonly NvDelegates.NvGetPStateV1Delegate NvGetPStateV1;
+        internal static readonly NvDelegates.NvGetPStateV2Delegate NvGetPStateV2;
+        internal static readonly NvDelegates.NvSetPStateV1Delegate NvSetPStateV1;
+        internal static readonly NvDelegates.NvSetPStateV2Delegate NvSetPStateV2;
+        internal static readonly NvDelegates.NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2;
 
-        internal delegate NvStatus NvThermalPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalInfo outThermalInfo);
-        internal delegate NvStatus NvThermalPoliciesGetSetLimitDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalLimit outThermalLimit);
+        internal static readonly NvDelegates.NvThermalPoliciesGetInfoDelegate NvThermalPoliciesGetInfo;
+        internal static readonly NvDelegates.NvThermalPoliciesGetSetLimitDelegate NvThermalPoliciesGetLimit;
+        internal static readonly NvDelegates.NvThermalPoliciesGetSetLimitDelegate NvThermalPoliciesSetLimit;
 
-        internal delegate NvStatus NvPowerPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerInfo outPowerInfo);
+        internal static readonly NvDelegates.NvPowerPoliciesGetInfoDelegate NvPowerPoliciesGetInfo;
 
-        internal delegate NvStatus NvGetCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget targetId, ref NvCoolerSettings outCoolerInfo);
-        internal delegate NvStatus NvRestoreCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, IntPtr pCoolerIndex, NvCoolerTarget targetId);
-        internal delegate NvStatus NvSetCoolerLevelsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget coolerIndex, ref NvCoolerLevel level);
+        internal static readonly NvDelegates.NvGetCoolerSettingsDelegate NvGetCoolerSettings;
+        internal static readonly NvDelegates.NvSetCoolerLevelsDelegate NvSetCoolerLevels;
+        internal static readonly NvDelegates.NvRestoreCoolerSettingsDelegate NvRestoreCoolerSettings;
 
-        internal delegate NvStatus NvFanCoolersGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersInfoV1 info);
-        internal delegate NvStatus NvFanCoolersGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersStatusV1 status);
-        internal delegate NvStatus NvFanCoolersGetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
-        internal delegate NvStatus NvFanCoolersSetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
-
-        private static readonly NvQueryInterfaceDelegate NvQueryInterface;
-        private static readonly NvInitializeDelegate NvInitialize;
-
-        internal static readonly NvEnumPhysicalGPUsDelegate NvEnumPhysicalGPUs;
-        internal static readonly NvEnumTCCPhysicalGPUsDelegate NvEnumTCCPhysicalGPUs;
-        internal static readonly NvGetBusIdDelegate NvGetBusID;
-        internal static readonly NvGetTachReadingDelegate NvGetTachReading;
-        internal static readonly NvGetPStatesDelegate NvGetPStates;
-
-        internal static readonly NvPowerPoliciesGetStatusDelegate NvPowerPoliciesGetStatus;
-        internal static readonly NvPowerPoliciesSetStatusDelegate NvPowerPoliciesSetStatus;
-
-        internal static readonly NvGetPStateV1Delegate NvGetPStateV1;
-        internal static readonly NvGetPStateV2Delegate NvGetPStateV2;
-        internal static readonly NvSetPStateV1Delegate NvSetPStateV1;
-        internal static readonly NvSetPStateV2Delegate NvSetPStateV2;
-        internal static readonly NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2;
-
-        internal static readonly NvThermalPoliciesGetInfoDelegate NvThermalPoliciesGetInfo;
-        internal static readonly NvThermalPoliciesGetSetLimitDelegate NvThermalPoliciesGetLimit;
-        internal static readonly NvThermalPoliciesGetSetLimitDelegate NvThermalPoliciesSetLimit;
-
-        internal static readonly NvPowerPoliciesGetInfoDelegate NvPowerPoliciesGetInfo;
-
-        internal static readonly NvGetCoolerSettingsDelegate NvGetCoolerSettings;
-        internal static readonly NvSetCoolerLevelsDelegate NvSetCoolerLevels;
-        internal static readonly NvRestoreCoolerSettingsDelegate NvRestoreCoolerSettings;
-
-        internal static readonly NvFanCoolersGetInfoDelegate NvFanCoolersGetInfo;
-        internal static readonly NvFanCoolersGetStatusDelegate NvFanCoolersGetStatus;
-        internal static readonly NvFanCoolersGetControlDelegate NvFanCoolersGetControl;
-        internal static readonly NvFanCoolersSetControlDelegate NvFanCoolersSetControl;
+        internal static readonly NvDelegates.NvFanCoolersGetInfoDelegate NvFanCoolersGetInfo;
+        internal static readonly NvDelegates.NvFanCoolersGetStatusDelegate NvFanCoolersGetStatus;
+        internal static readonly NvDelegates.NvFanCoolersGetControlDelegate NvFanCoolersGetControl;
+        internal static readonly NvDelegates.NvFanCoolersSetControlDelegate NvFanCoolersSetControl;
 
         #endregion
 
