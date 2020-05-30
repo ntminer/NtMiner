@@ -880,6 +880,14 @@ namespace NTMiner {
             Process.Start(url);
         });
 
+        public static ICommand WindowsZoomBug { get; private set; } = new DelegateCommand(() => {
+            string url = "https://my.oschina.net/ntminer/blog/4296130";
+            if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "WindowsZoomBug", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            Process.Start(url);
+        });
+
         public static ICommand ShowQQGroupQrCode { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowQQGroupQrCodeCommand());
         });
