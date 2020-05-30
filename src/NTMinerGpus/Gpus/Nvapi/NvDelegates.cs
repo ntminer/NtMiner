@@ -3,9 +3,6 @@ using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Nvapi {
     public static class NvDelegates {
-        internal delegate IntPtr NvQueryInterfaceDelegate(uint id);
-        internal delegate NvStatus NvInitializeDelegate();
-
         internal delegate NvStatus NvEnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
         internal delegate NvStatus NvEnumTCCPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
         internal delegate NvStatus NvGetBusIdDelegate(NvPhysicalGpuHandle physicalGpu, out int busID);
