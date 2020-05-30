@@ -17,6 +17,8 @@
     <Grid>
         <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="50" Text="Windows控制台窗口"></TextBlock>
         <controls:KbLinkButton
+            x:Name="LbtnWindowsZoomBug"
+            Visibility="Collapsed"
             Margin="350 0 20 80"
 			Padding="0"
             HorizontalAlignment="Left"

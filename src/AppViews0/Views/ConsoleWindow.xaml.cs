@@ -33,6 +33,10 @@ namespace NTMiner.Views {
                     };
                 }
             };
+            // 延迟展示从而避免不需要展示红字的时候看到红字
+            VirtualRoot.AddOnecePath<HasBoot1SecondEvent>("启动一会后显式指引解决WindowsZoomBug的一行红字", LogEnum.None, action: message => {
+                LbtnWindowsZoomBug.Visibility = Visibility.Visible;
+            }, pathId: PathId.Empty, this.GetType());
         }
 
         protected override void OnClosed(EventArgs e) {
