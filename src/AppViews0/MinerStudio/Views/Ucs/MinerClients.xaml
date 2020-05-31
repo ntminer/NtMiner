@@ -1510,7 +1510,7 @@
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
                     <controls:KbButton
-						ToolTip="排序"
+						ToolTip="基于剩余空间最小的磁盘排序"
                         Background="Transparent"
                         Command="{Binding Data.SortByDiskSpace, Source={StaticResource proxy}}">
                         <WrapPanel>
