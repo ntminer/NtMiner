@@ -47,7 +47,8 @@ namespace NTMiner.MinerStudio.Vms {
             [ClientDataSortField.DualCoinRejectPercent] = SortDirection.Descending,
             [ClientDataSortField.KernelSelfRestartCount] = SortDirection.Descending,
             [ClientDataSortField.MainCoinPoolDelay] = SortDirection.Descending,
-            [ClientDataSortField.MainCoinRejectPercent] = SortDirection.Descending
+            [ClientDataSortField.MainCoinRejectPercent] = SortDirection.Descending,
+            [ClientDataSortField.DiskSpace] = SortDirection.Ascending
         };
         private ClientDataSortField _sortField = ClientDataSortField.MinerName;
         private string _gpuName;
@@ -326,6 +327,7 @@ namespace NTMiner.MinerStudio.Vms {
         public ICommand SortByDualCoinPoolDelay { get; private set; }
         public ICommand SortByCpuTemperature { get; private set; }
         public ICommand SortByKernelSelfRestartCount { get; private set; }
+        public ICommand SortByDiskSpace { get; private set; }
         public ICommand SwitchService { get; private set; }
         #endregion
 
@@ -761,6 +763,19 @@ namespace NTMiner.MinerStudio.Vms {
                     }
                     else {
                         KernelSelfRestartCountSortDirection = SortDirection.Ascending;
+                    }
+                }
+            });
+            this.SortByDiskSpace = new DelegateCommand(() => {
+                if (this.SortField != ClientDataSortField.DiskSpace) {
+                    this.SortField = ClientDataSortField.DiskSpace;
+                }
+                else {
+                    if (DiskSpaceSortDirection == SortDirection.Ascending) {
+                        DiskSpaceSortDirection = SortDirection.Descending;
+                    }
+                    else {
+                        DiskSpaceSortDirection = SortDirection.Ascending;
                     }
                 }
             });
@@ -1281,6 +1296,17 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public SortDirection DiskSpaceSortDirection {
+            get { return _sortDirection[ClientDataSortField.DiskSpace]; }
+            set {
+                if (_sortDirection[ClientDataSortField.DiskSpace] != value) {
+                    _sortDirection[ClientDataSortField.DiskSpace] = value;
+                    OnPropertyChanged(nameof(DiskSpaceSortDirection));
+                    this.PageIndex = 1;
+                }
+            }
+        }
+
         public ClientDataSortField SortField {
             get { return _sortField; }
             set {
@@ -1295,6 +1321,7 @@ namespace NTMiner.MinerStudio.Vms {
                     OnPropertyChanged(nameof(IsSortByDualCoinPoolDelay));
                     OnPropertyChanged(nameof(IsSortByCpuTemperature));
                     OnPropertyChanged(nameof(IsSortByKernelSelfRestartCount));
+                    OnPropertyChanged(nameof(IsSortByDiskSpace));
                     this.PageIndex = 1;
                 }
             }
@@ -1345,6 +1372,12 @@ namespace NTMiner.MinerStudio.Vms {
         public bool IsSortByKernelSelfRestartCount {
             get {
                 return SortField == ClientDataSortField.KernelSelfRestartCount;
+            }
+        }
+
+        public bool IsSortByDiskSpace {
+            get {
+                return SortField == ClientDataSortField.DiskSpace;
             }
         }
 

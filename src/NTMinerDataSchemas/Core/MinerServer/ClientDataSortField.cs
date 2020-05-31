@@ -7,6 +7,7 @@
         DualCoinPoolDelay = 4,
         CpuTemperature = 5,
         KernelSelfRestartCount = 6,
-        MainCoinSpeed = 7
+        MainCoinSpeed = 7,
+        DiskSpace
     }
 }

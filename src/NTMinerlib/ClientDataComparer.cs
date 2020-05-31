@@ -150,6 +150,17 @@ namespace NTMiner {
                                 return 0;
                         }
                     }
+                case ClientDataSortField.DiskSpace: {
+                        int r = x.DiskSpaceMb.CompareTo(y.DiskSpaceMb);
+                        switch (_sortDirection) {
+                            case SortDirection.Ascending:
+                                return r;
+                            case SortDirection.Descending:
+                                return -r;
+                            default:
+                                return 0;
+                        }
+                    }
                 default:
                     return 0;
             }
