@@ -458,9 +458,10 @@ namespace NTMiner.Mine {
                 if (isLogFileCreated) {
                     StreamReader sreader = null;
                     try {
+                        Process kernelProcess = this.KernelProcess;
                         DateTime _kernelRestartKeywordOn = DateTime.MinValue;
                         sreader = new StreamReader(File.Open(this.LogFileFullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite), Encoding.Default);
-                        while (this == NTMinerContext.Instance.LockedMineContext) {
+                        while (this.KernelProcess != null && this.KernelProcess == kernelProcess) {
                             string outline = sreader.ReadLine();
                             if (string.IsNullOrEmpty(outline)) {
                                 Thread.Sleep(1000);
