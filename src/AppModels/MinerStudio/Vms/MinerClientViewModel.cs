@@ -956,6 +956,16 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public int DiskSpaceMb {
+            get { return _data.DiskSpaceMb; }
+            set {
+                if (_data.DiskSpaceMb != value) {
+                    _data.DiskSpaceMb = value;
+                    OnPropertyChanged(nameof(DiskSpaceMb));
+                }
+            }
+        }
+
         public string DualCoinPool {
             get => _data.DualCoinPool;
             set {

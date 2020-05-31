@@ -4,7 +4,9 @@ using NTMiner.Core.Gpus;
 using NTMiner.Report;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace NTMiner.Core.MinerServer {
     public class ClientData : SpeedDto, IClientData {
@@ -34,6 +36,7 @@ namespace NTMiner.Core.MinerServer {
 
         public static ClientData Create(IMinerData data) {
             return new ClientData() {
+                #region
                 Id = data.Id,
                 MineContextId = Guid.Empty,
                 ClientId = data.ClientId,
@@ -128,11 +131,13 @@ namespace NTMiner.Core.MinerServer {
                 MainCoinPoolDelayNumber = 0,
                 MainCoinRejectPercent = 0,
                 DualCoinRejectPercent = 0
+                #endregion
             };
         }
 
         public static ClientData Clone(ClientData data) {
             return new ClientData() {
+                #region
                 Id = data.Id,
                 MineContextId = data.MineContextId,
                 MinerName = data.MinerName,
@@ -227,6 +232,7 @@ namespace NTMiner.Core.MinerServer {
                 MainCoinRejectPercent = data.MainCoinRejectPercent,
                 MainCoinPoolDelayNumber = data.MainCoinPoolDelayNumber,
                 DualCoinPoolDelayNumber = data.DualCoinPoolDelayNumber
+                #endregion
             };
         }
 
@@ -249,8 +255,9 @@ namespace NTMiner.Core.MinerServer {
             out int mainCoinPoolDelayNumber, 
             out int dualCoinPoolDelayNumber, 
             out double mainCoinRejectPercent, 
-            out double dualCoinRejectPercent) {
-
+            out double dualCoinRejectPercent,
+            out int diskSpaceMb) {
+            #region
             mainCoinPoolDelayNumber = 0;
             dualCoinPoolDelayNumber = 0;
             mainCoinRejectPercent = 0.0;
@@ -287,6 +294,28 @@ namespace NTMiner.Core.MinerServer {
             if (speedDto.DualCoinTotalShare != 0) {
                 dualCoinRejectPercent = (speedDto.DualCoinRejectShare * 100.0) / speedDto.DualCoinTotalShare;
             }
+            diskSpaceMb = GetMinDiskSpaceMb(speedDto.DiskSpace);
+            #endregion
+        }
+
+        private static int GetMinDiskSpaceMb(string diskSpace) {
+            // C:\21.4 Gb;D:\9.2 Gb;E:\27.1 Gb
+            if (string.IsNullOrEmpty(diskSpace)) {
+                return 0;
+            }
+            string[] parts = diskSpace.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries);
+            List<int> list = new List<int>();
+            foreach (string part in parts) {
+                if (char.IsDigit(part[0])) {
+                    if (double.TryParse(part.Substring(0, part.IndexOf(' ')), out double value)) {
+                        list.Add((int)value * 1024);
+                    }
+                }
+            }
+            if (list.Count == 0) {
+                return 0;
+            }
+            return list.Min();
         }
 
         public static ClientData Create(ISpeedDto speedDto, string minerIp) {
@@ -295,8 +324,10 @@ namespace NTMiner.Core.MinerServer {
                 out int mainCoinPoolDelayNumber, 
                 out int dualCoinPoolDelayNumber, 
                 out double mainCoinRejectPercent, 
-                out double dualCoinRejectPercent);
+                out double dualCoinRejectPercent,
+                out int diskSpaceMb);
             return new ClientData() {
+                #region
                 Id = ObjectId.NewObjectId().ToString(),
                 MineContextId = speedDto.MineContextId,
                 MinerName = speedDto.MinerName,
@@ -390,11 +421,14 @@ namespace NTMiner.Core.MinerServer {
                 DualCoinPoolDelayNumber = dualCoinPoolDelayNumber,
                 MainCoinPoolDelayNumber = mainCoinPoolDelayNumber,
                 MainCoinRejectPercent = mainCoinRejectPercent,
-                DualCoinRejectPercent = dualCoinRejectPercent
+                DualCoinRejectPercent = dualCoinRejectPercent,
+                DiskSpaceMb = diskSpaceMb
+                #endregion
             };
         }
 
         public void Update(MinerSign minerSign, out bool isChanged) {
+            #region
             this.LoginName = minerSign.LoginName;
             isChanged = false;
             if (!isChanged) {
@@ -413,10 +447,12 @@ namespace NTMiner.Core.MinerServer {
                 isChanged = this.AESPasswordOn != minerSign.AESPasswordOn;
             }
             this.AESPasswordOn = minerSign.AESPasswordOn;
+            #endregion
         }
 
         public SpeedData ToSpeedData() {
             return new SpeedData {
+                #region
                 SpeedOn = this.MinerActiveOn,
                 AutoRestartKernelTimes = this.AutoRestartKernelTimes,
                 AutoStartDelaySeconds = this.AutoStartDelaySeconds,
@@ -494,6 +530,7 @@ namespace NTMiner.Core.MinerServer {
                 PeriodicRestartKernelMinutes = this.PeriodicRestartKernelMinutes,
                 TotalPhysicalMemoryMb = this.TotalPhysicalMemoryMb,
                 Version = this.Version
+                #endregion
             };
         }
 
@@ -542,6 +579,7 @@ namespace NTMiner.Core.MinerServer {
         /// <param name="speedDto"></param>
         /// <param name="isMinerDataChanged"></param>
         public void Update(ISpeedDto speedDto, out bool isMinerDataChanged) {
+            #region
             isMinerDataChanged = false;
             if (speedDto == null) {
                 return;
@@ -663,13 +701,17 @@ namespace NTMiner.Core.MinerServer {
                 out int mainCoinPoolDelayNumber, 
                 out int dualCoinPoolDelayNumber, 
                 out double mainCoinRejectPercent, 
-                out double dualCoinRejectPercent);
+                out double dualCoinRejectPercent,
+                out int diskSpaceMb);
             this.MainCoinPoolDelayNumber = mainCoinPoolDelayNumber;
             this.DualCoinPoolDelayNumber = dualCoinPoolDelayNumber;
             this.MainCoinRejectPercent = mainCoinRejectPercent;
             this.DualCoinRejectPercent = dualCoinRejectPercent;
+            this.DiskSpaceMb = diskSpaceMb;
+            #endregion
         }
 
+        #region GetMainCoinShareDelta
         public int GetMainCoinShareDelta(bool isPull) {
             if (_preMainCoinShare == 0) {
                 return 0;
@@ -692,7 +734,9 @@ namespace NTMiner.Core.MinerServer {
             }
             return delta;
         }
+        #endregion
 
+        #region GetDualCoinShareDelta
         public int GetDualCoinShareDelta(bool isPull) {
             if (_preDualCoinShare == 0) {
                 return 0;
@@ -715,7 +759,9 @@ namespace NTMiner.Core.MinerServer {
             }
             return delta;
         }
+        #endregion
 
+        #region GetMainCoinRejectShareDelta
         public int GetMainCoinRejectShareDelta(bool isPull) {
             if (_preMainCoinRejectShare == 0) {
                 return 0;
@@ -736,7 +782,9 @@ namespace NTMiner.Core.MinerServer {
             }
             return delta;
         }
+        #endregion
 
+        #region GetDualCoinRejectShareDelta
         public int GetDualCoinRejectShareDelta(bool isPull) {
             if (_preDualCoinRejectShare == 0) {
                 return 0;
@@ -759,6 +807,7 @@ namespace NTMiner.Core.MinerServer {
             }
             return delta;
         }
+        #endregion
 
         public string Id { get; set; }
 
@@ -798,6 +847,7 @@ namespace NTMiner.Core.MinerServer {
 
         public string OuterUserId { get; set; }
 
+        // 不会传到客户端
         [JsonIgnore]
         public string AESPassword { get; set; }
 
@@ -808,5 +858,6 @@ namespace NTMiner.Core.MinerServer {
         public int DualCoinPoolDelayNumber { get; set; }
         public double MainCoinRejectPercent { get; set; }
         public double DualCoinRejectPercent { get; set; }
+        public int DiskSpaceMb { get; set; }
     }
 }

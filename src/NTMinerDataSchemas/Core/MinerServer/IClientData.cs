@@ -23,5 +23,6 @@ namespace NTMiner.Core.MinerServer {
         int DualCoinPoolDelayNumber { get; }
         double MainCoinRejectPercent { get; }
         double DualCoinRejectPercent { get; }
+        int DiskSpaceMb { get; }
     }
 }
