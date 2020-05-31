@@ -308,7 +308,7 @@ namespace NTMiner.Core.MinerServer {
             foreach (string part in parts) {
                 if (char.IsDigit(part[0])) {
                     if (double.TryParse(part.Substring(0, part.IndexOf(' ')), out double value)) {
-                        list.Add((int)value * 1024);
+                        list.Add((int)(value * 1024));
                     }
                 }
             }
