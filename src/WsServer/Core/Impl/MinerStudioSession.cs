@@ -4,6 +4,14 @@ using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public class MinerStudioSession : AbstractSession, IMinerStudioSession {
+        /// <summary>
+        /// 不会返回null
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="userName"></param>
+        /// <param name="wsSessionID"></param>
+        /// <param name="wsSessionManager"></param>
+        /// <returns></returns>
         public static MinerStudioSession Create(IUser user, WsUserName userName, string wsSessionID, WebSocketSessionManager wsSessionManager) {
             return new MinerStudioSession(user, userName, wsSessionID, wsSessionManager);
         }
