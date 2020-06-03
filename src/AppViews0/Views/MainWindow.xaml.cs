@@ -134,6 +134,9 @@ namespace NTMiner.Views {
             this.ConsoleRectangle.SizeChanged += (s, e) => {
                 MoveConsoleWindow();
             };
+            if (this.Width < 860) {
+                NTMinerConsole.UserWarn("左侧面板已折叠，可点击侧边的'开始挖矿'按钮展开。");
+            }
             this.SizeChanged += (s, e) => {
                 #region
                 if (this.Width < 860) {
