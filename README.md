@@ -40,4 +40,4 @@
 The LGPL license。
 
 # 友情链接
-[蜜蜂矿池](https://www.beepool.org/)&nbsp;&nbsp;&nbsp;&nbsp;[BMiner](https://www.bminer.me/)&nbsp;&nbsp;&nbsp;&nbsp;[loserhub](https://www.loserhub.cn/)&nbsp;&nbsp;&nbsp;&nbsp;[挖币网](http://www.wabi.com/)&nbsp;&nbsp;&nbsp;&nbsp;[爆矿网](https://www.powmine.net/)&nbsp;&nbsp;&nbsp;&nbsp;[sero第一矿池](http://121.201.75.200:8082/)
+[蜜蜂矿池](https://www.beepool.org/)&nbsp;&nbsp;&nbsp;&nbsp;[BMiner](https://www.bminer.me/)&nbsp;&nbsp;&nbsp;&nbsp;[loserhub](https://www.loserhub.cn/)&nbsp;&nbsp;&nbsp;&nbsp;[挖币网](http://www.wabi.com/)
