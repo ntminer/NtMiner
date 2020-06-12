@@ -4,7 +4,7 @@
 2. 开源矿工永远开源；
 3. 开源矿工永远不会去破解国人开发的内核；
 
-## [下载地址1](https://my.oschina.net/u/4140472/blog/4260829)   [下载地址2](https://github.com/ntminer/NtMiner/wikis/download)
+## [下载地址1](https://my.oschina.net/u/4140472/blog/4260829)   [下载地址2](https://github.com/ntminer/NtMiner/wikis/download) 树大招风，由于竞品恶意竞争，当您使用谷歌浏览器打开下载页面时会提示不安全，非谷歌浏览器不会。
 ### 从源码编译：Visual Studio 2019
 
 ## 开源软件
