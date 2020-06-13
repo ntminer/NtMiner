@@ -33,7 +33,7 @@ namespace NTMiner.Services.Official {
                     }
                 }
                 callback?.Invoke(response, e);
-            }, timeountMilliseconds: 2000);
+            }, timeountMilliseconds: 5000);
         }
 
         public void RemoveUserAsync(string loginName, Action<ResponseBase, Exception> callback) {
