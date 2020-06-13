@@ -13,7 +13,7 @@ namespace NTMiner.Services.Official {
 
         #region GetMinerGroupsAsync
         public void GetMinerGroupsAsync(Action<DataResponse<List<UserMinerGroupData>>, Exception> callback) {
-            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMinerGroupController.MinerGroups), data: new object(), callback, timeountMilliseconds: 2000);
+            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMinerGroupController.MinerGroups), data: new object(), callback, timeountMilliseconds: 5000);
         }
         #endregion
 
