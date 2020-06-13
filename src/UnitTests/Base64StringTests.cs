@@ -27,9 +27,11 @@ namespace NTMiner {
 
         [TestMethod]
         public void Test3() {
-            string str = Encoding.UTF8.GetString(Convert.FromBase64String("BQ=="));
-            // 很奇怪的一个符号，不是键盘上敲出的|
-            Assert.AreEqual("", str);
+            for (int i = 0; i < 1000; i++) {
+                string base64Str = Convert.ToBase64String(Encoding.UTF8.GetBytes(VirtualRoot.GetRandomString(i)));
+                Console.WriteLine(base64Str);
+                Assert.IsTrue(Base64Util.IsBase64OrEmpty(base64Str));
+            }
         }
     }
 }
