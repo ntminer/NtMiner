@@ -48,5 +48,9 @@ namespace NTMiner.Views.Ucs {
                 });
             });
         }
+
+        private void TbWsDaemonStateDescription_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            Vm.RefreshWsDaemonState();
+        }
     }
 }

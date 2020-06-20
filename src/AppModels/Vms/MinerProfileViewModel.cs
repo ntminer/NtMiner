@@ -81,16 +81,7 @@ namespace NTMiner.Vms {
                             WsNextTrySecondsDelay--;
                         }
                         else if(WsLastTryOn == DateTime.MinValue) {
-                            RpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
-                                if (state != null) {
-                                    this.IsWsOnline = state.Status == WsClientStatus.Open;
-                                    this.WsDescription = state.Description;
-                                    if (state.NextTrySecondsDelay > 0) {
-                                        this.WsNextTrySecondsDelay = state.NextTrySecondsDelay;
-                                    }
-                                    this.WsLastTryOn = state.LastTryOn;
-                                }
-                            });
+                            this.RefreshWsDaemonState();
                         }
                         OnPropertyChanged(nameof(WsLastTryOnText));
                     }
@@ -160,6 +151,19 @@ namespace NTMiner.Vms {
             if ((IsAutoStart || CommandLineArgs.IsAutoStart) && IsNoUi) {
                 NTMinerConsole.Disable();
             }
+        }
+
+        public void RefreshWsDaemonState() {
+            RpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
+                if (state != null) {
+                    this.IsWsOnline = state.Status == WsClientStatus.Open;
+                    this.WsDescription = state.Description;
+                    if (state.NextTrySecondsDelay > 0) {
+                        this.WsNextTrySecondsDelay = state.NextTrySecondsDelay;
+                    }
+                    this.WsLastTryOn = state.LastTryOn;
+                }
+            });
         }
 
         #region IWsStateViewModel的成员
