@@ -26,6 +26,7 @@ namespace NTMiner.Daemon {
                         RpcRoot.Client.NTMinerDaemonService.CloseDaemonAsync(() => {
                             System.Threading.Thread.Sleep(1000);
                             Windows.TaskKill.Kill(processName, waitForExit: true);
+                            System.Threading.Thread.Sleep(1000);
                             VirtualRoot.Execute(new RefreshWsStateCommand(new WsClientState {
                                 Status = WsClientStatus.Closed,
                                 Description = "更新守护程序中…",
