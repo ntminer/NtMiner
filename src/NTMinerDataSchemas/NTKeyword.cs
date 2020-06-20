@@ -95,7 +95,6 @@
         public const string ClientIdRegistryKey = "ClientId";
         public const string NoDevFeeActiveOnRegistryKey = "NoDevFeeActiveOn";
         public const string NoDevFeeVersionRegistryKey = "NoDevFeeVersion";
-        public const string DaemonActiveOnRegistryKey = "DaemonActiveOn";
         public const string IsOuterUserEnabledRegistryKey = "IsOuterUserEnabled";
         public const string OuterUserIdRegistryKey = "OuterUserId";
         public const string DaemonVersionRegistryKey = "DaemonVersion";

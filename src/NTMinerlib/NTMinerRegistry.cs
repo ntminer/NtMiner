@@ -229,24 +229,6 @@ namespace NTMiner {
         }
         #endregion
 
-        #region DaemonActiveOn
-        public static DateTime GetDaemonActiveOn() {
-            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.DaemonActiveOnRegistryKey);
-            if (value == null) {
-                return DateTime.MinValue;
-            }
-            string str = value.ToString();
-            if (!DateTime.TryParse(str, out DateTime dateTime)) {
-                return DateTime.MinValue;
-            }
-            return dateTime;
-        }
-
-        public static void SetDaemonActiveOn(DateTime daemonActiveOn) {
-            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.DaemonActiveOnRegistryKey, daemonActiveOn.ToString());
-        }
-        #endregion
-
         #region GetClientId
         public static Guid GetClientId(NTMinerAppType appType) {
             string valueName = GetValueName(appType, NTKeyword.ClientIdRegistryKey);

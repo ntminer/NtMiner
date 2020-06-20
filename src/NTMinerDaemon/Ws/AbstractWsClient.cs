@@ -28,7 +28,6 @@ namespace NTMiner.Ws {
             }, typeof(VirtualRoot));
             VirtualRoot.AddEventPath<Per10SecondEvent>("周期检查Ws连接", LogEnum.None,
                 action: message => {
-                    NTMinerRegistry.SetDaemonActiveOn(DateTime.Now);
                     if (_continueCount >= _failConnCount) {
                         _continueCount = 0;
                         OpenOrCloseWs();
