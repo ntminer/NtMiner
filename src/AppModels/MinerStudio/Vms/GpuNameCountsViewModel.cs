@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace NTMiner.MinerStudio.Vms {
     public class GpuNameCountsViewModel : ViewModelBase {
-        private List<GpuNameCountViewModel> _gpuNameCounts;
+        private List<GpuNameCountViewModel> _gpuNameCounts = new List<GpuNameCountViewModel>();
         private int _pageIndex = 1;
         private int _pageSize = 100;
         private string _keyword;
@@ -97,6 +97,9 @@ namespace NTMiner.MinerStudio.Vms {
             get => _gpuNameCounts;
             set {
                 if (_gpuNameCounts != value) {
+                    if (value == null) {
+                        value = new List<GpuNameCountViewModel>();
+                    }
                     _gpuNameCounts = value;
                     OnPropertyChanged(nameof(GpuNameCounts));
                 }

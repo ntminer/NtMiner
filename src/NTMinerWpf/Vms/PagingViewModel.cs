@@ -15,21 +15,23 @@ namespace NTMiner.Vms {
         }
 
         public void Init(int total) {
-            this.Total = total;
-            int pages = (int)Math.Ceiling((double)total / _getPageSize());
-            int count = PageNumbers.Count;
-            if (pages < count) {
-                for (int n = pages + 1; n <= count; n++) {
-                    PageNumbers.Remove(n);
+            UIThread.Execute(() => {
+                this.Total = total;
+                int pages = (int)Math.Ceiling((double)total / _getPageSize());
+                int count = PageNumbers.Count;
+                if (pages < count) {
+                    for (int n = pages + 1; n <= count; n++) {
+                        PageNumbers.Remove(n);
+                    }
                 }
-            }
-            else {
-                for (int n = count + 1; n <= pages; n++) {
-                    PageNumbers.Add(n);
+                else {
+                    for (int n = count + 1; n <= pages; n++) {
+                        PageNumbers.Add(n);
+                    }
                 }
-            }
-            OnPropertyChanged(nameof(CanPageSub));
-            OnPropertyChanged(nameof(CanPageAdd));
+                OnPropertyChanged(nameof(CanPageSub));
+                OnPropertyChanged(nameof(CanPageAdd));
+            });
         }
 
         public int Total {
