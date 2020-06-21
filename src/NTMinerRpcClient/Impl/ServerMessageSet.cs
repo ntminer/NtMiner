@@ -14,36 +14,34 @@ namespace NTMiner.Impl {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
             _connectionString = $"filename={dbFileFullName}";
-            if (!isServer) {
-                VirtualRoot.AddCmdPath<LoadNewServerMessageCommand>(action: message => {
-                    if (!RpcRoot.IsServerMessagesVisible) {
-                        return;
+            VirtualRoot.AddCmdPath<LoadNewServerMessageCommand>(action: message => {
+                if (!RpcRoot.IsServerMessagesVisible) {
+                    return;
+                }
+                DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
+                // 如果已知服务器端最新消息的时间戳不比本地已加载的最新消息新就不用加载了
+                if (message.KnowServerMessageTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
+                    return;
+                }
+                RpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
+                    if (response.IsSuccess()) {
+                        if (response.Data.Count > 0) {
+                            ReceiveServerMessage(response.Data);
+                        }
                     }
-                    DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
-                    // 如果已知服务器端最新消息的时间戳不比本地已加载的最新消息新就不用加载了
-                    if (message.KnowServerMessageTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
-                        return;
-                    }
-                    RpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
-                        if (response.IsSuccess()) {
-                            if (response.Data.Count > 0) {
-                                ReceiveServerMessage(response.Data);
-                            }
+                    else {
+                        if (e != null) {
+                            Logger.ErrorDebugLine(e);
                         }
                         else {
-                            if (e != null) {
-                                Logger.ErrorDebugLine(e);
-                            }
-                            else {
-                                VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
-                            }
+                            VirtualRoot.Out.ShowError(response.ReadMessage(e), autoHideSeconds: 4);
                         }
-                    });
-                }, location: this.GetType());
-                VirtualRoot.AddCmdPath<ReceiveServerMessageCommand>(action: message => {
-                    ReceiveServerMessage(message.Data);
-                }, location: this.GetType());
-            }
+                    }
+                });
+            }, location: this.GetType());
+            VirtualRoot.AddCmdPath<ReceiveServerMessageCommand>(action: message => {
+                ReceiveServerMessage(message.Data);
+            }, location: this.GetType());
             VirtualRoot.AddCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
                 InitOnece();
                 if (isServer) {

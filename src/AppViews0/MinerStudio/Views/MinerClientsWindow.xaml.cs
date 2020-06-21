@@ -72,7 +72,10 @@ namespace NTMiner.MinerStudio.Views {
                 // 延迟创建，以加快主界面的启动
                 #region
                 var selectedItem = MinerStudioTabControl.SelectedItem;
-                if (selectedItem == MinerStudioTabItemMessage) {
+                bool isServerMessagesVisible = selectedItem == MinerStudioTabItemMessage;
+                RpcRoot.SetIsServerMessagesVisible(isServerMessagesVisible);
+                // 在SetIsServerMessagesVisible之后执行LoadNewServerMessageCommand，因为如果消息tab页不可见执行LoadNewServerMessageCommand会被忽略。
+                if (isServerMessagesVisible) {
                     if (MinerStudioMessagesContainer.Child == null) {
                         MinerStudioMessagesContainer.Child = new Messages();
                     }
@@ -81,7 +84,6 @@ namespace NTMiner.MinerStudio.Views {
                         VirtualRoot.Execute(new LoadNewServerMessageCommand());
                     }
                 }
-                RpcRoot.SetIsServerMessagesVisible(selectedItem == MinerStudioTabItemMessage);
                 #endregion
             };
             this.MinerClienTabControl.SelectionChanged += (sender, e) => {
