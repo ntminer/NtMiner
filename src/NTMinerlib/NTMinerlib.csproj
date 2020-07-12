@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="AppSetting\LocalAppSettingSet.cs" />
     <Compile Include="AppSetting\IAppSettingSet.cs" />
+    <Compile Include="ClientAppType.cs" />
     <Compile Include="ClientDataComparer.cs" />
     <Compile Include="Cryptography\AESUtil.cs" />
     <Compile Include="Cryptography\BigInteger.cs" />

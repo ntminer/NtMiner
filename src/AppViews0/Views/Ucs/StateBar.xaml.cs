@@ -32,10 +32,11 @@ namespace NTMiner.Views.Ucs {
                             Vm.PoolDelayText = message.PoolDelayText;
                         }
                     }, location: this.GetType());
-                window.AddEventPath<MineStartedEvent>("开始挖矿后清空矿池延时", LogEnum.DevConsole,
+                window.AddEventPath<MineStartedEvent>("开始挖矿后清空矿池延时 & 挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
                     action: message => {
                         Vm.PoolDelayText = string.Empty;
                         Vm.DualPoolDelayText = string.Empty;
+                        Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                     }, location: this.GetType());
                 window.AddEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
                     action: message => {
@@ -68,10 +69,6 @@ namespace NTMiner.Views.Ucs {
                         Vm.SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerContext.ServerVersion);
                     }, location: this.GetType());
                 window.AddEventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
-                    action: message => {
-                        Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
-                    }, location: this.GetType());
-                window.AddEventPath<MineStartedEvent>("挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
                     action: message => {
                         Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                     }, location: this.GetType());

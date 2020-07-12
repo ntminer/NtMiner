@@ -1,55 +1,110 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus.Nvapi {
     public static class NvapiNativeMethods {
+        [AttributeUsage(AttributeTargets.Property)]
+        public class IdAttribute : Attribute {
+            public IdAttribute(uint id) {
+                this.Id = id;
+            }
+
+            public uint Id { get; private set; }
+        }
+
         private delegate IntPtr NvQueryInterfaceDelegate(uint id);
         private delegate NvStatus NvInitializeDelegate();
+
+        internal delegate NvStatus NvEnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
+        internal delegate NvStatus NvEnumTCCPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
+        internal delegate NvStatus NvGetBusIdDelegate(NvPhysicalGpuHandle physicalGpu, out int busID);
+        internal delegate NvStatus NvGetTachReadingDelegate(NvPhysicalGpuHandle physicalGpu, out int value);
+        internal delegate NvStatus NvGetPStatesDelegate(NvPhysicalGpuHandle physicalGpu, ref NvPStates nvPStates);
+
+        internal delegate NvStatus NvPowerPoliciesGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus status);
+        internal delegate NvStatus NvPowerPoliciesSetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus status);
+
+        internal delegate NvStatus NvGetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
+        internal delegate NvStatus NvGetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
+        internal delegate NvStatus NvSetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
+        internal delegate NvStatus NvSetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
+        internal delegate NvStatus NvGetAllClockFrequenciesV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuClockFrequenciesV2 freq);
+
+        internal delegate NvStatus NvThermalPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalInfo outThermalInfo);
+        internal delegate NvStatus NvThermalPoliciesGetSetLimitDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalLimit outThermalLimit);
+
+        internal delegate NvStatus NvPowerPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerInfo outPowerInfo);
+
+        internal delegate NvStatus NvGetCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget targetId, ref NvCoolerSettings outCoolerInfo);
+        internal delegate NvStatus NvRestoreCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, IntPtr pCoolerIndex, NvCoolerTarget targetId);
+        internal delegate NvStatus NvSetCoolerLevelsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget coolerIndex, ref NvCoolerLevel level);
+
+        internal delegate NvStatus NvFanCoolersGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersInfoV1 info);
+        internal delegate NvStatus NvFanCoolersGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersStatusV1 status);
+        internal delegate NvStatus NvFanCoolersGetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
+        internal delegate NvStatus NvFanCoolersSetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
 
         private static readonly NvQueryInterfaceDelegate NvQueryInterface;
         private static readonly NvInitializeDelegate NvInitialize;
 
         #region 
-        internal static NvDelegates.NvEnumPhysicalGPUsDelegate NvEnumPhysicalGPUs { get; private set; }
-        internal static NvDelegates.NvEnumTCCPhysicalGPUsDelegate NvEnumTCCPhysicalGPUs { get; private set; }
-        internal static NvDelegates.NvGetBusIdDelegate NvGetBusID { get; private set; }
-        internal static NvDelegates.NvGetTachReadingDelegate NvGetTachReading { get; private set; }
-        internal static NvDelegates.NvGetPStatesDelegate NvGetPStates { get; private set; }
-
-        internal static NvDelegates.NvPowerPoliciesGetStatusDelegate NvPowerPoliciesGetStatus { get; private set; }
-        internal static NvDelegates.NvPowerPoliciesSetStatusDelegate NvPowerPoliciesSetStatus { get; private set; }
-
-        internal static NvDelegates.NvGetPStateV1Delegate NvGetPStateV1 { get; private set; }
-        internal static NvDelegates.NvGetPStateV2Delegate NvGetPStateV2 { get; private set; }
-        internal static NvDelegates.NvSetPStateV1Delegate NvSetPStateV1 { get; private set; }
-        internal static NvDelegates.NvSetPStateV2Delegate NvSetPStateV2 { get; private set; }
-        internal static NvDelegates.NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2 { get; private set; }
-
-        internal static NvDelegates.NvThermalPoliciesGetInfoDelegate NvThermalPoliciesGetInfo { get; private set; }
-        internal static NvDelegates.NvThermalPoliciesGetSetLimitDelegate NvThermalPoliciesGetLimit { get; private set; }
-        internal static NvDelegates.NvThermalPoliciesGetSetLimitDelegate NvThermalPoliciesSetLimit { get; private set; }
-
-        internal static NvDelegates.NvPowerPoliciesGetInfoDelegate NvPowerPoliciesGetInfo { get; private set; }
-
-        internal static NvDelegates.NvGetCoolerSettingsDelegate NvGetCoolerSettings { get; private set; }
-        internal static NvDelegates.NvSetCoolerLevelsDelegate NvSetCoolerLevels { get; private set; }
-        internal static NvDelegates.NvRestoreCoolerSettingsDelegate NvRestoreCoolerSettings { get; private set; }
-
-        internal static NvDelegates.NvFanCoolersGetInfoDelegate NvFanCoolersGetInfo { get; private set; }
-        internal static NvDelegates.NvFanCoolersGetStatusDelegate NvFanCoolersGetStatus { get; private set; }
-        internal static NvDelegates.NvFanCoolersGetControlDelegate NvFanCoolersGetControl { get; private set; }
-        internal static NvDelegates.NvFanCoolersSetControlDelegate NvFanCoolersSetControl { get; private set; }
+        // 以下属性要求必须是外部可见的static，不能是private的
+        [Id(0xE5AC921F)]
+        internal static NvEnumPhysicalGPUsDelegate NvEnumPhysicalGPUs { get; private set; }
+        [Id(0xD9930B07)]
+        internal static NvEnumTCCPhysicalGPUsDelegate NvEnumTCCPhysicalGPUs { get; private set; }
+        [Id(0x1BE0B8E5)]
+        internal static NvGetBusIdDelegate NvGetBusID { get; private set; }
+        [Id(0x5F608315)]
+        internal static NvGetTachReadingDelegate NvGetTachReading { get; private set; }
+        [Id(0x60DED2ED)]
+        internal static NvGetPStatesDelegate NvGetPStates { get; private set; }
+        [Id(0x70916171)]
+        internal static NvPowerPoliciesGetStatusDelegate NvPowerPoliciesGetStatus { get; private set; }
+        [Id(0xAD95F5ED)]
+        internal static NvPowerPoliciesSetStatusDelegate NvPowerPoliciesSetStatus { get; private set; }
+        [Id(0x6FF81213)]
+        internal static NvGetPStateV1Delegate NvGetPStateV1 { get; private set; }
+        [Id(0x6FF81213)]
+        internal static NvGetPStateV2Delegate NvGetPStateV2 { get; private set; }
+        [Id(0x0F4DAE6B)]
+        internal static NvSetPStateV1Delegate NvSetPStateV1 { get; private set; }
+        [Id(0x0F4DAE6B)]
+        internal static NvSetPStateV2Delegate NvSetPStateV2 { get; private set; }
+        [Id(0xDCB616C3)]
+        internal static NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2 { get; private set; }
+        [Id(0x0D258BB5)]
+        internal static NvThermalPoliciesGetInfoDelegate NvThermalPoliciesGetInfo { get; private set; }
+        [Id(0xE9C425A1)]
+        internal static NvThermalPoliciesGetSetLimitDelegate NvThermalPoliciesGetLimit { get; private set; }
+        [Id(0x34C0B13D)]
+        internal static NvThermalPoliciesGetSetLimitDelegate NvThermalPoliciesSetLimit { get; private set; }
+        [Id(0x34206D86)]
+        internal static NvPowerPoliciesGetInfoDelegate NvPowerPoliciesGetInfo { get; private set; }
+        [Id(0xDA141340)]
+        internal static NvGetCoolerSettingsDelegate NvGetCoolerSettings { get; private set; }
+        [Id(0x891FA0AE)]
+        internal static NvSetCoolerLevelsDelegate NvSetCoolerLevels { get; private set; }
+        [Id(0x8F6ED0FB)]
+        internal static NvRestoreCoolerSettingsDelegate NvRestoreCoolerSettings { get; private set; }
+        [Id(0xFB85B01E)]
+        internal static NvFanCoolersGetInfoDelegate NvFanCoolersGetInfo { get; private set; }
+        [Id(0x35AED5E8)]
+        internal static NvFanCoolersGetStatusDelegate NvFanCoolersGetStatus { get; private set; }
+        [Id(0x814B209F)]
+        internal static NvFanCoolersGetControlDelegate NvFanCoolersGetControl { get; private set; }
+        [Id(0xA58971A5)]
+        internal static NvFanCoolersSetControlDelegate NvFanCoolersSetControl { get; private set; }
 
         #endregion
 
-        private static T GetDelegate<T>(uint id)
-            where T : class {
+        private static void SetDelegate(PropertyInfo property, uint id) {
             IntPtr ptr = NvQueryInterface(id);
             if (ptr != IntPtr.Zero) {
-                return Marshal.GetDelegateForFunctionPointer(ptr, typeof(T)) as T;
-            }
-            else {
-                return null;
+                var newDelegate = Marshal.GetDelegateForFunctionPointer(ptr, property.PropertyType);
+                property.SetValue(null, newDelegate, null);
             }
         }
 
@@ -58,10 +113,12 @@ namespace NTMiner.Gpus.Nvapi {
             attribute.CallingConvention = CallingConvention.Cdecl;
             attribute.PreserveSig = true;
             attribute.EntryPoint = "nvapi_QueryInterface";
-            PInvokeDelegateFactory.CreateDelegate(attribute, out NvQueryInterface);
+            PInvokeDelegateFactory.CreateDelegate(attribute, typeof(NvQueryInterfaceDelegate), out object newDelegate);
+            NvQueryInterface = (NvQueryInterfaceDelegate)newDelegate;
 
             try {
-                NvInitialize = GetDelegate<NvInitializeDelegate>(0x0150E828);
+                IntPtr ptr = NvQueryInterface(0x0150E828);
+                NvInitialize = (NvInitializeDelegate)Marshal.GetDelegateForFunctionPointer(ptr, typeof(NvInitializeDelegate));
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(e);
@@ -69,34 +126,12 @@ namespace NTMiner.Gpus.Nvapi {
             }
 
             if (NvInitialize() == NvStatus.NVAPI_OK) {
-                NvGetTachReading = GetDelegate<NvDelegates.NvGetTachReadingDelegate>(0x5F608315);
-                NvGetPStates = GetDelegate<NvDelegates.NvGetPStatesDelegate>(0x60DED2ED);
-                NvEnumPhysicalGPUs = GetDelegate<NvDelegates.NvEnumPhysicalGPUsDelegate>(0xE5AC921F);
-                NvEnumTCCPhysicalGPUs = GetDelegate<NvDelegates.NvEnumTCCPhysicalGPUsDelegate>(0xD9930B07);
-                NvGetBusID = GetDelegate<NvDelegates.NvGetBusIdDelegate>(0x1BE0B8E5);
-
-                NvGetPStateV1 = GetDelegate<NvDelegates.NvGetPStateV1Delegate>(0x6FF81213);
-                NvGetPStateV2 = GetDelegate<NvDelegates.NvGetPStateV2Delegate>(0x6FF81213);
-                NvSetPStateV1 = GetDelegate<NvDelegates.NvSetPStateV1Delegate>(0x0F4DAE6B);
-                NvSetPStateV2 = GetDelegate<NvDelegates.NvSetPStateV2Delegate>(0x0F4DAE6B);
-                NvGetAllClockFrequenciesV2 = GetDelegate<NvDelegates.NvGetAllClockFrequenciesV2Delegate>(0xDCB616C3);
-
-                NvThermalPoliciesGetInfo = GetDelegate<NvDelegates.NvThermalPoliciesGetInfoDelegate>(0x0D258BB5);
-                NvThermalPoliciesGetLimit = GetDelegate<NvDelegates.NvThermalPoliciesGetSetLimitDelegate>(0xE9C425A1);
-                NvThermalPoliciesSetLimit = GetDelegate<NvDelegates.NvThermalPoliciesGetSetLimitDelegate>(0x34C0B13D);
-
-                NvPowerPoliciesGetStatus = GetDelegate<NvDelegates.NvPowerPoliciesGetStatusDelegate>(0x70916171);
-                NvPowerPoliciesSetStatus = GetDelegate<NvDelegates.NvPowerPoliciesSetStatusDelegate>(0xAD95F5ED);
-                NvPowerPoliciesGetInfo = GetDelegate<NvDelegates.NvPowerPoliciesGetInfoDelegate>(0x34206D86);
-
-                NvGetCoolerSettings = GetDelegate<NvDelegates.NvGetCoolerSettingsDelegate>(0xDA141340);
-                NvSetCoolerLevels = GetDelegate<NvDelegates.NvSetCoolerLevelsDelegate>(0x891FA0AE);
-                NvRestoreCoolerSettings = GetDelegate<NvDelegates.NvRestoreCoolerSettingsDelegate>(0x8F6ED0FB);
-
-                NvFanCoolersGetInfo = GetDelegate<NvDelegates.NvFanCoolersGetInfoDelegate>(0xFB85B01E);
-                NvFanCoolersGetStatus = GetDelegate<NvDelegates.NvFanCoolersGetStatusDelegate>(0x35AED5E8);
-                NvFanCoolersGetControl = GetDelegate<NvDelegates.NvFanCoolersGetControlDelegate>(0x814B209F);
-                NvFanCoolersSetControl = GetDelegate<NvDelegates.NvFanCoolersSetControlDelegate>(0xA58971A5);
+                Type t = typeof(NvapiNativeMethods);
+                var properties = t.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.SetProperty);
+                foreach (var property in properties) {
+                    var id = ((IdAttribute)property.GetCustomAttributes(typeof(IdAttribute), inherit: false).First()).Id;
+                    SetDelegate(property, id);
+                }
             }
         }
     }

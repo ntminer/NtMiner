@@ -1,5 +1,5 @@
-﻿using NTMiner.Core.Gpus;
-using NTMiner.Core.Redis;
+﻿using NTMiner.Core.Redis;
+using NTMiner.Gpus;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -55,28 +55,6 @@ namespace NTMiner.Core.Impl {
             }
         }
 
-        public void Set(GpuName gpuName) {
-            if (!IsReadied) {
-                return;
-            }
-            if (gpuName == null || !gpuName.IsValid()) {
-                return;
-            }
-            _gpuNameSet.Add(gpuName);
-            _gpuNameRedis.SetAsync(gpuName);
-        }
-
-        public void Remove(GpuName gpuName) {
-            if (!IsReadied) {
-                return;
-            }
-            if (gpuName == null || !gpuName.IsValid()) {
-                return;
-            }
-            _gpuNameSet.Remove(gpuName);
-            _gpuNameRedis.DeleteAsync(gpuName);
-        }
-
         public List<GpuNameCount> QueryGpuNameCounts(QueryGpuNameCountsRequest query, out int total) {
             List<KeyValuePair<GpuName, int>> list = new List<KeyValuePair<GpuName, int>>();
             bool isFilterByKeyword = !string.IsNullOrEmpty(query.Keyword);
@@ -97,13 +75,6 @@ namespace NTMiner.Core.Impl {
                 GpuType = a.Key.GpuType,
                 TotalMemory = a.Key.TotalMemory
             }).ToList();
-        }
-
-        public List<GpuName> GetAllGpuNames() {
-            if (!IsReadied) {
-                return new List<GpuName>();
-            }
-            return _gpuNameSet.ToList();
         }
     }
 }

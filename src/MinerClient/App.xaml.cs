@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerClient;
+using NTMiner.Gpus;
 using NTMiner.Mine;
 using NTMiner.Notifications;
 using NTMiner.RemoteDesktop;
@@ -15,14 +16,13 @@ using System.Windows;
 
 namespace NTMiner {
     public partial class App : Application {
-        public static readonly string SwitchRadeonGpuResourceName = "switch-radeon-gpu.exe";
-        public static readonly string SwitchRadeonGpuFileFullName = Path.Combine(TempPath.TempDirFullName, SwitchRadeonGpuResourceName);
-        public static readonly string AtikmdagPatcherResourceName = "atikmdag-patcher1.4.7.exe";
-        public static readonly string AtikmdagPatcherFileFullName = Path.Combine(TempPath.TempDirFullName, AtikmdagPatcherResourceName);
         public static readonly string BlockWAUResourceName = "BlockWAU.bat";
         public static readonly string BlockWAUFileFullName = Path.Combine(TempPath.TempDirFullName, BlockWAUResourceName);
 
         public App() {
+            if ((NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart) && NTMinerRegistry.GetIsNoUi()) {
+                NTMinerConsole.Disable();
+            }
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             Logger.SetDir(MinerClientTempPath.TempLogsDirFullName);
             WpfUtil.Init();
@@ -43,7 +43,6 @@ namespace NTMiner {
         protected override void OnStartup(StartupEventArgs e) {
             BuildCommonPaths();
 
-            NotiCenterWindow.ShowWindow();
             // 升级挖矿端
             if (!string.IsNullOrEmpty(CommandLineArgs.Upgrade)) {
                 // 启动计时器以放置后续的逻辑中用到计时器
@@ -60,6 +59,7 @@ namespace NTMiner {
 
         private void DoRun() {
             if (AppUtil.GetMutex(NTKeyword.MinerClientAppMutex)) {
+                NotiCenterWindow.ShowWindow();
                 Logger.InfoDebugLine($"==================NTMiner.exe {EntryAssemblyInfo.CurrentVersionStr}==================");
                 // 在另一个UI线程运行欢迎界面以确保欢迎界面的响应不被耗时的主界面初始化过程阻塞
                 // 注意：必须确保SplashWindow没有用到任何其它界面用到的依赖对象
@@ -101,7 +101,7 @@ namespace NTMiner {
                     UIThread.Execute(() => {
                         Window mainWindow = null;
                         AppRoot.NotifyIcon = ExtendedNotifyIcon.Create("开源矿工", isMinerStudio: false);
-                        if (NTMinerContext.Instance.MinerProfile.IsNoUi && NTMinerContext.Instance.MinerProfile.IsAutoStart) {
+                        if (NTMinerRegistry.GetIsNoUi() && NTMinerRegistry.GetIsAutoStart()) {
                             ConsoleWindow.Instance.Hide();
                             VirtualRoot.Out.ShowSuccess("以无界面模式启动，可在选项页调整设置", header: "开源矿工");
                         }
@@ -278,26 +278,14 @@ namespace NTMiner {
             #region 处理开启A卡计算模式
             VirtualRoot.AddCmdPath<SwitchRadeonGpuCommand>(action: message => {
                 if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.AMD) {
-                    SwitchRadeonGpu.SwitchRadeonGpu.Run(message.On).ContinueWith(t => {
-                        if (t.Exception == null) {
-                            if (message.On) {
-                                VirtualRoot.ThisLocalInfo(nameof(App), "开启A卡计算模式成功", OutEnum.Success);
-                            }
-                            else {
-                                VirtualRoot.ThisLocalInfo(nameof(App), "关闭A卡计算模式成功", OutEnum.Success);
-                            }
-                        }
-                        else {
-                            VirtualRoot.Out.ShowError(t.Exception.Message, autoHideSeconds: 4);
-                        }
-                    });
+                    AppRoot.SwitchRadeonGpu(message.On);
                 }
             }, location: this.GetType());
             #endregion
             #region 处理A卡驱动签名
             VirtualRoot.AddCmdPath<AtikmdagPatcherCommand>(action: message => {
                 if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.AMD) {
-                    AtikmdagPatcher.AtikmdagPatcherUtil.Run();
+                    AppRoot.OpenAtikmdagPatcher();
                 }
             }, location: this.GetType());
             #endregion
@@ -321,7 +309,13 @@ namespace NTMiner {
                 if (NTMiner.Windows.OS.Instance.IsAutoAdminLogon) {
                     return;
                 }
-                NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
+                if (NTMiner.Windows.OS.Instance.IsGEWindows2004) {
+                    WindowsAutoLogon.ShowWindow();
+                }
+                else {
+                    VirtualRoot.Execute(new UnTopmostCommand());
+                    NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
+                }
             }, location: this.GetType());
             #endregion
         }

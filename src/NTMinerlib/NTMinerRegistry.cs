@@ -117,6 +117,32 @@ namespace NTMiner {
         }
         #endregion
 
+        public static bool GetIsValueNameExist(string valueName) {
+            return Windows.WinRegistry.GetIsValueNameExist(Registry.Users, NTMinerRegistrySubKey, valueName);
+        }
+
+        #region IsNoUi
+        public static bool GetIsNoUi() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi");
+            return value != null && value.ToString() == "true";
+        }
+
+        public static void SetIsNoUi(bool isNoUi) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsNoUi", isNoUi ? "true" : "false");
+        }
+        #endregion
+
+        #region IsAutoStart
+        public static bool GetIsAutoStart() {
+            object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart");
+            return value != null && value.ToString() == "true";
+        }
+
+        public static void SetIsAutoStart(bool isAutoStart) {
+            Windows.WinRegistry.SetValue(Registry.Users, NTMinerRegistrySubKey, "IsAutoStart", isAutoStart ? "true" : "false");
+        }
+        #endregion
+
         #region LoginName
         public static string GetLoginName() {
             object value = Windows.WinRegistry.GetValue(Registry.Users, NTMinerRegistrySubKey, NTKeyword.ControlCenterLoginName);

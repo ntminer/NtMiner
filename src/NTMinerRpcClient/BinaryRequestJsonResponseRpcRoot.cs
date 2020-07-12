@@ -35,7 +35,7 @@ namespace NTMiner {
                             bytes = new byte[0];
                         }
                         HttpContent content = new ByteArrayContent(bytes);
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}", content);
+                        Task<HttpResponseMessage> getHttpResponse = client.PostAsync(RpcRoot.GetUrl(host, port, controller, action, query), content);
                         getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
                             callback?.Invoke(t.Result, null);
                         });

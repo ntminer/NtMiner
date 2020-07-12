@@ -1,6 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
-using NTMiner.Core.MinerClient;
+﻿using NTMiner.Gpus;
 using System;
 using System.Linq;
 using System.Windows.Media;

@@ -1,22 +1,40 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 
 namespace NTMiner.Gpus.Adl {
-    internal class AdlNativeMethods {
-        private delegate AdlStatus ADL_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters);
-        internal delegate AdlStatus ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocDelegate callback, int enumConnectedAdapters, ref IntPtr context);
-        private delegate AdlStatus ADL_Adapter_AdapterInfo_GetDelegate(IntPtr info, int size);
+    public static class AdlNativeMethods {
+        internal delegate IntPtr ADL_Main_Memory_AllocCallback(int size);
+        internal delegate AdlStatus ADL_Main_Control_CreateDelegate(ADL_Main_Memory_AllocCallback callback, int enumConnectedAdapters);
+        internal delegate AdlStatus ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocCallback callback, int enumConnectedAdapters, out IntPtr context);
+        internal delegate AdlStatus ADL_Adapter_AdapterInfo_GetDelegate(IntPtr info, int size);
+        internal delegate AdlStatus ADL2_Adapter_AdapterInfo_GetDelegate(IntPtr context, ref IntPtr info, int size);
 
-        internal delegate AdlStatus ADL_Main_Control_DestroyDelegate();
+        public delegate AdlStatus ADL_Main_Control_DestroyDelegate();
+        public delegate AdlStatus ADL2_Main_Control_DestroyDelegate(IntPtr context);
         internal delegate AdlStatus ADL_Adapter_NumberOfAdapters_GetDelegate(ref int numAdapters);
+        internal delegate AdlStatus ADL2_Adapter_NumberOfAdapters_GetDelegate(IntPtr context, ref int numAdapters);
+        internal delegate AdlStatus ADL_Adapter_Active_GetDelegate(int adapterIndex, out int status);
+        internal delegate AdlStatus ADL_Overdrive5_CurrentActivity_GetDelegate(int iAdapterIndex, ref ADLPMActivity activity);
         internal delegate AdlStatus ADL_Overdrive5_Temperature_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLTemperature temperature);
+        internal delegate AdlStatus ADL2_OverdriveN_Temperature_GetDelegate(IntPtr context, int adapterIndex, ADLODNTemperatureType temperatureType, out int temperature);
         internal delegate AdlStatus ADL_Overdrive5_FanSpeed_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-        internal delegate AdlStatus ADL2_Overdrive5_FanSpeedToDefault_SetDelegate(IntPtr context, int adapterIndex, int thermalControllerIndex);
         internal delegate AdlStatus ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-        internal delegate AdlStatus ADL2_OverdriveN_PowerLimit_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
+        internal delegate AdlStatus ADL_Overdrive5_FanSpeedInfo_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedInfo fanSpeedInfo);
+        internal delegate AdlStatus ADL_Overdrive5_FanSpeedToDefault_SetDelegate(int adapterIndex, int thermalControllerIndex);
+        internal delegate AdlStatus ADL2_Overdrive5_FanSpeedToDefault_SetDelegate(IntPtr context, int adapterIndex, int thermalControllerIndex);
+        internal delegate AdlStatus ADL2_OverdriveN_FanControl_GetDelegate(IntPtr context, int adapterIndex, out ADLOverdriveFanControl fanControl);
+        internal delegate AdlStatus ADL2_OverdriveN_FanControl_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLOverdriveFanControl fanControl);
+        internal delegate AdlStatus ADL_Overdrive_CapsDelegate(int adapterIndex, out int supported, out int enabled, out int version);
+        internal delegate AdlStatus ADL2_Overdrive_CapsDelegate(IntPtr context, int adapterIndex, out int supported, out int enabled, out int version);
+        internal delegate AdlStatus ADL2_OverdriveN_PowerLimit_GetDelegate(IntPtr context, int iAdapterIndex, out ADLODNPowerLimitSetting lpODPowerLimit);
         internal delegate AdlStatus ADL2_OverdriveN_PowerLimit_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPowerLimitSetting lpODPowerLimit);
-        internal delegate AdlStatus ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, int iPowerType, ref int lpCurrentValue);
+        internal delegate AdlStatus ADL2_Overdrive6_CurrentPower_GetDelegate(IntPtr context, int iAdapterIndex, ADLODNCurrentPowerType powerType, out int lpCurrentValue);
+        internal delegate AdlStatus ADL2_New_QueryPMLogData_GetDelegate(IntPtr context, int adapterIndex, ref ADLPMLogDataOutput dataOutput);
+        internal delegate AdlStatus ADL_Overdrive5_ODParameters_GetDelegate(int adapterIndex, out ADLODParameters parameters);
+        internal delegate AdlStatus ADL2_OverdriveN_PerformanceStatus_GetDelegate(IntPtr context, int adapterIndex, out ADLODNPerformanceStatus performanceStatus);
+        internal delegate AdlStatus ADL_Graphics_Versions_GetDelegate(out ADLVersionsInfo versionInfo);
         internal delegate AdlStatus ADL_Adapter_MemoryInfo_GetDelegate(int iAdapterIndex, ref ADLMemoryInfo lpMemoryInfo);
         internal delegate AdlStatus ADL2_Graphics_VersionsX2_GetDelegate(IntPtr context, ref ADLVersionsInfoX2 lpVersionsInfo);
         internal delegate AdlStatus ADL2_OverdriveN_MemoryClocksX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
@@ -25,92 +43,98 @@ namespace NTMiner.Gpus.Adl {
         internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate AdlStatus ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
         internal delegate AdlStatus ADL2_Overdrive6_FanSpeed_ResetDelegate(IntPtr context, int iAdapterIndex);
+        internal delegate AdlStatus ADL2_Overdrive8_Current_SettingX2_GetDelegate(IntPtr context, int iAdapterIndex, ref int lpNumberOfFeatures, out IntPtr lppCurrentSettingList);
+        internal delegate AdlStatus ADL2_Overdrive8_Init_SettingX2_GetDelegate(IntPtr context, int iAdapterIndex, out int lpOverdrive8Capabilities, ref int lpNumberOfFeatures, out IntPtr lppInitSettingList);
+        internal delegate AdlStatus ADL2_Overdrive8_Init_Setting_GetDelegate(IntPtr context, int iAdapterIndex, out ADLOD8InitSetting lpInitSetting);
+        internal delegate AdlStatus ADL2_Overdrive8_Setting_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLOD8SetSetting lpSetSetting, out ADLOD8CurrentSetting lpCurrentSetting);
 
-        private static ADL_Main_Control_CreateDelegate _ADL_Main_Control_Create;
-        internal static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create;
-        private static ADL_Adapter_AdapterInfo_GetDelegate _ADL_Adapter_AdapterInfo_Get;
+        // 以下属性要求必须是外部可见的static，不能是private的
+        // 注意属性名是EnterPoint，不要改名
+        internal static ADL_Main_Control_CreateDelegate ADL_Main_Control_Create { get; private set; }
+        internal static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create { get; private set; }
+        internal static ADL_Adapter_AdapterInfo_GetDelegate ADL_Adapter_AdapterInfo_Get { get; private set; }
+        internal static ADL2_Adapter_AdapterInfo_GetDelegate ADL2_Adapter_AdapterInfo_Get { get; set; }
+        internal static ADL_Main_Control_DestroyDelegate ADL_Main_Control_Destroy { get; private set; }
+        internal static ADL2_Main_Control_DestroyDelegate ADL2_Main_Control_Destroy { get; private set; }
+        internal static ADL_Adapter_NumberOfAdapters_GetDelegate ADL_Adapter_NumberOfAdapters_Get { get; private set; }
+        internal static ADL2_Adapter_NumberOfAdapters_GetDelegate ADL2_Adapter_NumberOfAdapters_Get { get; private set; }
+        internal static ADL_Adapter_Active_GetDelegate ADL_Adapter_Active_Get { get; private set; }
+        internal static ADL_Overdrive5_CurrentActivity_GetDelegate ADL_Overdrive5_CurrentActivity_Get { get; private set; }
+        internal static ADL_Overdrive5_Temperature_GetDelegate ADL_Overdrive5_Temperature_Get { get; private set; }
+        internal static ADL2_OverdriveN_Temperature_GetDelegate ADL2_OverdriveN_Temperature_Get { get; private set; }
+        internal static ADL_Overdrive5_FanSpeed_GetDelegate ADL_Overdrive5_FanSpeed_Get { get; private set; }
+        internal static ADL_Overdrive5_FanSpeed_SetDelegate ADL_Overdrive5_FanSpeed_Set { get; private set; }
+        internal static ADL_Overdrive5_FanSpeedInfo_GetDelegate ADL_Overdrive5_FanSpeedInfo_Get { get; private set; }
+        internal static ADL_Overdrive5_FanSpeedToDefault_SetDelegate ADL_Overdrive5_FanSpeedToDefault_Set { get; private set; }
+        internal static ADL2_Overdrive5_FanSpeedToDefault_SetDelegate ADL2_Overdrive5_FanSpeedToDefault_Set { get; private set; }
+        internal static ADL2_OverdriveN_FanControl_GetDelegate ADL2_OverdriveN_FanControl_Get { get; private set; }
+        internal static ADL2_OverdriveN_FanControl_SetDelegate ADL2_OverdriveN_FanControl_Set { get; private set; }
+        internal static ADL_Overdrive_CapsDelegate ADL_Overdrive_Caps { get; private set; }
+        internal static ADL2_Overdrive_CapsDelegate ADL2_Overdrive_Caps { get; private set; }
+        internal static ADL2_OverdriveN_PowerLimit_GetDelegate ADL2_OverdriveN_PowerLimit_Get { get; private set; }
+        internal static ADL2_Overdrive6_CurrentPower_GetDelegate ADL2_Overdrive6_CurrentPower_Get { get; private set; }
+        internal static ADL2_New_QueryPMLogData_GetDelegate ADL2_New_QueryPMLogData_Get { get; private set; }
+        internal static ADL_Overdrive5_ODParameters_GetDelegate ADL_Overdrive5_ODParameters_Get { get; private set; }
+        internal static ADL2_OverdriveN_PerformanceStatus_GetDelegate ADL2_OverdriveN_PerformanceStatus_Get { get; private set; }
+        internal static ADL_Graphics_Versions_GetDelegate ADL_Graphics_Versions_Get { get; private set; }
+        internal static ADL2_OverdriveN_PowerLimit_SetDelegate ADL2_OverdriveN_PowerLimit_Set { get; private set; }
+        internal static ADL_Adapter_MemoryInfo_GetDelegate ADL_Adapter_MemoryInfo_Get { get; private set; }
+        internal static ADL2_Graphics_VersionsX2_GetDelegate ADL2_Graphics_VersionsX2_Get { get; private set; }
+        internal static ADL2_OverdriveN_MemoryClocksX2_GetDelegate ADL2_OverdriveN_MemoryClocksX2_Get { get; private set; }
+        internal static ADL2_OverdriveN_MemoryClocksX2_SetDelegate ADL2_OverdriveN_MemoryClocksX2_Set { get; private set; }
+        internal static ADL2_OverdriveN_SystemClocksX2_GetDelegate ADL2_OverdriveN_SystemClocksX2_Get { get; private set; }
+        internal static ADL2_OverdriveN_SystemClocksX2_SetDelegate ADL2_OverdriveN_SystemClocksX2_Set { get; private set; }
+        internal static ADL2_OverdriveN_CapabilitiesX2_GetDelegate ADL2_OverdriveN_CapabilitiesX2_Get { get; private set; }
+        internal static ADL2_Overdrive6_FanSpeed_ResetDelegate ADL2_Overdrive6_FanSpeed_Reset { get; private set; }
+        internal static ADL2_Overdrive8_Current_SettingX2_GetDelegate ADL2_Overdrive8_Current_SettingX2_Get { get; private set; }
+        internal static ADL2_Overdrive8_Init_SettingX2_GetDelegate ADL2_Overdrive8_Init_SettingX2_Get { get; private set; }
+        internal static ADL2_Overdrive8_Init_Setting_GetDelegate ADL2_Overdrive8_Init_Setting_Get { get; private set; }
+        internal static ADL2_Overdrive8_Setting_SetDelegate ADL2_Overdrive8_Setting_Set { get; private set; }
 
-        private static ADL_Main_Control_DestroyDelegate ADL_Main_Control_Destroy;
-        internal static ADL_Adapter_NumberOfAdapters_GetDelegate ADL_Adapter_NumberOfAdapters_Get;
-        internal static ADL_Overdrive5_Temperature_GetDelegate ADL_Overdrive5_Temperature_Get;
-        internal static ADL_Overdrive5_FanSpeed_GetDelegate ADL_Overdrive5_FanSpeed_Get;
-        internal static ADL2_Overdrive5_FanSpeedToDefault_SetDelegate ADL2_Overdrive5_FanSpeedToDefault_Set;
-        internal static ADL_Overdrive5_FanSpeed_SetDelegate ADL_Overdrive5_FanSpeed_Set;
-        internal static ADL2_OverdriveN_PowerLimit_GetDelegate ADL2_OverdriveN_PowerLimit_Get;
-        internal static ADL2_Overdrive6_CurrentPower_GetDelegate ADL2_Overdrive6_CurrentPower_Get;
-        internal static ADL2_OverdriveN_PowerLimit_SetDelegate ADL2_OverdriveN_PowerLimit_Set;
-        internal static ADL_Adapter_MemoryInfo_GetDelegate ADL_Adapter_MemoryInfo_Get;
-        internal static ADL2_Graphics_VersionsX2_GetDelegate ADL2_Graphics_VersionsX2_Get;
-        internal static ADL2_OverdriveN_MemoryClocksX2_GetDelegate ADL2_OverdriveN_MemoryClocksX2_Get;
-        internal static ADL2_OverdriveN_MemoryClocksX2_SetDelegate ADL2_OverdriveN_MemoryClocksX2_Set;
-        internal static ADL2_OverdriveN_SystemClocksX2_GetDelegate ADL2_OverdriveN_SystemClocksX2_Get;
-        internal static ADL2_OverdriveN_SystemClocksX2_SetDelegate ADL2_OverdriveN_SystemClocksX2_Set;
-        internal static ADL2_OverdriveN_CapabilitiesX2_GetDelegate ADL2_OverdriveN_CapabilitiesX2_Get;
-        internal static ADL2_Overdrive6_FanSpeed_ResetDelegate ADL2_Overdrive6_FanSpeed_Reset;
-
-        private static string dllName;
-
-        private static void GetDelegate<T>(string entryPoint, out T newDelegate)
-          where T : class {
-            DllImportAttribute attribute = new DllImportAttribute(dllName) {
-                CallingConvention = CallingConvention.Cdecl,
-                PreserveSig = true,
-                EntryPoint = entryPoint
-            };
-            PInvokeDelegateFactory.CreateDelegate(attribute, out newDelegate);
-        }
-
-        private static void CreateDelegates(string name) {
-            dllName = name + ".dll";
-
-            GetDelegate(nameof(ADL_Main_Control_Create), out _ADL_Main_Control_Create);
-            GetDelegate(nameof(ADL2_Main_Control_Create), out ADL2_Main_Control_Create);
-            GetDelegate(nameof(ADL_Adapter_AdapterInfo_Get), out _ADL_Adapter_AdapterInfo_Get);
-            GetDelegate(nameof(ADL_Main_Control_Destroy), out ADL_Main_Control_Destroy);
-            GetDelegate(nameof(ADL_Adapter_NumberOfAdapters_Get), out ADL_Adapter_NumberOfAdapters_Get);
-            GetDelegate(nameof(ADL_Overdrive5_Temperature_Get), out ADL_Overdrive5_Temperature_Get);
-            GetDelegate(nameof(ADL_Overdrive5_FanSpeed_Get), out ADL_Overdrive5_FanSpeed_Get);
-            GetDelegate(nameof(ADL2_Overdrive5_FanSpeedToDefault_Set), out ADL2_Overdrive5_FanSpeedToDefault_Set);
-            GetDelegate(nameof(ADL_Overdrive5_FanSpeed_Set), out ADL_Overdrive5_FanSpeed_Set);
-            GetDelegate(nameof(ADL2_OverdriveN_PowerLimit_Get), out ADL2_OverdriveN_PowerLimit_Get);
-            GetDelegate(nameof(ADL2_Overdrive6_CurrentPower_Get), out ADL2_Overdrive6_CurrentPower_Get);
-            GetDelegate(nameof(ADL2_OverdriveN_PowerLimit_Set), out ADL2_OverdriveN_PowerLimit_Set);
-            GetDelegate(nameof(ADL_Adapter_MemoryInfo_Get), out ADL_Adapter_MemoryInfo_Get);
-            GetDelegate(nameof(ADL2_Graphics_VersionsX2_Get), out ADL2_Graphics_VersionsX2_Get);
-            GetDelegate(nameof(ADL2_OverdriveN_MemoryClocksX2_Get), out ADL2_OverdriveN_MemoryClocksX2_Get);
-            GetDelegate(nameof(ADL2_OverdriveN_MemoryClocksX2_Set), out ADL2_OverdriveN_MemoryClocksX2_Set);
-            GetDelegate(nameof(ADL2_OverdriveN_SystemClocksX2_Get), out ADL2_OverdriveN_SystemClocksX2_Get);
-            GetDelegate(nameof(ADL2_OverdriveN_SystemClocksX2_Set), out ADL2_OverdriveN_SystemClocksX2_Set);
-            GetDelegate(nameof(ADL2_OverdriveN_CapabilitiesX2_Get), out ADL2_OverdriveN_CapabilitiesX2_Get);
-            GetDelegate(nameof(ADL2_Overdrive6_FanSpeed_Reset), out ADL2_Overdrive6_FanSpeed_Reset);
-        }
-
-        static AdlNativeMethods() {
-            CreateDelegates("atiadlxx");
-        }
-
-        private AdlNativeMethods() { }
-
-        internal static AdlStatus ADL_Main_Control_Create(int enumConnectedAdapters) {
+        internal static AdlStatus ADLMainControlCreate(out IntPtr context) {
+            AdlStatus r;
+            string dllName = "atiadlxx.dll";
             try {
+                CreateDelegates(dllName);
+                r = ADL_Main_Control_Create(Marshal.AllocHGlobal, 1);
+            }
+            catch(Exception e) {
+                Logger.ErrorDebugLine(e);
                 try {
-                    return _ADL_Main_Control_Create(Main_Memory_Alloc, enumConnectedAdapters);
+                    dllName = "atiadlxy.dll";
+                    CreateDelegates(dllName);
+                    r = ADL_Main_Control_Create(Marshal.AllocHGlobal, 1);
                 }
-                catch {
-                    CreateDelegates("atiadlxy");
-                    return _ADL_Main_Control_Create(Main_Memory_Alloc, enumConnectedAdapters);
+                catch(Exception ex) {
+                    Logger.ErrorDebugLine(ex);
+                    r = AdlStatus.ADL_ERR;
                 }
             }
-            catch {
-                return AdlStatus.ADL_ERR;
+            if (r < AdlStatus.ADL_OK) {
+                NTMinerConsole.DevError(() => $"{nameof(ADL_Main_Control_Create)} {r.ToString()} {dllName}");
+            }
+            ADL2MainControlCreate(out context);
+            return r;
+        }
+
+        private static void ADL2MainControlCreate(out IntPtr context) {
+            try {
+                var r = ADL2_Main_Control_Create(Marshal.AllocHGlobal, 1, out context);
+                if (r < AdlStatus.ADL_OK) {
+                    NTMinerConsole.DevError(() => $"{nameof(ADL2_Main_Control_Create)} {r.ToString()}");
+                }
+            }
+            catch (Exception ex) {
+                Logger.ErrorDebugLine(ex);
+                context = IntPtr.Zero;
             }
         }
 
-        internal static AdlStatus ADL_Adapter_AdapterInfo_Get(ADLAdapterInfo[] info) {
+        internal static AdlStatus ADLAdapterAdapterInfoGet(ADLAdapterInfo[] info) {
             int elementSize = Marshal.SizeOf(typeof(ADLAdapterInfo));
             int size = info.Length * elementSize;
             IntPtr ptr = Marshal.AllocHGlobal(size);
-            AdlStatus result = _ADL_Adapter_AdapterInfo_Get(ptr, size);
+            AdlStatus result = ADL_Adapter_AdapterInfo_Get(ptr, size);
             for (int i = 0; i < info.Length; i++) {
                 info[i] = (ADLAdapterInfo)Marshal.PtrToStructure((IntPtr)((long)ptr + i * elementSize), typeof(ADLAdapterInfo));
             }
@@ -137,11 +161,27 @@ namespace NTMiner.Gpus.Adl {
             return result;
         }
 
-        internal delegate IntPtr ADL_Main_Memory_AllocDelegate(int size);
+        private static void SetDelegate(PropertyInfo property, string dllName) {
+            DllImportAttribute attribute = new DllImportAttribute(dllName) {
+                CallingConvention = CallingConvention.Cdecl,
+                PreserveSig = true,
+                EntryPoint = property.Name
+            };
+            try {
+                PInvokeDelegateFactory.CreateDelegate(attribute, property.PropertyType, out object newDelegate);
+                property.SetValue(null, newDelegate, null);
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+        }
 
-        // create a Main_Memory_Alloc delegate and keep it alive
-        internal static ADL_Main_Memory_AllocDelegate Main_Memory_Alloc = (int size) => {
-            return Marshal.AllocHGlobal(size);
-        };
+        private static void CreateDelegates(string dllName) {
+            Type t = typeof(AdlNativeMethods);
+            var properties = t.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.SetProperty);
+            foreach (var property in properties) {
+                SetDelegate(property, dllName);
+            }
+        }
     }
 }

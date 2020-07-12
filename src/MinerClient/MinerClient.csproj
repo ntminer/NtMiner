@@ -114,9 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
-    <Compile Include="AtikmdagPatcher\AtikmdagPatcherUtil.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.cs" />
-    <Compile Include="SwitchRadeonGpu\SwitchRadeonGpu.cs" />
     <Compile Include="Windows\WindowsUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -222,12 +220,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="SwitchRadeonGpu\switch-radeon-gpu.exe" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="AtikmdagPatcher\atikmdag-patcher1.4.7.exe" />
   </ItemGroup>
   <ItemGroup>
     <SplashScreen Include="splashWindow.png" />

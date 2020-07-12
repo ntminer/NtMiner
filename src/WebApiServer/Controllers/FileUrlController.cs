@@ -70,7 +70,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get);
+                var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
                 var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
@@ -91,7 +91,7 @@ namespace NTMiner.Controllers {
                 else {
                     fileName = (string)setting.Value;
                 }
-                var req = new GeneratePresignedUriRequest("ntminer", fileName, SignHttpMethod.Get);
+                var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
                 var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
@@ -105,7 +105,49 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public string LiteDbExplorerUrl() {
             try {
-                var req = new GeneratePresignedUriRequest("ntminer", "LiteDBExplorerPortable.zip", SignHttpMethod.Get);
+                var req = new GeneratePresignedUriRequest("ntminer", "tools/LiteDBExplorerPortable.zip", SignHttpMethod.Get);
+                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+                return uri.ToString();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return string.Empty;
+            }
+        }
+
+        [Role.Public]
+        [HttpPost]
+        public string AtikmdagPatcherUrl() {
+            try {
+                string fileName;
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.MinerClientFinderFileNameAppSettingKey, out IAppSetting setting)) {
+                    fileName = NTKeyword.AtikmdagPatcherFileName;
+                }
+                else {
+                    fileName = (string)setting.Value;
+                }
+                var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
+                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+                return uri.ToString();
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+                return string.Empty;
+            }
+        }
+
+        [Role.Public]
+        [HttpPost]
+        public string SwitchRadeonGpuUrl() {
+            try {
+                string fileName;
+                if (!VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.MinerClientFinderFileNameAppSettingKey, out IAppSetting setting)) {
+                    fileName = NTKeyword.SwitchRadeonGpuFileName;
+                }
+                else {
+                    fileName = (string)setting.Value;
+                }
+                var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
                 var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }

@@ -28,7 +28,7 @@
             get {
                 // 只有挖矿端有This和Kernel两个频道
                 if (ClientAppType.IsMinerClient) {
-                    foreach (var item in NTMinerContext.LocalMessageChannelEnumItems) {
+                    foreach (var item in Enums.LocalMessageChannelEnumItems) {
                         yield return item;
                     }
                 }
@@ -54,7 +54,7 @@
             }
             foreach (var messageChannel in LocalMessageChannelEnumItems) {
                 var values = new Dictionary<LocalMessageType, MessageTypeItem<LocalMessageType>>();
-                foreach (var messageType in NTMinerContext.LocalMessageTypeEnumItems) {
+                foreach (var messageType in Enums.LocalMessageTypeEnumItems) {
                     values.Add(messageType.Value, new MessageTypeItem<LocalMessageType>(messageType, LocalMessageViewModel.GetIcon, LocalMessageViewModel.GetIconFill, RefreshQueryResults));
                 }
                 _count.Add(messageChannel, values);

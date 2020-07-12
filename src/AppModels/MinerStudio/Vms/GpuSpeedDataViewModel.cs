@@ -1,5 +1,5 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
+using NTMiner.Gpus;
 using NTMiner.Vms;
 using System;
 using System.Windows.Media;

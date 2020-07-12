@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerServer;
+using NTMiner.Gpus;
 using NTMiner.MinerStudio;
 using NTMiner.User;
 using NTMiner.Vms;
@@ -308,42 +309,42 @@ namespace NTMiner {
         #region EnumItems
         public static IEnumerable<EnumItem<SupportedGpu>> SupportedGpuEnumItems {
             get {
-                return NTMinerContext.SupportedGpuEnumItems;
+                return Enums.SupportedGpuEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<GpuType>> GpuTypeEnumItems {
             get {
-                return NTMinerContext.GpuTypeEnumItems;
+                return Enums.GpuTypeEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<PublishStatus>> PublishStatusEnumItems {
             get {
-                return NTMinerContext.PublishStatusEnumItems;
+                return Enums.PublishStatusEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<MineStatus>> MineStatusEnumItems {
             get {
-                return NTMinerContext.MineStatusEnumItems;
+                return Enums.MineStatusEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<UserStatus>> UserStatusEnumItems {
             get {
-                return NTMinerContext.UserStatusEnumItems;
+                return Enums.UserStatusEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<ServerMessageType>> ServerMessageTypeEnumItems {
             get {
-                return NTMinerContext.ServerMessageTypeEnumItems;
+                return Enums.ServerMessageTypeEnumItems;
             }
         }
 
         public static IEnumerable<EnumItem<LocalMessageType>> LocalMessageTypeEnumItems {
-            get { return NTMinerContext.LocalMessageTypeEnumItems; }
+            get { return Enums.LocalMessageTypeEnumItems; }
         }
         #endregion
 
@@ -540,6 +541,7 @@ namespace NTMiner {
             if (string.IsNullOrEmpty(url)) {
                 return;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -551,7 +553,7 @@ namespace NTMiner {
 
         public static ICommand ExportServerJson { get; private set; } = new DelegateCommand(() => {
             try {
-                NTMinerContext.ExportServerVersionJson(HomePath.ExportServerJsonFileFullName);
+                NTMinerContext.Instance.ExportServerVersionJson(HomePath.ExportServerJsonFileFullName);
                 VirtualRoot.Out.ShowSuccess($"{HomePath.ExportServerJsonFileName}", header: "导出成功");
             }
             catch (Exception e) {
@@ -628,6 +630,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "QQGroupJoinUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -636,6 +639,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "ShareTutorial", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -644,6 +648,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "SpeedTutorial", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -723,6 +728,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HelpUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
         public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
@@ -755,11 +761,21 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowLocalIpsCommand());
         });
 
+        public static ICommand OpenWindowsAutoLogonMoreInfo { get; private set; } = new DelegateCommand(() => {
+            string url = "https://support.microsoft.com/zh-cn/help/324737/how-to-turn-on-automatic-logon-in-windows";
+            if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "WindowsAutoLogonMoreInfo", out ISysDicItem dicItem)) {
+                url = dicItem.Value;
+            }
+            VirtualRoot.Execute(new UnTopmostCommand());
+            Process.Start(url);
+        });
+
         public static ICommand OpenOfficialSite { get; private set; } = new DelegateCommand(() => {
             string url = "http://ntminer.com/";
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "HomePageUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -837,6 +853,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "BusinessModelUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -845,6 +862,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "GithubUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -853,6 +871,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "LGPL", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -861,6 +880,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "DiscussUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -869,6 +889,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinerStudioTutorial", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -877,6 +898,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "DownloadMinerStudio", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 
@@ -885,6 +907,7 @@ namespace NTMiner {
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "WindowsZoomBug", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
+            VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
         });
 

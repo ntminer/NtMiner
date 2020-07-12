@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core.MinerServer;
+using NTMiner.Gpus;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;

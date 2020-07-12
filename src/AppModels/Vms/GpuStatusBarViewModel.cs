@@ -1,4 +1,4 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Gpus;
 using System.Linq;
 using System.Windows.Media;
 

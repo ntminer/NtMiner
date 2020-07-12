@@ -212,7 +212,7 @@ namespace NTMiner.MinerStudio.Vms {
                     RpcRoot.OfficialServer.UserMineWorkService.AddOrUpdateMineWorkAsync(new MineWorkData().Update(this), (r, ex) => {
                         if (r.IsSuccess()) {
                             if (isMinerProfileChanged) {
-                                NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
+                                NTMinerContext.Instance.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                                 if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                                     RpcRoot.OfficialServer.UserMineWorkService.ExportMineWorkAsync(this.Id, localJson, serverJson, (response, e) => {
                                         if (response.IsSuccess()) {
@@ -243,7 +243,7 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 else {
                     if (isMinerProfileChanged) {
-                        NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
+                        NTMinerContext.Instance.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                             MinerStudioService.Instance.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
                         }
@@ -256,7 +256,7 @@ namespace NTMiner.MinerStudio.Vms {
             else {
                 if (!this.Id.IsSelfMineWorkId()) {
                     if (isMinerProfileChanged) {
-                        NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
+                        NTMinerContext.Instance.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                             try {
                                 string localJsonFileFullName = MinerStudioPath.GetMineWorkLocalJsonFileFullName(this.Id);
@@ -285,7 +285,7 @@ namespace NTMiner.MinerStudio.Vms {
                 }
                 else {
                     if (isMinerProfileChanged) {
-                        NTMinerContext.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
+                        NTMinerContext.Instance.ExportWorkJson(mineWorkData, out string localJson, out string serverJson);
                         if (!string.IsNullOrEmpty(localJson) && !string.IsNullOrEmpty(serverJson)) {
                             MinerStudioService.Instance.SaveSelfWorkLocalJsonAsync(_minerClientVm, localJson, serverJson);
                         }

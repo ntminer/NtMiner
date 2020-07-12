@@ -1,5 +1,6 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.Kernels;
+using NTMiner.Gpus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -442,7 +443,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<SupportedGpu> SupportedGpuEnumItem {
             get {
-                return NTMinerContext.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
+                return Enums.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == SupportedGpu);
             }
             set {
                 if (SupportedGpu != value.Value) {

@@ -62,6 +62,18 @@ namespace NTMiner.Services.Official {
         }
         #endregion
 
+        #region GetAtikmdagPatcherUrlAsync
+        public void GetAtikmdagPatcherUrlAsync(Action<string, Exception> callback) {
+            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IFileUrlController.AtikmdagPatcherUrl), callback);
+        }
+        #endregion
+
+        #region GetSwitchRadeonGpuUrlAsync
+        public void GetSwitchRadeonGpuUrlAsync(Action<string, Exception> callback) {
+            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IFileUrlController.SwitchRadeonGpuUrl), callback);
+        }
+        #endregion
+
         #region GetNTMinerUpdaterUrlAsync
         // ReSharper disable once InconsistentNaming
         public void GetNTMinerUpdaterUrlAsync(Action<string, Exception> callback) {

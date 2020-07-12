@@ -1,7 +1,7 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profile;
+using NTMiner.Gpus;
 using NTMiner.Mine;
 using System;
 using System.Collections.Generic;

@@ -24,6 +24,7 @@
             <TextBox Width="160" Background="White" Text="{Binding Provider, ValidatesOnExceptions=True}">
             </TextBox>
             <ListBox 
+                Margin="4 0 0 0"
 				Background="Transparent"
 				ItemsSource="{x:Static app:AppStatic.ServerMessageTypeEnumItems}"
 				SelectedItem="{Binding ServerMessageTypeEnumItem}"
@@ -45,8 +46,19 @@
             </ListBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
-            <TextBlock Style="{StaticResource LblTb}">内容</TextBlock>
-            <TextBox Width="440" Text="{Binding Content, ValidatesOnExceptions=True}">
+            <TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top">内容</TextBlock>
+            <TextBox 
+                x:Name="TbContent"
+                Width="440" Height="50" 
+                VerticalContentAlignment="Top" 
+                TextWrapping="Wrap" 
+                AcceptsReturn="True" 
+                Text="{Binding Content, ValidatesOnExceptions=True}">
+                <TextBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="查找内核" Click="FindKernel_Click"></MenuItem>
+                    </ContextMenu>
+                </TextBox.ContextMenu>
             </TextBox>
         </WrapPanel>
         <controls:KbButton

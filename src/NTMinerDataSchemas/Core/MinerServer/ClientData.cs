@@ -1,12 +1,11 @@
 ﻿using LiteDB;
 using Newtonsoft.Json;
-using NTMiner.Core.Gpus;
+using NTMiner.Gpus;
 using NTMiner.Report;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace NTMiner.Core.MinerServer {
     public class ClientData : SpeedDto, IClientData {
@@ -39,6 +38,8 @@ namespace NTMiner.Core.MinerServer {
                 #region
                 Id = data.Id,
                 MineContextId = Guid.Empty,
+                CpuId = data.CpuId,
+                DiskSpaceMb = 0,
                 ClientId = data.ClientId,
                 MACAddress = data.MACAddress,
                 LocalIp = data.LocalIp,
@@ -139,6 +140,8 @@ namespace NTMiner.Core.MinerServer {
             return new ClientData() {
                 #region
                 Id = data.Id,
+                CpuId = data.CpuId,
+                DiskSpaceMb = data.DiskSpaceMb,
                 MineContextId = data.MineContextId,
                 MinerName = data.MinerName,
                 MinerIp = data.MinerIp,
@@ -331,6 +334,7 @@ namespace NTMiner.Core.MinerServer {
                 Id = ObjectId.NewObjectId().ToString(),
                 MineContextId = speedDto.MineContextId,
                 MinerName = speedDto.MinerName,
+                CpuId = speedDto.CpuId,
                 MinerIp = minerIp,
                 CreatedOn = DateTime.Now,
                 MinerActiveOn = DateTime.Now,
@@ -457,6 +461,7 @@ namespace NTMiner.Core.MinerServer {
                 AutoRestartKernelTimes = this.AutoRestartKernelTimes,
                 AutoStartDelaySeconds = this.AutoStartDelaySeconds,
                 BootOn = this.BootOn,
+                CpuId = this.CpuId,
                 ClientId = this.ClientId,
                 CpuGETemperatureSeconds = this.CpuGETemperatureSeconds,
                 CpuLETemperatureSeconds = this.CpuLETemperatureSeconds,
@@ -658,6 +663,7 @@ namespace NTMiner.Core.MinerServer {
             this.OSName = speedDto.OSName;
             this.OSVirtualMemoryMb = speedDto.OSVirtualMemoryMb;
             this.GpuInfo = speedDto.GpuInfo;
+            this.CpuId = speedDto.CpuId;
             this.Version = speedDto.Version;
             this.IsMining = speedDto.IsMining;
             this.BootOn = speedDto.BootOn;
@@ -842,6 +848,27 @@ namespace NTMiner.Core.MinerServer {
         public DateTime NetActiveOn { get; set; }
 
         public bool IsOnline { get; set; }
+
+        public bool GetIsOnline(bool isOuterNet) {
+            if (!IsOnline) {
+                return false;
+            }
+            if (isOuterNet) {
+                if (this.IsOuterUserEnabled) {
+                    if (NetActiveOn.AddSeconds(60) < DateTime.Now) {
+                        return false;
+                    }
+                }
+                else if (NetActiveOn.AddSeconds(180) < DateTime.Now) {
+                    return false;
+                }
+                return true;
+            }
+            if (NetActiveOn.AddSeconds(20) < DateTime.Now) {
+                return false;
+            }
+            return true;
+        }
 
         public string LoginName { get; set; }
 

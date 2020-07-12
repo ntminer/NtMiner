@@ -108,5 +108,12 @@ namespace NTMiner {
             var elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);
         }
+
+        [TestMethod]
+        public void AdlNativeMethodsTest() {
+            Type t = typeof(Gpus.Adl.AdlNativeMethods);
+            var properties = t.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.SetProperty);
+            Console.WriteLine(properties.Length);
+        }
     }
 }

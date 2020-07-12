@@ -1,4 +1,5 @@
 ﻿using NTMiner.Core;
+using NTMiner.Gpus;
 using NTMiner.MinerStudio;
 using NTMiner.MinerStudio.Vms;
 using System;

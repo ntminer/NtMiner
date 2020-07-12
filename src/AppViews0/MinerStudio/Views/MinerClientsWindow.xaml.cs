@@ -154,7 +154,7 @@ namespace NTMiner.MinerStudio.Views {
                     }
                     #endregion
                 }, location: this.GetType());
-            NotiCenterWindow.Bind(this, ownerIsTopMost: true);
+            NotiCenterWindow.Bind(this, ownerIsTopmost: true);
             MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
         }
 

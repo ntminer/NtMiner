@@ -19,19 +19,7 @@ namespace NTMiner.Views {
                 SafeNativeMethods.SetWindowLong(console, SafeNativeMethods.GWL_STYLE, SafeNativeMethods.WS_VISIBLE);
                 SafeNativeMethods.SetParent(console, _thisWindowHandle);
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
-                hwndSource.AddHook(new HwndSourceHook(WndProc));
-                if (AppUtil.IsHotKeyEnabled) {
-                    HotKeyUtil.RegHotKey = (key) => {
-                        if (!RegHotKey(key, out string message)) {
-                            VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
-                            return false;
-                        }
-                        else {
-                            VirtualRoot.Out.ShowSuccess($"热键Ctrl + Alt + {key.ToString()} 设置成功");
-                            return true;
-                        }
-                    };
-                }
+                hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
             };
             // 延迟展示从而避免不需要展示红字的时候看到红字
             VirtualRoot.AddOnecePath<HasBoot1SecondEvent>("启动一会后显式指引解决WindowsZoomBug的一行红字", LogEnum.None, action: message => {
@@ -40,49 +28,9 @@ namespace NTMiner.Views {
         }
 
         protected override void OnClosed(EventArgs e) {
-            if (AppUtil.IsHotKeyEnabled) {
-                SystemHotKey.UnRegHotKey(_thisWindowHandle, c_hotKeyId);
-            }
             hwndSource?.Dispose();
             hwndSource = null;
             base.OnClosed(e);
-            Application.Current.Shutdown();
-        }
-
-        private bool RegHotKey(System.Windows.Forms.Keys key, out string message) {
-            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, key, out message)) {
-                message = $"Ctrl + Alt + {key.ToString()} " + message;
-                return false;
-            }
-            else {
-                return true;
-            }
-        }
-
-        protected override void OnContentRendered(EventArgs e) {
-            base.OnContentRendered(e);
-            if (AppUtil.IsHotKeyEnabled) {
-                Enum.TryParse(HotKeyUtil.GetHotKey(), out System.Windows.Forms.Keys hotKey);
-                if (!RegHotKey(hotKey, out string message)) {
-                    VirtualRoot.Out.ShowWarn(message, header: "热键设置失败", toConsole: true);
-                }
-            }
-        }
-
-        private const int WM_HOTKEY = 0x312;
-        private const int c_hotKeyId = 1; //热键ID（自定义）
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
-            switch (msg) {
-                case WM_HOTKEY:
-                    int tmpWParam = wParam.ToInt32();
-                    if (tmpWParam == c_hotKeyId) {
-                        VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));
-                    }
-                    break;
-                default:
-                    break;
-            }
-            return Win32Proc.WindowProc(hwnd, msg, wParam, lParam, ref handled);
         }
 
         private int _marginLeft, _marginTop, _height, _width;

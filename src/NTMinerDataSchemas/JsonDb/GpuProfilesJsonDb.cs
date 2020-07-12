@@ -1,6 +1,5 @@
-﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
-using NTMiner.Core.Profile;
+﻿using NTMiner.Core.Profile;
+using NTMiner.Gpus;
 using System;
 using System.Collections.Generic;
 using System.Linq;

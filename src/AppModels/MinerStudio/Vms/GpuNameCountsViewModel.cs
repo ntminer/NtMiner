@@ -1,6 +1,5 @@
-﻿using NTMiner.Core.Gpus;
+﻿using NTMiner.Gpus;
 using NTMiner.Vms;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -20,9 +19,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public ICommand Search { get; private set; }
 
-        private readonly Action _onQueryResponsed;
-        public GpuNameCountsViewModel(Action onQueryResponsed) {
-            _onQueryResponsed = onQueryResponsed;
+        public GpuNameCountsViewModel() {
             this._pagingVm = new PagingViewModel(() => this.PageIndex, () => this.PageSize);
             this.Search = new DelegateCommand(() => {
                 this.PageIndex = 1;
@@ -53,7 +50,6 @@ namespace NTMiner.MinerStudio.Vms {
                     this.GpuNameCounts = new List<GpuNameCountViewModel>();
                     _pagingVm.Init(0);
                 }
-                _onQueryResponsed?.Invoke();
             });
         }
 

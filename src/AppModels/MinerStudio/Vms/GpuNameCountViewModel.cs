@@ -1,7 +1,5 @@
-﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
+﻿using NTMiner.Gpus;
 using NTMiner.Vms;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace NTMiner.MinerStudio.Vms {
@@ -10,7 +8,6 @@ namespace NTMiner.MinerStudio.Vms {
         private string _name;
         private ulong _totalMemory;
         private int _count;
-        private GpuNameViewModel _matchName;
 
         public GpuNameCountViewModel(IGpuNameCount data) {
             _gpuType = data.GpuType;
@@ -73,26 +70,6 @@ namespace NTMiner.MinerStudio.Vms {
                     _name = value;
                     OnPropertyChanged(nameof(Name));
                 }
-            }
-        }
-
-        public GpuNameViewModel MatchName {
-            get => _matchName;
-            set {
-                if (_matchName != value) {
-                    _matchName = value;
-                    OnPropertyChanged(nameof(MatchName));
-                }
-            }
-        }
-
-        public void Match(IEnumerable<IGpuName> gpuNames) {
-            var matchName = this.GetMatchGpuName(gpuNames);
-            if (matchName == null) {
-                this.MatchName = null;
-            }
-            else {
-                this.MatchName = new GpuNameViewModel(matchName);
             }
         }
 

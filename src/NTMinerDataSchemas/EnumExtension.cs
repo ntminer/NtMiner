@@ -6,23 +6,6 @@ namespace NTMiner {
     using System.ComponentModel;
     using System.Reflection;
 
-    [IsNotDataSchema]
-    public class EnumItem<T> where T : struct {
-        public static IEnumerable<EnumItem<T>> GetEnumItems() {
-            return EnumDic<T>.Instance.EnumItems;
-        }
-
-        public EnumItem(string name, string description, T value) {
-            this.Name = name;
-            this.Description = description;
-            this.Value = value;
-        }
-
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public T Value { get; private set; }
-    }
-
     public static class EnumExtension {
         public static string GetName<T>(this T value) where T : struct {
             return EnumDic<T>.Instance[value];
@@ -46,7 +29,24 @@ namespace NTMiner {
     }
 
     [IsNotDataSchema]
-    internal class EnumDic<T>
+    public class EnumItem<T> where T : struct {
+        public static IEnumerable<EnumItem<T>> GetEnumItems() {
+            return EnumDic<T>.Instance.EnumItems;
+        }
+
+        public EnumItem(string name, string description, T value) {
+            this.Name = name;
+            this.Description = description;
+            this.Value = value;
+        }
+
+        public string Name { get; private set; }
+        public string Description { get; private set; }
+        public T Value { get; private set; }
+    }
+
+    [IsNotDataSchema]
+    class EnumDic<T>
         where T : struct {
         public static EnumDic<T> Instance { get; private set; } = new EnumDic<T>();
 

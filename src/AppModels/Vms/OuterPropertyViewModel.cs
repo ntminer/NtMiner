@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.Gpus;
+﻿using NTMiner.Gpus;
 using NTMiner.Windows;
 using System.Collections.Generic;
 using System.Linq;

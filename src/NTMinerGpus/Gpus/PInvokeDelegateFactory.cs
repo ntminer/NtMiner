@@ -37,16 +37,16 @@ namespace NTMiner.Gpus {
 
         private static readonly IDictionary<Pair<DllImportAttribute, Type>, Type> wrapperTypes = new Dictionary<Pair<DllImportAttribute, Type>, Type>();
 
-        public static void CreateDelegate<T>(DllImportAttribute dllImportAttribute, out T newDelegate) where T : class {
-            Pair<DllImportAttribute, Type> key = new Pair<DllImportAttribute, Type>(dllImportAttribute, typeof(T));
+        public static void CreateDelegate(DllImportAttribute dllImportAttribute, Type delegateType, out object newDelegate) {
+            Pair<DllImportAttribute, Type> key = new Pair<DllImportAttribute, Type>(dllImportAttribute, delegateType);
             wrapperTypes.TryGetValue(key, out Type wrapperType);
 
             if (wrapperType == null) {
-                wrapperType = CreateWrapperType(typeof(T), dllImportAttribute);
+                wrapperType = CreateWrapperType(delegateType, dllImportAttribute);
                 wrapperTypes.Add(key, wrapperType);
             }
 
-            newDelegate = Delegate.CreateDelegate(typeof(T), wrapperType, dllImportAttribute.EntryPoint) as T;
+            newDelegate = Delegate.CreateDelegate(delegateType, wrapperType, dllImportAttribute.EntryPoint);
         }
 
 

@@ -1,4 +1,4 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Gpus;
 using System.Windows;
 
 namespace NTMiner.Vms {

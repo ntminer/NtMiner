@@ -165,7 +165,7 @@ namespace NTMiner {
             private static Dictionary<string, int> GetVirtualMemoryDic() {
                 object value = Windows.WinRegistry.GetValue(Registry.LocalMachine, MemoryManagementSubKey, "PagingFiles");
                 // REG_SZ or REG_MULTI_SZ
-                Dictionary<string, int> dicByDriveName = new Dictionary<string, int>();
+                Dictionary<string, int> dicByDriveName = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
                 if (value is string[] vmReg) {
                     foreach (string item in vmReg) {
                         if (TryParseVirtualMemory(item, out KeyValuePair<string, int> kv)) {

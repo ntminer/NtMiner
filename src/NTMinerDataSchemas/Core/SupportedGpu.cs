@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using NTMiner.Gpus;
+using System.ComponentModel;
 
 namespace NTMiner.Core {
     public enum SupportedGpu {

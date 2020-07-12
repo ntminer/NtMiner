@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Gpus;
+using System;
 
 namespace NTMiner.Core {
     public static class CoinExtensions {

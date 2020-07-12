@@ -378,7 +378,7 @@ namespace NTMiner.Vms {
 
         public string SupportedCoins {
             get {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sb = new StringBuilder("可挖：");
                 int len = sb.Length;
                 foreach (var coinVm in SupportedCoinVms.OrderBy(a => a.Code)) {
                     if (len != sb.Length) {
@@ -441,7 +441,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<PublishStatus> PublishStateEnumItem {
             get {
-                return NTMinerContext.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
+                return Enums.PublishStatusEnumItems.FirstOrDefault(a => a.Value == PublishState);
             }
             set {
                 if (PublishState != value.Value) {

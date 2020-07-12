@@ -232,6 +232,7 @@ namespace NTMiner.Mine {
                 NTMinerConsole.UserWarn("结束开始挖矿");
                 return;
             }
+            NTMinerConsole.InitOnece(isForce: true, initHide: !NTMinerContext.IsUiVisible);
             switch (this.KernelProcessType) {
                 case KernelProcessType.Logfile:
                     CreateLogfileProcess(kernelExeFileFullName, arguments);

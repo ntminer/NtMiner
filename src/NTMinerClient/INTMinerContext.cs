@@ -1,7 +1,7 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Cpus;
-using NTMiner.Core.Gpus;
 using NTMiner.Core.Profiles;
+using NTMiner.Cpus;
+using NTMiner.Gpus;
 using NTMiner.Mine;
 using NTMiner.Report;
 using System;
@@ -61,5 +61,8 @@ namespace NTMiner {
 
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
+
+        void ExportServerVersionJson(string jsonFileFullName);
+        void ExportWorkJson(MineWorkData mineWorkData, out string localJson, out string serverJson);
     }
 }

@@ -33,50 +33,52 @@ namespace NTMiner.MinerStudio {
             }
 
             public MinerClientConsoleViewModel() {
-                VirtualRoot.AddEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机控制台输出", LogEnum.DevConsole, action: message => {
-                    bool isChanged = true;
-                    if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
-                        isChanged = false;
-                    }
-                    LatestTimestamp = Timestamp.UnixBaseTime;
-                    if (isChanged) {
+                if (ClientAppType.IsMinerStudio) {
+                    VirtualRoot.AddEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机控制台输出", LogEnum.DevConsole, action: message => {
+                        bool isChanged = true;
+                        if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
+                            isChanged = false;
+                        }
+                        LatestTimestamp = Timestamp.UnixBaseTime;
+                        if (isChanged) {
+                            lock (_locker) {
+                                _outLines.Clear();
+                                try {
+                                    Console.Clear();
+                                }
+                                catch {
+                                }
+                                this._minerClientVm = message.MinerClientVm;
+                            }
+                            SendGetConsoleOutLinesMqMessage();
+                        }
+                    }, this.GetType());
+                    VirtualRoot.AddEventPath<ClientConsoleOutLinesEvent>("收到了挖矿端控制台消息", LogEnum.DevConsole, action: message => {
+                        if (this._minerClientVm == null
+                            || this._minerClientVm.ClientId != message.ClientId
+                            || message.Data == null
+                            || message.Data.Count == 0) {
+                            return;
+                        }
                         lock (_locker) {
-                            _outLines.Clear();
-                            try {
-                                Console.Clear();
+                            foreach (var item in message.Data) {
+                                _outLines.Add(item);
+                                NTMinerConsole.UserLine(item.Line, ConsoleColor.White, withPrefix: false);
                             }
-                            catch {
-                            }
-                            this._minerClientVm = message.MinerClientVm;
+                            // 因为客户端的时间可能不准所以不能使用客户端的时间
+                            LatestTimestamp = DateTime.Now;
                         }
+                    }, this.GetType());
+                    VirtualRoot.AddEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的控制台输出", LogEnum.DevConsole, action: message => {
                         SendGetConsoleOutLinesMqMessage();
-                    }
-                }, this.GetType());
-                VirtualRoot.AddEventPath<ClientConsoleOutLinesEvent>("收到了挖矿端控制台消息", LogEnum.DevConsole, action: message => {
-                    if (this._minerClientVm == null 
-                        || this._minerClientVm.ClientId != message.ClientId 
-                        || message.Data == null 
-                        || message.Data.Count == 0) {
-                        return;
-                    }
-                    lock (_locker) {
-                        foreach (var item in message.Data) {
-                            _outLines.Add(item);
-                            Console.WriteLine(item.Line);
+                    }, this.GetType());
+                    VirtualRoot.AddEventPath<Per1SecondEvent>("客户端控制台输出倒计时秒表", LogEnum.None, action: message => {
+                        if (this._minerClientVm == null || this._latestTimestamp == Timestamp.UnixBaseTime) {
+                            return;
                         }
-                        // 因为客户端的时间可能不准所以不能使用客户端的时间
-                        LatestTimestamp = DateTime.Now;
-                    }
-                }, this.GetType());
-                VirtualRoot.AddEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的控制台输出", LogEnum.DevConsole, action: message => {
-                    SendGetConsoleOutLinesMqMessage();
-                }, this.GetType());
-                VirtualRoot.AddEventPath<Per1SecondEvent>("客户端控制台输出倒计时秒表", LogEnum.None, action: message => {
-                    if (this._minerClientVm == null || this._latestTimestamp == Timestamp.UnixBaseTime) {
-                        return;
-                    }
-                    OnPropertyChanged(nameof(LatestTimeSpanText));
-                }, this.GetType());
+                        OnPropertyChanged(nameof(LatestTimeSpanText));
+                    }, this.GetType());
+                }
             }
 
             private void SendGetConsoleOutLinesMqMessage() {

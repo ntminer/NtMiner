@@ -1,7 +1,7 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
 using NTMiner.Core.Profile;
 using NTMiner.Core.Profiles;
+using NTMiner.Gpus;
 using NTMiner.Mine;
 using NTMiner.ServerNode;
 using System;
@@ -63,7 +63,7 @@ namespace NTMiner.Report {
                 LocalServerMessageTimestamp = VirtualRoot.LocalServerMessageSetTimestamp,
                 KernelSelfRestartCount = 0,
                 IsAutoBoot = workProfile.IsAutoBoot,
-                IsAutoStart = workProfile.IsAutoStart,
+                IsAutoStart = NTMinerRegistry.GetIsAutoStart(),
                 AutoStartDelaySeconds = workProfile.AutoStartDelaySeconds,
                 Version = EntryAssemblyInfo.CurrentVersionStr,
                 BootOn = root.CreatedOn,
@@ -74,6 +74,7 @@ namespace NTMiner.Report {
                 MinerName = workProfile.MinerName,
                 GpuInfo = root.GpuSetInfo,
                 ClientId = NTMinerContext.Id,
+                CpuId = Windows.Cpu.Instance.CpuId,
                 MACAddress = macAddress,
                 LocalIp = localIps,
                 MainCoinCode = string.Empty,

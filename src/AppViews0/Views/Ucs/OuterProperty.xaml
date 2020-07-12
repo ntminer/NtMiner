@@ -81,6 +81,10 @@
                             <TextBox Text="{Binding Cpu.Name,Mode=OneWay}"></TextBox>
                         </WrapPanel>
                         <WrapPanel>
+                            <TextBlock Style="{StaticResource LblTb}" Text="CPU ID"></TextBlock>
+                            <TextBox Text="{Binding Cpu.CpuId,Mode=OneWay}"></TextBox>
+                        </WrapPanel>
+                        <WrapPanel>
                             <TextBlock Style="{StaticResource LblTb}" Text="CPU标识名"></TextBlock>
                             <TextBox Text="{Binding Cpu.Identifier,Mode=OneWay}"></TextBox>
                         </WrapPanel>

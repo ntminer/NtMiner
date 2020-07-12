@@ -1,4 +1,6 @@
-﻿namespace NTMiner {
+﻿using System.Linq;
+
+namespace NTMiner {
     public static class NTKeyword {
         public const double DoubleK = 1024;
         public const int IntK = 1024;
@@ -9,7 +11,7 @@
         public const long LongG = 1024 * 1024 * 1024;
 
         public const string Version = "2.8.2";
-        private const string _build = "0";
+        private const string _build = "1";
         public const string VersionBuild = Version + "." + _build;
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";
@@ -55,6 +57,8 @@
         public const string DNSServer0 = "119.29.29.29";
         public const string DNSServer1 = "223.5.5.5";
         public const string MinerClientFinderFileName = "MinerClientFinder.exe";
+        public const string AtikmdagPatcherFileName = "AtikmdagPatcher.exe";
+        public const string SwitchRadeonGpuFileName = "SwitchRadeonGpu.exe";
         public const string DevConsoleFileName = "DevConsole.exe";
         public const string NTMinerDaemonFileName = "NTMinerDaemon.exe";
         public const string NTMinerNoDevFeeFileName = "NTMinerNoDevFee.exe";
@@ -69,7 +73,13 @@
         public const int LocalMessageSetCapacity = 1000;
         public const int ServerMessageSetCapacity = 1000;
         // 矿工名中不可以包含的字符
-        public static readonly char[] InvalidMinerNameChars = { '.', ' ', '-', '_' };
+        private static readonly char[] _invalidMinerNameChars = { '.', ' ', '-', '_' };
+        public static string GetSafeMinerName(string rawMinerName) {
+            if (string.IsNullOrEmpty(rawMinerName)) {
+                return "temp";
+            }
+            return new string(rawMinerName.ToCharArray().Where(a => !_invalidMinerNameChars.Contains(a)).ToArray());
+        }
         // 因为界面上输入框不好体现输入的空格，所以这里对空格进行转义
         public const string SpaceKeyword = "space";
 
@@ -112,6 +122,8 @@
         public const string UseDevicesAppSettingKey = "UseDevices";
         public const string UpdaterVersionAppSettingKey = "UpdaterVersion";
         public const string MinerClientFinderVersionAppSettingKey = "MinerClientFinderVersion";
+        public const string AtikmdagPatcherVersionAppSettingKey = "AtikmdagPatcherVersion";
+        public const string SwitchRadeonGpuVersionAppSettingKey = "SwitchRadeonGpuVersion";
         public const string ServerJsonVersionAppSettingKey = "ServerJsonVersion";
         #endregion
 

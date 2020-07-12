@@ -1,14 +1,14 @@
 ﻿using Microsoft.Win32;
 using NTMiner.Core;
-using NTMiner.Core.Cpus;
-using NTMiner.Core.Cpus.Impl;
-using NTMiner.Core.Gpus;
-using NTMiner.Core.Gpus.Impl;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Kernels;
 using NTMiner.Core.Profile;
 using NTMiner.Core.Profiles;
 using NTMiner.Core.Profiles.Impl;
+using NTMiner.Cpus;
+using NTMiner.Cpus.Impl;
+using NTMiner.Gpus;
+using NTMiner.Gpus.Impl;
 using NTMiner.Impl;
 using NTMiner.Mine;
 using NTMiner.Report;
@@ -267,7 +267,7 @@ namespace NTMiner {
                                 }
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{coinCode}总算力持续{coinProfile.LowSpeedRestartComputerMinutes}分钟低于{coinProfile.LowSpeed}重启电脑", toConsole: true);
                                 VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
-                                if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
+                                if (!MinerProfile.IsAutoBoot || !NTMinerRegistry.GetIsAutoStart()) {
                                     VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                 }
                                 return;
@@ -286,7 +286,7 @@ namespace NTMiner {
                                 string content = $"每运行{MinerProfile.PeriodicRestartKernelHours.ToString()}小时{MinerProfile.PeriodicRestartComputerMinutes.ToString()}分钟重启电脑";
                                 VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), content, toConsole: true);
                                 VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
-                                if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
+                                if (!MinerProfile.IsAutoBoot || !NTMinerRegistry.GetIsAutoStart()) {
                                     VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                 }
                                 return;// 退出
@@ -328,8 +328,9 @@ namespace NTMiner {
                                 }
                                 // 如果份额没有增加
                                 if (shareCount == totalShare) {
-                                    if (restartComputer) {
-                                        if (!MinerProfile.IsAutoBoot || !MinerProfile.IsAutoStart) {
+                                    bool isMineStartedARestartComputerMinutes = (DateTime.Now - this.LockedMineContext.MineStartedOn).TotalMinutes > MinerProfile.NoShareRestartComputerMinutes;
+                                    if (restartComputer && isMineStartedARestartComputerMinutes) {
+                                        if (!MinerProfile.IsAutoBoot || !NTMinerRegistry.GetIsAutoStart()) {
                                             VirtualRoot.Execute(new SetAutoStartCommand(true, true));
                                         }
                                         string content = $"{MinerProfile.NoShareRestartComputerMinutes.ToString()}分钟无份额重启电脑";
@@ -337,8 +338,8 @@ namespace NTMiner {
                                         VirtualRoot.Execute(new ShowRestartWindowsCommand(countDownSeconds: 10));
                                         return;// 退出
                                     }
-                                    // 产生过份额或者已经两倍重启内核时间了
-                                    if (restartKernel && (totalShare > 0 || (DateTime.Now - shareOn).TotalMinutes > 2 * MinerProfile.NoShareRestartKernelMinutes)) {
+                                    bool isMineStartedARestartKernelMinutes = (DateTime.Now - this.LockedMineContext.MineStartedOn).TotalMinutes > MinerProfile.NoShareRestartKernelMinutes;
+                                    if (restartKernel && isMineStartedARestartKernelMinutes) {
                                         VirtualRoot.ThisLocalWarn(nameof(NTMinerContext), $"{MinerProfile.NoShareRestartKernelMinutes.ToString()}分钟无份额重启内核", toConsole: true);
                                         RestartMine();
                                         return;// 退出

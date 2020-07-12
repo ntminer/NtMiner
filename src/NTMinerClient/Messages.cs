@@ -1,9 +1,9 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
 using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerStudio;
 using NTMiner.Core.Profile;
+using NTMiner.Gpus;
 using NTMiner.Hub;
 using NTMiner.Mine;
 using NTMiner.User;
@@ -241,6 +241,12 @@ namespace NTMiner {
         }
 
         public bool On { get; private set; }
+    }
+
+    [MessageType(description: "取消主界面的Topmost")]
+    public class UnTopmostCommand : Cmd {
+        public UnTopmostCommand() {
+        }
     }
 
     [MessageType(description: "A卡驱动签名")]

@@ -5,6 +5,7 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -157,10 +158,17 @@ namespace NTMiner.Views {
                 }
                 #endregion
             };
-            NotiCenterWindow.Bind(this, ownerIsTopMost: true);
+            NotiCenterWindow.Bind(this, ownerIsTopmost: true);
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
+            VirtualRoot.AddCmdPath<UnTopmostCommand>(action: message => {
+                UIThread.Execute(() => {
+                    if (this.Topmost) {
+                        this.Topmost = false;
+                    }
+                });
+            }, this.GetType());
             VirtualRoot.AddCmdPath<CloseMainWindowCommand>(action: message => {
                 UIThread.Execute(() => {
                     if (message.IsAutoNoUi) {

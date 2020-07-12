@@ -67,13 +67,13 @@ namespace NTMiner.Core.Profile {
             IsDisableWAU = true;
             IsShowInTaskbar = true;
             IsNoUi = false;
+            IsAutoStart = false;
             IsAutoNoUi = false;
             AutoNoUiMinutes = 10;
             IsShowNotifyIcon = true;
             IsCloseMeanExit = false;
             IsShowCommandLine = false;
             IsAutoBoot = false;
-            IsAutoStart = false;
             IsCreateShortcut = true;
             IsAutoStopByCpu = false;
             IsAutoStartByCpu = false;
@@ -149,6 +149,9 @@ namespace NTMiner.Core.Profile {
         public bool IsNoUi { get; set; }
 
         [WorkIgnore]
+        public bool IsAutoStart { get; set; }
+
+        [WorkIgnore]
         public bool IsAutoNoUi { get; set; }
 
         [WorkIgnore]
@@ -165,8 +168,6 @@ namespace NTMiner.Core.Profile {
 
         [WorkIgnore]
         public bool IsAutoBoot { get; set; }
-        [WorkIgnore]
-        public bool IsAutoStart { get; set; }
 
         [WorkIgnore]
         public bool IsCreateShortcut { get; set; }

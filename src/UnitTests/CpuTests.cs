@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NTMiner.Cpus.Impl;
 using NTMiner.Windows;
 using System;
-using System.Management;
 
 namespace NTMiner {
     [TestClass]
@@ -9,7 +9,7 @@ namespace NTMiner {
         [TestMethod]
         public void CpuTest1() {
             for (int i = 0; i < 100; i++) {
-                Console.WriteLine($"温度：{CpuUtil.GetTemperature().ToString("f1")} ℃");
+                Console.WriteLine($"温度：{CpuPackage.GetTemperature().ToString("f1")} ℃");
                 Console.WriteLine($"PerformanceCounter CpuUsage {Cpu.Instance.GetCurrentCpuUsage().ToString("f1")} %");
                 System.Threading.Thread.Sleep(10);
             }
@@ -25,14 +25,14 @@ namespace NTMiner {
         [TestMethod]
         public void Test3() {
             // 第一次请求约需要160毫秒
-            CpuUtil.GetTemperature();
+            CpuPackage.GetTemperature();
         }
 
         [TestMethod]
         public void Test4() {
             for (int i = 0; i < 100; i++) {
                 // 每次需要100毫秒
-                CpuUtil.GetTemperature();
+                CpuPackage.GetTemperature();
             }
         }
     }

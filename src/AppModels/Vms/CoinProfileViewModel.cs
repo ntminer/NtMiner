@@ -31,11 +31,15 @@ namespace NTMiner.Vms {
                 string wallet = this.Wallet ?? "无";
                 Clipboard.SetDataObject(wallet, true);
                 VirtualRoot.Out.ShowSuccess(wallet, header: "复制成功");
+            }, ()=> {
+                return this.SelectedWallet != null && !string.IsNullOrEmpty(this.SelectedWallet.Address);
             });
             this.CopyDualCoinWallet = new DelegateCommand(() => {
                 string wallet = this.DualCoinWallet ?? "无";
                 Clipboard.SetDataObject(wallet, true);
                 VirtualRoot.Out.ShowSuccess(wallet, header: "复制成功");
+            }, ()=> {
+                return this.SelectedDualCoinWallet != null && !string.IsNullOrEmpty(this.SelectedDualCoinWallet.Address);
             });
             this.HideWallet = new DelegateCommand(() => {
                 this.IsHideWallet = true;

@@ -21,38 +21,40 @@ namespace NTMiner.MinerStudio {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.AddEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机消息列表", LogEnum.DevConsole, action: message => {
-                    bool isChanged = true;
-                    if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
-                        isChanged = false;
-                    }
-                    if (isChanged) {
-                        lock (_locker) {
-                            _vms.Clear();
-                            this._minerClientVm = message.MinerClientVm;
-                            OnPropertyChanged(nameof(IsNoRecord));
+                if (ClientAppType.IsMinerStudio) {
+                    VirtualRoot.AddEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机消息列表", LogEnum.DevConsole, action: message => {
+                        bool isChanged = true;
+                        if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
+                            isChanged = false;
                         }
-                        SendGetLocalMessagesMqMessage();
-                    }
-                }, this.GetType());
-                VirtualRoot.AddEventPath<ClientLocalMessagesEvent>("收到了挖矿端本地消息", LogEnum.DevConsole,
-                    action: message => {
-                        if (this._minerClientVm == null || this._minerClientVm.ClientId != message.ClientId) {
-                            return;
-                        }
-                        if (message.Data == null || message.Data.Count == 0) {
-                            return;
-                        }
-                        UIThread.Execute(() => {
-                            foreach (var item in message.Data) {
-                                _vms.Insert(0, new LocalMessageDtoViewModel(item));
+                        if (isChanged) {
+                            lock (_locker) {
+                                _vms.Clear();
+                                this._minerClientVm = message.MinerClientVm;
+                                OnPropertyChanged(nameof(IsNoRecord));
                             }
-                            OnPropertyChanged(nameof(IsNoRecord));
-                        });
-                    }, location: this.GetType());
-                VirtualRoot.AddEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的本地消息", LogEnum.DevConsole, action: message => {
-                    SendGetLocalMessagesMqMessage();
-                }, this.GetType());
+                            SendGetLocalMessagesMqMessage();
+                        }
+                    }, this.GetType());
+                    VirtualRoot.AddEventPath<ClientLocalMessagesEvent>("收到了挖矿端本地消息", LogEnum.DevConsole,
+                        action: message => {
+                            if (this._minerClientVm == null || this._minerClientVm.ClientId != message.ClientId) {
+                                return;
+                            }
+                            if (message.Data == null || message.Data.Count == 0) {
+                                return;
+                            }
+                            UIThread.Execute(() => {
+                                foreach (var item in message.Data) {
+                                    _vms.Insert(0, new LocalMessageDtoViewModel(item));
+                                }
+                                OnPropertyChanged(nameof(IsNoRecord));
+                            });
+                        }, location: this.GetType());
+                    VirtualRoot.AddEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的本地消息", LogEnum.DevConsole, action: message => {
+                        SendGetLocalMessagesMqMessage();
+                    }, this.GetType());
+                }
             }
 
             public ObservableCollection<LocalMessageDtoViewModel> ClientLocalMessages {

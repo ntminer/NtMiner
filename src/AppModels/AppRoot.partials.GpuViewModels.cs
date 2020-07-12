@@ -1,4 +1,4 @@
-﻿using NTMiner.Core.Gpus.Impl;
+﻿using NTMiner.Gpus.Impl;
 using NTMiner.Vms;
 using System.Collections.Generic;
 using System.Windows.Media;

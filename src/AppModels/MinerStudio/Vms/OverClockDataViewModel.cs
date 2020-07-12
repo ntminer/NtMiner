@@ -1,5 +1,5 @@
-﻿using NTMiner.Core;
-using NTMiner.Core.MinerServer;
+﻿using NTMiner.Core.MinerServer;
+using NTMiner.Gpus;
 using NTMiner.Vms;
 using System;
 using System.Linq;
@@ -133,7 +133,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public EnumItem<GpuType> GpuTypeEnumItem {
             get {
-                return NTMinerContext.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
+                return Enums.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
             }
             set {
                 if (GpuType != value.Value) {

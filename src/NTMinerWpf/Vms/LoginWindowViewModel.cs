@@ -5,6 +5,12 @@
         private string _serverHost;
         private bool _isInnerIp;
 
+        public LoginWindowViewModel() {
+            if (WpfUtil.IsInDesignMode) {
+                return;
+            }
+        }
+
         public LoginWindowViewModel(string serverHost = null) {
             if (WpfUtil.IsInDesignMode) {
                 return;

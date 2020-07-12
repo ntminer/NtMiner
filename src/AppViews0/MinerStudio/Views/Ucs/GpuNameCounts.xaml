@@ -88,13 +88,6 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="匹配">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding MatchName.Name}"></TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
                 <DataGridTemplateColumn Width="100" IsReadOnly="True" Header="显存">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>

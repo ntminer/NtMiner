@@ -7,7 +7,7 @@ namespace NTMiner.Views {
     public partial class KernelsWindow : BlankWindow {
         private static readonly object _locker = new object();
         private static KernelsWindow _instance = null;
-        public static void ShowWindow() {
+        public static void ShowWindow(string keyword = null) {
             if (_instance == null) {
                 lock (_locker) {
                     if (_instance == null) {
@@ -18,6 +18,9 @@ namespace NTMiner.Views {
             }
             else {
                 _instance.ShowWindow(false);
+            }
+            if (keyword != null) {
+                _instance.Vm.Keyword = keyword;
             }
         }
 

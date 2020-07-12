@@ -169,7 +169,8 @@ namespace NTMiner.Vms {
                     query = query.
                         Where(a => (!string.IsNullOrEmpty(a.Code) && a.Code.IgnoreCaseContains(Keyword))
                             || (!string.IsNullOrEmpty(a.Version) && a.Version.IgnoreCaseContains(Keyword))
-                            || (!string.IsNullOrEmpty(a.Notice) && a.Notice.IgnoreCaseContains(Keyword)));
+                            || (!string.IsNullOrEmpty(a.Notice) && a.Notice.IgnoreCaseContains(Keyword))
+                            || (!string.IsNullOrEmpty(a.Package) && a.Package.IgnoreCaseContains(Keyword)));
                 }
                 if (SelectedCoinVm != null && SelectedCoinVm != CoinViewModel.PleaseSelect) {
                     query = query.Where(a => a.SupportedCoinVms.Contains(SelectedCoinVm));

@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner.Core.Gpus;
+using NTMiner.Gpus;
 using System;
 using System.Collections.Generic;
 

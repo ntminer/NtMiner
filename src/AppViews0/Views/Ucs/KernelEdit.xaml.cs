@@ -14,7 +14,8 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Kernel",
                 IsMaskTheParent = true,
                 Width = 620,
-                CloseVisible = Visibility.Visible
+                CloseVisible = Visibility.Visible,
+                FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source);
                 window.AddCloseWindowOnecePath(vm.Id);

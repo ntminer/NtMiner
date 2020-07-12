@@ -49,7 +49,7 @@ namespace NTMiner.Daemon {
         private static void ExtractRunNTMinerDaemonAsync() {
             Task.Factory.StartNew(() => {
                 ExtractResource(NTKeyword.NTMinerDaemonFileName);
-                Windows.Cmd.RunClose(MinerClientTempPath.DaemonFileFullName, string.Empty, waitForExit: true, createNoWindow: !DevMode.IsDevMode);
+                Windows.Cmd.RunClose(MinerClientTempPath.DaemonFileFullName, "--bootByMinerClient", waitForExit: true, createNoWindow: !DevMode.IsDevMode);
                 Logger.OkDebugLine("守护进程启动成功");
             });
         }

@@ -62,29 +62,31 @@ namespace NTMiner {
                     }
                     NTMinerRegistry.SetDaemonVersion(Sha1);
                     NTMinerRegistry.SetAutoBoot("NTMinerDaemon", true);
-                    #region 是否自动启动挖矿端
-                    bool isAutoBoot = MinerProfileUtil.GetIsAutoBoot();
-                    if (isAutoBoot) {
-                        string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
-                        if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
-                            string processName = Path.GetFileName(location);
-                            Process[] processes = Process.GetProcessesByName(processName);
-                            if (processes.Length == 0) {
-                                string arguments = NTMinerRegistry.GetMinerClientArguments(NTMinerAppType.MinerClient);
-                                try {
-                                    Process.Start(location, arguments);
-                                    NTMinerConsole.DevOk(() => $"启动挖矿端 {location} {arguments}");
+                    if (!CommandLineArgs.Args.Contains("--bootByMinerClient")) {
+                        #region 是否自动启动挖矿端
+                        bool isAutoBoot = MinerProfileUtil.GetIsAutoBoot();
+                        if (isAutoBoot) {
+                            string location = NTMinerRegistry.GetLocation(NTMinerAppType.MinerClient);
+                            if (!string.IsNullOrEmpty(location) && File.Exists(location)) {
+                                string processName = Path.GetFileName(location);
+                                Process[] processes = Process.GetProcessesByName(processName);
+                                if (processes.Length == 0) {
+                                    string arguments = NTMinerRegistry.GetMinerClientArguments(NTMinerAppType.MinerClient);
+                                    try {
+                                        Process.Start(location, arguments);
+                                        NTMinerConsole.DevOk(() => $"启动挖矿端 {location} {arguments}");
+                                    }
+                                    catch (Exception e) {
+                                        Logger.ErrorDebugLine($"启动挖矿端失败因为异常 {location} {arguments}", e);
+                                    }
                                 }
-                                catch (Exception e) {
-                                    Logger.ErrorDebugLine($"启动挖矿端失败因为异常 {location} {arguments}", e);
+                                else {
+                                    NTMinerConsole.DevDebug($"挖矿端已经在运行中无需启动");
                                 }
-                            }
-                            else {
-                                NTMinerConsole.DevDebug($"挖矿端已经在运行中无需启动");
                             }
                         }
+                        #endregion
                     }
-                    #endregion
                     Run();
                 }
             }

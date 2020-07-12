@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace NTMiner.Views {
     public partial class NotiCenterWindow : Window {
@@ -23,13 +25,13 @@ namespace NTMiner.Views {
         /// 将通知窗口切到活动窗口上面去
         /// </summary>
         /// <param name="owner"></param>
-        /// <param name="ownerIsTopMost"></param>
+        /// <param name="ownerIsTopmost"></param>
         /// <param name="isNoOtherWindow">如果没有其它窗口就不需要响应窗口激活和非激活状态变更事件了</param>
-        public static void Bind(Window owner, bool ownerIsTopMost = false, bool isNoOtherWindow = false) {
+        public static void Bind(Window owner, bool ownerIsTopmost = false, bool isNoOtherWindow = false) {
             if (_instance == null) {
                 return;
             }
-            if (ownerIsTopMost) {
+            if (ownerIsTopmost) {
                 if (!isNoOtherWindow) {
                     owner.Activated += TopMostOwner_Activated;
                 }
@@ -145,12 +147,82 @@ namespace NTMiner.Views {
             get { return NotiCenterWindowViewModel.Instance; }
         }
 
+        private IntPtr _thisWindowHandle;
+        private HwndSource hwndSource;
         private NotiCenterWindow() {
             this.DataContext = Vm;
             InitializeComponent();
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
+            if (ClientAppType.IsMinerClient) {
+                this.Loaded += (sender, e) => {
+                    _thisWindowHandle = new WindowInteropHelper(this).Handle;
+                    hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
+                    hwndSource.AddHook(new HwndSourceHook(WndProc));
+                    if (AppUtil.IsHotKeyEnabled) {
+                        HotKeyUtil.RegHotKey = (key) => {
+                            if (!RegHotKey(key, out string message)) {
+                                VirtualRoot.Out.ShowError(message, autoHideSeconds: 4);
+                                return false;
+                            }
+                            else {
+                                VirtualRoot.Out.ShowSuccess($"热键Ctrl + Alt + {key.ToString()} 设置成功");
+                                return true;
+                            }
+                        };
+                    }
+                };
+            }
+        }
+
+        protected override void OnClosed(EventArgs e) {
+            if (ClientAppType.IsMinerClient) {
+                if (AppUtil.IsHotKeyEnabled) {
+                    SystemHotKey.UnRegHotKey(_thisWindowHandle, c_hotKeyId);
+                }
+                hwndSource?.Dispose();
+                hwndSource = null;
+            }
+            base.OnClosed(e);
+        }
+
+        private bool RegHotKey(System.Windows.Forms.Keys key, out string message) {
+            if (!SystemHotKey.RegHotKey(_thisWindowHandle, c_hotKeyId, SystemHotKey.KeyModifiers.Alt | SystemHotKey.KeyModifiers.Ctrl, key, out message)) {
+                message = $"Ctrl + Alt + {key.ToString()} " + message;
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        protected override void OnContentRendered(EventArgs e) {
+            base.OnContentRendered(e);
+            if (ClientAppType.IsMinerClient) {
+                if (AppUtil.IsHotKeyEnabled) {
+                    Enum.TryParse(HotKeyUtil.GetHotKey(), out System.Windows.Forms.Keys hotKey);
+                    if (!RegHotKey(hotKey, out string message)) {
+                        VirtualRoot.Out.ShowWarn(message, header: "热键设置失败", toConsole: true);
+                    }
+                }
+            }
+        }
+
+        private const int WM_HOTKEY = 0x312;
+        private const int c_hotKeyId = 1; //热键ID（自定义）
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled) {
+            switch (msg) {
+                case WM_HOTKEY:
+                    int tmpWParam = wParam.ToInt32();
+                    if (tmpWParam == c_hotKeyId) {
+                        VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));
+                    }
+                    break;
+                default:
+                    break;
+            }
+            return IntPtr.Zero;
         }
 
         private void MetroWindow_MouseDown(object sender, MouseButtonEventArgs e) {

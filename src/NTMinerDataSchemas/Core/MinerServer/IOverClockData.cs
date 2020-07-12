@@ -1,4 +1,4 @@
-﻿using NTMiner.Core;
+﻿using NTMiner.Gpus;
 using System;
 
 namespace NTMiner.Core.MinerServer {

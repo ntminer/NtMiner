@@ -44,14 +44,12 @@ namespace NTMiner.Core.Profile {
         bool IsDisableWAU { get; }
         bool IsDisableAntiSpyware { get; }
         bool IsShowInTaskbar { get; }
-        bool IsNoUi { get; }
         bool IsAutoNoUi { get; }
         int AutoNoUiMinutes { get; }
         bool IsShowNotifyIcon { get; }
         bool IsCloseMeanExit { get; }
         bool IsShowCommandLine { get; }
         bool IsAutoBoot { get; }
-        bool IsAutoStart { get; }
         bool IsCreateShortcut { get; }
         bool IsAutoStopByCpu { get; }
         int CpuStopTemperature { get; }

@@ -225,7 +225,7 @@ namespace NTMiner {
                 try {
                     if (string.IsNullOrEmpty(downloadFileUrl)) {
                         if (File.Exists(MinerClientTempPath.MinerClientFinderFileFullName)) {
-                            Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty);
+                            Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty, waitForExit: false);
                         }
                         return;
                     }
@@ -239,7 +239,7 @@ namespace NTMiner {
                                     File.Move(saveFileFullName, MinerClientTempPath.MinerClientFinderFileFullName);
                                     SetMinerClientFinderVersion(uri.AbsolutePath);
                                     window?.Close();
-                                    Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty);
+                                    Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty, waitForExit: false);
                                 }
                                 else {
                                     VirtualRoot.ThisLocalError(nameof(AppRoot), "下载矿机雷达：" + message, toConsole: true);
@@ -251,7 +251,137 @@ namespace NTMiner {
                         }));
                     }
                     else {
-                        Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty);
+                        Windows.Cmd.RunClose(MinerClientTempPath.MinerClientFinderFileFullName, string.Empty, waitForExit: false);
+                    }
+                }
+                catch (Exception ex) {
+                    Logger.ErrorDebugLine(ex);
+                }
+            });
+        }
+        #endregion
+
+        #region OpenAtikmdagPatcher
+        private static string GetAtikmdagPatcherVersion() {
+            string version = string.Empty;
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.AtikmdagPatcherVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+                version = setting.Value.ToString();
+            }
+            return version;
+        }
+
+        private static void SetAtikmdagPatcherVersion(string value) {
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                Key = NTKeyword.AtikmdagPatcherVersionAppSettingKey,
+                Value = value
+            }));
+        }
+
+        public static void OpenAtikmdagPatcher() {
+            RpcRoot.OfficialServer.FileUrlService.GetAtikmdagPatcherUrlAsync((downloadFileUrl, e) => {
+                try {
+                    if (string.IsNullOrEmpty(downloadFileUrl)) {
+                        if (File.Exists(MinerClientTempPath.AtikmdagPatcherFileFullName)) {
+                            VirtualRoot.Execute(new UnTopmostCommand());
+                            Windows.Cmd.RunClose(MinerClientTempPath.AtikmdagPatcherFileFullName, string.Empty, waitForExit: false);
+                        }
+                        return;
+                    }
+                    Uri uri = new Uri(downloadFileUrl);
+                    string localVersion = GetAtikmdagPatcherVersion();
+                    if (string.IsNullOrEmpty(localVersion) || !File.Exists(MinerClientTempPath.AtikmdagPatcherFileFullName) || uri.AbsolutePath != localVersion) {
+                        VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "下载A卡驱动签名工具", (window, isSuccess, message, saveFileFullName) => {
+                            try {
+                                if (isSuccess) {
+                                    File.Delete(MinerClientTempPath.AtikmdagPatcherFileFullName);
+                                    File.Move(saveFileFullName, MinerClientTempPath.AtikmdagPatcherFileFullName);
+                                    SetAtikmdagPatcherVersion(uri.AbsolutePath);
+                                    window?.Close();
+                                    VirtualRoot.Execute(new UnTopmostCommand());
+                                    Windows.Cmd.RunClose(MinerClientTempPath.AtikmdagPatcherFileFullName, string.Empty, waitForExit: false);
+                                }
+                                else {
+                                    VirtualRoot.ThisLocalError(nameof(AppRoot), "下载A卡驱动签名工具：" + message, toConsole: true);
+                                }
+                            }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex);
+                            }
+                        }));
+                    }
+                    else {
+                        VirtualRoot.Execute(new UnTopmostCommand());
+                        Windows.Cmd.RunClose(MinerClientTempPath.AtikmdagPatcherFileFullName, string.Empty, waitForExit: false);
+                    }
+                }
+                catch (Exception ex) {
+                    Logger.ErrorDebugLine(ex);
+                }
+            });
+        }
+        #endregion
+
+        #region OpenSwitchRadeonGpu
+        private static string GetSwitchRadeonGpuVersion() {
+            string version = string.Empty;
+            if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(NTKeyword.SwitchRadeonGpuVersionAppSettingKey, out IAppSetting setting) && setting.Value != null) {
+                version = setting.Value.ToString();
+            }
+            return version;
+        }
+
+        private static void SetSwitchRadeonGpuVersion(string value) {
+            VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                Key = NTKeyword.SwitchRadeonGpuVersionAppSettingKey,
+                Value = value
+            }));
+        }
+
+        private static void ShowSwitchRadeonGpu(bool on) {
+            if (on) {
+                VirtualRoot.ThisLocalInfo(nameof(AppRoot), "开启A卡计算模式成功", OutEnum.Success);
+            }
+            else {
+                VirtualRoot.ThisLocalInfo(nameof(AppRoot), "关闭A卡计算模式成功", OutEnum.Success);
+            }
+        }
+
+        public static void SwitchRadeonGpu(bool on) {
+            RpcRoot.OfficialServer.FileUrlService.GetSwitchRadeonGpuUrlAsync((downloadFileUrl, e) => {
+                try {
+                    string args = $"--compute={(on ? "on" : "off")} --admin --restart";
+                    if (string.IsNullOrEmpty(downloadFileUrl)) {
+                        if (File.Exists(MinerClientTempPath.SwitchRadeonGpuFileFullName)) {
+                            Windows.Cmd.RunClose(MinerClientTempPath.SwitchRadeonGpuFileFullName, args, waitForExit: true);
+                            ShowSwitchRadeonGpu(on);
+                        }
+                        return;
+                    }
+                    Uri uri = new Uri(downloadFileUrl);
+                    string localVersion = GetSwitchRadeonGpuVersion();
+                    if (string.IsNullOrEmpty(localVersion) || !File.Exists(MinerClientTempPath.SwitchRadeonGpuFileFullName) || uri.AbsolutePath != localVersion) {
+                        VirtualRoot.Execute(new ShowFileDownloaderCommand(downloadFileUrl, "下载开启A卡计算模式工具", (window, isSuccess, message, saveFileFullName) => {
+                            try {
+                                if (isSuccess) {
+                                    File.Delete(MinerClientTempPath.SwitchRadeonGpuFileFullName);
+                                    File.Move(saveFileFullName, MinerClientTempPath.SwitchRadeonGpuFileFullName);
+                                    SetSwitchRadeonGpuVersion(uri.AbsolutePath);
+                                    window?.Close();
+                                    Windows.Cmd.RunClose(MinerClientTempPath.SwitchRadeonGpuFileFullName, args, waitForExit: true);
+                                    ShowSwitchRadeonGpu(on);
+                                }
+                                else {
+                                    VirtualRoot.ThisLocalError(nameof(AppRoot), "下载开启A卡计算模式工具：" + message, toConsole: true);
+                                }
+                            }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex);
+                            }
+                        }));
+                    }
+                    else {
+                        Windows.Cmd.RunClose(MinerClientTempPath.SwitchRadeonGpuFileFullName, args, waitForExit: true);
+                        ShowSwitchRadeonGpu(on);
                     }
                 }
                 catch (Exception ex) {

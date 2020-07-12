@@ -1,0 +1,81 @@
+﻿<UserControl 
+    x:Class="NTMiner.Views.Ucs.WindowsAutoLogon"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:blankWindow="http://NTMiner.com"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:wpf="clr-namespace:NTMiner;assembly=NTMinerWpf"
+	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
+	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	mc:Ignorable="d" d:DesignHeight="160" d:DesignWidth="380"
+    d:DataContext="{d:DesignData Source=../Design/WindowsAutoLogonViewModel.xaml}">
+    <Grid Margin="20 10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"></ColumnDefinition>
+            <ColumnDefinition Width="200"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBlock 
+			Grid.Row="0" Grid.Column="0" 
+            Style="{StaticResource LblTbBase}"
+			Text="Windows 登录名"></TextBlock>
+        <TextBox 
+            x:Name="TbLoginName"
+			Grid.Row="0" Grid.Column="1" Margin="0 2"
+            ToolTip="填写在挖矿端注册的群控登录名"
+			Text="{Binding UserName}" Background="White" 
+			VerticalContentAlignment="Center"></TextBox>
+
+        <TextBlock 
+			Grid.Row="1" Grid.Column="0"
+            Style="{StaticResource LblTbBase}"
+			Text="Windows 密码"></TextBlock>
+        <PasswordBox 
+			Grid.Row="1" Grid.Column="1" Margin="0 2" Height="26"
+			x:Name="PbPassword" VerticalContentAlignment="Center" 
+            Background="White" controls:PasswordBoxHelper.Attach="true" 
+            controls:PasswordBoxHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <WrapPanel Grid.Row="2" Grid.Column="2" Margin="0 8 0 0">
+            <controls:KbButton
+				IsDefault="True"
+				Padding="15 2"
+                Command="{Binding Ok}"
+				Background="{StaticResource BtnBackground}"
+				Foreground="{StaticResource BtnForeground}"
+				CornerRadius="2">
+                <WrapPanel>
+                    <Path
+						Width="12"
+						Height="12"
+						Data="{StaticResource Icon_Ok}"
+						Fill="{StaticResource BtnForeground}"
+						Stretch="Fill" />
+                    <TextBlock
+						Padding="0 4"
+						VerticalAlignment="Center"
+						Text="确定" />
+                </WrapPanel>
+            </controls:KbButton>
+        </WrapPanel>
+        <WrapPanel Grid.Row="3" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Foreground="Red">注意：该操作有一定的安全风险。</TextBlock>
+            <controls:KbLinkButton
+				Padding="0"
+				Command="{x:Static app:AppStatic.OpenWindowsAutoLogonMoreInfo}"
+				KbDisplayLine="False"
+				Content="了解详情"
+				Background="Transparent">
+            </controls:KbLinkButton>
+        </WrapPanel>
+    </Grid>
+</UserControl>

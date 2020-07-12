@@ -4,7 +4,6 @@
 
 在实现过程中发现，超频一直是AMD的强项，是AMD的一件历史悠久的事情，所以超频接口也是稳定可靠且版本兼容的，这一点应该给AMD个赞。
 [这是AMD的文档](https://github.com/GPUOpen-LibrariesAndSDKs/display-library)
-[用到的相关接口](https://github.com/ntminer/NtMiner/blob/master/src/NTMiner.Core/Core/Gpus/Impl/Amd/AdlNativeMethods.cs)
 
 已实现并上线，自版本号NTMiner 2.2.0.0往后都支持A卡超频。
 

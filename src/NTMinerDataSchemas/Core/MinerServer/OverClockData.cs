@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Gpus;
+using System;
 
 namespace NTMiner.Core.MinerServer {
     [DataSchemaId("5E026328-8B23-467A-BC26-31E0BB0DB1FB")]

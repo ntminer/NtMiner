@@ -43,6 +43,32 @@ namespace NTMiner.Windows {
             }
         }
 
+        /// <summary>
+        /// 是否是Windows 2004或更新的系统，因为2004的开机自动登录方式不同。
+        /// </summary>
+        public bool IsGEWindows2004 {
+            get {
+                string currentBuild = CurrentBuild;
+                if (string.IsNullOrEmpty(currentBuild)) {
+                    return false;
+                }
+                if (int.TryParse(currentBuild, out int build)) {
+                    return build >= 19041;
+                }
+                return false;
+            }
+        }
+
+        public void SetAutoLogon(string defaultUserName, string defaultPassword) {
+            if (!IsGEWindows2004) {
+                return;
+            }
+            const string subkey = @"SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon";
+            WinRegistry.SetValue(Registry.LocalMachine, subkey, "DefaultUserName", defaultUserName);
+            WinRegistry.SetValue(Registry.LocalMachine, subkey, "DefaultPassword", defaultPassword);
+            WinRegistry.SetValue(Registry.LocalMachine, subkey, "AutoAdminLogon", "1");
+        }
+
         private string _csdVersion;
         /// <summary>
         /// Gets a string for which service pack is installed on the system.

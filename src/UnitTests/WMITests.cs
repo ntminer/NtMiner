@@ -57,31 +57,32 @@ namespace NTMiner {
         [TestMethod]
         public void IpTest() {
             var str = new StringBuilder();
-            ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration");
-            ManagementObjectCollection moc = mc.GetInstances();
-            foreach (ManagementObject mo in moc) {
-                if (!(bool)mo["IPEnabled"]) {
-                    continue;
-                }
-                if (mo["DefaultIPGateway"] == null || ((string[])mo["DefaultIPGateway"]).Length == 0) {
-                    continue;
-                }
-                foreach (var kv in mo.Properties) {
-                    str.Append(kv.Name);
-                    str.Append(": ");
-                    if (kv.Value != null && kv.IsArray) {
-                        foreach (var item in (IEnumerable)kv.Value) {
-                            str.Append(item).Append(";");
+            using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
+            using (ManagementObjectCollection moc = mc.GetInstances()) {
+                foreach (ManagementObject mo in moc) {
+                    if (!(bool)mo["IPEnabled"]) {
+                        continue;
+                    }
+                    if (mo["DefaultIPGateway"] == null || ((string[])mo["DefaultIPGateway"]).Length == 0) {
+                        continue;
+                    }
+                    foreach (var kv in mo.Properties) {
+                        str.Append(kv.Name);
+                        str.Append(": ");
+                        if (kv.Value != null && kv.IsArray) {
+                            foreach (var item in (IEnumerable)kv.Value) {
+                                str.Append(item).Append(";");
+                            }
                         }
+                        else {
+                            str.Append(kv.Value);
+                        }
+                        str.Append("\n");
                     }
-                    else {
-                        str.Append(kv.Value);
-                    }
-                    str.Append("\n");
+                    str.Append("==========================\n");
                 }
-                str.Append("==========================\n");
+                Console.WriteLine(str);
             }
-            Console.WriteLine(str);
         }
     }
 }

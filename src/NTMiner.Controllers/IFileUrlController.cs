@@ -17,6 +17,8 @@ namespace NTMiner.Controllers {
         string NTMinerUpdaterUrl();
         string MinerClientFinderUrl();
         string LiteDbExplorerUrl();
+        string AtikmdagPatcherUrl();
+        string SwitchRadeonGpuUrl();
         string PackageUrl(PackageUrlRequest request);
     }
 }

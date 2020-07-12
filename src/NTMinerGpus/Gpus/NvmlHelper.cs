@@ -20,7 +20,7 @@ namespace NTMiner.Gpus {
             public ulong TotalMemory { get; set; }
 
             public override string ToString() {
-                return $"GpuIndex={GpuIndex.ToString()},BusId={BusId.ToString()},Name={Name},TotalMemory={TotalMemory.ToString()}";
+                return VirtualRoot.JsonSerializer.Serialize(this);
             }
         }
 

@@ -292,9 +292,11 @@
                             <DataTemplate>
                                 <StackPanel Margin="4 0 0 0">
                                     <TextBlock Text="{Binding Code}" VerticalAlignment="Center" FontSize="14" FontWeight="Bold"></TextBlock>
-                                    <TextBlock 
+                                    <TextBox 
+                                        IsReadOnly="True"
+                                        BorderThickness="0"
 										Foreground="Green" 
-										Text="{Binding SupportedCoins}"></TextBlock>
+										Text="{Binding SupportedCoins,Mode=OneWay}"></TextBox>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>

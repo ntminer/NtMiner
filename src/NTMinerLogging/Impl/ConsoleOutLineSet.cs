@@ -2,6 +2,9 @@
 using System.Linq;
 
 namespace NTMiner.Impl {
+    /// <summary>
+    /// <see cref="IConsoleOutLineSet"/>
+    /// </summary>
     public class ConsoleOutLineSet : IConsoleOutLineSet {
         private const int _capacityCount = 50;
 

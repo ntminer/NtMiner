@@ -2,6 +2,7 @@
 using NTMiner.ServerNode;
 using System;
 using System.Diagnostics;
+using System.Management;
 
 namespace NTMiner.Windows {
     /// <summary>
@@ -19,6 +20,7 @@ namespace NTMiner.Windows {
             return new CpuData {
                 ClockSpeed = this.ClockSpeed,
                 Identifier = this.Identifier,
+                CpuId = this.CpuId,
                 Name = this.Name,
                 NumberOfLogicalCores = this.NumberOfLogicalCores,
                 ProcessorArchitecture = this.ProcessorArchitecture,
@@ -33,6 +35,29 @@ namespace NTMiner.Windows {
         /// <returns></returns>
         public float GetCurrentCpuUsage() {
             return _cpuCounter.NextValue();
+        }
+
+        private string _cpuId = null;
+        public string CpuId {
+            get {
+                if (_cpuId == null) {
+                    try {
+                        using (ManagementClass mc = new ManagementClass("Win32_Processor"))
+                        using (ManagementObjectCollection moc = mc.GetInstances()) {
+                            foreach (ManagementObject mo in moc) {
+                                _cpuId = mo.Properties["ProcessorId"].Value.ToString();
+                                break;
+                            }
+                        }
+                    }
+                    catch {
+                    }
+                    if (_cpuId == null) {
+                        _cpuId = "unknow";
+                    }
+                }
+                return _cpuId;
+            }
         }
 
         #region Properties

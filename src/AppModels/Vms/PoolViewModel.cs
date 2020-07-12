@@ -134,6 +134,7 @@ namespace NTMiner.Vms {
                 if ((!this.IsUserMode && (wallet == null || string.IsNullOrEmpty(wallet.Address))) ||
                     (this.IsUserMode && string.IsNullOrEmpty(this.PoolProfileVm.UserName))) {
                     if (!string.IsNullOrEmpty(Website)) {
+                        VirtualRoot.Execute(new UnTopmostCommand());
                         Process.Start(Website);
                     }
                     return;
@@ -147,6 +148,7 @@ namespace NTMiner.Vms {
                         url = url.Replace("{wallet}", wallet.Address);
                     }
                     url = url.Replace("{worker}", NTMinerContext.Instance.MinerProfile.MinerName);
+                    VirtualRoot.Execute(new UnTopmostCommand());
                     Process.Start(url);
                 }
             });

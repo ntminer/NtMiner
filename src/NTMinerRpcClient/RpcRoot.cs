@@ -50,17 +50,12 @@ namespace NTMiner {
             return name.Substring(startIndex, length);
         }
 
-        /// <summary>
-        /// 将字典转化为url查询字符串，返回的字符串以'?'问好开头。
-        /// </summary>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        public static string ToQueryString(this Dictionary<string, string> query) {
+        public static string GetUrl(string host, int port, string controller, string action, Dictionary<string, string> query) {
             string queryString = string.Empty;
             if (query != null && query.Count != 0) {
                 queryString = "?" + string.Join("&", query.Select(a => a.Key + "=" + a.Value));
             }
-            return queryString;
+            return $"http://{host}:{port.ToString()}/api/{controller}/{action}{queryString}";
         }
 
         public static HttpClient CreateHttpClient() {

@@ -157,7 +157,7 @@ namespace NTMiner.Core.Profiles {
         public string MinerName {
             get {
                 if (string.IsNullOrEmpty(_data.MinerName)) {
-                    _data.MinerName = NTMinerContext.ThisPcName;
+                    _data.MinerName = NTKeyword.GetSafeMinerName(NTMinerContext.ThisPcName);
                 }
                 return _data.MinerName;
             }
@@ -165,7 +165,7 @@ namespace NTMiner.Core.Profiles {
                 if (string.IsNullOrEmpty(value)) {
                     value = NTMinerContext.ThisPcName;
                 }
-                value = new string(value.ToCharArray().Where(a => !NTKeyword.InvalidMinerNameChars.Contains(a)).ToArray());
+                value = NTKeyword.GetSafeMinerName(value);
                 _data.MinerName = value;
             }
         }
@@ -419,13 +419,6 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
-        public bool IsNoUi {
-            get => _data.IsNoUi;
-            private set {
-                _data.IsNoUi = value;
-            }
-        }
-
         public bool IsAutoNoUi {
             get => _data.IsAutoNoUi;
             private set {
@@ -465,13 +458,6 @@ namespace NTMiner.Core.Profiles {
             get => _data.IsAutoBoot;
             private set {
                 _data.IsAutoBoot = value;
-            }
-        }
-
-        public bool IsAutoStart {
-            get => _data.IsAutoStart;
-            private set {
-                _data.IsAutoStart = value;
             }
         }
 

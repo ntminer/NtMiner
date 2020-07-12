@@ -118,5 +118,25 @@ namespace NTMiner {
                 return Path.Combine(dir, NTKeyword.MinerClientFinderFileName);
             }
         }
+
+        public static string AtikmdagPatcherFileFullName {
+            get {
+                string dir = Path.Combine(ToolsDirFullName, "AtikmdagPatcher");
+                if (!Directory.Exists(dir)) {
+                    Directory.CreateDirectory(dir);
+                }
+                return Path.Combine(dir, NTKeyword.AtikmdagPatcherFileName);
+            }
+        }
+
+        public static string SwitchRadeonGpuFileFullName {
+            get {
+                string dir = Path.Combine(ToolsDirFullName, "SwitchRadeonGpu");
+                if (!Directory.Exists(dir)) {
+                    Directory.CreateDirectory(dir);
+                }
+                return Path.Combine(dir, NTKeyword.SwitchRadeonGpuFileName);
+            }
+        }
     }
 }

@@ -118,7 +118,7 @@ namespace NTMiner.Vms {
 
         public EnumItem<SupportedGpu> TargetGpuEnumItem {
             get {
-                return NTMinerContext.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == TargetGpu);
+                return Enums.SupportedGpuEnumItems.FirstOrDefault(a => a.Value == TargetGpu);
             }
             set {
                 if (TargetGpu != value.Value) {

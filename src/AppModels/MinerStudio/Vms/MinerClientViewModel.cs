@@ -1,6 +1,6 @@
 ﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
 using NTMiner.Core.MinerServer;
+using NTMiner.Gpus;
 using NTMiner.RemoteDesktop;
 using NTMiner.Vms;
 using System;
@@ -187,6 +187,16 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MACAddress != value) {
                     _data.MACAddress = value;
                     OnPropertyChanged(nameof(MACAddress));
+                }
+            }
+        }
+
+        public string CpuId {
+            get { return _data.CpuId; }
+            set {
+                if (_data.CpuId != value) {
+                    _data.CpuId = value;
+                    OnPropertyChanged(nameof(CpuId));
                 }
             }
         }
@@ -400,24 +410,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public bool VmIsOnline {
             get {
-                if (!IsOnline) {
-                    return false;
-                }
-                if (RpcRoot.IsOuterNet) {
-                    if (this.IsOuterUserEnabled) {
-                        if (NetActiveOn.AddSeconds(60) < DateTime.Now) {
-                            return false;
-                        }
-                    }
-                    else if (NetActiveOn.AddSeconds(180) < DateTime.Now) {
-                        return false;
-                    }
-                    return true;
-                }
-                if (NetActiveOn.AddSeconds(20) < DateTime.Now) {
-                    return false;
-                }
-                return true;
+                return _data.GetIsOnline(RpcRoot.IsOuterNet);
             }
         }
 

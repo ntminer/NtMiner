@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
+﻿using NTMiner.Gpus;
 using System;
 
 namespace NTMiner.Report {
@@ -126,6 +125,8 @@ namespace NTMiner.Report {
         public bool IsRejectOneGpuShare { get; set; }
         public bool IsFoundOneGpuShare { get; set; }
         public bool IsGotOneIncorrectGpuShare { get; set; }
+
+        public string CpuId { get; set; }
 
         public int CpuPerformance { get; set; }
 

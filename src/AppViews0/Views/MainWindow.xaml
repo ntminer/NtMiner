@@ -17,6 +17,7 @@
     WindowStyle="None"
 	Background="Transparent"
     AllowsTransparency="True"
+    Topmost="True"
 	WindowStartupLocation="CenterScreen"
 	MouseDown="Window_MouseDown"
     d:DataContext="{d:DesignData Source=Design/MainWindowViewModel.xaml}">

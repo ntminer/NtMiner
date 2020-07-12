@@ -33,7 +33,7 @@ namespace NTMiner.MinerStudio.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            this._userStatusEnumItem = NTMinerContext.UserStatusEnumItems.FirstOrDefault(a => a.Value == UserStatus.All);
+            this._userStatusEnumItem = Enums.UserStatusEnumItems.FirstOrDefault(a => a.Value == UserStatus.All);
             this.PageUp = new DelegateCommand(() => {
                 this.PageIndex -= 1;
             });

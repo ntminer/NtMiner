@@ -96,17 +96,8 @@
     <Compile Include="MinerStudio\Views\Ucs\ColumnsShowEdit.xaml.cs">
       <DependentUpon>ColumnsShowEdit.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MinerStudio\Views\Ucs\GpuNamePage.xaml.cs">
-      <DependentUpon>GpuNamePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MinerStudio\Views\Ucs\GpuNames.xaml.cs">
-      <DependentUpon>GpuNames.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MinerStudio\Views\Ucs\GpuNameCounts.xaml.cs">
       <DependentUpon>GpuNameCounts.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="MinerStudio\Views\Ucs\GpuNameAdd.xaml.cs">
-      <DependentUpon>GpuNameAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="SafeNativeMethods.cs" />
     <Compile Include="Views\ConsoleWindow.xaml.cs">
@@ -156,6 +147,9 @@
     </Compile>
     <Compile Include="MinerStudio\Views\Ucs\WsServerNodePage.xaml.cs">
       <DependentUpon>WsServerNodePage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Ucs\WindowsAutoLogon.xaml.cs">
+      <DependentUpon>WindowsAutoLogon.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Ucs\SignUpPage.xaml.cs">
       <DependentUpon>SignUpPage.xaml</DependentUpon>
@@ -415,18 +409,6 @@
     <Compile Include="Views\Ucs\CoinPage.xaml.cs">
       <DependentUpon>CoinPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="MinerStudio\Views\Design\GpuNamePageViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MinerStudio\Views\Design\GpuNameViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MinerStudio\Views\Design\GpuNamesViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MinerStudio\Views\Design\GpuNameCountsViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -467,19 +449,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MinerStudio\Views\Ucs\GpuNamePage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MinerStudio\Views\Ucs\GpuNames.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MinerStudio\Views\Ucs\GpuNameCounts.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="MinerStudio\Views\Ucs\GpuNameAdd.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -508,6 +478,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MinerStudio\Views\Design\MineWorkSelectViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Design\WindowsAutoLogonViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -776,6 +750,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MinerStudio\Views\Ucs\WsServerNodePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\WindowsAutoLogon.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

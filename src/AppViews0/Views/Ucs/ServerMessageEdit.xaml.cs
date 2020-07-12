@@ -9,7 +9,8 @@ namespace NTMiner.Views.Ucs {
                 IsMaskTheParent = true,
                 Width = 540,
                 FormType = formType,
-                CloseVisible = System.Windows.Visibility.Visible
+                CloseVisible = System.Windows.Visibility.Visible,
+                FooterVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) =>
             {
                 ServerMessageViewModel vm = new ServerMessageViewModel(data);
@@ -21,6 +22,11 @@ namespace NTMiner.Views.Ucs {
         public ServerMessageEdit(ServerMessageViewModel vm) {
             this.DataContext = vm;
             InitializeComponent();
+        }
+
+        private void FindKernel_Click(object sender, System.Windows.RoutedEventArgs e) {
+            string keyword = this.TbContent.SelectedText;
+            KernelsWindow.ShowWindow(keyword);
         }
     }
 }

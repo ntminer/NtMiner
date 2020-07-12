@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
-using NTMiner.Core;
-using NTMiner.Core.Gpus;
+using NTMiner.Gpus;
 using System;
 
 namespace NTMiner.Report {
@@ -539,6 +538,13 @@ namespace NTMiner.Report {
             get { return _speedDto.ReportOuterUserId; }
             set {
                 _speedDto.ReportOuterUserId = value;
+            }
+        }
+
+        public string CpuId {
+            get { return _speedDto.CpuId; }
+            set {
+                _speedDto.CpuId = value;
             }
         }
 

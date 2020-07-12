@@ -194,7 +194,7 @@
                     </DataGridTemplateColumn.HeaderTemplate>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Content}" ToolTip="{Binding Content}" Foreground="{Binding IconFill}"></TextBlock>
+                            <TextBlock Text="{Binding Content}" TextWrapping="Wrap" ToolTip="{Binding Content}" Foreground="{Binding IconFill}"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

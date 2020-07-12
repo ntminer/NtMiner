@@ -11,6 +11,7 @@ namespace NTMiner.Core.MinerServer {
                 MinerName = string.Empty,
                 CreatedOn = DateTime.Now,
                 GroupId = Guid.Empty,
+                CpuId = string.Empty,
                 LocalIp = minerIp,
                 MinerIp = minerIp,
                 MACAddress = string.Empty,
@@ -36,6 +37,7 @@ namespace NTMiner.Core.MinerServer {
                 WorkerName = string.Empty,
                 MinerName = string.Empty,
                 CreatedOn = DateTime.Now,
+                CpuId = string.Empty,
                 GroupId = Guid.Empty,
                 LocalIp = string.Empty,
                 MinerIp = string.Empty,
@@ -54,6 +56,7 @@ namespace NTMiner.Core.MinerServer {
                 Id = clientData.Id,
                 ClientId = clientData.ClientId,
                 WorkerName = clientData.WorkerName,
+                CpuId = clientData.CpuId,
                 LocalIp = clientData.LocalIp,
                 MinerIp = clientData.MinerIp,
                 MACAddress = clientData.MACAddress,
@@ -82,6 +85,7 @@ namespace NTMiner.Core.MinerServer {
         public string WorkerName { get; set; }
         public string MinerName { get; set; }
         public Guid WorkId { get; set; }
+        public string CpuId { get; set; }
         public string LocalIp { get; set; }
         public string MinerIp { get; set; }
         public string MACAddress { get; set; }

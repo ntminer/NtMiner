@@ -1,5 +1,4 @@
 ﻿using NTMiner.Core.MinerServer;
-using NTMiner.Views;
 using System;
 using System.Windows.Input;
 using System.Windows.Media;

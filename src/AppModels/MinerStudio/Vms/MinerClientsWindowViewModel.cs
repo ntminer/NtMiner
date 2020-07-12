@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core;
 using NTMiner.Core.MinerServer;
 using NTMiner.Core.MinerStudio;
+using NTMiner.Gpus;
 using NTMiner.Vms;
 using NTMiner.Ws;
 using System;
@@ -377,7 +378,7 @@ namespace NTMiner.MinerStudio.Vms {
             }
             _coinSnapshotVms = new List<CoinSnapshotViewModel> { CoinSnapshotViewModel.PleaseSelect };
             _coinSnapshotVms.AddRange(AppRoot.CoinVms.AllCoins.Select(a => new CoinSnapshotViewModel(a, new CoinSnapshotDataViewModel(CoinSnapshotData.CreateEmpty(a.Code)))));
-            this._mineStatusEnumItem = NTMinerContext.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
+            this._mineStatusEnumItem = Enums.MineStatusEnumItems.FirstOrDefault(a => a.Value == MineStatus.All);
             this._pool = string.Empty;
             this._wallet = string.Empty;
             this.OneKeySetting = new DelegateCommand(() => {
@@ -1665,7 +1666,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public EnumItem<GpuType> GpuTypeEnumItem {
             get {
-                return NTMinerContext.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
+                return Enums.GpuTypeEnumItems.FirstOrDefault(a => a.Value == GpuType);
             }
             set {
                 if (GpuType != value.Value) {

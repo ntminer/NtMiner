@@ -27,7 +27,7 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.SetTimeout(timeountMilliseconds);
-                        Task<HttpResponseMessage> message = client.GetAsync($"http://{host}:{port.ToString()}/api/{controller}/{action}{query.ToQueryString()}");
+                        Task<HttpResponseMessage> message = client.GetAsync(RpcRoot.GetUrl(host, port, controller, action, query));
                         message.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
                             callback?.Invoke(t.Result, null);
                         });

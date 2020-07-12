@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NTMiner.Gpus;
+using System;
 using System.Text;
 
 namespace NTMiner.Core.MinerServer {

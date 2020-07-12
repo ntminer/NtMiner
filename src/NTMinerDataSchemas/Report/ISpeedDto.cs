@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using NTMiner.Core.Gpus;
+﻿using NTMiner.Gpus;
 using System;
 
 namespace NTMiner.Report {
@@ -9,6 +8,7 @@ namespace NTMiner.Report {
         int AutoRestartKernelTimes { get; }
         int AutoStartDelaySeconds { get; }
         DateTime BootOn { get; }
+        string CpuId { get; }
         Guid ClientId { get; }
         string MACAddress { get; }
         int CpuGETemperatureSeconds { get; }

@@ -18,6 +18,7 @@
         <controls:KbMuiltilineTextBox 
 			Background="Transparent"
 			FontFamily="Courier New"
+            FontSize="14"
 			Text="{x:Static app:AppStatic.AppMinerIntro}"
 			BorderThickness="0" IsReadOnly="True" 
 			Padding="0 2 16 0" Foreground="White">
@@ -67,6 +68,7 @@
 				BorderThickness="0"
 				Foreground="LightGray"						
 				IsReadOnly="True" 
+				FontSize="14"
 				Text="{Binding MinerProfile.ArgsAssembly, Mode=OneWay}"></controls:KbMuiltilineTextBox>
         </Grid>
         <StackPanel Grid.Row="2">
@@ -79,7 +81,7 @@
 					Data="{StaticResource Icon_Notice}"
 					Fill="LightGray"
 					Stretch="Fill" />
-                <TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
+                <TextBlock Foreground="LightGray" VerticalAlignment="Top" FontSize="14" Text="{Binding MinerProfile.CoinVm.Code}"></TextBlock>
                 <controls:KbMuiltilineTextBox 
 					FontFamily="Courier New"
 					Background="Transparent"
@@ -87,6 +89,7 @@
 					Padding="0 2 16 2"
 					Foreground="Yellow"
 					IsReadOnly="True" 
+					FontSize="14"
 					Text="{Binding MinerProfile.CoinVm.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
             </WrapPanel>
             <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice, Converter={StaticResource NotNullOrEmptyVisibilityConverter}}">
@@ -98,7 +101,7 @@
 					Data="{StaticResource Icon_Notice}"
 					Fill="LightGray"
 					Stretch="Fill" />
-                <TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Name}"></TextBlock>
+                <TextBlock Foreground="LightGray" VerticalAlignment="Top" FontSize="14" Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Name}"></TextBlock>
                 <controls:KbMuiltilineTextBox 
 					FontFamily="Courier New"
 					Background="Transparent"
@@ -106,6 +109,7 @@
 					Padding="0 2 16 2"
 					Foreground="Yellow"
 					IsReadOnly="True" 
+					FontSize="14"
 					Text="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
             </WrapPanel>
             <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.IsDualCoinEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -119,7 +123,7 @@
 							Data="{StaticResource Icon_Notice}"
 							Fill="LightGray"
 							Stretch="Fill" />
-                        <TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Name}"></TextBlock>
+                        <TextBlock Foreground="LightGray" VerticalAlignment="Top" FontSize="14" Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Name}"></TextBlock>
                         <controls:KbMuiltilineTextBox 
 							FontFamily="Courier New"
 							Background="Transparent"
@@ -127,6 +131,7 @@
 							Padding="0 2 16 2"
 							Foreground="Yellow"
 							IsReadOnly="True" 
+							FontSize="14"
 							Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.Notice, Mode=OneWay}"></controls:KbMuiltilineTextBox>
                     </WrapPanel>
                 </WrapPanel>
@@ -140,12 +145,13 @@
 					Data="{StaticResource Icon_Notice}"
 					Fill="LightGray"
 					Stretch="Fill" />
-                <TextBlock Foreground="LightGray" VerticalAlignment="Top" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName, Mode=OneWay}"></TextBlock>
+                <TextBlock Foreground="LightGray" VerticalAlignment="Top" FontSize="14" Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.FullName, Mode=OneWay}"></TextBlock>
                 <WrapPanel>
                     <controls:KbMuiltilineTextBox 
 						Background="Transparent"
 						FontFamily="Courier New"
 						ToolTip="币种内核公告"
+						FontSize="14"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.Notice, Mode=OneWay}"
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 						BorderThickness="0" IsReadOnly="True" 
@@ -155,6 +161,7 @@
 						Background="Transparent"
 						FontFamily="Courier New"
 						ToolTip="内核公告"
+						FontSize="14"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice, Mode=OneWay}"
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 						BorderThickness="0" IsReadOnly="True" 

@@ -95,8 +95,6 @@
     <Compile Include="MinerStudio\Vms\CpuDataViewModel.cs" />
     <Compile Include="MinerStudio\Vms\GpuNameCountsViewModel.cs" />
     <Compile Include="MinerStudio\Vms\GpuNameCountViewModel.cs" />
-    <Compile Include="MinerStudio\Vms\GpuNamePageViewModel.cs" />
-    <Compile Include="MinerStudio\Vms\GpuNamesViewModel.cs" />
     <Compile Include="MinerStudio\Vms\IWsStateViewModel.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MinerStudio\ILocalMinerStudioService.cs" />
@@ -132,7 +130,6 @@
     <Compile Include="Vms\CoinProfileViewModel.cs" />
     <Compile Include="MinerStudio\Vms\CoinSnapshotViewModel.cs" />
     <Compile Include="MinerStudio\Vms\ColumnsShowSelectViewModel.cs" />
-    <Compile Include="Vms\GpuNameViewModel.cs" />
     <Compile Include="Vms\InnerPropertyViewModel.cs" />
     <Compile Include="Vms\KernelOutputKeywordViewModel.cs" />
     <Compile Include="Vms\KernelOutputKeywordsViewModel.cs" />
@@ -233,6 +230,7 @@
     <Compile Include="Vms\LocalMessageViewModel.cs" />
     <Compile Include="MinerStudio\Vms\WsServerNodePageViewModel.cs" />
     <Compile Include="MinerStudio\Vms\WsServerNodeStateViewModel.cs" />
+    <Compile Include="Vms\WindowsAutoLogonViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">

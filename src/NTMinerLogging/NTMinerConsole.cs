@@ -14,7 +14,8 @@ namespace NTMiner {
             internal static extern IntPtr GetConsoleWindow();
             [DllImport(DllName.User32Dll, CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall, ExactSpelling = true, SetLastError = true)]
             internal static extern void MoveWindow(IntPtr hwnd, int x, int y, int nWidth, int nHeight, bool bRepaint);
-
+            [DllImport(DllName.User32Dll, SetLastError = true)]
+            internal static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
             [DllImport(DllName.Kernel32Dll, SetLastError = true)]
             private static extern IntPtr GetStdHandle(int hConsoleHandle);
             [DllImport(DllName.Kernel32Dll, SetLastError = true)]
@@ -75,6 +76,8 @@ namespace NTMiner {
                 SafeNativeMethods.FreeConsole();
             }
         }
+
+        // 缓存最近的几十条输出行
         public static readonly IConsoleOutLineSet ConsoleOutLineSet = new ConsoleOutLineSet();
 
         private static int _uiThreadId;
@@ -90,8 +93,6 @@ namespace NTMiner {
 
         public static void Enable() {
             _isEnabled = true;
-            _isInited = false;
-            InitOnece();
         }
 
         /// <summary>
@@ -99,7 +100,6 @@ namespace NTMiner {
         /// </summary>
         public static void Disable() {
             _isEnabled = false;
-            Free();
         }
 
         private static readonly Action<string, ConsoleColor> _userLineMethod = (line, color) => {
@@ -114,15 +114,18 @@ namespace NTMiner {
 
         private static readonly object _locker = new object();
         private static bool _isInited = false;
-        private static void InitOnece() {
-            if (!_isEnabled) {
+        public static void InitOnece(bool isForce = false, bool initHide = false) {
+            if (!isForce && !_isEnabled) {
                 return;
             }
             if (!_isInited) {
                 lock (_locker) {
                     if (!_isInited) {
                         _isInited = true;
-                        GetOrAlloc();
+                        var hWnh = GetOrAlloc();
+                        if (initHide) {
+                            SafeNativeMethods.ShowWindow(hWnh, 0);
+                        }
                     }
                 }
             }
@@ -159,11 +162,19 @@ namespace NTMiner {
             UserLine(text, MessageType.Fail);
         }
 
-        public static void UserLine(string text, ConsoleColor foreground) {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <param name="foreground"></param>
+        /// <param name="withPrefix">表示是否在打印的行前附加个时间戳，默认附加</param>
+        public static void UserLine(string line, ConsoleColor foreground, bool withPrefix = true) {
             if (!_isEnabled) {
                 return;
             }
-            string line = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {(Thread.CurrentThread.ManagedThreadId == _uiThreadId ? "UI" : "  ")} {text}";
+            if (withPrefix) {
+                line = $"{DateTime.Now.ToString("HH:mm:ss fff")}  {(Thread.CurrentThread.ManagedThreadId == _uiThreadId ? "UI" : "  ")} {line}";
+            }
             ConsoleOutLineSet.Add(new ConsoleOutLine {
                 Timestamp = GetTimestamp(),
                 Line = line

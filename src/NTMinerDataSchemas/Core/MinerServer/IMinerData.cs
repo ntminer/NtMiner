@@ -5,6 +5,7 @@ namespace NTMiner.Core.MinerServer {
         string WorkerName { get; }
         DateTime CreatedOn { get; }
         Guid GroupId { get; }
+        string CpuId { get; }
         string MACAddress { get; }
         string MinerName { get; }
         string WindowsLoginName { get; }

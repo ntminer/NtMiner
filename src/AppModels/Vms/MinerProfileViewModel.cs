@@ -48,6 +48,10 @@ namespace NTMiner.Vms {
                 IsConnecting = true;
             });
             if (ClientAppType.IsMinerClient) {
+                VirtualRoot.AddCmdPath<SetAutoStartCommand>(message => {
+                    this.IsAutoStart = message.IsAutoStart;
+                    this.IsAutoBoot = message.IsAutoBoot;
+                }, this.GetType(), LogEnum.None);
                 VirtualRoot.AddEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
                     action: message => {
                         IsMining = false;
@@ -121,11 +125,8 @@ namespace NTMiner.Vms {
             });
             AppRoot.AddCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
                 action: message => {
-                    MinerProfileData data = NTMinerContext.Instance.ServerContext.CreateLocalRepository<MinerProfileData>().GetByKey(this.Id);
-                    if (data != null) {
-                        this.IsAutoBoot = data.IsAutoBoot;
-                        this.IsAutoStart = data.IsAutoStart;
-                    }
+                    this.OnPropertyChanged(nameof(IsAutoBoot));
+                    this.OnPropertyChanged(nameof(IsAutoStart));
                 }, location: this.GetType());
             AppRoot.AddEventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
                 action: message => {
@@ -148,9 +149,6 @@ namespace NTMiner.Vms {
             VirtualRoot.AddEventPath<CoinVmRemovedEvent>("Vm集删除了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, action: message => {
                 OnPropertyChanged(nameof(CoinVm));
             }, this.GetType());
-            if ((IsAutoStart || CommandLineArgs.IsAutoStart) && IsNoUi) {
-                NTMinerConsole.Disable();
-            }
         }
 
         public void RefreshWsDaemonState() {
@@ -416,10 +414,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsNoUi {
-            get { return NTMinerContext.Instance.MinerProfile.IsNoUi; }
+            get { return NTMinerRegistry.GetIsNoUi(); }
             set {
-                if (NTMinerContext.Instance.MinerProfile.IsNoUi != value) {
-                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsNoUi), value);
+                if (NTMinerRegistry.GetIsNoUi() != value) {
+                    NTMinerRegistry.SetIsNoUi(value);
                     OnPropertyChanged(nameof(IsNoUi));
                 }
             }
@@ -498,10 +496,10 @@ namespace NTMiner.Vms {
         }
 
         public bool IsAutoStart {
-            get => NTMinerContext.Instance.MinerProfile.IsAutoStart;
+            get => NTMinerRegistry.GetIsAutoStart();
             set {
-                if (NTMinerContext.Instance.MinerProfile.IsAutoStart != value) {
-                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsAutoStart), value);
+                if (NTMinerRegistry.GetIsAutoStart() != value) {
+                    NTMinerRegistry.SetIsAutoStart(value);
                     OnPropertyChanged(nameof(IsAutoStart));
                 }
             }

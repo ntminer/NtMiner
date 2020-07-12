@@ -9,7 +9,6 @@
 	xmlns:vm="clr-namespace:NTMiner.Vms"
 	mc:Ignorable="d"
 	WindowStartupLocation="CenterScreen" 
-	Topmost="True"
 	ShowInTaskbar="False" 
 	WindowStyle="None" 
 	WindowState="Normal"
