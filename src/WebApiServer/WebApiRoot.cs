@@ -48,22 +48,20 @@ namespace NTMiner {
                             new UserMqMessagePath(durableQueue),
                             new MinerClientMqMessagePath(queue)
                         };
-                        IServerConfig serverConfig = ServerConfig.Create(mqClientTypeName: ServerAppType.WebApiServer.GetName(), mqMessagePaths);
-                        if (serverConfig == null) {
+                        if (!ServerConnection.Create(ServerAppType.WebApiServer, mqMessagePaths, out IServerConnection serverConfig)) {
                             NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                             return;
                         }
                         Console.Title = $"{ServerAppType.WebApiServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
                         OssClient = new OssClient(ServerRoot.HostConfig.OssEndpoint, ServerRoot.HostConfig.OssAccessKeyId, ServerRoot.HostConfig.OssAccessKeySecret);
-                        var minerClientMqSender = new MinerClientMqSender(serverConfig.Channel);
-                        var userMqSender = new UserMqSender(serverConfig.Channel);
-                        var wsServerNodeMqSender = new WsServerNodeMqSender(serverConfig.Channel);
+                        var minerClientMqSender = new MinerClientMqSender(serverConfig);
+                        var userMqSender = new UserMqSender(serverConfig);
+                        var wsServerNodeMqSender = new WsServerNodeMqSender(serverConfig);
 
-                        var minerRedis = new MinerRedis(serverConfig.RedisConn);
-                        var speedDataRedis = new SpeedDataRedis(serverConfig.RedisConn);
-                        var userRedis = new UserRedis(serverConfig.RedisConn);
-                        var captchaRedis = new CaptchaRedis(serverConfig.RedisConn);
-                        var gpuNameRedis = new GpuNameRedis(serverConfig.RedisConn);
+                        var minerRedis = new MinerRedis(serverConfig);
+                        var speedDataRedis = new SpeedDataRedis(serverConfig);
+                        var userRedis = new UserRedis(serverConfig);
+                        var captchaRedis = new CaptchaRedis(serverConfig);
 
                         WsServerNodeSet = new WsServerNodeSet(wsServerNodeMqSender);
                         UserSet = new UserSet(userRedis, userMqSender);
@@ -71,7 +69,7 @@ namespace NTMiner {
                         CaptchaSet = new CaptchaSet(captchaRedis);
                         CalcConfigSet = new CalcConfigSet();
                         NTMinerWalletSet = new NTMinerWalletSet();
-                        GpuNameSet = new GpuNameSet(gpuNameRedis);
+                        GpuNameSet = new GpuNameSet();
                         ClientDataSet clientDataSet = new ClientDataSet(minerRedis, speedDataRedis, minerClientMqSender);
                         ClientDataSet = clientDataSet;
                         CoinSnapshotSet = new CoinSnapshotSet(clientDataSet);

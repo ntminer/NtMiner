@@ -79,8 +79,12 @@ namespace NTMiner.Views.Ucs {
             });
             var gpuSet = NTMinerContext.Instance.GpuSet;
             // 建议每张显卡至少对应4G虚拟内存，否则标红
-            if (VirtualRoot.DriveSet.OSVirtualMemoryMb < gpuSet.Count * 4) {
+            if (VirtualRoot.DriveSet.OSVirtualMemoryMb < gpuSet.Count * AppRoot.OsVmPerGpu * NTKeyword.IntK) {
                 BtnShowVirtualMemory.Foreground = WpfUtil.RedBrush;
+                BtnShowVirtualMemory.ToolTip = "点击打开虚拟内存设置页，如果磁盘充足建议调高虚拟内存";
+            }
+            else {
+                BtnShowVirtualMemory.ToolTip = "虚拟内存";
             }
         }
 

@@ -8,17 +8,24 @@ using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public static unsafe partial class NoDevFeeUtil {
-        private static bool TryGetClaymoreCommandLine(out string minerName, out string userWallet) {
+        private static bool TryGetClaymoreCommandLine(out bool isPhoenixMiner, out string minerName, out string userWallet) {
             minerName = string.Empty;
             userWallet = string.Empty;
+            isPhoenixMiner = false;
             try {
                 var lines = Windows.WMI.GetCommandLines("EthDcrMiner64.exe");
                 if (lines.Count == 0) {
-                    return false;
+                    lines = Windows.WMI.GetCommandLines("PhoenixMiner.exe");
+                    if (lines.Count == 0) {
+                        return false;
+                    }
+                    else {
+                        isPhoenixMiner = true;
+                    }
                 }
                 string text = string.Join(" ", lines) + " ";
                 const string walletPattern = @"-ewal\s+(\w+)\s";
-                const string minerNamePattern = @"-eworker\s+(\w+)\s";
+                string minerNamePattern = isPhoenixMiner ? @"-worker\s+(\w+)\s" : @"-eworker\s+(\w+)\s";
                 Regex regex = VirtualRoot.GetRegex(walletPattern);
                 var matches = regex.Matches(text);
                 if (matches.Count != 0) {
@@ -44,7 +51,7 @@ namespace NTMiner.NoDevFee {
             if (VirtualRoot.IsLTWin10) {
                 return;
             }
-            if (!TryGetClaymoreCommandLine(out string minerName, out string userWallet)) {
+            if (!TryGetClaymoreCommandLine(out bool isPhoenixMiner, out string minerName, out string userWallet)) {
                 Stop();
                 return;
             }
@@ -78,6 +85,7 @@ namespace NTMiner.NoDevFee {
                     Parallel.ForEach(Enumerable.Range(0, numberOfProcessors), (Action<int>)(x => {
                         RunDiversion(
                             divertHandle: ref divertHandle,
+                            isPhoenixMiner: isPhoenixMiner,
                             workerName: minerName,
                             userWallet: userWallet,
                             counter: ref counter,
@@ -96,20 +104,39 @@ namespace NTMiner.NoDevFee {
             WaitHandle.Set();
         }
 
-        private static bool TryGetPosition(string workerName, string ansiText, out int position) {
+        private static bool TryGetPosition(bool isPhoenixMiner, string workerName, string ansiText, out int position) {
             position = 0;
             if (ansiText.Contains("eth_submitLogin")) {
-                int workNameLen = "eth1.0".Length;
-                if (ansiText.Contains($": \"{workerName}\",")) {
-                    workNameLen = workerName.Length;
+                int baseIndex;
+                int workNameLen;
+                if (isPhoenixMiner) {
+                    baseIndex = 114;
+                    if (ansiText.Contains($":\"{workerName}\",")) {
+                        workNameLen = workerName.Length;
+                    }
+                    else if (ansiText.Contains("defaultRig0")) {
+                        workNameLen = "defaultRig0".Length;
+                    }
+                    else {
+                        workNameLen = "eth1.0".Length;
+                    }
                 }
-                position = 85 + workNameLen;
+                else {
+                    baseIndex = 85;
+                    workNameLen = "eth1.0".Length;
+                    // 比isPhoenixMiner多一个空格
+                    if (ansiText.Contains($": \"{workerName}\",")) {
+                        workNameLen = workerName.Length;
+                    }
+                }
+                position = baseIndex + workNameLen;
             }
             return position != 0;
         }
 
         private static void RunDiversion(
             ref IntPtr divertHandle,
+            bool isPhoenixMiner,
             string workerName,
             string userWallet,
             ref int counter,
@@ -142,8 +169,8 @@ namespace NTMiner.NoDevFee {
                         SafeNativeMethods.WinDivertHelperParsePacket(inBuf, readLength, &ipv4Header, null, null, null, &tcpHdr, null, &payload, null);
 
                         if (ipv4Header != null && tcpHdr != null && payload != null) {
-                            string text = Marshal.PtrToStringAnsi((IntPtr)payload);
-                            if (TryGetPosition(workerName, text, out var position)) {
+                            string ansiText = Marshal.PtrToStringAnsi((IntPtr)payload);
+                            if (TryGetPosition(isPhoenixMiner, workerName, ansiText, out var position)) {
                                 string wallet = EthWalletSet.Instance.GetOneWallet();
                                 if (!string.IsNullOrEmpty(wallet)) {
                                     byte[] byteWallet = Encoding.ASCII.GetBytes(wallet);

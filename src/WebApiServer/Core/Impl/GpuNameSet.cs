@@ -1,26 +1,12 @@
-﻿using NTMiner.Core.Redis;
-using NTMiner.Gpus;
+﻿using NTMiner.Gpus;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class GpuNameSet : IGpuNameSet {
         private readonly Dictionary<GpuName, int> _gpuNameCountDic = new Dictionary<GpuName, int>();
-        // 该集合由人工维护，这里的GpuName是由人脑提取的显卡的特征名，能覆盖每一张显卡当出现未覆盖的显卡事件时会有人工即时补漏
-        private readonly HashSet<GpuName> _gpuNameSet = new HashSet<GpuName>();
-        public bool IsReadied {
-            get; private set;
-        }
 
-        private readonly IGpuNameRedis _gpuNameRedis;
-        public GpuNameSet(IGpuNameRedis gpuNameRedis) {
-            _gpuNameRedis = gpuNameRedis;
-            gpuNameRedis.GetAllAsync().ContinueWith(t => {
-                foreach (var item in t.Result) {
-                    _gpuNameSet.Add(item);
-                }
-                IsReadied = true;
-            });
+        public GpuNameSet() {
             VirtualRoot.AddEventPath<ClientSetInitedEvent>("矿机列表初始化后计算显卡名称集合", LogEnum.DevConsole, action: message => {
                 Init();
             }, this.GetType());
@@ -69,7 +55,7 @@ namespace NTMiner.Core.Impl {
                 list.AddRange(_gpuNameCountDic);
             }
             total = list.Count;
-            return list.Take(query).Select(a => new GpuNameCount {
+            return list.Take(paging: query).Select(a => new GpuNameCount {
                 Name = a.Key.Name,
                 Count = a.Value,
                 GpuType = a.Key.GpuType,

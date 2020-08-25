@@ -16,6 +16,10 @@ namespace NTMiner.Vms {
                 VirtualRoot.Execute(new CloseMainWindowCommand(isAutoNoUi: false));
             });
             this.UseThisPcName = new DelegateCommand(() => {
+                if (MinerProfile.IsMining) {
+                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                    return;
+                }
                 string thisPcName = NTMinerContext.ThisPcName;
                 this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
                     MinerProfile.MinerName = thisPcName;

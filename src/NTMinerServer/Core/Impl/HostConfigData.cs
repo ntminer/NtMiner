@@ -16,10 +16,16 @@ namespace NTMiner.Core.Impl {
         public string MqUserName { get; set; }
         public string MqPassword { get; set; }
 
+        /// <summary>
+        /// <see cref="IHostConfig.RpcServerLocalAddress"/>
+        /// </summary>
         public string RpcServerLocalAddress { get; set; }
         public string RpcLoginName { get; set; }
         public string RpcPassword { get; set; }
 
+        /// <summary>
+        /// <see cref="IHostConfig.ThisServerAddress"/>
+        /// </summary>
         public string ThisServerAddress { get; set; }
 
         public ushort GetServerPort() {
@@ -31,13 +37,13 @@ namespace NTMiner.Core.Impl {
             if (index == -1) {
                 throw new NTMinerException($"{nameof(ThisServerAddress)}格式错误，应为ip:port形式");
             }
-            ushort port = 3340;
+            ushort port = 0;
             string[] parts = thisServerAddress.Split(':');
             if (parts.Length == 2) {
                 ushort.TryParse(parts[1], out port);
-                if (port == 0) {
-                    port = 3340;
-                }
+            }
+            if (port == 0) {
+                port = 3340;
             }
             return port;
         }

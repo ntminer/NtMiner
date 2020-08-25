@@ -6,7 +6,7 @@ namespace NTMiner.Services.Official {
     public class ReportService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IReportController>();
 
-        public ReportService() {
+        internal ReportService() {
         }
 
         public void ReportSpeedAsync(SpeedDto speedDto, Action<ReportResponse, Exception> callback) {

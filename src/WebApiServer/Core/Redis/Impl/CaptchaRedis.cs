@@ -7,13 +7,13 @@ namespace NTMiner.Core.Redis.Impl {
     public class CaptchaRedis : ICaptchaRedis {
         protected const string _redisKeyCaptchaById = "captchas.CaptchaById";// 根据Id索引Captcha对象的json
 
-        protected readonly ConnectionMultiplexer _connection;
-        public CaptchaRedis(ConnectionMultiplexer connection) {
-            _connection = connection;
+        protected readonly IServerConnection _serverConnection;
+        public CaptchaRedis(IServerConnection serverConnection) {
+            _serverConnection = serverConnection;
         }
 
         public Task<List<CaptchaData>> GetAllAsync() {
-            var db = _connection.GetDatabase();
+            var db = _serverConnection.RedisConn.GetDatabase();
             return db.HashGetAllAsync(_redisKeyCaptchaById).ContinueWith(t => {
                 List<CaptchaData> list = new List<CaptchaData>();
                 foreach (var item in t.Result) {
@@ -32,7 +32,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (data == null || data.Id == Guid.Empty) {
                 return TaskEx.CompletedTask;
             }
-            var db = _connection.GetDatabase();
+            var db = _serverConnection.RedisConn.GetDatabase();
             return db.HashSetAsync(_redisKeyCaptchaById, data.Id.ToString(), VirtualRoot.JsonSerializer.Serialize(data));
         }
 
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (data == null || data.Id == Guid.Empty) {
                 return TaskEx.CompletedTask;
             }
-            var db = _connection.GetDatabase();
+            var db = _serverConnection.RedisConn.GetDatabase();
             return db.HashDeleteAsync(_redisKeyCaptchaById, data.Id.ToString());
         }
     }

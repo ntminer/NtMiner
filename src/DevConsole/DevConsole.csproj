@@ -66,15 +66,15 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\NTMinerNoDevFee\NoDevFee\WinDivert64.sys">
+    <EmbeddedResource Include="..\NTMinerNoDevFee\NoDevFee\WinDivert64.sys">
       <Link>NoDevFee\WinDivert64.sys</Link>
-    </None>
+    </EmbeddedResource>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\NTMinerNoDevFee\NoDevFee\WinDivert.dll">
+    <EmbeddedResource Include="..\NTMinerNoDevFee\NoDevFee\WinDivert.dll">
       <Link>NoDevFee\WinDivert.dll</Link>
-    </Content>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />

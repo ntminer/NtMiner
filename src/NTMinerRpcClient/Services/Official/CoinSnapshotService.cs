@@ -6,7 +6,7 @@ namespace NTMiner.Services.Official {
     public class CoinSnapshotService {
         private readonly string _controllerName = RpcRoot.GetControllerName<ICoinSnapshotController>();
 
-        public CoinSnapshotService() {
+        internal CoinSnapshotService() {
         }
 
         #region GetLatestSnapshotsAsync

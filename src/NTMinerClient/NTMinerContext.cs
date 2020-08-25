@@ -65,11 +65,11 @@ namespace NTMiner {
                         DoInit(callback);
                     }
                     else {
-                        Logger.InfoDebugLine(nameof(GetAliyunServerJson));
-                        GetAliyunServerJson((data) => {
+                        Logger.InfoDebugLine(nameof(RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson));
+                        RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson((data) => {
                             // 如果server.json未下载成功则不覆写本地server.json
                             if (data != null && data.Length != 0) {
-                                Logger.InfoDebugLine($"{nameof(GetAliyunServerJson)}成功");
+                                Logger.InfoDebugLine($"{nameof(RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson)} ok");
                                 var serverJson = Encoding.UTF8.GetString(data);
                                 if (!string.IsNullOrEmpty(serverJson)) {
                                     HomePath.WriteServerJsonFile(serverJson);
@@ -159,7 +159,7 @@ namespace NTMiner {
                 AppVersionChangedEvent.PublishIfNewVersion(serverState.MinerClientVersion);
                 string localServerJsonFileVersion = GetServerJsonVersion();
                 if (!string.IsNullOrEmpty(serverState.JsonFileVersion) && localServerJsonFileVersion != serverState.JsonFileVersion) {
-                    GetAliyunServerJson((data) => {
+                    RpcRoot.OSSService.AliyunOSSService.GetAliyunServerJson((data) => {
                         if (data == null || data.Length == 0) {
                             return;
                         }

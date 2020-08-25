@@ -141,7 +141,6 @@
                     <controls:KbLinkButton
 					    Padding="0"
 					    Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool1.ViewPoolIncome}"
-					    CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
 					    KbDisplayLine="False"
 					    Content="备池收益"
 					    Visibility="{Binding MinerProfile.CoinVm.CoinKernel.IsSupportPool1, Converter={StaticResource BoolToVisibilityConverter}}"
@@ -162,7 +161,6 @@
 					<controls:KbLinkButton
 						Padding="0"
 						Command="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.ViewPoolIncome}"
-						CommandParameter="{Binding MinerProfile.CoinVm.CoinProfile.SelectedWallet}"
 						KbDisplayLine="False"
 						Content="查看收益"
 						Background="Transparent">
@@ -223,7 +221,6 @@
 							VerticalAlignment="Center"
 							Padding="0"
 							Command="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.DualCoinPool.ViewPoolIncome}"
-							CommandParameter="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.SelectedDualCoinWallet}"
 							KbDisplayLine="False"
 							Content="辅币收益"
 							Background="Transparent">
@@ -389,7 +386,6 @@
 						Content="{x:Static app:AppStatic.TotalVirtualMemoryGbText}" 
 						Background="Transparent" 
 						Cursor="Hand"
-						ToolTip="虚拟内存" 
 						Foreground="{StaticResource LableColor}"></controls:KbButton>
 					<TextBlock Text=" / " Foreground="{StaticResource LableColor}"></TextBlock>
                     <TextBlock 

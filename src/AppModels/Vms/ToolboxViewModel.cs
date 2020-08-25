@@ -25,7 +25,7 @@ namespace NTMiner.Vms {
             }
             this.SwitchRadeonGpu = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
-                    VirtualRoot.Out.ShowInfo("请先停止挖矿");
+                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
                     return;
                 }
                 var config = new DialogWindowViewModel(
@@ -41,7 +41,7 @@ namespace NTMiner.Vms {
             });
             this.AtikmdagPatcher = new DelegateCommand(() => {
                 if (MinerProfileViewModel.Instance.IsMining) {
-                    VirtualRoot.Out.ShowInfo("请先停止挖矿");
+                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
                     return;
                 }
                 VirtualRoot.Execute(new AtikmdagPatcherCommand());
@@ -90,7 +90,7 @@ namespace NTMiner.Vms {
 
         public string BlockWAUHelpUrl {
             get {
-                string url = "https://www.cnblogs.com/ntminer/p/12155769.html";
+                string url = "https://zhuanlan.zhihu.com/p/166387002";
                 if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "BlockWAUHelpUrl", out ISysDicItem dicItem)) {
                     url = dicItem.Value;
                 }
@@ -100,7 +100,7 @@ namespace NTMiner.Vms {
 
         public string Win10OptimizeHelpUrl {
             get {
-                string url = "https://www.cnblogs.com/ntminer/p/12155773.html";
+                string url = "https://zhuanlan.zhihu.com/p/166385743";
                 if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "Win10OptimizeHelpUrl", out ISysDicItem dicItem)) {
                     url = dicItem.Value;
                 }

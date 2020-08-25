@@ -92,6 +92,8 @@
     <Compile Include="Services\Official\ReportService.cs" />
     <Compile Include="IServerMessageSet.cs" />
     <Compile Include="Impl\ServerMessageSet.cs" />
+    <Compile Include="Services\OSSService.cs" />
+    <Compile Include="Services\OSS\AliyunOSSService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMiner.Controllers\NTMiner.Controllers.csproj">

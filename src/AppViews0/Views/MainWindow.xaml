@@ -17,7 +17,6 @@
     WindowStyle="None"
 	Background="Transparent"
     AllowsTransparency="True"
-    Topmost="True"
 	WindowStartupLocation="CenterScreen"
 	MouseDown="Window_MouseDown"
     d:DataContext="{d:DesignData Source=Design/MainWindowViewModel.xaml}">
@@ -387,7 +386,7 @@
                                     <RowDefinition Height="*"></RowDefinition>
                                 </Grid.RowDefinitions>
                                 <WrapPanel>
-                                    <WrapPanel VerticalAlignment="Center" IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
+                                    <WrapPanel VerticalAlignment="Center">
                                         <TextBlock 
 								            FontSize="11"
 								            Foreground="{StaticResource LableColor}"
@@ -401,6 +400,7 @@
 								            Width="96" 
 								            Padding="3 0 0 0"
                                             ToolTip="1. 尽量别使用中文，因为有些矿池不支持中文矿工名；2. 点号、空格、减号、下划线将被去除。"
+                                            IsReadOnly="{Binding MinerProfile.IsMining}"
 								            Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 								            Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
 								            VerticalContentAlignment="Center">

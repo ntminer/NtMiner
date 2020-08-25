@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public class NTMinerWalletService {
         private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerWalletController>();
 
-        public NTMinerWalletService() {
+        internal NTMinerWalletService() {
         }
 
         #region GetNTMinerWalletsAsync

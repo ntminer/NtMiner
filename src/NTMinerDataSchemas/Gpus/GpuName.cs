@@ -1,9 +1,6 @@
 ﻿using System.Text;
 
 namespace NTMiner.Gpus {
-    /// <summary>
-    /// GpuName是管理员人脑基于<see cref="GpuNameCount"/>集提取的特征名。
-    /// </summary>
     public class GpuName : IGpuName, ISignableData {
         public static bool IsValidTotalMemory(ulong value) {
             return value >= 4 * NTKeyword.ULongG;

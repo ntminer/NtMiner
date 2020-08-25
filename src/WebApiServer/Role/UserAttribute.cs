@@ -14,6 +14,8 @@ using System.Web.Http.Filters;
 namespace NTMiner.Role {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class UserAttribute : ActionFilterAttribute {
+        public UserAttribute() { }
+
         protected virtual bool OnAuthorization(UserData user, out string message) {
             message = string.Empty;
             return true;

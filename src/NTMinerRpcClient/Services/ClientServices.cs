@@ -2,9 +2,9 @@
     using Client;
 
     public class ClientServices {
-        public readonly MinerClientService MinerClientService = MinerClientService.Instance;
-        public readonly NTMinerDaemonService NTMinerDaemonService = NTMinerDaemonService.Instance;
-        public readonly MinerStudioService MinerStudioService = MinerStudioService.Instance;
+        public readonly MinerClientService MinerClientService = new MinerClientService();
+        public readonly NTMinerDaemonService NTMinerDaemonService = new NTMinerDaemonService();
+        public readonly MinerStudioService MinerStudioService = new MinerStudioService();
 
         internal ClientServices() { }
     }

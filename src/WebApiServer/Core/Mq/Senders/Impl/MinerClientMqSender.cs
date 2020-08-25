@@ -2,9 +2,9 @@
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class MinerClientMqSender : IMinerClientMqSender {
-        private readonly IModel _mqChannel;
-        public MinerClientMqSender(IModel mqChannel) {
-            _mqChannel = mqChannel;
+        private readonly IServerConnection _serverConnection;
+        public MinerClientMqSender(IServerConnection serverConnection) {
+            _serverConnection = serverConnection;
         }
 
         public void SendMinerDataAdded(string minerId) {
@@ -12,7 +12,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties();
-            _mqChannel.BasicPublish(
+            _serverConnection.Channel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerDataAddedRoutingKey,
                 basicProperties: basicProperties,
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties();
-            _mqChannel.BasicPublish(
+            _serverConnection.Channel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerDataRemovedRoutingKey,
                 basicProperties: basicProperties,
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties();
-            _mqChannel.BasicPublish(
+            _serverConnection.Channel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerSignChangedRoutingKey,
                 basicProperties: basicProperties,
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties() {
-            var basicProperties = _mqChannel.CreateBasicProperties();
+            var basicProperties = _serverConnection.Channel.CreateBasicProperties();
             basicProperties.Persistent = true;// 持久化的
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;

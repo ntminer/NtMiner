@@ -99,6 +99,10 @@ namespace NTMiner.Vms {
                 return false;
             }
             set {
+                if (NTMinerContext.Instance.IsMining) {
+                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                    return;
+                }
                 CoinKernelProfileViewModel coinKernelProfileVm = AppRoot.MinerProfileVm.CoinVm?.CoinKernel?.CoinKernelProfile;
                 string customArgs = (coinKernelProfileVm?.CustomArgs ?? string.Empty).Trim();
                 if (coinKernelProfileVm != null) {

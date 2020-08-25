@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Management;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -19,6 +20,29 @@ namespace NTMiner {
         /// 是否是比Win10更旧版本的windows
         /// </summary>
         public static readonly bool IsLTWin10 = !IsGEWin10;
+
+        private static string _cpuId = null;
+        public static string CpuId {
+            get {
+                if (_cpuId == null) {
+                    try {
+                        using (ManagementClass mc = new ManagementClass("Win32_Processor"))
+                        using (ManagementObjectCollection moc = mc.GetInstances()) {
+                            foreach (ManagementObject mo in moc) {
+                                _cpuId = mo.Properties["ProcessorId"].Value.ToString();
+                                break;
+                            }
+                        }
+                    }
+                    catch {
+                    }
+                    if (_cpuId == null) {
+                        _cpuId = "unknow";
+                    }
+                }
+                return _cpuId;
+            }
+        }
 
         public static readonly SessionEndingEventHandler SessionEndingEventHandler = (sender, e) => {
             OsSessionEndingEvent.ReasonSessionEnding reason;

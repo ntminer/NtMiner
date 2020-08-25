@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public class ClientDataBinaryService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IClientDataBinaryController<HttpResponseMessage>>();
 
-        public ClientDataBinaryService() {
+        internal ClientDataBinaryService() {
         }
 
         #region QueryClientsAsync

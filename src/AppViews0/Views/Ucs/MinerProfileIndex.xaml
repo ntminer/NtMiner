@@ -27,7 +27,7 @@
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="主币" />
-			<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
+			<WrapPanel>
 				<controls:KbButton 
 					x:Name="ButtonMainCoin"
 					Padding="4 5"
@@ -69,7 +69,7 @@
 				Style="{StaticResource LblTb}"
 				Width="34"
 				Text="内核" />
-			<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
+			<WrapPanel>
 				<controls:KbButton 
 					x:Name="ButtonKernel"
 					Padding="4 5"
@@ -108,7 +108,7 @@
 			<TextBlock 
 				Style="{StaticResource LblTb}"
 				Text="主矿池" />
-			<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
+			<WrapPanel>
 				<controls:KbButton 
 					x:Name="ButtonMainCoinPool"
 					Padding="4 5"
@@ -149,7 +149,7 @@
                     <WrapPanel Visibility="{Binding MinerProfile.CoinVm.CoinProfile.MainCoinPool.NoPool1,Converter={StaticResource BoolToVisibilityInvertConverter}}">
                         <TextBlock 
 						    Style="{StaticResource LblTb}"
-						    Width="30"
+						    Width="29"
 						    Text="备池" />
                         <controls:KbButton 
 						    x:Name="ButtonMainCoinPool1"
@@ -324,7 +324,7 @@
 				<TextBlock
 					Style="{StaticResource LblTb}"
 					Text="钱包" />
-				<WrapPanel IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}">
+				<WrapPanel>
 					<controls:KbButton 
 						x:Name="ButtonMainCoinWallet"
 						Width="284"
@@ -486,7 +486,7 @@
 				VerticalContentAlignment="Center"
                 ToolTip="这是高级用户的工具，通常我们无需关心这一块。"
 				Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-				IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
+				IsReadOnly="{Binding MinerProfile.IsMining}"
 				VerticalScrollBarVisibility="Auto"
 				Text="{Binding MinerProfile.CoinVm.CoinKernel.CoinKernelProfile.CustomArgs, Mode=TwoWay}">
 			</TextBox>
@@ -494,7 +494,6 @@
         <WrapPanel Margin="0 0 0 4" Visibility="{Binding MinerProfile.CoinVm.CoinKernel.GpuInputSegmentVms,Converter={StaticResource NoRecordInvertVisibilityConverter}}">
             <TextBlock Style="{StaticResource LblTb}" />
             <ItemsControl
-			    IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 			    ItemsSource="{Binding MinerProfile.CoinVm.CoinKernel.GpuInputSegmentVms}"
 			    BorderThickness="0"
 			    VerticalAlignment="Center"
@@ -507,7 +506,12 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox Margin="0 0 4 0" IsChecked="{Binding IsChecked}" FocusVisualStyle="{x:Null}" Content="{Binding Name}" ToolTip="{Binding Description}"></CheckBox>
+                        <CheckBox 
+                            Margin="0 0 4 0" 
+                            IsChecked="{Binding IsChecked}" 
+                            FocusVisualStyle="{x:Null}" 
+                            Content="{Binding Name}" 
+                            ToolTip="{Binding Description}"></CheckBox>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
@@ -524,7 +528,6 @@
 				Text="显卡" />
 			<ItemsControl
 				Grid.Column="1"
-				IsEnabled="{Binding MinerProfile.IsMining, Converter={StaticResource BoolInvertConverter}}"
 				ItemsSource="{Binding GpuVms}"
 				BorderThickness="0"
 				VerticalAlignment="Center"
@@ -537,7 +540,11 @@
 				</ItemsControl.ItemsPanel>
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<CheckBox Margin="0 0 4 0" IsChecked="{Binding IsDeviceArgInclude}" FocusVisualStyle="{x:Null}" Content="{Binding SharpIndexText}"></CheckBox>
+						<CheckBox 
+                            Margin="0 0 4 0" 
+                            IsChecked="{Binding IsDeviceArgInclude}" 
+                            FocusVisualStyle="{x:Null}" 
+                            Content="{Binding SharpIndexText}"></CheckBox>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
 			</ItemsControl>

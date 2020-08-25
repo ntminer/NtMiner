@@ -736,6 +736,10 @@ namespace NTMiner.Vms {
         public bool IsDeviceArgInclude {
             get => NTMinerContext.Instance.GpuSet.GetIsUseDevice(this.Index);
             set {
+                if (NTMinerContext.Instance.IsMining) {
+                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header:"提示", autoHideSeconds: 3);
+                    return;
+                }
                 int[] old = NTMinerContext.Instance.GpuSet.GetUseDevices();
                 bool refreshAllGpu = !value && old.Length <= 1;
                 NTMinerContext.Instance.GpuSet.SetIsUseDevice(this.Index, value);

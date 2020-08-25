@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public class KernelOutputKeywordService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IKernelOutputKeywordController>();
 
-        public KernelOutputKeywordService() {
+        internal KernelOutputKeywordService() {
         }
 
         #region GetKernelOutputKeywords

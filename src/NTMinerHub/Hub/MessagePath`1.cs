@@ -83,7 +83,6 @@ namespace NTMiner.Hub {
             }
             catch (Exception e) {
                 Logger.ErrorDebugLine(Path + ":" + e.Message, e);
-                throw;
             }
         }
     }

@@ -24,7 +24,7 @@
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}">是前译:</TextBlock>
 			<CheckBox IsChecked="{Binding IsPre}" VerticalContentAlignment="Center"
-				FocusVisualStyle="{x:Null}" IsEnabled="{x:Static app:AppStatic.IsDevMode}">
+				FocusVisualStyle="{x:Null}" IsEnabled="False">
 			</CheckBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">

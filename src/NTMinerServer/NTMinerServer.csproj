@@ -52,8 +52,6 @@
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`3.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`2.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\ReadOnlyUserMqMessagePath.cs" />
-    <Compile Include="Core\Redis\IGpuNameRedis.cs" />
-    <Compile Include="Core\Redis\Impl\GpuNameRedis.cs" />
     <Compile Include="Core\Redis\Impl\SpeedDataRedis.cs" />
     <Compile Include="Core\Redis\ISpeedDataRedis.cs" />
     <Compile Include="ServerAppType.cs" />
@@ -73,13 +71,13 @@
     <Compile Include="Core\Redis\IReadOnlyMinerRedis.cs" />
     <Compile Include="Core\IHostConfig.cs" />
     <Compile Include="Core\Redis\Impl\ReadOnlyUserRedis.cs" />
-    <Compile Include="IServerConfig.cs" />
+    <Compile Include="IServerConnection.cs" />
     <Compile Include="MqKeyword.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\IMqMessagePath.cs" />
     <Compile Include="Core\Messages.cs" />
     <Compile Include="Core\Redis\IReadOnlyUserRedis.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerConfig.cs" />
+    <Compile Include="ServerConnection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NTMinerDataSchemas\NTMinerDataSchemas.csproj">

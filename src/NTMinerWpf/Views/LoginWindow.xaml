@@ -14,6 +14,7 @@
 	ResizeMode="NoResize"
 	Background="White"
     BorderThickness="1"
+    Topmost="True"
 	BorderBrush="{StaticResource BtnBackground}"
     WindowStyle="None"
 	WindowStartupLocation="CenterScreen"

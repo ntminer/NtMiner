@@ -6,7 +6,7 @@ namespace NTMiner.Services.Official {
     public class WebApiServerNodeService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IWebApiServerNodeController>();
 
-        public WebApiServerNodeService() {
+        internal WebApiServerNodeService() {
         }
 
         public void GetServerStateAsync(Action<DataResponse<WebApiServerState>, Exception> callback) {

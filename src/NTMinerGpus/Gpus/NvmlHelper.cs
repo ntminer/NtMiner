@@ -6,12 +6,7 @@ using System.IO;
 namespace NTMiner.Gpus {
     public class NvmlHelper {
         public class NvGpu {
-            public static readonly NvGpu Empty = new NvGpu {
-                GpuIndex = -1,
-                BusId = -1,
-                Name = string.Empty,
-                TotalMemory = 0
-            };
+            public NvGpu() { }
 
             public int GpuIndex { get; set; }
             public int BusId { get; set; }

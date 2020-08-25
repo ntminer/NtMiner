@@ -23,11 +23,13 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             NTMinerConsole.UserOk("UserMq QueueBind成功");
         }
 
-        protected virtual void DoGo(BasicDeliverEventArgs ea) {
+        protected virtual bool DoGo(BasicDeliverEventArgs ea) {
+            return false;
         }
 
-        public override void Go(BasicDeliverEventArgs ea) {
-            DoGo(ea);
+        public override bool Go(BasicDeliverEventArgs ea) {
+            bool baseR = DoGo(ea);
+            bool r = true;
             switch (ea.RoutingKey) {
                 case MqKeyword.UserAddedRoutingKey: {
                         string loginName = UserMqBodyUtil.GetLoginNameMqReceiveBody(ea.Body);
@@ -79,8 +81,10 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 default:
+                    r = false;
                     break;
             }
+            return baseR || r;
         }
     }
 }

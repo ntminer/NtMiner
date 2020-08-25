@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public class OverClockDataService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IOverClockDataController>();
 
-        public OverClockDataService() {
+        internal OverClockDataService() {
         }
 
         #region GetOverClockDatasAsync

@@ -788,16 +788,21 @@ namespace NTMiner.Vms {
         }
 
         private void CreateShortcut() {
-            if (!ClientAppType.IsMinerClient) {
-                return;
+            try {
+                if (!ClientAppType.IsMinerClient) {
+                    return;
+                }
+                bool isDo = !File.Exists(_linkFileFullName);
+                if (!isDo) {
+                    string targetPath = WindowsShortcut.GetTargetPath(_linkFileFullName);
+                    isDo = !VirtualRoot.AppFileFullName.Equals(targetPath, StringComparison.OrdinalIgnoreCase);
+                }
+                if (isDo) {
+                    WindowsShortcut.CreateShortcut(_linkFileFullName, VirtualRoot.AppFileFullName);
+                }
             }
-            bool isDo = !File.Exists(_linkFileFullName);
-            if (!isDo) {
-                string targetPath = WindowsShortcut.GetTargetPath(_linkFileFullName);
-                isDo = !VirtualRoot.AppFileFullName.Equals(targetPath, StringComparison.OrdinalIgnoreCase);
-            }
-            if (isDo) {
-                WindowsShortcut.CreateShortcut(_linkFileFullName, VirtualRoot.AppFileFullName);
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
             }
         }
 

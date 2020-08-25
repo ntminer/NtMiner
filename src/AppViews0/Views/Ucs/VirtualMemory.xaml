@@ -162,6 +162,16 @@
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
-        <TextBox Grid.Row="2" Height="32" VerticalContentAlignment="Top" VerticalAlignment="Top" BorderThickness="0" AcceptsReturn="True" TextWrapping="Wrap" IsReadOnly="True" Foreground="Red" Text="挖ETH每卡至少设置5G虚拟内存（4G不保险），建议按虚拟内存比显存1比1进行设置。比如6张6G的1060建议设置6 x 6 = 36G。"></TextBox>
+        <TextBox 
+            Grid.Row="2" 
+            Height="32" 
+            VerticalContentAlignment="Top" 
+            VerticalAlignment="Top" 
+            BorderThickness="0" 
+            AcceptsReturn="True" 
+            TextWrapping="Wrap" 
+            IsReadOnly="True" 
+            Foreground="Red" 
+            Text="{Binding Description,Mode=OneWay}"></TextBox>
     </Grid>
 </UserControl>

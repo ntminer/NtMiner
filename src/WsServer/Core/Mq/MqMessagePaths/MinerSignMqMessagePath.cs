@@ -15,7 +15,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             NTMinerConsole.UserOk("MinerSignMq QueueBind成功");
         }
 
-        public override void Go(BasicDeliverEventArgs ea) {
+        public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
                 case MqKeyword.MinerDataAddedRoutingKey: {
                         DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
@@ -45,8 +45,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 default:
-                    break;
+                    return false;
             }
+            return true;
         }
     }
 }

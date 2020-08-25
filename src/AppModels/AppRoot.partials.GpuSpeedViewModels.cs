@@ -96,7 +96,7 @@ namespace NTMiner {
                             gpuSpeedVm.MainCoinSpeed.IncorrectShare = message.Source.MainCoinSpeed.IncorrectShare;
                         }
                     }, location: this.GetType());
-                AddEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.DevConsole,
+                AddEventPath<GpuSpeedChangedEvent>("显卡算力变更后刷新VM内存", LogEnum.None,
                     action: (message) => {
                         ResetIfMainCoinSwitched();
                         int index = message.Source.Gpu.Index;

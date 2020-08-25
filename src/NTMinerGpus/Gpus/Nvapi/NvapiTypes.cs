@@ -5,6 +5,9 @@ using NvU32 = System.UInt32;
 
 namespace NTMiner.Gpus.Nvapi {
     internal static class NvapiConst {
+        internal const int VERSION1 = 1 << 16;
+        internal const int VERSION2 = 2 << 16;
+
         internal const int MAX_PHYSICAL_GPUS = 64;
         internal const int MAX_PSTATES_PER_GPU = 8;
         internal const int MAX_COOLER_PER_GPU = 20;
@@ -312,6 +315,15 @@ namespace NTMiner.Gpus.Nvapi {
         public uint Flags;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_PSTATES_PER_GPU)]
         public NvPState[] PStates;
+
+        public static NvPStates Create() {
+            NvPStates r = new NvPStates {
+                Version = (uint)(NvapiConst.VERSION2 | (Marshal.SizeOf(typeof(NvPStates)))),
+                PStates = new NvPState[NvapiConst.MAX_PSTATES_PER_GPU]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -364,6 +376,15 @@ namespace NTMiner.Gpus.Nvapi {
         public NvGpuPState20ClockEntryV1[] clocks;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
         public NvGpuPState20BaseVoltageEntryV1[] baseVoltages;
+
+        public static PStatesArray16 Create() {
+            PStatesArray16 r = new PStatesArray16 {
+                clocks = new NvGpuPState20ClockEntryV1[NvapiConst.NVAPI_MAX_GPU_PSTATE20_CLOCKS],
+                baseVoltages = new NvGpuPState20BaseVoltageEntryV1[NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -371,6 +392,14 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 numVoltages;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES)]
         public NvGpuPState20BaseVoltageEntryV1[] voltages;
+
+        public static NvGpuPState20V2Ov Create() {
+            var r = new NvGpuPState20V2Ov {
+                voltages = new NvGpuPState20BaseVoltageEntryV1[NvapiConst.NVAPI_MAX_GPU_PSTATE20_BASE_VOLTAGES]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -383,6 +412,19 @@ namespace NTMiner.Gpus.Nvapi {
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
         public PStatesArray16[] pstates;
         public NvGpuPState20V2Ov ov;
+
+        public static NvGpuPerfPStates20InfoV2 Create() {
+            var r = new NvGpuPerfPStates20InfoV2 {
+                version = (uint)(NvapiConst.VERSION2 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV2)))),
+                pstates = new PStatesArray16[NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES],
+                ov = NvGpuPState20V2Ov.Create()
+            };
+            for (int i = 0; i < r.pstates.Length; i++) {
+                r.pstates[i] = PStatesArray16.Create();
+            }
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -394,6 +436,18 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 numBaseVoltages;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
         public PStatesArray16[] pstates;
+
+        public static NvGpuPerfPStates20InfoV1 Create() {
+            var r = new NvGpuPerfPStates20InfoV1 {
+                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1)))),
+                pstates = new PStatesArray16[NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES]
+            };
+            for (int i = 0; i < r.pstates.Length; i++) {
+                r.pstates[i] = PStatesArray16.Create();
+            }
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -422,6 +476,14 @@ namespace NTMiner.Gpus.Nvapi {
                 return ClockType_reserved_reserved1 & 0x03;
             }
         }
+
+        public static NvGpuClockFrequenciesV2 Create() {
+            var r = new NvGpuClockFrequenciesV2 {
+                version = (uint)(NvapiConst.VERSION2 | (Marshal.SizeOf(typeof(NvGpuClockFrequenciesV2)))),
+                domain = new NvGpuClockRrequenciesDomain[NvapiConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS]
+            };
+            return r;
+        }
     }
     [StructLayout(LayoutKind.Sequential)]
     internal struct NvGpuThermalInfoEntries {
@@ -438,8 +500,17 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 version;
         public NvU32 flags;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
         public NvGpuThermalInfoEntries[] entries;
+
+        public static NvGpuThermalInfo Create() {
+            var r = new NvGpuThermalInfo {
+                version = (uint)(NvapiConst.VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalInfo)))),
+                entries = new NvGpuThermalInfoEntries[NvapiConst.MAX_POWER_ENTRIES_PER_GPU]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -454,8 +525,17 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 version;
         public NvU32 flags;
 
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
         public NvGpuThermalLimitEntries[] entries;
+
+        public static NvGpuThermalLimit Create() {
+            var r = new NvGpuThermalLimit {
+                version = (uint)(NvapiConst.VERSION2 | (Marshal.SizeOf(typeof(NvGpuThermalLimit)))),
+                entries = new NvGpuThermalLimitEntries[NvapiConst.MAX_POWER_ENTRIES_PER_GPU]
+            };
+
+            return r;
+        }
     }
     [StructLayout(LayoutKind.Sequential)]
     internal struct NvGpuPowerStatusEntry {
@@ -470,8 +550,17 @@ namespace NTMiner.Gpus.Nvapi {
     internal struct NvGpuPowerStatus {
         public NvU32 version;
         public NvU32 flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
         public NvGpuPowerStatusEntry[] entries;
+
+        public static NvGpuPowerStatus Create() {
+            var r = new NvGpuPowerStatus {
+                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerStatus)))),
+                entries = new NvGpuPowerStatusEntry[NvapiConst.MAX_POWER_ENTRIES_PER_GPU]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -493,7 +582,7 @@ namespace NTMiner.Gpus.Nvapi {
     internal struct NvGpuPowerInfo {
         public NvU32 version;
         public NvU32 valid_count_reserver1_reserver2;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 4)]
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_POWER_ENTRIES_PER_GPU)]
         public NvGpuPowerInfoEntry[] entries;
 
         public NvU32 valid {
@@ -505,6 +594,15 @@ namespace NTMiner.Gpus.Nvapi {
             get {
                 return (valid_count_reserver1_reserver2 >> 8) & 0xff;
             }
+        }
+
+        public static NvGpuPowerInfo Create() {
+            var r = new NvGpuPowerInfo {
+                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(NvGpuPowerInfo)))),
+                entries = new NvGpuPowerInfoEntry[NvapiConst.MAX_POWER_ENTRIES_PER_GPU]
+            };
+
+            return r;
         }
     }
 
@@ -530,6 +628,15 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 count;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
         public NvCoolerItem[] cooler;
+
+        public static NvCoolerSettings Create() {
+            var r = new NvCoolerSettings {
+                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(NvCoolerSettings)))),
+                cooler = new NvCoolerItem[NvapiConst.NVAPI_MAX_COOLERS_PER_GPU]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -543,77 +650,149 @@ namespace NTMiner.Gpus.Nvapi {
         public NvU32 version;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_COOLERS_PER_GPU)]
         public NvCoolerLevelItem[] coolers;
+
+        public static NvCoolerLevel Create() {
+            var r = new NvCoolerLevel {
+                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(NvCoolerLevel)))),
+                coolers = new NvCoolerLevelItem[NvapiConst.NVAPI_MAX_COOLERS_PER_GPU]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct FanCoolersInfoEntry {
-        internal readonly uint CoolerId;
-        internal readonly uint UnknownUInt3;
-        internal readonly uint UnknownUInt4;
-        internal readonly uint MaximumRPM;
+        internal uint CoolerId;
+        internal uint UnknownUInt3;
+        internal uint UnknownUInt4;
+        internal uint MaximumRPM;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        internal readonly uint[] Reserved;
+        internal uint[] Reserved;
+
+        public static FanCoolersInfoEntry Create() {
+            var r = new FanCoolersInfoEntry {
+                Reserved = new NvU32[8]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct PrivateFanCoolersInfoV1 {
         public NvU32 version;
-        internal readonly uint UnknownUInt1;
-        internal readonly uint FanCoolersInfoCount;
+        internal uint UnknownUInt1;
+        internal uint FanCoolersInfoCount;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        internal readonly uint[] Reserved;
+        internal uint[] Reserved;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerInfoEntries)]
-        internal readonly FanCoolersInfoEntry[] FanCoolersInfoEntries;
+        internal FanCoolersInfoEntry[] FanCoolersInfoEntries;
+
+        public static PrivateFanCoolersInfoV1 Create() {
+            var r = new PrivateFanCoolersInfoV1 {
+                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersInfoV1)))),
+                Reserved = new NvU32[8],
+                FanCoolersInfoEntries = new FanCoolersInfoEntry[NvapiConst.MaxNumberOfFanCoolerInfoEntries]
+            };
+            for (int i = 0; i < r.FanCoolersInfoEntries.Length; i++) {
+                r.FanCoolersInfoEntries[i] = FanCoolersInfoEntry.Create();
+            }
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct FanCoolersStatusEntry {
-        internal readonly uint CoolerId;
-        internal readonly uint CurrentRPM;
-        internal readonly uint CurrentMinimumLevel;
-        internal readonly uint CurrentMaximumLevel;
-        internal readonly uint CurrentLevel;
+        internal uint CoolerId;
+        internal uint CurrentRPM;
+        internal uint CurrentMinimumLevel;
+        internal uint CurrentMaximumLevel;
+        internal uint CurrentLevel;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        internal readonly uint[] Reserved;
+        internal uint[] Reserved;
+
+        public static FanCoolersStatusEntry Create() {
+            var r = new FanCoolersStatusEntry {
+                Reserved = new NvU32[8]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct PrivateFanCoolersStatusV1 {
         internal NvU32 version;
-        internal readonly uint FanCoolersStatusCount;
+        internal uint FanCoolersStatusCount;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        internal readonly uint[] Reserved;
+        internal uint[] Reserved;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerStatusEntries)]
         internal FanCoolersStatusEntry[] FanCoolersStatusEntries;
+
+        public static PrivateFanCoolersStatusV1 Create() {
+            var r = new PrivateFanCoolersStatusV1 {
+                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersStatusV1)))),
+                Reserved = new NvU32[8],
+                FanCoolersStatusEntries = new FanCoolersStatusEntry[NvapiConst.MaxNumberOfFanCoolerStatusEntries]
+            };
+            for (int i = 0; i < r.FanCoolersStatusEntries.Length; i++) {
+                r.FanCoolersStatusEntries[i] = FanCoolersStatusEntry.Create();
+            }
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct FanCoolersControlEntry {
-        internal readonly uint CoolerId;
+        internal uint CoolerId;
         internal uint Level;
         internal FanCoolersControlMode ControlMode;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        internal readonly uint[] Reserved;
+        internal uint[] Reserved;
+
+        public static FanCoolersControlEntry Create() {
+            var r = new FanCoolersControlEntry {
+                Reserved = new NvU32[8]
+            };
+
+            return r;
+        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct PrivateFanCoolersControlV1 {
         internal NvU32 version;
-        internal readonly uint UnknownUInt;
-        internal readonly uint FanCoolersControlCount;
+        internal uint UnknownUInt;
+        internal uint FanCoolersControlCount;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        internal readonly uint[] Reserved;
+        internal uint[] Reserved;
 
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerControlEntries)]
-        internal readonly FanCoolersControlEntry[] FanCoolersControlEntries;
+        internal FanCoolersControlEntry[] FanCoolersControlEntries;
+
+        public static PrivateFanCoolersControlV1 Create() {
+            var r = new PrivateFanCoolersControlV1 {
+                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersControlV1)))),
+                Reserved = new NvU32[8],
+                FanCoolersControlEntries = new FanCoolersControlEntry[NvapiConst.MaxNumberOfFanCoolerControlEntries]
+            };
+            for (int i = 0; i < r.FanCoolersControlEntries.Length; i++) {
+                r.FanCoolersControlEntries[i] = FanCoolersControlEntry.Create();
+            }
+
+            return r;
+        }
     }
     #endregion
 }

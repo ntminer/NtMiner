@@ -11,6 +11,7 @@ using System.Windows;
 namespace NTMiner {
     public partial class App : Application {
         public App() {
+            // 群控客户端独立一个子目录，从而挖矿客户端和群控客户端放在同一个目录时避免路径重复。
             HomePath.SetHomeDirFullName(System.IO.Path.Combine(HomePath.AppDomainBaseDirectory, "NTMiner"));
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
             Logger.SetDir(HomePath.HomeLogsDirFullName);

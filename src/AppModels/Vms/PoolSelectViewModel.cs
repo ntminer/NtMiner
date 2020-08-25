@@ -56,23 +56,6 @@ namespace NTMiner.Vms {
             }
         }
 
-        public WalletViewModel Wallet {
-            get {
-                if (Coin == null) {
-                    return null;
-                }
-                // 主币
-                if (Coin == MinerProfileViewModel.Instance.CoinVm) {
-                    return Coin.CoinProfile?.SelectedWallet;
-                }
-                // 辅币
-                else if (Coin == MinerProfileViewModel.Instance.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin) {
-                    return Coin.CoinProfile?.SelectedDualCoinWallet;
-                }
-                return null;
-            }
-        }
-
         public List<PoolViewModel> QueryResults {
             get {
                 var query = Coin.Pools.AsQueryable();

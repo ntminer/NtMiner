@@ -8,7 +8,7 @@ namespace NTMiner.Services.Official {
     public class UserMinerGroupService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IUserMinerGroupController>();
 
-        public UserMinerGroupService() {
+        internal UserMinerGroupService() {
         }
 
         #region GetMinerGroupsAsync

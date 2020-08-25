@@ -635,7 +635,7 @@ namespace NTMiner {
         });
 
         public static ICommand ShareTutorial { get; private set; } = new DelegateCommand(() => {
-            string url = "https://www.cnblogs.com/ntminer/p/11502291.html";
+            string url = "https://zhuanlan.zhihu.com/p/161614545";
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "ShareTutorial", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
@@ -644,7 +644,7 @@ namespace NTMiner {
         });
 
         public static ICommand SpeedTutorial { get; private set; } = new DelegateCommand(() => {
-            string url = "https://www.cnblogs.com/ntminer/p/11180273.html";
+            string url = "https://zhuanlan.zhihu.com/p/161614356";
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "SpeedTutorial", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
@@ -849,7 +849,7 @@ namespace NTMiner {
         }
 
         public static ICommand BusinessModel { get; private set; } = new DelegateCommand(() => {
-            string url = "https://www.cnblogs.com/ntminer/p/11162986.html";
+            string url = "https://zhuanlan.zhihu.com/p/161614178";
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "BusinessModelUrl", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
@@ -885,7 +885,7 @@ namespace NTMiner {
         });
 
         public static ICommand MinerStudioTutorial { get; private set; } = new DelegateCommand(() => {
-            string url = "https://www.cnblogs.com/ntminer/p/11923722.html";
+            string url = "https://zhuanlan.zhihu.com/p/137759804";
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinerStudioTutorial", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
@@ -894,7 +894,7 @@ namespace NTMiner {
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
-            string url = "https://www.cnblogs.com/ntminer/p/11923722.html";
+            string url = "https://zhuanlan.zhihu.com/p/138095293";
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "DownloadMinerStudio", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }
@@ -903,7 +903,7 @@ namespace NTMiner {
         });
 
         public static ICommand WindowsZoomBug { get; private set; } = new DelegateCommand(() => {
-            string url = "https://my.oschina.net/ntminer/blog/4296130";
+            string url = "https://zhuanlan.zhihu.com/p/161613889";
             if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "WindowsZoomBug", out ISysDicItem dicItem)) {
                 url = dicItem.Value;
             }

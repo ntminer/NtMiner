@@ -49,5 +49,6 @@ namespace NTMiner {
 
         public static OfficialServices OfficialServer = new OfficialServices();
         public static ClientServices Client = new ClientServices();
+        public static OSSService OSSService = new OSSService();
     }
 }

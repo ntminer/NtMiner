@@ -2,16 +2,16 @@
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class WsServerNodeMqSender : IWsServerNodeMqSender {
-        private readonly IModel _mqChannel;
-        public WsServerNodeMqSender(IModel mqChannel) {
-            _mqChannel = mqChannel;
+        private readonly IServerConnection _serverConnection;
+        public WsServerNodeMqSender(IServerConnection serverConnection) {
+            _serverConnection = serverConnection;
         }
 
         public void SendWsServerNodeAdded(string wsServerNodeAddress) {
             if (string.IsNullOrEmpty(wsServerNodeAddress)) {
                 return;
             }
-            _mqChannel.BasicPublish(
+            _serverConnection.Channel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.WsServerNodeAddedRoutingKey, 
                 basicProperties: CreateBasicProperties(), 
@@ -22,7 +22,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(wsServerNodeAddress)) {
                 return;
             }
-            _mqChannel.BasicPublish(
+            _serverConnection.Channel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange, 
                 routingKey: MqKeyword.WsServerNodeRemovedRoutingKey,
                 basicProperties: CreateBasicProperties(), 
@@ -30,7 +30,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties() {
-            var basicProperties = _mqChannel.CreateBasicProperties();
+            var basicProperties = _serverConnection.Channel.CreateBasicProperties();
             basicProperties.Persistent = false;
             basicProperties.Expiration = "36000000"; // 36秒，单位是微秒（1微秒是10的负6次方秒）
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;

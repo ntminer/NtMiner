@@ -128,47 +128,52 @@
             }
             else {
                 foreach (var messagePath in messagePaths) {
-                    bool canGo = false;
-                    if (message is IEvent evt) {
-                        canGo =
-                            evt.TargetPathId == PathId.Empty // 事件不是特定路径的事件则放行
-                            || messagePath.PathId == PathId.Empty // 路径不是特定事件的路径则放行
-                            || evt.TargetPathId == messagePath.PathId; // 路径是特定事件的路径且路径和事件造型放行
-                    }
-                    else if (message is ICmd cmd) {
-                        // 路径不是特定命令的路径则放行
-                        if (messagePath.PathId == PathId.Empty) {
-                            canGo = true;
+                    try {
+                        bool canGo = false;
+                        if (message is IEvent evt) {
+                            canGo =
+                                evt.TargetPathId == PathId.Empty // 事件不是特定路径的事件则放行
+                                || messagePath.PathId == PathId.Empty // 路径不是特定事件的路径则放行
+                                || evt.TargetPathId == messagePath.PathId; // 路径是特定事件的路径且路径和事件造型放行
                         }
-                        else {
-                            canGo = messagePath.PathId == cmd.MessageId;
+                        else if (message is ICmd cmd) {
+                            // 路径不是特定命令的路径则放行
+                            if (messagePath.PathId == PathId.Empty) {
+                                canGo = true;
+                            }
+                            else {
+                                canGo = messagePath.PathId == cmd.MessageId;
+                            }
+                        }
+                        if (canGo && messagePath.ViaTimesLimit > 0) {
+                            // ViaTimesLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaTimesLimit计数
+                            messagePath.DecreaseViaTimesLimit(onDownToZero: RemovePath);
+                        }
+                        if (!messagePath.IsEnabled) {
+                            continue;
+                        }
+                        if (canGo) {
+                            switch (messagePath.LogType) {
+                                case LogEnum.DevConsole:
+                                    if (DevMode.IsDevMode) {
+                                        NTMinerConsole.DevDebug(() => $"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
+                                    }
+                                    break;
+                                case LogEnum.UserConsole:
+                                    NTMinerConsole.UserInfo($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
+                                    break;
+                                case LogEnum.Log:
+                                    Logger.InfoDebugLine($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
+                                    break;
+                                case LogEnum.None:
+                                default:
+                                    break;
+                            }
+                            messagePath.Go(message);
                         }
                     }
-                    if (canGo && messagePath.ViaTimesLimit > 0) {
-                        // ViaTimesLimite小于0表示是不限定通过的次数的路径，不限定通过的次数的路径不需要消息每通过一次递减一次ViaTimesLimit计数
-                        messagePath.DecreaseViaTimesLimit(onDownToZero: RemovePath);
-                    }
-                    if (!messagePath.IsEnabled) {
-                        continue;
-                    }
-                    if (canGo) {
-                        switch (messagePath.LogType) {
-                            case LogEnum.DevConsole:
-                                if (DevMode.IsDevMode) {
-                                    NTMinerConsole.DevDebug(() => $"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
-                                }
-                                break;
-                            case LogEnum.UserConsole:
-                                NTMinerConsole.UserInfo($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
-                                break;
-                            case LogEnum.Log:
-                                Logger.InfoDebugLine($"({typeof(TMessage).Name})->({messagePath.Location.Name}){messagePath.Description}");
-                                break;
-                            case LogEnum.None:
-                            default:
-                                break;
-                        }
-                        messagePath.Go(message);
+                    catch (Exception e) {
+                        Logger.ErrorDebugLine(e);
                     }
                 }
             }

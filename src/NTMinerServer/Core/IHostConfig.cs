@@ -7,6 +7,9 @@
         string MqHostName { get; }
         string MqUserName { get; }
         string MqPassword { get; }
+        /// <summary>
+        /// Ip:Port格式
+        /// </summary>
         string ThisServerAddress { get; }
         /// <summary>
         /// WebApiServer的本地地址，用于内网调用节省外网带宽。

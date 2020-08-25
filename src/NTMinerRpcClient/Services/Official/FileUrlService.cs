@@ -8,7 +8,7 @@ namespace NTMiner.Services.Official {
     public class FileUrlService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IFileUrlController>();
 
-        public FileUrlService() {
+        internal FileUrlService() {
         }
 
         #region GetNTMinerUrlAsync

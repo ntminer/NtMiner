@@ -130,7 +130,11 @@ namespace NTMiner.Vms {
                     }
                 }
             });
-            this.ViewPoolIncome = new DelegateCommand<WalletViewModel>((wallet) => {
+            this.ViewPoolIncome = new DelegateCommand(() => {
+                var wallet = Wallet;
+                if (wallet == null) {
+                    return;
+                }
                 if ((!this.IsUserMode && (wallet == null || string.IsNullOrEmpty(wallet.Address))) ||
                     (this.IsUserMode && string.IsNullOrEmpty(this.PoolProfileVm.UserName))) {
                     if (!string.IsNullOrEmpty(Website)) {
@@ -188,6 +192,24 @@ namespace NTMiner.Vms {
 
         public void SetDataLevel(DataLevel dataLevel) {
             this._dataLevel = dataLevel;
+        }
+
+        public WalletViewModel Wallet {
+            get {
+                var coin = CoinVm;
+                if (coin == null || coin == CoinViewModel.PleaseSelect) {
+                    return null;
+                }
+                // 主币
+                if (coin == MinerProfileViewModel.Instance.CoinVm) {
+                    return coin.CoinProfile?.SelectedWallet;
+                }
+                // 辅币
+                else if (coin == MinerProfileViewModel.Instance.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin) {
+                    return coin.CoinProfile?.SelectedDualCoinWallet;
+                }
+                return null;
+            }
         }
 
         public Guid Id {

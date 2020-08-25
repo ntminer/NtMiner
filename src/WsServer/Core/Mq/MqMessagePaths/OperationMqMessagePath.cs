@@ -44,7 +44,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             NTMinerConsole.UserOk("OperationMq QueueBind成功");
         }
 
-        public override void Go(BasicDeliverEventArgs ea) {
+        public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
                 case WsMqKeyword.GetConsoleOutLinesRoutingKey: {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
@@ -331,8 +331,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 default:
-                    break;
+                    return false;
             }
+            return true;
         }
     }
 }

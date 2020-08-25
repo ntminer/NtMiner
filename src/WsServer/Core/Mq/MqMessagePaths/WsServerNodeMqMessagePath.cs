@@ -13,7 +13,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             NTMinerConsole.UserOk("WsServerNodeMq QueueBind成功");
         }
 
-        public override void Go(BasicDeliverEventArgs ea) {
+        public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
                 case MqKeyword.WsServerNodeAddedRoutingKey: {
                         string wsServerAddress = WsServerNodeMqBodyUtil.GetWsServerNodeAddressMqReceiveBody(ea.Body);
@@ -28,8 +28,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 default:
-                    break;
+                    return false;
             }
+            return true;
         }
     }
 }

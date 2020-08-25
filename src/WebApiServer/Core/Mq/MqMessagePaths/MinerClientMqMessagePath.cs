@@ -18,7 +18,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             NTMinerConsole.UserOk("MinerClientMq QueueBind成功");
         }
 
-        public override void Go(BasicDeliverEventArgs ea) {
+        public override bool Go(BasicDeliverEventArgs ea) {
             switch (ea.RoutingKey) {
                 // 上报的算力放在这里消费，因为只有WebApiServer消费该类型的消息，WsServer不消费该类型的消息
                 case MqKeyword.SpeedRoutingKey: {
@@ -64,8 +64,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 default:
-                    break;
+                    return false;
             }
+            return true;
         }
     }
 }

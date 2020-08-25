@@ -4,16 +4,16 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class UserMqSender : IUserMqSender {
-        private readonly IModel _mqChannel;
-        public UserMqSender(IModel mqChannel) {
-            _mqChannel = mqChannel;
+        private readonly IServerConnection _serverConnection;
+        public UserMqSender(IServerConnection serverConnection) {
+            _serverConnection = serverConnection;
         }
 
         public void SendUpdateUserRSAKey(string loginName, RSAKey key) {
             if (string.IsNullOrEmpty(loginName) || key == null) {
                 return;
             }
-            _mqChannel.BasicPublish(
+            _serverConnection.Channel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.UpdateUserRSAKeyRoutingKey,
                 basicProperties: CreateBasicProperties(loginName),
@@ -21,7 +21,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties(string loginName) {
-            var basicProperties = _mqChannel.CreateBasicProperties();
+            var basicProperties = _serverConnection.Channel.CreateBasicProperties();
             basicProperties.Persistent = true;
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;

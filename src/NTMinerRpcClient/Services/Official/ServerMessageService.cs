@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public class ServerMessageService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IServerMessageController>();
 
-        public ServerMessageService() {
+        internal ServerMessageService() {
         }
 
         #region GetServerMessagesAsync

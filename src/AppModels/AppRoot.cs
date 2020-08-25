@@ -130,6 +130,20 @@ namespace NTMiner {
         }
         #endregion
 
+        public static double OsVmPerGpu {
+            get {
+                double value = 5.0;
+                if (WpfUtil.IsDevMode) {
+                    return value;
+                }
+                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "OsVmPerGpu", out ISysDicItem dicItem)
+                    && double.TryParse(dicItem.Value, out value)) {
+                    return value;
+                }
+                return value;
+            }
+        }
+
         #region Upgrade
         private static string GetUpdaterVersion() {
             string version = string.Empty;

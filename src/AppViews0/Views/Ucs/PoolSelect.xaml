@@ -174,7 +174,6 @@
 								Padding="0"
 								Visibility="{Binding Url,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
 								Command="{Binding ViewPoolIncome}"
-								CommandParameter="{Binding Data.Wallet,Source={StaticResource proxy}}"
 								KbDisplayLine="False"
 								Content="收益"
 								Background="Transparent">

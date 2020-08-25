@@ -12,7 +12,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         /// </summary>
         public abstract bool IsReadyToBuild { get; }
 
-        public abstract void Go(BasicDeliverEventArgs ea);
+        public abstract bool Go(BasicDeliverEventArgs ea);
         protected internal abstract void Build(IModel channal);
 
         public string Queue { get; private set; }

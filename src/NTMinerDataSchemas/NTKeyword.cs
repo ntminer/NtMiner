@@ -11,7 +11,7 @@ namespace NTMiner {
         public const long LongG = 1024 * 1024 * 1024;
 
         public const string Version = "2.8.2";
-        private const string _build = "1";
+        private const string _build = "2";
         public const string VersionBuild = Version + "." + _build;
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";
@@ -108,6 +108,7 @@ namespace NTMiner {
         public const string IsOuterUserEnabledRegistryKey = "IsOuterUserEnabled";
         public const string OuterUserIdRegistryKey = "OuterUserId";
         public const string DaemonVersionRegistryKey = "DaemonVersion";
+        public const string CpuIdRegistryKey = "CpuId";
         public const string ControlCenterAddressesRegistryKey = "ControlCenterAddresses";
         public const string ControlCenterAddressRegistryKey = "ControlCenterAddress";
         public const string ControlCenterLoginName = "ControlCenterLoginName";

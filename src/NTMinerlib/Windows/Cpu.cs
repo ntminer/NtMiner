@@ -37,26 +37,9 @@ namespace NTMiner.Windows {
             return _cpuCounter.NextValue();
         }
 
-        private string _cpuId = null;
         public string CpuId {
             get {
-                if (_cpuId == null) {
-                    try {
-                        using (ManagementClass mc = new ManagementClass("Win32_Processor"))
-                        using (ManagementObjectCollection moc = mc.GetInstances()) {
-                            foreach (ManagementObject mo in moc) {
-                                _cpuId = mo.Properties["ProcessorId"].Value.ToString();
-                                break;
-                            }
-                        }
-                    }
-                    catch {
-                    }
-                    if (_cpuId == null) {
-                        _cpuId = "unknow";
-                    }
-                }
-                return _cpuId;
+                return VirtualRoot.CpuId;
             }
         }
 

@@ -86,7 +86,8 @@
 					FontFamily="Courier New"
 					Background="Transparent"
 					BorderThickness="0"
-					Padding="0 2 16 2"
+					Padding="0 0 16 0"
+                    VerticalContentAlignment="Center"
 					Foreground="Yellow"
 					IsReadOnly="True" 
 					FontSize="14"
@@ -106,7 +107,8 @@
 					FontFamily="Courier New"
 					Background="Transparent"
 					BorderThickness="0"
-					Padding="0 2 16 2"
+					Padding="0 0 16 0"
+                    VerticalContentAlignment="Center"
 					Foreground="Yellow"
 					IsReadOnly="True" 
 					FontSize="14"
@@ -128,7 +130,8 @@
 							FontFamily="Courier New"
 							Background="Transparent"
 							BorderThickness="0"
-							Padding="0 2 16 2"
+							Padding="0 0 16 0"
+                            VerticalContentAlignment="Center"
 							Foreground="Yellow"
 							IsReadOnly="True" 
 							FontSize="14"
@@ -154,8 +157,10 @@
 						FontSize="14"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.Notice, Mode=OneWay}"
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-						BorderThickness="0" IsReadOnly="True" 
-						Padding="0 2 0 2" Foreground="Yellow">
+						BorderThickness="0" 
+                        IsReadOnly="True" 
+                        VerticalContentAlignment="Center"
+						Foreground="Yellow">
                     </controls:KbMuiltilineTextBox>
                     <controls:KbMuiltilineTextBox 
 						Background="Transparent"
@@ -164,8 +169,11 @@
 						FontSize="14"
 						Text="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice, Mode=OneWay}"
 						Visibility="{Binding MinerProfile.CoinVm.CoinKernel.Kernel.Notice,Converter={StaticResource NotNullOrEmptyVisibilityConverter}}"
-						BorderThickness="0" IsReadOnly="True" 
-						Padding="0 2 16 2" Foreground="Yellow">
+						BorderThickness="0" 
+                        IsReadOnly="True" 
+						Padding="0 0 16 0" 
+                        VerticalContentAlignment="Center"
+                        Foreground="Yellow">
                     </controls:KbMuiltilineTextBox>
                 </WrapPanel>
             </WrapPanel>

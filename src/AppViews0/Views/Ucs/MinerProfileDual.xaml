@@ -25,7 +25,7 @@
 			<TextBlock
 				Style="{StaticResource LblTb}"
 				Text="双挖币" />
-			<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}">
+			<WrapPanel>
 				<controls:KbButton 
 					x:Name="ButtonDualCoin"
 					Padding="4 5"
@@ -68,7 +68,7 @@
 				Width="32"
 				Style="{StaticResource LblTb}"
 				Text="矿池" />
-			<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}">
+			<WrapPanel>
 				<controls:KbButton 
 					x:Name="ButtonDualCoinPool"
 					Padding="4 5"
@@ -112,9 +112,9 @@
 			<WrapPanel>
 				<WrapPanel>
 					<TextBlock
-					Style="{StaticResource LblTb}"
-					Text="钱包" />
-					<WrapPanel IsEnabled="{Binding IsMining, Converter={StaticResource BoolInvertConverter}}">
+						Style="{StaticResource LblTb}"
+						Text="钱包" />
+					<WrapPanel>
 						<controls:KbButton 
 							x:Name="ButtonDualCoinWallet"
 							Width="284"

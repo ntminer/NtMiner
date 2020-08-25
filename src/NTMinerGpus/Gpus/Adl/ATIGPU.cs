@@ -1,5 +1,5 @@
 ﻿namespace NTMiner.Gpus.Adl {
-    public struct ATIGPU {
+    public class ATIGPU {
         public static readonly ATIGPU Empty = new ATIGPU {
             AdapterIndex = -1,
             BusNumber = -1,
@@ -7,6 +7,8 @@
             DeviceNumber = -1,
             OverdriveVersion = -1
         };
+
+        public ATIGPU() { }
 
         public int AdapterIndex { get; set; }
         public int BusNumber { get; set; }

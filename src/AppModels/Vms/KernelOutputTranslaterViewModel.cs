@@ -38,6 +38,7 @@ namespace NTMiner.Vms {
 
         public KernelOutputTranslaterViewModel(Guid id) {
             _id = id;
+            _isPre = true;// 在UI上将IsPre属性视为只读的选中状态的复选框
             this.Save = new DelegateCommand(() => {
                 int sortNumber = this.SortNumber;
                 if (NTMinerContext.Instance.ServerContext.KernelOutputTranslaterSet.Contains(this.Id)) {

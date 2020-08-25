@@ -1,13 +1,14 @@
-﻿using NTMiner.Services;
-using System;
+﻿using System;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace NTMiner {
-    public partial class NTMinerContext {
-        private static void GetAliyunServerJson(Action<byte[]> callback) {
+namespace NTMiner.Services.OSS {
+    public class AliyunOSSService {
+        internal AliyunOSSService() { }
+
+        public void GetAliyunServerJson(Action<byte[]> callback) {
             string serverJsonFileUrl = $"{OfficialServices.MinerJsonBucket}{HomePath.ExportServerJsonFileName}";
             string fileUrl = serverJsonFileUrl + "?t=" + DateTime.Now.Ticks;
             Task.Factory.StartNew(() => {
@@ -41,8 +42,8 @@ namespace NTMiner {
         }
 
         private static byte[] ZipDecompress(byte[] zippedData) {
-            using (Stream ms = new MemoryStream(zippedData), 
-                          compressedzipStream = new GZipStream(ms, CompressionMode.Decompress), 
+            using (Stream ms = new MemoryStream(zippedData),
+                          compressedzipStream = new GZipStream(ms, CompressionMode.Decompress),
                           outBuffer = new MemoryStream()) {
                 byte[] block = new byte[NTKeyword.IntK];
                 while (true) {

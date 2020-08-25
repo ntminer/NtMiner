@@ -149,18 +149,30 @@ namespace NTMiner.Views.Ucs {
         #endregion
 
         private void KbButtonDualCoinPool_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.IsMining) {
+                VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                return;
+            }
             OpenDualCoinPoolPopup();
             UserActionHappend();
             e.Handled = true;
         }
 
         private void KbButtonDualCoin_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.IsMining) {
+                VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                return;
+            }
             OpenDualCoinPopup();
             UserActionHappend();
             e.Handled = true;
         }
 
         private void KbButtonDualCoinWallet_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.IsMining) {
+                VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                return;
+            }
             var coinVm = Vm.CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin;
             if (coinVm == null) {
                 return;

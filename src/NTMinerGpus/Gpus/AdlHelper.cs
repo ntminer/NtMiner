@@ -224,8 +224,10 @@ namespace NTMiner.Gpus {
                 if (r < AdlStatus.ADL_OK) {
                     NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive8_Current_SettingX2_Get)} {r.ToString()}");
                 }
-                odn8Settings = (Odn8Settings)Marshal.PtrToStructure(lppCurrentSettingList, typeof(Odn8Settings));
-                Marshal.FreeHGlobal(lppCurrentSettingList);
+                if (lppCurrentSettingList != IntPtr.Zero) {
+                    odn8Settings = (Odn8Settings)Marshal.PtrToStructure(lppCurrentSettingList, typeof(Odn8Settings));
+                    Marshal.FreeHGlobal(lppCurrentSettingList);
+                }
                 return lppCurrentSettingList != IntPtr.Zero;
             }
             catch (Exception ex) {
@@ -272,10 +274,12 @@ namespace NTMiner.Gpus {
                     NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive8_Init_SettingX2_Get)} {r.ToString()}");
                 }
                 ADLOD8SingleInitSetting[] od8initSettingList = new ADLOD8SingleInitSetting[numberOfFeatures];
-                for (int i = 0; i < od8initSettingList.Length; i++) {
-                    od8initSettingList[i] = (ADLOD8SingleInitSetting)Marshal.PtrToStructure((IntPtr)((long)lpInitSettingList + i * elementSize), typeof(ADLOD8SingleInitSetting));
+                if (lpInitSettingList != IntPtr.Zero) {
+                    for (int i = 0; i < od8initSettingList.Length; i++) {
+                        od8initSettingList[i] = (ADLOD8SingleInitSetting)Marshal.PtrToStructure((IntPtr)((long)lpInitSettingList + i * elementSize), typeof(ADLOD8SingleInitSetting));
+                    }
+                    Marshal.FreeHGlobal(lpInitSettingList);
                 }
-                Marshal.FreeHGlobal(lpInitSettingList);
                 if (r == AdlStatus.ADL_OK) {
                     odInitSetting.count = numberOfFeatures > (int)ADLOD8SettingId.OD8_COUNT ? (int)ADLOD8SettingId.OD8_COUNT : numberOfFeatures;
                     odInitSetting.overdrive8Capabilities = overdrive8Capabilities;

@@ -8,7 +8,7 @@ namespace NTMiner.Services.Official {
     public class AppSettingService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IAppSettingController>();
 
-        public AppSettingService() {
+        internal AppSettingService() {
         }
 
         #region GetJsonFileVersionAsync

@@ -258,24 +258,40 @@ namespace NTMiner.Views.Ucs {
         #endregion
 
         private void KbButtonKernel_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.MinerProfile.IsMining) {
+                VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                return;
+            }
             OpenKernelPopup();
             UserActionHappend();
             e.Handled = true;
         }
 
         private void KbButtonMainCoinPool_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.MinerProfile.IsMining) {
+                VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                return;
+            }
             OpenMainCoinPoolPopup();
             UserActionHappend();
             e.Handled = true;
         }
 
         private void KbButtonMainCoin_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.MinerProfile.IsMining) {
+                VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                return;
+            }
             OpenMainCoinPopup();
             UserActionHappend();
             e.Handled = true;
         }
 
         private void KbButtonMainCoinWallet_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.MinerProfile.IsMining) {
+                VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                return;
+            }
             var coinVm = Vm.MinerProfile.CoinVm;
             if (coinVm == null) {
                 return;
@@ -304,6 +320,10 @@ namespace NTMiner.Views.Ucs {
         }
 
         private void KbButtonMainCoinPool1_Clicked(object sender, RoutedEventArgs e) {
+            if (Vm.MinerProfile.IsMining) {
+                VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                return;
+            }
             OpenMainCoinPool1Popup();
             UserActionHappend();
             e.Handled = true;

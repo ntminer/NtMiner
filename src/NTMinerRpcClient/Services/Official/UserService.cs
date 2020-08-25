@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public class UserService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IUserController>();
 
-        public UserService() {
+        internal UserService() {
         }
 
         #region LoginAsync

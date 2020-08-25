@@ -6,7 +6,7 @@ namespace NTMiner.Services.Official {
     public class UserAppSettingService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IUserAppSettingController>();
 
-        public UserAppSettingService() {
+        internal UserAppSettingService() {
         }
 
         #region SetAppSettingAsync

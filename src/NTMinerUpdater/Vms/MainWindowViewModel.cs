@@ -76,6 +76,15 @@ namespace NTMiner.Vms {
                                         location = Path.Combine(HomePath.AppDomainBaseDirectory, ntminerFile);
                                     }
                                     try {
+                                        Process process = Process.GetProcessesByName(Path.GetFileName(location)).FirstOrDefault();
+                                        if (process != null) {
+                                            process.Kill();
+                                        }
+                                    }
+                                    catch (Exception e) {
+                                        Logger.ErrorDebugLine(e);
+                                    }
+                                    try {
                                         if (File.Exists(location)) {
                                             Guid kernelBrandId = VirtualRoot.GetBrandId(location, NTKeyword.KernelBrandId);
                                             if (kernelBrandId != Guid.Empty) {

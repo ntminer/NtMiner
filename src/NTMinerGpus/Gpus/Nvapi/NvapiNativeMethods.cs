@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -14,7 +13,7 @@ namespace NTMiner.Gpus.Nvapi {
             public uint Id { get; private set; }
         }
 
-        private delegate IntPtr NvQueryInterfaceDelegate(uint id);
+        private delegate IntPtr nvapi_QueryInterfaceDelegate(uint id);
         private delegate NvStatus NvInitializeDelegate();
 
         internal delegate NvStatus NvEnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
@@ -46,8 +45,8 @@ namespace NTMiner.Gpus.Nvapi {
         internal delegate NvStatus NvFanCoolersGetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
         internal delegate NvStatus NvFanCoolersSetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
 
-        private static readonly NvQueryInterfaceDelegate NvQueryInterface;
-        private static readonly NvInitializeDelegate NvInitialize;
+        private static nvapi_QueryInterfaceDelegate nvapi_QueryInterface { get; set; }
+        private static NvInitializeDelegate NvInitialize { get; set; }
 
         #region 
         // 以下属性要求必须是外部可见的static，不能是private的
@@ -101,7 +100,7 @@ namespace NTMiner.Gpus.Nvapi {
         #endregion
 
         private static void SetDelegate(PropertyInfo property, uint id) {
-            IntPtr ptr = NvQueryInterface(id);
+            IntPtr ptr = nvapi_QueryInterface(id);
             if (ptr != IntPtr.Zero) {
                 var newDelegate = Marshal.GetDelegateForFunctionPointer(ptr, property.PropertyType);
                 property.SetValue(null, newDelegate, null);
@@ -109,15 +108,16 @@ namespace NTMiner.Gpus.Nvapi {
         }
 
         static NvapiNativeMethods() {
-            DllImportAttribute attribute = new DllImportAttribute("nvapi64.dll");
-            attribute.CallingConvention = CallingConvention.Cdecl;
-            attribute.PreserveSig = true;
-            attribute.EntryPoint = "nvapi_QueryInterface";
-            PInvokeDelegateFactory.CreateDelegate(attribute, typeof(NvQueryInterfaceDelegate), out object newDelegate);
-            NvQueryInterface = (NvQueryInterfaceDelegate)newDelegate;
+            DllImportAttribute attribute = new DllImportAttribute("nvapi64.dll") {
+                CallingConvention = CallingConvention.Cdecl,
+                PreserveSig = true,
+                EntryPoint = "nvapi_QueryInterface"
+            };
+            PInvokeDelegateFactory.CreateDelegate(attribute, typeof(nvapi_QueryInterfaceDelegate), out object newDelegate);
+            nvapi_QueryInterface = (nvapi_QueryInterfaceDelegate)newDelegate;
 
             try {
-                IntPtr ptr = NvQueryInterface(0x0150E828);
+                IntPtr ptr = nvapi_QueryInterface(0x0150E828);
                 NvInitialize = (NvInitializeDelegate)Marshal.GetDelegateForFunctionPointer(ptr, typeof(NvInitializeDelegate));
             }
             catch (Exception e) {
@@ -129,7 +129,11 @@ namespace NTMiner.Gpus.Nvapi {
                 Type t = typeof(NvapiNativeMethods);
                 var properties = t.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.SetProperty);
                 foreach (var property in properties) {
-                    var id = ((IdAttribute)property.GetCustomAttributes(typeof(IdAttribute), inherit: false).First()).Id;
+                    var attrs = property.GetCustomAttributes(typeof(IdAttribute), inherit: false);
+                    if (attrs.Length == 0) {
+                        continue;
+                    }
+                    var id = ((IdAttribute)attrs[0]).Id;
                     SetDelegate(property, id);
                 }
             }

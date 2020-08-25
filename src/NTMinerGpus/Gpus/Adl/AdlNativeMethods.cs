@@ -5,6 +5,12 @@ using System.Text.RegularExpressions;
 
 namespace NTMiner.Gpus.Adl {
     public static class AdlNativeMethods {
+        [AttributeUsage(AttributeTargets.Property)]
+        public class AdlAttribute : Attribute {
+            public AdlAttribute() {
+            }
+        }
+
         internal delegate IntPtr ADL_Main_Memory_AllocCallback(int size);
         internal delegate AdlStatus ADL_Main_Control_CreateDelegate(ADL_Main_Memory_AllocCallback callback, int enumConnectedAdapters);
         internal delegate AdlStatus ADL2_Main_Control_CreateDelegate(ADL_Main_Memory_AllocCallback callback, int enumConnectedAdapters, out IntPtr context);
@@ -50,45 +56,85 @@ namespace NTMiner.Gpus.Adl {
 
         // 以下属性要求必须是外部可见的static，不能是private的
         // 注意属性名是EnterPoint，不要改名
+        [Adl]
         internal static ADL_Main_Control_CreateDelegate ADL_Main_Control_Create { get; private set; }
+        [Adl]
         internal static ADL2_Main_Control_CreateDelegate ADL2_Main_Control_Create { get; private set; }
+        [Adl]
         internal static ADL_Adapter_AdapterInfo_GetDelegate ADL_Adapter_AdapterInfo_Get { get; private set; }
+        [Adl]
         internal static ADL2_Adapter_AdapterInfo_GetDelegate ADL2_Adapter_AdapterInfo_Get { get; set; }
+        [Adl]
         internal static ADL_Main_Control_DestroyDelegate ADL_Main_Control_Destroy { get; private set; }
+        [Adl]
         internal static ADL2_Main_Control_DestroyDelegate ADL2_Main_Control_Destroy { get; private set; }
+        [Adl]
         internal static ADL_Adapter_NumberOfAdapters_GetDelegate ADL_Adapter_NumberOfAdapters_Get { get; private set; }
+        [Adl]
         internal static ADL2_Adapter_NumberOfAdapters_GetDelegate ADL2_Adapter_NumberOfAdapters_Get { get; private set; }
+        [Adl]
         internal static ADL_Adapter_Active_GetDelegate ADL_Adapter_Active_Get { get; private set; }
+        [Adl]
         internal static ADL_Overdrive5_CurrentActivity_GetDelegate ADL_Overdrive5_CurrentActivity_Get { get; private set; }
+        [Adl]
         internal static ADL_Overdrive5_Temperature_GetDelegate ADL_Overdrive5_Temperature_Get { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_Temperature_GetDelegate ADL2_OverdriveN_Temperature_Get { get; private set; }
+        [Adl]
         internal static ADL_Overdrive5_FanSpeed_GetDelegate ADL_Overdrive5_FanSpeed_Get { get; private set; }
+        [Adl]
         internal static ADL_Overdrive5_FanSpeed_SetDelegate ADL_Overdrive5_FanSpeed_Set { get; private set; }
+        [Adl]
         internal static ADL_Overdrive5_FanSpeedInfo_GetDelegate ADL_Overdrive5_FanSpeedInfo_Get { get; private set; }
+        [Adl]
         internal static ADL_Overdrive5_FanSpeedToDefault_SetDelegate ADL_Overdrive5_FanSpeedToDefault_Set { get; private set; }
+        [Adl]
         internal static ADL2_Overdrive5_FanSpeedToDefault_SetDelegate ADL2_Overdrive5_FanSpeedToDefault_Set { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_FanControl_GetDelegate ADL2_OverdriveN_FanControl_Get { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_FanControl_SetDelegate ADL2_OverdriveN_FanControl_Set { get; private set; }
+        [Adl]
         internal static ADL_Overdrive_CapsDelegate ADL_Overdrive_Caps { get; private set; }
+        [Adl]
         internal static ADL2_Overdrive_CapsDelegate ADL2_Overdrive_Caps { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_PowerLimit_GetDelegate ADL2_OverdriveN_PowerLimit_Get { get; private set; }
+        [Adl]
         internal static ADL2_Overdrive6_CurrentPower_GetDelegate ADL2_Overdrive6_CurrentPower_Get { get; private set; }
+        [Adl]
         internal static ADL2_New_QueryPMLogData_GetDelegate ADL2_New_QueryPMLogData_Get { get; private set; }
+        [Adl]
         internal static ADL_Overdrive5_ODParameters_GetDelegate ADL_Overdrive5_ODParameters_Get { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_PerformanceStatus_GetDelegate ADL2_OverdriveN_PerformanceStatus_Get { get; private set; }
+        [Adl]
         internal static ADL_Graphics_Versions_GetDelegate ADL_Graphics_Versions_Get { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_PowerLimit_SetDelegate ADL2_OverdriveN_PowerLimit_Set { get; private set; }
+        [Adl]
         internal static ADL_Adapter_MemoryInfo_GetDelegate ADL_Adapter_MemoryInfo_Get { get; private set; }
+        [Adl]
         internal static ADL2_Graphics_VersionsX2_GetDelegate ADL2_Graphics_VersionsX2_Get { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_MemoryClocksX2_GetDelegate ADL2_OverdriveN_MemoryClocksX2_Get { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_MemoryClocksX2_SetDelegate ADL2_OverdriveN_MemoryClocksX2_Set { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_SystemClocksX2_GetDelegate ADL2_OverdriveN_SystemClocksX2_Get { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_SystemClocksX2_SetDelegate ADL2_OverdriveN_SystemClocksX2_Set { get; private set; }
+        [Adl]
         internal static ADL2_OverdriveN_CapabilitiesX2_GetDelegate ADL2_OverdriveN_CapabilitiesX2_Get { get; private set; }
+        [Adl]
         internal static ADL2_Overdrive6_FanSpeed_ResetDelegate ADL2_Overdrive6_FanSpeed_Reset { get; private set; }
+        [Adl]
         internal static ADL2_Overdrive8_Current_SettingX2_GetDelegate ADL2_Overdrive8_Current_SettingX2_Get { get; private set; }
+        [Adl]
         internal static ADL2_Overdrive8_Init_SettingX2_GetDelegate ADL2_Overdrive8_Init_SettingX2_Get { get; private set; }
+        [Adl]
         internal static ADL2_Overdrive8_Init_Setting_GetDelegate ADL2_Overdrive8_Init_Setting_Get { get; private set; }
+        [Adl]
         internal static ADL2_Overdrive8_Setting_SetDelegate ADL2_Overdrive8_Setting_Set { get; private set; }
 
         internal static AdlStatus ADLMainControlCreate(out IntPtr context) {
@@ -180,6 +226,10 @@ namespace NTMiner.Gpus.Adl {
             Type t = typeof(AdlNativeMethods);
             var properties = t.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.SetProperty);
             foreach (var property in properties) {
+                var attrs = property.GetCustomAttributes(typeof(AdlAttribute), inherit: false);
+                if (attrs.Length == 0) {
+                    continue;
+                }
                 SetDelegate(property, dllName);
             }
         }

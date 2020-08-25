@@ -1,17 +1,16 @@
 ﻿using NTMiner.Core.MinerServer;
-using StackExchange.Redis;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class MinerRedis : ReadOnlyMinerRedis, IMinerRedis {
-        public MinerRedis(ConnectionMultiplexer connection) : base(connection) {
+        public MinerRedis(IServerConnection serverConfig) : base(serverConfig) {
         }
 
         public Task SetAsync(MinerData data) {
             if (data == null || string.IsNullOrEmpty(data.Id)) {
                 return TaskEx.CompletedTask;
             }
-            var db = _connection.GetDatabase();
+            var db = _serverConnection.RedisConn.GetDatabase();
             return db.HashSetAsync(_redisKeyMinerById, data.Id, VirtualRoot.JsonSerializer.Serialize(data));
         }
 
@@ -19,7 +18,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (data == null || string.IsNullOrEmpty(data.Id)) {
                 return TaskEx.CompletedTask;
             }
-            var db = _connection.GetDatabase();
+            var db = _serverConnection.RedisConn.GetDatabase();
             return db.HashDeleteAsync(_redisKeyMinerById, data.Id);
         }
     }

@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public class WsServerNodeService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IWsServerNodeController>();
 
-        public WsServerNodeService() {
+        internal WsServerNodeService() {
         }
 
         public void GetNodesAsync(Action<DataResponse<List<WsServerNodeState>>, Exception> callback) {

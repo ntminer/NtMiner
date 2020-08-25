@@ -12,8 +12,9 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channel.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.UpdateUserRSAKeyRoutingKey, arguments: null);
         }
 
-        protected override void DoGo(BasicDeliverEventArgs ea) {
-            base.DoGo(ea);
+        protected override bool DoGo(BasicDeliverEventArgs ea) {
+            bool baseR = base.DoGo(ea);
+            bool r = true;
             switch (ea.RoutingKey) {
                 case MqKeyword.UpdateUserRSAKeyRoutingKey: {
                         string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
@@ -24,8 +25,10 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                     }
                     break;
                 default:
+                    r = false;
                     break;
             }
+            return baseR || r;
         }
     }
 }

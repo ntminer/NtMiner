@@ -9,7 +9,7 @@ namespace NTMiner.Services.Official {
     public class UserMineWorkService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IUserMineWorkController>();
 
-        public UserMineWorkService() {
+        internal UserMineWorkService() {
         }
 
         #region GetMineWorksAsync

@@ -27,22 +27,16 @@ namespace NTMiner.Views {
         /// <param name="owner"></param>
         /// <param name="ownerIsTopmost"></param>
         /// <param name="isNoOtherWindow">如果没有其它窗口就不需要响应窗口激活和非激活状态变更事件了</param>
-        public static void Bind(Window owner, bool ownerIsTopmost = false, bool isNoOtherWindow = false) {
+        public static void Bind(Window owner, bool ownerIsTopmost = false) {
             if (_instance == null) {
                 return;
             }
             if (ownerIsTopmost) {
-                if (!isNoOtherWindow) {
-                    owner.Activated += TopMostOwner_Activated;
-                }
-                if (!isNoOtherWindow) {
-                    owner.Deactivated += Owner_Deactivated;
-                }
+                owner.Activated += TopMostOwner_Activated;
+                owner.Deactivated += Owner_Deactivated;
             }
             else {
-                if (!isNoOtherWindow) {
-                    owner.Activated += Owner_Activated;
-                }
+                owner.Activated += Owner_Activated;
             }
             owner.LocationChanged += OnLocationChanged;
         }
@@ -73,14 +67,14 @@ namespace NTMiner.Views {
         private static void TopMostOwner_Activated(object sender, EventArgs e) {
             Window owner = (Window)sender;
             // 解决当主界面上方出现popup层时主窗口下面的控制台窗口可能会被windows绘制到上面的BUG
-            if (!owner.Topmost) {
+            if (!owner.Topmost && owner.WindowState == WindowState.Maximized) {
                 owner.Topmost = true;
             }
             Owner_Activated(sender, e);
         }
 
         private static readonly HashSet<Window> _owners = new HashSet<Window>();
-        public static void SwitchOwner(Window owner) {
+        private static void SwitchOwner(Window owner) {
             if (_instance == null) {
                 return;
             }
@@ -93,7 +87,7 @@ namespace NTMiner.Views {
                     owner.Owner = _instance.Owner;
                 }
                 _instance.Owner = owner;
-                if (isOwnerIsTopMost) {
+                if (isOwnerIsTopMost && owner.WindowState == WindowState.Maximized) {
                     owner.Topmost = true;
                     _instance.Topmost = true;
                 }

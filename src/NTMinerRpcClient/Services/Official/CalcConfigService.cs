@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public class CalcConfigService {
         private readonly string _controllerName = RpcRoot.GetControllerName<ICalcConfigController>();
 
-        public CalcConfigService() {
+        internal CalcConfigService() {
         }
 
         #region GetCalcConfigsAsync

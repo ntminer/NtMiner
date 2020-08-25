@@ -7,7 +7,7 @@ namespace NTMiner.Services.Official {
     public partial class ClientDataService {
         private readonly string _controllerName = RpcRoot.GetControllerName<IClientDataController>();
 
-        public ClientDataService() {
+        internal ClientDataService() {
         }
 
         #region QueryClientsAsync

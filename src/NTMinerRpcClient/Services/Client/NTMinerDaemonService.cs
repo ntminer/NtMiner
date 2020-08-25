@@ -6,10 +6,8 @@ using System.Collections.Generic;
 
 namespace NTMiner.Services.Client {
     public class NTMinerDaemonService {
-        public static NTMinerDaemonService Instance { get; private set; } = new NTMinerDaemonService();
-
         private readonly string _controllerName = RpcRoot.GetControllerName<INTMinerDaemonController>();
-        private NTMinerDaemonService() { }
+        internal NTMinerDaemonService() { }
 
         public void GetSelfWorkLocalJsonAsync(IMinerData client, Action<string, Exception> callback) {
             JsonRpcRoot.PostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetSelfWorkLocalJson), callback, timeountMilliseconds: 3000);

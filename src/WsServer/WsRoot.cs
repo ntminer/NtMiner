@@ -70,17 +70,16 @@ namespace NTMiner {
                 new WsServerNodeMqMessagePath(queue),
                 new OperationMqMessagePath(queue)
             };
-            IServerConfig serverConfig = ServerConfig.Create(mqClientTypeName: ServerAppType.WsServer.GetName(), mqMessagePaths);
-            if (serverConfig == null) {
+            if (!ServerConnection.Create(ServerAppType.WsServer, mqMessagePaths, out IServerConnection serverConfig)) {
                 NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                 return;
             }
-            MinerClientMqSender = new MinerClientMqSender(serverConfig.Channel);
-            SpeedDataRedis = new SpeedDataRedis(serverConfig.RedisConn);
-            OperationMqSender = new OperationMqSender(serverConfig.Channel);
-            UserMqSender = new UserMqSender(serverConfig.Channel);
-            var minerRedis = new ReadOnlyMinerRedis(serverConfig.RedisConn);
-            var userRedis = new ReadOnlyUserRedis(serverConfig.RedisConn);
+            MinerClientMqSender = new MinerClientMqSender(serverConfig);
+            SpeedDataRedis = new SpeedDataRedis(serverConfig);
+            OperationMqSender = new OperationMqSender(serverConfig);
+            UserMqSender = new UserMqSender(serverConfig);
+            var minerRedis = new ReadOnlyMinerRedis(serverConfig);
+            var userRedis = new ReadOnlyUserRedis(serverConfig);
             VirtualRoot.StartTimer();
             RpcRoot.SetRpcUser(new RpcUser(ServerRoot.HostConfig.RpcLoginName, HashUtil.Sha1(ServerRoot.HostConfig.RpcPassword)));
             RpcRoot.SetIsOuterNet(false);
