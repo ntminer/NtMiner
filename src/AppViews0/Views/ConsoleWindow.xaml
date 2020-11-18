@@ -15,19 +15,5 @@
     Title="Windows控制台窗口">
     <!--窗口不能透明否则在远程桌面时无法显现-->
     <Grid>
-        <controls:KbLinkButton
-            x:Name="LbtnWindowsZoomBug"
-            Visibility="Collapsed"
-            Margin="350 0 20 80"
-			Padding="0"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-			Command="{x:Static app:AppStatic.WindowsZoomBug}"
-			KbDisplayLine="False"
-			Content="解决部分windows下界面错位的方法"
-            Foreground="Red"
-            FontSize="16"
-			Background="Transparent">
-        </controls:KbLinkButton>
     </Grid>
 </Window>

@@ -56,17 +56,17 @@
         </WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">名称</TextBlock>
-			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
             </TextBox>
         </WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">片段</TextBlock>
-			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Segment, ValidatesOnExceptions=True}">
+            <TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Segment, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 		</WrapPanel>
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">描述</TextBlock>
-			<TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Description, ValidatesOnExceptions=True}">
+            <TextBox Width="420" VerticalContentAlignment="Center" Text="{Binding Description, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 		</WrapPanel>
 

@@ -111,6 +111,26 @@
 					        Text="清空" />
                     </WrapPanel>
                 </controls:KbButton>
+                <controls:KbButton
+                    Height="20"
+                    Margin="4 0 0 0"
+                    Command="{Binding ViewHistory}"
+                    Background="Transparent"
+                    ToolTip="显示历史消息"
+                    Cursor="Hand"
+			        CornerRadius="2">
+                    <WrapPanel>
+                        <Path
+					        Width="12"
+					        Height="12"
+					        Data="{StaticResource Icon_Message}"
+					        Fill="{StaticResource BtnBackground}"
+					        Stretch="Fill" />
+                        <TextBlock
+					        Padding="2 0"
+					        Text="历史" />
+                    </WrapPanel>
+                </controls:KbButton>
             </WrapPanel>
         </Grid>
         <DataGrid 

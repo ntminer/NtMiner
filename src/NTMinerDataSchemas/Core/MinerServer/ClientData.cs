@@ -37,9 +37,7 @@ namespace NTMiner.Core.MinerServer {
             return new ClientData() {
                 #region
                 Id = data.Id,
-                MineContextId = Guid.Empty,
                 CpuId = data.CpuId,
-                DiskSpaceMb = 0,
                 ClientId = data.ClientId,
                 MACAddress = data.MACAddress,
                 LocalIp = data.LocalIp,
@@ -51,6 +49,14 @@ namespace NTMiner.Core.MinerServer {
                 WorkId = data.WorkId,
                 WindowsLoginName = data.WindowsLoginName,
                 WindowsPassword = data.WindowsPassword,
+                AESPassword = data.AESPassword,
+                AESPasswordOn = data.AESPasswordOn,
+                LoginName = data.LoginName,
+                IsOuterUserEnabled = data.IsOuterUserEnabled,
+                OuterUserId = data.OuterUserId,
+                ReportOuterUserId = data.OuterUserId,
+                MineContextId = Guid.Empty,
+                DiskSpaceMb = 0,
                 MineWorkId = Guid.Empty,
                 MineWorkName = string.Empty,
                 IsAutoBoot = false,
@@ -88,7 +94,7 @@ namespace NTMiner.Core.MinerServer {
                 IsMining = false,
                 BootOn = DateTime.MinValue,
                 MineStartedOn = DateTime.MinValue,
-                MinerActiveOn = DateTime.MinValue,
+                MinerActiveOn = DateTime.Now,
                 MainCoinCode = string.Empty,
                 MainCoinTotalShare = 0,
                 MainCoinRejectShare = 0,
@@ -111,16 +117,10 @@ namespace NTMiner.Core.MinerServer {
                 IsRejectOneGpuShare = false,
                 IsGotOneIncorrectGpuShare = false,
                 KernelSelfRestartCount = 0,
-                LoginName = data.LoginName,
-                IsOuterUserEnabled = data.IsOuterUserEnabled,
-                OuterUserId = data.OuterUserId,
-                ReportOuterUserId = data.OuterUserId,
                 TotalPhysicalMemoryMb = 0,
                 LocalServerMessageTimestamp = Timestamp.UnixBaseTime,
                 NetActiveOn = DateTime.MinValue,
                 IsOnline = false,
-                AESPassword = string.Empty,
-                AESPasswordOn = DateTime.MinValue,
                 IsAutoDisableWindowsFirewall = true,
                 IsDisableAntiSpyware = true,
                 IsDisableUAC = true,
@@ -254,10 +254,10 @@ namespace NTMiner.Core.MinerServer {
         /// 从给定的speedData中提取出主币矿池延时，辅币矿池延时，主币拒绝率，辅币拒绝率。
         /// </summary>
         private static void Extract(
-            ISpeedDto speedDto, 
-            out int mainCoinPoolDelayNumber, 
-            out int dualCoinPoolDelayNumber, 
-            out double mainCoinRejectPercent, 
+            ISpeedDto speedDto,
+            out int mainCoinPoolDelayNumber,
+            out int dualCoinPoolDelayNumber,
+            out double mainCoinRejectPercent,
             out double dualCoinRejectPercent,
             out int diskSpaceMb) {
             #region
@@ -323,10 +323,10 @@ namespace NTMiner.Core.MinerServer {
 
         public static ClientData Create(ISpeedDto speedDto, string minerIp) {
             Extract(
-                speedDto, 
-                out int mainCoinPoolDelayNumber, 
-                out int dualCoinPoolDelayNumber, 
-                out double mainCoinRejectPercent, 
+                speedDto,
+                out int mainCoinPoolDelayNumber,
+                out int dualCoinPoolDelayNumber,
+                out double mainCoinRejectPercent,
                 out double dualCoinRejectPercent,
                 out int diskSpaceMb);
             return new ClientData() {
@@ -703,10 +703,10 @@ namespace NTMiner.Core.MinerServer {
             this.IsDisableUAC = speedDto.IsDisableUAC;
             this.IsDisableWAU = speedDto.IsDisableWAU;
             Extract(
-                speedDto, 
-                out int mainCoinPoolDelayNumber, 
-                out int dualCoinPoolDelayNumber, 
-                out double mainCoinRejectPercent, 
+                speedDto,
+                out int mainCoinPoolDelayNumber,
+                out int dualCoinPoolDelayNumber,
+                out double mainCoinRejectPercent,
                 out double dualCoinRejectPercent,
                 out int diskSpaceMb);
             this.MainCoinPoolDelayNumber = mainCoinPoolDelayNumber;

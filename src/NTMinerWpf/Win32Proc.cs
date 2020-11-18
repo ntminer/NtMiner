@@ -1,4 +1,6 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
 
 namespace NTMiner {
@@ -57,8 +59,19 @@ namespace NTMiner {
             [DllImport(DllName.User32Dll)]
             internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
 
-            [DllImport(DllName.User32Dll)]
-            internal static extern bool GetMonitorInfo(IntPtr hMonitor, MONITORINFO lpmi);
+            [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+            [DllImport(DllName.User32Dll, EntryPoint = "GetMonitorInfoW", SetLastError = true, ExactSpelling = true, CharSet = CharSet.Unicode)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            private static extern bool _GetMonitorInfoW([In] IntPtr hMonitor, [Out] MONITORINFO lpmi);
+
+            [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
+            public static MONITORINFO GetMonitorInfoW(IntPtr hMonitor) {
+                var mi = new MONITORINFO();
+                if (!_GetMonitorInfoW(hMonitor, mi)) {
+                    throw new Win32Exception();
+                }
+                return mi;
+            }
         }
 
         public enum WindowsTaskbarEdge {
@@ -111,21 +124,21 @@ namespace NTMiner {
         #region 最大化窗口时避免最大化到Windows任务栏
         private static void WmGetMinMaxInfo(IntPtr hwnd, IntPtr lParam) {
             SafeNativeMethods.MINMAXINFO mmi = (SafeNativeMethods.MINMAXINFO)Marshal.PtrToStructure(lParam, typeof(SafeNativeMethods.MINMAXINFO));
-
-            // Adjust the maximized size and position to fit the work area of the correct monitor
-            int MONITOR_DEFAULTTONEAREST = 0x00000002;
+            const int MONITOR_DEFAULTTONEAREST = 0x00000002;
             IntPtr monitor = SafeNativeMethods.MonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
             if (monitor != IntPtr.Zero) {
-                SafeNativeMethods.MONITORINFO monitorInfo = new SafeNativeMethods.MONITORINFO();
-                SafeNativeMethods.GetMonitorInfo(monitor, monitorInfo);
+                SafeNativeMethods.MONITORINFO monitorInfo = SafeNativeMethods.GetMonitorInfoW(monitor);
                 SafeNativeMethods.RECT rcWorkArea = monitorInfo.rcWork;
                 SafeNativeMethods.RECT rcMonitorArea = monitorInfo.rcMonitor;
+
                 mmi.ptMaxPosition.X = Math.Abs(rcWorkArea.Left - rcMonitorArea.Left);
                 mmi.ptMaxPosition.Y = Math.Abs(rcWorkArea.Top - rcMonitorArea.Top);
+
                 mmi.ptMaxSize.X = Math.Abs(rcWorkArea.Right - rcWorkArea.Left);
                 mmi.ptMaxSize.Y = Math.Abs(rcWorkArea.Bottom - rcWorkArea.Top);
+                mmi.ptMaxTrackSize.X = mmi.ptMaxSize.X;
+                mmi.ptMaxTrackSize.Y = mmi.ptMaxSize.Y;
             }
-
             Marshal.StructureToPtr(mmi, lParam, true);
         }
         #endregion

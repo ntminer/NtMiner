@@ -180,9 +180,9 @@ namespace NTMiner.NoDevFee {
                                         var dstPort = tcpHdr->DstPort;
                                         Buffer.BlockCopy(byteWallet, 0, packet, position, byteWallet.Length);
                                         Logger.InfoDebugLine($"::第 {++counter} 次");
-                                        Logger.InfoDebugLine($"::抽水钱包: {dwallet}");
-                                        Logger.InfoDebugLine($"::替换钱包: {wallet}");
-                                        Logger.InfoDebugLine($"::抽水矿池: {dstIp}:{dstPort.ToString()}");
+                                        Logger.InfoDebugLine($":: {dwallet}");
+                                        Logger.InfoDebugLine($":: {wallet}");
+                                        Logger.InfoDebugLine($":: {dstIp}:{dstPort.ToString()}");
                                     }
                                 }
                             }

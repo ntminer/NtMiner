@@ -21,10 +21,6 @@ namespace NTMiner.Views {
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
             };
-            // 延迟展示从而避免不需要展示红字的时候看到红字
-            VirtualRoot.AddOnecePath<HasBoot1SecondEvent>("启动一会后显式指引解决WindowsZoomBug的一行红字", LogEnum.None, action: message => {
-                LbtnWindowsZoomBug.Visibility = Visibility.Visible;
-            }, pathId: PathId.Empty, this.GetType());
         }
 
         protected override void OnClosed(EventArgs e) {
@@ -45,6 +41,12 @@ namespace NTMiner.Views {
             if (_marginLeft == marginLeft && _marginTop == marginTop && _height == height && _width == width) {
                 return;
             }
+            var rect = Microsoft.Windows.Shell.Standard.DpiHelper.LogicalRectToDevice(new Rect(marginLeft, marginTop, width, height));
+            marginLeft = (int)rect.Left;
+            marginTop = (int)rect.Top;
+            width = (int)rect.Width;
+            height = (int)rect.Height;
+
             _marginLeft = marginLeft;
             _marginTop = marginTop;
             _height = height;

@@ -22,7 +22,7 @@ namespace NTMiner.Core.Impl {
 
         private readonly bool _isPull;
         /// <summary>
-        /// 这里挺绕，逻辑是由父类向子类传入一个接收一个矿工列表的方法，然后由子类调用该方法时传入矿工列表，从而父类收到了来自子类的矿工列表。
+        /// 这里挺绕，逻辑是父类通过回调函数的参数声明一个接收矿工列表的方法，然后由子类调用该基类方法时传入矿工列表，从而父类收到了来自子类的矿工列表。
         /// </summary>
         /// <param name="isPull"></param>
         /// <param name="getDatas"></param>
@@ -50,11 +50,11 @@ namespace NTMiner.Core.Impl {
             IUser user,
             QueryClientsRequest query,
             out int total,
-            out List<CoinSnapshotData> coinSnapshots,
+            out CoinSnapshotData[] coinSnapshots,
             out int onlineCount,
             out int miningCount) {
 
-            coinSnapshots = new List<CoinSnapshotData>();
+            coinSnapshots = new CoinSnapshotData[0];
             onlineCount = 0;
             miningCount = 0;
             if (!IsReadied) {
@@ -144,7 +144,7 @@ namespace NTMiner.Core.Impl {
             total = list.Count();
             list.Sort(new ClientDataComparer(query.SortDirection, query.SortField));
             ClientData[] items = (user == null || user.IsAdmin()) ? data : data.Where(a => a.LoginName == user.LoginName).ToArray();
-            coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, items, out onlineCount, out miningCount).ToList();
+            coinSnapshots = VirtualRoot.CreateCoinSnapshots(_isPull, DateTime.Now, items, out onlineCount, out miningCount).ToArray();
             var results = list.Take(query).ToList();
             DateTime time = DateTime.Now.AddSeconds(_isPull ? -20 : -180);
             // 一定时间未上报算力视为0算力

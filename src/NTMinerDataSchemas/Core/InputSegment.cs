@@ -11,7 +11,7 @@
         public InputSegment(IInputSegment data) {
             this.TargetGpu = data.TargetGpu;
             this.Name = data.Name;
-            this.Segment = data.Name;
+            this.Segment = data.Segment;
             this.Description = data.Description;
             this.IsDefault = data.IsDefault;
         }
@@ -19,7 +19,7 @@
         public void Update(IInputSegment data) {
             this.TargetGpu = data.TargetGpu;
             this.Name = data.Name;
-            this.Segment = data.Name;
+            this.Segment = data.Segment;
             this.Description = data.Description;
             this.IsDefault = data.IsDefault;
         }

@@ -35,7 +35,7 @@ namespace NTMiner.Core {
             IUser user,
             QueryClientsRequest query,
             out int total,
-            out List<CoinSnapshotData> coinSnapshots,
+            out CoinSnapshotData[] coinSnapshots,
             out int onlineCount,
             out int miningCount);
         ClientData GetByClientId(Guid clientId);

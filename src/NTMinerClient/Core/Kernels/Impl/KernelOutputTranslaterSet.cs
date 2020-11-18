@@ -149,7 +149,7 @@ namespace NTMiner.Core.Kernels.Impl {
                 if (string.IsNullOrEmpty(input) || !_dicByKernelOutputId.TryGetValue(kernelOutputId, out List<KernelOutputTranslaterData> translaters)) {
                     return;
                 }
-                foreach (var consoleTranslater in translaters) {
+                foreach (var consoleTranslater in translaters.ToArray()) {
                     if (isPre && !consoleTranslater.IsPre) {
                         continue;
                     }

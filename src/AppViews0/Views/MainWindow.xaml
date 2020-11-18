@@ -56,7 +56,7 @@
                     <ColumnDefinition Width="Auto"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <WrapPanel VerticalAlignment="Center" Background="Transparent">
-                    <Menu Background="Transparent">
+                    <Menu Background="Transparent" PreviewMouseDown="Menu_PreviewMouseDown" PreviewMouseUp="Menu_PreviewMouseUp">
                         <MenuItem Width="26" Height="30">
                             <MenuItem.Icon>
                                 <Image Width="17" Height="18" Source="/NTMinerWpf;component/Styles/Images/logo32.png"></Image>

@@ -16,6 +16,7 @@ namespace NTMiner.Vms {
 
         public ICommand ClearKeyword { get; private set; }
         public ICommand Clear { get; private set; }
+        public ICommand ViewHistory { get; private set; }
 
         public ServerMessagesViewModel() {
             if (WpfUtil.IsInDesignMode) {
@@ -39,7 +40,13 @@ namespace NTMiner.Vms {
             });
             this.Clear = new DelegateCommand(() => {
                 this.ShowSoftDialog(new DialogWindowViewModel(message: "确定清空吗？", title: "确认", onYes: () => {
-                    VirtualRoot.Execute(new ClearServerMessages());
+                    VirtualRoot.Execute(new ClearServerMessagesCommand());
+                }));
+            });
+            this.ViewHistory = new DelegateCommand(() => {
+                this.ShowSoftDialog(new DialogWindowViewModel(message: "确定显示历史消息吗？", title: "确认", onYes: () => {
+                    VirtualRoot.LocalServerMessageSetTimestamp = Timestamp.UnixBaseTime;
+                    VirtualRoot.Execute(new LoadNewServerMessageCommand());
                 }));
             });
             VirtualRoot.AddEventPath<ServerMessagesClearedEvent>("清空了本地存储的服务器消息后刷新Vm内存", LogEnum.DevConsole,

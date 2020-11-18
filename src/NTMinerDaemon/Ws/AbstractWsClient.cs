@@ -2,6 +2,7 @@
 using System;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using WebSocketSharp;
 
 namespace NTMiner.Ws {
@@ -40,9 +41,11 @@ namespace NTMiner.Ws {
                 try {
                     if (_ws != null && _ws.ReadyState == WebSocketState.Open) {
                         // 或者_ws.IsAlive，因为_ws.IsAlive内部也是一个Ping，所以用Ping从而显式化这里有个网络请求
-                        if (!_ws.Ping()) {
-                            _ws.CloseAsync(CloseStatusCode.Away);
-                        }
+                        Task.Factory.StartNew(() => {
+                            if (!_ws.Ping()) {
+                                _ws.CloseAsync(CloseStatusCode.Away);
+                            }
+                        });
                     }
                 }
                 catch (Exception e) {

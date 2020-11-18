@@ -5,11 +5,13 @@ using NTMiner.Core;
 using NTMiner.Core.Impl;
 using NTMiner.Core.Mq.MqMessagePaths;
 using NTMiner.Core.Mq.Senders.Impl;
+using NTMiner.Core.Redis;
 using NTMiner.Core.Redis.Impl;
 using NTMiner.Impl;
 using NTMiner.ServerNode;
 using System;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Web.Http;
 
@@ -17,6 +19,7 @@ namespace NTMiner {
     public static class WebApiRoot {
         private static readonly EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static OssClient OssClient { get; private set; }
+        public static MediaTypeHeaderValue BinaryContentType { get; private set; } = new MediaTypeHeaderValue("image/jpg");
 
         private static Mutex _sMutexApp;
         // 该程序编译为控制台程序，如果不启用内网支持则默认设置为开机自动启动
@@ -56,14 +59,14 @@ namespace NTMiner {
                         OssClient = new OssClient(ServerRoot.HostConfig.OssEndpoint, ServerRoot.HostConfig.OssAccessKeyId, ServerRoot.HostConfig.OssAccessKeySecret);
                         var minerClientMqSender = new MinerClientMqSender(serverConfig);
                         var userMqSender = new UserMqSender(serverConfig);
-                        var wsServerNodeMqSender = new WsServerNodeMqSender(serverConfig);
 
                         var minerRedis = new MinerRedis(serverConfig);
                         var speedDataRedis = new SpeedDataRedis(serverConfig);
                         var userRedis = new UserRedis(serverConfig);
                         var captchaRedis = new CaptchaRedis(serverConfig);
 
-                        WsServerNodeSet = new WsServerNodeSet(wsServerNodeMqSender);
+                        WsServerNodeRedis = new WsServerNodeRedis(serverConfig);
+                        WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis);
                         UserSet = new UserSet(userRedis, userMqSender);
                         UserAppSettingSet = new UserAppSettingSet();
                         CaptchaSet = new CaptchaSet(captchaRedis);
@@ -142,6 +145,7 @@ namespace NTMiner {
 
         static WebApiRoot() {
         }
+        public static IWsServerNodeRedis WsServerNodeRedis { get; private set; }
 
         public static DateTime StartedOn { get; private set; } = DateTime.Now;
 
@@ -149,7 +153,7 @@ namespace NTMiner {
 
         public static IUserSet UserSet { get; private set; }
 
-        public static IWsServerNodeSet WsServerNodeSet { get; private set; }
+        public static IWsServerNodeAddressSet WsServerNodeAddressSet { get; private set; }
 
         public static ICaptchaSet CaptchaSet { get; private set; }
 
@@ -211,15 +215,18 @@ namespace NTMiner {
                 Time = Timestamp.GetTimestamp(),
                 MessageTimestamp = Timestamp.GetTimestamp(ServerMessageTimestamp),
                 OutputKeywordTimestamp = Timestamp.GetTimestamp(KernelOutputKeywordTimestamp),
-                WsStatus = WsServerNodeSet.WsStatus
+                WsStatus = WsServerNodeAddressSet.WsStatus
             };
         }
 
         public static WebApiServerState GetServerState() {
             var ram = Windows.Ram.Instance;
             var cpu = Windows.Cpu.Instance;
+            var t = WsServerNodeRedis.GetAllAsync();
+            t.Wait();
+            var wsServerNodes = t.Result;
             return new WebApiServerState {
-                WsServerNodes = WsServerNodeSet.AsEnumerable().ToList(),
+                WsServerNodes = wsServerNodes,
                 Address = ServerRoot.HostConfig.ThisServerAddress,
                 Description = string.Empty,
                 AvailablePhysicalMemory = ram.AvailablePhysicalMemory,

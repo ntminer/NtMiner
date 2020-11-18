@@ -66,7 +66,7 @@ namespace NTMiner.Role {
                 var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
                 if (returnType == typeof(HttpResponseMessage)) {
                     httpResponseMessage.Content = new ByteArrayContent(VirtualRoot.BinarySerializer.Serialize(response));
-                    httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+                    httpResponseMessage.Content.Headers.ContentType = WebApiRoot.BinaryContentType;
                 }
                 else {
                     httpResponseMessage.Content = new StringContent(VirtualRoot.JsonSerializer.Serialize(response), Encoding.UTF8, "application/json");

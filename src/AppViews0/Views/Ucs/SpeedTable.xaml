@@ -46,11 +46,32 @@
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
+            <MenuItem x:Name="MenuItemShowPCIE" Header="显示PCIE" Visibility="Visible" Padding="4" Click="MenuItemShowPCIE_Click">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="8"
+						Data="{StaticResource Icon_CloseEye}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem x:Name="MenuItemHidePCIE" Header="隐藏PCIE" Padding="4" Visibility="Collapsed" Click="MenuItemHidePCIE_Click">
+                <MenuItem.Icon>
+                    <Path
+						Width="16"
+						Height="12"
+						Data="{StaticResource Icon_OpenEye}"
+						Fill="{StaticResource BtnBackground}"
+						Stretch="Fill" />
+                </MenuItem.Icon>
+            </MenuItem>
         </ContextMenu>
     </UserControl.ContextMenu>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
@@ -76,8 +97,22 @@
 							<TextBlock Text="{Binding GpuVm.IndexText}"></TextBlock>
 						</DataTemplate>
 					</DataGridTemplateColumn.CellTemplate>
-				</DataGridTemplateColumn>
-				<DataGridTemplateColumn MinWidth="60" Width="*" IsReadOnly="True">
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn 
+                    MinWidth="40" Width="40" IsReadOnly="True"
+				    Visibility="{Binding Data.IsPCIEVisible, Source={StaticResource proxy}}">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="PCIE"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding GpuVm.BusId}"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn MinWidth="60" Width="*" IsReadOnly="True">
 					<DataGridTemplateColumn.Header>
 						<TextBlock Text="名称"></TextBlock>
 					</DataGridTemplateColumn.Header>
@@ -565,5 +600,6 @@
                 </WrapPanel>
             </controls:KbButton>
         </WrapPanel>
+        <TextBlock Grid.Row="3" Padding="4 2" Foreground="Red" Visibility="{x:Static app:AppStatic.IsMixedGpuVisible}">开源不建议N卡A卡混插，若挖矿内核支持混插，算力体现在总算力里。</TextBlock>
     </Grid>
 </UserControl>

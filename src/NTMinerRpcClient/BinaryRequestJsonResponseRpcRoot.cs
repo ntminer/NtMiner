@@ -36,9 +36,14 @@ namespace NTMiner {
                         }
                         HttpContent content = new ByteArrayContent(bytes);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync(RpcRoot.GetUrl(host, port, controller, action, query), content);
-                        getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
-                            callback?.Invoke(t.Result, null);
-                        });
+                        if (getHttpResponse.Result.IsSuccessStatusCode) {
+                            getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
+                                callback?.Invoke(t.Result, null);
+                            });
+                        }
+                        else {
+                            callback?.Invoke(default, new NTMinerException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}"));
+                        }
                     }
                 }
                 catch (Exception e) {

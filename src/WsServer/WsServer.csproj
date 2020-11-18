@@ -74,6 +74,7 @@
   <ItemGroup>
     <Compile Include="Core\IMinerSignSet.cs" />
     <Compile Include="Core\Impl\MinerSignSet.cs" />
+    <Compile Include="Core\Impl\WsServerNodeAddressSet.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\MinerSignMqMessagePath.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\OperationMqMessagePath.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\WsServerNodeMqMessagePath.cs" />
@@ -83,6 +84,8 @@
     <Compile Include="Core\Mq\Senders\Impl\UserMqSender.cs" />
     <Compile Include="Core\Mq\Senders\IOperationMqSender.cs" />
     <Compile Include="Core\Mq\Senders\IUserMqSender.cs" />
+    <Compile Include="Core\Redis\Impl\WsServerNodeRedis.cs" />
+    <Compile Include="Core\Redis\IWsServerNodeRedis.cs" />
     <Compile Include="MessageEventArgsExtensions.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MinerClientBehavior.cs" />
@@ -98,10 +101,8 @@
     <Compile Include="Core\Impl\MinerStudioSessionSet.cs" />
     <Compile Include="Core\Impl\AbstractSession.cs" />
     <Compile Include="Core\Impl\AbstractSessionSet`1.cs" />
-    <Compile Include="Core\Impl\WsServerNodeAddressSet.cs" />
     <Compile Include="Core\ISession.cs" />
     <Compile Include="Core\ISessionSet`1.cs" />
-    <Compile Include="Core\IWsServerNodeAddressSet.cs" />
     <Compile Include="MinerStudioWsMessageHandler.cs" />
     <Compile Include="WebSocketBehaviorExtensions.cs" />
     <Compile Include="WsMqKeyword.cs" />

@@ -41,8 +41,14 @@ namespace NTMiner.Gpus {
 
         public IOverClock OverClock { get; private set; } = new EmptyOverClock();
 
-        public Version DriverVersion {
-            get { return new Version(); }
+        public string DriverVersion {
+            get { return "0.0"; }
+        }
+
+        public bool IsLowDriverVersion {
+            get {
+                return true;
+            }
         }
 
         public void LoadGpuState() {

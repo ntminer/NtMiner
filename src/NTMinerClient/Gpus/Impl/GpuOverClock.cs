@@ -1,5 +1,4 @@
-﻿using NTMiner.Gpus;
-using System;
+﻿using System;
 
 namespace NTMiner.Gpus.Impl {
     public class GpuOverClock : IOverClock {

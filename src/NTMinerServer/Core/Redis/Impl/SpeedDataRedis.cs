@@ -68,12 +68,16 @@ namespace NTMiner.Core.Redis.Impl {
             return db.HashSetAsync(_redisKeySpeedDataByClientId, speedData.ClientId.ToString(), VirtualRoot.JsonSerializer.Serialize(speedData));
         }
 
-        public Task DeleteByClientIdAsync(Guid clientId) {
-            if (clientId == Guid.Empty) {
+        public Task DeleteByClientIdsAsync(Guid[] clientIds) {
+            if (clientIds == null || clientIds.Length == 0) {
                 return TaskEx.CompletedTask;
             }
+            var values = new StackExchange.Redis.RedisValue[clientIds.Length];
+            for (int i = 0; i < clientIds.Length; i++) {
+                values[i] = clientIds[i].ToString();
+            }
             var db = _serverConnection.RedisConn.GetDatabase();
-            return db.HashDeleteAsync(_redisKeySpeedDataByClientId, clientId.ToString());
+            return db.HashDeleteAsync(_redisKeySpeedDataByClientId, values);
         }
     }
 }

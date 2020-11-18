@@ -308,6 +308,7 @@ namespace NTMiner {
         }
 
         private static readonly Dictionary<Guid, ParameterNames> _parameterNameDic = new Dictionary<Guid, ParameterNames>();
+        private static readonly string logfile = NTKeyword.LogFileParameterName.TrimStart('{').TrimEnd('}');
         private static ParameterNames GetParameterNames(IFragmentWriter writer) {
             if (string.IsNullOrEmpty(writer.Body)) {
                 return new ParameterNames {
@@ -336,7 +337,11 @@ namespace NTMiner {
                     const string pattern = @"\{(\w+)\}";
                     var matches = Regex.Matches(writer.Body, pattern);
                     foreach (Match match in matches) {
-                        parameterNames.Names.Add(match.Groups[1].Value);
+                        string v = match.Groups[1].Value;
+                        // 因为logfile在开始挖矿后才有值
+                        if (v != logfile) {
+                            parameterNames.Names.Add(v);
+                        }
                     }
                     return parameterNames;
                 }

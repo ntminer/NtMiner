@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
@@ -49,10 +50,9 @@ namespace NTMiner.Gpus.Adl {
         internal delegate AdlStatus ADL2_OverdriveN_SystemClocksX2_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNPerformanceLevelsX2 lpODPerformanceLevels);
         internal delegate AdlStatus ADL2_OverdriveN_CapabilitiesX2_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLODNCapabilitiesX2 lpODCapabilities);
         internal delegate AdlStatus ADL2_Overdrive6_FanSpeed_ResetDelegate(IntPtr context, int iAdapterIndex);
-        internal delegate AdlStatus ADL2_Overdrive8_Current_SettingX2_GetDelegate(IntPtr context, int iAdapterIndex, ref int lpNumberOfFeatures, out IntPtr lppCurrentSettingList);
-        internal delegate AdlStatus ADL2_Overdrive8_Init_SettingX2_GetDelegate(IntPtr context, int iAdapterIndex, out int lpOverdrive8Capabilities, ref int lpNumberOfFeatures, out IntPtr lppInitSettingList);
-        internal delegate AdlStatus ADL2_Overdrive8_Init_Setting_GetDelegate(IntPtr context, int iAdapterIndex, out ADLOD8InitSetting lpInitSetting);
-        internal delegate AdlStatus ADL2_Overdrive8_Setting_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLOD8SetSetting lpSetSetting, out ADLOD8CurrentSetting lpCurrentSetting);
+        internal delegate AdlStatus ADL2_Overdrive8_Current_Setting_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLOD8CurrentSetting lpCurrentSetting);
+        internal delegate AdlStatus ADL2_Overdrive8_Init_Setting_GetDelegate(IntPtr context, int iAdapterIndex, ref ADLOD8InitSetting lpInitSetting);
+        internal delegate AdlStatus ADL2_Overdrive8_Setting_SetDelegate(IntPtr context, int iAdapterIndex, ref ADLOD8SetSetting lpSetSetting, ref ADLOD8CurrentSetting lpCurrentSetting);
 
         // 以下属性要求必须是外部可见的static，不能是private的
         // 注意属性名是EnterPoint，不要改名
@@ -129,27 +129,43 @@ namespace NTMiner.Gpus.Adl {
         [Adl]
         internal static ADL2_Overdrive6_FanSpeed_ResetDelegate ADL2_Overdrive6_FanSpeed_Reset { get; private set; }
         [Adl]
-        internal static ADL2_Overdrive8_Current_SettingX2_GetDelegate ADL2_Overdrive8_Current_SettingX2_Get { get; private set; }
-        [Adl]
-        internal static ADL2_Overdrive8_Init_SettingX2_GetDelegate ADL2_Overdrive8_Init_SettingX2_Get { get; private set; }
+        internal static ADL2_Overdrive8_Current_Setting_GetDelegate ADL2_Overdrive8_Current_Setting_Get { get; private set; }
         [Adl]
         internal static ADL2_Overdrive8_Init_Setting_GetDelegate ADL2_Overdrive8_Init_Setting_Get { get; private set; }
         [Adl]
         internal static ADL2_Overdrive8_Setting_SetDelegate ADL2_Overdrive8_Setting_Set { get; private set; }
 
         internal static AdlStatus ADLMainControlCreate(out IntPtr context) {
-            AdlStatus r;
+            context = IntPtr.Zero;
+            string path1 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "atiadlxx.dll");
+            string path2 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "atiadlxy.dll");
+            string path3 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), "atiadlxx.dll");
+            string path4 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.SystemX86), "atiadlxy.dll");
+            if (!File.Exists(path1) && !File.Exists(path2) && !File.Exists(path3) && !File.Exists(path4)) {
+                return AdlStatus.ADL_ERR;
+            }
+            AdlStatus r = AdlStatus.ADL_ERR;
             string dllName = "atiadlxx.dll";
             try {
                 CreateDelegates(dllName);
-                r = ADL_Main_Control_Create(Marshal.AllocHGlobal, 1);
+                if (ADL_Main_Control_Create != null) {
+                    r = ADL_Main_Control_Create(Marshal.AllocHGlobal, 1);
+                }
+                else {
+                    return AdlStatus.ADL_ERR;
+                }
             }
             catch(Exception e) {
                 Logger.ErrorDebugLine(e);
                 try {
                     dllName = "atiadlxy.dll";
                     CreateDelegates(dllName);
-                    r = ADL_Main_Control_Create(Marshal.AllocHGlobal, 1);
+                    if (ADL_Main_Control_Create != null) {
+                        r = ADL_Main_Control_Create(Marshal.AllocHGlobal, 1);
+                    }
+                    else {
+                        return AdlStatus.ADL_ERR;
+                    }
                 }
                 catch(Exception ex) {
                     Logger.ErrorDebugLine(ex);

@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Text;
 
 namespace NTMiner.Gpus.Adl {
     public enum AdlStatus {
@@ -190,7 +189,7 @@ namespace NTMiner.Gpus.Adl {
 
     [StructLayout(LayoutKind.Sequential)]
     internal struct ADLSingleSensorData {
-        public bool Supported;
+        public int Supported;
         public int Value;
 
         public override string ToString() {
@@ -456,45 +455,6 @@ namespace NTMiner.Gpus.Adl {
         }
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Odn8PStateSettings {
-        public int Clock;
-        public int Voltage;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Odn8Settings {
-        public int GpuMax;
-        public int GpuMin;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
-        public Odn8PStateSettings[] GpuP;
-        public int MemMax;
-        public int PowerTarget;
-        public int FanMin;
-        public int FanAcoustic;
-        public int FanTarget;
-        public int PowerTemp;
-        public ADLODNExtSettings ExtSettings;
-
-        public static Odn8Settings Create() {
-            var r = new Odn8Settings {
-                ExtSettings = ADLODNExtSettings.Create(),
-                GpuP = new Odn8PStateSettings[3]
-            };
-            for (int i = 0; i < r.GpuP.Length; i++) {
-                r.GpuP[i] = new Odn8PStateSettings();
-            }
-            return r;
-        }
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
     //OD8 Capability features bits
     enum ADLOD8FeatureControl {
         ADL_OD8_GFXCLK_LIMITS = 1 << 0,
@@ -545,8 +505,6 @@ namespace NTMiner.Gpus.Adl {
         OD8_FAN_CURVE_SPEED_4,
         OD8_FAN_CURVE_TEMPERATURE_5,
         OD8_FAN_CURVE_SPEED_5,
-        OD8_WS_FAN_AUTO_FAN_ACOUSTIC_LIMIT,
-        OD8_POWER_GAUGE, //Starting from this is new features with new capabilities and new interface for limits.
         OD8_COUNT
     }
 

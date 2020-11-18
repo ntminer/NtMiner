@@ -243,6 +243,16 @@ namespace NTMiner {
         public bool On { get; private set; }
     }
 
+    /// <summary>
+    /// 挖矿端主界面下面有一层原版控制台窗口，当点击主界面上的menu下拉列表或者popup时下面
+    /// 的层可能跑到上面来，配合使用这对TopMostCommand和UnTopMostCommand可以解决这个问题。
+    /// </summary>
+    [MessageType(description: "设置主界面的Topmost")]
+    public class TopmostCommand : Cmd {
+        public TopmostCommand() {
+        }
+    }
+
     [MessageType(description: "取消主界面的Topmost")]
     public class UnTopmostCommand : Cmd {
         public UnTopmostCommand() {

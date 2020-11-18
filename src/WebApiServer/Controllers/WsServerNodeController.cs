@@ -13,11 +13,13 @@ namespace NTMiner.Controllers {
             if (request == null) {
                 return ResponseBase.InvalidInput<DataResponse<List<WsServerNodeState>>>("参数错误");
             }
+            var t = WebApiRoot.WsServerNodeRedis.GetAllAsync();
+            t.Wait();
             return new DataResponse<List<WsServerNodeState>> {
                 StateCode = 200,
                 ReasonPhrase = "Ok",
                 Description = "成功",
-                Data = WebApiRoot.WsServerNodeSet.AsEnumerable().ToList()
+                Data = t.Result
             };
         }
 
@@ -31,7 +33,7 @@ namespace NTMiner.Controllers {
                 StateCode = 200,
                 ReasonPhrase = "Ok",
                 Description = "成功",
-                Data = WebApiRoot.WsServerNodeSet.AsEnumerable().Select(a => a.Address).ToArray()
+                Data = WebApiRoot.WsServerNodeAddressSet.AsEnumerable().ToArray()
             };
         }
 
@@ -47,41 +49,10 @@ namespace NTMiner.Controllers {
                 if (user == null) {
                     return ResponseBase.InvalidInput<DataResponse<string>>("用戶不存在");
                 }
-                return DataResponse<string>.Ok(WebApiRoot.WsServerNodeSet.GetTargetNode(request.ClientId));
+                return DataResponse<string>.Ok(WebApiRoot.WsServerNodeAddressSet.GetTargetNode(request.ClientId));
             }
             catch (Exception e) {
                 return ResponseBase.ServerError<DataResponse<string>>(e.Message);
-            }
-        }
-
-        [Role.Admin]
-        [HttpPost]
-        public ResponseBase ReportNodeState([FromBody]WsServerNodeState state) {
-            if (state == null) {
-                return ResponseBase.InvalidInput("参数错误");
-            }
-            try {
-                WebApiRoot.WsServerNodeSet.SetNodeState(state);
-                return ResponseBase.Ok();
-            }
-            catch (Exception e) {
-                return ResponseBase.ServerError(e.Message);
-            }
-        }
-
-        [Role.Admin]
-        [HttpPost]
-        public ResponseBase RemoveNode([FromBody]DataRequest<string> request) {
-            if (request == null || string.IsNullOrEmpty(request.Data)) {
-                return ResponseBase.InvalidInput("参数错误");
-            }
-            try {
-                WebApiRoot.WsServerNodeSet.RemoveNode(request.Data);
-                return ResponseBase.Ok();
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-                return ResponseBase.ServerError(e.Message);
             }
         }
     }

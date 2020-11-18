@@ -238,6 +238,15 @@
                                 <TextBlock VerticalAlignment="Center">有1080/1080ti显卡时启动小药丸加速算力</TextBlock>
                             </CheckBox>
                         </WrapPanel>
+                        <WrapPanel Margin="0 5" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}">
+                            <CheckBox
+                                Width="230"
+								Padding="0"
+								FocusVisualStyle="{x:Null}"
+								IsChecked="{Binding IsAutoReboot}">
+                                <TextBlock VerticalAlignment="Center">Windows蓝屏自动重启</TextBlock>
+                            </CheckBox>
+                        </WrapPanel>
                         <WrapPanel Margin="{StaticResource RowThickness}">
                             <CheckBox
 								Padding="0"

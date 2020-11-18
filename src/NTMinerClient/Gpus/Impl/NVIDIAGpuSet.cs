@@ -1,5 +1,4 @@
-﻿using NTMiner.Gpus;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,8 +8,7 @@ namespace NTMiner.Gpus.Impl {
         private readonly Dictionary<int, Gpu> _gpus = new Dictionary<int, Gpu>() {
             [NTMinerContext.GpuAllId] = Gpu.GpuAll
         };
-
-        private readonly Version _driverVersion;
+        private readonly Version _driverVersion = new Version();
 
         public int Count {
             get {
@@ -95,8 +93,20 @@ namespace NTMiner.Gpus.Impl {
             }
         }
 
-        public Version DriverVersion {
-            get { return _driverVersion; }
+        public string DriverVersion {
+            get {
+                var cudaVersion = this.Properties.FirstOrDefault(a => a.Code == NTKeyword.CudaVersionSysDicCode);
+                if (cudaVersion != null) {
+                    return $"{this._driverVersion.ToString()} {cudaVersion.Value}";
+                }
+                return this._driverVersion.ToString();
+            }
+        }
+
+        public bool IsLowDriverVersion {
+            get {
+                return this._driverVersion < NTMinerContext.Instance.MinNvidiaDriverVersion;
+            }
         }
 
         public bool TryGetGpu(int index, out IGpu gpu) {

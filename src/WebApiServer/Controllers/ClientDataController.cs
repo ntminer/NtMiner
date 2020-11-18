@@ -25,7 +25,7 @@ namespace NTMiner.Controllers {
                     user,
                     request,
                     out int total,
-                    out List<CoinSnapshotData> latestSnapshots,
+                    out CoinSnapshotData[] latestSnapshots,
                     out int totalOnlineCount,
                     out int totalMiningCount) ?? new List<ClientData>();
                 return QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount);

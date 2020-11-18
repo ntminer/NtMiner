@@ -153,8 +153,8 @@ namespace NTMiner {
 
     #region ServerMessage
     [MessageType(description: "清空服务器消息集")]
-    public class ClearServerMessages : Cmd {
-        public ClearServerMessages() { }
+    public class ClearServerMessagesCommand : Cmd {
+        public ClearServerMessagesCommand() { }
     }
 
     [MessageType(description: "服务器消息集清空后")]

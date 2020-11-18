@@ -152,7 +152,7 @@ namespace NTMiner.Core.Impl {
         }
 
         public void SendToMinerStudioAsync(string loginName, WsMessage message) {
-            List<IMinerStudioSession> minerStudioSessions = GetSessionsByLoginName(loginName);
+            var minerStudioSessions = GetSessionsByLoginName(loginName).ToArray();// 避免发生集合被修改的异常
             foreach (var minerStudioSession in minerStudioSessions) {
                 var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerStudioSession.LoginName));
                 if (userData != null) {

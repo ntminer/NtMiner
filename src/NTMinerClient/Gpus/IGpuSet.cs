@@ -8,7 +8,8 @@ namespace NTMiner.Gpus {
         /// NVIDIA的驱动版本号形如399.24，AMD的驱动版本号形如18.6.1
         /// 都是正常格式的版本号
         /// </summary>
-        Version DriverVersion { get; }
+        string DriverVersion { get; }
+        bool IsLowDriverVersion { get; }
         IOverClock OverClock { get; }
         int Count { get; }
 

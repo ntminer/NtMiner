@@ -456,8 +456,9 @@
                 BorderThickness="0"
                 Command="{Binding SwitchService}">
                 <WrapPanel>
+                    <TextBlock Padding="0 4">当前</TextBlock>
                     <TextBlock 
-                        Padding="4 4 2 4"
+                        Padding="0 4 2 4"
                         Text="{Binding NetTypeText}"></TextBlock>
                     <Path 
 					    Height="14"

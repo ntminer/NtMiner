@@ -249,7 +249,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="片段"></TextBlock>
 			<DataGrid 
 				Width="536"
@@ -264,7 +264,8 @@
 				<DataGrid.Columns>
 					<DataGridTemplateColumn IsReadOnly="True">
 						<DataGridTemplateColumn.Header>
-							<controls:KbButton  
+                            <controls:KbButton
+                                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 								Command="{Binding Data.AddSegment, Source={StaticResource proxy}}" 
 								Background="Transparent" BorderThickness="0"
 								Margin="2 0"
@@ -282,7 +283,8 @@
 						<DataGridTemplateColumn.CellTemplate>
 							<DataTemplate>
 								<StackPanel HorizontalAlignment="Right" Background="Transparent" VerticalAlignment="Center" Orientation="Horizontal">
-									<controls:KbButton 
+                                    <controls:KbButton 
+										Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 										Margin="2 0"
 										Command="{Binding Data.EditSegment, Source={StaticResource proxy}}" 
 										CommandParameter="{Binding}"
@@ -297,7 +299,8 @@
 												Stretch="Fill" />
 										</WrapPanel>
 									</controls:KbButton>
-									<controls:KbButton 
+                                    <controls:KbButton 
+										Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 										Margin="2 0"
 										Command="{Binding Data.RemoveSegment, Source={StaticResource proxy}}" 
 										CommandParameter="{Binding}"
@@ -358,7 +361,7 @@
 				</DataGrid.Columns>
 			</DataGrid>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="文件书写器"></TextBlock>
 			<Grid>
 				<DataGrid 
@@ -374,7 +377,8 @@
 						<DataGridTemplateColumn Width="32" IsReadOnly="True">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<controls:KbButton 
+                                    <controls:KbButton 
+										Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 										Margin="2 0"
 										Command="{Binding Data.RemoveFileWriter, Source={StaticResource proxy}}" 
 										CommandParameter="{Binding}"
@@ -432,7 +436,7 @@
 					StaysOpen="False"></Popup>
 			</Grid>
 		</WrapPanel>
-		<WrapPanel Margin="0 2" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}" VerticalAlignment="Top" Text="命令片段书写器"></TextBlock>
 			<Grid>
 				<DataGrid 
@@ -448,7 +452,8 @@
 						<DataGridTemplateColumn Width="32" IsReadOnly="True">
 							<DataGridTemplateColumn.CellTemplate>
 								<DataTemplate>
-									<controls:KbButton 
+                                    <controls:KbButton 
+										Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
 										Margin="2 0"
 										Command="{Binding Data.RemoveFragmentWriter, Source={StaticResource proxy}}" 
 										CommandParameter="{Binding}"

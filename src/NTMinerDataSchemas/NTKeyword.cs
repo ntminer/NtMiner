@@ -10,8 +10,8 @@ namespace NTMiner {
         public const ulong ULongG = 1024 * 1024 * 1024;
         public const long LongG = 1024 * 1024 * 1024;
 
-        public const string Version = "2.8.2";
-        private const string _build = "2";
+        public const string Version = "2.8.3";
+        private const string _build = "0";
         public const string VersionBuild = Version + "." + _build;
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";

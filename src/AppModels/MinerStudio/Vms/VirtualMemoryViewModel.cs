@@ -67,5 +67,11 @@ namespace NTMiner.MinerStudio.Vms {
                 return _drives.Sum(a => a.VirtualMemoryMaxSizeMb);
             }
         }
+
+        public string Description {
+            get {
+                return AppRoot.VirtualMemoryDescription;
+            }
+        }
     }
 }

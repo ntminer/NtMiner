@@ -35,20 +35,22 @@ namespace NTMiner.Gpus {
             .DefineDynamicAssembly(new AssemblyName("PInvokeDelegateFactoryInternalAssembly"), AssemblyBuilderAccess.Run)
             .DefineDynamicModule("PInvokeDelegateFactoryInternalModule");
 
+        private static readonly object _locker = new object();
         private static readonly IDictionary<Pair<DllImportAttribute, Type>, Type> wrapperTypes = new Dictionary<Pair<DllImportAttribute, Type>, Type>();
 
         public static void CreateDelegate(DllImportAttribute dllImportAttribute, Type delegateType, out object newDelegate) {
             Pair<DllImportAttribute, Type> key = new Pair<DllImportAttribute, Type>(dllImportAttribute, delegateType);
-            wrapperTypes.TryGetValue(key, out Type wrapperType);
+            lock (_locker) {
+                wrapperTypes.TryGetValue(key, out Type wrapperType);
 
-            if (wrapperType == null) {
-                wrapperType = CreateWrapperType(delegateType, dllImportAttribute);
-                wrapperTypes.Add(key, wrapperType);
+                if (wrapperType == null) {
+                    wrapperType = CreateWrapperType(delegateType, dllImportAttribute);
+                    wrapperTypes.Add(key, wrapperType);
+                }
+
+                newDelegate = Delegate.CreateDelegate(delegateType, wrapperType, dllImportAttribute.EntryPoint);
             }
-
-            newDelegate = Delegate.CreateDelegate(delegateType, wrapperType, dllImportAttribute.EntryPoint);
         }
-
 
         private static Type CreateWrapperType(Type delegateType, DllImportAttribute dllImportAttribute) {
             TypeBuilder typeBuilder = moduleBuilder.DefineType("PInvokeDelegateFactoryInternalWrapperType" + wrapperTypes.Count);
@@ -63,7 +65,7 @@ namespace NTMiner.Gpus {
                 parameterTypes[i] = parameterInfos[i].ParameterType;
             }
 
-            MethodBuilder methodBuilder = 
+            MethodBuilder methodBuilder =
                 typeBuilder.DefinePInvokeMethod(
                     dllImportAttribute.EntryPoint, dllImportAttribute.Value,
                     MethodAttributes.Public | MethodAttributes.Static |

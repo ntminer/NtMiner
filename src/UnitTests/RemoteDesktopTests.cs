@@ -42,8 +42,6 @@ namespace NTMiner {
             Firewall.DisableFirewall();
             Assert.IsTrue(Firewall.IsRdpRuleExists());
             Firewall.RemoveRdpRule();
-            // 防火墙处在关闭状态时认为规则存在
-            Assert.IsTrue(Firewall.IsRdpRuleExists());
         }
 
         [TestMethod]
@@ -54,8 +52,7 @@ namespace NTMiner {
             Firewall.DisableFirewall();
             Assert.IsTrue(Firewall.IsMinerClientRuleExists());
             Firewall.RemoveMinerClientRule();
-            // 防火墙处在关闭状态时认为规则存在
-            Assert.IsTrue(Firewall.IsMinerClientRuleExists());
+            Assert.IsFalse(Firewall.IsMinerClientRuleExists());
         }
     }
 }

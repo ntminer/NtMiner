@@ -91,20 +91,14 @@ namespace NTMiner.Vms {
         public string BlockWAUHelpUrl {
             get {
                 string url = "https://zhuanlan.zhihu.com/p/166387002";
-                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "BlockWAUHelpUrl", out ISysDicItem dicItem)) {
-                    url = dicItem.Value;
-                }
-                return url;
+                return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "BlockWAUHelpUrl", url);
             }
         }
 
         public string Win10OptimizeHelpUrl {
             get {
                 string url = "https://zhuanlan.zhihu.com/p/166385743";
-                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "Win10OptimizeHelpUrl", out ISysDicItem dicItem)) {
-                    url = dicItem.Value;
-                }
-                return url;
+                return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "Win10OptimizeHelpUrl", url);
             }
         }
 

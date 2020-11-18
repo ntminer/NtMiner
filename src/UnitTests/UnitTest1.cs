@@ -15,6 +15,32 @@ namespace NTMiner {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void PathTest() {
+            string path = "C:\\a\\b.log";
+            Assert.AreEqual("C:\\a", Path.GetDirectoryName(path));
+            path = "C:\\a\\b";
+            Assert.AreEqual("C:\\a", Path.GetDirectoryName(path));
+        }
+
+        [TestMethod]
+        public void DateTimeTest() {
+            DateTime today = DateTime.Today;
+            Assert.AreEqual(today, DateTime.Now.Date);
+            Console.WriteLine(today);
+            TimeSpan time = DateTime.Now.TimeOfDay;
+            Console.WriteLine(time);
+            Console.WriteLine(DateTime.Today.AddDays(-1) + time);
+        }
+
+        [TestMethod]
+        public void ToListTest() {
+            List<int> l1 = new List<int> { 1, 2, 3 };
+            List<int> l2 = l1.ToList();
+
+            Assert.AreNotSame(l1, l2);
+        }
+
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void StringContainsTest() {
             // 异常
@@ -246,6 +272,26 @@ namespace NTMiner {
         public void GetWindowsTaskbarPositionTest() {
             var edge = Win32Proc.GetWindowsTaskbarEdge(out double value);
             Console.WriteLine($"{edge.ToString()} {value}");
+        }
+
+        [TestMethod]
+        public void ModTest() {
+            Assert.IsTrue(11 % 2 > 0);
+            Assert.IsTrue(11 % -2 > 0);
+            Assert.IsTrue(-11 % 2 < 0);
+            Assert.IsTrue(-11 % -2 < 0);
+        }
+
+        [TestMethod]
+        public void ParseTest() {
+            bool r = double.TryParse(string.Empty, out double _);
+            Assert.IsFalse(r);
+            r = double.TryParse(null, out _);
+            Assert.IsFalse(r);
+            r = int.TryParse(string.Empty, out int _);
+            Assert.IsFalse(r);
+            r = int.TryParse(null, out _);
+            Assert.IsFalse(r);
         }
     }
 }

@@ -24,7 +24,6 @@ namespace NTMiner.RemoteDesktop {
         private const NET_FW_SCOPE_ MinerClientScope = NET_FW_SCOPE_.NET_FW_SCOPE_ALL;
         private const string MinerClientRuleName = "MinerClient";
         private const string NTMinerDaemonRuleName = "NTMinerDaemon";
-        private const string WsServerRuleName = "WsServer";
 
         #region DisableFirewall
         public static bool DisableFirewall() {
@@ -89,10 +88,6 @@ namespace NTMiner.RemoteDesktop {
         }
 
         public static void AddMinerClientRule() {
-            FirewallStatus state = Status(FirewallDomain.Domain);
-            if (state == RemoteDesktop.FirewallStatus.Disabled) {
-                return;
-            }
             try {
                 OpenPort($"{MinerClientRuleName}_TCP", NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, MinerClientScope);
                 OpenPort($"{MinerClientRuleName}_UDP", NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, MinerClientScope);
@@ -109,10 +104,6 @@ namespace NTMiner.RemoteDesktop {
         /// 仅供单元测试
         /// </summary>
         public static void RemoveMinerClientRule() {
-            FirewallStatus state = Status(FirewallDomain.Domain);
-            if (state == RemoteDesktop.FirewallStatus.Disabled) {
-                return;
-            }
             try {
                 INetFwOpenPorts openPorts = GetOpenPorts();
                 openPorts.Remove(NTKeyword.MinerClientPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
@@ -131,10 +122,6 @@ namespace NTMiner.RemoteDesktop {
         }
 
         public static bool IsMinerClientRuleExists() {
-            FirewallStatus state = Status(FirewallDomain.Domain);
-            if (state == RemoteDesktop.FirewallStatus.Disabled) {
-                return true;
-            }
             try {
                 INetFwPolicy2 policyManager = GetPolicyManager();
                 return
@@ -148,10 +135,6 @@ namespace NTMiner.RemoteDesktop {
         }
 
         public static void AddRdpRule() {
-            FirewallStatus state = Status(FirewallDomain.Domain);
-            if (state == RemoteDesktop.FirewallStatus.Disabled) {
-                return;
-            }
             try {
                 OpenPort($"{RdpRuleName}_TCP", RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP, RdpScope);
                 OpenPort($"{RdpRuleName}_UDP", RdpUdpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_UDP, RdpScope);
@@ -165,10 +148,6 @@ namespace NTMiner.RemoteDesktop {
         /// 仅供单元测试
         /// </summary>
         public static void RemoveRdpRule() {
-            FirewallStatus state = Status(FirewallDomain.Domain);
-            if (state == RemoteDesktop.FirewallStatus.Disabled) {
-                return;
-            }
             try {
                 INetFwOpenPorts openPorts = GetOpenPorts();
                 openPorts.Remove(RdpTcpPort, NET_FW_IP_PROTOCOL_.NET_FW_IP_PROTOCOL_TCP);
@@ -186,10 +165,6 @@ namespace NTMiner.RemoteDesktop {
         /// 仅供单元测试
         /// </summary>
         public static bool IsRdpRuleExists() {
-            FirewallStatus state = Status(FirewallDomain.Domain);
-            if (state == RemoteDesktop.FirewallStatus.Disabled) {
-                return true;
-            }
             try {
                 INetFwPolicy2 policyManager = GetPolicyManager();
                 return policyManager.Rules.OfType<INetFwRule>().Any(x => x.Name.StartsWith(RdpRuleName));

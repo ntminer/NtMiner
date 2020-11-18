@@ -24,7 +24,7 @@ namespace NTMiner.MinerStudio.Vms {
 
         public void Refresh() {
             var list = new List<CalcConfigViewModel>();
-            foreach (var item in NTMinerContext.Instance.CalcConfigSet.AsEnumerable()) {
+            foreach (var item in NTMinerContext.Instance.CalcConfigSet.AsEnumerable().ToArray()) {
                 list.Add(new CalcConfigViewModel(item));
             }
             CalcConfigVms = list;

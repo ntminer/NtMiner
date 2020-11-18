@@ -15,7 +15,7 @@ namespace NTMiner.Windows {
         }
 
         public static void PreventSleep() {
-            SetThreadExecutionState(ExecutionFlag.System | ExecutionFlag.Continus);
+            SetThreadExecutionState(ExecutionFlag.System | ExecutionFlag.Display | ExecutionFlag.Continus);
         }
 
         public static void Restart(int delaySeconds = 0) {

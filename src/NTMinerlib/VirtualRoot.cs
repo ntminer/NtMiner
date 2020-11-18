@@ -27,7 +27,7 @@ namespace NTMiner {
         public static string FormatLocalIps(out string macAddress) {
             string localIp = string.Empty;
             macAddress = string.Empty;
-            foreach (var item in LocalIpSet.AsEnumerable()) {
+            foreach (var item in LocalIpSet.AsEnumerable().ToArray()) {
                 if (macAddress.Length != 0) {
                     macAddress += "," + item.MACAddress;
                     localIp += "," + item.IPAddress + (item.DHCPEnabled ? "(动态)" : "(🔒)");

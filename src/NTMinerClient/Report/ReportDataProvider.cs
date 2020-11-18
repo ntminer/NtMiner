@@ -92,7 +92,7 @@ namespace NTMiner.Report {
                 Kernel = string.Empty,
                 MainCoinPool = string.Empty,
                 OSName = Windows.OS.Instance.WindowsEdition,
-                GpuDriver = root.GpuSet.DriverVersion.ToString(),
+                GpuDriver = root.GpuSet.DriverVersion,
                 GpuType = root.GpuSet.GpuType,
                 OSVirtualMemoryMb = VirtualRoot.DriveSet.OSVirtualMemoryMb,
                 TotalPhysicalMemoryMb = (int)(Windows.Ram.Instance.TotalPhysicalMemory / NTKeyword.IntM),

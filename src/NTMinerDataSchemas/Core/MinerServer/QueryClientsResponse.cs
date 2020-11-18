@@ -4,10 +4,10 @@ namespace NTMiner.Core.MinerServer {
     public class QueryClientsResponse : ResponseBase {
         public QueryClientsResponse() {
             this.Data = new List<ClientData>();
-            this.LatestSnapshots = new List<CoinSnapshotData>();
+            this.LatestSnapshots = new CoinSnapshotData[0];
         }
 
-        public static QueryClientsResponse Ok(List<ClientData> data, int total, List<CoinSnapshotData> latestSnapshots, int totalMiningCount, int totalOnlineCount) {
+        public static QueryClientsResponse Ok(List<ClientData> data, int total, CoinSnapshotData[] latestSnapshots, int totalMiningCount, int totalOnlineCount) {
             return new QueryClientsResponse() {
                 StateCode = 200,
                 ReasonPhrase = "Ok",
@@ -22,7 +22,7 @@ namespace NTMiner.Core.MinerServer {
 
         public List<ClientData> Data { get; set; }
 
-        public List<CoinSnapshotData> LatestSnapshots { get; set; }
+        public CoinSnapshotData[] LatestSnapshots { get; set; }
 
         public int Total { get; set; }
 

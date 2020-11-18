@@ -8,6 +8,6 @@ namespace NTMiner.Core.Redis {
         Task<List<SpeedData>> GetAllAsync();
         Task<SpeedData> GetByClientIdAsync(Guid clientId);
         Task SetAsync(SpeedData speedData);
-        Task DeleteByClientIdAsync(Guid clientId);
+        Task DeleteByClientIdsAsync(Guid[] clientIds);
     }
 }

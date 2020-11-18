@@ -25,6 +25,8 @@ namespace NTMiner.Core.Impl {
                 DateTime speedOn = DateTime.Now.AddMinutes(-3);
                 foreach (var minerData in getMinersTask.Result) {
                     var clientData = ClientData.Create(minerData);
+                    // 该属性没有持久化而只在内存中，启动时将该属性值视为当前日期的前一天的零时加上CreatedOn的时间，别处有个周期清理7天不活跃矿机的任务
+                    clientData.MinerActiveOn = DateTime.Today.AddDays(-1) + minerData.CreatedOn.TimeOfDay;
                     clientDatas.Add(clientData);
                     var speedData = speedDatas.FirstOrDefault(a => a.ClientId == minerData.ClientId);
                     if (speedData != null && speedData.SpeedOn > speedOn) {
@@ -36,15 +38,19 @@ namespace NTMiner.Core.Impl {
         }) {
             _minerRedis = minerRedis;
             _speedDataRedis = speedDataRedis;
+            _mqSender = mqSender;
             VirtualRoot.AddEventPath<Per1MinuteEvent>("周期清理Redis中不活跃的来自挖矿端上报的算力记录", LogEnum.DevConsole, action: message => {
                 DateTime time = message.BornOn.AddSeconds(-130);
-                var toRemoves = _dicByClientId.Where(a => a.Value.MinerActiveOn != DateTime.MinValue && a.Value.MinerActiveOn <= time).ToArray();
-                foreach (var kv in toRemoves) {
-                    kv.Value.MinerActiveOn = DateTime.MinValue;
-                    _speedDataRedis.DeleteByClientIdAsync(kv.Key);
+                var toRemoveSpeed = _dicByClientId.Where(a => a.Value.MinerActiveOn != DateTime.MinValue && a.Value.MinerActiveOn <= time).ToArray();
+                _speedDataRedis.DeleteByClientIdsAsync(toRemoveSpeed.Select(a => a.Key).ToArray());
+
+                // 删除一周没有活跃过的客户端
+                time = message.BornOn.AddDays(-7);
+                var toRemoveClient = _dicByObjectId.Where(a => a.Value.MinerActiveOn <= time).ToArray();
+                foreach (var kv in toRemoveClient) {
+                    base.RemoveByObjectId(kv.Key);
                 }
             }, this.GetType());
-            _mqSender = mqSender;
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
             VirtualRoot.AddEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, action: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
@@ -103,7 +109,12 @@ namespace NTMiner.Core.Impl {
                 }
                 else {
                     // 此时该矿机是第一次在服务端出现
-                    Add(ClientData.Create(MinerData.Create(message.Data)));
+                    NTMinerConsole.UserWarn("该矿机首次出现于WsServer:" + VirtualRoot.JsonSerializer.Serialize(message.Data));
+                    clientData = ClientData.Create(MinerData.Create(message.Data));
+                    clientData.NetActiveOn = DateTime.Now;
+                    clientData.IsOnline = true;
+                    clientData.IsOuterUserEnabled = true;
+                    Add(clientData);
                 }
             }, this.GetType(), LogEnum.None);
         }

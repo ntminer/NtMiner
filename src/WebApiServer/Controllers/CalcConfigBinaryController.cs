@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace NTMiner.Controllers {
@@ -15,7 +14,7 @@ namespace NTMiner.Controllers {
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) {
                 Content = new ByteArrayContent(VirtualRoot.BinarySerializer.Serialize(response))
             };
-            httpResponseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue("image/jpg");
+            httpResponseMessage.Content.Headers.ContentType = WebApiRoot.BinaryContentType;
             return httpResponseMessage;
         }
     }

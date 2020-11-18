@@ -47,12 +47,18 @@
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Mq\IMqSender.cs" />
+    <Compile Include="Core\Impl\WsServerNodeAddressSetBase.cs" />
+    <Compile Include="Core\IWsServerNodeAddressSet.cs" />
+    <Compile Include="Core\Mq\Senders\IMqSender.cs" />
+    <Compile Include="Core\Mq\Senders\Impl\WsServerNodeMqSender.cs" />
+    <Compile Include="Core\Mq\Senders\IWsServerNodeMqSender.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`1.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`3.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\AbstractMqMessagePath`2.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\ReadOnlyUserMqMessagePath.cs" />
+    <Compile Include="Core\Redis\Impl\ReadOnlyWsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\Impl\SpeedDataRedis.cs" />
+    <Compile Include="Core\Redis\IReadOnlyWsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\ISpeedDataRedis.cs" />
     <Compile Include="ServerAppType.cs" />
     <Compile Include="ServerRoot.cs" />

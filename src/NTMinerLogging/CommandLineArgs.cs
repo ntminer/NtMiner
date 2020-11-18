@@ -23,22 +23,6 @@ namespace NTMiner {
         }
 
         /// <summary>
-        /// 返回的日志文件名和应用程序的类型和版本以及启动参数有关系。
-        /// 主要是因为挖矿端应用程序不是单例的，也就是说已经有一个挖矿端程序进程时当挖矿端程序启动时追加了比如upgrade=ntminer2.8.exe参数的话依旧可以启动进程。
-        /// </summary>
-        /// <returns></returns>
-        public static string GetLogFileName() {
-            // 避免不同进程使用相同的日志文件，虽然并不会异常但会看不到日志
-            if (!string.IsNullOrEmpty(Upgrade)) {
-                return $"root{NTKeyword.VersionBuild}_upgrade.log";
-            }
-            else if (!string.IsNullOrEmpty(Action)) {
-                return $"root{NTKeyword.VersionBuild}_{Action}.log";
-            }
-            return $"root{NTKeyword.VersionBuild}.log";
-        }
-
-        /// <summary>
         /// 提取格式形如argumentName=argumentValue格式的命令行参数。
         /// 注意：参数名是忽略大小写的，且如果命令行上有重名参数后面的值覆盖前面的值
         /// </summary>

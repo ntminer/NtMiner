@@ -196,5 +196,13 @@ namespace NTMiner.Views.Ucs {
         private void ScrollViewer_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
             WpfUtil.ScrollViewer_PreviewMouseDown(sender, e);
         }
+
+        private void BtnPopup_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            VirtualRoot.Execute(new TopmostCommand());
+        }
+
+        private void BtnPopup_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            VirtualRoot.Execute(new UnTopmostCommand());
+        }
     }
 }

@@ -37,6 +37,19 @@ namespace NTMiner.Views.Ucs {
             }
         }
 
+        public void ShowOrHidePCIE(bool isShow) {
+            if (isShow) {
+                this.Vm.IsPCIEVisible = Visibility.Visible;
+                this.MenuItemShowPCIE.Visibility = Visibility.Collapsed;
+                this.MenuItemHidePCIE.Visibility = Visibility.Visible;
+            }
+            else {
+                this.Vm.IsPCIEVisible = Visibility.Collapsed;
+                this.MenuItemShowPCIE.Visibility = Visibility.Visible;
+                this.MenuItemHidePCIE.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private void ItemsControl_MouseDown(object sender, MouseButtonEventArgs e) {
             if (e.LeftButton == MouseButtonState.Pressed) {
                 Window.GetWindow(this).DragMove();
@@ -49,6 +62,14 @@ namespace NTMiner.Views.Ucs {
 
         private void MenuItemHideOverClock_Click(object sender, RoutedEventArgs e) {
             ShowOrHideOverClock(false);
+        }
+
+        private void MenuItemShowPCIE_Click(object sender, RoutedEventArgs e) {
+            ShowOrHidePCIE(true);
+        }
+
+        private void MenuItemHidePCIE_Click(object sender, RoutedEventArgs e) {
+            ShowOrHidePCIE(false);
         }
     }
 }

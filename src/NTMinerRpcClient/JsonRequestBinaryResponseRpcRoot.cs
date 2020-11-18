@@ -27,10 +27,15 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.SetTimeout(timeountMilliseconds);
-                        Task<HttpResponseMessage> message = client.GetAsync(RpcRoot.GetUrl(host, port, controller, action, query));
-                        message.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
-                            callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
-                        });
+                        Task<HttpResponseMessage> getHttpResponse = client.GetAsync(RpcRoot.GetUrl(host, port, controller, action, query));
+                        if (getHttpResponse.Result.IsSuccessStatusCode) {
+                            getHttpResponse.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
+                                callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
+                            });
+                        }
+                        else {
+                            callback?.Invoke(default, new NTMinerException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}"));
+                        }
                     }
                 }
                 catch (Exception e) {
@@ -130,9 +135,14 @@ namespace NTMiner {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.SetTimeout(timeountMilliseconds);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync(RpcRoot.GetUrl(host, port, controller, action, query), data);
-                        getHttpResponse.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
-                            callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
-                        });
+                        if (getHttpResponse.Result.IsSuccessStatusCode) {
+                            getHttpResponse.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
+                                callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
+                            });
+                        }
+                        else {
+                            callback?.Invoke(default, new NTMinerException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}"));
+                        }
                     }
                 }
                 catch (Exception e) {

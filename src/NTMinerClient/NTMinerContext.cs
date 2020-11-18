@@ -126,7 +126,6 @@ namespace NTMiner {
             NTMinerRegistry.SetCurrentVersionTag(ClientAppType.AppType, EntryAssemblyInfo.CurrentVersionTag);
 
             if (ClientAppType.IsMinerClient) {
-                VirtualRoot.LocalIpSet.InitOnece();
                 Link();
                 // 当显卡温度变更时守卫温度防线
                 TempGruarder.Instance.Init(this);
@@ -658,6 +657,9 @@ namespace NTMiner {
         private static bool IsNCard {
             get {
                 try {
+                    if (CommandLineArgs.Args.Contains("--amd")) {
+                        return false;
+                    }
                     using (var mos = new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController")) {
                         foreach (ManagementBaseObject item in mos.Get()) {
                             foreach (var property in item.Properties) {
@@ -688,6 +690,9 @@ namespace NTMiner {
                                 try {
                                     if (IsNCard) {
                                         _gpuSet = new NVIDIAGpuSet(this);
+                                        if (AdlHelper.IsHasATIGpu) {
+                                            VirtualRoot.ThisLocalWarn(this.GetType().Name, "检测到本机除了N卡外还插有A卡，开源不建议N卡A卡混插。", toConsole: true);
+                                        }
                                     }
                                     else {
                                         _gpuSet = new AMDGpuSet();
@@ -734,5 +739,17 @@ namespace NTMiner {
         public ILocalMessageSet LocalMessageSet { get; private set; }
 
         public IServerMessageSet ServerMessageSet { get; private set; }
+
+        public Version MinAmdDriverVersion {
+            get {
+                return ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "MinAmdDriverVersion", new Version(17, 10, 2, 0));
+            }
+        }
+
+        public Version MinNvidiaDriverVersion {
+            get {
+                return ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "MinNvidiaDriverVersion", new Version(399, 24));
+            }
+        }
     }
 }

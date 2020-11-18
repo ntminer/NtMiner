@@ -62,6 +62,10 @@ namespace NTMiner {
         IKernelOutputKeywordSet KernelOutputKeywordSet { get; }
         IServerMessageSet ServerMessageSet { get; }
 
+        Version MinNvidiaDriverVersion { get; }
+
+        Version MinAmdDriverVersion { get; }
+
         void ExportServerVersionJson(string jsonFileFullName);
         void ExportWorkJson(MineWorkData mineWorkData, out string localJson, out string serverJson);
     }

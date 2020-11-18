@@ -29,8 +29,8 @@ namespace NTMiner {
                 AddEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
                     action: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
-                            FragmentWriterViewModel groupVm = new FragmentWriterViewModel(message.Source);
-                            _dicById.Add(message.Source.GetId(), groupVm);
+                            FragmentWriterViewModel vm = new FragmentWriterViewModel(message.Source);
+                            _dicById.Add(message.Source.GetId(), vm);
                             OnPropertyChangeds();
                         }
                     }, location: this.GetType());

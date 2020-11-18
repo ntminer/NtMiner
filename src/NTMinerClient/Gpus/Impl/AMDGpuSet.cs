@@ -1,5 +1,4 @@
-﻿using NTMiner.Gpus;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -11,6 +10,7 @@ namespace NTMiner.Gpus.Impl {
                 NTMinerContext.GpuAllId, Gpu.GpuAll
             }
         };
+        private readonly Version _driverVersion = new Version();
 
         public int Count {
             get {
@@ -43,7 +43,7 @@ namespace NTMiner.Gpus.Impl {
                 _gpus.Add(i, gpu);
             }
             if (deviceCount > 0) {
-                this.DriverVersion = adlHelper.GetDriverVersion();
+                this._driverVersion = adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
                 const ulong minG = 5 * NTKeyword.ULongG;
                 bool has470 = _gpus.Any(a => a.Key != NTMinerContext.GpuAllId && a.Value.TotalMemory < minG);
@@ -97,16 +97,13 @@ namespace NTMiner.Gpus.Impl {
             if (gpuIndex == NTMinerContext.GpuAllId) {
                 return;
             }
-            adlHelper.GetPowerFanTemp(gpuIndex, out uint power, out uint fanSpeed, out int temp, out int memoryiVddc);
+            adlHelper.GetPowerFanTemp(gpuIndex, out uint power, out uint fanSpeed, out int temp);
 
             Gpu gpu = _gpus[gpuIndex];
             bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;
             gpu.Temperature = temp;
             gpu.PowerUsage = power;
             gpu.FanSpeed = fanSpeed;
-            if (memoryiVddc != 0) {
-                gpu.MemoryVoltage = memoryiVddc;
-            }
 
             if (isChanged) {
                 VirtualRoot.RaiseEvent(new GpuStateChangedEvent(Guid.Empty, gpu));
@@ -119,7 +116,17 @@ namespace NTMiner.Gpus.Impl {
             }
         }
 
-        public Version DriverVersion { get; private set; }
+        public string DriverVersion {
+            get {
+                return _driverVersion.ToString();
+            }
+        }
+
+        public bool IsLowDriverVersion {
+            get {
+                return this._driverVersion < NTMinerContext.Instance.MinAmdDriverVersion;
+            }
+        }
 
         public bool TryGetGpu(int index, out IGpu gpu) {
             var r = _gpus.TryGetValue(index, out Gpu temp);

@@ -50,7 +50,7 @@ namespace NTMiner {
 
             public string Description {
                 get {
-                    return $"挖 ETH 每卡至少设置 {OsVmPerGpu.ToString("f1")}G 虚拟内存，建议按虚拟内存比显存 1 比 1 设置。比如 6 张 6G 的 1066 显卡建议设置 6 x 6 = 36G。";
+                    return AppRoot.VirtualMemoryDescription;
                 }
             }
         }

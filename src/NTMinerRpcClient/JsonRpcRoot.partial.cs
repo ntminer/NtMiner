@@ -96,12 +96,18 @@ namespace NTMiner {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.SetTimeout(timeountMilliseconds);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync(RpcRoot.GetUrl(host, port, controller, action, query), data);
-                        getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
-                            callback?.Invoke(t.Result, null);
-                        });
+                        if (getHttpResponse.Result.IsSuccessStatusCode) {
+                            getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
+                                callback?.Invoke(t.Result, null);
+                            });
+                        }
+                        else {
+                            callback?.Invoke(default, new NTMinerException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}"));
+                        }
                     }
                 }
                 catch (Exception e) {
+                    NTMinerConsole.DevError(e.Message + e.StackTrace);
                     callback?.Invoke(default, e);
                 }
             });
@@ -122,6 +128,9 @@ namespace NTMiner {
                         client.SetTimeout(timeountMilliseconds);
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync(RpcRoot.GetUrl(host, port, controller, action, query), data);
                         NTMinerConsole.DevDebug($"{action} {getHttpResponse.Result.ReasonPhrase}");
+                        if (!getHttpResponse.Result.IsSuccessStatusCode) {
+                            NTMinerConsole.DevDebug($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}");
+                        }
                         callback?.Invoke();
                     }
                 }

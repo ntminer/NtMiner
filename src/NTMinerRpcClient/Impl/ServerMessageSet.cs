@@ -26,7 +26,7 @@ namespace NTMiner.Impl {
                 RpcRoot.OfficialServer.ServerMessageService.GetServerMessagesAsync(localTimestamp, (response, e) => {
                     if (response.IsSuccess()) {
                         if (response.Data.Count > 0) {
-                            ReceiveServerMessage(response.Data);
+                            VirtualRoot.Execute(new ReceiveServerMessageCommand(response.Data));
                         }
                     }
                     else {
@@ -146,10 +146,10 @@ namespace NTMiner.Impl {
                     });
                 }
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<ClearServerMessages>(action: message => {
+            VirtualRoot.AddCmdPath<ClearServerMessagesCommand>(action: message => {
                 InitOnece();
-                // 服务端不应有清空消息的功能
                 if (isServer) {
+                    NTMinerConsole.UserWarn("服务端的消息不能清空");
                     return;
                 }
                 try {

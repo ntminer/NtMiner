@@ -24,6 +24,8 @@ namespace NTMiner.Core {
                 string content = string.Empty;
                 mineContext.FileWriters.TryGetValue(writer.GetId(), out content);
                 if (!string.IsNullOrEmpty(content)) {
+                    // 因为内核日志文件名不是提前确定的而是创建进程前确定的
+                    content = content.Replace(NTKeyword.LogFileParameterName, mineContext.LogFileFullName);
                     string fileFullName = Path.Combine(mineContext.Kernel.GetKernelDirFullName(), writer.FileUrl);
                     File.WriteAllText(fileFullName, content);
                 }

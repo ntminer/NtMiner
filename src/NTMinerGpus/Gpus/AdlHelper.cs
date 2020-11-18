@@ -2,206 +2,223 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 
 namespace NTMiner.Gpus {
     public class AdlHelper : IGpuHelper {
-        public AdlHelper() {
-            Init();
-        }
+        private static IntPtr _context = IntPtr.Zero;
+        private static readonly ADLAdapterInfo[] _adapterInfoes = new ADLAdapterInfo[0];
 
-        private IntPtr _context = IntPtr.Zero;
-        private List<ATIGPU> _gpuNames = new List<ATIGPU>();
-        private bool Init() {
+        private static readonly bool _isHasATIGpu = false;
+        static AdlHelper() {
             try {
+                int numberOfAdapters = 0;
                 var adlStatus = AdlNativeMethods.ADLMainControlCreate(out _context);
                 if (adlStatus >= AdlStatus.ADL_OK) {
-                    int numberOfAdapters = 0;
                     adlStatus = AdlNativeMethods.ADL_Adapter_NumberOfAdapters_Get(ref numberOfAdapters);
                     if (adlStatus < AdlStatus.ADL_OK) {
                         NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL_Adapter_NumberOfAdapters_Get)} {adlStatus.ToString()}");
                     }
-                    if (numberOfAdapters > 0) {
-                        ADLAdapterInfo[] adapterInfoes = new ADLAdapterInfo[numberOfAdapters];
-                        if (AdlNativeMethods.ADLAdapterAdapterInfoGet(adapterInfoes) >= AdlStatus.ADL_OK) {
-                            for (int i = 0; i < numberOfAdapters; i++) {
-                                var adapterInfo = adapterInfoes[i];
-                                NTMinerConsole.DevDebug(() => adapterInfo.ToString());
-                                if (!string.IsNullOrEmpty(adapterInfo.UDID) && adapterInfo.VendorID == AdlConst.ATI_VENDOR_ID) {
-                                    bool found = false;
-                                    foreach (ATIGPU gpu in _gpuNames) {
-                                        if (gpu.BusNumber == adapterInfo.BusNumber && gpu.DeviceNumber == adapterInfo.DeviceNumber) {
-                                            found = true;
-                                            break;
-                                        }
-                                    }
-                                    if (!found) {
-                                        int adapterIndex = adapterInfo.AdapterIndex;
-                                        int overdriveVersion = 0;
-                                        try {
-                                            if (AdlNativeMethods.ADL_Overdrive_Caps(adapterIndex, out _, out _, out overdriveVersion) != AdlStatus.ADL_OK) {
-                                                overdriveVersion = -1;
-                                            }
-                                        }
-                                        catch (Exception ex) {
-                                            Logger.ErrorDebugLine(ex);
-                                        }
-                                        ADLODNCapabilitiesX2 info = new ADLODNCapabilitiesX2();
-                                        try {
-                                            var r = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(_context, adapterIndex, ref info);
-                                            if (r < AdlStatus.ADL_OK) {
-                                                NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get)} {r.ToString()}");
-                                            }
-                                        }
-                                        catch (Exception ex) {
-                                            Logger.ErrorDebugLine(ex);
-                                        }
-                                        int maxLevels = info.iMaximumNumberOfPerformanceLevels;
-                                        int fanSpeedMin = 0;
-                                        int fanSpeedMax = 0;
-                                        ADLFanSpeedInfo afsi = new ADLFanSpeedInfo();
-                                        try {
-                                            var r = AdlNativeMethods.ADL_Overdrive5_FanSpeedInfo_Get(adapterIndex, 0, ref afsi);
-                                            if (r < AdlStatus.ADL_OK) {
-                                                NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL_Overdrive5_FanSpeedInfo_Get)} {r.ToString()}");
-                                            }
-                                            else {
-                                                fanSpeedMax = afsi.MaxPercent;
-                                                fanSpeedMin = afsi.MinPercent;
-                                            }
-                                        }
-                                        catch (Exception ex) {
-                                            Logger.ErrorDebugLine(ex);
-                                        }
-                                        ADLODNPerformanceLevelsX2 systemClockX2 = ADLODNPerformanceLevelsX2.Create();
-                                        systemClockX2.iNumberOfPerformanceLevels = maxLevels;
-                                        try {
-                                            var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(_context, adapterIndex, ref systemClockX2);
-                                            if (r < AdlStatus.ADL_OK) {
-                                                NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r.ToString()}");
-                                            }
-                                        }
-                                        catch (Exception ex) {
-                                            Logger.ErrorDebugLine(ex);
-                                        }
-                                        int gpuLevel = 0;
-                                        int memoryLevel = 0;
-                                        for (int j = 0; j < systemClockX2.aLevels.Length; j++) {
-                                            if (systemClockX2.aLevels[j].iEnabled != 0) {
-                                                gpuLevel = j + 1;
-                                            }
-                                        }
-                                        ADLODNPerformanceLevelsX2 memoryClockX2 = ADLODNPerformanceLevelsX2.Create();
-                                        memoryClockX2.iNumberOfPerformanceLevels = maxLevels;
-                                        try {
-                                            var r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(_context, adapterIndex, ref memoryClockX2);
-                                            if (r < AdlStatus.ADL_OK) {
-                                                NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get)} {r.ToString()}");
-                                            }
-                                        }
-                                        catch (Exception ex) {
-                                            Logger.ErrorDebugLine(ex);
-                                        }
-                                        for (int j = 0; j < memoryClockX2.aLevels.Length; j++) {
-                                            if (memoryClockX2.aLevels[j].iEnabled != 0) {
-                                                memoryLevel = j + 1;
-                                            }
-                                        }
-                                        int powerMin = info.power.iMin + 100;
-                                        int powerMax = info.power.iMax + 100;
-                                        int powerDefault = info.power.iDefault + 100;
-                                        int voltMin = info.svddcRange.iMin;// 0
-                                        int voltMax = info.svddcRange.iMax;// 0
-                                        int voltDefault = info.svddcRange.iDefault; // 0
-                                        int tempLimitMin = info.powerTuneTemperature.iMin;
-                                        int tempLimitMax = info.powerTuneTemperature.iMax;
-                                        int tempLimitDefault = info.powerTuneTemperature.iDefault;
-                                        int coreClockMin = info.sEngineClockRange.iMin * 10;
-                                        int coreClockMax = info.sEngineClockRange.iMax * 10;
-                                        int memoryClockMin = info.sMemoryClockRange.iMin * 10;
-                                        int memoryClockMax = info.sMemoryClockRange.iMax * 10;
-                                        bool apiSupported = gpuLevel > 0 && memoryLevel > 0;
-                                        ADLOD8InitSetting odInitSetting = ADLOD8InitSetting.Create();
-                                        if (!apiSupported) {
-                                            try {
-                                                var r = AdlNativeMethods.ADL2_Overdrive_Caps(_context, adapterIndex, out int iSupported, out int iEnabled, out int iVersion);
-                                                if (r < AdlStatus.ADL_OK) {
-                                                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive_Caps)} {r.ToString()}");
-                                                }
-                                                else {
-                                                    if (iVersion == 8) {
-                                                        if (GetOD8InitSetting(adapterIndex, out odInitSetting)) {
-                                                            apiSupported = true;
-                                                            gpuLevel = 3;
-                                                            memoryLevel = 0;
-                                                            maxLevels = 3;
+                }
+                if (numberOfAdapters > 0) {
+                    _adapterInfoes = new ADLAdapterInfo[numberOfAdapters];
+                    adlStatus = AdlNativeMethods.ADLAdapterAdapterInfoGet(_adapterInfoes);
+                    if (adlStatus >= AdlStatus.ADL_OK && _adapterInfoes != null && _adapterInfoes.Length != 0) {
+                        _adapterInfoes = _adapterInfoes.Where(adapterInfo => !string.IsNullOrEmpty(adapterInfo.UDID) && adapterInfo.VendorID == AdlConst.ATI_VENDOR_ID).ToArray();
+                        _isHasATIGpu = _adapterInfoes.Length > 0;
+                    }
+                }
+            }
+            catch (Exception ex) {
+                Logger.ErrorDebugLine(ex);
+            }
+        }
 
-                                                            powerMin = 0;
-                                                            powerMax = 0;
-                                                            powerDefault = 0;
-                                                            voltMin = 0;
-                                                            voltMax = 0;
-                                                            voltDefault = 0;
-                                                            tempLimitMin = 0;
-                                                            tempLimitMax = 0;
-                                                            tempLimitDefault = 0;
-                                                            coreClockMin = 0;
-                                                            coreClockMax = 0;
-                                                            memoryClockMin = 0;
-                                                            memoryClockMax = 0;
-                                                            if ((odInitSetting.overdrive8Capabilities & (int)ADLOD8FeatureControl.ADL_OD8_GFXCLK_LIMITS) == (int)ADLOD8FeatureControl.ADL_OD8_GFXCLK_LIMITS ||
-                                                                (odInitSetting.overdrive8Capabilities & (int)ADLOD8FeatureControl.ADL_OD8_GFXCLK_CURVE) == (int)ADLOD8FeatureControl.ADL_OD8_GFXCLK_CURVE) {
-                                                                coreClockMin = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_GFXCLK_FMIN].minValue;
-                                                                coreClockMax = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_GFXCLK_FMAX].maxValue;
-                                                                memoryClockMax = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_UCLK_FMAX].maxValue;
-                                                            }
-#if DEBUG
-                                                            Logger.Debug(odInitSetting.ToString());
-#endif
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            catch (Exception ex) {
-                                                Logger.ErrorDebugLine(ex);
-                                            }
-                                        }
-                                        if (fanSpeedMax <= 0) {
-                                            fanSpeedMax = 100;
-                                        }
-                                        if (powerMax <= 0) {
-                                            powerMax = 100;
-                                        }
-                                        _gpuNames.Add(new ATIGPU {
-                                            AdapterName = adapterInfo.AdapterName.Trim(),
-                                            AdapterIndex = adapterIndex,
-                                            BusNumber = adapterInfo.BusNumber,
-                                            DeviceNumber = adapterInfo.DeviceNumber,
-                                            OverdriveVersion = overdriveVersion,
-                                            MaxLevels = maxLevels,
-                                            ApiSupported = apiSupported,
-                                            GpuLevels = gpuLevel,
-                                            MemoryLevels = memoryLevel,
-                                            CoreClockMin = coreClockMin,
-                                            CoreClockMax = coreClockMax,
-                                            MemoryClockMin = memoryClockMin,
-                                            MemoryClockMax = memoryClockMax,
-                                            PowerMin = powerMin,
-                                            PowerMax = powerMax,
-                                            PowerDefault = powerDefault,
-                                            TempLimitMin = tempLimitMin,
-                                            TempLimitMax = tempLimitMax,
-                                            TempLimitDefault = tempLimitDefault,
-                                            VoltMin = voltMin,
-                                            VoltMax = voltMax,
-                                            VoltDefault = voltDefault,
-                                            FanSpeedMax = fanSpeedMax,
-                                            FanSpeedMin = fanSpeedMin,
-                                            ADLOD8InitSetting = odInitSetting
-                                        });
-                                    }
+        public static bool IsHasATIGpu {
+            get {
+                return _isHasATIGpu;
+            }
+        }
+
+        public AdlHelper() {
+            Init();
+        }
+
+        private List<ATIGPU> _gpuNames = new List<ATIGPU>();
+        private bool Init() {
+            try {
+                if (_isHasATIGpu) {
+                    foreach (var adapterInfo in _adapterInfoes) {
+                        NTMinerConsole.DevDebug(() => adapterInfo.ToString());
+                        bool found = false;
+                        foreach (ATIGPU gpu in _gpuNames) {
+                            if (gpu.BusNumber == adapterInfo.BusNumber && gpu.DeviceNumber == adapterInfo.DeviceNumber) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            int adapterIndex = adapterInfo.AdapterIndex;
+                            int overdriveVersion = 0;
+                            try {
+                                if (AdlNativeMethods.ADL_Overdrive_Caps(adapterIndex, out _, out _, out overdriveVersion) != AdlStatus.ADL_OK) {
+                                    overdriveVersion = -1;
                                 }
                             }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex);
+                            }
+                            ADLODNCapabilitiesX2 info = new ADLODNCapabilitiesX2();
+                            try {
+                                var r = AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get(_context, adapterIndex, ref info);
+                                if (r < AdlStatus.ADL_OK) {
+                                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_OverdriveN_CapabilitiesX2_Get)} {r.ToString()}");
+                                }
+                            }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex);
+                            }
+                            int maxLevels = info.iMaximumNumberOfPerformanceLevels;
+                            int fanSpeedMin = 0;
+                            int fanSpeedMax = 0;
+                            ADLFanSpeedInfo afsi = new ADLFanSpeedInfo();
+                            try {
+                                var r = AdlNativeMethods.ADL_Overdrive5_FanSpeedInfo_Get(adapterIndex, 0, ref afsi);
+                                if (r < AdlStatus.ADL_OK) {
+                                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL_Overdrive5_FanSpeedInfo_Get)} {r.ToString()}");
+                                }
+                                else {
+                                    fanSpeedMax = afsi.MaxPercent;
+                                    fanSpeedMin = afsi.MinPercent;
+                                }
+                            }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex);
+                            }
+                            ADLODNPerformanceLevelsX2 systemClockX2 = ADLODNPerformanceLevelsX2.Create();
+                            systemClockX2.iNumberOfPerformanceLevels = maxLevels;
+                            try {
+                                var r = AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get(_context, adapterIndex, ref systemClockX2);
+                                if (r < AdlStatus.ADL_OK) {
+                                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_OverdriveN_SystemClocksX2_Get)} {r.ToString()}");
+                                }
+                            }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex);
+                            }
+                            int gpuLevel = 0;
+                            int memoryLevel = 0;
+                            for (int j = 0; j < systemClockX2.aLevels.Length; j++) {
+                                if (systemClockX2.aLevels[j].iEnabled != 0) {
+                                    gpuLevel = j + 1;
+                                }
+                            }
+                            ADLODNPerformanceLevelsX2 memoryClockX2 = ADLODNPerformanceLevelsX2.Create();
+                            memoryClockX2.iNumberOfPerformanceLevels = maxLevels;
+                            try {
+                                var r = AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get(_context, adapterIndex, ref memoryClockX2);
+                                if (r < AdlStatus.ADL_OK) {
+                                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_OverdriveN_MemoryClocksX2_Get)} {r.ToString()}");
+                                }
+                            }
+                            catch (Exception ex) {
+                                Logger.ErrorDebugLine(ex);
+                            }
+                            for (int j = 0; j < memoryClockX2.aLevels.Length; j++) {
+                                if (memoryClockX2.aLevels[j].iEnabled != 0) {
+                                    memoryLevel = j + 1;
+                                }
+                            }
+                            int powerMin = info.power.iMin + 100;
+                            int powerMax = info.power.iMax + 100;
+                            int powerDefault = info.power.iDefault + 100;
+                            int voltMin = info.svddcRange.iMin;// 0
+                            int voltMax = info.svddcRange.iMax;// 0
+                            int voltDefault = info.svddcRange.iDefault; // 0
+                            int tempLimitMin = info.powerTuneTemperature.iMin;
+                            int tempLimitMax = info.powerTuneTemperature.iMax;
+                            int tempLimitDefault = info.powerTuneTemperature.iDefault;
+                            int coreClockMin = info.sEngineClockRange.iMin * 10;
+                            int coreClockMax = info.sEngineClockRange.iMax * 10;
+                            int memoryClockMin = info.sMemoryClockRange.iMin * 10;
+                            int memoryClockMax = info.sMemoryClockRange.iMax * 10;
+                            bool apiSupported = gpuLevel > 0 && memoryLevel > 0;
+                            ADLOD8InitSetting odInitSetting = ADLOD8InitSetting.Create();
+                            if (!apiSupported) {
+                                try {
+                                    if (overdriveVersion == 8) {
+                                        if (GetOD8InitSetting(adapterIndex, out odInitSetting)) {
+                                            apiSupported = true;
+                                            gpuLevel = 3;
+                                            memoryLevel = 0;
+                                            maxLevels = 3;
+
+                                            powerMin = 0;
+                                            powerMax = 0;
+                                            powerDefault = 0;
+                                            voltMin = 0;
+                                            voltMax = 0;
+                                            voltDefault = 0;
+                                            tempLimitMin = 0;
+                                            tempLimitMax = 0;
+                                            tempLimitDefault = 0;
+                                            coreClockMin = 0;
+                                            coreClockMax = 0;
+                                            memoryClockMin = 0;
+                                            memoryClockMax = 0;
+                                            if ((odInitSetting.overdrive8Capabilities & (int)ADLOD8FeatureControl.ADL_OD8_GFXCLK_LIMITS) == (int)ADLOD8FeatureControl.ADL_OD8_GFXCLK_LIMITS ||
+                                                (odInitSetting.overdrive8Capabilities & (int)ADLOD8FeatureControl.ADL_OD8_GFXCLK_CURVE) == (int)ADLOD8FeatureControl.ADL_OD8_GFXCLK_CURVE) {
+                                                coreClockMin = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_GFXCLK_FMAX].minValue * 1000;
+                                                coreClockMax = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_GFXCLK_FMAX].maxValue * 1000;
+                                                voltMin = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_GFXCLK_VOLTAGE3].minValue;
+                                                voltMax = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_GFXCLK_VOLTAGE3].maxValue;
+                                                powerMin = 100 + odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_POWER_PERCENTAGE].minValue;
+                                                powerMax = 100 + odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_POWER_PERCENTAGE].maxValue;
+                                                memoryClockMin = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_UCLK_FMAX].minValue * 1000;
+                                                memoryClockMax = odInitSetting.od8SettingTable[(int)ADLOD8SettingId.OD8_UCLK_FMAX].maxValue * 1000;
+                                            }
+#if DEBUG
+                                            Logger.Debug(odInitSetting.ToString());
+#endif
+                                        }
+                                    }
+                                }
+                                catch (Exception ex) {
+                                    Logger.ErrorDebugLine(ex);
+                                }
+                            }
+                            if (fanSpeedMax <= 0) {
+                                fanSpeedMax = 100;
+                            }
+                            if (powerMax <= 0) {
+                                powerMax = 100;
+                            }
+                            _gpuNames.Add(new ATIGPU {
+                                AdapterName = adapterInfo.AdapterName.Trim(),
+                                AdapterIndex = adapterIndex,
+                                BusNumber = adapterInfo.BusNumber,
+                                DeviceNumber = adapterInfo.DeviceNumber,
+                                OverdriveVersion = overdriveVersion,
+                                MaxLevels = maxLevels,
+                                ApiSupported = apiSupported,
+                                GpuLevels = gpuLevel,
+                                MemoryLevels = memoryLevel,
+                                CoreClockMin = coreClockMin,
+                                CoreClockMax = coreClockMax,
+                                MemoryClockMin = memoryClockMin,
+                                MemoryClockMax = memoryClockMax,
+                                PowerMin = powerMin,
+                                PowerMax = powerMax,
+                                PowerDefault = powerDefault,
+                                TempLimitMin = tempLimitMin,
+                                TempLimitMax = tempLimitMax,
+                                TempLimitDefault = tempLimitDefault,
+                                VoltMin = voltMin,
+                                VoltMax = voltMax,
+                                VoltDefault = voltDefault,
+                                FanSpeedMax = fanSpeedMax,
+                                FanSpeedMin = fanSpeedMin,
+                                ADLOD8InitSetting = odInitSetting
+                            });
                         }
                     }
                 }
@@ -216,44 +233,12 @@ namespace NTMiner.Gpus {
             return true;
         }
 
-        private bool GetOD8CurrentSetting(int adapterIndex, out Odn8Settings odn8Settings) {
-            odn8Settings = Odn8Settings.Create();
-            try {
-                int lpNumberOfFeatures = (int)ADLOD8SettingId.OD8_COUNT;
-                var r = AdlNativeMethods.ADL2_Overdrive8_Current_SettingX2_Get(_context, adapterIndex, ref lpNumberOfFeatures, out IntPtr lppCurrentSettingList);
-                if (r < AdlStatus.ADL_OK) {
-                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive8_Current_SettingX2_Get)} {r.ToString()}");
-                }
-                if (lppCurrentSettingList != IntPtr.Zero) {
-                    odn8Settings = (Odn8Settings)Marshal.PtrToStructure(lppCurrentSettingList, typeof(Odn8Settings));
-                    Marshal.FreeHGlobal(lppCurrentSettingList);
-                }
-                return lppCurrentSettingList != IntPtr.Zero;
-            }
-            catch (Exception ex) {
-                Logger.ErrorDebugLine(ex);
-                return false;
-            }
-        }
-
         private bool GetOD8CurrentSetting(int adapterIndex, out ADLOD8CurrentSetting odCurrentSetting) {
             odCurrentSetting = ADLOD8CurrentSetting.Create();
             try {
-                int lpNumberOfFeatures = (int)ADLOD8SettingId.OD8_COUNT;
-                var r = AdlNativeMethods.ADL2_Overdrive8_Current_SettingX2_Get(_context, adapterIndex, ref lpNumberOfFeatures, out IntPtr lppCurrentSettingList);
+                var r = AdlNativeMethods.ADL2_Overdrive8_Current_Setting_Get(_context, adapterIndex, ref odCurrentSetting);
                 if (r < AdlStatus.ADL_OK) {
-                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive8_Current_SettingX2_Get)} {r.ToString()}");
-                }
-                if (r == AdlStatus.ADL_OK) {
-                    odCurrentSetting.count = lpNumberOfFeatures > (int)ADLOD8SettingId.OD8_COUNT ? (int)ADLOD8SettingId.OD8_COUNT : lpNumberOfFeatures;
-                    int[] settingList = new int[odCurrentSetting.count];
-                    int elementSize = Marshal.SizeOf(typeof(int));
-                    for (int i = 0; i < settingList.Length; i++) {
-                        settingList[i] = (int)Marshal.PtrToStructure((IntPtr)((long)lppCurrentSettingList + i * elementSize), typeof(int));
-                    }
-                    for (int i = 0; i < odCurrentSetting.count; i++) {
-                        odCurrentSetting.Od8SettingTable[i] = settingList[i];
-                    }
+                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive8_Current_Setting_Get)} {r.ToString()}");
                 }
                 return r == AdlStatus.ADL_OK;
             }
@@ -266,29 +251,9 @@ namespace NTMiner.Gpus {
         private bool GetOD8InitSetting(int adapterIndex, out ADLOD8InitSetting odInitSetting) {
             odInitSetting = ADLOD8InitSetting.Create();
             try {
-                int elementSize = Marshal.SizeOf(typeof(ADLOD8SingleInitSetting));
-                int overdrive8Capabilities;
-                int numberOfFeatures = (int)ADLOD8SettingId.OD8_COUNT;
-                var r = AdlNativeMethods.ADL2_Overdrive8_Init_SettingX2_Get(_context, adapterIndex, out overdrive8Capabilities, ref numberOfFeatures, out IntPtr lpInitSettingList);
+                var r = AdlNativeMethods.ADL2_Overdrive8_Init_Setting_Get(_context, adapterIndex, ref odInitSetting);
                 if (r < AdlStatus.ADL_OK) {
-                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive8_Init_SettingX2_Get)} {r.ToString()}");
-                }
-                ADLOD8SingleInitSetting[] od8initSettingList = new ADLOD8SingleInitSetting[numberOfFeatures];
-                if (lpInitSettingList != IntPtr.Zero) {
-                    for (int i = 0; i < od8initSettingList.Length; i++) {
-                        od8initSettingList[i] = (ADLOD8SingleInitSetting)Marshal.PtrToStructure((IntPtr)((long)lpInitSettingList + i * elementSize), typeof(ADLOD8SingleInitSetting));
-                    }
-                    Marshal.FreeHGlobal(lpInitSettingList);
-                }
-                if (r == AdlStatus.ADL_OK) {
-                    odInitSetting.count = numberOfFeatures > (int)ADLOD8SettingId.OD8_COUNT ? (int)ADLOD8SettingId.OD8_COUNT : numberOfFeatures;
-                    odInitSetting.overdrive8Capabilities = overdrive8Capabilities;
-                    for (int i = 0; i < odInitSetting.count; i++) {
-                        odInitSetting.od8SettingTable[i].defaultValue = od8initSettingList[i].defaultValue;
-                        odInitSetting.od8SettingTable[i].featureID = od8initSettingList[i].featureID;
-                        odInitSetting.od8SettingTable[i].maxValue = od8initSettingList[i].maxValue;
-                        odInitSetting.od8SettingTable[i].minValue = od8initSettingList[i].minValue;
-                    }
+                    NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive8_Init_Setting_Get)} {r.ToString()}");
                 }
 #if DEBUG
                 Logger.Debug($"od8initSettingList={VirtualRoot.JsonSerializer.Serialize(odInitSetting)}");
@@ -443,12 +408,10 @@ namespace NTMiner.Gpus {
                     catch {
                     }
                 }
-                else {
-                    if (GetOD8CurrentSetting(gpu.AdapterIndex, out Odn8Settings odn8Settings)) {
-                        coreClock = odn8Settings.GpuP[2].Clock * 1000;
-                        coreiVddc = odn8Settings.GpuP[2].Voltage;
-                        memoryClock = odn8Settings.MemMax * 1000;
-                    }
+                else if (GetOD8CurrentSetting(gpu.AdapterIndex, out ADLOD8CurrentSetting odCurrentSetting)) {
+                    coreClock = odCurrentSetting.Od8SettingTable[(int)ADLOD8SettingId.OD8_GFXCLK_FMAX] * 1000;
+                    coreiVddc = odCurrentSetting.Od8SettingTable[(int)ADLOD8SettingId.OD8_GFXCLK_VOLTAGE3];
+                    memoryClock = odCurrentSetting.Od8SettingTable[(int)ADLOD8SettingId.OD8_UCLK_FMAX] * 1000;
                 }
             }
             catch (Exception e) {
@@ -457,11 +420,10 @@ namespace NTMiner.Gpus {
         }
 
 
-        public void GetPowerFanTemp(int gpuIndex, out uint power, out uint fanSpeed, out int temp, out int memoryiVddc) {
+        public void GetPowerFanTemp(int gpuIndex, out uint power, out uint fanSpeed, out int temp) {
             power = 0;
             fanSpeed = 0;
             temp = 0;
-            memoryiVddc = 0;
             if (!TryGetAtiGpu(gpuIndex, out ATIGPU gpu)) {
                 return;
             }
@@ -478,20 +440,16 @@ namespace NTMiner.Gpus {
                         NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_New_QueryPMLogData_Get)} {r.ToString()}");
                     }
                     int i = (int)ADLSensorType.PMLOG_ASIC_POWER;
-                    if (i < logDataOutput.Sensors.Length && logDataOutput.Sensors[i].Supported) {
+                    if (i < logDataOutput.Sensors.Length && logDataOutput.Sensors[i].Supported != 0) {
                         power = (uint)logDataOutput.Sensors[i].Value;
                     }
                     i = (int)ADLSensorType.PMLOG_FAN_PERCENTAGE;
-                    if (i < logDataOutput.Sensors.Length && logDataOutput.Sensors[i].Supported) {
+                    if (i < logDataOutput.Sensors.Length && logDataOutput.Sensors[i].Supported != 0) {
                         fanSpeed = (uint)logDataOutput.Sensors[i].Value;
                     }
                     i = (int)ADLSensorType.PMLOG_TEMPERATURE_EDGE;
-                    if (i < logDataOutput.Sensors.Length && logDataOutput.Sensors[i].Supported) {
+                    if (i < logDataOutput.Sensors.Length && logDataOutput.Sensors[i].Supported != 0) {
                         temp = logDataOutput.Sensors[i].Value;
-                    }
-                    i = (int)ADLSensorType.PMLOG_MEM_VOLTAGE;
-                    if (i < logDataOutput.Sensors.Length && logDataOutput.Sensors[i].Supported) {
-                        memoryiVddc = logDataOutput.Sensors[i].Value;
                     }
                 }
             }
@@ -592,7 +550,7 @@ namespace NTMiner.Gpus {
                     odSetSetting.od8SettingTable[(int)settingId].reset = reset ? 1 : 0;
                     odSetSetting.od8SettingTable[(int)settingId].value = odInitSetting.od8SettingTable[(int)settingId].defaultValue;
                 }
-                var r = AdlNativeMethods.ADL2_Overdrive8_Setting_Set(_context, adapterIndex, ref odSetSetting, out odCurrentSetting);
+                var r = AdlNativeMethods.ADL2_Overdrive8_Setting_Set(_context, adapterIndex, ref odSetSetting, ref odCurrentSetting);
                 if (r != AdlStatus.ADL_OK) {
                     NTMinerConsole.DevError(() => $"{nameof(AdlNativeMethods.ADL2_Overdrive8_Setting_Set)} {r.ToString()}");
                 }
@@ -782,11 +740,9 @@ namespace NTMiner.Gpus {
                 }
             }
             else {
-                if (GetOD8CurrentSetting(gpu.AdapterIndex, out Odn8Settings odn8Settings)) {
-                    powerLimit = 100 + odn8Settings.PowerTarget;
-                    // 貌似没有tempLimit
-                }
-                else {
+                if (GetOD8CurrentSetting(gpu.AdapterIndex, out ADLOD8CurrentSetting odCurrentSetting)) {
+                    powerLimit = 100 + odCurrentSetting.Od8SettingTable[(int)ADLOD8SettingId.OD8_POWER_PERCENTAGE];
+                    tempLimit = odCurrentSetting.Od8SettingTable[(int)ADLOD8SettingId.OD8_FAN_CURVE_TEMPERATURE_5];
                 }
             }
         }

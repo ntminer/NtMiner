@@ -54,7 +54,18 @@ namespace NTMiner.Mine {
 
         private void NewLogFileName() {
             string logFileName;
-            if (this.CommandLine.IgnoreCaseContains(NTKeyword.LogFileParameterName)) {
+            bool isLogFileProcess = this.CommandLine.IgnoreCaseContains(NTKeyword.LogFileParameterName);
+            if (!isLogFileProcess && this.CoinKernel.FileWriterIds.Count != 0) {
+                foreach (var fileWriterId in this.CoinKernel.FileWriterIds) {
+                    if (NTMinerContext.Instance.ServerContext.FileWriterSet.TryGetFileWriter(fileWriterId, out IFileWriter fileWriter)) {
+                        if (fileWriter.Body.Contains(NTKeyword.LogFileParameterName)) {
+                            isLogFileProcess = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (isLogFileProcess) {
                 this.KernelProcessType = KernelProcessType.Logfile;
                 logFileName = $"{this.Kernel.Code}_{DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss_fff")}.log";
             }
@@ -302,7 +313,7 @@ namespace NTMiner.Mine {
             ProcessStartInfo startInfo = new ProcessStartInfo(kernelExeFileFullName, arguments) {
                 UseShellExecute = false,
                 CreateNoWindow = false,
-                WorkingDirectory = TempPath.TempDirFullName
+                WorkingDirectory = Path.GetDirectoryName(kernelExeFileFullName)// 内核exe所在的目录
             };
             // 追加环境变量
             foreach (var item in this.CoinKernel.EnvironmentVariables) {
@@ -382,7 +393,7 @@ namespace NTMiner.Mine {
                 bInheritHandles: true,
                 dwCreationFlags: NORMAL_PRIORITY_CLASS,
                 lpEnvironment: lpEnvironment,
-                lpCurrentDirectory: Path.GetDirectoryName(kernelExeFileFullName),
+                lpCurrentDirectory: Path.GetDirectoryName(kernelExeFileFullName),// 内核exe所在的目录
                 lpStartupInfo: ref lpStartupInfo,
                 lpProcessInformation: out PROCESS_INFORMATION processInfo)) {
 
@@ -480,6 +491,7 @@ namespace NTMiner.Mine {
                                             VirtualRoot.RaiseEvent(new KernelSelfRestartedEvent());
                                         }
                                     }
+                                    // 挖矿时如果主界面状态栏的数据更新的慢不是程序执行的慢而是挖矿内核将输出刷到磁盘的时间有缓冲
                                     NTMinerContext.Instance.ServerContext.KernelOutputSet.Pick(ref input, this);
                                     var kernelOutputKeywords = NTMinerContext.Instance.KernelOutputKeywordSet.GetKeywords(this.KernelOutput.GetId());
                                     if (kernelOutputKeywords != null && kernelOutputKeywords.Count != 0) {

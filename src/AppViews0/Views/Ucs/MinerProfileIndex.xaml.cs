@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 
 namespace NTMiner.Views.Ucs {
     public partial class MinerProfileIndex : UserControl {
@@ -327,6 +326,14 @@ namespace NTMiner.Views.Ucs {
             OpenMainCoinPool1Popup();
             UserActionHappend();
             e.Handled = true;
+        }
+
+        private void BtnPopup_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            VirtualRoot.Execute(new TopmostCommand());
+        }
+
+        private void BtnPopup_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e) {
+            VirtualRoot.Execute(new UnTopmostCommand());
         }
     }
 }

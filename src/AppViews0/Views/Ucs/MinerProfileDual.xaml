@@ -33,7 +33,9 @@
 					BorderBrush="{StaticResource LightLineColor}"
 					IsEnabled="{Binding ElementName=PopupDualCoin,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-					Click="KbButtonDualCoin_Clicked">
+					Click="KbButtonDualCoin_Clicked"
+                    PreviewMouseDown="BtnPopup_PreviewMouseDown"
+                    PreviewMouseUp="BtnPopup_PreviewMouseUp">
 					<controls:KbButton.ContextMenu>
 						<ContextMenu>
 							<MenuItem 
@@ -76,7 +78,9 @@
 					BorderBrush="{StaticResource LightLineColor}"
 					IsEnabled="{Binding ElementName=PopupDualCoinPool,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 					Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-					Click="KbButtonDualCoinPool_Clicked">
+					Click="KbButtonDualCoinPool_Clicked"
+                    PreviewMouseDown="BtnPopup_PreviewMouseDown"
+                    PreviewMouseUp="BtnPopup_PreviewMouseUp">
 					<controls:KbButton.ContextMenu>
 						<ContextMenu>
 							<MenuItem Header="添加" Command="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.AddPool}">
@@ -123,7 +127,9 @@
 							BorderBrush="{StaticResource LightLineColor}"
 							IsEnabled="{Binding ElementName=PopupDualCoinWallet,Path=IsOpen,Converter={StaticResource BoolInvertConverter}}"
 							Background="{Binding IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
-							Click="KbButtonDualCoinWallet_Clicked">
+							Click="KbButtonDualCoinWallet_Clicked"
+							PreviewMouseDown="BtnPopup_PreviewMouseDown"
+							PreviewMouseUp="BtnPopup_PreviewMouseUp">
 							<controls:KbButton.ContextMenu>
 								<ContextMenu>
 									<MenuItem Header="添加" Command="{Binding CoinVm.CoinKernel.CoinKernelProfile.SelectedDualCoin.CoinProfile.AddDualCoinWallet}">

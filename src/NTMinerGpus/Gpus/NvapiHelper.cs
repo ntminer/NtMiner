@@ -306,7 +306,8 @@ namespace NTMiner.Gpus {
                 }
                 return false;
             }
-            catch {
+            catch (Exception e){
+                Logger.ErrorDebugLine(e);
                 return false;
             }
         }

@@ -48,15 +48,15 @@ namespace NTMiner {
         public static IMinerClientMqSender MinerClientMqSender { get; private set; }
         public static IOperationMqSender OperationMqSender { get; private set; }
         public static IUserMqSender UserMqSender { get; private set; }
+        public static IWsServerNodeRedis WsServerNodeRedis { get; private set; }
 
+        private static IWsServerNodeMqSender _wsServerNodeMqSender;
         private static bool _started = false;
         static void Main() {
             NTMinerConsole.DisbleQuickEditMode();
             DevMode.SetDevMode();
 
             Windows.ConsoleHandler.Register(Exit);
-
-            WsServerNodeAddressSet = new WsServerNodeAddressSet();
 
             Console.Title = $"{ServerAppType.WsServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
             // 通过WsServer的网络缓解对WebApiServer的外网流量的压力。WsServer调用WebApiServer的时候走内网调用节省外网带宽
@@ -76,8 +76,11 @@ namespace NTMiner {
             }
             MinerClientMqSender = new MinerClientMqSender(serverConfig);
             SpeedDataRedis = new SpeedDataRedis(serverConfig);
+            WsServerNodeRedis = new WsServerNodeRedis(serverConfig);
             OperationMqSender = new OperationMqSender(serverConfig);
             UserMqSender = new UserMqSender(serverConfig);
+            _wsServerNodeMqSender = new WsServerNodeMqSender(serverConfig);
+            WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis, _wsServerNodeMqSender);
             var minerRedis = new ReadOnlyMinerRedis(serverConfig);
             var userRedis = new ReadOnlyUserRedis(serverConfig);
             VirtualRoot.StartTimer();
@@ -120,9 +123,13 @@ namespace NTMiner {
 
         private static void Exit() {
             if (_started) {
-                RpcRoot.OfficialServer.WsServerNodeService.RemoveNodeAsync(ServerRoot.HostConfig.ThisServerAddress, callback: null);
-                // 等待1秒以使ReportNodeAsync过程完成
-                System.Threading.Thread.Sleep(1000);
+                try {
+                    WsServerNodeRedis.DeleteByAddressAsync(ServerRoot.HostConfig.ThisServerAddress).ContinueWith(_ => {
+                        _wsServerNodeMqSender.SendWsServerNodeRemoved(ServerRoot.HostConfig.ThisServerAddress);
+                    }).Wait();
+                }
+                catch {
+                }
             }
             _wsServer?.Stop();
         }

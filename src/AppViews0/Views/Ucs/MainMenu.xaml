@@ -265,7 +265,12 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </MenuItem>
-			<MenuItem ToolTip="菜单" Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" Width="26" Height="26">
+			<MenuItem 
+                ToolTip="菜单" 
+                Visibility="{x:Static app:AppStatic.IsMinerClientVisible}" 
+                Width="26" Height="26"
+                PreviewMouseDown="MenuItem_PreviewMouseDown"
+                PreviewMouseUp="MenuItem_PreviewMouseUp">
 				<MenuItem.Icon>
 					<Path
 						Width="14"

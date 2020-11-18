@@ -60,7 +60,7 @@ namespace NTMiner {
 
         public static HttpClient CreateHttpClient() {
             return new HttpClient {
-                Timeout = TimeSpan.FromSeconds(60)
+                Timeout = TimeSpan.FromSeconds(20)
             };
         }
 

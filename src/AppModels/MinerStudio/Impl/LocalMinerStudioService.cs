@@ -63,7 +63,7 @@ namespace NTMiner.MinerStudio.Impl {
                     user: null,
                     query,
                     out int total,
-                    out List<CoinSnapshotData> latestSnapshots,
+                    out CoinSnapshotData[] latestSnapshots,
                     out int totalOnlineCount,
                     out int totalMiningCount);
                 VirtualRoot.RaiseEvent(new QueryClientsResponseEvent(QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount)));

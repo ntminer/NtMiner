@@ -159,6 +159,13 @@ namespace NTMiner.Controllers {
 
         [Role.Public]
         [HttpPost]
+        public string ToolFileUrl(string fileCode) {
+            // TODO:
+            throw new NotImplementedException();
+        }
+
+        [Role.Public]
+        [HttpPost]
         public string PackageUrl([FromBody]PackageUrlRequest request) {
             try {
                 if (request == null || string.IsNullOrEmpty(request.Package)) {

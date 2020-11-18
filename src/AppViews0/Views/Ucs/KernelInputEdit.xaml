@@ -50,7 +50,7 @@
 					Text="{Binding Args, Mode=TwoWay}" Height="60">
 				</controls:KbMuiltilineTextBox>
 			</WrapPanel>
-			<GroupBox Margin="10 2">
+            <GroupBox Margin="10 2">
 				<GroupBox.Header>
 					<WrapPanel>
 						<TextBlock>使用指定序号的显卡挖矿</TextBlock>

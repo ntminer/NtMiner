@@ -5,7 +5,6 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms.VisualStyles;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -162,6 +161,13 @@ namespace NTMiner.Views {
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
+            VirtualRoot.AddCmdPath<TopmostCommand>(action: message => {
+                UIThread.Execute(() => {
+                    if (!this.Topmost) {
+                        this.Topmost = true;
+                    }
+                });
+            }, this.GetType());
             VirtualRoot.AddCmdPath<UnTopmostCommand>(action: message => {
                 UIThread.Execute(() => {
                     if (this.Topmost) {
@@ -438,5 +444,13 @@ namespace NTMiner.Views {
             }
         }
         #endregion
+
+        private void Menu_PreviewMouseDown(object sender, MouseButtonEventArgs e) {
+            VirtualRoot.Execute(new TopmostCommand());
+        }
+
+        private void Menu_PreviewMouseUp(object sender, MouseButtonEventArgs e) {
+            VirtualRoot.Execute(new UnTopmostCommand());
+        }
     }
 }

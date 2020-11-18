@@ -76,7 +76,7 @@
       <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.20710.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.4.0.30506.0\lib\net40\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
@@ -84,7 +84,7 @@
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.4.0.20710.0\lib\net40\System.Web.Http.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.4.0.30506.0\lib\net40\System.Web.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Http.SelfHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.SelfHost.4.0.30506.0\lib\net40\System.Web.Http.SelfHost.dll</HintPath>
@@ -101,6 +101,9 @@
     <Compile Include="Controllers\ServerMessageBinaryController.cs" />
     <Compile Include="Core\IGpuNameSet.cs" />
     <Compile Include="Core\Impl\GpuNameSet.cs" />
+    <Compile Include="Core\Impl\WsServerNodeAddressSet.cs" />
+    <Compile Include="Core\Redis\Impl\WsServerNodeRedis.cs" />
+    <Compile Include="Core\Redis\IWsServerNodeRedis.cs" />
     <Compile Include="Role\AdminAttribute.cs" />
     <Compile Include="Role\ClientSignData.cs" />
     <Compile Include="Role\PublicAttribute.cs" />
@@ -143,21 +146,17 @@
     <Compile Include="Core\Impl\NTMinerWalletSet.cs" />
     <Compile Include="Core\Impl\OverClockDataSet.cs" />
     <Compile Include="Core\Impl\UserAppSettingSet.cs" />
-    <Compile Include="Core\Impl\WsServerNodeSet.cs" />
     <Compile Include="Core\INTMinerFileSet.cs" />
     <Compile Include="Core\INTMinerWalletSet.cs" />
     <Compile Include="Core\IOverClockDataSet.cs" />
     <Compile Include="Core\IUserAppSettingSet.cs" />
     <Compile Include="Core\IUserSet.cs" />
-    <Compile Include="Core\IWsServerNodeSet.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\MinerClientMqMessagePath.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\UserMqMessagePath.cs" />
     <Compile Include="Core\Mq\Senders\IMinerClientMqSender.cs" />
     <Compile Include="Core\Mq\Senders\Impl\MinerClientMqSender.cs" />
     <Compile Include="Core\Mq\Senders\Impl\UserMqSender.cs" />
-    <Compile Include="Core\Mq\Senders\Impl\WsServerNodeMqSender.cs" />
     <Compile Include="Core\Mq\Senders\IUserMqSender.cs" />
-    <Compile Include="Core\Mq\Senders\IWsServerNodeMqSender.cs" />
     <Compile Include="Core\Redis\ICaptchaRedis.cs" />
     <Compile Include="Core\Redis\IMinerRedis.cs" />
     <Compile Include="Core\Redis\Impl\CaptchaRedis.cs" />

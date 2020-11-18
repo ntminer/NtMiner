@@ -25,15 +25,5 @@ namespace NTMiner.Services.Official {
             };
             JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.GetNodeAddress), data, callback, timeountMilliseconds: 8000);
         }
-
-        public void ReportNodeStateAsync(WsServerNodeState nodeState, Action<ResponseBase, Exception> callback) {
-            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.ReportNodeState), nodeState, callback, timeountMilliseconds: 3000);
-        }
-
-        public void RemoveNodeAsync(string address, Action<ResponseBase, Exception> callback) {
-            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.RemoveNode), new DataRequest<string> {
-                Data = address
-            }, callback);
-        }
     }
 }

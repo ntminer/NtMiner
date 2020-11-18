@@ -16,10 +16,6 @@ namespace NTMiner.Views {
             this.DataContext = this.Vm;
             InitializeComponent();
             NotiCenterWindow.Bind(this);
-            this.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
-                action: message => {
-                    Vm.RefreshLocalIps();
-                }, location: this.GetType());
             this.AddCmdPath<ShowLocalIpsCommand>(LogEnum.DevConsole, action: message => {
                 UIThread.Execute(() => LocalIpConfig.ShowWindow());
             }, location: this.GetType());

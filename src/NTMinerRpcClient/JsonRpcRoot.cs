@@ -27,10 +27,15 @@ namespace NTMiner {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
                         client.SetTimeout(timeountMilliseconds);
-                        Task<HttpResponseMessage> message = client.GetAsync(RpcRoot.GetUrl(host, port, controller, action, query));
-                        message.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
-                            callback?.Invoke(t.Result, null);
-                        });
+                        Task<HttpResponseMessage> getHttpResponse = client.GetAsync(RpcRoot.GetUrl(host, port, controller, action, query));
+                        if (getHttpResponse.Result.IsSuccessStatusCode) {
+                            getHttpResponse.Result.Content.ReadAsAsync<TResponse>().ContinueWith(t => {
+                                callback?.Invoke(t.Result, null);
+                            });
+                        }
+                        else {
+                            callback?.Invoke(default, new NTMinerException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}"));
+                        }
                     }
                 }
                 catch (Exception e) {

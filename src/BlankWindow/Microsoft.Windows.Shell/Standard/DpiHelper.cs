@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Media;
 
 namespace NTMiner.Microsoft.Windows.Shell.Standard {
-    internal static class DpiHelper {
+    public static class DpiHelper {
         private static Matrix _transformToDevice;
         private static Matrix _transformToDip;
 
@@ -28,7 +28,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         /// <param name="logicalPoint">A point in the logical coordinate system.</param>
         /// <returns>Returns the parameter converted to the system's coordinates.</returns>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static Point LogicalPixelsToDevice(Point logicalPoint) {
+        internal static Point LogicalPixelsToDevice(Point logicalPoint) {
             return _transformToDevice.Transform(logicalPoint);
         }
 
@@ -38,7 +38,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         /// <param name="devicePoint">A point in the physical coordinate system.</param>
         /// <returns>Returns the parameter converted to the device independent coordinate system.</returns>
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static Point DevicePixelsToLogical(Point devicePoint) {
+        internal static Point DevicePixelsToLogical(Point devicePoint) {
             return _transformToDip.Transform(devicePoint);
         }
 
@@ -51,7 +51,7 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static Rect DeviceRectToLogical(Rect deviceRectangle) {
+        internal static Rect DeviceRectToLogical(Rect deviceRectangle) {
             Point topLeft = DevicePixelsToLogical(new Point(deviceRectangle.Left, deviceRectangle.Top));
             Point bottomRight = DevicePixelsToLogical(new Point(deviceRectangle.Right, deviceRectangle.Bottom));
 
@@ -59,21 +59,21 @@ namespace NTMiner.Microsoft.Windows.Shell.Standard {
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static Size LogicalSizeToDevice(Size logicalSize) {
+        internal static Size LogicalSizeToDevice(Size logicalSize) {
             Point pt = LogicalPixelsToDevice(new Point(logicalSize.Width, logicalSize.Height));
 
             return new Size { Width = pt.X, Height = pt.Y };
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static Size DeviceSizeToLogical(Size deviceSize) {
+        internal static Size DeviceSizeToLogical(Size deviceSize) {
             Point pt = DevicePixelsToLogical(new Point(deviceSize.Width, deviceSize.Height));
 
             return new Size(pt.X, pt.Y);
         }
 
         [SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        public static Thickness LogicalThicknessToDevice(Thickness logicalThickness) {
+        internal static Thickness LogicalThicknessToDevice(Thickness logicalThickness) {
             Point topLeft = LogicalPixelsToDevice(new Point(logicalThickness.Left, logicalThickness.Top));
             Point bottomRight = LogicalPixelsToDevice(new Point(logicalThickness.Right, logicalThickness.Bottom));
 

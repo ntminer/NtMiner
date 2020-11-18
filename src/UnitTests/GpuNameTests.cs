@@ -2,6 +2,7 @@
 using NTMiner.Gpus;
 using System;
 using System.Collections.Generic;
+using System.Management;
 
 namespace NTMiner {
     [TestClass]
@@ -33,6 +34,19 @@ namespace NTMiner {
             Console.WriteLine(gpuName2.ToString());
             Assert.AreEqual(gpuName1.GetHashCode(), gpuName2.GetHashCode());
             Assert.AreEqual(1, hashSet.Count);
+        }
+
+        [TestMethod]
+        public void IsNCardTest() {
+            using (var mos = new ManagementObjectSearcher("SELECT Caption FROM Win32_VideoController")) {
+                foreach (ManagementBaseObject item in mos.Get()) {
+                    foreach (var property in item.Properties) {
+                        if ((property.Value ?? string.Empty).ToString().IgnoreCaseContains("NVIDIA")) {
+                            Console.WriteLine(property.Value);
+                        }
+                    }
+                }
+            }
         }
     }
 }

@@ -72,6 +72,10 @@ namespace NTMiner.Vms {
                     });
                 }
             });
+            VirtualRoot.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                action: message => {
+                    LocalIps = GetLocalIps();
+                }, location: this.GetType());
             Task.Factory.StartNew(() => {
                 var localIp = VirtualRoot.LocalIpSet.AsEnumerable().FirstOrDefault();
                 if (localIp != null) {
@@ -102,10 +106,6 @@ namespace NTMiner.Vms {
             return sb.ToString();
         }
 
-        public void RefreshLocalIps() {
-            LocalIps = GetLocalIps();
-        }
-
         private void Scan(string[] ipList) {
             if (ipList.Length != 0) {
                 IsScanning = true;
@@ -117,7 +117,7 @@ namespace NTMiner.Vms {
                     return;
                 }
                 IPAddress ipAddress = IPAddress.Parse(ip);
-                IPEndPoint endPoint = new IPEndPoint(ipAddress, 3337);
+                IPEndPoint endPoint = new IPEndPoint(ipAddress, NTKeyword.NTMinerDaemonPort);
                 Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 var state = new ScanArgs(socket, ipList, ip);
                 socket.BeginConnect(endPoint, Callback, state);

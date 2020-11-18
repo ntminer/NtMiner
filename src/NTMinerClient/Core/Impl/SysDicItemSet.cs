@@ -69,15 +69,16 @@ namespace NTMiner.Core.Impl {
                     if (message == null || message.EntityId == Guid.Empty) {
                         throw new ArgumentNullException();
                     }
-                    if (!_dicById.ContainsKey(message.EntityId)) {
+                    if (!_dicById.TryGetValue(message.EntityId, out SysDicItemData entity) || !_context.SysDicSet.TryGetSysDic(entity.DicId, out ISysDic sysDic)) {
                         return;
                     }
-                    SysDicItemData entity = _dicById[message.EntityId];
+                    bool isKernelBrand = sysDic.Code == NTKeyword.KernelBrandSysDicCode;
+                    bool isPoolBrand = sysDic.Code == NTKeyword.PoolBrandSysDicCode;
+                    bool isAlgo = sysDic.Code == NTKeyword.AlgoSysDicCode;
+                    // TODO:如果是内核品牌、矿池品牌、算法
                     _dicById.Remove(entity.Id);
-                    if (_dicByDicId.ContainsKey(entity.DicId)) {
-                        if (_dicByDicId[entity.DicId].ContainsKey(entity.Code)) {
-                            _dicByDicId[entity.DicId].Remove(entity.Code);
-                        }
+                    if (_dicByDicId.TryGetValue(entity.DicId, out Dictionary<string, SysDicItemData> dicItemDic)) {
+                        dicItemDic.Remove(entity.Code);
                     }
                     var repository = context.CreateCompositeRepository<SysDicItemData>();
                     repository.Remove(entity.Id);

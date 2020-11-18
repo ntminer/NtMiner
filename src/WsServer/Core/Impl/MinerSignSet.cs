@@ -36,6 +36,9 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (_dicByMinerId.TryGetValue(message.MinerId, out MinerSign minerSign)) {
+                    if (WsRoot.MinerClientSessionSet.TryGetByClientId(minerSign.ClientId, out IMinerClientSession ntminerSession)) {
+                        ntminerSession.CloseAsync(WebSocketSharp.CloseStatusCode.Normal, "服务端移除了该矿机");
+                    }
                     _dicByMinerId.Remove(message.MinerId);
                     _dicByClientId.Remove(minerSign.ClientId);
                 }

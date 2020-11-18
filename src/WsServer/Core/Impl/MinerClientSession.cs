@@ -24,8 +24,7 @@ namespace NTMiner.Core.Impl {
             if (!WsRoot.MinerSignSet.TryGetByClientId(this.ClientId, out MinerSign minerSign)) {
                 return string.Empty;
             }
-            string password = minerSign.AESPassword;
-            return password;
+            return minerSign.AESPassword;
         }
     }
 }

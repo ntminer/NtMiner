@@ -88,33 +88,6 @@ namespace NTMiner {
         #endregion
 
         #region 字典项
-        public static Version MinAmdDriverVersion {
-            get {
-                if (WpfUtil.IsInDesignMode) {
-                    return new Version();
-                }
-                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinAmdDriverVersion", out ISysDicItem dicItem)) {
-                    if (Version.TryParse(dicItem.Value, out Version version)) {
-                        return version;
-                    }
-                }
-                return new Version(17, 10, 2, 0);
-            }
-        }
-
-        public static Version MinNvidiaDriverVersion {
-            get {
-                if (WpfUtil.IsInDesignMode) {
-                    return new Version();
-                }
-                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "MinNvidiaDriverVersion", out ISysDicItem dicItem)) {
-                    if (Version.TryParse(dicItem.Value, out Version version)) {
-                        return version;
-                    }
-                }
-                return new Version(399, 24);
-            }
-        }
 
         public static string NppPackageUrl {
             get {
@@ -122,10 +95,7 @@ namespace NTMiner {
                 if (WpfUtil.IsDevMode) {
                     return url;
                 }
-                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem("Tool", "npp", out ISysDicItem dicItem)) {
-                    return dicItem.Value;
-                }
-                return url;
+                return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue("Tool", "npp", defaultValue: url);
             }
         }
         #endregion
@@ -136,11 +106,13 @@ namespace NTMiner {
                 if (WpfUtil.IsDevMode) {
                     return value;
                 }
-                if (NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItem(NTKeyword.ThisSystemSysDicCode, "OsVmPerGpu", out ISysDicItem dicItem)
-                    && double.TryParse(dicItem.Value, out value)) {
-                    return value;
-                }
-                return value;
+                return NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "OsVmPerGpu", value);
+            }
+        }
+
+        public static string VirtualMemoryDescription {
+            get {
+                return $"挖 ETH 每卡至少设置 {OsVmPerGpu.ToString("f1")}G 虚拟内存，建议按虚拟内存比显存 1 比 1 设置。比如 6 张 6G 的 1066 显卡建议设置 6 x 6 = 36G。";
             }
         }
 

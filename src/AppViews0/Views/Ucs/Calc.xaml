@@ -32,7 +32,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="110" IsReadOnly="True" Header="币价">
+                <DataGridTemplateColumn MinWidth="100" IsReadOnly="True" Header="币价">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel Background="{Binding CoinIncomeVm.BackgroundBrush}">
@@ -42,7 +42,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn Width="170" Header="全网算力" IsReadOnly="True">
+                <DataGridTemplateColumn Width="200" Header="全网算力" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
@@ -57,7 +57,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTemplateColumn MinWidth="160" IsReadOnly="True" Header="总算力">
+                <DataGridTemplateColumn MinWidth="140" IsReadOnly="True" Header="总算力">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <WrapPanel>
