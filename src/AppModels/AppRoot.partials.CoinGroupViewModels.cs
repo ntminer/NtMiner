@@ -13,18 +13,18 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Clear();
                         _listByGroupId.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    path: message => {
                         // 什么也不做，因为该集合没有什么属性
                     }, location: this.GetType());
-                AddEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<CoinGroupAddedEvent>("添加了币组后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             CoinGroupViewModel coinGroupVm = new CoinGroupViewModel(message.Source);
                             _dicById.Add(message.Source.GetId(), coinGroupVm);
@@ -35,8 +35,8 @@ namespace NTMiner {
                             OnGroupPropertyChanged(coinGroupVm.GroupId);
                         }
                     }, location: this.GetType());
-                AddEventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<CoinGroupRemovedEvent>("删除了币组后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         if (_dicById.ContainsKey(message.Source.GetId())) {
                             var entity = _dicById[message.Source.GetId()];
                             _dicById.Remove(message.Source.GetId());

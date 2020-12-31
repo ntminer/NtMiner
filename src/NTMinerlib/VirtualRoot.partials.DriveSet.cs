@@ -49,11 +49,16 @@ namespace NTMiner {
                             _drives.Clear();
                             var virtualMemoryDicByDriveName = GetVirtualMemoryDic();
                             foreach (var item in DriveInfo.GetDrives().Where(a => a.DriveType == DriveType.Fixed)) {
-                                int virtualMemoryMaxSizeMb = 0;
-                                if (virtualMemoryDicByDriveName.TryGetValue(item.Name, out int value)) {
-                                    virtualMemoryMaxSizeMb = value;
+                                try {
+                                    int virtualMemoryMaxSizeMb = 0;
+                                    if (virtualMemoryDicByDriveName.TryGetValue(item.Name, out int value)) {
+                                        virtualMemoryMaxSizeMb = value;
+                                    }
+                                    _drives.Add(new DriveDto(item, virtualMemoryMaxSizeMb));
                                 }
-                                _drives.Add(new DriveDto(item, virtualMemoryMaxSizeMb));
+                                catch (Exception e) {
+                                    Logger.ErrorDebugLine(e);
+                                }
                             }
                         }
                     }

@@ -114,7 +114,7 @@ namespace NTMiner {
 
         private const string messagePathIdsResourceKey = "messagePathIds";
 
-        public static void AddCmdPath<TCmd>(this Window window, LogEnum logType, Action<TCmd> action, Type location)
+        public static void BuildCmdPath<TCmd>(this Window window, LogEnum logType, Action<TCmd> path, Type location)
             where TCmd : ICmd {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -130,11 +130,11 @@ namespace NTMiner {
             }
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, path, location);
             messagePathIds.Add(messagePathId);
         }
 
-        public static void AddEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> action, Type location)
+        public static void BuildEventPath<TEvent>(this Window window, string description, LogEnum logType, Action<TEvent> path, Type location)
             where TEvent : IEvent {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -148,11 +148,11 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, path, location);
             messagePathIds.Add(messagePathId);
         }
 
-        public static void AddOnecePath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location)
+        public static void BuildOnecePath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> path, Guid pathId, Type location)
             where TMessage : IMessage {
             if (WpfUtil.IsInDesignMode) {
                 return;
@@ -166,17 +166,17 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.AddOnecePath(description, logType, action, pathId, location);
+            var messagePathId = VirtualRoot.BuildOnecePath(description, logType, path, pathId, location);
             messagePathIds.Add(messagePathId);
         }
 
-        public static void AddCloseWindowOnecePath(this Window window, Guid pathId) {
-            window.AddOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, action: message => {
+        public static void BuildCloseWindowOnecePath(this Window window, Guid pathId) {
+            window.BuildOnecePath<CloseWindowCommand>("处理关闭窗口命令", LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => window.Close());
             }, pathId: pathId, location: typeof(WindowExtension));
         }
 
-        public static IMessagePathId AddViaTimesLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> action, int viaTimesLimit, Type location)
+        public static IMessagePathId BuildViaTimesLimitPath<TMessage>(this Window window, string description, LogEnum logType, Action<TMessage> path, int viaTimesLimit, Type location)
             where TMessage : IMessage {
             if (WpfUtil.IsInDesignMode) {
                 return null;
@@ -190,7 +190,7 @@ namespace NTMiner {
                 window.Resources.Add(messagePathIdsResourceKey, messagePathIds);
                 window.Closed += UiElement_Closed; ;
             }
-            var messagePathId = VirtualRoot.AddViaTimesLimitPath(description, logType, action, viaTimesLimit, location);
+            var messagePathId = VirtualRoot.BuildViaTimesLimitPath(description, logType, path, viaTimesLimit, location);
             messagePathIds.Add(messagePathId);
             return messagePathId;
         }

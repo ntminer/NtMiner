@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
         private readonly List<OperationResultData> _list = new List<OperationResultData>();
 
         public OperationResultSet() {
-            VirtualRoot.AddEventPath<Per24HourEvent>("检查一下记录的操作记录是否多于容量，如果多了清理一下", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<Per24HourEvent>("检查一下记录的操作记录是否多于容量，如果多了清理一下", LogEnum.DevConsole, path: message => {
                 using (var db = VirtualRoot.CreateLocalDb()) {
                     var col = db.GetCollection<OperationResultData>();
                     int count = col.Count();

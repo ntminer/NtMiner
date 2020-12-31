@@ -175,7 +175,7 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         private void AddEventPath() {
-            VirtualRoot.AddEventPath<QueryClientsResponseEvent>("收到QueryClientsResponse响应后刷新界面", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<QueryClientsResponseEvent>("收到QueryClientsResponse响应后刷新界面", LogEnum.DevConsole, path: message => {
                 this.CountDown = 10;
                 this.IsLoading = false;
                 var response = message.Response;
@@ -800,18 +800,18 @@ namespace NTMiner.MinerStudio.Vms {
                     RpcRoot.SetIsOuterNet(false);
                 }
             });
-            VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("切换了群控后台客户端服务类型后刷新矿机列表", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群控后台客户端服务类型后刷新矿机列表", LogEnum.DevConsole, path: message => {
                 this.OnPropertyChanged(nameof(NetTypeToolTip));
                 this.OnPropertyChanged(nameof(NetTypeText));
                 this.QueryMinerClients();
             }, this.GetType());
-            VirtualRoot.AddCmdPath<UpdateMinerClientVmCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UpdateMinerClientVmCommand>(path: message => {
                 var vm = _minerClients.FirstOrDefault(a => a.Id == message.ClientData.Id);
                 if (vm != null) {
                     vm.Update(message.ClientData);
                 }
             }, this.GetType(), LogEnum.DevConsole);
-            VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
+            VirtualRoot.BuildCmdPath<RefreshWsStateCommand>(message => {
                 #region
                 if (message.WsClientState != null) {
                     this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
@@ -835,7 +835,7 @@ namespace NTMiner.MinerStudio.Vms {
             if (RpcRoot.IsOuterNet) {
                 VirtualRoot.Execute(new RefreshWsStateCommand(MinerStudioRoot.WsClient.GetState()));
             }
-            VirtualRoot.AddEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, action: message => {
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, path: message => {
                 if (!IsWsOnline) {
                     if (WsNextTrySecondsDelay > 0) {
                         WsNextTrySecondsDelay--;

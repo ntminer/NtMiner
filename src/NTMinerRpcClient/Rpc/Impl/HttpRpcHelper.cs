@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NTMiner {
-    public static class HttpRpcRoot {
+namespace NTMiner.Rpc.Impl {
+    public class HttpRpcHelper : IHttpRpcHelper {
+        public HttpRpcHelper() { }
+
         /// <summary>
         /// 注意：Request时原始HttpContent，Fire忽略Response
         /// </summary>
@@ -16,7 +18,7 @@ namespace NTMiner {
         /// <param name="content"></param>
         /// <param name="callback"></param>
         /// <param name="timeountMilliseconds"></param>
-        public static void FirePostAsync(
+        public void FirePostAsync(
             string host,
             int port,
             string controller,

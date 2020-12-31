@@ -54,21 +54,25 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BinaryRequestJsonResponseRpcRoot.cs" />
-    <Compile Include="JsonRequestBinaryResponseRpcRoot.cs" />
-    <Compile Include="HttpRpcRoot.cs" />
+    <Compile Include="Rpc\IBinaryRequestJsonResponseRpcHelper.cs" />
+    <Compile Include="Rpc\IHttpRpcHelper.cs" />
+    <Compile Include="Rpc\IJsonRequestBinaryResponseRpcHelper.cs" />
+    <Compile Include="Rpc\IJsonRpcHelper.cs" />
+    <Compile Include="Rpc\IJsonRpcHelper.partials.cs" />
+    <Compile Include="Rpc\Impl\BinaryRequestJsonResponseRpcHelper.cs" />
+    <Compile Include="Rpc\Impl\JsonRequestBinaryResponseRpcHelper.cs" />
+    <Compile Include="Rpc\Impl\HttpRpcHelper.cs" />
     <Compile Include="Messages.cs" />
     <Compile Include="MinerStudioServiceType.cs" />
     <Compile Include="RpcRoot.cs" />
     <Compile Include="RpcRoot.partials.cs" />
     <Compile Include="RpcUser.cs" />
+    <Compile Include="Rpc\Impl\JsonRpcHelper.cs" />
     <Compile Include="Services\ClientServices.cs" />
     <Compile Include="Services\Official\AppSettingService.cs" />
     <Compile Include="Services\Client\MinerStudioService.cs" />
     <Compile Include="Services\Client\NTMinerClientService.cs" />
     <Compile Include="Services\Client\NTMinerDaemonService.cs" />
-    <Compile Include="JsonRpcRoot.partial.cs" />
-    <Compile Include="JsonRpcRoot.cs" />
     <Compile Include="IKernelOutputKeywordSet.cs" />
     <Compile Include="Impl\KernelOutputKeywordSet.cs" />
     <Compile Include="Services\Official\ClientDataBinaryService.cs" />
@@ -121,6 +125,7 @@
     <None Include="app.config" />
     <Compile Include="Services\Official\ServerMessageService.cs" />
     <None Include="packages.config" />
+    <Compile Include="Rpc\Impl\JsonRpcHelper.partials.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

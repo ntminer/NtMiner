@@ -16,7 +16,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IconName = "Icon_Password"
             }, ucFactory: (window) => {
                 var uc = new ChangePassword();
-                window.AddCloseWindowOnecePath(uc.Vm.Id);
+                window.BuildCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
             }, beforeShow: (window, uc)=> {
                 uc.DoFocus();

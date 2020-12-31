@@ -42,14 +42,14 @@ namespace NTMiner.Views {
                 this.Width += 600;
             }
             this.TbUcName.Text = nameof(KernelsWindow);
-            this.AddEventPath<MineStopedEvent>("当内核宝库窗口开着时如果是本地手动停止的挖矿则引发UserActionEvent事件", LogEnum.DevConsole,
-                action: message => {
+            this.BuildEventPath<MineStopedEvent>("当内核宝库窗口开着时如果是本地手动停止的挖矿则引发UserActionEvent事件", LogEnum.DevConsole,
+                path: message => {
                     if (message.StopReason == StopMineReason.LocalUserAction) {
                         VirtualRoot.RaiseEvent(new UserActionEvent());
                     }
                 }, location: this.GetType());
-            this.AddEventPath<LocalContextReInitedEventHandledEvent>("ServerContext的Vm集刷新后刷新内核宝库", LogEnum.DevConsole,
-                action: message => {
+            this.BuildEventPath<LocalContextReInitedEventHandledEvent>("ServerContext的Vm集刷新后刷新内核宝库", LogEnum.DevConsole,
+                path: message => {
                     Vm.OnPropertyChanged(nameof(Vm.QueryResults));
                 }, location: this.GetType());
             AppRoot.KernelVms.PropertyChanged += Current_PropertyChanged;

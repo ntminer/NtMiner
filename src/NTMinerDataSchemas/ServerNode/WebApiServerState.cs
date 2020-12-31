@@ -23,6 +23,10 @@ namespace NTMiner.ServerNode {
 
         public double CpuPerformance { get; set; }
 
+        public double ProcessPerformance { get; set; }
+
         public ulong AvailablePhysicalMemory { get; set; }
+
+        public ulong WorkingSet { get; set; }
     }
 }

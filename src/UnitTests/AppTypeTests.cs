@@ -1,5 +1,4 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using System;
 
 namespace NTMiner {
@@ -7,7 +6,7 @@ namespace NTMiner {
     public class AppTypeTests {
         [TestMethod]
         public void IsMinerClientTest() {
-            Assert.IsTrue(typeof(NTMiner.Daemon.DaemonUtil).Assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null);
+            Assert.IsTrue(typeof(Daemon.DaemonUtil).Assembly.GetManifestResourceInfo(NTKeyword.NTMinerDaemonKey) != null);
         }
 
         [TestMethod]

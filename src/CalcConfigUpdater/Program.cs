@@ -18,8 +18,8 @@ namespace NTMiner {
                 // 将服务器地址设为localhost从而使用内网ip访问免于验证用户名密码
                 RpcRoot.SetOfficialServerAddress(NTKeyword.Localhost);
                 NTMinerRegistry.SetAutoBoot("NTMiner.CalcConfigUpdater", true);
-                VirtualRoot.AddEventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<Per10MinuteEvent>("每10分钟更新收益计算器", LogEnum.DevConsole,
+                    path: message => {
                         UpdateAsync();
                     }, location: typeof(Program));
                 UpdateAsync();

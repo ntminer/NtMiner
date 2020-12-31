@@ -844,7 +844,7 @@ namespace NTMiner {
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
-            string url = "https://zhuanlan.zhihu.com/p/138095293";
+            string url = "https://www.cnblogs.com/ntminer/p/11923722.html";
             url = NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "DownloadMinerStudio", url);
             VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);

@@ -29,28 +29,28 @@ namespace NTMiner {
                 else {
                     _gpuAllVm = new GpuViewModel(Gpu.GpuAll);
                 }
-                AddEventPath<EPriceChangedEvent>("电价变更后更新电费显示", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<EPriceChangedEvent>("电价变更后更新电费显示", LogEnum.DevConsole,
+                    path: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.EChargeText));
                         }
                         GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
                     }, location: this.GetType());
-                AddEventPath<MaxTempChangedEvent>("高温红色阈值变更后更新显卡温度颜色", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<MaxTempChangedEvent>("高温红色阈值变更后更新显卡温度颜色", LogEnum.DevConsole,
+                    path: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.TemperatureForeground));
                         }
                     }, location: this.GetType());
-                AddEventPath<PowerAppendChangedEvent>("功耗补偿变更后更新功耗显示", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<PowerAppendChangedEvent>("功耗补偿变更后更新功耗显示", LogEnum.DevConsole,
+                    path: message => {
                         foreach (var gpuVm in _gpuVms.Values) {
                             gpuVm.OnPropertyChanged(nameof(GpuViewModel.PowerUsageWText));
                         }
                         GpuSpeedVms.OnPropertyChanged(nameof(GpuSpeedViewModels.ProfitCnyPerDayText));
                     }, location: this.GetType());
-                AddEventPath<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
-                    action: message => {
+                BuildEventPath<GpuStateChangedEvent>("显卡状态变更后刷新VM内存", LogEnum.None,
+                    path: message => {
                         if (_gpuVms.ContainsKey(message.Source.Index)) {
                             GpuViewModel vm = _gpuVms[message.Source.Index];
                             vm.Temperature = message.Source.Temperature;

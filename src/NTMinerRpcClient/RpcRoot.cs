@@ -1,10 +1,18 @@
-﻿using System;
+﻿using NTMiner.Rpc;
+using NTMiner.Rpc.Impl;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 
 namespace NTMiner {
     public static partial class RpcRoot {
+        public static readonly IJsonRpcHelper JsonRpc = new JsonRpcHelper();
+
+        static RpcRoot() {
+            System.Net.ServicePointManager.DefaultConnectionLimit = 5;
+        }
+
         public static string OfficialServerHost { get; private set; }
         public static int OfficialServerPort;
         public static string OfficialServerAddress = SetOfficialServerAddress("server.ntminer.com:3339");

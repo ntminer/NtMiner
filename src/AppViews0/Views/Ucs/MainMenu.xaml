@@ -75,7 +75,7 @@
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Width="26" Height="26" Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
+            <MenuItem Width="26" Height="26" ToolTip="这是开发者菜单，对矿工无用">
 				<MenuItem.Icon>
 					<Path
 						Width="14"
@@ -94,7 +94,10 @@
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="{x:Static app:AppStatic.ExportServerJsonMenuName}" Command="{x:Static app:AppStatic.ExportServerJson}">
+                <MenuItem 
+                    Header="{x:Static app:AppStatic.ExportServerJsonMenuName}" 
+                    Command="{x:Static app:AppStatic.ExportServerJson}" 
+                    Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -104,7 +107,10 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="server db" Command="{x:Static app:AppStatic.OpenServerLiteDb}">
+                <MenuItem 
+                    Header="server db" 
+                    Command="{x:Static app:AppStatic.OpenServerLiteDb}" 
+                    Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
                     <MenuItem.Icon>
                         <Path
 							Width="14"
@@ -114,7 +120,10 @@
 							Stretch="Fill" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Header="local db" Command="{x:Static app:AppStatic.OpenLocalLiteDb}">
+                <MenuItem 
+                    Header="local db" 
+                    Command="{x:Static app:AppStatic.OpenLocalLiteDb}" 
+                    Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"
@@ -174,7 +183,10 @@
 							Stretch="Fill" />
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="通知中心Demo" Command="{x:Static app:AppStatic.ShowNotificationSample}">
+				<MenuItem 
+                    Header="通知中心Demo" 
+                    Command="{x:Static app:AppStatic.ShowNotificationSample}" 
+                    Visibility="{x:Static app:AppStatic.IsDevModeVisible}">
 					<MenuItem.Icon>
 						<Path
 							Width="14"

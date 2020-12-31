@@ -15,7 +15,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IconName = "Icon_OverClock"
             }, ucFactory: (window) => {
                 OverClockDataViewModel vm = new OverClockDataViewModel(source);
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new OverClockDataEdit(vm);
             }, fixedSize: true);
         }

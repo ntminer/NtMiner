@@ -34,7 +34,7 @@ namespace NTMiner.MinerStudio {
 
             public MinerClientConsoleViewModel() {
                 if (ClientAppType.IsMinerStudio) {
-                    VirtualRoot.AddEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机控制台输出", LogEnum.DevConsole, action: message => {
+                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机控制台输出", LogEnum.DevConsole, path: message => {
                         bool isChanged = true;
                         if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
                             isChanged = false;
@@ -53,7 +53,7 @@ namespace NTMiner.MinerStudio {
                             SendGetConsoleOutLinesMqMessage();
                         }
                     }, this.GetType());
-                    VirtualRoot.AddEventPath<ClientConsoleOutLinesEvent>("收到了挖矿端控制台消息", LogEnum.DevConsole, action: message => {
+                    VirtualRoot.BuildEventPath<ClientConsoleOutLinesEvent>("收到了挖矿端控制台消息", LogEnum.DevConsole, path: message => {
                         if (this._minerClientVm == null
                             || this._minerClientVm.ClientId != message.ClientId
                             || message.Data == null
@@ -69,10 +69,10 @@ namespace NTMiner.MinerStudio {
                             LatestTimestamp = DateTime.Now;
                         }
                     }, this.GetType());
-                    VirtualRoot.AddEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的控制台输出", LogEnum.DevConsole, action: message => {
+                    VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的控制台输出", LogEnum.DevConsole, path: message => {
                         SendGetConsoleOutLinesMqMessage();
                     }, this.GetType());
-                    VirtualRoot.AddEventPath<Per1SecondEvent>("客户端控制台输出倒计时秒表", LogEnum.None, action: message => {
+                    VirtualRoot.BuildEventPath<Per1SecondEvent>("客户端控制台输出倒计时秒表", LogEnum.None, path: message => {
                         if (this._minerClientVm == null || this._latestTimestamp == Timestamp.UnixBaseTime) {
                             return;
                         }

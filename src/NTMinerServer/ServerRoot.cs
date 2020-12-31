@@ -5,6 +5,10 @@ using System.IO;
 
 namespace NTMiner {
     public static class ServerRoot {
+        static ServerRoot() {
+            System.Net.ServicePointManager.DefaultConnectionLimit = 200;
+        }
+
         private static IHostConfig _hostConfig;
         private static readonly object _locker = new object();
         public static IHostConfig HostConfig {

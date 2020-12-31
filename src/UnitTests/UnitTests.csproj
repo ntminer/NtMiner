@@ -119,6 +119,7 @@
     <Compile Include="DictionaryTests.cs" />
     <Compile Include="ResourceDictionaryTests.cs" />
     <Compile Include="RedisTests.cs" />
+    <Compile Include="PartialTests.cs" />
     <Compile Include="WMITests.cs" />
     <Compile Include="WsMessageTests.cs" />
   </ItemGroup>

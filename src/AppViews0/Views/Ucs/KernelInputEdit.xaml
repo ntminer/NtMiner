@@ -38,7 +38,7 @@
 		<StackPanel Margin="0 0 10 10">
 			<WrapPanel Margin="0 2">
 				<TextBlock Style="{StaticResource LblTb}" Text="名称"></TextBlock>
-				<TextBox Width="450" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+                <TextBox Width="450" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 				</TextBox>
 			</WrapPanel>
 			<WrapPanel Margin="0 2">

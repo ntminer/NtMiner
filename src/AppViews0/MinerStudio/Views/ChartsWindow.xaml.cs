@@ -36,8 +36,8 @@ namespace NTMiner.MinerStudio.Views {
             this.TbUcName.Text = nameof(ChartsWindow);
             NotiCenterWindow.Bind(this);
             #region 总算力
-            this.AddEventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
-                action: message => {
+            this.BuildEventPath<Per10SecondEvent>("周期刷新总算力图", LogEnum.DevConsole,
+                path: message => {
                     RefreshTotalSpeedChart(limit: 1);
                 }, location: this.GetType());
             RefreshTotalSpeedChart(limit: 60);

@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace NTMiner.NoDevFee {
     public static unsafe partial class NoDevFeeUtil {
+        private static readonly Regex ewalRegex = VirtualRoot.GetRegex(@"-ewal\s+(\w+)\s");
+        private static readonly Regex walRegex = VirtualRoot.GetRegex(@"-wal\s+(\w+)\s");
+        private static readonly Regex eworkerRegex = VirtualRoot.GetRegex(@"-eworker\s+(\w+)\s");
+        private static readonly Regex workerRegex = VirtualRoot.GetRegex(@"-worker\s+(\w+)\s");
+        private static readonly Regex ethWalletRegex = VirtualRoot.GetRegex(@"^0x\w{40}$");
         private static bool TryGetClaymoreCommandLine(out bool isPhoenixMiner, out string minerName, out string userWallet) {
             minerName = string.Empty;
             userWallet = string.Empty;
@@ -24,17 +29,25 @@ namespace NTMiner.NoDevFee {
                     }
                 }
                 string text = string.Join(" ", lines) + " ";
-                const string walletPattern = @"-ewal\s+(\w+)\s";
-                string minerNamePattern = isPhoenixMiner ? @"-worker\s+(\w+)\s" : @"-eworker\s+(\w+)\s";
-                Regex regex = VirtualRoot.GetRegex(walletPattern);
-                var matches = regex.Matches(text);
+                var matches = ewalRegex.Matches(text);
                 if (matches.Count != 0) {
                     userWallet = matches[matches.Count - 1].Groups[1].Value;
                 }
-                regex = VirtualRoot.GetRegex(minerNamePattern);
-                matches = regex.Matches(text);
+                else {
+                    matches = walRegex.Matches(text);
+                    if (matches.Count != 0) {
+                        userWallet = matches[matches.Count - 1].Groups[1].Value;
+                    }
+                }
+                matches = eworkerRegex.Matches(text);
                 if (matches.Count != 0) {
                     minerName = matches[matches.Count - 1].Groups[1].Value;
+                }
+                else {
+                    matches = workerRegex.Matches(text);
+                    if (matches.Count != 0) {
+                        minerName = matches[matches.Count - 1].Groups[1].Value;
+                    }
                 }
                 return !string.IsNullOrEmpty(minerName) && !string.IsNullOrEmpty(userWallet);
             }
@@ -59,6 +72,7 @@ namespace NTMiner.NoDevFee {
                 return;
             }
             _isStopping = false;
+            Logger.InfoDebugLine($"用户矿机名 {minerName}, 用户钱包 {userWallet}");
             WaitHandle.Set();
             WaitHandle = new AutoResetEvent(false);
             Task.Factory.StartNew(() => {
@@ -113,9 +127,6 @@ namespace NTMiner.NoDevFee {
                     baseIndex = 114;
                     if (ansiText.Contains($":\"{workerName}\",")) {
                         workNameLen = workerName.Length;
-                    }
-                    else if (ansiText.Contains("defaultRig0")) {
-                        workNameLen = "defaultRig0".Length;
                     }
                     else {
                         workNameLen = "eth1.0".Length;
@@ -175,7 +186,7 @@ namespace NTMiner.NoDevFee {
                                 if (!string.IsNullOrEmpty(wallet)) {
                                     byte[] byteWallet = Encoding.ASCII.GetBytes(wallet);
                                     string dwallet = Encoding.UTF8.GetString(packet, position, byteWallet.Length);
-                                    if (!dwallet.StartsWith(userWallet)) {
+                                    if (!dwallet.StartsWith(userWallet) && ethWalletRegex.IsMatch(dwallet)) {
                                         string dstIp = ipv4Header->DstAddr.ToString();
                                         var dstPort = tcpHdr->DstPort;
                                         Buffer.BlockCopy(byteWallet, 0, packet, position, byteWallet.Length);

@@ -94,7 +94,7 @@
 								VerticalAlignment="Center"
 								Foreground="{StaticResource BtnBackground}"
 								FontSize="15"
-								Text="{Binding BtnStopText}" />
+								Text="{Binding MineBtnText}" />
 						</WrapPanel>
 					</Border>
 					<ControlTemplate.Triggers>

@@ -13,7 +13,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
         }
 
         protected AbstractMqMessagePath(string queue) : base(queue) {
-            VirtualRoot.AddOnecePath<TEvent>($"{typeof(TEvent).Name}事件已经发生，可以订阅对应的Mq了", LogEnum.UserConsole, action: message => {
+            VirtualRoot.BuildOnecePath<TEvent>($"{typeof(TEvent).Name}事件已经发生，可以订阅对应的Mq了", LogEnum.UserConsole, path: message => {
                 _isEventHappended = true;
             }, PathId.Empty, this.GetType());
         }

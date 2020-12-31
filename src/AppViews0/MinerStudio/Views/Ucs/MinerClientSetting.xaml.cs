@@ -5,7 +5,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
     public partial class MinerClientSetting : BlankWindow {
         public static void ShowWindow(MinerClientSettingViewModel vm) {
             Window window = new MinerClientSetting(vm);
-            window.AddCloseWindowOnecePath(vm.Id);
+            window.BuildCloseWindowOnecePath(vm.Id);
             window.MousePosition();
             window.ShowSoftDialog();
         }

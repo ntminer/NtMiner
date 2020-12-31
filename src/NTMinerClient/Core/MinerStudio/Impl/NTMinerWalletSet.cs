@@ -7,7 +7,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private readonly Dictionary<Guid, NTMinerWalletData> _dicById = new Dictionary<Guid, NTMinerWalletData>();
 
         public NTMinerWalletSet() {
-            VirtualRoot.AddCmdPath<AddNTMinerWalletCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<AddNTMinerWalletCommand>(path: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -28,7 +28,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     }
                 });
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<UpdateNTMinerWalletCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<UpdateNTMinerWalletCommand>(path: (message) => {
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
                 }
@@ -49,7 +49,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                 });
                 VirtualRoot.RaiseEvent(new NTMinerWalletUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<RemoveNTMinerWalletCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveNTMinerWalletCommand>(path: (message) => {
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();
                 }

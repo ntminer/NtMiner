@@ -11,6 +11,7 @@ namespace NTMiner {
         private static string s_keyword;
         private static bool s_ranOnce = false;
 
+        // keyword=eth_submitLogin
         private static void Main(string[] args) {
             Console.CancelKeyPress += delegate { s_running = false; };
 
@@ -89,6 +90,7 @@ namespace NTMiner {
                                     NTMinerConsole.UserInfo(text);
                                     Console.WriteLine();
                                     Console.WriteLine();
+                                    Logger.InfoDebugLine(text);
                                 }
                             }
                             else {

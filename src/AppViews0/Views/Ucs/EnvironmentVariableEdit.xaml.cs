@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 EnvironmentVariableEditViewModel vm = new EnvironmentVariableEditViewModel(coinKernelVm, environmentVariable);
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new EnvironmentVariableEdit(vm);
             }, fixedSize: true);
         }

@@ -100,7 +100,21 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 if (isInclude && isFilterByMinerIp) {
-                    isInclude = query.MinerIp.Equals(item.MinerIp) || (!string.IsNullOrEmpty(item.LocalIp) && item.LocalIp.Contains(query.MinerIp));
+                    isInclude = !string.IsNullOrEmpty(item.LocalIp) && item.LocalIp.Contains(query.MinerIp);
+                    if (!isInclude) {
+                        if (query.MinerIp.IndexOf(':') != -1) {
+                            isInclude = query.MinerIp.Equals(item.MinerIp);
+                        }
+                        else if (!string.IsNullOrEmpty(item.MinerIp)) {
+                            // MinerIp可能带有端口号
+                            int index = item.MinerIp.IndexOf(':');
+                            string minerIp = item.MinerIp;
+                            if (index != -1) {
+                                minerIp = minerIp.Substring(0, index);
+                            }
+                            isInclude = query.MinerIp.Equals(minerIp);
+                        }
+                    }
                 }
                 if (isInclude && isFilterByMinerName) {
                     isInclude = (!string.IsNullOrEmpty(item.MinerName) && item.MinerName.IndexOf(query.MinerName, StringComparison.OrdinalIgnoreCase) != -1)

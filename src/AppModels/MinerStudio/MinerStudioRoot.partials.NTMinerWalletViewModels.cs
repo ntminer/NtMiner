@@ -17,15 +17,15 @@ namespace NTMiner.MinerStudio {
                     return;
                 }
                 Init(refresh: false);
-                AppRoot.AddEventPath<NTMinerWalletSetInitedEvent>("NTMiner钱包集初始化后", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<NTMinerWalletSetInitedEvent>("NTMiner钱包集初始化后", LogEnum.DevConsole,
+                    path: message => {
                         Init(refresh: true);
                     }, location: this.GetType());
                 this.Add = new DelegateCommand(() => {
                     new NTMinerWalletViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                AppRoot.AddEventPath<NTMinerWalletAddedEvent>("添加NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<NTMinerWalletAddedEvent>("添加NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new NTMinerWalletViewModel(message.Source));
                             if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinCode, out CoinViewModel coinVm)) {
@@ -33,14 +33,14 @@ namespace NTMiner.MinerStudio {
                             }
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<NTMinerWalletUpdatedEvent>("更新NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<NTMinerWalletUpdatedEvent>("更新NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out NTMinerWalletViewModel vm)) {
                             vm.Update(message.Source);
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<NTMinerWalletRemovedEvent>("删除NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<NTMinerWalletRemovedEvent>("删除NTMiner钱包后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Remove(message.Source.GetId());
                         if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinCode, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.NTMinerWallets));

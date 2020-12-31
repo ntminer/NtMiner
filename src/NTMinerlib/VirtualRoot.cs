@@ -27,7 +27,12 @@ namespace NTMiner {
         public static string FormatLocalIps(out string macAddress) {
             string localIp = string.Empty;
             macAddress = string.Empty;
+            HashSet<string> hs = new HashSet<string>();
             foreach (var item in LocalIpSet.AsEnumerable().ToArray()) {
+                if (hs.Contains(item.MACAddress)) {
+                    continue;
+                }
+                hs.Add(item.MACAddress);
                 if (macAddress.Length != 0) {
                     macAddress += "," + item.MACAddress;
                     localIp += "," + item.IPAddress + (item.DHCPEnabled ? "(动态)" : "(🔒)");
@@ -41,11 +46,20 @@ namespace NTMiner {
         }
         #endregion
 
-        public static Random GetRandom() {
-            byte[] rndBytes = new byte[4];
-            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-            rng.GetBytes(rndBytes);
-            return new Random(BitConverter.ToInt32(rndBytes, 0));
+        private static Random _random = null;
+        private static readonly object _randomLocker = new object();
+        public static Random Random {
+            get {
+                if (_random == null) {
+                    lock (_randomLocker) {
+                        byte[] rndBytes = new byte[4];
+                        RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                        rng.GetBytes(rndBytes);
+                        _random = new Random(BitConverter.ToInt32(rndBytes, 0));
+                    }
+                }
+                return _random;
+            }
         }
 
         // 因为也用于生成验证码，所以去掉了容易肉眼误判的字符
@@ -57,7 +71,7 @@ namespace NTMiner {
         /// <param name="length"></param>
         /// <returns></returns>
         public static string GetRandomString(int len) {
-            Random rnd = GetRandom();
+            Random rnd = Random;
             char[] chars = new char[len];
             for (int i = 0; i < len; i++) {
                 chars[i] = _allCharArray[rnd.Next(0, _allCharArray.Length)];

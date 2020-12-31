@@ -23,7 +23,10 @@ namespace NTMiner.ServerNode {
         public ulong TotalPhysicalMemory { get; set; }
 
         public double CpuPerformance { get; set; }
+        public double ProcessPerformance { get; set; }
+
         public ulong AvailablePhysicalMemory { get; set; }
+        public ulong WorkingSet { get; set; }
 
         public StringBuilder GetSignData() {
             return this.GetActionIdSign("F9C674C1-247D-45DF-984A-2180AD76F2BB");

@@ -2,7 +2,6 @@
 using NTMiner.ServerNode;
 using System;
 using System.Diagnostics;
-using System.Management;
 
 namespace NTMiner.Windows {
     /// <summary>
@@ -11,9 +10,7 @@ namespace NTMiner.Windows {
     public sealed class Cpu {
         public static Cpu Instance { get; private set; } = new Cpu();
 
-        private readonly PerformanceCounter _cpuCounter;
         private Cpu() {
-            _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
         }
 
         public CpuData ToData() {
@@ -29,12 +26,63 @@ namespace NTMiner.Windows {
             };
         }
 
-        /// <summary>
-        /// 通过PerformanceCounter获取cpu使用率
-        /// </summary>
-        /// <returns></returns>
-        public float GetCurrentCpuUsage() {
-            return _cpuCounter.NextValue();
+        private PerformanceCounter _cpuCounterTotal;
+        private readonly object _locker = new object();
+        private bool _firstCpuCounterTotal = true;
+        private PerformanceCounter CpuCounterTotal {
+            get {
+                if (_cpuCounterTotal == null && _firstCpuCounterTotal) {
+                    _firstCpuCounterTotal = false;
+                    lock (_locker) {
+                        if (_cpuCounterTotal == null) {
+                            try {
+                                _cpuCounterTotal = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+                            }
+                            catch (Exception e) {
+                                Logger.ErrorDebugLine(e);
+                                _cpuCounterTotal = null;
+                            }
+                        }
+                    }
+                }
+                return _cpuCounterTotal;
+            }
+        }
+
+        private PerformanceCounter _cpuCounterProcess;
+        private bool _firstCpuCounterProcess = true;
+        private PerformanceCounter CpuCounterProcess {
+            get {
+                if (_cpuCounterProcess == null && _firstCpuCounterProcess) {
+                    _firstCpuCounterProcess = false;
+                    lock (_locker) {
+                        if (_cpuCounterProcess == null) {
+                            try {
+                                _cpuCounterProcess = new PerformanceCounter("Processor", "% Processor Time", VirtualRoot.ProcessName);
+                            }
+                            catch (Exception e) {
+                                Logger.ErrorDebugLine(e);
+                                _cpuCounterProcess = null;
+                            }
+                        }
+                    }
+                }
+                return _cpuCounterProcess;
+            }
+        }
+
+        public float GetTotalCpuUsage() {
+            if (CpuCounterTotal == null) {
+                return 0.0f;
+            }
+            return CpuCounterTotal.NextValue();
+        }
+
+        public float GetProcessCpuUsage() {
+            if (CpuCounterProcess == null) {
+                return 0.0f;
+            }
+            return CpuCounterProcess.NextValue();
         }
 
         public string CpuId {
@@ -175,23 +223,28 @@ namespace NTMiner.Windows {
         /// <param name="specificLogicalProcessor">Which logical processor info is retrieved from. 0 represents the first core, etc.</param>
         /// <returns>The key value</returns>
         private string RetrieveProcessorInfo(string key) {
-            // NOTE: Remove the 0 when the functionality to retrieve info from other virtual cores is implemented
-            // + specificLogicalProcessor);
-            using (RegistryKey rkey = Registry.LocalMachine.OpenSubKey("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0")) {
-                if (!IsMulticore()) {
-                    Debug.WriteLine("There is only one logical processor");
-                    // specificLogicalProcessor = 0;
-                }
+            try {
+                // NOTE: Remove the 0 when the functionality to retrieve info from other virtual cores is implemented
+                // + specificLogicalProcessor);
+                using (RegistryKey rkey = Registry.LocalMachine.OpenSubKey("HARDWARE\\DESCRIPTION\\System\\CentralProcessor\\0")) {
+                    if (!IsMulticore()) {
+                        Debug.WriteLine("There is only one logical processor");
+                        // specificLogicalProcessor = 0;
+                    }
 
-                if (rkey != null) {
-                    var obj = rkey.GetValue(key);
-                    if (obj != null) {
-                        return obj.ToString();
+                    if (rkey != null) {
+                        var obj = rkey.GetValue(key);
+                        if (obj != null) {
+                            return obj.ToString();
+                        }
                     }
                 }
-
-                return "";
             }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
+            }
+
+            return string.Empty;
         }
 
         /// <summary>

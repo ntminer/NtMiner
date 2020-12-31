@@ -15,7 +15,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IconName = "Icon_MinerGroup"
             }, ucFactory: (window) => {
                 MinerGroupViewModel vm = new MinerGroupViewModel(source);
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new MinerGroupEdit(vm);
             }, beforeShow: (window, uc) => {
                 uc.DoFocus();

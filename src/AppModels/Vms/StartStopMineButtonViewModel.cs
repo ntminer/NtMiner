@@ -12,7 +12,7 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            VirtualRoot.AddCmdPath<StopMineCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<StopMineCommand>(path: message => {
                 if (!NTMinerContext.Instance.IsMining) {
                     this.MinerProfile.IsMining = false;
                 }
@@ -39,13 +39,10 @@ namespace NTMiner.Vms {
                 NTMinerConsole.UserInfo($"{MinerProfile.AutoStartDelaySeconds.ToString()}秒后开始挖矿");
                 this.MinerProfile.IsMining = true;
                 IMessagePathId pathId = null;
-                pathId = VirtualRoot.AddViaTimesLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
-                    action: message => {
-                        if (NTMinerContext.IsAutoStartCanceled) {
-                            BtnStopText = $"尚未开始";
-                        }
-                        else {
-                            BtnStopText = $"倒计时{pathId.ViaTimesLimit.ToString()}";
+                pathId = VirtualRoot.BuildViaTimesLimitPath<Per1SecondEvent>("挖矿倒计时", LogEnum.None,
+                    path: message => {
+                        if (!NTMinerContext.IsAutoStartCanceled) {
+                            MineBtnText = $"倒计时{pathId.ViaTimesLimit.ToString()}";
                         }
                         if (pathId.ViaTimesLimit == 0) {
                             if (!NTMinerContext.IsAutoStartCanceled) {
@@ -57,12 +54,12 @@ namespace NTMiner.Vms {
             }
         }
 
-        private string _btnStopText = "正在挖矿";
-        public string BtnStopText {
-            get => _btnStopText;
+        private string _mineBtnText = "正在挖矿";
+        public string MineBtnText {
+            get => _mineBtnText;
             set {
-                _btnStopText = value;
-                OnPropertyChanged(nameof(BtnStopText));
+                _mineBtnText = value;
+                OnPropertyChanged(nameof(MineBtnText));
             }
         }
 

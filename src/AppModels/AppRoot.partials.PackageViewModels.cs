@@ -13,33 +13,33 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    path: message => {
                         OnPropertyChanged(nameof(AllPackages));
                     }, location: this.GetType());
-                AddEventPath<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<PackageAddedEvent>("添加了包后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         _dicById.Add(message.Source.GetId(), new PackageViewModel(message.Source));
                         OnPropertyChanged(nameof(AllPackages));
                         foreach (var item in KernelVms.AllKernels) {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
                     }, location: this.GetType());
-                AddEventPath<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<PackageRemovedEvent>("删除了包后调整VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllPackages));
                         foreach (var item in KernelVms.AllKernels) {
                             item.OnPropertyChanged(nameof(item.IsPackageValid));
                         }
                     }, location: this.GetType());
-                AddEventPath<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<PackageUpdatedEvent>("更新了包后调整VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out PackageViewModel vm)) {
                             vm.Update(message.Source);
                             foreach (var item in KernelVms.AllKernels) {

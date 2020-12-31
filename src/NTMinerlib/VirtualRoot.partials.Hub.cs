@@ -34,35 +34,35 @@ namespace NTMiner {
         /// <summary>
         /// 修建消息的运动路径
         /// </summary>
-        public static IMessagePathId AddMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Type location) {
-            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: PathId.Empty);
+        public static IMessagePathId BuildMessagePath<TMessage>(string description, LogEnum logType, Action<TMessage> path, Type location) {
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, path, pathId: PathId.Empty);
         }
 
         /// <summary>
         /// 消息通过路径一次后路径即消失。
         /// 注意该路径具有特定的路径标识pathId，pathId可以看作是路径的形状，只有和该路径的形状相同的消息才能通过路径。
         /// </summary>
-        public static IMessagePathId AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, PathId pathId, Type location) {
-            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId, viaTimesLimit: 1);
+        public static IMessagePathId BuildOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> path, PathId pathId, Type location) {
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, path, pathId, viaTimesLimit: 1);
         }
 
         /// <summary>
         /// 消息通过路径指定的次数后路径即消失
         /// </summary>
-        public static IMessagePathId AddViaTimesLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> action, int viaTimesLimit, Type location) {
-            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, action, pathId: PathId.Empty, viaTimesLimit: viaTimesLimit);
+        public static IMessagePathId BuildViaTimesLimitPath<TMessage>(string description, LogEnum logType, Action<TMessage> path, int viaTimesLimit, Type location) {
+            return MessagePath<TMessage>.AddMessagePath(MessageHub, location, description, logType, path, pathId: PathId.Empty, viaTimesLimit: viaTimesLimit);
         }
 
-        public static void AddCmdPath<TCmd>(Action<TCmd> action, Type location, LogEnum logType = LogEnum.DevConsole)
+        public static void BuildCmdPath<TCmd>(Action<TCmd> path, Type location, LogEnum logType = LogEnum.DevConsole)
             where TCmd : ICmd {
             MessageTypeAttribute messageTypeDescription = MessageTypeAttribute.GetMessageTypeAttribute(typeof(TCmd));
             string description = "处理" + messageTypeDescription.Description;
-            AddMessagePath(description, logType, action, location);
+            BuildMessagePath(description, logType, path, location);
         }
 
-        public static IMessagePathId AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
+        public static IMessagePathId BuildEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> path, Type location)
             where TEvent : IEvent {
-            return AddMessagePath(description, logType, action, location);
+            return BuildMessagePath(description, logType, path, location);
         }
 
         public static void RemoveMessagePath(IMessagePathId pathId) {

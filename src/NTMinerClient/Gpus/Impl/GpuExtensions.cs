@@ -1,5 +1,4 @@
-﻿using NTMiner.Gpus;
-using System;
+﻿using System;
 
 namespace NTMiner.Gpus.Impl {
     public static class GpuExtensions {
@@ -36,6 +35,9 @@ namespace NTMiner.Gpus.Impl {
 
             gpu.CoolMin = range.FanSpeedMin;
             gpu.CoolMax = range.FanSpeedMax;
+
+            gpu.VoltMin = range.VoltMin;
+            gpu.VoltMax = range.VoltMax;
             NTMinerContext.Instance.GpuSet.LoadGpuState(gpu.Index);
         }
     }

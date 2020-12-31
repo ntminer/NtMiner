@@ -232,9 +232,8 @@
                             </CheckBox>
                             <CheckBox
 								Padding="0"
-                                IsEnabled="False"
 								FocusVisualStyle="{x:Null}"
-								IsChecked="True">
+								IsChecked="{Binding Is1080PillEnabled}">
                                 <TextBlock VerticalAlignment="Center">有1080/1080ti显卡时启动小药丸加速算力</TextBlock>
                             </CheckBox>
                         </WrapPanel>
@@ -695,6 +694,14 @@
 									Stretch="Fill" />
                                 <TextBlock VerticalAlignment="Center">时直接退出开源矿工</TextBlock>
                             </WrapPanel>
+                        </CheckBox>
+                    </WrapPanel>
+                    <WrapPanel Margin="0 5">
+                        <CheckBox 
+							FocusVisualStyle="{x:Null}"
+							Padding="0"
+							IsChecked="{Binding IsPreventDisplaySleep}"
+							Content="阻止显示器休眠">
                         </CheckBox>
                     </WrapPanel>
                 </StackPanel>

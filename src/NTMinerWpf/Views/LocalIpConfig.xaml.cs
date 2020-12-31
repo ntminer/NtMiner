@@ -15,14 +15,14 @@ namespace NTMiner.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new LocalIpConfig();
-                window.AddCloseWindowOnecePath(uc.Vm.Id);
+                window.BuildCloseWindowOnecePath(uc.Vm.Id);
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();
                     }
                 };
-                window.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
-                    action: message => {
+                window.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新IP设置页", LogEnum.DevConsole,
+                    path: message => {
                         UIThread.Execute(uc.Vm.Refresh);
                     }, location: typeof(LocalIpConfig));
                 return uc;

@@ -136,7 +136,6 @@
     <Compile Include="Vms\LocalMessageDtoViewModel.cs" />
     <Compile Include="Vms\LogFilesViewModel.cs" />
     <Compile Include="Vms\MainMenuViewModel.cs" />
-    <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\MessageTypeItem`1.cs" />
     <Compile Include="MinerStudio\Vms\MinerClientFinderConfigViewModel.cs" />
     <Compile Include="MinerStudio\Vms\MinerGroupSelectViewModel.cs" />

@@ -15,22 +15,22 @@ namespace NTMiner.Core.Impl {
             _isPull = isPull;
             _clientSet = clientSet;
             LogEnum logType = isPull ? LogEnum.None : LogEnum.UserConsole;
-            VirtualRoot.AddEventPath<Per10SecondEvent>("周期性拍摄快照", logType,
-                action: message => {
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期性拍摄快照", logType,
+                path: message => {
                     Snapshot(message.BornOn);
                 }, location: this.GetType());
-            VirtualRoot.AddEventPath<Per2MinuteEvent>("周期性移除内存中20分钟前的快照", logType,
-                action: message => {
+            VirtualRoot.BuildEventPath<Per2MinuteEvent>("周期性移除内存中20分钟前的快照", logType,
+                path: message => {
                     DateTime time = message.BornOn.AddMinutes(-20);
                     var toRemoves = _dataList.Where(a => a.Timestamp < time).ToArray();
                     foreach (var item in toRemoves) {
                         _dataList.Remove(item);
                     }
                 }, location: this.GetType());
-            VirtualRoot.AddEventPath<HasBoot1MinuteEvent>("启动一会儿后清理一下很长时间之前的算力报告数据库文件", logType, action: message => {
+            VirtualRoot.BuildEventPath<HasBoot1MinuteEvent>("启动一会儿后清理一下很长时间之前的算力报告数据库文件", logType, path: message => {
                 ClearReportDbFiles(message.BornOn);
             }, this.GetType());
-            VirtualRoot.AddEventPath<Per24HourEvent>("每24小时清理一下很长时间之前的算力报告数据库文件", logType, action: message => {
+            VirtualRoot.BuildEventPath<Per24HourEvent>("每24小时清理一下很长时间之前的算力报告数据库文件", logType, path: message => {
                 ClearReportDbFiles(message.BornOn);
             }, this.GetType());
         }

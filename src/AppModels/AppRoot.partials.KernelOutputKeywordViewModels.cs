@@ -14,8 +14,8 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                AddEventPath<KernelOutputKeywordLoadedEvent>("从服务器加载了内核输入关键字后刷新Vm集", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<KernelOutputKeywordLoadedEvent>("从服务器加载了内核输入关键字后刷新Vm集", LogEnum.DevConsole,
+                    path: message => {
                         KernelOutputKeywordViewModel[] toRemoves = _dicById.Where(a => a.Value.GetDataLevel() == DataLevel.Global).Select(a => a.Value).ToArray();
                         foreach (var item in toRemoves) {
                             _dicById.Remove(item.Id);
@@ -43,8 +43,8 @@ namespace NTMiner {
                             }
                         }
                     }, location: this.GetType());
-                AddEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<UserKernelOutputKeywordAddedEvent>("添加了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             KernelOutputKeywordViewModel vm = new KernelOutputKeywordViewModel(message.Source);
                             _dicById.Add(vm.Id, vm);
@@ -57,14 +57,14 @@ namespace NTMiner {
                             }
                         }
                     }, location: this.GetType());
-                AddEventPath<UserKernelOutputKeywordUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<UserKernelOutputKeywordUpdatedEvent>("更新了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
                             vm.Update(message.Source);
                         }
                     }, location: this.GetType());
-                AddEventPath<UserKernelOutputKeywordRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<UserKernelOutputKeywordRemovedEvent>("删除了内核输出过滤器后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelOutputKeywordViewModel vm)) {
                             _dicById.Remove(vm.Id);
                             _dicByKernelOutputId[vm.KernelOutputId].Remove(vm);

@@ -15,7 +15,7 @@ namespace NTMiner.Gpus.Impl {
                 OverClockRange range = _gpuHelper.GetClockRange(gpu.GetOverClockId());
                 gpu.UpdateState(range);
             }
-            catch (System.Exception e) {
+            catch (Exception e) {
                 Logger.ErrorDebugLine(e);
             }
             VirtualRoot.RaiseEvent(new GpuStateChangedEvent(Guid.Empty, gpu));

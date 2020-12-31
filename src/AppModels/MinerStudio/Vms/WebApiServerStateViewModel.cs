@@ -11,7 +11,9 @@ namespace NTMiner.MinerStudio.Vms {
         private ulong _totalPhysicalMemory;
         private string _address;
         private double _cpuPerformance;
+        private double _processPerformance;
         private ulong _availablePhysicalMemory;
+        private ulong _workingSet;
         private CpuData _cpu;
         private CpuDataViewModel _cpuVm;
         private List<WsServerNodeState> _wsServerNodes;
@@ -23,7 +25,9 @@ namespace NTMiner.MinerStudio.Vms {
             _totalPhysicalMemory = data.TotalPhysicalMemory;
             _address = data.Address;
             _cpuPerformance = data.CpuPerformance;
+            _processPerformance = data.ProcessPerformance;
             _availablePhysicalMemory = data.AvailablePhysicalMemory;
+            _workingSet = data.WorkingSet;
             _cpu = data.Cpu;
             _cpuVm = new CpuDataViewModel(data.Cpu);
             _wsServerNodes = data.WsServerNodes;
@@ -36,7 +40,9 @@ namespace NTMiner.MinerStudio.Vms {
             this.TotalPhysicalMemory = data.TotalPhysicalMemory;
             this.Address = data.Address;
             this.CpuPerformance = data.CpuPerformance;
+            this.ProcessPerformance = data.ProcessPerformance;
             this.AvailablePhysicalMemory = data.AvailablePhysicalMemory;
+            this.WorkingSet = data.WorkingSet;
             this.Cpu = data.Cpu;
             this.WsServerNodes = data.WsServerNodes;
         }
@@ -156,12 +162,39 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
+        public double ProcessPerformance {
+            get => _processPerformance;
+            set {
+                if (_processPerformance != value) {
+                    _processPerformance = value;
+                    OnPropertyChanged(nameof(ProcessPerformance));
+                    OnPropertyChanged(nameof(ProcessPerformanceText));
+                }
+            }
+        }
+
+        public string ProcessPerformanceText {
+            get {
+                return this.ProcessPerformance.ToString("f1") + " %";
+            }
+        }
+
         public ulong AvailablePhysicalMemory {
             get => _availablePhysicalMemory;
             set {
                 if (_availablePhysicalMemory != value) {
                     _availablePhysicalMemory = value;
                     OnPropertyChanged(nameof(AvailablePhysicalMemory));
+                }
+            }
+        }
+
+        public ulong WorkingSet {
+            get => _workingSet;
+            set {
+                if (_workingSet != value) {
+                    _workingSet = value;
+                    OnPropertyChanged(nameof(WorkingSet));
                 }
             }
         }

@@ -18,7 +18,7 @@ namespace NTMiner.Views.Ucs {
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
                 KernelViewModel vm = new KernelViewModel(source);
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new KernelEdit(vm);
             }, fixedSize: false);
         }

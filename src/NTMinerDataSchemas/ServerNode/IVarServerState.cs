@@ -7,8 +7,21 @@
         /// Address是标识，标识是必须的
         /// </summary>
         string Address { get; }
-        // 以下三项是动态数据
-        double CpuPerformance { get; set; }
+        /// <summary>
+        /// 本机CPU总使用率
+        /// </summary>
+        double CpuPerformance { get; }
+        /// <summary>
+        /// 本进程CPU使用率
+        /// </summary>
+        double ProcessPerformance { get; }
+        /// <summary>
+        /// 本机剩余内存
+        /// </summary>
         ulong AvailablePhysicalMemory { get; }
+        /// <summary>
+        /// 本进程所用内存
+        /// </summary>
+        ulong WorkingSet { get; }
     }
 }

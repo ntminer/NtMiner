@@ -14,7 +14,7 @@ namespace NTMiner.Impl {
                 throw new ArgumentNullException(nameof(dbFileFullName));
             }
             _connectionString = $"filename={dbFileFullName}";
-            VirtualRoot.AddCmdPath<LoadNewServerMessageCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<LoadNewServerMessageCommand>(path: message => {
                 if (!RpcRoot.IsServerMessagesVisible) {
                     return;
                 }
@@ -39,10 +39,10 @@ namespace NTMiner.Impl {
                     }
                 });
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<ReceiveServerMessageCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ReceiveServerMessageCommand>(path: message => {
                 ReceiveServerMessage(message.Data);
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<AddOrUpdateServerMessageCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddOrUpdateServerMessageCommand>(path: message => {
                 InitOnece();
                 if (isServer) {
                     #region Server
@@ -107,7 +107,7 @@ namespace NTMiner.Impl {
                     });
                 }
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<MarkDeleteServerMessageCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<MarkDeleteServerMessageCommand>(path: message => {
                 InitOnece();
                 if (isServer) {
                     #region Server
@@ -146,7 +146,7 @@ namespace NTMiner.Impl {
                     });
                 }
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<ClearServerMessagesCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ClearServerMessagesCommand>(path: message => {
                 InitOnece();
                 if (isServer) {
                     NTMinerConsole.UserWarn("服务端的消息不能清空");

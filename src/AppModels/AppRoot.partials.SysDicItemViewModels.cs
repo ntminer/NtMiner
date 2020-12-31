@@ -13,17 +13,17 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    path: message => {
                         AllPropertyChanged();
                     }, location: this.GetType());
-                AddEventPath<SysDicItemAddedEvent>("添加了系统字典项后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<SysDicItemAddedEvent>("添加了系统字典项后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new SysDicItemViewModel(message.Source));
                             AllPropertyChanged();
@@ -33,8 +33,8 @@ namespace NTMiner {
                             }
                         }
                     }, location: this.GetType());
-                AddEventPath<SysDicItemUpdatedEvent>("更新了系统字典项后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<SysDicItemUpdatedEvent>("更新了系统字典项后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out SysDicItemViewModel vm)) {
                             int sortNumber = vm.SortNumber;
                             vm.Update(message.Source);
@@ -46,8 +46,8 @@ namespace NTMiner {
                             }
                         }
                     }, location: this.GetType());
-                AddEventPath<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<SysDicItemRemovedEvent>("删除了系统字典项后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         AllPropertyChanged();
                         if (SysDicVms.TryGetSysDicVm(message.Source.DicId, out SysDicViewModel sysDicVm)) {

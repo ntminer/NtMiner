@@ -17,31 +17,31 @@ namespace NTMiner {
                 this.Add = new DelegateCommand(() => {
                     new FragmentWriterViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    path: message => {
                         OnPropertyChangeds();
                     }, location: this.GetType());
-                AddEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<FragmentWriterAddedEvent>("添加了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             FragmentWriterViewModel vm = new FragmentWriterViewModel(message.Source);
                             _dicById.Add(message.Source.GetId(), vm);
                             OnPropertyChangeds();
                         }
                     }, location: this.GetType());
-                AddEventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<FragmentWriterUpdatedEvent>("更新了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out FragmentWriterViewModel vm)) {
                             vm.Update(message.Source);
                         }
                     }, location: this.GetType());
-                AddEventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<FragmentWriterRemovedEvent>("删除了命令行片段书写器后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChangeds();
                     }, location: this.GetType());

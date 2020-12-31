@@ -14,8 +14,12 @@ namespace NTMiner.Windows {
             Continus = 0x80000000,
         }
 
-        public static void PreventSleep() {
-            SetThreadExecutionState(ExecutionFlag.System | ExecutionFlag.Display | ExecutionFlag.Continus);
+        public static void PreventSleep(bool preventDisplay) {
+            var flags = ExecutionFlag.System | ExecutionFlag.Continus;
+            if (preventDisplay) {
+                flags |= ExecutionFlag.Display;
+            }
+            SetThreadExecutionState(flags);
         }
 
         public static void Restart(int delaySeconds = 0) {

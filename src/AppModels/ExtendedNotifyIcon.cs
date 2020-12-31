@@ -38,7 +38,7 @@ namespace NTMiner {
                     VirtualRoot.Execute(new ShowMainWindowCommand(isToggle: true));
                 }
             };
-            VirtualRoot.AddEventPath<AppExitEvent>("退出托盘图标", LogEnum.None, action: message => {
+            VirtualRoot.BuildEventPath<AppExitEvent>("退出托盘图标", LogEnum.None, path: message => {
                 _targetNotifyIcon.Dispose();
             }, typeof(ExtendedNotifyIcon));
         }

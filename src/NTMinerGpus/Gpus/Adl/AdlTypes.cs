@@ -128,20 +128,6 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLFanSpeedInfo {
-        public int Size;
-        public int Flags;
-        public int MinPercent;
-        public int MaxPercent;
-        public int MinRPM;
-        public int MaxRPM;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
     public struct ADLOverdriveFanControl {
         public int iMode;
         public int iFanControlMode;
@@ -509,7 +495,7 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct ADLOD8CurrentSetting {
+    public struct ADLOD8CurrentSetting {
         public int count;
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)ADLOD8SettingId.OD8_COUNT)]
         public int[] Od8SettingTable;

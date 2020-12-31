@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 
-namespace NTMiner {
-    public static partial class JsonRequestBinaryResponseRpcRoot {
+namespace NTMiner.Rpc {
+    public interface IJsonRequestBinaryResponseRpcHelper {
         /// <summary>
         /// 注意：Response时ReadAsByteArrayAsync后进行二进制反序列化。
         /// </summary>
@@ -15,34 +13,14 @@ namespace NTMiner {
         /// <param name="action">用于组装Url</param>
         /// <param name="query">Url上的查询参数，承载登录名、时间戳、签名</param>
         /// <param name="callback"></param>
-        public static void GetAsync<TResponse>(
+        void GetAsync<TResponse>(
             string host,
             int port,
             string controller,
             string action,
             Dictionary<string, string> query,
             Action<TResponse, Exception> callback,
-            int? timeountMilliseconds = null) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        client.SetTimeout(timeountMilliseconds);
-                        Task<HttpResponseMessage> getHttpResponse = client.GetAsync(RpcRoot.GetUrl(host, port, controller, action, query));
-                        if (getHttpResponse.Result.IsSuccessStatusCode) {
-                            getHttpResponse.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
-                                callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
-                            });
-                        }
-                        else {
-                            callback?.Invoke(default, new NTMinerException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}"));
-                        }
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(default, e);
-                }
-            });
-        }
+            int? timeountMilliseconds = null);
 
         /// <summary>
         /// 注意：Request时PostAsJson，Response时ReadAsByteArrayAsync后进行二进制反序列化。
@@ -54,15 +32,13 @@ namespace NTMiner {
         /// <param name="action">用于组装Url</param>
         /// <param name="callback"></param>
         /// <param name="timeountMilliseconds"></param>
-        public static void PostAsync<TResponse>(
+        void PostAsync<TResponse>(
             string host,
             int port,
             string controller,
             string action,
             Action<TResponse, Exception> callback,
-            int timeountMilliseconds = 0) {
-            PostAsync(host, port, controller, action, query: null, data: null, callback, timeountMilliseconds);
-        }
+            int timeountMilliseconds = 0);
 
         /// <summary>
         /// 注意：Request时PostAsJson，Response时ReadAsByteArrayAsync后进行二进制反序列化。
@@ -75,16 +51,14 @@ namespace NTMiner {
         /// <param name="data">post的数据，PostAsJson</param>
         /// <param name="callback"></param>
         /// <param name="timeountMilliseconds"></param>
-        public static void PostAsync<TResponse>(
+        void PostAsync<TResponse>(
             string host,
             int port,
             string controller,
             string action,
             object data,
             Action<TResponse, Exception> callback,
-            int timeountMilliseconds = 0) {
-            PostAsync(host, port, controller, action, query: null, data, callback, timeountMilliseconds);
-        }
+            int timeountMilliseconds = 0);
 
         /// <summary>
         /// 注意：Request时PostAsJson，Response时ReadAsByteArrayAsync后进行二进制反序列化。
@@ -98,16 +72,14 @@ namespace NTMiner {
         /// <param name="data">post的数据，PostAsJson</param>
         /// <param name="callback"></param>
         /// <param name="timeountMilliseconds"></param>
-        public static void SignPostAsync<TResponse>(
+        void SignPostAsync<TResponse>(
             string host,
             int port,
             string controller,
             string action,
             object data,
             Action<TResponse, Exception> callback,
-            int timeountMilliseconds = 0) {
-            PostAsync(host, port, controller, action, query: RpcRoot.RpcUser.GetSignData(data), data, callback, timeountMilliseconds);
-        }
+            int timeountMilliseconds = 0);
 
         /// <summary>
         /// 注意：Request时PostAsJson，Response时ReadAsByteArrayAsync后进行二进制反序列化。
@@ -121,7 +93,7 @@ namespace NTMiner {
         /// <param name="data">post的数据，PostAsJson</param>
         /// <param name="callback"></param>
         /// <param name="timeountMilliseconds"></param>
-        public static void PostAsync<TResponse>(
+        void PostAsync<TResponse>(
             string host,
             int port,
             string controller,
@@ -129,26 +101,6 @@ namespace NTMiner {
             Dictionary<string, string> query,
             object data,
             Action<TResponse, Exception> callback,
-            int timeountMilliseconds = 0) {
-            Task.Factory.StartNew(() => {
-                try {
-                    using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        client.SetTimeout(timeountMilliseconds);
-                        Task<HttpResponseMessage> getHttpResponse = client.PostAsJsonAsync(RpcRoot.GetUrl(host, port, controller, action, query), data);
-                        if (getHttpResponse.Result.IsSuccessStatusCode) {
-                            getHttpResponse.Result.Content.ReadAsByteArrayAsync().ContinueWith(t => {
-                                callback?.Invoke(VirtualRoot.BinarySerializer.Deserialize<TResponse>(t.Result), null);
-                            });
-                        }
-                        else {
-                            callback?.Invoke(default, new NTMinerException($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}"));
-                        }
-                    }
-                }
-                catch (Exception e) {
-                    callback?.Invoke(default, e);
-                }
-            });
-        }
+            int timeountMilliseconds = 0);
     }
 }

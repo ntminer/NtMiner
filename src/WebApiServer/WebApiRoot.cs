@@ -233,7 +233,7 @@ namespace NTMiner {
                 TotalPhysicalMemory = ram.TotalPhysicalMemory,
                 Cpu = cpu.ToData(),
                 OSInfo = Windows.OS.Instance.OsInfo,
-                CpuPerformance = cpu.GetCurrentCpuUsage()
+                CpuPerformance = cpu.GetTotalCpuUsage()
             };
         }
 

@@ -133,8 +133,8 @@ namespace NTMiner.MinerStudio.Views {
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
-            this.AddEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
-                action: message => {
+            this.BuildEventPath<Per1SecondEvent>("刷新倒计时秒表", LogEnum.None,
+                path: message => {
                     #region
                     var minerClients = Vm.MinerClients.ToArray();
                     if (Vm.CountDown > 0) {

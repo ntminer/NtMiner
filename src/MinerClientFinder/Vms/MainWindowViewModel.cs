@@ -72,8 +72,8 @@ namespace NTMiner.Vms {
                     });
                 }
             });
-            VirtualRoot.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
-                action: message => {
+            VirtualRoot.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                path: message => {
                     LocalIps = GetLocalIps();
                 }, location: this.GetType());
             Task.Factory.StartNew(() => {

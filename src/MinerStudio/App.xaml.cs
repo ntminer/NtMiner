@@ -31,10 +31,10 @@ namespace NTMiner {
 
         protected override void OnStartup(StartupEventArgs e) {
             // 之所以提前到这里是因为升级之前可能需要下载升级器，下载升级器时需要下载器
-            VirtualRoot.AddCmdPath<ShowFileDownloaderCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ShowFileDownloaderCommand>(path: message => {
                 FileDownloader.ShowWindow(message.DownloadFileUrl, message.FileTitle, message.DownloadComplete);
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<UpgradeCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UpgradeCommand>(path: message => {
                 AppRoot.Upgrade(NTMinerAppType.MinerStudio, message.FileName, message.Callback);
             }, location: this.GetType());
             if (AppUtil.GetMutex(NTKeyword.MinerStudioAppMutex)) {
@@ -54,7 +54,7 @@ namespace NTMiner {
                                 MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
                             }
                             else {
-                                VirtualRoot.AddOnecePath<ClientSetInitedEvent>("矿工集合初始化完成后刷新矿机列表界面", LogEnum.DevConsole, action: message => {
+                                VirtualRoot.BuildOnecePath<ClientSetInitedEvent>("矿工集合初始化完成后刷新矿机列表界面", LogEnum.DevConsole, path: message => {
                                     MinerStudioRoot.MinerClientsWindowVm.QueryMinerClients();
                                 }, pathId: PathId.Empty, this.GetType());
                             }
@@ -66,7 +66,7 @@ namespace NTMiner {
                     Shutdown();
                 });
                 #region 处理显示主界面命令
-                VirtualRoot.AddCmdPath<ShowMainWindowCommand>(action: message => {
+                VirtualRoot.BuildCmdPath<ShowMainWindowCommand>(path: message => {
                     VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: message.IsToggle));
                 }, location: this.GetType());
                 #endregion

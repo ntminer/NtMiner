@@ -26,7 +26,7 @@ namespace NTMiner.MinerStudio {
                     return;
                 }
                 if (ClientAppType.IsMinerStudio) {
-                    VirtualRoot.AddEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机本地群控响应消息列表", LogEnum.DevConsole, action: message => {
+                    VirtualRoot.BuildEventPath<MinerClientSelectionChangedEvent>("矿机列表页选中了和上次选中的不同的矿机时刷新矿机本地群控响应消息列表", LogEnum.DevConsole, path: message => {
                         bool isChanged = true;
                         if (message.MinerClientVm != null && this._minerClientVm != null && this._minerClientVm.ClientId == message.MinerClientVm.ClientId) {
                             isChanged = false;
@@ -46,8 +46,8 @@ namespace NTMiner.MinerStudio {
                             SendGetOperationResultsMqMessage();
                         }
                     }, this.GetType());
-                    VirtualRoot.AddEventPath<ClientOperationResultsEvent>("收到了挖矿端本地群控响应消息", LogEnum.DevConsole,
-                        action: message => {
+                    VirtualRoot.BuildEventPath<ClientOperationResultsEvent>("收到了挖矿端本地群控响应消息", LogEnum.DevConsole,
+                        path: message => {
                             if (this._minerClientVm == null || this._minerClientVm.ClientId != message.ClientId) {
                                 return;
                             }
@@ -63,13 +63,13 @@ namespace NTMiner.MinerStudio {
                                 OnPropertyChanged(nameof(IsNoRecord));
                             });
                         }, location: this.GetType());
-                    VirtualRoot.AddEventPath<ClientOperationReceivedEvent>("收到了挖矿端群控响应了群控操作的通知", LogEnum.DevConsole,
-                        action: message => {
+                    VirtualRoot.BuildEventPath<ClientOperationReceivedEvent>("收到了挖矿端群控响应了群控操作的通知", LogEnum.DevConsole,
+                        path: message => {
                             if (_minerClientVm != null && _minerClientVm.ClientId == message.ClientId) {
                                 SendGetOperationResultsMqMessage();
                             }
                         }, location: this.GetType());
-                    VirtualRoot.AddEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的本地群控响应消息", LogEnum.DevConsole, action: message => {
+                    VirtualRoot.BuildEventPath<Per5SecondEvent>("周期获取当前选中的那台矿机的本地群控响应消息", LogEnum.DevConsole, path: message => {
                         SendGetOperationResultsMqMessage();
                     }, this.GetType());
                 }

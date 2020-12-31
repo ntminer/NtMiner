@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
             this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(window => {
-                window.AddEventPath<ServerJsonVersionChangedEvent>("刷新展示的ServerJsonVersion", LogEnum.DevConsole, action: message => {
+                window.BuildEventPath<ServerJsonVersionChangedEvent>("刷新展示的ServerJsonVersion", LogEnum.DevConsole, path: message => {
                     Vm.ServerJsonVersion = NTMinerContext.Instance.GetServerJsonVersion();
                 }, location: this.GetType());
             });

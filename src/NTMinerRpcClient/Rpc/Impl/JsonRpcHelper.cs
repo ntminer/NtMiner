@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NTMiner {
-    public static partial class JsonRpcRoot {
+namespace NTMiner.Rpc.Impl {
+    public partial class JsonRpcHelper : IJsonRpcHelper {
+        public JsonRpcHelper() { }
+
         /// <summary>
         /// 
         /// </summary>
@@ -15,7 +17,7 @@ namespace NTMiner {
         /// <param name="action">用于组装Url</param>
         /// <param name="query">Url上的查询参数，承载登录名、时间戳、签名</param>
         /// <param name="callback"></param>
-        public static void GetAsync<TResponse>(
+        public void GetAsync<TResponse>(
             string host,
             int port,
             string controller,

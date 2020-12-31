@@ -15,7 +15,7 @@ namespace NTMiner.Services.Official {
             ServerMessagesRequest request = new ServerMessagesRequest {
                 Timestamp = Timestamp.GetTimestamp(timestamp)
             };
-            JsonRpcRoot.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.ServerMessages), request, callback);
+            RpcRoot.JsonRpc.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.ServerMessages), request, callback);
         }
         #endregion
 
@@ -24,7 +24,7 @@ namespace NTMiner.Services.Official {
             DataRequest<ServerMessageData> request = new DataRequest<ServerMessageData>() {
                 Data = entity
             };
-            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.AddOrUpdateServerMessage), data: request, callback);
         }
         #endregion
 
@@ -33,7 +33,7 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            JsonRpcRoot.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.MarkDeleteServerMessage), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IServerMessageController.MarkDeleteServerMessage), data: request, callback);
         }
         #endregion
     }

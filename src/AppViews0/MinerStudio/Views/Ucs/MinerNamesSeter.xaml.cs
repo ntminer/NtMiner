@@ -13,7 +13,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 IconName = "Icon_MinerName"
             }, ucFactory: (window) => {
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new MinerNamesSeter(vm);
             }, fixedSize: true);
         }

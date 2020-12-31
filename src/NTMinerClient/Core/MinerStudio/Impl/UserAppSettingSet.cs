@@ -8,7 +8,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private List<UserAppSettingData> _userAppSettings;
 
         public UserAppSettingSet() {
-            VirtualRoot.AddCmdPath<SetUserAppSettingCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<SetUserAppSettingCommand>(path: message => {
                 if (message.AppSetting == null) {
                     return;
                 }

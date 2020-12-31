@@ -4,6 +4,6 @@ using StackExchange.Redis;
 namespace NTMiner {
     public interface IServerConnection {
         ConnectionMultiplexer RedisConn { get; }
-        IModel Channel { get; }
+        IModel MqChannel { get; }
     }
 }

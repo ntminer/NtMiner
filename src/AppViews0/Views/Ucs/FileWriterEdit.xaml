@@ -8,6 +8,7 @@
     xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
     xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
     xmlns:local="clr-namespace:NTMiner.Views.Ucs" 
+	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
     mc:Ignorable="d"
     d:DesignWidth="950"
     d:DataContext="{d:DesignData Source=../Design/FileWriterViewModel.xaml}"
@@ -20,24 +21,25 @@
     <StackPanel Margin="10">
         <WrapPanel Margin="0 2">
             <TextBlock Text="名称" Width="100" Style="{StaticResource LblTb}"></TextBlock>
-            <TextBox Width="400" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+            <TextBox Width="400" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
             </TextBox>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <TextBlock Text="写入位置" Width="100" Style="{StaticResource LblTb}"></TextBlock>
-            <TextBox Width="400" VerticalContentAlignment="Center" Text="{Binding FileUrl, ValidatesOnExceptions=True}">
+            <TextBox Width="400" VerticalContentAlignment="Center" Text="{Binding FileUrl, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
             </TextBox>
             <TextBlock Foreground="Red" VerticalAlignment="Center">（相对路径）</TextBlock>
         </WrapPanel>
         <WrapPanel Margin="0 2">
             <TextBlock Text="写入的内容" Width="100" Style="{StaticResource LblTb}" VerticalAlignment="Top"></TextBlock>
-            <controls:KbMuiltilineTextBox Width="800" Height="100" Text="{Binding Body, ValidatesOnExceptions=True}">
+            <controls:KbMuiltilineTextBox Width="800" Height="100" Text="{Binding Body, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
             </controls:KbMuiltilineTextBox>
         </WrapPanel>
         <WrapPanel Margin="0 10 0 0" HorizontalAlignment="Center" VerticalAlignment="Center">
             <controls:KbButton
                 Command="{Binding Save}" 
                 Padding="15 2"
+                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                 Background="{StaticResource BtnBackground}"
                 Foreground="{StaticResource BtnForeground}"
                 CornerRadius="2">

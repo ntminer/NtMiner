@@ -48,17 +48,20 @@ namespace NTMiner.Vms {
                 IsConnecting = true;
             });
             if (ClientAppType.IsMinerClient) {
-                VirtualRoot.AddCmdPath<SetAutoStartCommand>(message => {
+                if (this.IsSystemName) {
+                    this.MinerName = NTKeyword.GetSafeMinerName(NTMinerContext.ThisPcName);
+                }
+                VirtualRoot.BuildCmdPath<SetAutoStartCommand>(message => {
                     this.IsAutoStart = message.IsAutoStart;
                     this.IsAutoBoot = message.IsAutoBoot;
                 }, this.GetType(), LogEnum.None);
-                VirtualRoot.AddEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<StartingMineFailedEvent>("开始挖矿失败", LogEnum.DevConsole,
+                    path: message => {
                         IsMining = false;
                         NTMinerConsole.UserError(message.Message);
                     }, location: this.GetType());
                 // 群控客户端已经有一个执行RefreshWsStateCommand命令的路径了
-                VirtualRoot.AddCmdPath<RefreshWsStateCommand>(message => {
+                VirtualRoot.BuildCmdPath<RefreshWsStateCommand>(message => {
                     #region
                     if (message.WsClientState != null) {
                         this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
@@ -79,7 +82,7 @@ namespace NTMiner.Vms {
                     }
                     #endregion
                 }, this.GetType(), LogEnum.DevConsole);
-                VirtualRoot.AddEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, action: message => {
+                VirtualRoot.BuildEventPath<Per1SecondEvent>("外网群控重试秒表倒计时", LogEnum.None, path: message => {
                     if (IsOuterUserEnabled && !IsWsOnline) {
                         if (WsNextTrySecondsDelay > 0) {
                             WsNextTrySecondsDelay--;
@@ -90,7 +93,7 @@ namespace NTMiner.Vms {
                         OnPropertyChanged(nameof(WsLastTryOnText));
                     }
                 }, this.GetType());
-                VirtualRoot.AddEventPath<WsServerOkEvent>("服务器Ws服务已可用", LogEnum.DevConsole, action: message => {
+                VirtualRoot.BuildEventPath<WsServerOkEvent>("服务器Ws服务已可用", LogEnum.DevConsole, path: message => {
                     if (IsOuterUserEnabled && !IsWsOnline) {
                         StartOrStopWs();
                     }
@@ -123,18 +126,18 @@ namespace NTMiner.Vms {
                     this.ArgsAssembly = string.Empty;
                 }
             });
-            AppRoot.AddCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
-                action: message => {
+            AppRoot.BuildCmdPath<RefreshAutoBootStartCommand>("刷新开机启动和自动挖矿的展示", LogEnum.DevConsole,
+                path: message => {
                     this.OnPropertyChanged(nameof(IsAutoBoot));
                     this.OnPropertyChanged(nameof(IsAutoStart));
                 }, location: this.GetType());
-            AppRoot.AddEventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
-                action: message => {
+            AppRoot.BuildEventPath<MinerProfilePropertyChangedEvent>("MinerProfile设置变更后刷新VM内存", LogEnum.DevConsole,
+                path: message => {
                     OnPropertyChanged(message.PropertyName);
                 }, location: this.GetType());
 
-            VirtualRoot.AddEventPath<LocalContextReInitedEventHandledEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
-                action: message => {
+            VirtualRoot.BuildEventPath<LocalContextReInitedEventHandledEvent>("本地上下文视图模型集刷新后刷新界面", LogEnum.DevConsole,
+                path: message => {
                     AllPropertyChanged();
                     if (CoinVm != null) {
                         CoinVm.OnPropertyChanged(nameof(CoinVm.Wallets));
@@ -143,10 +146,10 @@ namespace NTMiner.Vms {
                         CoinVm.CoinKernel?.CoinKernelProfile.SelectedDualCoin?.CoinProfile?.OnPropertyChanged(nameof(CoinVm.CoinProfile.SelectedDualCoinWallet));
                     }
                 }, location: this.GetType());
-            VirtualRoot.AddEventPath<CoinVmAddedEvent>("Vm集添加了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<CoinVmAddedEvent>("Vm集添加了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, path: message => {
                 OnPropertyChanged(nameof(CoinVm));
             }, this.GetType());
-            VirtualRoot.AddEventPath<CoinVmRemovedEvent>("Vm集删除了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<CoinVmRemovedEvent>("Vm集删除了新币种后刷新MinerProfileVm内存", LogEnum.DevConsole, path: message => {
                 OnPropertyChanged(nameof(CoinVm));
             }, this.GetType());
         }
@@ -403,12 +406,39 @@ namespace NTMiner.Vms {
             }
         }
 
+        public bool IsSystemName {
+            get { return NTMinerContext.Instance.MinerProfile.IsSystemName; }
+            set {
+                if (IsMining) {
+                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
+                    return;
+                }
+                if (NTMinerContext.Instance.MinerProfile.IsSystemName != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsSystemName), value);
+                    OnPropertyChanged(nameof(IsSystemName));
+                }
+                if (value) {
+                    this.MinerName = NTMinerContext.ThisPcName;
+                }
+            }
+        }
+
         public bool IsShowInTaskbar {
             get => NTMinerContext.Instance.MinerProfile.IsShowInTaskbar;
             set {
                 if (NTMinerContext.Instance.MinerProfile.IsShowInTaskbar != value) {
                     NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsShowInTaskbar), value);
                     OnPropertyChanged(nameof(IsShowInTaskbar));
+                }
+            }
+        }
+
+        public bool IsPreventDisplaySleep {
+            get => NTMinerContext.Instance.MinerProfile.IsPreventDisplaySleep;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.IsPreventDisplaySleep != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsPreventDisplaySleep), value);
+                    OnPropertyChanged(nameof(IsPreventDisplaySleep));
                 }
             }
         }
@@ -460,6 +490,16 @@ namespace NTMiner.Vms {
                 if (NTMinerContext.Instance.MinerProfile.IsCloseMeanExit != value) {
                     NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(IsCloseMeanExit), value);
                     OnPropertyChanged(nameof(IsCloseMeanExit));
+                }
+            }
+        }
+
+        public bool Is1080PillEnabled {
+            get => NTMinerContext.Instance.MinerProfile.Is1080PillEnabled;
+            set {
+                if (NTMinerContext.Instance.MinerProfile.Is1080PillEnabled != value) {
+                    NTMinerContext.Instance.MinerProfile.SetMinerProfileProperty(nameof(Is1080PillEnabled), value);
+                    OnPropertyChanged(nameof(Is1080PillEnabled));
                 }
             }
         }

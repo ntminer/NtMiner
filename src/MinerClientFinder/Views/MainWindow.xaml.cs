@@ -16,7 +16,7 @@ namespace NTMiner.Views {
             this.DataContext = this.Vm;
             InitializeComponent();
             NotiCenterWindow.Bind(this);
-            this.AddCmdPath<ShowLocalIpsCommand>(LogEnum.DevConsole, action: message => {
+            this.BuildCmdPath<ShowLocalIpsCommand>(LogEnum.DevConsole, path: message => {
                 UIThread.Execute(() => LocalIpConfig.ShowWindow());
             }, location: this.GetType());
         }

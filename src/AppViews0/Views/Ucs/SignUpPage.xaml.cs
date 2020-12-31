@@ -13,7 +13,7 @@ namespace NTMiner.Views.Ucs {
                 FooterVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) => {
                 SignUpPageViewModel vm = new SignUpPageViewModel();
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new SignUpPage(vm);
             }, beforeShow: (window, uc)=> {
                 uc.DoFocus();

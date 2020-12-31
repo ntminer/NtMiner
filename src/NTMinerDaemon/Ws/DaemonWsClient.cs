@@ -17,7 +17,7 @@ namespace NTMiner.Ws {
                     state.Description = description;
                 }
                 state.ToOut = toOut;
-                JsonRpcRoot.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, RpcRoot.GetControllerName<IMinerClientController>(), nameof(IMinerClientController.ReportWsDaemonState), null, state, timeountMilliseconds: 3000);
+                RpcRoot.JsonRpc.FirePostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, RpcRoot.GetControllerName<IMinerClientController>(), nameof(IMinerClientController.ReportWsDaemonState), null, state, timeountMilliseconds: 3000);
             }
         }
     }

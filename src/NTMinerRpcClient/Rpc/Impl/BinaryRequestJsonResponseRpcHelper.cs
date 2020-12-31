@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace NTMiner {
-    public static class BinaryRequestJsonResponseRpcRoot {
+namespace NTMiner.Rpc.Impl {
+    public class BinaryRequestJsonResponseRpcHelper : IBinaryRequestJsonResponseRpcHelper {
+        public BinaryRequestJsonResponseRpcHelper() { }
+
         /// <summary>
         /// 注意：Request时ByteArrayContent，Response时ReadAsAsync<TResponse>。
         /// </summary>
@@ -17,7 +19,7 @@ namespace NTMiner {
         /// <param name="data">字节数组</param>
         /// <param name="callback"></param>
         /// <param name="timeountMilliseconds"></param>
-        public static void PostAsync<TResponse>(
+        public void PostAsync<TResponse>(
             string host,
             int port,
             string controller,

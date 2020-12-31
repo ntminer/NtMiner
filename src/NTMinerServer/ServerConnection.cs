@@ -27,7 +27,7 @@ namespace NTMiner {
                 Logger.ErrorDebugLine(e);
                 return false;
             }
-            IConnection connection;// TODO:需要一个机制在连接关闭时重新连接，因为AutomaticRecovery也会失败
+            IConnection mqConn;// TODO:需要一个机制在连接关闭时重新连接，因为AutomaticRecovery也会失败
             try {
                 var factory = new ConnectionFactory {
                     HostName = ServerRoot.HostConfig.MqHostName,
@@ -36,14 +36,14 @@ namespace NTMiner {
                     AutomaticRecoveryEnabled = true,// 默认值也是true，复述一遍起文档作用
                     TopologyRecoveryEnabled = true// 默认值也是true，复述一遍起文档作用
                 };
-                connection = factory.CreateConnection(mqClientTypeName);
+                mqConn = factory.CreateConnection(mqClientTypeName);
             }
             catch (Exception e) {
                 NTMinerConsole.UserError("连接Mq失败");
                 Logger.ErrorDebugLine(e);
                 return false;
             }
-            IModel channel = connection.CreateModel();
+            IModel channel = mqConn.CreateModel();
 
             channel.ExchangeDeclare(MqKeyword.NTMinerExchange, ExchangeType.Direct, durable: true, autoDelete: false, arguments: null);
 
@@ -111,11 +111,11 @@ namespace NTMiner {
 
         private ServerConnection(ConnectionMultiplexer redisConn, IModel channel) {
             this.RedisConn = redisConn;
-            this.Channel = channel;
+            this.MqChannel = channel;
         }
 
         public ConnectionMultiplexer RedisConn { get; private set; }
 
-        public IModel Channel { get; private set; }
+        public IModel MqChannel { get; private set; }
     }
 }

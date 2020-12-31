@@ -212,7 +212,6 @@
 					</StackPanel>
 
 					<StackPanel Grid.Row="1">
-						<TextBlock Visibility="{x:Static app:AppStatic.IsDevModeVisible}" Foreground="Red" HorizontalAlignment="Center">不要覆盖OSS上已有的文件，防止OSS缓存文件</TextBlock>
 						<controls:KbButton
 							Command="{Binding Save}" 
 							Visibility="{x:Static app:AppStatic.IsDevModeVisible}"

@@ -149,12 +149,12 @@ namespace NTMiner.Mine {
         /// </summary>
         private void AddEventPath<TEvent>(string description, LogEnum logType, Action<TEvent> action, Type location)
             where TEvent : IEvent {
-            var messagePathId = VirtualRoot.AddMessagePath(description, logType, action, location);
+            var messagePathId = VirtualRoot.BuildMessagePath(description, logType, action, location);
             _contextPathIds.Add(messagePathId);
         }
 
         private void AddOnecePath<TMessage>(string description, LogEnum logType, Action<TMessage> action, Guid pathId, Type location) {
-            var messagePathId = VirtualRoot.AddOnecePath(description, logType, action, pathId, location);
+            var messagePathId = VirtualRoot.BuildOnecePath(description, logType, action, pathId, location);
             _contextPathIds.Add(messagePathId);
         }
 
@@ -476,7 +476,7 @@ namespace NTMiner.Mine {
                         while (this.KernelProcess != null && this.KernelProcess == kernelProcess) {
                             string outline = sreader.ReadLine();
                             if (string.IsNullOrEmpty(outline)) {
-                                Thread.Sleep(1000);
+                                Thread.Sleep(100);
                             }
                             else {
                                 string input = outline;

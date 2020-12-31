@@ -11,7 +11,7 @@ namespace NTMiner.Core.Impl {
         public WsServerNodeAddressSet(IWsServerNodeRedis wsServerNodeRedis, IWsServerNodeMqSender wsServerNodeMqSender) : base(wsServerNodeRedis) {
             _wsServerNodeRedis = wsServerNodeRedis;
             _wsServerNodeMqSender = wsServerNodeMqSender;
-            VirtualRoot.AddOnecePath<WebSocketServerStatedEvent>("WebSocket服务启动后上报节点信息，获取节点列表", LogEnum.UserConsole, action: _ => {
+            VirtualRoot.BuildOnecePath<WebSocketServerStatedEvent>("WebSocket服务启动后上报节点信息，获取节点列表", LogEnum.UserConsole, path: _ => {
                 ReportNodeAsync(callback: () => {
                     base.Init(callback: () => {
                         NTMinerConsole.UserOk("Ws服务器节点地址集初始化完成");
@@ -19,10 +19,10 @@ namespace NTMiner.Core.Impl {
                     });
                     _wsServerNodeMqSender.SendWsServerNodeAdded(ServerRoot.HostConfig.ThisServerAddress);
                 });
-                VirtualRoot.AddEventPath<Per10SecondEvent>("节点呼吸", LogEnum.UserConsole, action: message => {
+                VirtualRoot.BuildEventPath<Per10SecondEvent>("节点呼吸", LogEnum.UserConsole, path: message => {
                     ReportNodeAsync();
                 }, this.GetType());
-                VirtualRoot.AddEventPath<Per1MinuteEvent>("打扫", LogEnum.DevConsole, action: message => {
+                VirtualRoot.BuildEventPath<Per1MinuteEvent>("打扫", LogEnum.DevConsole, path: message => {
                     VirtualRoot.RaiseEvent(new CleanTimeArrivedEvent(AsEnumerable().ToArray()));
                 }, this.GetType());
             }, PathId.Empty, this.GetType());
@@ -48,7 +48,7 @@ namespace NTMiner.Core.Impl {
                     TotalPhysicalMemory = ram.TotalPhysicalMemory,
                     AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
                     OSInfo = Windows.OS.Instance.OsInfo,
-                    CpuPerformance = cpu.GetCurrentCpuUsage()
+                    CpuPerformance = cpu.GetTotalCpuUsage()
                 };
             }
             catch (Exception e) {

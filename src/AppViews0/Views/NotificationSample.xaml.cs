@@ -13,7 +13,8 @@ namespace NTMiner.Views {
                     Title = "通知示例",
                     Width = 800,
                     Height = 500,
-                    CloseVisible = Visibility.Visible
+                    CloseVisible = Visibility.Visible,
+                    IsChildWindow = true
                 }, ucFactory: (window) => {
                     var uc = new NotificationSample();
                     return uc;

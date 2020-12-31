@@ -26,7 +26,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 FooterVisible = Visibility.Collapsed
             }, ucFactory: (window) => {
                 var vm = new GpuProfilesPageViewModel(minerClientsWindowVm);
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 var uc = new GpuProfilesPage(vm);
                 var client = minerClientsWindowVm.SelectedMinerClients[0];
                 void handler(object sender, PropertyChangedEventArgs e) {
@@ -60,7 +60,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 uc.Unloaded += (object sender, RoutedEventArgs e) => {
                     minerClientsWindowVm.PropertyChanged -= handler;
                 };
-                window.AddEventPath<GetGpuProfilesResponsedEvent>("收到GetGpuProfilesJson的响应", LogEnum.DevConsole, action: message => {
+                window.BuildEventPath<GetGpuProfilesResponsedEvent>("收到GetGpuProfilesJson的响应", LogEnum.DevConsole, path: message => {
                     if (message.ClientId != minerClientVm.ClientId) {
                         return;
                     }

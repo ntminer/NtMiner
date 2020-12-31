@@ -5,6 +5,7 @@ namespace NTMiner.Core.Profile {
         Guid Id { get; }
         Guid CoinId { get; }
         string MinerName { get; }
+        bool IsSystemName { get; }
 
         bool IsNoShareRestartKernel { get; }
         int NoShareRestartKernelMinutes { get; }
@@ -47,7 +48,9 @@ namespace NTMiner.Core.Profile {
         bool IsAutoNoUi { get; }
         int AutoNoUiMinutes { get; }
         bool IsShowNotifyIcon { get; }
+        bool IsPreventDisplaySleep { get; }
         bool IsCloseMeanExit { get; }
+        bool Is1080PillEnabled { get; }
         bool IsShowCommandLine { get; }
         bool IsAutoBoot { get; }
         bool IsCreateShortcut { get; }

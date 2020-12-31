@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
                 }
                 IsReadied = true;
             });
-            VirtualRoot.AddEventPath<Per1MinuteEvent>("清理过期的验证码", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("清理过期的验证码", LogEnum.DevConsole, path: message => {
                 // 验证码在内存中留存10分钟
                 DateTime time = message.BornOn.AddMinutes(-10);
                 List<CaptchaData> toRemoves = new List<CaptchaData>();

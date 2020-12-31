@@ -5,7 +5,6 @@ using System.Windows.Input;
 
 namespace NTMiner.Vms {
     public class MainWindowViewModel : ViewModelBase {
-        public ICommand UseThisPcName { get; private set; }
         public ICommand CloseMainWindow { get; private set; }
 
         public MainWindowViewModel() {
@@ -14,16 +13,6 @@ namespace NTMiner.Vms {
             }
             this.CloseMainWindow = new DelegateCommand(() => {
                 VirtualRoot.Execute(new CloseMainWindowCommand(isAutoNoUi: false));
-            });
-            this.UseThisPcName = new DelegateCommand(() => {
-                if (MinerProfile.IsMining) {
-                    VirtualRoot.Out.ShowWarn("请先停止挖矿", header: "提示", autoHideSeconds: 3);
-                    return;
-                }
-                string thisPcName = NTMinerContext.ThisPcName;
-                this.ShowSoftDialog(new DialogWindowViewModel(message: $"确定使用本机名{thisPcName}作为矿机名吗？", title: "确认", onYes: () => {
-                    MinerProfile.MinerName = thisPcName;
-                }));
             });
         }
 

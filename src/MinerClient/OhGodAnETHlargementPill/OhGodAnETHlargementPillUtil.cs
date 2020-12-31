@@ -16,6 +16,9 @@ namespace NTMiner.OhGodAnETHlargementPill {
 
         public static void Start() {
             try {
+                if (!NTMinerContext.Instance.MinerProfile.Is1080PillEnabled) {
+                    return;
+                }
                 if (NTMinerContext.Instance.GpuSet.AsEnumerable().Any(a => a.Name.IndexOf("1080", StringComparison.OrdinalIgnoreCase) != -1)) {
                     ExtractResource();
                     Process[] processes = Process.GetProcessesByName(_processName);

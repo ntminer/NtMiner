@@ -12,7 +12,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties();
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerDataAddedRoutingKey,
                 basicProperties: basicProperties,
@@ -24,7 +24,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties();
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerDataRemovedRoutingKey,
                 basicProperties: basicProperties,
@@ -36,7 +36,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties();
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerSignChangedRoutingKey,
                 basicProperties: basicProperties,
@@ -44,7 +44,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties() {
-            var basicProperties = _serverConnection.Channel.CreateBasicProperties();
+            var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = true;// 持久化的
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;

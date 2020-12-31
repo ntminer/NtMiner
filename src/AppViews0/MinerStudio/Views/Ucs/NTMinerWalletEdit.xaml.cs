@@ -15,7 +15,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IconName = "Icon_Wallet"
             }, ucFactory: (window) => {
                 NTMinerWalletViewModel vm = new NTMinerWalletViewModel(source);
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new NTMinerWalletEdit(vm);
             }, fixedSize: true);
         }

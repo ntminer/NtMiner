@@ -113,6 +113,7 @@
                 Command="{Binding SysDicVms.Add}" 
                 Background="Transparent" BorderThickness="0"
                 Margin="10 0"
+                Visibility="{x:Static app:AppStatic.IsDevModeVisible}"
                 CornerRadius="2" ToolTip="添加">
                 <WrapPanel>
                     <Path

@@ -16,43 +16,43 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    path: message => {
                         AllPropertyChanged();
                     }, location: this.GetType());
-                AddEventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<CoinAddedEvent>("添加了币种后刷新VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         _dicById.Add(message.Source.GetId(), new CoinViewModel(message.Source));
                         AllPropertyChanged();
                         VirtualRoot.RaiseEvent(new CoinVmAddedEvent(message));
                     }, location: this.GetType());
-                AddEventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<CoinRemovedEvent>("移除了币种后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Remove(message.Source.GetId());
                         AllPropertyChanged();
                         VirtualRoot.RaiseEvent(new CoinVmRemovedEvent(message));
                     }, location: this.GetType());
-                AddEventPath<CoinKernelVmAddedEvent>("币种内核Vm集添加了新Vm后刷新币种Vm集的关联内存", LogEnum.DevConsole, action: message => {
+                BuildEventPath<CoinKernelVmAddedEvent>("币种内核Vm集添加了新Vm后刷新币种Vm集的关联内存", LogEnum.DevConsole, path: message => {
                     if (_dicById.TryGetValue(message.Event.Source.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));
                     }
                 }, this.GetType());
-                AddEventPath<CoinKernelVmRemovedEvent>("币种内核Vm集删除了新Vm后刷新币种Vm集的关联内存", LogEnum.DevConsole, action: message => {
+                BuildEventPath<CoinKernelVmRemovedEvent>("币种内核Vm集删除了新Vm后刷新币种Vm集的关联内存", LogEnum.DevConsole, path: message => {
                     if (_dicById.TryGetValue(message.Event.Source.CoinId, out CoinViewModel coinVm)) {
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernel));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.CoinKernels));
                         coinVm.OnPropertyChanged(nameof(CoinViewModel.IsSupported));
                     }
                 }, this.GetType());
-                AddEventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<CoinUpdatedEvent>("更新了币种后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out CoinViewModel vm)) {
                             bool justAsDualCoin = vm.JustAsDualCoin;
                             vm.Update(message.Source);
@@ -73,8 +73,8 @@ namespace NTMiner {
                             }
                         }
                     }, location: this.GetType());
-                AddEventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<CoinIconDownloadedEvent>("下载了币种图标后", LogEnum.DevConsole,
+                    path: message => {
                         try {
                             if (string.IsNullOrEmpty(message.Source.Icon)) {
                                 return;

@@ -48,10 +48,16 @@ namespace NTMiner {
 
         [TestMethod]
         public void GetCommandLineTest() {
-            var cmdLines = NTMiner.Windows.WMI.GetCommandLines("devenv.exe");
+            NTStopwatch.Start();
+            var cmdLines = Windows.WMI.GetCommandLines("devenv.exe");
+            for (int i = 0; i < 100; i++) {
+                cmdLines = Windows.WMI.GetCommandLines("devenv.exe");
+            }
             foreach (var item in cmdLines) {
                 Console.WriteLine(item);
             }
+            var elapsedMilliseconds = NTStopwatch.Stop();
+            Console.WriteLine(elapsedMilliseconds);
         }
 
         [TestMethod]

@@ -18,7 +18,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new CalcConfig();
-                window.AddCloseWindowOnecePath(uc.Vm.Id);
+                window.BuildCloseWindowOnecePath(uc.Vm.Id);
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e)=> {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();
@@ -38,8 +38,8 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded((window) => {
-                window.AddEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
-                    action: message => {
+                window.BuildEventPath<CalcConfigSetInitedEvent>("收益计算器数据集刷新后刷新VM", LogEnum.DevConsole,
+                    path: message => {
                         Vm.Refresh();
                     }, location: this.GetType());
             });

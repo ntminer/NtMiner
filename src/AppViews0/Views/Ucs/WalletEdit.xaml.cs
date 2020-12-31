@@ -16,7 +16,7 @@ namespace NTMiner.Views.Ucs {
                 WalletViewModel vm = new WalletViewModel(source) {
                     AfterClose = source.AfterClose
                 };
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new WalletEdit(vm);
             }, fixedSize: true);
         }

@@ -16,7 +16,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new MinerClientFinderConfig();
-                window.AddCloseWindowOnecePath(uc.Vm.Id);
+                window.BuildCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
             }, fixedSize: true);
         }

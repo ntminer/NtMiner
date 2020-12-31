@@ -38,11 +38,11 @@ namespace NTMiner.Core.Impl {
         private static readonly bool _isMinerStudio = _sessionType == typeof(IMinerStudioSession);
         public AbstractSessionSet(WebSocketSessionManager wsSessionManager) {
             this.WsSessionManager = wsSessionManager;
-            VirtualRoot.AddEventPath<CleanTimeArrivedEvent>("打扫时间到，保持清洁", LogEnum.UserConsole, action: message => {
+            VirtualRoot.BuildEventPath<CleanTimeArrivedEvent>("打扫时间到，保持清洁", LogEnum.UserConsole, path: message => {
                 ClearDeath();
                 SendReGetServerAddressMessage(message.NodeAddresses);
             }, this.GetType());
-            VirtualRoot.AddEventPath<UserDisabledMqMessage>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, action: message => {
+            VirtualRoot.BuildEventPath<UserDisabledMqMessage>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, path: message => {
                 if (!string.IsNullOrEmpty(message.LoginName)) {
                     TSession[] toCloses;
                     lock (_locker) {

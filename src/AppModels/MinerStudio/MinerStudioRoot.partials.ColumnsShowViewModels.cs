@@ -45,8 +45,8 @@ namespace NTMiner.MinerStudio {
                         NTMinerContext.MinerStudioContext.ColumnsShowSet.AddOrUpdate(entity);
                     });
                 });
-                AppRoot.AddEventPath<ColumnsShowAddedOrUpdatedEvent>("添加或修改了列分组后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<ColumnsShowAddedOrUpdatedEvent>("添加或修改了列分组后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (!_dicById.TryGetValue(message.Source.GetId(), out ColumnsShowViewModel vm)) {
                             vm = new ColumnsShowViewModel(message.Source);
                             _dicById.Add(message.Source.GetId(), vm);
@@ -57,7 +57,7 @@ namespace NTMiner.MinerStudio {
                             vm.Update(message.Source);
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<ColumnsRemovedEvent>("删除了列分组后刷新Vm内存", LogEnum.DevConsole, action: message => {
+                AppRoot.BuildEventPath<ColumnsRemovedEvent>("删除了列分组后刷新Vm内存", LogEnum.DevConsole, path: message => {
                     if (_dicById.ContainsKey(message.Source.Id)) {
                         _dicById.Remove(message.Source.Id);
                         OnPropertyChanged(nameof(List));

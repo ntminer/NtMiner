@@ -11,14 +11,14 @@ namespace NTMiner.Report {
     public class ReportDataProvider : IReportDataProvider {
         public ReportDataProvider() {
             if (ClientAppType.IsMinerClient) {
-                VirtualRoot.AddOnecePath<HasBoot5SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildOnecePath<HasBoot5SecondEvent>("登录服务器并报告一次0算力", LogEnum.DevConsole,
+                    path: message => {
                         // 报告0算力从而告知服务器该客户端当前在线的币种
                         ReportSpeed();
                     }, location: this.GetType(), pathId: PathId.Empty);
 
-                VirtualRoot.AddEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<Per2MinuteEvent>("每两分钟上报一次", LogEnum.DevConsole,
+                    path: message => {
                         // 如果服务端通过Ws通道最近获取过算力就不用上报算力了，因为获取的算力会通过Mq走内网传播给这里上报的目的服务器，
                         // 而Daemon进程也会每2分钟周期走Ws通道上报一次算力，从而结果就是优先使用Ws通道上报算力，只要Ws通道在周期地上报
                         // 算力则就不会走Http通道上报算力了。
@@ -28,13 +28,13 @@ namespace NTMiner.Report {
                         ReportSpeed();
                     }, location: this.GetType());
 
-                VirtualRoot.AddEventPath<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<MineStartedEvent>("开始挖矿后报告状态", LogEnum.DevConsole,
+                    path: message => {
                         ReportSpeed();
                     }, location: this.GetType());
 
-                VirtualRoot.AddEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<MineStopedEvent>("停止挖矿后报告状态", LogEnum.DevConsole,
+                    path: message => {
                         RpcRoot.OfficialServer.ReportService.ReportStateAsync(NTMinerContext.Id, isMining: false);
                     }, location: this.GetType());
             }

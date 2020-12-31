@@ -20,7 +20,7 @@ namespace NTMiner.Impl {
             _connectionString = $"filename={dbFileFullName}";
             _isServer = isServer;
             if (!isServer) {
-                VirtualRoot.AddCmdPath<LoadKernelOutputKeywordCommand>(action: message => {
+                VirtualRoot.BuildCmdPath<LoadKernelOutputKeywordCommand>(path: message => {
                     DateTime localTimestamp = VirtualRoot.LocalKernelOutputKeywordSetTimestamp;
                     // 如果已知服务器端最新内核输出关键字时间戳不比本地已加载的最新内核输出关键字时间戳新就不用加载了
                     if (message.KnowKernelOutputKeywordTimestamp <= Timestamp.GetTimestamp(localTimestamp)) {
@@ -58,7 +58,7 @@ namespace NTMiner.Impl {
                     });
                 }, location: this.GetType());
             }
-            VirtualRoot.AddCmdPath<AddOrUpdateKernelOutputKeywordCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<AddOrUpdateKernelOutputKeywordCommand>(path: (message) => {
                 InitOnece();
                 if (isServer || !DevMode.IsDevMode) {
                     DataLevel dataLevel = isServer ? DataLevel.Global : DataLevel.Profile;
@@ -103,7 +103,7 @@ namespace NTMiner.Impl {
                     });
                 }
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<RemoveKernelOutputKeywordCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveKernelOutputKeywordCommand>(path: (message) => {
                 InitOnece();
                 if (isServer || !DevMode.IsDevMode) {
                     if (message == null || message.EntityId == Guid.Empty) {

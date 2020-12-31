@@ -16,7 +16,7 @@ namespace NTMiner.Core.Impl {
                 }
             });
         }) {
-            VirtualRoot.AddOnecePath<ClientSetInitedEvent>("矿机集初始化后开始拉取矿机算力的进程", LogEnum.None, action: message => {
+            VirtualRoot.BuildOnecePath<ClientSetInitedEvent>("矿机集初始化后开始拉取矿机算力的进程", LogEnum.None, path: message => {
                 PullSpeedInit();
             }, PathId.Empty, this.GetType());
         }

@@ -10,7 +10,7 @@ namespace NTMiner.Vms {
             if (WpfUtil.IsInDesignMode) {
                 return;
             }
-            VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("群控后台客户端服务类型切换后刷新菜单的展示状态", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("群控后台客户端服务类型切换后刷新菜单的展示状态", LogEnum.DevConsole, path: message => {
                 this.OnPropertyChanged(nameof(LoginName));
                 this.OnPropertyChanged(nameof(IsMinerStudioLocalOrOuterAdminVisible));
                 this.OnPropertyChanged(nameof(IsMinerStudioOuterAdmin));

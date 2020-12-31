@@ -12,8 +12,8 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                AddEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<ShareChangedEvent>("收益变更后调整VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicByCoinId.TryGetValue(message.Source.CoinId, out ShareViewModel shareVm)) {
                             shareVm.Update(message.Source);
                         }

@@ -61,8 +61,8 @@ namespace NTMiner {
         private static void Run() {
             try {
                 Windows.ConsoleHandler.Register(Exit);
-                AddEventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
-                    action: message => {
+                BuildEventPath<Per10SecondEvent>("呼吸表示活着", LogEnum.None,
+                    path: message => {
                         NTMinerRegistry.SetNoDevFeeActiveOn(DateTime.Now);
                         NoDevFee.NoDevFeeUtil.StartAsync();
                     }, typeof(VirtualRoot));

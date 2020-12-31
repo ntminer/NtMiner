@@ -22,7 +22,7 @@ namespace NTMiner.MinerStudio {
                         _dicById.Add(item.Id, new MineWorkViewModel(item));
                     }
                 }
-                AppRoot.AddEventPath<MineWorkSetInitedEvent>("作业集初始化后初始化Vm内存", LogEnum.DevConsole, action: message => {
+                AppRoot.BuildEventPath<MineWorkSetInitedEvent>("作业集初始化后初始化Vm内存", LogEnum.DevConsole, path: message => {
                     _dicById.Clear();
                     foreach (var item in NTMinerContext.MinerStudioContext.MineWorkSet.AsEnumerable()) {
                         if (!_dicById.ContainsKey(item.Id)) {
@@ -35,8 +35,8 @@ namespace NTMiner.MinerStudio {
                 this.Add = new DelegateCommand(() => {
                     new MineWorkViewModel(Guid.NewGuid()).Edit.Execute(FormType.Add);
                 });
-                AppRoot.AddEventPath<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<MineWorkAddedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (!_dicById.TryGetValue(message.Source.GetId(), out MineWorkViewModel vm)) {
                             vm = new MineWorkViewModel(message.Source);
                             _dicById.Add(message.Source.GetId(), vm);
@@ -46,13 +46,13 @@ namespace NTMiner.MinerStudio {
                             }
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<MineWorkUpdatedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<MineWorkUpdatedEvent>("添加作业后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out MineWorkViewModel vm)) {
                             vm.Update(message.Source);
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<MineWorkRemovedEvent>("移除了作业后刷新Vm内存", LogEnum.DevConsole, action: message => {
+                AppRoot.BuildEventPath<MineWorkRemovedEvent>("移除了作业后刷新Vm内存", LogEnum.DevConsole, path: message => {
                     if (_dicById.TryGetValue(message.Source.Id, out MineWorkViewModel vm)) {
                         _dicById.Remove(vm.Id);
                         OnPropertyChangeds();

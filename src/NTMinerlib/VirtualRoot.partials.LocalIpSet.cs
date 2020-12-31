@@ -79,7 +79,7 @@ namespace NTMiner {
                                 ThisLocalWarn(nameof(LocalIpSetImpl), $"网络不可用", toConsole: true);
                             }
                         };
-                        AddCmdPath<SetLocalIpCommand>(action: message => {
+                        BuildCmdPath<SetLocalIpCommand>(path: message => {
                             #region
                             ManagementObject mo = null;
                             using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
@@ -205,8 +205,8 @@ namespace NTMiner {
                             IPAddress = ipAddress,
                             MACAddress = (string)mo["MACAddress"]
                         });
-                        FillNames(list);
                     }
+                    FillNames(list);
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);

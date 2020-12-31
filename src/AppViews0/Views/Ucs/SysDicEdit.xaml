@@ -20,13 +20,13 @@
 	<StackPanel Margin="10">
 		<WrapPanel Margin="0 2">
 			<TextBlock Style="{StaticResource LblTb}">编码:</TextBlock>
-			<TextBox Width="120" VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}">
+            <TextBox Width="120" VerticalContentAlignment="Center" Text="{Binding Code, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}">名称:</TextBlock>
-			<TextBox Width="120" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}">
+            <TextBox Width="120" VerticalContentAlignment="Center" Text="{Binding Name, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 			<TextBlock Style="{StaticResource LblTb}">排序:</TextBlock>
-			<TextBox Width="60" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}">
+            <TextBox Width="60" VerticalContentAlignment="Center" Text="{Binding SortNumber, ValidatesOnExceptions=True}" IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}">
 			</TextBox>
 		</WrapPanel>
 
@@ -36,6 +36,7 @@
 				Width="420" Background="Transparent" Padding="0 4"
 				VerticalContentAlignment="Top" VerticalScrollBarVisibility="Auto"
 				Text="{Binding Description, Mode=TwoWay}" 
+                IsReadOnly="{x:Static app:AppStatic.IsNotDevMode}"
 				Height="100">                
 			</controls:KbMuiltilineTextBox>
 		</WrapPanel>

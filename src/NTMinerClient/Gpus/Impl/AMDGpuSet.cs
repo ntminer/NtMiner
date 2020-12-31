@@ -18,32 +18,31 @@ namespace NTMiner.Gpus.Impl {
             }
         }
 
-        private readonly AdlHelper adlHelper = new AdlHelper();
+        private readonly AdlHelper _adlHelper = new AdlHelper();
         public AMDGpuSet() {
 #if DEBUG
             NTStopwatch.Start();
 #endif
             this.Properties = new List<GpuSetProperty>();
-            this.OverClock = new GpuOverClock(adlHelper);
-            VirtualRoot.AddEventPath<AppExitEvent>("程序退出时调用adlHelper.Close", LogEnum.None, message => {
-                adlHelper.Close();
+            this.OverClock = new GpuOverClock(_adlHelper);
+            VirtualRoot.BuildEventPath<AppExitEvent>("程序退出时调用adlHelper.Close", LogEnum.None, message => {
+                _adlHelper.Close();
             }, this.GetType());
-            int deviceCount = 0;
-            deviceCount = adlHelper.GpuCount;
-            for (int i = 0; i < deviceCount; i++) {
-                var atiGpu = adlHelper.GetAtiGPU(i);
-                string name = atiGpu.AdapterName;
-                // short gpu name
-                if (!string.IsNullOrEmpty(name)) {
-                    name = name.Replace("Radeon (TM) RX ", string.Empty);
-                    name = name.Replace("Radeon RX ", string.Empty);
+            if (_adlHelper.ATIGpus.Count > 0) {
+                int i = 0;
+                foreach (var atiGpu in _adlHelper.ATIGpus) {
+                    string name = atiGpu.AdapterName;
+                    // short gpu name
+                    if (!string.IsNullOrEmpty(name)) {
+                        name = name.Replace("Radeon (TM) RX ", string.Empty);
+                        name = name.Replace("Radeon RX ", string.Empty);
+                    }
+                    var gpu = Gpu.Create(GpuType.AMD, i, atiGpu.BusNumber.ToString(), name);
+                    gpu.TotalMemory = _adlHelper.GetTotalMemory(i);
+                    _gpus.Add(i, gpu);
+                    i++;
                 }
-                var gpu = Gpu.Create(GpuType.AMD, i, atiGpu.BusNumber.ToString(), name);
-                gpu.TotalMemory = adlHelper.GetTotalMemory(i);
-                _gpus.Add(i, gpu);
-            }
-            if (deviceCount > 0) {
-                this._driverVersion = adlHelper.GetDriverVersion();
+                this._driverVersion = _adlHelper.GetDriverVersion();
                 this.Properties.Add(new GpuSetProperty(GpuSetProperty.DRIVER_VERSION, "驱动版本", DriverVersion));
                 const ulong minG = 5 * NTKeyword.ULongG;
                 bool has470 = _gpus.Any(a => a.Key != NTMinerContext.GpuAllId && a.Value.TotalMemory < minG);
@@ -97,7 +96,7 @@ namespace NTMiner.Gpus.Impl {
             if (gpuIndex == NTMinerContext.GpuAllId) {
                 return;
             }
-            adlHelper.GetPowerFanTemp(gpuIndex, out uint power, out uint fanSpeed, out int temp);
+            _adlHelper.GetPowerFanTemp(gpuIndex, out uint power, out uint fanSpeed, out int temp);
 
             Gpu gpu = _gpus[gpuIndex];
             bool isChanged = gpu.Temperature != temp || gpu.PowerUsage != power || gpu.FanSpeed != fanSpeed;

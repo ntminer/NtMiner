@@ -12,17 +12,17 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    path: message => {
                         OnPropertyChanged(nameof(AllPools));
                     }, location: this.GetType());
-                AddEventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<PoolAddedEvent>("添加矿池后刷新VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         _dicById.Add(message.Source.GetId(), new PoolViewModel(message.Source));
                         OnPropertyChanged(nameof(AllPools));
                         if (CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
@@ -32,8 +32,8 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                         }
                     }, location: this.GetType());
-                AddEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<PoolRemovedEvent>("删除矿池后刷新VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllPools));
                         if (CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
@@ -43,8 +43,8 @@ namespace NTMiner {
                             coinVm.OnPropertyChanged(nameof(CoinViewModel.OptionPools));
                         }
                     }, location: this.GetType());
-                AddEventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<PoolUpdatedEvent>("更新矿池后刷新VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out PoolViewModel vm)) {
                             vm.Update(message.Source);
                         }

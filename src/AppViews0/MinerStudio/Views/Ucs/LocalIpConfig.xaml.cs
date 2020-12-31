@@ -17,13 +17,13 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 CloseVisible = Visibility.Visible
             }, ucFactory: (window) => {
                 var uc = new LocalIpConfig(vm);
-                window.AddCloseWindowOnecePath(uc.Vm.Id);
+                window.BuildCloseWindowOnecePath(uc.Vm.Id);
                 uc.ItemsControl.MouseDown += (object sender, MouseButtonEventArgs e) => {
                     if (e.LeftButton == MouseButtonState.Pressed) {
                         window.DragMove();
                     }
                 };
-                window.AddEventPath<GetLocalIpsResponsedEvent>("收到了获取挖矿端Ip的响应", LogEnum.DevConsole, action: message => {
+                window.BuildEventPath<GetLocalIpsResponsedEvent>("收到了获取挖矿端Ip的响应", LogEnum.DevConsole, path: message => {
                     if (message.ClientId != vm.MinerClientVm.ClientId) {
                         return;
                     }

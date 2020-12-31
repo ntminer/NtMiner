@@ -1,13 +1,44 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace NTMiner.Windows {
-    /// <summary>
-    /// Class for getting information related to RAM
-    /// </summary>
     public sealed class Ram {
         public static Ram Instance { get; private set; } = new Ram();
 
         #region Properties
+
+        private PerformanceCounter _ramCounterProcess;
+        private bool _firstRamCounterProcess = true;
+        private readonly object _locker = new object();
+        private PerformanceCounter RamCounterProcess {
+            get {
+                if (_ramCounterProcess == null && _firstRamCounterProcess) {
+                    _firstRamCounterProcess = false;
+                    lock (_locker) {
+                        if (_ramCounterProcess == null) {
+                            try {
+                                // 进程占用的物理内存的大小。由于包含共享内存部分和其他资源，所以其实并不准；但这个值就是在任务管理器中看到的值。
+                                _ramCounterProcess = new PerformanceCounter("Processor", "Working Set", VirtualRoot.ProcessName);
+                            }
+                            catch (Exception e) {
+                                Logger.ErrorDebugLine(e);
+                                _ramCounterProcess = null;
+                            }
+                        }
+                    }
+                }
+                return _ramCounterProcess;
+            }
+        }
+
+        public float GetTotalCpuUsage() {
+            if (RamCounterProcess == null) {
+                return 0.0f;
+            }
+            return RamCounterProcess.NextValue();
+        }
+
         private ulong _totalPhysicalMemory = ulong.MinValue;
         /// <summary>
         /// Gets the total physical memory in bytes

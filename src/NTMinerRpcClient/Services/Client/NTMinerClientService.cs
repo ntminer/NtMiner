@@ -17,7 +17,7 @@ namespace NTMiner.Services.Client {
         /// 本机网络调用
         /// </summary>
         public void ShowMainWindowAsync(Action<bool, Exception> callback) {
-            JsonRpcRoot.PostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.ShowMainWindow), callback);
+            RpcRoot.JsonRpc.PostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.ShowMainWindow), callback);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace NTMiner.Services.Client {
                 callback?.Invoke();
                 return;
             }
-            JsonRpcRoot.PostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.CloseNTMiner), new object { }, (ResponseBase response, Exception e) => {
+            RpcRoot.JsonRpc.PostAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.CloseNTMiner), new object { }, (ResponseBase response, Exception e) => {
                 if (!response.IsSuccess()) {
                     try {
                         Windows.TaskKill.Kill(processName, waitForExit: true);
@@ -48,21 +48,21 @@ namespace NTMiner.Services.Client {
         }
 
         public void GetSpeedAsync(IMinerData client, Action<SpeedDto, Exception> callback) {
-            JsonRpcRoot.GetAsync(client.GetLocalIp(), NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetSpeed), null, callback, timeountMilliseconds: 3000);
+            RpcRoot.JsonRpc.GetAsync(client.GetLocalIp(), NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetSpeed), null, callback, timeountMilliseconds: 3000);
         }
 
         public void WsGetSpeedAsync(Action<SpeedDto, Exception> callback) {
-            JsonRpcRoot.GetAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.WsGetSpeed), null, callback, timeountMilliseconds: 3000);
+            RpcRoot.JsonRpc.GetAsync(NTKeyword.Localhost, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.WsGetSpeed), null, callback, timeountMilliseconds: 3000);
         }
 
         public void GetConsoleOutLinesAsync(string clientIp, long afterTime, Action<List<ConsoleOutLine>, Exception> callback) {
-            JsonRpcRoot.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetConsoleOutLines), new Dictionary<string, string> {
+            RpcRoot.JsonRpc.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetConsoleOutLines), new Dictionary<string, string> {
                 ["afterTime"] = afterTime.ToString()
             }, callback, timeountMilliseconds: 3000);
         }
 
         public void GetLocalMessagesAsync(string clientIp, long afterTime, Action<List<LocalMessageDto>, Exception> callback) {
-            JsonRpcRoot.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetLocalMessages), new Dictionary<string, string> {
+            RpcRoot.JsonRpc.GetAsync(clientIp, NTKeyword.MinerClientPort, _controllerName, nameof(IMinerClientController.GetLocalMessages), new Dictionary<string, string> {
                 ["afterTime"] = afterTime.ToString()
             }, callback, timeountMilliseconds: 3000);
         }

@@ -8,7 +8,7 @@ namespace NTMiner.Core.Profiles.Impl {
         private readonly INTMinerContext _root;
         public WalletSet(INTMinerContext root) {
             _root = root;
-            VirtualRoot.AddCmdPath<AddWalletCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddWalletCommand>(path: message => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
                 VirtualRoot.RaiseEvent(new WalletAddedEvent(message.MessageId, entity));
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<UpdateWalletCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UpdateWalletCommand>(path: message => {
                 InitOnece();
                 if (message == null || message.Input == null || message.Input.GetId() == Guid.Empty) {
                     throw new ArgumentNullException();
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Profiles.Impl {
 
                 VirtualRoot.RaiseEvent(new WalletUpdatedEvent(message.MessageId, entity));
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<RemoveWalletCommand>(action: (message) => {
+            VirtualRoot.BuildCmdPath<RemoveWalletCommand>(path: (message) => {
                 InitOnece();
                 if (message == null || message.EntityId == Guid.Empty) {
                     throw new ArgumentNullException();

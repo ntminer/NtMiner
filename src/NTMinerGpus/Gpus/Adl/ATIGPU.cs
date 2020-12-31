@@ -17,13 +17,17 @@
         public int OverdriveVersion { get; set; }
         public int GpuLevels { get; set; }
         public int MemoryLevels { get; set; }
-        public bool ApiSupported { get; set; }
+        /// <summary>
+        /// iMaximumNumberOfPerformanceLevels
+        /// </summary>
         public int MaxLevels { get; set; }
 
         public int CoreClockMin { get; set; }
         public int CoreClockMax { get; set; }
+        public int CoreClockDefault { get; set; }
         public int MemoryClockMin { get; set; }
         public int MemoryClockMax { get; set; }
+        public int MemoryClockDefault { get; set; }
         public int PowerMin { get; set; }
         public int PowerMax { get; set; }
         public int PowerDefault { get; set; }

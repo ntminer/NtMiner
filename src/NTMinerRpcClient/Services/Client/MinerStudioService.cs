@@ -14,7 +14,7 @@ namespace NTMiner.Services.Client {
         /// </summary>
         /// <param name="callback"></param>
         public void ShowMainWindowAsync(Action<bool, Exception> callback) {
-            JsonRpcRoot.PostAsync<bool>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.ShowMainWindow), callback);
+            RpcRoot.JsonRpc.PostAsync<bool>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.ShowMainWindow), callback);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace NTMiner.Services.Client {
                 callback?.Invoke();
                 return;
             }
-            JsonRpcRoot.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.CloseMinerStudio), new object(), (response, e) => {
+            RpcRoot.JsonRpc.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.CloseMinerStudio), new object(), (response, e) => {
                 if (!response.IsSuccess()) {
                     try {
                         Windows.TaskKill.Kill(processName, waitForExit: true);

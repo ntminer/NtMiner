@@ -15,7 +15,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 PoolViewModel vm = new PoolViewModel(source);
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new PoolEdit(vm);
             }, fixedSize: true);
         }

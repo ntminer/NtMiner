@@ -170,6 +170,13 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsSystemName {
+            get { return _data.IsSystemName; }
+            private set {
+                _data.IsSystemName = value;
+            }
+        }
+
         public bool IsNoShareRestartKernel {
             get => _data.IsNoShareRestartKernel;
             private set {
@@ -419,6 +426,13 @@ namespace NTMiner.Core.Profiles {
             }
         }
 
+        public bool IsPreventDisplaySleep {
+            get { return _data.IsPreventDisplaySleep; }
+            set {
+                _data.IsPreventDisplaySleep = value;
+            }
+        }
+
         public bool IsAutoNoUi {
             get => _data.IsAutoNoUi;
             private set {
@@ -444,6 +458,13 @@ namespace NTMiner.Core.Profiles {
             get => _data.IsCloseMeanExit;
             private set {
                 _data.IsCloseMeanExit = value;
+            }
+        }
+
+        public bool Is1080PillEnabled {
+            get { return _data.Is1080PillEnabled; }
+            private set {
+                _data.Is1080PillEnabled = value;
             }
         }
 

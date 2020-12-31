@@ -13,7 +13,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || key == null) {
                 return;
             }
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.UpdateUserRSAKeyRoutingKey,
                 basicProperties: CreateBasicProperties(loginName),
@@ -21,7 +21,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties(string loginName) {
-            var basicProperties = _serverConnection.Channel.CreateBasicProperties();
+            var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = true;
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;

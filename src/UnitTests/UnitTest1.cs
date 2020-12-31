@@ -15,6 +15,13 @@ namespace NTMiner {
     [TestClass]
     public class UnitTest1 {
         [TestMethod]
+        public void PPTest() {
+            int i = 1;
+            i++;
+            Assert.AreEqual(2, i);
+        }
+
+        [TestMethod]
         public void PathTest() {
             string path = "C:\\a\\b.log";
             Assert.AreEqual("C:\\a", Path.GetDirectoryName(path));

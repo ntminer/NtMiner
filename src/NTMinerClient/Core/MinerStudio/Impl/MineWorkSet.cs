@@ -6,13 +6,13 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
 
         public MineWorkSet() {
-            VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, path: message => {
                 _dicById.Clear();
                 _isInited = false;
                 // 初始化以触发MineWorkSetInitedEvent事件
                 InitOnece();
             }, this.GetType());
-            VirtualRoot.AddCmdPath<AddMineWorkCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddMineWorkCommand>(path: message => {
                 InitOnece();
                 if (!_dicById.ContainsKey(message.Input.Id)) {
                     var repository = VirtualRoot.CreateLocalRepository<MineWorkData>();
@@ -23,7 +23,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     VirtualRoot.RaiseEvent(new MineWorkAddedEvent(message.MessageId, data));
                 }
             }, this.GetType());
-            VirtualRoot.AddCmdPath<UpdateMineWorkCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UpdateMineWorkCommand>(path: message => {
                 InitOnece();
                 if (_dicById.TryGetValue(message.Input.Id, out MineWorkData data)) {
                     var repository = VirtualRoot.CreateLocalRepository<MineWorkData>();
@@ -33,7 +33,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     VirtualRoot.RaiseEvent(new MineWorkUpdatedEvent(message.MessageId, data));
                 }
             }, this.GetType());
-            VirtualRoot.AddCmdPath<RemoveMineWorkCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<RemoveMineWorkCommand>(path: message => {
                 InitOnece();
                 if (_dicById.TryGetValue(message.EntityId, out MineWorkData entity)) {
                     _dicById.Remove(message.EntityId);

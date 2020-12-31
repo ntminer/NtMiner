@@ -12,6 +12,7 @@ namespace NTMiner {
         // 因为多个受保护区域中可能会互相访问，用一把锁可以避免死锁。不用多把锁是因为没有精力去检查每一个受保护区域确保它们不会互相访问导致死锁。
         private static readonly object _locker = new object();
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
+        public static readonly string ProcessName = Process.GetCurrentProcess().ProcessName;
         /// <summary>
         /// 是否是Win10或更新版本的windows
         /// </summary>
@@ -86,7 +87,7 @@ namespace NTMiner {
 
         public static Task SecondsDelay(this int n) {
             var tcs = new TaskCompletionSource<object>();
-            AddViaTimesLimitPath<Per1SecondEvent>("倒计时", LogEnum.None, message => {
+            BuildViaTimesLimitPath<Per1SecondEvent>("倒计时", LogEnum.None, message => {
                 n--;
                 if (n == 0) {
                     tcs.SetResult(null);

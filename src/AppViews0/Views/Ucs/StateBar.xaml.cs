@@ -23,8 +23,8 @@ namespace NTMiner.Views.Ucs {
                     Vm.OnPropertyChanged(nameof(Vm.AutoAdminLogonToolTip));
                     VirtualRoot.Execute(new RefreshIsRemoteDesktopEnabledCommand());
                 };
-                window.AddEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
-                    action: message => {
+                window.BuildEventPath<PoolDelayPickedEvent>("从内核输出中提取了矿池延时时展示到界面", LogEnum.DevConsole,
+                    path: message => {
                         if (message.IsDual) {
                             Vm.DualPoolDelayText = message.PoolDelayText;
                         }
@@ -32,31 +32,31 @@ namespace NTMiner.Views.Ucs {
                             Vm.PoolDelayText = message.PoolDelayText;
                         }
                     }, location: this.GetType());
-                window.AddEventPath<MineStartedEvent>("开始挖矿后清空矿池延时 & 挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
-                    action: message => {
+                window.BuildEventPath<MineStartedEvent>("开始挖矿后清空矿池延时 & 挖矿开始后将内核自我重启计数清零", LogEnum.DevConsole,
+                    path: message => {
                         Vm.PoolDelayText = string.Empty;
                         Vm.DualPoolDelayText = string.Empty;
                         Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                     }, location: this.GetType());
-                window.AddEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
-                    action: message => {
+                window.BuildEventPath<MineStopedEvent>("停止挖矿后将清空矿池延时", LogEnum.DevConsole,
+                    path: message => {
                         Vm.PoolDelayText = string.Empty;
                         Vm.DualPoolDelayText = string.Empty;
                     }, location: this.GetType());
-                window.AddEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
-                    action: message => {
+                window.BuildEventPath<CpuPackageStateChangedEvent>("CPU包状态变更后刷新Vm内存", LogEnum.None,
+                    path: message => {
                         UpdateCpuView();
                     }, location: this.GetType());
-                window.AddEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
-                    action: message => {
+                window.BuildEventPath<LocalIpSetInitedEvent>("本机IP集刷新后刷新状态栏", LogEnum.DevConsole,
+                    path: message => {
                         Vm.RefreshLocalIps();
                     }, location: this.GetType());
-                window.AddEventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
-                    action: message => {
+                window.BuildEventPath<MinutePartChangedEvent>("时间的分钟部分变更过更新计时器显示", LogEnum.None,
+                    path: message => {
                         Vm.UpdateDateTime();
                     }, location: this.GetType());
-                window.AddEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
-                    action: message => {
+                window.BuildEventPath<Per1SecondEvent>("挖矿计时秒表", LogEnum.None,
+                    path: message => {
                         DateTime now = DateTime.Now;
                         Vm.UpdateBootTimeSpan(now - NTMinerContext.Instance.CreatedOn);
                         var mineContext = NTMinerContext.Instance.LockedMineContext;
@@ -64,16 +64,16 @@ namespace NTMiner.Views.Ucs {
                             Vm.UpdateMineTimeSpan(now - mineContext.MineStartedOn);
                         }
                     }, location: this.GetType());
-                window.AddEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
-                    action: message => {
+                window.BuildEventPath<AppVersionChangedEvent>("发现了服务端新版本", LogEnum.DevConsole,
+                    path: message => {
                         Vm.SetCheckUpdateForeground(isLatest: EntryAssemblyInfo.CurrentVersion >= NTMinerContext.ServerVersion);
                     }, location: this.GetType());
-                window.AddEventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
-                    action: message => {
+                window.BuildEventPath<KernelSelfRestartedEvent>("内核自我重启时刷新计数器", LogEnum.DevConsole,
+                    path: message => {
                         Vm.OnPropertyChanged(nameof(Vm.KernelSelfRestartCountText));
                     }, location: this.GetType());
-                window.AddCmdPath<RefreshIsRemoteDesktopEnabledCommand>(LogEnum.DevConsole, 
-                    action: message => {
+                window.BuildCmdPath<RefreshIsRemoteDesktopEnabledCommand>(LogEnum.DevConsole, 
+                    path: message => {
                         Vm.RefreshIsRemoteDesktopEnabled();
                     }, location: this.GetType());
             });

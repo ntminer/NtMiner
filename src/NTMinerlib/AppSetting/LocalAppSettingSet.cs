@@ -10,7 +10,7 @@ namespace NTMiner.AppSetting {
 
         public LocalAppSettingSet(string dbFileFullName) {
             _dbFileFullName = dbFileFullName;
-            VirtualRoot.AddCmdPath<SetLocalAppSettingCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<SetLocalAppSettingCommand>(path: message => {
                 if (message.AppSetting == null) {
                     return;
                 }

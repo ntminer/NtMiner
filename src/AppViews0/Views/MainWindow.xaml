@@ -401,23 +401,19 @@
 								            Padding="3 0 0 0"
                                             ToolTip="1. 尽量别使用中文，因为有些矿池不支持中文矿工名；2. 点号、空格、减号、下划线将被去除。"
                                             IsReadOnly="{Binding MinerProfile.IsMining}"
+                                            IsEnabled="{Binding MinerProfile.IsSystemName,Converter={StaticResource BoolInvertConverter}}"
 								            Background="{Binding MinerProfile.IsMining,Converter={StaticResource TrueTransparentElseWhiteConverter}}"
 								            Text="{Binding MinerProfile.MinerName, UpdateSourceTrigger=LostFocus}" 
 								            VerticalContentAlignment="Center">
                                         </TextBox>
-                                        <controls:KbButton 
-								            BorderThickness="0"
-								            ToolTip="使用本机名作为矿工名"
-								            Command="{Binding UseThisPcName}"
-								            Background="Transparent"
-								            CornerRadius="2">
-                                            <Path
-									            Width="16"
-									            Height="14"
-									            Data="{StaticResource Icon_Windows}"
-									            Fill="{StaticResource BtnBackground}"
-									            Stretch="Fill" />
-                                        </controls:KbButton>
+                                        <CheckBox
+                                            Margin="2 0 0 0"
+                                            VerticalAlignment="Center"
+								            Padding="0"
+                                            ToolTip="使用本机名作为矿工名"
+								            FocusVisualStyle="{x:Null}"
+								            IsChecked="{Binding MinerProfile.IsSystemName}">
+                                        </CheckBox>
                                     </WrapPanel>
                                     <uc:StartStopMineButton Margin="10 -2 0 0" StartButtonBackground="{StaticResource BtnBackground}" StartButtonForeground="White">
                                     </uc:StartStopMineButton>

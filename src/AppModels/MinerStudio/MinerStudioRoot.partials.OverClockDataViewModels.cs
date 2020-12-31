@@ -14,12 +14,12 @@ namespace NTMiner.MinerStudio {
                     return;
                 }
                 Init(refresh: false);
-                AppRoot.AddEventPath<OverClockDataSetInitedEvent>("超频菜谱集初始化后", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<OverClockDataSetInitedEvent>("超频菜谱集初始化后", LogEnum.DevConsole,
+                    path: message => {
                         Init(refresh: true);
                     }, location: this.GetType());
-                AppRoot.AddEventPath<OverClockDataAddedEvent>("添加超频菜谱后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<OverClockDataAddedEvent>("添加超频菜谱后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (!_dicById.ContainsKey(message.Source.GetId())) {
                             _dicById.Add(message.Source.GetId(), new OverClockDataViewModel(message.Source));
                             if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
@@ -27,14 +27,14 @@ namespace NTMiner.MinerStudio {
                             }
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<OverClockDataUpdatedEvent>("更新超频菜谱后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<OverClockDataUpdatedEvent>("更新超频菜谱后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out OverClockDataViewModel vm)) {
                             vm.Update(message.Source);
                         }
                     }, location: this.GetType());
-                AppRoot.AddEventPath<OverClockDataRemovedEvent>("删除超频菜谱后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                AppRoot.BuildEventPath<OverClockDataRemovedEvent>("删除超频菜谱后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Remove(message.Source.GetId());
                         if (AppRoot.CoinVms.TryGetCoinVm(message.Source.CoinId, out CoinViewModel coinVm)) {
                             coinVm.OnPropertyChanged(nameof(coinVm.OverClockDatas));

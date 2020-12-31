@@ -21,7 +21,7 @@ namespace NTMiner.Core.Impl {
             if (ClientAppType.IsMinerClient) {
                 LocalMessageDtoSet = new LocalMessageDtoSet();
             }
-            VirtualRoot.AddCmdPath<AddLocalMessageCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddLocalMessageCommand>(path: message => {
                 InitOnece();
                 var data = LocalMessageData.Create(message.Input);
                 List<ILocalMessage> removeds = new List<ILocalMessage>();
@@ -38,7 +38,7 @@ namespace NTMiner.Core.Impl {
                 LocalMessageDtoSet.Add(data.ToDto());
                 VirtualRoot.RaiseEvent(new LocalMessageAddedEvent(message.MessageId, data, removeds));
             }, location: this.GetType());
-            VirtualRoot.AddCmdPath<ClearLocalMessageSetCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<ClearLocalMessageSetCommand>(path: message => {
                 lock (_locker) {
                     _records.Clear();
                     _dbToRemoveIds.Clear();
@@ -54,10 +54,10 @@ namespace NTMiner.Core.Impl {
                 }
                 VirtualRoot.RaiseEvent(new LocalMessageSetClearedEvent());
             }, location: this.GetType());
-            VirtualRoot.AddEventPath<Per1MinuteEvent>("周期保存LocalMessage到数据库", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期保存LocalMessage到数据库", LogEnum.DevConsole, path: message => {
                 SaveToDb();
             }, this.GetType());
-            VirtualRoot.AddEventPath<AppExitEvent>("程序退出时保存LocalMessage到数据库", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<AppExitEvent>("程序退出时保存LocalMessage到数据库", LogEnum.DevConsole, path: message => {
                 SaveToDb();
             }, this.GetType());
         }

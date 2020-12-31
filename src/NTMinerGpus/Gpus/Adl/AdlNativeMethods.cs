@@ -28,7 +28,6 @@ namespace NTMiner.Gpus.Adl {
         internal delegate AdlStatus ADL2_OverdriveN_Temperature_GetDelegate(IntPtr context, int adapterIndex, ADLODNTemperatureType temperatureType, out int temperature);
         internal delegate AdlStatus ADL_Overdrive5_FanSpeed_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
         internal delegate AdlStatus ADL_Overdrive5_FanSpeed_SetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedValue fanSpeedValue);
-        internal delegate AdlStatus ADL_Overdrive5_FanSpeedInfo_GetDelegate(int adapterIndex, int thermalControllerIndex, ref ADLFanSpeedInfo fanSpeedInfo);
         internal delegate AdlStatus ADL_Overdrive5_FanSpeedToDefault_SetDelegate(int adapterIndex, int thermalControllerIndex);
         internal delegate AdlStatus ADL2_Overdrive5_FanSpeedToDefault_SetDelegate(IntPtr context, int adapterIndex, int thermalControllerIndex);
         internal delegate AdlStatus ADL2_OverdriveN_FanControl_GetDelegate(IntPtr context, int adapterIndex, out ADLOverdriveFanControl fanControl);
@@ -84,8 +83,6 @@ namespace NTMiner.Gpus.Adl {
         internal static ADL_Overdrive5_FanSpeed_GetDelegate ADL_Overdrive5_FanSpeed_Get { get; private set; }
         [Adl]
         internal static ADL_Overdrive5_FanSpeed_SetDelegate ADL_Overdrive5_FanSpeed_Set { get; private set; }
-        [Adl]
-        internal static ADL_Overdrive5_FanSpeedInfo_GetDelegate ADL_Overdrive5_FanSpeedInfo_Get { get; private set; }
         [Adl]
         internal static ADL_Overdrive5_FanSpeedToDefault_SetDelegate ADL_Overdrive5_FanSpeedToDefault_Set { get; private set; }
         [Adl]

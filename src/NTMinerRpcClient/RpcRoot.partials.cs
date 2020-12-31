@@ -1,4 +1,6 @@
-﻿using NTMiner.Services;
+﻿using NTMiner.Rpc;
+using NTMiner.Rpc.Impl;
+using NTMiner.Services;
 
 namespace NTMiner {
     public static partial class RpcRoot {
@@ -47,8 +49,12 @@ namespace NTMiner {
             _isServerMessagesVisible = value;
         }
 
-        public static OfficialServices OfficialServer = new OfficialServices();
-        public static ClientServices Client = new ClientServices();
-        public static OSSService OSSService = new OSSService();
+        public static readonly IBinaryRequestJsonResponseRpcHelper BinaryRequestJsonResponseRpcHelper = new BinaryRequestJsonResponseRpcHelper();
+        public static readonly IHttpRpcHelper HttpRpcHelper = new HttpRpcHelper();
+        public static readonly IJsonRequestBinaryResponseRpcHelper JsonRequestBinaryResponseRpcHelper = new JsonRequestBinaryResponseRpcHelper();
+
+        public static readonly OfficialServices OfficialServer = new OfficialServices();
+        public static readonly ClientServices Client = new ClientServices();
+        public static readonly OSSService OSSService = new OSSService();
     }
 }

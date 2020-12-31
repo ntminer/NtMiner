@@ -6,13 +6,13 @@ namespace NTMiner.Core.MinerStudio.Impl {
         private readonly Dictionary<Guid, MinerGroupData> _dicById = new Dictionary<Guid, MinerGroupData>();
 
         public MinerGroupSet() {
-            VirtualRoot.AddEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, path: message => {
                 _dicById.Clear();
                 _isInited = false;
                 // 初始化以触发MinerGroupSetInitedEvent事件
                 InitOnece();
             }, this.GetType());
-            VirtualRoot.AddCmdPath<AddMinerGroupCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<AddMinerGroupCommand>(path: message => {
                 InitOnece();
                 if (!_dicById.ContainsKey(message.Input.Id)) {
                     var repository = VirtualRoot.CreateLocalRepository<MinerGroupData>();
@@ -23,7 +23,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     VirtualRoot.RaiseEvent(new MinerGroupAddedEvent(message.MessageId, data));
                 }
             }, this.GetType());
-            VirtualRoot.AddCmdPath<UpdateMinerGroupCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UpdateMinerGroupCommand>(path: message => {
                 InitOnece();
                 if (_dicById.TryGetValue(message.Input.Id, out MinerGroupData data)) {
                     var repository = VirtualRoot.CreateLocalRepository<MinerGroupData>();
@@ -33,7 +33,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
                     VirtualRoot.RaiseEvent(new MinerGroupUpdatedEvent(message.MessageId, data));
                 }
             }, this.GetType());
-            VirtualRoot.AddCmdPath<RemoveMinerGroupCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<RemoveMinerGroupCommand>(path: message => {
                 InitOnece();
                 if (_dicById.TryGetValue(message.EntityId, out MinerGroupData entity)) {
                     _dicById.Remove(message.EntityId);

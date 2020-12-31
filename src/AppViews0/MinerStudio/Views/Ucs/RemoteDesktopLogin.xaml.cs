@@ -15,7 +15,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 CloseVisible = System.Windows.Visibility.Visible,
                 FooterVisible = System.Windows.Visibility.Collapsed
             }, ucFactory: (window) => {
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new RemoteDesktopLogin(vm);
             }, beforeShow: (window, uc)=> {
                 uc.DoFocus();

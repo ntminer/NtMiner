@@ -4,7 +4,6 @@ using System.Windows.Input;
 namespace NTMiner {
     public class DelegateCommand<T> : ICommand {
         private readonly Func<T, bool> _canExecute;
-
         private readonly Action<T> _execute;
 
         public DelegateCommand(Action<T> execute)

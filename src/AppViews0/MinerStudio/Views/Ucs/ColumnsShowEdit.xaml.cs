@@ -18,7 +18,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
                 IconName = "Icon_ColumnsShow"
             }, ucFactory: (window) => {
                 // 这里没有深拷贝传入的vm，因为在矿机DataGrid的列头上也可以隐藏列，所以两个地方操作的需要是同一个vm。
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new ColumnsShowEdit(vm);
             }, fixedSize: false);
         }

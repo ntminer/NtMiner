@@ -100,7 +100,7 @@ namespace NTMiner {
                 Windows.ConsoleHandler.Register(Exit);
                 HttpServer.Start($"http://{NTKeyword.Localhost}:{NTKeyword.NTMinerDaemonPort.ToString()}");
                 DaemonWsClient = new DaemonWsClient();
-                AddEventPath<Per2MinuteEvent>("每2分钟通过Ws通道上报一次算力", LogEnum.DevConsole, action: message => {
+                BuildEventPath<Per2MinuteEvent>("每2分钟通过Ws通道上报一次算力", LogEnum.DevConsole, path: message => {
                     if (!DaemonWsClient.IsOpen) {
                         return;
                     }

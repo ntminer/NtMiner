@@ -24,7 +24,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock 
 			Grid.Row="0" Grid.Column="0" Margin="0 2" 
-			Text="登录名" Style="{StaticResource LblTbBase}"></TextBlock>
+			Text="Windows登录名" Style="{StaticResource LblTbBase}"></TextBlock>
         <TextBox 
             x:Name="TbLoginName"
 			Grid.Row="0" Grid.Column="1" Margin="0 2"
@@ -34,7 +34,7 @@
 
         <TextBlock 
 			Grid.Row="1" Grid.Column="0" Margin="0 2" 
-			Text="密码" Style="{StaticResource LblTbBase}"></TextBlock>
+			Text="Windows密码" Style="{StaticResource LblTbBase}"></TextBlock>
         <PasswordBox 
             x:Name="PbPassword"
 			Grid.Row="1" Grid.Column="1" Margin="0 2" Height="26"

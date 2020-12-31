@@ -104,7 +104,7 @@ namespace NTMiner.MinerStudio.Vms {
                             VirtualRoot.Out.ShowError("无法操作，因为选中的矿机未开启外网群控。", autoHideSeconds: 6);
                             return;
                         }
-                        VirtualRoot.AddOnecePath<GetSelfWorkLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, action: message => {
+                        VirtualRoot.BuildOnecePath<GetSelfWorkLocalJsonResponsedEvent>("获取到响应结果后填充Vm内存", LogEnum.DevConsole, path: message => {
                             if (message.ClientId == _minerClientVm.ClientId) {
                                 string data = message.Data;
                                 EditJson(formType, WorkType.SelfWork, data);

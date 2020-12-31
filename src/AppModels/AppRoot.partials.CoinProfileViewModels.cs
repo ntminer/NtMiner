@@ -15,20 +15,20 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                AddEventPath<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<CoinKernelProfilePropertyChangedEvent>("币种内核设置变更后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_coinKernelProfileDicById.ContainsKey(message.CoinKernelId)) {
                             _coinKernelProfileDicById[message.CoinKernelId].OnPropertyChanged(message.PropertyName);
                         }
                     }, location: this.GetType());
-                AddEventPath<CoinProfilePropertyChangedEvent>("币种设置变更后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<CoinProfilePropertyChangedEvent>("币种设置变更后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_coinProfileDicById.ContainsKey(message.CoinId)) {
                             _coinProfileDicById[message.CoinId].OnPropertyChanged(message.PropertyName);
                         }
                     }, location: this.GetType());
-                VirtualRoot.AddEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<LocalContextReInitedEvent>("LocalContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _coinKernelProfileDicById.Clear();
                         _coinProfileDicById.Clear();
                     }, location: this.GetType());

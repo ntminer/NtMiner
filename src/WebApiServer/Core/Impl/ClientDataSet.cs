@@ -39,7 +39,7 @@ namespace NTMiner.Core.Impl {
             _minerRedis = minerRedis;
             _speedDataRedis = speedDataRedis;
             _mqSender = mqSender;
-            VirtualRoot.AddEventPath<Per1MinuteEvent>("周期清理Redis中不活跃的来自挖矿端上报的算力记录", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理Redis中不活跃的来自挖矿端上报的算力记录", LogEnum.DevConsole, path: message => {
                 DateTime time = message.BornOn.AddSeconds(-130);
                 var toRemoveSpeed = _dicByClientId.Where(a => a.Value.MinerActiveOn != DateTime.MinValue && a.Value.MinerActiveOn <= time).ToArray();
                 _speedDataRedis.DeleteByClientIdsAsync(toRemoveSpeed.Select(a => a.Key).ToArray());
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Impl {
                 }
             }, this.GetType());
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
-            VirtualRoot.AddEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, action: message => {
+            VirtualRoot.BuildEventPath<SpeedDataMqMessage>("收到SpeedDataMq消息后更新ClientData内存", LogEnum.None, path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }
@@ -67,7 +67,7 @@ namespace NTMiner.Core.Impl {
                     ReportSpeed(t.Result.SpeedDto, message.MinerIp, isFromWsServerNode: true);
                 });
             }, this.GetType());
-            VirtualRoot.AddEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, action: message => {
+            VirtualRoot.BuildEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
@@ -77,7 +77,7 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = true;
                 }
             }, this.GetType());
-            VirtualRoot.AddEventPath<MinerClientWsClosedMqMessage>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, action: message => {
+            VirtualRoot.BuildEventPath<MinerClientWsClosedMqMessage>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
@@ -87,7 +87,7 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = false;
                 }
             }, this.GetType());
-            VirtualRoot.AddEventPath<MinerClientWsBreathedMqMessage>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.None, action: message => {
+            VirtualRoot.BuildEventPath<MinerClientWsBreathedMqMessage>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
                     NTMinerConsole.UserOk(_safeIgnoreMessage);
                     return;
@@ -97,7 +97,7 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOnline = true;
                 }
             }, this.GetType());
-            VirtualRoot.AddCmdPath<ChangeMinerSignMqMessage>(action: message => {
+            VirtualRoot.BuildCmdPath<ChangeMinerSignMqMessage>(path: message => {
                 if (_dicByObjectId.TryGetValue(message.Data.Id, out ClientData clientData)) {
                     clientData.Update(message.Data, out bool isChanged);
                     if (isChanged) {

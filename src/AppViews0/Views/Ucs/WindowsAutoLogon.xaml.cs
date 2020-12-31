@@ -15,7 +15,7 @@ namespace NTMiner.Views.Ucs {
                 IsChildWindow = true
             }, ucFactory: (window) => {
                 WindowsAutoLogonViewModel vm = new WindowsAutoLogonViewModel();
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new WindowsAutoLogon(vm);
             }, beforeShow: (window, uc)=> {
                 uc.PasswordFocus();

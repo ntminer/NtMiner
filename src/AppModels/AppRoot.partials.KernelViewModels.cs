@@ -19,33 +19,33 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.AddEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEvent>("ServerContext刷新后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Clear();
                         Init();
                     }, location: this.GetType());
-                VirtualRoot.AddEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<ServerContextReInitedEventHandledEvent>("ServerContext的VM集刷新后刷新视图界面", LogEnum.DevConsole,
+                    path: message => {
                         OnPropertyChanged(nameof(AllKernels));
                     }, location: this.GetType());
-                AddEventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
-                    action: (message) => {
+                BuildEventPath<KernelAddedEvent>("添加了内核后调整VM内存", LogEnum.DevConsole,
+                    path: (message) => {
                         _dicById.Add(message.Source.GetId(), new KernelViewModel(message.Source));
                         OnPropertyChanged(nameof(AllKernels));
                         foreach (var coinKernelVm in CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     }, location: this.GetType());
-                AddEventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<KernelRemovedEvent>("删除了内核后调整VM内存", LogEnum.DevConsole,
+                    path: message => {
                         _dicById.Remove(message.Source.GetId());
                         OnPropertyChanged(nameof(AllKernels));
                         foreach (var coinKernelVm in CoinKernelVms.AllCoinKernels.Where(a => a.KernelId == message.Source.GetId())) {
                             coinKernelVm.OnPropertyChanged(nameof(coinKernelVm.IsSupportDualMine));
                         }
                     }, location: this.GetType());
-                AddEventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<KernelUpdatedEvent>("更新了内核后调整VM内存", LogEnum.DevConsole,
+                    path: message => {
                         if (_dicById.TryGetValue(message.Source.GetId(), out KernelViewModel vm)) {
                             PublishStatus publishStatus = vm.PublishState;
                             Guid kernelInputId = vm.KernelInputId;

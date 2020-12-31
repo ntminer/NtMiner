@@ -34,11 +34,9 @@ namespace NTMiner.Views {
 #if DEBUG
             NTStopwatch.Start();
 #endif
-            ConsoleWindow.Instance.Show();
             ConsoleWindow.Instance.MouseDown += (sender, e) => {
                 MoveConsoleWindow();
             };
-            this.Owner = ConsoleWindow.Instance;
             SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
             this.Loaded += (sender, e) => {
                 ConsoleTabItemTopBorder.Margin = new Thickness(0, ConsoleTabItem.ActualHeight - 1, 0, 0);
@@ -161,21 +159,21 @@ namespace NTMiner.Views {
             this.LocationChanged += (sender, e) => {
                 MoveConsoleWindow();
             };
-            VirtualRoot.AddCmdPath<TopmostCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<TopmostCommand>(path: message => {
                 UIThread.Execute(() => {
                     if (!this.Topmost) {
                         this.Topmost = true;
                     }
                 });
             }, this.GetType());
-            VirtualRoot.AddCmdPath<UnTopmostCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<UnTopmostCommand>(path: message => {
                 UIThread.Execute(() => {
                     if (this.Topmost) {
                         this.Topmost = false;
                     }
                 });
             }, this.GetType());
-            VirtualRoot.AddCmdPath<CloseMainWindowCommand>(action: message => {
+            VirtualRoot.BuildCmdPath<CloseMainWindowCommand>(path: message => {
                 UIThread.Execute(() => {
                     if (message.IsAutoNoUi) {
                         SwitchToNoUi();
@@ -185,8 +183,8 @@ namespace NTMiner.Views {
                     }
                 });
             }, location: this.GetType());
-            this.AddEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
-                action: message => {
+            this.BuildEventPath<Per1MinuteEvent>("挖矿中时自动切换为无界面模式", LogEnum.DevConsole,
+                path: message => {
                     if (NTMinerContext.IsUiVisible && NTMinerContext.Instance.MinerProfile.IsAutoNoUi && NTMinerContext.Instance.IsMining) {
                         if (NTMinerContext.MainWindowRendedOn.AddMinutes(NTMinerContext.Instance.MinerProfile.AutoNoUiMinutes) < message.BornOn) {
                             VirtualRoot.ThisLocalInfo(nameof(MainWindow), $"挖矿中界面展示{NTMinerContext.Instance.MinerProfile.AutoNoUiMinutes}分钟后自动切换为无界面模式，可在选项页调整配置");

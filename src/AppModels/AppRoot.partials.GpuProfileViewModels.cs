@@ -16,8 +16,8 @@ namespace NTMiner {
                 if (WpfUtil.IsInDesignMode) {
                     return;
                 }
-                VirtualRoot.AddEventPath<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
-                    action: message => {
+                VirtualRoot.BuildEventPath<GpuProfileSetRefreshedEvent>("Gpu超频集合刷新后刷新附着在当前币种上的超频数据", LogEnum.DevConsole,
+                    path: message => {
                         lock (_locker) {
                             _listByCoinId.Clear();
                             _gpuAllVmDicByCoinId.Clear();
@@ -28,8 +28,8 @@ namespace NTMiner {
                             VirtualRoot.Execute(new CoinOverClockCommand(coinVm.Id));
                         }
                     }, location: this.GetType());
-                AddEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
-                    action: message => {
+                BuildEventPath<GpuProfileAddedOrUpdatedEvent>("添加或更新了Gpu超频数据后刷新VM内存", LogEnum.DevConsole,
+                    path: message => {
                         lock (_locker) {
                             if (_listByCoinId.TryGetValue(message.Source.CoinId, out List<GpuProfileViewModel> list)) {
                                 var vm = list.FirstOrDefault(a => a.Index == message.Source.Index);

@@ -22,13 +22,13 @@ namespace NTMiner.Ws {
         private readonly NTMinerAppType _appType;
         public AbstractWsClient(NTMinerAppType appType) {
             _appType = appType;
-            VirtualRoot.AddEventPath<Per1SecondEvent>("重试Ws连接的秒表倒计时", LogEnum.None, action: message => {
+            VirtualRoot.BuildEventPath<Per1SecondEvent>("重试Ws连接的秒表倒计时", LogEnum.None, path: message => {
                 if (NextTrySecondsDelay > 0) {
                     NextTrySecondsDelay--;
                 }
             }, typeof(VirtualRoot));
-            VirtualRoot.AddEventPath<Per10SecondEvent>("周期检查Ws连接", LogEnum.None,
-                action: message => {
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("周期检查Ws连接", LogEnum.None,
+                path: message => {
                     if (_continueCount >= _failConnCount) {
                         _continueCount = 0;
                         OpenOrCloseWs();
@@ -37,7 +37,7 @@ namespace NTMiner.Ws {
                         _continueCount++;
                     }
                 }, typeof(VirtualRoot));
-            VirtualRoot.AddEventPath<Per20SecondEvent>("周期Ws Ping", LogEnum.None, action: message => {
+            VirtualRoot.BuildEventPath<Per20SecondEvent>("周期Ws Ping", LogEnum.None, path: message => {
                 try {
                     if (_ws != null && _ws.ReadyState == WebSocketState.Open) {
                         // 或者_ws.IsAlive，因为_ws.IsAlive内部也是一个Ping，所以用Ping从而显式化这里有个网络请求
@@ -52,7 +52,7 @@ namespace NTMiner.Ws {
                     Logger.ErrorDebugLine(e);
                 }
             }, typeof(VirtualRoot));
-            VirtualRoot.AddEventPath<AppExitEvent>("退出程序时关闭Ws连接", LogEnum.DevConsole, action: message => {
+            VirtualRoot.BuildEventPath<AppExitEvent>("退出程序时关闭Ws连接", LogEnum.DevConsole, path: message => {
                 _ws?.CloseAsync(CloseStatusCode.Normal, "客户端程序退出");
             }, this.GetType());
             OpenOrCloseWs();

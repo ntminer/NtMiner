@@ -14,7 +14,7 @@ namespace NTMiner.Core.Impl {
         public UserSet(IUserRedis redis, IUserMqSender mqSender) : base(redis) {
             _redis = redis;
             _mqSender = mqSender;
-            VirtualRoot.AddCmdPath<UpdateUserRSAKeyMqMessage>(action: message => {
+            VirtualRoot.BuildCmdPath<UpdateUserRSAKeyMqMessage>(path: message => {
                 if (message.AppId == ServerRoot.HostConfig.ThisServerAddress) {
                     return;
                 }

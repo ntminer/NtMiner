@@ -37,6 +37,7 @@ namespace NTMiner.Core.Profile {
         public MinerProfileData() {
             // 这些赋值的意义是为模型新增的属性提供默认值，因为新增的属性在数据库中没有值
             MinerName = string.Empty;
+            IsSystemName = false;
             IsAutoRestartKernel = true;
             AutoRestartKernelTimes = 10;
             IsNoShareRestartKernel = false;
@@ -71,7 +72,9 @@ namespace NTMiner.Core.Profile {
             IsAutoNoUi = false;
             AutoNoUiMinutes = 10;
             IsShowNotifyIcon = true;
+            IsPreventDisplaySleep = true;
             IsCloseMeanExit = false;
+            Is1080PillEnabled = true;
             IsShowCommandLine = false;
             IsAutoBoot = false;
             IsCreateShortcut = true;
@@ -93,6 +96,8 @@ namespace NTMiner.Core.Profile {
         }
         public Guid Id { get; set; }
         public string MinerName { get; set; }
+        [WorkIgnore]
+        public bool IsSystemName { get; set; }
         public bool IsAutoRestartKernel { get; set; }
         public int AutoRestartKernelTimes { get; set; }
         public Guid CoinId { get; set; }
@@ -161,7 +166,13 @@ namespace NTMiner.Core.Profile {
         public bool IsShowNotifyIcon { get; set; }
 
         [WorkIgnore]
+        public bool IsPreventDisplaySleep { get; set; }
+
+        [WorkIgnore]
         public bool IsCloseMeanExit { get; set; }
+
+        [WorkIgnore]
+        public bool Is1080PillEnabled { get; set; }
 
         [WorkIgnore]
         public bool IsShowCommandLine { get; set; }

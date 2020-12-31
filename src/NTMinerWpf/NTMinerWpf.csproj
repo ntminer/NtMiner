@@ -46,6 +46,10 @@
     <Compile Include="Converters\IntToHiddenConverter.cs" />
     <Compile Include="Converters\MbToGbConverter.cs" />
     <Compile Include="FrameworkElementExtension.cs" />
+    <Compile Include="Views\Ucs\MessagePathIds.xaml.cs">
+      <DependentUpon>MessagePathIds.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Vms\MessagePathIdsViewModel.cs" />
     <Compile Include="Vms\PagingViewModel.cs" />
     <Compile Include="IVmFrameworkElement`1.cs" />
     <Compile Include="Controls\ControlExtensions.cs" />
@@ -213,6 +217,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Design\MessagePathIdsViewModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\InputWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -234,6 +242,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Ucs\MessagePathIds.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

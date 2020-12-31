@@ -29,7 +29,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
             this.DataContext = this.Vm;
             InitializeComponent();
             this.OnLoaded(window => {
-                window.AddEventPath<Per20SecondEvent>("外网群控服务器节点列表页面打开着时周期刷新", LogEnum.None, action: message => {
+                window.BuildEventPath<Per20SecondEvent>("外网群控服务器节点列表页面打开着时周期刷新", LogEnum.None, path: message => {
                     Vm.Refresh();
                 }, this.GetType());
             });

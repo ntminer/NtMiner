@@ -14,7 +14,7 @@ namespace NTMiner.Views.Ucs {
                 IconName = "Icon_Restart"
             }, ucFactory: (window) => {
                 RestartWindows uc = new RestartWindows(vm);
-                window.AddCloseWindowOnecePath(uc.Vm.Id);
+                window.BuildCloseWindowOnecePath(uc.Vm.Id);
                 return uc;
             }, fixedSize: true);
         }
@@ -28,7 +28,7 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             this.OnLoaded(window => {
                 IMessagePathId messagePathId = null;
-                messagePathId = window.AddViaTimesLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, action: message => {
+                messagePathId = window.BuildViaTimesLimitPath<Per1SecondEvent>("重启倒计时", LogEnum.None, path: message => {
                     if (_isCanceled) {
                         return;
                     }

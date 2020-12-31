@@ -217,9 +217,6 @@
     <Compile Include="Views\Ucs\Property.xaml.cs">
       <DependentUpon>Property.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Ucs\MessagePathIds.xaml.cs">
-      <DependentUpon>MessagePathIds.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Ucs\ServerMessages.xaml.cs">
       <DependentUpon>ServerMessages.xaml</DependentUpon>
     </Compile>
@@ -502,10 +499,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Design\OuterPropertyViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Design\MessagePathIdsViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -842,10 +835,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Ucs\Property.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Ucs\MessagePathIds.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

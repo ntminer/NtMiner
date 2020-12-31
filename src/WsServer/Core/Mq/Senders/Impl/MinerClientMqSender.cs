@@ -16,7 +16,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             }
             var basicProperties = CreateBasicProperties(loginName);
             basicProperties.Headers[MqKeyword.MinerIpHeaderName] = minerIp;
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.SpeedRoutingKey,
                 basicProperties: basicProperties,
@@ -28,7 +28,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties(loginName);
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientWsOpenedRoutingKey,
                 basicProperties: basicProperties,
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties(loginName);
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientWsClosedRoutingKey,
                 basicProperties: basicProperties,
@@ -52,7 +52,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties(loginName);
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientWsBreathedRoutingKey,
                 basicProperties: basicProperties,
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties();
-            _serverConnection.Channel.BasicPublish(
+            _serverConnection.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.ChangeMinerSignRoutingKey,
                 basicProperties: basicProperties,
@@ -72,7 +72,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties(string loginName) {
-            var basicProperties = _serverConnection.Channel.CreateBasicProperties();
+            var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
@@ -85,7 +85,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties() {
-            var basicProperties = _serverConnection.Channel.CreateBasicProperties();
+            var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = true;// 持久化的
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;

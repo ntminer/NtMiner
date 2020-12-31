@@ -6,7 +6,7 @@ namespace NTMiner.MinerStudio.Views.Ucs {
         public static void ShowWindow() {
             MinerClientAddViewModel vm = new MinerClientAddViewModel();
             Window window = new MinerClientAdd(vm);
-            window.AddCloseWindowOnecePath(vm.Id);
+            window.BuildCloseWindowOnecePath(vm.Id);
             window.MousePosition();
             window.ShowSoftDialog();
         }

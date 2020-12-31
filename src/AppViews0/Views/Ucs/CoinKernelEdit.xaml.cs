@@ -19,7 +19,7 @@ namespace NTMiner.Views.Ucs {
             }, ucFactory: (window) =>
             {
                 CoinKernelViewModel vm = new CoinKernelViewModel(source);
-                window.AddCloseWindowOnecePath(vm.Id);
+                window.BuildCloseWindowOnecePath(vm.Id);
                 return new CoinKernelEdit(vm);
             }, fixedSize: true);
         }
