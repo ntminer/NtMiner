@@ -20,12 +20,10 @@ namespace NTMiner.Gpus {
         }
 
         #region static NvmlInit
-        private static readonly string _nvsmiDir = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI");
-        private static readonly string _nvmlDllFileFullName = Path.Combine(_nvsmiDir, "nvml.dll");
-        private static readonly string _nvmlDllFileFullName2 = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "nvml.dll");
+        private static readonly string _nvmlDllFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "NVIDIA Corporation", "NVSMI", "nvml.dll");
+        private static readonly string _system32nvmlDllFileFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "nvml.dll");
         private static bool _isNvmlInited = false;
         private static readonly object _locker = new object();
-        private static int _nvmlInitFailCount = 0;
         private static bool NvmlInit() {
             if (_isNvmlInited) {
                 return _isNvmlInited;
@@ -38,23 +36,11 @@ namespace NTMiner.Gpus {
 #if DEBUG
                     NTStopwatch.Start();
 #endif
-                    if (!Directory.Exists(_nvsmiDir)) {
-                        Directory.CreateDirectory(_nvsmiDir);
+                    if (!File.Exists(_system32nvmlDllFileFullName) && File.Exists(_nvmlDllFileFullName)) {
+                        File.Copy(_nvmlDllFileFullName, _system32nvmlDllFileFullName);
                     }
-                    if (!File.Exists(_nvmlDllFileFullName) && File.Exists(_nvmlDllFileFullName2)) {
-                        File.Copy(_nvmlDllFileFullName2, _nvmlDllFileFullName);
-                    }
-                    NvmlNativeMethods.SetDllDirectory(_nvsmiDir);
-                    var nvmlReturn = NvmlNativeMethods.nvmlInit();
-                    NvmlNativeMethods.SetDllDirectory(null);
+                    var nvmlReturn = NvmlNativeMethods.NvmlInit();
                     _isNvmlInited = nvmlReturn == nvmlReturn.Success;
-                    // 没什么用，做个防御
-                    if (!_isNvmlInited) {
-                        _nvmlInitFailCount++;
-                        if (_nvmlInitFailCount >= 10) {
-                            _isNvmlInited = true;
-                        }
-                    }
 #if DEBUG
                     var elapsedMilliseconds = NTStopwatch.Stop();
                     if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
@@ -65,6 +51,7 @@ namespace NTMiner.Gpus {
                 }
                 catch (Exception e) {
                     Logger.ErrorDebugLine(e);
+                    _isNvmlInited = true;
                 }
                 return false;
             }

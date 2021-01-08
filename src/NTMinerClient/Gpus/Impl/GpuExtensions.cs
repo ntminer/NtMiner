@@ -1,17 +1,5 @@
-﻿using System;
-
-namespace NTMiner.Gpus.Impl {
+﻿namespace NTMiner.Gpus.Impl {
     public static class GpuExtensions {
-        public static int GetOverClockId(this IGpu gpu) {
-            if (NTMinerContext.Instance.GpuSet.GpuType != GpuType.NVIDIA) {
-                return gpu.Index;
-            }
-            if (int.TryParse(gpu.BusId, out int busId)) {
-                return busId;
-            }
-            throw new FormatException("BusId的格式必须是数字");
-        }
-
         public static void UpdateState(this IGpu gpu, OverClockRange range) {
             gpu.CoreClockDeltaMin = range.CoreClockMin;
             gpu.CoreClockDeltaMax = range.CoreClockMax;

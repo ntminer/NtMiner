@@ -1,10 +1,7 @@
 ﻿namespace NTMiner.Gpus {
     public interface IOverClock {
-        void SetCoreClock(int gpuIndex, int value, int voltage);
-        void SetMemoryClock(int gpuIndex, int value, int voltage);
-        void SetPowerLimit(int gpuIndex, int value);
-        void SetTempLimit(int gpuIndex, int value);
         void SetFanSpeed(int gpuIndex, int value);
+        void OverClock(int gpuIndex, int coreClockMHz, int coreClockVoltage, int memoryClockMHz, int memoryClockVoltage, int powerLimit, int tempLimit, int fanSpeed);
         void RefreshGpuState(int gpuIndex);
         void Restore();
     }

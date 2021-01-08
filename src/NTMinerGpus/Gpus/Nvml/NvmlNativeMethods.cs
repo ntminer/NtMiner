@@ -2,11 +2,20 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-
 namespace NTMiner.Gpus.Nvml {
     internal static class NvmlNativeMethods {
-        [DllImport(DllName.Kernel32Dll, CharSet = CharSet.Unicode, SetLastError = true)]
-        internal static extern bool SetDllDirectory(string lpPathName);
+        public static nvmlReturn NvmlInit() {
+            try {
+                var result = nvmlInit_v2();
+                if (result != nvmlReturn.Success) {
+                    result = nvmlInit();
+                }
+                return result;
+            }
+            catch {
+                return nvmlReturn.LibraryNotFound;
+            }
+        }
 
         private const string NVML_API_DLL_NAME = "nvml";
 
@@ -36,7 +45,10 @@ namespace NTMiner.Gpus.Nvml {
         ///         - \ref NVML_ERROR_UNKNOWN             on any unexpected error
         /// </returns>
         [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlInit_v2")]
-        internal static extern nvmlReturn nvmlInit();
+        private static extern nvmlReturn nvmlInit_v2();
+
+        [DllImport(NVML_API_DLL_NAME, EntryPoint = "nvmlInit")]
+        private static extern nvmlReturn nvmlInit();
 
 
         /// <summary>

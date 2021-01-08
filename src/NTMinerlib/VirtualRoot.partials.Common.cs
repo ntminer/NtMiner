@@ -13,6 +13,38 @@ namespace NTMiner {
         private static readonly object _locker = new object();
         public static readonly string AppFileFullName = Process.GetCurrentProcess().MainModule.FileName;
         public static readonly string ProcessName = Process.GetCurrentProcess().ProcessName;
+        private static PerformanceCounter _performanceCounter = null;
+        private static bool _performanceCounterError = false;
+        private static PerformanceCounter PerformanceCounter {
+            get {
+                if (_performanceCounterError) {
+                    return null;
+                }
+                if (_performanceCounter == null) {
+                    lock (_locker) {
+                        if (_performanceCounter == null) {
+                            try {
+                                _performanceCounter = new PerformanceCounter("Process", "Working Set - Private", ProcessName);
+                            }
+                            catch (Exception e) {
+                                _performanceCounterError = true;
+                                Logger.ErrorDebugLine(e);
+                            }
+                        }
+                    }
+                }
+                return _performanceCounter;
+            }
+        }
+
+        public static double ProcessMemoryMb {
+            get {
+                if (PerformanceCounter == null) {
+                    return 0.0;
+                }
+                return PerformanceCounter.RawValue / NTKeyword.DoubleM;
+            }
+        }
         /// <summary>
         /// 是否是Win10或更新版本的windows
         /// </summary>

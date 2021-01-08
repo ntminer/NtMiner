@@ -37,6 +37,72 @@ namespace NTMiner {
         public class LocalIpSetImpl : ILocalIpSet {
             private LocalIpDto[] _localIps = new LocalIpDto[0];
             public LocalIpSetImpl() {
+                NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
+                    // 延迟获取网络信息以防止立即获取时获取不到
+                    1.SecondsDelay().ContinueWith(t => {
+                        var old = _localIps;
+                        _isInited = false;
+                        InitOnece();
+                        var localIps = _localIps;
+                        if (localIps.Length == 0) {
+                            ThisLocalWarn(nameof(LocalIpSetImpl), "网络连接已断开", toConsole: true);
+                        }
+                        else if (old.Length == 0) {
+                            ThisLocalInfo(nameof(LocalIpSetImpl), "网络连接已连接", toConsole: true);
+                        }
+                    });
+                };
+                NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
+                    if (e.IsAvailable) {
+                        ThisLocalInfo(nameof(LocalIpSetImpl), $"网络可用", toConsole: true);
+                    }
+                    else {
+                        ThisLocalWarn(nameof(LocalIpSetImpl), $"网络不可用", toConsole: true);
+                    }
+                };
+                BuildCmdPath<SetLocalIpCommand>(path: message => {
+                    #region
+                    ManagementObject mo = null;
+                    using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
+                    using (ManagementObjectCollection moc = mc.GetInstances()) {
+                        foreach (ManagementObject item in moc) {
+                            if ((string)item["SettingID"] == message.Input.SettingID) {
+                                mo = item;
+                                break;
+                            }
+                        }
+                    }
+                    if (mo != null) {
+                        if (message.Input.DHCPEnabled) {
+                            mo.InvokeMethod("EnableStatic", null);
+                            mo.InvokeMethod("SetGateways", null);
+                            mo.InvokeMethod("EnableDHCP", null);
+                            1.SecondsDelay().ContinueWith(t => {
+                                _isInited = false;
+                                InitOnece();
+                            });
+                        }
+                        else {
+                            ManagementBaseObject inPar = mo.GetMethodParameters("EnableStatic");
+                            inPar["IPAddress"] = new string[] { message.Input.IPAddress };
+                            inPar["SubnetMask"] = new string[] { message.Input.IPSubnet };
+                            mo.InvokeMethod("EnableStatic", inPar, null);
+                            inPar = mo.GetMethodParameters("SetGateways");
+                            inPar["DefaultIPGateway"] = new string[] { message.Input.DefaultIPGateway };
+                            mo.InvokeMethod("SetGateways", inPar, null);
+                        }
+
+                        if (message.IsAutoDNSServer) {
+                            mo.InvokeMethod("SetDNSServerSearchOrder", null);
+                        }
+                        else {
+                            ManagementBaseObject inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
+                            inPar["DNSServerSearchOrder"] = new string[] { message.Input.DNSServer0, message.Input.DNSServer1 };
+                            mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
+                        }
+                    }
+                    #endregion
+                }, location: this.GetType());
             }
 
             private bool _isInited = false;
@@ -56,72 +122,6 @@ namespace NTMiner {
                 lock (_locker) {
                     if (!_isInited) {
                         _isInited = true;
-                        NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
-                            // 延迟获取网络信息以防止立即获取时获取不到
-                            1.SecondsDelay().ContinueWith(t => {
-                                var old = _localIps;
-                                _isInited = false;
-                                InitOnece();
-                                var localIps = _localIps;
-                                if (localIps.Length == 0) {
-                                    ThisLocalWarn(nameof(LocalIpSetImpl), "网络连接已断开", toConsole: true);
-                                }
-                                else if (old.Length == 0) {
-                                    ThisLocalInfo(nameof(LocalIpSetImpl), "网络连接已连接", toConsole: true);
-                                }
-                            });
-                        };
-                        NetworkChange.NetworkAvailabilityChanged += (object sender, NetworkAvailabilityEventArgs e) => {
-                            if (e.IsAvailable) {
-                                ThisLocalInfo(nameof(LocalIpSetImpl), $"网络可用", toConsole: true);
-                            }
-                            else {
-                                ThisLocalWarn(nameof(LocalIpSetImpl), $"网络不可用", toConsole: true);
-                            }
-                        };
-                        BuildCmdPath<SetLocalIpCommand>(path: message => {
-                            #region
-                            ManagementObject mo = null;
-                            using (ManagementClass mc = new ManagementClass("Win32_NetworkAdapterConfiguration"))
-                            using (ManagementObjectCollection moc = mc.GetInstances()) {
-                                foreach (ManagementObject item in moc) {
-                                    if ((string)item["SettingID"] == message.Input.SettingID) {
-                                        mo = item;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (mo != null) {
-                                if (message.Input.DHCPEnabled) {
-                                    mo.InvokeMethod("EnableStatic", null);
-                                    mo.InvokeMethod("SetGateways", null);
-                                    mo.InvokeMethod("EnableDHCP", null);
-                                    1.SecondsDelay().ContinueWith(t => {
-                                        _isInited = false;
-                                        InitOnece();
-                                    });
-                                }
-                                else {
-                                    ManagementBaseObject inPar = mo.GetMethodParameters("EnableStatic");
-                                    inPar["IPAddress"] = new string[] { message.Input.IPAddress };
-                                    inPar["SubnetMask"] = new string[] { message.Input.IPSubnet };
-                                    mo.InvokeMethod("EnableStatic", inPar, null);
-                                    inPar = mo.GetMethodParameters("SetGateways");
-                                    inPar["DefaultIPGateway"] = new string[] { message.Input.DefaultIPGateway };
-                                    mo.InvokeMethod("SetGateways", inPar, null);
-                                }
-
-                                if (message.IsAutoDNSServer) {
-                                    mo.InvokeMethod("SetDNSServerSearchOrder", null);
-                                }
-                                else {
-                                    ManagementBaseObject inPar = mo.GetMethodParameters("SetDNSServerSearchOrder");
-                                    inPar["DNSServerSearchOrder"] = new string[] { message.Input.DNSServer0, message.Input.DNSServer1 };
-                                    mo.InvokeMethod("SetDNSServerSearchOrder", inPar, null);
-                                }
-                            }
-                            #endregion
-                        }, location: this.GetType());
                         _localIps = GetLocalIps();
                         RaiseEvent(new LocalIpSetInitedEvent());
                     }

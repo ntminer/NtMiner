@@ -103,7 +103,6 @@
     <Compile Include="Core\EmptyLocalMessageDtoSet.cs" />
     <Compile Include="Gpus\GpuSetExtension.cs" />
     <Compile Include="Gpus\EmptyGpuSet.cs" />
-    <Compile Include="Gpus\IGpu.cs" />
     <Compile Include="Gpus\Impl\EmptyOverClock.cs" />
     <Compile Include="Gpus\GpuSetProperty.cs" />
     <Compile Include="Gpus\Impl\AMDGpuSet.cs" />

@@ -233,12 +233,12 @@ namespace NTMiner {
             }
         }
 
-        public static bool IsAmdGpu {
+        public static bool IsHasATIGpu {
             get {
                 if (WpfUtil.IsInDesignMode) {
                     return true;
                 }
-                return NTMinerContext.Instance.GpuSet.GpuType == GpuType.AMD;
+                return AdlHelper.IsHasATIGpu;
             }
         }
         #endregion

@@ -11,7 +11,10 @@ namespace NTMiner.Gpus.Impl {
             this.Gpu = gpu;
             _mainCoinSpeed = mainCoinSpeed;
             _dualCoinSpeed = dualCoinSpeed;
+            FoundShareOn = DateTime.MinValue;
         }
+
+        public DateTime FoundShareOn { get; private set; }
 
         public IGpu Gpu { get; private set; }
 
@@ -26,15 +29,18 @@ namespace NTMiner.Gpus.Impl {
         public void Reset() {
             _mainCoinSpeed.Reset();
             _dualCoinSpeed.Reset();
+            FoundShareOn = DateTime.MinValue;
         }
 
         public void ResetShare() {
             _mainCoinSpeed.ResetShare();
             _dualCoinSpeed.ResetShare();
+            FoundShareOn = DateTime.MinValue;
         }
 
         public void IncreaseMainCoinFoundShare() {
             _mainCoinSpeed.FoundShare++;
+            FoundShareOn = DateTime.Now;
         }
 
         public void IncreaseMainCoinAcceptShare() {

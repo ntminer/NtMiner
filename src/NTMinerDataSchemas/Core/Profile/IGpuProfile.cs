@@ -1,5 +1,4 @@
-﻿using NTMiner.Core;
-using System;
+﻿using System;
 
 namespace NTMiner.Core.Profile {
     public interface IGpuProfile : IOverClockInput, IEntity<string> {

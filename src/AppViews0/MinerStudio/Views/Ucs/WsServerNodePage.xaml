@@ -32,6 +32,8 @@
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}">节点地址</TextBlock>
                 <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.Address}"></TextBlock>
+                <TextBlock Style="{StaticResource LblTb}">进程内存</TextBlock>
+                <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.ProcessMemoryMbText}"></TextBlock>
                 <TextBlock Style="{StaticResource LblTb}">总内存</TextBlock>
                 <TextBlock Style="{StaticResource TextBlock}" Text="{Binding WebApiServerStateVm.TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}"></TextBlock>
                 <TextBlock Style="{StaticResource LblTb}">剩余内存</TextBlock>
@@ -73,6 +75,8 @@
                 <DataGridTextColumn IsReadOnly="True" Width="124" Header="群控客户端Ws会话数" Binding="{Binding MinerStudioWsSessionCount}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="106" Header="群控客户端会话数" Binding="{Binding MinerStudioSessionCount}">
+                </DataGridTextColumn>
+                <DataGridTextColumn IsReadOnly="True" Width="90" Header="进程内存" Binding="{Binding ProcessMemoryMbText}">
                 </DataGridTextColumn>
                 <DataGridTextColumn IsReadOnly="True" Width="90" Header="总内存" Binding="{Binding TotalPhysicalMemory,Converter={StaticResource ByteToGbConverter}}">
                 </DataGridTextColumn>

@@ -11,9 +11,8 @@ namespace NTMiner.MinerStudio.Vms {
         private ulong _totalPhysicalMemory;
         private string _address;
         private double _cpuPerformance;
-        private double _processPerformance;
         private ulong _availablePhysicalMemory;
-        private ulong _workingSet;
+        private double _processMemoryMb;
         private CpuData _cpu;
         private CpuDataViewModel _cpuVm;
         private List<WsServerNodeState> _wsServerNodes;
@@ -25,9 +24,8 @@ namespace NTMiner.MinerStudio.Vms {
             _totalPhysicalMemory = data.TotalPhysicalMemory;
             _address = data.Address;
             _cpuPerformance = data.CpuPerformance;
-            _processPerformance = data.ProcessPerformance;
             _availablePhysicalMemory = data.AvailablePhysicalMemory;
-            _workingSet = data.WorkingSet;
+            _processMemoryMb = data.ProcessMemoryMb;
             _cpu = data.Cpu;
             _cpuVm = new CpuDataViewModel(data.Cpu);
             _wsServerNodes = data.WsServerNodes;
@@ -40,9 +38,8 @@ namespace NTMiner.MinerStudio.Vms {
             this.TotalPhysicalMemory = data.TotalPhysicalMemory;
             this.Address = data.Address;
             this.CpuPerformance = data.CpuPerformance;
-            this.ProcessPerformance = data.ProcessPerformance;
             this.AvailablePhysicalMemory = data.AvailablePhysicalMemory;
-            this.WorkingSet = data.WorkingSet;
+            this.ProcessMemoryMb = data.ProcessMemoryMb;
             this.Cpu = data.Cpu;
             this.WsServerNodes = data.WsServerNodes;
         }
@@ -162,23 +159,6 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public double ProcessPerformance {
-            get => _processPerformance;
-            set {
-                if (_processPerformance != value) {
-                    _processPerformance = value;
-                    OnPropertyChanged(nameof(ProcessPerformance));
-                    OnPropertyChanged(nameof(ProcessPerformanceText));
-                }
-            }
-        }
-
-        public string ProcessPerformanceText {
-            get {
-                return this.ProcessPerformance.ToString("f1") + " %";
-            }
-        }
-
         public ulong AvailablePhysicalMemory {
             get => _availablePhysicalMemory;
             set {
@@ -189,13 +169,20 @@ namespace NTMiner.MinerStudio.Vms {
             }
         }
 
-        public ulong WorkingSet {
-            get => _workingSet;
+        public double ProcessMemoryMb {
+            get => _processMemoryMb;
             set {
-                if (_workingSet != value) {
-                    _workingSet = value;
-                    OnPropertyChanged(nameof(WorkingSet));
+                if (_processMemoryMb != value) {
+                    _processMemoryMb = value;
+                    OnPropertyChanged(nameof(ProcessMemoryMb));
+                    OnPropertyChanged(nameof(ProcessMemoryMbText));
                 }
+            }
+        }
+
+        public string ProcessMemoryMbText {
+            get {
+                return this.ProcessMemoryMb.ToString("f1") + " Mb";
             }
         }
     }

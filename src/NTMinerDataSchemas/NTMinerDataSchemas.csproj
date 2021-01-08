@@ -43,9 +43,11 @@
     <Compile Include="Base64Util.cs" />
     <Compile Include="ConsoleOutLine.cs" />
     <Compile Include="Core\CaptchaData.cs" />
+    <Compile Include="Gpus\GpuExtensions.cs" />
     <Compile Include="Gpus\GpuName.cs" />
     <Compile Include="Gpus\GpuNameCount.cs" />
     <Compile Include="Gpus\GpuNameCountExtensions.cs" />
+    <Compile Include="Gpus\IGpu.cs" />
     <Compile Include="Gpus\IGpuName.cs" />
     <Compile Include="Gpus\IGpuNameCount.cs" />
     <Compile Include="Gpus\QueryGpuNameCountsRequest.cs" />

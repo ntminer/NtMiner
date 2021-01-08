@@ -4,23 +4,13 @@
             // nothing need todo
         }
 
+        public void OverClock(
+            int gpuIndex, int coreClockMHz, int coreClockVoltage, int memoryClockMHz, 
+            int memoryClockVoltage, int powerLimit, int tempLimit, int fanSpeed) {
+            // nothing need todo
+        }
+
         public void SetFanSpeed(int gpuIndex, int value) {
-            // nothing need todo
-        }
-
-        public void SetTempLimit(int gpuIndex, int value) {
-            // nothing need todo
-        }
-
-        public void SetCoreClock(int gpuIndex, int value, int voltage) {
-            // nothing need todo
-        }
-
-        public void SetMemoryClock(int gpuIndex, int value, int voltage) {
-            // nothing need todo
-        }
-
-        public void SetPowerLimit(int gpuIndex, int value) {
             // nothing need todo
         }
 

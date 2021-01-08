@@ -29,7 +29,7 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
                     KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
-                    IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
+                    IsEnabled="{x:Static app:AppStatic.IsHasATIGpu}"
 					Command="{Binding SwitchRadeonGpu}"
 					Cursor="Hand"
 					Background="Transparent">
@@ -51,7 +51,7 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
                     KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
-                    IsEnabled="{x:Static app:AppStatic.IsAmdGpu}"
+                    IsEnabled="{x:Static app:AppStatic.IsHasATIGpu}"
 					Command="{Binding AtikmdagPatcher}"
 					Cursor="Hand"
 					Background="Transparent">

@@ -10,6 +10,7 @@ namespace NTMiner {
             Console.WriteLine(ram.TotalPhysicalMemory);
             Console.WriteLine(ram.TotalPhysicalMemory / NTKeyword.IntM + "Mb");
             Console.WriteLine(ram.AvailablePhysicalMemory);
+            Console.WriteLine(VirtualRoot.ProcessMemoryMb);
         }
     }
 }

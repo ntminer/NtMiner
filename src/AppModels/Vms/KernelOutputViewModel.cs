@@ -297,10 +297,7 @@ namespace NTMiner.Vms {
 
         public bool IsRejectOneGpuShare {
             get {
-                if (string.IsNullOrEmpty(RejectOneShare)) {
-                    return false;
-                }
-                return RejectOneShare.Contains("?<gpu>");
+                return !string.IsNullOrEmpty(RejectOneShare);
             }
         }
 

@@ -148,28 +148,24 @@ namespace NTMiner.Core.Profiles.Impl {
             NTStopwatch.Start();
 #endif
             if (root.GpuSet.TryGetGpu(data.Index, out IGpu gpu)) {
-                IOverClock overClock = root.GpuSet.OverClock;
-                if (!data.IsAutoFanSpeed) {
-                    overClock.SetFanSpeed(data.Index, data.Cool);
-                }
-                overClock.SetCoreClock(data.Index, data.CoreClockDelta, data.CoreVoltage);
-                overClock.SetMemoryClock(data.Index, data.MemoryClockDelta, data.MemoryVoltage);
-                overClock.SetPowerLimit(data.Index, data.PowerCapacity);
-                overClock.SetTempLimit(data.Index, data.TempLimit);
+                // fanSpeed == -1表示开源自动温控
+                int fanSpeed = data.IsAutoFanSpeed ? -1 : data.Cool;
+                root.GpuSet.OverClock.OverClock(data.Index, data.CoreClockDelta, data.CoreVoltage, data.MemoryClockDelta, 
+                                                data.MemoryVoltage, data.PowerCapacity, data.TempLimit, fanSpeed);
                 if (data.Index == NTMinerContext.GpuAllId) {
                     NTMinerConsole.UserOk($"统一超频：{data.ToOverClockString()}");
                 }
                 else {
                     NTMinerConsole.UserOk($"GPU{gpu.Index}超频：{data.ToOverClockString()}");
                 }
-                1.SecondsDelay().ContinueWith(t => {
-                    overClock.RefreshGpuState(data.Index);
+                2.SecondsDelay().ContinueWith(t => {
+                    root.GpuSet.OverClock.RefreshGpuState(data.Index);
                 });
             }
 #if DEBUG
             var elapsedMilliseconds = NTStopwatch.Stop();
             if (elapsedMilliseconds.ElapsedMilliseconds > NTStopwatch.ElapsedMilliseconds) {
-                NTMinerConsole.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.OverClock");
+                NTMinerConsole.DevTimeSpan($"耗时{elapsedMilliseconds} {this.GetType().Name}.{nameof(OverClock)}");
             }
 #endif
         }

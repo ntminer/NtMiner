@@ -491,6 +491,23 @@ namespace NTMiner.Core.Kernels.Impl {
                             root.GpusSpeed.IncreaseRejectShare(gpuIndex);
                         }
                     }
+                    else if(!string.IsNullOrEmpty(kernelOutput.FoundOneShare)) {
+                        // 哪个GPU最近找到了一个share就是那个GPU拒绝了一个share
+                        var gpuSpeeds = root.GpusSpeed.AsEnumerable();
+                        IGpuSpeed gpuSpeed = null;
+                        foreach (var item in gpuSpeeds) {
+                            if (gpuSpeed == null) {
+                                gpuSpeed = item;
+                            }
+                            else if(item.FoundShareOn > gpuSpeed.FoundShareOn) {
+                                gpuSpeed = item;
+                            }
+                        }
+                        if (gpuSpeed != null) {
+                            var gpuIndex = gpuSpeed.Gpu.Index;
+                            root.GpusSpeed.IncreaseRejectShare(gpuIndex);
+                        }
+                    }
                 }
                 ICoinShare share = root.CoinShareSet.GetOrCreate(coin.GetId());
                 root.CoinShareSet.UpdateShare(coin.GetId(), null, share.RejectShareCount + 1, DateTime.Now);

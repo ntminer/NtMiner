@@ -28,19 +28,21 @@ namespace NTMiner.Windows {
 
         private PerformanceCounter _cpuCounterTotal;
         private readonly object _locker = new object();
-        private bool _firstCpuCounterTotal = true;
+        private bool _cpuCounterTotalError = false;
         private PerformanceCounter CpuCounterTotal {
             get {
-                if (_cpuCounterTotal == null && _firstCpuCounterTotal) {
-                    _firstCpuCounterTotal = false;
+                if (_cpuCounterTotalError) {
+                    return null;
+                }
+                if (_cpuCounterTotal == null) {
                     lock (_locker) {
                         if (_cpuCounterTotal == null) {
                             try {
                                 _cpuCounterTotal = new PerformanceCounter("Processor", "% Processor Time", "_Total");
                             }
                             catch (Exception e) {
+                                _cpuCounterTotalError = true;
                                 Logger.ErrorDebugLine(e);
-                                _cpuCounterTotal = null;
                             }
                         }
                     }
@@ -49,40 +51,11 @@ namespace NTMiner.Windows {
             }
         }
 
-        private PerformanceCounter _cpuCounterProcess;
-        private bool _firstCpuCounterProcess = true;
-        private PerformanceCounter CpuCounterProcess {
-            get {
-                if (_cpuCounterProcess == null && _firstCpuCounterProcess) {
-                    _firstCpuCounterProcess = false;
-                    lock (_locker) {
-                        if (_cpuCounterProcess == null) {
-                            try {
-                                _cpuCounterProcess = new PerformanceCounter("Processor", "% Processor Time", VirtualRoot.ProcessName);
-                            }
-                            catch (Exception e) {
-                                Logger.ErrorDebugLine(e);
-                                _cpuCounterProcess = null;
-                            }
-                        }
-                    }
-                }
-                return _cpuCounterProcess;
-            }
-        }
-
         public float GetTotalCpuUsage() {
             if (CpuCounterTotal == null) {
                 return 0.0f;
             }
             return CpuCounterTotal.NextValue();
-        }
-
-        public float GetProcessCpuUsage() {
-            if (CpuCounterProcess == null) {
-                return 0.0f;
-            }
-            return CpuCounterProcess.NextValue();
         }
 
         public string CpuId {

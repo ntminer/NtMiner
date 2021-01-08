@@ -48,7 +48,8 @@ namespace NTMiner.Core.Impl {
                     TotalPhysicalMemory = ram.TotalPhysicalMemory,
                     AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
                     OSInfo = Windows.OS.Instance.OsInfo,
-                    CpuPerformance = cpu.GetTotalCpuUsage()
+                    CpuPerformance = cpu.GetTotalCpuUsage(),
+                    ProcessMemoryMb = VirtualRoot.ProcessMemoryMb
                 };
             }
             catch (Exception e) {

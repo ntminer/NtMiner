@@ -277,14 +277,14 @@ namespace NTMiner {
             #endregion
             #region 处理开启A卡计算模式
             VirtualRoot.BuildCmdPath<SwitchRadeonGpuCommand>(path: message => {
-                if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.AMD) {
+                if (AdlHelper.IsHasATIGpu) {
                     AppRoot.SwitchRadeonGpu(message.On);
                 }
             }, location: this.GetType());
             #endregion
             #region 处理A卡驱动签名
             VirtualRoot.BuildCmdPath<AtikmdagPatcherCommand>(path: message => {
-                if (NTMinerContext.Instance.GpuSet.GpuType == GpuType.AMD) {
+                if (AdlHelper.IsHasATIGpu) {
                     AppRoot.OpenAtikmdagPatcher();
                 }
             }, location: this.GetType());

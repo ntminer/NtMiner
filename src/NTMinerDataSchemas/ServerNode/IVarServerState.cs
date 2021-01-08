@@ -12,16 +12,12 @@
         /// </summary>
         double CpuPerformance { get; }
         /// <summary>
-        /// 本进程CPU使用率
-        /// </summary>
-        double ProcessPerformance { get; }
-        /// <summary>
         /// 本机剩余内存
         /// </summary>
         ulong AvailablePhysicalMemory { get; }
         /// <summary>
         /// 本进程所用内存
         /// </summary>
-        ulong WorkingSet { get; }
+        double ProcessMemoryMb { get; }
     }
 }

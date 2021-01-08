@@ -120,5 +120,12 @@ namespace NTMiner {
             Assert.IsTrue(match.Success);
             Assert.AreEqual("5", match.Groups["gpu"].Value);
         }
+
+        [TestMethod]
+        public void GroupCollectionTest() {
+            var regex = VirtualRoot.GetRegex("sss");
+            var match = regex.Match("sdsd");
+            Assert.IsTrue(string.IsNullOrEmpty(match.Groups["hello"].Value));
+        }
     }
 }
