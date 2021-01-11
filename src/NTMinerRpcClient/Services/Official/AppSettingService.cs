@@ -16,9 +16,15 @@ namespace NTMiner.Services.Official {
             AppSettingRequest request = new AppSettingRequest {
                 Key = key
             };
-            RpcRoot.JsonRpc.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.GetJsonFileVersion), request, (string line, Exception e) => {
-                callback?.Invoke(ServerStateResponse.FromLine(line));
-            }, timeountMilliseconds: 10 * 1000);
+            RpcRoot.JsonRpc.PostAsync(
+                RpcRoot.OfficialServerHost,
+                RpcRoot.OfficialServerPort,
+                _controllerName,
+                nameof(IAppSettingController.GetJsonFileVersion),
+                request,
+                callback: (string line, Exception e) => {
+                    callback?.Invoke(ServerStateResponse.FromLine(line));
+                }, timeountMilliseconds: 10 * 1000);
         }
         #endregion
 
@@ -27,7 +33,13 @@ namespace NTMiner.Services.Official {
             DataRequest<AppSettingData> request = new DataRequest<AppSettingData>() {
                 Data = entity
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IAppSettingController.SetAppSetting), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IAppSettingController.SetAppSetting), 
+                data: request, 
+                callback);
         }
         #endregion
     }

@@ -14,7 +14,13 @@ namespace NTMiner.Services.Official {
             GetCoinSnapshotsRequest request = new GetCoinSnapshotsRequest {
                 Limit = limit
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(ICoinSnapshotController.LatestSnapshots), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(ICoinSnapshotController.LatestSnapshots), 
+                data: request, 
+                callback);
         }
         #endregion
     }

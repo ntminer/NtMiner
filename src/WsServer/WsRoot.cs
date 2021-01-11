@@ -6,38 +6,21 @@ using NTMiner.Core.Mq.Senders.Impl;
 using NTMiner.Core.Redis;
 using NTMiner.Core.Redis.Impl;
 using NTMiner.User;
+using NTMiner.WsSharp;
 using System;
 using System.Text;
-using WebSocketSharp.Net;
-using WebSocketSharp.Server;
 
 namespace NTMiner {
     public static class WsRoot {
-        private static readonly WebSocketServer _wsServer = new WebSocketServer($"ws://0.0.0.0:{ServerRoot.HostConfig.GetServerPort().ToString()}") {
-            KeepClean = false, // 由客户端周期ping，服务端禁用ping
-            AuthenticationSchemes = AuthenticationSchemes.Basic, // 用基本验证字段承载签名信息，因为传输的并非原始密码，所以虽然是基本验证但不存在安全问题
-            UserCredentialsFinder = id => {
-                string base64String = id.Name;
-                if (!TryGetUser(base64String, out WsUserName wsUserName, out UserData userData)) {
-                    return null;
-                }
-                string password;
-                switch (wsUserName.ClientType) {
-                    case NTMinerAppType.MinerClient:
-                        password = string.Empty;
-                        break;
-                    case NTMinerAppType.MinerStudio:
-                        password = userData.Password;
-                        break;
-                    default:
-                        password = string.Empty;
-                        break;
-                }
-                password = HashUtil.Sha1(base64String + password);
-                // 经验证username对于基本验证来说没有用
-                return new NetworkCredential(userData.LoginName, password, domain: null, roles: wsUserName.ClientType.GetName());
+        public const string MinerClientPath = "/" + nameof(NTMinerAppType.MinerClient);
+        public const string MinerStudioPath = "/" + nameof(NTMinerAppType.MinerStudio);
+
+        private static IWsServer _wsServer = null;
+        public static IWsServer WsServer {
+            get {
+                return _wsServer;
             }
-        };
+        }
 
         public static IMinerClientSessionSet MinerClientSessionSet { get; private set; }
         public static IMinerStudioSessionSet MinerStudioSessionSet { get; private set; }
@@ -53,6 +36,7 @@ namespace NTMiner {
         private static IWsServerNodeMqSender _wsServerNodeMqSender;
         private static bool _started = false;
         static void Main() {
+            NTMinerConsole.SetIsMainUiOk(true);
             NTMinerConsole.DisbleQuickEditMode();
             DevMode.SetDevMode();
 
@@ -89,12 +73,9 @@ namespace NTMiner {
             // 构造函数中异步访问redis初始化用户列表，因为是异步的所以提前构造
             ReadOnlyUserSet = new ReadOnlyUserSet(userRedis);
             MinerSignSet = new MinerSignSet(minerRedis);
-            string minerClientPath = "/" + nameof(NTMinerAppType.MinerClient);
-            string minerStudioPath = "/" + nameof(NTMinerAppType.MinerStudio);
-            _wsServer.AddWebSocketService<MinerClientBehavior>(minerClientPath);
-            _wsServer.AddWebSocketService<MinerStudioBehavior>(minerStudioPath);
-            MinerClientSessionSet = new MinerClientSessionSet(_wsServer.WebSocketServices[minerClientPath].Sessions);
-            MinerStudioSessionSet = new MinerStudioSessionSet(_wsServer.WebSocketServices[minerStudioPath].Sessions);
+            _wsServer = new SharpWsServer(ServerRoot.HostConfig);
+            MinerClientSessionSet = new MinerClientSessionSet(_wsServer.MinerClientWsSessionsAdapter);
+            MinerStudioSessionSet = new MinerStudioSessionSet(_wsServer.MinerStudioWsSessionsAdapter);
             _wsServer.Start();
             VirtualRoot.RaiseEvent(new WebSocketServerStatedEvent());
             _started = true;
@@ -103,19 +84,31 @@ namespace NTMiner {
             Exit();
         }
 
-        public static bool TryGetUser(string base64String, out WsUserName wsUserName, out UserData userData) {
+        public static bool TryGetUser(string base64String, out WsUserName wsUserName, out UserData userData, out string errMsg) {
             wsUserName = null;
             userData = null;
+            errMsg = string.Empty;
             if (string.IsNullOrEmpty(base64String)) {
+                errMsg = $"{nameof(base64String)}为空";
                 return false;
             }
             string json = Encoding.UTF8.GetString(Convert.FromBase64String(base64String));
             wsUserName = VirtualRoot.JsonSerializer.Deserialize<WsUserName>(json);
-            if (wsUserName == null || !wsUserName.IsValid()) {
+            if (wsUserName == null) {
+                errMsg = $"{nameof(base64String)}编码的json字符串格式错误";
+                return false;
+            }
+            if (!wsUserName.IsValid()) {
+                errMsg = "wsUserName提交的数据无效";
                 return false;
             }
             userData = ReadOnlyUserSet.GetUser(UserId.Create(wsUserName.UserId));
-            if (userData == null || !userData.IsEnabled) {
+            if (userData == null) {
+                errMsg = $"用户{wsUserName.UserId}不存在";
+                return false;
+            }
+            if (!userData.IsEnabled) {
+                errMsg = $"用户{wsUserName.UserId}已被禁用";
                 return false;
             }
             return true;

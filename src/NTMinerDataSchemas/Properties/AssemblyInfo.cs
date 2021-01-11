@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NTMinerDataSchemas")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany(NTMiner.NTKeyword.Company)]
 [assembly: AssemblyProduct("NTMinerDataSchemas")]
-[assembly: AssemblyCopyright("Copyright ©  NTMiner")]
+[assembly: AssemblyCopyright(NTMiner.NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

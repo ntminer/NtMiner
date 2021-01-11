@@ -19,17 +19,12 @@ namespace NTMiner.Gpus.Nvapi {
         internal delegate NvStatus NvEnumPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
         internal delegate NvStatus NvEnumTCCPhysicalGPUsDelegate([Out] NvPhysicalGpuHandle[] physicalGpus, out int gpuCount);
         internal delegate NvStatus NvGetBusIdDelegate(NvPhysicalGpuHandle physicalGpu, out int busID);
-        internal delegate NvStatus NvGetTachReadingDelegate(NvPhysicalGpuHandle physicalGpu, out int value);
-        internal delegate NvStatus NvGetPStatesDelegate(NvPhysicalGpuHandle physicalGpu, ref NvPStates nvPStates);
 
         internal delegate NvStatus NvPowerPoliciesGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus status);
         internal delegate NvStatus NvPowerPoliciesSetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerStatus status);
 
-        internal delegate NvStatus NvGetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
         internal delegate NvStatus NvGetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
-        internal delegate NvStatus NvSetPStateV1Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV1 pstate);
         internal delegate NvStatus NvSetPStateV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPerfPStates20InfoV2 pstate);
-        internal delegate NvStatus NvGetAllClockFrequenciesV2Delegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuClockFrequenciesV2 freq);
 
         internal delegate NvStatus NvThermalPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalInfo outThermalInfo);
         internal delegate NvStatus NvThermalPoliciesGetSetLimitDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuThermalLimit outThermalLimit);
@@ -37,10 +32,8 @@ namespace NTMiner.Gpus.Nvapi {
         internal delegate NvStatus NvPowerPoliciesGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref NvGpuPowerInfo outPowerInfo);
 
         internal delegate NvStatus NvGetCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget targetId, ref NvCoolerSettings outCoolerInfo);
-        internal delegate NvStatus NvRestoreCoolerSettingsDelegate(NvPhysicalGpuHandle physicalGpu, IntPtr pCoolerIndex, NvCoolerTarget targetId);
         internal delegate NvStatus NvSetCoolerLevelsDelegate(NvPhysicalGpuHandle physicalGpu, NvCoolerTarget coolerIndex, ref NvCoolerLevel level);
 
-        internal delegate NvStatus NvFanCoolersGetInfoDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersInfoV1 info);
         internal delegate NvStatus NvFanCoolersGetStatusDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersStatusV1 status);
         internal delegate NvStatus NvFanCoolersGetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
         internal delegate NvStatus NvFanCoolersSetControlDelegate(NvPhysicalGpuHandle physicalGpu, ref PrivateFanCoolersControlV1 control);
@@ -56,24 +49,14 @@ namespace NTMiner.Gpus.Nvapi {
         internal static NvEnumTCCPhysicalGPUsDelegate NvEnumTCCPhysicalGPUs { get; private set; }
         [Id(0x1BE0B8E5)]
         internal static NvGetBusIdDelegate NvGetBusID { get; private set; }
-        [Id(0x5F608315)]
-        internal static NvGetTachReadingDelegate NvGetTachReading { get; private set; }
-        [Id(0x60DED2ED)]
-        internal static NvGetPStatesDelegate NvGetPStates { get; private set; }
         [Id(0x70916171)]
         internal static NvPowerPoliciesGetStatusDelegate NvPowerPoliciesGetStatus { get; private set; }
         [Id(0xAD95F5ED)]
         internal static NvPowerPoliciesSetStatusDelegate NvPowerPoliciesSetStatus { get; private set; }
         [Id(0x6FF81213)]
-        internal static NvGetPStateV1Delegate NvGetPStateV1 { get; private set; }
-        [Id(0x6FF81213)]
         internal static NvGetPStateV2Delegate NvGetPStateV2 { get; private set; }
         [Id(0x0F4DAE6B)]
-        internal static NvSetPStateV1Delegate NvSetPStateV1 { get; private set; }
-        [Id(0x0F4DAE6B)]
         internal static NvSetPStateV2Delegate NvSetPStateV2 { get; private set; }
-        [Id(0xDCB616C3)]
-        internal static NvGetAllClockFrequenciesV2Delegate NvGetAllClockFrequenciesV2 { get; private set; }
         [Id(0x0D258BB5)]
         internal static NvThermalPoliciesGetInfoDelegate NvThermalPoliciesGetInfo { get; private set; }
         [Id(0xE9C425A1)]
@@ -86,10 +69,6 @@ namespace NTMiner.Gpus.Nvapi {
         internal static NvGetCoolerSettingsDelegate NvGetCoolerSettings { get; private set; }
         [Id(0x891FA0AE)]
         internal static NvSetCoolerLevelsDelegate NvSetCoolerLevels { get; private set; }
-        [Id(0x8F6ED0FB)]
-        internal static NvRestoreCoolerSettingsDelegate NvRestoreCoolerSettings { get; private set; }
-        [Id(0xFB85B01E)]
-        internal static NvFanCoolersGetInfoDelegate NvFanCoolersGetInfo { get; private set; }
         [Id(0x35AED5E8)]
         internal static NvFanCoolersGetStatusDelegate NvFanCoolersGetStatus { get; private set; }
         [Id(0x814B209F)]

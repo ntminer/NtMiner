@@ -1,6 +1,5 @@
 ﻿using NTMiner.Core.MinerServer;
 using NTMiner.User;
-using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public class MinerClientSession : AbstractSession, IMinerClientSession {
@@ -10,14 +9,14 @@ namespace NTMiner.Core.Impl {
         /// <param name="user"></param>
         /// <param name="wsUserName"></param>
         /// <param name="wsSessionID"></param>
-        /// <param name="wsSessionManager"></param>
+        /// <param name="sessions"></param>
         /// <returns></returns>
-        public static MinerClientSession Create(IUser user, WsUserName wsUserName, string wsSessionID, WebSocketSessionManager wsSessionManager) {
-            return new MinerClientSession(user, wsUserName, wsSessionID, wsSessionManager);
+        public static MinerClientSession Create(IUser user, WsUserName wsUserName, string wsSessionID, IWsSessionsAdapter sessions) {
+            return new MinerClientSession(user, wsUserName, wsSessionID, sessions);
         }
 
-        private MinerClientSession(IUser user, WsUserName wsUserName, string wsSessionID, WebSocketSessionManager wsSessionManager)
-            : base(user, wsUserName, wsSessionID, wsSessionManager) {
+        private MinerClientSession(IUser user, WsUserName wsUserName, string wsSessionID, IWsSessionsAdapter sessions)
+            : base(user, wsUserName, wsSessionID, sessions) {
         }
 
         public string GetSignPassword() {

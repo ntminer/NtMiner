@@ -35,6 +35,7 @@ namespace NTMiner {
                 this.MainWindow = new MainWindow();
                 this.MainWindow.Show();
                 VirtualRoot.StartTimer(new WpfTimingEventProducer());
+                NTMinerConsole.SetIsMainUiOk(true);
             }
             else {
                 Process thatProcess = null;

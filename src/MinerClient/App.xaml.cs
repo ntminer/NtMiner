@@ -120,6 +120,7 @@ namespace NTMiner {
                         if (CommandLineArgs.Action.TryParse(out MinerClientActionType resourceType)) {
                             VirtualRoot.Execute(new MinerClientActionCommand(resourceType));
                         }
+                        NTMinerConsole.SetIsMainUiOk(true);
                     });
                     Task.Factory.StartNew(() => {
                         var minerProfile = NTMinerContext.Instance.MinerProfile;

@@ -6,7 +6,7 @@ using System.Windows;
 // 有关程序集的常规信息通过以下
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("NTMinerUpdater")]
+[assembly: AssemblyTitle("开源矿工升级器")]
 // 程序集的版本信息由下面四个值组成:
 //
 //      主版本
@@ -21,7 +21,7 @@ using System.Windows;
 [assembly: AssemblyDescription(NTKeyword.ManJiTag)]
 [assembly: AssemblyFileVersion(NTKeyword.Version)]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany(NTKeyword.Company)]
 [assembly: AssemblyProduct("NTMinerUpdater")]
 [assembly: AssemblyCopyright(NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]

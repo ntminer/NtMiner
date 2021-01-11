@@ -14,7 +14,12 @@ namespace NTMiner.Services.Client {
         /// </summary>
         /// <param name="callback"></param>
         public void ShowMainWindowAsync(Action<bool, Exception> callback) {
-            RpcRoot.JsonRpc.PostAsync<bool>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.ShowMainWindow), callback);
+            RpcRoot.JsonRpc.PostAsync<bool>(
+                NTKeyword.Localhost,
+                NTKeyword.MinerStudioPort,
+                _controllerName,
+                nameof(IMinerStudioController.ShowMainWindow),
+                callback);
         }
 
         /// <summary>
@@ -31,17 +36,23 @@ namespace NTMiner.Services.Client {
                 callback?.Invoke();
                 return;
             }
-            RpcRoot.JsonRpc.PostAsync<ResponseBase>(NTKeyword.Localhost, NTKeyword.MinerStudioPort, _controllerName, nameof(IMinerStudioController.CloseMinerStudio), new object(), (response, e) => {
-                if (!response.IsSuccess()) {
-                    try {
-                        Windows.TaskKill.Kill(processName, waitForExit: true);
+            RpcRoot.JsonRpc.PostAsync<ResponseBase>(
+                NTKeyword.Localhost,
+                NTKeyword.MinerStudioPort,
+                _controllerName,
+                nameof(IMinerStudioController.CloseMinerStudio),
+                new object(),
+                callback: (response, e) => {
+                    if (!response.IsSuccess()) {
+                        try {
+                            Windows.TaskKill.Kill(processName, waitForExit: true);
+                        }
+                        catch (Exception ex) {
+                            Logger.ErrorDebugLine(ex);
+                        }
                     }
-                    catch (Exception ex) {
-                        Logger.ErrorDebugLine(ex);
-                    }
-                }
-                callback?.Invoke();
-            }, timeountMilliseconds: 2000);
+                    callback?.Invoke();
+                }, timeountMilliseconds: 2000);
         }
     }
 }

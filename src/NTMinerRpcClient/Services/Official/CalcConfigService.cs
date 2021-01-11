@@ -12,14 +12,20 @@ namespace NTMiner.Services.Official {
 
         #region GetCalcConfigsAsync
         public void GetCalcConfigsAsync(Action<List<CalcConfigData>> callback) {
-            RpcRoot.JsonRpc.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(ICalcConfigController.CalcConfigs), null, (DataResponse<List<CalcConfigData>> response, Exception e) => {
-                if (response.IsSuccess()) {
-                    callback?.Invoke(response.Data);
-                }
-                else {
-                    callback?.Invoke(new List<CalcConfigData>());
-                }
-            }, timeountMilliseconds: 10 * 1000);
+            RpcRoot.JsonRpc.PostAsync(
+                RpcRoot.OfficialServerHost,
+                RpcRoot.OfficialServerPort,
+                _controllerName,
+                nameof(ICalcConfigController.CalcConfigs),
+                null,
+                callback: (DataResponse<List<CalcConfigData>> response, Exception e) => {
+                    if (response.IsSuccess()) {
+                        callback?.Invoke(response.Data);
+                    }
+                    else {
+                        callback?.Invoke(new List<CalcConfigData>());
+                    }
+                }, timeountMilliseconds: 10 * 1000);
         }
         #endregion
 
@@ -31,7 +37,13 @@ namespace NTMiner.Services.Official {
             SaveCalcConfigsRequest request = new SaveCalcConfigsRequest {
                 Data = configs
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(ICalcConfigController.SaveCalcConfigs), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost,
+                RpcRoot.OfficialServerPort,
+                _controllerName,
+                nameof(ICalcConfigController.SaveCalcConfigs),
+                data: request,
+                callback);
         }
         #endregion
     }

@@ -21,7 +21,7 @@ using System.Windows;
 [assembly: AssemblyDescription(NTKeyword.ManXiaoManTag)]
 [assembly: AssemblyFileVersion(NTKeyword.Version)]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany(NTKeyword.Company)]
 [assembly: AssemblyProduct("MinerStudio")]
 [assembly: AssemblyCopyright(NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]

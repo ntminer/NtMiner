@@ -180,30 +180,6 @@ namespace NTMiner.Gpus.Nvapi {
         NVAPI_REQUIRE_FURTHER_HDCP_ACTION = -223,
         NVAPI_DISPLAY_MUX_TRANSITION_FAILED = -224
     }
-    internal enum NvThermalController {
-        NONE = 0,
-        GPU_INTERNAL,
-        ADM1032,
-        MAX6649,
-        MAX1617,
-        LM99,
-        LM89,
-        LM64,
-        ADT7473,
-        SBMAX6649,
-        VBIOSEVT,
-        OS,
-        UNKNOWN = -1,
-    }
-    internal enum NvThermalTarget {
-        NONE = 0,
-        GPU = 1,
-        MEMORY = 2,
-        POWER_SUPPLY = 4,
-        BOARD = 8,
-        ALL = 15,
-        UNKNOWN = -1
-    };
     internal enum NvGpuPublicClockId : NvU32 {
         NVAPI_GPU_PUBLIC_CLOCK_GRAPHICS = 0,
         NVAPI_GPU_PUBLIC_CLOCK_MEMORY = 4,
@@ -303,27 +279,6 @@ namespace NTMiner.Gpus.Nvapi {
     [StructLayout(LayoutKind.Sequential)]
     internal struct NvPhysicalGpuHandle {
         private readonly IntPtr ptr;
-    }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvPState {
-        public bool Present;
-        public int Percentage;
-    }
-    [StructLayout(LayoutKind.Sequential, Pack = 8)]
-    internal struct NvPStates {
-        public uint Version;
-        public uint Flags;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MAX_PSTATES_PER_GPU)]
-        public NvPState[] PStates;
-
-        public static NvPStates Create() {
-            NvPStates r = new NvPStates {
-                Version = (uint)(NvapiConst.VERSION2 | (Marshal.SizeOf(typeof(NvPStates)))),
-                PStates = new NvPState[NvapiConst.MAX_PSTATES_PER_GPU]
-            };
-
-            return r;
-        }
     }
 
     [StructLayout(LayoutKind.Sequential)]
@@ -427,64 +382,6 @@ namespace NTMiner.Gpus.Nvapi {
         }
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuPerfPStates20InfoV1 {
-        public NvU32 version;
-        public NvU32 bIsEditable_reserved;
-        public NvU32 numPStates;
-        public NvU32 numClocks;
-        public NvU32 numBaseVoltages;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES)]
-        public PStatesArray16[] pstates;
-
-        public static NvGpuPerfPStates20InfoV1 Create() {
-            var r = new NvGpuPerfPStates20InfoV1 {
-                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(NvGpuPerfPStates20InfoV1)))),
-                pstates = new PStatesArray16[NvapiConst.NVAPI_MAX_GPU_PERF_PSTATES]
-            };
-            for (int i = 0; i < r.pstates.Length; i++) {
-                r.pstates[i] = PStatesArray16.Create();
-            }
-
-            return r;
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuClockRrequenciesDomain {
-        public NvU32 bIsPresent_reserved;
-        public NvU32 frequency;
-        public NvU32 bIsPresent {
-            get {
-                return bIsPresent_reserved & 0x01;
-            }
-        }
-    }
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct NvGpuClockFrequenciesV2 {
-        public NvU32 version;
-        public NvU32 ClockType_reserved_reserved1;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS)]
-        public NvGpuClockRrequenciesDomain[] domain;
-        public NvU32 ClockType {
-            set {
-                NvU32 tmp = ClockType_reserved_reserved1 & ~(NvU32)0x03;
-                tmp |= value & 0x03;
-                ClockType_reserved_reserved1 = tmp;
-            }
-            get {
-                return ClockType_reserved_reserved1 & 0x03;
-            }
-        }
-
-        public static NvGpuClockFrequenciesV2 Create() {
-            var r = new NvGpuClockFrequenciesV2 {
-                version = (uint)(NvapiConst.VERSION2 | (Marshal.SizeOf(typeof(NvGpuClockFrequenciesV2)))),
-                domain = new NvGpuClockRrequenciesDomain[NvapiConst.NVAPI_MAX_GPU_PUBLIC_CLOCKS]
-            };
-            return r;
-        }
-    }
     [StructLayout(LayoutKind.Sequential)]
     internal struct NvGpuThermalInfoEntries {
         public NvU32 controller;
@@ -675,32 +572,6 @@ namespace NTMiner.Gpus.Nvapi {
             var r = new FanCoolersInfoEntry {
                 Reserved = new NvU32[8]
             };
-
-            return r;
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct PrivateFanCoolersInfoV1 {
-        public NvU32 version;
-        internal uint UnknownUInt1;
-        internal uint FanCoolersInfoCount;
-
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-        internal uint[] Reserved;
-
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = NvapiConst.MaxNumberOfFanCoolerInfoEntries)]
-        internal FanCoolersInfoEntry[] FanCoolersInfoEntries;
-
-        public static PrivateFanCoolersInfoV1 Create() {
-            var r = new PrivateFanCoolersInfoV1 {
-                version = (uint)(NvapiConst.VERSION1 | (Marshal.SizeOf(typeof(PrivateFanCoolersInfoV1)))),
-                Reserved = new NvU32[8],
-                FanCoolersInfoEntries = new FanCoolersInfoEntry[NvapiConst.MaxNumberOfFanCoolerInfoEntries]
-            };
-            for (int i = 0; i < r.FanCoolersInfoEntries.Length; i++) {
-                r.FanCoolersInfoEntries[i] = FanCoolersInfoEntry.Create();
-            }
 
             return r;
         }

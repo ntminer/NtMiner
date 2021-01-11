@@ -35,11 +35,11 @@ namespace NTMiner.Core {
         /// </summary>
         string WsSessionId { get; }
         /// <summary>
-        /// 委托给下层的WebSocket框架关闭当前会话。<see cref="WebSocket.CloseAsync(CloseStatusCode, string)"/>
+        /// 委托给下层的WebSocket框架关闭当前会话。<see cref="WebSocket.CloseAsync(WsCloseCode, string)"/>
         /// </summary>
         /// <param name="code"></param>
         /// <param name="reason"></param>
-        void CloseAsync(CloseStatusCode code, string reason);
+        void CloseAsync(WsCloseCode code, string reason);
         /// <summary>
         /// 委托给下层的WebSocket框架向客户端发送给定的消息，发送的消息使用给定的密码签名，
         /// 其内部根据客户端是否支持二进制消息(<see cref="IWsUserName.IsBinarySupported"/>)

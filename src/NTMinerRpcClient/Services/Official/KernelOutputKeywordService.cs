@@ -13,7 +13,13 @@ namespace NTMiner.Services.Official {
         #region GetKernelOutputKeywords
         public void GetKernelOutputKeywords(Action<KernelOutputKeywordsResponse, Exception> callback) {
             object request = new object();
-            RpcRoot.JsonRpc.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.KernelOutputKeywords), request, callback);
+            RpcRoot.JsonRpc.PostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IKernelOutputKeywordController.KernelOutputKeywords), 
+                request, 
+                callback);
         }
         #endregion
 
@@ -22,7 +28,13 @@ namespace NTMiner.Services.Official {
             DataRequest<KernelOutputKeywordData> request = new DataRequest<KernelOutputKeywordData>() {
                 Data = entity
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IKernelOutputKeywordController.AddOrUpdateKernelOutputKeyword), 
+                data: request, 
+                callback);
         }
         #endregion
 
@@ -31,7 +43,13 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = id
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IKernelOutputKeywordController.RemoveKernelOutputKeyword), 
+                data: request, 
+                callback);
         }
         #endregion
     }

@@ -12,13 +12,27 @@ namespace NTMiner.Services.Official {
 
         #region QueryClientsAsync
         public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            RpcRoot.JsonRequestBinaryResponseRpcHelper.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataBinaryController<HttpResponseMessage>.QueryClients), data: query, callback);
+            RpcRoot.JsonRequestBinaryResponseRpcHelper.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IClientDataBinaryController<HttpResponseMessage>.QueryClients), 
+                data: query, 
+                callback,
+                timeountMilliseconds: 3000);
         }
         #endregion
 
         #region QueryClientsForWsAsync
         public void QueryClientsForWsAsync(QueryClientsForWsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            RpcRoot.JsonRequestBinaryResponseRpcHelper.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataBinaryController<HttpResponseMessage>.QueryClientsForWs), data: query, callback);
+            RpcRoot.JsonRequestBinaryResponseRpcHelper.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IClientDataBinaryController<HttpResponseMessage>.QueryClientsForWs), 
+                data: query, 
+                callback,
+                timeountMilliseconds: 3000);
         }
         #endregion
     }

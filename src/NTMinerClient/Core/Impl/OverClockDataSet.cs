@@ -74,39 +74,38 @@ namespace NTMiner.Core.Impl {
         }
 
         private bool _isInited = false;
-        private void Init() {
-            if (_isInited) {
-                return;
-            }
-            _isInited = true;
-            RpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
-                if (response.IsSuccess()) {
-                    IEnumerable<OverClockData> query;
-                    if (_root.GpuSet.GpuType == GpuType.Empty) {
-                        query = response.Data;
-                    }
-                    else {
-                        query = response.Data.Where(a => a.GpuType == _root.GpuSet.GpuType);
-                    }
-                    foreach (var item in query) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
+        private void InitOnece() {
+            if (!_isInited) {
+                RpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
+                    if (response.IsSuccess()) {
+                        IEnumerable<OverClockData> query;
+                        if (_root.GpuSet.GpuType == GpuType.Empty) {
+                            query = response.Data;
+                        }
+                        else {
+                            query = response.Data.Where(a => a.GpuType == _root.GpuSet.GpuType);
+                        }
+                        foreach (var item in query) {
+                            if (!_dicById.ContainsKey(item.GetId())) {
+                                _dicById.Add(item.GetId(), item);
+                            }
                         }
                     }
-                }
-                VirtualRoot.RaiseEvent(new OverClockDataSetInitedEvent());
-            });
+                    VirtualRoot.RaiseEvent(new OverClockDataSetInitedEvent());
+                });
+                _isInited = true;
+            }
         }
 
         public bool TryGetOverClockData(Guid id, out IOverClockData data) {
-            Init();
+            InitOnece();
             var r = _dicById.TryGetValue(id, out OverClockData temp);
             data = temp;
             return r;
         }
 
         public IEnumerable<IOverClockData> AsEnumerable() {
-            Init();
+            InitOnece();
             return _dicById.Values;
         }
     }

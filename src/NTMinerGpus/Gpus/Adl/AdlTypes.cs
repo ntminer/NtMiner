@@ -78,24 +78,6 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLPMActivity {
-        public int Size;
-        public int EngineClock;
-        public int MemoryClock;
-        public int Vddc;
-        public int ActivityPercent;
-        public int CurrentPerformanceLevel;
-        public int CurrentBusSpeed;
-        public int CurrentBusLanes;
-        public int MaximumBusLanes;
-        public int Reserved;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
     internal struct ADLTemperature {
         public int Size;
         public int Temperature;
@@ -121,22 +103,6 @@ namespace NTMiner.Gpus.Adl {
         public int SpeedType;
         public int FanSpeed;
         public int Flags;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    public struct ADLOverdriveFanControl {
-        public int iMode;
-        public int iFanControlMode;
-        public int iCurrentFanSpeedMode;
-        public int iCurrentFanSpeed;
-        public int iTargetFanSpeed;
-        public int iTargetTemperature;
-        public int iMinPerformanceClock;
-        public int iMinFanLimit;
 
         public override string ToString() {
             return VirtualRoot.JsonSerializer.Serialize(this);
@@ -249,76 +215,6 @@ namespace NTMiner.Gpus.Adl {
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLODParameterRange {
-        public int Min;
-        public int Max;
-        public int Step;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLODParameters {
-        public int Size;
-        public int NumberOfPerformanceLevels;
-        public int ActivityReportingSupported;
-        public int DiscretePerformanceLevels;
-        public int Reserved;
-        public ADLODParameterRange EngineClock;
-        public ADLODParameterRange MemoryClock;
-        public ADLODParameterRange Vddc;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLODNPerformanceStatus {
-        public int CoreClock;
-        public int MemoryClock;
-        public int DCEFClock;
-        public int GFXClock;
-        public int UVDClock;
-        public int VCEClock;
-        public int GPUActivityPercent;
-        public int CurrentCorePerformanceLevel;
-        public int CurrentMemoryPerformanceLevel;
-        public int CurrentDCEFPerformanceLevel;
-        public int CurrentGFXPerformanceLevel;
-        public int UVDPerformanceLevel;
-        public int VCEPerformanceLevel;
-        public int CurrentBusSpeed;
-        public int CurrentBusLanes;
-        public int MaximumBusLanes;
-        public int VDDC;
-        public int VDDCI;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLVersionsInfo {
-        // 形如19.50.29.27-200421a-354308E-RadeonSoftwareAdrenalin2020，经验证这个不是版本号
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-        public string DriverVersion;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-        public string CatalystVersion;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
-        public string CatalystWebLink;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
     internal struct ADLVersionsInfoX2 {
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = AdlConst.ADL_MAX_PATH)]
         public string strDriverVer;
@@ -400,41 +296,6 @@ namespace NTMiner.Gpus.Adl {
         public ADLODNParameterRange minimumPerformanceClock;
         public ADLODNParameterRange throttleNotificaion;
         public ADLODNParameterRange autoSystemClock;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLODNFanCurvePoint {
-        public int Temp;
-        public int Percentage;
-
-        public override string ToString() {
-            return VirtualRoot.JsonSerializer.Serialize(this);
-        }
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct ADLODNExtSettings {
-        public int MemTimingLevel;
-        public int ZeroRPM;
-        public int AutoUVEngine;
-        public int AutoOCEngine;
-        public int AutoOCMemory;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 5)]
-        public ADLODNFanCurvePoint[] Point;
-
-        public static ADLODNExtSettings Create() {
-            var r = new ADLODNExtSettings {
-                Point = new ADLODNFanCurvePoint[5]
-            };
-            for (int i = 0; i < r.Point.Length; i++) {
-                r.Point[i] = new ADLODNFanCurvePoint();
-            }
-            return r;
-        }
 
         public override string ToString() {
             return VirtualRoot.JsonSerializer.Serialize(this);

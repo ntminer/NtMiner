@@ -4,8 +4,6 @@ using NTMiner.Ws;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using WebSocketSharp;
-using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public abstract class AbstractSessionSet<TSession> : ISessionSet<TSession> where TSession : ISession {
@@ -17,7 +15,7 @@ namespace NTMiner.Core.Impl {
                 return false;
             }
             IUser user = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
-            if (user == null) {
+            if (user == null || !user.IsEnabled) {
                 return false;
             }
             if (!WsRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
@@ -36,8 +34,10 @@ namespace NTMiner.Core.Impl {
         private static readonly Type _sessionType = typeof(TSession);
         private static readonly bool _isMinerClient = _sessionType == typeof(IMinerClientSession);
         private static readonly bool _isMinerStudio = _sessionType == typeof(IMinerStudioSession);
-        public AbstractSessionSet(WebSocketSessionManager wsSessionManager) {
-            this.WsSessionManager = wsSessionManager;
+        private readonly IWsSessionsAdapter _sessions;
+
+        public AbstractSessionSet(IWsSessionsAdapter sessions) {
+            this._sessions = sessions;
             VirtualRoot.BuildEventPath<CleanTimeArrivedEvent>("打扫时间到，保持清洁", LogEnum.UserConsole, path: message => {
                 ClearDeath();
                 SendReGetServerAddressMessage(message.NodeAddresses);
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Impl {
                         toCloses = _dicByWsSessionId.Values.Where(a => a.LoginName == message.LoginName).ToArray();
                     }
                     foreach (var item in toCloses) {
-                        item.CloseAsync(CloseStatusCode.Normal, "用户已被禁用");
+                        item.CloseAsync(WsCloseCode.Normal, "用户已被禁用");
                     }
                 }
             }, this.GetType());
@@ -101,15 +101,10 @@ namespace NTMiner.Core.Impl {
             lock (_locker) {
                 toRemoves = _dicByWsSessionId.Values.Where(a => a != null && a.ActiveOn <= activeOn).ToDictionary(a => a.WsSessionId, a => a);
             }
-            List<WebSocket> toCloseWses = new List<WebSocket>();
-            foreach (var wsSession in WsSessionManager.Sessions) {
-                if (toRemoves.ContainsKey(wsSession.ID)) {
-                    toCloseWses.Add(wsSession.Context.WebSocket);
-                }
-            }
+            var toCloseWses = _sessions.Sessions.Where(a => toRemoves.ContainsKey(a.SessionId)).ToArray();
             foreach (var ws in toCloseWses) {
                 try {
-                    ws.CloseAsync(CloseStatusCode.Normal, $"{seconds.ToString()}秒内未活跃");
+                    ws.CloseAsync(WsCloseCode.Normal, $"{seconds.ToString()}秒内未活跃");
                 }
                 catch {
                 }
@@ -125,8 +120,6 @@ namespace NTMiner.Core.Impl {
                 NTMinerConsole.UserWarn($"周期清理不活跃的{_sessionType.Name}，清理了 {toRemoves.Count.ToString()}/{toRemoves.Count.ToString()} 条");
             }
         }
-
-        public WebSocketSessionManager WsSessionManager { get; private set; }
 
         public int Count {
             get {

@@ -15,7 +15,14 @@ namespace NTMiner.Services.Official {
         #region GetMineWorksAsync
         public void GetMineWorksAsync(Action<DataResponse<List<UserMineWorkData>>, Exception> callback) {
             object request = new object();
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMineWorkController.MineWorks), data: request, callback, timeountMilliseconds: 5000);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IUserMineWorkController.MineWorks), 
+                data: request, 
+                callback, 
+                timeountMilliseconds: 5000);
         }
         #endregion
 
@@ -25,7 +32,13 @@ namespace NTMiner.Services.Official {
             DataRequest<MineWorkData> request = new DataRequest<MineWorkData> {
                 Data = entity
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMineWorkController.AddOrUpdateMineWork), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IUserMineWorkController.AddOrUpdateMineWork), 
+                data: request, 
+                callback);
         }
         #endregion
 
@@ -34,7 +47,13 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid> {
                 Data = id
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMineWorkController.RemoveMineWork), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IUserMineWorkController.RemoveMineWork), 
+                data: request, 
+                callback);
         }
         #endregion
 
@@ -45,7 +64,13 @@ namespace NTMiner.Services.Official {
                 LocalJson = localJson,
                 ServerJson = serverJson
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMineWorkController.ExportMineWork), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IUserMineWorkController.ExportMineWork), 
+                data: request, 
+                callback);
         }
         #endregion
 
@@ -54,7 +79,13 @@ namespace NTMiner.Services.Official {
             DataRequest<Guid> request = new DataRequest<Guid>() {
                 Data = workId
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMineWorkController.GetLocalJson), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IUserMineWorkController.GetLocalJson), 
+                data: request, 
+                callback);
         }
         #endregion
 
@@ -64,7 +95,13 @@ namespace NTMiner.Services.Official {
                 WorkId = workId,
                 ClientId = clientId
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserMineWorkController.GetWorkJson), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IUserMineWorkController.GetWorkJson), 
+                data: request, 
+                callback);
         }
         #endregion
     }

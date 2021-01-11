@@ -102,8 +102,22 @@ namespace NTMiner {
             _isEnabled = false;
         }
 
+        private static bool _isMainUiOk = false;
+        private static bool IsMainUiOk {
+            get {
+                if (DevMode.IsDevMode) {
+                    return true;
+                }
+                return _isMainUiOk;
+            }
+        }
+
+        public static void SetIsMainUiOk(bool isOk) {
+            _isMainUiOk = isOk;
+        }
+
         private static readonly Action<string, ConsoleColor> _userLineMethod = (line, color) => {
-            if (!_isEnabled) {
+            if (!_isEnabled || !IsMainUiOk) {
                 return;
             }
             InitOnece();

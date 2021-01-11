@@ -30,7 +30,9 @@ namespace NTMiner.Rpc.Impl {
             Task.Factory.StartNew(() => {
                 try {
                     using (HttpClient client = RpcRoot.CreateHttpClient()) {
-                        client.SetTimeout(timeountMilliseconds);
+                        if (timeountMilliseconds > 0) {
+                            client.SetTimeout(timeountMilliseconds);
+                        }
                         Task<HttpResponseMessage> getHttpResponse = client.PostAsync(RpcRoot.GetUrl(host, port, controller, action, query), content);
                         if (!getHttpResponse.Result.IsSuccessStatusCode) {
                             NTMinerConsole.DevDebug($"{action} http response {getHttpResponse.Result.StatusCode.ToString()} {getHttpResponse.Result.ReasonPhrase}");

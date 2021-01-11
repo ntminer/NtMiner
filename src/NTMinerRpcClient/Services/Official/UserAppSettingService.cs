@@ -14,7 +14,13 @@ namespace NTMiner.Services.Official {
             DataRequest<UserAppSettingData> request = new DataRequest<UserAppSettingData>() {
                 Data = entity
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IUserAppSettingController.SetAppSetting), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IUserAppSettingController.SetAppSetting), 
+                data: request, 
+                callback);
         }
         #endregion
     }

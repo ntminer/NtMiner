@@ -29,14 +29,30 @@ namespace NTMiner.Gpus.Impl {
                     if (gpu.Index == NTMinerContext.GpuAllId) {
                         continue;
                     }
-                    _gpuHelper.OverClock(gpu, coreClockMHz, coreClockVoltage, memoryClockMHz, memoryClockVoltage, powerLimit, tempLimit, fanSpeed);
+                    _gpuHelper.OverClock(
+                        gpu, 
+                        coreClockMHz, 
+                        coreClockVoltage, 
+                        memoryClockMHz, 
+                        memoryClockVoltage, 
+                        powerLimit, 
+                        tempLimit, 
+                        fanSpeed);
                 }
             }
             else {
                 if (!NTMinerContext.Instance.GpuSet.TryGetGpu(gpuIndex, out IGpu gpu)) {
                     return;
                 }
-                _gpuHelper.OverClock(gpu, coreClockMHz, coreClockVoltage, memoryClockMHz, memoryClockVoltage, powerLimit, tempLimit, fanSpeed);
+                _gpuHelper.OverClock(
+                    gpu, 
+                    coreClockMHz, 
+                    coreClockVoltage, 
+                    memoryClockMHz, 
+                    memoryClockVoltage, 
+                    powerLimit, 
+                    tempLimit, 
+                    fanSpeed);
             }
         }
 

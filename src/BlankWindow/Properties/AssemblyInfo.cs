@@ -3,11 +3,11 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Markup;
 
-[assembly: AssemblyTitle("NTMiner")]
+[assembly: AssemblyTitle("BlankWindow")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NTMiner")]
+[assembly: AssemblyCompany(NTMiner.NTKeyword.Company)]
+[assembly: AssemblyProduct("BlankWindow")]
 [assembly: AssemblyCopyright(NTMiner.NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

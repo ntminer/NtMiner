@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 namespace NTMiner {
     public class Program {
         static void Main() {
+            NTMinerConsole.SetIsMainUiOk(true);
             NTMinerConsole.DisbleQuickEditMode();
             try {
                 VirtualRoot.StartTimer();

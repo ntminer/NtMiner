@@ -11,11 +11,23 @@ namespace NTMiner.Services.Official {
         }
 
         public void GetNodesAsync(Action<DataResponse<List<WsServerNodeState>>, Exception> callback) {
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.Nodes), new object(), callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IWsServerNodeController.Nodes), 
+                new object(), 
+                callback);
         }
 
         public void GetNodeAddressesAsync(Action<DataResponse<string[]>, Exception> callback) {
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.NodeAddresses), new object(), callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IWsServerNodeController.NodeAddresses), 
+                new object(), 
+                callback);
         }
 
         public void GetNodeAddressAsync(Guid clientId, string outerUserId, Action<DataResponse<string>, Exception> callback) {
@@ -23,7 +35,14 @@ namespace NTMiner.Services.Official {
                 ClientId = clientId,
                 UserId = outerUserId
             };
-            RpcRoot.JsonRpc.PostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWsServerNodeController.GetNodeAddress), data, callback, timeountMilliseconds: 8000);
+            RpcRoot.JsonRpc.PostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IWsServerNodeController.GetNodeAddress), 
+                data, 
+                callback, 
+                timeountMilliseconds: 8000);
         }
     }
 }

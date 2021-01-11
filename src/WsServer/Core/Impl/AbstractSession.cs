@@ -1,19 +1,17 @@
 ﻿using NTMiner.User;
 using NTMiner.Ws;
 using System;
-using WebSocketSharp;
-using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public abstract class AbstractSession : ISession {
-        private readonly WebSocketSessionManager _wsSessionManager;
+        private readonly IWsSessionsAdapter _sessions;
         /// <summary>
         /// 
         /// </summary>
         /// <param name="user"></param>
         /// <param name="wsSessionID"></param>
-        public AbstractSession(IUser user, WsUserName wsUserName, string wsSessionID, WebSocketSessionManager wsSessionManager) {
-            _wsSessionManager = wsSessionManager;
+        public AbstractSession(IUser user, WsUserName wsUserName, string wsSessionID, IWsSessionsAdapter sessions) {
+            _sessions = sessions;
             this.WsUserName = wsUserName;
             this.ClientId = wsUserName.ClientId;
             this.ClientVersion = Version.Parse(wsUserName.ClientVersion);// 因为前面的流程已经过验证所以可以直接Parse
@@ -34,25 +32,25 @@ namespace NTMiner.Core.Impl {
 
         public string WsSessionId { get; private set; }
 
-        public void CloseAsync(CloseStatusCode code, string reason) {
-            if (TryGetWsSession(out IWebSocketSession wsSession)) {
-                wsSession.Context.WebSocket.CloseAsync(code, reason);
+        public void CloseAsync(WsCloseCode code, string reason) {
+            if (TryGetWsSession(out IWsSessionAdapter wsSession)) {
+                wsSession.CloseAsync(code, reason);
             }
         }
 
         public void SendAsync(WsMessage message, string password) {
-            if (TryGetWsSession(out IWebSocketSession wsSession)) {
+            if (TryGetWsSession(out IWsSessionAdapter wsSession)) {
                 if (WsUserName.IsBinarySupported) {
-                    wsSession.Context.WebSocket.SendAsync(message.SignToBytes(password), completed: null);
+                    wsSession.SendAsync(message.SignToBytes(password));
                 }
                 else {
-                    wsSession.Context.WebSocket.SendAsync(message.SignToJson(password), completed: null);
+                    wsSession.SendAsync(message.SignToJson(password));
                 }
             }
         }
 
-        private bool TryGetWsSession(out IWebSocketSession wsSession) {
-            return _wsSessionManager.TryGetSession(this.WsSessionId, out wsSession);
+        private bool TryGetWsSession(out IWsSessionAdapter wsSession) {
+            return _sessions.TryGetSession(this.WsSessionId, out wsSession);
         }
 
         public void Active() {

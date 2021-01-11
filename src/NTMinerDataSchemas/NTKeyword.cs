@@ -16,6 +16,7 @@ namespace NTMiner {
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";
         public const string Copyright = "Copyright ©  NTMiner";
+        public const string Company = "开源矿工";
 
         public const string TempDirName = "NTMiner";
         public const string RootLockFileName = "home.lock";

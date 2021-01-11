@@ -85,17 +85,15 @@ namespace NTMiner.Core.Profiles.Impl {
         }
 
         private void Init() {
-            if (!_isInited) {
-                var repository = _root.ServerContext.CreateLocalRepository<WalletData>();
-                lock (_locker) {
-                    if (!_isInited) {
-                        foreach (var item in repository.GetAll()) {
-                            if (!_dicById.ContainsKey(item.Id)) {
-                                _dicById.Add(item.Id, item);
-                            }
+            lock (_locker) {
+                if (!_isInited) {
+                    var repository = _root.ServerContext.CreateLocalRepository<WalletData>();
+                    foreach (var item in repository.GetAll()) {
+                        if (!_dicById.ContainsKey(item.Id)) {
+                            _dicById.Add(item.Id, item);
                         }
-                        _isInited = true;
                     }
+                    _isInited = true;
                 }
             }
         }

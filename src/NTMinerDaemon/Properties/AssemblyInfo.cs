@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("NTMinerDaemon")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany(NTKeyword.Company)]
 [assembly: AssemblyProduct("NTMinerDaemon")]
 [assembly: AssemblyCopyright(NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]

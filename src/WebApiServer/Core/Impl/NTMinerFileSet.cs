@@ -40,7 +40,7 @@ namespace NTMiner.Core.Impl {
         private NTMinerFileData _latestMinerClientFile;
         public NTMinerFileData LatestMinerClientFile {
             get {
-                Init();
+                InitOnece();
                 return _latestMinerClientFile;
             }
         }

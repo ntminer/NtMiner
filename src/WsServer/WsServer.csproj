@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\packages\Costura.Fody.4.0.0\build\Costura.Fody.props" Condition="Exists('..\..\packages\Costura.Fody.4.0.0\build\Costura.Fody.props')" />
+  <Import Project="..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -44,12 +44,16 @@
     <StartupObject>NTMiner.WsRoot</StartupObject>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Costura, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Costura.Fody.4.0.0\lib\net40\Costura.dll</HintPath>
+    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
     </Reference>
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
     </Reference>
@@ -57,16 +61,17 @@
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="RabbitMQ.Client, Version=5.0.0.0, Culture=neutral, PublicKeyToken=89e7d7c5feba84ce, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RabbitMQ.Client.5.1.2\lib\net451\RabbitMQ.Client.dll</HintPath>
+      <HintPath>..\..\packages\RabbitMQ.Client.5.2.0\lib\net451\RabbitMQ.Client.dll</HintPath>
     </Reference>
-    <Reference Include="StackExchange.Redis, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\StackExchange.Redis.1.2.1\lib\net45\StackExchange.Redis.dll</HintPath>
+    <Reference Include="StackExchange.Redis, Version=1.2.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StackExchange.Redis.1.2.6\lib\net45\StackExchange.Redis.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.Management" />
+    <Reference Include="System.Web" />
     <Reference Include="websocket-sharp">
       <HintPath>..\ThirdPartyDlls\websocket-sharp.dll</HintPath>
     </Reference>
@@ -86,11 +91,19 @@
     <Compile Include="Core\Mq\Senders\IUserMqSender.cs" />
     <Compile Include="Core\Redis\Impl\WsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\IWsServerNodeRedis.cs" />
-    <Compile Include="MessageEventArgsExtensions.cs" />
+    <Compile Include="EmptyWsSessionsAdapter.cs" />
+    <Compile Include="WsCommonService.cs" />
+    <Compile Include="WsSharp\SharpWsServer.cs" />
+    <Compile Include="WsSharp\SharpWsSessionsAdapter.cs" />
+    <Compile Include="WsSharp\WsCloseCodeExtensions.cs" />
+    <Compile Include="IWsServer.cs" />
+    <Compile Include="IWsSessionsAdapter.cs" />
+    <Compile Include="IWsSessionAdapter.cs" />
+    <Compile Include="WsSharp\MessageEventArgsExtensions.cs" />
     <Compile Include="Messages.cs" />
-    <Compile Include="MinerClientBehavior.cs" />
+    <Compile Include="WsSharp\MinerClientSharpWsSessionAdapter.cs" />
     <Compile Include="MinerClientWsMessageHandler.cs" />
-    <Compile Include="MinerStudioBehavior.cs" />
+    <Compile Include="WsSharp\MinerStudioSharpWsSessionAdapter.cs" />
     <Compile Include="Core\IMinerClientSession.cs" />
     <Compile Include="Core\IMinerClientSessionSet.cs" />
     <Compile Include="Core\IMinerStudioSession.cs" />
@@ -104,7 +117,8 @@
     <Compile Include="Core\ISession.cs" />
     <Compile Include="Core\ISessionSet`1.cs" />
     <Compile Include="MinerStudioWsMessageHandler.cs" />
-    <Compile Include="WebSocketBehaviorExtensions.cs" />
+    <Compile Include="WsSharp\SharpWsSessionAdapterBase.cs" />
+    <Compile Include="WsCloseCode.cs" />
     <Compile Include="WsMqKeyword.cs" />
     <Compile Include="WsRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -144,12 +158,12 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\..\packages\Fody.5.0.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\packages\Fody.5.0.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.5.0.0\build\Fody.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Costura.Fody.4.0.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.4.0.0\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('..\..\packages\Fody.6.3.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.6.3.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
   </Target>
+  <Import Project="..\..\packages\Fody.6.3.0\build\Fody.targets" Condition="Exists('..\..\packages\Fody.6.3.0\build\Fody.targets')" />
 </Project>

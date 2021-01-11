@@ -33,8 +33,8 @@ namespace NTMiner.Core.Impl {
             try {
                 int minerClientWsSessionCount = 0;
                 int minerStudioWsSessionCount = 0;
-                minerClientWsSessionCount = WsRoot.MinerClientSessionSet.WsSessionManager.Count;
-                minerStudioWsSessionCount = WsRoot.MinerStudioSessionSet.WsSessionManager.Count;
+                minerClientWsSessionCount = WsRoot.WsServer.MinerClientWsSessionsAdapter.Count;
+                minerStudioWsSessionCount = WsRoot.WsServer.MinerStudioWsSessionsAdapter.Count;
                 var ram = Windows.Ram.Instance;
                 var cpu = Windows.Cpu.Instance;
                 nodeState = new WsServerNodeState {

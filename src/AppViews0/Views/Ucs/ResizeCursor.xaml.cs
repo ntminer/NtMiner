@@ -10,20 +10,6 @@ namespace NTMiner.Views.Ucs {
     public partial class ResizeCursor : UserControl {
         #region SafeNativeMethods
         private static class SafeNativeMethods {
-            #region enum struct class
-            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
-            public class MONITORINFO {
-                public int cbSize = Marshal.SizeOf(typeof(MONITORINFO));
-                public RECT rcMonitor = new RECT();
-                public RECT rcWork = new RECT();
-                public int dwFlags = 0;
-            }
-
-            [StructLayout(LayoutKind.Sequential)]
-            public struct RECT {
-                public int Left, Top, Right, Bottom;
-            }
-
             public enum ResizeDirection {
                 Left = 1,
                 Right = 2,
@@ -34,7 +20,6 @@ namespace NTMiner.Views.Ucs {
                 BottomLeft = 7,
                 BottomRight = 8,
             }
-            #endregion
 
             [DllImport(DllName.User32Dll, CharSet = CharSet.Auto)]
             internal static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);

@@ -52,9 +52,16 @@ namespace NTMiner.Gpus {
         }
 
         #region IGpuHelper成员
+        #region OverClock
         public void OverClock(
-            IGpu gpu, int coreClockMHz, int coreClockVoltage, int memoryClockMHz,
-            int memoryClockVoltage, int powerLimit, int tempLimit, int fanSpeed) {
+            IGpu gpu, 
+            int coreClockMHz, 
+            int coreClockVoltage, 
+            int memoryClockMHz,
+            int memoryClockVoltage, 
+            int powerLimit, 
+            int tempLimit, 
+            int fanSpeed) {
             if (coreClockVoltage < 0) {
                 coreClockVoltage = 0;
             }
@@ -83,7 +90,9 @@ namespace NTMiner.Gpus {
                 SetFanSpeed(gpu, fanSpeed);
             }
         }
+        #endregion
 
+        #region GetClockRange
         public OverClockRange GetClockRange(IGpu gpu) {
             int busId = gpu.GetOverClockId();
             OverClockRange result = new OverClockRange(busId);
@@ -127,7 +136,9 @@ namespace NTMiner.Gpus {
             }
             return result;
         }
+        #endregion
 
+        #region SetFanSpeed
         public void SetFanSpeed(IGpu gpu, int fanSpeed) {
             bool isAutoMode = fanSpeed == 0;
             uint value = (uint)fanSpeed;
@@ -180,8 +191,9 @@ namespace NTMiner.Gpus {
             }
             #endregion
         }
+        #endregion
 
-        private void SetCoreClock(int busId, int mHz, int voltage) {
+        private static void SetCoreClock(int busId, int mHz, int voltage) {
             int kHz = mHz * 1000;
             try {
                 if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
@@ -200,7 +212,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private void SetMemoryClock(int busId, int mHz, int voltage) {
+        private static void SetMemoryClock(int busId, int mHz, int voltage) {
             int kHz = mHz * 1000;
             try {
                 if (NvGetPStateV2(busId, out NvGpuPerfPStates20InfoV2 info)) {
@@ -222,7 +234,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private void SetTempLimit(int busId, int value) {
+        private static void SetTempLimit(int busId, int value) {
             value <<= 8;
             try {
                 if (!NvThermalPoliciesGetInfo(busId, out NvGpuThermalInfo info)) {
@@ -248,7 +260,7 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private void SetPowerLimit(int busId, int powerValue) {
+        private static void SetPowerLimit(int busId, int powerValue) {
             powerValue *= 1000;
             uint percentInt = (uint)powerValue;
             try {
@@ -275,7 +287,12 @@ namespace NTMiner.Gpus {
         }
         #endregion
 
-        public bool GetPowerLimit(int busId, out uint outCurrPower, out uint outMinPower, out uint outDefPower, out uint outMaxPower) {
+        public bool GetPowerLimit(
+            int busId, 
+            out uint outCurrPower, 
+            out uint outMinPower, 
+            out uint outDefPower, 
+            out uint outMaxPower) {
             outCurrPower = 0;
             outMinPower = 0;
             outDefPower = 0;
@@ -343,8 +360,12 @@ namespace NTMiner.Gpus {
         }
 
         private static bool GetClockDelta(int busId,
-            out int outCoreCurrFreqDelta, out int outCoreMinFreqDelta, out int outCoreMaxFreqDelta,
-            out int outMemoryCurrFreqDelta, out int outMemoryMinFreqDelta, out int outMemoryMaxFreqDelta) {
+            out int outCoreCurrFreqDelta, 
+            out int outCoreMinFreqDelta, 
+            out int outCoreMaxFreqDelta,
+            out int outMemoryCurrFreqDelta, 
+            out int outMemoryMinFreqDelta, 
+            out int outMemoryMaxFreqDelta) {
             outCoreCurrFreqDelta = 0;
             outCoreMinFreqDelta = 0;
             outCoreMaxFreqDelta = 0;
@@ -509,7 +530,12 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private static bool GetTempLimit(int busId, out int outCurrTemp, out int outMinTemp, out int outDefTemp, out int outMaxTemp) {
+        private static bool GetTempLimit(
+            int busId, 
+            out int outCurrTemp, 
+            out int outMinTemp, 
+            out int outDefTemp, 
+            out int outMaxTemp) {
             outCurrTemp = 0;
             outMinTemp = 0;
             outDefTemp = 0;

@@ -10,7 +10,13 @@ namespace NTMiner.Services.Client {
         internal NTMinerDaemonService() { }
 
         public void GetSelfWorkLocalJsonAsync(IMinerData client, Action<string, Exception> callback) {
-            RpcRoot.JsonRpc.PostAsync(client.GetLocalIp(), NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetSelfWorkLocalJson), callback, timeountMilliseconds: 3000);
+            RpcRoot.JsonRpc.PostAsync(
+                client.GetLocalIp(),
+                NTKeyword.NTMinerDaemonPort,
+                _controllerName,
+                nameof(INTMinerDaemonController.GetSelfWorkLocalJson),
+                callback,
+                timeountMilliseconds: 3000);
         }
 
         #region Localhost
@@ -18,23 +24,45 @@ namespace NTMiner.Services.Client {
         /// 本机网络调用
         /// </summary>
         public void CloseDaemonAsync(Action callback) {
-            RpcRoot.JsonRpc.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.CloseDaemon), null, data: null, callback, timeountMilliseconds: 3000);
+            RpcRoot.JsonRpc.FirePostAsync(
+                NTKeyword.Localhost,
+                NTKeyword.NTMinerDaemonPort,
+                _controllerName,
+                nameof(INTMinerDaemonController.CloseDaemon),
+                null,
+                data: null,
+                callback,
+                timeountMilliseconds: 3000);
         }
 
         /// <summary>
         /// 本机网络调用
         /// </summary>
         public void StartOrStopWsAsync(bool isResetFailCount) {
-            RpcRoot.JsonRpc.FirePostAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.StartOrCloseWs), new Dictionary<string, string> {
-                ["isResetFailCount"] = isResetFailCount.ToString()
-            }, data: null, timeountMilliseconds: 3000);
+            RpcRoot.JsonRpc.FirePostAsync(
+                NTKeyword.Localhost,
+                NTKeyword.NTMinerDaemonPort,
+                _controllerName,
+                nameof(INTMinerDaemonController.StartOrCloseWs),
+                new Dictionary<string, string> {
+                    ["isResetFailCount"] = isResetFailCount.ToString()
+                }, 
+                data: null, 
+                timeountMilliseconds: 3000);
         }
 
         /// <summary>
         /// 本机网络调用
         /// </summary>
         public void GetWsDaemonStateAsync(Action<WsClientState, Exception> callback) {
-            RpcRoot.JsonRpc.GetAsync(NTKeyword.Localhost, NTKeyword.NTMinerDaemonPort, _controllerName, nameof(INTMinerDaemonController.GetWsDaemonState), null, callback, timeountMilliseconds: 3000);
+            RpcRoot.JsonRpc.GetAsync(
+                NTKeyword.Localhost, 
+                NTKeyword.NTMinerDaemonPort, 
+                _controllerName, 
+                nameof(INTMinerDaemonController.GetWsDaemonState), 
+                null, 
+                callback, 
+                timeountMilliseconds: 3000);
         }
         #endregion
     }

@@ -10,7 +10,13 @@ namespace NTMiner.Services.Official {
         }
 
         public void GetServerStateAsync(Action<DataResponse<WebApiServerState>, Exception> callback) {
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IWebApiServerNodeController.GetServerState), new object(), callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IWebApiServerNodeController.GetServerState), 
+                new object(), 
+                callback);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using NTMiner.User;
 using NTMiner.Ws;
-using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public class MinerStudioSession : AbstractSession, IMinerStudioSession {
@@ -10,14 +9,14 @@ namespace NTMiner.Core.Impl {
         /// <param name="user"></param>
         /// <param name="userName"></param>
         /// <param name="wsSessionID"></param>
-        /// <param name="wsSessionManager"></param>
+        /// <param name="sessions"></param>
         /// <returns></returns>
-        public static MinerStudioSession Create(IUser user, WsUserName userName, string wsSessionID, WebSocketSessionManager wsSessionManager) {
-            return new MinerStudioSession(user, userName, wsSessionID, wsSessionManager);
+        public static MinerStudioSession Create(IUser user, WsUserName userName, string wsSessionID, IWsSessionsAdapter sessions) {
+            return new MinerStudioSession(user, userName, wsSessionID, sessions);
         }
 
-        private MinerStudioSession(IUser user, WsUserName userName, string wsSessionID, WebSocketSessionManager wsSessionManager)
-            : base(user, userName, wsSessionID, wsSessionManager) {
+        private MinerStudioSession(IUser user, WsUserName userName, string wsSessionID, IWsSessionsAdapter sessions)
+            : base(user, userName, wsSessionID, sessions) {
         }
 
         public bool IsValid(WsMessage message) {

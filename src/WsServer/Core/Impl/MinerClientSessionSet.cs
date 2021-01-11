@@ -3,11 +3,10 @@ using NTMiner.Core.MinerServer;
 using NTMiner.User;
 using NTMiner.Ws;
 using System;
-using WebSocketSharp.Server;
 
 namespace NTMiner.Core.Impl {
     public class MinerClientSessionSet : AbstractSessionSet<IMinerClientSession>, IMinerClientSessionSet {
-        public MinerClientSessionSet(WebSocketSessionManager wsSessionManager) : base(wsSessionManager) {
+        public MinerClientSessionSet(IWsSessionsAdapter sessions) : base(sessions) {
             VirtualRoot.BuildEventPath<GetConsoleOutLinesMqMessage>("收到GetConsoleOutLines Mq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {

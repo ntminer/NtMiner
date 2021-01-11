@@ -17,10 +17,10 @@ using System.Windows;
 // 方法是按如下所示使用“*”:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.0.0.*")]
-[assembly: AssemblyDescription("NTMiner")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany(NTMiner.NTKeyword.Company)]
 [assembly: AssemblyProduct("AppViews0")]
 [assembly: AssemblyCopyright(NTMiner.NTKeyword.Copyright)]
 [assembly: AssemblyTrademark("")]

@@ -13,7 +13,13 @@ namespace NTMiner.Services.Official {
         #region QueryClientsAsync
         // 去调ClientDataBinaryService的方法了所以这个没人调了
         public void QueryClientsAsync(QueryClientsRequest query, Action<QueryClientsResponse, Exception> callback) {
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataController.QueryClients), data: query, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IClientDataController.QueryClients), 
+                data: query, 
+                callback);
         }
         #endregion
 
@@ -24,7 +30,13 @@ namespace NTMiner.Services.Official {
                 PropertyName = propertyName,
                 Value = value
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataController.UpdateClient), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IClientDataController.UpdateClient), 
+                data: request, 
+                callback);
         }
         #endregion
 
@@ -34,7 +46,13 @@ namespace NTMiner.Services.Official {
                 PropertyName = propertyName,
                 Values = values
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataController.UpdateClients), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IClientDataController.UpdateClients), 
+                data: request, 
+                callback);
         }
         #endregion
 
@@ -43,7 +61,13 @@ namespace NTMiner.Services.Official {
             var request = new MinerIdsRequest {
                 ObjectIds = objectIds
             };
-            RpcRoot.JsonRpc.SignPostAsync(RpcRoot.OfficialServerHost, RpcRoot.OfficialServerPort, _controllerName, nameof(IClientDataController.RemoveClients), data: request, callback);
+            RpcRoot.JsonRpc.SignPostAsync(
+                RpcRoot.OfficialServerHost, 
+                RpcRoot.OfficialServerPort, 
+                _controllerName, 
+                nameof(IClientDataController.RemoveClients), 
+                data: request, 
+                callback);
         }
         #endregion
     }

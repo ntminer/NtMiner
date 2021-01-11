@@ -7344,7 +7344,7 @@
         <member name="T:WebSocketSharp.Net.HttpListenerContext">
             <summary>
             Provides the access to the HTTP request and response objects used by
-            the <see cref="T:WebSocketSharp.Net.HttpListener"/>.
+            the <see cref="T:WebSocketSharp.Net.HttpListener"/> class.
             </summary>
             <remarks>
             This class cannot be inherited.
@@ -7363,7 +7363,8 @@
             Gets the HTTP response object used to send a response to the client.
             </summary>
             <value>
-            A <see cref="T:WebSocketSharp.Net.HttpListenerResponse"/> that represents a response to the client request.
+            A <see cref="T:WebSocketSharp.Net.HttpListenerResponse"/> that represents a response to
+            the client request.
             </value>
         </member>
         <member name="P:WebSocketSharp.Net.HttpListenerContext.User">
@@ -7371,7 +7372,13 @@
             Gets the client information (identity, authentication, and security roles).
             </summary>
             <value>
-            A <see cref="T:System.Security.Principal.IPrincipal"/> instance that represents the client information.
+              <para>
+              A <see cref="T:System.Security.Principal.IPrincipal"/> instance or <see langword="null"/> if not
+              authenticated.
+              </para>
+              <para>
+              The instance describes the client.
+              </para>
             </value>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerContext.AcceptWebSocket(System.String)">
@@ -7383,8 +7390,8 @@
             the WebSocket handshake request.
             </returns>
             <param name="protocol">
-            A <see cref="T:System.String"/> that represents the subprotocol supported on
-            this WebSocket connection.
+            A <see cref="T:System.String"/> that specifies the subprotocol supported on
+            the WebSocket connection.
             </param>
             <exception cref="T:System.ArgumentException">
               <para>
@@ -7455,11 +7462,12 @@
         </member>
         <member name="T:WebSocketSharp.Net.HttpListenerPrefixCollection">
             <summary>
-            Provides the collection used to store the URI prefixes for the <see cref="T:WebSocketSharp.Net.HttpListener"/>.
+            Provides a collection used to store the URI prefixes for a instance of
+            the <see cref="T:WebSocketSharp.Net.HttpListener"/> class.
             </summary>
             <remarks>
-            The <see cref="T:WebSocketSharp.Net.HttpListener"/> responds to the request which has a requested URI that
-            the prefixes most closely match.
+            The <see cref="T:WebSocketSharp.Net.HttpListener"/> instance responds to the request which has
+            a requested URI that the prefixes most closely match.
             </remarks>
         </member>
         <member name="P:WebSocketSharp.Net.HttpListenerPrefixCollection.Count">
@@ -7472,7 +7480,8 @@
         </member>
         <member name="P:WebSocketSharp.Net.HttpListenerPrefixCollection.IsReadOnly">
             <summary>
-            Gets a value indicating whether the access to the collection is read-only.
+            Gets a value indicating whether the access to the collection is
+            read-only.
             </summary>
             <value>
             Always returns <c>false</c>.
@@ -7480,7 +7489,8 @@
         </member>
         <member name="P:WebSocketSharp.Net.HttpListenerPrefixCollection.IsSynchronized">
             <summary>
-            Gets a value indicating whether the access to the collection is synchronized.
+            Gets a value indicating whether the access to the collection is
+            synchronized.
             </summary>
             <value>
             Always returns <c>false</c>.
@@ -7488,11 +7498,16 @@
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefixCollection.Add(System.String)">
             <summary>
-            Adds the specified <paramref name="uriPrefix"/> to the collection.
+            Adds the specified URI prefix to the collection.
             </summary>
             <param name="uriPrefix">
-            A <see cref="T:System.String"/> that represents the URI prefix to add. The prefix must be
-            a well-formed URI prefix with http or https scheme, and must end with a <c>'/'</c>.
+              <para>
+              A <see cref="T:System.String"/> that specifies the URI prefix to add.
+              </para>
+              <para>
+              It must be a well-formed URI prefix with http or https scheme,
+              and must end with a '/'.
+              </para>
             </param>
             <exception cref="T:System.ArgumentNullException">
             <paramref name="uriPrefix"/> is <see langword="null"/>.
@@ -7501,7 +7516,8 @@
             <paramref name="uriPrefix"/> is invalid.
             </exception>
             <exception cref="T:System.ObjectDisposedException">
-            The <see cref="T:WebSocketSharp.Net.HttpListener"/> associated with this collection is closed.
+            The <see cref="T:WebSocketSharp.Net.HttpListener"/> instance associated with this
+            collection is closed.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefixCollection.Clear">
@@ -7509,91 +7525,92 @@
             Removes all URI prefixes from the collection.
             </summary>
             <exception cref="T:System.ObjectDisposedException">
-            The <see cref="T:WebSocketSharp.Net.HttpListener"/> associated with this collection is closed.
+            The <see cref="T:WebSocketSharp.Net.HttpListener"/> instance associated with this
+            collection is closed.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefixCollection.Contains(System.String)">
             <summary>
-            Returns a value indicating whether the collection contains the specified
-            <paramref name="uriPrefix"/>.
+            Returns a value indicating whether the collection contains the
+            specified URI prefix.
             </summary>
             <returns>
-            <c>true</c> if the collection contains <paramref name="uriPrefix"/>;
-            otherwise, <c>false</c>.
+            <c>true</c> if the collection contains the URI prefix; otherwise,
+            <c>false</c>.
             </returns>
             <param name="uriPrefix">
-            A <see cref="T:System.String"/> that represents the URI prefix to test.
+            A <see cref="T:System.String"/> that specifies the URI prefix to test.
             </param>
             <exception cref="T:System.ArgumentNullException">
             <paramref name="uriPrefix"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ObjectDisposedException">
-            The <see cref="T:WebSocketSharp.Net.HttpListener"/> associated with this collection is closed.
-            </exception>
-        </member>
-        <member name="M:WebSocketSharp.Net.HttpListenerPrefixCollection.CopyTo(System.Array,System.Int32)">
-            <summary>
-            Copies the contents of the collection to the specified <see cref="T:System.Array"/>.
-            </summary>
-            <param name="array">
-            An <see cref="T:System.Array"/> that receives the URI prefix strings in the collection.
-            </param>
-            <param name="offset">
-            An <see cref="T:System.Int32"/> that represents the zero-based index in <paramref name="array"/>
-            at which copying begins.
-            </param>
-            <exception cref="T:System.ObjectDisposedException">
-            The <see cref="T:WebSocketSharp.Net.HttpListener"/> associated with this collection is closed.
+            The <see cref="T:WebSocketSharp.Net.HttpListener"/> instance associated with this
+            collection is closed.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefixCollection.CopyTo(System.String[],System.Int32)">
             <summary>
-            Copies the contents of the collection to the specified array of <see cref="T:System.String"/>.
+            Copies the contents of the collection to the specified array of string.
             </summary>
             <param name="array">
-            An array of <see cref="T:System.String"/> that receives the URI prefix strings in the collection.
+            An array of <see cref="T:System.String"/> that specifies the destination of
+            the URI prefix strings copied from the collection.
             </param>
             <param name="offset">
-            An <see cref="T:System.Int32"/> that represents the zero-based index in <paramref name="array"/>
-            at which copying begins.
+            An <see cref="T:System.Int32"/> that specifies the zero-based index in
+            the array at which copying begins.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="array"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            <paramref name="offset"/> is less than zero.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            The space from <paramref name="offset"/> to the end of
+            <paramref name="array"/> is not enough to copy to.
+            </exception>
             <exception cref="T:System.ObjectDisposedException">
-            The <see cref="T:WebSocketSharp.Net.HttpListener"/> associated with this collection is closed.
+            The <see cref="T:WebSocketSharp.Net.HttpListener"/> instance associated with this
+            collection is closed.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefixCollection.GetEnumerator">
             <summary>
-            Gets the enumerator used to iterate through the <see cref="T:WebSocketSharp.Net.HttpListenerPrefixCollection"/>.
+            Gets the enumerator that iterates through the collection.
             </summary>
             <returns>
-            An <see cref="T:System.Collections.Generic.IEnumerator{string}"/> instance used to iterate
-            through the collection.
+            An <see cref="T:System.Collections.Generic.IEnumerator{string}"/>
+            instance that can be used to iterate through the collection.
             </returns>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefixCollection.Remove(System.String)">
             <summary>
-            Removes the specified <paramref name="uriPrefix"/> from the collection.
+            Removes the specified URI prefix from the collection.
             </summary>
             <returns>
-            <c>true</c> if <paramref name="uriPrefix"/> is successfully found and removed;
-            otherwise, <c>false</c>.
+            <c>true</c> if the URI prefix is successfully removed; otherwise,
+            <c>false</c>.
             </returns>
             <param name="uriPrefix">
-            A <see cref="T:System.String"/> that represents the URI prefix to remove.
+            A <see cref="T:System.String"/> that specifies the URI prefix to remove.
             </param>
             <exception cref="T:System.ArgumentNullException">
             <paramref name="uriPrefix"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ObjectDisposedException">
-            The <see cref="T:WebSocketSharp.Net.HttpListener"/> associated with this collection is closed.
+            The <see cref="T:WebSocketSharp.Net.HttpListener"/> instance associated with this
+            collection is closed.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefixCollection.System#Collections#IEnumerable#GetEnumerator">
             <summary>
-            Gets the enumerator used to iterate through the <see cref="T:WebSocketSharp.Net.HttpListenerPrefixCollection"/>.
+            Gets the enumerator that iterates through the collection.
             </summary>
             <returns>
-            An <see cref="T:System.Collections.IEnumerator"/> instance used to iterate through the collection.
+            An <see cref="T:System.Collections.IEnumerator"/> instance that can be used to iterate
+            through the collection.
             </returns>
         </member>
         <member name="T:WebSocketSharp.Net.HttpListenerRequest">
@@ -8296,20 +8313,37 @@
             the headers for the response.
             </summary>
             <param name="name">
-            A <see cref="T:System.String"/> that represents the name of the header to
+            A <see cref="T:System.String"/> that specifies the name of the header to
             append.
             </param>
             <param name="value">
-            A <see cref="T:System.String"/> that represents the value of the header to
+            A <see cref="T:System.String"/> that specifies the value of the header to
             append.
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="name"/> is <see langword="null"/> or empty.
+            <paramref name="name"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="name"/> or <paramref name="value"/> contains
-              an invalid character.
+              <paramref name="name"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> contains an invalid character.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="value"/> contains an invalid character.
               </para>
               <para>
               -or-
@@ -8323,7 +8357,7 @@
             characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The header cannot be allowed to append to the current headers.
+            The current headers do not allow the header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerResponse.Close">
@@ -8341,8 +8375,8 @@
             An array of <see cref="T:System.Byte"/> that contains the entity body data.
             </param>
             <param name="willBlock">
-            <c>true</c> if this method blocks execution while flushing the stream
-            to the client; otherwise, <c>false</c>.
+            A <see cref="T:System.Boolean"/>: <c>true</c> if this method blocks execution while
+            flushing the stream to the client; otherwise, <c>false</c>.
             </param>
             <exception cref="T:System.ArgumentNullException">
             <paramref name="responseEntity"/> is <see langword="null"/>.
@@ -8374,7 +8408,7 @@
             302, and the <see cref="P:WebSocketSharp.Net.HttpListenerResponse.StatusDescription"/> property to "Found".
             </remarks>
             <param name="url">
-            A <see cref="T:System.String"/> that represents the absolute URL to which
+            A <see cref="T:System.String"/> that specifies the absolute URL to which
             the client is redirected to locate a requested resource.
             </param>
             <exception cref="T:System.ArgumentNullException">
@@ -8419,18 +8453,35 @@
             the headers for the response.
             </summary>
             <param name="name">
-            A <see cref="T:System.String"/> that represents the name of the header to set.
+            A <see cref="T:System.String"/> that specifies the name of the header to set.
             </param>
             <param name="value">
-            A <see cref="T:System.String"/> that represents the value of the header to set.
+            A <see cref="T:System.String"/> that specifies the value of the header to set.
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="name"/> is <see langword="null"/> or empty.
+            <paramref name="name"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="name"/> or <paramref name="value"/> contains
-              an invalid character.
+              <paramref name="name"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> contains an invalid character.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="value"/> contains an invalid character.
               </para>
               <para>
               -or-
@@ -8444,7 +8495,7 @@
             characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The header cannot be allowed to set in the current headers.
+            The current headers do not allow the header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerResponse.System#IDisposable#Dispose">
@@ -8525,7 +8576,8 @@
             Gets all header names in the collection.
             </summary>
             <value>
-            An array of <see cref="T:System.String"/> that contains all header names in the collection.
+            An array of <see cref="T:System.String"/> that contains all header names in
+            the collection.
             </value>
         </member>
         <member name="P:WebSocketSharp.Net.WebHeaderCollection.Count">
@@ -8533,19 +8585,24 @@
             Gets the number of headers in the collection.
             </summary>
             <value>
-            An <see cref="T:System.Int32"/> that represents the number of headers in the collection.
+            An <see cref="T:System.Int32"/> that represents the number of headers in
+            the collection.
             </value>
         </member>
         <member name="P:WebSocketSharp.Net.WebHeaderCollection.Item(WebSocketSharp.Net.HttpRequestHeader)">
             <summary>
-            Gets or sets the specified request <paramref name="header"/> in the collection.
+            Gets or sets the specified request header.
             </summary>
             <value>
-            A <see cref="T:System.String"/> that represents the value of the request <paramref name="header"/>.
+            A <see cref="T:System.String"/> that represents the value of the request header.
             </value>
             <param name="header">
-            One of the <see cref="T:WebSocketSharp.Net.HttpRequestHeader"/> enum values, represents
-            the request header to get or set.
+              <para>
+              One of the <see cref="T:WebSocketSharp.Net.HttpRequestHeader"/> enum values.
+              </para>
+              <para>
+              It specifies the request header to get or set.
+              </para>
             </param>
             <exception cref="T:System.ArgumentException">
               <para>
@@ -8555,27 +8612,31 @@
               -or-
               </para>
               <para>
-              <paramref name="value"/> contains invalid characters.
+              <paramref name="value"/> contains an invalid character.
               </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="value"/> is greater than 65,535 characters.
+            The length of <paramref name="value"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the request <paramref name="header"/>.
+            This instance does not allow the request header.
             </exception>
         </member>
         <member name="P:WebSocketSharp.Net.WebHeaderCollection.Item(WebSocketSharp.Net.HttpResponseHeader)">
             <summary>
-            Gets or sets the specified response <paramref name="header"/> in the collection.
+            Gets or sets the specified response header.
             </summary>
             <value>
-            A <see cref="T:System.String"/> that represents the value of the response <paramref name="header"/>.
+            A <see cref="T:System.String"/> that represents the value of the response header.
             </value>
             <param name="header">
-            One of the <see cref="T:WebSocketSharp.Net.HttpResponseHeader"/> enum values, represents
-            the response header to get or set.
+              <para>
+              One of the <see cref="T:WebSocketSharp.Net.HttpResponseHeader"/> enum values.
+              </para>
+              <para>
+              It specifies the response header to get or set.
+              </para>
             </param>
             <exception cref="T:System.ArgumentException">
               <para>
@@ -8585,15 +8646,15 @@
               -or-
               </para>
               <para>
-              <paramref name="value"/> contains invalid characters.
+              <paramref name="value"/> contains an invalid character.
               </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="value"/> is greater than 65,535 characters.
+            The length of <paramref name="value"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the response <paramref name="header"/>.
+            This instance does not allow the response header.
             </exception>
         </member>
         <member name="P:WebSocketSharp.Net.WebHeaderCollection.Keys">
@@ -8611,40 +8672,91 @@
             the restricted header list.
             </summary>
             <param name="headerName">
-            A <see cref="T:System.String"/> that represents the name of the header to add.
+            A <see cref="T:System.String"/> that specifies the name of the header to add.
             </param>
             <param name="headerValue">
-            A <see cref="T:System.String"/> that represents the value of the header to add.
+            A <see cref="T:System.String"/> that specifies the value of the header to add.
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="headerName"/> is <see langword="null"/> or empty.
+            <paramref name="headerName"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
-            <paramref name="headerName"/> or <paramref name="headerValue"/> contains invalid characters.
+              <para>
+              <paramref name="headerName"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="headerName"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="headerName"/> contains an invalid character.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="headerValue"/> contains an invalid character.
+              </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="headerValue"/> is greater than 65,535 characters.
+            The length of <paramref name="headerValue"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the <paramref name="headerName"/>.
+            This instance does not allow the header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Add(System.String)">
             <summary>
-            Adds the specified <paramref name="header"/> to the collection.
+            Adds the specified header to the collection.
             </summary>
             <param name="header">
-            A <see cref="T:System.String"/> that represents the header with the name and value separated by
-            a colon (<c>':'</c>).
+            A <see cref="T:System.String"/> that specifies the header to add,
+            with the name and value separated by a colon character (':').
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="header"/> is <see langword="null"/>, empty, or the name part of
-            <paramref name="header"/> is empty.
+            <paramref name="header"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="header"/> doesn't contain a colon.
+              <paramref name="header"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="header"/> does not contain a colon character.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              The name part of <paramref name="header"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              The name part of <paramref name="header"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              The name part of <paramref name="header"/> contains an invalid
+              character.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              The value part of <paramref name="header"/> contains an invalid
+              character.
               </para>
               <para>
               -or-
@@ -8652,100 +8764,119 @@
               <para>
               <paramref name="header"/> is a restricted header.
               </para>
-              <para>
-              -or-
-              </para>
-              <para>
-              The name or value part of <paramref name="header"/> contains invalid characters.
-              </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of the value part of <paramref name="header"/> is greater than 65,535 characters.
+            The length of the value part of <paramref name="header"/> is greater
+            than 65,535 characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the <paramref name="header"/>.
+            This instance does not allow the header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Add(WebSocketSharp.Net.HttpRequestHeader,System.String)">
             <summary>
-            Adds the specified request <paramref name="header"/> with
-            the specified <paramref name="value"/> to the collection.
+            Adds the specified request header with the specified value to
+            the collection.
             </summary>
             <param name="header">
-            One of the <see cref="T:WebSocketSharp.Net.HttpRequestHeader"/> enum values, represents
-            the request header to add.
+              <para>
+              One of the <see cref="T:WebSocketSharp.Net.HttpRequestHeader"/> enum values.
+              </para>
+              <para>
+              It specifies the request header to add.
+              </para>
             </param>
             <param name="value">
-            A <see cref="T:System.String"/> that represents the value of the header to add.
+            A <see cref="T:System.String"/> that specifies the value of the header to add.
             </param>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="header"/> is a restricted header.
+              <paramref name="value"/> contains an invalid character.
               </para>
               <para>
               -or-
               </para>
               <para>
-              <paramref name="value"/> contains invalid characters.
+              <paramref name="header"/> is a restricted header.
               </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="value"/> is greater than 65,535 characters.
+            The length of <paramref name="value"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the request <paramref name="header"/>.
+            This instance does not allow the request header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Add(WebSocketSharp.Net.HttpResponseHeader,System.String)">
             <summary>
-            Adds the specified response <paramref name="header"/> with
-            the specified <paramref name="value"/> to the collection.
+            Adds the specified response header with the specified value to
+            the collection.
             </summary>
             <param name="header">
-            One of the <see cref="T:WebSocketSharp.Net.HttpResponseHeader"/> enum values, represents
-            the response header to add.
+              <para>
+              One of the <see cref="T:WebSocketSharp.Net.HttpResponseHeader"/> enum values.
+              </para>
+              <para>
+              It specifies the response header to add.
+              </para>
             </param>
             <param name="value">
-            A <see cref="T:System.String"/> that represents the value of the header to add.
+            A <see cref="T:System.String"/> that specifies the value of the header to add.
             </param>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="header"/> is a restricted header.
+              <paramref name="value"/> contains an invalid character.
               </para>
               <para>
               -or-
               </para>
               <para>
-              <paramref name="value"/> contains invalid characters.
+              <paramref name="header"/> is a restricted header.
               </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="value"/> is greater than 65,535 characters.
+            The length of <paramref name="value"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the response <paramref name="header"/>.
+            This instance does not allow the response header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Add(System.String,System.String)">
             <summary>
-            Adds a header with the specified <paramref name="name"/> and
-            <paramref name="value"/> to the collection.
+            Adds a header with the specified name and value to the collection.
             </summary>
             <param name="name">
-            A <see cref="T:System.String"/> that represents the name of the header to add.
+            A <see cref="T:System.String"/> that specifies the name of the header to add.
             </param>
             <param name="value">
-            A <see cref="T:System.String"/> that represents the value of the header to add.
+            A <see cref="T:System.String"/> that specifies the value of the header to add.
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="name"/> is <see langword="null"/> or empty.
+            <paramref name="name"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="name"/> or <paramref name="value"/> contains invalid characters.
+              <paramref name="name"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> contains an invalid character.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="value"/> contains an invalid character.
               </para>
               <para>
               -or-
@@ -8755,11 +8886,11 @@
               </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="value"/> is greater than 65,535 characters.
+            The length of <paramref name="value"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the header <paramref name="name"/>.
+            This instance does not allow the header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Clear">
@@ -8769,28 +8900,34 @@
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Get(System.Int32)">
             <summary>
-            Get the value of the header at the specified <paramref name="index"/> in the collection.
+            Get the value of the header at the specified index in the collection.
             </summary>
             <returns>
             A <see cref="T:System.String"/> that receives the value of the header.
             </returns>
             <param name="index">
-            An <see cref="T:System.Int32"/> that represents the zero-based index of the header to find.
+            An <see cref="T:System.Int32"/> that specifies the zero-based index of the header
+            to find.
             </param>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            <paramref name="index"/> is out of allowable range of indexes for the collection.
+            <paramref name="index"/> is out of allowable range of indexes for
+            the collection.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Get(System.String)">
             <summary>
-            Get the value of the header with the specified <paramref name="name"/> in the collection.
+            Get the value of the header with the specified name in the collection.
             </summary>
             <returns>
-            A <see cref="T:System.String"/> that receives the value of the header if found;
-            otherwise, <see langword="null"/>.
+              <para>
+              A <see cref="T:System.String"/> that receives the value of the header.
+              </para>
+              <para>
+              <see langword="null"/> if not found.
+              </para>
             </returns>
             <param name="name">
-            A <see cref="T:System.String"/> that represents the name of the header to find.
+            A <see cref="T:System.String"/> that specifies the name of the header to find.
             </param>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.GetEnumerator">
@@ -8798,49 +8935,63 @@
             Gets the enumerator used to iterate through the collection.
             </summary>
             <returns>
-            An <see cref="T:System.Collections.IEnumerator"/> instance used to iterate through the collection.
+            An <see cref="T:System.Collections.IEnumerator"/> instance used to iterate through
+            the collection.
             </returns>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.GetKey(System.Int32)">
             <summary>
-            Get the name of the header at the specified <paramref name="index"/> in the collection.
+            Get the name of the header at the specified index in the collection.
             </summary>
             <returns>
-            A <see cref="T:System.String"/> that receives the header name.
+            A <see cref="T:System.String"/> that receives the name of the header.
             </returns>
             <param name="index">
-            An <see cref="T:System.Int32"/> that represents the zero-based index of the header to find.
+            An <see cref="T:System.Int32"/> that specifies the zero-based index of the header
+            to find.
             </param>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            <paramref name="index"/> is out of allowable range of indexes for the collection.
+            <paramref name="index"/> is out of allowable range of indexes for
+            the collection.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.GetValues(System.Int32)">
             <summary>
-            Gets an array of header values stored in the specified <paramref name="index"/> position of
-            the collection.
+            Get the values of the header at the specified index in the collection.
             </summary>
             <returns>
-            An array of <see cref="T:System.String"/> that receives the header values if found;
-            otherwise, <see langword="null"/>.
+              <para>
+              An array of <see cref="T:System.String"/> that receives the values of
+              the header.
+              </para>
+              <para>
+              <see langword="null"/> if not present.
+              </para>
             </returns>
             <param name="index">
-            An <see cref="T:System.Int32"/> that represents the zero-based index of the header to find.
+            An <see cref="T:System.Int32"/> that specifies the zero-based index of the header
+            to find.
             </param>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            <paramref name="index"/> is out of allowable range of indexes for the collection.
+            <paramref name="index"/> is out of allowable range of indexes for
+            the collection.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.GetValues(System.String)">
             <summary>
-            Gets an array of header values stored in the specified <paramref name="header"/>.
+            Get the values of the header with the specified name in the collection.
             </summary>
             <returns>
-            An array of <see cref="T:System.String"/> that receives the header values if found;
-            otherwise, <see langword="null"/>.
+              <para>
+              An array of <see cref="T:System.String"/> that receives the values of
+              the header.
+              </para>
+              <para>
+              <see langword="null"/> if not present.
+              </para>
             </returns>
-            <param name="header">
-            A <see cref="T:System.String"/> that represents the name of the header to find.
+            <param name="name">
+            A <see cref="T:System.String"/> that specifies the name of the header to find.
             </param>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
@@ -8861,80 +9012,117 @@
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.IsRestricted(System.String)">
             <summary>
-            Determines whether the specified header can be set for the request.
+            Determines whether the specified HTTP header can be set for the request.
             </summary>
             <returns>
-            <c>true</c> if the header is restricted; otherwise, <c>false</c>.
+            <c>true</c> if the header cannot be set; otherwise, <c>false</c>.
             </returns>
             <param name="headerName">
-            A <see cref="T:System.String"/> that represents the name of the header to test.
+            A <see cref="T:System.String"/> that specifies the name of the header to test.
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="headerName"/> is <see langword="null"/> or empty.
+            <paramref name="headerName"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
-            <paramref name="headerName"/> contains invalid characters.
+              <para>
+              <paramref name="headerName"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="headerName"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="headerName"/> contains an invalid character.
+              </para>
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.IsRestricted(System.String,System.Boolean)">
             <summary>
-            Determines whether the specified header can be set for the request or the response.
+            Determines whether the specified HTTP header can be set for the request
+            or the response.
             </summary>
             <returns>
-            <c>true</c> if the header is restricted; otherwise, <c>false</c>.
+            <c>true</c> if the header cannot be set; otherwise, <c>false</c>.
             </returns>
             <param name="headerName">
-            A <see cref="T:System.String"/> that represents the name of the header to test.
+            A <see cref="T:System.String"/> that specifies the name of the header to test.
             </param>
             <param name="response">
-            <c>true</c> if does the test for the response; for the request, <c>false</c>.
+            A <see cref="T:System.Boolean"/>: <c>true</c> if the test is for the response;
+            otherwise, <c>false</c>.
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="headerName"/> is <see langword="null"/> or empty.
+            <paramref name="headerName"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
-            <paramref name="headerName"/> contains invalid characters.
+              <para>
+              <paramref name="headerName"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="headerName"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="headerName"/> contains an invalid character.
+              </para>
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.OnDeserialization(System.Object)">
             <summary>
-            Implements the <see cref="T:System.Runtime.Serialization.ISerializable"/> interface and raises the deserialization event
-            when the deserialization is complete.
+            Implements the <see cref="T:System.Runtime.Serialization.ISerializable"/> interface and raises
+            the deserialization event when the deserialization is complete.
             </summary>
             <param name="sender">
-            An <see cref="T:System.Object"/> that represents the source of the deserialization event.
+            An <see cref="T:System.Object"/> instance that represents the source of
+            the deserialization event.
             </param>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Remove(WebSocketSharp.Net.HttpRequestHeader)">
             <summary>
-            Removes the specified request <paramref name="header"/> from the collection.
+            Removes the specified request header from the collection.
             </summary>
             <param name="header">
-            One of the <see cref="T:WebSocketSharp.Net.HttpRequestHeader"/> enum values, represents
-            the request header to remove.
+              <para>
+              One of the <see cref="T:WebSocketSharp.Net.HttpRequestHeader"/> enum values.
+              </para>
+              <para>
+              It specifies the request header to remove.
+              </para>
             </param>
             <exception cref="T:System.ArgumentException">
             <paramref name="header"/> is a restricted header.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the request <paramref name="header"/>.
+            This instance does not allow the request header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Remove(WebSocketSharp.Net.HttpResponseHeader)">
             <summary>
-            Removes the specified response <paramref name="header"/> from the collection.
+            Removes the specified response header from the collection.
             </summary>
             <param name="header">
-            One of the <see cref="T:WebSocketSharp.Net.HttpResponseHeader"/> enum values, represents
-            the response header to remove.
+              <para>
+              One of the <see cref="T:WebSocketSharp.Net.HttpResponseHeader"/> enum values.
+              </para>
+              <para>
+              It specifies the response header to remove.
+              </para>
             </param>
             <exception cref="T:System.ArgumentException">
             <paramref name="header"/> is a restricted header.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the response <paramref name="header"/>.
+            This instance does not allow the response header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Remove(System.String)">
@@ -8942,14 +9130,26 @@
             Removes the specified header from the collection.
             </summary>
             <param name="name">
-            A <see cref="T:System.String"/> that represents the name of the header to remove.
+            A <see cref="T:System.String"/> that specifies the name of the header to remove.
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="name"/> is <see langword="null"/> or empty.
+            <paramref name="name"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="name"/> contains invalid characters.
+              <paramref name="name"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> contains an invalid character.
               </para>
               <para>
               -or-
@@ -8959,68 +9159,77 @@
               </para>
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the header <paramref name="name"/>.
+            This instance does not allow the header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Set(WebSocketSharp.Net.HttpRequestHeader,System.String)">
             <summary>
-            Sets the specified request <paramref name="header"/> to the specified value.
+            Sets the specified request header to the specified value.
             </summary>
             <param name="header">
-            One of the <see cref="T:WebSocketSharp.Net.HttpRequestHeader"/> enum values, represents
-            the request header to set.
+              <para>
+              One of the <see cref="T:WebSocketSharp.Net.HttpRequestHeader"/> enum values.
+              </para>
+              <para>
+              It specifies the request header to set.
+              </para>
             </param>
             <param name="value">
-            A <see cref="T:System.String"/> that represents the value of the request header to set.
+            A <see cref="T:System.String"/> that specifies the value of the request header
+            to set.
             </param>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="header"/> is a restricted header.
+              <paramref name="value"/> contains an invalid character.
               </para>
               <para>
               -or-
               </para>
               <para>
-              <paramref name="value"/> contains invalid characters.
+              <paramref name="header"/> is a restricted header.
               </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="value"/> is greater than 65,535 characters.
+            The length of <paramref name="value"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the request <paramref name="header"/>.
+            This instance does not allow the request header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Set(WebSocketSharp.Net.HttpResponseHeader,System.String)">
             <summary>
-            Sets the specified response <paramref name="header"/> to the specified value.
+            Sets the specified response header to the specified value.
             </summary>
             <param name="header">
-            One of the <see cref="T:WebSocketSharp.Net.HttpResponseHeader"/> enum values, represents
-            the response header to set.
+              <para>
+              One of the <see cref="T:WebSocketSharp.Net.HttpResponseHeader"/> enum values.
+              </para>
+              <para>
+              It specifies the response header to set.
+              </para>
             </param>
             <param name="value">
-            A <see cref="T:System.String"/> that represents the value of the response header to set.
+            A <see cref="T:System.String"/> that specifies the value of the response header
+            to set.
             </param>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="header"/> is a restricted header.
+              <paramref name="value"/> contains an invalid character.
               </para>
               <para>
               -or-
               </para>
               <para>
-              <paramref name="value"/> contains invalid characters.
+              <paramref name="header"/> is a restricted header.
               </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="value"/> is greater than 65,535 characters.
+            The length of <paramref name="value"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the response <paramref name="header"/>.
+            This instance does not allow the response header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.Set(System.String,System.String)">
@@ -9028,17 +9237,35 @@
             Sets the specified header to the specified value.
             </summary>
             <param name="name">
-            A <see cref="T:System.String"/> that represents the name of the header to set.
+            A <see cref="T:System.String"/> that specifies the name of the header to set.
             </param>
             <param name="value">
-            A <see cref="T:System.String"/> that represents the value of the header to set.
+            A <see cref="T:System.String"/> that specifies the value of the header to set.
             </param>
             <exception cref="T:System.ArgumentNullException">
-            <paramref name="name"/> is <see langword="null"/> or empty.
+            <paramref name="name"/> is <see langword="null"/>.
             </exception>
             <exception cref="T:System.ArgumentException">
               <para>
-              <paramref name="name"/> or <paramref name="value"/> contains invalid characters.
+              <paramref name="name"/> is an empty string.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> is a string of spaces.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="name"/> contains an invalid character.
+              </para>
+              <para>
+              -or-
+              </para>
+              <para>
+              <paramref name="value"/> contains an invalid character.
               </para>
               <para>
               -or-
@@ -9048,41 +9275,41 @@
               </para>
             </exception>
             <exception cref="T:System.ArgumentOutOfRangeException">
-            The length of <paramref name="value"/> is greater than 65,535 characters.
+            The length of <paramref name="value"/> is greater than 65,535
+            characters.
             </exception>
             <exception cref="T:System.InvalidOperationException">
-            The current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> instance doesn't allow
-            the header <paramref name="name"/>.
+            This instance does not allow the header.
             </exception>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.ToByteArray">
             <summary>
-            Converts the current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/> to an array of <see cref="T:System.Byte"/>.
+            Converts the current instance to an array of byte.
             </summary>
             <returns>
-            An array of <see cref="T:System.Byte"/> that receives the converted current
-            <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/>.
+            An array of <see cref="T:System.Byte"/> converted from a string that represents
+            the current instance.
             </returns>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.ToString">
             <summary>
-            Returns a <see cref="T:System.String"/> that represents the current
-            <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/>.
+            Returns a string that represents the current instance.
             </summary>
             <returns>
-            A <see cref="T:System.String"/> that represents the current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/>.
+            A <see cref="T:System.String"/> that represents all headers in the collection.
             </returns>
         </member>
         <member name="M:WebSocketSharp.Net.WebHeaderCollection.System#Runtime#Serialization#ISerializable#GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
-            Populates the specified <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize
-            the current <see cref="T:WebSocketSharp.Net.WebHeaderCollection"/>.
+            Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> instance with the data
+            needed to serialize this instance.
             </summary>
             <param name="serializationInfo">
-            A <see cref="T:System.Runtime.Serialization.SerializationInfo"/> that holds the serialized object data.
+            A <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with the data.
             </param>
             <param name="streamingContext">
-            A <see cref="T:System.Runtime.Serialization.StreamingContext"/> that specifies the destination for the serialization.
+            A <see cref="T:System.Runtime.Serialization.StreamingContext"/> that specifies the destination for
+            the serialization.
             </param>
             <exception cref="T:System.ArgumentNullException">
             <paramref name="serializationInfo"/> is <see langword="null"/>.
@@ -9110,77 +9337,73 @@
         </member>
         <member name="T:WebSocketSharp.Net.HttpStatusCode">
             <summary>
-            Contains the values of the HTTP status codes.
+            Indicates the HTTP status code that can be specified in a server response.
             </summary>
             <remarks>
-            The HttpStatusCode enumeration contains the values of the HTTP status codes defined in
-            <see href="http://tools.ietf.org/html/rfc2616#section-10">RFC 2616</see> for the HTTP/1.1.
+            The values of this enumeration are defined in
+            <see href="http://tools.ietf.org/html/rfc2616#section-10">RFC 2616</see>.
             </remarks>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Continue">
             <summary>
-            Equivalent to status code 100.
-            Indicates that the client should continue with its request.
+            Equivalent to status code 100. Indicates that the client should continue
+            with its request.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.SwitchingProtocols">
             <summary>
-            Equivalent to status code 101.
-            Indicates that the server is switching the HTTP version or protocol on the connection.
+            Equivalent to status code 101. Indicates that the server is switching
+            the HTTP version or protocol on the connection.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.OK">
             <summary>
-            Equivalent to status code 200.
-            Indicates that the client's request has succeeded.
+            Equivalent to status code 200. Indicates that the client's request has
+            succeeded.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Created">
             <summary>
-            Equivalent to status code 201.
-            Indicates that the client's request has been fulfilled and resulted in a new resource being
-            created.
+            Equivalent to status code 201. Indicates that the client's request has
+            been fulfilled and resulted in a new resource being created.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Accepted">
             <summary>
-            Equivalent to status code 202.
-            Indicates that the client's request has been accepted for processing, but the processing
-            hasn't been completed.
+            Equivalent to status code 202. Indicates that the client's request has
+            been accepted for processing, but the processing has not been completed.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.NonAuthoritativeInformation">
             <summary>
-            Equivalent to status code 203.
-            Indicates that the returned metainformation is from a local or a third-party copy instead of
-            the origin server.
+            Equivalent to status code 203. Indicates that the returned metainformation
+            is from a local or a third-party copy instead of the origin server.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.NoContent">
             <summary>
-            Equivalent to status code 204.
-            Indicates that the server has fulfilled the client's request but doesn't need to return
-            an entity-body.
+            Equivalent to status code 204. Indicates that the server has fulfilled
+            the client's request but does not need to return an entity-body.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.ResetContent">
             <summary>
-            Equivalent to status code 205.
-            Indicates that the server has fulfilled the client's request, and the user agent should
-            reset the document view which caused the request to be sent.
+            Equivalent to status code 205. Indicates that the server has fulfilled
+            the client's request, and the user agent should reset the document view
+            which caused the request to be sent.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.PartialContent">
             <summary>
-            Equivalent to status code 206.
-            Indicates that the server has fulfilled the partial GET request for the resource.
+            Equivalent to status code 206. Indicates that the server has fulfilled
+            the partial GET request for the resource.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.MultipleChoices">
             <summary>
               <para>
-              Equivalent to status code 300.
-              Indicates that the requested resource corresponds to any of multiple representations.
+              Equivalent to status code 300. Indicates that the requested resource
+              corresponds to any of multiple representations.
               </para>
               <para>
               MultipleChoices is a synonym for Ambiguous.
@@ -9190,8 +9413,8 @@
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Ambiguous">
             <summary>
               <para>
-              Equivalent to status code 300.
-              Indicates that the requested resource corresponds to any of multiple representations.
+              Equivalent to status code 300. Indicates that the requested resource
+              corresponds to any of multiple representations.
               </para>
               <para>
               Ambiguous is a synonym for MultipleChoices.
@@ -9201,9 +9424,9 @@
         <member name="F:WebSocketSharp.Net.HttpStatusCode.MovedPermanently">
             <summary>
               <para>
-              Equivalent to status code 301.
-              Indicates that the requested resource has been assigned a new permanent URI and
-              any future references to this resource should use one of the returned URIs.
+              Equivalent to status code 301. Indicates that the requested resource
+              has been assigned a new permanent URI and any future references to
+              this resource should use one of the returned URIs.
               </para>
               <para>
               MovedPermanently is a synonym for Moved.
@@ -9213,9 +9436,9 @@
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Moved">
             <summary>
               <para>
-              Equivalent to status code 301.
-              Indicates that the requested resource has been assigned a new permanent URI and
-              any future references to this resource should use one of the returned URIs.
+              Equivalent to status code 301. Indicates that the requested resource
+              has been assigned a new permanent URI and any future references to
+              this resource should use one of the returned URIs.
               </para>
               <para>
               Moved is a synonym for MovedPermanently.
@@ -9225,8 +9448,8 @@
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Found">
             <summary>
               <para>
-              Equivalent to status code 302.
-              Indicates that the requested resource is located temporarily under a different URI.
+              Equivalent to status code 302. Indicates that the requested resource
+              is located temporarily under a different URI.
               </para>
               <para>
               Found is a synonym for Redirect.
@@ -9236,8 +9459,8 @@
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Redirect">
             <summary>
               <para>
-              Equivalent to status code 302.
-              Indicates that the requested resource is located temporarily under a different URI.
+              Equivalent to status code 302. Indicates that the requested resource
+              is located temporarily under a different URI.
               </para>
               <para>
               Redirect is a synonym for Found.
@@ -9247,9 +9470,9 @@
         <member name="F:WebSocketSharp.Net.HttpStatusCode.SeeOther">
             <summary>
               <para>
-              Equivalent to status code 303.
-              Indicates that the response to the request can be found under a different URI and
-              should be retrieved using a GET method on that resource.
+              Equivalent to status code 303. Indicates that the response to
+              the request can be found under a different URI and should be
+              retrieved using a GET method on that resource.
               </para>
               <para>
               SeeOther is a synonym for RedirectMethod.
@@ -9259,9 +9482,9 @@
         <member name="F:WebSocketSharp.Net.HttpStatusCode.RedirectMethod">
             <summary>
               <para>
-              Equivalent to status code 303.
-              Indicates that the response to the request can be found under a different URI and
-              should be retrieved using a GET method on that resource.
+              Equivalent to status code 303. Indicates that the response to
+              the request can be found under a different URI and should be
+              retrieved using a GET method on that resource.
               </para>
               <para>
               RedirectMethod is a synonym for SeeOther.
@@ -9270,30 +9493,29 @@
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.NotModified">
             <summary>
-            Equivalent to status code 304.
-            Indicates that the client has performed a conditional GET request and access is allowed,
-            but the document hasn't been modified.
+            Equivalent to status code 304. Indicates that the client has performed
+            a conditional GET request and access is allowed, but the document has
+            not been modified.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.UseProxy">
             <summary>
-            Equivalent to status code 305.
-            Indicates that the requested resource must be accessed through the proxy given by
-            the Location field.
+            Equivalent to status code 305. Indicates that the requested resource
+            must be accessed through the proxy given by the Location field.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Unused">
             <summary>
-            Equivalent to status code 306.
-            This status code was used in a previous version of the specification, is no longer used,
-            and is reserved for future use.
+            Equivalent to status code 306. This status code was used in a previous
+            version of the specification, is no longer used, and is reserved for
+            future use.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.TemporaryRedirect">
             <summary>
               <para>
-              Equivalent to status code 307.
-              Indicates that the requested resource is located temporarily under a different URI.
+              Equivalent to status code 307. Indicates that the requested resource
+              is located temporarily under a different URI.
               </para>
               <para>
               TemporaryRedirect is a synonym for RedirectKeepVerb.
@@ -9303,8 +9525,8 @@
         <member name="F:WebSocketSharp.Net.HttpStatusCode.RedirectKeepVerb">
             <summary>
               <para>
-              Equivalent to status code 307.
-              Indicates that the requested resource is located temporarily under a different URI.
+              Equivalent to status code 307. Indicates that the requested resource
+              is located temporarily under a different URI.
               </para>
               <para>
               RedirectKeepVerb is a synonym for TemporaryRedirect.
@@ -9313,162 +9535,154 @@
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.BadRequest">
             <summary>
-            Equivalent to status code 400.
-            Indicates that the client's request couldn't be understood by the server due to
-            malformed syntax.
+            Equivalent to status code 400. Indicates that the client's request could
+            not be understood by the server due to malformed syntax.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Unauthorized">
             <summary>
-            Equivalent to status code 401.
-            Indicates that the client's request requires user authentication.
+            Equivalent to status code 401. Indicates that the client's request
+            requires user authentication.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.PaymentRequired">
             <summary>
-            Equivalent to status code 402.
-            This status code is reserved for future use.
+            Equivalent to status code 402. This status code is reserved for future
+            use.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Forbidden">
             <summary>
-            Equivalent to status code 403.
-            Indicates that the server understood the client's request but is refusing to fulfill it.
+            Equivalent to status code 403. Indicates that the server understood
+            the client's request but is refusing to fulfill it.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.NotFound">
             <summary>
-            Equivalent to status code 404.
-            Indicates that the server hasn't found anything matching the request URI.
+            Equivalent to status code 404. Indicates that the server has not found
+            anything matching the request URI.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.MethodNotAllowed">
             <summary>
-            Equivalent to status code 405.
-            Indicates that the method specified in the request line isn't allowed for the resource
-            identified by the request URI.
+            Equivalent to status code 405. Indicates that the method specified
+            in the request line is not allowed for the resource identified by
+            the request URI.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.NotAcceptable">
             <summary>
-            Equivalent to status code 406.
-            Indicates that the server doesn't have the appropriate resource to respond to the Accept
-            headers in the client's request.
+            Equivalent to status code 406. Indicates that the server does not
+            have the appropriate resource to respond to the Accept headers in
+            the client's request.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.ProxyAuthenticationRequired">
             <summary>
-            Equivalent to status code 407.
-            Indicates that the client must first authenticate itself with the proxy.
+            Equivalent to status code 407. Indicates that the client must first
+            authenticate itself with the proxy.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.RequestTimeout">
             <summary>
-            Equivalent to status code 408.
-            Indicates that the client didn't produce a request within the time that the server was
-            prepared to wait.
+            Equivalent to status code 408. Indicates that the client did not produce
+            a request within the time that the server was prepared to wait.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Conflict">
             <summary>
-            Equivalent to status code 409.
-            Indicates that the client's request couldn't be completed due to a conflict on the server.
+            Equivalent to status code 409. Indicates that the client's request could
+            not be completed due to a conflict on the server.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.Gone">
             <summary>
-            Equivalent to status code 410.
-            Indicates that the requested resource is no longer available at the server and
-            no forwarding address is known.
+            Equivalent to status code 410. Indicates that the requested resource is
+            no longer available at the server and no forwarding address is known.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.LengthRequired">
             <summary>
-            Equivalent to status code 411.
-            Indicates that the server refuses to accept the client's request without a defined
-            Content-Length.
+            Equivalent to status code 411. Indicates that the server refuses to
+            accept the client's request without a defined Content-Length.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.PreconditionFailed">
             <summary>
-            Equivalent to status code 412.
-            Indicates that the precondition given in one or more of the request headers evaluated to
-            false when it was tested on the server.
+            Equivalent to status code 412. Indicates that the precondition given in
+            one or more of the request headers evaluated to false when it was tested
+            on the server.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.RequestEntityTooLarge">
             <summary>
-            Equivalent to status code 413.
-            Indicates that the entity of the client's request is larger than the server is willing or
-            able to process.
+            Equivalent to status code 413. Indicates that the entity of the client's
+            request is larger than the server is willing or able to process.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.RequestUriTooLong">
             <summary>
-            Equivalent to status code 414.
-            Indicates that the request URI is longer than the server is willing to interpret.
+            Equivalent to status code 414. Indicates that the request URI is longer
+            than the server is willing to interpret.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.UnsupportedMediaType">
             <summary>
-            Equivalent to status code 415.
-            Indicates that the entity of the client's request is in a format not supported by
-            the requested resource for the requested method.
+            Equivalent to status code 415. Indicates that the entity of the client's
+            request is in a format not supported by the requested resource for the
+            requested method.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.RequestedRangeNotSatisfiable">
             <summary>
-            Equivalent to status code 416.
-            Indicates that none of the range specifier values in a Range request header overlap
-            the current extent of the selected resource.
+            Equivalent to status code 416. Indicates that none of the range
+            specifier values in a Range request header overlap the current
+            extent of the selected resource.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.ExpectationFailed">
             <summary>
-            Equivalent to status code 417.
-            Indicates that the expectation given in an Expect request header couldn't be met by
-            the server.
+            Equivalent to status code 417. Indicates that the expectation given in
+            an Expect request header could not be met by the server.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.InternalServerError">
             <summary>
-            Equivalent to status code 500.
-            Indicates that the server encountered an unexpected condition which prevented it from
-            fulfilling the client's request.
+            Equivalent to status code 500. Indicates that the server encountered
+            an unexpected condition which prevented it from fulfilling the client's
+            request.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.NotImplemented">
             <summary>
-            Equivalent to status code 501.
-            Indicates that the server doesn't support the functionality required to fulfill the client's
-            request.
+            Equivalent to status code 501. Indicates that the server does not
+            support the functionality required to fulfill the client's request.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.BadGateway">
             <summary>
-            Equivalent to status code 502.
-            Indicates that a gateway or proxy server received an invalid response from the upstream
-            server.
+            Equivalent to status code 502. Indicates that a gateway or proxy server
+            received an invalid response from the upstream server.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.ServiceUnavailable">
             <summary>
-            Equivalent to status code 503.
-            Indicates that the server is currently unable to handle the client's request due to
-            a temporary overloading or maintenance of the server.
+            Equivalent to status code 503. Indicates that the server is currently
+            unable to handle the client's request due to a temporary overloading
+            or maintenance of the server.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.GatewayTimeout">
             <summary>
-            Equivalent to status code 504.
-            Indicates that a gateway or proxy server didn't receive a timely response from the upstream
-            server or some other auxiliary server.
+            Equivalent to status code 504. Indicates that a gateway or proxy server
+            did not receive a timely response from the upstream server or some other
+            auxiliary server.
             </summary>
         </member>
         <member name="F:WebSocketSharp.Net.HttpStatusCode.HttpVersionNotSupported">
             <summary>
-            Equivalent to status code 505.
-            Indicates that the server doesn't support the HTTP version used in the client's request.
+            Equivalent to status code 505. Indicates that the server does not
+            support the HTTP version used in the client's request.
             </summary>
         </member>
         <member name="T:WebSocketSharp.Net.WebSockets.HttpListenerWebSocketContext">
@@ -10278,36 +10492,45 @@
             A <see cref="T:System.String"/> that represents the username.
             </value>
         </member>
-        <member name="M:WebSocketSharp.Net.HttpListenerPrefix.#ctor(System.String)">
+        <member name="M:WebSocketSharp.Net.HttpListenerPrefix.#ctor(System.String,WebSocketSharp.Net.HttpListener)">
             <summary>
-            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.HttpListenerPrefix"/> class with
-            the specified <paramref name="uriPrefix"/>.
+            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.HttpListenerPrefix"/> class
+            with the specified URI prefix and HTTP listener.
             </summary>
             <remarks>
             This constructor must be called after calling the CheckPrefix method.
             </remarks>
             <param name="uriPrefix">
-            A <see cref="T:System.String"/> that represents the URI prefix.
+            A <see cref="T:System.String"/> that specifies the URI prefix.
+            </param>
+            <param name="listener">
+            A <see cref="T:WebSocketSharp.Net.HttpListener"/> that specifies the HTTP listener.
             </param>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefix.Equals(System.Object)">
             <summary>
-            Determines whether this instance and the specified <see cref="T:System.Object"/> have the same value.
+            Determines whether the current instance is equal to the specified
+            <see cref="T:System.Object"/> instance.
             </summary>
             <remarks>
             This method will be required to detect duplicates in any collection.
             </remarks>
             <param name="obj">
-            An <see cref="T:System.Object"/> to compare to this instance.
+              <para>
+              An <see cref="T:System.Object"/> instance to compare to the current instance.
+              </para>
+              <para>
+              An reference to a <see cref="T:WebSocketSharp.Net.HttpListenerPrefix"/> instance.
+              </para>
             </param>
             <returns>
-            <c>true</c> if <paramref name="obj"/> is a <see cref="T:WebSocketSharp.Net.HttpListenerPrefix"/> and
-            its value is the same as this instance; otherwise, <c>false</c>.
+            <c>true</c> if the current instance and <paramref name="obj"/> have
+            the same URI prefix; otherwise, <c>false</c>.
             </returns>
         </member>
         <member name="M:WebSocketSharp.Net.HttpListenerPrefix.GetHashCode">
             <summary>
-            Gets the hash code for this instance.
+            Gets the hash code for the current instance.
             </summary>
             <remarks>
             This method will be required to detect duplicates in any collection.
@@ -10321,24 +10544,25 @@
             Stores the parameters for the <see cref="T:System.Net.Security.SslStream"/> used by clients.
             </summary>
         </member>
-        <member name="M:WebSocketSharp.Net.ClientSslConfiguration.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.ClientSslConfiguration"/> class.
-            </summary>
-        </member>
         <member name="M:WebSocketSharp.Net.ClientSslConfiguration.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.ClientSslConfiguration"/> class
-            with the specified <paramref name="targetHost"/>.
+            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.ClientSslConfiguration"/>
+            class with the specified target host server name.
             </summary>
             <param name="targetHost">
-            A <see cref="T:System.String"/> that represents the target host server name.
+            A <see cref="T:System.String"/> that specifies the target host server name.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            <paramref name="targetHost"/> is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            <paramref name="targetHost"/> is an empty string.
+            </exception>
         </member>
         <member name="M:WebSocketSharp.Net.ClientSslConfiguration.#ctor(WebSocketSharp.Net.ClientSslConfiguration)">
             <summary>
-            Copies the parameters from the specified <paramref name="configuration"/> to
-            a new instance of the <see cref="T:WebSocketSharp.Net.ClientSslConfiguration"/> class.
+            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.ClientSslConfiguration"/>
+            class that stores the parameters copied from the specified configuration.
             </summary>
             <param name="configuration">
             A <see cref="T:WebSocketSharp.Net.ClientSslConfiguration"/> from which to copy.
@@ -10364,15 +10588,15 @@
         </member>
         <member name="P:WebSocketSharp.Net.ClientSslConfiguration.ClientCertificates">
             <summary>
-            Gets or sets the certificates from which to select one to
-            supply to the server.
+            Gets or sets the collection of client certificates from which to select
+            one to supply to the server.
             </summary>
             <value>
               <para>
               A <see cref="T:System.Security.Cryptography.X509Certificates.X509CertificateCollection"/> or <see langword="null"/>.
               </para>
               <para>
-              That collection contains client certificates from which to select.
+              The collection contains client certificates from which to select.
               </para>
               <para>
               The default value is <see langword="null"/>.
@@ -10381,12 +10605,11 @@
         </member>
         <member name="P:WebSocketSharp.Net.ClientSslConfiguration.ClientCertificateSelectionCallback">
             <summary>
-            Gets or sets the callback used to select the certificate to
-            supply to the server.
+            Gets or sets the callback used to select the certificate to supply to
+            the server.
             </summary>
             <remarks>
-            No certificate is supplied if the callback returns
-            <see langword="null"/>.
+            No certificate is supplied if the callback returns <see langword="null"/>.
             </remarks>
             <value>
               <para>
@@ -10394,8 +10617,8 @@
               invokes the method called for selecting the certificate.
               </para>
               <para>
-              The default value is a delegate that invokes a method that
-              only returns <see langword="null"/>.
+              The default value is a delegate that invokes a method that only
+              returns <see langword="null"/>.
               </para>
             </value>
         </member>
@@ -10405,18 +10628,20 @@
             </summary>
             <value>
               <para>
-              The <see cref="T:System.Security.Authentication.SslProtocols"/> enum values that represent
-              the protocols used for authentication.
+              Any of the <see cref="T:System.Security.Authentication.SslProtocols"/> enum values.
               </para>
               <para>
-              The default value is <see cref="F:System.Security.Authentication.SslProtocols.Default"/>.
+              It represents the protocols used for authentication.
+              </para>
+              <para>
+              The default value is <see cref="F:System.Security.Authentication.SslProtocols.None"/>.
               </para>
             </value>
         </member>
         <member name="P:WebSocketSharp.Net.ClientSslConfiguration.ServerCertificateValidationCallback">
             <summary>
-            Gets or sets the callback used to validate the certificate
-            supplied by the server.
+            Gets or sets the callback used to validate the certificate supplied by
+            the server.
             </summary>
             <remarks>
             The certificate is valid if the callback returns <c>true</c>.
@@ -10427,8 +10652,8 @@
               invokes the method called for validating the certificate.
               </para>
               <para>
-              The default value is a delegate that invokes a method that
-              only returns <c>true</c>.
+              The default value is a delegate that invokes a method that only
+              returns <c>true</c>.
               </para>
             </value>
         </member>
@@ -10437,15 +10662,15 @@
             Gets or sets the target host server name.
             </summary>
             <value>
-              <para>
-              A <see cref="T:System.String"/> or <see langword="null"/>
-              if not specified.
-              </para>
-              <para>
-              That string represents the name of the server that
-              will share a secure connection with a client.
-              </para>
+            A <see cref="T:System.String"/> that represents the name of the server that
+            will share a secure connection with a client.
             </value>
+            <exception cref="T:System.ArgumentNullException">
+            The value specified for a set operation is <see langword="null"/>.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            The value specified for a set operation is an empty string.
+            </exception>
         </member>
         <member name="T:WebSocketSharp.Net.ServerSslConfiguration">
             <summary>
@@ -10454,23 +10679,14 @@
         </member>
         <member name="M:WebSocketSharp.Net.ServerSslConfiguration.#ctor">
             <summary>
-            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.ServerSslConfiguration"/> class.
+            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.ServerSslConfiguration"/>
+            class.
             </summary>
-        </member>
-        <member name="M:WebSocketSharp.Net.ServerSslConfiguration.#ctor(System.Security.Cryptography.X509Certificates.X509Certificate2)">
-            <summary>
-            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.ServerSslConfiguration"/> class
-            with the specified <paramref name="serverCertificate"/>.
-            </summary>
-            <param name="serverCertificate">
-            A <see cref="T:System.Security.Cryptography.X509Certificates.X509Certificate2"/> that represents the certificate used to
-            authenticate the server.
-            </param>
         </member>
         <member name="M:WebSocketSharp.Net.ServerSslConfiguration.#ctor(WebSocketSharp.Net.ServerSslConfiguration)">
             <summary>
-            Copies the parameters from the specified <paramref name="configuration"/> to
-            a new instance of the <see cref="T:WebSocketSharp.Net.ServerSslConfiguration"/> class.
+            Initializes a new instance of the <see cref="T:WebSocketSharp.Net.ServerSslConfiguration"/>
+            class that stores the parameters copied from the specified configuration.
             </summary>
             <param name="configuration">
             A <see cref="T:WebSocketSharp.Net.ServerSslConfiguration"/> from which to copy.
@@ -10511,8 +10727,8 @@
         </member>
         <member name="P:WebSocketSharp.Net.ServerSslConfiguration.ClientCertificateValidationCallback">
             <summary>
-            Gets or sets the callback used to validate the certificate
-            supplied by the client.
+            Gets or sets the callback used to validate the certificate supplied by
+            the client.
             </summary>
             <remarks>
             The certificate is valid if the callback returns <c>true</c>.
@@ -10523,8 +10739,8 @@
               invokes the method called for validating the certificate.
               </para>
               <para>
-              The default value is a delegate that invokes a method that
-              only returns <c>true</c>.
+              The default value is a delegate that invokes a method that only
+              returns <c>true</c>.
               </para>
             </value>
         </member>
@@ -10534,11 +10750,13 @@
             </summary>
             <value>
               <para>
-              The <see cref="T:System.Security.Authentication.SslProtocols"/> enum values that represent
-              the protocols used for authentication.
+              Any of the <see cref="T:System.Security.Authentication.SslProtocols"/> enum values.
               </para>
               <para>
-              The default value is <see cref="F:System.Security.Authentication.SslProtocols.Default"/>.
+              It represents the protocols used for authentication.
+              </para>
+              <para>
+              The default value is <see cref="F:System.Security.Authentication.SslProtocols.None"/>.
               </para>
             </value>
         </member>
@@ -10548,22 +10766,24 @@
             </summary>
             <value>
               <para>
-              A <see cref="T:System.Security.Cryptography.X509Certificates.X509Certificate2"/> or <see langword="null"/>
-              if not specified.
+              A <see cref="T:System.Security.Cryptography.X509Certificates.X509Certificate2"/> or <see langword="null"/>.
               </para>
               <para>
-              That instance represents an X.509 certificate.
+              The certificate represents an X.509 certificate.
+              </para>
+              <para>
+              The default value is <see langword="null"/>.
               </para>
             </value>
         </member>
         <member name="T:WebSocketSharp.Net.HttpRequestHeader">
             <summary>
-            Contains the HTTP headers that may be specified in a client request.
+            Indicates the HTTP header that may be specified in a client request.
             </summary>
             <remarks>
-            The HttpRequestHeader enumeration contains the HTTP request headers defined in
-            <see href="http://tools.ietf.org/html/rfc2616#section-14">RFC 2616</see> for the HTTP/1.1 and
-            <see href="http://tools.ietf.org/html/rfc6455#section-11.3">RFC 6455</see> for the WebSocket.
+            The headers of this enumeration are defined in
+            <see href="http://tools.ietf.org/html/rfc2616#section-14">RFC 2616</see> or
+            <see href="http://tools.ietf.org/html/rfc6455#section-11.3">RFC 6455</see>.
             </remarks>
         </member>
         <member name="F:WebSocketSharp.Net.HttpRequestHeader.CacheControl">
@@ -10793,12 +11013,12 @@
         </member>
         <member name="T:WebSocketSharp.Net.HttpResponseHeader">
             <summary>
-            Contains the HTTP headers that can be specified in a server response.
+            Indicates the HTTP header that can be specified in a server response.
             </summary>
             <remarks>
-            The HttpResponseHeader enumeration contains the HTTP response headers defined in
-            <see href="http://tools.ietf.org/html/rfc2616#section-14">RFC 2616</see> for the HTTP/1.1 and
-            <see href="http://tools.ietf.org/html/rfc6455#section-11.3">RFC 6455</see> for the WebSocket.
+            The headers of this enumeration are defined in
+            <see href="http://tools.ietf.org/html/rfc2616#section-14">RFC 2616</see> or
+            <see href="http://tools.ietf.org/html/rfc6455#section-11.3">RFC 6455</see>.
             </remarks>
         </member>
         <member name="F:WebSocketSharp.Net.HttpResponseHeader.CacheControl">

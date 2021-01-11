@@ -272,9 +272,16 @@ namespace NTMiner.Gpus {
         }
 
         #region IGpuHelper成员
+        #region OverClock
         public void OverClock(
-            IGpu gpu, int coreClockMHz, int coreClockVoltage, int memoryClockMHz, 
-            int memoryClockVoltage, int powerLimit, int tempLimit, int fanSpeed) {
+            IGpu gpu, 
+            int coreClockMHz, 
+            int coreClockVoltage, 
+            int memoryClockMHz, 
+            int memoryClockVoltage, 
+            int powerLimit, 
+            int tempLimit, 
+            int fanSpeed) {
             int gpuIndex = gpu.GetOverClockId();
             // A卡的超频不会为负
             if (coreClockMHz < 0) {
@@ -343,7 +350,9 @@ namespace NTMiner.Gpus {
                 return;
             }
         }
+        #endregion
 
+        #region SetFanSpeed
         public void SetFanSpeed(IGpu gpu, int value) {
             int gpuIndex = gpu.GetOverClockId();
             try {
@@ -366,6 +375,7 @@ namespace NTMiner.Gpus {
                 return;
             }
         }
+        #endregion
 
         #region GetClockRange
         public OverClockRange GetClockRange(IGpu gpu) {
@@ -421,7 +431,11 @@ namespace NTMiner.Gpus {
         }
         #endregion
 
-        private static void SetCoreClockNew(ATIGPU atiGpu, int coreClockMHz, int coreClockVoltage, ref ADLOD8SetSetting odSetSetting) {
+        private static void SetCoreClockNew(
+            ATIGPU atiGpu, 
+            int coreClockMHz, 
+            int coreClockVoltage, 
+            ref ADLOD8SetSetting odSetSetting) {
             try {
                 bool isResetCoreClock = coreClockMHz == 0;
                 bool isResetCoreClockVoltage = coreClockVoltage == 0;
@@ -503,7 +517,11 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private static void SetMemoryClockNew(ATIGPU atiGpu, int memoryClockMHz, int memoryClockVoltage, ref ADLOD8SetSetting odSetSetting) {
+        private static void SetMemoryClockNew(
+            ATIGPU atiGpu, 
+            int memoryClockMHz, 
+            int memoryClockVoltage, 
+            ref ADLOD8SetSetting odSetSetting) {
             try {
                 bool isResetMemoryClock = memoryClockMHz == 0;
                 bool isResetMemoryClockVoltage = memoryClockVoltage == 0;
@@ -957,7 +975,10 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private static void GetTempLimitAndPowerLimitNew(out int powerLimit, out int tempLimit, ADLOD8CurrentSetting aDLOD8CurrentSetting) {
+        private static void GetTempLimitAndPowerLimitNew(
+            out int powerLimit, 
+            out int tempLimit, 
+            ADLOD8CurrentSetting aDLOD8CurrentSetting) {
             powerLimit = 0;
             tempLimit = 0;
             try {
@@ -969,7 +990,12 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private static void GetClockAndVoltOld(ATIGPU atiGpu, out int memoryClock, out int memoryiVddc, out int coreClock, out int coreiVddc) {
+        private static void GetClockAndVoltOld(
+            ATIGPU atiGpu, 
+            out int memoryClock, 
+            out int memoryiVddc, 
+            out int coreClock, 
+            out int coreiVddc) {
             memoryClock = 0;
             memoryiVddc = 0;
             coreClock = 0;
@@ -1006,7 +1032,12 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private static void GetClockAndVoltNew(out int memoryClock, out int memoryiVddc, out int coreClock, out int coreiVddc, ADLOD8CurrentSetting aDLOD8CurrentSetting) {
+        private static void GetClockAndVoltNew(
+            out int memoryClock, 
+            out int memoryiVddc, 
+            out int coreClock, 
+            out int coreiVddc, 
+            ADLOD8CurrentSetting aDLOD8CurrentSetting) {
             memoryClock = 0;
             memoryiVddc = 0;
             coreClock = 0;
@@ -1022,7 +1053,10 @@ namespace NTMiner.Gpus {
             }
         }
 
-        private static bool SetOD8Range(ADLOD8CurrentSetting aDLOD8CurrentSetting, int adapterIndex, ADLOD8SetSetting odSetSetting) {
+        private static bool SetOD8Range(
+            ADLOD8CurrentSetting aDLOD8CurrentSetting, 
+            int adapterIndex, 
+            ADLOD8SetSetting odSetSetting) {
             try {
                 var r = AdlNativeMethods.ADL2_Overdrive8_Setting_Set(_context, adapterIndex, ref odSetSetting, ref aDLOD8CurrentSetting);
                 if (r != AdlStatus.ADL_OK) {
@@ -1035,7 +1069,6 @@ namespace NTMiner.Gpus {
                 return false;
             }
         }
-
         #endregion
     }
 }

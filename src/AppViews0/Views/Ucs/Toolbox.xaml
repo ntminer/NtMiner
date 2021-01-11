@@ -28,6 +28,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    ToolTip="当较老的A卡比如580/590算力较低时，开启计算模式算力可翻倍。"
                     KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     IsEnabled="{x:Static app:AppStatic.IsHasATIGpu}"
 					Command="{Binding SwitchRadeonGpu}"
@@ -50,6 +51,7 @@
 					Height="{StaticResource ItemHeight}" 
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
+                    ToolTip="AMD官方驱动无需签名"
                     KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
                     IsEnabled="{x:Static app:AppStatic.IsHasATIGpu}"
 					Command="{Binding AtikmdagPatcher}"
@@ -95,6 +97,7 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
                     Padding="20 0 0 0"
+                    ToolTip="10系列卡比如1080等，建议使用3xx驱动。"
 					Background="Transparent">
 					<WrapPanel VerticalAlignment="Center">
 						<Path 
@@ -137,7 +140,6 @@
 								Command="{x:Static app:AppStatic.ViewUrl}"
                                 CommandParameter="{Binding NvidiaDriverMore.Value}"
 								Padding="0"
-					            ToolTip="如果没有20系列的卡，挖矿建议使用3xx驱动。"
 								HorizontalAlignment="Right"
 								KbDisplayLine="False"
 								Background="Transparent">
