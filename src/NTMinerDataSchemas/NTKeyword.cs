@@ -15,6 +15,7 @@ namespace NTMiner {
         public const string VersionBuild = Version + "." + _build;
         public const string ManJiTag = "蛮吉";
         public const string ManXiaoManTag = "蛮小满";
+        public const string WoLiuDao = "涡流岛";
         public const string Copyright = "Copyright ©  NTMiner";
         public const string Company = "开源矿工";
 
@@ -23,6 +24,8 @@ namespace NTMiner {
         public const string RootConfigFileName = "home.config";
 
         public const string LogsDirName = "Logs";
+        public const string WebSocketSharpMinerClientLogFileName = "websocket-sharp-minerclient.log";
+        public const string WebSocketSharpMinerStudioLogFileName = "websocket-sharp-minerstudio.log";
         public const string ServerJsonFileName = "server.json";
         public const string LocalJsonFileName = "local.json";
         public const string GpuProfilesFileName = "gpuProfiles.json";

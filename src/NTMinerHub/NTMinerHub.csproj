@@ -31,13 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnonymousMessagePath.cs" />
     <Compile Include="Hub\Cmd.cs" />
-    <Compile Include="Hub\MessagePath`1.cs" />
     <Compile Include="Hub\SourcedEvent`1.cs" />
     <Compile Include="Hub\EventBase.cs" />
     <Compile Include="Hub\ICmd.cs" />

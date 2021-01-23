@@ -2,8 +2,8 @@
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class WsServerNodeMqSender : IWsServerNodeMqSender {
-        private readonly IServerConnection _serverConnection;
-        public WsServerNodeMqSender(IServerConnection serverConnection) {
+        private readonly IMqRedis _serverConnection;
+        public WsServerNodeMqSender(IMqRedis serverConnection) {
             _serverConnection = serverConnection;
         }
 
@@ -32,7 +32,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         private IBasicProperties CreateBasicProperties() {
             var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = false;
-            basicProperties.Expiration = "36000000"; // 36秒，单位是微秒（1微秒是10的负6次方秒）
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
 
             return basicProperties;

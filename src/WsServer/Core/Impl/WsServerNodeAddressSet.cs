@@ -2,7 +2,6 @@
 using NTMiner.Core.Redis;
 using NTMiner.ServerNode;
 using System;
-using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class WsServerNodeAddressSet : WsServerNodeAddressSetBase, IWsServerNodeAddressSet {
@@ -22,9 +21,6 @@ namespace NTMiner.Core.Impl {
                 VirtualRoot.BuildEventPath<Per10SecondEvent>("节点呼吸", LogEnum.UserConsole, path: message => {
                     ReportNodeAsync();
                 }, this.GetType());
-                VirtualRoot.BuildEventPath<Per1MinuteEvent>("打扫", LogEnum.DevConsole, path: message => {
-                    VirtualRoot.RaiseEvent(new CleanTimeArrivedEvent(AsEnumerable().ToArray()));
-                }, this.GetType());
             }, PathId.Empty, this.GetType());
         }
 
@@ -33,15 +29,15 @@ namespace NTMiner.Core.Impl {
             try {
                 int minerClientWsSessionCount = 0;
                 int minerStudioWsSessionCount = 0;
-                minerClientWsSessionCount = WsRoot.WsServer.MinerClientWsSessionsAdapter.Count;
-                minerStudioWsSessionCount = WsRoot.WsServer.MinerStudioWsSessionsAdapter.Count;
+                minerClientWsSessionCount = AppRoot.WsServer.MinerClientWsSessions.Count;
+                minerStudioWsSessionCount = AppRoot.WsServer.MinerStudioWsSessions.Count;
                 var ram = Windows.Ram.Instance;
                 var cpu = Windows.Cpu.Instance;
                 nodeState = new WsServerNodeState {
                     Address = ServerRoot.HostConfig.ThisServerAddress,
                     Description = string.Empty,
-                    MinerClientSessionCount = WsRoot.MinerClientSessionSet.Count,
-                    MinerStudioSessionCount = WsRoot.MinerStudioSessionSet.Count,
+                    MinerClientSessionCount = AppRoot.MinerClientSessionSet.Count,
+                    MinerStudioSessionCount = AppRoot.MinerStudioSessionSet.Count,
                     MinerClientWsSessionCount = minerClientWsSessionCount,
                     MinerStudioWsSessionCount = minerStudioWsSessionCount,
                     Cpu = cpu.ToData(),

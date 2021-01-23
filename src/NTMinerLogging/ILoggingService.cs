@@ -10,8 +10,8 @@ namespace NTMiner {
         void ErrorDebugLine(object message);
         void ErrorDebugLine(object message, Exception exception);
 
-        void OkWriteLine(object message);
-        void WarnWriteLine(object message);
-        void ErrorWriteLine(object message);
+        void OkUserLine(object message);
+        void WarnUserLine(object message);
+        void ErrorUserLine(object message);
     }
 }

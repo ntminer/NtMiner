@@ -11,7 +11,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.UserAppSettingSet.SetAppSetting(request.Data);
+                AppRoot.UserAppSettingSet.SetAppSetting(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

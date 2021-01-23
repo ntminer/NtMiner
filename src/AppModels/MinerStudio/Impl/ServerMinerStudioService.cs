@@ -41,12 +41,6 @@ namespace NTMiner.MinerStudio.Impl {
         }
         #endregion
 
-        #region GetLatestSnapshotsAsync
-        public void GetLatestSnapshotsAsync(int limit, Action<GetCoinSnapshotsResponse, Exception> callback) {
-            RpcRoot.OfficialServer.CoinSnapshotService.GetLatestSnapshotsAsync(limit, callback);
-        }
-        #endregion
-
         #region EnableRemoteDesktopAsync
         public void EnableRemoteDesktopAsync(IMinerData client) {
             if (!MinerStudioRoot.WsClient.IsOpen) {

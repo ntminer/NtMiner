@@ -1,10 +1,17 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NTMiner;
 using System;
 
 namespace NTMiner {
     [TestClass]
     public class EnumTests {
+        [TestMethod]
+        public void IsDefinedTest() {
+            Assert.IsTrue(Enum.IsDefined(typeof(NTMinerAppType), NTMinerAppType.MinerClient.ToString()));
+            Assert.IsTrue(Enum.IsDefined(typeof(NTMinerAppType), NTMinerAppType.MinerClient.GetName()));
+            Assert.IsTrue(Enum.IsDefined(typeof(NTMinerAppType), 0));
+            Assert.IsFalse(Enum.IsDefined(typeof(NTMinerAppType), 1000));
+        }
+
         [TestMethod]
         public void ToStringTest() {
             Assert.AreEqual(nameof(NTMinerAppType.MinerClient), NTMinerAppType.MinerClient.ToString());

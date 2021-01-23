@@ -18,8 +18,6 @@ namespace NTMiner.MinerStudio.Vms {
             this.Speed = data.Speed;
             this.MainCoinMiningCount = data.MainCoinMiningCount;
             this.MainCoinOnlineCount = data.MainCoinOnlineCount;
-            this.DualCoinMiningCount = data.DualCoinMiningCount;
-            this.DualCoinOnlineCount = data.DualCoinOnlineCount;
             this.Timestamp = data.Timestamp;
         }
 
@@ -85,25 +83,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_data.MainCoinMiningCount != value) {
                     _data.MainCoinMiningCount = value;
                     OnPropertyChanged(nameof(MainCoinMiningCount));
-                }
-            }
-        }
-
-        public int DualCoinOnlineCount {
-            get => _data.DualCoinOnlineCount;
-            set {
-                if (_data.DualCoinOnlineCount != value) {
-                    _data.DualCoinOnlineCount = value;
-                    OnPropertyChanged(nameof(DualCoinOnlineCount));
-                }
-            }
-        }
-        public int DualCoinMiningCount {
-            get => _data.DualCoinMiningCount;
-            set {
-                if (_data.DualCoinMiningCount != value) {
-                    _data.DualCoinMiningCount = value;
-                    OnPropertyChanged(nameof(DualCoinMiningCount));
                 }
             }
         }

@@ -21,6 +21,11 @@ namespace NTMiner.Views {
                 hwndSource = PresentationSource.FromVisual((Visual)sender) as HwndSource;
                 hwndSource.AddHook(new HwndSourceHook(Win32Proc.WindowProc));
             };
+            2.SecondsDelay().ContinueWith(t => {
+                UIThread.Execute(() => {
+                    this.TbDescription.Visibility = Visibility.Visible;
+                });
+            });
         }
 
         protected override void OnClosed(EventArgs e) {

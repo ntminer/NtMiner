@@ -2,7 +2,7 @@
 using StackExchange.Redis;
 
 namespace NTMiner {
-    public interface IServerConnection {
+    public interface IMqRedis {
         ConnectionMultiplexer RedisConn { get; }
         IModel MqChannel { get; }
     }

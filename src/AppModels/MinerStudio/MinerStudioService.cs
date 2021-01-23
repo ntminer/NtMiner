@@ -24,10 +24,6 @@ namespace NTMiner.MinerStudio {
             }
         }
 
-        public void GetLatestSnapshotsAsync(int limit, Action<GetCoinSnapshotsResponse, Exception> callback) {
-            Service.GetLatestSnapshotsAsync(limit, callback);
-        }
-
         public void QueryClientsAsync(QueryClientsRequest query) {
             Service.QueryClientsAsync(query);
         }

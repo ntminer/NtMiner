@@ -7,7 +7,5 @@ namespace NTMiner.Controllers {
         /// 需签名
         /// </summary>
         T1 QueryClients(QueryClientsRequest request);
-
-        T1 QueryClientsForWs(QueryClientsForWsRequest request);
     }
 }

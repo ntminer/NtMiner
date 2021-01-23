@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class ClientDataSet : ClientDataSetBase, IClientDataSet {
-        private const string _safeIgnoreMessage = "该消息发生的时间早于本节点启动时间1分钟，安全忽略";
-
         private readonly IMinerRedis _minerRedis;
         private readonly ISpeedDataRedis _speedDataRedis;
         private readonly IMinerClientMqSender _mqSender;
@@ -60,7 +58,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(SpeedDataMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 speedDataRedis.GetByClientIdAsync(message.ClientId).ContinueWith(t => {
@@ -69,7 +67,7 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<MinerClientWsOpenedMqMessage>("收到MinerClientWsOpenedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerClientWsOpenedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
@@ -79,7 +77,7 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<MinerClientWsClosedMqMessage>("收到MinerClientWsClosedMq消息后更新NetActiveOn和IsOnline", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerClientWsClosedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
@@ -89,7 +87,7 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
             VirtualRoot.BuildEventPath<MinerClientWsBreathedMqMessage>("收到MinerClientWsBreathedMq消息后更新NetActiveOn", LogEnum.None, path: message => {
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerClientWsBreathedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByClientId.TryGetValue(message.ClientId, out ClientData clientData)) {
@@ -116,6 +114,10 @@ namespace NTMiner.Core.Impl {
                     clientData.IsOuterUserEnabled = true;
                     Add(clientData);
                 }
+            }, this.GetType(), LogEnum.None);
+            VirtualRoot.BuildCmdPath<QueryClientsForWsMqMessage>(path: message => {
+                QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);
+                _mqSender.SendResponseClientsForWs(message.AppId, message.LoginName, message.SessionId, response);
             }, this.GetType(), LogEnum.None);
         }
 

@@ -5,7 +5,6 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Web;
 using System.Web.Http.Controllers;
@@ -66,10 +65,11 @@ namespace NTMiner.Role {
                 var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
                 if (returnType == typeof(HttpResponseMessage)) {
                     httpResponseMessage.Content = new ByteArrayContent(VirtualRoot.BinarySerializer.Serialize(response));
-                    httpResponseMessage.Content.Headers.ContentType = WebApiRoot.BinaryContentType;
+                    httpResponseMessage.Content.Headers.ContentType = AppRoot.BinaryContentType;
                 }
                 else {
-                    httpResponseMessage.Content = new StringContent(VirtualRoot.JsonSerializer.Serialize(response), Encoding.UTF8, "application/json");
+                    httpResponseMessage.Content = new StringContent(
+                        VirtualRoot.JsonSerializer.Serialize(response), Encoding.UTF8, "application/json");
                 }
                 actionContext.Response = httpResponseMessage;
             }
@@ -78,9 +78,11 @@ namespace NTMiner.Role {
             }
         }
 
-        private static bool IsValidUser(ClientSignData clientSign, ISignableData data, bool isLoginAction, out ResponseBase response, out UserData user) {
+        private static bool IsValidUser(
+            ClientSignData clientSign, ISignableData data, bool isLoginAction, 
+            out ResponseBase response, out UserData user) {
             user = null;
-            if (!WebApiRoot.UserSet.IsReadied) {
+            if (!AppRoot.UserSet.IsReadied) {
                 string message = "服务器用户集启动中，请稍后";
                 response = ResponseBase.NotExist(message);
                 return false;
@@ -90,7 +92,7 @@ namespace NTMiner.Role {
                 return false;
             }
             if (!string.IsNullOrEmpty(clientSign.LoginName)) {
-                user = WebApiRoot.UserSet.GetUser(clientSign.UserId);
+                user = AppRoot.UserSet.GetUser(clientSign.UserId);
             }
             if (user == null) {
                 string message = "用户不存在";
@@ -98,7 +100,7 @@ namespace NTMiner.Role {
                 return false;
             }
             if (isLoginAction) {
-                if (!WebApiRoot.UserSet.CheckLoginTimes(clientSign.LoginName)) {
+                if (!AppRoot.UserSet.CheckLoginTimes(clientSign.LoginName)) {
                     response = ResponseBase.Forbidden("对不起，您的尝试太过频繁");
                     return false;
                 }

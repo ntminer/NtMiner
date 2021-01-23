@@ -59,7 +59,6 @@
     <Compile Include="AppRoot.partials.CoinProfileViewModels.cs" />
     <Compile Include="MinerStudio\Impl\EmptyWsClient.cs" />
     <Compile Include="MinerStudio\MinerStudioService.cs" />
-    <Compile Include="MinerStudio\MinerStudioRoot.partials.CoinSnapshotDataViewModels.cs" />
     <Compile Include="AppRoot.partials.CoinViewModels.cs" />
     <Compile Include="MinerStudio\MinerStudioRoot.partials.ColumnsShowViewModels.cs" />
     <Compile Include="AppRoot.partials.DriveSetViewModel.cs" />
@@ -119,8 +118,6 @@
     <Compile Include="MinerStudio\Vms\CalcConfigViewModel.cs" />
     <Compile Include="MinerStudio\Vms\CalcConfigViewModels.cs" />
     <Compile Include="Vms\CalcViewModel.cs" />
-    <Compile Include="MinerStudio\Vms\ChartsWindowViewModel.cs" />
-    <Compile Include="MinerStudio\Vms\ChartViewModel.cs" />
     <Compile Include="Vms\CoinGroupViewModel.cs" />
     <Compile Include="Vms\CoinIncomeViewModel.cs" />
     <Compile Include="Vms\CoinKernelProfileViewModel.cs" />

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
     public class MinerSignSet : IMinerSignSet {
-        private const string _safeIgnoreMessage = "该消息发生的时间早于本节点启动时间1分钟，安全忽略";
         private readonly Dictionary<string, MinerSign> _dicByMinerId = new Dictionary<string, MinerSign>();
         private readonly Dictionary<Guid, MinerSign> _dicByClientId = new Dictionary<Guid, MinerSign>();
         private DateTime _initedOn = DateTime.MinValue;
@@ -32,11 +31,11 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerDataRemovedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByMinerId.TryGetValue(message.MinerId, out MinerSign minerSign)) {
-                    if (WsRoot.MinerClientSessionSet.TryGetByClientId(minerSign.ClientId, out IMinerClientSession ntminerSession)) {
+                    if (AppRoot.MinerClientSessionSet.TryGetByClientId(minerSign.ClientId, out IMinerClientSession ntminerSession)) {
                         ntminerSession.CloseAsync(WsCloseCode.Normal, "服务端移除了该矿机");
                     }
                     _dicByMinerId.Remove(message.MinerId);
@@ -51,7 +50,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerDataAddedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 redis.GetByIdAsync(message.MinerId).ContinueWith(t => {
@@ -73,7 +72,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(MinerSignChangedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 redis.GetByIdAsync(message.MinerId).ContinueWith(t => {

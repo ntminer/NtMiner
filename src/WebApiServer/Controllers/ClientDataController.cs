@@ -21,7 +21,7 @@ namespace NTMiner.Controllers {
             }
             request.PagingTrim();
             try {
-                var data = WebApiRoot.ClientDataSet.QueryClients(
+                var data = AppRoot.ClientDataSet.QueryClients(
                     user,
                     request,
                     out int total,
@@ -44,9 +44,9 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                var clientData = WebApiRoot.ClientDataSet.GetByObjectId(request.ObjectId);
+                var clientData = AppRoot.ClientDataSet.GetByObjectId(request.ObjectId);
                 if (clientData != null && clientData.IsOwnerBy(User)) {
-                    WebApiRoot.ClientDataSet.UpdateClient(request.ObjectId, request.PropertyName, request.Value);
+                    AppRoot.ClientDataSet.UpdateClient(request.ObjectId, request.PropertyName, request.Value);
                 }
                 return ResponseBase.Ok();
             }
@@ -67,7 +67,7 @@ namespace NTMiner.Controllers {
             try {
                 List<string> toRemoveKeys = new List<string>();
                 foreach (var key in request.Values.Keys) {
-                    var minerData = WebApiRoot.ClientDataSet.GetByObjectId(key);
+                    var minerData = AppRoot.ClientDataSet.GetByObjectId(key);
                     if (minerData == null && !minerData.IsOwnerBy(User)) {
                         toRemoveKeys.Add(key);
                     }
@@ -75,7 +75,7 @@ namespace NTMiner.Controllers {
                 foreach (var key in toRemoveKeys) {
                     request.Values.Remove(key);
                 }
-                WebApiRoot.ClientDataSet.UpdateClients(request.PropertyName, request.Values);
+                AppRoot.ClientDataSet.UpdateClients(request.PropertyName, request.Values);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -95,9 +95,9 @@ namespace NTMiner.Controllers {
 
             try {
                 foreach (var objectId in request.ObjectIds) {
-                    var minerData = WebApiRoot.ClientDataSet.GetByObjectId(objectId);
+                    var minerData = AppRoot.ClientDataSet.GetByObjectId(objectId);
                     if (minerData != null && (User.IsAdmin() || minerData.IsOwnerBy(User))) {
-                        WebApiRoot.ClientDataSet.RemoveByObjectId(objectId);
+                        AppRoot.ClientDataSet.RemoveByObjectId(objectId);
                     }
                 }
                 return ResponseBase.Ok();

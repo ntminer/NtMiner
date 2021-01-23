@@ -80,9 +80,9 @@
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
       <Name>NTMinerRpcClient</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NTMinerServer\NTMinerServer.csproj">
-      <Project>{cb2619b7-3f59-41b7-a562-4a3f117822ce}</Project>
-      <Name>NTMinerServer</Name>
+    <ProjectReference Include="..\ServerCommon\ServerCommon.csproj">
+      <Project>{e12eefdc-66e9-4b7d-a036-fc1d4962eb04}</Project>
+      <Name>ServerCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

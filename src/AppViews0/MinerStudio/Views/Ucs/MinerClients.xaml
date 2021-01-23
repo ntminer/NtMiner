@@ -337,6 +337,7 @@
             </DataGridTemplateColumn>
             <!--LocalIp-->
             <DataGridTemplateColumn 
+                Width="156"
 				Visibility="{Binding Data.ColumnsShow.LocalIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
@@ -385,6 +386,7 @@
             </DataGridTemplateColumn>
             <!--MinerIp-->
             <DataGridTemplateColumn 
+                Width="140"
 				Visibility="{Binding Data.ColumnsShow.MinerIp, Source={StaticResource proxy}, Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>
@@ -419,6 +421,7 @@
             </DataGridTemplateColumn>
             <!--MACAddress-->
             <DataGridTemplateColumn 
+                Width="130"
 				Visibility="{Binding Data.ColumnsShow.MACAddress,Source={StaticResource proxy},Converter={StaticResource BoolToVisibilityConverter}}"
 				IsReadOnly="True">
                 <DataGridTemplateColumn.Header>

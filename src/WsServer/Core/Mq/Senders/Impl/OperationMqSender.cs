@@ -9,16 +9,16 @@ using System.Collections.Generic;
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class OperationMqSender : IOperationMqSender {
         private static readonly byte[] _emptyBody = new byte[0];
-        private readonly IServerConnection _serverConnection;
-        public OperationMqSender(IServerConnection serverConnection) {
-            _serverConnection = serverConnection;
+        private readonly IMqRedis _mq;
+        public OperationMqSender(IMqRedis mq) {
+            _mq = mq;
         }
 
         public void SendGetConsoleOutLines(string loginName, Guid clientId, long asterTime) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -29,7 +29,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.ConsoleOutLinesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -40,7 +40,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetLocalMessagesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.LocalMessagesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetDrivesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -73,7 +73,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.DrivesRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -84,7 +84,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetLocalIpsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -95,7 +95,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.LocalIpsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -106,7 +106,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetOperationResultsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -117,7 +117,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || datas == null || datas.Count == 0) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.OperationResultsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -128,7 +128,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.OperationReceivedRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -139,7 +139,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientIds == null || clientIds.Count == 0) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetSpeedRoutingKey,
                 basicProperties: CreateBasicProperties(loginName),
@@ -150,7 +150,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.EnableRemoteDesktopRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -161,7 +161,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.BlockWAURoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -172,7 +172,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SwitchRadeonGpuRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -183,7 +183,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SetVirtualMemoryRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -194,7 +194,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SetLocalIpsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -205,7 +205,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetSelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -216,7 +216,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || request == null) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SaveSelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -227,7 +227,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GetGpuProfilesJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -238,7 +238,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SelfWorkLocalJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -249,7 +249,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.GpuProfilesJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -260,7 +260,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || string.IsNullOrEmpty(json)) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SaveGpuProfilesJsonRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -271,7 +271,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.SetAutoBootStartRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -282,7 +282,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.RestartWindowsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -293,7 +293,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.ShutdownWindowsRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -304,7 +304,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || string.IsNullOrEmpty(ntminerFileName)) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.UpgradeNTMinerRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -315,7 +315,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.StartMineRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -326,7 +326,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: WsMqKeyword.StopMineRoutingKey,
                 basicProperties: CreateBasicProperties(loginName, clientId),
@@ -341,9 +341,9 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties(string loginName) {
-            var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
+            var basicProperties = _mq.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = false;
-            basicProperties.Expiration = "36000000"; // 36秒，单位是微秒（1微秒是10的负6次方秒）
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
             basicProperties.Headers = new Dictionary<string, object> {

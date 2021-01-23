@@ -76,21 +76,6 @@ namespace NTMiner {
             }
         }
 
-        private static bool _sIsFirstCallTempLogsDirFullName = true;
-        public static string TempLogsDirFullName {
-            get {
-                string dirFullName = Path.Combine(TempPath.TempDirFullName, NTKeyword.LogsDirName);
-                if (_sIsFirstCallTempLogsDirFullName) {
-                    if (!Directory.Exists(dirFullName)) {
-                        Directory.CreateDirectory(dirFullName);
-                    }
-                    _sIsFirstCallTempLogsDirFullName = false;
-                }
-
-                return dirFullName;
-            }
-        }
-
         private static bool _sIsFirstCallToolsDirFullName = true;
         /// <summary>
         /// 在临时目录。因为工具并非常用的程序文件，在用户第一次使用时才会下载。

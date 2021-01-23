@@ -45,7 +45,6 @@
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework, Version=14.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\MSTest.TestFramework.1.3.2\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
     </Reference>
@@ -72,7 +71,8 @@
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Web" />
-    <Reference Include="websocket-sharp">
+    <Reference Include="websocket-sharp, Version=1.0.2.36837, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\ThirdPartyDlls\websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
@@ -86,6 +86,7 @@
     <Compile Include="CpuTests.cs" />
     <Compile Include="DependencyObjectTests.cs" />
     <Compile Include="DotNet45Tests.cs" />
+    <Compile Include="EncodingTests.cs" />
     <Compile Include="EnumTests.cs" />
     <Compile Include="EnvironmentTests.cs" />
     <Compile Include="FuncTests.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="GZipUtilTests.cs" />
     <Compile Include="IoTests.cs" />
     <Compile Include="LiteDBTests.cs" />
+    <Compile Include="NameValueCollectionTests.cs" />
     <Compile Include="NTMinerDataSchemasTests.cs" />
     <Compile Include="NTStopwatchTests.cs" />
     <Compile Include="PInvokeTests.cs" />
@@ -103,8 +105,10 @@
     <Compile Include="ReflectionTests.cs" />
     <Compile Include="RoleTests.cs" />
     <Compile Include="SecureStringTests.cs" />
+    <Compile Include="ShardingHasherTests.cs" />
     <Compile Include="SpeedTests.cs" />
     <Compile Include="StackTraceTests.cs" />
+    <Compile Include="StreamTests.cs" />
     <Compile Include="TestUtil.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -121,6 +125,8 @@
     <Compile Include="ResourceDictionaryTests.cs" />
     <Compile Include="RedisTests.cs" />
     <Compile Include="PartialTests.cs" />
+    <Compile Include="UriTests.cs" />
+    <Compile Include="WebSocketTests.cs" />
     <Compile Include="WMITests.cs" />
     <Compile Include="WsMessageTests.cs" />
   </ItemGroup>

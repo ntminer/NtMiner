@@ -14,6 +14,7 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientWsClosedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.MinerClientWsBreathedRoutingKey, arguments: null);
             channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.ChangeMinerSignRoutingKey, arguments: null);
+            channal.QueueBind(queue: Queue, exchange: MqKeyword.NTMinerExchange, routingKey: MqKeyword.QueryClientsForWsRoutingKey, arguments: null);
 
             NTMinerConsole.UserOk("MinerClientMq QueueBind成功");
         }
@@ -60,6 +61,17 @@ namespace NTMiner.Core.Mq.MqMessagePaths {
                         MinerSign minerSign = MinerClientMqBodyUtil.GetChangeMinerSignMqReceiveBody(ea.Body);
                         if (minerSign != null) {
                             VirtualRoot.Execute(new ChangeMinerSignMqMessage(minerSign));
+                        }
+                    }
+                    break;
+                case MqKeyword.QueryClientsForWsRoutingKey: {
+                        DateTime timestamp = Timestamp.FromTimestamp(ea.BasicProperties.Timestamp.UnixTime);
+                        string appId = ea.BasicProperties.AppId;
+                        string loginName = ea.BasicProperties.ReadHeaderString(MqKeyword.LoginNameHeaderName);
+                        string sessionId = ea.BasicProperties.ReadHeaderString(MqKeyword.SessionIdHeaderName);
+                        QueryClientsForWsRequest query = MinerClientMqBodyUtil.GetQueryClientsForWsMqReceiveBody(ea.Body);
+                        if (query != null) {
+                            VirtualRoot.Execute(new QueryClientsForWsMqMessage(appId, timestamp, loginName, sessionId, query));
                         }
                     }
                     break;

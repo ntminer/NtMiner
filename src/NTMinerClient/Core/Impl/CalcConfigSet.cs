@@ -26,13 +26,18 @@ namespace NTMiner.Core.Impl {
             if ((_initedOn == DateTime.MinValue || NTMinerContext.IsUiVisible || ClientAppType.IsMinerStudio) && (forceRefresh || _initedOn.AddMinutes(10) < now)) {
                 _initedOn = now;
                 RpcRoot.OfficialServer.CalcConfigService.GetCalcConfigsAsync(data => {
-                    Init(data);
-                    VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());
+                    if (data != null && data.Count != 0) {
+                        Init(data);
+                        VirtualRoot.RaiseEvent(new CalcConfigSetInitedEvent());
+                    }
                 });
             }
         }
 
         private void Init(List<CalcConfigData> data) {
+            if (data == null || data.Count == 0) {
+                return;
+            }
             var list = _root.ServerContext.CoinSet.AsEnumerable().OrderBy(a => a.Code).Select(a => new CalcConfigData {
                 CoinCode = a.Code,
                 CreatedOn = DateTime.Now,

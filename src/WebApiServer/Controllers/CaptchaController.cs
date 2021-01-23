@@ -27,12 +27,12 @@ namespace NTMiner.Controllers {
             if (id == Guid.Empty) {
                 bytes = CreateValidateGraphic("无效");
             }
-            else if (WebApiRoot.CaptchaSet.CountByIp(base.RemoteIp) > 100) {
+            else if (AppRoot.CaptchaSet.CountByIp(base.RemoteIp) > 100) {
                 bytes = CreateValidateGraphic("拒绝");
             }
             else {
                 code = VirtualRoot.GetRandomString(4);
-                if (!WebApiRoot.CaptchaSet.SetCaptcha(new CaptchaData {
+                if (!AppRoot.CaptchaSet.SetCaptcha(new CaptchaData {
                     Id = id,
                     Code = code,
                     CreatedOn = DateTime.Now,
@@ -47,7 +47,7 @@ namespace NTMiner.Controllers {
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) {
                 Content = new ByteArrayContent(bytes)
             };
-            httpResponseMessage.Content.Headers.ContentType = WebApiRoot.BinaryContentType;
+            httpResponseMessage.Content.Headers.ContentType = AppRoot.BinaryContentType;
             return httpResponseMessage;
         }
 

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace NTMiner {
-    public class ServerConnection : IServerConnection {
+    public class MqRedis : IMqRedis {
         /// <summary>
         /// 内部完成redis连接的创建和mq交换器、队列的声明以及mq消费者的启动，队列和交换器的绑定由启动的消费者负责。
         /// （mq消费者的启动是异步的，不会立即启动，而是在满足了后续的条件后才会启动）。
@@ -15,7 +15,7 @@ namespace NTMiner {
         /// <param name="serverAppType"></param>
         /// <param name="mqMessagePaths"></param>
         /// <returns></returns>
-        public static bool Create(ServerAppType serverAppType, AbstractMqMessagePath[] mqMessagePaths, out IServerConnection serverConfig) {
+        public static bool Create(ServerAppType serverAppType, AbstractMqMessagePath[] mqMessagePaths, out IMqRedis serverConfig) {
             string mqClientTypeName = serverAppType.GetName();
             serverConfig = null;
             ConnectionMultiplexer redisConn;
@@ -27,7 +27,7 @@ namespace NTMiner {
                 Logger.ErrorDebugLine(e);
                 return false;
             }
-            IConnection mqConn;// TODO:需要一个机制在连接关闭时重新连接，因为AutomaticRecovery也会失败
+            IConnection mqConn;
             try {
                 var factory = new ConnectionFactory {
                     HostName = ServerRoot.HostConfig.MqHostName,
@@ -49,7 +49,7 @@ namespace NTMiner {
 
             StartConsumer(channel, mqMessagePaths);
 
-            serverConfig = new ServerConnection(redisConn, channel);
+            serverConfig = new MqRedis(redisConn, channel);
             return true;
         }
 
@@ -109,7 +109,7 @@ namespace NTMiner {
             });
         }
 
-        private ServerConnection(ConnectionMultiplexer redisConn, IModel channel) {
+        private MqRedis(ConnectionMultiplexer redisConn, IModel channel) {
             this.RedisConn = redisConn;
             this.MqChannel = channel;
         }

@@ -23,7 +23,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = WebApiRoot.CreateLocalDb()) {
+                    using (LiteDatabase db = AppRoot.CreateLocalDb()) {
                         var col = db.GetCollection<UserAppSettingData>();
                         foreach (var item in col.FindAll()) {
                             if (!_dicByLoginName.TryGetValue(item.LoginName, out List<UserAppSettingData> list)) {
@@ -62,7 +62,7 @@ namespace NTMiner.Core.Impl {
             else {
                 list.Add(appSetting);
             }
-            using (LiteDatabase db = WebApiRoot.CreateLocalDb()) {
+            using (LiteDatabase db = AppRoot.CreateLocalDb()) {
                 var col = db.GetCollection<UserAppSettingData>();
                 col.Upsert(exist);
             }

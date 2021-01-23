@@ -28,12 +28,6 @@ namespace NTMiner.MinerStudio {
             }
         }
 
-        public static CoinSnapshotDataViewModels CoinSnapshotDataVms {
-            get {
-                return CoinSnapshotDataViewModels.Instance;
-            }
-        }
-
         public static ColumnsShowViewModels ColumnsShowVms {
             get {
                 return ColumnsShowViewModels.Instance;

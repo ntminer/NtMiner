@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class ReadOnlyUserSet : IReadOnlyUserSet {
-        protected const string _safeIgnoreMessage = "该消息发生的时间早于本节点启动时间1分钟，安全忽略";
         protected readonly Dictionary<string, UserData> _dicByLoginName = new Dictionary<string, UserData>(StringComparer.OrdinalIgnoreCase);
         private DateTime _initedOn = DateTime.MinValue;
         public bool IsReadied {
@@ -31,7 +30,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserAddedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 userRedis.GetByLoginNameAsync(message.LoginName).ContinueWith(t => {
@@ -48,7 +47,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserUpdatedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 userRedis.GetByLoginNameAsync(message.LoginName).ContinueWith(t => {
@@ -65,7 +64,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserRemovedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 _dicByLoginName.Remove(message.LoginName);
@@ -78,7 +77,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserEnabledMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByLoginName.TryGetValue(message.LoginName, out UserData userData)) {
@@ -93,7 +92,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserDisabledMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByLoginName.TryGetValue(message.LoginName, out UserData userData)) {
@@ -108,7 +107,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserPasswordChangedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 userRedis.GetByLoginNameAsync(message.LoginName).ContinueWith(t => {
@@ -125,7 +124,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (IsOldMqMessage(message.Timestamp)) {
-                    NTMinerConsole.UserOk(_safeIgnoreMessage);
+                    NTMinerConsole.UserOk(nameof(UserRSAKeyUpdatedMqMessage) + ":" + MqKeyword.SafeIgnoreMessage);
                     return;
                 }
                 if (_dicByLoginName.TryGetValue(message.LoginName, out UserData userData)) {

@@ -7,7 +7,10 @@ namespace NTMiner.Core.MinerServer {
             this.LatestSnapshots = new CoinSnapshotData[0];
         }
 
-        public static QueryClientsResponse Ok(List<ClientData> data, int total, CoinSnapshotData[] latestSnapshots, int totalMiningCount, int totalOnlineCount) {
+        public static QueryClientsResponse Ok(
+            List<ClientData> data, int total, 
+            CoinSnapshotData[] latestSnapshots, 
+            int totalMiningCount, int totalOnlineCount) {
             return new QueryClientsResponse() {
                 StateCode = 200,
                 ReasonPhrase = "Ok",

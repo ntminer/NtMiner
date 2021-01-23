@@ -78,8 +78,7 @@
 
             <WrapPanel>
                 <TextBlock Style="{StaticResource LblTb}" Text="服务端配置文件名"></TextBlock>
-                <TextBlock Text="{x:Static app:AppStatic.ServerJsonFileFullName}"></TextBlock>
-                <TextBlock Margin="10 0 0 0" ToolTip="版本时间戳" Text="{Binding ServerJsonVersion}"></TextBlock>
+                <TextBlock Text="{x:Static app:AppStatic.ServerJsonFileFullName}" ToolTip="{Binding ServerJsonVersion}"></TextBlock>
             </WrapPanel>
 
             <WrapPanel Visibility="{x:Static app:AppStatic.IsDevModeVisible}">

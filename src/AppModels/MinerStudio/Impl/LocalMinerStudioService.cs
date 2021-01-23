@@ -17,11 +17,9 @@ namespace NTMiner.MinerStudio.Impl {
         private readonly string _daemonControllerName = RpcRoot.GetControllerName<INTMinerDaemonController>();
 
         private readonly IClientDataSet _clientDataSet;
-        private readonly ICoinSnapshotSet _coinSnapshotSet;
 
         public LocalMinerStudioService() {
             _clientDataSet = new ClientDataSet();
-            _coinSnapshotSet = new CoinSnapshotSet(_clientDataSet);
         }
 
         #region AddClientsAsync
@@ -94,21 +92,6 @@ namespace NTMiner.MinerStudio.Impl {
             }
             catch (Exception e) {
                 callback?.Invoke(ResponseBase.ServerError(e.Message), e);
-            }
-        }
-        #endregion
-
-        #region GetLatestSnapshotsAsync
-        public void GetLatestSnapshotsAsync(int limit, Action<GetCoinSnapshotsResponse, Exception> callback) {
-            try {
-                List<CoinSnapshotData> data = _coinSnapshotSet.GetLatestSnapshots(
-                    limit,
-                    out int totalMiningCount,
-                    out int totalOnlineCount) ?? new List<CoinSnapshotData>();
-                callback?.Invoke(GetCoinSnapshotsResponse.Ok(data, totalMiningCount, totalOnlineCount), null);
-            }
-            catch (Exception e) {
-                callback?.Invoke(ResponseBase.ServerError<GetCoinSnapshotsResponse>(e.Message), e);
             }
         }
         #endregion

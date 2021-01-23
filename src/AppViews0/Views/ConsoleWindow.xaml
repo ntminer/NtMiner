@@ -15,5 +15,8 @@
     Title="Windows控制台窗口">
     <!--窗口不能透明否则在远程桌面时无法显现-->
     <Grid>
+        <TextBlock x:Name="TbDescription" TextWrapping="Wrap" Foreground="Gray" FontSize="14" Visibility="Collapsed">
+            别紧张，点一下就好了。这个黑色窗口应该处在主界面的下面，透过主界面的一个透明区域才会被看到，但在某些Windows下躲在主界面下面的这个控制台窗口偶尔会跑到上面来，这是Windows的一个BUG会在将来的Windows中修复。
+        </TextBlock>
     </Grid>
 </Window>

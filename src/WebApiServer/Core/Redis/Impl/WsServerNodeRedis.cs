@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class WsServerNodeRedis : ReadOnlyWsServerNodeRedis, IWsServerNodeRedis {
-        public WsServerNodeRedis(IServerConnection serverConfig) : base(serverConfig) {
+        public WsServerNodeRedis(IMqRedis redis) : base(redis) {
         }
 
         public Task<List<WsServerNodeState>> GetAllAsync() {
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             return db.HashGetAllAsync(_redisKeyWsServerNodeByAddress).ContinueWith(t => {
                 List<WsServerNodeState> list = new List<WsServerNodeState>();
                 foreach (var item in t.Result) {
@@ -28,7 +28,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (offlines == null || offlines.Count == 0) {
                 return TaskEx.CompletedTask;
             }
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             var list = new List<RedisValue>();
             foreach (var item in offlines) {
                 list.Add(item);

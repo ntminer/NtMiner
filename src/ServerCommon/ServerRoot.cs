@@ -1,12 +1,21 @@
 ﻿using LiteDB;
 using NTMiner.Core;
 using NTMiner.Core.Impl;
+using NTMiner.IpSet;
+using NTMiner.IpSet.Impl;
 using System.IO;
 
 namespace NTMiner {
     public static class ServerRoot {
+        public static readonly IRemoteIpSet _remoteEndPointSet = new RemoteIpSet();
+        public static IRemoteIpSet RemoteEndPointSet {
+            get {
+                return _remoteEndPointSet;
+            }
+        }
+
         static ServerRoot() {
-            System.Net.ServicePointManager.DefaultConnectionLimit = 200;
+            System.Net.ServicePointManager.DefaultConnectionLimit = 512;
         }
 
         private static IHostConfig _hostConfig;

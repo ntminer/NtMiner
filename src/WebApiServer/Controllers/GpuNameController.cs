@@ -11,7 +11,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<QueryGpuNameCountsResponse>("参数错误");
             }
             request.PagingTrim();
-            var data = WebApiRoot.GpuNameSet.QueryGpuNameCounts(request, out int total);
+            var data = AppRoot.GpuNameSet.QueryGpuNameCounts(request, out int total);
 
             return QueryGpuNameCountsResponse.Ok(data, total);
         }

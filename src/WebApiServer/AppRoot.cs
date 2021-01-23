@@ -3,20 +3,23 @@ using LiteDB;
 using NTMiner.Controllers;
 using NTMiner.Core;
 using NTMiner.Core.Impl;
+using NTMiner.Core.MinerServer;
 using NTMiner.Core.Mq.MqMessagePaths;
 using NTMiner.Core.Mq.Senders.Impl;
 using NTMiner.Core.Redis;
 using NTMiner.Core.Redis.Impl;
 using NTMiner.Impl;
 using NTMiner.ServerNode;
+using NTMiner.User;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Threading;
 using System.Web.Http;
 
 namespace NTMiner {
-    public static class WebApiRoot {
+    public static class AppRoot {
         private static readonly EventWaitHandle WaitHandle = new AutoResetEvent(false);
         public static OssClient OssClient { get; private set; }
         public static MediaTypeHeaderValue BinaryContentType { get; private set; } = new MediaTypeHeaderValue("image/jpg");
@@ -52,21 +55,21 @@ namespace NTMiner {
                             new UserMqMessagePath(durableQueue),
                             new MinerClientMqMessagePath(queue)
                         };
-                        if (!ServerConnection.Create(ServerAppType.WebApiServer, mqMessagePaths, out IServerConnection serverConfig)) {
+                        if (!MqRedis.Create(ServerAppType.WebApiServer, mqMessagePaths, out IMqRedis mqRedis)) {
                             NTMinerConsole.UserError("启动失败，无法继续，因为服务器上下文创建失败");
                             return;
                         }
                         Console.Title = $"{ServerAppType.WebApiServer.GetName()}_{ServerRoot.HostConfig.ThisServerAddress}";
                         OssClient = new OssClient(ServerRoot.HostConfig.OssEndpoint, ServerRoot.HostConfig.OssAccessKeyId, ServerRoot.HostConfig.OssAccessKeySecret);
-                        var minerClientMqSender = new MinerClientMqSender(serverConfig);
-                        var userMqSender = new UserMqSender(serverConfig);
+                        var minerClientMqSender = new MinerClientMqSender(mqRedis);
+                        var userMqSender = new UserMqSender(mqRedis);
 
-                        var minerRedis = new MinerRedis(serverConfig);
-                        var speedDataRedis = new SpeedDataRedis(serverConfig);
-                        var userRedis = new UserRedis(serverConfig);
-                        var captchaRedis = new CaptchaRedis(serverConfig);
+                        var minerRedis = new MinerRedis(mqRedis);
+                        var speedDataRedis = new SpeedDataRedis(mqRedis);
+                        var userRedis = new UserRedis(mqRedis);
+                        var captchaRedis = new CaptchaRedis(mqRedis);
 
-                        WsServerNodeRedis = new WsServerNodeRedis(serverConfig);
+                        WsServerNodeRedis = new WsServerNodeRedis(mqRedis);
                         WsServerNodeAddressSet = new WsServerNodeAddressSet(WsServerNodeRedis);
                         UserSet = new UserSet(userRedis, userMqSender);
                         UserAppSettingSet = new UserAppSettingSet();
@@ -76,7 +79,6 @@ namespace NTMiner {
                         GpuNameSet = new GpuNameSet();
                         ClientDataSet clientDataSet = new ClientDataSet(minerRedis, speedDataRedis, minerClientMqSender);
                         ClientDataSet = clientDataSet;
-                        CoinSnapshotSet = new CoinSnapshotSet(clientDataSet);
                         MineWorkSet = new UserMineWorkSet();
                         MinerGroupSet = new UserMinerGroupSet();
                         NTMinerFileSet = new NTMinerFileSet();
@@ -100,7 +102,7 @@ namespace NTMiner {
                     }
                     VirtualRoot.StartTimer();
                     NTMinerRegistry.SetAutoBoot("NTMinerServices", true);
-                    Type thisType = typeof(WebApiRoot);
+                    Type thisType = typeof(AppRoot);
                     Run();
                 }
             }
@@ -144,7 +146,7 @@ namespace NTMiner {
             }
         }
 
-        static WebApiRoot() {
+        static AppRoot() {
         }
         public static IWsServerNodeRedis WsServerNodeRedis { get; private set; }
 
@@ -165,8 +167,6 @@ namespace NTMiner {
         public static IClientDataSet ClientDataSet { get; private set; }
 
         public static IGpuNameSet GpuNameSet { get; private set; }
-
-        public static ICoinSnapshotSet CoinSnapshotSet { get; private set; }
 
         public static IUserMineWorkSet MineWorkSet { get; private set; }
 
@@ -227,7 +227,7 @@ namespace NTMiner {
             t.Wait();
             var wsServerNodes = t.Result;
             return new WebApiServerState {
-                WsServerNodes = wsServerNodes,
+                WsServerNodes = wsServerNodes.OrderBy(a => a.Address).ToList(),
                 Address = ServerRoot.HostConfig.ThisServerAddress,
                 Description = string.Empty,
                 AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
@@ -255,6 +255,37 @@ namespace NTMiner {
                 Key = nameof(KernelOutputKeywordTimestamp),
                 Value = timestamp
             }));
+        }
+
+        public static QueryClientsResponse QueryClientsForWs(QueryClientsForWsRequest request) {
+            QueryClientsResponse response;
+            if (request == null) {
+                response = ResponseBase.InvalidInput<QueryClientsResponse>("参数错误");
+            }
+            else {
+                request.PagingTrim();
+                try {
+                    var user = UserSet.GetUser(UserId.CreateLoginNameUserId(request.LoginName));
+                    if (user == null) {
+                        response = ResponseBase.InvalidInput<QueryClientsResponse>("用户不存在");
+                    }
+                    else {
+                        var data = ClientDataSet.QueryClients(
+                            user,
+                            request,
+                            out int total,
+                            out CoinSnapshotData[] latestSnapshots,
+                            out int totalOnlineCount,
+                            out int totalMiningCount) ?? new List<ClientData>();
+                        response = QueryClientsResponse.Ok(data, total, latestSnapshots, totalMiningCount, totalOnlineCount);
+                    }
+                }
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
+                    response = ResponseBase.ServerError<QueryClientsResponse>(e.Message);
+                }
+            }
+            return response;
         }
     }
 }

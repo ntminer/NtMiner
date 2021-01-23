@@ -123,7 +123,7 @@ namespace NTMiner {
         public static string LogsDirFullName {
             get {
                 if (ClientAppType.IsMinerClient) {
-                    return MinerClientTempPath.TempLogsDirFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName);
+                    return TempPath.LogsDirFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName);
                 }
                 return HomePath.HomeLogsDirFullName.Replace(HomePath.HomeDirFullName, NTKeyword.HomeDirParameterName);
             }
@@ -681,12 +681,7 @@ namespace NTMiner {
             VirtualRoot.Execute(new ShowAboutPageCommand());
         });
         public static ICommand ShowSpeedChart { get; private set; } = new DelegateCommand(() => {
-            if (ClientAppType.IsMinerClient) {
-                VirtualRoot.Execute(new ShowSpeedChartsCommand());
-            }
-            else {
-                VirtualRoot.Execute(new ShowChartsWindowCommand());
-            }
+            VirtualRoot.Execute(new ShowSpeedChartsCommand());
         });
         public static ICommand ShowNTMinerUpdaterConfig { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowNTMinerUpdaterConfigCommand());
@@ -702,9 +697,6 @@ namespace NTMiner {
             url = NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "HelpUrl", defaultValue: url);
             VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
-        });
-        public static ICommand ShowMinerClients { get; private set; } = new DelegateCommand(() => {
-            VirtualRoot.Execute(new ShowMinerClientsWindowCommand(isToggle: false));
         });
         public static ICommand ShowCalcConfig { get; private set; } = new DelegateCommand(() => {
             VirtualRoot.Execute(new ShowCalcConfigCommand());

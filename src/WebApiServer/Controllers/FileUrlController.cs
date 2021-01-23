@@ -16,14 +16,14 @@ namespace NTMiner.Controllers {
             var req = new GeneratePresignedUriRequest("ntminer", request.FileName, SignHttpMethod.Get) {
                 Expiration = DateTime.Now.AddMinutes(10)
             };
-            var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+            var uri = AppRoot.OssClient.GeneratePresignedUri(req);
             return uri.ToString();
         }
 
         [Role.Public]
         [HttpPost]
         public List<NTMinerFileData> NTMinerFiles() {
-            var list = WebApiRoot.NTMinerFileSet.GetAll();
+            var list = AppRoot.NTMinerFileSet.GetAll();
             return list;
         }
 
@@ -34,7 +34,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.NTMinerFileSet.AddOrUpdate(request.Data);
+                AppRoot.NTMinerFileSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -50,7 +50,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.NTMinerFileSet.RemoveById(request.Data);
+                AppRoot.NTMinerFileSet.RemoveById(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -71,7 +71,7 @@ namespace NTMiner.Controllers {
                     fileName = (string)setting.Value;
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
-                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {
@@ -92,7 +92,7 @@ namespace NTMiner.Controllers {
                     fileName = (string)setting.Value;
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
-                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {
@@ -106,7 +106,7 @@ namespace NTMiner.Controllers {
         public string LiteDbExplorerUrl() {
             try {
                 var req = new GeneratePresignedUriRequest("ntminer", "tools/LiteDBExplorerPortable.zip", SignHttpMethod.Get);
-                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {
@@ -127,7 +127,7 @@ namespace NTMiner.Controllers {
                     fileName = (string)setting.Value;
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
-                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {
@@ -148,7 +148,7 @@ namespace NTMiner.Controllers {
                     fileName = (string)setting.Value;
                 }
                 var req = new GeneratePresignedUriRequest("ntminer", $"tools/{fileName}", SignHttpMethod.Get);
-                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {
@@ -174,7 +174,7 @@ namespace NTMiner.Controllers {
                 var req = new GeneratePresignedUriRequest("ntminer", $"packages/{request.Package}", SignHttpMethod.Get) {
                     Expiration = DateTime.Now.AddMinutes(10)
                 };
-                var uri = WebApiRoot.OssClient.GeneratePresignedUri(req);
+                var uri = AppRoot.OssClient.GeneratePresignedUri(req);
                 return uri.ToString();
             }
             catch (Exception e) {

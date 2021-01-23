@@ -1,28 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using WebSocketSharp.Server;
+﻿using WebSocketSharp.Server;
 
 namespace NTMiner.WsSharp {
     public class SharpWsSessionsAdapter : IWsSessionsAdapter {
-        private readonly WebSocketSessionManager _sessions;
-        public SharpWsSessionsAdapter(WebSocketSessionManager sessions) {
-            _sessions = sessions;
+        private readonly WebSocketSessionManager _wsSessions;
+        public SharpWsSessionsAdapter(WebSocketSessionManager wsSessions) {
+            _wsSessions = wsSessions;
         }
 
         public int Count {
             get {
-                return _sessions.Count;
-            }
-        }
-
-        public IEnumerable<IWsSessionAdapter> Sessions {
-            get {
-                return _sessions.Sessions.Cast<IWsSessionAdapter>();
+                return _wsSessions.Count;
             }
         }
 
         public bool TryGetSession(string sessionId, out IWsSessionAdapter session) {
-            if (_sessions.TryGetSession(sessionId, out IWebSocketSession item)) {
+            if (_wsSessions.TryGetSession(sessionId, out IWebSocketSession item)) {
                 session = (IWsSessionAdapter)item;
                 return true;
             }

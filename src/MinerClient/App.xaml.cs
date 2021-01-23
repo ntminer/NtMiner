@@ -24,7 +24,7 @@ namespace NTMiner {
                 NTMinerConsole.Disable();
             }
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            Logger.SetDir(MinerClientTempPath.TempLogsDirFullName);
+            Logger.SetDir(TempPath.LogsDirFullName);
             WpfUtil.Init();
             AppUtil.Init(this);
             AppUtil.IsHotKeyEnabled = true;
@@ -178,23 +178,18 @@ namespace NTMiner {
         private void BuildPaths() {
             VirtualRoot.BuildCmdPath<MinerClientActionCommand>(path: message => {
                 #region
-                try {
-                    switch (message.ActionType) {
-                        case MinerClientActionType.SwitchRadeonGpuOn:
-                            VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
-                            break;
-                        case MinerClientActionType.SwitchRadeonGpuOff:
-                            VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
-                            break;
-                        case MinerClientActionType.BlockWAU:
-                            VirtualRoot.Execute(new BlockWAUCommand());
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                catch (Exception e) {
-                    Logger.ErrorDebugLine(e);
+                switch (message.ActionType) {
+                    case MinerClientActionType.SwitchRadeonGpuOn:
+                        VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: true));
+                        break;
+                    case MinerClientActionType.SwitchRadeonGpuOff:
+                        VirtualRoot.Execute(new SwitchRadeonGpuCommand(on: false));
+                        break;
+                    case MinerClientActionType.BlockWAU:
+                        VirtualRoot.Execute(new BlockWAUCommand());
+                        break;
+                    default:
+                        break;
                 }
                 #endregion
             }, location: this.GetType());

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace NTMiner.Core.Impl {
     public class WsServerNodeAddressSet : WsServerNodeAddressSetBase, IWsServerNodeAddressSet {
         public WsServerNodeAddressSet(IWsServerNodeRedis wsServerNodeRedis) : base(wsServerNodeRedis) {
-            VirtualRoot.BuildEventPath<Per10SecondEvent>("清理掉离线的WsServer节点", LogEnum.UserConsole, path: message => {
+            VirtualRoot.BuildEventPath<Per10SecondEvent>("清理掉离线的WsServer节点", LogEnum.None, path: message => {
                 wsServerNodeRedis.GetAllAddress().ContinueWith(t => {
                     var offlines = GetOfflineAddress(t.Result);
                     if (offlines != null && offlines.Count != 0) {

@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = WebApiRoot.CreateLocalDb()) {
+                    using (LiteDatabase db = AppRoot.CreateLocalDb()) {
                         var col = db.GetCollection<UserMineWorkData>();
                         foreach (var item in col.FindAll()) {
                             _dicById.Add(item.Id, item);
@@ -51,7 +51,7 @@ namespace NTMiner.Core.Impl {
         public void AddOrUpdate(UserMineWorkData data) {
             InitOnece();
             lock (_locker) {
-                using (LiteDatabase db = WebApiRoot.CreateLocalDb()) {
+                using (LiteDatabase db = AppRoot.CreateLocalDb()) {
                     var col = db.GetCollection<UserMineWorkData>();
                     if (_dicById.TryGetValue(data.Id, out UserMineWorkData entity)) {
                         data.ModifiedOn = DateTime.Now;
@@ -72,7 +72,7 @@ namespace NTMiner.Core.Impl {
             lock (_locker) {
                 if (_dicById.ContainsKey(id)) {
                     _dicById.Remove(id);
-                    using (LiteDatabase db = WebApiRoot.CreateLocalDb()) {
+                    using (LiteDatabase db = AppRoot.CreateLocalDb()) {
                         var col = db.GetCollection<UserMineWorkData>();
                         col.Delete(id);
                     }

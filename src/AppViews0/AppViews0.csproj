@@ -103,9 +103,6 @@
     <Compile Include="Views\ConsoleWindow.xaml.cs">
       <DependentUpon>ConsoleWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MinerStudio\Views\ChartsWindow.xaml.cs">
-      <DependentUpon>ChartsWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MinerStudio\Views\Ucs\LocalIpConfig.xaml.cs">
       <DependentUpon>LocalIpConfig.xaml</DependentUpon>
     </Compile>
@@ -434,10 +431,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MinerStudio\Views\Design\ChartsWindowViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="MinerStudio\Views\Design\ColumnsShowViewModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -451,10 +444,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ConsoleWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="MinerStudio\Views\ChartsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -14,7 +14,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<UserMinerGroupData>>>("参数错误");
             }
             try {
-                var data = WebApiRoot.MinerGroupSet.GetsByLoginName(User.LoginName);
+                var data = AppRoot.MinerGroupSet.GetsByLoginName(User.LoginName);
                 return DataResponse<List<UserMinerGroupData>>.Ok(data);
             }
             catch (Exception e) {
@@ -32,7 +32,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.MinerGroupSet.AddOrUpdate(request.Data.ToUserMinerGroup(User.LoginName));
+                AppRoot.MinerGroupSet.AddOrUpdate(request.Data.ToUserMinerGroup(User.LoginName));
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -50,17 +50,17 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                IUserMinerGroup minerGroup = WebApiRoot.MinerGroupSet.GetById(request.Data);
+                IUserMinerGroup minerGroup = AppRoot.MinerGroupSet.GetById(request.Data);
                 if (minerGroup == null) {
                     return ResponseBase.Ok();
                 }
                 if (minerGroup.LoginName != User.LoginName) {
                     return ResponseBase.Forbidden("无权操作");
                 }
-                if (WebApiRoot.ClientDataSet.IsAnyClientInGroup(request.Data)) {
+                if (AppRoot.ClientDataSet.IsAnyClientInGroup(request.Data)) {
                     return ResponseBase.ClientError($"组{minerGroup.Name}下有矿机，请先移除矿机再做删除操作");
                 }
-                WebApiRoot.MinerGroupSet.RemoveById(request.Data);
+                AppRoot.MinerGroupSet.RemoveById(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

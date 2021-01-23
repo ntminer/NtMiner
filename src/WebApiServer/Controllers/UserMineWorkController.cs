@@ -16,7 +16,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<List<UserMineWorkData>>>("参数错误");
             }
             try {
-                var data = WebApiRoot.MineWorkSet.GetsByLoginName(User.LoginName);
+                var data = AppRoot.MineWorkSet.GetsByLoginName(User.LoginName);
                 return DataResponse<List<UserMineWorkData>>.Ok(data);
             }
             catch (Exception e) {
@@ -34,7 +34,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.MineWorkSet.AddOrUpdate(request.Data.ToUserMineWork(User.LoginName));
+                AppRoot.MineWorkSet.AddOrUpdate(request.Data.ToUserMineWork(User.LoginName));
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -52,17 +52,17 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.Data);
+                IUserMineWork mineWork = AppRoot.MineWorkSet.GetById(request.Data);
                 if (mineWork == null) {
                     return ResponseBase.Ok();
                 }
                 if (mineWork.LoginName != User.LoginName) {
                     return ResponseBase.Forbidden("无权操作");
                 }
-                if (WebApiRoot.ClientDataSet.IsAnyClientInWork(request.Data)) {
+                if (AppRoot.ClientDataSet.IsAnyClientInWork(request.Data)) {
                     return ResponseBase.ClientError($"作业{mineWork.Name}下有矿机，请先移除矿机再做删除操作");
                 }
-                WebApiRoot.MineWorkSet.RemoveById(request.Data);
+                AppRoot.MineWorkSet.RemoveById(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -80,7 +80,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.MineWorkId);
+                IUserMineWork mineWork = AppRoot.MineWorkSet.GetById(request.MineWorkId);
                 if (mineWork == null) {
                     return ResponseBase.NotExist();
                 }
@@ -108,7 +108,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
             try {
-                IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.Data);
+                IUserMineWork mineWork = AppRoot.MineWorkSet.GetById(request.Data);
                 if (mineWork == null) {
                     return ResponseBase.NotExist<DataResponse<string>>();
                 }
@@ -139,14 +139,14 @@ namespace NTMiner.Controllers {
                 string workerName = string.Empty;
                 // 如果是单机作业
                 if (request.WorkId.IsSelfMineWorkId()) {
-                    var clientData = WebApiRoot.ClientDataSet.GetByClientId(request.ClientId);
+                    var clientData = AppRoot.ClientDataSet.GetByClientId(request.ClientId);
                     if (clientData != null) {
                         workerName = clientData.WorkerName;
                     }
                     return GetWorkJsonResponse.Ok(string.Empty, string.Empty, workerName);
                 }
 
-                IUserMineWork mineWork = WebApiRoot.MineWorkSet.GetById(request.WorkId);
+                IUserMineWork mineWork = AppRoot.MineWorkSet.GetById(request.WorkId);
                 if (mineWork == null) {
                     return ResponseBase.NotExist<GetWorkJsonResponse>();
                 }
@@ -155,7 +155,7 @@ namespace NTMiner.Controllers {
                 if (File.Exists(localJsonFileFullName)) {
                     localJson = File.ReadAllText(localJsonFileFullName);
                     if (!string.IsNullOrEmpty(localJson)) {
-                        var clientData = WebApiRoot.ClientDataSet.GetByClientId(request.ClientId);
+                        var clientData = AppRoot.ClientDataSet.GetByClientId(request.ClientId);
                         if (clientData != null) {
                             workerName = clientData.WorkerName;
                         }

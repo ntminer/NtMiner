@@ -5,18 +5,18 @@ using System.Collections.Generic;
 
 namespace NTMiner.Core.Mq.Senders.Impl {
     public class MinerClientMqSender : IMinerClientMqSender {
-        private readonly IServerConnection _serverConnection;
-        public MinerClientMqSender(IServerConnection serverConnection) {
-            _serverConnection = serverConnection;
+        private readonly IMqRedis _mq;
+        public MinerClientMqSender(IMqRedis mq) {
+            _mq = mq;
         }
 
         public void SendSpeed(string loginName, Guid clientId, string minerIp) {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty || string.IsNullOrEmpty(minerIp)) {
                 return;
             }
-            var basicProperties = CreateBasicProperties(loginName);
+            var basicProperties = CreateNonePersistentBasicProperties(loginName);
             basicProperties.Headers[MqKeyword.MinerIpHeaderName] = minerIp;
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.SpeedRoutingKey,
                 basicProperties: basicProperties,
@@ -27,8 +27,8 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            var basicProperties = CreateBasicProperties(loginName);
-            _serverConnection.MqChannel.BasicPublish(
+            var basicProperties = CreateNonePersistentBasicProperties(loginName);
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientWsOpenedRoutingKey,
                 basicProperties: basicProperties,
@@ -39,8 +39,8 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            var basicProperties = CreateBasicProperties(loginName);
-            _serverConnection.MqChannel.BasicPublish(
+            var basicProperties = CreateNonePersistentBasicProperties(loginName);
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientWsClosedRoutingKey,
                 basicProperties: basicProperties,
@@ -51,8 +51,8 @@ namespace NTMiner.Core.Mq.Senders.Impl {
             if (string.IsNullOrEmpty(loginName) || clientId == Guid.Empty) {
                 return;
             }
-            var basicProperties = CreateBasicProperties(loginName);
-            _serverConnection.MqChannel.BasicPublish(
+            var basicProperties = CreateNonePersistentBasicProperties(loginName);
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.MinerClientWsBreathedRoutingKey,
                 basicProperties: basicProperties,
@@ -64,19 +64,45 @@ namespace NTMiner.Core.Mq.Senders.Impl {
                 return;
             }
             var basicProperties = CreateBasicProperties();
-            _serverConnection.MqChannel.BasicPublish(
+            _mq.MqChannel.BasicPublish(
                 exchange: MqKeyword.NTMinerExchange,
                 routingKey: MqKeyword.ChangeMinerSignRoutingKey,
                 basicProperties: basicProperties,
                 body: MinerClientMqBodyUtil.GetChangeMinerSignMqSendBody(minerSign));
         }
 
-        private IBasicProperties CreateBasicProperties(string loginName) {
-            var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
+        public void SendQueryClientsForWs(string sessionId, QueryClientsForWsRequest request) {
+            if (string.IsNullOrEmpty(sessionId) || request == null || string.IsNullOrEmpty(request.LoginName)) {
+                return;
+            }
+            var basicProperties = CreateWsBasicProperties(request.LoginName, sessionId);
+            _mq.MqChannel.BasicPublish(
+                exchange: MqKeyword.NTMinerExchange,
+                routingKey: MqKeyword.QueryClientsForWsRoutingKey,
+                basicProperties: basicProperties,
+                body: MinerClientMqBodyUtil.GetQueryClientsForWsMqSendBody(request));
+        }
+
+        private IBasicProperties CreateWsBasicProperties(string loginName, string sessionId) {
+            var basicProperties = _mq.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = false;// 非持久化的
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
-            basicProperties.Expiration = "36000000"; // 36秒，单位是微秒（1微秒是10的负6次方秒）
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
+            basicProperties.Headers = new Dictionary<string, object> {
+                [MqKeyword.LoginNameHeaderName] = loginName,
+                [MqKeyword.SessionIdHeaderName] = sessionId
+            };
+
+            return basicProperties;
+        }
+
+        private IBasicProperties CreateNonePersistentBasicProperties(string loginName) {
+            var basicProperties = _mq.MqChannel.CreateBasicProperties();
+            basicProperties.Persistent = false;// 非持久化的
+            basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
+            basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;
+            basicProperties.Expiration = MqKeyword.Expiration36sec;
             basicProperties.Headers = new Dictionary<string, object> {
                 [MqKeyword.LoginNameHeaderName] = loginName
             };
@@ -85,7 +111,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
         }
 
         private IBasicProperties CreateBasicProperties() {
-            var basicProperties = _serverConnection.MqChannel.CreateBasicProperties();
+            var basicProperties = _mq.MqChannel.CreateBasicProperties();
             basicProperties.Persistent = true;// 持久化的
             basicProperties.Timestamp = new AmqpTimestamp(Timestamp.GetTimestamp());
             basicProperties.AppId = ServerRoot.HostConfig.ThisServerAddress;

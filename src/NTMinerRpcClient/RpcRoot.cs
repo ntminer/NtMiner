@@ -10,7 +10,6 @@ namespace NTMiner {
         public static readonly IJsonRpcHelper JsonRpc = new JsonRpcHelper();
 
         static RpcRoot() {
-            System.Net.ServicePointManager.DefaultConnectionLimit = 5;
         }
 
         public static string OfficialServerHost { get; private set; }

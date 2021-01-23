@@ -8,5 +8,6 @@ namespace NTMiner.Core.Mq.Senders {
         void SendMinerClientWsClosed(string loginName, Guid clientId);
         void SendMinerClientWsBreathed(string loginName, Guid clientId);
         void SendChangeMinerSign(MinerSign minerSign);
+        void SendQueryClientsForWs(string sessionId, QueryClientsForWsRequest request);
     }
 }

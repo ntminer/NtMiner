@@ -22,6 +22,7 @@ namespace NTMiner.Vms {
         private DateTime _wsLastTryOn;
         private bool _isConnecting;
         private double _wsRetryIconAngle;
+        private string _wsServerIp;
 
         public ICommand Up { get; private set; }
         public ICommand Down { get; private set; }
@@ -64,6 +65,7 @@ namespace NTMiner.Vms {
                 VirtualRoot.BuildCmdPath<RefreshWsStateCommand>(message => {
                     #region
                     if (message.WsClientState != null) {
+                        this.WsServerIp = message.WsClientState.WsServerIp;
                         this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
                         if (message.WsClientState.ToOut) {
                             VirtualRoot.Out.ShowWarn(message.WsClientState.Description, autoHideSeconds: 3);
@@ -87,7 +89,7 @@ namespace NTMiner.Vms {
                         if (WsNextTrySecondsDelay > 0) {
                             WsNextTrySecondsDelay--;
                         }
-                        else if(WsLastTryOn == DateTime.MinValue) {
+                        else if (WsLastTryOn == DateTime.MinValue) {
                             this.RefreshWsDaemonState();
                         }
                         OnPropertyChanged(nameof(WsLastTryOnText));
@@ -157,8 +159,9 @@ namespace NTMiner.Vms {
         public void RefreshWsDaemonState() {
             RpcRoot.Client.NTMinerDaemonService.GetWsDaemonStateAsync((WsClientState state, Exception e) => {
                 if (state != null) {
-                    this.IsWsOnline = state.Status == WsClientStatus.Open;
                     this.WsDescription = state.Description;
+                    this.WsServerIp = state.WsServerIp;
+                    this.IsWsOnline = state.Status == WsClientStatus.Open;
                     if (state.NextTrySecondsDelay > 0) {
                         this.WsNextTrySecondsDelay = state.NextTrySecondsDelay;
                     }
@@ -200,6 +203,14 @@ namespace NTMiner.Vms {
                     _wsDescription = value;
                     OnPropertyChanged(nameof(WsDescription));
                 }
+            }
+        }
+
+        public string WsServerIp {
+            get => _wsServerIp;
+            set {
+                _wsServerIp = value;
+                OnPropertyChanged(nameof(WsServerIp));
             }
         }
 
@@ -303,9 +314,9 @@ namespace NTMiner.Vms {
         public string WsStateText {
             get {
                 if (IsWsOnline) {
-                    return "连接服务器成功";
+                    return $"连接服务器成功 {WsServerIp}";
                 }
-                return "离线";
+                return $"离线 {WsServerIp}";
             }
         }
 

@@ -14,7 +14,7 @@ namespace NTMiner.Controllers {
             var httpResponseMessage = new HttpResponseMessage(HttpStatusCode.OK) {
                 Content = new ByteArrayContent(VirtualRoot.BinarySerializer.Serialize(response))
             };
-            httpResponseMessage.Content.Headers.ContentType = WebApiRoot.BinaryContentType;
+            httpResponseMessage.Content.Headers.ContentType = AppRoot.BinaryContentType;
             return httpResponseMessage;
         }
     }

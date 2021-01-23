@@ -39,5 +39,27 @@ namespace NTMiner.Core.Mq {
             return VirtualRoot.JsonSerializer.Deserialize<MinerSign>(json);
         }
         #endregion
+
+        #region QueryClientsForWsRequest
+        public static byte[] GetQueryClientsForWsMqSendBody(QueryClientsForWsRequest request) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(request));
+        }
+
+        public static QueryClientsForWsRequest GetQueryClientsForWsMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            return VirtualRoot.JsonSerializer.Deserialize<QueryClientsForWsRequest>(json);
+        }
+        #endregion
+
+        #region QueryClientsResponse
+        public static byte[] GetQueryClientsResponseMqSendBody(QueryClientsResponse response) {
+            return Encoding.UTF8.GetBytes(VirtualRoot.JsonSerializer.Serialize(response));
+        }
+
+        public static QueryClientsResponse GetQueryClientsResponseMqReceiveBody(byte[] body) {
+            string json = Encoding.UTF8.GetString(body);
+            return VirtualRoot.JsonSerializer.Deserialize<QueryClientsResponse>(json);
+        }
+        #endregion
     }
 }

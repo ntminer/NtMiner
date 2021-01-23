@@ -13,7 +13,7 @@ namespace NTMiner.WsSharp {
                 return VirtualRoot.BinarySerializer.Deserialize<T>(e.RawData);
             }
             else {
-                return WsCommonService.ParseWsMessage<T>(e.Data);
+                return AppRoot.ParseWsMessage<T>(e.Data);
             }
         }
     }

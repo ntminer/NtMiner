@@ -44,12 +44,6 @@ namespace NTMiner.MinerStudio {
         }
     }
 
-    [MessageType(description: "打开群控算力图表窗口")]
-    public class ShowChartsWindowCommand : Cmd {
-        public ShowChartsWindowCommand() {
-        }
-    }
-
     [MessageType(description: "打开列分组页面")]
     public class ShowColumnsShowPageCommand : Cmd {
         public ShowColumnsShowPageCommand() {

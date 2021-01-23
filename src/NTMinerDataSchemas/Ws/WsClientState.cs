@@ -9,6 +9,7 @@ namespace NTMiner.Ws {
 
         public WsClientStatus Status { get; set; }
         public string Description { get; set; }
+        public string WsServerIp { get; set; }
         public int NextTrySecondsDelay { get; set; }
         public DateTime LastTryOn { get; set; }
         public bool ToOut { get; set; }

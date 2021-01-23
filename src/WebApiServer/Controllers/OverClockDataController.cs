@@ -14,7 +14,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.OverClockDataSet.AddOrUpdate(request.Data);
+                AppRoot.OverClockDataSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -32,7 +32,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.OverClockDataSet.RemoveById(request.Data);
+                AppRoot.OverClockDataSet.RemoveById(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -47,7 +47,7 @@ namespace NTMiner.Controllers {
         [HttpPost]
         public DataResponse<List<OverClockData>> OverClockDatas([FromBody]object request) {
             try {
-                var data = WebApiRoot.OverClockDataSet.GetAll();
+                var data = AppRoot.OverClockDataSet.GetAll();
                 return DataResponse<List<OverClockData>>.Ok(data);
             }
             catch (Exception e) {

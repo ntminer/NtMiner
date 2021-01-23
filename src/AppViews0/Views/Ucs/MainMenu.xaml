@@ -55,16 +55,6 @@
 						Stretch="Fill" />
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Width="26" Height="26" ToolTip="算力图" Command="{x:Static app:AppStatic.ShowSpeedChart}" Visibility="{Binding IsMinerStudioLocalOrOuterAdminVisible}">
-                <MenuItem.Icon>
-                    <Path 
-						Height="14"
-						Width="14"
-						Data="{StaticResource Icon_SpeedChart}"
-						Fill="{Binding TopItemForeground}"
-						Stretch="Fill" />
-                </MenuItem.Icon>
-            </MenuItem>
             <MenuItem Width="26" Height="26" ToolTip="收益计算器" Command="{x:Static app:AppStatic.ShowCalc}">
                 <MenuItem.Icon>
                     <Path 
@@ -381,16 +371,6 @@
 						Fill="{Binding TopItemForeground}"
 						Stretch="Fill" />
 				</MenuItem.Icon>
-				<MenuItem Header="矿工列表" Command="{x:Static app:AppStatic.ShowMinerClients}">
-					<MenuItem.Icon>
-						<Path
-							Width="16"
-							Height="16"
-							Data="{StaticResource Icon_Miner}"
-							Fill="{StaticResource BtnBackground}"
-							Stretch="Fill" />
-					</MenuItem.Icon>
-				</MenuItem>
 				<MenuItem Header="币种" Command="{x:Static app:AppStatic.ShowCoins}">
 					<MenuItem.Icon>
 						<Path

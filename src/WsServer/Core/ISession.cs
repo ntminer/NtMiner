@@ -1,6 +1,7 @@
 ﻿using NTMiner.User;
 using NTMiner.Ws;
 using System;
+using System.Net;
 using WebSocketSharp;
 
 namespace NTMiner.Core {
@@ -30,6 +31,7 @@ namespace NTMiner.Core {
         /// 会话的最新活动时间。清洁工线程会依据该值判断是否要清理掉不活跃的连接对应的资源。
         /// </summary>
         DateTime ActiveOn { get; }
+        IPEndPoint RemoteEndPoint { get; }
         /// <summary>
         /// 这是所使用的WebSocket框架层为当前会话分配的会话标识。
         /// </summary>

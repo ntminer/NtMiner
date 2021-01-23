@@ -167,7 +167,7 @@
 					</controls:KbLinkButton>
 					<controls:KbButton 
 						HorizontalContentAlignment="Left"
-						Width="220" ToolTip="收益计算器"
+						Width="220" ToolTip="您挖的币在矿池，矿池都有支付限额，比如限额0.1个ETH，就是说矿池每天支付一次但只支付挖够了0.1个ETH的矿工。您可点击前面的 “查看收益” 查看您挖了多少币了。"
 						Padding="2 0" Cursor="Hand" Background="Transparent"
 						Command="{x:Static app:AppStatic.ShowCalc}"
 						CommandParameter="{Binding MinerProfile.CoinVm}">

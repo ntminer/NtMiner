@@ -1,30 +1,40 @@
-﻿using NTMiner.Ws;
+﻿using NTMiner.User;
+using NTMiner.Ws;
 using WebSocketSharp;
 
 namespace NTMiner.WsSharp {
     public class MinerClientSharpWsSessionAdapter : SharpWsSessionAdapterBase {
-        public MinerClientSharpWsSessionAdapter() : base(NTMinerAppType.MinerClient) {
+        public MinerClientSharpWsSessionAdapter() {
         }
 
-        // 查源码可知基类的OnOpen、OnMessage、OnError、OnClose都是空，调用基类对应方法是为了避免第三方代码将来改动
         protected override void OnOpen() {
             base.OnOpen();
-            WsCommonService.AddMinerClientSession(this);
+            if (AppRoot.TryGetUser(this.Context.User.Identity.Name, out WsUserName userName, out UserData userData, out string _)) {
+                AppRoot.AddMinerClientSession(userName, userData, this.Context.UserEndPoint, this);
+            }
+            else {
+                this.CloseAsync(WsCloseCode.Normal, "用户不存在");
+            }
         }
 
         protected override void OnClose(CloseEventArgs e) {
             base.OnClose(e);
-            WsCommonService.RemoveMinerClientSession(base.SessionId);
+            AppRoot.RemoveMinerClientSession(base.SessionId);
+        }
+
+        protected override void OnError(ErrorEventArgs e) {
+            base.OnError(e);
+            Logger.ErrorDebugLine(e.Exception);
         }
 
         protected override void OnMessage(MessageEventArgs e) {
             base.OnMessage(e);
             if (e.IsPing) {
-                WsCommonService.ActiveMinerClientSession(base.SessionId);
+                AppRoot.ActiveMinerClientSession(base.SessionId);
                 return;
             }
             WsMessage wsMessage = e.ToWsMessage<WsMessage>();
-            WsCommonService.HandleMinerClientMessage(this, wsMessage);
+            AppRoot.HandleMinerClientMessage(this, wsMessage);
         }
     }
 }

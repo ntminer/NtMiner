@@ -1,5 +1,6 @@
 ﻿using NTMiner.User;
 using NTMiner.Ws;
+using System.Net;
 
 namespace NTMiner.Core.Impl {
     public class MinerStudioSession : AbstractSession, IMinerStudioSession {
@@ -8,22 +9,25 @@ namespace NTMiner.Core.Impl {
         /// </summary>
         /// <param name="user"></param>
         /// <param name="userName"></param>
+        /// <param name="remoteEndPoint"></param>
         /// <param name="wsSessionID"></param>
-        /// <param name="sessions"></param>
+        /// <param name="wsSessions"></param>
         /// <returns></returns>
-        public static MinerStudioSession Create(IUser user, WsUserName userName, string wsSessionID, IWsSessionsAdapter sessions) {
-            return new MinerStudioSession(user, userName, wsSessionID, sessions);
+        public static MinerStudioSession Create(
+            IUser user, WsUserName userName, IPEndPoint remoteEndPoint, string wsSessionID, IWsSessionsAdapter wsSessions) {
+            return new MinerStudioSession(user, userName, remoteEndPoint, wsSessionID, wsSessions);
         }
 
-        private MinerStudioSession(IUser user, WsUserName userName, string wsSessionID, IWsSessionsAdapter sessions)
-            : base(user, userName, wsSessionID, sessions) {
+        private MinerStudioSession(
+            IUser user, WsUserName userName, IPEndPoint remoteEndPoint, string wsSessionID, IWsSessionsAdapter wsSessions)
+            : base(user, userName, remoteEndPoint, wsSessionID, wsSessions) {
         }
 
         public bool IsValid(WsMessage message) {
             if (message == null || string.IsNullOrEmpty(message.Sign)) {
                 return false;
             }
-            var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(this.LoginName));
+            var userData = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(this.LoginName));
             if (userData == null) {
                 return false;
             }

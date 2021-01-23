@@ -261,11 +261,6 @@ namespace NTMiner {
                     MinerStudioUcs.MinerClientFinderConfig.ShowWindow();
                 });
             }, location: location);
-            VirtualRoot.BuildCmdPath<ShowChartsWindowCommand>(path: message => {
-                UIThread.Execute(() => {
-                    MinerStudioViews.ChartsWindow.ShowWindow();
-                });
-            }, location: location);
             VirtualRoot.BuildCmdPath<ShowOverClockDataPageCommand>(path: message => {
                 UIThread.Execute(() => {
                     MinerStudioUcs.OverClockDataPage.ShowWindow();

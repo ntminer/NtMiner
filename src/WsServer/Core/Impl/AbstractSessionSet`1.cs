@@ -14,11 +14,11 @@ namespace NTMiner.Core.Impl {
             if (IsTooOld(timestamp)) {
                 return false;
             }
-            IUser user = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
+            IUser user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
             if (user == null || !user.IsEnabled) {
                 return false;
             }
-            if (!WsRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
+            if (!AppRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
                 return false;
             }
             return true;
@@ -32,15 +32,13 @@ namespace NTMiner.Core.Impl {
         private readonly Dictionary<Guid, TSession> _dicByClientId = new Dictionary<Guid, TSession>();
         private readonly Dictionary<string, TSession> _dicByWsSessionId = new Dictionary<string, TSession>();
         private static readonly Type _sessionType = typeof(TSession);
-        private static readonly bool _isMinerClient = _sessionType == typeof(IMinerClientSession);
-        private static readonly bool _isMinerStudio = _sessionType == typeof(IMinerStudioSession);
-        private readonly IWsSessionsAdapter _sessions;
+        private readonly IWsSessionsAdapter _wsSessions;
 
-        public AbstractSessionSet(IWsSessionsAdapter sessions) {
-            this._sessions = sessions;
-            VirtualRoot.BuildEventPath<CleanTimeArrivedEvent>("打扫时间到，保持清洁", LogEnum.UserConsole, path: message => {
+        public AbstractSessionSet(IWsSessionsAdapter wsSessions) {
+            this._wsSessions = wsSessions;
+            VirtualRoot.BuildEventPath<Per1MinuteEvent>("周期清理死连接、周期通知需要重新连接的客户端重新连接", LogEnum.UserConsole, path: message => {
                 ClearDeath();
-                SendReGetServerAddressMessage(message.NodeAddresses);
+                SendReGetServerAddressMessage(AppRoot.WsServerNodeAddressSet.AsEnumerable().ToArray());
             }, this.GetType());
             VirtualRoot.BuildEventPath<UserDisabledMqMessage>("收到了UserDisabledMq消息后断开该用户的连接", LogEnum.UserConsole, path: message => {
                 if (!string.IsNullOrEmpty(message.LoginName)) {
@@ -61,30 +59,24 @@ namespace NTMiner.Core.Impl {
             }
             var thisNodeIp = ServerRoot.HostConfig.ThisServerAddress;
             ShardingHasher hash = new ShardingHasher(nodeAddresses);
-            List<TSession> needReGetServerAddressSessions;
+            List<TSession> needReConnSessions;
             lock (_locker) {
-                needReGetServerAddressSessions = _dicByWsSessionId.Values.Where(a => hash.GetTargetNode(a.ClientId) != thisNodeIp).ToList();
+                needReConnSessions = _dicByWsSessionId.Values.Where(a => hash.GetTargetNode(a.ClientId) != thisNodeIp).ToList();
             }
-            if (needReGetServerAddressSessions.Count != 0) {
-                foreach (var session in needReGetServerAddressSessions) {
-                    string password = null;
-                    if (_isMinerClient) {
-                        password = ((IMinerClientSession)session).GetSignPassword();
-                    }
-                    else if (_isMinerStudio) {
-                        var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(session.LoginName));
-                        if (userData != null) {
-                            password = userData.Password;
-                        }
-                    }
+            if (needReConnSessions.Count != 0) {
+                foreach (var session in needReConnSessions) {
+                    string password = session.GetSignPassword();
                     if (!string.IsNullOrEmpty(password)) {
                         try {
-                            session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress), password);
+                            session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ReGetServerAddress) {
+                                Data = hash.GetTargetNode(session.ClientId)
+                            }, password);
                         }
                         catch {
                         }
                     }
                 }
+                NTMinerConsole.DevWarn($"通知了 {needReConnSessions.Count.ToString()} 个Ws客户端重新连接");
             }
         }
 
@@ -93,20 +85,21 @@ namespace NTMiner.Core.Impl {
         /// </summary>
         /// <param name="seconds"></param>
         private void ClearDeath() {
-            // 客户端每20秒ping一次服务端，所以如果2分钟未活跃可以视为不在线了
-            int seconds = 120;
+            // 客户端每20秒ping一次服务端，所以如果60秒未活跃可以视为不在线了
+            int seconds = 60;
             DateTime activeOn = DateTime.Now.AddSeconds(-seconds);
             DateTime doubleActiveOn = activeOn.AddSeconds(-seconds);
             Dictionary<string, TSession> toRemoves;
             lock (_locker) {
                 toRemoves = _dicByWsSessionId.Values.Where(a => a != null && a.ActiveOn <= activeOn).ToDictionary(a => a.WsSessionId, a => a);
             }
-            var toCloseWses = _sessions.Sessions.Where(a => toRemoves.ContainsKey(a.SessionId)).ToArray();
-            foreach (var ws in toCloseWses) {
-                try {
-                    ws.CloseAsync(WsCloseCode.Normal, $"{seconds.ToString()}秒内未活跃");
-                }
-                catch {
+            foreach (var sessionId in toRemoves.Keys) {
+                if (_wsSessions.TryGetSession(sessionId, out IWsSessionAdapter session)) {
+                    try {
+                        session.CloseAsync(WsCloseCode.Normal, $"{seconds.ToString()}秒内未活跃");
+                    }
+                    catch {
+                    }
                 }
             }
             // 断开Ws连接时的OnClose事件中会移除已断开连接的会话，但OnClose事件是由WebSocket的库触发

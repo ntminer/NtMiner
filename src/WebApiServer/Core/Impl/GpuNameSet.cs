@@ -17,7 +17,7 @@ namespace NTMiner.Core.Impl {
 
         private void Init() {
             _gpuNameCountDic.Clear();
-            foreach (var clientData in WebApiRoot.ClientDataSet.AsEnumerable().ToArray()) {
+            foreach (var clientData in AppRoot.ClientDataSet.AsEnumerable().ToArray()) {
                 foreach (var gpuSpeedData in clientData.GpuTable) {
                     AddCount(clientData.GpuType, gpuSpeedData.Name, gpuSpeedData.TotalMemory);
                 }

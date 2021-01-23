@@ -20,7 +20,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 DateTime timestamp = Timestamp.FromTimestamp(request.Timestamp + 1);
-                var data = WebApiRoot.ServerMessageSet.GetServerMessages(timestamp);
+                var data = AppRoot.ServerMessageSet.GetServerMessages(timestamp);
                 return DataResponse<List<ServerMessageData>>.Ok(data);
             }
             catch (Exception e) {
@@ -37,7 +37,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 VirtualRoot.Execute(new AddOrUpdateServerMessageCommand(request.Data));
-                WebApiRoot.UpdateServerMessageTimestamp();
+                AppRoot.UpdateServerMessageTimestamp();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -54,7 +54,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 VirtualRoot.Execute(new MarkDeleteServerMessageCommand(request.Data));
-                WebApiRoot.UpdateServerMessageTimestamp();
+                AppRoot.UpdateServerMessageTimestamp();
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

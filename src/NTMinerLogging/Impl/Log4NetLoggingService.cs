@@ -84,17 +84,17 @@ $@"<log4net>
             _log.Error(message, exception);
         }
 
-        public void OkWriteLine(object message) {
+        public void OkUserLine(object message) {
             NTMinerConsole.UserOk(message?.ToString());
             _log.Info(message);
         }
 
-        public void WarnWriteLine(object message) {
+        public void WarnUserLine(object message) {
             NTMinerConsole.UserWarn(message?.ToString());
             _log.Warn(message);
         }
 
-        public void ErrorWriteLine(object message) {
+        public void ErrorUserLine(object message) {
             NTMinerConsole.UserError(message?.ToString());
             _log.Warn(message);
         }

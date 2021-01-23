@@ -16,7 +16,7 @@ namespace NTMiner.MinerStudio.Vms {
     public class MinerClientsWindowViewModel : ViewModelBase, IWsStateViewModel {
         public static MinerClientsWindowViewModel Instance { get; private set; } = new MinerClientsWindowViewModel();
 
-        private List<CoinSnapshotViewModel> _coinSnapshotVms = null;
+        private readonly List<CoinSnapshotViewModel> _coinSnapshotVms = null;
         private CoinSnapshotViewModel _coinSnapshotVm = CoinSnapshotViewModel.PleaseSelect;
         private ColumnsShowViewModel _columnsShow;
         private int _countDown = 10;
@@ -24,7 +24,6 @@ namespace NTMiner.MinerStudio.Vms {
         private MinerClientViewModel _currentMinerClient;
         private MinerClientViewModel[] _selectedMinerClients = new MinerClientViewModel[0];
         private int _pageIndex = 1;
-        private int _pageSize = 20;
         private int _total;
         private EnumItem<MineStatus> _mineStatusEnumItem;
         private string _minerIp;
@@ -40,7 +39,7 @@ namespace NTMiner.MinerStudio.Vms {
         private int _frozenColumnCount = 8;
         private uint _minTemp = 40;
         private int _rejectPercent = 10;
-        private Dictionary<ClientDataSortField, SortDirection> _sortDirection = new Dictionary<ClientDataSortField, SortDirection> {
+        private readonly Dictionary<ClientDataSortField, SortDirection> _sortDirection = new Dictionary<ClientDataSortField, SortDirection> {
             [ClientDataSortField.MinerName] = SortDirection.Ascending,
             [ClientDataSortField.MainCoinSpeed] = SortDirection.Ascending,
             [ClientDataSortField.CpuTemperature] = SortDirection.Descending,
@@ -67,6 +66,7 @@ namespace NTMiner.MinerStudio.Vms {
         private bool _isLoading = false;
         private double _lodingIconAngle;
         private ClientDataSortField _lastSortField = ClientDataSortField.MinerName;
+        private string _wsServerIp;
         private readonly Dictionary<ClientDataSortField, SortDirection> _lastSortDirection;
 
         public bool IsEnableVirtualization {
@@ -110,6 +110,42 @@ namespace NTMiner.MinerStudio.Vms {
             set {
                 _lodingIconAngle = value;
                 OnPropertyChanged(nameof(LoadingIconAngle));
+            }
+        }
+
+        public GridLength MinerListHeight {
+            get {
+                if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(MinerListHeight), out IAppSetting appSetting) && appSetting.Value != null) {
+                    if (double.TryParse(appSetting.Value.ToString(), out double value)) {
+                        return new GridLength(value, GridUnitType.Star);
+                    }
+                }
+                return new GridLength(3, GridUnitType.Star);
+            }
+            set {
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                    Key = nameof(MinerListHeight),
+                    Value = value.Value.ToString()
+                }));
+                OnPropertyChanged(nameof(MinerListHeight));
+            }
+        }
+
+        public GridLength MinerDetailsHeight {
+            get {
+                if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting(nameof(MinerDetailsHeight), out IAppSetting appSetting) && appSetting.Value != null) {
+                    if (double.TryParse(appSetting.Value.ToString(), out double value)) {
+                        return new GridLength(value, GridUnitType.Star);
+                    }
+                }
+                return new GridLength(5, GridUnitType.Star);
+            }
+            set {
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                    Key = nameof(MinerDetailsHeight),
+                    Value = value.Value.ToString()
+                }));
+                OnPropertyChanged(nameof(MinerDetailsHeight));
             }
         }
 
@@ -449,7 +485,6 @@ namespace NTMiner.MinerStudio.Vms {
                                 VirtualRoot.Out.ShowError("删除矿机失败：" + response.ReadMessage(e), autoHideSeconds: 4, toConsole: true);
                             }
                             else {
-                                // TODO:考虑是否应该只刷新选中的矿机以消减网络流量
                                 QueryMinerClients();
                             }
                         });
@@ -791,7 +826,7 @@ namespace NTMiner.MinerStudio.Vms {
             });
             this.SwitchService = new DelegateCommand(() => {
                 if (RpcRoot.IsInnerNet) {
-                    MinerStudio.MinerStudioRoot.Login(() => {
+                    MinerStudioRoot.Login(() => {
                         MinerStudioRoot.WsClient.OpenOrCloseWs(isResetFailCount: true);
                         RpcRoot.SetIsOuterNet(true);
                     }, RpcRoot.OfficialServerAddress);
@@ -814,6 +849,7 @@ namespace NTMiner.MinerStudio.Vms {
             VirtualRoot.BuildCmdPath<RefreshWsStateCommand>(message => {
                 #region
                 if (message.WsClientState != null) {
+                    this.WsServerIp = message.WsClientState.WsServerIp;
                     this.IsWsOnline = message.WsClientState.Status == WsClientStatus.Open;
                     if (message.WsClientState.ToOut) {
                         VirtualRoot.Out.ShowWarn(message.WsClientState.Description, autoHideSeconds: 3);
@@ -872,7 +908,6 @@ namespace NTMiner.MinerStudio.Vms {
                 if (_isWsOnline != value) {
                     _isWsOnline = value;
                     OnPropertyChanged(nameof(IsWsOnline));
-                    OnPropertyChanged(nameof(WsStateText));
                     OnPropertyChanged(nameof(WsNextTrySecondsDelayVisible));
                 }
             }
@@ -881,12 +916,12 @@ namespace NTMiner.MinerStudio.Vms {
         public string WsDescription {
             get {
                 if (string.IsNullOrEmpty(RpcRoot.RpcUser.LoginName)) {
-                    return "未登录";
+                    return $"未登录 {WsServerIp}";
                 }
                 if (string.IsNullOrEmpty(_wsDescription)) {
-                    return WsStateText;
+                    return $"{WsStateText} {WsServerIp}";
                 }
-                return _wsDescription;
+                return $"{_wsDescription} {WsServerIp}";
             }
             set {
                 if (_wsDescription != value) {
@@ -1008,6 +1043,14 @@ namespace NTMiner.MinerStudio.Vms {
                     return "连接服务器成功";
                 }
                 return "离线";
+            }
+        }
+
+        public string WsServerIp {
+            get => _wsServerIp;
+            set {
+                _wsServerIp = value;
+                OnPropertyChanged(nameof(WsServerIp));
             }
         }
 
@@ -1199,13 +1242,21 @@ namespace NTMiner.MinerStudio.Vms {
         }
 
         public int PageSize {
-            get => _pageSize;
-            set {
-                if (_pageSize != value) {
-                    _pageSize = value;
-                    OnPropertyChanged(nameof(PageSize));
-                    this.PageIndex = 1;
+            get {
+                if (VirtualRoot.LocalAppSettingSet.TryGetAppSetting("MinerList" + nameof(PageSize), out IAppSetting appSetting) && appSetting.Value != null) {
+                    if (int.TryParse(appSetting.Value.ToString(), out int value)) {
+                        return value;
+                    }
                 }
+                return 20;
+            }
+            set {
+                VirtualRoot.Execute(new SetLocalAppSettingCommand(new AppSettingData {
+                    Key = "MinerList" + nameof(PageSize),
+                    Value = value.ToString()
+                }));
+                OnPropertyChanged(nameof(PageSize));
+                this.PageIndex = 1;
             }
         }
 

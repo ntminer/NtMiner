@@ -45,7 +45,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>NTMiner.WebApiRoot</StartupObject>
+    <StartupObject>NTMiner.AppRoot</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aliyun.OSS, Version=2.8.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -56,10 +56,6 @@
     </Reference>
     <Reference Include="LiteDB, Version=4.1.4.0, Culture=neutral, PublicKeyToken=4ee40123013c9f27, processorArchitecture=MSIL">
       <HintPath>..\..\packages\LiteDB.4.1.4\lib\net40\LiteDB.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Microsoft.Diagnostics.Tracing.EventSource, Version=1.1.28.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Microsoft.Diagnostics.Tracing.EventSource.Redist.1.1.28\lib\net40\Microsoft.Diagnostics.Tracing.EventSource.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -105,6 +101,8 @@
     <Compile Include="Core\Impl\WsServerNodeAddressSet.cs" />
     <Compile Include="Core\Redis\Impl\WsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\IWsServerNodeRedis.cs" />
+    <Compile Include="HttpRequestMessageExtensions.cs" />
+    <Compile Include="RemoteIpActionFilterAttribute.cs" />
     <Compile Include="Role\AdminAttribute.cs" />
     <Compile Include="Role\ClientSignData.cs" />
     <Compile Include="Role\PublicAttribute.cs" />
@@ -114,7 +112,6 @@
     <Compile Include="Controllers\CaptchaController.cs" />
     <Compile Include="Controllers\ClientDataController.cs" />
     <Compile Include="Controllers\CalcConfigController.cs" />
-    <Compile Include="Controllers\CoinSnapshotController.cs" />
     <Compile Include="Controllers\FileUrlController.cs" />
     <Compile Include="Controllers\KernelOutputKeywordController.cs" />
     <Compile Include="Controllers\UserMinerGroupController.cs" />
@@ -128,17 +125,11 @@
     <Compile Include="Controllers\WebApiServerNodeController.cs" />
     <Compile Include="Controllers\WsServerNodeController.cs" />
     <Compile Include="Core\ICalcConfigSet.cs" />
-    <Compile Include="Core\ICaptchaSet.cs" />
     <Compile Include="Core\IClientDataSet.cs" />
-    <Compile Include="Core\ICoinSnapshotSet.cs" />
     <Compile Include="Core\IClientDataSetBase.cs" />
     <Compile Include="Core\Impl\ClientDataSet.cs" />
     <Compile Include="Core\Impl\ClientDataSetBase.cs" />
-    <Compile Include="Core\Impl\CoinSnapshotSet.cs" />
-    <Compile Include="Core\Impl\CoinSnapshotSetBase.cs" />
     <Compile Include="Core\Impl\UserSet.cs" />
-    <Compile Include="Core\IUserMinerGroupSet.cs" />
-    <Compile Include="Core\IUserMineWorkSet.cs" />
     <Compile Include="Core\Impl\CalcConfigSet.cs" />
     <Compile Include="Core\Impl\CaptchaSet.cs" />
     <Compile Include="Core\Impl\UserMinerGroupSet.cs" />
@@ -150,8 +141,6 @@
     <Compile Include="Core\INTMinerFileSet.cs" />
     <Compile Include="Core\INTMinerWalletSet.cs" />
     <Compile Include="Core\IOverClockDataSet.cs" />
-    <Compile Include="Core\IUserAppSettingSet.cs" />
-    <Compile Include="Core\IUserSet.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\MinerClientMqMessagePath.cs" />
     <Compile Include="Core\Mq\MqMessagePaths\UserMqMessagePath.cs" />
     <Compile Include="Core\Mq\Senders\IMinerClientMqSender.cs" />
@@ -165,7 +154,7 @@
     <Compile Include="Core\Redis\Impl\UserRedis.cs" />
     <Compile Include="Core\Redis\IUserRedis.cs" />
     <Compile Include="UserDataExtensions.cs" />
-    <Compile Include="WebApiRoot.cs" />
+    <Compile Include="AppRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialPath.cs" />
   </ItemGroup>
@@ -205,6 +194,10 @@
     <ProjectReference Include="..\NTMinerServer\NTMinerServer.csproj">
       <Project>{cb2619b7-3f59-41b7-a562-4a3f117822ce}</Project>
       <Name>NTMinerServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServerCommon\ServerCommon.csproj">
+      <Project>{e12eefdc-66e9-4b7d-a036-fc1d4962eb04}</Project>
+      <Name>ServerCommon</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

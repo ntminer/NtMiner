@@ -1,5 +1,6 @@
 ﻿using NTMiner.User;
 using NTMiner.Ws;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +8,7 @@ namespace NTMiner.Core.Impl {
     public class MinerStudioSessionSet : AbstractSessionSet<IMinerStudioSession>, IMinerStudioSessionSet {
         private readonly Dictionary<string, List<IMinerStudioSession>> _dicByLoginName = new Dictionary<string, List<IMinerStudioSession>>();
 
-        public MinerStudioSessionSet(IWsSessionsAdapter sessions) : base(sessions) {
+        public MinerStudioSessionSet(IWsSessionsAdapter wsSessions) : base(wsSessions) {
             VirtualRoot.BuildEventPath<UserPasswordChangedMqMessage>("群控用户密码变更后通知群控客户端重新登录", LogEnum.None, path: message => {
                 SendToMinerStudioAsync(message.LoginName, new WsMessage(message.MessageId, WsMessage.ReLogin));
             }, this.GetType());
@@ -114,6 +115,19 @@ namespace NTMiner.Core.Impl {
                 });
                 #endregion
             }, this.GetType());
+            VirtualRoot.BuildEventPath<QueryClientsForWsResponseMqMessage>("收到QueryClientsResponseMq消息后通过Ws通道发送给群控客户端", LogEnum.None, path: message => {
+                #region
+                if (IsTooOld(message.Timestamp)) {
+                    return;
+                }
+                var userData = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(message.LoginName));
+                if (userData != null && wsSessions.TryGetSession(message.SessionId, out IWsSessionAdapter session)) {
+                    session.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.ClientDatas) {
+                        Data = message.Response
+                    }.SignToBytes(userData.Password));
+                }
+                #endregion
+            }, this.GetType());
         }
 
         public override void Add(IMinerStudioSession minerSession) {
@@ -152,9 +166,9 @@ namespace NTMiner.Core.Impl {
 
         public void SendToMinerStudioAsync(string loginName, WsMessage message) {
             var minerStudioSessions = GetSessionsByLoginName(loginName).ToArray();// 避免发生集合被修改的异常
-            foreach (var minerStudioSession in minerStudioSessions) {
-                var userData = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(minerStudioSession.LoginName));
-                if (userData != null) {
+            var userData = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(loginName));
+            if (userData != null) {
+                foreach (var minerStudioSession in minerStudioSessions) {
                     try {
                         minerStudioSession.SendAsync(message, userData.Password);
                     }

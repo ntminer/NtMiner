@@ -1,6 +1,7 @@
 ﻿using NTMiner.Core.Daemon;
 using NTMiner.Core.MinerClient;
 using NTMiner.Core.MinerServer;
+using NTMiner.Cryptography;
 using NTMiner.Hub;
 using NTMiner.VirtualMemory;
 using System;
@@ -102,7 +103,7 @@ namespace NTMiner.Core {
         public string AppId { get; private set; }
         public string LoginName { get; private set; }
         public DateTime Timestamp { get; private set; }
-        public Cryptography.RSAKey Key { get; private set; }
+        public RSAKey Key { get; private set; }
     }
 
     [MessageType(description: "收到了UserRSAKeyUpdated Mq消息后")]
@@ -181,6 +182,40 @@ namespace NTMiner.Core {
         }
 
         public MinerSign Data { get; private set; }
+    }
+
+    [MessageType(description: "收到了QueryClientsForWs Mq消息后，该消息是个命令")]
+    public class QueryClientsForWsMqMessage : Cmd {
+        public QueryClientsForWsMqMessage(string appId, DateTime timestamp, string loginName, string sessionId, QueryClientsForWsRequest query) {
+            this.AppId = appId;
+            this.Timestamp = timestamp;
+            this.LoginName = loginName;
+            this.SessionId = sessionId;
+            this.Query = query;
+        }
+
+        public string AppId { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public string LoginName { get; private set; }
+        public string SessionId { get; private set; }
+        public QueryClientsForWsRequest Query { get; private set; }
+    }
+
+    [MessageType(description: "收到了QueryClientsForWsResponse Mq消息后，该消息是个命令")]
+    public class QueryClientsForWsResponseMqMessage : EventBase {
+        public QueryClientsForWsResponseMqMessage(string appId, DateTime timestamp, string loginName, string sessionId, QueryClientsResponse response) {
+            this.AppId = appId;
+            this.Timestamp = timestamp;
+            this.LoginName = loginName;
+            this.SessionId = sessionId;
+            this.Response = response;
+        }
+
+        public string AppId { get; private set; }
+        public DateTime Timestamp { get; private set; }
+        public string LoginName { get; private set; }
+        public string SessionId { get; private set; }
+        public QueryClientsResponse Response { get; private set; }
     }
 
     [MessageType(description: "收到了MinerDataAdded Mq消息后")]

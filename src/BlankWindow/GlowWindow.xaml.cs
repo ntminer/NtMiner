@@ -160,7 +160,7 @@ namespace NTMiner {
 
         private void Owner_StateChanged(object sender, EventArgs e) {
             Window window = (Window)sender;
-            if (window.WindowState == WindowState.Normal) {
+            if (window.WindowState != WindowState.Minimized) {
                 this.Show();
             }
             else {

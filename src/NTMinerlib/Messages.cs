@@ -4,6 +4,7 @@ using NTMiner.Hub;
 using NTMiner.User;
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace NTMiner {
     #region abstract
@@ -38,6 +39,24 @@ namespace NTMiner {
         }
 
         public T Event { get; private set; }
+    }
+
+    [MessageType(description: "WebSocket服务的TcpListener Accept了一个客户端")]
+    public class WsTcpClientAcceptedEvent : EventBase {
+        public WsTcpClientAcceptedEvent(IPAddress remoteIp) {
+            this.RemoteIp = remoteIp;
+        }
+
+        public IPAddress RemoteIp { get; private set; }
+    }
+
+    [MessageType(description: "WebApi服务收到请求时")]
+    public class WebApiRequestEvent : EventBase {
+        public WebApiRequestEvent(IPAddress remoteIp) {
+            this.RemoteIp = remoteIp;
+        }
+
+        public IPAddress RemoteIp { get; private set; }
     }
 
     [MessageType(description: "关闭窗口")]

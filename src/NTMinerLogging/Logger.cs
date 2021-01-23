@@ -78,19 +78,19 @@ namespace NTMiner {
             if (!_isEnabled) {
                 return;
             }
-            _logger.Value.OkWriteLine(message);
+            _logger.Value.OkUserLine(message);
         }
         public static void WarnWriteLine(object message) {
             if (!_isEnabled) {
                 return;
             }
-            _logger.Value.WarnWriteLine(message);
+            _logger.Value.WarnUserLine(message);
         }
         public static void ErrorWriteLine(object message) {
             if (!_isEnabled) {
                 return;
             }
-            _logger.Value.ErrorWriteLine(message);
+            _logger.Value.ErrorUserLine(message);
         }
     }
 }

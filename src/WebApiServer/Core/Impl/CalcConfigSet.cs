@@ -24,7 +24,7 @@ namespace NTMiner.Core.Impl {
         private void Init() {
             lock (_locker) {
                 if (!_isInited) {
-                    using (LiteDatabase db = WebApiRoot.CreateLocalDb()) {
+                    using (LiteDatabase db = AppRoot.CreateLocalDb()) {
                         var col = db.GetCollection<CalcConfigData>();
                         foreach (var item in col.FindAll()) {
                             _dicByCode.Add(item.CoinCode, item);
@@ -55,7 +55,7 @@ namespace NTMiner.Core.Impl {
                         dic.Add(item.CoinCode, item);
                     }
                 }
-                using (LiteDatabase db = WebApiRoot.CreateLocalDb()) {
+                using (LiteDatabase db = AppRoot.CreateLocalDb()) {
                     var col = db.GetCollection<CalcConfigData>();
                     col.Delete(Query.All());
                     col.Insert(dic.Values);

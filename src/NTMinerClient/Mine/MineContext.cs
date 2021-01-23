@@ -73,7 +73,7 @@ namespace NTMiner.Mine {
                 this.KernelProcessType = KernelProcessType.Pip;
                 logFileName = $"{this.Kernel.Code}_pip_{DateTime.Now.Ticks.ToString()}.log";
             }
-            this.LogFileFullName = Path.Combine(MinerClientTempPath.TempLogsDirFullName, logFileName);
+            this.LogFileFullName = Path.Combine(TempPath.LogsDirFullName, logFileName);
         }
 
         public void Start(bool isRestart) {

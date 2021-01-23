@@ -210,8 +210,8 @@
                 </TabItem.Header>
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="3*" MinHeight="200"></RowDefinition>
-                        <RowDefinition Height="5*" MinHeight="300"></RowDefinition>
+                        <RowDefinition Height="{Binding MinerListHeight,Mode=TwoWay}" MinHeight="200"></RowDefinition>
+                        <RowDefinition Height="{Binding MinerDetailsHeight,Mode=TwoWay}" MinHeight="300"></RowDefinition>
                     </Grid.RowDefinitions>
                     <Border Margin="0 0 0 -2" Background="White" VerticalAlignment="Bottom" Height="10"></Border>
                     <Grid Margin="0 0 0 6" Background="{StaticResource ToolbarBackground}">

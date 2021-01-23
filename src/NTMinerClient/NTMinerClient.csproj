@@ -86,14 +86,8 @@
     <Compile Include="..\WebApiServer\Core\IClientDataSetBase.cs">
       <Link>Core\IClientDataSetBase.cs</Link>
     </Compile>
-    <Compile Include="..\WebApiServer\Core\ICoinSnapshotSet.cs">
-      <Link>Core\ICoinSnapshotSet.cs</Link>
-    </Compile>
     <Compile Include="..\WebApiServer\Core\Impl\ClientDataSetBase.cs">
       <Link>Core\Impl\ClientDataSetBase.cs</Link>
-    </Compile>
-    <Compile Include="..\WebApiServer\Core\Impl\CoinSnapshotSetBase.cs">
-      <Link>Core\Impl\CoinSnapshotSetBase.cs</Link>
     </Compile>
     <Compile Include="ComputerRoot.cs" />
     <Compile Include="Core\AverageSpeed.cs" />
@@ -139,7 +133,6 @@
     <Compile Include="Core\Impl\LocalMessageSet.cs" />
     <Compile Include="Core\IClientDataSet.cs" />
     <Compile Include="Core\Impl\ClientDataSet.cs" />
-    <Compile Include="Core\Impl\CoinSnapshotSet.cs" />
     <Compile Include="Core\MinerStudio\MinerStudioPath.cs" />
     <Compile Include="Mine\Cleaner.cs" />
     <Compile Include="Mine\DualMineContext.cs" />

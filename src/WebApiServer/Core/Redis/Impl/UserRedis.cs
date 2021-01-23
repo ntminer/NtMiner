@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class UserRedis : ReadOnlyUserRedis, IUserRedis {
-        public UserRedis(IServerConnection serverConfig) : base(serverConfig) {
+        public UserRedis(IMqRedis redis) : base(redis) {
         }
 
         public Task SetAsync(UserData data) {
             if (data == null || string.IsNullOrEmpty(data.LoginName)) {
                 return TaskEx.CompletedTask;
             }
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             return db.HashSetAsync(_redisKeyUserByLoginName, data.LoginName, VirtualRoot.JsonSerializer.Serialize(data));
         }
 
@@ -18,7 +18,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (data == null) {
                 return TaskEx.CompletedTask;
             }
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             return db.HashDeleteAsync(_redisKeyUserByLoginName, data.LoginName);
         }
     }

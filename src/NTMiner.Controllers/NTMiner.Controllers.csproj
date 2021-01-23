@@ -37,7 +37,6 @@
     <Compile Include="ICalcConfigBinaryController`1.cs" />
     <Compile Include="ICaptchaController`1.cs" />
     <Compile Include="IClientDataBinaryController`1.cs" />
-    <Compile Include="ICoinSnapshotController.cs" />
     <Compile Include="IGpuNameController.cs" />
     <Compile Include="IMinerClientController.cs" />
     <Compile Include="IReportBinaryController.cs" />

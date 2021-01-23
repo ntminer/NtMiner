@@ -6,13 +6,13 @@ namespace NTMiner.Core.Redis.Impl {
     public class ReadOnlyMinerRedis : IReadOnlyMinerRedis {
         protected const string _redisKeyMinerById = "miners.MinerById";// 根据Id索引Miner对象的json
 
-        protected readonly IServerConnection _serverConnection;
-        public ReadOnlyMinerRedis(IServerConnection serverConnection) {
-            _serverConnection = serverConnection;
+        protected readonly IMqRedis _redis;
+        public ReadOnlyMinerRedis(IMqRedis redis) {
+            _redis = redis;
         }
 
         public Task<List<MinerData>> GetAllAsync() {
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             return db.HashGetAllAsync(_redisKeyMinerById).ContinueWith(t => {
                 List<MinerData> list = new List<MinerData>();
                 foreach (var item in t.Result) {
@@ -31,7 +31,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (string.IsNullOrEmpty(minerId)) {
                 return Task.FromResult<MinerData>(null);
             }
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             return db.HashGetAsync(_redisKeyMinerById, minerId).ContinueWith(t => {
                 if (t.Result.HasValue) {
                     return VirtualRoot.JsonSerializer.Deserialize<MinerData>(t.Result);

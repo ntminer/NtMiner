@@ -14,7 +14,7 @@ namespace NTMiner.Controllers {
             }
             try {
                 request.PagingTrim();
-                var datas = WebApiRoot.UserSet.QueryUsers(request, out int total).Select(a => a.Clone()).ToList();
+                var datas = AppRoot.UserSet.QueryUsers(request, out int total).Select(a => a.Clone()).ToList();
                 foreach (var data in datas) {
                     // 不在网络上传输私钥原文，传输的是密文
                     data.Password = Convert.ToBase64String(Cryptography.QuickUtil.TextEncrypt(data.Password, User.Password));
@@ -39,7 +39,7 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            var user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
             if (user == null) {
                 return ResponseBase.Ok("删除成功");
             }
@@ -47,7 +47,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
-                WebApiRoot.UserSet.Remove(request.Data);
+                AppRoot.UserSet.Remove(request.Data);
                 return ResponseBase.Ok("删除成功");
             }
             catch (Exception e) {
@@ -61,7 +61,7 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            var user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
             if (user == null) {
                 return ResponseBase.NotExist($"登录名 {request.Data} 不存在");
             }
@@ -69,7 +69,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
-                WebApiRoot.UserSet.Enable(request.Data);
+                AppRoot.UserSet.Enable(request.Data);
                 return ResponseBase.Ok("启用成功");
             }
             catch (Exception e) {
@@ -83,7 +83,7 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            var user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
             if (user == null) {
                 return ResponseBase.NotExist($"登录名 {request.Data} 不存在");
             }
@@ -91,7 +91,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
-                WebApiRoot.UserSet.Disable(request.Data);
+                AppRoot.UserSet.Disable(request.Data);
                 return ResponseBase.Ok("禁用成功");
             }
             catch (Exception e) {
@@ -105,7 +105,7 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            var user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
             if (user == null) {
                 return ResponseBase.NotExist($"登录名 {request.Data} 不存在");
             }
@@ -113,7 +113,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
-                WebApiRoot.UserSet.AddAdminRole(request.Data);
+                AppRoot.UserSet.AddAdminRole(request.Data);
                 return ResponseBase.Ok("设置成功");
             }
             catch (Exception e) {
@@ -127,7 +127,7 @@ namespace NTMiner.Controllers {
             if (request == null || string.IsNullOrEmpty(request.Data)) {
                 return ResponseBase.InvalidInput<DataResponse<string>>("参数错误");
             }
-            var user = WebApiRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
+            var user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(request.Data));
             if (user == null) {
                 return ResponseBase.NotExist($"登录名 {request.Data} 不存在");
             }
@@ -135,7 +135,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<string>>("不能操作admin");
             }
             try {
-                WebApiRoot.UserSet.RemoveAdminRole(request.Data);
+                AppRoot.UserSet.RemoveAdminRole(request.Data);
                 return ResponseBase.Ok("移除超管角色成功");
             }
             catch (Exception e) {
@@ -152,7 +152,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput<DataResponse<LoginedUser>>("参数错误");
             }
             try {
-                var userAppSettings = WebApiRoot.UserAppSettingSet.GetAppSettings(User.LoginName);
+                var userAppSettings = AppRoot.UserAppSettingSet.GetAppSettings(User.LoginName);
                 return DataResponse<LoginedUser>.Ok(User.ToLoginedUserData(userAppSettings));
             }
             catch (Exception e) {
@@ -171,7 +171,7 @@ namespace NTMiner.Controllers {
                 isExist = true;
             }
             else {
-                isExist = WebApiRoot.UserSet.Contains(loginName);
+                isExist = AppRoot.UserSet.Contains(loginName);
             }
             return new DataResponse<bool> {
                 StateCode = 200,
@@ -197,13 +197,13 @@ namespace NTMiner.Controllers {
             }
             if (request.ActionCaptchaId == Guid.Empty
                 || string.IsNullOrEmpty(request.ActionCaptcha)
-                || !WebApiRoot.CaptchaSet.IsValid(request.ActionCaptchaId, base.RemoteIp, request.ActionCaptcha)) {
+                || !AppRoot.CaptchaSet.IsValid(request.ActionCaptchaId, base.RemoteIp, request.ActionCaptcha)) {
                 return ResponseBase.InvalidInput("验证码错误");
             }
-            if (!WebApiRoot.UserSet.IsReadied) {
+            if (!AppRoot.UserSet.IsReadied) {
                 return ResponseBase.InvalidInput("服务器用户集启动中，请稍后");
             }
-            if (WebApiRoot.UserSet.Contains(request.LoginName)) {
+            if (AppRoot.UserSet.Contains(request.LoginName)) {
                 return ResponseBase.InvalidInput("登录名已被占用，请更换");
             }
 
@@ -214,7 +214,7 @@ namespace NTMiner.Controllers {
             // 验证验证码的存在性以及手机和验证码的对应关系的正确性而不是只验证验证码的存在性。
             var key = Cryptography.RSAUtil.GetRASKey();
             UserData userData = request.ToUserData(key.PublicKey, key.PrivateKey);
-            WebApiRoot.UserSet.Add(userData);
+            AppRoot.UserSet.Add(userData);
 
             return ResponseBase.Ok("注册成功");
         }
@@ -232,7 +232,7 @@ namespace NTMiner.Controllers {
             }
             if (request.Data.ActionCaptchaId == Guid.Empty
                 || string.IsNullOrEmpty(request.Data.ActionCaptcha)
-                || !WebApiRoot.CaptchaSet.IsValid(request.Data.ActionCaptchaId, base.RemoteIp, request.Data.ActionCaptcha)) {
+                || !AppRoot.CaptchaSet.IsValid(request.Data.ActionCaptchaId, base.RemoteIp, request.Data.ActionCaptcha)) {
                 return ResponseBase.InvalidInput("验证码错误");
             }
 
@@ -244,7 +244,7 @@ namespace NTMiner.Controllers {
             // 验证验证码的存在性以及手机和验证码的对应关系的正确性而不是只验证验证码的存在性。
             // TODO:如果未填写手机使用数据库记录的手机填充request.Data.Email确保下层不会误将手机更新为空
             try {
-                WebApiRoot.UserSet.Update(request.Data);
+                AppRoot.UserSet.Update(request.Data);
                 return ResponseBase.Ok("更新成功");
             }
             catch (Exception e) {
@@ -263,7 +263,7 @@ namespace NTMiner.Controllers {
             if (string.IsNullOrEmpty(request.NewPassword)) {
                 return ResponseBase.InvalidInput("密码不能为空");
             }
-            WebApiRoot.UserSet.ChangePassword(User.LoginName, request.NewPassword);
+            AppRoot.UserSet.ChangePassword(User.LoginName, request.NewPassword);
             return ResponseBase.Ok("密码修改成功");
         }
         #endregion

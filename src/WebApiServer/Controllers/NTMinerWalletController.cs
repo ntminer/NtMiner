@@ -13,7 +13,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.NTMinerWalletSet.AddOrUpdate(request.Data);
+                AppRoot.NTMinerWalletSet.AddOrUpdate(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -31,7 +31,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.NTMinerWalletSet.RemoveById(request.Data);
+                AppRoot.NTMinerWalletSet.RemoveById(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {
@@ -47,7 +47,7 @@ namespace NTMiner.Controllers {
         [HttpGet]
         public DataResponse<List<NTMinerWalletData>> NTMinerWallets() {
             try {
-                var data = WebApiRoot.NTMinerWalletSet.GetAll();
+                var data = AppRoot.NTMinerWalletSet.GetAll();
                 return DataResponse<List<NTMinerWalletData>>.Ok(data);
             }
             catch (Exception e) {

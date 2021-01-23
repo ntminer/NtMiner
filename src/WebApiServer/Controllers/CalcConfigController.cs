@@ -17,7 +17,7 @@ namespace NTMiner.Controllers {
 
         internal static DataResponse<List<CalcConfigData>> DoCalcConfigs() {
             try {
-                var data = WebApiRoot.CalcConfigSet.GetAll();
+                var data = AppRoot.CalcConfigSet.GetAll();
                 return DataResponse<List<CalcConfigData>>.Ok(data);
             }
             catch (Exception e) {
@@ -34,7 +34,7 @@ namespace NTMiner.Controllers {
                 return ResponseBase.InvalidInput("参数错误");
             }
             try {
-                WebApiRoot.CalcConfigSet.SaveCalcConfigs(request.Data);
+                AppRoot.CalcConfigSet.SaveCalcConfigs(request.Data);
                 return ResponseBase.Ok();
             }
             catch (Exception e) {

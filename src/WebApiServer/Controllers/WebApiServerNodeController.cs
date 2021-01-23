@@ -14,7 +14,7 @@ namespace NTMiner.Controllers {
                 StateCode = 200,
                 ReasonPhrase = "Ok",
                 Description = "成功",
-                Data = WebApiRoot.GetServerState()
+                Data = AppRoot.GetServerState()
             };
         }
     }

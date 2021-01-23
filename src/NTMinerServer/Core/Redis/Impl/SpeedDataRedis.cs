@@ -8,13 +8,13 @@ namespace NTMiner.Core.Redis.Impl {
     public class SpeedDataRedis : ISpeedDataRedis {
         protected const string _redisKeySpeedDataByClientId = "speedDatas.SpeedDataByClientId";// 根据ClientId索引SpeedData对象的json
 
-        protected readonly IServerConnection _serverConnection;
-        public SpeedDataRedis(IServerConnection serverConnection) {
-            _serverConnection = serverConnection;
+        protected readonly IMqRedis _redis;
+        public SpeedDataRedis(IMqRedis redis) {
+            _redis = redis;
         }
 
         public Task<List<SpeedData>> GetAllAsync() {
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             return db.HashGetAllAsync(_redisKeySpeedDataByClientId).ContinueWith(t => {
@@ -49,7 +49,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (clientId == Guid.Empty) {
                 return Task.FromResult<SpeedData>(null);
             }
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             return db.HashGetAsync(_redisKeySpeedDataByClientId, clientId.ToString()).ContinueWith(t => {
                 if (t.Result.HasValue) {
                     return VirtualRoot.JsonSerializer.Deserialize<SpeedData>(t.Result);
@@ -64,7 +64,7 @@ namespace NTMiner.Core.Redis.Impl {
             if (speedData == null || speedData.ClientId == Guid.Empty) {
                 return TaskEx.CompletedTask;
             }
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             return db.HashSetAsync(_redisKeySpeedDataByClientId, speedData.ClientId.ToString(), VirtualRoot.JsonSerializer.Serialize(speedData));
         }
 
@@ -76,7 +76,7 @@ namespace NTMiner.Core.Redis.Impl {
             for (int i = 0; i < clientIds.Length; i++) {
                 values[i] = clientIds[i].ToString();
             }
-            var db = _serverConnection.RedisConn.GetDatabase();
+            var db = _redis.RedisConn.GetDatabase();
             return db.HashDeleteAsync(_redisKeySpeedDataByClientId, values);
         }
     }

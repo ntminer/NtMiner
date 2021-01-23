@@ -6,7 +6,7 @@ using System;
 
 namespace NTMiner.Core.Impl {
     public class MinerClientSessionSet : AbstractSessionSet<IMinerClientSession>, IMinerClientSessionSet {
-        public MinerClientSessionSet(IWsSessionsAdapter sessions) : base(sessions) {
+        public MinerClientSessionSet(IWsSessionsAdapter wsSessions) : base(wsSessions) {
             VirtualRoot.BuildEventPath<GetConsoleOutLinesMqMessage>("收到GetConsoleOutLines Mq消息后检查是否是应由本节点处理的消息，如果是则处理，否则忽略", LogEnum.None, path: message => {
                 #region
                 if (!IsValid(message.ClientId, message.Timestamp, message.LoginName)) {
@@ -61,7 +61,7 @@ namespace NTMiner.Core.Impl {
                 if (IsTooOld(message.Timestamp)) {
                     return;
                 }
-                IUser user = WsRoot.ReadOnlyUserSet.GetUser(UserId.CreateLoginNameUserId(message.LoginName));
+                IUser user = AppRoot.UserSet.GetUser(UserId.CreateLoginNameUserId(message.LoginName));
                 if (user == null) {
                     return;
                 }
@@ -69,7 +69,7 @@ namespace NTMiner.Core.Impl {
                     if (clientId == null || clientId == Guid.Empty) {
                         continue;
                     }
-                    if (!WsRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
+                    if (!AppRoot.MinerSignSet.TryGetByClientId(clientId, out MinerSign minerSign) || !minerSign.IsOwnerBy(user)) {
                         continue;
                     }
                     SendToMinerClientAsync(clientId, new WsMessage(message.MessageId, WsMessage.GetSpeed));
@@ -200,6 +200,7 @@ namespace NTMiner.Core.Impl {
                     return;
                 }
                 if (message.Data != Guid.Empty) {
+                    // TODO:走Mq，阿里云的内网调用有问题
                     RpcRoot.OfficialServer.UserMineWorkService.GetWorkJsonAsync(message.Data, message.ClientId, (response, e) => {
                         if (response.IsSuccess()) {
                             SendToMinerClientAsync(message.ClientId, new WsMessage(message.MessageId, WsMessage.StartMine) {
