@@ -123,7 +123,7 @@ namespace NTMiner {
         public static string LogsDirFullName {
             get {
                 if (ClientAppType.IsMinerClient) {
-                    return TempPath.LogsDirFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName);
+                    return TempPath.TempLogsDirFullName.Replace(TempPath.TempDirFullName, NTKeyword.TempDirParameterName);
                 }
                 return HomePath.HomeLogsDirFullName.Replace(HomePath.HomeDirFullName, NTKeyword.HomeDirParameterName);
             }
@@ -836,7 +836,7 @@ namespace NTMiner {
         });
 
         public static ICommand DownloadMinerStudio { get; private set; } = new DelegateCommand(() => {
-            string url = "https://www.cnblogs.com/ntminer/p/11923722.html";
+            string url = "https://zhuanlan.zhihu.com/p/345948143";
             url = NTMinerContext.Instance.ServerContext.SysDicItemSet.TryGetDicItemValue(NTKeyword.ThisSystemSysDicCode, "DownloadMinerStudio", url);
             VirtualRoot.Execute(new UnTopmostCommand());
             Process.Start(url);
