@@ -110,6 +110,20 @@ namespace NTMiner {
         }
 
         [TestMethod]
+        public void BenchmarkTest1() {
+            // 非常快，无性能问题，即使不是返回null值的单元测试程序下也非常快
+            int n = 10000;
+            Assert.IsNull(Assembly.GetEntryAssembly());
+            Assert.IsTrue(DevMode.IsInUnitTest);
+            NTStopwatch.Start();
+            for (int i = 0; i < n; i++) {
+                _ = Assembly.GetEntryAssembly();
+            }
+            var elapsedMilliseconds = NTStopwatch.Stop();
+            Console.WriteLine(elapsedMilliseconds);
+        }
+
+        [TestMethod]
         public void AdlNativeMethodsTest() {
             Type t = typeof(Gpus.Adl.AdlNativeMethods);
             var properties = t.GetProperties(BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.SetProperty);

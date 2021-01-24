@@ -110,7 +110,7 @@ namespace NTMiner.Core.Impl {
                 }
             }
             if (toRemoves.Count > 0) {
-                NTMinerConsole.UserWarn($"周期清理不活跃的{_sessionType.Name}，清理了 {toRemoves.Count.ToString()}/{toRemoves.Count.ToString()} 条");
+                NTMinerConsole.UserWarn($"周期清理不活跃的{_sessionType.Name}，清理了 {toRemoves.Count.ToString()} 条");
             }
         }
 
@@ -160,18 +160,13 @@ namespace NTMiner.Core.Impl {
 
         public bool ActiveByWsSessionId(string wsSessionId, out TSession ntminerSession) {
             if (TryGetByWsSessionId(wsSessionId, out ntminerSession)) {
-                if (TryGetByClientId(ntminerSession.ClientId, out TSession sessionByClientId)) {
-                    if (sessionByClientId.WsSessionId == wsSessionId) {
-                        ntminerSession.Active();
-                        return true;
-                    }
-                }
-                else {
+                if (!TryGetByClientId(ntminerSession.ClientId, out TSession _)) {
                     lock (_locker) {
                         _dicByClientId[ntminerSession.ClientId] = ntminerSession;
                     }
-                    return true;
                 }
+                ntminerSession.Active();
+                return true;
             }
             return false;
         }

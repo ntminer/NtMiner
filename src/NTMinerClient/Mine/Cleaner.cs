@@ -102,7 +102,7 @@ namespace NTMiner.Mine {
         private void ClearLogs() {
             try {
                 List<string> toRemoves = new List<string>();
-                foreach (var file in Directory.GetFiles(TempPath.LogsDirFullName)) {
+                foreach (var file in Directory.GetFiles(TempPath.TempLogsDirFullName)) {
                     FileInfo fileInfo = new FileInfo(file);
                     if (fileInfo.LastWriteTime.AddDays(7) < DateTime.Now) {
                         toRemoves.Add(file);

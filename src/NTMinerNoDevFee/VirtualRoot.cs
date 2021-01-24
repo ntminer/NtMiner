@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -65,6 +66,32 @@ namespace NTMiner {
                     path: message => {
                         NTMinerRegistry.SetNoDevFeeActiveOn(DateTime.Now);
                         NoDevFee.NoDevFeeUtil.StartAsync();
+                    }, typeof(VirtualRoot));
+                BuildEventPath<Per24HourEvent>("周期清理日志文件", LogEnum.None,
+                    path: message => {
+                        #region
+                        try {
+                            List<string> toRemoves = new List<string>();
+                            foreach (var file in Directory.GetFiles(Logger.DirFullPath)) {
+                                FileInfo fileInfo = new FileInfo(file);
+                                if (fileInfo.LastWriteTime.AddDays(2) < DateTime.Now) {
+                                    toRemoves.Add(file);
+                                }
+                            }
+                            if (toRemoves.Count == 0) {
+                                Logger.OkDebugLine("没有过期的Log");
+                            }
+                            else {
+                                foreach (var item in toRemoves) {
+                                    File.Delete(item);
+                                }
+                                Logger.OkDebugLine("过期Log清理完成");
+                            }
+                        }
+                        catch (Exception e) {
+                            Logger.ErrorDebugLine(e);
+                        }
+                        #endregion
                     }, typeof(VirtualRoot));
                 _waitHandle.WaitOne();
                 Exit();

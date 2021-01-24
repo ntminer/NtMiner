@@ -2,6 +2,7 @@
 using NTMiner.Core.Redis;
 using NTMiner.ServerNode;
 using System;
+using System.Threading.Tasks;
 
 namespace NTMiner.Core.Impl {
     public class WsServerNodeAddressSet : WsServerNodeAddressSetBase, IWsServerNodeAddressSet {
@@ -25,40 +26,45 @@ namespace NTMiner.Core.Impl {
         }
 
         private void ReportNodeAsync(Action callback = null) {
-            WsServerNodeState nodeState = null;
-            try {
-                int minerClientWsSessionCount = 0;
-                int minerStudioWsSessionCount = 0;
-                minerClientWsSessionCount = AppRoot.WsServer.MinerClientWsSessions.Count;
-                minerStudioWsSessionCount = AppRoot.WsServer.MinerStudioWsSessions.Count;
-                var ram = Windows.Ram.Instance;
-                var cpu = Windows.Cpu.Instance;
-                nodeState = new WsServerNodeState {
-                    Address = ServerRoot.HostConfig.ThisServerAddress,
-                    Description = string.Empty,
-                    MinerClientSessionCount = AppRoot.MinerClientSessionSet.Count,
-                    MinerStudioSessionCount = AppRoot.MinerStudioSessionSet.Count,
-                    MinerClientWsSessionCount = minerClientWsSessionCount,
-                    MinerStudioWsSessionCount = minerStudioWsSessionCount,
-                    Cpu = cpu.ToData(),
-                    TotalPhysicalMemory = ram.TotalPhysicalMemory,
-                    AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
-                    OSInfo = Windows.OS.Instance.OsInfo,
-                    CpuPerformance = cpu.GetTotalCpuUsage(),
-                    ProcessMemoryMb = VirtualRoot.ProcessMemoryMb
-                };
-            }
-            catch (Exception e) {
-                Logger.ErrorDebugLine(e);
-            }
-            _wsServerNodeRedis.SetAsync(nodeState).ContinueWith(t => {
-                if (t.Exception != null) {
-                    NTMinerConsole.UserFail("呼吸失败：" + t.Exception.Message);
+            Task.Factory.StartNew(() => {
+                WsServerNodeState nodeState = null;
+                try {
+                    int minerClientWsSessionCount = 0;
+                    int minerStudioWsSessionCount = 0;
+                    minerClientWsSessionCount = AppRoot.WsServer.MinerClientWsSessions.Count;
+                    minerStudioWsSessionCount = AppRoot.WsServer.MinerStudioWsSessions.Count;
+                    var ram = Windows.Ram.Instance;
+                    var cpu = Windows.Cpu.Instance;
+                    nodeState = new WsServerNodeState {
+                        Address = ServerRoot.HostConfig.ThisServerAddress,
+                        Description = string.Empty,
+                        MinerClientSessionCount = AppRoot.MinerClientSessionSet.Count,
+                        MinerStudioSessionCount = AppRoot.MinerStudioSessionSet.Count,
+                        MinerClientWsSessionCount = minerClientWsSessionCount,
+                        MinerStudioWsSessionCount = minerStudioWsSessionCount,
+                        Cpu = cpu.ToData(),
+                        TotalPhysicalMemory = ram.TotalPhysicalMemory,
+                        AvailablePhysicalMemory = ram.AvailablePhysicalMemory,
+                        OSInfo = Windows.OS.Instance.OsInfo,
+                        CpuPerformance = cpu.GetTotalCpuUsage(),
+                        // 以下三个属性的访问约耗时30毫秒所以放在Task中
+                        ProcessMemoryMb = VirtualRoot.ProcessMemoryMb,
+                        ThreadCount = VirtualRoot.ThreadCount,
+                        HandleCount = VirtualRoot.HandleCount
+                    };
                 }
-                else {
-                    NTMinerConsole.UserOk("呼吸成功");
+                catch (Exception e) {
+                    Logger.ErrorDebugLine(e);
                 }
-                callback?.Invoke();
+                _wsServerNodeRedis.SetAsync(nodeState).ContinueWith(t => {
+                    if (t.Exception != null) {
+                        NTMinerConsole.UserFail("呼吸失败：" + t.Exception.Message);
+                    }
+                    else {
+                        NTMinerConsole.UserOk("呼吸成功");
+                    }
+                    callback?.Invoke();
+                });
             });
         }
     }

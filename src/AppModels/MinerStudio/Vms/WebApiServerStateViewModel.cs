@@ -13,6 +13,8 @@ namespace NTMiner.MinerStudio.Vms {
         private double _cpuPerformance;
         private ulong _availablePhysicalMemory;
         private double _processMemoryMb;
+        private long _threadCount;
+        private long _handleCount;
         private CpuData _cpu;
         private CpuDataViewModel _cpuVm;
         private List<WsServerNodeState> _wsServerNodes;
@@ -26,6 +28,8 @@ namespace NTMiner.MinerStudio.Vms {
             _cpuPerformance = data.CpuPerformance;
             _availablePhysicalMemory = data.AvailablePhysicalMemory;
             _processMemoryMb = data.ProcessMemoryMb;
+            _threadCount = data.ThreadCount;
+            _handleCount = data.HandleCount;
             _cpu = data.Cpu;
             _cpuVm = new CpuDataViewModel(data.Cpu);
             _wsServerNodes = data.WsServerNodes;
@@ -40,6 +44,8 @@ namespace NTMiner.MinerStudio.Vms {
             this.CpuPerformance = data.CpuPerformance;
             this.AvailablePhysicalMemory = data.AvailablePhysicalMemory;
             this.ProcessMemoryMb = data.ProcessMemoryMb;
+            this.ThreadCount = data.ThreadCount;
+            this.HandleCount = data.HandleCount;
             this.Cpu = data.Cpu;
             this.WsServerNodes = data.WsServerNodes;
         }
@@ -71,12 +77,40 @@ namespace NTMiner.MinerStudio.Vms {
                         }
                     }
                 }
+                OnPropertyChanged(nameof(MinerClientWsSessionCount));
+                OnPropertyChanged(nameof(MinerClientSessionCount));
+                OnPropertyChanged(nameof(MinerStudioWsSessionCount));
+                OnPropertyChanged(nameof(MinerStudioSessionCount));
             }
         }
 
         public ObservableCollection<WsServerNodeStateViewModel> WsServerNodeVms {
             get {
                 return _wsServerNodeVms;
+            }
+        }
+
+        public int MinerClientWsSessionCount {
+            get {
+                return WsServerNodeVms.Sum(a => a.MinerClientWsSessionCount);
+            }
+        }
+
+        public int MinerClientSessionCount {
+            get {
+                return WsServerNodeVms.Sum(a => a.MinerClientSessionCount);
+            }
+        }
+
+        public int MinerStudioWsSessionCount {
+            get {
+                return WsServerNodeVms.Sum(a => a.MinerStudioWsSessionCount);
+            }
+        }
+
+        public int MinerStudioSessionCount {
+            get {
+                return WsServerNodeVms.Sum(a => a.MinerStudioSessionCount);
             }
         }
 
@@ -183,6 +217,30 @@ namespace NTMiner.MinerStudio.Vms {
         public string ProcessMemoryMbText {
             get {
                 return this.ProcessMemoryMb.ToString("f1") + " Mb";
+            }
+        }
+
+        public long ThreadCount {
+            get {
+                return _threadCount;
+            }
+            set {
+                if (_threadCount != value) {
+                    _threadCount = value;
+                    OnPropertyChanged(nameof(ThreadCount));
+                }
+            }
+        }
+
+        public long HandleCount {
+            get {
+                return _handleCount;
+            }
+            set {
+                if (_handleCount != value) {
+                    _handleCount = value;
+                    OnPropertyChanged(nameof(HandleCount));
+                }
             }
         }
     }

@@ -252,7 +252,7 @@ namespace NTMiner.Ws {
                             var ws = new WebSocket($"ws://{server}/{_appType.GetName()}") {
                                 Compression = CompressionMethod.Deflate
                             };
-                            ws.Log.File = TempPath.WebSocketSharpMinerClientLogFileFullName;
+                            ws.Log.File = System.IO.Path.Combine(TempPath.TempLogsDirFullName, NTKeyword.WebSocketSharpMinerClientLogFileName);
                             ws.Log.Output = WebSocketSharpOutput;
                             ws.OnOpen += new EventHandler(Ws_OnOpen);
                             ws.OnMessage += new EventHandler<MessageEventArgs>(Ws_OnMessage);

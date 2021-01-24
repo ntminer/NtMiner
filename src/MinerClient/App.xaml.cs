@@ -20,11 +20,12 @@ namespace NTMiner {
         public static readonly string BlockWAUFileFullName = Path.Combine(TempPath.TempDirFullName, BlockWAUResourceName);
 
         public App() {
+            Hub.MessagePathHub.SetNotifyProperty();
             if ((NTMinerRegistry.GetIsAutoStart() || CommandLineArgs.IsAutoStart) && NTMinerRegistry.GetIsNoUi()) {
                 NTMinerConsole.Disable();
             }
             VirtualRoot.SetOut(NotiCenterWindowViewModel.Instance);
-            Logger.SetDir(TempPath.LogsDirFullName);
+            Logger.SetDir(TempPath.TempLogsDirFullName);
             WpfUtil.Init();
             AppUtil.Init(this);
             AppUtil.IsHotKeyEnabled = true;
@@ -303,6 +304,8 @@ namespace NTMiner {
             #region 启用或禁用windows开机自动登录
             VirtualRoot.BuildCmdPath<EnableOrDisableWindowsAutoLoginCommand>(path: message => {
                 if (NTMiner.Windows.OS.Instance.IsAutoAdminLogon) {
+                    VirtualRoot.Execute(new UnTopmostCommand());
+                    NTMiner.Windows.Cmd.RunClose("control", "userpasswords2");
                     return;
                 }
                 if (NTMiner.Windows.OS.Instance.IsGEWindows2004) {

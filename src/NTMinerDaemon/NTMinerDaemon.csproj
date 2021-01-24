@@ -79,9 +79,6 @@
     <Reference Include="System.Web.Http.SelfHost, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.AspNet.WebApi.SelfHost.4.0.30506.0\lib\net40\System.Web.Http.SelfHost.dll</HintPath>
     </Reference>
-    <Reference Include="websocket-sharp">
-      <HintPath>..\ThirdPartyDlls\websocket-sharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\AppModels\RemoteDesktop\Firewall.cs">
@@ -201,6 +198,10 @@
     <ProjectReference Include="..\NTMinerRpcClient\NTMinerRpcClient.csproj">
       <Project>{c7108d8f-eb73-4ae3-916f-be817ede37af}</Project>
       <Name>NTMinerRpcClient</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\websocket-sharp\websocket-sharp.csproj">
+      <Project>{b357bac7-529e-4d81-a0d2-71041b19c8de}</Project>
+      <Name>websocket-sharp</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

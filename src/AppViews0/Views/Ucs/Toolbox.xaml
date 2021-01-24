@@ -232,7 +232,6 @@
 					Width="{StaticResource ItemWidth}"
 					Margin="4"
                     KbButtonHoverBackground="{StaticResource KbButtonHoverBackground}"
-					IsEnabled="{Binding IsAutoAdminLogon,Converter={StaticResource BoolInvertConverter}}"
 					Command="{Binding WindowsAutoLogon}"
 					Cursor="Hand"
 					Background="Transparent">

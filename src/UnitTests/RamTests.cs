@@ -21,11 +21,20 @@ namespace NTMiner {
             NTStopwatch.Start();
 
             for (int i = 0; i < 500; i++) {
-                var v = VirtualRoot.ProcessMemoryMb;
+                _ = VirtualRoot.ProcessMemoryMb;
+                _ = VirtualRoot.ThreadCount;
+                _ = VirtualRoot.HandleCount;
             }
 
             var elapsedMilliseconds = NTStopwatch.Stop();
             Console.WriteLine(elapsedMilliseconds);
+        }
+
+        [TestMethod]
+        public void Test2() {
+            Console.WriteLine(VirtualRoot.ProcessMemoryMb);
+            Console.WriteLine(VirtualRoot.ThreadCount);
+            Console.WriteLine(VirtualRoot.HandleCount);
         }
     }
 }

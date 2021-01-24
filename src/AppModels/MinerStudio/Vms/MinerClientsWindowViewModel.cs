@@ -445,7 +445,6 @@ namespace NTMiner.MinerStudio.Vms {
                                             item.OnPropertyChanged(nameof(item.WorkerName));
                                         }
                                     }
-                                    // TODO:考虑是否应该只刷新选中的矿机以消减网络流量
                                     QueryMinerClients();
                                 }
                             });

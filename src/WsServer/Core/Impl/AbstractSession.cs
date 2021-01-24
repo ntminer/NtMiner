@@ -11,7 +11,13 @@ namespace NTMiner.Core.Impl {
         /// </summary>
         /// <param name="user"></param>
         /// <param name="wsSessionID"></param>
-        public AbstractSession(IUser user, WsUserName wsUserName, IPEndPoint remoteEndPoint, string wsSessionID, IWsSessionsAdapter wsSessions) {
+        public AbstractSession(
+            IUser user, 
+            WsUserName wsUserName, 
+            IPEndPoint remoteEndPoint, 
+            string wsSessionID, 
+            IWsSessionsAdapter wsSessions) {
+
             _wsSessions = wsSessions;
             this.WsUserName = wsUserName;
             this.ClientId = wsUserName.ClientId;

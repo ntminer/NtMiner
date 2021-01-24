@@ -19,5 +19,7 @@
         /// 本进程所用内存
         /// </summary>
         double ProcessMemoryMb { get; }
+        long ThreadCount { get; }
+        long HandleCount { get; }
     }
 }

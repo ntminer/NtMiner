@@ -118,9 +118,6 @@
     <Compile Include="Views\PackagesWindow.xaml.cs">
       <DependentUpon>PackagesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SplashWindow.xaml.cs">
-      <DependentUpon>SplashWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="MinerStudio\Views\Ucs\MinerClientOperationResults.xaml.cs">
       <DependentUpon>MinerClientOperationResults.xaml</DependentUpon>
     </Compile>
@@ -696,10 +693,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Design\PackageViewModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\SplashWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

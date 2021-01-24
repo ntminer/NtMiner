@@ -142,8 +142,8 @@ namespace NTMiner.MinerStudio.Views {
                         foreach (var item in minerClients) {
                             item.OnPropertyChanged(nameof(item.LastActivedOnText));
                         }
-                        if (RpcRoot.IsOuterNet && Vm.CountDown == 5) {
-                            // 外网群控时在矿机列表页数据刷新前5秒通过Ws刷新矿机的算力数据
+                        if (RpcRoot.IsOuterNet && Vm.CountDown == 2) {
+                            // 外网群控时在矿机列表页数据刷新前2秒通过Ws刷新矿机的算力数据
                             MinerStudioRoot.WsClient.SendAsync(new WsMessage(Guid.NewGuid(), WsMessage.GetSpeed) {
                                 Data = Vm.MinerClients.Select(a => a.ClientId).ToList()
                             });

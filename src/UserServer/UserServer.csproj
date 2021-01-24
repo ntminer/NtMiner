@@ -46,9 +46,6 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="websocket-sharp">
-      <HintPath>..\ThirdPartyDlls\websocket-sharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppRoot.cs" />
@@ -78,6 +75,10 @@
     <ProjectReference Include="..\ServerCommon\ServerCommon.csproj">
       <Project>{e12eefdc-66e9-4b7d-a036-fc1d4962eb04}</Project>
       <Name>ServerCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\websocket-sharp\websocket-sharp.csproj">
+      <Project>{b357bac7-529e-4d81-a0d2-71041b19c8de}</Project>
+      <Name>websocket-sharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

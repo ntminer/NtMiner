@@ -26,5 +26,7 @@ namespace NTMiner.ServerNode {
         public ulong AvailablePhysicalMemory { get; set; }
 
         public double ProcessMemoryMb { get; set; }
+        public long ThreadCount { get; set; }
+        public long HandleCount { get; set; }
     }
 }

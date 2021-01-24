@@ -23,7 +23,7 @@ namespace NTMiner {
         public const string RootLockFileName = "home.lock";
         public const string RootConfigFileName = "home.config";
 
-        public const string LogsDirName = "Logs";
+        public const string LogsDirName = "logs";
         public const string WebSocketSharpMinerClientLogFileName = "websocket-sharp-minerclient.log";
         public const string WebSocketSharpMinerStudioLogFileName = "websocket-sharp-minerstudio.log";
         public const string ServerJsonFileName = "server.json";

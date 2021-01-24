@@ -115,6 +115,9 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs" />
     <Compile Include="NoDevFee\NoDevFeeUtil.cs" />
+    <Compile Include="SplashWindow.xaml.cs">
+      <DependentUpon>SplashWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\WindowsUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -208,6 +211,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="NoDevFee\NTMinerNoDevFee.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="SplashWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

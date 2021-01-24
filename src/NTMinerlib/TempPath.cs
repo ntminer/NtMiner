@@ -5,30 +5,18 @@ namespace NTMiner {
     public static class TempPath {
         public static readonly string TempDirFullName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), NTKeyword.TempDirName);
 
-        private static bool _sIsFirstCallLogsDirFullName = true;
-        public static string LogsDirFullName {
+        private static bool _sIsFirstCallTempLogsDirFullName = true;
+        public static string TempLogsDirFullName {
             get {
                 string dirFullName = Path.Combine(TempDirFullName, NTKeyword.LogsDirName);
-                if (_sIsFirstCallLogsDirFullName) {
+                if (_sIsFirstCallTempLogsDirFullName) {
                     if (!Directory.Exists(dirFullName)) {
                         Directory.CreateDirectory(dirFullName);
                     }
-                    _sIsFirstCallLogsDirFullName = false;
+                    _sIsFirstCallTempLogsDirFullName = false;
                 }
 
                 return dirFullName;
-            }
-        }
-
-        public static string WebSocketSharpMinerClientLogFileFullName {
-            get {
-                return Path.Combine(LogsDirFullName, NTKeyword.WebSocketSharpMinerClientLogFileName);
-            }
-        }
-
-        public static string WebSocketSharpMinerStudioLogFileFullName {
-            get {
-                return Path.Combine(LogsDirFullName, NTKeyword.WebSocketSharpMinerStudioLogFileName);
             }
         }
     }

@@ -11,40 +11,60 @@ namespace NTMiner {
     public static partial class VirtualRoot {
         // 因为多个受保护区域中可能会互相访问，用一把锁可以避免死锁。不用多把锁是因为没有精力去检查每一个受保护区域确保它们不会互相访问导致死锁。
         private static readonly object _locker = new object();
-        public static readonly Process AppProcess = Process.GetCurrentProcess();
-        public static readonly string AppFileFullName = AppProcess.MainModule.FileName;
-        public static readonly string ProcessName = AppProcess.ProcessName;
-        private static PerformanceCounter _performanceCounter = null;
-        private static bool _performanceCounterError = false;
-        private static PerformanceCounter PerformanceCounter {
-            get {
-                if (_performanceCounterError) {
-                    return null;
-                }
-                if (_performanceCounter == null) {
-                    lock (_locker) {
-                        if (_performanceCounter == null) {
-                            try {
-                                // 这是任务管理器看到的内存，不等于AppProcess.WorkingSet64 - AppProcess.PrivateMemorySize64
-                                _performanceCounter = new PerformanceCounter("Process", "Working Set - Private", ProcessName);
-                            }
-                            catch (Exception e) {
-                                _performanceCounterError = true;
-                                Logger.ErrorDebugLine(e);
+        private static readonly Process _appProcess = Process.GetCurrentProcess();
+        public static string AppFileFullName {
+            get { return _appProcess.MainModule.FileName; }
+        }
+
+        // 这是任务管理器看到的内存，不等于AppProcess.WorkingSet64 - AppProcess.PrivateMemorySize64
+        // 因为耗时，所以延迟启动
+        private static PerformanceCounter _memoryCounter;
+        private static PerformanceCounter _threadCounter;
+        private static PerformanceCounter _handleCounter;
+        private static bool _isPerformanceCounterInited = false;
+        private static readonly object _lockForPerformanceCounter = new object();
+        private static void PerformanceCounterInitOnece() {
+            if (!_isPerformanceCounterInited) {
+                lock (_lockForPerformanceCounter) {
+                    if (!_isPerformanceCounterInited) {
+                        string processInstanceName = _appProcess.ProcessName;
+                        PerformanceCounterCategory cat = new PerformanceCounterCategory("Process");
+                        // 同一个程序如果运行多次，对应的多个进程名称是通过后缀#1、#2、#3...区分的
+                        string[] instanceNames = cat.GetInstanceNames().Where(a => a.StartsWith(_appProcess.ProcessName)).ToArray();
+                        foreach (string instanceName in instanceNames) {
+                            using (PerformanceCounter cnt = new PerformanceCounter("Process", "ID Process", instanceName, true)) {
+                                int val = (int)cnt.RawValue;
+                                if (val == _appProcess.Id) {
+                                    processInstanceName = instanceName;
+                                    break;
+                                }
                             }
                         }
+                        _memoryCounter = new PerformanceCounter("Process", "Working Set - Private", processInstanceName, readOnly: true);
+                        _threadCounter = new PerformanceCounter("Process", "Thread Count", processInstanceName, readOnly: true);
+                        _handleCounter = new PerformanceCounter("Process", "Handle Count", processInstanceName, readOnly: true);
+                        _isPerformanceCounterInited = true;
                     }
                 }
-                return _performanceCounter;
             }
         }
 
         public static double ProcessMemoryMb {
             get {
-                if (PerformanceCounter == null) {
-                    return 0.0;
-                }
-                return PerformanceCounter.RawValue / NTKeyword.DoubleM;
+                PerformanceCounterInitOnece();
+                return _memoryCounter.RawValue / NTKeyword.DoubleM;
+            }
+        }
+        public static long ThreadCount {
+            get {
+                PerformanceCounterInitOnece();
+                return _threadCounter.RawValue;
+            }
+        }
+        public static long HandleCount {
+            get {
+                PerformanceCounterInitOnece();
+                return _handleCounter.RawValue;
             }
         }
 

@@ -38,7 +38,7 @@ namespace NTMiner.Windows {
                     lock (_locker) {
                         if (_cpuCounterTotal == null) {
                             try {
-                                _cpuCounterTotal = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+                                _cpuCounterTotal = new PerformanceCounter("Processor", "% Processor Time", "_Total", readOnly: true);
                             }
                             catch (Exception e) {
                                 _cpuCounterTotalError = true;

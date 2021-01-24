@@ -235,7 +235,9 @@ namespace NTMiner {
                 Cpu = cpu.ToData(),
                 OSInfo = Windows.OS.Instance.OsInfo,
                 CpuPerformance = cpu.GetTotalCpuUsage(),
-                ProcessMemoryMb = VirtualRoot.ProcessMemoryMb
+                ProcessMemoryMb = VirtualRoot.ProcessMemoryMb,
+                ThreadCount = VirtualRoot.ThreadCount,
+                HandleCount = VirtualRoot.HandleCount
             };
         }
 

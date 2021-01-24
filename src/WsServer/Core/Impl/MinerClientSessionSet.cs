@@ -3,6 +3,7 @@ using NTMiner.Core.MinerServer;
 using NTMiner.User;
 using NTMiner.Ws;
 using System;
+using System.Linq;
 
 namespace NTMiner.Core.Impl {
     public class MinerClientSessionSet : AbstractSessionSet<IMinerClientSession>, IMinerClientSessionSet {
@@ -65,7 +66,7 @@ namespace NTMiner.Core.Impl {
                 if (user == null) {
                     return;
                 }
-                foreach (var clientId in message.ClientIds) {
+                foreach (var clientId in message.ClientIds.Where(a => TryGetByClientId(a, out _))) {
                     if (clientId == null || clientId == Guid.Empty) {
                         continue;
                     }

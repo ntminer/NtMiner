@@ -28,12 +28,15 @@ namespace NTMiner.Core {
         /// <remarks>注意这里说的进程不是指的操作系统进程而是指运行中的开源矿工程序</remarks>
         Version ClientVersion { get; }
         /// <summary>
-        /// 会话的最新活动时间。清洁工线程会依据该值判断是否要清理掉不活跃的连接对应的资源。
+        /// 会话的最新活动时间戳，该时间戳在收到Ping的时候更新。清洁工线程会依据该值判断是否要清理掉不活跃的连接对应的资源。
         /// </summary>
         DateTime ActiveOn { get; }
+        /// <summary>
+        /// Ws会话远端的IP地址和端口号，该数据可以用于统计。
+        /// </summary>
         IPEndPoint RemoteEndPoint { get; }
         /// <summary>
-        /// 这是所使用的WebSocket框架层为当前会话分配的会话标识。
+        /// 这是所使用的WebSocket框架层为当前会话分配的会话标识，根据这个标识可以找到WebSocket会话从而向远端发送信息。
         /// </summary>
         string WsSessionId { get; }
         /// <summary>
