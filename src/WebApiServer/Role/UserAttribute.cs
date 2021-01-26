@@ -107,7 +107,7 @@ namespace NTMiner.Role {
             }
             string mySign = RpcUser.CalcSign(user.LoginName, user.Password, clientSign.Timestamp, data);
             if (clientSign.Sign != mySign) {
-                string message = "签名错误：1. 可能因为登录名或密码错误；2. 可能因为软件版本过期需要升级软件，请将软件升级到最新版本再试。";
+                string message = "签名错误：1. 可能因为登录名或密码错误；2. 可能因为软件版本过期需要升级软件。";
                 response = ResponseBase.Forbidden(message);
                 return false;
             }

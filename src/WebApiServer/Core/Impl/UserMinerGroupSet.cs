@@ -5,39 +5,24 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class UserMinerGroupSet : IUserMinerGroupSet {
+    public class UserMinerGroupSet : SetBase, IUserMinerGroupSet {
         private readonly Dictionary<Guid, UserMinerGroupData> _dicById = new Dictionary<Guid, UserMinerGroupData>();
 
         public UserMinerGroupSet() {
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    using (LiteDatabase db = AppRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<UserMinerGroupData>();
-                        foreach (var item in col.FindAll()) {
-                            _dicById.Add(item.Id, item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            using (LiteDatabase db = AppRoot.CreateLocalDb()) {
+                var col = db.GetCollection<UserMinerGroupData>();
+                foreach (var item in col.FindAll()) {
+                    _dicById.Add(item.Id, item);
                 }
             }
         }
 
         public void AddOrUpdate(UserMinerGroupData data) {
             InitOnece();
-            lock (_locker) {
+            lock (_dicById) {
                 using (LiteDatabase db = AppRoot.CreateLocalDb()) {
                     var col = db.GetCollection<UserMinerGroupData>();
                     if (_dicById.TryGetValue(data.Id, out UserMinerGroupData entity)) {
@@ -69,7 +54,7 @@ namespace NTMiner.Core.Impl {
 
         public void RemoveById(Guid id) {
             InitOnece();
-            lock (_locker) {
+            lock (_dicById) {
                 if (_dicById.ContainsKey(id)) {
                     _dicById.Remove(id);
                     using (LiteDatabase db = AppRoot.CreateLocalDb()) {

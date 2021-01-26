@@ -23,7 +23,8 @@ namespace NTMiner.Core.Impl {
                 DateTime speedOn = DateTime.Now.AddMinutes(-3);
                 foreach (var minerData in getMinersTask.Result) {
                     var clientData = ClientData.Create(minerData);
-                    // 该属性没有持久化而只在内存中，启动时将该属性值视为当前日期的前一天的零时加上CreatedOn的时间，别处有个周期清理7天不活跃矿机的任务
+                    // 该属性没有持久化而只在内存中，启动时将该属性值视为当前日期的前一天的零时加上CreatedOn
+                    // 的时间从而将数据分散开来从而滑动清理，后面有个周期清理7天不活跃矿机的任务。WebApiServer启动后第6天才会进行第一次清理。
                     clientData.MinerActiveOn = DateTime.Today.AddDays(-1) + minerData.CreatedOn.TimeOfDay;
                     clientDatas.Add(clientData);
                     var speedData = speedDatas.FirstOrDefault(a => a.ClientId == minerData.ClientId);
@@ -42,11 +43,16 @@ namespace NTMiner.Core.Impl {
                 var toRemoveSpeed = _dicByClientId.Where(a => a.Value.MinerActiveOn != DateTime.MinValue && a.Value.MinerActiveOn <= time).ToArray();
                 _speedDataRedis.DeleteByClientIdsAsync(toRemoveSpeed.Select(a => a.Key).ToArray());
 
-                // 删除一周没有活跃过的客户端
-                time = message.BornOn.AddDays(-7);
-                var toRemoveClient = _dicByObjectId.Where(a => a.Value.MinerActiveOn <= time).ToArray();
-                foreach (var kv in toRemoveClient) {
-                    base.RemoveByObjectId(kv.Key);
+                // 删除一段时间没有活跃过的客户端
+                const int nDay = 7;
+                DateTime netActiveOn = message.BornOn.AddSeconds(-30);
+                time = message.BornOn.AddDays(-nDay);
+                var toRemoveClient = _dicByObjectId.Where(a => a.Value.MinerActiveOn <= time && a.Value.NetActiveOn <= netActiveOn).ToArray();
+                if (toRemoveClient.Length > 0) {
+                    NTMinerConsole.UserOk($"{toRemoveClient.Length.ToString()} 台矿机因 {nDay.ToString()} 天没有活跃，删除对应记录");
+                    foreach (var kv in toRemoveClient) {
+                        base.RemoveByObjectId(kv.Key);
+                    }
                 }
             }, this.GetType());
             // 收到Mq消息之前一定已经初始化完成，因为Mq消费者在ClientSetInitedEvent事件之后才会创建
@@ -106,14 +112,12 @@ namespace NTMiner.Core.Impl {
                     }
                 }
                 else {
-                    // 此时该矿机是第一次在服务端出现
-                    NTMinerConsole.UserWarn("该矿机首次出现于WsServer:" + VirtualRoot.JsonSerializer.Serialize(message.Data));
                     clientData = ClientData.Create(MinerData.Create(message.Data));
-                    clientData.NetActiveOn = DateTime.Now;
-                    clientData.IsOnline = true;
-                    clientData.IsOuterUserEnabled = true;
                     Add(clientData);
                 }
+                clientData.NetActiveOn = DateTime.Now;
+                clientData.IsOnline = true;
+                clientData.IsOuterUserEnabled = true;
             }, this.GetType(), LogEnum.None);
             VirtualRoot.BuildCmdPath<QueryClientsForWsMqMessage>(path: message => {
                 QueryClientsResponse response = AppRoot.QueryClientsForWs(message.Query);

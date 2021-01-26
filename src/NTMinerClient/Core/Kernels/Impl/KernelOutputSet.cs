@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Kernels.Impl {
-    public class KernelOutputSet : IKernelOutputSet {
+    public class KernelOutputSet : SetBase, IKernelOutputSet {
         private readonly Dictionary<Guid, KernelOutputData> _dicById = new Dictionary<Guid, KernelOutputData>();
 
         private readonly IServerContext _context;
@@ -77,27 +77,12 @@ namespace NTMiner.Core.Kernels.Impl {
             #endregion
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
         // 填充空间
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _context.CreateServerRepository<KernelOutputData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _context.CreateServerRepository<KernelOutputData>();
+            foreach (var item in repository.GetAll()) {
+                if (!_dicById.ContainsKey(item.GetId())) {
+                    _dicById.Add(item.GetId(), item);
                 }
             }
         }

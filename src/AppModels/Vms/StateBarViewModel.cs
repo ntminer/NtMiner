@@ -79,7 +79,7 @@ namespace NTMiner.Vms {
                 if (IsRemoteDesktopEnabled) {
                     return "Windows远程桌面已启用";
                 }
-                return "Windows远程桌面已禁用";
+                return "未启用Windows远程桌面";
             }
         }
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class OverClockDataSet : IOverClockDataSet {
+    public class OverClockDataSet : SetBase, IOverClockDataSet {
         private readonly Dictionary<Guid, OverClockData> _dicById = new Dictionary<Guid, OverClockData>();
         private readonly INTMinerContext _root;
 
@@ -73,28 +73,24 @@ namespace NTMiner.Core.Impl {
             }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private void InitOnece() {
-            if (!_isInited) {
-                RpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
-                    if (response.IsSuccess()) {
-                        IEnumerable<OverClockData> query;
-                        if (_root.GpuSet.GpuType == GpuType.Empty) {
-                            query = response.Data;
-                        }
-                        else {
-                            query = response.Data.Where(a => a.GpuType == _root.GpuSet.GpuType);
-                        }
-                        foreach (var item in query) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                _dicById.Add(item.GetId(), item);
-                            }
+        protected override void Init() {
+            RpcRoot.OfficialServer.OverClockDataService.GetOverClockDatasAsync((response, e) => {
+                if (response.IsSuccess()) {
+                    IEnumerable<OverClockData> query;
+                    if (_root.GpuSet.GpuType == GpuType.Empty) {
+                        query = response.Data;
+                    }
+                    else {
+                        query = response.Data.Where(a => a.GpuType == _root.GpuSet.GpuType);
+                    }
+                    foreach (var item in query) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            _dicById.Add(item.GetId(), item);
                         }
                     }
-                    VirtualRoot.RaiseEvent(new OverClockDataSetInitedEvent());
-                });
-                _isInited = true;
-            }
+                }
+                VirtualRoot.RaiseEvent(new OverClockDataSetInitedEvent());
+            });
         }
 
         public bool TryGetOverClockData(Guid id, out IOverClockData data) {

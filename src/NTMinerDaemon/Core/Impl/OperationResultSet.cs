@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class OperationResultSet : IOperationResultSet {
+    public class OperationResultSet : SetBase, IOperationResultSet {
         private const int _capacityCount = 50;
 
         // 新的在队尾，旧的在队头
@@ -30,26 +30,11 @@ namespace NTMiner.Core.Impl {
             }, this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    using (var db = VirtualRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<OperationResultData>();
-                        foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                            _list.Add(item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            using (var db = VirtualRoot.CreateLocalDb()) {
+                var col = db.GetCollection<OperationResultData>();
+                foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
+                    _list.Add(item);
                 }
             }
         }
@@ -61,7 +46,7 @@ namespace NTMiner.Core.Impl {
             }
             var data = OperationResultData.Create(operationResult);
             List<OperationResultData> toRemoves = new List<OperationResultData>();
-            lock (_locker) {
+            lock (_list) {
                 // 新的在队尾，旧的在队头
                 _list.Add(data);
                 while (_list.Count > _capacityCount) {
@@ -81,7 +66,7 @@ namespace NTMiner.Core.Impl {
 
         public List<OperationResultDto> Gets(long afterTime) {
             InitOnece();
-            lock (_locker) {
+            lock (_list) {
                 if (afterTime <= 0) {
                     if (_list.Count > 20) {
                         return _list.Skip(_list.Count - 20).Cast<OperationResultDto>().ToList();

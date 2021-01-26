@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class ReadOnlyMinerRedis : IReadOnlyMinerRedis {
-        protected const string _redisKeyMinerById = "miners.MinerById";// 根据Id索引Miner对象的json
+        protected const string _redisKeyMinerById = RedisKeyword.MinersMinerById;
 
         protected readonly IMqRedis _redis;
         public ReadOnlyMinerRedis(IMqRedis redis) {

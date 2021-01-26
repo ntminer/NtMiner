@@ -38,6 +38,11 @@ namespace NTMiner {
             VirtualRoot.BuildCmdPath<UpgradeCommand>(path: message => {
                 AppRoot.Upgrade(NTMinerAppType.MinerStudio, message.FileName, message.Callback);
             }, location: this.GetType());
+            VirtualRoot.BuildCmdPath<ShowSignUpPageCommand>(path: message => {
+                UIThread.Execute(() => {
+                    SignUpPage.ShowWindow();
+                });
+            }, location: this.GetType());
             if (AppUtil.GetMutex(NTKeyword.MinerStudioAppMutex)) {
                 this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
                 // 因为登录窗口会用到VirtualRoot.Out，而Out的延迟自动关闭消息会用到倒计时

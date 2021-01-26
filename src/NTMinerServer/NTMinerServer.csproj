@@ -57,6 +57,7 @@
     <Compile Include="Core\Redis\Impl\SpeedDataRedis.cs" />
     <Compile Include="Core\Redis\IReadOnlyWsServerNodeRedis.cs" />
     <Compile Include="Core\Redis\ISpeedDataRedis.cs" />
+    <Compile Include="RedisKeyword.cs" />
     <Compile Include="ServerAppType.cs" />
     <Compile Include="Core\Mq\MinerClientMqBodyUtil.cs" />
     <Compile Include="Core\Mq\OperationMqBodyUtil.cs" />

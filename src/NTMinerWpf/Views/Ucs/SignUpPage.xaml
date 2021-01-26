@@ -6,10 +6,9 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:blankWindow="http://NTMiner.com"
 	xmlns:sys="clr-namespace:System;assembly=mscorlib"
-	xmlns:controls="clr-namespace:NTMiner.Controls;assembly=NTMinerWpf"
+	xmlns:controls="clr-namespace:NTMiner.Controls"
 	xmlns:local="clr-namespace:NTMiner.Views.Ucs"
-	xmlns:vm="clr-namespace:NTMiner.Vms;assembly=AppModels"
-	xmlns:app="clr-namespace:NTMiner;assembly=AppModels"
+	xmlns:vm="clr-namespace:NTMiner.Vms"
     d:DataContext="{d:DesignData Source=../Design/SignUpPageViewModel.xaml}"
 	mc:Ignorable="d" d:DesignWidth="370">
     <UserControl.Resources>

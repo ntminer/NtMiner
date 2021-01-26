@@ -15,6 +15,11 @@ namespace NTMiner.Views.Ucs {
             InitializeComponent();
             _outerUserGroupBg = OuterUserGroup.BorderBrush;
             _automationGroupBg = AutomationGroup.BorderBrush;
+            this.OnLoaded(window => {
+                VirtualRoot.BuildEventPath<SignUpedEvent>("注册了新外网群控用户后自动填入外网群控用户名", LogEnum.None, path: message => {
+                    this.Vm.OuterUserId = message.LoginName;
+                }, this.GetType());
+            });
         }
 
         private void ButtonHotKey_KeyDown(object sender, System.Windows.Input.KeyEventArgs e) {

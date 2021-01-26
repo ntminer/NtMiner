@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Impl {
-    public class ServerMessageSet : IServerMessageSet {
+    public class ServerMessageSet : SetBase, IServerMessageSet {
         private readonly string _connectionString;
         private readonly LinkedList<ServerMessageData> _linkedList = new LinkedList<ServerMessageData>();
 
@@ -49,7 +49,7 @@ namespace NTMiner.Impl {
                     ServerMessageData exist;
                     List<ServerMessageData> toRemoves = new List<ServerMessageData>();
                     ServerMessageData data = null;
-                    lock (_locker) {
+                    lock (_linkedList) {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.Input.Id);
                         if (exist != null) {
                             exist.Update(message.Input);
@@ -112,7 +112,7 @@ namespace NTMiner.Impl {
                 if (isServer) {
                     #region Server
                     ServerMessageData exist = null;
-                    lock (_locker) {
+                    lock (_linkedList) {
                         exist = _linkedList.FirstOrDefault(a => a.Id == message.EntityId);
                         if (exist != null) {
                             exist.IsDeleted = true;
@@ -154,7 +154,7 @@ namespace NTMiner.Impl {
                 }
                 try {
                     using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                        lock (_locker) {
+                        lock (_linkedList) {
                             _linkedList.Clear();
                         }
                         db.DropCollection(nameof(ServerMessageData));
@@ -174,7 +174,7 @@ namespace NTMiner.Impl {
             InitOnece();
             DateTime localTimestamp = VirtualRoot.LocalServerMessageSetTimestamp;
             LinkedList<ServerMessageData> newDatas = new LinkedList<ServerMessageData>();
-            lock (_locker) {
+            lock (_linkedList) {
                 DateTime maxTime = localTimestamp;
                 foreach (var item in data.OrderBy(a => a.Timestamp)) {
                     if (item.Timestamp > maxTime) {
@@ -227,37 +227,22 @@ namespace NTMiner.Impl {
             return list;
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    try {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<ServerMessageData>();
-                            foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
-                                if (_linkedList.Count < NTKeyword.ServerMessageSetCapacity) {
-                                    _linkedList.AddFirst(item);
-                                }
-                                else {
-                                    col.Delete(_linkedList.Last.Value.Id);
-                                }
-                            }
+        protected override void Init() {
+            try {
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<ServerMessageData>();
+                    foreach (var item in col.FindAll().OrderBy(a => a.Timestamp)) {
+                        if (_linkedList.Count < NTKeyword.ServerMessageSetCapacity) {
+                            _linkedList.AddFirst(item);
+                        }
+                        else {
+                            col.Delete(_linkedList.Last.Value.Id);
                         }
                     }
-                    catch (Exception e) {
-                        Logger.ErrorDebugLine(e);
-                    }
-                    _isInited = true;
                 }
+            }
+            catch (Exception e) {
+                Logger.ErrorDebugLine(e);
             }
         }
 

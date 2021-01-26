@@ -13,6 +13,21 @@ using System.Windows.Threading;
 
 namespace NTMiner {
     public static class AppUtil {
+        public static bool IsDotNetVersionEG45 {
+            get {
+                const string subkey = @"SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\";
+                using (var ndpKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32).OpenSubKey(subkey)) {
+                    if (ndpKey != null) {
+                        var obj = ndpKey.GetValue("Release");
+                        if (obj != null) {
+                            return (int)obj >= 378389;
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+
         private static class SafeNativeMethods {
             [DllImport(DllName.User32Dll)]
             public static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);

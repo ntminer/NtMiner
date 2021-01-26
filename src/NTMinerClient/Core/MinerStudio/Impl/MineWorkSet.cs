@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerStudio.Impl {
-    public class MineWorkSet : IMineWorkSet {
+    public class MineWorkSet : SetBase, IMineWorkSet {
         private readonly Dictionary<Guid, MineWorkData> _dicById = new Dictionary<Guid, MineWorkData>();
 
         public MineWorkSet() {
             VirtualRoot.BuildEventPath<MinerStudioServiceSwitchedEvent>("切换了群口后台服务类型后刷新内存", LogEnum.DevConsole, path: message => {
                 _dicById.Clear();
-                _isInited = false;
+                base.Refresh();
                 // 初始化以触发MineWorkSetInitedEvent事件
                 InitOnece();
             }, this.GetType());
@@ -45,39 +45,23 @@ namespace NTMiner.Core.MinerStudio.Impl {
             }, this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    if (RpcRoot.IsOuterNet) {
-                        RpcRoot.OfficialServer.UserMineWorkService.GetMineWorksAsync((response, e) => {
-                            if (response.IsSuccess()) {
-                                foreach (var item in response.Data) {
-                                    _dicById.Add(item.Id, item);
-                                }
-                            }
-                            _isInited = true;
-                            VirtualRoot.RaiseEvent(new MineWorkSetInitedEvent());
-                        });
-                    }
-                    else {
-                        var repository = VirtualRoot.CreateLocalRepository<MineWorkData>();
-                        foreach (var item in repository.GetAll()) {
+        protected override void Init() {
+            if (RpcRoot.IsOuterNet) {
+                RpcRoot.OfficialServer.UserMineWorkService.GetMineWorksAsync((response, e) => {
+                    if (response.IsSuccess()) {
+                        foreach (var item in response.Data) {
                             _dicById.Add(item.Id, item);
                         }
-                        _isInited = true;
-                        VirtualRoot.RaiseEvent(new MineWorkSetInitedEvent());
                     }
+                    VirtualRoot.RaiseEvent(new MineWorkSetInitedEvent());
+                });
+            }
+            else {
+                var repository = VirtualRoot.CreateLocalRepository<MineWorkData>();
+                foreach (var item in repository.GetAll()) {
+                    _dicById.Add(item.Id, item);
                 }
+                VirtualRoot.RaiseEvent(new MineWorkSetInitedEvent());
             }
         }
 

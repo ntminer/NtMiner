@@ -276,33 +276,40 @@ namespace NTMiner {
             return devicesArgs;
         }
 
+        private static readonly HashSet<string> _mainParameterNames = new HashSet<string> {
+            NTKeyword.MainCoinParameterName,
+            NTKeyword.WalletParameterName,
+            NTKeyword.UserNameParameterName,
+            NTKeyword.PasswordParameterName,
+            NTKeyword.HostParameterName,
+            NTKeyword.PortParameterName,
+            NTKeyword.PoolParameterName
+        };
+        private static readonly HashSet<string> _dualParameterNames = new HashSet<string> {
+            NTKeyword.DualCoinParameterName,
+            NTKeyword.DualWalletParameterName,
+            NTKeyword.DualUserNameParameterName,
+            NTKeyword.DualPasswordParameterName,
+            NTKeyword.DualHostParameterName,
+            NTKeyword.DualPortParameterName,
+            NTKeyword.DualPoolParameterName
+        };
         private static void AssembleArgs(Dictionary<string, string> prms, ref string args, bool isDual) {
             if (string.IsNullOrEmpty(args)) {
                 args = string.Empty;
                 return;
             }
-            args = args.Replace("{" + NTKeyword.MainCoinParameterName + "}", prms[NTKeyword.MainCoinParameterName]);
-            if (prms.ContainsKey(NTKeyword.WalletParameterName)) {
-                args = args.Replace("{" + NTKeyword.WalletParameterName + "}", prms[NTKeyword.WalletParameterName]);
+            foreach (var parameterName in _mainParameterNames) {
+                if (prms.ContainsKey(parameterName)) {
+                    args = args.Replace("{" + parameterName + "}", prms[parameterName]);
+                }
             }
-            if (prms.ContainsKey(NTKeyword.UserNameParameterName)) {
-                args = args.Replace("{" + NTKeyword.UserNameParameterName + "}", prms[NTKeyword.UserNameParameterName]);
-            }
-            if (prms.ContainsKey(NTKeyword.PasswordParameterName)) {
-                args = args.Replace("{" + NTKeyword.PasswordParameterName + "}", prms[NTKeyword.PasswordParameterName]);
-            }
-            args = args.Replace("{" + NTKeyword.HostParameterName + "}", prms[NTKeyword.HostParameterName]);
-            args = args.Replace("{" + NTKeyword.PortParameterName + "}", prms[NTKeyword.PortParameterName]);
-            args = args.Replace("{" + NTKeyword.PoolParameterName + "}", prms[NTKeyword.PoolParameterName]);
-            args = args.Replace("{" + NTKeyword.WorkerParameterName + "}", prms[NTKeyword.WorkerParameterName]);
             if (isDual) {
-                args = args.Replace("{" + NTKeyword.DualCoinParameterName + "}", prms[NTKeyword.DualCoinParameterName]);
-                args = args.Replace("{" + NTKeyword.DualWalletParameterName + "}", prms[NTKeyword.DualWalletParameterName]);
-                args = args.Replace("{" + NTKeyword.DualUserNameParameterName + "}", prms[NTKeyword.DualUserNameParameterName]);
-                args = args.Replace("{" + NTKeyword.DualPasswordParameterName + "}", prms[NTKeyword.DualPasswordParameterName]);
-                args = args.Replace("{" + NTKeyword.DualHostParameterName + "}", prms[NTKeyword.DualHostParameterName]);
-                args = args.Replace("{" + NTKeyword.DualPortParameterName + "}", prms[NTKeyword.DualPortParameterName]);
-                args = args.Replace("{" + NTKeyword.DualPoolParameterName + "}", prms[NTKeyword.DualPoolParameterName]);
+                foreach (var parameterName in _dualParameterNames) {
+                    if (prms.ContainsKey(parameterName)) {
+                        args = args.Replace("{" + parameterName + "}", prms[parameterName]);
+                    }
+                }
             }
             // 这里不要考虑{logfile}，{logfile}往后推迟
         }
@@ -371,7 +378,9 @@ namespace NTMiner {
                 }
                 string content = writer.Body;
                 foreach (var parameterName in parameterNames.Names) {
-                    content = content.Replace($"{{{parameterName}}}", parameters[parameterName]);
+                    if (parameters.ContainsKey(parameterName)) {
+                        content = content.Replace($"{{{parameterName}}}", parameters[parameterName]);
+                    }
                 }
                 if (writer is IFileWriter) {
                     if (fileWriters.ContainsKey(writer.GetId())) {

@@ -9,8 +9,14 @@ using System.Linq;
 
 namespace NTMiner {
     public partial class NTMinerContext {
-        static NTMinerContext() {
-            ServerVersion = EntryAssemblyInfo.CurrentVersion;
+        private static Version _serverVersion = EntryAssemblyInfo.CurrentVersion;
+        public static Version ServerVersion {
+            get {
+                return _serverVersion;
+            }
+        }
+        public static void SetServerVersion(Version serverVersion) {
+            _serverVersion = serverVersion;
         }
 
         public const int SpeedHistoryLengthByMinute = 10;
@@ -34,7 +40,6 @@ namespace NTMiner {
             }
         }
 
-        public static Version ServerVersion;
         /// <summary>
         /// 表示是否是使用server.json只读数据库文件。
         /// 只有DevMode模式的挖矿端才会返回False，否则都是True。

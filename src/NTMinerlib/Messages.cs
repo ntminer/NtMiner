@@ -59,6 +59,31 @@ namespace NTMiner {
         public IPAddress RemoteIp { get; private set; }
     }
 
+    [MessageType(description: "注册了外网群控用户后")]
+    public class SignUpedEvent : EventBase {
+        public SignUpedEvent(string loginName) {
+            this.LoginName = loginName;
+        }
+
+        public string LoginName { get; private set; }
+    }
+
+    [MessageType(description: "打开用户注册页")]
+    public class ShowSignUpPageCommand : Cmd {
+        public ShowSignUpPageCommand() { }
+    }
+
+    [MessageType(description: "升级")]
+    public class UpgradeCommand : Cmd {
+        public UpgradeCommand(string fileName, Action callback) {
+            this.FileName = fileName;
+            this.Callback = callback;
+        }
+
+        public string FileName { get; private set; }
+        public Action Callback { get; private set; }
+    }
+
     [MessageType(description: "关闭窗口")]
     public class CloseWindowCommand : Cmd {
         public CloseWindowCommand(Guid id) : base(id) { }

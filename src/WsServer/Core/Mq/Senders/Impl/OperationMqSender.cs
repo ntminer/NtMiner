@@ -335,7 +335,7 @@ namespace NTMiner.Core.Mq.Senders.Impl {
 
         private IBasicProperties CreateBasicProperties(string loginName, Guid clientId) {
             var basicProperties = CreateBasicProperties(loginName);
-            basicProperties.Headers[WsMqKeyword.ClientIdHeaderName] = clientId.ToString();
+            basicProperties.Headers[MqKeyword.ClientIdHeaderName] = clientId.ToString();
 
             return basicProperties;
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class SpeedDataRedis : ISpeedDataRedis {
-        protected const string _redisKeySpeedDataByClientId = "speedDatas.SpeedDataByClientId";// 根据ClientId索引SpeedData对象的json
+        protected const string _redisKeySpeedDataByClientId = RedisKeyword.SpeedDatasSpeedDataByClientId;
 
         protected readonly IMqRedis _redis;
         public SpeedDataRedis(IMqRedis redis) {

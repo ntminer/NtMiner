@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    internal class PoolSet : IPoolSet {
+    internal class PoolSet : SetBase, IPoolSet {
         private class PoolDelay {
             public string MainCoinPoolDelayText;
             public string DualCoinPoolDelayText;
@@ -126,27 +126,12 @@ namespace NTMiner.Core.Impl {
                 }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _context.CreateCompositeRepository<PoolData>();
-                    List<PoolData> data = repository.GetAll().ToList();
-                    foreach (var item in data) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _context.CreateCompositeRepository<PoolData>();
+            List<PoolData> data = repository.GetAll().ToList();
+            foreach (var item in data) {
+                if (!_dicById.ContainsKey(item.GetId())) {
+                    _dicById.Add(item.GetId(), item);
                 }
             }
         }

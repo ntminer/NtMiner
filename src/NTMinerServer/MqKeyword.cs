@@ -9,6 +9,7 @@ namespace NTMiner {
 
         public const string NTMinerExchange = "ntminer";
 
+        public const string ClientIdHeaderName = "clientId";
         public const string LoginNameHeaderName = "loginName";
         public const string SessionIdHeaderName = "sessionId";
         public const string MinerIpHeaderName = "minerIp";

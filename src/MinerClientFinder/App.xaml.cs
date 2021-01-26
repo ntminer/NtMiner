@@ -5,6 +5,23 @@ using System.Diagnostics;
 using System.Windows;
 
 namespace NTMiner {
+    public class Program {
+        [System.STAThreadAttribute()]
+        [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("PresentationBuildTasks", "4.0.0.0")]
+        public static void Main() {
+            if (AppUtil.IsDotNetVersionEG45) {
+                NTMiner.App app = new NTMiner.App();
+                app.InitializeComponent();
+                app.Run();
+            }
+            else {
+                Process.Start("https://ntminer.com/getDotNet.html");
+            }
+            // 这个机制在MinerClient程序起作用但在MinerStudio程序中会发生类型初始化错误不起作用，具体原因未知
+        }
+    }
+
     public partial class App : Application {
         public App() {
             Logger.Disable();

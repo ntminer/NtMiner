@@ -2,8 +2,6 @@
 
 namespace NTMiner {
     public static class WsMqKeyword {
-        public const string ClientIdHeaderName = "clientId";
-
         public const string GetConsoleOutLinesRoutingKey = WsMessage.GetConsoleOutLines;
         public const string ConsoleOutLinesRoutingKey = WsMessage.ConsoleOutLines;
         public const string GetLocalMessagesRoutingKey = WsMessage.GetLocalMessages;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Profiles.Impl {
-    public class WalletSet {
+    public class WalletSet : SetBase {
         private readonly Dictionary<Guid, WalletData> _dicById = new Dictionary<Guid, WalletData>();
 
         private readonly INTMinerContext _root;
@@ -69,31 +69,16 @@ namespace NTMiner.Core.Profiles.Impl {
             }, location: this.GetType());
         }
 
-        public void Refresh() {
+        public new void Refresh() {
             _dicById.Clear();
-            _isInited = false;
+            base.Refresh();
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _root.ServerContext.CreateLocalRepository<WalletData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.Id)) {
-                            _dicById.Add(item.Id, item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _root.ServerContext.CreateLocalRepository<WalletData>();
+            foreach (var item in repository.GetAll()) {
+                if (!_dicById.ContainsKey(item.Id)) {
+                    _dicById.Add(item.Id, item);
                 }
             }
         }

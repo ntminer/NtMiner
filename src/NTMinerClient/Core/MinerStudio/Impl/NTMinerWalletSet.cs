@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.Core.MinerStudio.Impl {
-    public class NTMinerWalletSet : INTMinerWalletSet {
+    public class NTMinerWalletSet : SetBase, INTMinerWalletSet {
         private readonly Dictionary<Guid, NTMinerWalletData> _dicById = new Dictionary<Guid, NTMinerWalletData>();
 
         public NTMinerWalletSet() {
@@ -69,20 +69,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
             }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            if (_isInited) {
-                return;
-            }
-            _isInited = true;
+        protected override void Init() {
             RpcRoot.OfficialServer.NTMinerWalletService.GetNTMinerWalletsAsync((response, e) => {
                 if (response.IsSuccess()) {
                     foreach (var item in response.Data) {

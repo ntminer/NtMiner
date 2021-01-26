@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class ReadOnlyUserRedis : IReadOnlyUserRedis {
-        protected const string _redisKeyUserByLoginName = "users.UserByLoginName";// 根据LoginName索引User对象的json
+        protected const string _redisKeyUserByLoginName = RedisKeyword.UsersUserByLoginName;
 
         protected readonly IMqRedis _redis;
         public ReadOnlyUserRedis(IMqRedis redis) {

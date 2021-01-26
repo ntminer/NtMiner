@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class CoinGroupSet : ICoinGroupSet {
+    public class CoinGroupSet : SetBase, ICoinGroupSet {
         private readonly Dictionary<Guid, CoinGroupData> _dicById = new Dictionary<Guid, CoinGroupData>();
 
         private readonly IServerContext _context;
@@ -46,26 +46,11 @@ namespace NTMiner.Core.Impl {
                 }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _context.CreateServerRepository<CoinGroupData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _context.CreateServerRepository<CoinGroupData>();
+            foreach (var item in repository.GetAll()) {
+                if (!_dicById.ContainsKey(item.GetId())) {
+                    _dicById.Add(item.GetId(), item);
                 }
             }
         }

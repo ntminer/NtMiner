@@ -1,5 +1,6 @@
 ﻿using LiteDB;
 using NTMiner.Core.MinerServer;
+using NTMiner.Report;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -112,7 +113,7 @@ namespace NTMiner.Core.Impl {
                         }
                         clientData.NetActiveOn = DateTime.Now;
                         clientData.IsOnline = true;
-                        clientData.Update(speedData, out _);
+                        clientData.Update(new SpeedData(speedData, DateTime.Now), out _);
                     }
                 });
             });

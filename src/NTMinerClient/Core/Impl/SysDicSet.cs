@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    internal class SysDicSet : ISysDicSet {
+    internal class SysDicSet : SetBase, ISysDicSet {
         private readonly Dictionary<string, SysDicData> _dicByCode = new Dictionary<string, SysDicData>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Guid, SysDicData> _dicById = new Dictionary<Guid, SysDicData>();
 
@@ -79,29 +79,14 @@ namespace NTMiner.Core.Impl {
                 }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _context.CreateServerRepository<SysDicData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                        if (!_dicByCode.ContainsKey(item.Code)) {
-                            _dicByCode.Add(item.Code, item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _context.CreateServerRepository<SysDicData>();
+            foreach (var item in repository.GetAll()) {
+                if (!_dicById.ContainsKey(item.GetId())) {
+                    _dicById.Add(item.GetId(), item);
+                }
+                if (!_dicByCode.ContainsKey(item.Code)) {
+                    _dicByCode.Add(item.Code, item);
                 }
             }
         }

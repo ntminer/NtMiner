@@ -10,9 +10,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Client", "Client", "{E66C9F7C-617A-4E97-978A-A06E3A95BEE8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Server", "Server", "{43C57D59-9DC7-45AE-9D09-5D3D413E41EC}"
-	ProjectSection(SolutionItems) = preProject
-		docs\Server\README.md = docs\Server\README.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DevConsole", "src\DevConsole\DevConsole.csproj", "{56216641-FA69-46BD-AD32-C31F9FA735C8}"
 EndProject

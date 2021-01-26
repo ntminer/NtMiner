@@ -86,7 +86,7 @@ namespace NTMiner {
             if (!string.IsNullOrEmpty(serverVersion) && serverVersion != EntryAssemblyInfo.CurrentVersionStr) {
                 if (Version.TryParse(serverVersion, out Version v)) {
                     if (v > EntryAssemblyInfo.CurrentVersion) {
-                        NTMinerContext.ServerVersion = v;
+                        NTMinerContext.SetServerVersion(v);
                         VirtualRoot.RaiseEvent(new AppVersionChangedEvent());
                     }
                 }

@@ -4,36 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    public class UserAppSettingSet : IUserAppSettingSet {
+    public class UserAppSettingSet : SetBase, IUserAppSettingSet {
         private readonly Dictionary<string, List<UserAppSettingData>> _dicByLoginName = new Dictionary<string, List<UserAppSettingData>>();
 
         public UserAppSettingSet() {
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    using (LiteDatabase db = AppRoot.CreateLocalDb()) {
-                        var col = db.GetCollection<UserAppSettingData>();
-                        foreach (var item in col.FindAll()) {
-                            if (!_dicByLoginName.TryGetValue(item.LoginName, out List<UserAppSettingData> list)) {
-                                list = new List<UserAppSettingData>();
-                                _dicByLoginName.Add(item.LoginName, list);
-                            }
-                            list.Add(item);
-                        }
+        protected override void Init() {
+            using (LiteDatabase db = AppRoot.CreateLocalDb()) {
+                var col = db.GetCollection<UserAppSettingData>();
+                foreach (var item in col.FindAll()) {
+                    if (!_dicByLoginName.TryGetValue(item.LoginName, out List<UserAppSettingData> list)) {
+                        list = new List<UserAppSettingData>();
+                        _dicByLoginName.Add(item.LoginName, list);
                     }
-                    _isInited = true;
+                    list.Add(item);
                 }
             }
         }

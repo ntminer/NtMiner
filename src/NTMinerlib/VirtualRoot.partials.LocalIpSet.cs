@@ -34,14 +34,14 @@ namespace NTMiner {
             }
         }
 
-        public class LocalIpSetImpl : ILocalIpSet {
+        public class LocalIpSetImpl : SetBase, ILocalIpSet {
             private LocalIpDto[] _localIps = new LocalIpDto[0];
             public LocalIpSetImpl() {
                 NetworkChange.NetworkAddressChanged += (object sender, EventArgs e) => {
                     // 延迟获取网络信息以防止立即获取时获取不到
                     1.SecondsDelay().ContinueWith(t => {
                         var old = _localIps;
-                        _isInited = false;
+                        base.Refresh();
                         InitOnece();
                         var localIps = _localIps;
                         if (localIps.Length == 0) {
@@ -78,7 +78,7 @@ namespace NTMiner {
                             mo.InvokeMethod("SetGateways", null);
                             mo.InvokeMethod("EnableDHCP", null);
                             1.SecondsDelay().ContinueWith(t => {
-                                _isInited = false;
+                                base.Refresh();
                                 InitOnece();
                             });
                         }
@@ -105,27 +105,12 @@ namespace NTMiner {
                 }, location: this.GetType());
             }
 
-            private bool _isInited = false;
-            private readonly object _locker = new object();
-
-            private void InitOnece() {
-                if (_isInited) {
-                    return;
-                }
-                Init();
-            }
-
-            private void Init() {
+            protected override void Init() {
 #if DEBUG
                 NTStopwatch.Start();
 #endif
-                lock (_locker) {
-                    if (!_isInited) {
-                        _isInited = true;
-                        _localIps = GetLocalIps();
-                        RaiseEvent(new LocalIpSetInitedEvent());
-                    }
-                }
+                _localIps = GetLocalIps();
+                RaiseEvent(new LocalIpSetInitedEvent());
 #if DEBUG
                 // 将近300毫秒
                 var elapsedMilliseconds = NTStopwatch.Stop();

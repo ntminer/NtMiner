@@ -14,6 +14,9 @@ namespace NTMiner.Views {
                     window.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                     window.ShowInTaskbar = false;
                 }
+                window.BuildEventPath<SignUpedEvent>("注册了新外网群控用户后自动填入外网群控用户名", LogEnum.None, path: message => {
+                    window.Vm.LoginName = message.LoginName;
+                }, typeof(LoginWindow));
                 window.ShowSoftDialog();
                 window.PasswordFocus();
             }
@@ -114,7 +117,7 @@ namespace NTMiner.Views {
                     _onLoginSuccess?.Invoke();
                 }
                 else {
-                    Vm.ShowMessage(response.ReadMessage(exception));
+                    Vm.ShowMessage(response.ReadMessage(exception), autoHideSeconds: 0);
                 }
             });
         }

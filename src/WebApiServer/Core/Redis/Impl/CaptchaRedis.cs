@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NTMiner.Core.Redis.Impl {
     public class CaptchaRedis : ICaptchaRedis {
-        protected const string _redisKeyCaptchaById = "captchas.CaptchaById";// 根据Id索引Captcha对象的json
+        protected const string _redisKeyCaptchaById = RedisKeyword.CaptchasCaptchaById;
 
         protected readonly IMqRedis _redis;
         public CaptchaRedis(IMqRedis redis) {

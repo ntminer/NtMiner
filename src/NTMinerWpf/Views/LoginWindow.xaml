@@ -136,8 +136,19 @@
 								VerticalAlignment="Center"
 								Text="登录" />
 						</WrapPanel>
-					</controls:KbButton>
-				</WrapPanel>
+                    </controls:KbButton>
+                    <controls:KbLinkButton
+                        Margin="30 0 0 0"
+						Padding="7 3"
+                        KbDisplayLine="False"
+                        VerticalAlignment="Bottom"
+                        BorderThickness="1"
+                        Background="Transparent"
+						Command="{Binding ShowSignUpPage}"
+						Content="注册"
+                        ToolTip="注册群控用户">
+                    </controls:KbLinkButton>
+                </WrapPanel>
 			</Grid>
             <Path
 				Grid.Column="1" 
@@ -148,5 +159,52 @@
 				Fill="{StaticResource ThemeBackground}"
 				Stretch="Fill" />
 		</Grid>
-	</Grid>
+
+        <controls:KbLinkButton
+            Grid.Row="2"
+            HorizontalAlignment="Left"
+			ToolTip="检查更新"
+			Background="Transparent"
+			KbDisplayLine="False"
+			VerticalAlignment="Bottom"
+			Command="{Binding ShowOnlineUpdate}">
+            <WrapPanel>
+                <Path 
+					Width="14"
+					Height="13"
+					Data="{StaticResource Icon_Update}"
+					Fill="{StaticResource BtnBackground}"
+					Stretch="Fill" />
+                <TextBlock
+					Margin="2 0 0 0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+                    Foreground="{StaticResource BtnBackground}"
+					Text="v" />
+                <TextBlock
+					Margin="0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+                    Foreground="{StaticResource BtnBackground}"
+					Text="{Binding CurrentVersion}" />
+                <TextBlock
+					Margin="2 0 0 0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+                    Foreground="{StaticResource BtnBackground}"
+					Text="(" />
+                <TextBlock
+					Margin="0"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+                    Foreground="{StaticResource BtnBackground}"
+					Text="{Binding VersionTag}" />
+                <TextBlock
+					HorizontalAlignment="Left"
+					VerticalAlignment="Center"
+                    Foreground="{StaticResource BtnBackground}"
+					Text=")" />
+            </WrapPanel>
+        </controls:KbLinkButton>
+    </Grid>
 </Window>

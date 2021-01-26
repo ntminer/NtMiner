@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace NTMiner.Core.Kernels.Impl {
-    internal class KernelOutputTranslaterSet : IKernelOutputTranslaterSet {
+    internal class KernelOutputTranslaterSet : SetBase, IKernelOutputTranslaterSet {
         public class SortNumberComparer : IComparer<ISortable> {
             public int Compare(ISortable x, ISortable y) {
                 if (x == null || y == null) {
@@ -85,36 +85,21 @@ namespace NTMiner.Core.Kernels.Impl {
                 }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _context.CreateServerRepository<KernelOutputTranslaterData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                        if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
-                            _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterData>());
-                        }
-                        if (_dicByKernelOutputId[item.KernelOutputId].All(a => a.GetId() != item.GetId())) {
-                            _dicByKernelOutputId[item.KernelOutputId].Add(item);
-                        }
-                    }
-                    foreach (var item in _dicByKernelOutputId.Values) {
-                        item.Sort(new SortNumberComparer());
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _context.CreateServerRepository<KernelOutputTranslaterData>();
+            foreach (var item in repository.GetAll()) {
+                if (!_dicById.ContainsKey(item.GetId())) {
+                    _dicById.Add(item.GetId(), item);
                 }
+                if (!_dicByKernelOutputId.ContainsKey(item.KernelOutputId)) {
+                    _dicByKernelOutputId.Add(item.KernelOutputId, new List<KernelOutputTranslaterData>());
+                }
+                if (_dicByKernelOutputId[item.KernelOutputId].All(a => a.GetId() != item.GetId())) {
+                    _dicByKernelOutputId[item.KernelOutputId].Add(item);
+                }
+            }
+            foreach (var item in _dicByKernelOutputId.Values) {
+                item.Sort(new SortNumberComparer());
             }
         }
 

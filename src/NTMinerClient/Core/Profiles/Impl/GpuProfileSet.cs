@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace NTMiner.Core.Profiles.Impl {
-    public class GpuProfileSet : IGpuProfileSet {
+    public class GpuProfileSet : SetBase, IGpuProfileSet {
         private GpuProfilesJsonDb _data = new GpuProfilesJsonDb();
 
         public GpuProfileSet(INTMinerContext root) {
@@ -32,8 +32,24 @@ namespace NTMiner.Core.Profiles.Impl {
             }, location: this.GetType());
         }
 
-        public void Refresh() {
-            _isInited = false;
+        protected override void Init() {
+            string json = HomePath.ReadGpuProfilesJsonFile();
+            if (!string.IsNullOrEmpty(json)) {
+                GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
+                if (data != null) {
+                    _data = data;
+                }
+                else {
+                    Save();
+                }
+            }
+            else {
+                Save();
+            }
+        }
+
+        public new void Refresh() {
+            base.Refresh();
             VirtualRoot.RaiseEvent(new GpuProfileSetRefreshedEvent());
         }
 
@@ -175,37 +191,6 @@ namespace NTMiner.Core.Profiles.Impl {
             _data.Gpus = CreateGpus();
             string json = VirtualRoot.JsonSerializer.Serialize(_data);
             HomePath.WriteGpuProfilesJsonFile(json);
-        }
-
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    string json = HomePath.ReadGpuProfilesJsonFile();
-                    if (!string.IsNullOrEmpty(json)) {
-                        GpuProfilesJsonDb data = VirtualRoot.JsonSerializer.Deserialize<GpuProfilesJsonDb>(json);
-                        if (data != null) {
-                            _data = data;
-                        }
-                        else {
-                            Save();
-                        }
-                    }
-                    else {
-                        Save();
-                    }
-                    _isInited = true;
-                }
-            }
         }
         #endregion
     }

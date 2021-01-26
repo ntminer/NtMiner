@@ -3,36 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.MinerStudio.Impl {
-    public class ColumnsShowSet : IColumnsShowSet {
+    public class ColumnsShowSet : SetBase, IColumnsShowSet {
         private readonly Dictionary<Guid, ColumnsShowData> _dicById = new Dictionary<Guid, ColumnsShowData>();
 
         public ColumnsShowSet() {
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
+        protected override void Init() {
+            var repository = VirtualRoot.CreateLocalRepository<ColumnsShowData>();
+            var columnsList = repository.GetAll();
+            foreach (var item in columnsList) {
+                _dicById.Add(item.Id, item);
             }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = VirtualRoot.CreateLocalRepository<ColumnsShowData>();
-                    var columnsList = repository.GetAll();
-                    foreach (var item in columnsList) {
-                        _dicById.Add(item.Id, item);
-                    }
-                    if (!_dicById.ContainsKey(ColumnsShowData.PleaseSelect.Id)) {
-                        _dicById.Add(ColumnsShowData.PleaseSelect.Id, ColumnsShowData.PleaseSelect);
-                        repository.Add(ColumnsShowData.PleaseSelect);
-                    }
-                    _isInited = true;
-                }
+            if (!_dicById.ContainsKey(ColumnsShowData.PleaseSelect.Id)) {
+                _dicById.Add(ColumnsShowData.PleaseSelect.Id, ColumnsShowData.PleaseSelect);
+                repository.Add(ColumnsShowData.PleaseSelect);
             }
         }
 
@@ -43,7 +28,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
 
         public void AddOrUpdate(ColumnsShowData data) {
             InitOnece();
-            lock (_locker) {
+            lock (_dicById) {
                 var repository = VirtualRoot.CreateLocalRepository<ColumnsShowData>();
                 if (_dicById.TryGetValue(data.Id, out ColumnsShowData entity)) {
                     entity.Update(data);
@@ -60,7 +45,7 @@ namespace NTMiner.Core.MinerStudio.Impl {
         public void Remove(Guid id) {
             InitOnece();
             ColumnsShowData entity;
-            lock (_locker) {
+            lock (_dicById) {
                 if (_dicById.TryGetValue(id, out entity)) {
                     _dicById.Remove(id);
                     var repository = VirtualRoot.CreateLocalRepository<ColumnsShowData>();

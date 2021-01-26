@@ -224,11 +224,6 @@ namespace NTMiner {
                     KernelOutputKeywords.ShowWindow();
                 });
             }, location: location);
-            VirtualRoot.BuildCmdPath<ShowSignUpPageCommand>(path: message => {
-                UIThread.Execute(() => {
-                    SignUpPage.ShowWindow();
-                });
-            }, location: location);
             VirtualRoot.BuildCmdPath<EditWalletCommand>(path: message => {
                 UIThread.Execute(() => {
                     WalletEdit.ShowWindow(message.FormType, message.Source);

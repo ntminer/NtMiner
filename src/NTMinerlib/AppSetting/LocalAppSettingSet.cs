@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 namespace NTMiner.AppSetting {
-    public class LocalAppSettingSet : IAppSettingSet {
+    public class LocalAppSettingSet : SetBase, IAppSettingSet {
         private readonly Dictionary<string, AppSettingData> _dicByKey = new Dictionary<string, AppSettingData>(StringComparer.OrdinalIgnoreCase);
         private readonly string _dbFileFullName;
 
@@ -29,26 +29,11 @@ namespace NTMiner.AppSetting {
             }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
-                        var col = db.GetCollection<AppSettingData>();
-                        foreach (var item in col.FindAll()) {
-                            _dicByKey.Add(item.Key, item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            using (LiteDatabase db = new LiteDatabase(_dbFileFullName)) {
+                var col = db.GetCollection<AppSettingData>();
+                foreach (var item in col.FindAll()) {
+                    _dicByKey.Add(item.Key, item);
                 }
             }
         }

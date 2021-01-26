@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 namespace NTMiner.Core.Impl {
-    public class FragmentWriterSet : IFragmentWriterSet {
+    public class FragmentWriterSet : SetBase, IFragmentWriterSet {
         private readonly Dictionary<Guid, FragmentWriterData> _dicById = new Dictionary<Guid, FragmentWriterData>();
 
         private readonly IServerContext _context;
@@ -66,26 +66,11 @@ namespace NTMiner.Core.Impl {
                 }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _context.CreateServerRepository<FragmentWriterData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _context.CreateServerRepository<FragmentWriterData>();
+            foreach (var item in repository.GetAll()) {
+                if (!_dicById.ContainsKey(item.GetId())) {
+                    _dicById.Add(item.GetId(), item);
                 }
             }
         }

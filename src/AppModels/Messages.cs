@@ -6,17 +6,6 @@ using System;
 using System.Windows;
 
 namespace NTMiner {
-    [MessageType(description: "升级")]
-    public class UpgradeCommand : Cmd {
-        public UpgradeCommand(string fileName, Action callback) {
-            this.FileName = fileName;
-            this.Callback = callback;
-        }
-
-        public string FileName { get; private set; }
-        public Action Callback { get; private set; }
-    }
-
     [MessageType(description: "启用windows远程桌面")]
     public class EnableRemoteDesktopCommand : Cmd {
         public EnableRemoteDesktopCommand() {
@@ -348,11 +337,6 @@ namespace NTMiner {
     public class ShowKernelOutputKeywordsCommand : Cmd {
         public ShowKernelOutputKeywordsCommand() {
         }
-    }
-
-    [MessageType(description: "打开用户注册页")]
-    public class ShowSignUpPageCommand : Cmd {
-        public ShowSignUpPageCommand() { }
     }
 
     [MessageType(description: "打开钱包地址编辑界面")]

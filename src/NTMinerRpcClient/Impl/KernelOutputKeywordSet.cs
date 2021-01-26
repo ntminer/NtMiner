@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 
 namespace NTMiner.Impl {
-    public class KernelOutputKeywordSet : IKernelOutputKeywordSet {
+    public class KernelOutputKeywordSet : SetBase, IKernelOutputKeywordSet {
         private readonly Dictionary<Guid, KernelOutputKeywordData> _dicById = new Dictionary<Guid, KernelOutputKeywordData>();
         private readonly Dictionary<Guid, List<IKernelOutputKeyword>> _dicByKernelOutputId = new Dictionary<Guid, List<IKernelOutputKeyword>>();
         private readonly string _connectionString;
@@ -172,49 +172,34 @@ namespace NTMiner.Impl {
             }
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
+        protected override void Init() {
+            if (!_isServer) {
+                foreach (var item in GetServerKernelOutputKeywordsFromCache()) {
+                    if (!_dicById.ContainsKey(item.GetId())) {
+                        item.SetDataLevel(DataLevel.Global);
+                        _dicById.Add(item.GetId(), item);
+                        if (!_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {
+                            list = new List<IKernelOutputKeyword>();
+                            _dicByKernelOutputId.Add(item.KernelOutputId, list);
+                        }
+                        list.Add(item);
+                    }
+                }
             }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    if (!_isServer) {
-                        foreach (var item in GetServerKernelOutputKeywordsFromCache()) {
-                            if (!_dicById.ContainsKey(item.GetId())) {
-                                item.SetDataLevel(DataLevel.Global);
-                                _dicById.Add(item.GetId(), item);
-                                if (!_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {
-                                    list = new List<IKernelOutputKeyword>();
-                                    _dicByKernelOutputId.Add(item.KernelOutputId, list);
-                                }
-                                list.Add(item);
+            if (_isServer || !DevMode.IsDevMode) {
+                using (LiteDatabase db = new LiteDatabase(_connectionString)) {
+                    var col = db.GetCollection<KernelOutputKeywordData>();
+                    foreach (var item in col.FindAll()) {
+                        if (!_dicById.ContainsKey(item.GetId())) {
+                            item.SetDataLevel(DataLevel.Profile);
+                            _dicById.Add(item.GetId(), item);
+                            if (!_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {
+                                list = new List<IKernelOutputKeyword>();
+                                _dicByKernelOutputId.Add(item.KernelOutputId, list);
                             }
+                            list.Add(item);
                         }
                     }
-                    if (_isServer || !DevMode.IsDevMode) {
-                        using (LiteDatabase db = new LiteDatabase(_connectionString)) {
-                            var col = db.GetCollection<KernelOutputKeywordData>();
-                            foreach (var item in col.FindAll()) {
-                                if (!_dicById.ContainsKey(item.GetId())) {
-                                    item.SetDataLevel(DataLevel.Profile);
-                                    _dicById.Add(item.GetId(), item);
-                                    if (!_dicByKernelOutputId.TryGetValue(item.KernelOutputId, out List<IKernelOutputKeyword> list)) {
-                                        list = new List<IKernelOutputKeyword>();
-                                        _dicByKernelOutputId.Add(item.KernelOutputId, list);
-                                    }
-                                    list.Add(item);
-                                }
-                            }
-                        }
-                    }
-                    _isInited = true;
                 }
             }
         }

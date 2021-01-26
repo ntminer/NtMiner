@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Kernels.Impl {
-    internal class KernelSet : IKernelSet {
+    internal class KernelSet : SetBase, IKernelSet {
         private readonly Dictionary<Guid, KernelData> _dicById = new Dictionary<Guid, KernelData>();
 
         private readonly IServerContext _context;
@@ -71,9 +71,6 @@ namespace NTMiner.Core.Kernels.Impl {
                 }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
         public int Count {
             get {
                 InitOnece();
@@ -81,23 +78,11 @@ namespace NTMiner.Core.Kernels.Impl {
             }
         }
 
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _context.CreateServerRepository<KernelData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _context.CreateServerRepository<KernelData>();
+            foreach (var item in repository.GetAll()) {
+                if (!_dicById.ContainsKey(item.GetId())) {
+                    _dicById.Add(item.GetId(), item);
                 }
             }
         }

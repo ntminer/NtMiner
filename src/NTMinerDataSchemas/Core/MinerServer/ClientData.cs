@@ -548,6 +548,7 @@ namespace NTMiner.Core.MinerServer {
         /// <param name="isMinerDataChanged"></param>
         public void Update(ISpeedDto speedDto, string minerIp, out bool isMinerDataChanged) {
             Update(speedDto, out isMinerDataChanged);
+            this.MinerActiveOn = DateTime.Now;
             if (!isMinerDataChanged && minerIp != this.MinerIp) {
                 isMinerDataChanged = true;
             }
@@ -570,16 +571,19 @@ namespace NTMiner.Core.MinerServer {
             this.MinerIp = minerIp;
         }
 
-        private DateTime _preUpdateOn = DateTime.Now;
-        private int _preMainCoinShare = 0;
-        private int _preDualCoinShare = 0;
-        private int _preMainCoinRejectShare = 0;
-        private int _preDualCoinRejectShare = 0;
-        private string _preMainCoin;
-        private string _preDualCoin;
         /// <summary>
         /// 上报算力时和拉取算力时。
         /// 因为只有MinerData具有的成员发生了变化时才需要持久化所以该非法输出isMinerDataChanged参数以表示MinerData的成员是否发生了变化。
+        /// </summary>
+        /// <param name="speedDto"></param>
+        /// <param name="isMinerDataChanged"></param>
+        public void Update(ISpeedData speedData, out bool isMinerDataChanged) {
+            this.Update((ISpeedDto)speedData, out isMinerDataChanged);
+            this.MinerActiveOn = speedData.SpeedOn;
+        }
+
+        /// <summary>
+        /// 不更新MinerActiveOn
         /// </summary>
         /// <param name="speedDto"></param>
         /// <param name="isMinerDataChanged"></param>
@@ -589,25 +593,6 @@ namespace NTMiner.Core.MinerServer {
             if (speedDto == null) {
                 return;
             }
-            _preUpdateOn = DateTime.Now;
-            if (_preMainCoin != this.MainCoinCode) {
-                _preMainCoinShare = 0;
-                _preMainCoinRejectShare = 0;
-            }
-            else {
-                _preMainCoinShare = this.MainCoinTotalShare;
-                _preMainCoinRejectShare = this.MainCoinRejectShare;
-            }
-            _preMainCoin = this.MainCoinCode;
-            if (_preDualCoin != this.DualCoinCode) {
-                _preDualCoinShare = 0;
-                _preDualCoinRejectShare = 0;
-            }
-            else {
-                _preDualCoinShare = this.DualCoinTotalShare;
-                _preDualCoinRejectShare = this.DualCoinRejectShare;
-            }
-            _preDualCoin = this.DualCoinCode;
             #region MinerData
             if (!isMinerDataChanged) {
                 isMinerDataChanged = this.ClientId != speedDto.ClientId;
@@ -697,7 +682,6 @@ namespace NTMiner.Core.MinerServer {
             this.KernelSelfRestartCount = speedDto.KernelSelfRestartCount - 1;// 需要减1
             this.LocalServerMessageTimestamp = speedDto.LocalServerMessageTimestamp;
             this.TotalPhysicalMemoryMb = speedDto.TotalPhysicalMemoryMb;
-            this.MinerActiveOn = DateTime.Now;// 现在时间
             this.IsAutoDisableWindowsFirewall = speedDto.IsAutoDisableWindowsFirewall;
             this.IsDisableAntiSpyware = speedDto.IsDisableAntiSpyware;
             this.IsDisableUAC = speedDto.IsDisableUAC;

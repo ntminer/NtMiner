@@ -1,5 +1,4 @@
-﻿using NTMiner.Controllers;
-using NTMiner.User;
+﻿using NTMiner.User;
 using System;
 using System.Windows.Input;
 
@@ -46,8 +45,7 @@ namespace NTMiner.Vms {
                 data.PasswordAgain = HashUtil.Sha1(data.PasswordAgain);
                 RpcRoot.OfficialServer.UserService.SignUpAsync(data, (response, e) => {
                     if (response.IsSuccess()) {
-                        MinerProfileViewModel minerProfile = MinerProfileViewModel.Instance;
-                        minerProfile.OuterUserId = this.LoginName;
+                        VirtualRoot.RaiseEvent(new SignUpedEvent(data.LoginName));
                         VirtualRoot.Execute(new CloseWindowCommand(this.Id));
                         VirtualRoot.Out.ShowSuccess("注册成功。");
                     }
@@ -133,7 +131,7 @@ namespace NTMiner.Vms {
 
         public string CaptchaUrl {
             get {
-                return $"http://{RpcRoot.OfficialServerAddress}/api/{RpcRoot.GetControllerName<ICaptchaController<string>>()}/{nameof(ICaptchaController<string>.Get)}?id={ActionCaptchaId.ToString()}";
+                return $"http://{RpcRoot.OfficialServerAddress}/api/Captcha/Get?id={ActionCaptchaId.ToString()}";
             }
         }
     }

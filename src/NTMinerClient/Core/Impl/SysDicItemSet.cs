@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace NTMiner.Core.Impl {
-    internal class SysDicItemSet : ISysDicItemSet {
+    internal class SysDicItemSet : SetBase, ISysDicItemSet {
         private readonly IServerContext _context;
         private readonly Dictionary<Guid, Dictionary<string, SysDicItemData>> _dicByDicId = new Dictionary<Guid, Dictionary<string, SysDicItemData>>();
         private readonly Dictionary<Guid, SysDicItemData> _dicById = new Dictionary<Guid, SysDicItemData>();
@@ -87,32 +87,17 @@ namespace NTMiner.Core.Impl {
                 }, location: this.GetType());
         }
 
-        private bool _isInited = false;
-        private readonly object _locker = new object();
-
-        private void InitOnece() {
-            if (_isInited) {
-                return;
-            }
-            Init();
-        }
-
-        private void Init() {
-            lock (_locker) {
-                if (!_isInited) {
-                    var repository = _context.CreateCompositeRepository<SysDicItemData>();
-                    foreach (var item in repository.GetAll()) {
-                        if (!_dicById.ContainsKey(item.GetId())) {
-                            _dicById.Add(item.GetId(), item);
-                        }
-                        if (!_dicByDicId.ContainsKey(item.DicId)) {
-                            _dicByDicId.Add(item.DicId, new Dictionary<string, SysDicItemData>(StringComparer.OrdinalIgnoreCase));
-                        }
-                        if (!_dicByDicId[item.DicId].ContainsKey(item.Code)) {
-                            _dicByDicId[item.DicId].Add(item.Code, item);
-                        }
-                    }
-                    _isInited = true;
+        protected override void Init() {
+            var repository = _context.CreateCompositeRepository<SysDicItemData>();
+            foreach (var item in repository.GetAll()) {
+                if (!_dicById.ContainsKey(item.GetId())) {
+                    _dicById.Add(item.GetId(), item);
+                }
+                if (!_dicByDicId.ContainsKey(item.DicId)) {
+                    _dicByDicId.Add(item.DicId, new Dictionary<string, SysDicItemData>(StringComparer.OrdinalIgnoreCase));
+                }
+                if (!_dicByDicId[item.DicId].ContainsKey(item.Code)) {
+                    _dicByDicId[item.DicId].Add(item.Code, item);
                 }
             }
         }
